@@ -42,6 +42,16 @@ public class JRDesignParameter extends JRBaseParameter
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_DEFAULT_VALUE_EXPRESSION = "defaultValueExpression";
+	
+	public static final String PROPERTY_FOR_PROMPTING = "forPrompting";
+	
+	public static final String PROPERTY_NAME = "name";
+	
+	public static final String PROPERTY_SYSTEM_DEFINED = "systemDefined";
+	
+	public static final String PROPERTY_VALUE_CLASS_NAME = "valueClassName";
 
 
 	/**
@@ -49,7 +59,9 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 	
 	/**
@@ -65,8 +77,10 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setValueClassName(String className)
 	{
+		Object old = this.valueClassName;
 		valueClassName = className;
 		valueClass = null;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS_NAME, old, this.valueClassName);
 	}
 
 	/**
@@ -74,7 +88,9 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setSystemDefined(boolean isSystemDefined)
 	{
+		boolean old = this.isSystemDefined;
 		this.isSystemDefined = isSystemDefined;
+		getEventSupport().firePropertyChange(PROPERTY_SYSTEM_DEFINED, old, this.isSystemDefined);
 	}
 
 	/**
@@ -82,7 +98,9 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setForPrompting(boolean isForPrompting)
 	{
+		boolean old = this.isForPrompting;
 		this.isForPrompting = isForPrompting;
+		getEventSupport().firePropertyChange(PROPERTY_FOR_PROMPTING, old, this.isForPrompting);
 	}
 
 	/**
@@ -90,7 +108,9 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setDefaultValueExpression(JRExpression expression)
 	{
+		Object old = this.defaultValueExpression;
 		this.defaultValueExpression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_DEFAULT_VALUE_EXPRESSION, old, this.defaultValueExpression);
 	}
 
 }

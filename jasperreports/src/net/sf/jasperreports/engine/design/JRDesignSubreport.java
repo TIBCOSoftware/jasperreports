@@ -56,6 +56,16 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_CONNECTION_EXPRESSION = "connectionExpression";
+	
+	public static final String PROPERTY_DATASOURCE_EXPRESSION = "dataSourceExpression";
+	
+	public static final String PROPERTY_EXPRESSION = "expression";
+	
+	public static final String PROPERTY_PARAMETERS_MAP_EXPRESSION = "parametersMapExpression";
+	
+	public static final String PROPERTY_USING_CACHE = "usingCache";
 
 	/**
 	 *
@@ -137,7 +147,9 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 */
 	public void setParametersMapExpression(JRExpression parametersMapExpression)
 	{
+		Object old = this.parametersMapExpression;
 		this.parametersMapExpression = parametersMapExpression;
+		getEventSupport().firePropertyChange(PROPERTY_PARAMETERS_MAP_EXPRESSION, old, this.parametersMapExpression);
 	}
 
 	/**
@@ -194,8 +206,10 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 */
 	public void setConnectionExpression(JRExpression connectionExpression)
 	{
+		Object old = this.connectionExpression;
 		this.connectionExpression = connectionExpression;
-		this.dataSourceExpression = null;
+		setDataSourceExpression(null);
+		getEventSupport().firePropertyChange(PROPERTY_CONNECTION_EXPRESSION, old, this.connectionExpression);
 	}
 
 	/**
@@ -211,7 +225,9 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 */
 	public void setDataSourceExpression(JRExpression dataSourceExpression)
 	{
+		Object old = this.dataSourceExpression;
 		this.dataSourceExpression = dataSourceExpression;
+		getEventSupport().firePropertyChange(PROPERTY_DATASOURCE_EXPRESSION, old, this.dataSourceExpression);
 	}
 
 	/**
@@ -227,7 +243,9 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 */
 	public void setExpression(JRExpression expression)
 	{
+		Object old = this.expression;
 		this.expression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
 	}
 	
 	/**
@@ -304,6 +322,8 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 
 	public void setUsingCache(Boolean isUsingCache)
 	{
+		Object old = this.isUsingCache;
 		this.isUsingCache = isUsingCache;
+		getEventSupport().firePropertyChange(PROPERTY_USING_CACHE, old, this.isUsingCache);
 	}
 }

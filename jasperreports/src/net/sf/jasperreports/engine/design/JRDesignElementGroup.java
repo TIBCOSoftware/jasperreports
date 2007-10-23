@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
@@ -37,7 +38,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignElementGroup extends JRBaseElementGroup
+public class JRDesignElementGroup extends JRBaseElementGroup implements JRChangeEventsSupport
 {
 
 

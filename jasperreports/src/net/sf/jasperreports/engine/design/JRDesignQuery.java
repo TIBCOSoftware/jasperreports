@@ -35,6 +35,8 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.base.JRBaseQuery;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRQueryChunkHandler;
 import net.sf.jasperreports.engine.util.JRQueryParser;
 
@@ -43,10 +45,10 @@ import net.sf.jasperreports.engine.util.JRQueryParser;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignQuery extends JRBaseQuery
+public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 {
 	/** Property change support mechanism. */
-	private transient PropertyChangeSupport propSupport;
+	private transient JRPropertyChangeSupport propSupport;
 
 
 	/**
@@ -56,6 +58,8 @@ public class JRDesignQuery extends JRBaseQuery
 
 
 	public static final String PROPERTY_LANGUAGE = "language";
+	
+	public static final String PROPERTY_TEXT = "text";
 
 	/**
 	 *
@@ -175,8 +179,10 @@ public class JRDesignQuery extends JRBaseQuery
 	 */
 	public void setText(String text)
 	{
+		Object old = getText();
 		chunks = new ArrayList();
 		JRQueryParser.instance().parse(text, chunkAdder);
+		getEventSupport().firePropertyChange(PROPERTY_TEXT, old, getText());
 	}
 			
 
@@ -193,6 +199,18 @@ public class JRDesignQuery extends JRBaseQuery
 		getPropertyChangeSupport().firePropertyChange(PROPERTY_LANGUAGE, oldValue, this.language);
 	}
 
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (propSupport == null)
+			{
+				propSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return propSupport;
+	}
 	
 	/**
 	 * Get the property change support object for this class.  Because the
@@ -203,11 +221,7 @@ public class JRDesignQuery extends JRBaseQuery
 	 */
 	protected PropertyChangeSupport getPropertyChangeSupport()
 	{
-		if (propSupport == null)
-		{
-			propSupport = new PropertyChangeSupport(this);
-		}
-		return propSupport;
+		return getEventSupport();
 	}
 
 	/**

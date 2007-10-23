@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -43,7 +44,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseStyle implements JRStyle, Serializable
+public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 {
 
 	/**

@@ -45,6 +45,14 @@ public class JRDesignStyle extends JRBaseStyle
 	 *
 	 */
 	private static final long serialVersionUID = 10001;
+	
+	public static final String PROPERTY_DEFAULT = "default";
+	
+	public static final String PROPERTY_NAME = "name";
+	
+	public static final String PROPERTY_PARENT_STYLE = "parentStyle";
+	
+	public static final String PROPERTY_PARENT_STYLE_NAME_REFERENCE = "parentStyleNameReference";
 
 	private List conditionalStylesList = new ArrayList();
 
@@ -61,7 +69,9 @@ public class JRDesignStyle extends JRBaseStyle
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
 	/**
@@ -69,7 +79,9 @@ public class JRDesignStyle extends JRBaseStyle
 	 */
 	public void setDefault(boolean isDefault)
 	{
+		boolean old = this.isDefault;
 		this.isDefault = isDefault;
+		getEventSupport().firePropertyChange(PROPERTY_DEFAULT, old, this.isDefault);
 	}
 
 	/**
@@ -77,7 +89,9 @@ public class JRDesignStyle extends JRBaseStyle
 	 */
 	public void setParentStyle(JRStyle parentStyle)
 	{
+		Object old = getStyle();
 		super.setParentStyle(parentStyle);
+		getEventSupport().firePropertyChange(PROPERTY_PARENT_STYLE, old, getStyle());
 	}
 
 	/**
@@ -124,6 +138,8 @@ public class JRDesignStyle extends JRBaseStyle
 	 */
 	public void setParentStyleNameReference(String styleName)
 	{
+		Object old = this.parentStyleNameReference;
 		this.parentStyleNameReference = styleName;
+		getEventSupport().firePropertyChange(PROPERTY_PARENT_STYLE_NAME_REFERENCE, old, this.parentStyleNameReference);
 	}
 }

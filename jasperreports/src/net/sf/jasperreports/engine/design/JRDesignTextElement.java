@@ -36,6 +36,8 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -55,6 +57,80 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	/*
+	 * Box properties
+	 */
+	
+	public static final String PROPERTY_BORDER = JRBaseStyle.PROPERTY_BORDER;
+	
+	public static final String PROPERTY_BORDER_COLOR = JRBaseStyle.PROPERTY_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_BORDER = JRBaseStyle.PROPERTY_BOTTOM_BORDER;
+	
+	public static final String PROPERTY_BOTTOM_BORDER_COLOR = JRBaseStyle.PROPERTY_BOTTOM_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_PADDING = JRBaseStyle.PROPERTY_BOTTOM_PADDING;
+	
+	public static final String PROPERTY_LEFT_BORDER = JRBaseStyle.PROPERTY_LEFT_BORDER;
+	
+	public static final String PROPERTY_LEFT_BORDER_COLOR = JRBaseStyle.PROPERTY_LEFT_BORDER_COLOR;
+	
+	public static final String PROPERTY_LEFT_PADDING = JRBaseStyle.PROPERTY_LEFT_PADDING;
+	
+	public static final String PROPERTY_PADDING = JRBaseStyle.PROPERTY_PADDING;
+	
+	public static final String PROPERTY_RIGHT_BORDER = JRBaseStyle.PROPERTY_RIGHT_BORDER;
+	
+	public static final String PROPERTY_RIGHT_BORDER_COLOR = JRBaseStyle.PROPERTY_RIGHT_BORDER_COLOR;
+	
+	public static final String PROPERTY_RIGHT_PADDING = JRBaseStyle.PROPERTY_RIGHT_PADDING;
+	
+	public static final String PROPERTY_TOP_BORDER = JRBaseStyle.PROPERTY_TOP_BORDER;
+	
+	public static final String PROPERTY_TOP_BORDER_COLOR = JRBaseStyle.PROPERTY_TOP_BORDER_COLOR;
+	
+	public static final String PROPERTY_TOP_PADDING = JRBaseStyle.PROPERTY_TOP_PADDING;
+
+	/*
+	 * Style properties
+	 */
+	
+	public static final String PROPERTY_BOLD = JRBaseStyle.PROPERTY_BOLD;
+	
+	public static final String PROPERTY_FONT_NAME = JRBaseStyle.PROPERTY_FONT_NAME;
+	
+	public static final String PROPERTY_FONT_SIZE = JRBaseStyle.PROPERTY_FONT_SIZE;
+	
+	public static final String PROPERTY_HORIZONTAL_ALIGNMENT = JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT;
+	
+	public static final String PROPERTY_ITALIC = JRBaseStyle.PROPERTY_ITALIC;
+	
+	public static final String PROPERTY_LINE_SPACING = JRBaseStyle.PROPERTY_LINE_SPACING;
+	
+	public static final String PROPERTY_PDF_EMBEDDED = JRBaseStyle.PROPERTY_PDF_EMBEDDED;
+	
+	public static final String PROPERTY_PDF_ENCODING = JRBaseStyle.PROPERTY_PDF_ENCODING;
+	
+	public static final String PROPERTY_PDF_FONT_NAME = JRBaseStyle.PROPERTY_PDF_FONT_NAME;
+	
+	public static final String PROPERTY_REPORT_FONT = JRBaseFont.PROPERTY_REPORT_FONT;
+	
+	public static final String PROPERTY_ROTATION = JRBaseStyle.PROPERTY_ROTATION;
+	
+	public static final String PROPERTY_STRIKE_THROUGH = JRBaseStyle.PROPERTY_STRIKE_THROUGH;
+	
+	public static final String PROPERTY_IS_STYLED_TEXT = JRBaseStyle.PROPERTY_IS_STYLED_TEXT;
+	
+	public static final String PROPERTY_UNDERLINE = JRBaseStyle.PROPERTY_UNDERLINE;
+	
+	public static final String PROPERTY_VERTICAL_ALIGNMENT = JRBaseStyle.PROPERTY_VERTICAL_ALIGNMENT;
+
+	/*
+	 * Text properties
+	 */
+	
+	
+	
 	/**
 	 *
 	 */
@@ -145,7 +221,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setTextAlignment(byte horizontalAlignment)
 	{
-		this.horizontalAlignment = new Byte(horizontalAlignment);
+		setHorizontalAlignment(new Byte(horizontalAlignment));
 	}
 
 	/**
@@ -166,7 +242,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
-		this.horizontalAlignment = new Byte(horizontalAlignment);
+		setHorizontalAlignment(new Byte(horizontalAlignment));
 	}
 
 	/**
@@ -174,7 +250,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
+		Object old = this.horizontalAlignment;
 		this.horizontalAlignment = horizontalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignment);
 	}
 
 	/**
@@ -195,7 +273,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
-		this.verticalAlignment = new Byte(verticalAlignment);
+		setVerticalAlignment(new Byte(verticalAlignment));
 	}
 
 	/**
@@ -203,7 +281,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setVerticalAlignment(Byte verticalAlignment)
 	{
+		Object old = this.verticalAlignment;
 		this.verticalAlignment = verticalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignment);
 	}
 
 	/**
@@ -224,7 +304,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setRotation(byte rotation)
 	{
-		this.rotation = new Byte(rotation);
+		setRotation(new Byte(rotation));
 	}
 
 	/**
@@ -232,7 +312,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setRotation(Byte rotation)
 	{
+		Object old = this.rotation;
 		this.rotation = rotation;
+		getEventSupport().firePropertyChange(PROPERTY_ROTATION, old, this.rotation);
 	}
 
 	/**
@@ -253,7 +335,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
-		this.lineSpacing = new Byte(lineSpacing);
+		setLineSpacing(new Byte(lineSpacing));
 	}
 
 	/**
@@ -261,7 +343,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setLineSpacing(Byte lineSpacing)
 	{
+		Object old = this.lineSpacing;
 		this.lineSpacing = lineSpacing;
+		getEventSupport().firePropertyChange(PROPERTY_LINE_SPACING, old, this.lineSpacing);
 	}
 
 	/**
@@ -290,7 +374,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setStyledText(Boolean isStyledText)
 	{
+		Object old = this.isStyledText;
 		this.isStyledText = isStyledText;
+		getEventSupport().firePropertyChange(PROPERTY_IS_STYLED_TEXT, old, this.isStyledText);
 	}
 
 	/**
@@ -315,21 +401,21 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setBox(JRBox box)
 	{
-		border = box.getOwnBorder();
-		topBorder = box.getOwnTopBorder();
-		leftBorder = box.getOwnLeftBorder();
-		bottomBorder = box.getOwnBottomBorder();
-		rightBorder = box.getOwnRightBorder();
-		borderColor = box.getOwnBorderColor();
-		topBorderColor = box.getOwnTopBorderColor();
-		leftBorderColor = box.getOwnLeftBorderColor();
-		bottomBorderColor = box.getOwnBottomBorderColor();
-		rightBorderColor = box.getOwnRightBorderColor();
-		padding = box.getOwnPadding();
-		topPadding = box.getOwnTopPadding();
-		leftPadding = box.getOwnLeftPadding();
-		bottomPadding = box.getOwnBottomPadding();
-		rightPadding = box.getOwnRightPadding();
+		setBorder(box.getOwnBorder());
+		setTopBorder(box.getOwnTopBorder());
+		setLeftBorder(box.getOwnLeftBorder());
+		setBottomBorder(box.getOwnBottomBorder());
+		setRightBorder(box.getOwnRightBorder());
+		setBorderColor(box.getOwnBorderColor());
+		setTopBorderColor(box.getOwnTopBorderColor());
+		setLeftBorderColor(box.getOwnLeftBorderColor());
+		setBottomBorderColor(box.getOwnBottomBorderColor());
+		setRightBorderColor(box.getOwnRightBorderColor());
+		setPadding(box.getOwnPadding());
+		setTopPadding(box.getOwnTopPadding());
+		setLeftPadding(box.getOwnLeftPadding());
+		setBottomPadding(box.getOwnBottomPadding());
+		setRightPadding(box.getOwnRightPadding());
 	}
 
 	/**
@@ -338,17 +424,17 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setFont(JRFont font)
 	{
-		reportFont = font.getReportFont();
+		setReportFont(font.getReportFont());
 		
-		fontName = font.getOwnFontName();
-		isBold = font.isOwnBold();
-		isItalic = font.isOwnItalic();
-		isUnderline = font.isOwnUnderline();
-		isStrikeThrough = font.isOwnStrikeThrough();
-		fontSize = font.getOwnSize();
-		pdfFontName = font.getOwnPdfFontName();
-		pdfEncoding = font.getOwnPdfEncoding();
-		isPdfEmbedded = font.isOwnPdfEmbedded();
+		setFontName(font.getOwnFontName());
+		setBold(font.isOwnBold());
+		setItalic(font.isOwnItalic());
+		setUnderline(font.isOwnUnderline());
+		setStrikeThrough(font.isOwnStrikeThrough());
+		setFontSize(font.getOwnSize());
+		setPdfFontName(font.getOwnPdfFontName());
+		setPdfEncoding(font.getOwnPdfEncoding());
+		setPdfEmbedded(font.isOwnPdfEmbedded());
 	}
 
 	/**
@@ -369,7 +455,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setBorder(byte border)
 	{
-		this.border = new Byte(border);
+		setBorder(new Byte(border));
 	}
 
 	/**
@@ -390,7 +476,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setBorderColor(Color borderColor)
 	{
+		Object old = this.borderColor;
 		this.borderColor = borderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.borderColor);
 	}
 
 	/**
@@ -411,7 +499,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setPadding(int padding)
 	{
-		this.padding = new Integer(padding);
+		setPadding(new Integer(padding));
 	}
 
 	/**
@@ -435,7 +523,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setTopBorder(byte topBorder)
 	{
-		this.topBorder = new Byte(topBorder);
+		setTopBorder(new Byte(topBorder));
 	}
 
 	/**
@@ -459,7 +547,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setTopBorderColor(Color topBorderColor)
 	{
+		Object old = this.topBorderColor;
 		this.topBorderColor = topBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER_COLOR, old, this.topBorderColor);
 	}
 
 	/**
@@ -483,7 +573,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setTopPadding(int topPadding)
 	{
-		this.topPadding = new Integer(topPadding);
+		setTopPadding(new Integer(topPadding));
 	}
 
 	/**
@@ -507,7 +597,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setLeftBorder(byte leftBorder)
 	{
-		this.leftBorder = new Byte(leftBorder);
+		setLeftBorder(new Byte(leftBorder));
 	}
 
 	/**
@@ -531,7 +621,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
+		Object old = this.leftBorderColor;
 		this.leftBorderColor = leftBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER_COLOR, old, this.leftBorderColor);
 	}
 
 	/**
@@ -555,7 +647,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
-		this.leftPadding = new Integer(leftPadding);
+		setLeftPadding(new Integer(leftPadding));
 	}
 
 	/**
@@ -579,7 +671,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setBottomBorder(byte bottomBorder)
 	{
-		this.bottomBorder = new Byte(bottomBorder);
+		setBottomBorder(new Byte(bottomBorder));
 	}
 
 	/**
@@ -603,7 +695,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
+		Object old = this.bottomBorderColor;
 		this.bottomBorderColor = bottomBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER_COLOR, old, this.bottomBorderColor);
 	}
 
 	/**
@@ -627,7 +721,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
-		this.bottomPadding = new Integer(bottomPadding);
+		setBottomPadding(new Integer(bottomPadding));
 	}
 
 	/**
@@ -651,7 +745,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setRightBorder(byte rightBorder)
 	{
-		this.rightBorder = new Byte(rightBorder);
+		setRightBorder(new Byte(rightBorder));
 	}
 
 	/**
@@ -675,7 +769,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setRightBorderColor(Color rightBorderColor)
 	{
+		Object old = this.rightBorderColor;
 		this.rightBorderColor = rightBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER_COLOR, old, this.rightBorderColor);
 	}
 
 	/**
@@ -699,7 +795,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setRightPadding(int rightPadding)
 	{
-		this.rightPadding = new Integer(rightPadding);
+		setRightPadding(new Integer(rightPadding));
 	}
 
 	/**
@@ -715,7 +811,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setReportFont(JRReportFont reportFont)
 	{
+		Object old = this.reportFont;
 		this.reportFont = reportFont;
+		getEventSupport().firePropertyChange(PROPERTY_REPORT_FONT, old, this.reportFont);
 	}
 
 	/**
@@ -739,7 +837,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setFontName(String fontName)
 	{
+		Object old = this.fontName;
 		this.fontName = fontName;
+		getEventSupport().firePropertyChange(PROPERTY_FONT_NAME, old, this.fontName);
 	}
 
 
@@ -773,7 +873,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setBold(Boolean isBold)
 	{
+		Object old = this.isBold;
 		this.isBold = isBold;
+		getEventSupport().firePropertyChange(PROPERTY_BOLD, old, this.isBold);
 	}
 
 
@@ -807,7 +909,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setItalic(Boolean isItalic)
 	{
+		Object old = this.isItalic;
 		this.isItalic = isItalic;
+		getEventSupport().firePropertyChange(PROPERTY_ITALIC, old, this.isItalic);
 	}
 
 	/**
@@ -840,7 +944,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setUnderline(Boolean isUnderline)
 	{
+		Object old = this.isUnderline;
 		this.isUnderline = isUnderline;
+		getEventSupport().firePropertyChange(PROPERTY_UNDERLINE, old, this.isUnderline);
 	}
 
 	/**
@@ -873,7 +979,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setStrikeThrough(Boolean isStrikeThrough)
 	{
+		Object old = this.isStrikeThrough;
 		this.isStrikeThrough = isStrikeThrough;
+		getEventSupport().firePropertyChange(PROPERTY_STRIKE_THROUGH, old, this.isStrikeThrough);
 	}
 
 	/**
@@ -906,7 +1014,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setFontSize(Integer fontSize)
 	{
+		Object old = this.fontSize;
 		this.fontSize = fontSize;
+		getEventSupport().firePropertyChange(PROPERTY_FONT_SIZE, old, this.fontSize);
 	}
 
 	/**
@@ -962,7 +1072,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setPdfFontName(String pdfFontName)
 	{
+		Object old = this.pdfFontName;
 		this.pdfFontName = pdfFontName;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_FONT_NAME, old, this.pdfFontName);
 	}
 
 
@@ -987,7 +1099,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setPdfEncoding(String pdfEncoding)
 	{
+		Object old = this.pdfEncoding;
 		this.pdfEncoding = pdfEncoding;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_ENCODING, old, this.pdfEncoding);
 	}
 
 
@@ -1021,7 +1135,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setPdfEmbedded(Boolean isPdfEmbedded)
 	{
+		Object old = this.isPdfEmbedded;
 		this.isPdfEmbedded = isPdfEmbedded;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_EMBEDDED, old, this.isPdfEmbedded);
 	}
 
 	/**
@@ -1029,7 +1145,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setBorder(Byte border)
 	{
+		Object old = this.border;
 		this.border = border;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER, old, this.border);
 	}
 
 	/**
@@ -1037,7 +1155,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setPadding(Integer padding)
 	{
+		Object old = this.padding;
 		this.padding = padding;
+		getEventSupport().firePropertyChange(PROPERTY_PADDING, old, this.padding);
 	}
 
 	/**
@@ -1045,7 +1165,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setTopBorder(Byte topBorder)
 	{
+		Object old = this.topBorder;
 		this.topBorder = topBorder;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER, old, this.topBorder);
 	}
 
 	/**
@@ -1053,7 +1175,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setTopPadding(Integer topPadding)
 	{
+		Object old = this.topPadding;
 		this.topPadding = topPadding;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_PADDING, old, this.topPadding);
 	}
 
 	/**
@@ -1061,7 +1185,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setLeftBorder(Byte leftBorder)
 	{
+		Object old = this.leftBorder;
 		this.leftBorder = leftBorder;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER, old, this.leftBorder);
 	}
 
 	/**
@@ -1069,7 +1195,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setLeftPadding(Integer leftPadding)
 	{
+		Object old = this.leftPadding;
 		this.leftPadding = leftPadding;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_PADDING, old, this.leftPadding);
 	}
 
 	/**
@@ -1077,7 +1205,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setBottomBorder(Byte bottomBorder)
 	{
+		Object old = this.bottomBorder;
 		this.bottomBorder = bottomBorder;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER, old, this.bottomBorder);
 	}
 
 	/**
@@ -1085,7 +1215,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setBottomPadding(Integer bottomPadding)
 	{
+		Object old = this.bottomPadding;
 		this.bottomPadding = bottomPadding;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_PADDING, old, this.bottomPadding);
 	}
 
 	/**
@@ -1093,7 +1225,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setRightBorder(Byte rightBorder)
 	{
+		Object old = this.rightBorder;
 		this.rightBorder = rightBorder;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER, old, this.rightBorder);
 	}
 
 	/**
@@ -1101,7 +1235,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
+		Object old = this.rightPadding;
 		this.rightPadding = rightPadding;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_PADDING, old, this.rightPadding);
 	}
 
 

@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseExpressionChunk;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
@@ -36,7 +37,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignExpressionChunk extends JRBaseExpressionChunk
+public class JRDesignExpressionChunk extends JRBaseExpressionChunk implements JRChangeEventsSupport
 {
 
 	/**

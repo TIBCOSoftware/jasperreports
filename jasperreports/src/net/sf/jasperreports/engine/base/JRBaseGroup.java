@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
@@ -41,7 +42,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseGroup implements JRGroup, Serializable
+public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 {
 
 

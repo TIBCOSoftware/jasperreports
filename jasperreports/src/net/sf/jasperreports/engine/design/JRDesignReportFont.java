@@ -43,6 +43,10 @@ public class JRDesignReportFont extends JRDesignFont implements JRReportFont
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_DEFAULT = "default";
+	
+	public static final String PROPERTY_NAME = "name";
 
 	/**
 	 *
@@ -72,7 +76,9 @@ public class JRDesignReportFont extends JRDesignFont implements JRReportFont
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
 	/**
@@ -80,7 +86,9 @@ public class JRDesignReportFont extends JRDesignFont implements JRReportFont
 	 */
 	public void setDefault(boolean isDefault)
 	{
+		boolean old = this.isDefault;
 		this.isDefault = isDefault;
+		getEventSupport().firePropertyChange(PROPERTY_DEFAULT, old, this.isDefault);
 	}
 	
 

@@ -47,6 +47,8 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_DIRECTION = "direction";
 
 	/**
 	 *
@@ -110,7 +112,9 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	 */
 	public void setDirection(byte direction)
 	{
+		byte old = this.direction;
 		this.direction = direction;
+		getEventSupport().firePropertyChange(PROPERTY_DIRECTION, old, this.direction);
 	}
 
 	/**
