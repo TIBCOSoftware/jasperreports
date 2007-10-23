@@ -491,7 +491,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	private void startElement(JRPrintElement element) throws IOException 
 	{
-		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
+		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
 		writer.write(String.valueOf(zorder++));
 		writer.write("\\shpleft");
 		writer.write(String.valueOf(twip(element.getX() + getOffsetX())));
@@ -926,7 +926,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			writeAnchor(text.getAnchorName());
 		}
 
-		boolean startedHyperlink = startHyperlink(text);
+		exportHyperlink(text);
 
 		// add parameters in case of styled text element
 		String plainText = styledText.getText();
@@ -993,10 +993,10 @@ public class JRRtfExporter extends JRAbstractExporter
 
 			iterator.setIndex(runLimit);
 		}
-		if (startedHyperlink)
-		{
-			endHyperlink();
-		}
+//		if (startedHyperlink)
+//		{
+//			endHyperlink();
+//		}
 
 		writer.write("\\par}}");
 		
@@ -1233,7 +1233,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			exportPen(printImage.getForecolor(), JRGraphicElement.PEN_NONE);
 			finishElement();
 			
-			writer.write("{\\shp{\\*\\shpinst\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
+			writer.write("{\\shp{\\*\\shpinst\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
 			writer.write(String.valueOf(zorder++));
 			writer.write("\\shpleft");
 			writer.write(String.valueOf(twip(printImage.getX() + leftPadding + xoffset + getOffsetX())));
@@ -1260,32 +1260,22 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write(String.valueOf(cropRight));
 			writer.write("}}");
 
-//			writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
-//			writer.write(String.valueOf(zorder++));
-//			writer.write("\\dptxbx\\dpx");
-//			writer.write(String.valueOf(twip(printImage.getX() + leftPadding + xoffset + getOffsetX())));
-//			writer.write("\\dpxsize");
-//			writer.write(String.valueOf(twip(imageWidth)));
-//			writer.write("\\dpy");
-//			writer.write(String.valueOf(twip(printImage.getY() + topPadding + yoffset + getOffsetY())));
-//			writer.write("\\dpysize");
-//			writer.write(String.valueOf(twip(imageHeight)));
-//			writer.write("\\dpfillpat0\\dplinehollow{\\dptxbxtext ");
-//			if(printImage.getAnchorName() != null)
-//			{
-//				writeAnchor(printImage.getAnchorName());
-//			}
-//			boolean startedHyperlink = startHyperlink(printImage);
-
-			writer.write("{\\sp{\\sn pib}{\\sv {\\pict\\jpegblip");
-//			writer.write("\\picwgoal");
-//			writer.write(String.valueOf(twip(normalWidth)));
-//			writer.write("\\pichgoal");
-//			writer.write(String.valueOf(twip(normalHeight)));
-//			writer.write("\\piccropt");
-//			writer.write(String.valueOf(twip(cropt)));
-//			writer.write("\\piccropl");
-//			writer.write(String.valueOf(twip(cropl)));
+			if(printImage.getAnchorName() != null)
+			{
+				writeAnchor(printImage.getAnchorName());
+			}
+			
+			exportHyperlink(printImage);
+			
+			writer.write("{\\sp{\\sn pib}{\\sv {\\pict");
+			if (renderer.getImageType() == JRRenderable.IMAGE_TYPE_JPEG)
+			{
+				writer.write("\\jpegblip");
+			}
+			else
+			{
+				writer.write("\\pngblip");
+			}
 			writer.write("\n");
 
 			ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData());
@@ -1309,8 +1299,6 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 
 			writer.write("\n}}}");
-//			if(startedHyperlink)
-//				endHyperlink();
 			writer.write("}}\n");
 		}
 
@@ -1417,27 +1405,12 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 
 
-	/**
-	 * FIXMERTF hyperlinks
-	 */
-	protected boolean startHyperlink(JRPrintHyperlink link) throws IOException
+	protected void exportHyperlink(JRPrintHyperlink link) throws IOException
 	{
-		String href = getHyperlinkURL(link);
-		boolean isHref = (href != null);
-
-		if (isHref)
-		{
-			writer.write("{\\field {\\*\\fldinst HYPERLINK ");
-			writer.write(href);
-			writer.write("}{\\fldrslt ");
-		}
-
-		return isHref;
-	}
-
-	protected String getHyperlinkURL(JRPrintHyperlink link)
-	{
-		String href = null;
+		String hlloc = null;
+		String hlfr = null;
+		String hlsrc = null;
+		
 		JRHyperlinkProducer customHandler = getCustomHandler(link);
 		if (customHandler == null)
 		{
@@ -1447,7 +1420,8 @@ public class JRRtfExporter extends JRAbstractExporter
 				{
 					if (link.getHyperlinkReference() != null)
 					{
-						href = link.getHyperlinkReference();
+						hlsrc = link.getHyperlinkReference();
+						hlfr = hlsrc;
 					}
 					break;
 				}
@@ -1455,7 +1429,8 @@ public class JRRtfExporter extends JRAbstractExporter
 				{
 					if (link.getHyperlinkAnchor() != null)
 					{
-						href = "\\\\l "+link.getHyperlinkAnchor();
+						hlloc = link.getHyperlinkAnchor();
+						hlfr = hlloc;
 					}
 					break;
 				}
@@ -1463,7 +1438,8 @@ public class JRRtfExporter extends JRAbstractExporter
 				{
 					if (link.getHyperlinkPage() != null)
 					{
-						href = "\\\\l "+JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+						hlloc = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+						hlfr = hlloc;
 					}
 					break;
 				}
@@ -1474,7 +1450,8 @@ public class JRRtfExporter extends JRAbstractExporter
 						link.getHyperlinkAnchor() != null
 						)
 					{
-						href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+						hlsrc = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+						hlfr = hlsrc;
 					}
 					break;
 				}
@@ -1485,7 +1462,8 @@ public class JRRtfExporter extends JRAbstractExporter
 						link.getHyperlinkPage() != null
 						)
 					{
-						href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
+						hlsrc = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
+						hlfr = hlsrc;
 					}
 					break;
 				}
@@ -1498,10 +1476,31 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			href = customHandler.getHyperlink(link);
+			hlsrc = customHandler.getHyperlink(link);
+			hlfr = hlsrc;
 		}
 
-		return href;
+		if (hlfr != null)
+		{
+			writer.write("{\\sp{\\sn fIsButton}{\\sv 1}}");
+			writer.write("{\\sp{\\sn pihlShape}{\\sv {\\*\\hl");
+			writer.write("{\\hlfr ");
+			writer.write(hlfr);
+			writer.write(" }");
+			if (hlloc != null)
+			{
+				writer.write("{\\hlloc ");
+				writer.write(hlloc);
+				writer.write(" }");
+			}
+			if (hlsrc != null)
+			{
+				writer.write("{\\hlsrc ");
+				writer.write(hlsrc);
+				writer.write(" }");
+			}
+			writer.write("}}}");
+		}
 	}
 
 
@@ -1510,11 +1509,6 @@ public class JRRtfExporter extends JRAbstractExporter
 		return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
 	}
 
-
-	protected void endHyperlink() throws IOException
-	{
-		writer.write("}} ");
-	}
 
 	protected void writeAnchor(String anchorName) throws IOException
 	{
