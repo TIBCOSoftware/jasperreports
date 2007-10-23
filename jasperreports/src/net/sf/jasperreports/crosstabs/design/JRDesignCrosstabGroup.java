@@ -31,6 +31,8 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabGroup;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * Base crosstab row/column group implementation to be used at design time.
@@ -38,8 +40,19 @@ import net.sf.jasperreports.engine.design.JRDesignVariable;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
+public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implements JRChangeEventsSupport
 {
+
+	public static final String PROPERTY_BUCKET = "bucket";
+
+	public static final String PROPERTY_HEADER = "header";
+
+	public static final String PROPERTY_NAME = "name";
+
+	public static final String PROPERTY_TOTAL_HEADER = "totalHeader";
+
+	public static final String PROPERTY_TOTAL_POSITION = "totalPosition";
+	
 	protected JRDesignVariable designVariable;
 	
 	protected JRDesignCrosstab parent;
@@ -65,8 +78,10 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
 		designVariable.setName(name);
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 	
 	
@@ -78,7 +93,9 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 	 */
 	public void setTotalPosition(byte totalPosition)
 	{
+		byte old = this.totalPosition;
 		this.totalPosition = totalPosition;
+		getEventSupport().firePropertyChange(PROPERTY_TOTAL_POSITION, old, this.totalPosition);
 	}
 	
 	
@@ -90,7 +107,9 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 	 */
 	public void setBucket(JRDesignCrosstabBucket bucket)
 	{
+		Object old = this.bucket;
 		this.bucket = bucket;
+		getEventSupport().firePropertyChange(PROPERTY_BUCKET, old, this.bucket);
 	}
 
 	
@@ -102,12 +121,13 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 	 */
 	public void setHeader(JRDesignCellContents header)
 	{
+		Object old = this.header;
 		if (header == null)
 		{
 			header = new JRDesignCellContents();
 		}
-		
 		this.header = header;
+		getEventSupport().firePropertyChange(PROPERTY_HEADER, old, this.header);
 	}
 
 	
@@ -119,12 +139,13 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 	 */
 	public void setTotalHeader(JRDesignCellContents totalHeader)
 	{
+		Object old = this.totalHeader;
 		if (totalHeader == null)
 		{
 			totalHeader = new JRDesignCellContents();
 		}
-		
 		this.totalHeader = totalHeader;
+		getEventSupport().firePropertyChange(PROPERTY_TOTAL_HEADER, old, this.totalHeader);
 	}
 
 	/**
@@ -150,5 +171,20 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 		{
 			((JRDesignCellContents) cell).setOrigin(origin);
 		}
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

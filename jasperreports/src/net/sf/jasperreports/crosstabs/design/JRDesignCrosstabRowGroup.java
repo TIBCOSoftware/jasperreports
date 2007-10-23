@@ -41,6 +41,10 @@ public class JRDesignCrosstabRowGroup extends JRDesignCrosstabGroup implements J
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_POSITION = "position";
+
+	public static final String PROPERTY_WIDTH = "width";
+
 	protected int width;
 	protected byte position = JRCellContents.POSITION_Y_TOP;
 
@@ -63,7 +67,9 @@ public class JRDesignCrosstabRowGroup extends JRDesignCrosstabGroup implements J
 	 */
 	public void setPosition(byte position)
 	{
+		byte old = this.position;
 		this.position = position;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.position);
 	}
 
 	public int getWidth()
@@ -80,7 +86,9 @@ public class JRDesignCrosstabRowGroup extends JRDesignCrosstabGroup implements J
 	 */
 	public void setWidth(int width)
 	{
+		int old = this.width;
 		this.width = width;
+		getEventSupport().firePropertyChange(PROPERTY_WIDTH, old, this.width);
 	}
 
 	public void setHeader(JRDesignCellContents header)

@@ -29,6 +29,8 @@ package net.sf.jasperreports.crosstabs.design;
 
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabCell;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * Implementation of {@link net.sf.jasperreports.crosstabs.JRCrosstabCell JRCrosstabCell} to be used
@@ -37,9 +39,19 @@ import net.sf.jasperreports.engine.JRConstants;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignCrosstabCell extends JRBaseCrosstabCell
+public class JRDesignCrosstabCell extends JRBaseCrosstabCell implements JRChangeEventsSupport
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	public static final String PROPERTY_COLUMN_TOTAL_GROUP = "columnTotalGroup";
+
+	public static final String PROPERTY_CONTENTS = "contents";
+
+	public static final String PROPERTY_HEIGHT = "height";
+
+	public static final String PROPERTY_ROW_TOTAL_GROUP = "rowTotalGroup";
+
+	public static final String PROPERTY_WIDTH = "width";
 
 	
 	/**
@@ -59,7 +71,9 @@ public class JRDesignCrosstabCell extends JRBaseCrosstabCell
 	 */
 	public void setColumnTotalGroup(String columnTotalGroup)
 	{
+		Object old = this.columnTotalGroup;
 		this.columnTotalGroup = columnTotalGroup;
+		getEventSupport().firePropertyChange(PROPERTY_COLUMN_TOTAL_GROUP, old, this.columnTotalGroup);
 	}
 	
 	
@@ -71,12 +85,13 @@ public class JRDesignCrosstabCell extends JRBaseCrosstabCell
 	 */
 	public void setContents(JRDesignCellContents contents)
 	{
+		Object old = this.contents;
 		if (contents == null)
 		{
 			contents = new JRDesignCellContents();
 		}
-		
 		this.contents = contents;
+		getEventSupport().firePropertyChange(PROPERTY_CONTENTS, old, this.contents);
 	}
 
 	
@@ -89,7 +104,9 @@ public class JRDesignCrosstabCell extends JRBaseCrosstabCell
 	 */
 	public void setRowTotalGroup(String rowTotalGroup)
 	{
+		Object old = this.rowTotalGroup;
 		this.rowTotalGroup = rowTotalGroup;
+		getEventSupport().firePropertyChange(PROPERTY_ROW_TOTAL_GROUP, old, this.rowTotalGroup);
 	}
 
 	
@@ -103,7 +120,9 @@ public class JRDesignCrosstabCell extends JRBaseCrosstabCell
 	 */
 	public void setWidth(Integer width)
 	{
+		Object old = this.width;
 		this.width = width;
+		getEventSupport().firePropertyChange(PROPERTY_WIDTH, old, this.width);
 	}
 
 	
@@ -117,6 +136,23 @@ public class JRDesignCrosstabCell extends JRBaseCrosstabCell
 	 */
 	public void setHeight(Integer height)
 	{
+		Object old = this.height;
 		this.height = height;
+		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, old, this.height);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

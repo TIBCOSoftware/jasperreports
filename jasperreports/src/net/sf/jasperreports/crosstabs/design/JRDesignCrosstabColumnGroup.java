@@ -41,6 +41,10 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_HEIGHT = "height";
+
+	public static final String PROPERTY_POSITION = "position";
+
 	protected int height;
 	protected byte position = JRCellContents.POSITION_X_LEFT;
 
@@ -67,7 +71,9 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 	 */
 	public void setPosition(byte position)
 	{
+		byte old = this.position;
 		this.position = position;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.position);
 	}
 
 	public int getHeight()
@@ -84,7 +90,9 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 	 */
 	public void setHeight(int height)
 	{
+		int old = this.height;
 		this.height = height;
+		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, old, this.height);
 	}
 
 	public void setHeader(JRDesignCellContents header)

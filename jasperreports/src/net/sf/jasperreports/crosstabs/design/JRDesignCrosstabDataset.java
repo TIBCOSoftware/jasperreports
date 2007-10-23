@@ -41,6 +41,8 @@ import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 public class JRDesignCrosstabDataset extends JRDesignElementDataset implements JRCrosstabDataset
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	public static final String PROPERTY_DATA_PRE_SORTED = "dataPreSorted";
 	
 	protected boolean dataPreSorted = false;
 
@@ -71,7 +73,9 @@ public class JRDesignCrosstabDataset extends JRDesignElementDataset implements J
 	 */
 	public void setDataPreSorted(boolean dataPreSorted)
 	{
+		boolean old = this.dataPreSorted;
 		this.dataPreSorted = dataPreSorted;
+		getEventSupport().firePropertyChange(PROPERTY_DATA_PRE_SORTED, old, this.dataPreSorted);
 	}
 
 }

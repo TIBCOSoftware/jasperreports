@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * Crosstab measure implementation to be used for report designing.
@@ -42,14 +44,23 @@ import net.sf.jasperreports.engine.design.JRDesignVariable;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
+public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JRChangeEventsSupport
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	public static final String PROPERTY_CALCULATION = "calculation";
+
+	public static final String PROPERTY_INCREMENTER_FACTORY_CLASS_NAME = "incrementerFactoryClassName";
+
+	public static final String PROPERTY_NAME = "name";
+
+	public static final String PROPERTY_PERCENTAGE_CALCULATION_CLASS_NAME = "percentageCalculatorClassName";
+
+	public static final String PROPERTY_PERCENTAGE_OF_TYPE = "percentageOfType";
 	
 	public static final String PROPERTY_VALUE_CLASS = "valueClassName";
 
-	/** Property change support mechanism. */
-	private transient PropertyChangeSupport propSupport;
+	public static final String PROPERTY_VALUE_EXPRESSION = "expression";
 	
 	private JRDesignVariable designVariable;
 	
@@ -75,7 +86,9 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	 */
 	public void setCalculation(byte calculation)
 	{
+		byte old = this.calculation;
 		this.calculation = calculation;
+		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculation);
 	}
 
 	
@@ -87,7 +100,9 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	 */
 	public void setValueExpression(JRExpression expression)
 	{
+		Object old = this.expression;
 		this.expression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.expression);
 	}
 
 	
@@ -99,8 +114,10 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	 */
 	public void setIncrementerFactoryClassName(String incrementerFactoryClassName)
 	{
+		Object old = this.incrementerFactoryClassName;
 		this.incrementerFactoryClassName = incrementerFactoryClassName;
 		this.incrementerFactoryClass = null;
+		getEventSupport().firePropertyChange(PROPERTY_INCREMENTER_FACTORY_CLASS_NAME, old, this.incrementerFactoryClassName);
 	}
 
 	
@@ -112,8 +129,10 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
 		designVariable.setName(name);
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
 	
@@ -125,7 +144,9 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	 */
 	public void setPercentageOfType(byte percentageOfType)
 	{
+		byte old = this.percentageOfType;
 		this.percentageOfType = percentageOfType;
+		getEventSupport().firePropertyChange(PROPERTY_PERCENTAGE_OF_TYPE, old, this.percentageOfType);
 	}
 
 	
@@ -137,8 +158,10 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	 */
 	public void setPercentageCalculatorClassName(String percentageCalculatorClassName)
 	{
+		Object old = this.percentageCalculatorClassName;
 		this.percentageCalculatorClassName = percentageCalculatorClassName;
 		this.percentageCalculatorClass = null;
+		getEventSupport().firePropertyChange(PROPERTY_PERCENTAGE_CALCULATION_CLASS_NAME, old, this.percentageCalculatorClassName);
 	}
 
 	
@@ -150,13 +173,13 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	 */
 	public void setValueClassName(String valueClassName)
 	{
-		String oldValue = this.valueClassName;
+		String old = this.valueClassName;
 		
 		this.valueClassName = valueClassName;
 		this.valueClass = null;
 		designVariable.setValueClassName(valueClassName);
 		
-		getPropertyChangeSupport().firePropertyChange(PROPERTY_VALUE_CLASS, oldValue,
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS, old,
 				this.valueClassName);
 	}
 	
@@ -227,10 +250,21 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	 */
 	protected PropertyChangeSupport getPropertyChangeSupport()
 	{
-		if (propSupport == null)
+		return getEventSupport();
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
 		{
-			propSupport = new PropertyChangeSupport(this);
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
 		}
-		return propSupport;
+		
+		return eventSupport;
 	}
 }
