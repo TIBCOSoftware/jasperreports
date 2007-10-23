@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -48,7 +49,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRBaseElement implements JRElement, Serializable
+public abstract class JRBaseElement implements JRElement, Serializable, JRChangeEventsSupport
 {
 
 
@@ -57,11 +58,11 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	public static final String PROPERTY_BACKCOLOR = "backcolor";
+	public static final String PROPERTY_BACKCOLOR = JRBaseStyle.PROPERTY_BACKCOLOR;
 
-	public static final String PROPERTY_FORECOLOR = "forecolor";
+	public static final String PROPERTY_FORECOLOR = JRBaseStyle.PROPERTY_FORECOLOR;
 
-	public static final String PROPERTY_MODE = "mode";
+	public static final String PROPERTY_MODE = JRBaseStyle.PROPERTY_MODE;
 
 	public static final String PROPERTY_POSITION_TYPE = "positionType";
 

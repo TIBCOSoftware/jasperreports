@@ -31,13 +31,15 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRSortField;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseSortField implements JRSortField, Serializable
+public class JRBaseSortField implements JRSortField, Serializable, JRChangeEventsSupport
 {
 
 
@@ -45,6 +47,8 @@ public class JRBaseSortField implements JRSortField, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_ORDER = "order";
 
 	/**
 	 *
@@ -94,7 +98,24 @@ public class JRBaseSortField implements JRSortField, Serializable
 	 */
 	public void setOrder(byte order)
 	{
+		byte old = this.order;
 		this.order = order;
+		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.order);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 	
 }

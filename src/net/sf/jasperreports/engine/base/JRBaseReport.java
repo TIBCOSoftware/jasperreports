@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
@@ -54,7 +55,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseReport implements JRReport, Serializable
+public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSupport
 {
 
 

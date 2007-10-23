@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
@@ -47,7 +48,7 @@ import net.sf.jasperreports.engine.util.JRTextAttribute;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseFont implements JRFont, Serializable
+public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 {
 
 

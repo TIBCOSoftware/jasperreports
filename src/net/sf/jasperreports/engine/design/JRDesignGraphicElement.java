@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -49,9 +50,9 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_FILL = "fill";
+	public static final String PROPERTY_FILL = JRBaseStyle.PROPERTY_FILL;
 	
-	public static final String PROPERTY_PEN = "pen";
+	public static final String PROPERTY_PEN = JRBaseStyle.PROPERTY_PEN;
 
 	/**
 	 *

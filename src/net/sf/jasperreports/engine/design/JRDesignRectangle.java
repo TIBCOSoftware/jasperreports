@@ -32,6 +32,9 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -40,13 +43,15 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignRectangle extends JRDesignGraphicElement implements JRRectangle
+public class JRDesignRectangle extends JRDesignGraphicElement implements JRRectangle, JRChangeEventsSupport
 {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_RADIUS = JRBaseStyle.PROPERTY_RADIUS;
 
 	/**
 	 *
@@ -90,7 +95,7 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	 */
 	public void setRadius(int radius)
 	{
-		this.radius = new Integer(radius);
+		setRadius(new Integer(radius));
 	}
 
 	/**
@@ -98,7 +103,9 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	 */
 	public void setRadius(Integer radius)
 	{
+		Object old = this.radius;
 		this.radius = radius;
+		getEventSupport().firePropertyChange(PROPERTY_RADIUS, old, this.radius);
 	}
 
 	/**
@@ -115,6 +122,21 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 
 }

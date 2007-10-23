@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseSubreportReturnValue;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRSubreportReturnValue JRSubreportReturnValue}
@@ -37,13 +39,21 @@ import net.sf.jasperreports.engine.base.JRBaseSubreportReturnValue;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue
+public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue implements JRChangeEventsSupport
 {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_CALCULATION = "calculation";
+	
+	public static final String PROPERTY_INCREMENTER_FACTORY_CLASS_NAME = "incrementerFactoryClassName";
+	
+	public static final String PROPERTY_SUBREPORT_VARIABLE = "subreportVariable";
+	
+	public static final String PROPERTY_TO_VARIABLE = "toVariable";
 
 	/**
 	 * Sets the subreport variable name.
@@ -53,7 +63,9 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue
 	 */
 	public void setSubreportVariable(String name)
 	{
+		Object old = this.subreportVariable;
 		this.subreportVariable = name;
+		getEventSupport().firePropertyChange(PROPERTY_SUBREPORT_VARIABLE, old, this.subreportVariable);
 	}
 
 	/**
@@ -64,7 +76,9 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue
 	 */
 	public void setToVariable(String name)
 	{
+		Object old = this.toVariable;
 		this.toVariable = name;
+		getEventSupport().firePropertyChange(PROPERTY_TO_VARIABLE, old, this.toVariable);
 	}
 
 	/**
@@ -75,7 +89,9 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue
 	 */
 	public void setCalculation(byte calculation)
 	{
+		byte old = this.calculation;
 		this.calculation = calculation;
+		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculation);
 	}
 	
 	/**
@@ -86,6 +102,23 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue
 	 */
 	public void setIncrementerFactoryClassName(String incrementerFactoryClassName)
 	{
+		Object old = this.incrementerFactoryClassName;
 		this.incrementerFactoryClassName = incrementerFactoryClassName;
+		getEventSupport().firePropertyChange(PROPERTY_INCREMENTER_FACTORY_CLASS_NAME, old, this.incrementerFactoryClassName);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

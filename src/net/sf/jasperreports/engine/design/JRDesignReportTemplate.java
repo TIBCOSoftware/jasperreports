@@ -31,6 +31,8 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.base.JRBaseReportTemplate;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
@@ -39,10 +41,12 @@ import net.sf.jasperreports.engine.base.JRBaseReportTemplate;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignReportTemplate extends JRBaseReportTemplate
+public class JRDesignReportTemplate extends JRBaseReportTemplate implements JRChangeEventsSupport
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_SOURCE_EXPRESSION = "sourceExpression";
 
 	/**
 	 * Creates an empty report template.
@@ -70,7 +74,24 @@ public class JRDesignReportTemplate extends JRBaseReportTemplate
 	 */
 	public void setSourceExpression(JRExpression sourceExpression)
 	{
+		Object old = this.sourceExpression;
 		this.sourceExpression = sourceExpression;
+		getEventSupport().firePropertyChange(PROPERTY_SOURCE_EXPRESSION, old, this.sourceExpression);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 	
 }

@@ -30,13 +30,15 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.base.JRBaseQueryChunk;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignQueryChunk extends JRBaseQueryChunk
+public class JRDesignQueryChunk extends JRBaseQueryChunk implements JRChangeEventsSupport
 {
 
 
@@ -44,13 +46,21 @@ public class JRDesignQueryChunk extends JRBaseQueryChunk
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_TEXT = "text";
+	
+	public static final String PROPERTY_TOKENS = "tokens";
+	
+	public static final String PROPERTY_TYPE = "type";
 
 	/**
 	 *
 	 */
 	public void setType(byte type)
 	{
+		byte old = this.type;
 		this.type = type;
+		getEventSupport().firePropertyChange(PROPERTY_TYPE, old, this.type);
 	}
 		
 	/**
@@ -58,7 +68,9 @@ public class JRDesignQueryChunk extends JRBaseQueryChunk
 	 */
 	public void setText(String text)
 	{
+		Object old = this.text;
 		this.text = text;
+		getEventSupport().firePropertyChange(PROPERTY_TEXT, old, this.text);
 	}
 	
 	
@@ -70,7 +82,24 @@ public class JRDesignQueryChunk extends JRBaseQueryChunk
 	 */
 	public void setTokens(String[] tokens)
 	{
+		Object old = this.tokens;
 		this.tokens = tokens;
+		getEventSupport().firePropertyChange(PROPERTY_TOKENS, old, this.tokens);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 
 }

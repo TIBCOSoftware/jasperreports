@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -63,6 +64,86 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	/*
+	 * Box properties
+	 */
+	
+	public static final String PROPERTY_BORDER = JRBaseStyle.PROPERTY_BORDER;
+	
+	public static final String PROPERTY_BORDER_COLOR = JRBaseStyle.PROPERTY_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_BORDER = JRBaseStyle.PROPERTY_BOTTOM_BORDER;
+	
+	public static final String PROPERTY_BOTTOM_BORDER_COLOR = JRBaseStyle.PROPERTY_BOTTOM_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_PADDING = JRBaseStyle.PROPERTY_BOTTOM_PADDING;
+	
+	public static final String PROPERTY_LEFT_BORDER = JRBaseStyle.PROPERTY_LEFT_BORDER;
+	
+	public static final String PROPERTY_LEFT_BORDER_COLOR = JRBaseStyle.PROPERTY_LEFT_BORDER_COLOR;
+	
+	public static final String PROPERTY_LEFT_PADDING = JRBaseStyle.PROPERTY_LEFT_PADDING;
+	
+	public static final String PROPERTY_PADDING = JRBaseStyle.PROPERTY_PADDING;
+	
+	public static final String PROPERTY_RIGHT_BORDER = JRBaseStyle.PROPERTY_RIGHT_BORDER;
+	
+	public static final String PROPERTY_RIGHT_BORDER_COLOR = JRBaseStyle.PROPERTY_RIGHT_BORDER_COLOR;
+	
+	public static final String PROPERTY_RIGHT_PADDING = JRBaseStyle.PROPERTY_RIGHT_PADDING;
+	
+	public static final String PROPERTY_TOP_BORDER = JRBaseStyle.PROPERTY_TOP_BORDER;
+	
+	public static final String PROPERTY_TOP_BORDER_COLOR = JRBaseStyle.PROPERTY_TOP_BORDER_COLOR;
+	
+	public static final String PROPERTY_TOP_PADDING = JRBaseStyle.PROPERTY_TOP_PADDING;
+
+	/*
+	 * Hyperlink properties
+	 */
+	
+	public static final String PROPERTY_HYPERLINK_ANCHOR_EXPRESSION = JRDesignHyperlink.PROPERTY_HYPERLINK_ANCHOR_EXPRESSION;
+	
+	public static final String PROPERTY_HYPERLINK_PAGE_EXPRESSION = JRDesignHyperlink.PROPERTY_HYPERLINK_PAGE_EXPRESSION;
+	
+	public static final String PROPERTY_HYPERLINK_REFERENCE_EXPRESSION = JRDesignHyperlink.PROPERTY_HYPERLINK_REFERENCE_EXPRESSION;
+	
+	public static final String PROPERTY_HYPERLINK_TARGET = JRDesignHyperlink.PROPERTY_HYPERLINK_TARGET;
+	
+	public static final String PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION = JRDesignHyperlink.PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION;
+	
+	public static final String PROPERTY_LINK_TYPE = JRDesignHyperlink.PROPERTY_LINK_TYPE;
+	
+	/*
+	 * Style properties
+	 */
+	
+	public static final String PROPERTY_HORIZONTAL_ALIGNMENT = JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT;
+	
+	public static final String PROPERTY_SCALE_IMAGE = JRBaseStyle.PROPERTY_SCALE_IMAGE;
+	
+	public static final String PROPERTY_VERTICAL_ALIGNMENT = JRBaseStyle.PROPERTY_VERTICAL_ALIGNMENT;
+	
+	/*
+	 * Image properties
+	 */
+	
+	public static final String PROPERTY_ANCHOR_NAME_EXPRESSION = "anchorNameExpression";
+	
+	public static final String PROPERTY_BOOKMARK_LEVEL = "bookmarkLevel";
+	
+	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
+	
+	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
+	
+	public static final String PROPERTY_EXPRESSION = "expression";
+	
+	public static final String PROPERTY_LAZY = "lazy";
+	
+	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
+	
+	public static final String PROPERTY_USING_CACHE = "usingCache";
+	
 	/**
 	 *
 	 */
@@ -167,7 +248,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setScaleImage(byte scaleImage)
 	{
-		this.scaleImage = new Byte(scaleImage);
+		setScaleImage(new Byte(scaleImage));
 	}
 
 	/**
@@ -175,7 +256,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setScaleImage(Byte scaleImage)
 	{
+		Object old = this.scaleImage;
 		this.scaleImage = scaleImage;
+		getEventSupport().firePropertyChange(PROPERTY_SCALE_IMAGE, old, this.scaleImage);
 	}
 
 	/**
@@ -196,7 +279,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
-		this.horizontalAlignment = new Byte(horizontalAlignment);
+		setHorizontalAlignment(new Byte(horizontalAlignment));
 	}
 
 	/**
@@ -204,7 +287,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
+		Object old = this.horizontalAlignment;
 		this.horizontalAlignment = horizontalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignment);
 	}
 
 	/**
@@ -225,7 +310,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
-		this.verticalAlignment = new Byte(verticalAlignment);
+		setVerticalAlignment(new Byte(verticalAlignment));
 	}
 
 	/**
@@ -233,7 +318,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setVerticalAlignment(Byte verticalAlignment)
 	{
+		Object old = this.verticalAlignment;
 		this.verticalAlignment = verticalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignment);
 	}
 
 	/**
@@ -354,7 +441,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setUsingCache(Boolean isUsingCache)
 	{
+		Object old = this.isUsingCache;
 		this.isUsingCache = isUsingCache;
+		getEventSupport().firePropertyChange(PROPERTY_USING_CACHE, old, this.isUsingCache);
 	}
 
 	/**
@@ -370,7 +459,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setLazy(boolean isLazy)
 	{
+		boolean old = this.isLazy;
 		this.isLazy = isLazy;
+		getEventSupport().firePropertyChange(PROPERTY_LAZY, old, this.isLazy);
 	}
 
 	/**
@@ -386,7 +477,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setOnErrorType(byte onErrorType)
 	{
+		byte old = this.onErrorType;
 		this.onErrorType = onErrorType;
+		getEventSupport().firePropertyChange(PROPERTY_ON_ERROR_TYPE, old, this.onErrorType);
 	}
 
 	/**
@@ -395,7 +488,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setEvaluationTime(byte evaluationTime)
 	{
+		byte old = this.evaluationTime;
 		this.evaluationTime = evaluationTime;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
 	}
 		
 	/**
@@ -403,21 +498,21 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setBox(JRBox box)
 	{
-		border = box.getOwnBorder();
-		topBorder = box.getOwnTopBorder();
-		leftBorder = box.getOwnLeftBorder();
-		bottomBorder = box.getOwnBottomBorder();
-		rightBorder = box.getOwnRightBorder();
-		borderColor = box.getOwnBorderColor();
-		topBorderColor = box.getOwnTopBorderColor();
-		leftBorderColor = box.getOwnLeftBorderColor();
-		bottomBorderColor = box.getOwnBottomBorderColor();
-		rightBorderColor = box.getOwnRightBorderColor();
-		padding = box.getOwnPadding();
-		topPadding = box.getOwnTopPadding();
-		leftPadding = box.getOwnLeftPadding();
-		bottomPadding = box.getOwnBottomPadding();
-		rightPadding = box.getOwnRightPadding();
+		setBorder(box.getOwnBorder());
+		setTopBorder(box.getOwnTopBorder());
+		setLeftBorder(box.getOwnLeftBorder());
+		setBottomBorder(box.getOwnBottomBorder());
+		setRightBorder(box.getOwnRightBorder());
+		setBorderColor(box.getOwnBorderColor());
+		setTopBorderColor(box.getOwnTopBorderColor());
+		setLeftBorderColor(box.getOwnLeftBorderColor());
+		setBottomBorderColor(box.getOwnBottomBorderColor());
+		setRightBorderColor(box.getOwnRightBorderColor());
+		setPadding(box.getOwnPadding());
+		setTopPadding(box.getOwnTopPadding());
+		setLeftPadding(box.getOwnLeftPadding());
+		setBottomPadding(box.getOwnBottomPadding());
+		setRightPadding(box.getOwnRightPadding());
 	}
 
 	
@@ -437,7 +532,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
+		byte old = this.hyperlinkTarget;
 		this.hyperlinkTarget = hyperlinkTarget;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TARGET, old, this.hyperlinkTarget);
 	}
 		
 	/**
@@ -445,7 +542,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setEvaluationGroup(JRGroup evaluationGroup)
 	{
+		Object old = this.evaluationGroup;
 		this.evaluationGroup = evaluationGroup;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP, old, this.evaluationGroup);
 	}
 		
 	/**
@@ -453,7 +552,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setExpression(JRExpression expression)
 	{
+		Object old = this.expression;
 		this.expression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
 	}
 
 	/**
@@ -461,7 +562,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setAnchorNameExpression(JRExpression anchorNameExpression)
 	{
+		Object old = this.anchorNameExpression;
 		this.anchorNameExpression = anchorNameExpression;
+		getEventSupport().firePropertyChange(PROPERTY_ANCHOR_NAME_EXPRESSION, old, this.anchorNameExpression);
 	}
 
 	/**
@@ -469,7 +572,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setHyperlinkReferenceExpression(JRExpression hyperlinkReferenceExpression)
 	{
+		Object old = this.hyperlinkReferenceExpression;
 		this.hyperlinkReferenceExpression = hyperlinkReferenceExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_REFERENCE_EXPRESSION, old, this.hyperlinkReferenceExpression);
 	}
 
 	/**
@@ -477,7 +582,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setHyperlinkAnchorExpression(JRExpression hyperlinkAnchorExpression)
 	{
+		Object old = this.hyperlinkAnchorExpression;
 		this.hyperlinkAnchorExpression = hyperlinkAnchorExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_ANCHOR_EXPRESSION, old, this.hyperlinkAnchorExpression);
 	}
 
 	/**
@@ -485,7 +592,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setHyperlinkPageExpression(JRExpression hyperlinkPageExpression)
 	{
+		Object old = this.hyperlinkPageExpression;
 		this.hyperlinkPageExpression = hyperlinkPageExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_PAGE_EXPRESSION, old, this.hyperlinkPageExpression);
 	}
 	
 	/**
@@ -519,7 +628,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setBookmarkLevel(int bookmarkLevel)
 	{
+		int old = this.bookmarkLevel;
 		this.bookmarkLevel = bookmarkLevel;
+		getEventSupport().firePropertyChange(PROPERTY_BOOKMARK_LEVEL, old, this.bookmarkLevel);
 	}
 
 	/**
@@ -540,7 +651,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setBorder(byte border)
 	{
-		this.border = new Byte(border);
+		setBorder(new Byte(border));
 	}
 
 	/**
@@ -561,7 +672,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setBorderColor(Color borderColor)
 	{
+		Object old = this.borderColor;
 		this.borderColor = borderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.borderColor);
 	}
 
 	/**
@@ -582,7 +695,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setPadding(int padding)
 	{
-		this.padding = new Integer(padding);
+		setPadding(new Integer(padding));
 	}
 
 	/**
@@ -606,7 +719,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setTopBorder(byte topBorder)
 	{
-		this.topBorder = new Byte(topBorder);
+		setTopBorder(new Byte(topBorder));
 	}
 
 	/**
@@ -630,7 +743,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setTopBorderColor(Color topBorderColor)
 	{
+		Object old = this.topBorderColor;
 		this.topBorderColor = topBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER_COLOR, old, this.topBorderColor);
 	}
 
 	/**
@@ -654,7 +769,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setTopPadding(int topPadding)
 	{
-		this.topPadding = new Integer(topPadding);
+		setTopPadding(new Integer(topPadding));
 	}
 
 	/**
@@ -678,7 +793,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setLeftBorder(byte leftBorder)
 	{
-		this.leftBorder = new Byte(leftBorder);
+		setLeftBorder(new Byte(leftBorder));
 	}
 
 	/**
@@ -702,7 +817,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
+		Object old = this.leftBorderColor;
 		this.leftBorderColor = leftBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER_COLOR, old, this.leftBorderColor);
 	}
 
 	/**
@@ -726,7 +843,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
-		this.leftPadding = new Integer(leftPadding);
+		setLeftPadding(new Integer(leftPadding));
 	}
 
 	/**
@@ -750,7 +867,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setBottomBorder(byte bottomBorder)
 	{
-		this.bottomBorder = new Byte(bottomBorder);
+		setBottomBorder(new Byte(bottomBorder));
 	}
 
 	/**
@@ -774,7 +891,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
+		Object old = this.bottomBorderColor;
 		this.bottomBorderColor = bottomBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER_COLOR, old, this.bottomBorderColor);
 	}
 
 	/**
@@ -798,7 +917,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
-		this.bottomPadding = new Integer(bottomPadding);
+		setBottomPadding(new Integer(bottomPadding));
 	}
 
 	/**
@@ -822,7 +941,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setRightBorder(byte rightBorder)
 	{
-		this.rightBorder = new Byte(rightBorder);
+		setRightBorder(new Byte(rightBorder));
 	}
 
 	/**
@@ -846,7 +965,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setRightBorderColor(Color rightBorderColor)
 	{
+		Object old = this.rightBorderColor;
 		this.rightBorderColor = rightBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER_COLOR, old, this.rightBorderColor);
 	}
 
 	/**
@@ -870,7 +991,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setRightPadding(int rightPadding)
 	{
-		this.rightPadding = new Integer(rightPadding);
+		setRightPadding(new Integer(rightPadding));
 	}
 	
 
@@ -879,7 +1000,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setBorder(Byte border)
 	{
+		Object old = this.border;
 		this.border = border;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER, old, this.border);
 	}
 
 	/**
@@ -887,7 +1010,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setPadding(Integer padding)
 	{
+		Object old = this.padding;
 		this.padding = padding;
+		getEventSupport().firePropertyChange(PROPERTY_PADDING, old, this.padding);
 	}
 
 	/**
@@ -895,7 +1020,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setTopBorder(Byte topBorder)
 	{
+		Object old = this.topBorder;
 		this.topBorder = topBorder;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER, old, this.topBorder);
 	}
 
 	/**
@@ -903,7 +1030,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setTopPadding(Integer topPadding)
 	{
+		Object old = this.topPadding;
 		this.topPadding = topPadding;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_PADDING, old, this.topPadding);
 	}
 
 	/**
@@ -911,7 +1040,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setLeftBorder(Byte leftBorder)
 	{
+		Object old = this.leftBorder;
 		this.leftBorder = leftBorder;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER, old, this.leftBorder);
 	}
 
 	/**
@@ -919,7 +1050,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setLeftPadding(Integer leftPadding)
 	{
+		Object old = this.leftPadding;
 		this.leftPadding = leftPadding;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_PADDING, old, this.leftPadding);
 	}
 
 	/**
@@ -927,7 +1060,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setBottomBorder(Byte bottomBorder)
 	{
+		Object old = this.bottomBorder;
 		this.bottomBorder = bottomBorder;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER, old, this.bottomBorder);
 	}
 
 	/**
@@ -935,7 +1070,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setBottomPadding(Integer bottomPadding)
 	{
+		Object old = this.bottomPadding;
 		this.bottomPadding = bottomPadding;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_PADDING, old, this.bottomPadding);
 	}
 
 	/**
@@ -943,7 +1080,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setRightBorder(Byte rightBorder)
 	{
+		Object old = this.rightBorder;
 		this.rightBorder = rightBorder;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER, old, this.rightBorder);
 	}
 
 	/**
@@ -951,7 +1090,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
+		Object old = this.rightPadding;
 		this.rightPadding = rightPadding;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_PADDING, old, this.rightPadding);
 	}
 
 
@@ -972,7 +1113,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setLinkType(String type)
 	{
+		Object old = this.linkType;
 		this.linkType = type;
+		getEventSupport().firePropertyChange(PROPERTY_LINK_TYPE, old, this.linkType);
 	}
 
 
@@ -1078,7 +1221,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setHyperlinkTooltipExpression(JRExpression hyperlinkTooltipExpression)
 	{
+		Object old = this.hyperlinkTooltipExpression;
 		this.hyperlinkTooltipExpression = hyperlinkTooltipExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION, old, this.hyperlinkTooltipExpression);
 	}
 
 }

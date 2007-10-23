@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -51,36 +52,40 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 public class JRDesignFrame extends JRDesignElement implements JRFrame
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	/*
+	 * Box properties
+	 */
 	
-	public static final String PROPERTY_BORDER = "border";
+	public static final String PROPERTY_BORDER = JRBaseStyle.PROPERTY_BORDER;
 	
-	public static final String PROPERTY_BORDER_COLOR = "borderColor";
+	public static final String PROPERTY_BORDER_COLOR = JRBaseStyle.PROPERTY_BORDER_COLOR;
 	
-	public static final String PROPERTY_BOTTOM_BORDER = "bottomBorder";
+	public static final String PROPERTY_BOTTOM_BORDER = JRBaseStyle.PROPERTY_BOTTOM_BORDER;
 	
-	public static final String PROPERTY_BOTTOM_BORDER_COLOR = "bottomBorderColor";
+	public static final String PROPERTY_BOTTOM_BORDER_COLOR = JRBaseStyle.PROPERTY_BOTTOM_BORDER_COLOR;
 	
-	public static final String PROPERTY_BOTTOM_PADDING = "bottomPadding";
+	public static final String PROPERTY_BOTTOM_PADDING = JRBaseStyle.PROPERTY_BOTTOM_PADDING;
 	
-	public static final String PROPERTY_LEFT_BORDER = "leftBorder";
+	public static final String PROPERTY_LEFT_BORDER = JRBaseStyle.PROPERTY_LEFT_BORDER;
 	
-	public static final String PROPERTY_LEFT_BORDER_COLOR = "leftBorderColor";
+	public static final String PROPERTY_LEFT_BORDER_COLOR = JRBaseStyle.PROPERTY_LEFT_BORDER_COLOR;
 	
-	public static final String PROPERTY_LEFT_PADDING = "leftPadding";
+	public static final String PROPERTY_LEFT_PADDING = JRBaseStyle.PROPERTY_LEFT_PADDING;
 	
-	public static final String PROPERTY_PADDING = "padding";
+	public static final String PROPERTY_PADDING = JRBaseStyle.PROPERTY_PADDING;
 	
-	public static final String PROPERTY_RIGHT_BORDER = "rightBorder";
+	public static final String PROPERTY_RIGHT_BORDER = JRBaseStyle.PROPERTY_RIGHT_BORDER;
 	
-	public static final String PROPERTY_RIGHT_BORDER_COLOR = "rightBorderColor";
+	public static final String PROPERTY_RIGHT_BORDER_COLOR = JRBaseStyle.PROPERTY_RIGHT_BORDER_COLOR;
 	
-	public static final String PROPERTY_RIGHT_PADDING = "rightPadding";
+	public static final String PROPERTY_RIGHT_PADDING = JRBaseStyle.PROPERTY_RIGHT_PADDING;
 	
-	public static final String PROPERTY_TOP_BORDER = "topBorder";
+	public static final String PROPERTY_TOP_BORDER = JRBaseStyle.PROPERTY_TOP_BORDER;
 	
-	public static final String PROPERTY_TOP_BORDER_COLOR = "topBorderColor";
+	public static final String PROPERTY_TOP_BORDER_COLOR = JRBaseStyle.PROPERTY_TOP_BORDER_COLOR;
 	
-	public static final String PROPERTY_TOP_PADDING = "topPadding";
+	public static final String PROPERTY_TOP_PADDING = JRBaseStyle.PROPERTY_TOP_PADDING;
 	
 	private List children;
 

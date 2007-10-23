@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 
@@ -41,7 +43,7 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseParameter implements JRParameter, Serializable
+public class JRBaseParameter implements JRParameter, Serializable, JRChangeEventsSupport
 {
 
 
@@ -49,6 +51,8 @@ public class JRBaseParameter implements JRParameter, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_DESCRIPTION = "description";
 
 	/**
 	 *
@@ -119,7 +123,9 @@ public class JRBaseParameter implements JRParameter, Serializable
 	 */
 	public void setDescription(String description)
 	{
+		Object old = this.description;
 		this.description = description;
+		getEventSupport().firePropertyChange(PROPERTY_DESCRIPTION, old, this.description);
 	}
 	
 	/**
@@ -197,5 +203,20 @@ public class JRBaseParameter implements JRParameter, Serializable
 		return propertiesMap;
 	}
 
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 
 }

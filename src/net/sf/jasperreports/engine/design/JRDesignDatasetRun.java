@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseDatasetRun;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
@@ -45,7 +46,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignDatasetRun extends JRBaseDatasetRun
+public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEventsSupport
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 

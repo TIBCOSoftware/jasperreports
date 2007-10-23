@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 //import java.text.Format;
@@ -61,6 +62,47 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	/*
+	 * Hyperlink properties
+	 */
+	
+	public static final String PROPERTY_HYPERLINK_ANCHOR_EXPRESSION = JRDesignHyperlink.PROPERTY_HYPERLINK_ANCHOR_EXPRESSION;
+	
+	public static final String PROPERTY_HYPERLINK_PAGE_EXPRESSION = JRDesignHyperlink.PROPERTY_HYPERLINK_PAGE_EXPRESSION;
+	
+	public static final String PROPERTY_HYPERLINK_REFERENCE_EXPRESSION = JRDesignHyperlink.PROPERTY_HYPERLINK_REFERENCE_EXPRESSION;
+	
+	public static final String PROPERTY_HYPERLINK_TARGET = JRDesignHyperlink.PROPERTY_HYPERLINK_TARGET;
+	
+	public static final String PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION = JRDesignHyperlink.PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION;
+	
+	public static final String PROPERTY_LINK_TYPE = JRDesignHyperlink.PROPERTY_LINK_TYPE;
+	
+	/*
+	 * Style properties
+	 */
+	
+	public static final String PROPERTY_BLANK_WHEN_NULL = JRBaseStyle.PROPERTY_BLANK_WHEN_NULL;
+	
+	public static final String PROPERTY_PATTERN = JRBaseStyle.PROPERTY_PATTERN;
+	
+	
+	/*
+	 * Text field properties
+	 */
+	
+	public static final String PROPERTY_ANCHOR_NAME_EXPRESSION = "anchorNameExpression";
+	
+	public static final String PROPERTY_BOOKMARK_LEVEL = "bookmarkLevel";
+	
+	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
+	
+	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
+	
+	public static final String PROPERTY_EXPRESSION = "expression";
+	
+	public static final String PROPERTY_STRETCH_WITH_OVERFLOW = "stretchWithOverflow";
 
 	/**
 	 *
@@ -227,7 +269,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setStretchWithOverflow(boolean isStretch)
 	{
+		boolean old = this.isStretchWithOverflow;
 		this.isStretchWithOverflow = isStretch;
+		getEventSupport().firePropertyChange(PROPERTY_STRETCH_WITH_OVERFLOW, old, this.isStretchWithOverflow);
 	}
 		
 	/**
@@ -235,7 +279,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setEvaluationTime(byte evaluationTime)
 	{
+		byte old = this.evaluationTime;
 		this.evaluationTime = evaluationTime;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
 	}
 		
 	/**
@@ -243,7 +289,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setPattern(String pattern)
 	{
+		Object old = this.pattern;
 		this.pattern = pattern;
+		getEventSupport().firePropertyChange(PROPERTY_PATTERN, old, this.pattern);
 	}
 
 	/**
@@ -251,7 +299,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setBlankWhenNull(boolean isBlank)
 	{
-		this.isBlankWhenNull = isBlank ? Boolean.TRUE : Boolean.FALSE;
+		setBlankWhenNull(isBlank ? Boolean.TRUE : Boolean.FALSE);
 	}
 
 	/**
@@ -259,7 +307,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setBlankWhenNull(Boolean isBlank)
 	{
+		Object old = this.isBlankWhenNull;
 		this.isBlankWhenNull = isBlank;
+		getEventSupport().firePropertyChange(PROPERTY_BLANK_WHEN_NULL, old, this.isBlankWhenNull);
 	}
 
 	/**
@@ -278,7 +328,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
+		byte old = this.hyperlinkTarget;
 		this.hyperlinkTarget = hyperlinkTarget;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TARGET, old, this.hyperlinkTarget);
 	}
 		
 	/**
@@ -286,7 +338,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setEvaluationGroup(JRGroup evaluationGroup)
 	{
+		Object old = this.evaluationGroup;
 		this.evaluationGroup = evaluationGroup;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP, old, this.evaluationGroup);
 	}
 		
 	/**
@@ -294,7 +348,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setExpression(JRExpression expression)
 	{
+		Object old = this.expression;
 		this.expression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
 	}
 
 	/**
@@ -302,7 +358,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setAnchorNameExpression(JRExpression anchorNameExpression)
 	{
+		Object old = this.anchorNameExpression;
 		this.anchorNameExpression = anchorNameExpression;
+		getEventSupport().firePropertyChange(PROPERTY_ANCHOR_NAME_EXPRESSION, old, this.anchorNameExpression);
 	}
 
 	/**
@@ -310,7 +368,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setHyperlinkReferenceExpression(JRExpression hyperlinkReferenceExpression)
 	{
+		Object old = this.hyperlinkReferenceExpression;
 		this.hyperlinkReferenceExpression = hyperlinkReferenceExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_REFERENCE_EXPRESSION, old, this.hyperlinkReferenceExpression);
 	}
 
 	/**
@@ -318,7 +378,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setHyperlinkAnchorExpression(JRExpression hyperlinkAnchorExpression)
 	{
+		Object old = this.hyperlinkAnchorExpression;
 		this.hyperlinkAnchorExpression = hyperlinkAnchorExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_ANCHOR_EXPRESSION, old, this.hyperlinkAnchorExpression);
 	}
 
 	/**
@@ -326,7 +388,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setHyperlinkPageExpression(JRExpression hyperlinkPageExpression)
 	{
+		Object old = this.hyperlinkPageExpression;
 		this.hyperlinkPageExpression = hyperlinkPageExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_PAGE_EXPRESSION, old, this.hyperlinkPageExpression);
 	}
 
 	/**
@@ -360,7 +424,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setBookmarkLevel(int bookmarkLevel)
 	{
+		int old = this.bookmarkLevel;
 		this.bookmarkLevel = bookmarkLevel;
+		getEventSupport().firePropertyChange(PROPERTY_BOOKMARK_LEVEL, old, this.bookmarkLevel);
 	}
 
 
@@ -381,7 +447,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setLinkType(String type)
 	{
+		Object old = this.linkType;
 		this.linkType = type;
+		getEventSupport().firePropertyChange(PROPERTY_LINK_TYPE, old, this.linkType);
 	}
 
 
@@ -487,7 +555,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setHyperlinkTooltipExpression(JRExpression hyperlinkTooltipExpression)
 	{
+		Object old = this.hyperlinkTooltipExpression;
 		this.hyperlinkTooltipExpression = hyperlinkTooltipExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION, old, this.hyperlinkTooltipExpression);
 	}
 	
 }

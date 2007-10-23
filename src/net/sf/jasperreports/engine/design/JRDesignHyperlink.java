@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.base.JRBaseHyperlink;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
@@ -47,7 +48,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignHyperlink extends JRBaseHyperlink
+public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEventsSupport
 {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;

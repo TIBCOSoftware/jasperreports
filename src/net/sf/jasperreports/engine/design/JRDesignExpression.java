@@ -39,6 +39,7 @@ import java.util.StringTokenizer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.base.JRBaseExpression;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
@@ -46,7 +47,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignExpression extends JRBaseExpression
+public class JRDesignExpression extends JRBaseExpression implements JRChangeEventsSupport
 {
 	/**
 	 *
