@@ -31,8 +31,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
@@ -114,6 +114,8 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	public static final String PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION = JRDesignHyperlink.PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION;
 	
 	public static final String PROPERTY_LINK_TYPE = JRDesignHyperlink.PROPERTY_LINK_TYPE;
+	
+	public static final String PROPERTY_HYPERLINK_PARAMETERS = JRDesignHyperlink.PROPERTY_HYPERLINK_PARAMETERS;
 	
 	/*
 	 * Style properties
@@ -1155,6 +1157,8 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	public void addHyperlinkParameter(JRHyperlinkParameter parameter)
 	{
 		hyperlinkParameters.add(parameter);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_HYPERLINK_PARAMETERS, 
+				parameter, hyperlinkParameters.size() - 1);
 	}
 	
 
@@ -1165,7 +1169,13 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void removeHyperlinkParameter(JRHyperlinkParameter parameter)
 	{
-		hyperlinkParameters.remove(parameter);
+		int idx = hyperlinkParameters.indexOf(parameter);
+		if (idx >= 0)
+		{
+			hyperlinkParameters.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_HYPERLINK_PARAMETERS, 
+					parameter, idx);
+		}
 	}
 	
 	
@@ -1180,12 +1190,14 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void removeHyperlinkParameter(String parameterName)
 	{
-		for (Iterator it = hyperlinkParameters.iterator(); it.hasNext();)
+		for (ListIterator it = hyperlinkParameters.listIterator(); it.hasNext();)
 		{
 			JRHyperlinkParameter parameter = (JRHyperlinkParameter) it.next();
 			if (parameter.getName() != null && parameter.getName().equals(parameterName))
 			{
 				it.remove();
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_HYPERLINK_PARAMETERS, 
+						parameter, it.nextIndex());
 			}
 		}
 	}

@@ -86,6 +86,12 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	public static final String PROPERTY_TOP_BORDER_COLOR = JRBaseStyle.PROPERTY_TOP_BORDER_COLOR;
 	
 	public static final String PROPERTY_TOP_PADDING = JRBaseStyle.PROPERTY_TOP_PADDING;
+
+	/*
+	 * Frame properties
+	 */
+	
+	public static final String PROPERTY_CHILDREN = "children";
 	
 	private List children;
 
@@ -143,6 +149,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 		}
 
 		children.add(element);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, element, children.size() - 1);
 	}
 	
 	
@@ -159,7 +166,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 			((JRDesignElement) element).setElementGroup(null);
 		}
 
-		return children.remove(element);
+		int idx = children.indexOf(element);
+		if (idx >= 0)
+		{
+			children.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_CHILDREN, element, idx);
+			return true;
+		}
+		return false;
 	}
 
 	
@@ -176,6 +190,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 		}
 		
 		children.add(group);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, group, children.size() - 1);
 	}
 	
 	
@@ -192,7 +207,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 			((JRDesignElementGroup) group).setElementGroup(null);
 		}
 		
-		return children.remove(group);
+		int idx = children.indexOf(group);
+		if (idx >= 0)
+		{
+			children.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_CHILDREN, group, idx);
+			return true;
+		}
+		return false;
 	}
 
 	

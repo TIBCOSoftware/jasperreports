@@ -61,6 +61,8 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	
 	public static final String PROPERTY_PARAMETERS_MAP_EXPRESSION = "parametersMapExpression";
 	
+	public static final String PROPERTY_PARAMETERS = "parameters";
+	
 	
 	/**
 	 * Creates an empty dataset instantiation.
@@ -88,6 +90,8 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 		
 		parametersMap.put(parameter.getName(), parameter);
 		parametersList.add(parameter);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARAMETERS, 
+				parameter, parametersList.size() - 1);
 	}
 	
 	
@@ -102,7 +106,12 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 		JRDatasetParameter param = (JRDatasetParameter) parametersMap.remove(parameterName);
 		if (param != null)
 		{
-			parametersList.remove(param);
+			int idx = parametersList.indexOf(param);
+			if (idx >= 0)
+			{
+				parametersList.remove(idx);
+			}
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PARAMETERS, param, idx);
 		}
 		
 		return param;
@@ -117,13 +126,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	 */
 	public JRDatasetParameter removeParameter(JRDatasetParameter parameter)
 	{
-		JRDatasetParameter param = (JRDatasetParameter) parametersMap.remove(parameter.getName());
-		if (param != null)
-		{
-			parametersList.remove(parameter);
-		}
-		
-		return param;
+		return removeParameter(parameter.getName());
 	}
 
 	
