@@ -48,6 +48,22 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_CLOSE_EXPRESSION = "closeExpression";
+	
+	public static final String PROPERTY_DATE_EXPRESSION = "dateExpression";
+	
+	public static final String PROPERTY_HIGH_EXPRESSION = "highExpression";
+	
+	public static final String PROPERTY_ITEM_HYPERLINK = "itemHyperlink";
+	
+	public static final String PROPERTY_LOW_EXPRESSION = "lowExpression";
+	
+	public static final String PROPERTY_OPEN_EXPRESSION = "openExpression";
+	
+	public static final String PROPERTY_SERIES_EXPRESSION = "seriesExpression";
+	
+	public static final String PROPERTY_VOLUME_EXPRESSION = "volumeExpression";
 
 	protected JRExpression seriesExpression;
 	protected JRExpression dateExpression;
@@ -76,7 +92,9 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 
 	public void setSeriesExpression(JRExpression seriesExpression)
 	{
+		Object old = this.seriesExpression;
 		this.seriesExpression = seriesExpression;
+		getEventSupport().firePropertyChange(PROPERTY_SERIES_EXPRESSION, old, this.seriesExpression);
 	}
 
 	public JRExpression getDateExpression()
@@ -87,7 +105,9 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 
 	public void setDateExpression(JRExpression dateExpression)
 	{
+		Object old = this.dateExpression;
 		this.dateExpression = dateExpression;
+		getEventSupport().firePropertyChange(PROPERTY_DATE_EXPRESSION, old, this.dateExpression);
 	}
 
 
@@ -99,7 +119,9 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 
 	public void setHighExpression(JRExpression highExpression)
 	{
+		Object old = this.highExpression;
 		this.highExpression = highExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HIGH_EXPRESSION, old, this.highExpression);
 	}
 
 
@@ -111,7 +133,9 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 
 	public void setLowExpression(JRExpression lowExpression)
 	{
+		Object old = this.lowExpression;
 		this.lowExpression = lowExpression;
+		getEventSupport().firePropertyChange(PROPERTY_LOW_EXPRESSION, old, this.lowExpression);
 	}
 
 
@@ -123,7 +147,9 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 
 	public void setOpenExpression(JRExpression openExpression)
 	{
+		Object old = this.openExpression;
 		this.openExpression = openExpression;
+		getEventSupport().firePropertyChange(PROPERTY_OPEN_EXPRESSION, old, this.openExpression);
 	}
 
 
@@ -135,7 +161,9 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 
 	public void setCloseExpression(JRExpression closeExpression)
 	{
+		Object old = this.closeExpression;
 		this.closeExpression = closeExpression;
+		getEventSupport().firePropertyChange(PROPERTY_CLOSE_EXPRESSION, old, this.closeExpression);
 	}
 
 
@@ -147,7 +175,9 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 
 	public void setVolumeExpression(JRExpression volumeExpression)
 	{
+		Object old = this.volumeExpression;
 		this.volumeExpression = volumeExpression;
+		getEventSupport().firePropertyChange(PROPERTY_VOLUME_EXPRESSION, old, this.volumeExpression);
 	}
 
 	/** 
@@ -181,7 +211,9 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	 */
 	public void setItemHyperlink(JRHyperlink itemHyperlink)
 	{
+		Object old = this.itemHyperlink;
 		this.itemHyperlink = itemHyperlink;
+		getEventSupport().firePropertyChange(PROPERTY_ITEM_HYPERLINK, old, this.itemHyperlink);
 	}
 
 

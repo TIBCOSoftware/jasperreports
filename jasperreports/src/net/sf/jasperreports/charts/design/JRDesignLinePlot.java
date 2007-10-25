@@ -44,6 +44,34 @@ import net.sf.jasperreports.engine.JRFont;
 public class JRDesignLinePlot extends JRBaseLinePlot {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_CATEGORY_AXIS_LABEL_COLOR = "categoryAxisLabelColor";
+	
+	public static final String PROPERTY_CATEGORY_AXIS_LABEL_EXPRESSION = "categoryAxisLabelExpression";
+	
+	public static final String PROPERTY_CATEGORY_AXIS_LABEL_FONT = "categoryAxisLabelFont";
+	
+	public static final String PROPERTY_CATEGORY_AXIS_LINE_COLOR = "categoryAxisLineColor";
+	
+	public static final String PROPERTY_CATEGORY_AXIS_TICK_LABEL_COLOR = "categoryAxisTickLabelColor";
+	
+	public static final String PROPERTY_CATEGORY_AXIS_TICK_LABEL_FONT = "categoryAxisTickLabelFont";
+	
+	public static final String PROPERTY_CATEGORY_AXIS_TICK_LABEL_MASK = "categoryAxisTickLabelMask";
+	
+	public static final String PROPERTY_VALUE_AXIS_LABEL_COLOR = "valueAxisLabelColor";
+	
+	public static final String PROPERTY_VALUE_AXIS_LABEL_EXPRESSION = "valueAxisLabelExpression";
+	
+	public static final String PROPERTY_VALUE_AXIS_LABEL_FONT = "valueAxisLabelFont";
+	
+	public static final String PROPERTY_VALUE_AXIS_LINE_COLOR = "valueAxisLineColor";
+	
+	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_COLOR = "valueAxisTickLabelColor";
+	
+	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_FONT = "valueAxisTickLabelFont";
+	
+	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_MASK = "valueAxisTickLabelMask";
 
 
 	public JRDesignLinePlot(JRChartPlot linePlot, JRChart chart)
@@ -57,7 +85,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setCategoryAxisLabelExpression(JRExpression categoryAxisLabelExpression)
 	{
+		Object old = this.categoryAxisLabelExpression;
 		this.categoryAxisLabelExpression = categoryAxisLabelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_LABEL_EXPRESSION, old, this.categoryAxisLabelExpression);
 	}
 
 	/**
@@ -65,7 +95,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setCategoryAxisLabelFont(JRFont categoryAxisLabelFont)
 	{
+		Object old = this.categoryAxisLabelFont;
 		this.categoryAxisLabelFont = categoryAxisLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_LABEL_FONT, old, this.categoryAxisLabelFont);
 	}
 
 	/**
@@ -73,7 +105,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setCategoryAxisLabelColor(Color categoryAxisLabelColor)
 	{
+		Object old = this.categoryAxisLabelColor;
 		this.categoryAxisLabelColor = categoryAxisLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_LABEL_COLOR, old, this.categoryAxisLabelColor);
 	}
 
 	/**
@@ -81,7 +115,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setCategoryAxisTickLabelFont(JRFont categoryAxisTickLabelFont)
 	{
+		Object old = this.categoryAxisTickLabelFont;
 		this.categoryAxisTickLabelFont = categoryAxisTickLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_FONT, old, this.categoryAxisTickLabelFont);
 	}
 
 	/**
@@ -89,7 +125,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setCategoryAxisTickLabelColor(Color categoryAxisTickLabelColor)
 	{
+		Object old = this.categoryAxisTickLabelColor;
 		this.categoryAxisTickLabelColor = categoryAxisTickLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_COLOR, old, this.categoryAxisTickLabelColor);
 	}
 
 	/**
@@ -97,7 +135,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setCategoryAxisTickLabelMask(String categoryAxisTickLabelMask)
 	{
+		Object old = this.categoryAxisTickLabelMask;
 		this.categoryAxisTickLabelMask = categoryAxisTickLabelMask;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_MASK, old, this.categoryAxisTickLabelMask);
 	}
 
 	/**
@@ -105,7 +145,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setCategoryAxisLineColor(Color categoryAxisLineColor)
 	{
+		Object old = this.categoryAxisLineColor;
 		this.categoryAxisLineColor = categoryAxisLineColor;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_LINE_COLOR, old, this.categoryAxisLineColor);
 	}
 
 	/**
@@ -113,7 +155,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setValueAxisLabelExpression(JRExpression valueAxisLabelExpression)
 	{
+		Object old = this.valueAxisLabelExpression;
 		this.valueAxisLabelExpression = valueAxisLabelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LABEL_EXPRESSION, old, this.valueAxisLabelExpression);
 	}
 
 	/**
@@ -121,7 +165,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setValueAxisLabelFont(JRFont valueAxisLabelFont)
 	{
+		Object old = this.valueAxisLabelFont;
 		this.valueAxisLabelFont = valueAxisLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LABEL_FONT, old, this.valueAxisLabelFont);
 	}
 
 	/**
@@ -129,7 +175,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setValueAxisLabelColor(Color valueAxisLabelColor)
 	{
+		Object old = this.valueAxisLabelColor;
 		this.valueAxisLabelColor = valueAxisLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LABEL_COLOR, old, this.valueAxisLabelColor);
 	}
 	
 	/**
@@ -137,7 +185,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setValueAxisTickLabelFont(JRFont valueAxisTickLabelFont)
 	{
+		Object old = this.valueAxisTickLabelFont;
 		this.valueAxisTickLabelFont = valueAxisTickLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_TICK_LABEL_FONT, old, this.valueAxisTickLabelFont);
 	}
 
 	/**
@@ -145,7 +195,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setValueAxisTickLabelColor(Color valueAxisTickLabelColor)
 	{
+		Object old = this.valueAxisTickLabelColor;
 		this.valueAxisTickLabelColor = valueAxisTickLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_TICK_LABEL_COLOR, old, this.valueAxisTickLabelColor);
 	}
 
 	/**
@@ -153,7 +205,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setValueAxisTickLabelMask(String valueAxisTickLabelMask)
 	{
+		Object old = this.valueAxisTickLabelMask;
 		this.valueAxisTickLabelMask = valueAxisTickLabelMask;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_TICK_LABEL_MASK, old, this.valueAxisTickLabelMask);
 	}
 
 	/**
@@ -161,7 +215,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	 */
 	public void setValueAxisLineColor(Color valueAxisLineColor)
 	{
+		Object old = this.valueAxisLineColor;
 		this.valueAxisLineColor = valueAxisLineColor;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LINE_COLOR, old, this.valueAxisLineColor);
 	}
 	
 	/**

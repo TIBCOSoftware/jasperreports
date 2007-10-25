@@ -30,29 +30,49 @@ package net.sf.jasperreports.charts.design;
 import net.sf.jasperreports.charts.base.JRBaseXyzSeries;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignXyzSeries extends JRBaseXyzSeries {
+public class JRDesignXyzSeries extends JRBaseXyzSeries implements JRChangeEventsSupport {
 	
 	private static final long serialVersionUID=608;
 	
+	public static final String PROPERTY_ITEM_HYPERLINK = "itemHyperlink";
+	
+	public static final String PROPERTY_SERIES_EXPRESSION = "seriesExpression";
+	
+	public static final String PROPERTY_X_VALUE_EXPRESSION = "xValueExpression";
+	
+	public static final String PROPERTY_Y_VALUE_EXPRESSION = "yValueExpression";
+	
+	public static final String PROPERTY_Z_VALUE_EXPRESSION = "zValueExpression";
+	
 	public void setSeriesExpression( JRExpression seriesExpression ){
+		Object old = this.seriesExpression;
 		this.seriesExpression = seriesExpression;
+		getEventSupport().firePropertyChange(PROPERTY_SERIES_EXPRESSION, old, this.seriesExpression);
 	}
 
 	public void setXValueExpression( JRExpression xValueExpression ){
+		Object old = this.xValueExpression;
 		this.xValueExpression = xValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_X_VALUE_EXPRESSION, old, this.xValueExpression);
 	}
 	
 	public void setYValueExpression( JRExpression yValueExpression ){
+		Object old = this.yValueExpression;
 		this.yValueExpression = yValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_Y_VALUE_EXPRESSION, old, this.yValueExpression);
 	}
 	
 	public void setZValueExpression( JRExpression zValueExpression ){
+		Object old = this.zValueExpression;
 		this.zValueExpression = zValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_Z_VALUE_EXPRESSION, old, this.zValueExpression);
 	}
 
 	/**
@@ -63,7 +83,24 @@ public class JRDesignXyzSeries extends JRBaseXyzSeries {
 	 */
 	public void setItemHyperlink(JRHyperlink itemHyperlink)
 	{
+		Object old = this.itemHyperlink;
 		this.itemHyperlink = itemHyperlink;
+		getEventSupport().firePropertyChange(PROPERTY_ITEM_HYPERLINK, old, this.itemHyperlink);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 	
 }

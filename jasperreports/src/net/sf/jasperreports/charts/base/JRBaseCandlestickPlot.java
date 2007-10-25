@@ -52,6 +52,8 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_SHOW_VOLUME = "showVolume";
 
 	protected JRExpression timeAxisLabelExpression = null;
 	protected JRFont timeAxisLabelFont = null;
@@ -280,7 +282,9 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	 */
 	public void setShowVolume(boolean ShowVolume)
 	{
+		boolean old = this.isShowVolume;
 		isShowVolume = ShowVolume;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_VOLUME, old, this.isShowVolume);
 	}
 
 	/**

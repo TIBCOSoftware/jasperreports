@@ -31,51 +31,75 @@ import net.sf.jasperreports.charts.base.JRBaseTimePeriodSeries;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignTimePeriodSeries extends JRBaseTimePeriodSeries {
+public class JRDesignTimePeriodSeries extends JRBaseTimePeriodSeries implements JRChangeEventsSupport {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_END_DATE_EXPRESSION = "endDateExpression";
+	
+	public static final String PROPERTY_ITEM_HYPERLINK = "itemHyperlink";
+	
+	public static final String PROPERTY_LABEL_EXPRESSION = "labelExpression";
+	
+	public static final String PROPERTY_SERIES_EXPRESSION = "seriesExpression";
+	
+	public static final String PROPERTY_START_DATE_EXPRESSION = "startDateExpression";
+	
+	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
+	
 	/**
 	 * 
 	 */
 	public void setSeriesExpression( JRExpression seriesExpression ){
+		Object old = this.seriesExpression;
 		this.seriesExpression = seriesExpression;
+		getEventSupport().firePropertyChange(PROPERTY_SERIES_EXPRESSION, old, this.seriesExpression);
 	}
 	
 	/**
 	 * 
 	 */
 	public void setStartDateExpression( JRExpression startDateExpression ){
+		Object old = this.startDateExpression;
 		this.startDateExpression = startDateExpression;
+		getEventSupport().firePropertyChange(PROPERTY_START_DATE_EXPRESSION, old, this.startDateExpression);
 	}
 
 	/**
 	 * 
 	 */
 	public void setEndDateExpression( JRExpression endDateExpression ){
+		Object old = this.endDateExpression;
 		this.endDateExpression = endDateExpression;
+		getEventSupport().firePropertyChange(PROPERTY_END_DATE_EXPRESSION, old, this.endDateExpression);
 	}
 	
 	/**
 	 * 
 	 */
 	public void setValueExpression( JRExpression valueExpression ){
+		Object old = this.valueExpression;
 		this.valueExpression = valueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 	
 	/**
 	 * 
 	 */
 	public void setLabelExpression( JRExpression labelExpression ){
+		Object old = this.labelExpression;
 		this.labelExpression = labelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_EXPRESSION, old, this.labelExpression);
 	}
 
 	/**
@@ -86,6 +110,23 @@ public class JRDesignTimePeriodSeries extends JRBaseTimePeriodSeries {
 	 */
 	public void setItemHyperlink(JRHyperlink itemHyperlink)
 	{
+		Object old = this.itemHyperlink;
 		this.itemHyperlink = itemHyperlink;
+		getEventSupport().firePropertyChange(PROPERTY_ITEM_HYPERLINK, old, this.itemHyperlink);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

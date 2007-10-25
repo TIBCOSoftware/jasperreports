@@ -31,6 +31,8 @@ import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseValueDisplay;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 import java.awt.Color;
 
@@ -41,12 +43,18 @@ import java.awt.Color;
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignValueDisplay extends JRBaseValueDisplay
+public class JRDesignValueDisplay extends JRBaseValueDisplay implements JRChangeEventsSupport
 {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_COLOR = "color";
+	
+	public static final String PROPERTY_FONT = "font";
+	
+	public static final String PROPERTY_MASK = "mask";
 
 
 	/**
@@ -66,7 +74,9 @@ public class JRDesignValueDisplay extends JRBaseValueDisplay
 	 */
 	public void setColor(Color color)
 	{
+		Object old = this.color;
 		this.color = color;
+		getEventSupport().firePropertyChange(PROPERTY_COLOR, old, this.color);
 	}
 
 	/**
@@ -77,7 +87,9 @@ public class JRDesignValueDisplay extends JRBaseValueDisplay
 	 */
 	public void setMask(String mask)
 	{
+		Object old = this.mask;
 		this.mask = mask;
+		getEventSupport().firePropertyChange(PROPERTY_MASK, old, this.mask);
 	}
 
 	/**
@@ -87,6 +99,23 @@ public class JRDesignValueDisplay extends JRBaseValueDisplay
 	 */
 	public void setFont(JRFont font)
 	{
+		Object old = this.font;
 		this.font = font;
+		getEventSupport().firePropertyChange(PROPERTY_FONT, old, this.font);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

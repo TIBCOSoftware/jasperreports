@@ -49,6 +49,8 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_TIME_PERIOD = "timePeriod";
+	
 	private List timeSeriesList = new ArrayList();
 	private Class timePeriod = null;
 	
@@ -114,7 +116,9 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	 */
 	public void setTimePeriod( Class timePeriod )
 	{
+		Object old = this.timePeriod;
 		this.timePeriod = timePeriod;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriod);
 	}
 
 	/** 

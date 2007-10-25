@@ -49,6 +49,10 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_CIRCULAR = "circular";
+	
+	public static final String PROPERTY_DEPTH_FACTOR = "depthFactor";
+	
 	protected double depthFactor = 0.2;
 	protected boolean isCircular = false;
 	
@@ -86,7 +90,9 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	 */
 	public void setDepthFactor(double depthFactor)
 	{
+		double old = this.depthFactor;
 		this.depthFactor = depthFactor;
+		getEventSupport().firePropertyChange(PROPERTY_DEPTH_FACTOR, old, this.depthFactor);
 	}
 	
 	/**
@@ -109,7 +115,9 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	 * @param isCircular the isCircular to set
 	 */
 	public void setCircular(boolean isCircular) {
+		boolean old = this.isCircular;
 		this.isCircular = isCircular;
+		getEventSupport().firePropertyChange(PROPERTY_CIRCULAR, old, this.isCircular);
 	}
 
 	

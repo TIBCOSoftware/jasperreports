@@ -35,17 +35,21 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTimeSeriesDataset {
+public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTimeSeriesDataset, JRChangeEventsSupport {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_TIME_PERIOD = "timePeriod";
 	
 	private JRTimeSeries[] timeSeries = null;
 	private Class timePeriod;
@@ -77,7 +81,9 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	}
 	
 	public void setTimePeriod( Class timePeriod ){
+		Object old = this.timePeriod;
 		this.timePeriod = timePeriod;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriod);
 	}
 
 
@@ -103,5 +109,20 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 		verifier.verify(this);
 	}
 
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 
 }

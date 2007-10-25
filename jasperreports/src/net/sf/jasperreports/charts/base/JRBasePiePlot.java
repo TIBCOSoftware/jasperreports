@@ -43,6 +43,8 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_CIRCULAR = "circular";
 
 	protected boolean isCircular = false;
 	
@@ -84,7 +86,9 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	 * @param isCircular the isCircular to set
 	 */
 	public void setCircular(boolean isCircular) {
+		boolean old = this.isCircular;
 		this.isCircular = isCircular;
+		getEventSupport().firePropertyChange(PROPERTY_CIRCULAR, old, this.isCircular);
 	}
 
 }

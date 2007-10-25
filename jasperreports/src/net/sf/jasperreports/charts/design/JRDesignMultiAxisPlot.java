@@ -45,6 +45,9 @@ import net.sf.jasperreports.engine.design.JRDesignChart;
  */
 public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 {
+	
+	public static final String PROPERTY_CHART = "chart";
+	
 	private JRDesignChart chart = null;
 	/**
 	 *
@@ -105,6 +108,8 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	 */
 	public void setChart(JRDesignChart chart)
 	{
+		Object old = this.chart;
 		this.chart = chart;
+		getEventSupport().firePropertyChange(PROPERTY_CHART, old, this.chart);
 	}
 }

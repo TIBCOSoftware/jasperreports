@@ -35,6 +35,8 @@ import java.util.TreeSet;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -44,7 +46,7 @@ import org.jfree.chart.plot.PlotOrientation;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
+public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRChangeEventsSupport
 {
 
 
@@ -52,6 +54,16 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_BACKCOLOR = "backcolor";
+	
+	public static final String PROPERTY_BACKGROUND_ALPHA = "backgroundAlpha";
+	
+	public static final String PROPERTY_FOREGROUND_ALPHA = "foregroundAlpha";
+	
+	public static final String PROPERTY_LABEL_ROTATION = "labelRotation";
+	
+	public static final String PROPERTY_ORIENTATION = "orientation";
 	
 	protected JRChart chart = null;
 	protected Color backcolor = null;
@@ -132,7 +144,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	 */
 	public void setBackcolor(Color backcolor)
 	{
+		Object old = this.backcolor;
 		this.backcolor = backcolor;
+		getEventSupport().firePropertyChange(PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
 	/**
@@ -148,7 +162,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	 */
 	public void setOrientation(PlotOrientation orientation)
 	{
+		Object old = this.orientation;
 		this.orientation = orientation;
+		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientation);
 	}
 
 	/**
@@ -164,7 +180,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	 */
 	public void setBackgroundAlpha(float backgroundAlpha)
 	{
+		float old = this.backgroundAlpha;
 		this.backgroundAlpha = backgroundAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_BACKGROUND_ALPHA, old, this.backgroundAlpha);
 	}
 
 	/**
@@ -180,7 +198,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	 */
 	public void setForegroundAlpha(float foregroundAlpha)
 	{
+		float old = this.foregroundAlpha;
 		this.foregroundAlpha = foregroundAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_FOREGROUND_ALPHA, old, this.foregroundAlpha);
 	}
 
 	/**
@@ -200,7 +220,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	 */
 	public void setLabelRotation(double labelRotation)
 	{
+		double old = this.labelRotation;
 		this.labelRotation = labelRotation;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_ROTATION, old, this.labelRotation);
 	}
 	
 	
@@ -269,5 +291,20 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 			
 			return seriesOrder - ((JRBaseSeriesColor)obj).getSeriesOrder();
 		}
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

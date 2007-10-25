@@ -49,6 +49,10 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_SHOW_LINES = "showLines";
+	
+	public static final String PROPERTY_SHOW_SHAPES = "showShapes";
+	
 	protected JRExpression categoryAxisLabelExpression = null;
 	protected JRFont categoryAxisLabelFont = null;
 	protected Color categoryAxisLabelColor = null;
@@ -278,14 +282,18 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	 * 
 	 */
 	public void setShowShapes( boolean value ){
+		boolean old = this.isShowShapes;
 		this.isShowShapes = value;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.isShowShapes);
 	}
 	
 	/**
 	 * 
 	 */
 	public void setShowLines( boolean value ){
+		boolean old = this.isShowLines;
 		this.isShowLines = value;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.isShowLines);
 	}
 
 	/**

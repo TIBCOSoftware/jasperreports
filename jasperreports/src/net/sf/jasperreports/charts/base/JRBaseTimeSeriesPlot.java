@@ -49,6 +49,10 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_SHOW_LINES = "showLines";
+	
+	public static final String PROPERTY_SHOW_SHAPES = "showShapes";
+	
 	protected JRExpression timeAxisLabelExpression = null;
 	protected JRFont timeAxisLabelFont = null;
 	protected Color timeAxisLabelColor = null;
@@ -277,14 +281,18 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	 * 
 	 */
 	public void setShowLines( boolean val ){
+		boolean old = this.isShowLines;
 		this.isShowLines = val;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_LINES, old, this.isShowLines);
 	}
 	
 	/**
 	 * 
 	 */
 	public void setShowShapes( boolean val ){
+		boolean old = this.isShowShapes;
 		this.isShowShapes = val;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.isShowShapes);
 	}
 
 	/**

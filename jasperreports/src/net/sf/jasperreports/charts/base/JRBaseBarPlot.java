@@ -54,6 +54,12 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_SHOW_LABELS = "showLabels";
+	
+	public static final String PROPERTY_SHOW_TICK_LABELS = "showTickLabels";
+	
+	public static final String PROPERTY_SHOW_TICK_MARKS = "showTickMarks";
 
 	protected JRExpression categoryAxisLabelExpression = null;
 	protected JRFont categoryAxisLabelFont = null;
@@ -283,7 +289,9 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	 */
 	public void setShowTickMarks(boolean isShowTickMarks)
 	{
+		boolean old = this.isShowTickMarks;
 		this.isShowTickMarks = isShowTickMarks;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_TICK_MARKS, old, this.isShowTickMarks);
 	}
 		
 	/**
@@ -299,7 +307,9 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	 */
 	public void setShowTickLabels(boolean isShowTickLabels)
 	{
+		boolean old = this.isShowTickLabels;
 		this.isShowTickLabels = isShowTickLabels;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_TICK_LABELS, old, this.isShowTickLabels);
 	}
 	
 	/**
@@ -313,7 +323,9 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	 * 
 	 */
 	public void setShowLabels( boolean isShowLabels ){
+		boolean old = this.isShowLabels;
 		this.isShowLabels = isShowLabels;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.isShowLabels);
 	}
 		
 	/**

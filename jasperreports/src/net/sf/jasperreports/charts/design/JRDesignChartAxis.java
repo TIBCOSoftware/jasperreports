@@ -32,6 +32,8 @@ import net.sf.jasperreports.charts.base.JRBaseChartAxis;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * {@link JRChartAxis JRChartAxis} implementation to be used for report design.
@@ -39,8 +41,12 @@ import net.sf.jasperreports.engine.design.JRDesignChart;
  * @author Barry Klawans (barry@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignChartAxis extends JRBaseChartAxis
+public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEventsSupport
 {
+	
+	public static final String PROPERTY_CHART = "chart";
+	
+	public static final String PROPERTY_POSITION = "position";
 
 	/**
 	 * The multiple axis chart that this axis belongs to.
@@ -67,7 +73,9 @@ public class JRDesignChartAxis extends JRBaseChartAxis
 	 */
 	public void setPosition(byte position)
 	{
+		byte old = this.position;
 		this.position = position;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.position);
 	}
 
 	/**
@@ -94,7 +102,10 @@ public class JRDesignChartAxis extends JRBaseChartAxis
 		chart.setLegendBackgroundColor(parentChart.getLegendBackgroundColor());
 		chart.setLegendFont(parentChart.getLegendFont());
 		chart.setLegendPosition(parentChart.getLegendPosition());
+		
+		Object old = this.chart;
 		this.chart = chart;
+		getEventSupport().firePropertyChange(PROPERTY_CHART, old, this.chart);
 	}
 
 	/**
@@ -107,5 +118,20 @@ public class JRDesignChartAxis extends JRBaseChartAxis
 	public void addElement(JRElement element)
 	{
 		setChart((JRDesignChart)element);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

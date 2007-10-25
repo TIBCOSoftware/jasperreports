@@ -52,6 +52,8 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
 
 	/**
 	 * The expression that returns the single value contained in this dataset.
@@ -86,7 +88,9 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	 */
 	public void setValueExpression(JRExpression valueExpression)
 	{
+		Object old = this.valueExpression;
 		this.valueExpression = valueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 
 

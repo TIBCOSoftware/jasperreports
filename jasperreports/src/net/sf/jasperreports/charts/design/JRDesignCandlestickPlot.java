@@ -48,6 +48,34 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_TIME_AXIS_LABEL_COLOR = "timeAxisLabelColor";
+	
+	public static final String PROPERTY_TIME_AXIS_LABEL_EXPRESSION = "timeAxisLabelExpression";
+	
+	public static final String PROPERTY_TIME_AXIS_LABEL_FONT = "timeAxisLabelFont";
+	
+	public static final String PROPERTY_TIME_AXIS_LINE_COLOR = "timeAxisLineColor";
+	
+	public static final String PROPERTY_TIME_AXIS_TICK_LABEL_COLOR = "timeAxisTickLabelColor";
+	
+	public static final String PROPERTY_TIME_AXIS_TICK_LABEL_FONT = "timeAxisTickLabelFont";
+	
+	public static final String PROPERTY_TIME_AXIS_TICK_LABEL_MASK = "timeAxisTickLabelMask";
+	
+	public static final String PROPERTY_VALUE_AXIS_LABEL_COLOR = "valueAxisLabelColor";
+	
+	public static final String PROPERTY_VALUE_AXIS_LABEL_EXPRESSION = "valueAxisLabelExpression";
+	
+	public static final String PROPERTY_VALUE_AXIS_LABEL_FONT = "valueAxisLabelFont";
+	
+	public static final String PROPERTY_VALUE_AXIS_LINE_COLOR = "valueAxisLineColor";
+	
+	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_COLOR = "valueAxisTickLabelColor";
+	
+	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_FONT = "valueAxisTickLabelFont";
+	
+	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_MASK = "valueAxisTickLabelMask";
 
 
 	/**
@@ -63,7 +91,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 *
 	 */
 	public void setTimeAxisLabelExpression( JRExpression timeAxisLabelExpression ){
+		Object old = this.timeAxisLabelExpression;
 		this.timeAxisLabelExpression = timeAxisLabelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_AXIS_LABEL_EXPRESSION, old, this.timeAxisLabelExpression);
 		
 	}
 
@@ -72,7 +102,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setTimeAxisLabelFont(JRFont timeAxisLabelFont)
 	{
+		Object old = this.timeAxisLabelFont;
 		this.timeAxisLabelFont = timeAxisLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_AXIS_LABEL_FONT, old, this.timeAxisLabelFont);
 	}
 
 	/**
@@ -80,7 +112,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setTimeAxisLabelColor(Color timeAxisLabelColor)
 	{
+		Object old = this.timeAxisLabelColor;
 		this.timeAxisLabelColor = timeAxisLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_AXIS_LABEL_COLOR, old, this.timeAxisLabelColor);
 	}
 
 	/**
@@ -88,7 +122,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setTimeAxisTickLabelFont(JRFont timeAxisTickLabelFont)
 	{
+		Object old = this.timeAxisTickLabelFont;
 		this.timeAxisTickLabelFont = timeAxisTickLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_AXIS_TICK_LABEL_FONT, old, this.timeAxisTickLabelFont);
 	}
 
 	/**
@@ -96,7 +132,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setTimeAxisTickLabelColor(Color timeAxisTickLabelColor)
 	{
+		Object old = this.timeAxisTickLabelColor;
 		this.timeAxisTickLabelColor = timeAxisTickLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_AXIS_TICK_LABEL_COLOR, old, this.timeAxisTickLabelColor);
 	}
 
 	/**
@@ -104,7 +142,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setTimeAxisTickLabelMask(String timeAxisTickLabelMask)
 	{
+		Object old = this.timeAxisTickLabelMask;
 		this.timeAxisTickLabelMask = timeAxisTickLabelMask;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_AXIS_TICK_LABEL_MASK, old, this.timeAxisTickLabelMask);
 	}
 
 	/**
@@ -112,7 +152,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setTimeAxisLineColor(Color timeAxisLineColor)
 	{
+		Object old = this.timeAxisLineColor;
 		this.timeAxisLineColor = timeAxisLineColor;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_AXIS_LINE_COLOR, old, this.timeAxisLineColor);
 	}
 
 	/**
@@ -120,7 +162,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setValueAxisLabelExpression(JRExpression valueAxisLabelExpression)
 	{
+		Object old = this.valueAxisLabelExpression;
 		this.valueAxisLabelExpression = valueAxisLabelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LABEL_EXPRESSION, old, this.valueAxisLabelExpression);
 	}
 
 	/**
@@ -128,7 +172,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setValueAxisLabelFont(JRFont valueAxisLabelFont)
 	{
+		Object old = this.valueAxisLabelFont;
 		this.valueAxisLabelFont = valueAxisLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LABEL_FONT, old, this.valueAxisLabelFont);
 	}
 
 	/**
@@ -136,7 +182,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setValueAxisLabelColor(Color valueAxisLabelColor)
 	{
+		Object old = this.valueAxisLabelColor;
 		this.valueAxisLabelColor = valueAxisLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LABEL_COLOR, old, this.valueAxisLabelColor);
 	}
 	
 	/**
@@ -144,7 +192,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setValueAxisTickLabelFont(JRFont valueAxisTickLabelFont)
 	{
+		Object old = this.valueAxisTickLabelFont;
 		this.valueAxisTickLabelFont = valueAxisTickLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_TICK_LABEL_FONT, old, this.valueAxisTickLabelFont);
 	}
 
 	/**
@@ -152,7 +202,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setValueAxisTickLabelColor(Color valueAxisTickLabelColor)
 	{
+		Object old = this.valueAxisTickLabelColor;
 		this.valueAxisTickLabelColor = valueAxisTickLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_TICK_LABEL_COLOR, old, this.valueAxisTickLabelColor);
 	}
 
 	/**
@@ -160,7 +212,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setValueAxisTickLabelMask(String valueAxisTickLabelMask)
 	{
+		Object old = this.valueAxisTickLabelMask;
 		this.valueAxisTickLabelMask = valueAxisTickLabelMask;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_TICK_LABEL_MASK, old, this.valueAxisTickLabelMask);
 	}
 
 	/**
@@ -168,7 +222,9 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 */
 	public void setValueAxisLineColor(Color valueAxisLineColor)
 	{
+		Object old = this.valueAxisLineColor;
 		this.valueAxisLineColor = valueAxisLineColor;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LINE_COLOR, old, this.valueAxisLineColor);
 	}
 	
 	/**
