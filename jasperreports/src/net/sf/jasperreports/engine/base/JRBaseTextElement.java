@@ -53,6 +53,74 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	/*
+	 * Box properties
+	 */
+	
+	public static final String PROPERTY_BORDER = JRBaseStyle.PROPERTY_BORDER;
+	
+	public static final String PROPERTY_BORDER_COLOR = JRBaseStyle.PROPERTY_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_BORDER = JRBaseStyle.PROPERTY_BOTTOM_BORDER;
+	
+	public static final String PROPERTY_BOTTOM_BORDER_COLOR = JRBaseStyle.PROPERTY_BOTTOM_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_PADDING = JRBaseStyle.PROPERTY_BOTTOM_PADDING;
+	
+	public static final String PROPERTY_LEFT_BORDER = JRBaseStyle.PROPERTY_LEFT_BORDER;
+	
+	public static final String PROPERTY_LEFT_BORDER_COLOR = JRBaseStyle.PROPERTY_LEFT_BORDER_COLOR;
+	
+	public static final String PROPERTY_LEFT_PADDING = JRBaseStyle.PROPERTY_LEFT_PADDING;
+	
+	public static final String PROPERTY_PADDING = JRBaseStyle.PROPERTY_PADDING;
+	
+	public static final String PROPERTY_RIGHT_BORDER = JRBaseStyle.PROPERTY_RIGHT_BORDER;
+	
+	public static final String PROPERTY_RIGHT_BORDER_COLOR = JRBaseStyle.PROPERTY_RIGHT_BORDER_COLOR;
+	
+	public static final String PROPERTY_RIGHT_PADDING = JRBaseStyle.PROPERTY_RIGHT_PADDING;
+	
+	public static final String PROPERTY_TOP_BORDER = JRBaseStyle.PROPERTY_TOP_BORDER;
+	
+	public static final String PROPERTY_TOP_BORDER_COLOR = JRBaseStyle.PROPERTY_TOP_BORDER_COLOR;
+	
+	public static final String PROPERTY_TOP_PADDING = JRBaseStyle.PROPERTY_TOP_PADDING;
+
+	/*
+	 * Text element properties
+	 */
+	
+	public static final String PROPERTY_BOLD = JRBaseStyle.PROPERTY_BOLD;
+	
+	public static final String PROPERTY_FONT_NAME = JRBaseStyle.PROPERTY_FONT_NAME;
+	
+	public static final String PROPERTY_FONT_SIZE = JRBaseStyle.PROPERTY_FONT_SIZE;
+	
+	public static final String PROPERTY_HORIZONTAL_ALIGNMENT = JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT;
+	
+	public static final String PROPERTY_ITALIC = JRBaseStyle.PROPERTY_ITALIC;
+	
+	public static final String PROPERTY_LINE_SPACING = JRBaseStyle.PROPERTY_LINE_SPACING;
+	
+	public static final String PROPERTY_PDF_EMBEDDED = JRBaseStyle.PROPERTY_PDF_EMBEDDED;
+	
+	public static final String PROPERTY_PDF_ENCODING = JRBaseStyle.PROPERTY_PDF_ENCODING;
+	
+	public static final String PROPERTY_PDF_FONT_NAME = JRBaseStyle.PROPERTY_PDF_FONT_NAME;
+	
+	public static final String PROPERTY_REPORT_FONT = JRBaseFont.PROPERTY_REPORT_FONT;
+	
+	public static final String PROPERTY_ROTATION = JRBaseStyle.PROPERTY_ROTATION;
+	
+	public static final String PROPERTY_STRIKE_THROUGH = JRBaseStyle.PROPERTY_STRIKE_THROUGH;
+	
+	public static final String PROPERTY_IS_STYLED_TEXT = JRBaseStyle.PROPERTY_IS_STYLED_TEXT;
+	
+	public static final String PROPERTY_UNDERLINE = JRBaseStyle.PROPERTY_UNDERLINE;
+	
+	public static final String PROPERTY_VERTICAL_ALIGNMENT = JRBaseStyle.PROPERTY_VERTICAL_ALIGNMENT;
+	
 	/**
 	 *
 	 */
@@ -173,7 +241,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setTextAlignment(byte horizontalAlignment)
 	{
-		this.horizontalAlignment = new Byte(horizontalAlignment);
+		setHorizontalAlignment(new Byte(horizontalAlignment));
 	}
 
 	/**
@@ -194,7 +262,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
-		this.horizontalAlignment = new Byte(horizontalAlignment);
+		setHorizontalAlignment(new Byte(horizontalAlignment));
 	}
 
 	/**
@@ -202,7 +270,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
+		Object old = this.horizontalAlignment;
 		this.horizontalAlignment = horizontalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignment);
 	}
 
 	/**
@@ -223,7 +293,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
-		this.verticalAlignment = new Byte(verticalAlignment);
+		setVerticalAlignment(new Byte(verticalAlignment));
 	}
 
 	/**
@@ -231,7 +301,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setVerticalAlignment(Byte verticalAlignment)
 	{
+		Object old = this.verticalAlignment;
 		this.verticalAlignment = verticalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignment);
 	}
 
 	/**
@@ -252,7 +324,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setRotation(byte rotation)
 	{
-		this.rotation = new Byte(rotation);
+		setRotation(new Byte(rotation));
 	}
 
 	/**
@@ -260,7 +332,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setRotation(Byte rotation)
 	{
+		Object old = this.rotation;
 		this.rotation = rotation;
+		getEventSupport().firePropertyChange(PROPERTY_ROTATION, old, this.rotation);
 	}
 
 	/**
@@ -281,7 +355,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
-		this.lineSpacing = new Byte(lineSpacing);
+		setLineSpacing(new Byte(lineSpacing));
 	}
 
 	/**
@@ -289,7 +363,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setLineSpacing(Byte lineSpacing)
 	{
+		Object old = this.lineSpacing;
 		this.lineSpacing = lineSpacing;
+		getEventSupport().firePropertyChange(PROPERTY_LINE_SPACING, old, this.lineSpacing);
 	}
 
 	/**
@@ -318,7 +394,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setStyledText(Boolean isStyledText)
 	{
+		Object old = this.isStyledText;
 		this.isStyledText = isStyledText;
+		getEventSupport().firePropertyChange(PROPERTY_IS_STYLED_TEXT, old, this.isStyledText);
 	}
 
 	/**
@@ -366,7 +444,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setBorder(byte border)
 	{
-		this.border = new Byte(border);
+		setBorder(new Byte(border));
 	}
 
 	/**
@@ -374,7 +452,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setBorder(Byte border)
 	{
+		Object old = this.border;
 		this.border = border;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER, old, this.border);
 	}
 
 	/**
@@ -395,7 +475,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setBorderColor(Color borderColor)
 	{
+		Object old = this.borderColor;
 		this.borderColor = borderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.borderColor);
 	}
 
 	/**
@@ -416,7 +498,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setPadding(int padding)
 	{
-		this.padding = new Integer(padding);
+		setPadding(new Integer(padding));
 	}
 
 	/**
@@ -424,7 +506,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setPadding(Integer padding)
 	{
+		Object old = this.padding;
 		this.padding = padding;
+		getEventSupport().firePropertyChange(PROPERTY_PADDING, old, this.padding);
 	}
 
 	/**
@@ -448,7 +532,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setTopBorder(byte topBorder)
 	{
-		this.topBorder = new Byte(topBorder);
+		setTopBorder(new Byte(topBorder));
 	}
 
 	/**
@@ -456,7 +540,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setTopBorder(Byte topBorder)
 	{
+		Object old = this.topBorder;
 		this.topBorder = topBorder;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER, old, this.topBorder);
 	}
 
 	/**
@@ -480,7 +566,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setTopBorderColor(Color topBorderColor)
 	{
+		Object old = this.topBorderColor;
 		this.topBorderColor = topBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER_COLOR, old, this.topBorderColor);
 	}
 
 	/**
@@ -504,7 +592,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setTopPadding(int topPadding)
 	{
-		this.topPadding = new Integer(topPadding);
+		setTopPadding(new Integer(topPadding));
 	}
 
 	/**
@@ -512,7 +600,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setTopPadding(Integer topPadding)
 	{
+		Object old = this.topPadding;
 		this.topPadding = topPadding;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_PADDING, old, this.topPadding);
 	}
 
 	/**
@@ -536,7 +626,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setLeftBorder(byte leftBorder)
 	{
-		this.leftBorder = new Byte(leftBorder);
+		setLeftBorder(new Byte(leftBorder));
 	}
 
 	/**
@@ -544,7 +634,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setLeftBorder(Byte leftBorder)
 	{
+		Object old = this.leftBorder;
 		this.leftBorder = leftBorder;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER, old, this.leftBorder);
 	}
 
 	/**
@@ -568,7 +660,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
+		Object old = this.leftBorderColor;
 		this.leftBorderColor = leftBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER_COLOR, old, this.leftBorderColor);
 	}
 
 	/**
@@ -592,7 +686,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
-		this.leftPadding = new Integer(leftPadding);
+		setLeftPadding(new Integer(leftPadding));
 	}
 
 	/**
@@ -600,7 +694,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setLeftPadding(Integer leftPadding)
 	{
+		Object old = this.leftPadding;
 		this.leftPadding = leftPadding;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_PADDING, old, this.leftPadding);
 	}
 
 	/**
@@ -624,7 +720,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setBottomBorder(byte bottomBorder)
 	{
-		this.bottomBorder = new Byte(bottomBorder);
+		setBottomBorder(new Byte(bottomBorder));
 	}
 
 	/**
@@ -632,7 +728,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setBottomBorder(Byte bottomBorder)
 	{
+		Object old = this.bottomBorder;
 		this.bottomBorder = bottomBorder;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER, old, this.bottomBorder);
 	}
 
 	/**
@@ -656,7 +754,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
+		Object old = this.bottomBorderColor;
 		this.bottomBorderColor = bottomBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER_COLOR, old, this.bottomBorderColor);
 	}
 
 	/**
@@ -680,7 +780,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
-		this.bottomPadding = new Integer(bottomPadding);
+		setBottomPadding(new Integer(bottomPadding));
 	}
 
 	/**
@@ -688,7 +788,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setBottomPadding(Integer bottomPadding)
 	{
+		Object old = this.bottomPadding;
 		this.bottomPadding = bottomPadding;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_PADDING, old, this.bottomPadding);
 	}
 
 	/**
@@ -712,7 +814,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setRightBorder(byte rightBorder)
 	{
-		this.rightBorder = new Byte(rightBorder);
+		setRightBorder(new Byte(rightBorder));
 	}
 
 	/**
@@ -720,7 +822,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setRightBorder(Byte rightBorder)
 	{
+		Object old = this.rightBorder;
 		this.rightBorder = rightBorder;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER, old, this.rightBorder);
 	}
 
 	/**
@@ -744,7 +848,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setRightBorderColor(Color rightBorderColor)
 	{
+		Object old = this.rightBorderColor;
 		this.rightBorderColor = rightBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER_COLOR, old, this.rightBorderColor);
 	}
 
 	/**
@@ -768,7 +874,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setRightPadding(int rightPadding)
 	{
-		this.rightPadding = new Integer(rightPadding);
+		setRightPadding(new Integer(rightPadding));
 	}
 
 	/**
@@ -776,7 +882,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
+		Object old = this.rightPadding;
 		this.rightPadding = rightPadding;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_PADDING, old, this.rightPadding);
 	}
 
 	/**
@@ -792,7 +900,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setReportFont(JRReportFont reportFont)
 	{
+		Object old = this.reportFont;
 		this.reportFont = reportFont;
+		getEventSupport().firePropertyChange(PROPERTY_REPORT_FONT, old, this.reportFont);
 	}
 
 	/**
@@ -816,7 +926,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setFontName(String fontName)
 	{
+		Object old = this.fontName;
 		this.fontName = fontName;
+		getEventSupport().firePropertyChange(PROPERTY_FONT_NAME, old, this.fontName);
 	}
 
 
@@ -850,7 +962,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setBold(Boolean isBold)
 	{
+		Object old = this.isBold;
 		this.isBold = isBold;
+		getEventSupport().firePropertyChange(PROPERTY_BOLD, old, this.isBold);
 	}
 
 
@@ -884,7 +998,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setItalic(Boolean isItalic)
 	{
+		Object old = this.isItalic;
 		this.isItalic = isItalic;
+		getEventSupport().firePropertyChange(PROPERTY_ITALIC, old, this.isItalic);
 	}
 
 	/**
@@ -917,7 +1033,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setUnderline(Boolean isUnderline)
 	{
+		Object old = this.isUnderline;
 		this.isUnderline = isUnderline;
+		getEventSupport().firePropertyChange(PROPERTY_UNDERLINE, old, this.isUnderline);
 	}
 
 	/**
@@ -950,7 +1068,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setStrikeThrough(Boolean isStrikeThrough)
 	{
+		Object old = this.isStrikeThrough;
 		this.isStrikeThrough = isStrikeThrough;
+		getEventSupport().firePropertyChange(PROPERTY_STRIKE_THROUGH, old, this.isStrikeThrough);
 	}
 
 	/**
@@ -983,7 +1103,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setFontSize(Integer fontSize)
 	{
+		Object old = this.fontSize;
 		this.fontSize = fontSize;
+		getEventSupport().firePropertyChange(PROPERTY_FONT_SIZE, old, this.fontSize);
 	}
 
 	/**
@@ -1039,7 +1161,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setPdfFontName(String pdfFontName)
 	{
+		Object old = this.pdfFontName;
 		this.pdfFontName = pdfFontName;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_FONT_NAME, old, this.pdfFontName);
 	}
 
 
@@ -1064,7 +1188,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setPdfEncoding(String pdfEncoding)
 	{
+		Object old = this.pdfEncoding;
 		this.pdfEncoding = pdfEncoding;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_ENCODING, old, this.pdfEncoding);
 	}
 
 
@@ -1098,7 +1224,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setPdfEmbedded(Boolean isPdfEmbedded)
 	{
+		Object old = this.isPdfEmbedded;
 		this.isPdfEmbedded = isPdfEmbedded;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_EMBEDDED, old, this.isPdfEmbedded);
 	}
 
 

@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.base.JRBaseTextField;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 //import java.text.Format;
@@ -102,7 +103,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	
 	public static final String PROPERTY_EXPRESSION = "expression";
 	
-	public static final String PROPERTY_STRETCH_WITH_OVERFLOW = "stretchWithOverflow";
+	public static final String PROPERTY_STRETCH_WITH_OVERFLOW = JRBaseTextField.PROPERTY_STRETCH_WITH_OVERFLOW;
 
 	/**
 	 *

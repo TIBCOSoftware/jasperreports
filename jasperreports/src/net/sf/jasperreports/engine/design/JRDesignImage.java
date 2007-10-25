@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.base.JRBaseImage;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -138,11 +139,11 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	
 	public static final String PROPERTY_EXPRESSION = "expression";
 	
-	public static final String PROPERTY_LAZY = "lazy";
+	public static final String PROPERTY_LAZY = JRBaseImage.PROPERTY_LAZY;
 	
-	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
+	public static final String PROPERTY_ON_ERROR_TYPE = JRBaseImage.PROPERTY_ON_ERROR_TYPE;
 	
-	public static final String PROPERTY_USING_CACHE = "usingCache";
+	public static final String PROPERTY_USING_CACHE = JRBaseImage.PROPERTY_USING_CACHE;
 	
 	/**
 	 *

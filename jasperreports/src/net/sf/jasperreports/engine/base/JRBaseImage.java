@@ -58,7 +58,58 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	/*
+	 * Box properties
+	 */
+	
+	public static final String PROPERTY_BORDER = JRBaseStyle.PROPERTY_BORDER;
+	
+	public static final String PROPERTY_BORDER_COLOR = JRBaseStyle.PROPERTY_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_BORDER = JRBaseStyle.PROPERTY_BOTTOM_BORDER;
+	
+	public static final String PROPERTY_BOTTOM_BORDER_COLOR = JRBaseStyle.PROPERTY_BOTTOM_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_PADDING = JRBaseStyle.PROPERTY_BOTTOM_PADDING;
+	
+	public static final String PROPERTY_LEFT_BORDER = JRBaseStyle.PROPERTY_LEFT_BORDER;
+	
+	public static final String PROPERTY_LEFT_BORDER_COLOR = JRBaseStyle.PROPERTY_LEFT_BORDER_COLOR;
+	
+	public static final String PROPERTY_LEFT_PADDING = JRBaseStyle.PROPERTY_LEFT_PADDING;
+	
+	public static final String PROPERTY_PADDING = JRBaseStyle.PROPERTY_PADDING;
+	
+	public static final String PROPERTY_RIGHT_BORDER = JRBaseStyle.PROPERTY_RIGHT_BORDER;
+	
+	public static final String PROPERTY_RIGHT_BORDER_COLOR = JRBaseStyle.PROPERTY_RIGHT_BORDER_COLOR;
+	
+	public static final String PROPERTY_RIGHT_PADDING = JRBaseStyle.PROPERTY_RIGHT_PADDING;
+	
+	public static final String PROPERTY_TOP_BORDER = JRBaseStyle.PROPERTY_TOP_BORDER;
+	
+	public static final String PROPERTY_TOP_BORDER_COLOR = JRBaseStyle.PROPERTY_TOP_BORDER_COLOR;
+	
+	public static final String PROPERTY_TOP_PADDING = JRBaseStyle.PROPERTY_TOP_PADDING;
 
+	/*
+	 * Image properties
+	 */
+	
+	public static final String PROPERTY_HORIZONTAL_ALIGNMENT = JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT;
+	
+	public static final String PROPERTY_LAZY = "lazy";
+	
+	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
+	
+	public static final String PROPERTY_SCALE_IMAGE = JRBaseStyle.PROPERTY_SCALE_IMAGE;
+	
+	public static final String PROPERTY_USING_CACHE = "usingCache";
+	
+	public static final String PROPERTY_VERTICAL_ALIGNMENT = JRBaseStyle.PROPERTY_VERTICAL_ALIGNMENT;
+	
+	
 	/**
 	 *
 	 */
@@ -210,7 +261,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setScaleImage(byte scaleImage)
 	{
-		this.scaleImage = new Byte(scaleImage);
+		setScaleImage(new Byte(scaleImage));
 	}
 
 	/**
@@ -218,7 +269,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setScaleImage(Byte scaleImage)
 	{
+		Object old = this.scaleImage;
 		this.scaleImage = scaleImage;
+		getEventSupport().firePropertyChange(PROPERTY_SCALE_IMAGE, old, this.scaleImage);
 	}
 
 	/**
@@ -239,7 +292,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
-		this.horizontalAlignment = new Byte(horizontalAlignment);
+		setHorizontalAlignment(new Byte(horizontalAlignment));
 	}
 		
 	/**
@@ -247,7 +300,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
+		Object old = this.horizontalAlignment;
 		this.horizontalAlignment = horizontalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignment);
 	}
 		
 	/**
@@ -268,7 +323,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
-		this.verticalAlignment = new Byte(verticalAlignment);
+		setVerticalAlignment(new Byte(verticalAlignment));
 	}
 		
 	/**
@@ -276,7 +331,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setVerticalAlignment(Byte verticalAlignment)
 	{
+		Object old = this.verticalAlignment;
 		this.verticalAlignment = verticalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignment);
 	}
 		
 	/**
@@ -316,7 +373,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setUsingCache(Boolean isUsingCache)
 	{
+		Object old = this.isUsingCache;
 		this.isUsingCache = isUsingCache;
+		getEventSupport().firePropertyChange(PROPERTY_USING_CACHE, old, this.isUsingCache);
 	}
 
 	/**
@@ -332,7 +391,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setLazy(boolean isLazy)
 	{
+		boolean old = this.isLazy;
 		this.isLazy = isLazy;
+		getEventSupport().firePropertyChange(PROPERTY_LAZY, old, this.isLazy);
 	}
 
 	/**
@@ -348,7 +409,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setOnErrorType(byte onErrorType)
 	{
+		byte old = this.onErrorType;
 		this.onErrorType = onErrorType;
+		getEventSupport().firePropertyChange(PROPERTY_ON_ERROR_TYPE, old, this.onErrorType);
 	}
 
 	/**
@@ -471,7 +534,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setBorder(byte border)
 	{
-		this.border = new Byte(border);
+		setBorder(new Byte(border));
 	}
 
 	/**
@@ -492,7 +555,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setBorderColor(Color borderColor)
 	{
+		Object old = this.borderColor;
 		this.borderColor = borderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.borderColor);
 	}
 
 	/**
@@ -513,7 +578,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setPadding(int padding)
 	{
-		this.padding = new Integer(padding);
+		setPadding(new Integer(padding));
 	}
 
 	/**
@@ -537,7 +602,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setTopBorder(byte topBorder)
 	{
-		this.topBorder = new Byte(topBorder);
+		setTopBorder(new Byte(topBorder));
 	}
 
 	/**
@@ -561,7 +626,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setTopBorderColor(Color topBorderColor)
 	{
+		Object old = this.topBorderColor;
 		this.topBorderColor = topBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER_COLOR, old, this.topBorderColor);
 	}
 
 	/**
@@ -585,7 +652,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setTopPadding(int topPadding)
 	{
-		this.topPadding = new Integer(topPadding);
+		setTopPadding(new Integer(topPadding));
 	}
 
 	/**
@@ -609,7 +676,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setLeftBorder(byte leftBorder)
 	{
-		this.leftBorder = new Byte(leftBorder);
+		setLeftBorder(new Byte(leftBorder));
 	}
 
 	/**
@@ -633,7 +700,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
+		Object old = this.leftBorderColor;
 		this.leftBorderColor = leftBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER_COLOR, old, this.leftBorderColor);
 	}
 
 	/**
@@ -657,7 +726,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
-		this.leftPadding = new Integer(leftPadding);
+		setLeftPadding(new Integer(leftPadding));
 	}
 
 	/**
@@ -681,7 +750,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setBottomBorder(byte bottomBorder)
 	{
-		this.bottomBorder = new Byte(bottomBorder);
+		setBottomBorder(new Byte(bottomBorder));
 	}
 
 	/**
@@ -705,7 +774,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
+		Object old = this.bottomBorderColor;
 		this.bottomBorderColor = bottomBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER_COLOR, old, this.bottomBorderColor);
 	}
 
 	/**
@@ -729,7 +800,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
-		this.bottomPadding = new Integer(bottomPadding);
+		setBottomPadding(new Integer(bottomPadding));
 	}
 
 	/**
@@ -753,7 +824,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setRightBorder(byte rightBorder)
 	{
-		this.rightBorder = new Byte(rightBorder);
+		setRightBorder(new Byte(rightBorder));
 	}
 
 	/**
@@ -777,7 +848,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setRightBorderColor(Color rightBorderColor)
 	{
+		Object old = this.rightBorderColor;
 		this.rightBorderColor = rightBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER_COLOR, old, this.rightBorderColor);
 	}
 
 	/**
@@ -801,7 +874,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setRightPadding(int rightPadding)
 	{
-		this.rightPadding = new Integer(rightPadding);
+		setRightPadding(new Integer(rightPadding));
 	}
 
 
@@ -810,7 +883,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setBorder(Byte border)
 	{
+		Object old = this.border;
 		this.border = border;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER, old, this.border);
 	}
 
 	/**
@@ -818,7 +893,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setPadding(Integer padding)
 	{
+		Object old = this.padding;
 		this.padding = padding;
+		getEventSupport().firePropertyChange(PROPERTY_PADDING, old, this.padding);
 	}
 
 	/**
@@ -826,7 +903,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setTopBorder(Byte topBorder)
 	{
+		Object old = this.topBorder;
 		this.topBorder = topBorder;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER, old, this.topBorder);
 	}
 
 	/**
@@ -834,7 +913,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setTopPadding(Integer topPadding)
 	{
+		Object old = this.topPadding;
 		this.topPadding = topPadding;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_PADDING, old, this.topPadding);
 	}
 
 	/**
@@ -842,7 +923,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setLeftBorder(Byte leftBorder)
 	{
+		Object old = this.leftBorder;
 		this.leftBorder = leftBorder;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER, old, this.leftBorder);
 	}
 
 	/**
@@ -850,7 +933,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setLeftPadding(Integer leftPadding)
 	{
+		Object old = this.leftPadding;
 		this.leftPadding = leftPadding;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_PADDING, old, this.leftPadding);
 	}
 
 	/**
@@ -858,7 +943,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setBottomBorder(Byte bottomBorder)
 	{
+		Object old = this.bottomBorder;
 		this.bottomBorder = bottomBorder;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER, old, this.bottomBorder);
 	}
 
 	/**
@@ -866,7 +953,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setBottomPadding(Integer bottomPadding)
 	{
+		Object old = this.bottomPadding;
 		this.bottomPadding = bottomPadding;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_PADDING, old, this.bottomPadding);
 	}
 
 	/**
@@ -874,7 +963,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setRightBorder(Byte rightBorder)
 	{
+		Object old = this.rightBorder;
 		this.rightBorder = rightBorder;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER, old, this.rightBorder);
 	}
 
 	/**
@@ -882,7 +973,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
+		Object old = this.rightPadding;
 		this.rightPadding = rightPadding;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_PADDING, old, this.rightPadding);
 	}
 
 

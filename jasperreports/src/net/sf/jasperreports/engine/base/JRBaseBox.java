@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -44,7 +46,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseBox implements JRBox, Serializable
+public class JRBaseBox implements JRBox, Serializable, JRChangeEventsSupport
 {
 
 
@@ -52,6 +54,36 @@ public class JRBaseBox implements JRBox, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_BORDER = JRBaseStyle.PROPERTY_BORDER;
+	
+	public static final String PROPERTY_BORDER_COLOR = JRBaseStyle.PROPERTY_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_BORDER = JRBaseStyle.PROPERTY_BOTTOM_BORDER;
+	
+	public static final String PROPERTY_BOTTOM_BORDER_COLOR = JRBaseStyle.PROPERTY_BOTTOM_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_PADDING = JRBaseStyle.PROPERTY_BOTTOM_PADDING;
+	
+	public static final String PROPERTY_LEFT_BORDER = JRBaseStyle.PROPERTY_LEFT_BORDER;
+	
+	public static final String PROPERTY_LEFT_BORDER_COLOR = JRBaseStyle.PROPERTY_LEFT_BORDER_COLOR;
+	
+	public static final String PROPERTY_LEFT_PADDING = JRBaseStyle.PROPERTY_LEFT_PADDING;
+	
+	public static final String PROPERTY_PADDING = JRBaseStyle.PROPERTY_PADDING;
+	
+	public static final String PROPERTY_RIGHT_BORDER = JRBaseStyle.PROPERTY_RIGHT_BORDER;
+	
+	public static final String PROPERTY_RIGHT_BORDER_COLOR = JRBaseStyle.PROPERTY_RIGHT_BORDER_COLOR;
+	
+	public static final String PROPERTY_RIGHT_PADDING = JRBaseStyle.PROPERTY_RIGHT_PADDING;
+	
+	public static final String PROPERTY_TOP_BORDER = JRBaseStyle.PROPERTY_TOP_BORDER;
+	
+	public static final String PROPERTY_TOP_BORDER_COLOR = JRBaseStyle.PROPERTY_TOP_BORDER_COLOR;
+	
+	public static final String PROPERTY_TOP_PADDING = JRBaseStyle.PROPERTY_TOP_PADDING;
 
 	/**
 	 *
@@ -279,7 +311,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setBorder(byte border)
 	{
-		this.border = new Byte(border);
+		setBorder(new Byte(border));
 	}
 
 	/**
@@ -287,7 +319,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setBorder(Byte border)
 	{
+		Object old = this.border;
 		this.border = border;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER, old, this.border);
 	}
 
 	/**
@@ -308,7 +342,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setBorderColor(Color borderColor)
 	{
+		Object old = this.borderColor;
 		this.borderColor = borderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.borderColor);
 	}
 
 	/**
@@ -329,7 +365,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setPadding(int padding)
 	{
-		this.padding = new Integer(padding);
+		setPadding(new Integer(padding));
 	}
 
 	/**
@@ -337,7 +373,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setPadding(Integer padding)
 	{
+		Object old = this.padding;
 		this.padding = padding;
+		getEventSupport().firePropertyChange(PROPERTY_PADDING, old, this.padding);
 	}
 
 	/**
@@ -361,7 +399,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setTopBorder(byte topBorder)
 	{
-		this.topBorder = new Byte(topBorder);
+		setTopBorder(new Byte(topBorder));
 	}
 
 	/**
@@ -369,7 +407,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setTopBorder(Byte topBorder)
 	{
+		Object old = this.topBorder;
 		this.topBorder = topBorder;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER, old, this.topBorder);
 	}
 
 	/**
@@ -393,7 +433,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setTopBorderColor(Color topBorderColor)
 	{
+		Object old = this.topBorderColor;
 		this.topBorderColor = topBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER_COLOR, old, this.topBorderColor);
 	}
 
 	/**
@@ -417,7 +459,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setTopPadding(int topPadding)
 	{
-		this.topPadding = new Integer(topPadding);
+		setTopPadding(new Integer(topPadding));
 	}
 
 	/**
@@ -425,7 +467,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setTopPadding(Integer topPadding)
 	{
+		Object old = this.topPadding;
 		this.topPadding = topPadding;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_PADDING, old, this.topPadding);
 	}
 
 	/**
@@ -449,7 +493,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setLeftBorder(byte leftBorder)
 	{
-		this.leftBorder = new Byte(leftBorder);
+		setLeftBorder(new Byte(leftBorder));
 	}
 
 	/**
@@ -457,7 +501,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setLeftBorder(Byte leftBorder)
 	{
+		Object old = this.leftBorder;
 		this.leftBorder = leftBorder;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER, old, this.leftBorder);
 	}
 
 	/**
@@ -481,7 +527,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
+		Object old = this.leftBorderColor;
 		this.leftBorderColor = leftBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER_COLOR, old, this.leftBorderColor);
 	}
 
 	/**
@@ -505,7 +553,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
-		this.leftPadding = new Integer(leftPadding);
+		setLeftPadding(new Integer(leftPadding));
 	}
 
 	/**
@@ -513,7 +561,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setLeftPadding(Integer leftPadding)
 	{
+		Object old = this.leftPadding;
 		this.leftPadding = leftPadding;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_PADDING, old, this.leftPadding);
 	}
 
 	/**
@@ -537,7 +587,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setBottomBorder(byte bottomBorder)
 	{
-		this.bottomBorder = new Byte(bottomBorder);
+		setBottomBorder(new Byte(bottomBorder));
 	}
 
 	/**
@@ -545,7 +595,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setBottomBorder(Byte bottomBorder)
 	{
+		Object old = this.bottomBorder;
 		this.bottomBorder = bottomBorder;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER, old, this.bottomBorder);
 	}
 
 	/**
@@ -569,7 +621,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
+		Object old = this.bottomBorderColor;
 		this.bottomBorderColor = bottomBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER_COLOR, old, this.bottomBorderColor);
 	}
 
 	/**
@@ -593,7 +647,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
-		this.bottomPadding = new Integer(bottomPadding);
+		setBottomPadding(new Integer(bottomPadding));
 	}
 
 	/**
@@ -601,7 +655,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setBottomPadding(Integer bottomPadding)
 	{
+		Object old = this.bottomPadding;
 		this.bottomPadding = bottomPadding;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_PADDING, old, this.bottomPadding);
 	}
 
 	/**
@@ -625,7 +681,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setRightBorder(byte rightBorder)
 	{
-		this.rightBorder = new Byte(rightBorder);
+		setRightBorder(new Byte(rightBorder));
 	}
 
 	/**
@@ -633,7 +689,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setRightBorder(Byte rightBorder)
 	{
+		Object old = this.rightBorder;
 		this.rightBorder = rightBorder;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER, old, this.rightBorder);
 	}
 
 	/**
@@ -657,7 +715,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setRightBorderColor(Color rightBorderColor)
 	{
+		Object old = this.rightBorderColor;
 		this.rightBorderColor = rightBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER_COLOR, old, this.rightBorderColor);
 	}
 
 	/**
@@ -681,7 +741,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setRightPadding(int rightPadding)
 	{
-		this.rightPadding = new Integer(rightPadding);
+		setRightPadding(new Integer(rightPadding));
 	}
 
 	/**
@@ -689,7 +749,9 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
+		Object old = this.rightPadding;
 		this.rightPadding = rightPadding;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_PADDING, old, this.rightPadding);
 	}
 
 
@@ -698,5 +760,20 @@ public class JRBaseBox implements JRBox, Serializable
 		return null;
 	}
 
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 
 }

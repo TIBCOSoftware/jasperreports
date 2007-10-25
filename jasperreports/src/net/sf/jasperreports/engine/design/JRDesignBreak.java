@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.base.JRBaseBreak;
 
 
 /**
@@ -48,7 +49,7 @@ public class JRDesignBreak extends JRDesignElement implements JRBreak
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_TYPE = "type";
+	public static final String PROPERTY_TYPE = JRBaseBreak.PROPERTY_TYPE;
 
 	/**
 	 *

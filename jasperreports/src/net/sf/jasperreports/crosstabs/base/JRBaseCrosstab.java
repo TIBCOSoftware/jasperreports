@@ -59,6 +59,8 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_RUN_DIRECTION = "runDirection";
 
 	protected int id;
 	protected JRCrosstabParameter[] parameters;
@@ -363,6 +365,8 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	
 	public void setRunDirection(byte runDirection)
 	{
+		byte old = this.runDirection;
 		this.runDirection = runDirection;
+		getEventSupport().firePropertyChange(PROPERTY_RUN_DIRECTION, old, this.runDirection);
 	}
 }

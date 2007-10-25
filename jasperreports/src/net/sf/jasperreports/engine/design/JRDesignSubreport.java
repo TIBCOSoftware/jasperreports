@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.base.JRBaseSubreport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -65,7 +66,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	
 	public static final String PROPERTY_PARAMETERS_MAP_EXPRESSION = "parametersMapExpression";
 	
-	public static final String PROPERTY_USING_CACHE = "usingCache";
+	public static final String PROPERTY_USING_CACHE = JRBaseSubreport.PROPERTY_USING_CACHE;
 
 	/**
 	 *

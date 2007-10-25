@@ -46,6 +46,10 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_FILL = JRBaseStyle.PROPERTY_FILL;
+	
+	public static final String PROPERTY_PEN = JRBaseStyle.PROPERTY_PEN;
 
 	/**
 	 *
@@ -98,7 +102,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 */
 	public void setPen(byte pen)
 	{
-		this.pen = new Byte(pen);
+		setPen(new Byte(pen));
 	}
 		
 	/**
@@ -106,7 +110,9 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 */
 	public void setPen(Byte pen)
 	{
+		Object old = this.pen;
 		this.pen = pen;
+		getEventSupport().firePropertyChange(PROPERTY_PEN, old, this.pen);
 	}
 		
 	/**
@@ -127,7 +133,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 */
 	public void setFill(byte fill)
 	{
-		this.fill = new Byte(fill);
+		setFill(new Byte(fill));
 	}
 	
 	/**
@@ -135,7 +141,9 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 */
 	public void setFill(Byte fill)
 	{
+		Object old = this.fill;
 		this.fill = fill;
+		getEventSupport().firePropertyChange(PROPERTY_FILL, old, this.fill);
 	}
 	
 

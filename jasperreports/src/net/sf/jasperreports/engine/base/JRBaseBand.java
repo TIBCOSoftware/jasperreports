@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine.base;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
@@ -39,7 +41,7 @@ import net.sf.jasperreports.engine.JRExpression;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseBand extends JRBaseElementGroup implements JRBand
+public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEventsSupport
 {
 	
 
@@ -47,6 +49,8 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_SPLIT_ALLOWED = "splitAllowed";
 
 	/**
 	 *
@@ -95,7 +99,9 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand
 	 */
 	public void setSplitAllowed(boolean isSplitAllowed)
 	{
+		boolean old = this.isSplitAllowed;
 		this.isSplitAllowed = isSplitAllowed;
+		getEventSupport().firePropertyChange(PROPERTY_SPLIT_ALLOWED, old, this.isSplitAllowed);
 	}
 
 	/**
@@ -106,5 +112,20 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand
 		return this.printWhenExpression;
 	}
 
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 		
 }

@@ -72,6 +72,7 @@ import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.base.JRBaseChart;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -151,7 +152,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	
-	public static final String PROPERTY_SHOW_LEGEND = "showLegend";
+	public static final String PROPERTY_SHOW_LEGEND = JRBaseChart.PROPERTY_SHOW_LEGEND;
 	
 	public static final String PROPERTY_CHART_TYPE = "chartType";
 	
@@ -159,27 +160,27 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	
 	public static final String PROPERTY_DATASET = "dataset";
 	
-	public static final String PROPERTY_LEGEND_BACKGROUND_COLOR = "legendBackgroundColor";
+	public static final String PROPERTY_LEGEND_BACKGROUND_COLOR = JRBaseChart.PROPERTY_LEGEND_BACKGROUND_COLOR;
 	
-	public static final String PROPERTY_LEGEND_COLOR = "legendColor";
+	public static final String PROPERTY_LEGEND_COLOR = JRBaseChart.PROPERTY_LEGEND_COLOR;
 	
 	public static final String PROPERTY_LEGEND_FONT = "legendFont";
 	
-	public static final String PROPERTY_LEGEND_POSITION = "legendPosition";
+	public static final String PROPERTY_LEGEND_POSITION = JRBaseChart.PROPERTY_LEGEND_POSITION;
 	
-	public static final String PROPERTY_SUBTITLE_COLOR = "subtitleColor";
+	public static final String PROPERTY_SUBTITLE_COLOR = JRBaseChart.PROPERTY_SUBTITLE_COLOR;
 	
 	public static final String PROPERTY_SUBTITLE_EXPRESSION = "subtitleExpression";
 	
 	public static final String PROPERTY_SUBTITLE_FONT = "subtitleFont";
 	
-	public static final String PROPERTY_TITLE_COLOR = "titleColor";
+	public static final String PROPERTY_TITLE_COLOR = JRBaseChart.PROPERTY_TITLE_COLOR;
 	
 	public static final String PROPERTY_TITLE_EXPRESSION = "titleExpression";
 	
 	public static final String PROPERTY_TITLE_FONT = "titleFont";
 	
-	public static final String PROPERTY_TITLE_POSITION = "titlePosition";
+	public static final String PROPERTY_TITLE_POSITION = JRBaseChart.PROPERTY_TITLE_POSITION;
 	
 	
 	

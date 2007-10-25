@@ -48,6 +48,8 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_RADIUS = JRBaseStyle.PROPERTY_RADIUS;
 
 	/**
 	 *
@@ -89,7 +91,7 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	 */
 	public void setRadius(int radius)
 	{
-		this.radius = new Integer(radius);
+		setRadius(new Integer(radius));
 	}
 
 	/**
@@ -97,7 +99,9 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	 */
 	public void setRadius(Integer radius)
 	{
+		Object old = this.radius;
 		this.radius = radius;
+		getEventSupport().firePropertyChange(PROPERTY_RADIUS, old, this.radius);
 	}
 
 	/**
