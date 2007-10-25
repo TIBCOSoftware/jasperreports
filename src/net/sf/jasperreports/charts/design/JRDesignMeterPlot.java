@@ -54,6 +54,24 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_DATA_RANGE = "dataRange";
+	
+	public static final String PROPERTY_METER_ANGLE = "meterAngle";
+	
+	public static final String PROPERTY_METER_BACKGROUND_COLOR = "meterBackgroundColor";
+	
+	public static final String PROPERTY_NEEDLE_COLOR = "needleColor";
+	
+	public static final String PROPERTY_SHAPE = "shape";
+	
+	public static final String PROPERTY_TICK_COLOR = "tickColor";
+	
+	public static final String PROPERTY_TICK_INTERVAL = "tickInterval";
+	
+	public static final String PROPERTY_UNITS = "units";
+	
+	public static final String PROPERTY_VALUE_DISPLAY = "valueDisplay";
 
 
 	/**
@@ -76,7 +94,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setDataRange(JRDataRange dataRange) throws JRException
 	{
+		Object old = this.dataRange;
 		this.dataRange = dataRange;
+		getEventSupport().firePropertyChange(PROPERTY_DATA_RANGE, old, this.dataRange);
 	}
 
 	/**
@@ -86,7 +106,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setValueDisplay(JRValueDisplay valueDisplay)
 	{
+		Object old = this.valueDisplay;
 		this.valueDisplay = valueDisplay;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_DISPLAY, old, this.valueDisplay);
 	}
 
 	/**
@@ -104,7 +126,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 			throw new JRException("Unknown shape for MeterPlot");
 		}
 
+		byte old = this.shape;
 		this.shape = shape;
+		getEventSupport().firePropertyChange(PROPERTY_SHAPE, old, this.shape);
 	}
 
 	/**
@@ -134,7 +158,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setMeterAngle(int meterAngle)
 	{
+		int old = this.meterAngle;
 		this.meterAngle = meterAngle;
+		getEventSupport().firePropertyChange(PROPERTY_METER_ANGLE, old, this.meterAngle);
 	}
 
 	/**
@@ -145,7 +171,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setUnits(String units)
 	{
+		Object old = this.units;
 		this.units = units;
+		getEventSupport().firePropertyChange(PROPERTY_UNITS, old, this.units);
 	}
 
 	/**
@@ -158,7 +186,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setTickInterval(double tickInterval)
 	{
+		double old = this.tickInterval;
 		this.tickInterval = tickInterval;
+		getEventSupport().firePropertyChange(PROPERTY_TICK_INTERVAL, old, this.tickInterval);
 	}
 
 	/**
@@ -168,7 +198,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setMeterBackgroundColor(Color meterBackgroundColor)
 	{
+		Object old = this.meterBackgroundColor;
 		this.meterBackgroundColor = meterBackgroundColor;
+		getEventSupport().firePropertyChange(PROPERTY_METER_BACKGROUND_COLOR, old, this.meterBackgroundColor);
 	}
 
 	/**
@@ -178,7 +210,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setNeedleColor(Color needleColor)
 	{
+		Object old = this.needleColor;
 		this.needleColor = needleColor;
+		getEventSupport().firePropertyChange(PROPERTY_NEEDLE_COLOR, old, this.needleColor);
 	}
 
 	/**
@@ -188,6 +222,8 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setTickColor(Color tickColor)
 	{
+		Object old = this.tickColor;
 		this.tickColor = tickColor;
+		getEventSupport().firePropertyChange(PROPERTY_TICK_COLOR, old, this.tickColor);
 	}
 }

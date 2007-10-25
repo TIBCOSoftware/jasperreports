@@ -31,6 +31,8 @@ import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.base.JRBaseDataRange;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * Contains a range of values.  Used to specify the set of acceptable values
@@ -39,12 +41,16 @@ import net.sf.jasperreports.engine.JRExpression;
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignDataRange extends JRBaseDataRange
+public class JRDesignDataRange extends JRBaseDataRange implements JRChangeEventsSupport
 {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_HIGH_EXPRESSION = "highExpression";
+	
+	public static final String PROPERTY_LOW_EXPRESSION = "lowExpression";
 
 
 	/**
@@ -65,7 +71,9 @@ public class JRDesignDataRange extends JRBaseDataRange
 	 */
 	public void setLowExpression(JRExpression lowExpression)
 	{
+		Object old = this.lowExpression;
 		this.lowExpression = lowExpression;
+		getEventSupport().firePropertyChange(PROPERTY_LOW_EXPRESSION, old, this.lowExpression);
 	}
 
 	/**
@@ -76,6 +84,23 @@ public class JRDesignDataRange extends JRBaseDataRange
 	 */
 	public void setHighExpression(JRExpression highExpression)
 	{
+		Object old = this.highExpression;
 		this.highExpression = highExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HIGH_EXPRESSION, old, this.highExpression);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

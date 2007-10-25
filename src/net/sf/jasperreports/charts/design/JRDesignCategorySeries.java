@@ -31,6 +31,8 @@ import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 
@@ -38,7 +40,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignCategorySeries extends JRBaseCategorySeries
+public class JRDesignCategorySeries extends JRBaseCategorySeries implements JRChangeEventsSupport
 {
 
 
@@ -46,6 +48,16 @@ public class JRDesignCategorySeries extends JRBaseCategorySeries
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_CATEGORY_EXPRESSION = "categoryExpression";
+	
+	public static final String PROPERTY_ITEM_HYPERLINK = "itemHyperlink";
+	
+	public static final String PROPERTY_LABEL_EXPRESSION = "labelExpression";
+	
+	public static final String PROPERTY_SERIES_EXPRESSION = "seriesExpression";
+	
+	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
 
 	
 	/**
@@ -53,7 +65,9 @@ public class JRDesignCategorySeries extends JRBaseCategorySeries
 	 */
 	public void setSeriesExpression(JRExpression seriesExpression)
 	{
+		Object old = this.seriesExpression;
 		this.seriesExpression = seriesExpression;
+		getEventSupport().firePropertyChange(PROPERTY_SERIES_EXPRESSION, old, this.seriesExpression);
 	}
 
 	/**
@@ -61,7 +75,9 @@ public class JRDesignCategorySeries extends JRBaseCategorySeries
 	 */
 	public void setCategoryExpression(JRExpression categoryExpression)
 	{
+		Object old = this.categoryExpression;
 		this.categoryExpression = categoryExpression;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_EXPRESSION, old, this.categoryExpression);
 	}
 
 	/**
@@ -69,7 +85,9 @@ public class JRDesignCategorySeries extends JRBaseCategorySeries
 	 */
 	public void setValueExpression(JRExpression valueExpression)
 	{
+		Object old = this.valueExpression;
 		this.valueExpression = valueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 
 	/**
@@ -77,7 +95,9 @@ public class JRDesignCategorySeries extends JRBaseCategorySeries
 	 */
 	public void setLabelExpression(JRExpression labelExpression)
 	{
+		Object old = this.labelExpression;
 		this.labelExpression = labelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_EXPRESSION, old, this.labelExpression);
 	}
 
 
@@ -89,8 +109,25 @@ public class JRDesignCategorySeries extends JRBaseCategorySeries
 	 */
 	public void setItemHyperlink(JRHyperlink itemHyperlink)
 	{
+		Object old = this.itemHyperlink;
 		this.itemHyperlink = itemHyperlink;
+		getEventSupport().firePropertyChange(PROPERTY_ITEM_HYPERLINK, old, this.itemHyperlink);
 	}
 
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 
 }

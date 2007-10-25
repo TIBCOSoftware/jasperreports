@@ -51,6 +51,12 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_SHOW_LABELS = "showLabels";
+	
+	public static final String PROPERTY_X_OFFSET = "xOffset";
+	
+	public static final String PROPERTY_Y_OFFSET = "yOffset";
+	
 	protected JRExpression categoryAxisLabelExpression = null;
 	protected JRFont categoryAxisLabelFont = null;
 	protected Color categoryAxisLabelColor = null;
@@ -276,7 +282,9 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	 * 
 	 */
 	public void setXOffset( double xOffset ){
+		double old = this.xOffset;
 		this.xOffset = xOffset;
+		getEventSupport().firePropertyChange(PROPERTY_X_OFFSET, old, this.xOffset);
 	}
 	
 	/**
@@ -290,7 +298,9 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	 * 
 	 */
 	public void setYOffset( double yOffset ){
+		double old = this.yOffset;
 		this.yOffset = yOffset;
+		getEventSupport().firePropertyChange(PROPERTY_Y_OFFSET, old, this.yOffset);
 	}
 	
 	/**
@@ -304,7 +314,9 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	 * 
 	 */
 	public void setShowLabels( boolean isShowLabels ){
+		boolean old = this.isShowLabels;
 		this.isShowLabels = isShowLabels;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.isShowLabels);
 	}
 
 	/**

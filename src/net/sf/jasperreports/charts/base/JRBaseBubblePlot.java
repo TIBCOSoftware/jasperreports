@@ -51,6 +51,8 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_SCALE_TYPE = "scaleType";
+	
 	protected JRExpression xAxisLabelExpression = null;
 	protected JRFont xAxisLabelFont = null;
 	protected Color xAxisLabelColor = null;
@@ -272,7 +274,9 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 * 
 	 */
 	public void setScaleType( int scaleType ){
+		int old = this.scaleType;
 		this.scaleType = scaleType;
+		getEventSupport().firePropertyChange(PROPERTY_SCALE_TYPE, old, this.scaleType);
 	}
 
 	/**

@@ -50,6 +50,22 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_DATA_RANGE = "dataRange";
+	
+	public static final String PROPERTY_HIGH_RANGE = "highRange";
+	
+	public static final String PROPERTY_LOW_RANGE = "lowRange";
+	
+	public static final String PROPERTY_MEDIUM_RANGE = "mediumRange";
+	
+	public static final String PROPERTY_MERCURY_COLOR = "mercuryColor";
+	
+	public static final String PROPERTY_SHOW_VALUE_LINES = "showValueLines";
+	
+	public static final String PROPERTY_VALUE_DISPLAY = "valueDisplay";
+	
+	public static final String PROPERTY_VALUE_LOCATION = "valueLocation";
 
 
 	/**
@@ -70,7 +86,9 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 */
 	public void setDataRange(JRDataRange dataRange)
 	{
+		Object old = this.dataRange;
 		this.dataRange = dataRange;
+		getEventSupport().firePropertyChange(PROPERTY_DATA_RANGE, old, this.dataRange);
 	}
 
 	/**
@@ -81,7 +99,9 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 */
 	public void setValueDisplay(JRValueDisplay valueDisplay)
 	{
+		Object old = this.valueDisplay;
 		this.valueDisplay = valueDisplay;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_DISPLAY, old, this.valueDisplay);
 	}
 
 
@@ -93,7 +113,9 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 */
 	public void setShowValueLines(boolean showValueLines)
 	{
+		boolean old = this.showValueLines;
 		this.showValueLines = showValueLines;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_VALUE_LINES, old, this.showValueLines);
 	}
 
 	/**
@@ -103,7 +125,9 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 */
 	public void setValueLocation(byte valueLocation)
 	{
+		byte old = this.valueLocation;
 		this.valueLocation = valueLocation;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_LOCATION, old, this.valueLocation);
 	}
 
 	/**
@@ -114,7 +138,9 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 */
 	public void setMercuryColor(Color mercuryColor)
 	{
+		Object old = this.mercuryColor;
 		this.mercuryColor = mercuryColor;
+		getEventSupport().firePropertyChange(PROPERTY_MERCURY_COLOR, old, this.mercuryColor);
 	}
 
 	/**
@@ -124,7 +150,9 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 */
 	public void setLowRange(JRDataRange lowRange)
 	{
+		Object old = this.lowRange;
 		this.lowRange = lowRange;
+		getEventSupport().firePropertyChange(PROPERTY_LOW_RANGE, old, this.lowRange);
 	}
 
 	/**
@@ -134,7 +162,9 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 */
 	public void setMediumRange(JRDataRange mediumRange)
 	{
+		Object old = this.mediumRange;
 		this.mediumRange = mediumRange;
+		getEventSupport().firePropertyChange(PROPERTY_MEDIUM_RANGE, old, this.mediumRange);
 	}
 
 	/**
@@ -144,6 +174,8 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 */
 	public void setHighRange(JRDataRange highRange)
 	{
+		Object old = this.highRange;
 		this.highRange = highRange;
+		getEventSupport().firePropertyChange(PROPERTY_HIGH_RANGE, old, this.highRange);
 	}
 }

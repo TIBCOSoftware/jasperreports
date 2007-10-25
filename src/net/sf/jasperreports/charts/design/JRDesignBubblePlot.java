@@ -44,6 +44,34 @@ import net.sf.jasperreports.engine.JRFont;
 public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_X_AXIS_LABEL_COLOR = "xAxisLabelColor";
+	
+	public static final String PROPERTY_X_AXIS_LABEL_EXPRESSION = "xAxisLabelExpression";
+	
+	public static final String PROPERTY_X_AXIS_LABEL_FONT = "xAxisLabelFont";
+	
+	public static final String PROPERTY_X_AXIS_LINE_COLOR = "xAxisLineColor";
+	
+	public static final String PROPERTY_X_AXIS_TICK_LABEL_COLOR = "xAxisTickLabelColor";
+	
+	public static final String PROPERTY_X_AXIS_TICK_LABEL_FONT = "xAxisTickLabelFont";
+	
+	public static final String PROPERTY_X_AXIS_TICK_LABEL_MASK = "xAxisTickLabelMask";
+	
+	public static final String PROPERTY_Y_AXIS_LABEL_COLOR = "yAxisLabelColor";
+	
+	public static final String PROPERTY_Y_AXIS_LABEL_EXPRESSION = "yAxisLabelExpression";
+	
+	public static final String PROPERTY_Y_AXIS_LABEL_FONT = "yAxisLabelFont";
+	
+	public static final String PROPERTY_Y_AXIS_LINE_COLOR = "yAxisLineColor";
+	
+	public static final String PROPERTY_Y_AXIS_TICK_LABEL_COLOR = "yAxisTickLabelColor";
+	
+	public static final String PROPERTY_Y_AXIS_TICK_LABEL_FONT = "yAxisTickLabelFont";
+	
+	public static final String PROPERTY_Y_AXIS_TICK_LABEL_MASK = "yAxisTickLabelMask";
 
 
 	public JRDesignBubblePlot(JRChartPlot bubblePlot, JRChart chart)
@@ -56,7 +84,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 *
 	 */
 	public void setXAxisLabelExpression( JRExpression xAxisLabelExpression ){
+		Object old = this.xAxisLabelExpression;
 		this.xAxisLabelExpression = xAxisLabelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_LABEL_EXPRESSION, old, this.xAxisLabelExpression);
 	}
 
 	/**
@@ -64,7 +94,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setXAxisLabelFont(JRFont xAxisLabelFont)
 	{
+		Object old = this.xAxisLabelFont;
 		this.xAxisLabelFont = xAxisLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_LABEL_FONT, old, this.xAxisLabelFont);
 	}
 
 	/**
@@ -72,7 +104,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setXAxisLabelColor(Color xAxisLabelColor)
 	{
+		Object old = this.xAxisLabelColor;
 		this.xAxisLabelColor = xAxisLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_LABEL_COLOR, old, this.xAxisLabelColor);
 	}
 	
 	/**
@@ -80,7 +114,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setXAxisTickLabelFont(JRFont xAxisTickLabelFont)
 	{
+		Object old = this.xAxisTickLabelFont;
 		this.xAxisTickLabelFont = xAxisTickLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_TICK_LABEL_FONT, old, this.xAxisTickLabelFont);
 	}
 
 	/**
@@ -88,7 +124,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setXAxisTickLabelColor(Color xAxisTickLabelColor)
 	{
+		Object old = this.xAxisTickLabelColor;
 		this.xAxisTickLabelColor = xAxisTickLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_TICK_LABEL_COLOR, old, this.xAxisTickLabelColor);
 	}
 
 	/**
@@ -96,7 +134,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setXAxisTickLabelMask(String xAxisTickLabelMask)
 	{
+		Object old = this.xAxisTickLabelMask;
 		this.xAxisTickLabelMask = xAxisTickLabelMask;
+		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_TICK_LABEL_MASK, old, this.xAxisTickLabelMask);
 	}
 
 	/**
@@ -104,14 +144,18 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setXAxisLineColor(Color xAxisLineColor)
 	{
+		Object old = this.xAxisLineColor;
 		this.xAxisLineColor = xAxisLineColor;
+		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_LINE_COLOR, old, this.xAxisLineColor);
 	}
 
 	/**
 	 *
 	 */
 	public void setYAxisLabelExpression( JRExpression yAxisLabelExpression ){
+		Object old = this.yAxisLabelExpression;
 		this.yAxisLabelExpression = yAxisLabelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_LABEL_EXPRESSION, old, this.yAxisLabelExpression);
 	}
 
 	/**
@@ -119,7 +163,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setYAxisLabelFont(JRFont yAxisLabelFont)
 	{
+		Object old = this.yAxisLabelFont;
 		this.yAxisLabelFont = yAxisLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_LABEL_FONT, old, this.yAxisLabelFont);
 	}
 
 	/**
@@ -127,7 +173,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setYAxisLabelColor(Color yAxisLabelColor)
 	{
+		Object old = this.yAxisLabelColor;
 		this.yAxisLabelColor = yAxisLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_LABEL_COLOR, old, this.yAxisLabelColor);
 	}
 	
 	/**
@@ -135,7 +183,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setYAxisTickLabelFont(JRFont yAxisTickLabelFont)
 	{
+		Object old = this.yAxisTickLabelFont;
 		this.yAxisTickLabelFont = yAxisTickLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_TICK_LABEL_FONT, old, this.yAxisTickLabelFont);
 	}
 
 	/**
@@ -143,7 +193,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setYAxisTickLabelColor(Color yAxisTickLabelColor)
 	{
+		Object old = this.yAxisTickLabelColor;
 		this.yAxisTickLabelColor = yAxisTickLabelColor;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_TICK_LABEL_COLOR, old, this.yAxisTickLabelColor);
 	}
 
 	/**
@@ -151,7 +203,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setYAxisTickLabelMask(String yAxisTickLabelMask)
 	{
+		Object old = this.yAxisTickLabelMask;
 		this.yAxisTickLabelMask = yAxisTickLabelMask;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_TICK_LABEL_MASK, old, this.yAxisTickLabelMask);
 	}
 
 	/**
@@ -159,7 +213,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	 */
 	public void setYAxisLineColor(Color yAxisLineColor)
 	{
+		Object old = this.yAxisLineColor;
 		this.yAxisLineColor = yAxisLineColor;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_LINE_COLOR, old, this.yAxisLineColor);
 	}
 	
 	/**

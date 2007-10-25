@@ -53,6 +53,10 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_SHOW_CLOSE_TICKS = "showCloseTicks";
+	
+	public static final String PROPERTY_SHOW_OPEN_TICKS = "showOpenTicks";
 
 	protected JRExpression timeAxisLabelExpression = null;
 	protected JRFont timeAxisLabelFont = null;
@@ -283,7 +287,9 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	 */
 	public void setShowOpenTicks(boolean showOpenTicks)
 	{
+		boolean old = this.isShowOpenTicks;
 		isShowOpenTicks = showOpenTicks;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_OPEN_TICKS, old, this.isShowOpenTicks);
 	}
 
 
@@ -301,7 +307,9 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	 */
 	public void setShowCloseTicks(boolean showCloseTicks)
 	{
+		boolean old = this.isShowCloseTicks;
 		isShowCloseTicks = showCloseTicks;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_CLOSE_TICKS, old, this.isShowCloseTicks);
 	}
 
 	/**

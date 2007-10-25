@@ -50,6 +50,14 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_KEY_EXPRESSION = "keyExpression";
+	
+	public static final String PROPERTY_LABEL_EXPRESSION = "labelExpression";
+	
+	public static final String PROPERTY_SECTION_HYPERLINK = "sectionHyperlink";
+	
+	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
 
 	protected JRExpression keyExpression = null;
 	protected JRExpression valueExpression = null;
@@ -79,7 +87,9 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	 */
 	public void setKeyExpression(JRExpression keyExpression)
 	{
+		Object old = this.keyExpression;
 		this.keyExpression = keyExpression;
+		getEventSupport().firePropertyChange(PROPERTY_KEY_EXPRESSION, old, this.keyExpression);
 	}
 
 	/**
@@ -95,7 +105,9 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	 */
 	public void setValueExpression(JRExpression valueExpression)
 	{
+		Object old = this.valueExpression;
 		this.valueExpression = valueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 
 	/**
@@ -111,7 +123,9 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	 */
 	public void setLabelExpression(JRExpression labelExpression)
 	{
+		Object old = this.labelExpression;
 		this.labelExpression = labelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_EXPRESSION, old, this.labelExpression);
 	}
 
 
@@ -146,7 +160,9 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	 */
 	public void setSectionHyperlink(JRHyperlink sectionHyperlink)
 	{
+		Object old = this.sectionHyperlink;
 		this.sectionHyperlink = sectionHyperlink;
+		getEventSupport().firePropertyChange(PROPERTY_SECTION_HYPERLINK, old, this.sectionHyperlink);
 	}
 
 

@@ -49,6 +49,10 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_SHOW_LINES = "showLines";
+	
+	public static final String PROPERTY_SHOW_SHAPES = "showShapes";
+	
 	protected JRExpression xAxisLabelExpression = null;
 	protected JRFont xAxisLabelFont = null;
 	protected Color xAxisLabelColor = null;
@@ -278,14 +282,18 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	 * 
 	 */
 	public void setShowShapes( boolean value ){
+		boolean old = this.isShowShapes;
 		this.isShowShapes = value;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.isShowShapes);
 	}
 	
 	/**
 	 * 
 	 */
 	public void setShowLines( boolean value ){
+		boolean old = this.isShowLines;
 		this.isShowLines = value;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_LINES, old, this.isShowLines);
 	}
 
 	/**
