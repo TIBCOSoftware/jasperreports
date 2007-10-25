@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.base.JRBaseLine;
 
 
 /**
@@ -48,7 +49,7 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_DIRECTION = "direction";
+	public static final String PROPERTY_DIRECTION = JRBaseLine.PROPERTY_DIRECTION;
 
 	/**
 	 *

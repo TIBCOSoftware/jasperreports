@@ -83,7 +83,59 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	/*
+	 * Box properties
+	 */
+	
+	public static final String PROPERTY_BORDER = JRBaseStyle.PROPERTY_BORDER;
+	
+	public static final String PROPERTY_BORDER_COLOR = JRBaseStyle.PROPERTY_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_BORDER = JRBaseStyle.PROPERTY_BOTTOM_BORDER;
+	
+	public static final String PROPERTY_BOTTOM_BORDER_COLOR = JRBaseStyle.PROPERTY_BOTTOM_BORDER_COLOR;
+	
+	public static final String PROPERTY_BOTTOM_PADDING = JRBaseStyle.PROPERTY_BOTTOM_PADDING;
+	
+	public static final String PROPERTY_LEFT_BORDER = JRBaseStyle.PROPERTY_LEFT_BORDER;
+	
+	public static final String PROPERTY_LEFT_BORDER_COLOR = JRBaseStyle.PROPERTY_LEFT_BORDER_COLOR;
+	
+	public static final String PROPERTY_LEFT_PADDING = JRBaseStyle.PROPERTY_LEFT_PADDING;
+	
+	public static final String PROPERTY_PADDING = JRBaseStyle.PROPERTY_PADDING;
+	
+	public static final String PROPERTY_RIGHT_BORDER = JRBaseStyle.PROPERTY_RIGHT_BORDER;
+	
+	public static final String PROPERTY_RIGHT_BORDER_COLOR = JRBaseStyle.PROPERTY_RIGHT_BORDER_COLOR;
+	
+	public static final String PROPERTY_RIGHT_PADDING = JRBaseStyle.PROPERTY_RIGHT_PADDING;
+	
+	public static final String PROPERTY_TOP_BORDER = JRBaseStyle.PROPERTY_TOP_BORDER;
+	
+	public static final String PROPERTY_TOP_BORDER_COLOR = JRBaseStyle.PROPERTY_TOP_BORDER_COLOR;
+	
+	public static final String PROPERTY_TOP_PADDING = JRBaseStyle.PROPERTY_TOP_PADDING;
 
+	/*
+	 * Chart properties
+	 */
+	
+	public static final String PROPERTY_LEGEND_BACKGROUND_COLOR = "legendBackgroundColor";
+	
+	public static final String PROPERTY_LEGEND_COLOR = "legendColor";
+	
+	public static final String PROPERTY_LEGEND_POSITION = "legendPosition";
+	
+	public static final String PROPERTY_SHOW_LEGEND = "showLegend";
+	
+	public static final String PROPERTY_SUBTITLE_COLOR = "subtitleColor";
+	
+	public static final String PROPERTY_TITLE_COLOR = "titleColor";
+	
+	public static final String PROPERTY_TITLE_POSITION = "titlePosition";
+	
 	/**
 	 *
 	 */
@@ -323,7 +375,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setShowLegend(boolean isShowLegend)
 	{
+		boolean old = this.isShowLegend;
 		this.isShowLegend = isShowLegend;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_LEGEND, old, this.isShowLegend);
 	}
 
 	/**
@@ -371,7 +425,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setTitlePosition(byte titlePosition)
 	{
+		byte old = this.titlePosition;
 		this.titlePosition = titlePosition;
+		getEventSupport().firePropertyChange(PROPERTY_TITLE_POSITION, old, this.titlePosition);
 	}
 
 	/**
@@ -395,7 +451,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setTitleColor(Color titleColor)
 	{
+		Object old = this.titleColor;
 		this.titleColor = titleColor;
+		getEventSupport().firePropertyChange(PROPERTY_TITLE_COLOR, old, this.titleColor);
 	}
 
 	/**
@@ -427,7 +485,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setSubtitleColor(Color subtitleColor)
 	{
+		Object old = this.subtitleColor;
 		this.subtitleColor = subtitleColor;
+		getEventSupport().firePropertyChange(PROPERTY_SUBTITLE_COLOR, old, this.subtitleColor);
 	}
 
 	public Color getLegendBackgroundColor() {
@@ -453,12 +513,16 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 
 
 	public void setLegendBackgroundColor(Color legendBackgroundColor) {
+		Object old = this.legendBackgroundColor;
 		this.legendBackgroundColor = legendBackgroundColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEGEND_BACKGROUND_COLOR, old, this.legendBackgroundColor);
 	}
 
 
 	public void setLegendColor(Color legendColor) {
+		Object old = this.legendColor;
 		this.legendColor = legendColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEGEND_COLOR, old, this.legendColor);
 	}
 	
 	/**
@@ -474,7 +538,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setLegendPosition(byte legendPosition)
 	{
+		byte old = this.legendPosition;
 		this.legendPosition = legendPosition;
+		getEventSupport().firePropertyChange(PROPERTY_LEGEND_POSITION, old, this.legendPosition);
 	}
 
 	/**
@@ -615,7 +681,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setBorder(byte border)
 	{
-		this.border = new Byte(border);
+		setBorder(new Byte(border));
 	}
 
 	/**
@@ -623,7 +689,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setBorder(Byte border)
 	{
+		Object old = this.border;
 		this.border = border;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER, old, this.border);
 	}
 
 	/**
@@ -644,7 +712,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setBorderColor(Color borderColor)
 	{
+		Object old = this.borderColor;
 		this.borderColor = borderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.borderColor);
 	}
 
 	/**
@@ -665,7 +735,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setPadding(int padding)
 	{
-		this.padding = new Integer(padding);
+		setPadding(new Integer(padding));
 	}
 
 	/**
@@ -673,7 +743,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setPadding(Integer padding)
 	{
+		Object old = this.padding;
 		this.padding = padding;
+		getEventSupport().firePropertyChange(PROPERTY_PADDING, old, this.padding);
 	}
 
 	/**
@@ -697,7 +769,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setTopBorder(byte topBorder)
 	{
-		this.topBorder = new Byte(topBorder);
+		setTopBorder(new Byte(topBorder));
 	}
 
 	/**
@@ -705,7 +777,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setTopBorder(Byte topBorder)
 	{
+		Object old = this.topBorder;
 		this.topBorder = topBorder;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER, old, this.topBorder);
 	}
 
 	/**
@@ -729,7 +803,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setTopBorderColor(Color topBorderColor)
 	{
+		Object old = this.topBorderColor;
 		this.topBorderColor = topBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER_COLOR, old, this.topBorderColor);
 	}
 
 	/**
@@ -753,7 +829,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setTopPadding(int topPadding)
 	{
-		this.topPadding = new Integer(topPadding);
+		setTopPadding(new Integer(topPadding));
 	}
 
 	/**
@@ -761,7 +837,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setTopPadding(Integer topPadding)
 	{
+		Object old = this.topPadding;
 		this.topPadding = topPadding;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_PADDING, old, this.topPadding);
 	}
 
 	/**
@@ -785,7 +863,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setLeftBorder(byte leftBorder)
 	{
-		this.leftBorder = new Byte(leftBorder);
+		setLeftBorder(new Byte(leftBorder));
 	}
 
 	/**
@@ -793,7 +871,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setLeftBorder(Byte leftBorder)
 	{
+		Object old = this.leftBorder;
 		this.leftBorder = leftBorder;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER, old, this.leftBorder);
 	}
 
 	/**
@@ -817,7 +897,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
+		Object old = this.leftBorderColor;
 		this.leftBorderColor = leftBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER_COLOR, old, this.leftBorderColor);
 	}
 
 	/**
@@ -841,7 +923,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
-		this.leftPadding = new Integer(leftPadding);
+		setLeftPadding(new Integer(leftPadding));
 	}
 
 	/**
@@ -849,7 +931,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setLeftPadding(Integer leftPadding)
 	{
+		Object old = this.leftPadding;
 		this.leftPadding = leftPadding;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_PADDING, old, this.leftPadding);
 	}
 
 	/**
@@ -873,7 +957,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setBottomBorder(byte bottomBorder)
 	{
-		this.bottomBorder = new Byte(bottomBorder);
+		setBottomBorder(new Byte(bottomBorder));
 	}
 
 	/**
@@ -881,7 +965,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setBottomBorder(Byte bottomBorder)
 	{
+		Object old = this.bottomBorder;
 		this.bottomBorder = bottomBorder;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER, old, this.bottomBorder);
 	}
 
 	/**
@@ -905,7 +991,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
+		Object old = this.bottomBorderColor;
 		this.bottomBorderColor = bottomBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.bottomBorderColor);
 	}
 
 	/**
@@ -929,7 +1017,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
-		this.bottomPadding = new Integer(bottomPadding);
+		setBottomPadding(new Integer(bottomPadding));
 	}
 
 	/**
@@ -937,7 +1025,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setBottomPadding(Integer bottomPadding)
 	{
+		Object old = this.bottomPadding;
 		this.bottomPadding = bottomPadding;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_PADDING, old, this.bottomPadding);
 	}
 
 	/**
@@ -961,7 +1051,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setRightBorder(byte rightBorder)
 	{
-		this.rightBorder = new Byte(rightBorder);
+		setRightBorder(new Byte(rightBorder));
 	}
 
 	/**
@@ -969,7 +1059,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setRightBorder(Byte rightBorder)
 	{
+		Object old = this.rightBorder;
 		this.rightBorder = rightBorder;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER, old, this.rightBorder);
 	}
 
 	/**
@@ -993,7 +1085,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setRightBorderColor(Color rightBorderColor)
 	{
+		Object old = this.rightBorderColor;
 		this.rightBorderColor = rightBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER_COLOR, old, this.rightBorderColor);
 	}
 
 	/**
@@ -1017,7 +1111,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setRightPadding(int rightPadding)
 	{
-		this.rightPadding = new Integer(rightPadding);
+		setRightPadding(new Integer(rightPadding));
 	}
 
 	/**
@@ -1025,7 +1119,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
+		Object old = this.rightPadding;
 		this.rightPadding = rightPadding;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_PADDING, old, this.rightPadding);
 	}
 
 

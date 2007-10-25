@@ -57,6 +57,12 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_BLANK_WHEN_NULL = JRBaseStyle.PROPERTY_BLANK_WHEN_NULL;
+	
+	public static final String PROPERTY_PATTERN = JRBaseStyle.PROPERTY_PATTERN;
+	
+	public static final String PROPERTY_STRETCH_WITH_OVERFLOW = "stretchWithOverflow";
 
 	/**
 	 *
@@ -126,7 +132,9 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	public void setStretchWithOverflow(boolean isStretchWithOverflow)
 	{
+		boolean old = this.isStretchWithOverflow;
 		this.isStretchWithOverflow = isStretchWithOverflow;
+		getEventSupport().firePropertyChange(PROPERTY_STRETCH_WITH_OVERFLOW, old, this.isStretchWithOverflow);
 	}
 		
 	/**
@@ -155,7 +163,9 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	public void setPattern(String pattern)
 	{
+		Object old = this.pattern;
 		this.pattern = pattern;
+		getEventSupport().firePropertyChange(PROPERTY_PATTERN, old, this.pattern);
 	}
 		
 	/**
@@ -179,7 +189,9 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	public void setBlankWhenNull(Boolean isBlank)
 	{
+		Object old = this.isBlankWhenNull;
 		this.isBlankWhenNull = isBlank;
+		getEventSupport().firePropertyChange(PROPERTY_BLANK_WHEN_NULL, old, this.isBlankWhenNull);
 	}
 
 	/**
@@ -187,7 +199,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	public void setBlankWhenNull(boolean isBlank)
 	{
-		this.isBlankWhenNull = isBlank ? Boolean.TRUE : Boolean.FALSE;
+		setBlankWhenNull(isBlank ? Boolean.TRUE : Boolean.FALSE);
 	}
 
 	/**

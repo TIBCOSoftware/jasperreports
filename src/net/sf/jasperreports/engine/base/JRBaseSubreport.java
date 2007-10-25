@@ -49,6 +49,8 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_USING_CACHE = "usingCache";
 
 	/**
 	 *
@@ -225,7 +227,9 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 
 	public void setUsingCache(Boolean isUsingCache)
 	{
+		Object old = this.isUsingCache;
 		this.isUsingCache = isUsingCache;
+		getEventSupport().firePropertyChange(PROPERTY_USING_CACHE, old, this.isUsingCache);
 	}
 
 

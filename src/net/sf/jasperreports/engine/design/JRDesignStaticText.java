@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.base.JRBaseStaticText;
 
 
 /**
@@ -50,7 +51,7 @@ public class JRDesignStaticText extends JRDesignTextElement implements JRStaticT
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_TEXT = "text";
+	public static final String PROPERTY_TEXT = JRBaseStaticText.PROPERTY_TEXT;
 
 	/**
 	 *

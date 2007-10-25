@@ -90,7 +90,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 	public static final String PROPERTY_REPEAT_ROW_HEADERS = "repeatRowHeaders";
 	
-	public static final String PROPERTY_RUN_DIRECTION = "runDirection";
+	public static final String PROPERTY_RUN_DIRECTION = JRBaseCrosstab.PROPERTY_RUN_DIRECTION;
 	
 	public static final String PROPERTY_WHEN_NO_DATA_CELL = "whenNoDataCell";
 
