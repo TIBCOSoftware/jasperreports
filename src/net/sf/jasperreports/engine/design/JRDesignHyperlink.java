@@ -28,8 +28,8 @@
 package net.sf.jasperreports.engine.design;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -64,6 +64,8 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	public static final String PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION = "hyperlinkTooltipExpression";
 	
 	public static final String PROPERTY_LINK_TYPE = "linkType";
+	
+	public static final String PROPERTY_HYPERLINK_PARAMETERS = "hyperlinkParameters";
 	
 	private List hyperlinkParameters;
 	
@@ -217,6 +219,8 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	public void addHyperlinkParameter(JRHyperlinkParameter parameter)
 	{
 		hyperlinkParameters.add(parameter);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_HYPERLINK_PARAMETERS, 
+				parameter, hyperlinkParameters.size() - 1);
 	}
 	
 
@@ -227,7 +231,13 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 */
 	public void removeHyperlinkParameter(JRHyperlinkParameter parameter)
 	{
-		hyperlinkParameters.remove(parameter);
+		int idx = hyperlinkParameters.indexOf(parameter);
+		if (idx >= 0)
+		{
+			hyperlinkParameters.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_HYPERLINK_PARAMETERS, 
+					parameter, idx);
+		}
 	}
 	
 	
@@ -242,12 +252,14 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 */
 	public void removeHyperlinkParameter(String parameterName)
 	{
-		for (Iterator it = hyperlinkParameters.iterator(); it.hasNext();)
+		for (ListIterator it = hyperlinkParameters.listIterator(); it.hasNext();)
 		{
 			JRHyperlinkParameter parameter = (JRHyperlinkParameter) it.next();
 			if (parameter.getName() != null && parameter.getName().equals(parameterName))
 			{
 				it.remove();
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_HYPERLINK_PARAMETERS, 
+						parameter, it.nextIndex());
 			}
 		}
 	}

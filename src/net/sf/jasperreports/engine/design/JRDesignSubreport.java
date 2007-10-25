@@ -67,6 +67,10 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	public static final String PROPERTY_PARAMETERS_MAP_EXPRESSION = "parametersMapExpression";
 	
 	public static final String PROPERTY_USING_CACHE = JRBaseSubreport.PROPERTY_USING_CACHE;
+	
+	public static final String PROPERTY_PARAMETERS = "parameters";
+	
+	public static final String PROPERTY_RETURN_VALUES = "returnValues";
 
 	/**
 	 *
@@ -184,6 +188,8 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		}
 
 		this.parametersMap.put(subreportParameter.getName(), subreportParameter);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARAMETERS, 
+				subreportParameter, parametersMap.size() - 1);
 	}
 	
 	/**
@@ -191,7 +197,12 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 */
 	public JRSubreportParameter removeParameter(String name)
 	{
-		return (JRSubreportParameter)this.parametersMap.remove(name);
+		JRSubreportParameter removed = (JRSubreportParameter)this.parametersMap.remove(name);
+		if (removed != null)
+		{
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PARAMETERS, removed, -1);
+		}
+		return removed;
 	}
 
 	/**
@@ -274,6 +285,8 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	public void addReturnValue(JRSubreportReturnValue returnValue)
 	{
 		this.returnValues.add(returnValue);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_RETURN_VALUES, 
+				returnValue, returnValues.size() - 1);
 	}
 
 	
@@ -311,7 +324,14 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 */
 	public boolean removeReturnValue(JRSubreportReturnValue returnValue)
 	{
-		return this.returnValues.remove(returnValue);
+		int idx = this.returnValues.indexOf(returnValue);
+		if (idx >= 0)
+		{
+			this.returnValues.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_RETURN_VALUES, returnValue, idx);
+			return true;
+		}
+		return false;
 	}
 
 

@@ -50,6 +50,8 @@ public class JRDesignElementGroup extends JRBaseElementGroup implements JRChange
 
 	public static final String PROPERTY_ELEMENT_GROUP = "elementGroup";
 
+	public static final String PROPERTY_CHILDREN = "children";
+
 	/**
 	 *
 	 */
@@ -68,6 +70,8 @@ public class JRDesignElementGroup extends JRBaseElementGroup implements JRChange
 		element.setElementGroup(this);
 		
 		this.children.add(element);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, 
+				element, children.size() - 1);
 	}
 
 	/**
@@ -77,7 +81,12 @@ public class JRDesignElementGroup extends JRBaseElementGroup implements JRChange
 	{
 		element.setElementGroup(null);
 
-		this.children.remove(element);
+		int idx = this.children.indexOf(element);
+		if (idx >= 0)
+		{
+			this.children.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_CHILDREN, element, idx);
+		}
 		
 		return element;
 	}
@@ -90,6 +99,8 @@ public class JRDesignElementGroup extends JRBaseElementGroup implements JRChange
 		elemGrp.setElementGroup(this);
 		
 		this.children.add(elemGrp);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, 
+				elemGrp, children.size() - 1);
 	}
 
 	/**
@@ -99,7 +110,12 @@ public class JRDesignElementGroup extends JRBaseElementGroup implements JRChange
 	{
 		elemGrp.setElementGroup(null);
 
-		this.children.remove(elemGrp);
+		int idx = this.children.indexOf(elemGrp);
+		if (idx >= 0)
+		{
+			this.children.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_CHILDREN, elemGrp, idx);
+		}
 		
 		return elemGrp;
 	}

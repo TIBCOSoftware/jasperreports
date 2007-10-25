@@ -53,6 +53,8 @@ public class JRDesignStyle extends JRBaseStyle
 	public static final String PROPERTY_PARENT_STYLE = "parentStyle";
 	
 	public static final String PROPERTY_PARENT_STYLE_NAME_REFERENCE = "parentStyleNameReference";
+	
+	public static final String PROPERTY_CONDITIONAL_STYLES = "conditionalStyles";
 
 	private List conditionalStylesList = new ArrayList();
 
@@ -100,6 +102,8 @@ public class JRDesignStyle extends JRBaseStyle
 	public void addConditionalStyle(JRConditionalStyle conditionalStyle)
 	{
 		conditionalStylesList.add(conditionalStyle);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CONDITIONAL_STYLES, 
+				conditionalStyle, conditionalStylesList.size() - 1);
 	}
 
 	/**
@@ -107,7 +111,15 @@ public class JRDesignStyle extends JRBaseStyle
 	 */
 	public boolean removeConditionalStyle(JRConditionalStyle conditionalStyle)
 	{
-		return conditionalStylesList.remove(conditionalStyle);
+		int idx = conditionalStylesList.indexOf(conditionalStyle);
+		if (idx >= 0)
+		{
+			conditionalStylesList.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_CONDITIONAL_STYLES, 
+					conditionalStyle, idx);
+			return true;
+		}
+		return false;
 	}
 
 	/**
