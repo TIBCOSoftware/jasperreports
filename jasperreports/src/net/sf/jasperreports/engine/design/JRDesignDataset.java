@@ -59,7 +59,6 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.base.JRBaseDataset;
-import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
@@ -409,8 +408,13 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		if (parameter != null)
 		{
-			parametersList.remove(parameter);
-			parametersMap.remove(parameter.getName());
+			int idx = parametersList.indexOf(parameter);
+			if (idx >= 0)
+			{
+				parametersList.remove(idx);
+				parametersMap.remove(parameter.getName());
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PARAMETERS, parameter, idx);
+			}
 		}
 
 		return parameter;
@@ -542,8 +546,14 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		if (field != null)
 		{
-			fieldsList.remove(field);
-			fieldsMap.remove(field.getName());
+			int idx = fieldsList.indexOf(field);
+			if (idx >= 0)
+			{
+				fieldsList.remove(idx);
+				fieldsMap.remove(field.getName());
+				
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_FIELDS, field, idx);
+			}
 		}
 
 		return field;
@@ -613,8 +623,13 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		if (sortField != null)
 		{
-			sortFieldsList.remove(sortField);
-			sortFieldsMap.remove(sortField.getName());
+			int idx = sortFieldsList.indexOf(sortField);
+			if (idx >= 0)
+			{
+				sortFieldsList.remove(idx);
+				sortFieldsMap.remove(sortField.getName());
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_SORT_FIELDS, sortField, idx);
+			}
 		}
 
 		return sortField;
@@ -727,8 +742,13 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		if (variable != null)
 		{
-			variablesList.remove(variable);
-			variablesMap.remove(variable.getName());
+			int idx = variablesList.indexOf(variable);
+			if (idx >= 0)
+			{
+				variablesList.remove(idx);
+				variablesMap.remove(variable.getName());
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_VARIABLES, variable, idx);
+			}
 		}
 
 		return variable;
@@ -831,8 +851,13 @@ public class JRDesignDataset extends JRBaseDataset
 		if (group != null)
 		{
 			removeVariable(group.getCountVariable());
-			groupsList.remove(group);
-			groupsMap.remove(group.getName());
+			int idx = groupsList.indexOf(group);
+			if (idx >= 0)
+			{
+				groupsList.remove(idx);
+				groupsMap.remove(group.getName());
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_GROUPS, group, idx);
+			}
 		}
 
 		return group;

@@ -53,7 +53,6 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseReport;
-import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.design.events.PropagationChangeListener;
 import net.sf.jasperreports.engine.util.JRElementsVisitor;
 import net.sf.jasperreports.engine.util.JRVisitorSupport;
@@ -541,7 +540,10 @@ public class JasperDesign extends JRBaseReport
 	{
 		if (importsSet != null)
 		{
-			importsSet.remove(value);
+			if (importsSet.remove(value))
+			{
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_IMPORTS, value, -1);
+			}
 		}
 	}
 
@@ -638,8 +640,13 @@ public class JasperDesign extends JRBaseReport
 				setDefaultFont(null);
 			}
 
-			fontsList.remove(reportFont);
-			fontsMap.remove(reportFont.getName());
+			int idx = fontsList.indexOf(reportFont);
+			if (idx >= 0)
+			{
+				fontsList.remove(idx);
+				fontsMap.remove(reportFont.getName());
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_FONTS, reportFont, idx);
+			}
 		}
 
 		return reportFont;
@@ -733,8 +740,13 @@ public class JasperDesign extends JRBaseReport
 				setDefaultStyle(null);
 			}
 
-			stylesList.remove(style);
-			stylesMap.remove(style.getName());
+			int idx = stylesList.indexOf(style);
+			if (idx >= 0)
+			{
+				stylesList.remove(idx);
+				stylesMap.remove(style.getName());
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_STYLES, style, idx);
+			}
 		}
 
 		return style;
@@ -1050,8 +1062,13 @@ public class JasperDesign extends JRBaseReport
 	{
 		if (dataset != null)
 		{
-			datasetList.remove(dataset);
-			datasetMap.remove(dataset.getName());
+			int idx = datasetList.indexOf(dataset);
+			if (idx >= 0)
+			{
+				datasetList.remove(idx);
+				datasetMap.remove(dataset.getName());
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_DATASETS, dataset, idx);
+			}
 		}
 
 		return dataset;
@@ -1171,7 +1188,14 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public boolean removeTemplate(JRReportTemplate template)
 	{
-		return templateList.remove(template);
+		int idx = templateList.indexOf(template);
+		if (idx >= 0)
+		{
+			templateList.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_TEMPLATES, template, idx);
+			return true;
+		}
+		return false;
 	}
 
 	public JRReportTemplate[] getTemplates()
