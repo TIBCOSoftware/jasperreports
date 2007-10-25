@@ -62,4 +62,24 @@ public class JRPropertyChangeSupport extends PropertyChangeSupport
 				removedValue, removedIndex));
 	}
 	
+    public void firePropertyChange(String propertyName, float oldValue, float newValue)
+    {
+		if (oldValue == newValue)
+		{
+			return;
+		}
+		
+		firePropertyChange(propertyName, new Float(oldValue), new Float(newValue));
+	}
+	
+    public void firePropertyChange(String propertyName, double oldValue, double newValue)
+    {
+		if (oldValue == newValue)
+		{
+			return;
+		}
+		
+		firePropertyChange(propertyName, new Double(oldValue), new Double(newValue));
+	}
+	
 }
