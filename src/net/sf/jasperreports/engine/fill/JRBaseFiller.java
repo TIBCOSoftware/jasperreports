@@ -878,7 +878,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				for (int i = 0; i < styles.length; i++)
 				{
-					jasperPrint.addStyle(styles[i], true);
+					addPrintStyle(styles[i]);
 				}
 			}
 
@@ -929,6 +929,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	}
 
+	protected void addPrintStyle(JRStyle style) throws JRException
+	{
+		jasperPrint.addStyle(style, true);
+	}
+	
 	protected static interface DefaultStyleListener
 	{
 		void defaultStyleSet(JRStyle style);
