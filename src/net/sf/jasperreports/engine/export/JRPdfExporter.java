@@ -1160,9 +1160,22 @@ public class JRPdfExporter extends JRAbstractExporter
 				double normalWidth = availableImageWidth;
 				double normalHeight = availableImageHeight;
 
+				double displayWidth = availableImageWidth;
+				double displayHeight = availableImageHeight;
+
+				double ratioX = 1f;
+				double ratioY = 1f;
+				
+				Rectangle2D clip = null;
+
 				Dimension2D dimension = renderer.getDimension();
 				if (dimension != null)
 				{
+					normalWidth = dimension.getWidth();
+					normalHeight = dimension.getHeight();
+					displayWidth = normalWidth;
+					displayHeight = normalHeight;
+					
 					float xalignFactor = getXAlignFactor(printImage);
 					float yalignFactor = getYAlignFactor(printImage);
 
@@ -1170,14 +1183,23 @@ public class JRPdfExporter extends JRAbstractExporter
 					{
 						case JRImage.SCALE_IMAGE_CLIP:
 						{
-							normalWidth = dimension.getWidth();
-							normalHeight = dimension.getHeight();
 							xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
 							yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+							clip =
+								new Rectangle2D.Double(
+									- xoffset,
+									- yoffset,
+									availableImageWidth,
+									availableImageHeight
+									);
 							break;
 						}
 						case JRImage.SCALE_IMAGE_FILL_FRAME:
 						{
+							ratioX = availableImageWidth / normalWidth;
+							ratioY = availableImageHeight / normalHeight;
+							normalWidth *= ratioX;
+							normalHeight *= ratioY;
 							xoffset = 0;
 							yoffset = 0;
 							break;
@@ -1185,13 +1207,12 @@ public class JRPdfExporter extends JRAbstractExporter
 						case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
 						default:
 						{
-							normalWidth = dimension.getWidth();
-							normalHeight = dimension.getHeight();
-							double ratioX = availableImageWidth / normalWidth;
-							double ratioY = availableImageHeight / normalHeight;
-							double ratio = ratioX < ratioY ? ratioX : ratioY;
-							normalWidth *= ratio;
-							normalHeight *= ratio;
+							ratioX = availableImageWidth / normalWidth;
+							ratioY = availableImageHeight / normalHeight;
+							ratioX = ratioX < ratioY ? ratioX : ratioY;
+							ratioY = ratioX;
+							normalWidth *= ratioX;
+							normalHeight *= ratioY;
 							xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
 							yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
 							break;
@@ -1199,39 +1220,36 @@ public class JRPdfExporter extends JRAbstractExporter
 					}
 				}
 
-				PdfTemplate template = pdfContentByte.createTemplate(availableImageWidth, availableImageHeight);
+				PdfTemplate template = pdfContentByte.createTemplate((float)displayWidth, (float)displayHeight);
 
 				Graphics2D g = forceSvgShapes
-					? template.createGraphicsShapes(availableImageWidth, availableImageHeight)
+					? template.createGraphicsShapes((float)displayWidth, (float)displayHeight)
 					: template.createGraphics(availableImageWidth, availableImageHeight, new LocalFontMapper());
 
+				if (clip != null)
+				{
+					g.setClip(clip);
+				}
+				
 				if (printImage.getMode() == JRElement.MODE_OPAQUE)
 				{
 					g.setColor(printImage.getBackcolor());
-					g.fillRect(0, 0,
-						normalWidth <= availableImageWidth ? (int) normalWidth : availableImageWidth,
-						normalHeight <= availableImageHeight ? (int) normalHeight : availableImageHeight);
+					g.fillRect(0, 0, (int)displayWidth, (int)displayHeight);
 				}
 
-				Rectangle2D rectangle = new Rectangle2D.Double(
-						(xoffset > 0 ? 0 : xoffset),
-						(yoffset > 0 ? 0 : yoffset),
-						normalWidth,
-						normalHeight);
+				Rectangle2D rectangle = new Rectangle2D.Double(0, 0, displayWidth, displayHeight);
 
 				renderer.render(g, rectangle);
 				g.dispose();
 
-				xoffset = (xoffset < 0 ? 0 : xoffset);
-				yoffset = (yoffset < 0 ? 0 : yoffset);
-
 				pdfContentByte.saveState();
 				pdfContentByte.addTemplate(
 					template,
+					(float)ratioX, 0f, 0f, (float)ratioY,
 					printImage.getX() + getOffsetX() + xoffset,
 					jasperPrint.getPageHeight()
 						- printImage.getY() - getOffsetY()
-						- availableImageHeight
+						- (int)normalHeight
 						- yoffset
 					);
 				pdfContentByte.restoreState();
