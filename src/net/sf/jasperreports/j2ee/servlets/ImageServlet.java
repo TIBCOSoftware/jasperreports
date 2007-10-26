@@ -79,6 +79,7 @@ public class ImageServlet extends BaseHttpServlet
 				JRRenderable pxRenderer = 
 					JRImageRenderer.getInstance("net/sf/jasperreports/engine/images/pixel.GIF");
 				imageData = pxRenderer.getImageData();
+				imageMimeType = JRRenderable.MIME_TYPE_GIF;
 			}
 			catch (JRException e)
 			{
