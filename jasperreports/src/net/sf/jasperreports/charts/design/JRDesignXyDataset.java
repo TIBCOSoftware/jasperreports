@@ -52,6 +52,8 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_XY_SERIES = "xySeries";
 
 	private List xySeriesList = new ArrayList();
 
@@ -93,6 +95,8 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	public void addXySeries(JRXySeries xySeries)
 	{
 		xySeriesList.add(xySeries);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_XY_SERIES, 
+				xySeries, xySeriesList.size() - 1);
 	}
 	
 
@@ -103,7 +107,12 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	{
 		if (xySeries != null)
 		{
-			xySeriesList.remove(xySeries);
+			int idx = xySeriesList.indexOf(xySeries);
+			if (idx >= 0)
+			{
+				xySeriesList.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_XY_SERIES, xySeries, idx);
+			}
 		}
 		
 		return xySeries;

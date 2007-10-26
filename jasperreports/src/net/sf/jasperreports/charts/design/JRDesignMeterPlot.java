@@ -72,6 +72,8 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	public static final String PROPERTY_UNITS = "units";
 	
 	public static final String PROPERTY_VALUE_DISPLAY = "valueDisplay";
+	
+	public static final String PROPERTY_INTERVALS = "intervals";
 
 
 	/**
@@ -140,6 +142,7 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	public void addInterval(JRMeterInterval interval)
 	{
 		intervals.add(interval);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_INTERVALS, interval, intervals.size() - 1);
 	}
 
 	/**
@@ -147,6 +150,7 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void clearIntervals()
 	{
+		//FIXME event?
 		intervals.clear();
 	}
 

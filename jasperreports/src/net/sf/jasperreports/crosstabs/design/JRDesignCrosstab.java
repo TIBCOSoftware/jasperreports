@@ -93,6 +93,16 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public static final String PROPERTY_RUN_DIRECTION = JRBaseCrosstab.PROPERTY_RUN_DIRECTION;
 	
 	public static final String PROPERTY_WHEN_NO_DATA_CELL = "whenNoDataCell";
+	
+	public static final String PROPERTY_CELLS = "cells";
+	
+	public static final String PROPERTY_ROW_GROUPS = "rowGroups";
+	
+	public static final String PROPERTY_COLUMN_GROUPS = "columnGroups";
+	
+	public static final String PROPERTY_MEASURES = "measures";
+	
+	public static final String PROPERTY_PARAMETERS = "parameters";
 
 	protected List parametersList;
 	protected Map parametersMap;
@@ -311,6 +321,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		addRowGroupVars(group);
 		
 		setParent(group);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_ROW_GROUPS, group, rowGroups.size() - 1);
 	}
 
 	
@@ -357,6 +369,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		addColGroupVars(group);
 		
 		setParent(group);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_COLUMN_GROUPS, group, columnGroups.size() - 1);
 	}
 	
 	
@@ -400,6 +414,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		measures.add(measure);
 		
 		addMeasureVars(measure);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MEASURES, measure, measures.size() - 1);
 	}
 
 	protected void addMeasureVars(JRDesignCrosstabMeasure measure)
@@ -492,10 +508,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				{
 					it.remove();
 					cellsMap.remove(new Pair(rowTotalGroup, cell.getColumnTotalGroup()));
+					getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_CELLS, cell, -1);
 				}
 			}
 			
 			removeRowGroupVars(removed);
+			
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_ROW_GROUPS, removed, idx.intValue());
 		}
 		
 		return removed;
@@ -560,10 +579,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				{
 					it.remove();
 					cellsMap.remove(new Pair(cell.getRowTotalGroup(), columnTotalGroup));
+					getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_CELLS, cell, -1);
 				}
 			}
 			
 			removeColGroupVars(removed);
+			
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_COLUMN_GROUPS, removed, idx.intValue());
 		}
 		
 		return removed;
@@ -624,6 +646,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			removeMeasureVars(removed);
 			
 			removed.removePropertyChangeListener(JRDesignCrosstabMeasure.PROPERTY_VALUE_CLASS, measureClassChangeListener);
+			
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_MEASURES, removed, idx.intValue());
 		}
 		
 		return removed;
@@ -753,6 +777,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		setCellOrigin(cell.getContents(),
 				new JRCrosstabOrigin(this, JRCrosstabOrigin.TYPE_DATA_CELL,
 						rowTotalGroup, columnTotalGroup));
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CELLS, cell, cellsList.size() - 1);
 	}
 	
 	
@@ -771,6 +797,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		if (cell != null)
 		{
 			cellsList.remove(cell);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_CELLS, cell, -1);
 		}
 		
 		return cell;
@@ -785,14 +812,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public JRCrosstabCell removeCell(JRCrosstabCell cell)
 	{
-		Object cellKey = new Pair(cell.getRowTotalGroup(), cell.getColumnTotalGroup());
-		JRCrosstabCell removedCell = (JRCrosstabCell) cellsMap.remove(cellKey);
-		if (removedCell != null)
-		{
-			cellsList.remove(removedCell);
-		}
-		
-		return removedCell;
+		return removeCell(cell.getRowTotalGroup(), cell.getColumnTotalGroup());
 	}
 	
 	private static class Pair implements Serializable
@@ -892,6 +912,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		parametersMap.put(parameter.getName(), parameter);
 		parametersList.add(parameter);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARAMETERS, parameter, parametersList.size() - 1);
 	}
 	
 	
@@ -907,7 +929,12 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		if (param != null)
 		{
-			parametersList.remove(param);
+			int idx = parametersList.indexOf(param);
+			if (idx >= 0)
+			{
+				parametersList.remove(idx);
+			}
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PARAMETERS, param, idx);
 		}
 		
 		return param;

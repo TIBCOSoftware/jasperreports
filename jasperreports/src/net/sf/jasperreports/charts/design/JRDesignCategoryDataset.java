@@ -52,6 +52,8 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_CATEGORY_SERIES = "categorySeries";
 
 	private List categorySeriesList = new ArrayList();
 
@@ -93,6 +95,8 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	public void addCategorySeries(JRCategorySeries categorySeries)
 	{
 		categorySeriesList.add(categorySeries);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CATEGORY_SERIES, 
+				categorySeries, categorySeriesList.size() - 1);
 	}
 	
 
@@ -103,7 +107,13 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	{
 		if (categorySeries != null)
 		{
-			categorySeriesList.remove(categorySeries);
+			int idx = categorySeriesList.indexOf(categorySeries);
+			if (idx >= 0)
+			{
+				categorySeriesList.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_CATEGORY_SERIES, 
+						categorySeries, idx);
+			}
 		}
 		
 		return categorySeries;
