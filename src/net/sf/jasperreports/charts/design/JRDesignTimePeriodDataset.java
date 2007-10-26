@@ -49,6 +49,8 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	 */
 	public static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_TIME_PERIODS_SERIES = "timePeriodSeries";
+	
 	private List timePeriodSeriesList = new ArrayList();
 	
 
@@ -85,6 +87,8 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	public void addTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ) 
 	{
 		timePeriodSeriesList.add(timePeriodSeries);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TIME_PERIODS_SERIES, 
+				timePeriodSeries, timePeriodSeriesList.size() - 1);
 	}
 	
 	/**
@@ -92,9 +96,15 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	 */
 	public JRTimePeriodSeries removeTimePeriodSeries(JRTimePeriodSeries timePeriodSeries)
 	{
-		if( timePeriodSeries != null && timePeriodSeriesList.contains( timePeriodSeries ))
+		if( timePeriodSeries != null)
 		{
-			timePeriodSeriesList.remove( timePeriodSeries );
+			int idx = timePeriodSeriesList.indexOf(timePeriodSeries);
+			if (idx >= 0)
+			{
+				timePeriodSeriesList.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_TIME_PERIODS_SERIES, 
+						timePeriodSeries, idx);
+			}
 		}
 		
 		return timePeriodSeries;

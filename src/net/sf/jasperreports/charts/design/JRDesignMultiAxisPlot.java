@@ -48,6 +48,8 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	
 	public static final String PROPERTY_CHART = "chart";
 	
+	public static final String PROPERTY_AXES = "axes";
+	
 	private JRDesignChart chart = null;
 	/**
 	 *
@@ -78,6 +80,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 		{
 			chart.setDataset(axis.getChart().getDataset());
 		}
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_AXES, axis, axes.size() - 1);
 	}
 
 	/**
@@ -85,6 +88,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	 */
 	public void clearAxes()
 	{
+		//FIXME event?
 		axes.clear();
 		chart.setDataset(null);
 	}
