@@ -605,7 +605,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 							List styles = subreport.subreportFiller.getJasperPrint().getStylesList();
 							for(int j = 0; j < styles.size(); j++)
 							{
-								filler.getJasperPrint().addStyle((JRStyle)styles.get(j), true);
+								filler.addPrintStyle((JRStyle)styles.get(j));
 							}
 							
 							List origins = subreport.subreportFiller.getJasperPrint().getOriginsList();
@@ -748,7 +748,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 					JRStyleResolver.appendStyle(consolidatedStyle, (JRStyle)condStylesToApply.get(j));
 				}
 
-				filler.getJasperPrint().addStyle(consolidatedStyle, true);
+				filler.addPrintStyle(consolidatedStyle);
 			}
 		}
 
