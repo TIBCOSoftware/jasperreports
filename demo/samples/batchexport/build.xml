@@ -44,130 +44,127 @@
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
 		<java classname="${class.name}">
-			<arg value="-Tfill"/>
-			<arg value="-F${basedir}"/>
+			<arg value="fill"/>
+			<arg value="${basedir}"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="view1" description="Launches the report viewer to preview the first report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-FReport1.jrprint"/>
+			<arg value="Report1.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="view2" description="Launches the report viewer to preview the second report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-FReport2.jrprint"/>
+			<arg value="Report2.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="view3" description="Launches the report viewer to preview the third report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-FReport3.jrprint"/>
+			<arg value="Report3.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}">
-			<arg value="-Tpdf"/>
-			<arg value="-F${file.name}.pdf"/>
+			<arg value="pdf"/>
+			<arg value="${file.name}.pdf"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="html" description="HTML">
 		<java classname="${class.name}">
-			<arg value="-Thtml"/>
-			<arg value="-F${file.name}.html"/>
+			<arg value="html"/>
+			<arg value="${file.name}.html"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}">
-			<arg value="-Trtf"/>
-			<arg value="-F${file.name}.rtf"/>
+			<arg value="rtf"/>
+			<arg value="${file.name}.rtf"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
 		<java classname="${class.name}">
-			<arg value="-Txls"/>
-			<arg value="-F${file.name}.xls"/>
+			<arg value="xls"/>
+			<arg value="${file.name}.xls"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
 		<java classname="${class.name}">
-			<arg value="-Tjxl"/>
-			<arg value="-F${file.name}.jxl.xls"/>
+			<arg value="jxl"/>
+			<arg value="${file.name}.jxl.xls"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
 		<java classname="${class.name}">
-			<arg value="-Tcsv"/>
-			<arg value="-F${file.name}.csv"/>
+			<arg value="csv"/>
+			<arg value="${file.name}.csv"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
 		<java classname="${class.name}">
-			<arg value="-Todt"/>
-			<arg value="-F${file.name}.odt"/>
+			<arg value="odt"/>
+			<arg value="${file.name}.odt"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesignXML1" description="Launches the design viewer to preview the first XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-XML"/>
-			<arg value="-FReport1.jrxml"/>
+			<arg value="Report1.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesignXML2" description="Launches the design viewer to preview the second XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-XML"/>
-			<arg value="-FReport2.jrxml"/>
+			<arg value="Report2.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesignXML3" description="Launches the design viewer to preview the third XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-XML"/>
-			<arg value="-FReport3.jrxml"/>
+			<arg value="Report3.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesign1" description="Launches the design viewer to preview the first compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-FReport1.jasper"/>
+			<arg value="Report1.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesign2" description="Launches the design viewer to preview the second compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-FReport2.jasper"/>
+			<arg value="Report2.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesign3" description="Launches the design viewer to preview the third compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-FReport3.jasper"/>
+			<arg value="Report3.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

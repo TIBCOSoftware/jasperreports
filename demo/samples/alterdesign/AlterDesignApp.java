@@ -62,25 +62,14 @@ public class AlterDesignApp
 	 */
 	public static void main(String[] args)
 	{
-		String fileName = null;
-		String taskName = null;
-
 		if(args.length == 0)
 		{
 			usage();
 			return;
 		}
 				
-		int k = 0;
-		while ( args.length > k )
-		{
-			if ( args[k].startsWith("-T") )
-				taskName = args[k].substring(2);
-			if ( args[k].startsWith("-F") )
-				fileName = args[k].substring(2);
-			
-			k++;	
-		}
+		String taskName = args[0];
+		String fileName = args[1];
 
 		try
 		{
@@ -145,7 +134,7 @@ public class AlterDesignApp
 	private static void usage()
 	{
 		System.out.println( "AlterDesignApp usage:" );
-		System.out.println( "\tjava AlterDesignApp -Ttask -Ffile" );
+		System.out.println( "\tjava AlterDesignApp task file" );
 		System.out.println( "\tTasks : fill | print | pdf" );
 	}
 
