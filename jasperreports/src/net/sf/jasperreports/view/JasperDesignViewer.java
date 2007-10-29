@@ -124,21 +124,31 @@ public class JasperDesignViewer extends javax.swing.JFrame
 		String fileName = null;
 		boolean isXMLFile = false;
 
-		if(args.length == 0)
+		for (int i = 0; i < args.length; i++)
+		{
+			if ( args[i].startsWith("-XML") )
+			{
+				isXMLFile = true;
+			}
+			else if ( args[i].startsWith("-F") )
+			{
+				fileName = args[i].substring(2);
+			}
+			else
+			{
+				fileName = args[i];
+			}
+		}
+		
+		if(fileName == null)
 		{
 			usage();
 			return;
 		}
-				
-		int k = 0;
-		while ( args.length > k )
+
+		if (!isXMLFile && fileName.endsWith(".jrxml"))
 		{
-			if ( args[k].startsWith("-F") )
-				fileName = args[k].substring(2);
-			if ( args[k].startsWith("-XML") )
-				isXMLFile = true;
-			
-			k++;	
+			isXMLFile = true;
 		}
 
 		try
@@ -158,7 +168,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	private static void usage()
 	{
 		System.out.println( "JasperDesignViewer usage:" );
-		System.out.println( "\tjava JasperDesignViewer -XML -Ffile" );
+		System.out.println( "\tjava JasperDesignViewer [-XML] file" );
 	}
 	
 	/**

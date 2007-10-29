@@ -278,21 +278,31 @@ public class JasperViewer extends javax.swing.JFrame
 		String fileName = null;
 		boolean isXMLFile = false;
 
-		if(args.length == 0)
+		for (int i = 0; i < args.length; i++)
+		{
+			if ( args[i].startsWith("-XML") )
+			{
+				isXMLFile = true;
+			}
+			else if ( args[i].startsWith("-F") )
+			{
+				fileName = args[i].substring(2);
+			}
+			else
+			{
+				fileName = args[i];
+			}
+		}
+		
+		if(fileName == null)
 		{
 			usage();
 			return;
 		}
 
-		int k = 0;
-		while ( args.length > k )
+		if (!isXMLFile && fileName.endsWith(".jrpxml"))
 		{
-			if ( args[k].startsWith("-F") )
-				fileName = args[k].substring(2);
-			if ( args[k].startsWith("-XML") )
-				isXMLFile = true;
-
-			k++;
+			isXMLFile = true;
 		}
 
 		try
@@ -313,7 +323,7 @@ public class JasperViewer extends javax.swing.JFrame
 	private static void usage()
 	{
 		System.out.println( "JasperViewer usage:" );
-		System.out.println( "\tjava JasperViewer -XML -Ffile" );
+		System.out.println( "\tjava JasperViewer [-XML] file" );
 	}
 
 
