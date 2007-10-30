@@ -103,6 +103,7 @@ import com.lowagie.text.SplitCharacter;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.FontMapper;
+import com.lowagie.text.pdf.PdfAction;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfOutline;
@@ -149,6 +150,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected Document document = null;
 	protected PdfContentByte pdfContentByte = null;
+	protected PdfWriter pdfWriter = null;
 
 	protected Document imageTesterDocument = null;
 	protected PdfContentByte imageTesterPdfContentByte = null;
@@ -423,7 +425,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		boolean closeDocuments = true;
 		try
 		{
-			PdfWriter pdfWriter = PdfWriter.getInstance(document, os);
+			pdfWriter = PdfWriter.getInstance(document, os);
 			pdfWriter.setCloseStream(false);
 
 			if (pdfVersion != null)
@@ -1378,7 +1380,27 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				if (link.getHyperlinkReference() != null)
 				{
-					chunk.setAnchor(link.getHyperlinkReference());
+					switch(link.getHyperlinkTarget())
+					{
+						case JRHyperlink.HYPERLINK_TARGET_BLANK :
+						{
+							chunk.setAction(
+								PdfAction.javaScript(
+									"if (app.viewerVersion < 7)"
+										+ "{this.getURL(\"" + link.getHyperlinkReference() + "\");}"
+										+ "else {app.launchURL(\"" + link.getHyperlinkReference() + "\", true);};",
+									pdfWriter
+									)
+								);
+							break;
+						}
+						case JRHyperlink.HYPERLINK_TARGET_SELF :
+						default :
+						{
+							chunk.setAnchor(link.getHyperlinkReference());
+							break;
+						}
+					}
 				}
 				break;
 			}
