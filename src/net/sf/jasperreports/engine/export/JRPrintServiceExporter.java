@@ -235,6 +235,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 					throw new JRException(e);
 				}
 			}
+			
+			printService = printerJob.getPrintService();
 		}
 		finally
 		{
