@@ -696,6 +696,7 @@ public class JRDesignDataset extends JRBaseDataset
 			throw new JRException("Duplicate declaration of variable : " + variable.getName());
 		}
 
+		int addedIdx;
 		if (system)
 		{
 			// add the variable vefore the first non-system variable
@@ -710,13 +711,17 @@ public class JRDesignDataset extends JRBaseDataset
 				}
 			}
 			it.add(variable);
+			addedIdx = it.previousIndex();
 		}
 		else
 		{
 			variablesList.add(variable);
+			addedIdx = variablesList.size() - 1;
 		}
 		
 		variablesMap.put(variable.getName(), variable);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_VARIABLES, variable, addedIdx);
 	}
 
 	
