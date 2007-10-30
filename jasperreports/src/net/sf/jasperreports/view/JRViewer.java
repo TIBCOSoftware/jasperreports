@@ -171,7 +171,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 		};
 
-	private KeyListener keyNavigationListener =
+	protected KeyListener keyNavigationListener =
 		new KeyListener() {
 			public void keyTyped(KeyEvent evt)
 			{
@@ -185,7 +185,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 		};
 
-	private java.util.List saveContributors = new ArrayList();
+	protected java.util.List saveContributors = new ArrayList();
 
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML) throws JRException
@@ -1330,14 +1330,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	*/
 	private void setPageIndex(int index)
 	{
-		if(index > -1 && index < jasperPrint.getPages().size())
+		if (
+			jasperPrint != null &&
+			jasperPrint.getPages() != null &&
+			jasperPrint.getPages().size() > 0
+			)
 		{
-
-			if (
-				jasperPrint != null &&
-				jasperPrint.getPages() != null &&
-				jasperPrint.getPages().size() > 0
-				)
+			if (index >= 0 && index < jasperPrint.getPages().size())
 			{
 				pageIndex = index;
 				btnFirst.setEnabled( (pageIndex > 0) );
@@ -1353,16 +1352,16 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						)
 					);
 			}
-			else
-			{
-				btnFirst.setEnabled(false);
-				btnPrevious.setEnabled(false);
-				btnNext.setEnabled(false);
-				btnLast.setEnabled(false);
-				txtGoTo.setEnabled(false);
-				txtGoTo.setText("");
-				lblStatus.setText("");
-			}
+		}
+		else
+		{
+			btnFirst.setEnabled(false);
+			btnPrevious.setEnabled(false);
+			btnNext.setEnabled(false);
+			btnLast.setEnabled(false);
+			txtGoTo.setEnabled(false);
+			txtGoTo.setText("");
+			lblStatus.setText("");
 		}
 	}
 
@@ -1903,7 +1902,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	}
 
-	private void keyNavigate(KeyEvent evt)
+	protected void keyNavigate(KeyEvent evt)
 	{
 		switch (evt.getKeyCode())
 		{

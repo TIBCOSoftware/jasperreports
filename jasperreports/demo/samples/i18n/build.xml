@@ -54,7 +54,7 @@
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
-		<java classname="${class.name}">
+		<java classname="${class.name}" fork="true">
 			<arg value="view"/>
 			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
