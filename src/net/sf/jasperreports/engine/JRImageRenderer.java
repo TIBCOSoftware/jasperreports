@@ -398,6 +398,11 @@ public class JRImageRenderer extends JRAbstractRenderer
 		if (imageData == null)
 		{
 			imageData = JRLoader.loadBytesFromLocation(imageLocation);
+			
+			if(imageData != null) 
+			{
+				imageType = JRTypeSniffer.getImageType(imageData);
+			}
 		}
 
 		return imageData;
