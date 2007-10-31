@@ -152,7 +152,7 @@
 		</dependency>
 		<dependency>
 			<groupId>groovy</groupId>
-			<artifactId>groovy-all</artifactId>
+			<artifactId>groovy-all-minimal</artifactId>
 			<version>1.0</version>
 			<scope>compile</scope>
 			<optional>true</optional>
