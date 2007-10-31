@@ -43,7 +43,7 @@ import java.util.Map;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPropertiesMap implements Serializable
+public class JRPropertiesMap implements Serializable, Cloneable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -157,6 +157,15 @@ public class JRPropertiesMap implements Serializable
 	public JRPropertiesMap cloneProperties()
 	{
 		return new JRPropertiesMap(this);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException
+	{
+		return this.cloneProperties();
 	}
 	
 	

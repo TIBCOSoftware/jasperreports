@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.base.JRBaseField;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignField extends JRBaseField
+public class JRDesignField extends JRBaseField implements Cloneable
 {
 
 
@@ -75,6 +75,15 @@ public class JRDesignField extends JRBaseField
 		valueClassName = className;
 		valueClass = null;
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS_NAME, old, this.valueClassName);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		return super.clone();
 	}
 
 
