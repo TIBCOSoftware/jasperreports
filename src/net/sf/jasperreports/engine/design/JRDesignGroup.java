@@ -65,9 +65,10 @@ public class JRDesignGroup extends JRBaseGroup
 	{
 		Object old = this.name;
 		this.name = name;
+		updateBandOrigins();
 		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
-		
+
 	/**
 	 *
 	 */
@@ -117,5 +118,11 @@ public class JRDesignGroup extends JRBaseGroup
 			JROrigin origin = new JROrigin(null, getName(), type);
 			((JRDesignBand) band).setOrigin(origin);
 		}
+	}
+	
+	protected void updateBandOrigins()
+	{
+		setBandOrigin(getGroupHeader(), JROrigin.GROUP_HEADER);
+		setBandOrigin(getGroupFooter(), JROrigin.GROUP_FOOTER);
 	}
 }
