@@ -81,25 +81,14 @@ public class DataSourceApp
 	 */
 	public static void main(String[] args)
 	{
-		String fileName = null;
-		String taskName = null;
-
 		if(args.length == 0)
 		{
 			usage();
 			return;
 		}
 				
-		int k = 0;
-		while ( args.length > k )
-		{
-			if ( args[k].startsWith("-T") )
-				taskName = args[k].substring(2);
-			if ( args[k].startsWith("-F") )
-				fileName = args[k].substring(2);
-			
-			k++;	
-		}
+		String taskName = args[0];
+		String fileName = args[1];
 
 		try
 		{
@@ -287,7 +276,7 @@ public class DataSourceApp
 	private static void usage()
 	{
 		System.out.println( "DataSourceApp usage:" );
-		System.out.println( "\tjava DataSourceApp -Ttask -Ffile" );
+		System.out.println( "\tjava DataSourceApp task file" );
 		System.out.println( "\tTasks : fill1 | fill2 | fill3 | fill4 | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | run" );
 	}
 

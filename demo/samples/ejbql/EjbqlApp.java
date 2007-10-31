@@ -73,24 +73,16 @@ public class EjbqlApp {
 	private static final String TASK_ODT = "odt";
 	private static final String TASK_RUN = "run";
 	
-	public static void main(String[] args) {
-		String fileName = null;
-		String taskName = null;
-
-		if(args.length == 0) {
+	public static void main(String[] args) 
+	{
+		if(args.length == 0) 
+		{
 			usage();
 			return;
 		}
 		
-		int k = 0;
-		while ( args.length > k ) {
-			if ( args[k].startsWith("-T") )
-				taskName = args[k].substring(2);
-			if ( args[k].startsWith("-F") )
-				fileName = args[k].substring(2);
-			
-			k++;	
-		}
+		String taskName = args[0];
+		String fileName = args[1];
 
 		try {
 			long start = System.currentTimeMillis();
@@ -271,7 +263,7 @@ public class EjbqlApp {
 
 	private static void usage() {
 		System.out.println( "EjbqlApp usage:" );
-		System.out.println( "\tjava EjbqlApp -Ttask -Ffile" );
+		System.out.println( "\tjava EjbqlApp task file" );
 		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
 	}
 }

@@ -135,15 +135,14 @@
 
 	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-XML"/>
-			<arg value="-F${file.name}.jrxml"/>
+			<arg value="${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-F${file.name}.jasper"/>
+			<arg value="${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

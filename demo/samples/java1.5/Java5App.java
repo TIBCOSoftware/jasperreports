@@ -62,25 +62,14 @@ public class Java5App
 	
 	public static void main(String[] args)
 	{
-		String fileName = null;
-		String taskName = null;
-
 		if (args.length == 0)
 		{
 			usage();
 			return;
 		}
 
-		int k = 0;
-		while (args.length > k)
-		{
-			if (args[k].startsWith("-T"))
-				taskName = args[k].substring(2);
-			if (args[k].startsWith("-F"))
-				fileName = args[k].substring(2);
-
-			k++;
-		}
+		String taskName = args[0];
+		String fileName = args[1];
 
 		try
 		{
@@ -116,7 +105,7 @@ public class Java5App
 	private static void usage()
 	{
 		System.out.println("Java5App usage:");
-		System.out.println("\tjava GroovyApp -Ttask -Ffile");
+		System.out.println("\tjava Java5App task file");
 		System.out.println("\tTasks : fill | pdf");
 	}
 

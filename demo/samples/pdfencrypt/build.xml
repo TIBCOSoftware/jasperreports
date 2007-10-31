@@ -39,54 +39,52 @@
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
 		<java classname="${class.name}">
-			<arg value="-Tfill"/>
-			<arg value="-F${file.name}.jasper"/>
+			<arg value="fill"/>
+			<arg value="${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-XML"/>
-			<arg value="-F${file.name}.jrpxml"/>
+			<arg value="${file.name}.jrpxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="print" description="Sends the report in the .jrprint file to the printer.">
 		<java classname="${class.name}">
-			<arg value="-Tprint"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="print"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}">
-			<arg value="-Tpdf"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="pdf"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-XML"/>
-			<arg value="-F${file.name}.jrxml"/>
+			<arg value="${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-F${file.name}.jasper"/>
+			<arg value="${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

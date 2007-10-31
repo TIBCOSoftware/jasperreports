@@ -91,25 +91,14 @@ public class ChartsApp
 	 */
 	public static void main(String[] args)
 	{
-		String taskName = null;
-		String fileName = null;
-
 		if(args.length == 0)
 		{
 			usage();
 			return;
 		}
 				
-		int k = 0;
-		while ( args.length > k )
-		{
-			if ( args[k].startsWith("-T") )
-				taskName = args[k].substring(2);
-			if ( args[k].startsWith("-F") )
-				fileName = args[k].substring(2);
-			
-			k++;	
-		}
+		String taskName = args[0];
+		String fileName = args[1];
 
 		try
 		{
@@ -185,7 +174,7 @@ public class ChartsApp
 	private static void usage()
 	{
 		System.out.println( "ChartsApp usage:" );
-		System.out.println( "\tjava ChartsApp -Ttask" );
+		System.out.println( "\tjava ChartsApp task" );
 		System.out.println( "\tTasks : fill | pdf | html" );
 	}
 
