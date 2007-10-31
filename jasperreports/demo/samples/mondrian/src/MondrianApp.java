@@ -82,28 +82,15 @@ public class MondrianApp
 	 */
 	public static void main(String[] args)
 	{
-		String fileName = null;
-		String taskName = null;
-		String propertiesFileName = null;
-
 		if(args.length == 0)
 		{
 			usage();
 			return;
 		}
 				
-		int k = 0;
-		while ( args.length > k )
-		{
-			if ( args[k].startsWith("-T") )
-				taskName = args[k].substring(2);
-			if ( args[k].startsWith("-F") )
-				fileName = args[k].substring(2);
-			if ( args[k].startsWith("-P") )
-				propertiesFileName = args[k].substring(2);
-			
-			k++;	
-		}
+		String taskName = args[0];
+		String fileName = args[1];
+		String propertiesFileName = args.length > 2 ? args[2] : null;
 
 		try
 		{
@@ -274,9 +261,9 @@ public class MondrianApp
 	private static void usage()
 	{
 		System.out.println( "MondrianApp usage:" );
-		System.out.println( "\tjava MondrianApp -Ttask -Ffile -Pproperties" );
+		System.out.println( "\tjava MondrianApp task file [propertiesFile]" );
 		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | odt | run" );
-		System.out.println( "\tproperties : properties file for Mondrian connection" );
+		System.out.println( "\tpropertiesFile : properties file for Mondrian connection" );
 	}
 
 

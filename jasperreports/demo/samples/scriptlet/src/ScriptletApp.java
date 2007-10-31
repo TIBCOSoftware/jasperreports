@@ -50,7 +50,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id:ScriptletApp.java 1908 2007-10-19 11:17:08Z teodord $
  */
 public class ScriptletApp
 {
@@ -78,25 +78,14 @@ public class ScriptletApp
 	 */
 	public static void main(String[] args)
 	{
-		String fileName = null;
-		String taskName = null;
-
 		if(args.length == 0)
 		{
 			usage();
 			return;
 		}
 				
-		int k = 0;
-		while ( args.length > k )
-		{
-			if ( args[k].startsWith("-T") )
-				taskName = args[k].substring(2);
-			if ( args[k].startsWith("-F") )
-				fileName = args[k].substring(2);
-			
-			k++;	
-		}
+		String taskName = args[0];
+		String fileName = args[1];
 
 		try
 		{
@@ -258,7 +247,7 @@ public class ScriptletApp
 	private static void usage()
 	{
 		System.out.println( "ScriptletApp usage:" );
-		System.out.println( "\tjava ScriptletApp -Ttask -Ffile" );
+		System.out.println( "\tjava ScriptletApp task file" );
 		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | run" );
 	}
 

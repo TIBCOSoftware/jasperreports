@@ -49,8 +49,7 @@
 
 	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-XML"/>
-			<arg value="-Freports/WebappReport.jrxml"/>
+			<arg value="reports/WebappReport.jrxml"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../build/classes"/>
@@ -63,7 +62,7 @@
 
 	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-Freports/WebappReport.jasper"/>
+			<arg value="reports/WebappReport.jasper"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../build/classes"/>

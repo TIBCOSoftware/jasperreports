@@ -73,29 +73,14 @@ public class VirtualizerApp
 	 */
 	public static void main(String[] args)
 	{
-		String fileName = null;
-		String outFileName = null;
-		String taskName = null;
-		
-
 		if (args.length == 0)
 		{
 			usage();
 			return;
 		}
 
-		int k = 0;
-		while (args.length > k)
-		{
-			if (args[k].startsWith("-T"))
-				taskName = args[k].substring(2);
-			else if (args[k].startsWith("-F"))
-				fileName = args[k].substring(2);
-			else if (args[k].startsWith("-O"))
-				outFileName = args[k].substring(2);
-
-			k++;
-		}
+		String taskName = args[0];
+		String fileName = args[1];
 
 		try
 		{
@@ -119,30 +104,30 @@ public class VirtualizerApp
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
-				exportPDF(outFileName, jasperPrint);
+				exportPDF(jasperPrint);
 			}
 			else if (TASK_XML.equals(taskName))
 			{
-				exportXML(outFileName, jasperPrint, false);
+				exportXML(jasperPrint, false);
 			}
 			else if (TASK_XML_EMBED.equals(taskName))
 			{
-				exportXML(outFileName, jasperPrint, true);
+				exportXML(jasperPrint, true);
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-				exportHTML(outFileName, jasperPrint);
+				exportHTML(jasperPrint);
 			}
 			else if (TASK_CSV.equals(taskName))
 			{
-				exportCSV(outFileName, jasperPrint);
+				exportCSV(jasperPrint);
 			}		
 			else if (TASK_EXPORT.equals(taskName))
 			{
-				exportPDF(outFileName + ".pdf", jasperPrint);
-				exportXML(outFileName + ".jrpxml", jasperPrint, false);
-				exportHTML(outFileName + ".html", jasperPrint);
-				exportCSV(outFileName + ".csv", jasperPrint);
+				exportPDF(jasperPrint);
+				exportXML(jasperPrint, false);
+				exportHTML(jasperPrint);
+				exportCSV(jasperPrint);
 				
 				// manually cleaning up
 				virtualizer.cleanup();
@@ -166,37 +151,37 @@ public class VirtualizerApp
 		}
 	}
 
-	private static void exportCSV(String outFileName, JasperPrint jasperPrint) throws JRException
+	private static void exportCSV(JasperPrint jasperPrint) throws JRException
 	{
 		long start = System.currentTimeMillis();
 		JRCsvExporter exporter = new JRCsvExporter();
 
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outFileName);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, jasperPrint.getName() + ".csv");
 
 		exporter.exportReport();
 
 		System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
 	}
 
-	private static void exportHTML(String outFileName, JasperPrint jasperPrint) throws JRException
+	private static void exportHTML(JasperPrint jasperPrint) throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile(jasperPrint, outFileName);
+		JasperExportManager.exportReportToHtmlFile(jasperPrint, jasperPrint.getName() + ".html");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 
-	private static void exportXML(String outFileName, JasperPrint jasperPrint, boolean embedded) throws JRException
+	private static void exportXML(JasperPrint jasperPrint, boolean embedded) throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile(jasperPrint, outFileName, embedded);
+		JasperExportManager.exportReportToXmlFile(jasperPrint, jasperPrint.getName() + ".jrpxml", embedded);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 
-	private static void exportPDF(String outFileName, JasperPrint jasperPrint) throws JRException
+	private static void exportPDF(JasperPrint jasperPrint) throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile(jasperPrint, outFileName);
+		JasperExportManager.exportReportToPdfFile(jasperPrint, jasperPrint.getName() + ".pdf");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -224,7 +209,7 @@ public class VirtualizerApp
 	private static void usage()
 	{
 		System.out.println("VirtualizerApp usage:");
-		System.out.println("\tjava VirtualizerApp -Ttask -Ffile");
+		System.out.println("\tjava VirtualizerApp task file");
 		System.out.println("\tTasks : print | pdf | xml | xmlEmbed | html | csv | export | view");
 	}
 

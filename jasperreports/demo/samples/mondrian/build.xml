@@ -68,9 +68,9 @@
 	<target name="fill" if="using.jdk.1.5" description="Fills the compiled report design with data and produces the .jrprint file.">
 	    <echo message="File is ${file.name}"/>
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-Tfill"/>
-			<arg value="-F${file.name}.jasper"/>
-			<arg value="-P${monConnection.properties}"/>
+			<arg value="fill"/>
+			<arg value="${file.name}.jasper"/>
+			<arg value="${monConnection.properties}"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -78,119 +78,117 @@
 	<target name="view" if="using.jdk.1.5" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 	    <echo message="File is ${file.name}"/>
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="build">
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewXML" if="using.jdk.1.5" description="Launches the report viewer to preview the generated report stored in an XML file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="build">
-			<arg value="-XML"/>
-			<arg value="-F${file.name}.jrpxml"/>
+			<arg value="${file.name}.jrpxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="print" if="using.jdk.1.5" description="Sends the report in the .jrprint file to the printer.">
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-Tprint"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="print"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="pdf" if="using.jdk.1.5" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-Tpdf"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="pdf"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="xml" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-Txml"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="xml"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="xmlEmbed" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-TxmlEmbed"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="xmlEmbed"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="html" if="using.jdk.1.5" description="Generates an HTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-Thtml"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="html"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="rtf" if="using.jdk.1.5" description="Generates an RTF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-Trtf"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="rtf"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="xls" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-Txls"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="xls"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="jxl" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-Tjxl"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="jxl"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="csv" if="using.jdk.1.5" description="Generates a CSV version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-Tcsv"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="csv"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="odt" if="using.jdk.1.5" description="Generates an ODT version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-Todt"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="odt"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="run" if="using.jdk.1.5" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
 		<java classname="${class.name}" fork="true" dir="build">
-			<arg value="-Trun"/>
-			<arg value="-F${file.name}.jasper"/>
-			<arg value="-P${monConnection.properties}"/>
+			<arg value="run"/>
+			<arg value="${file.name}.jasper"/>
+			<arg value="${monConnection.properties}"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true" dir="build">
-			<arg value="-XML"/>
-			<arg value="-F${file.name}.jrxml"/>
+			<arg value="${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesign" if="using.jdk.1.5" description="Launches the design viewer to preview the compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true" dir="build">
-			<arg value="-F${file.name}.jasper"/>
+			<arg value="${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
