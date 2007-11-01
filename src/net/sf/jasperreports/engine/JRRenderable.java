@@ -118,7 +118,7 @@ public interface JRRenderable extends Serializable
 	/**
 	 *
 	 */
-	public void render(Graphics2D grx, Rectangle2D rectanle) throws JRException;
+	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException;
 
 
 }
