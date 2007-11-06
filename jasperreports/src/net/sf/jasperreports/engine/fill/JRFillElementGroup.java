@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.JRVisitor;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillElementGroup implements JRElementGroup, JRCloneable
+public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 {
 
 
@@ -105,8 +105,8 @@ public class JRFillElementGroup implements JRElementGroup, JRCloneable
 		{
 			for (int i = 0; i < list.size(); i++)
 			{
-				JRCloneable child = (JRCloneable) list.get(i);
-				JRCloneable clone = child.createClone(factory);
+				JRFillCloneable child = (JRFillCloneable) list.get(i);
+				JRFillCloneable clone = child.createClone(factory);
 				children.add(clone);
 			}
 		}
@@ -299,7 +299,7 @@ public class JRFillElementGroup implements JRElementGroup, JRCloneable
 	}
 
 	
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillElementGroup(this, factory);
 	}

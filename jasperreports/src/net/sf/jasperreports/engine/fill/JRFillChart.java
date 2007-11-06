@@ -2777,7 +2777,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		//not needed
 		return null;

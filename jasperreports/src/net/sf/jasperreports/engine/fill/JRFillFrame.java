@@ -362,7 +362,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		return JRBaseElementGroup.getElementByKey(getElements(), key);
 	}
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillFrame(this, factory);
 	}

@@ -255,7 +255,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	}
 
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillStaticText(this, factory);
 	}

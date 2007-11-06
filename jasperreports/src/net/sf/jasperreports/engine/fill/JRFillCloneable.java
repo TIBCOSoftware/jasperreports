@@ -37,7 +37,7 @@ package net.sf.jasperreports.engine.fill;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRCloneable
+public interface JRFillCloneable
 {
 	/**
 	 * Creates a working clone of itself.
@@ -45,5 +45,5 @@ public interface JRCloneable
 	 * @param factory the clone factory to use while creating the clone
 	 * @return a working clone of itself
 	 */
-	JRCloneable createClone(JRFillCloneFactory factory);
+	JRFillCloneable createClone(JRFillCloneFactory factory);
 }

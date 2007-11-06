@@ -932,7 +932,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		//not needed
 		return null;

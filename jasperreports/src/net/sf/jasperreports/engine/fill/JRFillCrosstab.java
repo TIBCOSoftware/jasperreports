@@ -1946,7 +1946,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		return JRBaseCrosstab.getElementByKey(this, elementKey);
 	}
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		//not needed
 		return null;

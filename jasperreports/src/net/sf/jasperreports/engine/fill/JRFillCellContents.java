@@ -54,7 +54,7 @@ import org.apache.commons.collections.ReferenceMap;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillCellContents extends JRFillElementContainer implements JRCellContents, JRCloneable, JRStyleSetter
+public class JRFillCellContents extends JRFillElementContainer implements JRCellContents, JRFillCloneable, JRStyleSetter
 {
 	private final Map transformedContentsCache;
 	private final Map boxContentsCache;
@@ -538,13 +538,13 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		return box == null ? 0 : box.getBottomPadding();
 	}
 
-	public JRCloneable createClone()
+	public JRFillCloneable createClone()
 	{
 		JRFillCloneFactory factory = new JRFillCloneFactory();
 		return createClone(factory);
 	}
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillCellContents(this, factory);
 	}
