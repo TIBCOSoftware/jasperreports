@@ -292,4 +292,24 @@ public class JRBaseExpression implements JRExpression, Serializable
 	}
 
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseExpression clone = (JRBaseExpression)super.clone();
+		
+		if (chunks != null)
+		{
+			clone.chunks = new JRExpressionChunk[chunks.length];
+			for(int i = 0; i < chunks.length; i++)
+			{
+				clone.chunks[i] = (JRExpressionChunk)chunks[i].clone();
+			}
+		}
+
+		return clone;
+	}
+	
+	
 }

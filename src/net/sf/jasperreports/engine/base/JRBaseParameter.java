@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
@@ -201,6 +202,24 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return propertiesMap;
+	}
+
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseParameter clone = (JRBaseParameter)super.clone();
+		if (defaultValueExpression != null)
+		{
+			clone.defaultValueExpression = (JRExpression)defaultValueExpression.clone();
+		}
+		if (propertiesMap != null)
+		{
+			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
+		}
+		return clone;
 	}
 
 	

@@ -34,7 +34,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRField extends JRPropertiesHolder
+public interface JRField extends JRPropertiesHolder, JRCloneable
 {
 
 
