@@ -203,4 +203,11 @@ public class JRFillField implements JRField
 		return parent.getPropertiesMap();
 	}
 	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		return super.clone();
+	}
 }

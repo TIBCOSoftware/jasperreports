@@ -32,7 +32,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRExpression
+public interface JRExpression extends JRCloneable
 {
 
 

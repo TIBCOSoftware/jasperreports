@@ -90,4 +90,13 @@ public class JRBaseExpressionChunk implements JRExpressionChunk, Serializable
 	}
 		
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		return super.clone();
+	}
+
+
 }

@@ -327,4 +327,23 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		return eventSupport;
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignExpression clone = (JRDesignExpression)super.clone();
+		
+		if (chunks != null)
+		{
+			clone.chunks = new ArrayList(chunks.size());
+			for(int i = 0; i < chunks.size(); i++)
+			{
+				clone.chunks.add(((JRExpressionChunk)chunks.get(i)).clone());
+			}
+		}
+
+		return clone;
+	}
+	
 }
