@@ -48,19 +48,19 @@ public class JRFillCloneFactory
 		cloneMap = new HashMap();
 	}
 
-	protected JRCloneable getCached(JRCloneable original)
+	protected JRFillCloneable getCached(JRFillCloneable original)
 	{
-		return (JRCloneable) cloneMap.get(original);
+		return (JRFillCloneable) cloneMap.get(original);
 	}
 
-	public void put(JRCloneable original, JRCloneable clone)
+	public void put(JRFillCloneable original, JRFillCloneable clone)
 	{
 		cloneMap.put(original, clone);
 	}
 
-	public JRCloneable getClone(JRCloneable original)
+	public JRFillCloneable getClone(JRFillCloneable original)
 	{
-		JRCloneable clone;
+		JRFillCloneable clone;
 		
 		if (original == null)
 		{

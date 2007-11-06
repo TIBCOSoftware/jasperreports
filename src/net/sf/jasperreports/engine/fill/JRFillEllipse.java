@@ -141,7 +141,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	}
 
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillEllipse(this, factory);
 	}

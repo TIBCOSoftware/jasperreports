@@ -169,7 +169,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	}
 
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillRectangle(this, factory);
 	}

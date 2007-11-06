@@ -156,7 +156,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	}
 
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillLine(this, factory);
 	}

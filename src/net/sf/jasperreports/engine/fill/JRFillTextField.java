@@ -776,7 +776,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillTextField(this, factory);
 	}

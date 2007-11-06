@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class JRClonePool
 {
-	private final JRCloneable original;
+	private final JRFillCloneable original;
 	private final LinkedList availableClones;
 	private final boolean trackLockedClones;
 	private final Set lockedClones;
@@ -57,7 +57,7 @@ public class JRClonePool
 	 * 		have to release the clones back to the pool.
 	 * @param useOriginal whether the original object can be used as a working clone
 	 */
-	public JRClonePool(JRCloneable original, boolean trackLockedClones, boolean useOriginal)
+	public JRClonePool(JRFillCloneable original, boolean trackLockedClones, boolean useOriginal)
 	{
 		this.original = original;
 		
@@ -90,7 +90,7 @@ public class JRClonePool
 	 */
 	public Object getClone()
 	{
-		JRCloneable clone;
+		JRFillCloneable clone;
 		
 		if (availableClones.isEmpty())
 		{
@@ -99,7 +99,7 @@ public class JRClonePool
 		}
 		else
 		{
-			clone = (JRCloneable) availableClones.removeFirst();
+			clone = (JRFillCloneable) availableClones.removeFirst();
 		}
 		
 		if (trackLockedClones)

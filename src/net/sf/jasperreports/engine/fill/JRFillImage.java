@@ -1118,7 +1118,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillImage(this, factory);
 	}

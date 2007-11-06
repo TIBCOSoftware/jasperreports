@@ -155,7 +155,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 	}
 
 
-	public JRCloneable createClone(JRFillCloneFactory factory)
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillBreak(this, factory);
 	}
