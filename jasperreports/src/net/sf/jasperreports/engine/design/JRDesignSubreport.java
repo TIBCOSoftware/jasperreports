@@ -220,7 +220,10 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	{
 		Object old = this.connectionExpression;
 		this.connectionExpression = connectionExpression;
-		setDataSourceExpression(null);
+		if (this.connectionExpression != null)
+		{
+			setDataSourceExpression(null);
+		}
 		getEventSupport().firePropertyChange(PROPERTY_CONNECTION_EXPRESSION, old, this.connectionExpression);
 	}
 
@@ -239,6 +242,10 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	{
 		Object old = this.dataSourceExpression;
 		this.dataSourceExpression = dataSourceExpression;
+		if (this.dataSourceExpression != null)
+		{
+			setConnectionExpression(null);
+		}
 		getEventSupport().firePropertyChange(PROPERTY_DATASOURCE_EXPRESSION, old, this.dataSourceExpression);
 	}
 
