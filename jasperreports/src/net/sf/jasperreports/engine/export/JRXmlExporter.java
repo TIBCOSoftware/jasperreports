@@ -749,7 +749,11 @@ public class JRXmlExporter extends JRAbstractExporter
 						);
 			}
 				
-			if (isEmbeddingImages && !image.isLazy())
+			if (image.isLazy())
+			{
+				imageSource = ((JRImageRenderer)renderer).getImageLocation();
+			}
+			else if (isEmbeddingImages)
 			{
 				try
 				{
@@ -774,18 +778,10 @@ public class JRXmlExporter extends JRAbstractExporter
 				}
 				else
 				{
-					if (image.isLazy())
-					{
-						imageSource = ((JRImageRenderer)renderer).getImageLocation();
-					}
-					else
-					{
-						imageSource = IMAGE_PREFIX + getNextImageId();
-						imageNameToImageDataMap.put(imageSource, renderer.getImageData());
-						
-						imageSource = new File(imagesDir, imageSource).getPath();
-					}
-
+					imageSource = IMAGE_PREFIX + getNextImageId();
+					imageNameToImageDataMap.put(imageSource, renderer.getImageData());
+					
+					imageSource = new File(imagesDir, imageSource).getPath();
 					rendererToImagePathMap.put(renderer, imageSource);
 				}
 			}
