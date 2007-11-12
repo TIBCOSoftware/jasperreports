@@ -129,4 +129,11 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 		return incrementerFactoryClassName;
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		return super.clone();
+	}
 }

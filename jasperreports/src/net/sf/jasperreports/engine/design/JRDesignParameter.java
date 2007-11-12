@@ -113,12 +113,4 @@ public class JRDesignParameter extends JRBaseParameter
 		getEventSupport().firePropertyChange(PROPERTY_DEFAULT_VALUE_EXPRESSION, old, this.defaultValueExpression);
 	}
 
-	/**
-	 *
-	 */
-	public Object clone() throws CloneNotSupportedException 
-	{
-		return super.clone();
-	}
-
 }

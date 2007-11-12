@@ -33,7 +33,7 @@ package net.sf.jasperreports.engine;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRDatasetParameter
+public interface JRDatasetParameter extends JRCloneable
 {
 
 	/**

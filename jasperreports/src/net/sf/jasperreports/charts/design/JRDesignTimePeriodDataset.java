@@ -132,4 +132,22 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 		verifier.verify(this);
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignTimePeriodDataset clone = (JRDesignTimePeriodDataset)super.clone();
+		
+		if (timePeriodSeriesList != null)
+		{
+			clone.timePeriodSeriesList = new ArrayList(timePeriodSeriesList.size());
+			for(int i = 0; i < timePeriodSeriesList.size(); i++)
+			{
+				clone.timePeriodSeriesList.add(((JRTimePeriodSeries)timePeriodSeriesList.get(i)).clone());
+			}
+		}
+
+		return clone;
+	}
 }

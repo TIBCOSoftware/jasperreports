@@ -287,5 +287,12 @@ public class JRFillGroup implements JRGroup
 		this.isFooterPrinted = isFooterPrinted;
 	}
 
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 
 }

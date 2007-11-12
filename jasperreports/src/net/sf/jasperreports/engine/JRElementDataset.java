@@ -35,7 +35,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRElementDataset
+public interface JRElementDataset extends JRCloneable
 {
 
 	/**

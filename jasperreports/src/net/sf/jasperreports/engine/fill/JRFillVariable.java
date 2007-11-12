@@ -394,4 +394,13 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	{
 		this.previousOldValue = previousOldValue;
 	}
+
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
+
 }

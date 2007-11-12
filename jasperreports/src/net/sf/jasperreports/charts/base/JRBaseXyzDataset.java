@@ -90,4 +90,22 @@ public class JRBaseXyzDataset extends JRBaseChartDataset implements JRXyzDataset
 		verifier.verify(this);
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseXyzDataset clone = (JRBaseXyzDataset)super.clone();
+		
+		if (xyzSeries != null)
+		{
+			clone.xyzSeries = new JRXyzSeries[xyzSeries.length];
+			for(int i = 0; i < xyzSeries.length; i++)
+			{
+				xyzSeries[i] = (JRXyzSeries)xyzSeries[i].clone();
+			}
+		}
+		
+		return clone;
+	}
 }

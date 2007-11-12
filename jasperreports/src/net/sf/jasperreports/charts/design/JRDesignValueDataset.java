@@ -123,4 +123,18 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	}
 
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignValueDataset clone = (JRDesignValueDataset)super.clone();
+		
+		if (valueExpression != null)
+		{
+			clone.valueExpression = (JRExpression)valueExpression.clone();
+		}
+		
+		return clone;
+	}
 }

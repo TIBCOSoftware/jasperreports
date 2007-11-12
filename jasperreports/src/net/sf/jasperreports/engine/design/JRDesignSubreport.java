@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.design;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -353,5 +354,52 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		Object old = this.isUsingCache;
 		this.isUsingCache = isUsingCache;
 		getEventSupport().firePropertyChange(PROPERTY_USING_CACHE, old, this.isUsingCache);
+	}
+
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignSubreport clone = (JRDesignSubreport)super.clone();
+		
+		if (parametersMap != null)
+		{
+			clone.parametersMap = new HashMap(parametersMap.size());
+			for(Iterator it = parametersMap.keySet().iterator(); it.hasNext();)
+			{
+				String key = (String)it.next();
+				JRSubreportParameter parameter = (JRSubreportParameter)parametersMap.get(key);
+				clone.parametersMap.put(key, parameter.clone());
+			}
+		}
+
+		if (returnValues != null)
+		{
+			clone.returnValues = new ArrayList(returnValues.size());
+			for(int i = 0; i < returnValues.size(); i++)
+			{
+				clone.returnValues.add(((JRSubreportReturnValue)returnValues.get(i)).clone());
+			}
+		}
+
+		if (parametersMapExpression != null)
+		{
+			clone.parametersMapExpression = (JRExpression)parametersMapExpression.clone();
+		}
+		if (connectionExpression != null)
+		{
+			clone.connectionExpression = (JRExpression)connectionExpression.clone();
+		}
+		if (dataSourceExpression != null)
+		{
+			clone.dataSourceExpression = (JRExpression)dataSourceExpression.clone();
+		}
+		if (expression != null)
+		{
+			clone.expression = (JRExpression)expression.clone();
+		}
+
+		return clone;
 	}
 }

@@ -134,4 +134,11 @@ public class JRFillXyzSeries implements JRXyzSeries {
 		return !JRHyperlinkHelper.isEmpty(getItemHyperlink()); 
 	}
 
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

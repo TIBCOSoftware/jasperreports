@@ -115,4 +115,12 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 		
 		return incrementer;
 	}
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException
+	{
+		throw new CloneNotSupportedException();
+	}
 }

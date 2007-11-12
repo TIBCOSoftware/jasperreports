@@ -189,4 +189,11 @@ public class JRFillCategorySeries implements JRCategorySeries
 		return parent.getItemHyperlink();
 	}
 
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

@@ -327,4 +327,20 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 		collector.collect(this);
 	}
 
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		JRBaseBar3DPlot clone = (JRBaseBar3DPlot)super.clone(chart);
+		if (categoryAxisLabelExpression != null)
+		{
+			clone.categoryAxisLabelExpression = (JRExpression)categoryAxisLabelExpression.clone();
+		}
+		if (valueAxisLabelExpression != null)
+		{
+			clone.valueAxisLabelExpression = (JRExpression)valueAxisLabelExpression.clone();
+		}
+		return clone;
+	}
 }

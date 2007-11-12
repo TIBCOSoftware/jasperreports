@@ -222,4 +222,12 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	{
 		return parent.getIncrementWhenExpression();
 	}
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

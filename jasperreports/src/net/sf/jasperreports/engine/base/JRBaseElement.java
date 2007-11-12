@@ -478,4 +478,12 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		
 		return eventSupport;
 	}
+
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		return super.clone();
+	}
 }

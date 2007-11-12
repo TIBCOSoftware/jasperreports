@@ -117,4 +117,34 @@ public class JRBaseTimeSeries implements JRTimeSeries, Serializable
 		return itemHyperlink;
 	}
 		
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseTimeSeries clone = (JRBaseTimeSeries)super.clone();
+		
+		if (seriesExpression != null)
+		{
+			clone.seriesExpression = (JRExpression)seriesExpression.clone();
+		}
+		if (timePeriodExpression != null)
+		{
+			clone.timePeriodExpression = (JRExpression)timePeriodExpression.clone();
+		}
+		if (valueExpression != null)
+		{
+			clone.valueExpression = (JRExpression)valueExpression.clone();
+		}
+		if (labelExpression != null)
+		{
+			clone.labelExpression = (JRExpression)labelExpression.clone();
+		}
+		if (itemHyperlink != null)
+		{
+			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
+		}
+		
+		return clone;
+	}
 }

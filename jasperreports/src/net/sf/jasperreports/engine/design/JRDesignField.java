@@ -77,14 +77,4 @@ public class JRDesignField extends JRBaseField
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS_NAME, old, this.valueClassName);
 	}
 	
-	
-	/**
-	 *
-	 */
-	public Object clone() throws CloneNotSupportedException 
-	{
-		return super.clone();
-	}
-
-
 }

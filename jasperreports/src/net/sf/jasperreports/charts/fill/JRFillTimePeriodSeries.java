@@ -154,4 +154,11 @@ public class JRFillTimePeriodSeries implements JRTimePeriodSeries {
 	}
 	
 	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

@@ -38,7 +38,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRGroup
+public interface JRGroup extends JRCloneable
 {
 
 

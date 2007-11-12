@@ -194,4 +194,12 @@ public class JRFillChartPlot implements JRChartPlot
 	{
 	}
 
+	
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

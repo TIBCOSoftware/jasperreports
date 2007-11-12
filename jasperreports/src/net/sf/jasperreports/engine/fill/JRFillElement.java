@@ -1227,4 +1227,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		throw new UnsupportedOperationException("Style name references not allowed at fill time");
 	}
 	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

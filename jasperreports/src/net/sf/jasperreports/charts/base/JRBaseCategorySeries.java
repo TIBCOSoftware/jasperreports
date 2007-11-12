@@ -117,4 +117,34 @@ public class JRBaseCategorySeries implements JRCategorySeries, Serializable
 		return itemHyperlink;
 	}
 		
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseCategorySeries clone = (JRBaseCategorySeries)super.clone();
+		
+		if (seriesExpression != null)
+		{
+			clone.seriesExpression = (JRExpression)seriesExpression.clone();
+		}
+		if (categoryExpression != null)
+		{
+			clone.categoryExpression = (JRExpression)categoryExpression.clone();
+		}
+		if (valueExpression != null)
+		{
+			clone.valueExpression = (JRExpression)valueExpression.clone();
+		}
+		if (labelExpression != null)
+		{
+			clone.labelExpression = (JRExpression)labelExpression.clone();
+		}
+		if (itemHyperlink != null)
+		{
+			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
+		}
+		
+		return clone;
+	}
 }

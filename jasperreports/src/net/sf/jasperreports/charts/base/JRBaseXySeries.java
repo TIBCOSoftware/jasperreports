@@ -116,5 +116,35 @@ public class JRBaseXySeries implements JRXySeries, Serializable
 	{
 		return itemHyperlink;
 	}
+	
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseXySeries clone = (JRBaseXySeries)super.clone();
 		
+		if (seriesExpression != null)
+		{
+			clone.seriesExpression = (JRExpression)seriesExpression.clone();
+		}
+		if (xValueExpression != null)
+		{
+			clone.xValueExpression = (JRExpression)xValueExpression.clone();
+		}
+		if (yValueExpression != null)
+		{
+			clone.yValueExpression = (JRExpression)yValueExpression.clone();
+		}
+		if (labelExpression != null)
+		{
+			clone.labelExpression = (JRExpression)labelExpression.clone();
+		}
+		if (itemHyperlink != null)
+		{
+			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
+		}
+		
+		return clone;
+	}
 }

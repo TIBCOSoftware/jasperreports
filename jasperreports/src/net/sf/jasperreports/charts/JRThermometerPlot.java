@@ -27,11 +27,9 @@
  */
 package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.charts.JRDataRange;
-import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.engine.JRChartPlot;
-
 import java.awt.Color;
+
+import net.sf.jasperreports.engine.JRChartPlot;
 
 /**
  * Represents the display options of a Thermometer chart.  A Thermometer chart

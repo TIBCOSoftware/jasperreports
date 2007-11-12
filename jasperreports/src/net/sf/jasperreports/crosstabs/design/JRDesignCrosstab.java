@@ -1462,4 +1462,12 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			group.setParent(this);
 		}
 	}
+	
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+	}
 }

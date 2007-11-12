@@ -112,6 +112,18 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 		return this.printWhenExpression;
 	}
 
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseBand clone = (JRBaseBand)super.clone();
+		if (printWhenExpression != null)
+		{
+			clone.printWhenExpression = (JRExpression)printWhenExpression.clone();
+		}
+		return clone;
+	}
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	

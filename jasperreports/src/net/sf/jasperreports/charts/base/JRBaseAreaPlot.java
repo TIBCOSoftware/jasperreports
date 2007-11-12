@@ -263,4 +263,20 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 		collector.collect(this);
 	}
 
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		JRBaseAreaPlot clone = (JRBaseAreaPlot)super.clone(chart);
+		if (categoryAxisLabelExpression != null)
+		{
+			clone.categoryAxisLabelExpression = (JRExpression)categoryAxisLabelExpression.clone();
+		}
+		if (valueAxisLabelExpression != null)
+		{
+			clone.valueAxisLabelExpression = (JRExpression)valueAxisLabelExpression.clone();
+		}
+		return clone;
+	}
 }

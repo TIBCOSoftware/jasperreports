@@ -109,4 +109,12 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 	{
 		return dataSourceExpression;
 	}
+
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+	}
 }

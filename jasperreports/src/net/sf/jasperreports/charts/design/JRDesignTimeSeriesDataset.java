@@ -152,4 +152,22 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 		verifier.verify(this);
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignTimeSeriesDataset clone = (JRDesignTimeSeriesDataset)super.clone();
+		
+		if (timeSeriesList != null)
+		{
+			clone.timeSeriesList = new ArrayList(timeSeriesList.size());
+			for(int i = 0; i < timeSeriesList.size(); i++)
+			{
+				clone.timeSeriesList.add(((JRTimeSeries)timeSeriesList.get(i)).clone());
+			}
+		}
+
+		return clone;
+	}
 }

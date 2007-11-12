@@ -91,4 +91,22 @@ public class JRBaseTimePeriodDataset extends JRBaseChartDataset implements JRTim
 		verifier.verify(this);
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseTimePeriodDataset clone = (JRBaseTimePeriodDataset)super.clone();
+		
+		if (timePeriodSeries != null)
+		{
+			clone.timePeriodSeries = new JRTimePeriodSeries[timePeriodSeries.length];
+			for(int i = 0; i < timePeriodSeries.length; i++)
+			{
+				timePeriodSeries[i] = (JRTimePeriodSeries)timePeriodSeries[i].clone();
+			}
+		}
+		
+		return clone;
+	}
 }

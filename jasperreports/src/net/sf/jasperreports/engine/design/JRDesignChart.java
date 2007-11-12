@@ -1510,4 +1510,61 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION, old, this.hyperlinkTooltipExpression);
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignChart clone = (JRDesignChart)super.clone();
+		
+		if (hyperlinkParameters != null)
+		{
+			clone.hyperlinkParameters = new ArrayList(hyperlinkParameters.size());
+			for(int i = 0; i < hyperlinkParameters.size(); i++)
+			{
+				clone.hyperlinkParameters.add(((JRHyperlinkParameter)hyperlinkParameters.get(i)).clone());
+			}
+		}
+
+		if (titleExpression != null)
+		{
+			clone.titleExpression = (JRExpression)titleExpression.clone();
+		}
+		if (subtitleExpression != null)
+		{
+			clone.subtitleExpression = (JRExpression)subtitleExpression.clone();
+		}
+		if (anchorNameExpression != null)
+		{
+			clone.anchorNameExpression = (JRExpression)anchorNameExpression.clone();
+		}
+		if (hyperlinkReferenceExpression != null)
+		{
+			clone.hyperlinkReferenceExpression = (JRExpression)hyperlinkReferenceExpression.clone();
+		}
+		if (hyperlinkAnchorExpression != null)
+		{
+			clone.hyperlinkAnchorExpression = (JRExpression)hyperlinkAnchorExpression.clone();
+		}
+		if (hyperlinkPageExpression != null)
+		{
+			clone.hyperlinkPageExpression = (JRExpression)hyperlinkPageExpression.clone();
+		}
+		if (hyperlinkTooltipExpression != null)
+		{
+			clone.hyperlinkTooltipExpression = (JRExpression)hyperlinkTooltipExpression.clone();
+		}
+
+		if (dataset != null)
+		{
+			clone.dataset = (JRChartDataset)dataset.clone();
+		}
+		if (plot != null)
+		{
+			clone.plot = (JRChartPlot)plot.clone(clone);
+		}
+
+		return clone;
+	}
+	
 }

@@ -295,4 +295,20 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		collector.collect(this);
 	}
 
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		JRBaseCandlestickPlot clone = (JRBaseCandlestickPlot)super.clone(chart);
+		if (timeAxisLabelExpression != null)
+		{
+			clone.timeAxisLabelExpression = (JRExpression)timeAxisLabelExpression.clone();
+		}
+		if (valueAxisLabelExpression != null)
+		{
+			clone.valueAxisLabelExpression = (JRExpression)valueAxisLabelExpression.clone();
+		}
+		return clone;
+	}
 }
