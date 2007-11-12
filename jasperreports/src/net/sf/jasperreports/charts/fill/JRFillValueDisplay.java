@@ -27,11 +27,11 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-
-import java.awt.Color;
 
 /**
  * @author Barry Klawans (bklawans@users.sourceforge.net)
@@ -72,5 +72,13 @@ public class JRFillValueDisplay implements JRValueDisplay
 	public JRFont getFont()
 	{
 		return parent.getFont();
+	}
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
 	}
 }

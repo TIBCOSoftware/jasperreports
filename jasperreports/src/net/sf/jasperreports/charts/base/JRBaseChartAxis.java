@@ -91,4 +91,16 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	{
 		return chart;
 	}
+	
+	/**
+	 * 
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		JRBaseChartAxis clone = (JRBaseChartAxis)super.clone();
+		
+		clone.chart = chart;
+		
+		return clone;
+	}
 }

@@ -71,4 +71,10 @@ public interface JRChartAxis
 	 * @return the chart that contains the dataset and plot for this axis
 	 */
 	public JRChart getChart();
+	
+	
+	/**
+	 * 
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException;
 }

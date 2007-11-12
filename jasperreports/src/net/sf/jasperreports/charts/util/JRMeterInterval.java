@@ -27,13 +27,14 @@
  */
 package net.sf.jasperreports.charts.util;
 
-import net.sf.jasperreports.charts.JRDataRange;
-import net.sf.jasperreports.charts.base.JRBaseDataRange;
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-
 import java.awt.Color;
 import java.io.Serializable;
+
+import net.sf.jasperreports.charts.JRDataRange;
+import net.sf.jasperreports.charts.base.JRBaseDataRange;
+import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
  * Defines a subsection of a meter chart.  This section has its own range,
@@ -45,7 +46,7 @@ import java.io.Serializable;
  */
 
 
-public class JRMeterInterval implements Serializable
+public class JRMeterInterval implements JRCloneable, Serializable
 {
 	/**
 	 * The range of this interval.  Must be inside the meter's range.
@@ -174,5 +175,20 @@ public class JRMeterInterval implements Serializable
 	public void setAlpha(double alpha)
 	{
 		this.alpha = alpha;
+	}
+
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRMeterInterval clone = (JRMeterInterval)super.clone();
+		
+		if (dataRange != null)
+		{
+			clone.dataRange = (JRDataRange)dataRange.clone();
+		}
+		
+		return clone;
 	}
 }

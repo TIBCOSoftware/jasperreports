@@ -63,4 +63,12 @@ public class JRFillDataRange  implements JRDataRange
 	{
 		return parent.getHighExpression();
 	}
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

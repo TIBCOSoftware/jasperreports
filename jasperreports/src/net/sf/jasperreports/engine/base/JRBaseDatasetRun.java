@@ -115,6 +115,29 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 	 */
 	public Object clone() throws CloneNotSupportedException 
 	{
-		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+		JRBaseDatasetRun clone = (JRBaseDatasetRun)super.clone();
+		if (parametersMapExpression != null)
+		{
+			clone.parametersMapExpression = (JRExpression)parametersMapExpression.clone();
+		}
+		if (connectionExpression != null)
+		{
+			clone.connectionExpression = (JRExpression)connectionExpression.clone();
+		}
+		if (dataSourceExpression != null)
+		{
+			clone.dataSourceExpression = (JRExpression)dataSourceExpression.clone();
+		}
+
+		if (parameters != null)
+		{
+			clone.parameters = new JRDatasetParameter[parameters.length];
+			for(int i = 0; i < parameters.length; i++)
+			{
+				clone.parameters[i] = (JRDatasetParameter)parameters[i].clone();
+			}
+		}
+
+		return clone;
 	}
 }

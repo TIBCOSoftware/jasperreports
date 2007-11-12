@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -291,6 +292,10 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 			
 			return seriesOrder - ((JRBaseSeriesColor)obj).getSeriesOrder();
 		}
+		
+		public Object clone() throws CloneNotSupportedException {
+			return super.clone();
+		}
 	}
 	
 
@@ -303,9 +308,16 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		
 		clone.chart = chart;
 		
-		throw new CloneNotSupportedException("FIXMECLONE clone series colors");
+		if (seriesColors != null)
+		{
+			clone.seriesColors = new TreeSet();
+			for(Iterator it = seriesColors.iterator(); it.hasNext();)
+			{
+				clone.seriesColors.add(((JRChartPlot.JRSeriesColor)it.next()).clone());
+			}
+		}
 		
-		//return clone;
+		return clone;
 	}
 
 

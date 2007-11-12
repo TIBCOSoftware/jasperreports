@@ -28,6 +28,7 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -258,6 +259,26 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 */
 	public Object clone(JRChart chart) throws CloneNotSupportedException 
 	{
-		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+		JRBaseMeterPlot clone = (JRBaseMeterPlot)super.clone();
+		
+		if (dataRange != null)
+		{
+			clone.dataRange = (JRDataRange)dataRange.clone();
+		}
+		if (valueDisplay != null)
+		{
+			clone.valueDisplay = (JRValueDisplay)valueDisplay.clone();
+		}
+		
+		if (intervals != null)
+		{
+			clone.intervals = new ArrayList(intervals.size());
+			for(int i = 0; i < intervals.size(); i++)
+			{
+				clone.intervals.add(((JRMeterInterval)intervals.get(i)).clone());
+			}
+		}
+		
+		return clone;
 	}
 }

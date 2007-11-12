@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.charts;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRFont;
 
 import java.awt.Color;
@@ -40,7 +41,7 @@ import java.awt.Color;
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRValueDisplay
+public interface JRValueDisplay extends JRCloneable
 {
 	/**
 	 * Returns the color to use when writing the value.

@@ -214,6 +214,29 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	 */
 	public Object clone(JRChart chart) throws CloneNotSupportedException 
 	{
-		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+		JRBaseThermometerPlot clone = (JRBaseThermometerPlot)super.clone();
+		
+		if (dataRange != null)
+		{
+			clone.dataRange = (JRDataRange)dataRange.clone();
+		}
+		if (valueDisplay != null)
+		{
+			clone.valueDisplay = (JRValueDisplay)valueDisplay.clone();
+		}
+		if (lowRange != null)
+		{
+			clone.lowRange = (JRDataRange)lowRange.clone();
+		}
+		if (mediumRange != null)
+		{
+			clone.mediumRange = (JRDataRange)mediumRange.clone();
+		}
+		if (highRange != null)
+		{
+			clone.highRange = (JRDataRange)highRange.clone();
+		}
+		
+		return clone;
 	}
 }
