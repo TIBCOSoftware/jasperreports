@@ -290,9 +290,9 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	/**
 	 *
 	 */
-	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
 	{
-		JRBaseBubblePlot clone = (JRBaseBubblePlot)super.clone(chart);
+		JRBaseBubblePlot clone = (JRBaseBubblePlot)super.clone(parentChart);
 		if (xAxisLabelExpression != null)
 		{
 			clone.xAxisLabelExpression = (JRExpression)xAxisLabelExpression.clone();

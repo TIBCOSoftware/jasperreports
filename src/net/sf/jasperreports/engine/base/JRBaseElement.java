@@ -484,6 +484,23 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 */
 	public Object clone() throws CloneNotSupportedException 
 	{
-		return super.clone();
+		JRBaseElement clone = (JRBaseElement)super.clone();
+		if (printWhenExpression != null)
+		{
+			clone.printWhenExpression = (JRExpression)printWhenExpression.clone();
+		}
+		return clone;
+	}
+
+	/**
+	 * 
+	 */
+	public Object clone(JRElementGroup parentGroup) throws CloneNotSupportedException 
+	{
+		JRBaseElement clone = (JRBaseElement)this.clone();
+		
+		clone.elementGroup = parentGroup;
+		
+		return clone;
 	}
 }

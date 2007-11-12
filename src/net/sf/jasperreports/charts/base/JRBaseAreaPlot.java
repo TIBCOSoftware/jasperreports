@@ -266,9 +266,9 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	/**
 	 *
 	 */
-	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
 	{
-		JRBaseAreaPlot clone = (JRBaseAreaPlot)super.clone(chart);
+		JRBaseAreaPlot clone = (JRBaseAreaPlot)super.clone(parentChart);
 		if (categoryAxisLabelExpression != null)
 		{
 			clone.categoryAxisLabelExpression = (JRExpression)categoryAxisLabelExpression.clone();

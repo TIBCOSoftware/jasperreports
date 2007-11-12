@@ -330,9 +330,9 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	/**
 	 *
 	 */
-	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
 	{
-		JRBaseBar3DPlot clone = (JRBaseBar3DPlot)super.clone(chart);
+		JRBaseBar3DPlot clone = (JRBaseBar3DPlot)super.clone(parentChart);
 		if (categoryAxisLabelExpression != null)
 		{
 			clone.categoryAxisLabelExpression = (JRExpression)categoryAxisLabelExpression.clone();

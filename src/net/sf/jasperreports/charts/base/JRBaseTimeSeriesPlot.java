@@ -306,9 +306,9 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	/**
 	 *
 	 */
-	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
 	{
-		JRBaseTimeSeriesPlot clone = (JRBaseTimeSeriesPlot)super.clone(chart);
+		JRBaseTimeSeriesPlot clone = (JRBaseTimeSeriesPlot)super.clone(parentChart);
 		if (timeAxisLabelExpression != null)
 		{
 			clone.timeAxisLabelExpression = (JRExpression)timeAxisLabelExpression.clone();
