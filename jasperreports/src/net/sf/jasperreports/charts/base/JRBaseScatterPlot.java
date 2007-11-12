@@ -307,9 +307,9 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	/**
 	 *
 	 */
-	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
 	{
-		JRBaseScatterPlot clone = (JRBaseScatterPlot)super.clone(chart);
+		JRBaseScatterPlot clone = (JRBaseScatterPlot)super.clone(parentChart);
 		if (xAxisLabelExpression != null)
 		{
 			clone.xAxisLabelExpression = (JRExpression)xAxisLabelExpression.clone();

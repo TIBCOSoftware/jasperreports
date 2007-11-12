@@ -95,11 +95,11 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	/**
 	 * 
 	 */
-	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
 	{
 		JRBaseChartAxis clone = (JRBaseChartAxis)super.clone();
 		
-		clone.chart = chart;
+		clone.chart = parentChart;
 		
 		return clone;
 	}

@@ -39,4 +39,8 @@ package net.sf.jasperreports.engine;
  */
 public interface JRChild extends JRVisitable, JRCloneable
 {
+	/**
+	 * 
+	 */
+	public Object clone(JRElementGroup parentGroup) throws CloneNotSupportedException;
 }

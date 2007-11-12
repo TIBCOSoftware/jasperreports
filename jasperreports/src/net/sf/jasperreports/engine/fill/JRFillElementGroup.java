@@ -311,4 +311,12 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	{
 		throw new CloneNotSupportedException();
 	}
+
+	/**
+	 *
+	 */
+	public Object clone(JRElementGroup parentGroup) throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

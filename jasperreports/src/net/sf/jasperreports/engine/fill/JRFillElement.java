@@ -1234,4 +1234,12 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	{
 		throw new CloneNotSupportedException();
 	}
+
+	/**
+	 *
+	 */
+	public Object clone(JRElementGroup parentGroup) throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

@@ -302,11 +302,11 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	/**
 	 *
 	 */
-	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
 	{
 		JRBaseChartPlot clone = (JRBaseChartPlot)super.clone();
 		
-		clone.chart = chart;
+		clone.chart = parentChart;
 		
 		if (seriesColors != null)
 		{

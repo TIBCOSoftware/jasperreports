@@ -257,9 +257,9 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	/**
 	 *
 	 */
-	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
 	{
-		JRBaseMeterPlot clone = (JRBaseMeterPlot)super.clone();
+		JRBaseMeterPlot clone = (JRBaseMeterPlot)super.clone(parentChart);
 		
 		if (dataRange != null)
 		{

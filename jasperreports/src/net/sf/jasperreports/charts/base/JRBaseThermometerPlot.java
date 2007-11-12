@@ -212,9 +212,9 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	/**
 	 *
 	 */
-	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
 	{
-		JRBaseThermometerPlot clone = (JRBaseThermometerPlot)super.clone();
+		JRBaseThermometerPlot clone = (JRBaseThermometerPlot)super.clone(parentChart);
 		
 		if (dataRange != null)
 		{
