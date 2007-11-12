@@ -37,7 +37,7 @@ package net.sf.jasperreports.engine;
  * @version $Id$
  * @see JRHyperlink#getHyperlinkParameters()
  */
-public interface JRHyperlinkParameter
+public interface JRHyperlinkParameter extends JRCloneable
 {
 	
 	/**

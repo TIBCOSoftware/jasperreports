@@ -37,6 +37,6 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRChild extends JRVisitable
+public interface JRChild extends JRVisitable, JRCloneable
 {
 }

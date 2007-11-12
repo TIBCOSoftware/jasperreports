@@ -41,7 +41,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRVariable
+public interface JRVariable extends JRCloneable
 {
 	/**
 	 * Built-in variable that contains the total number of records read from the datasource. After finishing iterating throught the

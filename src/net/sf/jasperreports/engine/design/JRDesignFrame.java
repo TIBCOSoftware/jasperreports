@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
@@ -584,5 +585,24 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 			setBottomPadding(box.getOwnBottomPadding());
 			setRightPadding(box.getOwnRightPadding());
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignFrame clone = (JRDesignFrame)super.clone();
+		
+		if (children != null)
+		{
+			clone.children = new ArrayList(children.size());
+			for(int i = 0; i < children.size(); i++)
+			{
+				clone.children.add(((JRChild)children.get(i)).clone());
+			}
+		}
+
+		return clone;
 	}
 }

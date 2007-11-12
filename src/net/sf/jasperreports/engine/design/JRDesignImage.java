@@ -1239,4 +1239,48 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION, old, this.hyperlinkTooltipExpression);
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignImage clone = (JRDesignImage)super.clone();
+		
+		if (hyperlinkParameters != null)
+		{
+			clone.hyperlinkParameters = new ArrayList(hyperlinkParameters.size());
+			for(int i = 0; i < hyperlinkParameters.size(); i++)
+			{
+				clone.hyperlinkParameters.add(((JRHyperlinkParameter)hyperlinkParameters.get(i)).clone());
+			}
+		}
+
+		if (expression != null)
+		{
+			clone.expression = (JRExpression)expression.clone();
+		}
+		if (anchorNameExpression != null)
+		{
+			clone.anchorNameExpression = (JRExpression)anchorNameExpression.clone();
+		}
+		if (hyperlinkReferenceExpression != null)
+		{
+			clone.hyperlinkReferenceExpression = (JRExpression)hyperlinkReferenceExpression.clone();
+		}
+		if (hyperlinkAnchorExpression != null)
+		{
+			clone.hyperlinkAnchorExpression = (JRExpression)hyperlinkAnchorExpression.clone();
+		}
+		if (hyperlinkPageExpression != null)
+		{
+			clone.hyperlinkPageExpression = (JRExpression)hyperlinkPageExpression.clone();
+		}
+		if (hyperlinkTooltipExpression != null)
+		{
+			clone.hyperlinkTooltipExpression = (JRExpression)hyperlinkTooltipExpression.clone();
+		}
+
+		return clone;
+	}
+	
 }

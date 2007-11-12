@@ -153,4 +153,10 @@ public interface JRChartPlot
 		 */
 		public Color getColor();
 	}
+	
+	/**
+	 * 
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException;
+	
 }

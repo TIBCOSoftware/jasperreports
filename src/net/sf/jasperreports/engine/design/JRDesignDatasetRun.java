@@ -191,6 +191,14 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 		parametersList.toArray(params);
 		return params;
 	}
+
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+	}
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	

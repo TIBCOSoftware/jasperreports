@@ -369,4 +369,12 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		this.runDirection = runDirection;
 		getEventSupport().firePropertyChange(PROPERTY_RUN_DIRECTION, old, this.runDirection);
 	}
+
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+	}
 }

@@ -208,6 +208,6 @@ public class JRFillField implements JRField
 	 */
 	public Object clone() throws CloneNotSupportedException 
 	{
-		return super.clone();
+		throw new CloneNotSupportedException();
 	}
 }

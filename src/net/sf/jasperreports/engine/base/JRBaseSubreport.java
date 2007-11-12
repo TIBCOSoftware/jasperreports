@@ -233,4 +233,48 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	}
 
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseSubreport clone = (JRBaseSubreport)super.clone();
+		
+		if (parameters != null)
+		{
+			clone.parameters = new JRSubreportParameter[parameters.length];
+			for(int i = 0; i < parameters.length; i++)
+			{
+				clone.parameters[i] = (JRSubreportParameter)parameters[i].clone();
+			}
+		}
+
+		if (returnValues != null)
+		{
+			clone.returnValues = new JRSubreportReturnValue[returnValues.length];
+			for(int i = 0; i < returnValues.length; i++)
+			{
+				clone.returnValues[i] = (JRSubreportReturnValue)returnValues[i].clone();
+			}
+		}
+
+		if (parametersMapExpression != null)
+		{
+			clone.parametersMapExpression = (JRExpression)parametersMapExpression.clone();
+		}
+		if (connectionExpression != null)
+		{
+			clone.connectionExpression = (JRExpression)connectionExpression.clone();
+		}
+		if (dataSourceExpression != null)
+		{
+			clone.dataSourceExpression = (JRExpression)dataSourceExpression.clone();
+		}
+		if (expression != null)
+		{
+			clone.expression = (JRExpression)expression.clone();
+		}
+
+		return clone;
+	}
 }

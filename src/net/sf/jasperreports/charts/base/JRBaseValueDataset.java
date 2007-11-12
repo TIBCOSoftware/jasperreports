@@ -120,4 +120,18 @@ public class JRBaseValueDataset extends JRBaseChartDataset implements JRValueDat
 		verifier.verify(this);
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseValueDataset clone = (JRBaseValueDataset)super.clone();
+		
+		if (valueExpression != null)
+		{
+			clone.valueExpression = (JRExpression)valueExpression.clone();
+		}
+		
+		return clone;
+	}
 }

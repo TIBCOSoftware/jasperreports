@@ -132,4 +132,39 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 		return hyperlinkTooltipExpression;
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseHyperlink clone = (JRBaseHyperlink)super.clone();
+		
+		if (hyperlinkParameters != null)
+		{
+			clone.hyperlinkParameters = new JRHyperlinkParameter[hyperlinkParameters.length];
+			for(int i = 0; i < hyperlinkParameters.length; i++)
+			{
+				clone.hyperlinkParameters[i] = (JRHyperlinkParameter)hyperlinkParameters[i].clone();
+			}
+		}
+
+		if (hyperlinkReferenceExpression != null)
+		{
+			clone.hyperlinkReferenceExpression = (JRExpression)hyperlinkReferenceExpression.clone();
+		}
+		if (hyperlinkAnchorExpression != null)
+		{
+			clone.hyperlinkAnchorExpression = (JRExpression)hyperlinkAnchorExpression.clone();
+		}
+		if (hyperlinkPageExpression != null)
+		{
+			clone.hyperlinkPageExpression = (JRExpression)hyperlinkPageExpression.clone();
+		}
+		if (hyperlinkTooltipExpression != null)
+		{
+			clone.hyperlinkTooltipExpression = (JRExpression)hyperlinkTooltipExpression.clone();
+		}
+
+		return clone;
+	}
 }

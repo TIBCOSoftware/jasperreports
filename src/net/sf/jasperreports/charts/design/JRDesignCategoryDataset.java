@@ -143,4 +143,23 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	}
 
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignCategoryDataset clone = (JRDesignCategoryDataset)super.clone();
+		
+		if (categorySeriesList != null)
+		{
+			clone.categorySeriesList = new ArrayList(categorySeriesList.size());
+			for(int i = 0; i < categorySeriesList.size(); i++)
+			{
+				clone.categorySeriesList.add(((JRCategorySeries)categorySeriesList.get(i)).clone());
+			}
+		}
+
+		return clone;
+	}
+	
 }

@@ -92,5 +92,13 @@ public class JRBaseDatasetParameter implements JRDatasetParameter, Serializable
 		return this.expression;
 	}
 
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		return super.clone();
+	}
 
 }

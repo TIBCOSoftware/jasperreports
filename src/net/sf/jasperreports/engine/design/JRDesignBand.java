@@ -143,4 +143,22 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	}
 	
 
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignBand clone = (JRDesignBand)super.clone();
+		if (printWhenExpression != null)
+		{
+			clone.printWhenExpression = (JRExpression)printWhenExpression.clone();
+		}
+		if (origin != null)
+		{
+			clone.origin = (JROrigin)origin.clone();
+		}
+		return clone;
+	}
+
+	
 }

@@ -293,6 +293,22 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		}
 	}
 	
+
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		JRBaseChartPlot clone = (JRBaseChartPlot)super.clone();
+		
+		clone.chart = chart;
+		
+		throw new CloneNotSupportedException("FIXMECLONE clone series colors");
+		
+		//return clone;
+	}
+
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

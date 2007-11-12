@@ -114,5 +114,24 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 		verifier.verify(this);
 	}
 
+	
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseCategoryDataset clone = (JRBaseCategoryDataset)super.clone();
+		
+		if (categorySeries != null)
+		{
+			clone.categorySeries = new JRCategorySeries[categorySeries.length];
+			for(int i = 0; i < categorySeries.length; i++)
+			{
+				categorySeries[i] = (JRCategorySeries)categorySeries[i].clone();
+			}
+		}
+		
+		return clone;
+	}
 
 }

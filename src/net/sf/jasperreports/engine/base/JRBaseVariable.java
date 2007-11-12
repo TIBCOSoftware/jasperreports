@@ -268,5 +268,21 @@ public class JRBaseVariable implements JRVariable, Serializable
 		return this.incrementGroup;
 	}
 
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseVariable clone = (JRBaseVariable)super.clone();
+		if (expression != null)
+		{
+			clone.expression = (JRExpression)expression.clone();
+		}
+		if (initialValueExpression != null)
+		{
+			clone.initialValueExpression = (JRExpression)initialValueExpression.clone();
+		}
+		return clone;
+	}
 		
 }

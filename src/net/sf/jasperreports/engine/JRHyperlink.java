@@ -40,7 +40,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRHyperlink
+public interface JRHyperlink extends JRCloneable
 {
 
 

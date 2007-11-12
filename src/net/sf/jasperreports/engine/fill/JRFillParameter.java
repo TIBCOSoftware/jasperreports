@@ -157,7 +157,7 @@ public class JRFillParameter implements JRValueParameter
 	 */
 	public Object clone() throws CloneNotSupportedException 
 	{
-		return super.clone();
+		throw new CloneNotSupportedException();
 	}
 
 }

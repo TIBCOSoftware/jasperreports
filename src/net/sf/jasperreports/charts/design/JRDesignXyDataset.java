@@ -142,4 +142,22 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	}
 
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignXyDataset clone = (JRDesignXyDataset)super.clone();
+		
+		if (xySeriesList != null)
+		{
+			clone.xySeriesList = new ArrayList(xySeriesList.size());
+			for(int i = 0; i < xySeriesList.size(); i++)
+			{
+				clone.xySeriesList.add(((JRXySeries)xySeriesList.get(i)).clone());
+			}
+		}
+
+		return clone;
+	}
 }

@@ -287,4 +287,20 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		collector.collect(this);
 	}
 
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		JRBaseBubblePlot clone = (JRBaseBubblePlot)super.clone(chart);
+		if (xAxisLabelExpression != null)
+		{
+			clone.xAxisLabelExpression = (JRExpression)xAxisLabelExpression.clone();
+		}
+		if (yAxisLabelExpression != null)
+		{
+			clone.yAxisLabelExpression = (JRExpression)yAxisLabelExpression.clone();
+		}
+		return clone;
+	}
 }

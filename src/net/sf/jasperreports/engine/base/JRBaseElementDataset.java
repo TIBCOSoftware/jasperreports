@@ -140,5 +140,24 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 	{
 		return incrementWhenExpression;
 	}
-		
+	
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseElementDataset clone = (JRBaseElementDataset)super.clone();
+		if (incrementWhenExpression != null)
+		{
+			clone.incrementWhenExpression = (JRExpression)incrementWhenExpression.clone();
+		}
+		if (datasetRun != null)
+		{
+			clone.datasetRun = (JRDatasetRun)datasetRun.clone();
+		}
+		return clone;
+	}
+
+	
 }

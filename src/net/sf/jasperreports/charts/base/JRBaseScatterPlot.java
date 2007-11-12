@@ -304,4 +304,20 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		collector.collect(this);
 	}
 
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		JRBaseScatterPlot clone = (JRBaseScatterPlot)super.clone(chart);
+		if (xAxisLabelExpression != null)
+		{
+			clone.xAxisLabelExpression = (JRExpression)xAxisLabelExpression.clone();
+		}
+		if (yAxisLabelExpression != null)
+		{
+			clone.yAxisLabelExpression = (JRExpression)yAxisLabelExpression.clone();
+		}
+		return clone;
+	}
 }

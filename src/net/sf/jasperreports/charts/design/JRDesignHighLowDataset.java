@@ -223,5 +223,47 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	}
 
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignHighLowDataset clone = (JRDesignHighLowDataset)super.clone();
+		
+		if (seriesExpression != null)
+		{
+			clone.seriesExpression = (JRExpression)seriesExpression.clone();
+		}
+		if (dateExpression != null)
+		{
+			clone.dateExpression = (JRExpression)dateExpression.clone();
+		}
+		if (highExpression != null)
+		{
+			clone.highExpression = (JRExpression)highExpression.clone();
+		}
+		if (lowExpression != null)
+		{
+			clone.lowExpression = (JRExpression)lowExpression.clone();
+		}
+		if (openExpression != null)
+		{
+			clone.openExpression = (JRExpression)openExpression.clone();
+		}
+		if (closeExpression != null)
+		{
+			clone.closeExpression = (JRExpression)closeExpression.clone();
+		}
+		if (volumeExpression != null)
+		{
+			clone.volumeExpression = (JRExpression)volumeExpression.clone();
+		}
+		if (itemHyperlink != null)
+		{
+			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
+		}
+		
+		return clone;
+	}
 }
 

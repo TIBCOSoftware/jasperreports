@@ -241,6 +241,32 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	}
 
 	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseGroup clone = (JRBaseGroup)super.clone();
+		if (expression != null)
+		{
+			clone.expression = (JRExpression)expression.clone();
+		}
+		if (groupHeader != null)
+		{
+			clone.groupHeader = (JRBand)groupHeader.clone();
+		}
+		if (groupFooter != null)
+		{
+			clone.groupFooter = (JRBand)groupFooter.clone();
+		}
+		if (countVariable != null)
+		{
+			clone.countVariable = (JRVariable)countVariable.clone();
+		}
+		return clone;
+	}
+
+	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

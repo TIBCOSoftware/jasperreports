@@ -125,4 +125,5 @@ public class JRDesignGroup extends JRBaseGroup
 		setBandOrigin(getGroupHeader(), JROrigin.GROUP_HEADER);
 		setBandOrigin(getGroupFooter(), JROrigin.GROUP_FOOTER);
 	}
+
 }

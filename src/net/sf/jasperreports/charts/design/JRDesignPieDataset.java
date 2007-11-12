@@ -172,4 +172,30 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	}
 
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignPieDataset clone = (JRDesignPieDataset)super.clone();
+		
+		if (keyExpression != null)
+		{
+			clone.keyExpression = (JRExpression)keyExpression.clone();
+		}
+		if (valueExpression != null)
+		{
+			clone.valueExpression = (JRExpression)valueExpression.clone();
+		}
+		if (labelExpression != null)
+		{
+			clone.labelExpression = (JRExpression)labelExpression.clone();
+		}
+		if (sectionHyperlink != null)
+		{
+			clone.sectionHyperlink = (JRHyperlink)sectionHyperlink.clone();
+		}
+		
+		return clone;
+	}
 }

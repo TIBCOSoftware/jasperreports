@@ -304,4 +304,20 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 		collector.collect(this);
 	}
 
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		JRBaseLinePlot clone = (JRBaseLinePlot)super.clone(chart);
+		if (categoryAxisLabelExpression != null)
+		{
+			clone.categoryAxisLabelExpression = (JRExpression)categoryAxisLabelExpression.clone();
+		}
+		if (valueAxisLabelExpression != null)
+		{
+			clone.valueAxisLabelExpression = (JRExpression)valueAxisLabelExpression.clone();
+		}
+		return clone;
+	}
 }

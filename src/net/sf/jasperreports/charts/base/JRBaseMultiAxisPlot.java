@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.util.Iterator;
+import java.util.List;
+
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.engine.JRChart;
@@ -35,9 +38,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * An immutable representation of the layout options of a multiple axis chart.
@@ -125,5 +125,13 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 			JRChartAxis axis = (JRChartAxis)iter.next();
 			collector.collect(axis.getChart());
 		}
+	}
+
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException("FIXMECLONE: implement this");
 	}
 }

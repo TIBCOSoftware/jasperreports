@@ -27,19 +27,17 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.charts.base.JRBaseDataRange;
-import net.sf.jasperreports.charts.base.JRBaseValueDisplay;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-
-import java.awt.Color;
 
 /**
  * An immutable representation of the layout of a thermometer plot.
@@ -209,5 +207,13 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException("FIXMECLONE: implement this");
 	}
 }

@@ -30,9 +30,6 @@ package net.sf.jasperreports.engine.fill;
 import java.sql.Connection;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -42,6 +39,9 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.JRVariable;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Class used to instantiate sub datasets.
@@ -246,5 +246,13 @@ public class JRFillDatasetRun implements JRDatasetRun
 	protected JRFillDataset getDataset()
 	{
 		return dataset;
+	}
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
 	}
 }

@@ -80,4 +80,18 @@ public class JRBaseHyperlinkParameter implements JRHyperlinkParameter, Serializa
 		return valueExpression;
 	}
 
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseHyperlinkParameter clone = (JRBaseHyperlinkParameter)super.clone();
+		if (valueExpression != null)
+		{
+			clone.valueExpression = (JRExpression)valueExpression.clone();
+		}
+		return clone;
+	}
+
+	
 }

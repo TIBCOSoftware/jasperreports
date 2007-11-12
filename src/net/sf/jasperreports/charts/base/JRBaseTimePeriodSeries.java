@@ -96,4 +96,39 @@ public class JRBaseTimePeriodSeries implements JRTimePeriodSeries, Serializable 
 	{
 		return itemHyperlink;
 	}
+	
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseTimePeriodSeries clone = (JRBaseTimePeriodSeries)super.clone();
+		
+		if (seriesExpression != null)
+		{
+			clone.seriesExpression = (JRExpression)seriesExpression.clone();
+		}
+		if (startDateExpression != null)
+		{
+			clone.startDateExpression = (JRExpression)startDateExpression.clone();
+		}
+		if (endDateExpression != null)
+		{
+			clone.endDateExpression = (JRExpression)endDateExpression.clone();
+		}
+		if (valueExpression != null)
+		{
+			clone.valueExpression = (JRExpression)valueExpression.clone();
+		}
+		if (labelExpression != null)
+		{
+			clone.labelExpression = (JRExpression)labelExpression.clone();
+		}
+		if (itemHyperlink != null)
+		{
+			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
+		}
+		
+		return clone;
+	}
 }

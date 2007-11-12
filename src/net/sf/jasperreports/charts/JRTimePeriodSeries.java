@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.charts;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 
@@ -34,7 +35,8 @@ import net.sf.jasperreports.engine.JRHyperlink;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRTimePeriodSeries {
+public interface JRTimePeriodSeries extends JRCloneable 
+{
 	
 	/**
 	 * 

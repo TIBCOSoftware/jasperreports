@@ -192,4 +192,11 @@ public class JRFillTimeSeries implements JRTimeSeries
 		return itemHyperlink;
 	}
 
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

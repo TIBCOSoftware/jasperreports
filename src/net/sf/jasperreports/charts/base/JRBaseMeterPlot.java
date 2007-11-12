@@ -27,22 +27,20 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.awt.Color;
+import java.util.Iterator;
+import java.util.List;
+
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.charts.base.JRBaseDataRange;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
-import net.sf.jasperreports.charts.base.JRBaseValueDisplay;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-
-import java.awt.Color;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * An immutable representation of the layout of a Meter chart.
@@ -255,4 +253,11 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		collector.collect(this);
 	}
 
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+	}
 }
