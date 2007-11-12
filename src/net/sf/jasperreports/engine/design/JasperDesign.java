@@ -799,7 +799,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 * Specifies the report query. This is used only when datasource type is JDBC (a <tt>java.sql.Connection</tt>).
+	 * Specifies the report query.
 	 */
 	public void setQuery(JRDesignQuery query)
 	{
