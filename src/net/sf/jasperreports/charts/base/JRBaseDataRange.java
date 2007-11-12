@@ -27,13 +27,13 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.io.Serializable;
+
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-
-import java.io.Serializable;
 
 /**
  * An immutable instantiation of a <code>JRDataRange</code>, suitable for holding
@@ -119,4 +119,20 @@ public class JRBaseDataRange implements JRDataRange, Serializable
 		collector.collect(this);
 	}
 
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseDataRange clone = (JRBaseDataRange)super.clone();
+		if (lowExpression != null)
+		{
+			clone.lowExpression = (JRExpression)lowExpression.clone();
+		}
+		if (highExpression != null)
+		{
+			clone.highExpression = (JRExpression)highExpression.clone();
+		}
+		return clone;
+	}
 }

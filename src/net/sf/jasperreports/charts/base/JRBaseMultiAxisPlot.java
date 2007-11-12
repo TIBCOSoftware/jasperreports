@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -132,6 +133,17 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 	 */
 	public Object clone(JRChart chart) throws CloneNotSupportedException 
 	{
-		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+		JRBaseMultiAxisPlot clone = (JRBaseMultiAxisPlot)super.clone();
+		
+		if (axes != null)
+		{
+			clone.axes = new ArrayList(axes.size());
+			for(int i = 0; i < axes.size(); i++)
+			{
+				clone.axes.add(((JRChartAxis)axes.get(i)).clone(chart));
+			}
+		}
+
+		return clone;
 	}
 }

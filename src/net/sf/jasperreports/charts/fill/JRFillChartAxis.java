@@ -85,4 +85,12 @@ public class JRFillChartAxis implements JRChartAxis
 	{
 		return parent.getPosition();
 	}
+
+	/**
+	 *
+	 */
+	public Object clone(JRChart chart) throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

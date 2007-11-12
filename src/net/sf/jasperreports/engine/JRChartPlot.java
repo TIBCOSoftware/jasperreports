@@ -139,7 +139,7 @@ public interface JRChartPlot
 	 */
 	public void collectExpressions(JRExpressionCollector collector);
 
-	public interface JRSeriesColor
+	public interface JRSeriesColor extends JRCloneable
 	{
 		/**
 		 * Returns the series order that this color applies to.  The series order is relative to

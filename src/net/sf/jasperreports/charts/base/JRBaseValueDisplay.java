@@ -27,14 +27,14 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.awt.Color;
+import java.io.Serializable;
+
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-
-import java.awt.Color;
-import java.io.Serializable;
 
 /**
  * An immutable representation of the formatting options for showing the
@@ -138,4 +138,11 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 	{
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		return super.clone();
+	}
 }

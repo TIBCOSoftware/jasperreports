@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.charts;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 
 
@@ -36,7 +37,7 @@ import net.sf.jasperreports.engine.JRExpression;
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRDataRange
+public interface JRDataRange extends JRCloneable
 {
 	/**
 	 * Returns the expression that generates the lower bound of the range.
