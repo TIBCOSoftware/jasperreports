@@ -43,7 +43,7 @@ package net.sf.jasperreports.engine;
  * @version $Id$
  * @see net.sf.jasperreports.engine.query.JRQueryExecuterFactory
  */
-public interface JRQuery
+public interface JRQuery extends JRCloneable
 {
 	
 	

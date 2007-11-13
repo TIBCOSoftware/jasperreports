@@ -988,4 +988,79 @@ public class JRDesignDataset extends JRBaseDataset
 			sortFieldsList = new ArrayList();
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignDataset clone = (JRDesignDataset)super.clone();
+		
+		if (parametersList != null)
+		{
+			clone.parametersList = new ArrayList(parametersList.size());
+			clone.parametersMap = new HashMap(parametersList.size());
+			for(int i = 0; i < parametersList.size(); i++)
+			{
+				JRParameter parameter = 
+					(JRParameter)((JRParameter)parametersList.get(i)).clone();
+				clone.parametersList.add(parameter);
+				clone.parametersMap.put(parameter.getName(), parameter);
+			}
+		}
+		
+		if (fieldsList != null)
+		{
+			clone.fieldsList = new ArrayList(fieldsList.size());
+			clone.fieldsMap = new HashMap(fieldsList.size());
+			for(int i = 0; i < fieldsList.size(); i++)
+			{
+				JRField field = 
+					(JRField)((JRField)fieldsList.get(i)).clone();
+				clone.fieldsList.add(field);
+				clone.fieldsMap.put(field.getName(), field);
+			}
+		}
+		
+		if (sortFieldsList != null)
+		{
+			clone.sortFieldsList = new ArrayList(sortFieldsList.size());
+			clone.sortFieldsMap = new HashMap(sortFieldsList.size());
+			for(int i = 0; i < sortFieldsList.size(); i++)
+			{
+				JRSortField sortField = 
+					(JRSortField)((JRSortField)sortFieldsList.get(i)).clone();
+				clone.sortFieldsList.add(sortField);
+				clone.sortFieldsMap.put(sortField.getName(), sortField);
+			}
+		}
+		
+		if (variablesList != null)
+		{
+			clone.variablesList = new ArrayList(variablesList.size());
+			clone.variablesMap = new HashMap(variablesList.size());
+			for(int i = 0; i < variablesList.size(); i++)
+			{
+				JRVariable variable = 
+					(JRVariable)((JRVariable)variablesList.get(i)).clone();
+				clone.variablesList.add(variable);
+				clone.variablesMap.put(variable.getName(), variable);
+			}
+		}
+		
+		if (groupsList != null)
+		{
+			clone.groupsList = new ArrayList(groupsList.size());
+			clone.groupsMap = new HashMap(groupsList.size());
+			for(int i = 0; i < groupsList.size(); i++)
+			{
+				JRGroup group = 
+					(JRGroup)((JRGroup)groupsList.get(i)).clone();
+				clone.groupsList.add(group);
+				clone.groupsMap.put(group.getName(), group);
+			}
+		}
+		
+		return clone;
+	}
+	
 }

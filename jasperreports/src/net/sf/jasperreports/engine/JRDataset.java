@@ -42,7 +42,7 @@ package net.sf.jasperreports.engine;
  * @see net.sf.jasperreports.engine.JRReport#getMainDataset()
  * @see net.sf.jasperreports.engine.JRReport#getDatasets()
  */
-public interface JRDataset extends JRPropertiesHolder
+public interface JRDataset extends JRPropertiesHolder, JRCloneable
 {
 	/**
 	 * Return NULL when a resource is missing.

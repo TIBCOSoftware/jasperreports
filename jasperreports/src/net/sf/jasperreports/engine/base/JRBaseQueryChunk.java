@@ -114,4 +114,13 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 	}
 		
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		return super.clone();
+	}
+
+
 }

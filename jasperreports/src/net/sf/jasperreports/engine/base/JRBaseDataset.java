@@ -246,6 +246,73 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		return filterExpression;
 	}
 	
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseDataset clone = (JRBaseDataset)super.clone();
+		if (query != null)
+		{
+			clone.query = (JRQuery)query.clone();
+		}
+		if (filterExpression != null)
+		{
+			clone.filterExpression = (JRExpression)filterExpression.clone();
+		}
+		if (propertiesMap != null)
+		{
+			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
+		}
+
+		if (parameters != null)
+		{
+			clone.parameters = new JRParameter[parameters.length];
+			for(int i = 0; i < parameters.length; i++)
+			{
+				clone.parameters[i] = (JRParameter)parameters[i].clone();
+			}
+		}
+
+		if (fields != null)
+		{
+			clone.fields = new JRField[fields.length];
+			for(int i = 0; i < fields.length; i++)
+			{
+				clone.fields[i] = (JRField)fields[i].clone();
+			}
+		}
+
+		if (sortFields != null)
+		{
+			clone.sortFields = new JRSortField[sortFields.length];
+			for(int i = 0; i < sortFields.length; i++)
+			{
+				clone.sortFields[i] = (JRSortField)sortFields[i].clone();
+			}
+		}
+
+		if (variables != null)
+		{
+			clone.variables = new JRVariable[variables.length];
+			for(int i = 0; i < variables.length; i++)
+			{
+				clone.variables[i] = (JRVariable)variables[i].clone();
+			}
+		}
+
+		if (groups != null)
+		{
+			clone.groups = new JRGroup[groups.length];
+			for(int i = 0; i < groups.length; i++)
+			{
+				clone.groups[i] = (JRGroup)groups[i].clone();
+			}
+		}
+
+		return clone;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

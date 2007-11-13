@@ -201,13 +201,14 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 		
 		if (parametersList != null)
 		{
-			parametersList = new ArrayList(parametersList.size());
+			clone.parametersList = new ArrayList(parametersList.size());
+			clone.parametersMap = new HashMap(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
 				JRDatasetParameter parameter = 
 					(JRDatasetParameter)((JRDatasetParameter)parametersList.get(i)).clone();
-				parametersList.add(parameter);
-				parametersMap.put(parameter.getName(), parameter);
+				clone.parametersList.add(parameter);
+				clone.parametersMap.put(parameter.getName(), parameter);
 			}
 		}
 		
