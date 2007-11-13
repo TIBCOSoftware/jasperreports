@@ -106,7 +106,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 
 	protected List parametersList;
 	protected Map parametersMap;
-	protected Map variablesList;
+	protected SequencedHashMap variablesList;
 	protected JRExpression parametersMapExpression;
 	protected JRDesignCrosstabDataset dataset;
 	protected List rowGroups;
@@ -1468,6 +1468,102 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public Object clone() throws CloneNotSupportedException 
 	{
-		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+		JRDesignCrosstab clone = (JRDesignCrosstab)super.clone();
+		
+		if (parametersList != null)
+		{
+			clone.parametersList = new ArrayList(parametersList.size());
+			clone.parametersMap = new HashMap(parametersList.size());
+			for(int i = 0; i < parametersList.size(); i++)
+			{
+				JRCrosstabParameter parameter = 
+					(JRCrosstabParameter)((JRCrosstabParameter)parametersList.get(i)).clone();
+				clone.parametersList.add(parameter);
+				clone.parametersMap.put(parameter.getName(), parameter);
+			}
+		}
+		
+		if (variablesList != null)
+		{
+			clone.variablesList = new SequencedHashMap(variablesList.size());
+			for(Iterator it = variablesList.sequence().iterator(); it.hasNext();)
+			{
+				Object key = it.next();
+				JRVariable variable = (JRVariable)variablesList.get(key);
+				clone.variablesList.put(variable.getName(), variable);
+			}
+		}
+		
+		if (parametersMapExpression != null)
+		{
+			clone.parametersMapExpression = (JRExpression)parametersMapExpression.clone();
+		}
+		if (dataset != null)
+		{
+			clone.dataset = (JRDesignCrosstabDataset)dataset.clone();
+		}
+		
+		if (rowGroups != null)
+		{
+			clone.rowGroups = new ArrayList(rowGroups.size());
+			clone.rowGroupsMap = new HashMap(rowGroups.size());
+			for(int i = 0; i < rowGroups.size(); i++)
+			{
+				JRCrosstabRowGroup group = 
+					(JRCrosstabRowGroup)((JRCrosstabRowGroup)rowGroups.get(i)).clone();
+				clone.rowGroups.add(group);
+				clone.rowGroupsMap.put(group.getName(), group);
+			}
+		}
+		
+		if (columnGroups != null)
+		{
+			clone.columnGroups = new ArrayList(columnGroups.size());
+			clone.columnGroupsMap = new HashMap(columnGroups.size());
+			for(int i = 0; i < columnGroups.size(); i++)
+			{
+				JRCrosstabColumnGroup group = 
+					(JRCrosstabColumnGroup)((JRCrosstabColumnGroup)columnGroups.get(i)).clone();
+				clone.columnGroups.add(group);
+				clone.columnGroupsMap.put(group.getName(), group);
+			}
+		}
+		
+		if (measures != null)
+		{
+			clone.measures = new ArrayList(measures.size());
+			clone.measuresMap = new HashMap(measures.size());
+			for(int i = 0; i < measures.size(); i++)
+			{
+				JRCrosstabMeasure measure = 
+					(JRCrosstabMeasure)((JRCrosstabMeasure)measures.get(i)).clone();
+				clone.measures.add(measure);
+				clone.measuresMap.put(measure.getName(), measure);
+			}
+		}
+		
+		if (cellsList != null)
+		{
+			clone.cellsList = new ArrayList(cellsList.size());
+			clone.cellsMap = new HashMap(cellsList.size());
+			for(int i = 0; i < cellsList.size(); i++)
+			{
+				JRDesignCrosstabCell cell = 
+					(JRDesignCrosstabCell)((JRDesignCrosstabCell)cellsList.get(i)).clone();
+				clone.cellsList.add(cell);
+				clone.cellsMap.put(new Pair(cell.getRowTotalGroup(), cell.getColumnTotalGroup()), cell);
+			}
+		}
+		
+		if (whenNoDataCell != null)
+		{
+			clone.whenNoDataCell = (JRDesignCellContents)whenNoDataCell.clone();
+		}
+		if (headerCell != null)
+		{
+			clone.headerCell = (JRDesignCellContents)headerCell.clone();
+		}
+
+		return clone;
 	}
 }

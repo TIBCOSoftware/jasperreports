@@ -222,4 +222,11 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 		return percentageCalculatorClassRealName;
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+	}
 }

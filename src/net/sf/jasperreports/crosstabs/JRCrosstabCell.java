@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import net.sf.jasperreports.engine.JRCloneable;
+
 /**
  * Crosstab data cell interface.
  * 
@@ -34,7 +36,7 @@ package net.sf.jasperreports.crosstabs;
  * @version $Id$
  * @see net.sf.jasperreports.crosstabs.JRCrosstab#getCells()
  */
-public interface JRCrosstabCell
+public interface JRCrosstabCell extends JRCloneable
 {
 	/**
 	 * Returns the width of the cell.
