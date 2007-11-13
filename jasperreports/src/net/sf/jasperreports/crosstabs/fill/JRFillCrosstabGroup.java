@@ -109,5 +109,12 @@ public abstract class JRFillCrosstabGroup implements JRCrosstabGroup
 	{
 		return variable;
 	}
-
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

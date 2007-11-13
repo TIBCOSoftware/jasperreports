@@ -79,4 +79,12 @@ public class JRFillCrosstabCell implements JRCrosstabCell
 	{
 		return parentCell.getHeight();
 	}
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

@@ -227,4 +227,12 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	{
 		this.origin = origin;
 	}
+	
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+	}
 }

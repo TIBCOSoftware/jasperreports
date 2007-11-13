@@ -165,4 +165,12 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 	{
 		return parentMeasure.getPercentageCalculatorClass();
 	}
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }

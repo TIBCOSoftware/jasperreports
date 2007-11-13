@@ -253,6 +253,14 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 		return getEventSupport();
 	}
 	
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

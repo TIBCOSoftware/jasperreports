@@ -105,4 +105,12 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 	{
 		return variable;
 	}
+
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+	}
 }

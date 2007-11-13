@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRVariable;
 
@@ -39,7 +40,7 @@ import net.sf.jasperreports.engine.JRVariable;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRCrosstabMeasure
+public interface JRCrosstabMeasure extends JRCloneable
 {
 	/**
 	 * Percentage type indicating that the value will not be calculated

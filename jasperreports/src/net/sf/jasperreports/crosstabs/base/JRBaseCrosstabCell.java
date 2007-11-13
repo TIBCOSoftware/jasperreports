@@ -92,4 +92,18 @@ public class JRBaseCrosstabCell implements JRCrosstabCell, Serializable
 		return width;
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseCrosstabCell clone = (JRBaseCrosstabCell)super.clone();
+		
+		if (contents != null)
+		{
+			clone.contents = (JRCellContents)contents.clone();
+		}
+
+		return clone;
+	}
 }
