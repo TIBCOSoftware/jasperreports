@@ -216,7 +216,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 			clone.children = new ArrayList(children.size());
 			for(int i = 0; i < children.size(); i++)
 			{
-				clone.children.add(((JRChild)children.get(i)).clone(elementGroup));
+				clone.children.add(((JRChild)children.get(i)).clone(clone));
 			}
 		}
 
