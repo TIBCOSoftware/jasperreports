@@ -111,4 +111,24 @@ public class JRBaseQuery implements JRQuery, Serializable
 	}
 	
 
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRBaseQuery clone = (JRBaseQuery)super.clone();
+		
+		if (chunks != null)
+		{
+			clone.chunks = new JRQueryChunk[chunks.length];
+			for(int i = 0; i < chunks.length; i++)
+			{
+				clone.chunks[i] = (JRQueryChunk)chunks[i].clone();
+			}
+		}
+
+		return clone;
+	}
+	
+	
 }

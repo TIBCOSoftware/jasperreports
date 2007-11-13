@@ -270,4 +270,23 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	{
 		getPropertyChangeSupport().removePropertyChangeListener(propName, l);
 	}
+
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		JRDesignQuery clone = (JRDesignQuery)super.clone();
+		
+		if (chunks != null)
+		{
+			clone.chunks = new ArrayList(chunks.size());
+			for(int i = 0; i < chunks.size(); i++)
+			{
+				clone.chunks.add(((JRQueryChunk)chunks.get(i)).clone());
+			}
+		}
+
+		return clone;
+	}
 }

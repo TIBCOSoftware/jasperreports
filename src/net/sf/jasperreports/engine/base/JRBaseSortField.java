@@ -103,6 +103,14 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.order);
 	}
 	
+	/**
+	 * 
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		return super.clone();
+	}
+	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

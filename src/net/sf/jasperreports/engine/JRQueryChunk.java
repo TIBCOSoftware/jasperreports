@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.query.JRClauseFunction;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRQueryChunk
+public interface JRQueryChunk extends JRCloneable
 {
 
 

@@ -1186,4 +1186,12 @@ public class JRFillDataset implements JRDataset
 	{
 		return parent.getFilterExpression();
 	}
+	
+	/**
+	 *
+	 */
+	public Object clone() throws CloneNotSupportedException 
+	{
+		throw new CloneNotSupportedException();
+	}
 }
