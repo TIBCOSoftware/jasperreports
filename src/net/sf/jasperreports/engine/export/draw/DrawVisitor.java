@@ -211,6 +211,19 @@ public class DrawVisitor implements JRVisitor
 	 */
 	public void visitSubreport(JRSubreport subreport)
 	{
+		try
+		{
+			imageDrawer.draw(
+				grx,
+				convertVisitor.getVisitPrintElement(subreport), 
+				-subreport.getX(), 
+				-subreport.getY()
+				);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 	/**
