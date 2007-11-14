@@ -703,8 +703,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 			else
 			{
-				if (log.isWarnEnabled())
-					log.warn("The subreport is placed on a non-splitting band, but it does not have a rewindable data source.");
+//				if (log.isWarnEnabled())
+//					log.warn("The subreport is placed on a non-splitting band, but it does not have a rewindable data source.");
+				throw new JRException("The subreport is placed on a non-splitting band, but it does not have a rewindable data source.");
 			}
 		}
 	}
