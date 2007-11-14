@@ -44,34 +44,32 @@ import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
-import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRGraphics2DExporter.java 1811 2007-08-13 19:52:07Z teodord $
  */
-public class ImageConverter extends ElementConverter
+public class SubreportConverter extends ElementConverter
 {
 
 	/**
 	 *
 	 */
-	private final static ImageConverter INSTANCE = new ImageConverter();
+	private final static SubreportConverter INSTANCE = new SubreportConverter();
 	
 	/**
 	 *
 	 */
-	private ImageConverter()
+	private SubreportConverter()
 	{
 	}
 
 	/**
 	 *
 	 */
-	public static ImageConverter getInstance()
+	public static SubreportConverter getInstance()
 	{
 		return INSTANCE;
 	}
@@ -82,20 +80,10 @@ public class ImageConverter extends ElementConverter
 	public JRPrintElement convert(ReportConverter reportConverter, JRElement element)
 	{
 		JRBasePrintImage printImage = new JRBasePrintImage(reportConverter.getDefaultStyleProvider());
-		JRImage image = (JRImage)element;
 
-		copyGraphicElement(reportConverter, image, printImage);
-		copyBox(image, printImage);
+		copyElement(reportConverter, element, printImage);
 		
-		printImage.setAnchorName(JRExpressionUtil.getExpressionText(image.getAnchorNameExpression()));
-		printImage.setBookmarkLevel(image.getBookmarkLevel());
-		printImage.setHorizontalAlignment(image.getOwnHorizontalAlignment());
-		printImage.setLazy(image.isLazy());
-		printImage.setLinkType(image.getLinkType());
-		printImage.setOnErrorType(image.getOnErrorType());
-		printImage.setVerticalAlignment(image.getOwnVerticalAlignment());
-		printImage.setRenderer(getRenderer(image));
-		printImage.setScaleImage(image.getOwnScaleImage());
+		printImage.setRenderer(getRenderer());
 		
 		return printImage;
 	}
@@ -103,46 +91,18 @@ public class ImageConverter extends ElementConverter
 	/**
 	 * 
 	 */
-	private JRRenderable getRenderer(JRImage imageElement)
+	private JRRenderable getRenderer()
 	{
 		JRRenderable imageRenderer = null;
 		Image awtImage = null;
 		
-		String location = JRExpressionUtil.getSimpleExpressionText(imageElement.getExpression());
-		if(location != null)
-		{
-			try
-			{
-				awtImage = JRImageLoader.loadImage(
-					JRLoader.loadBytesFromLocation(location)
-					);
-				if (awtImage == null)
-				{
-					awtImage = JRImageLoader.getImage(JRImageLoader.NO_IMAGE);
-					imageElement.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
-					imageElement.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
-				}
-				imageRenderer = JRImageRenderer.getInstance(
-						awtImage, 
-						imageElement.getOnErrorType()
-						);
-				return imageRenderer;
-			}
-			catch (JRException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		
 		try
 		{
-			awtImage = JRImageLoader.getImage(JRImageLoader.NO_IMAGE);
+			awtImage = JRImageLoader.getImage(JRImageLoader.SUBREPORT_IMAGE);
 			imageRenderer = JRImageRenderer.getInstance(
-					awtImage, 
-					imageElement.getOnErrorType()
-					);
-			imageElement.setScaleImage(JRImage.SCALE_IMAGE_CLIP);//FIXMECONVERT modify original image?
-			imageElement.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
+				awtImage, 
+				JRImage.ON_ERROR_TYPE_ERROR
+				);
 		}
 		catch (JRException e)
 		{

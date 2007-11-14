@@ -202,7 +202,9 @@ public class ConvertVisitor implements JRVisitor
 	 */
 	public void visitSubreport(JRSubreport subreport)
 	{
-		//FIXMECONVERT
+		JRPrintElement printImage = SubreportConverter.getInstance().convert(reportConverter, subreport);
+		addElement(parentFrame, printImage);
+		addContour(reportConverter, parentFrame, printImage);
 	}
 
 	/**
