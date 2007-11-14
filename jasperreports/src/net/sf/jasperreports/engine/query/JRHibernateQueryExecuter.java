@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.data.JRHibernateIterateDataSource;
@@ -103,7 +102,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		
 		session = (Session) getParameterValue(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_SESSION);
 		reportMaxCount = (Integer) getParameterValue(JRParameter.REPORT_MAX_COUNT);
-		isClearCache = JRProperties.getBooleanProperty(dataset.getPropertiesMap(), 
+		isClearCache = JRProperties.getBooleanProperty(dataset, 
 				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_CLEAR_CACHE,
 				false);
 
@@ -145,11 +144,9 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	{
 		JRDataSource resDatasource;
 		
-		JRPropertiesMap datasetProperties = dataset.getPropertiesMap();
-		
-		String runType = JRProperties.getProperty(datasetProperties, 
+		String runType = JRProperties.getProperty(dataset, 
 				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_RUN_TYPE);
-		boolean useFieldDescriptions = JRProperties.getBooleanProperty(datasetProperties, 
+		boolean useFieldDescriptions = JRProperties.getBooleanProperty(dataset, 
 				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS,
 				true);
 		
@@ -157,7 +154,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		{
 			try
 			{
-				int pageSize = JRProperties.getIntegerProperty(datasetProperties, 
+				int pageSize = JRProperties.getIntegerProperty(dataset, 
 						JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE,
 						0);
 
@@ -215,7 +212,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		}
 		query.setReadOnly(true);
 		
-		int fetchSize = JRProperties.getIntegerProperty(dataset.getPropertiesMap(),
+		int fetchSize = JRProperties.getIntegerProperty(dataset,
 				JRJdbcQueryExecuterFactory.PROPERTY_JDBC_FETCH_SIZE,
 				0);
 		if (fetchSize != 0)

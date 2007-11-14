@@ -145,6 +145,12 @@ public class JRFillParameter implements JRValueParameter
 		this.value = value;
 	}
 
+	
+	public boolean hasProperties()
+	{
+		return parent.hasProperties();
+	}
+
 
 	public JRPropertiesMap getPropertiesMap()
 	{

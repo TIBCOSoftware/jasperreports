@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -109,6 +110,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	protected JRStyle parentStyle;
 	protected String parentStyleNameReference;
 
+	private JRPropertiesMap propertiesMap;
 
 	/**
 	 *
@@ -153,6 +155,8 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		printWhenExpression = factory.getExpression(element.getPrintWhenExpression());
 		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
 		elementGroup = (JRElementGroup)factory.getVisitResult(element.getElementGroup());
+		
+		propertiesMap = JRPropertiesMap.getPropertiesClone(element);
 	}
 
 
@@ -503,4 +507,19 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		
 		return clone;
 	}
+
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new JRPropertiesMap();
+		}
+		return propertiesMap;
+	}
+	
 }

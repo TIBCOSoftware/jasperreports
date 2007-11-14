@@ -213,6 +213,11 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		this.orientation = orientation;
 	}
 
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+	
 	/**
 	 * 
 	 */

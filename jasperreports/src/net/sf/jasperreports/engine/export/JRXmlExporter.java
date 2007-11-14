@@ -419,9 +419,9 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	protected void exportProperties(JRPropertiesHolder propertiesHolder) throws IOException
 	{
-		JRPropertiesMap propertiesMap = propertiesHolder.getPropertiesMap();
-		if (propertiesMap != null)
+		if (propertiesHolder.hasProperties())
 		{
+			JRPropertiesMap propertiesMap = propertiesHolder.getPropertiesMap();
 			String[] propertyNames = propertiesMap.getPropertyNames();
 			if (propertyNames != null && propertyNames.length > 0)
 			{

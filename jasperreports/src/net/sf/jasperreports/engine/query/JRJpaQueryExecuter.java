@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.data.JRJpaDataSource;
@@ -191,20 +190,18 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 		}
 		// Second, set query hints supplied by report properties which start with JREjbPersistenceQueryExecuterFactory.PROPERTY_JPA_PERSISTENCE_QUERY_HINT_PREFIX
 		// Example: net.sf.jasperreports.ejbql.query.hint.fetchSize
-		// This property will result in a query hint set with the name: fetchSize 
-		JRPropertiesMap datasetProperties = dataset.getPropertiesMap();
-		String[] propertyNames = datasetProperties.getPropertyNames();
-		for (int i = 0; i < propertyNames.length; i++) {
-			String propertyName = propertyNames[i];
-			if (propertyName.startsWith(JRJpaQueryExecuterFactory.PROPERTY_JPA_QUERY_HINT_PREFIX)) {
-				String queryHint = propertyName.replaceFirst(
-						JRJpaQueryExecuterFactory.PROPERTY_JPA_QUERY_HINT_PREFIX,
-						"");
-				if (queryHint != null && queryHint.length() > 0) {
-					String property = datasetProperties.getProperty(propertyName);
-					log.debug("EJBQL query hint [" + queryHint + "] set to: " + property);
-					query.setHint(queryHint, property);
+		// This property will result in a query hint set with the name: fetchSize
+		List properties = JRProperties.getProperties(dataset, 
+				JRJpaQueryExecuterFactory.PROPERTY_JPA_QUERY_HINT_PREFIX);
+		for (Iterator it = properties.iterator(); it.hasNext();) {
+			JRProperties.PropertySuffix property = (JRProperties.PropertySuffix) it.next();
+			String queryHint = property.getSuffix();
+			if (queryHint.length() > 0) {
+				String value = property.getValue();
+				if (log.isDebugEnabled()) {
+					log.debug("EJBQL query hint [" + queryHint + "] set to: " + value);
 				}
+				query.setHint(queryHint, property);
 			}
 		}
 	}	
@@ -217,10 +214,8 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 	protected JRDataSource createResultDatasource()	{
 		JRDataSource resDatasource;
 		
-		JRPropertiesMap datasetProperties = dataset.getPropertiesMap();
-		
 		try {
-			int pageSize = JRProperties.getIntegerProperty(datasetProperties, 
+			int pageSize = JRProperties.getIntegerProperty(dataset, 
 					JRJpaQueryExecuterFactory.PROPERTY_JPA_QUERY_PAGE_SIZE,
 					0);
 

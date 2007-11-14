@@ -236,6 +236,11 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		getEventSupport().firePropertyChange(PROPERTY_WHEN_RESOURCE_MISSING_TYPE, old, this.whenResourceMissingType);
 	}
 
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return propertiesMap;

@@ -38,6 +38,13 @@ public interface JRPropertiesHolder
 {
 
 	/**
+	 * Checks whether the object has any properties.
+	 * 
+	 * @return whether the object has any properties
+	 */
+	public boolean hasProperties();
+	
+	/**
 	 * Returns this object's properties map.
 	 *  
 	 * @return this object's properties map
