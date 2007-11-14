@@ -567,6 +567,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						//sheet.addMergedRegion(new Region(y, (short)x, y, (short)(x + emptyCellColSpan - 1)));
 					}
 				}
+				
+				//increment row index to return proper value
+				++rowIndex;
 			}
 			else
 			{
