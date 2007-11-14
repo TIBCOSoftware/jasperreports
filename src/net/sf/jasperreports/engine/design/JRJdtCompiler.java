@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -415,7 +416,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 					{
 						String sourceCode = units[classIdx].getSourceCode();
 						
-						IProblem[] problems = result.getErrors();
+						IProblem[] problems = getJavaCompilationErrors(result);
 						for (int i = 0; i < problems.length; i++) 
 						{
 							IProblem problem = problems[i];
@@ -605,5 +606,22 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	protected String getCompilerClass()
 	{
 		return JRJavacCompiler.class.getName();
+	}
+
+	protected IProblem[] getJavaCompilationErrors(CompilationResult result) {
+		try {
+			Method getErrorsMethod = result.getClass().getMethod("getErrors", null);
+			return (IProblem[]) getErrorsMethod.invoke(result, null);
+		} catch (SecurityException e) {
+			throw new JRRuntimeException("Error resolving JDT methods", e);
+		} catch (NoSuchMethodException e) {
+			throw new JRRuntimeException("Error resolving JDT methods", e);
+		} catch (IllegalArgumentException e) {
+			throw new JRRuntimeException("Error invoking JDT methods", e);
+		} catch (IllegalAccessException e) {
+			throw new JRRuntimeException("Error invoking JDT methods", e);
+		} catch (InvocationTargetException e) {
+			throw new JRRuntimeException("Error invoking JDT methods", e);
+		}
 	}
 }
