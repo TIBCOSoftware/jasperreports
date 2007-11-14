@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Properties;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -491,6 +492,18 @@ public class JRProperties
 	/**
 	 * Returns the list of all properties for a key prefix.
 	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param prefix the key prefix
+	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
+	 */
+	public static List getProperties(JRPropertiesHolder propertiesHolder, String prefix)
+	{
+		return getProperties(getProperties(propertiesHolder), prefix);
+	}
+	
+	/**
+	 * Returns the list of all properties for a key prefix.
+	 * 
 	 * @param propertiesMap the properties map
 	 * @param prefix the key prefix
 	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
@@ -499,9 +512,9 @@ public class JRProperties
 	{
 		int prefixLength = prefix.length();
 		List values = new ArrayList();
-		String[] propertyNames = propertiesMap.getPropertyNames();
-		if (propertyNames != null)
+		if (propertiesMap != null)
 		{
+			String[] propertyNames = propertiesMap.getPropertyNames();
 			for (int i = 0; i < propertyNames.length; i++)
 			{
 				String name = propertyNames[i];
@@ -516,6 +529,19 @@ public class JRProperties
 		return values;
 	}
 
+	/**
+	 * Returns the value of a property, looking first in the supplied properties holder
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @return the property value
+	 */
+	public static String getProperty (JRPropertiesHolder propertiesHolder, String key)
+	{
+		return getProperty(getProperties(propertiesHolder), key);
+	}
+	
 	/**
 	 * Returns the value of a property, looking first in the supplied properties map
 	 * and then in the system properties.
@@ -541,6 +567,20 @@ public class JRProperties
 	}
 
 	/**
+	 * Returns the value of a property as a boolean, looking first in the supplied properties holder
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @return the property value
+	 */
+	public static boolean getBooleanProperty (JRPropertiesHolder propertiesHolder, String key, boolean defaultValue)
+	{
+		return getBooleanProperty(getProperties(propertiesHolder), key, defaultValue);
+	}
+
+	/**
 	 * Returns the value of a property as a boolean, looking first in the supplied properties map
 	 * and then in the system properties.
 	 * 
@@ -556,6 +596,20 @@ public class JRProperties
 		return value == null ? defaultValue : asBoolean(value);
 	}
 
+	/**
+	 * Returns the value of a property as an integer, looking first in the supplied properties holder
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @return the property value
+	 */
+	public static int getIntegerProperty (JRPropertiesHolder propertiesHolder, String key, int defaultValue)
+	{
+		return getIntegerProperty(getProperties(propertiesHolder), key, defaultValue);
+	}
+	
 	/**
 	 * Returns the value of a property as an integer, looking first in the supplied properties map
 	 * and then in the system properties.
@@ -622,5 +676,10 @@ public class JRProperties
 		String value = getProperty(propertiesMap, key);
 		
 		return value == null ? defaultValue : asLong(value);
+	}
+	
+	protected static JRPropertiesMap getProperties(JRPropertiesHolder propertiesHolder)
+	{
+		return propertiesHolder.hasProperties() ? propertiesHolder.getPropertiesMap() : null;
 	}
 }

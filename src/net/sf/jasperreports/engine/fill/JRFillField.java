@@ -197,6 +197,12 @@ public class JRFillField implements JRField
 		this.previousOldValue = previousOldValue;
 	}
 
+	
+	public boolean hasProperties()
+	{
+		return parent.hasProperties();
+	}
+
 
 	public JRPropertiesMap getPropertiesMap()
 	{

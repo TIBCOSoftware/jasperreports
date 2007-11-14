@@ -3528,6 +3528,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <name>reportElement</name>
   <description>Element used to specify the common properties of an object on the report.</description>
   <contains>(
+    <a href="property">property</a>*,
     <a href="printWhenExpression">printWhenExpression</a>?
   )</contains>
   <attributes>

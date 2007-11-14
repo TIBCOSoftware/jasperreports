@@ -1175,6 +1175,12 @@ public class JRFillDataset implements JRDataset
 		this.whenResourceMissingType = whenResourceMissingType;
 	}
 
+	
+	public boolean hasProperties()
+	{
+		return parent.hasProperties();
+	}
+
 
 	public JRPropertiesMap getPropertiesMap()
 	{

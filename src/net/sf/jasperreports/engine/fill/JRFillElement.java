@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JRVariable;
@@ -1241,5 +1242,15 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	public Object clone(JRElementGroup parentGroup) throws CloneNotSupportedException 
 	{
 		throw new CloneNotSupportedException();
+	}
+
+	public boolean hasProperties()
+	{
+		return parent.hasProperties();
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		return parent.getPropertiesMap();
 	}
 }

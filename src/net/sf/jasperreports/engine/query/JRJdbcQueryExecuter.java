@@ -161,7 +161,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			{
 				statement = connection.prepareStatement(queryString);
 				
-				int fetchSize = JRProperties.getIntegerProperty(dataset.getPropertiesMap(),
+				int fetchSize = JRProperties.getIntegerProperty(dataset,
 						JRJdbcQueryExecuterFactory.PROPERTY_JDBC_FETCH_SIZE,
 						0);
 				if (fetchSize != 0)

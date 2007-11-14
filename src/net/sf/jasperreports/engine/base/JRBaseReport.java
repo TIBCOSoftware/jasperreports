@@ -657,6 +657,11 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		return ignorePagination;
 	}
 
+	public boolean hasProperties()
+	{
+		return mainDataset.hasProperties();
+	}
+
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return mainDataset.getPropertiesMap();

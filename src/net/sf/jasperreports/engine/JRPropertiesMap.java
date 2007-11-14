@@ -187,4 +187,37 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		}
 	}
 	
+	
+	/**
+	 * Checks whether there are any properties.
+	 * 
+	 * @return whether there are any properties
+	 */
+	public boolean hasProperties()
+	{
+		return !propertiesList.isEmpty();
+	}
+	
+	
+	/**
+	 * Clones the properties map of a properties holder.
+	 * If the holder does not have any properties, null is returned.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @return a clone of the holder's properties map, or <code>null</code>
+	 * if the holder does not have any properties
+	 */
+	public static JRPropertiesMap getPropertiesClone(JRPropertiesHolder propertiesHolder)
+	{
+		JRPropertiesMap clone;
+		if (propertiesHolder.hasProperties())
+		{
+			clone = propertiesHolder.getPropertiesMap().cloneProperties();
+		}
+		else
+		{
+			clone = null;
+		}
+		return clone;
+	}
 }

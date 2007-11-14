@@ -427,9 +427,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	private void writeProperties(JRPropertiesHolder propertiesHolder) throws IOException
 	{
-		JRPropertiesMap propertiesMap = propertiesHolder.getPropertiesMap();
-		if (propertiesMap != null)
+		if (propertiesHolder.hasProperties())
 		{
+			JRPropertiesMap propertiesMap = propertiesHolder.getPropertiesMap();
 			String[] propertyNames = propertiesMap.getPropertyNames();
 			if (propertyNames != null && propertyNames.length > 0)
 			{
@@ -716,6 +716,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, element.getOwnForecolor());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, element.getOwnBackcolor());
 
+		writeProperties(element);
 		writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, element.getPrintWhenExpression(), false);
 		writer.closeElement();
 	}

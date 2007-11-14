@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesMap;
@@ -160,6 +159,12 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 		}
 		
 		return valueClassRealName;
+	}
+
+	
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
 

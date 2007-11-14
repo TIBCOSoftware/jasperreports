@@ -37,7 +37,7 @@ import java.awt.Color;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRElement extends JRChild, JRStyleContainer
+public interface JRElement extends JRChild, JRStyleContainer, JRPropertiesHolder
 {
 
 

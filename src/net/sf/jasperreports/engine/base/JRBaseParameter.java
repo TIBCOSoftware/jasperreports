@@ -197,6 +197,12 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 		return this.defaultValueExpression;
 	}
 
+	
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
 
 	public JRPropertiesMap getPropertiesMap()
 	{

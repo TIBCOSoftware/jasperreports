@@ -196,7 +196,7 @@
 	direction (TopDown | BottomUp) "TopDown"
 >
 
-<!ELEMENT reportElement (printWhenExpression?)>
+<!ELEMENT reportElement (property*, printWhenExpression?)>
 <!ATTLIST reportElement
 	key CDATA #IMPLIED
 	style CDATA #IMPLIED
