@@ -115,7 +115,9 @@ public class ConvertVisitor implements JRVisitor
 	 */
 	public void visitChart(JRChart chart)
 	{
-		addElement(parentFrame, ChartConverter.getInstance().convert(reportConverter, chart));
+		JRPrintElement printImage = ChartConverter.getInstance().convert(reportConverter, chart);
+		addElement(parentFrame, printImage);
+		addContour(reportConverter, parentFrame, printImage);
 	}
 
 	/**

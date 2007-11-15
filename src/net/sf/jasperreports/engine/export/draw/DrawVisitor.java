@@ -66,13 +66,18 @@ import net.sf.jasperreports.engine.util.JRStyledTextParser;
 public class DrawVisitor implements JRVisitor
 {
 	
+	private TextRenderer textRenderer = new TextRenderer(false);
+	private JRStyledTextParser styledTextParser = new JRStyledTextParser();
+
 	private ConvertVisitor convertVisitor = null;
 	private Graphics2D grx = null;
+
 	private LineDrawer lineDrawer = new LineDrawer();
 	private RectangleDrawer rectangleDrawer = new RectangleDrawer();
 	private EllipseDrawer ellipseDrawer = new EllipseDrawer();
 	private ImageDrawer imageDrawer = new ImageDrawer();
-	private TextDrawer textDrawer = new TextDrawer(new TextRenderer(false), new JRStyledTextParser());
+	private TextDrawer textDrawer = new TextDrawer(textRenderer, styledTextParser);
+	private FrameDrawer frameDrawer = new FrameDrawer(null, textRenderer, styledTextParser);
 	
 	/**
 	 *
@@ -104,6 +109,7 @@ public class DrawVisitor implements JRVisitor
 	 */
 	public void visitBreak(JRBreak breakElement)
 	{
+		//FIXMEDRAW
 	}
 
 	/**
@@ -111,6 +117,19 @@ public class DrawVisitor implements JRVisitor
 	 */
 	public void visitChart(JRChart chart)
 	{
+		try
+		{
+			imageDrawer.draw(
+				grx,
+				convertVisitor.getVisitPrintElement(chart), 
+				-chart.getX(), 
+				-chart.getY()
+				);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 	/**
@@ -118,6 +137,19 @@ public class DrawVisitor implements JRVisitor
 	 */
 	public void visitCrosstab(JRCrosstab crosstab)
 	{
+		try
+		{
+			frameDrawer.draw(
+				grx,
+				convertVisitor.getVisitPrintElement(crosstab), 
+				-crosstab.getX(), 
+				-crosstab.getY()
+				);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 	/**
@@ -125,6 +157,7 @@ public class DrawVisitor implements JRVisitor
 	 */
 	public void visitElementGroup(JRElementGroup elementGroup)
 	{
+		//nothing to draw. elements are drawn individually.
 	}
 
 	/**
@@ -145,6 +178,19 @@ public class DrawVisitor implements JRVisitor
 	 */
 	public void visitFrame(JRFrame frame)
 	{
+		try
+		{
+			frameDrawer.draw(
+				grx,
+				convertVisitor.getVisitPrintElement(frame), 
+				-frame.getX(), 
+				-frame.getY()
+				);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 	/**

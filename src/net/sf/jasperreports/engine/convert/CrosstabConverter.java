@@ -439,65 +439,79 @@ public class CrosstabConverter extends FrameConverter
 		List crosstabElements
 		)
 	{
-		
-		JRCrosstabColumnGroup[] colGroups = crosstab.getColumnGroups();
 		JRCrosstabCell[][] cells = crosstab.getCells();
-		int crosstabX = rowOffsetX;
-		int crosstabY = rowOffsetY;
-
-		for (int i = 0, x = 0; i < colGroups.length; i++)
+		if (cells != null)
 		{
-			JRCrosstabColumnGroup group = colGroups[i];
-			
-			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_START)
+			JRCrosstabColumnGroup[] colGroups = crosstab.getColumnGroups();
+			int crosstabX = rowOffsetX;
+			int crosstabY = rowOffsetY;
+
+			for (int i = 0, x = 0; i < colGroups.length; i++)
 			{
-				JRCellContents cell = cells[rowIndex][i].getContents();
-				if (cell.getWidth() != 0 && cell.getHeight() != 0)
+				JRCrosstabColumnGroup group = colGroups[i];
+				
+				if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_START)
 				{
-					crosstabElements.add(
-						getCrosstabCellFrame(
-							reportConverter,
-							cell, 
-							crosstabX + x, 
-							crosstabY, 
-							false, 
-							false, 
-							false
-							));
-					x += cells[rowIndex][i].getContents().getWidth();
+					JRCrosstabCell cell = cells[rowIndex][i];
+					if (cell != null)
+					{
+						JRCellContents contents = cell.getContents();
+						if (contents.getWidth() != 0 && contents.getHeight() != 0)
+						{
+							crosstabElements.add(
+								getCrosstabCellFrame(
+									reportConverter,
+									contents, 
+									crosstabX + x, 
+									crosstabY, 
+									false, 
+									false, 
+									false
+									));
+							x += cells[rowIndex][i].getContents().getWidth();
+						}
+					}
 				}
-			}
-			
-			if (i == colGroups.length - 1)
-			{
-				JRCellContents cell = cells[rowIndex][colGroups.length].getContents();
-				if (cell.getWidth() != 0 && cell.getHeight() != 0)
-					crosstabElements.add(
-						getCrosstabCellFrame(
-							reportConverter,
-							cell, 
-							crosstabX + x, 
-							crosstabY, 
-							false, 
-							false, 
-							false
-							));
-			}
-			
-			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_END)
-			{
-				JRCellContents cell = cells[rowIndex][i].getContents();
-				if (cell.getWidth() != 0 && cell.getHeight() != 0)
-					crosstabElements.add(
-						getCrosstabCellFrame(
-							reportConverter,
-							cell, 
-							crosstabX + x + group.getHeader().getWidth(), 
-							crosstabY, 
-							false, 
-							false, 
-							false
-							));
+				
+				if (i == colGroups.length - 1)
+				{
+					JRCrosstabCell cell = cells[rowIndex][colGroups.length];
+					if (cell != null)
+					{
+						JRCellContents contents = cell.getContents();
+						if (contents.getWidth() != 0 && contents.getHeight() != 0)
+							crosstabElements.add(
+								getCrosstabCellFrame(
+									reportConverter,
+									contents, 
+									crosstabX + x, 
+									crosstabY, 
+									false, 
+									false, 
+									false
+									));
+					}
+				}
+				
+				if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_END)
+				{
+					JRCrosstabCell cell = cells[rowIndex][i];
+					if (cell != null)
+					{
+						JRCellContents contents = cell.getContents();
+						if (contents.getWidth() != 0 && contents.getHeight() != 0)
+							crosstabElements.add(
+								getCrosstabCellFrame(
+									reportConverter,
+									contents, 
+									crosstabX + x + group.getHeader().getWidth(), 
+									crosstabY, 
+									false, 
+									false, 
+									false
+									));
+					}
+				}
 			}
 		}
 	}
