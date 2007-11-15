@@ -110,13 +110,9 @@ public class ChartConverter extends ElementConverter
 		try
 		{
 			awtImage = JRImageLoader.getImage(JRImageLoader.CHART_IMAGE);
-			if(awtImage == null)
-			{
-				awtImage = JRImageLoader.getImage(JRImageLoader.NO_IMAGE);
-			}
 			imageRenderer = JRImageRenderer.getInstance(
 					awtImage, 
-					JRImage.ON_ERROR_TYPE_ICON
+					JRImage.ON_ERROR_TYPE_ERROR
 					);
 			chart.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
 		}

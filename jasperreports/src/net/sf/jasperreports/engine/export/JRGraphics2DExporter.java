@@ -42,27 +42,12 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.util.Collection;
-import java.util.Iterator;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintEllipse;
-import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRPrintRectangle;
-import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.export.draw.BoxDrawer;
-import net.sf.jasperreports.engine.export.draw.EllipseDrawer;
-import net.sf.jasperreports.engine.export.draw.ImageDrawer;
-import net.sf.jasperreports.engine.export.draw.LineDrawer;
-import net.sf.jasperreports.engine.export.draw.RectangleDrawer;
-import net.sf.jasperreports.engine.export.draw.TextDrawer;
+import net.sf.jasperreports.engine.export.draw.FrameDrawer;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -80,7 +65,6 @@ import net.sf.jasperreports.engine.util.JRProperties;
 public class JRGraphics2DExporter extends JRAbstractExporter
 {
 
-	private static final int ELEMENT_RECTANGLE_PADDING = 3;
 	private static final float DEFAULT_ZOOM = 1f;
 
 	/**
@@ -102,12 +86,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	protected float zoom = DEFAULT_ZOOM;
 
 	protected TextRenderer textRenderer = null;
-	protected LineDrawer lineDrawer = null;
-	protected RectangleDrawer rectangleDrawer = null;
-	protected EllipseDrawer ellipseDrawer = null;
-	protected ImageDrawer imageDrawer = null;
-	protected TextDrawer textDrawer = null;
-	protected BoxDrawer boxDrawer = null;
+	protected FrameDrawer frameDrawer = null;
 
 	/**
 	 *
@@ -198,12 +177,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	
 	protected void setDrawers()
 	{
-		lineDrawer = new LineDrawer();
-		rectangleDrawer = new RectangleDrawer();
-		ellipseDrawer = new EllipseDrawer();
-		imageDrawer = new ImageDrawer();
-		textDrawer = new TextDrawer(textRenderer, styledTextParser);
-		boxDrawer = new BoxDrawer();
+		frameDrawer = new FrameDrawer(filter, textRenderer, styledTextParser);
 	}
 
 	
@@ -259,91 +233,12 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		grx.setStroke(new BasicStroke(1));
 
 		/*   */
-		Collection elements = page.getElements();
-		exportElements(elements);
+		frameDrawer.draw(grx, page.getElements(), getOffsetX(), getOffsetY());
 		
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
 		}
-	}
-
-
-	protected void exportElements(Collection elements) throws JRException
-	{
-		if (elements != null && elements.size() > 0)
-		{
-			Shape clipArea = grx.getClip();
-			for(Iterator it = elements.iterator(); it.hasNext();)
-			{
-				JRPrintElement element = (JRPrintElement)it.next();
-				
-				if (
-					(filter != null && !filter.isToExport(element))
-					|| !clipArea.intersects(
-						element.getX() + getOffsetX() - ELEMENT_RECTANGLE_PADDING, 
-						element.getY() + getOffsetY() - ELEMENT_RECTANGLE_PADDING, 
-						element.getWidth() + 2 * ELEMENT_RECTANGLE_PADDING, 
-						element.getHeight() + 2 * ELEMENT_RECTANGLE_PADDING)
-					)
-				{
-					continue;
-				}
-				
-				if (element instanceof JRPrintLine)
-				{
-					lineDrawer.draw(grx, element, getOffsetX(), getOffsetY());
-				}
-				else if (element instanceof JRPrintRectangle)
-				{
-					rectangleDrawer.draw(grx, element, getOffsetX(), getOffsetY());
-				}
-				else if (element instanceof JRPrintEllipse)
-				{
-					ellipseDrawer.draw(grx, element, getOffsetX(), getOffsetY());
-				}
-				else if (element instanceof JRPrintImage)
-				{
-					imageDrawer.draw(grx, element, getOffsetX(), getOffsetY());
-				}
-				else if (element instanceof JRPrintText)
-				{
-					textDrawer.draw(grx, element, getOffsetX(), getOffsetY());
-				}
-				else if (element instanceof JRPrintFrame)
-				{
-					exportFrame((JRPrintFrame) element);
-				}
-			}
-		}
-	}
-
-
-	/**
-	 * 
-	 */
-	protected void exportFrame(JRPrintFrame frame) throws JRException
-	{		
-		if (frame.getMode() == JRElement.MODE_OPAQUE)
-		{
-			int x = frame.getX() + getOffsetX();
-			int y = frame.getY() + getOffsetY();
-			
-			grx.setColor(frame.getBackcolor());
-			grx.fillRect(x, y, frame.getWidth(), frame.getHeight()); 
-		}
-		
-		setFrameElementsOffset(frame, false);
-		try
-		{
-			exportElements(frame.getElements());
-		}
-		finally
-		{
-			restoreElementOffsets();
-		}
-		
-		boxDrawer.draw(grx, frame, getOffsetX(), getOffsetY());
 	}
 
 }

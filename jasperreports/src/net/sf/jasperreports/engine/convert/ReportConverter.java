@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.base.JRBasePrintLine;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
+import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
 
@@ -103,6 +104,11 @@ public class ReportConverter
 	public ReportConverter(JRReport report, boolean ignoreContent)
 	{
 		this.report = report;
+		
+		if (report instanceof JasperDesign)
+		{
+			((JasperDesign)report).preprocess();
+		}
 		
 		convert(ignoreContent);
 	}
