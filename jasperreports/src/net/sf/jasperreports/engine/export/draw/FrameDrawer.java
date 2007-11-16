@@ -36,6 +36,7 @@
 package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.Collection;
 import java.util.Iterator;
@@ -74,6 +75,7 @@ public class FrameDrawer extends ElementDrawer
 	private LinkedList elementOffsetStack = new LinkedList();
 	private int elementOffsetX = 0;
 	private int elementOffsetY = 0;
+	private boolean isClip = false;
 	
 	/**
 	 *
@@ -107,11 +109,34 @@ public class FrameDrawer extends ElementDrawer
 	/**
 	 *
 	 */
+	public void setClip(boolean isClip)
+	{
+		this.isClip = isClip;
+	}
+	
+	
+	/**
+	 *
+	 */
 	public void draw(Graphics2D grx, JRPrintElement element, int offsetX, int offsetY) throws JRException
 	{
 		this.grx = grx;
 		
 		JRPrintFrame frame = (JRPrintFrame)element;
+		
+		Shape oldClipShape = null;
+		if (isClip)
+		{
+			oldClipShape = grx.getClip();
+			grx.clip(
+				new Rectangle(
+					frame.getX() + offsetX, 
+					frame.getY() + offsetY, 
+					frame.getWidth(), 
+					frame.getHeight()
+					)
+				);
+		}
 		
 		if (frame.getMode() == JRElement.MODE_OPAQUE)
 		{
@@ -133,6 +158,10 @@ public class FrameDrawer extends ElementDrawer
 		}
 		finally
 		{
+			if (isClip)
+			{
+				grx.setClip(oldClipShape);
+			}
 			restoreElementOffsets();
 		}
 		

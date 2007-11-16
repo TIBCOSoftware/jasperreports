@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.convert.ReportConverter;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
@@ -147,4 +148,20 @@ public class JRDesignViewer extends JRViewer
 	{
 		this.jasperPrint = new ReportConverter(report, false).getJasperPrint();		
 	}
+
+	/**
+	*/
+	protected JRGraphics2DExporter getGraphics2DExporter() throws JRException
+	{
+		return 
+			new JRGraphics2DExporter()
+			{
+				protected void setDrawers()
+				{
+					super.setDrawers();
+					frameDrawer.setClip(true);
+				}
+			};
+	}
+	
 }
