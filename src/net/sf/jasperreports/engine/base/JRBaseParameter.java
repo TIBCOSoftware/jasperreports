@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -207,6 +208,12 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return propertiesMap;
+	}
+
+	
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 
 	

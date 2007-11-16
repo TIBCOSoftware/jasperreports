@@ -32,8 +32,10 @@ import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
+import java.text.BreakIterator;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.TextRenderer;
@@ -42,10 +44,12 @@ import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 
 
 /**
+ * Default text measurer implementation.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class TextMeasurer
+public class TextMeasurer implements JRTextMeasurer
 {
 
 	/**
@@ -70,15 +74,60 @@ public class TextMeasurer
 
 	private float formatWidth = 0;
 	private int maxHeight = 0;
-	private int textOffset = 0;
-	private int lines = 0;
-	private int fontSizeSum = 0;
-	private int firstLineMaxFontSize = 0;
-	private float textHeight = 0;
-	private float firstLineLeading = 0;
-	private boolean isLeftToRight = true;
-	private boolean isMaxHeightReached = false;
+	private TextMeasuredState measuredState;
 	
+	protected static class TextMeasuredState implements JRMeasuredText, Cloneable
+	{
+		protected int textOffset = 0;
+		protected int lines = 0;
+		protected int fontSizeSum = 0;
+		protected int firstLineMaxFontSize = 0;
+		protected float textHeight = 0;
+		protected float firstLineLeading = 0;
+		protected boolean isLeftToRight = true;
+		
+		public boolean isLeftToRight()
+		{
+			return isLeftToRight;
+		}
+		
+		public int getTextOffset()
+		{
+			return textOffset;
+		}
+		
+		public float getTextHeight()
+		{
+			return textHeight;
+		}
+		
+		public float getLineSpacingFactor()
+		{
+			if (lines > 0)
+			{
+				return textHeight / fontSizeSum;
+			}
+			return 0;
+		}
+		
+		public float getLeadingOffset()
+		{
+			return firstLineLeading - firstLineMaxFontSize * getLineSpacingFactor();
+		}
+		
+		public TextMeasuredState cloneState()
+		{
+			try
+			{
+				return (TextMeasuredState) super.clone();
+			}
+			catch (CloneNotSupportedException e)
+			{
+				//never
+				throw new JRRuntimeException(e);
+			}
+		}
+	}
 	
 	/**
 	 * 
@@ -91,7 +140,7 @@ public class TextMeasurer
 	/**
 	 * 
 	 */
-	private void initialize(int availableStretchHeight)
+	protected void initialize(int availableStretchHeight)
 	{
 		width = textElement.getWidth();
 		height = textElement.getHeight();
@@ -171,20 +220,13 @@ public class TextMeasurer
 		formatWidth = formatWidth < 0 ? 0 : formatWidth;
 		maxHeight = height + availableStretchHeight - topPadding - bottomPadding;
 		maxHeight = maxHeight < 0 ? 0 : maxHeight;
-		textOffset = 0;
-		lines = 0;
-		fontSizeSum = 0;
-		firstLineMaxFontSize = 0;
-		textHeight = 0;
-		firstLineLeading = 0;
-		isLeftToRight = true;
-		isMaxHeightReached = false;
+		measuredState = new TextMeasuredState();
 	}
 
 	/**
 	 * 
 	 */
-	public void measure(
+	public JRMeasuredText measure(
 		JRStyledText styledText,
 		String remainingText,
 		int remainingTextStart,
@@ -202,13 +244,14 @@ public class TextMeasurer
 
 		StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
 
-		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
+		boolean rendered = true;
+		while(tkzer.hasMoreTokens() && rendered) 
 		{
 			String token = tkzer.nextToken();
 
 			if ("\n".equals(token))
 			{
-				renderParagraph(allParagraphs, lastParagraphStart, lastParagraphText);
+				rendered = renderParagraph(allParagraphs, lastParagraphStart, lastParagraphText);
 
 				lastParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
 				lastParagraphText = null;
@@ -222,16 +265,18 @@ public class TextMeasurer
 			tokenPosition += token.length();
 		}
 
-		if (!isMaxHeightReached && lastParagraphStart < remainingTextStart + remainingText.length())
+		if (rendered && lastParagraphStart < remainingTextStart + remainingText.length())
 		{
 			renderParagraph(allParagraphs, lastParagraphStart, lastParagraphText);
 		}
+		
+		return measuredState;
 	}
 
 	/**
 	 * 
 	 */
-	private void renderParagraph(
+	protected boolean renderParagraph(
 		AttributedCharacterIterator allParagraphs,
 		int lastParagraphStart,
 		String lastParagraphText
@@ -263,97 +308,65 @@ public class TextMeasurer
 
 		int positionWithinParagraph = 0;
 
-		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, FONT_RENDER_CONTEXT);
+		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, getBreakIterator(), FONT_RENDER_CONTEXT);
 		
-		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && !isMaxHeightReached)
+		boolean rendered = true;
+		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && rendered)
 		{
-			int lineStartPosition = lineMeasurer.getPosition();
-
-			TextLayout layout = lineMeasurer.nextLayout(formatWidth);
-
-			isLeftToRight = isLeftToRight && layout.isLeftToRight();
-			
-			textHeight += layout.getLeading() + lineSpacing * layout.getAscent();
-			
-			if (textHeight + layout.getDescent() <= maxHeight)
+			rendered = renderNextLine(lineMeasurer, paragraph);
+			if (rendered)
 			{
-				lines++;
-
-				fontSizeSum += 
-					maxFontSizeFinder.findMaxFontSize(
-						new AttributedString(
-							paragraph, 
-							lineStartPosition, 
-							lineStartPosition + layout.getCharacterCount()
-							).getIterator(),
-						textElement.getFontSize()
-						);
-						
-				if (lines == 1)
-				{
-					firstLineLeading = textHeight;
-					firstLineMaxFontSize = fontSizeSum;
-				}
-
 				positionWithinParagraph = lineMeasurer.getPosition();
-				// here is the Y offset where we would draw the line
-				//lastDrawPosY = drawPosY;
-				//
-				textHeight += layout.getDescent();
-			}
-			else
-			{
-				textHeight -= layout.getLeading() + lineSpacing * layout.getAscent();
-				isMaxHeightReached = true;
 			}
 		}
 		
-		textOffset = lastParagraphStart + positionWithinParagraph;//(lastParagraphText == null ? 0 : positionWithinParagraph);
+		measuredState.textOffset = lastParagraphStart + positionWithinParagraph;//(lastParagraphText == null ? 0 : positionWithinParagraph);
+		
+		return rendered;
 	}
 	
-	
-	/**
-	 * 
-	 */
-	protected boolean isLeftToRight()
+	protected BreakIterator getBreakIterator()
 	{
-		return isLeftToRight;
+		return BreakIterator.getLineInstance();
 	}
 	
-	/**
-	 * 
-	 */
-	protected int getTextOffset()
+	protected boolean renderNextLine(LineBreakMeasurer lineMeasurer, AttributedCharacterIterator paragraph)
 	{
-		return textOffset;
-	}
-	
-	/**
-	 * 
-	 */
-	public float getTextHeight()
-	{
-		return textHeight;
-	}
-	
-	/**
-	 * 
-	 */
-	public float getLineSpacingFactor()
-	{
-		if (lines > 0)
+		int lineStartPosition = lineMeasurer.getPosition();
+
+		TextLayout layout = lineMeasurer.nextLayout(formatWidth);
+
+		measuredState.isLeftToRight = measuredState.isLeftToRight && layout.isLeftToRight();
+		
+		float newTextHeight = measuredState.textHeight + layout.getLeading() + lineSpacing * layout.getAscent();
+		boolean fits = newTextHeight + layout.getDescent() <= maxHeight;
+		if (fits)
 		{
-			return textHeight / fontSizeSum;
+			measuredState.textHeight = newTextHeight;
+			measuredState.lines++;
+
+			measuredState.fontSizeSum += 
+				maxFontSizeFinder.findMaxFontSize(
+					new AttributedString(
+						paragraph, 
+						lineStartPosition, 
+						lineStartPosition + layout.getCharacterCount()
+						).getIterator(),
+					textElement.getFontSize()
+					);
+
+			if (measuredState.lines == 1)
+			{
+				measuredState.firstLineLeading = measuredState.textHeight;
+				measuredState.firstLineMaxFontSize = measuredState.fontSizeSum;
+			}
+
+			// here is the Y offset where we would draw the line
+			//lastDrawPosY = drawPosY;
+			//
+			measuredState.textHeight += layout.getDescent();
 		}
-		return 0;
-	}
-	
-	/**
-	 * 
-	 */
-	public float getLeadingOffset()
-	{
-		return firstLineLeading - firstLineMaxFontSize * getLineSpacingFactor();
+		return fits;
 	}
 	
 }

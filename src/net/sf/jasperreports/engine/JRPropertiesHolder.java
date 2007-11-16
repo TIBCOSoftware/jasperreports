@@ -51,4 +51,12 @@ public interface JRPropertiesHolder
 	 */
 	public JRPropertiesMap getPropertiesMap();
 
+	/**
+	 * Returns the parent properties holder, whose properties are used as defaults
+	 * for this object.
+	 * 
+	 * @return the parent properties holder, or <code>null</code> if no parent
+	 */
+	public JRPropertiesHolder getParentProperties();
+	
 }

@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRSortField;
@@ -244,6 +245,11 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return propertiesMap;
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 
 	public JRExpression getFilterExpression()

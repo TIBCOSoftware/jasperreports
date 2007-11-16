@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -66,7 +67,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 *
 	 */
 	private boolean isLeftToRight = true;
-	private TextMeasurer textMeasurer = null;
+	private JRTextMeasurer textMeasurer = null;
 	private float lineSpacingFactor = 0;
 	private float leadingOffset = 0;
 	private float textHeight = 0;
@@ -110,7 +111,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 	private void createTextMeasurer()
 	{
-		textMeasurer = new TextMeasurer(this);
+		textMeasurer = JRTextMeasurerUtil.createTextMeasurer(this);
 	}
 
 	protected void ensureTextMeasurer()
@@ -532,15 +533,15 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		}
 
 		/*   */
-		textMeasurer.measure(
+		JRMeasuredText measuredText = textMeasurer.measure(
 			tmpStyledText,
 			remainingText,
 			getTextEnd(),
 			availableStretchHeight 
 			);
 		
-		isLeftToRight = textMeasurer.isLeftToRight();
-		setTextHeight(textMeasurer.getTextHeight());
+		isLeftToRight = measuredText.isLeftToRight();
+		setTextHeight(measuredText.getTextHeight());
 		if (getRotation() == ROTATION_NONE)
 		{
 			setStretchHeight((int)getTextHeight() + getTopPadding() + getBottomPadding());
@@ -550,9 +551,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			setStretchHeight(getHeight());
 		}
 		setTextStart(getTextEnd());
-		setTextEnd(textMeasurer.getTextOffset());
-		setLineSpacingFactor(textMeasurer.getLineSpacingFactor());
-		setLeadingOffset(textMeasurer.getLeadingOffset());
+		setTextEnd(measuredText.getTextOffset());
+		setLineSpacingFactor(measuredText.getLineSpacingFactor());
+		setLeadingOffset(measuredText.getLeadingOffset());
 	}
 	
 	

@@ -226,6 +226,11 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		return propertiesMap;
 	}
 
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
+	}
+	
 	/**
 	 *
 	 */

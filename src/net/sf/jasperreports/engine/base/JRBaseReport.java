@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReport;
@@ -665,6 +666,11 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return mainDataset.getPropertiesMap();
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 
 	public JRReportTemplate[] getTemplates()
