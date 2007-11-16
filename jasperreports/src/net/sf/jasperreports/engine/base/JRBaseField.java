@@ -31,6 +31,7 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -171,6 +172,12 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return propertiesMap;
+	}
+
+	
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 
 	

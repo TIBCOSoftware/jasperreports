@@ -37,8 +37,10 @@ package net.sf.jasperreports.engine.convert;
 
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.fill.TextMeasurer;
+import net.sf.jasperreports.engine.fill.JRMeasuredText;
+import net.sf.jasperreports.engine.fill.JRTextMeasurer;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 
 
 /**
@@ -80,17 +82,17 @@ public abstract class TextElementConverter extends ElementConverter
 	 */
 	protected void measureTextElement(JRPrintText printText)
 	{
-		TextMeasurer textMeasurer = new TextMeasurer(printText);
+		JRTextMeasurer textMeasurer = JRTextMeasurerUtil.createTextMeasurer(printText);//FIXME use element properties?
 		JRStyledText styledText = getStyledText(printText);
-		textMeasurer.measure(
+		JRMeasuredText measuredText = textMeasurer.measure(
 				styledText, 
 				styledText.getText(),
 				0,
 				0
 				);
-		printText.setTextHeight(textMeasurer.getTextHeight() < printText.getHeight() ? textMeasurer.getTextHeight() : printText.getHeight());
-		printText.setLeadingOffset(textMeasurer.getLeadingOffset());
-		printText.setLineSpacingFactor(textMeasurer.getLineSpacingFactor());
+		printText.setTextHeight(measuredText.getTextHeight() < printText.getHeight() ? measuredText.getTextHeight() : printText.getHeight());
+		printText.setLeadingOffset(measuredText.getLeadingOffset());
+		printText.setLineSpacingFactor(measuredText.getLineSpacingFactor());
 	}
 
 	

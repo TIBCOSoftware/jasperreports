@@ -491,6 +491,7 @@ public class JRProperties
 
 	/**
 	 * Returns the list of all properties for a key prefix.
+	 * Only this holder's own properties are considered.
 	 * 
 	 * @param propertiesHolder the properties holder
 	 * @param prefix the key prefix
@@ -498,7 +499,7 @@ public class JRProperties
 	 */
 	public static List getProperties(JRPropertiesHolder propertiesHolder, String prefix)
 	{
-		return getProperties(getProperties(propertiesHolder), prefix);
+		return getProperties(getOwnProperties(propertiesHolder), prefix);
 	}
 	
 	/**
@@ -539,7 +540,22 @@ public class JRProperties
 	 */
 	public static String getProperty (JRPropertiesHolder propertiesHolder, String key)
 	{
-		return getProperty(getProperties(propertiesHolder), key);
+		String value = null;
+		while (propertiesHolder != null && value == null)
+		{
+			if (propertiesHolder.hasProperties())
+			{
+				value = propertiesHolder.getPropertiesMap().getProperty(key);
+			}
+			propertiesHolder = propertiesHolder.getParentProperties();
+		}
+		
+		if (value == null)
+		{
+			value = props.getProperty(key);
+		}
+		
+		return value;
 	}
 	
 	/**
@@ -577,7 +593,9 @@ public class JRProperties
 	 */
 	public static boolean getBooleanProperty (JRPropertiesHolder propertiesHolder, String key, boolean defaultValue)
 	{
-		return getBooleanProperty(getProperties(propertiesHolder), key, defaultValue);
+		String value = getProperty(propertiesHolder, key);
+		
+		return value == null ? defaultValue : asBoolean(value);
 	}
 
 	/**
@@ -607,7 +625,9 @@ public class JRProperties
 	 */
 	public static int getIntegerProperty (JRPropertiesHolder propertiesHolder, String key, int defaultValue)
 	{
-		return getIntegerProperty(getProperties(propertiesHolder), key, defaultValue);
+		String value = getProperty(propertiesHolder, key);
+		
+		return value == null ? defaultValue : asInteger(value);
 	}
 	
 	/**
@@ -678,7 +698,7 @@ public class JRProperties
 		return value == null ? defaultValue : asLong(value);
 	}
 	
-	protected static JRPropertiesMap getProperties(JRPropertiesHolder propertiesHolder)
+	protected static JRPropertiesMap getOwnProperties(JRPropertiesHolder propertiesHolder)
 	{
 		return propertiesHolder.hasProperties() ? propertiesHolder.getPropertiesMap() : null;
 	}

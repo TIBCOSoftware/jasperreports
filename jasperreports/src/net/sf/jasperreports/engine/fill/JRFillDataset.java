@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -1185,6 +1186,12 @@ public class JRFillDataset implements JRDataset
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return parent.getPropertiesMap();
+	}
+
+	
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 
 

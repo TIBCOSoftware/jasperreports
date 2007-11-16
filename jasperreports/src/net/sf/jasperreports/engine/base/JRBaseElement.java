@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -520,6 +521,11 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 			propertiesMap = new JRPropertiesMap();
 		}
 		return propertiesMap;
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 	
 }

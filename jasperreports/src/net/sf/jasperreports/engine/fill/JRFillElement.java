@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
@@ -1252,5 +1253,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return parent.getPropertiesMap();
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		//element properties default to report properties
+		return filler.getJasperReport();
 	}
 }
