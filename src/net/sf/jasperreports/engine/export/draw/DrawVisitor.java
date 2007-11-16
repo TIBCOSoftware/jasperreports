@@ -94,6 +94,7 @@ public class DrawVisitor implements JRVisitor
 	{
 		this.convertVisitor = new ConvertVisitor(reportConverter);
 		setGraphics2D(grx);
+		frameDrawer.setClip(true);
 	}
 
 	/**

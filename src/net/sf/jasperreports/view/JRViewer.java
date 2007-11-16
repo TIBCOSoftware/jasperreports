@@ -1872,14 +1872,23 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 
 	/**
-	*/
+	 * 
+	 */
+	protected JRGraphics2DExporter getGraphics2DExporter() throws JRException
+	{
+		return new JRGraphics2DExporter();
+	}
+
+	/**
+	 * 
+	 */
 	protected void paintPage(Graphics2D grx)
 	{
 		try
 		{
 			if (exporter == null)
 			{
-				exporter = new JRGraphics2DExporter();
+				exporter = getGraphics2DExporter();
 			}
 			else
 			{
