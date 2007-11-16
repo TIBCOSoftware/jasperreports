@@ -32,7 +32,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor, JRPrintHyperlink, JRBox, JRFont
+public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor, JRPrintHyperlink, JRBox, JRFont, JRText
 {
 
 
@@ -86,11 +86,6 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	/**
 	 *
 	 */
-	public byte getRotation();
-		
-	/**
-	 *
-	 */
 	public Byte getOwnRotation();
 		
 	/**
@@ -126,11 +121,6 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	/**
 	 *
 	 */
-	public byte getLineSpacing();
-		
-	/**
-	 *
-	 */
 	public Byte getOwnLineSpacing();
 		
 	/**
@@ -142,11 +132,6 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 *
 	 */
 	public void setLineSpacing(Byte lineSpacing);
-		
-	/**
-	 *
-	 */
-	public boolean isStyledText();
 		
 	/**
 	 *
