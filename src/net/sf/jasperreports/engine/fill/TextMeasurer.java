@@ -34,7 +34,7 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.StringTokenizer;
 
-import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -53,13 +53,7 @@ public class TextMeasurer
 	 */
 	private static final FontRenderContext FONT_RENDER_CONTEXT = TextRenderer.LINE_BREAK_FONT_RENDER_CONTEXT;
 
-	private int elementWidth; 
-	private int elementHeight; 
-	private JRBox elementBox;
-	private byte elementRotation; 
-	private byte elementLineSpacing;
-	private boolean elementStyledText; 
-	private int elementFontSize;
+	private JRText textElement;
 
 	/**
 	 * 
@@ -89,25 +83,9 @@ public class TextMeasurer
 	/**
 	 * 
 	 */
-	public TextMeasurer(JRTextElement textElement)
+	public TextMeasurer(JRText textElement)
 	{
-		this(textElement.getWidth(), textElement.getHeight(), textElement,
-				textElement.getRotation(), textElement.getLineSpacing(),
-				textElement.isStyledText(), textElement.getFontSize());
-	}
-
-	//FIXME find a better way to do this
-	public TextMeasurer(int width, int height, JRBox box,
-			byte rotation, byte lineSpacing,
-			boolean styledText, int fontSize)
-	{
-		this.elementWidth = width;
-		this.elementHeight = height;
-		this.elementBox = box;
-		this.elementRotation = rotation;
-		this.elementLineSpacing = lineSpacing;
-		this.elementStyledText = styledText;
-		this.elementFontSize = fontSize;
+		this.textElement = textElement;
 	}
 	
 	/**
@@ -115,20 +93,20 @@ public class TextMeasurer
 	 */
 	private void initialize(int availableStretchHeight)
 	{
-		width = elementWidth;
-		height = elementHeight;
+		width = textElement.getWidth();
+		height = textElement.getHeight();
 		
-		topPadding = elementBox.getTopPadding();
-		leftPadding = elementBox.getLeftPadding();
-		bottomPadding = elementBox.getBottomPadding();
-		rightPadding = elementBox.getRightPadding();
+		topPadding = textElement.getTopPadding();
+		leftPadding = textElement.getLeftPadding();
+		bottomPadding = textElement.getBottomPadding();
+		rightPadding = textElement.getRightPadding();
 
-		switch (elementRotation)
+		switch (textElement.getRotation())
 		{
 			case JRTextElement.ROTATION_LEFT :
 			{
-				width = elementHeight;
-				height = elementWidth;
+				width = textElement.getHeight();
+				height = textElement.getWidth();
 				int tmpPadding = topPadding;
 				topPadding = leftPadding;
 				leftPadding = bottomPadding;
@@ -138,8 +116,8 @@ public class TextMeasurer
 			}
 			case JRTextElement.ROTATION_RIGHT :
 			{
-				width = elementHeight;
-				height = elementWidth;
+				width = textElement.getHeight();
+				height = textElement.getWidth();
 				int tmpPadding = topPadding;
 				topPadding = rightPadding;
 				rightPadding = bottomPadding;
@@ -164,7 +142,7 @@ public class TextMeasurer
 		}
 		
 		/*   */
-		switch (elementLineSpacing)
+		switch (textElement.getLineSpacing())
 		{
 			case JRTextElement.LINE_SPACING_SINGLE : 
 			{
@@ -187,7 +165,7 @@ public class TextMeasurer
 			}
 		}
 
-		maxFontSizeFinder = MaxFontSizeFinder.getInstance(elementStyledText);
+		maxFontSizeFinder = MaxFontSizeFinder.getInstance(textElement.isStyledText());
 
 		formatWidth = width - leftPadding - rightPadding;
 		formatWidth = formatWidth < 0 ? 0 : formatWidth;
@@ -308,7 +286,7 @@ public class TextMeasurer
 							lineStartPosition, 
 							lineStartPosition + layout.getCharacterCount()
 							).getIterator(),
-						elementFontSize
+						textElement.getFontSize()
 						);
 						
 				if (lines == 1)

@@ -80,12 +80,7 @@ public abstract class TextElementConverter extends ElementConverter
 	 */
 	protected void measureTextElement(JRPrintText printText)
 	{
-		TextMeasurer textMeasurer = 
-			new TextMeasurer(
-				printText.getWidth(), printText.getHeight(), printText,
-				printText.getRotation(), printText.getLineSpacing(),
-				printText.isStyledText(), printText.getFontSize()
-				);
+		TextMeasurer textMeasurer = new TextMeasurer(printText);
 		JRStyledText styledText = getStyledText(printText);
 		textMeasurer.measure(
 				styledText, 
