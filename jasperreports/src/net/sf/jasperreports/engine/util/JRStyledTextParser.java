@@ -119,7 +119,6 @@ public class JRStyledTextParser
 		if (instance == null)
 		{
 			instance = new JRStyledTextParser();
-			System.out.println("created parser for thread " + Thread.currentThread() + " (ref " + instanceRef + ")");
 			threadInstances.set(new SoftReference(instance));
 		}
 		return instance;
