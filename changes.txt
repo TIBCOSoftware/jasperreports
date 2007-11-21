@@ -14,6 +14,10 @@ origin exporter filter hints;
 
 - refactored RTF exporter to remove limitations related to Unicode texts;
 
+- change events handling and clone support in the report template object model;
+
+- custom properties support for report templates elements;
+
 - minor bug fixes and improvements;
 
 
