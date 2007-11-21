@@ -177,7 +177,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	
 	protected void setDrawers()
 	{
-		frameDrawer = new FrameDrawer(filter, textRenderer, styledTextParser);
+		frameDrawer = new FrameDrawer(filter, textRenderer);
 	}
 
 	

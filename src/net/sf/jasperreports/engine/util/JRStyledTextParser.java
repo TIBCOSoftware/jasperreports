@@ -32,7 +32,9 @@ import java.awt.GraphicsEnvironment;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.ref.SoftReference;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +97,34 @@ public class JRStyledTextParser
 	private static final String LESS = "<";
 	private static final String LESS_SLASH = "</";
 	private static final String GREATER = ">";
+	
+	/**
+	 * Thread local soft cache of instances.
+	 */
+	private static final ThreadLocal threadInstances = new ThreadLocal();
+	
+	/**
+	 * Return a cached instance.
+	 * 
+	 * @return a cached instance
+	 */
+	public static JRStyledTextParser getInstance()
+	{
+		JRStyledTextParser instance = null;
+		SoftReference instanceRef = (SoftReference) threadInstances.get();
+		if (instanceRef != null)
+		{
+			instance = (JRStyledTextParser) instanceRef.get();
+		}
+		if (instance == null)
+		{
+			instance = new JRStyledTextParser();
+			System.out.println("created parser for thread " + Thread.currentThread() + " (ref " + instanceRef + ")");
+			threadInstances.set(new SoftReference(instance));
+		}
+		return instance;
+	}
+	
 
 	/**
 	 *
@@ -145,7 +175,63 @@ public class JRStyledTextParser
 	}
 
 	/**
-	 *
+	 * Creates a styled text object by either parsing a styled text String or
+	 * by wrapping an unstyled String.
+	 * 
+	 * @param parentAttributes the element-level styled text attributes
+	 * @param text the (either styled or unstyled) text
+	 * @param isStyledText flag indicating that the text is styled
+	 * @return a styled text object
+	 */
+	public JRStyledText getStyledText(Map parentAttributes, String text, boolean isStyledText)
+	{
+		JRStyledText styledText = null;
+		if (isStyledText)
+		{
+			try
+			{
+				styledText = parse(parentAttributes, text);
+			}
+			catch (SAXException e)
+			{
+				//ignore if invalid styled text and treat like normal text
+			}
+		}
+	
+		if (styledText == null)
+		{
+			styledText = new JRStyledText();
+			styledText.append(text);
+			styledText.addRun(new JRStyledText.Run(parentAttributes, 0, text.length()));
+		}
+		
+		return styledText;
+	}
+	
+	/**
+	 * Outputs a styled text String given a set of element-level styled text
+	 * attributes and a styled text instance.
+	 * 
+	 * @param parentAttrs the element-level styled text attributes
+	 * @param styledText the styled text object
+	 * @return the String styled text representation
+	 */
+	public String write(Map parentAttrs, JRStyledText styledText)
+	{
+		return write(parentAttrs, 
+				styledText.getAttributedString().getIterator(), 
+				styledText.getText());
+	}
+	
+	/**
+	 * Outputs a styled text String given a set of element-level styled text
+	 * attributes and a styled text in the form of a String text and an iterator
+	 * of style attributes.
+	 * 
+	 * @param parentAttrs the element-level styled text attributes
+	 * @param iterator iterator of styled text attributes
+	 * @param text the text
+	 * @return the String styled text representation
 	 */
 	public String write(Map parentAttrs, AttributedCharacterIterator iterator, String text)
 	{
@@ -179,6 +265,27 @@ public class JRStyledTextParser
 		}
 		
 		return sbuffer.toString();
+	}
+
+	/**
+	 * Outputs the String representation of a styled text chunk.
+	 * 
+	 * @param parentAttributes element-level styled text attributes
+	 * @param styledText the styled text
+	 * @param startIndex the start index
+	 * @param endIndex the end index
+	 * @return the String styled text representation of the chunk delimited by
+	 * the start index and the end index
+	 * @see #write(Map, JRStyledText)
+	 */
+	public String write(Map parentAttributes, JRStyledText styledText, 
+			int startIndex, int endIndex)
+	{
+		AttributedCharacterIterator subIterator = new AttributedString(
+				styledText.getAttributedString().getIterator(), 
+				startIndex, endIndex).getIterator();
+		String subText = styledText.getText().substring(startIndex, endIndex);
+		return write(parentAttributes, subIterator, subText);
 	}
 
 	/**

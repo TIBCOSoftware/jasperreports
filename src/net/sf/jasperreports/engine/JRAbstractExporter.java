@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -56,14 +55,10 @@ import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledTextParser;
-
-import org.xml.sax.SAXException;
 
 
 /**
@@ -318,11 +313,6 @@ public abstract class JRAbstractExporter implements JRExporter
 	private LinkedList elementOffsetStack = new LinkedList();
 	private int elementOffsetX = globalOffsetX;
 	private int elementOffsetY = globalOffsetY;
-
-	/**
-	 *
-	 */
-	protected final JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	/**
 	 *
@@ -668,40 +658,8 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{
-		JRStyledText styledText = null;
-
-		String text = textElement.getText();
-		if (text != null)
-		{
-			Map attributes = new HashMap(); 
-			attributes.putAll(JRFontUtil.setAttributes(attributes, textElement));
-			attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
-			if (setBackcolor && textElement.getMode() == JRElement.MODE_OPAQUE)
-			{
-				attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
-			}
-
-			if (textElement.isStyledText())
-			{
-				try
-				{
-					styledText = styledTextParser.parse(attributes, text);
-				}
-				catch (SAXException e)
-				{
-					//ignore if invalid styled text and treat like normal text
-				}
-			}
-		
-			if (styledText == null)
-			{
-				styledText = new JRStyledText();
-				styledText.append(text);
-				styledText.addRun(new JRStyledText.Run(attributes, 0, text.length()));
-			}
-		}
-		
-		return styledText;
+		return textElement.getStyledText(
+				setBackcolor ? JRStyledTextAttributeSelector.ALL : JRStyledTextAttributeSelector.NO_BACKCOLOR);
 	}
 
 	

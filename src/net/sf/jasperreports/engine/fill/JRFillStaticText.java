@@ -226,7 +226,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		text.setTextHeight(getTextHeight());
 
 		//text.setText(getRawText());
-		text.setText(textChopper.chop(this, getTextStart(), getTextEnd()));
+		setPrintText(text);
 		
 		return text;
 	}
@@ -258,6 +258,12 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillStaticText(this, factory);
+	}
+
+
+	protected boolean canTextStretch()
+	{
+		return false;
 	}
 
 }

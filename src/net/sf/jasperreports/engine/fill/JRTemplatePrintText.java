@@ -36,6 +36,9 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
+import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 
 /**
@@ -55,6 +58,8 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 *
 	 */
 	private String text = "";
+	private Integer textTruncateIndex;
+	private transient String truncatedText;
 	private float lineSpacingFactor = 0;
 	private float leadingOffset = 0;
 	private byte runDirection = RUN_DIRECTION_LTR;
@@ -85,7 +90,28 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public String getText()
 	{
-		return text;
+		if (truncatedText == null && text != null)
+		{
+			if (getTextTruncateIndex() == null)
+			{
+				truncatedText = text;
+			}
+			else
+			{
+				if (isStyledText())
+				{
+					truncatedText = JRStyledTextParser.getInstance().write(
+							JRStyledTextAttributeSelector.ALL.getStyledTextAttributes(this), 
+							getFullStyledText(JRStyledTextAttributeSelector.ALL), 
+							0, getTextTruncateIndex().intValue());
+				}
+				else
+				{
+					truncatedText = text.substring(0, getTextTruncateIndex().intValue());
+				}
+			}
+		}
+		return truncatedText;
 	}
 		
 	/**
@@ -94,8 +120,51 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public void setText(String text)
 	{
 		this.text = text;
+		this.truncatedText = null;
 	}
 
+	public Integer getTextTruncateIndex()
+	{
+		return textTruncateIndex;
+	}
+
+	public void setTextTruncateIndex(Integer textTruncateIndex)
+	{
+		this.textTruncateIndex = textTruncateIndex;
+		this.truncatedText = null;
+	}
+
+	public String getFullText()
+	{
+		return this.text;
+	}
+
+	public JRStyledText getStyledText(JRStyledTextAttributeSelector attributeSelector)
+	{
+		if (getText() == null)
+		{
+			return null;
+		}
+		
+		return JRStyledTextParser.getInstance().getStyledText(
+				attributeSelector.getStyledTextAttributes(this), 
+				getText(), 
+				isStyledText());
+	}
+
+	public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector)
+	{
+		if (getFullText() == null)
+		{
+			return null;
+		}
+
+		return JRStyledTextParser.getInstance().getStyledText(
+				attributeSelector.getStyledTextAttributes(this), 
+				getFullText(), 
+				isStyledText());
+	}
+	
 	/**
 	 *
 	 */

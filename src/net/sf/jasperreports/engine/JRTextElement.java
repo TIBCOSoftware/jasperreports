@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.util.JRProperties;
+
 
 /**
  * An abstract representation of a report text element. It provides basic functionality for static texts and text fields.
@@ -37,6 +39,30 @@ package net.sf.jasperreports.engine;
 public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JRText
 {
 
+	/**
+	 * Property used to determine whether the fill process must preserve the original text
+	 * for text elements that are not able to fit their entire contents.
+	 * 
+	 * <p>
+	 * When this property is set, the engine saves the original text in the
+	 * {@link JRPrintText print text object} along with the index at which the
+	 * text is to be truncated by the print object.
+	 * </p>
+	 * 
+	 * <p>
+	 * This property can be set at the following levels (listed in the order of precedence):
+	 * <ul>
+	 * 	<li>at {@link JRTextElement text element} level</li>
+	 * 	<li>at {@link JRReport report} level</li>
+	 * 	<li>globally in jasperreports.properties or via {@link JRProperties}</li>
+	 * </ul> 
+	 * </p>
+	 * 
+	 * @see JRPrintText#getFullText()
+	 * @see JRPrintText#getText()
+	 * @see JRPrintText#getTextTruncateIndex()
+	 */
+	public static final String PROPERTY_PRINT_KEEP_FULL_TEXT = JRProperties.PROPERTY_PREFIX + "print.keep.full.text";
 
 	/**
 	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_LEFT}.

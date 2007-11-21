@@ -53,7 +53,6 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.TextRenderer;
-import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 
 /**
@@ -92,8 +91,7 @@ public class FrameDrawer extends ElementDrawer
 	 */
 	public FrameDrawer(
 		ExporterFilter filter,
-		TextRenderer textRenderer,
-		JRStyledTextParser styledTextParser
+		TextRenderer textRenderer
 		)
 	{
 		this.filter = filter;
@@ -102,7 +100,7 @@ public class FrameDrawer extends ElementDrawer
 		rectangleDrawer = new RectangleDrawer();
 		ellipseDrawer = new EllipseDrawer();
 		imageDrawer = new ImageDrawer();
-		textDrawer = new TextDrawer(textRenderer, styledTextParser);
+		textDrawer = new TextDrawer(textRenderer);
 	}
 	
 	

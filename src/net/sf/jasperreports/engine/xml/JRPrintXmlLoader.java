@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.digester.SetNestedPropertiesRule;
+import org.apache.commons.digester.SetPropertiesRule;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -260,6 +261,9 @@ public class JRPrintXmlLoader implements ErrorHandler
 		textRule.setAllowUnknownChildElements(true);
 		digester.addRule("*/text", textRule);
 
+		digester.addRule("*/text/textContent", 
+				new SetPropertiesRule(JRXmlConstants.ATTRIBUTE_truncateIndex, "textTruncateIndex"));
+		
 		/*   */
 		digester.addFactoryCreate("*/text/font", JRPrintFontFactory.class.getName());
 		digester.addSetNext("*/text/font", "setFont", JRFont.class.getName());
