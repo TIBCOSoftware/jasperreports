@@ -50,12 +50,18 @@ public class JRTextMeasurerUtil
 	 * 
 	 * <p>
 	 * This property can either hold the name of a text measurer factory class, e.g.
-	 * <code>net.sf.jasperreports.text.measurer.factory=org.me.MyTextMeasurerFactory</code>,
+	 * <code>
+	 * <pre>
+	 * net.sf.jasperreports.text.measurer.factory=org.me.MyTextMeasurerFactory
+	 * </pre>
+	 * </code>
 	 * or hold an alias of a text measurer factory class property, e.g.
 	 * <code>
+	 * <pre>
 	 * net.sf.jasperreports.text.measurer.factory=myTextMeasurer
 	 * ...
 	 * net.sf.jasperreports.text.measurer.factory.myTextMeasurer=org.me.MyTextMeasurerFactory
+	 * </pre>
 	 * </code>
 	 * </p>
 	 * 
