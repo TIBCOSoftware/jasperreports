@@ -105,7 +105,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
 		/*   */
-		setOffset();
+		setOffset(false);
 
 		try
 		{
