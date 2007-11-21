@@ -444,10 +444,15 @@ public abstract class JRAbstractExporter implements JRExporter
 	public abstract void exportReport() throws JRException;
 
 
+	protected void setOffset()
+	{
+		setOffset(true);
+	}
+	
 	/**
 	 *
 	 */
-	protected void setOffset()
+	protected void setOffset(boolean setElementOffsets)
 	{
 		Integer offsetX = (Integer)parameters.get(JRExporterParameter.OFFSET_X);
 		if (offsetX != null)
@@ -469,8 +474,11 @@ public abstract class JRAbstractExporter implements JRExporter
 			globalOffsetY = 0;
 		}
 		
-		elementOffsetX = globalOffsetX;
-		elementOffsetY = globalOffsetY;
+		if (setElementOffsets)
+		{
+			elementOffsetX = globalOffsetX;
+			elementOffsetY = globalOffsetY;
+		}
 	}
 	
 
