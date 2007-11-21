@@ -360,7 +360,7 @@ public class JRCsvExporter extends JRAbstractExporter
 	 */
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		return textElement.getStyledText(JRStyledTextAttributeSelector.NONE);
+		return textElement.getFullStyledText(JRStyledTextAttributeSelector.NONE);
 	}
 
 
