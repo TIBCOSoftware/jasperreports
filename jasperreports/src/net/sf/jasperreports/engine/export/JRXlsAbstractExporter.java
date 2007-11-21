@@ -56,14 +56,12 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledTextParser;
-
-import org.xml.sax.SAXException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -114,11 +112,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected String[] sheetNames = null;
 
-	
-	/**
-	 *
-	 */
-	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	protected JRExportProgressMonitor progressMonitor = null;
 
@@ -627,32 +620,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		JRStyledText styledText = null;
-
-		String text = textElement.getText();
-		if (text != null)
-		{
-			if (textElement.isStyledText())
-			{
-				try
-				{
-					styledText = styledTextParser.parse(null, text);
-				}
-				catch (SAXException e)
-				{
-					//ignore if invalid styled text and treat like normal text
-				}
-			}
-
-			if (styledText == null)
-			{
-				styledText = new JRStyledText();
-				styledText.append(text);
-				styledText.addRun(new JRStyledText.Run(null, 0, text.length()));
-			}
-		}
-
-		return styledText;
+		return textElement.getFullStyledText(JRStyledTextAttributeSelector.NONE);
 	}
 
 	protected static TextAlignHolder getTextAlignHolder(JRPrintText textElement)

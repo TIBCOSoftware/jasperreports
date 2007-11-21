@@ -56,7 +56,6 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.convert.ConvertVisitor;
 import net.sf.jasperreports.engine.convert.ReportConverter;
 import net.sf.jasperreports.engine.export.TextRenderer;
-import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 
 /**
@@ -67,7 +66,6 @@ public class DrawVisitor implements JRVisitor
 {
 	
 	private TextRenderer textRenderer = new TextRenderer(false);
-	private JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	private ConvertVisitor convertVisitor = null;
 	private Graphics2D grx = null;
@@ -76,8 +74,8 @@ public class DrawVisitor implements JRVisitor
 	private RectangleDrawer rectangleDrawer = new RectangleDrawer();
 	private EllipseDrawer ellipseDrawer = new EllipseDrawer();
 	private ImageDrawer imageDrawer = new ImageDrawer();
-	private TextDrawer textDrawer = new TextDrawer(textRenderer, styledTextParser);
-	private FrameDrawer frameDrawer = new FrameDrawer(null, textRenderer, styledTextParser);
+	private TextDrawer textDrawer = new TextDrawer(textRenderer);
+	private FrameDrawer frameDrawer = new FrameDrawer(null, textRenderer);
 	
 	/**
 	 *

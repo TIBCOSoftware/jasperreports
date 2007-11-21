@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.util.JRStyledText;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -44,15 +46,70 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 
 	
 	/**
-	 *
+	 * Returns the possibly truncated (when {@link #getTextTruncateIndex()} is not null) text of this object.
+	 * 
+	 * @return the text of this object
+	 * @see #getFullText()
 	 */
 	public String getText();
 		
 	/**
-	 *
+	 * Set the text for this object.
+	 * 
+	 * @param text the text
+	 * @see #setTextTruncateIndex(Integer)
 	 */
 	public void setText(String text);
 
+	/**
+	 * Returns the index to which this object's text is to be truncated.
+	 * 
+	 * This index is usually set at report fill time when the engine is instructed
+	 * to keep the full text in the print text object.
+	 * 
+	 * @return the index to which this object's text is to be truncated
+	 * @see JRTextElement#PROPERTY_PRINT_KEEP_FULL_TEXT
+	 */
+	public Integer getTextTruncateIndex();
+
+	/**
+	 * Sets the index to which this object's text is to be truncated.
+	 * 
+	 * The test is truncated when {@link #getText()} or {@link #getStyledText(JRStyledTextAttributeSelector)}
+	 * are called.
+	 * 
+	 * @param index the index to which this object's text is to be truncated
+	 */
+	public void setTextTruncateIndex(Integer index);
+	
+	/**
+	 * Returns the full (not truncated) text of this object.
+	 * 
+	 * @return the full text of this object
+	 * @see #getText()
+	 * @see #getTextTruncateIndex()
+	 */
+	public String getFullText();
+	
+	/**
+	 * Returns the styled text for this object.
+	 * 
+	 * The text is truncated according to {@link #getText()}.
+	 * 
+	 * @param attributeSelector the styled text attribute selector
+	 * @return the possibly truncated styled text for this object
+	 */
+	public JRStyledText getStyledText(JRStyledTextAttributeSelector attributeSelector);
+	
+	/**
+	 * Returns the full styled text of this object.
+	 * 
+	 * @param attributeSelector the styled text attribute selector
+	 * @return the full styled text of this object
+	 * @see #getFullText()
+	 */
+	public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector);
+	
 	/**
 	 *
 	 */

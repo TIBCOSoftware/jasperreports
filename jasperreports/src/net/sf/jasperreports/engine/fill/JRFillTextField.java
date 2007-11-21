@@ -670,7 +670,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setTextHeight(getTextHeight());
 		//FIXME rotation and run direction?
 
-		text.setText(textChopper.chop(this, getTextStart(), getTextEnd()));
+		setPrintText(text);
 
 		text.setAnchorName(getAnchorName());
 		text.setHyperlinkReference(getHyperlinkReference());
@@ -806,6 +806,12 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return ((JRTextField) parent).getHyperlinkTooltipExpression();
+	}
+
+
+	protected boolean canTextStretch()
+	{
+		return isStretchWithOverflow();
 	}
 	
 }

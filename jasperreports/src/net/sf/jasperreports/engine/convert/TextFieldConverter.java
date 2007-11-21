@@ -35,17 +35,15 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import java.awt.font.TextAttribute;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 
@@ -110,9 +108,7 @@ public class TextFieldConverter extends TextElementConverter
 			text = "";
 		}
 
-		Map attributes = new HashMap(); 
-		JRFontUtil.setAttributes(attributes, printText);
-		attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
+		Map attributes = JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText); 
 
 		JRStyledText styledText = new JRStyledText();
 		styledText.append(text);

@@ -181,6 +181,11 @@ public class JRXmlWriteHelper
 	
 	public void writeCDATAElement(String name, String data, String attName, String attValue) throws IOException
 	{
+		writeCDATAElement(name, data, attName, (Object) attValue);
+	}
+	
+	public void writeCDATAElement(String name, String data, String attName, Object attValue) throws IOException
+	{
 		if (data != null)
 		{
 			writeParents(true);
@@ -188,11 +193,15 @@ public class JRXmlWriteHelper
 			buffer.append(getIndent(indent));
 			buffer.append('<');
 			buffer.append(name);
-			buffer.append(' ');
-			buffer.append(attName);
-			buffer.append("=\"");
-			buffer.append(attValue);
-			buffer.append("\"><![CDATA[");
+			if (attValue != null)
+			{
+				buffer.append(' ');
+				buffer.append(attName);
+				buffer.append("=\"");
+				buffer.append(attValue);
+				buffer.append("\"");
+			}
+			buffer.append("><![CDATA[");
 			buffer.append(data);
 			buffer.append("]]></");
 			buffer.append(name);

@@ -36,20 +36,14 @@
 package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
-import java.awt.font.TextAttribute;
-import java.util.HashMap;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.TextRenderer;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledTextParser;
-
-import org.xml.sax.SAXException;
 
 
 /**
@@ -62,7 +56,6 @@ public class TextDrawer extends ElementDrawer
 	/**
 	 *
 	 */
-	protected JRStyledTextParser styledTextParser = null;
 	protected TextRenderer textRenderer = null;
 
 	
@@ -70,12 +63,10 @@ public class TextDrawer extends ElementDrawer
 	 *
 	 */
 	public TextDrawer(
-		TextRenderer textRenderer,
-		JRStyledTextParser styledTextParser
+		TextRenderer textRenderer
 		)
 	{
 		this.textRenderer = textRenderer;
-		this.styledTextParser = styledTextParser;
 	}
 	
 	
@@ -86,7 +77,7 @@ public class TextDrawer extends ElementDrawer
 	{
 		JRPrintText text = (JRPrintText)element;
 
-		JRStyledText styledText = getStyledText(text, false);
+		JRStyledText styledText = getStyledText(text);
 		
 		if (styledText == null)
 		{
@@ -207,42 +198,9 @@ public class TextDrawer extends ElementDrawer
 	/**
 	 *
 	 */
-	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
+	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		JRStyledText styledText = null;
-
-		String text = textElement.getText();
-		if (text != null)
-		{
-			Map attributes = new HashMap(); 
-			attributes.putAll(JRFontUtil.setAttributes(attributes, textElement));
-			attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
-			if (setBackcolor && textElement.getMode() == JRElement.MODE_OPAQUE)
-			{
-				attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
-			}
-
-			if (textElement.isStyledText())
-			{
-				try
-				{
-					styledText = styledTextParser.parse(attributes, text);
-				}
-				catch (SAXException e)
-				{
-					//ignore if invalid styled text and treat like normal text
-				}
-			}
-		
-			if (styledText == null)
-			{
-				styledText = new JRStyledText();
-				styledText.append(text);
-				styledText.addRun(new JRStyledText.Run(attributes, 0, text.length()));
-			}
-		}
-		
-		return styledText;
+		return textElement.getStyledText(JRStyledTextAttributeSelector.NO_BACKCOLOR);
 	}
 
 	

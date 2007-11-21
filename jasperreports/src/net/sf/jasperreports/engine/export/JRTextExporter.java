@@ -45,11 +45,9 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledTextParser;
-
-import org.xml.sax.SAXException;
 
 /**
  * Exports filled reports in plain text format. The text exporter allows users to define a custom character resolution
@@ -84,10 +82,6 @@ public class JRTextExporter extends JRAbstractExporter
 	protected String lineSeparator;
 
 	protected static final String systemLineSeparator = System.getProperty("line.separator");
-	/**
-	 *
-	 */
-	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	/**
 	 *
@@ -542,32 +536,7 @@ public class JRTextExporter extends JRAbstractExporter
 	 */
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		JRStyledText styledText = null;
-
-		String text = textElement.getText();
-		if (text != null)
-		{
-			if (textElement.isStyledText())
-			{
-				try
-				{
-					styledText = styledTextParser.parse(null, text);
-				}
-				catch (SAXException e)
-				{
-					//ignore if invalid styled text and treat like normal text
-				}
-			}
-
-			if (styledText == null)
-			{
-				styledText = new JRStyledText();
-				styledText.append(text);
-				styledText.addRun(new JRStyledText.Run(null, 0, text.length()));
-			}
-		}
-
-		return styledText;
+		return textElement.getStyledText(JRStyledTextAttributeSelector.NONE);
 	}
 
 }

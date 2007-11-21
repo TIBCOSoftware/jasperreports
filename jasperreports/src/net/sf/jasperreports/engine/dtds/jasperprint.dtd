@@ -183,6 +183,9 @@
 	isPdfEmbedded (true | false) #IMPLIED
 >
 <!ELEMENT textContent (#PCDATA)>
+<!ATTLIST textContent
+	truncateIndex NMTOKEN #IMPLIED
+>
 <!ELEMENT frame (reportElement?, box?, (line | rectangle | ellipse | image | text | frame)*)>
 
 <!ELEMENT hyperlinkParameter (hyperlinkParameterValue?)>

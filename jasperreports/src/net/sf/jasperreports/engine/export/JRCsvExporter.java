@@ -48,12 +48,10 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledTextParser;
-
-import org.xml.sax.SAXException;
 
 
 /**
@@ -66,11 +64,6 @@ public class JRCsvExporter extends JRAbstractExporter
 {
 
 	private static final String CSV_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.csv.exclude.origin.";
-
-	/**
-	 *
-	 */
-	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	/**
 	 *
@@ -367,32 +360,7 @@ public class JRCsvExporter extends JRAbstractExporter
 	 */
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		JRStyledText styledText = null;
-
-		String text = textElement.getText();
-		if (text != null)
-		{
-			if (textElement.isStyledText())
-			{
-				try
-				{
-					styledText = styledTextParser.parse(null, text);
-				}
-				catch (SAXException e)
-				{
-					//ignore if invalid styled text and treat like normal text
-				}
-			}
-		
-			if (styledText == null)
-			{
-				styledText = new JRStyledText();
-				styledText.append(text);
-				styledText.addRun(new JRStyledText.Run(null, 0, text.length()));
-			}
-		}
-		
-		return styledText;
+		return textElement.getStyledText(JRStyledTextAttributeSelector.NONE);
 	}
 
 

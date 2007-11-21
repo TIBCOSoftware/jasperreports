@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.awt.font.TextAttribute;
-import java.text.AttributedString;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,16 +37,17 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.JRFontUtil;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
 
 
 /**
@@ -76,8 +76,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private String rawText = null;
 	private JRStyledText styledText = null;
 	private Map styledTextAttributesMap = new HashMap();
-
-	protected TextChopper textChopper = null;
 	
 	protected final JRReportFont reportFont;
 
@@ -93,9 +91,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		super(filler, textElement, factory);
 
 		reportFont = factory.getReportFont(textElement.getReportFont());
-		
-		/*   */
-		createTextChopper();
 	}
 	
 
@@ -104,8 +99,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		super(textElement, factory);
 		
 		reportFont = textElement.reportFont;
-
-		createTextChopper();
 	}
 
 
@@ -120,11 +113,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		{
 			createTextMeasurer();
 		}
-	}
-
-	private void createTextChopper()
-	{
-		textChopper = isStyledText() ? styledTextChopper : simpleTextChopper;
 	}
 
 
@@ -465,25 +453,10 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			String text = getRawText();
 			if (text != null)
 			{
-				if (isStyledText())
-				{
-					try
-					{
-						styledText = filler.getStyledTextParser().parse(getStyledTextAttributes(), text);
-					}
-					catch (SAXException e)
-					{
-						if (log.isWarnEnabled())
-							log.warn("Invalid styled text.", e);
-					}
-				}
-		
-				if (styledText == null)
-				{
-					styledText = new JRStyledText();
-					styledText.append(text);
-					styledText.addRun(new JRStyledText.Run(getStyledTextAttributes(), 0, text.length()));
-				}
+				styledText = filler.getStyledTextParser().getStyledText(
+						getStyledTextAttributes(), 
+						text, 
+						isStyledText());
 			}
 		}
 		
@@ -556,51 +529,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		setLeadingOffset(measuredText.getLeadingOffset());
 	}
 	
-	
-	/**
-	 *
-	 */
-	protected static interface TextChopper
-	{
-		/**
-		 *
-		 */
-		public String chop(JRFillTextElement textElement, int startIndex, int endIndex);
-	}
-
-
-	/**
-	 *
-	 */
-	private static TextChopper simpleTextChopper = 
-		new TextChopper()
-		{
-			public String chop(JRFillTextElement textElement, int startIndex, int endIndex)
-			{
-				return textElement.getStyledText().getText().substring(startIndex, endIndex);
-			}
-		};
-
-	/**
-	 *
-	 */
-	private static TextChopper styledTextChopper = 
-		new TextChopper()
-		{
-			public String chop(JRFillTextElement textElement, int startIndex, int endIndex)
-			{
-				return 
-					textElement.filler.getStyledTextParser().write(
-						textElement.getStyledTextAttributes(),
-						new AttributedString(
-							textElement.getStyledText().getAttributedString().getIterator(), 
-							startIndex, 
-							endIndex
-							).getIterator(),
-						textElement.getText().substring(startIndex, endIndex)
-						);
-			}
-		};
+	protected abstract boolean canTextStretch();
 
 	/**
 	 *
@@ -1327,6 +1256,59 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		super.setWidth(width);
 		
 		createTextMeasurer();
+	}
+
+	protected void setPrintText(JRPrintText printText)
+	{
+		int startIndex = getTextStart();
+		int endIndex = getTextEnd();
+		JRStyledText fullStyledText = getStyledText();
+		String fullText = fullStyledText.getText();
+		
+		boolean keepAllText = !canTextStretch() 
+				&& JRProperties.getBooleanProperty(this, JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false);
+		if (keepAllText)
+		{
+			//assert getTextStart() == 0
+			if (startIndex != 0)
+			{
+				throw new JRRuntimeException("Text start index != 0 on keep all text.");
+			}
+			
+			if (isStyledText())
+			{
+				//rewrite as styled text
+				String styledText = filler.getStyledTextParser().write(
+						getStyledTextAttributes(),
+						fullStyledText);
+				printText.setText(styledText);
+			}
+			else
+			{
+				printText.setText(fullText);
+			}
+			
+			if (endIndex < fullText.length())
+			{
+				printText.setTextTruncateIndex(new Integer(endIndex));
+			}
+		}
+		else
+		{
+			String printedText;
+			if (isStyledText())
+			{
+				printedText = filler.getStyledTextParser().write(
+						getStyledTextAttributes(), 
+						fullStyledText, 
+						startIndex, endIndex);
+			}
+			else
+			{
+				printedText = fullText.substring(startIndex, endIndex);
+			}
+			printText.setText(printedText);
+		}
 	}
 
 }

@@ -35,20 +35,16 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import java.awt.font.TextAttribute;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStaticText;
+import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
-
-import org.xml.sax.SAXException;
 
 
 /**
@@ -112,32 +108,8 @@ public class StaticTextConverter extends TextElementConverter
 			text = "";
 		}
 
-		Map attributes = new HashMap(); 
-		JRFontUtil.setAttributes(attributes, printText);
-		attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
-
-		JRStyledText styledText = null;
-
-		if (printText.isStyledText())
-		{
-			try
-			{
-				styledText = styledTextParser.parse(attributes, text);
-			}
-			catch (SAXException e)
-			{
-				//ignore if invalid styled text and treat like normal text
-			}
-		}
-	
-		if (styledText == null)
-		{
-			styledText = new JRStyledText();
-			styledText.append(text);
-			styledText.addRun(new JRStyledText.Run(attributes, 0, text.length()));
-		}
-		
-		return styledText;
+		Map attributes = JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText); 
+		return styledTextParser.getStyledText(attributes, text, printText.isStyledText());
 	}
 
 }
