@@ -261,7 +261,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	}
 
 
-	protected boolean canTextStretch()
+	protected boolean canOverflow()
 	{
 		return false;
 	}

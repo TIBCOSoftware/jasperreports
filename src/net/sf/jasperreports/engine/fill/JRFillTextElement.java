@@ -529,7 +529,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		setLeadingOffset(measuredText.getLeadingOffset());
 	}
 	
-	protected abstract boolean canTextStretch();
+	protected abstract boolean canOverflow();
 
 	/**
 	 *
@@ -1265,7 +1265,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		JRStyledText fullStyledText = getStyledText();
 		String fullText = fullStyledText.getText();
 		
-		boolean keepAllText = !canTextStretch() 
+		boolean keepAllText = !canOverflow() 
 				&& JRProperties.getBooleanProperty(this, JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false);
 		if (keepAllText)
 		{

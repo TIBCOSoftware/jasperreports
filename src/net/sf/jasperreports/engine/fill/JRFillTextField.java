@@ -809,9 +809,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
-	protected boolean canTextStretch()
+	protected boolean canOverflow()
 	{
-		return isStretchWithOverflow();
+		return isStretchWithOverflow()
+				&& getRotation() == ROTATION_NONE
+				&& isEvaluateNow();
 	}
 	
 }
