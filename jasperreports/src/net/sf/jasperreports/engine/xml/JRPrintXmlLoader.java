@@ -247,7 +247,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 		/*   */
 		digester.addFactoryCreate("*/box", JRBoxFactory.class.getName());
-		digester.addSetNext("*/box", "setBox", JRBox.class.getName());
+		digester.addSetNext("*/box", "setBox", JRBox.class.getName());//FIXME is this necessary?
 
 		/*   */
 		digester.addFactoryCreate("*/image/imageSource", JRPrintImageSourceFactory.class.getName());
