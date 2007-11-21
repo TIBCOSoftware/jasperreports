@@ -813,7 +813,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		return isStretchWithOverflow()
 				&& getRotation() == ROTATION_NONE
-				&& isEvaluateNow();
+				&& isEvaluateNow()
+				&& filler.isBandOverFlowAllowed();
 	}
 	
 }
