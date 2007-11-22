@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
@@ -46,7 +49,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	
 	public static final String PROPERTY_CIRCULAR = "circular";
 
-	protected boolean isCircular = false;
+	protected boolean isCircular = true;
 	
 	/**
 	 *
@@ -91,4 +94,9 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		getEventSupport().firePropertyChange(PROPERTY_CIRCULAR, old, this.isCircular);
 	}
 
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		ObjectInputStream.GetField fields = in.readFields();
+		isCircular = fields.get("isCircular", true);
+	}
 }
