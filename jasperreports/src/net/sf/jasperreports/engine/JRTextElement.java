@@ -63,6 +63,23 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	 * @see JRPrintText#getTextTruncateIndex()
 	 */
 	public static final String PROPERTY_PRINT_KEEP_FULL_TEXT = JRProperties.PROPERTY_PREFIX + "print.keep.full.text";
+	
+	/**
+	 * Boolean property that determines whether text elements are to be truncated
+	 * at the last character that fits.
+	 * 
+	 * <p>
+	 * By default, when the entire text of a text element does not fit the element's area,
+	 * the text is truncated at the last word that fits the area.
+	 * This property can instruct the engine to truncate the text at the last character
+	 * that fits.
+	 * </p>
+	 * 
+	 * <p>
+	 * The property can be set at the same levels as {@link #PROPERTY_PRINT_KEEP_FULL_TEXT}.
+	 * </p>
+	 */
+	public static final String PROPERTY_TRUNCATE_AT_CHAR = JRProperties.PROPERTY_PREFIX + "truncate.at.char";
 
 	/**
 	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_LEFT}.

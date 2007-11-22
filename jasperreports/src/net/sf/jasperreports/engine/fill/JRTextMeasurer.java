@@ -45,14 +45,14 @@ public interface JRTextMeasurer
 	 * Fit a text chunk in a given space. 
 	 * 
 	 * @param styledText the full text
-	 * @param remainingText the remaining text chunk
 	 * @param remainingTextStart the start index of the remaining text
 	 * @param availableStretchHeight the available stretch height
+	 * @param canOverflow whether the text element is able to overflow
 	 * @return text measuring information
 	 */
 	JRMeasuredText measure(JRStyledText styledText,
-			String remainingText,
 			int remainingTextStart,
-			int availableStretchHeight);
+			int availableStretchHeight,
+			boolean canOverflow);
 
 }

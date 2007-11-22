@@ -33,12 +33,15 @@ import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.text.BreakIterator;
+import java.util.Map;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.TextRenderer;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 
@@ -58,6 +61,7 @@ public class TextMeasurer implements JRTextMeasurer
 	private static final FontRenderContext FONT_RENDER_CONTEXT = TextRenderer.LINE_BREAK_FONT_RENDER_CONTEXT;
 
 	private JRText textElement;
+	private JRPropertiesHolder propertiesHolder;
 
 	/**
 	 * 
@@ -74,7 +78,9 @@ public class TextMeasurer implements JRTextMeasurer
 
 	private float formatWidth = 0;
 	private int maxHeight = 0;
+	private boolean canOverflow;
 	private TextMeasuredState measuredState;
+	private TextMeasuredState prevMeasuredState;
 	
 	protected static class TextMeasuredState implements JRMeasuredText, Cloneable
 	{
@@ -135,12 +141,13 @@ public class TextMeasurer implements JRTextMeasurer
 	public TextMeasurer(JRText textElement)
 	{
 		this.textElement = textElement;
+		this.propertiesHolder = textElement instanceof JRPropertiesHolder ? (JRPropertiesHolder) textElement : null;
 	}
 	
 	/**
 	 * 
 	 */
-	protected void initialize(int availableStretchHeight)
+	protected void initialize(int availableStretchHeight, boolean canOverflow)
 	{
 		width = textElement.getWidth();
 		height = textElement.getHeight();
@@ -220,6 +227,7 @@ public class TextMeasurer implements JRTextMeasurer
 		formatWidth = formatWidth < 0 ? 0 : formatWidth;
 		maxHeight = height + availableStretchHeight - topPadding - bottomPadding;
 		maxHeight = maxHeight < 0 ? 0 : maxHeight;
+		this.canOverflow = canOverflow;
 		measuredState = new TextMeasuredState();
 	}
 
@@ -228,13 +236,13 @@ public class TextMeasurer implements JRTextMeasurer
 	 */
 	public JRMeasuredText measure(
 		JRStyledText styledText,
-		String remainingText,
 		int remainingTextStart,
-		int availableStretchHeight 
+		int availableStretchHeight,
+		boolean canOverflow
 		)
 	{
 		/*   */
-		initialize(availableStretchHeight);
+		initialize(availableStretchHeight, canOverflow);
 
 		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
 
@@ -242,6 +250,7 @@ public class TextMeasurer implements JRTextMeasurer
 		int lastParagraphStart = remainingTextStart;
 		String lastParagraphText = null;
 
+		String remainingText = styledText.getText().substring(remainingTextStart);
 		StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
 
 		boolean rendered = true;
@@ -306,28 +315,48 @@ public class TextMeasurer implements JRTextMeasurer
 					).getIterator();
 		}
 
-		int positionWithinParagraph = 0;
-
-		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, getBreakIterator(), FONT_RENDER_CONTEXT);
+		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, FONT_RENDER_CONTEXT);
+		
+		prevMeasuredState = null;
+		measuredState.textOffset = lastParagraphStart;
 		
 		boolean rendered = true;
 		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && rendered)
 		{
 			rendered = renderNextLine(lineMeasurer, paragraph);
-			if (rendered)
-			{
-				positionWithinParagraph = lineMeasurer.getPosition();
-			}
 		}
 		
-		measuredState.textOffset = lastParagraphStart + positionWithinParagraph;//(lastParagraphText == null ? 0 : positionWithinParagraph);
+		//if we rendered at least one line, and the last line didn't fit 
+		//and the text does not overflow
+		if (!rendered && prevMeasuredState != null && !canOverflow)
+		{
+			//handle last rendered row
+			processLastRow(allParagraphs, lastParagraphText, lastParagraphStart);
+		}
 		
 		return rendered;
 	}
 	
-	protected BreakIterator getBreakIterator()
+	protected void processLastRow(AttributedCharacterIterator allParagraphs,
+			String paragraphText, int paragraphOffset)
 	{
-		return BreakIterator.getLineInstance();
+		boolean truncateAtChar = JRProperties.getBooleanProperty(propertiesHolder, JRTextElement.PROPERTY_TRUNCATE_AT_CHAR, false);
+		
+		if (truncateAtChar)
+		{
+			measuredState = prevMeasuredState;
+			String text = paragraphText.substring(measuredState.textOffset - paragraphOffset);
+			Map textAttributes = new AttributedString(
+					allParagraphs, 
+					paragraphOffset,
+					paragraphOffset + text.length()).getIterator().getAttributes();
+			AttributedCharacterIterator lineParagraph = new AttributedString(text, textAttributes).getIterator();
+			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(
+					lineParagraph, 
+					BreakIterator.getCharacterInstance(), 
+					FONT_RENDER_CONTEXT);
+			renderNextLine(lineMeasurer, lineParagraph);
+		}
 	}
 	
 	protected boolean renderNextLine(LineBreakMeasurer lineMeasurer, AttributedCharacterIterator paragraph)
@@ -336,12 +365,13 @@ public class TextMeasurer implements JRTextMeasurer
 
 		TextLayout layout = lineMeasurer.nextLayout(formatWidth);
 
-		measuredState.isLeftToRight = measuredState.isLeftToRight && layout.isLeftToRight();
-		
 		float newTextHeight = measuredState.textHeight + layout.getLeading() + lineSpacing * layout.getAscent();
 		boolean fits = newTextHeight + layout.getDescent() <= maxHeight;
 		if (fits)
 		{
+			prevMeasuredState = measuredState.cloneState();
+			
+			measuredState.isLeftToRight = measuredState.isLeftToRight && layout.isLeftToRight();
 			measuredState.textHeight = newTextHeight;
 			measuredState.lines++;
 
@@ -365,8 +395,15 @@ public class TextMeasurer implements JRTextMeasurer
 			//lastDrawPosY = drawPosY;
 			//
 			measuredState.textHeight += layout.getDescent();
+			
+			measuredState.textOffset += lineMeasurer.getPosition() - lineStartPosition;
 		}
+		
 		return fits;
 	}
 	
+	protected JRPropertiesHolder getTextPropertiesHolder()
+	{
+		return propertiesHolder;
+	}
 }

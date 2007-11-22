@@ -18,6 +18,13 @@ origin exporter filter hints;
 
 - custom properties support for report templates elements;
 
+- support for pluggable text measurers
+
+- support for keeping the entire original text for text elements that do not
+stretch; the full text is used in data-oriented exporters such as XLS and CSV
+
+- support for truncating texts at character
+
 - minor bug fixes and improvements;
 
 

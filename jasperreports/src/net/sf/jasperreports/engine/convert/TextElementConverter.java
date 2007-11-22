@@ -86,9 +86,9 @@ public abstract class TextElementConverter extends ElementConverter
 		JRStyledText styledText = getStyledText(printText);
 		JRMeasuredText measuredText = textMeasurer.measure(
 				styledText, 
-				styledText.getText(),
 				0,
-				0
+				0,
+				false
 				);
 		printText.setTextHeight(measuredText.getTextHeight() < printText.getHeight() ? measuredText.getTextHeight() : printText.getHeight());
 		printText.setLeadingOffset(measuredText.getLeadingOffset());
