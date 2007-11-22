@@ -398,7 +398,7 @@
 
 <!ELEMENT piePlot (plot)>
 <!ATTLIST piePlot
-	isCircular (true | false) "false"
+	isCircular (true | false) "true"
 >
 
 <!ELEMENT dataset (incrementWhenExpression?, datasetRun?)>

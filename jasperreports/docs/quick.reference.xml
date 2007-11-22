@@ -3395,7 +3395,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
           <name>false</name>
         </value>
       </values>
-      <default>false</default>
+      <default>true</default>
     </attribute>
   </attributes>
 </element>

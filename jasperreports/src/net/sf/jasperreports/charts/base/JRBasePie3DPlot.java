@@ -53,7 +53,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	
 	public static final String PROPERTY_DEPTH_FACTOR = "depthFactor";
 	
-	protected double depthFactor = 0.2;
+	protected double depthFactor = DEPTH_FACTOR_DEFAULT;
 	protected boolean isCircular = false;
 	
 	/**
