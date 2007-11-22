@@ -495,12 +495,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			return;
 		}
 
-		String remainingText = 
-			getText().substring(
-				getTextEnd()
-				);
-
-		if (remainingText.length() == 0)
+		if (getTextEnd() == tmpStyledText.getText().length())
 		{
 			return;
 		}
@@ -508,9 +503,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		/*   */
 		JRMeasuredText measuredText = textMeasurer.measure(
 			tmpStyledText,
-			remainingText,
 			getTextEnd(),
-			availableStretchHeight 
+			availableStretchHeight,
+			canOverflow()
 			);
 		
 		isLeftToRight = measuredText.isLeftToRight();
