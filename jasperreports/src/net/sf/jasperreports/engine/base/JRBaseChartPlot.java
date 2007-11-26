@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -65,6 +66,8 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	public static final String PROPERTY_LABEL_ROTATION = "labelRotation";
 	
 	public static final String PROPERTY_ORIENTATION = "orientation";
+	
+	public static final String PROPERTY_SERIES_COLORS = "seriesColors";
 	
 	protected JRChart chart = null;
 	protected Color backcolor = null;
@@ -241,7 +244,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 */
 	public void clearSeriesColors()
 	{
-		seriesColors.clear();
+		setSeriesColors(null);
 	}
 	
 	/**
@@ -250,6 +253,24 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	public void addSeriesColor(JRSeriesColor seriesColor)
 	{
 		seriesColors.add(seriesColor);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_SERIES_COLORS, 
+				seriesColor, seriesColors.size() - 1);
+	}
+	
+	/**
+	 * Set the list of series colors.
+	 * 
+	 * @param colors the list of series colors ({@link JRSeriesColor} instances}
+	 */
+	public void setSeriesColors(Collection colors)
+	{
+		Object old = new TreeSet(seriesColors);
+		seriesColors.clear();
+		if (colors != null)
+		{
+			seriesColors.addAll(colors);
+		}
+		getEventSupport().firePropertyChange(PROPERTY_SERIES_COLORS, old, seriesColors);
 	}
 	
 	public static class JRBaseSeriesColor implements JRChartPlot.JRSeriesColor, Serializable, Comparable
