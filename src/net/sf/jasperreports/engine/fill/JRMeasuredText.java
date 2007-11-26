@@ -72,4 +72,12 @@ public interface JRMeasuredText
 	 */
 	boolean isLeftToRight();
 
+	/**
+	 * Returns the suffix that was appended to the text
+	 * (after {@link #getTextOffset()}).
+	 * 
+	 * @return the suffix that was appended to the text
+	 */
+	String getTextSuffix();
+	
 }

@@ -50,6 +50,7 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 * 
 	 * @return the text of this object
 	 * @see #getFullText()
+	 * @see #getTextTruncateSuffix()
 	 */
 	public String getText();
 		
@@ -69,6 +70,7 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 * 
 	 * @return the index to which this object's text is to be truncated
 	 * @see JRTextElement#PROPERTY_PRINT_KEEP_FULL_TEXT
+	 * @see #getTextTruncateSuffix()
 	 */
 	public Integer getTextTruncateIndex();
 
@@ -83,6 +85,23 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setTextTruncateIndex(Integer index);
 	
 	/**
+	 * Returns the suffix that is to be appended to the truncated text
+	 * (as returned by {@link #getText()}.
+	 * 
+	 * @return the truncated text suffix
+	 * @see JRTextElement#PROPERTY_TRUNCATE_SUFFIX
+	 */
+	public String getTextTruncateSuffix();
+	
+	/**
+	 * Sets the suffix to be appended to the truncated text.
+	 * 
+	 * @param suffix the suffix to be appended to the truncated text
+	 * @see #getTextTruncateSuffix()
+	 */
+	public void setTextTruncateSuffix(String suffix);
+	
+	/**
 	 * Returns the full (not truncated) text of this object.
 	 * 
 	 * @return the full text of this object
@@ -90,6 +109,13 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 * @see #getTextTruncateIndex()
 	 */
 	public String getFullText();
+	
+	/**
+	 * Returns the original text that was set in this object.
+	 * 
+	 * @return the original text
+	 */
+	public String getOriginalText();
 	
 	/**
 	 * Returns the styled text for this object.

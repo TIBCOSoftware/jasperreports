@@ -79,8 +79,23 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	 * The property can be set at the same levels as {@link #PROPERTY_PRINT_KEEP_FULL_TEXT}.
 	 * </p>
 	 */
-	public static final String PROPERTY_TRUNCATE_AT_CHAR = JRProperties.PROPERTY_PREFIX + "truncate.at.char";
+	public static final String PROPERTY_TRUNCATE_AT_CHAR = JRProperties.PROPERTY_PREFIX + "text.truncate.at.char";
 
+	/**
+	 * Property whose value is used as a suffix for the truncated text.
+	 * 
+	 * <p>
+	 * The suffix is appended to the text when truncation occurs.
+	 * If the property is not defined or empty (which is the case by default),
+	 * no suffix will be used when the text is truncated.
+	 * </p>
+	 * 
+	 * <p>
+	 * The property can be set at the same levels as {@link #PROPERTY_PRINT_KEEP_FULL_TEXT}.
+	 * </p>
+	 */
+	public static final String PROPERTY_TRUNCATE_SUFFIX = JRProperties.PROPERTY_PREFIX + "text.truncate.suffix";
+	
 	/**
 	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_LEFT}.
 	 */

@@ -1760,6 +1760,7 @@ public class JRXmlConstants
 	public static final String ELEMENT_text = "text";
 	public static final String ELEMENT_textContent = "textContent";
 	public static final String ATTRIBUTE_truncateIndex = "truncateIndex";
+	public static final String ELEMENT_textTruncateSuffix = "textTruncateSuffix";
 
 	/**
 	 * JRSubreportExpressionFactory associated constants

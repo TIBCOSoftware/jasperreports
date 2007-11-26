@@ -46,6 +46,7 @@ public class JRStyledText
 	private StringBuffer sbuffer = new StringBuffer();
 	private List runs = new ArrayList();
 	private AttributedString attributedString = null;
+	private Map globalAttributes;
 
 	
 	/**
@@ -102,7 +103,7 @@ public class JRStyledText
 			for(int i = runs.size() - 1; i >= 0; i--)
 			{
 				Run run = (Run)runs.get(i);
-				if (run.startIndex != run.endIndex)
+				if (run.startIndex != run.endIndex && run.attributes != null)
 				{
 					attributedString.addAttributes(run.attributes, run.startIndex, run.endIndex);
 				}
@@ -143,5 +144,16 @@ public class JRStyledText
 			this.endIndex = endIndex;
 		}
 	}
+
+	public void setGlobalAttributes(Map attributes)
+	{
+		this.globalAttributes = attributes;
+		addRun(new Run(attributes, 0, length()));
+	}
 	
+	
+	public Map getGlobalAttributes()
+	{
+		return globalAttributes;
+	}
 }
