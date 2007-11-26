@@ -112,7 +112,7 @@ public class TextFieldConverter extends TextElementConverter
 
 		JRStyledText styledText = new JRStyledText();
 		styledText.append(text);
-		styledText.addRun(new JRStyledText.Run(attributes, 0, text.length()));
+		styledText.setGlobalAttributes(attributes);
 		
 		return styledText;
 	}

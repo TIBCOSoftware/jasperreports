@@ -59,6 +59,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	private String text = "";
 	private Integer textTruncateIndex;
+	private String textTruncateSuffix;
 	private transient String truncatedText;
 	private float lineSpacingFactor = 0;
 	private float leadingOffset = 0;
@@ -101,7 +102,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 				if (isStyledText())
 				{
 					truncatedText = JRStyledTextParser.getInstance().write(
-							JRStyledTextAttributeSelector.ALL.getStyledTextAttributes(this), 
 							getFullStyledText(JRStyledTextAttributeSelector.ALL), 
 							0, getTextTruncateIndex().intValue());
 				}
@@ -109,6 +109,11 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 				{
 					truncatedText = text.substring(0, getTextTruncateIndex().intValue());
 				}
+			}
+			
+			if (textTruncateSuffix != null)
+			{
+				truncatedText += textTruncateSuffix;
 			}
 		}
 		return truncatedText;
@@ -134,11 +139,32 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		this.truncatedText = null;
 	}
 
-	public String getFullText()
+	public String getTextTruncateSuffix()
 	{
-		return this.text;
+		return textTruncateSuffix;
 	}
 
+	public void setTextTruncateSuffix(String textTruncateSuffix)
+	{
+		this.textTruncateSuffix = textTruncateSuffix;
+		this.truncatedText = null;
+	}
+
+	public String getFullText()
+	{
+		String fullText = this.text;
+		if (textTruncateIndex == null && textTruncateSuffix != null)
+		{
+			fullText += textTruncateSuffix;
+		}
+		return fullText;
+	}
+
+	public String getOriginalText()
+	{
+		return text;
+	}
+	
 	public JRStyledText getStyledText(JRStyledTextAttributeSelector attributeSelector)
 	{
 		if (getText() == null)

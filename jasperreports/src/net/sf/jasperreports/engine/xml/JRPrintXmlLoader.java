@@ -256,7 +256,9 @@ public class JRPrintXmlLoader implements ErrorHandler
 		/*   */
 		digester.addFactoryCreate("*/text", JRPrintTextFactory.class.getName());
 		digester.addSetNext("*/text", "addElement", JRPrintElement.class.getName());
-		SetNestedPropertiesRule textRule = new SetNestedPropertiesRule(new String[]{"textContent", "reportElement", "box", "font"}, new String[]{"text"});
+		SetNestedPropertiesRule textRule = new SetNestedPropertiesRule(
+				new String[]{"textContent", "textTruncateSuffix", "reportElement", "box", "font"}, 
+				new String[]{"text", "textTruncateSuffix"});
 		textRule.setTrimData(false);
 		textRule.setAllowUnknownChildElements(true);
 		digester.addRule("*/text", textRule);

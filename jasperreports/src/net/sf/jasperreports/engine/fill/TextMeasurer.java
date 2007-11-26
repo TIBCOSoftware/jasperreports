@@ -33,6 +33,9 @@ import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.text.BreakIterator;
+import java.text.CharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -79,6 +82,7 @@ public class TextMeasurer implements JRTextMeasurer
 	private float formatWidth = 0;
 	private int maxHeight = 0;
 	private boolean canOverflow;
+	private Map globalAttributes;
 	private TextMeasuredState measuredState;
 	private TextMeasuredState prevMeasuredState;
 	
@@ -91,6 +95,7 @@ public class TextMeasurer implements JRTextMeasurer
 		protected float textHeight = 0;
 		protected float firstLineLeading = 0;
 		protected boolean isLeftToRight = true;
+		protected String textSuffix = null;
 		
 		public boolean isLeftToRight()
 		{
@@ -120,6 +125,11 @@ public class TextMeasurer implements JRTextMeasurer
 		{
 			return firstLineLeading - firstLineMaxFontSize * getLineSpacingFactor();
 		}
+
+		public String getTextSuffix()
+		{
+			return textSuffix;
+		}
 		
 		public TextMeasuredState cloneState()
 		{
@@ -147,7 +157,7 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 * 
 	 */
-	protected void initialize(int availableStretchHeight, boolean canOverflow)
+	protected void initialize(JRStyledText styledText, int availableStretchHeight, boolean canOverflow)
 	{
 		width = textElement.getWidth();
 		height = textElement.getHeight();
@@ -228,7 +238,9 @@ public class TextMeasurer implements JRTextMeasurer
 		maxHeight = height + availableStretchHeight - topPadding - bottomPadding;
 		maxHeight = maxHeight < 0 ? 0 : maxHeight;
 		this.canOverflow = canOverflow;
+		this.globalAttributes = styledText.getGlobalAttributes();
 		measuredState = new TextMeasuredState();
+		prevMeasuredState = null;
 	}
 
 	/**
@@ -242,7 +254,7 @@ public class TextMeasurer implements JRTextMeasurer
 		)
 	{
 		/*   */
-		initialize(availableStretchHeight, canOverflow);
+		initialize(styledText, availableStretchHeight, canOverflow);
 
 		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
 
@@ -317,13 +329,14 @@ public class TextMeasurer implements JRTextMeasurer
 
 		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, FONT_RENDER_CONTEXT);
 		
-		prevMeasuredState = null;
 		measuredState.textOffset = lastParagraphStart;
 		
 		boolean rendered = true;
+		boolean renderedLine = false;
 		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && rendered)
 		{
 			rendered = renderNextLine(lineMeasurer, paragraph);
+			renderedLine = renderedLine || rendered;
 		}
 		
 		//if we rendered at least one line, and the last line didn't fit 
@@ -331,32 +344,158 @@ public class TextMeasurer implements JRTextMeasurer
 		if (!rendered && prevMeasuredState != null && !canOverflow)
 		{
 			//handle last rendered row
-			processLastRow(allParagraphs, lastParagraphText, lastParagraphStart);
+			processLastTruncatedRow(allParagraphs, lastParagraphText, lastParagraphStart, renderedLine);
 		}
 		
 		return rendered;
 	}
 	
-	protected void processLastRow(AttributedCharacterIterator allParagraphs,
-			String paragraphText, int paragraphOffset)
+	protected void processLastTruncatedRow(AttributedCharacterIterator allParagraphs,
+			String paragraphText, int paragraphOffset,
+			boolean lineTruncated)
 	{
-		boolean truncateAtChar = JRProperties.getBooleanProperty(propertiesHolder, JRTextElement.PROPERTY_TRUNCATE_AT_CHAR, false);
-		
-		if (truncateAtChar)
+		if (lineTruncated && isToTruncateAtChar())
 		{
-			measuredState = prevMeasuredState;
-			String text = paragraphText.substring(measuredState.textOffset - paragraphOffset);
-			Map textAttributes = new AttributedString(
-					allParagraphs, 
-					paragraphOffset,
-					paragraphOffset + text.length()).getIterator().getAttributes();
-			AttributedCharacterIterator lineParagraph = new AttributedString(text, textAttributes).getIterator();
-			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(
-					lineParagraph, 
-					BreakIterator.getCharacterInstance(), 
-					FONT_RENDER_CONTEXT);
-			renderNextLine(lineMeasurer, lineParagraph);
+			truncateLastLineAtChar(allParagraphs, paragraphText, paragraphOffset);
 		}
+		
+		appendTruncateSuffix(allParagraphs);
+	}
+
+	protected void truncateLastLineAtChar(AttributedCharacterIterator allParagraphs, String paragraphText, int paragraphOffset)
+	{
+		//truncate the original line at char
+		measuredState = prevMeasuredState.cloneState();
+		AttributedCharacterIterator lineParagraph = new AttributedString(
+				allParagraphs, 
+				measuredState.textOffset,
+				paragraphOffset + paragraphText.length()).getIterator();
+		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(
+				lineParagraph, 
+				BreakIterator.getCharacterInstance(), 
+				FONT_RENDER_CONTEXT);
+		//render again the last line
+		//if the line does not fit now, it will remain empty
+		renderNextLine(lineMeasurer, lineParagraph);
+	}
+
+	protected void appendTruncateSuffix(AttributedCharacterIterator allParagraphs)
+	{
+		String truncateSuffx = getTruncateSuffix();
+		if (truncateSuffx == null)
+		{
+			return;
+		}
+		
+		int lineStart = prevMeasuredState.textOffset;
+
+		//advance from the line start until the next line start or the first newline
+		StringBuffer lineText = new StringBuffer();
+		allParagraphs.setIndex(lineStart);
+		while (allParagraphs.getIndex() < measuredState.textOffset 
+				&& allParagraphs.current() != '\n')
+		{
+			lineText.append(allParagraphs.current());
+			allParagraphs.next();
+		}
+		int linePosition = allParagraphs.getIndex() - lineStart;
+		
+		//iterate to the beginning of the line
+		boolean done = false;
+		do
+		{
+			measuredState = prevMeasuredState.cloneState();
+
+			String text = lineText.substring(0, linePosition) + truncateSuffx;
+			AttributedString attributedText = new AttributedString(text);
+			
+			//set original attributes for the text part
+			AttributedCharacterIterator lineAttributes = new AttributedString(
+					allParagraphs, 
+					measuredState.textOffset,
+					measuredState.textOffset + linePosition).getIterator();
+			setAttributes(attributedText, lineAttributes, 0);
+			
+			//set global attributes for the suffix part
+			setAttributes(attributedText, globalAttributes, 
+					text.length() - truncateSuffx.length(), text.length());
+			
+			AttributedCharacterIterator lineParagraph = attributedText.getIterator();
+			
+			BreakIterator breakIterator = 
+				isToTruncateAtChar() 
+				? BreakIterator.getCharacterInstance() 
+				: BreakIterator.getLineInstance();
+			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(
+					lineParagraph,
+					breakIterator,
+					FONT_RENDER_CONTEXT);
+
+			if (renderNextLine(lineMeasurer, lineParagraph))
+			{
+				int lastPos = lineMeasurer.getPosition();
+				//test if the entire suffix fit
+				if (lastPos == linePosition + truncateSuffx.length())
+				{
+					//subtract the suffix from the offset
+					measuredState.textOffset -= truncateSuffx.length();
+					measuredState.textSuffix = truncateSuffx;
+					done = true;
+				}
+				else
+				{
+					linePosition = breakIterator.preceding(linePosition);
+					if (linePosition == BreakIterator.DONE)
+					{
+						//if the text suffix did not fit the line, only the part of it that fits will show
+
+						//truncate the suffix
+						String actualSuffix = truncateSuffx.substring(0, 
+								measuredState.textOffset - prevMeasuredState.textOffset);
+						//if the last text char is not a new line
+						if (prevMeasuredState.textOffset > 0
+								&& allParagraphs.setIndex(prevMeasuredState.textOffset - 1) != '\n')
+						{
+							//force a new line so that the suffix is displayed on the last line
+							actualSuffix = '\n' + actualSuffix;
+						}
+						measuredState.textSuffix = actualSuffix;
+						
+						//restore the next to last line offset
+						measuredState.textOffset = prevMeasuredState.textOffset;
+
+						done = true;
+					}
+				}
+			}
+			else
+			{
+				//if the line did not fit, leave it empty
+				done = true;
+			}
+		}
+		while (!done);
+	}
+
+	protected boolean isToTruncateAtChar()
+	{
+		return JRProperties.getBooleanProperty(propertiesHolder, 
+				JRTextElement.PROPERTY_TRUNCATE_AT_CHAR, false);
+	}
+
+	protected String getTruncateSuffix()
+	{
+		String truncateSuffx = JRProperties.getProperty(propertiesHolder,
+				JRTextElement.PROPERTY_TRUNCATE_SUFFIX);
+		if (truncateSuffx != null)
+		{
+			truncateSuffx = truncateSuffx.trim();
+		}
+		if (truncateSuffx.length() == 0)
+		{
+			truncateSuffx = null;
+		}
+		return truncateSuffx;
 	}
 	
 	protected boolean renderNextLine(LineBreakMeasurer lineMeasurer, AttributedCharacterIterator paragraph)
@@ -405,5 +544,41 @@ public class TextMeasurer implements JRTextMeasurer
 	protected JRPropertiesHolder getTextPropertiesHolder()
 	{
 		return propertiesHolder;
+	}
+	
+	protected void setAttributes(
+			AttributedString string,
+			AttributedCharacterIterator attributes, 
+			int stringOffset)
+	{
+		for (char c = attributes.first(); c != CharacterIterator.DONE; c = attributes.next())
+		{
+			for (Iterator it = attributes.getAttributes().entrySet().iterator(); it.hasNext();)
+			{
+				Map.Entry attributeEntry = (Map.Entry) it.next();
+				AttributedCharacterIterator.Attribute attribute = (Attribute) attributeEntry.getKey();
+				if (attributes.getRunStart(attribute) == attributes.getIndex())
+				{
+					Object attributeValue = attributeEntry.getValue();
+					string.addAttribute(attribute, attributeValue, 
+							attributes.getIndex() + stringOffset,
+							attributes.getRunLimit(attribute) + stringOffset);
+				}
+			};
+		}
+	}
+	
+	protected void setAttributes(
+			AttributedString string,
+			Map attributes, 
+			int startIndex, int endIndex)
+	{
+		for (Iterator it = attributes.entrySet().iterator(); it.hasNext();)
+		{
+			Map.Entry entry = (Map.Entry) it.next();
+			AttributedCharacterIterator.Attribute attribute = (Attribute) entry.getKey();
+			Object attributeValue = entry.getValue();
+			string.addAttribute(attribute, attributeValue, startIndex, endIndex);
+		}
 	}
 }

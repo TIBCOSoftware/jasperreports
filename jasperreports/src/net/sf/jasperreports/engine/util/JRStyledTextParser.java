@@ -168,7 +168,7 @@ public class JRStyledTextParser
 		
 		parseStyle(styledText, document.getDocumentElement());
 		
-		styledText.addRun(new JRStyledText.Run(attributes, 0, styledText.length()));
+		styledText.setGlobalAttributes(attributes);
 		
 		return styledText;
 	}
@@ -201,23 +201,21 @@ public class JRStyledTextParser
 		{
 			styledText = new JRStyledText();
 			styledText.append(text);
-			styledText.addRun(new JRStyledText.Run(parentAttributes, 0, text.length()));
+			styledText.setGlobalAttributes(parentAttributes);
 		}
 		
 		return styledText;
 	}
 	
 	/**
-	 * Outputs a styled text String given a set of element-level styled text
-	 * attributes and a styled text instance.
+	 * Outputs a styled text String given a styled text instance.
 	 * 
-	 * @param parentAttrs the element-level styled text attributes
 	 * @param styledText the styled text object
 	 * @return the String styled text representation
 	 */
-	public String write(Map parentAttrs, JRStyledText styledText)
+	public String write(JRStyledText styledText)
 	{
-		return write(parentAttrs, 
+		return write(styledText.getGlobalAttributes(), 
 				styledText.getAttributedString().getIterator(), 
 				styledText.getText());
 	}
@@ -269,7 +267,6 @@ public class JRStyledTextParser
 	/**
 	 * Outputs the String representation of a styled text chunk.
 	 * 
-	 * @param parentAttributes element-level styled text attributes
 	 * @param styledText the styled text
 	 * @param startIndex the start index
 	 * @param endIndex the end index
@@ -277,14 +274,14 @@ public class JRStyledTextParser
 	 * the start index and the end index
 	 * @see #write(Map, JRStyledText)
 	 */
-	public String write(Map parentAttributes, JRStyledText styledText, 
+	public String write(JRStyledText styledText, 
 			int startIndex, int endIndex)
 	{
 		AttributedCharacterIterator subIterator = new AttributedString(
 				styledText.getAttributedString().getIterator(), 
 				startIndex, endIndex).getIterator();
 		String subText = styledText.getText().substring(startIndex, endIndex);
-		return write(parentAttributes, subIterator, subText);
+		return write(styledText.getGlobalAttributes(), subIterator, subText);
 	}
 
 	/**

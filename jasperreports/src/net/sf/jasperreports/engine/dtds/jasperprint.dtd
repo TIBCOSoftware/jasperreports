@@ -144,7 +144,7 @@
 <!ATTLIST imageSource
 	isEmbedded (true | false) "false"
 >
-<!ELEMENT text (reportElement?, box?, font?, textContent?, hyperlinkParameter*)>
+<!ELEMENT text (reportElement?, box?, font?, textContent?, textTruncateSuffix?, hyperlinkParameter*)>
 <!ATTLIST text
 	textAlignment (Left | Center | Right | Justified) #IMPLIED
 	verticalAlignment (Top | Middle | Bottom) #IMPLIED
@@ -186,6 +186,7 @@
 <!ATTLIST textContent
 	truncateIndex NMTOKEN #IMPLIED
 >
+<!ELEMENT textTruncateSuffix (#PCDATA)>
 <!ELEMENT frame (reportElement?, box?, (line | rectangle | ellipse | image | text | frame)*)>
 
 <!ELEMENT hyperlinkParameter (hyperlinkParameterValue?)>

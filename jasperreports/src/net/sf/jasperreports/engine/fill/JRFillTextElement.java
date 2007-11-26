@@ -73,6 +73,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private float textHeight = 0;
 	private int textStart = 0;
 	private int textEnd = 0;
+	private String textTruncateSuffix;
 	private String rawText = null;
 	private JRStyledText styledText = null;
 	private Map styledTextAttributesMap = new HashMap();
@@ -520,6 +521,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		}
 		setTextStart(getTextEnd());
 		setTextEnd(measuredText.getTextOffset());
+		setTextTruncateSuffix(measuredText.getTextSuffix());
 		setLineSpacingFactor(measuredText.getLineSpacingFactor());
 		setLeadingOffset(measuredText.getLeadingOffset());
 	}
@@ -1274,7 +1276,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			{
 				//rewrite as styled text
 				String styledText = filler.getStyledTextParser().write(
-						getStyledTextAttributes(),
 						fullStyledText);
 				printText.setText(styledText);
 			}
@@ -1294,7 +1295,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			if (isStyledText())
 			{
 				printedText = filler.getStyledTextParser().write(
-						getStyledTextAttributes(), 
 						fullStyledText, 
 						startIndex, endIndex);
 			}
@@ -1304,6 +1304,18 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			}
 			printText.setText(printedText);
 		}
+		
+		printText.setTextTruncateSuffix(getTextTruncateSuffix());
+	}
+
+	protected String getTextTruncateSuffix()
+	{
+		return textTruncateSuffix;
+	}
+
+	protected void setTextTruncateSuffix(String textTruncateSuffix)
+	{
+		this.textTruncateSuffix = textTruncateSuffix;
 	}
 
 }

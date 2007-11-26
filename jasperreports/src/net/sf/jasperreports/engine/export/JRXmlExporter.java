@@ -831,11 +831,13 @@ public class JRXmlExporter extends JRAbstractExporter
 
 		exportFont(text);
 
-		if (text.getFullText() != null)
+		if (text.getOriginalText() != null)
 		{
-			xmlWriter.writeCDATAElement(JRXmlConstants.ELEMENT_textContent, text.getFullText(),
+			xmlWriter.writeCDATAElement(JRXmlConstants.ELEMENT_textContent, text.getOriginalText(),
 					JRXmlConstants.ATTRIBUTE_truncateIndex, text.getTextTruncateIndex());
 		}
+		
+		xmlWriter.writeCDATAElement(JRXmlConstants.ELEMENT_textTruncateSuffix, text.getTextTruncateSuffix());
 		
 		exportHyperlinkParameters(text);
 

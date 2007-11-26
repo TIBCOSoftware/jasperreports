@@ -25,6 +25,8 @@ stretch; the full text is used in data-oriented exporters such as XLS and CSV
 
 - support for truncating texts at character
 
+- support for text truncation suffix (i.e. ellipses)
+
 - minor bug fixes and improvements;
 
 
