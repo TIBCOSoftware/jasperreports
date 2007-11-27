@@ -1932,7 +1932,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		default:
 
 		}
-		refreshPage();
+		refreshPage();//FIXME only on actual key event?
 	}
 
 	private void dnNavigate(KeyEvent evt)
