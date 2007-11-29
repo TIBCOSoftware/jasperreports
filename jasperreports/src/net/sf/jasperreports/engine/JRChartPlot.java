@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine;
 
 import java.awt.Color;
+import java.util.Collection;
 import java.util.SortedSet;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -133,6 +134,13 @@ public interface JRChartPlot
 	 * Adds the specified series color to the plot.
 	 */
 	public void addSeriesColor(JRSeriesColor seriesColor);
+	
+	/**
+	 * Set the list of series colors.
+	 * 
+	 * @param colors the list of series colors ({@link JRSeriesColor} instances}
+	 */
+	public void setSeriesColors(Collection colors);
 	
 	/**
 	 *
