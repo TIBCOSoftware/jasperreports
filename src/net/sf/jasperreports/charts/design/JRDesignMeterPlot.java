@@ -28,6 +28,8 @@
 package net.sf.jasperreports.charts.design;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRMeterPlot;
@@ -150,11 +152,26 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void clearIntervals()
 	{
-		//FIXME event?
-		intervals.clear();
+		setIntervals(null);
 	}
 
-
+	/**
+	 * Sets the meter intervals.
+	 * 
+	 * @param intervals the list of meter intervals ({@link JRMeterInterval} instances)
+	 * @see #addInterval(JRMeterInterval)
+	 */
+	public void setIntervals(Collection intervals)
+	{
+		Object old = new ArrayList(this.intervals);
+		this.intervals.clear();
+		if (intervals != null)
+		{
+			this.intervals.addAll(intervals);
+		}
+		getEventSupport().firePropertyChange(PROPERTY_INTERVALS, old, this.intervals);
+	}
+	
 	/**
 	 * Sets the size of the meter face in degrees.
 	 *
