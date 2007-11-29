@@ -257,11 +257,6 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 				seriesColor, seriesColors.size() - 1);
 	}
 	
-	/**
-	 * Set the list of series colors.
-	 * 
-	 * @param colors the list of series colors ({@link JRSeriesColor} instances}
-	 */
 	public void setSeriesColors(Collection colors)
 	{
 		Object old = new TreeSet(seriesColors);

@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
+import java.util.Collection;
 import java.util.SortedSet;
 
 import net.sf.jasperreports.engine.JRChart;
@@ -185,6 +186,11 @@ public class JRFillChartPlot implements JRChartPlot
 	 */
 	public void addSeriesColor(JRSeriesColor seriesColor)
 	{
+	}
+
+	public void setSeriesColors(Collection colors)
+	{
+		// NOOP
 	}
 	
 	/**
