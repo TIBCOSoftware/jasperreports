@@ -981,12 +981,17 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 			writer.write("\\cf");
 			writer.write(String.valueOf(getColorIndex(styleForeground)));
+			if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
+			{
+				writer.write("\\rtlch");
+			}
 			writer.write(" ");
 
-			String str = plainText.substring(iterator.getIndex(), runLimit);
-
-			StringBuffer result = new StringBuffer(str);
-			writer.write(handleUnicodeText(result, text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL));
+			writer.write(
+				handleUnicodeText(
+					plainText.substring(iterator.getIndex(), runLimit)					
+					)
+				);
 
 			// reset all styles in the paragraph
 			writer.write("\\plain");
@@ -1012,58 +1017,32 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @param source source text
 	 * @return text with Unicode characters replaced
 	 */
-	private String handleUnicodeText(StringBuffer source, boolean isRightToLeft)
+	private String handleUnicodeText(String sourceText)
 	{
-		StringBuffer resultBuffer = new StringBuffer();
-		StringBuffer leftToRightBuffer = new StringBuffer();
-
-		for(int i = 0; i < source.length(); i++ )
+		StringBuffer unicodeText = new StringBuffer();
+		
+		for(int i = 0; i < sourceText.length(); i++ )
 		{
-			long ch = source.charAt(i);
+			long ch = sourceText.charAt(i);
 			if(ch > 127)
 			{
-				if(isRightToLeft)
-				{
-					resultBuffer.insert(0, leftToRightBuffer.toString());
-					leftToRightBuffer = new StringBuffer();
-
-					resultBuffer.insert(0, "\\u" + ch + '?');
-				}
-				else
-				{
-					leftToRightBuffer.append("\\u" + ch + '?');
-				}
+				unicodeText.append("\\u" + ch + '?');
+			}
+			else if(ch == '\n')
+			{
+				unicodeText.append("\\line ");
+			}
+			else if(ch == '\\' || ch =='{' || ch =='}')
+			{
+				unicodeText.append('\\').append((char)ch);
 			}
 			else
 			{
-				if(ch == '\n')
-				{
-					leftToRightBuffer.append("\\line ");
-				}
-				else if(ch == '\\' || ch =='{' || ch =='}')
-				{
-					leftToRightBuffer.append('\\').append((char)ch);
-				}
-				else
-				{
-					leftToRightBuffer.append((char)ch);
-				}
+				unicodeText.append((char)ch);
 			}
 		}
 
-		if(leftToRightBuffer != null && leftToRightBuffer.length() > 0)
-		{
-			if(isRightToLeft)
-			{
-				resultBuffer.insert(0, leftToRightBuffer.toString());
-			}
-			else
-			{
-				resultBuffer.append(leftToRightBuffer.toString());
-			}
-		}
-
-		return resultBuffer.toString();
+		return unicodeText.toString();
 	}
 
 
