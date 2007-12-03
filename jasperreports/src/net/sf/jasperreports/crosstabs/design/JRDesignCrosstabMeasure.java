@@ -117,6 +117,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 		Object old = this.incrementerFactoryClassName;
 		this.incrementerFactoryClassName = incrementerFactoryClassName;
 		this.incrementerFactoryClass = null;
+		this.incrementerFactoryClassRealName = null;
 		getEventSupport().firePropertyChange(PROPERTY_INCREMENTER_FACTORY_CLASS_NAME, old, this.incrementerFactoryClassName);
 	}
 
@@ -161,6 +162,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 		Object old = this.percentageCalculatorClassName;
 		this.percentageCalculatorClassName = percentageCalculatorClassName;
 		this.percentageCalculatorClass = null;
+		this.percentageCalculatorClassRealName = null;
 		getEventSupport().firePropertyChange(PROPERTY_PERCENTAGE_CALCULATION_CLASS_NAME, old, this.percentageCalculatorClassName);
 	}
 
@@ -177,6 +179,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 		
 		this.valueClassName = valueClassName;
 		this.valueClass = null;
+		this.valueClassRealName = null;
 		designVariable.setValueClassName(valueClassName);
 		
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS, old,

@@ -91,6 +91,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		Object old = this.valueClassName;
 		valueClassName = className;
 		valueClass = null;
+		valueClassRealName = null;
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS_NAME, old, this.valueClassName);
 	}
 
