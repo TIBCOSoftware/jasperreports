@@ -42,7 +42,7 @@ import org.xml.sax.Attributes;
  */
 public class JRThermometerPlotFactory extends JRBaseFactory
 {
-	public static final String ELEMENT_meterPlot = "meterPlot";
+	public static final String ELEMENT_thermometerPlot = "thermometerPlot";
 	public static final String ELEMENT_lowRange = "lowRange";
 	public static final String ELEMENT_mediumRange = "mediumRange";
 	public static final String ELEMENT_highRange = "highRange";

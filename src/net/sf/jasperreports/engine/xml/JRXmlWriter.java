@@ -2008,7 +2008,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		// write plot
 		JRThermometerPlot plot = (JRThermometerPlot) chart.getPlot();
 
-		writer.startElement(JRThermometerPlotFactory.ELEMENT_meterPlot);
+		writer.startElement(JRThermometerPlotFactory.ELEMENT_thermometerPlot);
 
 		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_valueLocation,
 							plot.getValueLocation(),

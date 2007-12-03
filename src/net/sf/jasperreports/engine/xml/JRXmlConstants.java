@@ -1546,7 +1546,7 @@ public class JRXmlConstants
 	public static final String ELEMENT_xyzDataset = "xyzDataset";
 	public static final String ELEMENT_xyDataset = "xyDataset";
 	public static final String ELEMENT_pieDataset = "pieDataset";
-	public static final String ELEMENT_valueDataset = "pieDataset";
+	public static final String ELEMENT_valueDataset = "valueDataset";
 	public static final String ELEMENT_highLowDataset = "highLowDataset";
 
 	public static final String ELEMENT_categorySeries = "categorySeries";
