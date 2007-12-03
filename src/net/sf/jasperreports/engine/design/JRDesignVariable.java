@@ -96,6 +96,7 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 		Object old = this.valueClassName;
 		valueClassName = className;
 		valueClass = null;
+		valueClassRealName = null;
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS_NAME, old, this.valueClassName);
 	}
 		
@@ -115,6 +116,7 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 		Object old = this.incrementerFactoryClassName;
 		incrementerFactoryClassName = className;
 		incrementerFactoryClass = null;
+		incrementerFactoryClassRealName = null;
 		getEventSupport().firePropertyChange(PROPERTY_INCREMENTER_FACTORY_CLASS_NAME, old, this.incrementerFactoryClassName);
 	}
 		

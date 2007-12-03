@@ -80,6 +80,7 @@ public class JRDesignParameter extends JRBaseParameter
 		Object old = this.valueClassName;
 		valueClassName = className;
 		valueClass = null;
+		valueClassRealName = null;
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS_NAME, old, this.valueClassName);
 	}
 
