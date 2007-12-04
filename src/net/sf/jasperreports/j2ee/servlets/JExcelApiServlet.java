@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.j2ee.servlets;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 
@@ -36,6 +37,7 @@ import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
  */
 public class JExcelApiServlet extends AbstractXlsServlet
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	
 	/**
