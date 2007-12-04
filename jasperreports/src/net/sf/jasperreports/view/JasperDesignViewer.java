@@ -31,6 +31,7 @@ import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.io.InputStream;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 
@@ -40,6 +41,7 @@ import net.sf.jasperreports.engine.JRReport;
  */
 public class JasperDesignViewer extends javax.swing.JFrame 
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	/** Creates new form JasperDesignViewer */
 	public JasperDesignViewer(String sourceFile, boolean isXML)  throws JRException
