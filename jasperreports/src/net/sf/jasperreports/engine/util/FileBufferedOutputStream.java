@@ -34,6 +34,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -89,7 +90,19 @@ public class FileBufferedOutputStream extends OutputStream
 		this.inputBufferLength = inputBufferLength;
 		
 		size = 0;
-		memoryOutput = this.memoryThreshold != 0 ? new ByteArrayOutputStream(this.initialMemoryBufferSize) : null;
+		if (this.memoryThreshold == 0)
+		{
+			memoryOutput = null;
+		}
+		else
+		{
+			int initialSize = this.initialMemoryBufferSize;
+			if (initialSize > this.memoryThreshold)
+			{
+				initialSize = this.memoryThreshold;
+			}
+			memoryOutput = new ByteArrayOutputStream(initialSize);
+		}
 	}
 
 	public void write(int b) throws IOException {
@@ -228,5 +241,132 @@ public class FileBufferedOutputStream extends OutputStream
 		super.finalize();
 	}
 	
+	public InputStream getDataInputStream() throws IOException
+	{
+		if (!closed)
+		{
+			close();
+		}
+		
+		return new DataStream();
+	}
 	
+	protected class DataStream extends InputStream
+	{
+		private int memoryIdx;
+		private final byte[] memoryData;
+		private final FileInputStream fileInput;
+		
+		public DataStream() throws FileNotFoundException
+		{
+			memoryIdx = 0;
+			memoryData = memoryOutput == null ? new byte[0] : memoryOutput.toByteArray(); 
+			fileInput = file == null ? null : new FileInputStream(file);
+		}
+		
+		public synchronized int read() throws IOException
+		{
+			int read;
+			if (memoryIdx < memoryData.length)
+			{
+				read = memoryData[memoryIdx];
+				++memoryIdx;
+			}
+			else if (fileInput != null)
+			{
+				read = fileInput.read();
+			}
+			else
+			{
+				read = -1;
+			}
+			return read;
+		}
+		
+		public synchronized int read(byte b[], int off, int len) throws IOException
+		{
+			if (len <= 0)
+			{
+				return 0;
+			}
+			
+			int read;
+			if (memoryIdx < memoryData.length)
+			{
+				read = len;
+				if (read > memoryData.length - memoryIdx)
+				{
+					read = memoryData.length - memoryIdx;
+				}
+				
+				System.arraycopy(memoryData, memoryIdx, b, off, read);
+				memoryIdx += read;
+			}
+			else
+			{
+				read = 0;
+			}
+			
+			if (read < len && fileInput != null)
+			{
+				int readFile = fileInput.read(b, off + read, len - read);
+				if (readFile > 0)
+				{
+					read += readFile;
+				}
+			}
+			
+			return read == 0 ? -1 : read;
+		}
+
+		public void close() throws IOException
+		{
+			if (fileInput != null)
+			{
+				fileInput.close();
+			}
+		}
+
+		public synchronized int available() throws IOException
+		{
+			int available = memoryData.length - memoryIdx;
+			if (fileInput != null)
+			{
+				available += fileInput.available();
+			}
+			return available;
+		}
+
+		public synchronized long skip(long n) throws IOException
+		{
+			if (n <= 0)
+			{
+				return 0;
+			}
+			
+			long skipped;
+			if (memoryIdx < memoryData.length)
+			{
+				skipped = n;
+				if (skipped > memoryData.length - memoryIdx)
+				{
+					skipped = memoryData.length - memoryIdx;
+				}
+				
+				memoryIdx += skipped;
+			}
+			else
+			{
+				skipped = 0;
+			}
+			
+			if (skipped < n && fileInput != null)
+			{
+				skipped += fileInput.skip(n - skipped);
+			}
+			
+			return skipped;
+		}
+		
+	}
 }
