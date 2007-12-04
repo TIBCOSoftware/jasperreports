@@ -39,6 +39,7 @@ import java.util.Map.Entry;
 
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
@@ -1279,6 +1280,8 @@ public class BucketingService
 	
 	protected static class CollectedList extends LinkedList
 	{
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
 		int span;
 		Bucket key;
 		
