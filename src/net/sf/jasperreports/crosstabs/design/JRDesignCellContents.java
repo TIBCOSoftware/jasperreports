@@ -28,14 +28,20 @@
 package net.sf.jasperreports.crosstabs.design;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
+import net.sf.jasperreports.engine.util.JRBoxUtil;
+import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 /**
  * Implementation of {@link net.sf.jasperreports.crosstabs.JRCellContents JRCellContents} used for
@@ -48,11 +54,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_BACKCOLOR = JRBaseStyle.PROPERTY_BACKCOLOR;
-	
 	public static final String PROPERTY_BOX = "box";
-	
-	public static final String PROPERTY_MODE = JRBaseStyle.PROPERTY_MODE;
 	
 	public static final String PROPERTY_STYLE = "style";
 	
@@ -64,7 +66,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	
 	protected Byte mode;
 	private Color backcolor;
-	private JRBox box;
+	private JRLineBox lineBox;
 	private int width = JRCellContents.NOT_CALCULATED;
 	private int height = JRCellContents.NOT_CALCULATED;
 
@@ -76,6 +78,8 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	public JRDesignCellContents()
 	{
 		super();
+		
+		lineBox = new JRBaseLineBox(this);
 	}
 	
 	public Color getBackcolor()
@@ -94,26 +98,29 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	{
 		Object old = this.backcolor;
 		backcolor = color;
-		getEventSupport().firePropertyChange(PROPERTY_BACKCOLOR, old, this.backcolor);
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getLineBox()}
+	 */
 	public JRBox getBox()
 	{
-		return box;
+		return new LineBoxWrapper(getLineBox());
+	}
+	
+	public JRLineBox getLineBox()
+	{
+		return lineBox;
 	}
 	
 	
 	/**
-	 * Sets the cell border.
-	 * 
-	 * @param box the border
-	 * @see JRCellContents#getBox()
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setBox(JRBox box)
 	{
-		Object old = this.box;
-		this.box = box;
-		getEventSupport().firePropertyChange(PROPERTY_BOX, old, this.box);
+		JRBoxUtil.setBoxToLineBox(box, lineBox);
 	}
 
 	public int getHeight()
@@ -192,7 +199,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	{
 		Object old = this.mode;
 		this.mode = mode;
-		getEventSupport().firePropertyChange(PROPERTY_MODE, old, this.mode);
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.mode);
 	}
 
 	public String getStyleNameReference()
@@ -231,8 +238,37 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Color getDefaultLineColor() 
 	{
-		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+		return Color.black;
+	}
+
+	/**
+	 * 
+	 */
+	public Object clone() 
+	{
+		return null;//FIXMECLONE: implement this");
+	}
+
+	
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private JRBox box = null;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (lineBox == null)
+		{
+			lineBox = new JRBaseLineBox(this);
+			JRBoxUtil.setBoxToLineBox(
+				box,
+				lineBox
+				);
+			box = null;
+		}
 	}
 }

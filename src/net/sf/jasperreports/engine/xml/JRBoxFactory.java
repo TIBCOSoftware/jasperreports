@@ -29,7 +29,9 @@ package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRBoxContainer;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.util.JRPenUtil;
 
 import org.xml.sax.Attributes;
 
@@ -46,24 +48,22 @@ public class JRBoxFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRBox box = (JRBox) digester.peek();
+		JRBoxContainer boxContainer = (JRBoxContainer) digester.peek();
+		JRLineBox box = boxContainer.getLineBox();
 		setBoxAttributes(atts, box);
 		return box;
 	}
 
 
-	public static void setBoxAttributes(Attributes atts, JRBox box)
+	public static void setBoxAttributes(Attributes atts, JRLineBox box)
 	{
 		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_border));
-		if (border != null)
-		{
-			box.setBorder(border);
-		}
+		JRPenUtil.setLinePenFromPen(border, box.getPen());
 
 		Color borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_borderColor), null);
 		if (borderColor != null)
 		{
-			box.setBorderColor(borderColor);
+			box.getPen().setLineColor(borderColor);
 		}
 
 		String padding = atts.getValue(JRXmlConstants.ATTRIBUTE_padding);
@@ -73,15 +73,12 @@ public class JRBoxFactory extends JRBaseFactory
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorder));
-		if (border != null)
-		{
-			box.setTopBorder(border);
-		}
+		JRPenUtil.setLinePenFromPen(border, box.getTopPen());
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorderColor), Color.black);
 		if (borderColor != null)
 		{
-			box.setTopBorderColor(borderColor);
+			box.getTopPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_topPadding);
@@ -91,15 +88,12 @@ public class JRBoxFactory extends JRBaseFactory
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorder));
-		if (border != null)
-		{
-			box.setLeftBorder(border);
-		}
+		JRPenUtil.setLinePenFromPen(border, box.getLeftPen());
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorderColor), Color.black);
 		if (borderColor != null)
 		{
-			box.setLeftBorderColor(borderColor);
+			box.getLeftPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_leftPadding);
@@ -109,15 +103,12 @@ public class JRBoxFactory extends JRBaseFactory
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorder));
-		if (border != null)
-		{
-			box.setBottomBorder(border);
-		}
+		JRPenUtil.setLinePenFromPen(border, box.getBottomPen());
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorderColor), Color.black);
 		if (borderColor != null)
 		{
-			box.setBottomBorderColor(borderColor);
+			box.getBottomPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_bottomPadding);
@@ -127,15 +118,12 @@ public class JRBoxFactory extends JRBaseFactory
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorder));
-		if (border != null)
-		{
-			box.setRightBorder(border);
-		}
+		JRPenUtil.setLinePenFromPen(border, box.getRightPen());
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorderColor), Color.black);
 		if (borderColor != null)
 		{
-			box.setRightBorderColor(borderColor);
+			box.getRightPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_rightPadding);

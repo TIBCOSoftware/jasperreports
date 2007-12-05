@@ -37,7 +37,7 @@ package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
 
-import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 
@@ -55,7 +55,7 @@ public class BoxDrawer extends ElementDrawer
 	 */
 	public void draw(Graphics2D grx, JRPrintElement element, int offsetX, int offsetY) throws JRException
 	{
-		drawBox(grx, (JRBox)element, element, offsetX, offsetY);
+		drawBox(grx, (JRLineBox)element, element, offsetX, offsetY);
 	}
 
 }

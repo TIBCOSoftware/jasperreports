@@ -40,7 +40,6 @@ import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 
@@ -72,18 +71,18 @@ public class EllipseDrawer extends ElementDrawer
 
 		grx.setColor(ellipse.getForecolor());
 
-		byte pen = ellipse.getPen();
-		Stroke stroke = getStroke(pen);
+		Stroke stroke = getStroke(ellipse.getLinePen());
 
 		if (stroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(pen);
-			int sizeAdjust = getRectangleSizeAdjust(pen);
+			double cornerOffset = getBorderCornerOffset(ellipse.getLinePen());
+			int sizeAdjust = getRectangleSizeAdjust(ellipse.getLinePen());
 			
 			AffineTransform transform = grx.getTransform();
 			
 			grx.translate(ellipse.getX() + offsetX + cornerOffset, ellipse.getY() + offsetY + cornerOffset);
-			if (pen == JRGraphicElement.PEN_THIN)
+			if (ellipse.getLinePen().getLineWidth().floatValue() == 0.5f)//FIXMEBORDER
+			//if (pen == JRGraphicElement.PEN_THIN)
 			{
 				grx.scale((ellipse.getWidth() - .5) / ellipse.getWidth(), (ellipse.getHeight() - .5) / ellipse.getHeight());
 			}

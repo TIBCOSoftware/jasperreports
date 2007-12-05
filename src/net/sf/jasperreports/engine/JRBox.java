@@ -36,282 +36,283 @@ import java.awt.Color;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRBox extends JRStyleContainer //FIXME why extend JRStyleContainer?
+public interface JRBox extends JRStyleContainer
 {
 
 
 	/**
-	 * Gets the default border pen size (can be overwritten by individual settings).
+	 * @deprecated Replaced by {@link JRLineBox#getPen()}
 	 */
 	public byte getBorder();
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#getPen()}
+	 */
 	public Byte getOwnBorder();
 
 	/**
-	 * Sets the default border pen size (can be overwritten by individual settings).
+	 * @deprecated Replaced by {@link JRLineBox#getPen()}
 	 */
 	public void setBorder(byte border);
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#getPen()}
+	 */
 	public void setBorder(Byte border);
 
-
 	/**
-	 * Gets the default border color (can be overwritten by individual settings).
+	 * @deprecated Replaced by {@link JRLineBox#getPen()}
 	 */
 	public Color getBorderColor();
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#getPen()}
+	 */
 	public Color getOwnBorderColor();
 
 	/**
-	 * Sets the default border color (can be overwritten by individual settings).
+	 * @deprecated Replaced by {@link JRLineBox#getPen()}
 	 */
 	public void setBorderColor(Color color);
 
-
 	/**
-	 * Gets the default padding in pixels (can be overwritten by individual settings).
+	 * @deprecated Replaced by {@link JRLineBox#getPadding()}
 	 */
 	public int getPadding();
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#getOwnPadding()}
+	 */
 	public Integer getOwnPadding();
 
 	/**
-	 * Sets the default padding in pixels (can be overwritten by individual settings).
+	 * @deprecated Replaced by {@link JRLineBox#setPadding(int)}
 	 */
 	public void setPadding(int padding);
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#setPadding(Integer)}
+	 */
 	public void setPadding(Integer padding);
 
-	
 	/**
-	 * Gets the top border pen size.
+	 * @deprecated Replaced by {@link JRLineBox#getTopPen()}
 	 */
 	public byte getTopBorder();
 
-
 	/**
-	 * Gets the top border pen size (if the default value was overwritten).
+	 * @deprecated Replaced by {@link JRLineBox#getTopPen()}
 	 */
 	public Byte getOwnTopBorder();
 	
-
 	/**
-	 * Sets the top border pen size.
+	 * @deprecated Replaced by {@link JRLineBox#getTopPen()}
 	 */
 	public void setTopBorder(byte border);
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#getTopPen()}
+	 */
 	public void setTopBorder(Byte border);
 
-
 	/**
-	 * Gets the top border color.
+	 * @deprecated Replaced by {@link JRLineBox#getTopPen()}
 	 */
 	public Color getTopBorderColor();
 
-
 	/**
-	 * Gets the top border color (if the default value was overwritten).
+	 * @deprecated Replaced by {@link JRLineBox#getTopPen()}
 	 */
 	public Color getOwnTopBorderColor();
 
-
 	/**
-	 * Sets the top border color.
+	 * @deprecated Replaced by {@link JRLineBox#getTopPen()}
 	 */
 	public void setTopBorderColor(Color color);
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getTopPadding()}
 	 */
 	public int getTopPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getOwnTopPadding()}
 	 */
 	public Integer getOwnTopPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#setTopPadding(int)}
 	 */
 	public void setTopPadding(int padding);
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#setTopPadding(Integer)}
+	 */
 	public void setTopPadding(Integer padding);
 
-	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getLeftPen()}
 	 */
 	public byte getLeftBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getLeftPen()}
 	 */
 	public Byte getOwnLeftBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getLeftPen()}
 	 */
 	public void setLeftBorder(byte border);
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#getLeftPen()}
+	 */
 	public void setLeftBorder(Byte border);
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getLeftPen()}
 	 */
 	public Color getLeftBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getLeftPen()}
 	 */
 	public Color getOwnLeftBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getLeftPen()}
 	 */
 	public void setLeftBorderColor(Color color);
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getLeftPadding()}
 	 */
 	public int getLeftPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getOwnLeftPadding()}
 	 */
 	public Integer getOwnLeftPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#setLeftPadding(int)}
 	 */
 	public void setLeftPadding(int padding);
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#setLeftPadding(Integer)}
+	 */
 	public void setLeftPadding(Integer padding);
 
-	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getBottomPen()}
 	 */
 	public byte getBottomBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getBottomPen()}
 	 */
 	public Byte getOwnBottomBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getBottomPen()}
 	 */
 	public void setBottomBorder(byte border);
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#getBottomPen()}
+	 */
 	public void setBottomBorder(Byte border);
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getBottomPen()}
 	 */
 	public Color getBottomBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getBottomPen()}
 	 */
 	public Color getOwnBottomBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getBottomPen()}
 	 */
 	public void setBottomBorderColor(Color color);
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getBottomPadding()}
 	 */
 	public int getBottomPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getOwnBottomPadding()}
 	 */
 	public Integer getOwnBottomPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#setBottomPadding(int)}
 	 */
 	public void setBottomPadding(int padding);
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#setBottomPadding(Integer)}
+	 */
 	public void setBottomPadding(Integer padding);
 
-	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getRightPen()}
 	 */
 	public byte getRightBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getRightPen()}
 	 */
 	public Byte getOwnRightBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getRightPen()}
 	 */
 	public void setRightBorder(byte border);
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#getRightPen()}
+	 */
 	public void setRightBorder(Byte border);
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getRightPen()}
 	 */
 	public Color getRightBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getRightPen()}
 	 */
 	public Color getOwnRightBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getRightPen()}
 	 */
 	public void setRightBorderColor(Color color);
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getRightPadding()}
 	 */
 	public int getRightPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#getOwnRightPadding()}
 	 */
 	public Integer getOwnRightPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLineBox#setRightPadding(int)}
 	 */
 	public void setRightPadding(int padding);
 
+	/**
+	 * @deprecated Replaced by {@link JRLineBox#setRightPadding(Integer)}
+	 */
 	public void setRightPadding(Integer padding);
 
 	

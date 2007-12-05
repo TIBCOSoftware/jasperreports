@@ -37,6 +37,7 @@ package net.sf.jasperreports.engine.convert;
 
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fill.JRMeasuredText;
 import net.sf.jasperreports.engine.fill.JRTextMeasurer;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -53,11 +54,11 @@ public abstract class TextElementConverter extends ElementConverter
 	/**
 	 *
 	 */
-	protected void copyTextElement(ReportConverter reportConverter, JRTextElement textElement, JRPrintText printText)
+	protected void copyTextElement(ReportConverter reportConverter, JRTextElement textElement, JRBasePrintText printText)
 	{
 		copyElement(reportConverter, textElement, printText);
 		
-		copyBox(textElement, printText);
+		printText.copyBox(textElement.getLineBox());
 		
 		printText.setBold(textElement.isOwnBold());
 		printText.setFontName(textElement.getOwnFontName());

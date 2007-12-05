@@ -164,7 +164,7 @@ public class FrameDrawer extends ElementDrawer
 		}
 		
 		/*   */
-		drawBox(grx, frame, frame, offsetX, offsetY);
+		drawBox(grx, frame.getLineBox(), frame, offsetX, offsetY);
 	}
 
 
@@ -246,8 +246,8 @@ public class FrameDrawer extends ElementDrawer
 	private void setFrameElementsOffset(JRPrintFrame frame, int offsetX, int offsetY)
 	{	
 		setElementOffsets(
-			offsetX + frame.getX() + frame.getLeftPadding(), 
-			offsetY + frame.getY() + frame.getTopPadding()
+			offsetX + frame.getX() + frame.getLineBox().getLeftPadding().intValue(), 
+			offsetY + frame.getY() + frame.getLineBox().getTopPadding().intValue()
 			);
 	}
 	

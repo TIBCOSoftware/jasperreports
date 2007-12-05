@@ -58,16 +58,16 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRAnchor;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintAnchor;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -85,7 +85,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBaseBox;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -690,7 +690,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void exportLine(JRPrintLine line)
 	{
-		if (line.getPen() != JRGraphicElement.PEN_NONE)
+		float lineWidth = line.getLinePen().getLineWidth().floatValue(); 
+		if (lineWidth > 0f)
 		{
 			pdfContentByte.setRGBColorStroke(
 				line.getForecolor().getRed(),
@@ -698,41 +699,18 @@ public class JRPdfExporter extends JRAbstractExporter
 				line.getForecolor().getBlue()
 				);
 
-			switch (line.getPen())
+			pdfContentByte.setLineWidth(lineWidth);
+
+			switch (line.getLinePen().getLineStyle().byteValue())
 			{
-				case JRGraphicElement.PEN_DOTTED :
+				case JRPen.LINE_STYLE_DASHED :
 				{
-					pdfContentByte.setLineWidth(1f);
 					pdfContentByte.setLineDash(5f, 3f, 0f);
 					break;
 				}
-				case JRGraphicElement.PEN_4_POINT :
-				{
-					pdfContentByte.setLineWidth(4f);
-					pdfContentByte.setLineDash(0f);
-					break;
-				}
-				case JRGraphicElement.PEN_2_POINT :
-				{
-					pdfContentByte.setLineWidth(2f);
-					pdfContentByte.setLineDash(0f);
-					break;
-				}
-				case JRGraphicElement.PEN_NONE :
-				{
-					//never reached due to the initial if statement
-					break;
-				}
-				case JRGraphicElement.PEN_THIN :
-				{
-					pdfContentByte.setLineWidth(0.5f);
-					pdfContentByte.setLineDash(0f);
-					break;
-				}
-				case JRGraphicElement.PEN_1_POINT :
+				case JRPen.LINE_STYLE_SOLID :
 				default :
 				{
-					pdfContentByte.setLineWidth(1f);
 					pdfContentByte.setLineDash(0f);
 					break;
 				}
@@ -796,7 +774,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					rectangle.getRadius()
 					);
 
-			if (rectangle.getPen() == JRGraphicElement.PEN_DOTTED)
+			if (rectangle.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DASHED)
 			{
 				pdfContentByte.fill();
 
@@ -816,7 +794,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			if (rectangle.getPen() != JRGraphicElement.PEN_NONE)
+			if (rectangle.getLinePen().getLineWidth().floatValue() > 0f)
 			{
 				pdfContentByte.roundRectangle(
 					rectangle.getX() + getOffsetX() - borderCorrection,
@@ -836,57 +814,23 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	protected float prepareGraphicElement(JRPrintGraphicElement element)
 	{
-		float borderCorrection = 0f;
 
-		switch (element.getPen())
+		float lineWidth = element.getLinePen().getLineWidth().floatValue();
+		float borderCorrection = lineWidth / 2;//FIXMEBORDER check the old code. it was crazy
+		
+		pdfContentByte.setLineWidth(lineWidth);
+
+		switch (element.getLinePen().getLineStyle().byteValue())
 		{
-			case JRGraphicElement.PEN_DOTTED :
+			case JRPen.LINE_STYLE_DASHED :
 			{
 				borderCorrection = element.getMode() == JRElement.MODE_OPAQUE ? 0.5f : 0f;
-				pdfContentByte.setLineWidth(1f);
 				pdfContentByte.setLineDash(5f, 3f, 0f);
 				break;
 			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				borderCorrection = 0.5f;
-				pdfContentByte.setLineWidth(4f);
-				pdfContentByte.setLineDash(0f);
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				borderCorrection = 0.5f;
-				pdfContentByte.setLineWidth(2f);
-				pdfContentByte.setLineDash(0f);
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				borderCorrection = 0.25f;
-				pdfContentByte.setLineWidth(0.5f);
-				pdfContentByte.setLineDash(0f);
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				borderCorrection = 0.5f;
-				pdfContentByte.setLineWidth(0f);
-				pdfContentByte.setLineDash(0f);
-
-				pdfContentByte.setRGBColorStroke(
-					element.getBackcolor().getRed(),
-					element.getBackcolor().getGreen(),
-					element.getBackcolor().getBlue()
-					);
-
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
+			case JRPen.LINE_STYLE_SOLID :
 			default :
 			{
-				borderCorrection = 0f;
-				pdfContentByte.setLineWidth(1f);
 				pdfContentByte.setLineDash(0f);
 				break;
 			}
@@ -922,7 +866,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() + borderCorrection
 				);
 
-			if (ellipse.getPen() == JRGraphicElement.PEN_DOTTED)
+			if (ellipse.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DASHED)
 			{
 				pdfContentByte.fill();
 
@@ -941,7 +885,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			if (ellipse.getPen() != JRGraphicElement.PEN_NONE)
+			if (ellipse.getLinePen().getLineWidth().floatValue() > 0f)
 			{
 				pdfContentByte.ellipse(
 					ellipse.getX() + getOffsetX() - borderCorrection,
@@ -989,10 +933,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfContentByte.fillStroke();
 		}
 
-		int topPadding = printImage.getTopPadding();
-		int leftPadding = printImage.getLeftPadding();
-		int bottomPadding = printImage.getBottomPadding();
-		int rightPadding = printImage.getRightPadding();
+		int topPadding = printImage.getLineBox().getTopPadding().intValue();
+		int leftPadding = printImage.getLineBox().getLeftPadding().intValue();
+		int bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
+		int rightPadding = printImage.getLineBox().getRightPadding().intValue();
 
 		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
@@ -1329,22 +1273,22 @@ public class JRPdfExporter extends JRAbstractExporter
 
 
 		if (
-			printImage.getTopBorder() == JRGraphicElement.PEN_NONE &&
-			printImage.getLeftBorder() == JRGraphicElement.PEN_NONE &&
-			printImage.getBottomBorder() == JRGraphicElement.PEN_NONE &&
-			printImage.getRightBorder() == JRGraphicElement.PEN_NONE
+			printImage.getLineBox().getTopPen().getLineWidth().floatValue() <= 0f &&
+			printImage.getLineBox().getLeftPen().getLineWidth().floatValue() <= 0f &&
+			printImage.getLineBox().getBottomPen().getLineWidth().floatValue() <= 0f &&
+			printImage.getLineBox().getRightPen().getLineWidth().floatValue() <= 0f
 			)
 		{
-			if (printImage.getPen() != JRGraphicElement.PEN_NONE)
+			if (printImage.getLinePen().getLineWidth().floatValue() > 0f)
 			{
-				exportBox(new JRBaseBox(printImage.getPen(), printImage.getForecolor()), printImage);
+				exportBox(new JRBaseLineBox(printImage.getLinePen()), printImage);
 			}
 		}
 		else
 		{
 			/*   */
 			exportBox(
-				printImage,
+				printImage.getLineBox(),
 				printImage
 				);
 		}
@@ -1698,10 +1642,10 @@ public class JRPdfExporter extends JRAbstractExporter
 		int y = text.getY() + getOffsetY();
 		int width = text.getWidth();
 		int height = text.getHeight();
-		int topPadding = text.getTopPadding();
-		int leftPadding = text.getLeftPadding();
-		int bottomPadding = text.getBottomPadding();
-		int rightPadding = text.getRightPadding();
+		int topPadding = text.getLineBox().getTopPadding().intValue();
+		int leftPadding = text.getLineBox().getLeftPadding().intValue();
+		int bottomPadding = text.getLineBox().getBottomPadding().intValue();
+		int rightPadding = text.getLineBox().getRightPadding().intValue();
 
 		int xFillCorrection = 0;
 		int yFillCorrection = 0;
@@ -1907,7 +1851,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		/*   */
 		exportBox(
-			text,
+			text.getLineBox(),
 			text
 			);
 	}
@@ -1916,12 +1860,12 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportBox(JRBox box, JRPrintElement element)
+	protected void exportBox(JRLineBox box, JRPrintElement element)
 	{
-		if (box.getTopBorder() != JRGraphicElement.PEN_NONE)
+		if (box.getTopPen().getLineWidth().floatValue() > 0f)
 		{
-			float borderCorrection = prepareBorder(pdfContentByte, box.getTopBorder());
-			Color color = box.getTopBorderColor() == null ? element.getForecolor() : box.getTopBorderColor();
+			float borderCorrection = prepareBorder(pdfContentByte, box.getTopPen());
+			Color color = box.getTopPen().getLineColor();
 			pdfContentByte.setRGBColorStroke(
 					color.getRed(),
 					color.getGreen(),
@@ -1938,10 +1882,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfContentByte.stroke();
 		}
 
-		if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
+		if (box.getLeftPen().getLineWidth().floatValue() > 0f)
 		{
-			float borderCorrection = prepareBorder(pdfContentByte, box.getLeftBorder());
-			Color color = box.getLeftBorderColor() == null ? element.getForecolor() : box.getLeftBorderColor();
+			float borderCorrection = prepareBorder(pdfContentByte, box.getLeftPen());
+			Color color = box.getLeftPen().getLineColor();
 			pdfContentByte.setRGBColorStroke(
 					color.getRed(),
 					color.getGreen(),
@@ -1958,10 +1902,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfContentByte.stroke();
 		}
 
-		if (box.getBottomBorder() != JRGraphicElement.PEN_NONE)
+		if (box.getBottomPen().getLineWidth().floatValue() > 0f)
 		{
-			float borderCorrection = prepareBorder(pdfContentByte, box.getBottomBorder());
-			Color color = box.getBottomBorderColor() == null ? element.getForecolor() : box.getBottomBorderColor();
+			float borderCorrection = prepareBorder(pdfContentByte, box.getBottomPen());
+			Color color = box.getBottomPen().getLineColor();
 			pdfContentByte.setRGBColorStroke(
 					color.getRed(),
 					color.getGreen(),
@@ -1978,10 +1922,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfContentByte.stroke();
 		}
 
-		if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
+		if (box.getRightPen().getLineWidth().floatValue() > 0f)
 		{
-			float borderCorrection = prepareBorder(pdfContentByte, box.getRightBorder());
-			Color color = box.getRightBorderColor() == null ? element.getForecolor() : box.getRightBorderColor();
+			float borderCorrection = prepareBorder(pdfContentByte, box.getRightPen());
+			Color color = box.getRightPen().getLineColor();
 			pdfContentByte.setRGBColorStroke(
 					color.getRed(),
 					color.getGreen(),
@@ -2005,56 +1949,73 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private static float prepareBorder(PdfContentByte pdfContentByte, byte border)
+	private static float prepareBorder(PdfContentByte pdfContentByte, JRPen pen)
 	{
 		float borderCorrection = 0f;
 
-		switch (border)
+		pdfContentByte.setLineWidth(pen.getLineWidth().floatValue());
+
+		switch (pen.getLineStyle().byteValue())
 		{
-			case JRGraphicElement.PEN_DOTTED :
+			case JRPen.LINE_STYLE_DASHED :
 			{
-				borderCorrection = 0f;
-				pdfContentByte.setLineWidth(1f);
 				pdfContentByte.setLineDash(5f, 3f, 0f);
 				break;
 			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				borderCorrection = .5f;
-				pdfContentByte.setLineWidth(4f);
-				pdfContentByte.setLineDash(0f);
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				borderCorrection = .5f;
-				pdfContentByte.setLineWidth(2f);
-				pdfContentByte.setLineDash(0f);
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				borderCorrection = 0.25f;
-				pdfContentByte.setLineWidth(0.5f);
-				pdfContentByte.setLineDash(0f);
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				borderCorrection = 0.5f;
-				pdfContentByte.setLineWidth(1f);
-				pdfContentByte.setLineDash(0f);
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
+			case JRPen.LINE_STYLE_SOLID :
 			default :
 			{
-				borderCorrection = 0f;
-				pdfContentByte.setLineWidth(1f);
 				pdfContentByte.setLineDash(0f);
 				break;
 			}
 		}
+
+//		switch (border)
+//		{
+//			case JRGraphicElement.PEN_DOTTED :
+//			{
+//				borderCorrection = 0f;
+//				pdfContentByte.setLineWidth(1f);
+//				pdfContentByte.setLineDash(5f, 3f, 0f);
+//				break;
+//			}
+//			case JRGraphicElement.PEN_4_POINT :
+//			{
+//				borderCorrection = .5f;
+//				pdfContentByte.setLineWidth(4f);
+//				pdfContentByte.setLineDash(0f);
+//				break;
+//			}
+//			case JRGraphicElement.PEN_2_POINT :
+//			{
+//				borderCorrection = .5f;
+//				pdfContentByte.setLineWidth(2f);
+//				pdfContentByte.setLineDash(0f);
+//				break;
+//			}
+//			case JRGraphicElement.PEN_THIN :
+//			{
+//				borderCorrection = 0.25f;
+//				pdfContentByte.setLineWidth(0.5f);
+//				pdfContentByte.setLineDash(0f);
+//				break;
+//			}
+//			case JRGraphicElement.PEN_NONE :
+//			{
+//				borderCorrection = 0.5f;
+//				pdfContentByte.setLineWidth(1f);
+//				pdfContentByte.setLineDash(0f);
+//				break;
+//			}
+//			case JRGraphicElement.PEN_1_POINT :
+//			default :
+//			{
+//				borderCorrection = 0f;
+//				pdfContentByte.setLineWidth(1f);
+//				pdfContentByte.setLineDash(0f);
+//				break;
+//			}
+//		}
 
 		return borderCorrection;
 	}
@@ -2232,7 +2193,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			restoreElementOffsets();
 		}
 
-		exportBox(frame, frame);
+		exportBox(frame.getLineBox(), frame);
 	}
 
 

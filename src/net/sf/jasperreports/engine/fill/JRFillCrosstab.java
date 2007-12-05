@@ -66,7 +66,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -532,7 +531,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			rectangle.setPrintWhenGroupChanges(getPrintWhenGroupChanges());
 			rectangle.setForecolor(getForecolor());
 			rectangle.setBackcolor(getBackcolor());
-			rectangle.setPen(JRGraphicElement.PEN_NONE);
+			rectangle.getLinePen().setLineWidth(0f);
 
 			template = new JRTemplateRectangle(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
 			

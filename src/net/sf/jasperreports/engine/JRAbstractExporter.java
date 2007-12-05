@@ -281,7 +281,7 @@ public abstract class JRAbstractExporter implements JRExporter
 
 	}
 	
-	//FIXMENOW this would make the applet require logging library
+	// this would make the applet require logging library
 	//private final static Log log = LogFactory.getLog(JRAbstractExporter.class);
 
 	private ParameterResolver parameterResolver;
@@ -733,8 +733,8 @@ public abstract class JRAbstractExporter implements JRExporter
 		}
 		else
 		{
-			int topPadding = frame.getTopPadding();
-			int leftPadding = frame.getLeftPadding();
+			int topPadding = frame.getLineBox().getTopPadding().intValue();
+			int leftPadding = frame.getLineBox().getLeftPadding().intValue();
 
 			setElementOffsets(getOffsetX() + frame.getX() + leftPadding, getOffsetY() + frame.getY() + topPadding);
 		}

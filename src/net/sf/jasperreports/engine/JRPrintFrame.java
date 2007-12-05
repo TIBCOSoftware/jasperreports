@@ -41,7 +41,7 @@ import java.util.List;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintFrame extends JRPrintElement, JRBox
+public interface JRPrintFrame extends JRPrintElement, JRBox, JRBoxContainer
 {
 	/**
 	 * Returns the list of print elements contained in the frame.

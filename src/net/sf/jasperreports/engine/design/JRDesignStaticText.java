@@ -50,8 +50,6 @@ public class JRDesignStaticText extends JRDesignTextElement implements JRStaticT
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	public static final String PROPERTY_TEXT = JRBaseStaticText.PROPERTY_TEXT;
 
 	/**
 	 *
@@ -91,7 +89,7 @@ public class JRDesignStaticText extends JRDesignTextElement implements JRStaticT
 	{
 		Object old = this.text;
 		this.text = text;
-		getEventSupport().firePropertyChange(PROPERTY_TEXT, old, this.text);
+		getEventSupport().firePropertyChange(JRBaseStaticText.PROPERTY_TEXT, old, this.text);
 	}
 
 	/**

@@ -99,7 +99,6 @@ import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabRowGroupFactory;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -728,9 +727,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeGraphicElement(JRGraphicElement element) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_graphicElement);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_pen, element.getOwnPen(), JRXmlConstants.getPenMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_fill, element.getOwnFill(), JRXmlConstants.getFillMap());
-		writer.closeElement();
+		writePen(element.getLinePen());
+		writer.closeElement(true);
 	}
 
 
@@ -787,7 +786,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(image);
-		writeBox(image);
+		writeBox(image.getLineBox());
 		writeGraphicElement(image);
 
 		//FIXME class is mandatory in verifier
@@ -807,45 +806,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	/**
 	 *
 	 */
-	private void writeBox(JRBox box) throws IOException
-	{
-		if (box != null)
-		{
-			writer.startElement(JRXmlConstants.ELEMENT_box);
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_border, box.getOwnBorder(), JRXmlConstants.getPenMap());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_borderColor, box.getOwnBorderColor());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_padding, box.getOwnPadding());
-
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_topBorder, box.getOwnTopBorder(), JRXmlConstants.getPenMap());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_topBorderColor, box.getOwnTopBorderColor());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_topPadding, box.getOwnTopPadding());
-
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftBorder, box.getOwnLeftBorder(), JRXmlConstants.getPenMap());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftBorderColor, box.getOwnLeftBorderColor());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftPadding, box.getOwnLeftPadding());
-
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_bottomBorder, box.getOwnBottomBorder(), JRXmlConstants.getPenMap());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_bottomBorderColor, box.getOwnBottomBorderColor());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_bottomPadding, box.getOwnBottomPadding());
-
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightBorder, box.getOwnRightBorder(), JRXmlConstants.getPenMap());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightBorderColor, box.getOwnRightBorderColor());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightPadding, box.getOwnRightPadding());
-
-			writer.closeElement(true);
-		}
-	}
-
-
-	/**
-	 *
-	 */
 	public void writeStaticText(JRStaticText staticText) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_staticText);
 
 		writeReportElement(staticText);
-		writeBox(staticText);
+		writeBox(staticText.getLineBox());
 		writeTextElement(staticText);
 
 		writer.writeCDATAElement(JRXmlConstants.ELEMENT_text, staticText.getText());
@@ -936,7 +902,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(textField);
-		writeBox(textField);
+		writeBox(textField.getLineBox());
 		writeTextElement(textField);
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_textFieldExpression, textField.getExpression(), true);
@@ -1037,7 +1003,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_customizerClass, chart.getCustomizerClass());
 
 		writeReportElement(chart);
-		writeBox(chart);
+		writeBox(chart.getLineBox());
 
 		// write title
 		writer.startElement(JRXmlConstants.ELEMENT_chartTitle);
@@ -2384,7 +2350,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_mode, contents.getMode(), JRXmlConstants.getModeMap());
 			writeStyleReferenceAttr(contents);
 
-			writeBox(contents.getBox());
+			writeBox(contents.getLineBox());
 
 			List children = contents.getChildren();
 			if (children != null)
@@ -2522,7 +2488,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(JRXmlConstants.ELEMENT_frame);
 
 		writeReportElement(frame);
-		writeBox(frame);
+		writeBox(frame.getLineBox());
 
 		List children = frame.getChildren();
 		if (children != null)

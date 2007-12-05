@@ -56,7 +56,7 @@
 	isPdfEmbedded (true | false) #IMPLIED
 >
 
-<!ELEMENT style (conditionalStyle*)>
+<!ELEMENT style (pen?, box?, conditionalStyle*)>
 <!ATTLIST style
 	name CDATA #IMPLIED
 	isDefault (true | false) "false"
@@ -99,6 +99,12 @@
 	isPdfEmbedded (true | false) #IMPLIED
 	pattern CDATA #IMPLIED
 	isBlankWhenNull (true | false) #IMPLIED
+>
+
+<!ELEMENT pen EMPTY>
+<!ATTLIST pen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
 >
 
 <!ELEMENT conditionalStyle (conditionExpression?, style)>
@@ -217,7 +223,7 @@
 >
 <!ELEMENT printWhenExpression (#PCDATA)>
 
-<!ELEMENT graphicElement EMPTY>
+<!ELEMENT graphicElement (pen?)>
 <!ATTLIST graphicElement
 	stretchType (NoStretch | RelativeToTallestObject | RelativeToBandHeight) #IMPLIED
 	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
@@ -250,7 +256,7 @@
 	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | java.awt.Image | net.sf.jasperreports.engine.JRRenderable) "java.lang.String"
 >
 
-<!ELEMENT box EMPTY>
+<!ELEMENT box (pen?, topPen?, leftPen?, bottomPen?, rightPen?)>
 <!ATTLIST box
 	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
 	borderColor CDATA #IMPLIED
@@ -267,6 +273,27 @@
 	rightBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
 	rightBorderColor CDATA #IMPLIED
 	rightPadding NMTOKEN #IMPLIED
+>
+
+<!ELEMENT topPen EMPTY>
+<!ATTLIST topPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
+>
+<!ELEMENT leftPen EMPTY>
+<!ATTLIST leftPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
+>
+<!ELEMENT bottomPen EMPTY>
+<!ATTLIST bottomPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
+>
+<!ELEMENT rightPen EMPTY>
+<!ATTLIST rightPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
 >
 
 <!ELEMENT anchorNameExpression (#PCDATA)>

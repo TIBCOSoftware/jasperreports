@@ -27,12 +27,11 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -72,31 +71,27 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	public void setBox(JRBox box) throws IOException
+	public void setBox(JRLineBox box) throws IOException
 	{
 		if (box != null)
 		{
 			appendBorder(
-				box.getTopBorder(),
-				box.getTopBorderColor() == null ? element.getForecolor() : box.getTopBorderColor(),
+				box.getTopPen(),
 				box.getTopPadding(),
 				TOP_BORDER
 				);
 			appendBorder(
-				box.getLeftBorder(),
-				box.getLeftBorderColor() == null ? element.getForecolor() : box.getLeftBorderColor(),
+				box.getLeftPen(),
 				box.getLeftPadding(),
 				LEFT_BORDER
 				);
 			appendBorder(
-				box.getBottomBorder(),
-				box.getBottomBorderColor() == null ? element.getForecolor() : box.getBottomBorderColor(),
+				box.getBottomPen(),
 				box.getBottomPadding(),
 				BOTTOM_BORDER
 				);
 			appendBorder(
-				box.getRightBorder(),
-				box.getRightBorderColor() == null ? element.getForecolor() : box.getRightBorderColor(),
+				box.getRightPen(),
 				box.getRightPadding(),
 				RIGHT_BORDER
 				);
@@ -146,55 +141,35 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	private void appendBorder(byte pen, Color color, int padding, int side) throws IOException
+	private void appendBorder(JRPen pen, Integer padding, int side) throws IOException
 	{
 		String style = null;
-		double width = 0;
+		double width = pen.getLineWidth().doubleValue();
 
-		switch (pen)
+		switch (pen.getLineStyle().byteValue())
 		{
-			case JRGraphicElement.PEN_DOTTED :
+			case JRPen.LINE_STYLE_DASHED :
 			{
 				style = "dashed";
-				width = 1;
 				break;
 			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				style = "solid";
-				width = 4;
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				style = "solid";
-				width = 2;
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				style = "solid";
-				width = 0.5;
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				style = "none";
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
+			case JRPen.LINE_STYLE_SOLID :
 			default :
 			{
 				style = "solid";
-				width = 1;
 				break;
 			}
+		}
+		
+		if (width <= 0)
+		{
+			style = "none";
 		}
 
 		borderStyle[side] = style;
 		borderWidth[side] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(width));
-		borderColor[side] = JRColorUtil.getColorHexa(color);
-		borderPadding[side] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(padding));
+		borderColor[side] = JRColorUtil.getColorHexa(pen.getLineColor());
+		borderPadding[side] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(padding.intValue()));
 	}
 
 }

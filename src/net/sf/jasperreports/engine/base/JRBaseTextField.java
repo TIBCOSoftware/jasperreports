@@ -58,10 +58,6 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_BLANK_WHEN_NULL = JRBaseStyle.PROPERTY_BLANK_WHEN_NULL;
-	
-	public static final String PROPERTY_PATTERN = JRBaseStyle.PROPERTY_PATTERN;
-	
 	public static final String PROPERTY_STRETCH_WITH_OVERFLOW = "stretchWithOverflow";
 
 	/**
@@ -165,7 +161,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	{
 		Object old = this.pattern;
 		this.pattern = pattern;
-		getEventSupport().firePropertyChange(PROPERTY_PATTERN, old, this.pattern);
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_PATTERN, old, this.pattern);
 	}
 		
 	/**
@@ -191,7 +187,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	{
 		Object old = this.isBlankWhenNull;
 		this.isBlankWhenNull = isBlank;
-		getEventSupport().firePropertyChange(PROPERTY_BLANK_WHEN_NULL, old, this.isBlankWhenNull);
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_BLANK_WHEN_NULL, old, this.isBlankWhenNull);
 	}
 
 	/**
@@ -326,7 +322,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRBaseTextField clone = (JRBaseTextField)super.clone();
 		

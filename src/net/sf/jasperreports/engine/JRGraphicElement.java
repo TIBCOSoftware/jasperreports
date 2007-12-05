@@ -34,37 +34,42 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRGraphicElement extends JRElement
+public interface JRGraphicElement extends JRElement, JRCommonGraphicElement
 {
-
 
 	/**
 	 * Contant useful for specifying that the element border will not be drawn.
+	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_NONE = 0;
 
 	/**
 	 * Contant useful for specifying that an element border of 1 pixel.
+	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_1_POINT = 1;
 
 	/**
 	 * Contant useful for specifying that an element border of 2 pixels.
+	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_2_POINT = 2;
 
 	/**
 	 * Contant useful for specifying that an element border of 4 pixels.
+	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_4_POINT = 3;
 
 	/**
 	 * Contant useful for specifying that an element has a dashed border.
+	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_DOTTED = 4;
 
 	/**
 	 * Contant useful for specifying that an element has a thin border (0.5 pixels)
+	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_THIN = 5;
 
@@ -79,27 +84,27 @@ public interface JRGraphicElement extends JRElement
 	/**
 	 * Indicates the pen type used for this element.
 	 * @return one of the pen constants in this class
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public byte getPen();
 
+	/**
+	 * @deprecated Replaced by {@link #getLinePen()}
+	 */
 	public Byte getOwnPen();
 
 	/**
 	 * Sets the pen type that will used for this element.
 	 * @param pen one of the pen constants in this class
+	 * @deprecated Replaced by {@link #setLineWidth(float)} and {@link #setLineStyle(byte)()}
 	 */
 	public void setPen(byte pen);
 
+	/**
+	 * @deprecated Replaced by {@link #setLineWidth(Float)} and {@link #setLineStyle(Byte)()}
+	 */
 	public void setPen(Byte pen);
 
-	/**
-	 * Indicates the fill type used for this element.
-	 * @return one of the pen constants in this class
-	 */
-	public byte getFill();
-
-	public Byte getOwnFill();
-	
 	/**
 	 * Sets the fill type used for this element.
 	 * @param fill one of the pen constants in this class

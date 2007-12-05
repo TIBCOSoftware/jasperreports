@@ -28,15 +28,21 @@
 package net.sf.jasperreports.crosstabs.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRBoxUtil;
+import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 /**
  * Base read-only implementation of {@link net.sf.jasperreports.crosstabs.JRCellContents JRCellContents}.
@@ -54,7 +60,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	
 	protected Byte mode;
 	protected Color backcolor;
-	protected JRBox box;
+	protected JRLineBox lineBox;
 	protected int width;
 	protected int height;
 
@@ -67,7 +73,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		styleNameReference = cell.getStyleNameReference();
 		mode = cell.getMode();
 		backcolor = cell.getBackcolor();
-		box = cell.getBox();
+		lineBox = cell.getLineBox().clone(this);
 		width = cell.getWidth();
 		height = cell.getHeight();
 	}
@@ -77,9 +83,17 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		return backcolor;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getLineBox()}
+	 */
 	public JRBox getBox()
 	{
-		return box;
+		return new LineBoxWrapper(getLineBox());
+	}
+
+	public JRLineBox getLineBox()
+	{
+		return lineBox;
 	}
 
 	public int getWidth()
@@ -110,5 +124,34 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	public String getStyleNameReference()
 	{
 		return styleNameReference;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getDefaultLineColor() 
+	{
+		return Color.black;
+	}
+
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private JRBox box = null;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (lineBox == null)
+		{
+			lineBox = new JRBaseLineBox(this);
+			JRBoxUtil.setBoxToLineBox(
+				box,
+				lineBox
+				);
+			box = null;
+		}
 	}
 }

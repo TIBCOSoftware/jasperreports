@@ -27,11 +27,12 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRConditionalStyle;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 
 /**
@@ -44,7 +45,7 @@ public class JRDesignStyle extends JRBaseStyle
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_DEFAULT = "default";
 	
@@ -64,6 +65,7 @@ public class JRDesignStyle extends JRBaseStyle
 	 */
 	public JRDesignStyle()
 	{
+		super();
 	}
 
 	/**

@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.xml;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.design.JRDesignStyle;
+import net.sf.jasperreports.engine.util.JRPenUtil;
 
 import org.xml.sax.Attributes;
 
@@ -80,7 +81,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 		// get graphic element attributes
 		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_pen));
-		style.setPen(pen);
+		JRPenUtil.setLinePenFromPen(pen, style.getLinePen());
 
 		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_fill));
 		style.setFill(fill);
@@ -118,93 +119,78 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 		// get box attributes
 		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_border));
-		if (border != null)
-		{
-			style.setBorder(border);
-		}
+		JRPenUtil.setLinePenFromPen(border, style.getLineBox().getPen());
 
 		Color borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_borderColor), null);
 		if (borderColor != null)
 		{
-			style.setBorderColor(borderColor);
+			style.getLineBox().getPen().setLineColor(borderColor);
 		}
 
 		String padding = atts.getValue(JRXmlConstants.ATTRIBUTE_padding);
 		if (padding != null && padding.length() > 0)
 		{
-			style.setPadding(Integer.parseInt(padding));
+			style.getLineBox().setPadding(Integer.parseInt(padding));
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorder));
-		if (border != null)
-		{
-			style.setTopBorder(border);
-		}
+		JRPenUtil.setLinePenFromPen(border, style.getLineBox().getTopPen());
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorderColor), Color.black);
 		if (borderColor != null)
 		{
-			style.setTopBorderColor(borderColor);
+			style.getLineBox().getTopPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_topPadding);
 		if (padding != null && padding.length() > 0)
 		{
-			style.setTopPadding(Integer.parseInt(padding));
+			style.getLineBox().setTopPadding(Integer.parseInt(padding));
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorder));
-		if (border != null)
-		{
-			style.setLeftBorder(border);
-		}
+		JRPenUtil.setLinePenFromPen(border, style.getLineBox().getLeftPen());
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorderColor), Color.black);
 		if (borderColor != null)
 		{
-			style.setLeftBorderColor(borderColor);
+			style.getLineBox().getLeftPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_leftPadding);
 		if (padding != null && padding.length() > 0)
 		{
-			style.setLeftPadding(Integer.parseInt(padding));
+			style.getLineBox().setLeftPadding(Integer.parseInt(padding));
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorder));
-		if (border != null)
-		{
-			style.setBottomBorder(border);
-		}
+		JRPenUtil.setLinePenFromPen(border, style.getLineBox().getBottomPen());
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorderColor), Color.black);
 		if (borderColor != null)
 		{
-			style.setBottomBorderColor(borderColor);
+			style.getLineBox().getBottomPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_bottomPadding);
 		if (padding != null && padding.length() > 0)
 		{
-			style.setBottomPadding(Integer.parseInt(padding));
+			style.getLineBox().setBottomPadding(Integer.parseInt(padding));
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorder));
-		if (border != null)
-		{
-			style.setRightBorder(border);
-		}
+		JRPenUtil.setLinePenFromPen(border, style.getLineBox().getRightPen());
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorderColor), Color.black);
 		if (borderColor != null)
 		{
-			style.setRightBorderColor(borderColor);
+			style.getLineBox().getRightPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_rightPadding);
 		if (padding != null && padding.length() > 0)
 		{
-			style.setRightPadding(Integer.parseInt(padding));
+			style.getLineBox().setRightPadding(Integer.parseInt(padding));
 		}
 
 

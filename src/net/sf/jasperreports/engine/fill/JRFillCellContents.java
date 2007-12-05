@@ -39,12 +39,12 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFrame;
-import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
-import net.sf.jasperreports.engine.base.JRBaseBox;
+import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 import org.apache.commons.collections.ReferenceMap;
 
@@ -64,7 +64,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	private final JRCellContents parentCell;
 	
-	private JRBox box;
+	private JRLineBox lineBox;
 	
 	private int height;
 	private int width;
@@ -87,7 +87,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		parentCell = cell;
 		
-		box = cell.getBox();
+		lineBox = cell.getLineBox();
 		
 		width = cell.getWidth();
 		height = cell.getHeight();
@@ -118,7 +118,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		parentCell = cellContents.parentCell;
 		
-		box = cellContents.box;
+		lineBox = cellContents.lineBox;
 		
 		width = cellContents.width;
 		height = cellContents.height;
@@ -143,14 +143,28 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		return parentCell.getBackcolor();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getLineBox()}
+	 */
 	public JRBox getBox()
 	{
-		return box;
+		return new LineBoxWrapper(getLineBox());
 	}
 
-	protected void setBox(JRBox box)
+	/**
+	 *
+	 */
+	public JRLineBox getLineBox()
 	{
-		this.box = box;
+		return lineBox;
+	}
+
+	/**
+	 * 
+	 */
+	protected void setBox(JRLineBox box)
+	{
+		this.lineBox = box;
 		
 		initTemplatesMap();
 	}
@@ -181,14 +195,14 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	public JRFillCellContents getBoxContents(boolean left, boolean right, boolean top)
 	{
-		if (box == null)
+		if (lineBox == null)
 		{
 			return this;
 		}
 		
-		boolean copyLeft = left && box.getLeftBorder() == JRGraphicElement.PEN_NONE && box.getRightBorder() != JRGraphicElement.PEN_NONE;
-		boolean copyRight = right && box.getRightBorder() == JRGraphicElement.PEN_NONE && box.getLeftBorder() != JRGraphicElement.PEN_NONE;
-		boolean copyTop = top && box.getTopBorder() == JRGraphicElement.PEN_NONE && box.getBottomBorder() != JRGraphicElement.PEN_NONE;
+		boolean copyLeft = left && lineBox.getLeftPen().getLineWidth().floatValue() <= 0f && lineBox.getRightPen().getLineWidth().floatValue() > 0f;
+		boolean copyRight = right && lineBox.getRightPen().getLineWidth().floatValue() <= 0f && lineBox.getLeftPen().getLineWidth().floatValue() > 0f;
+		boolean copyTop = top && lineBox.getTopPen().getLineWidth().floatValue() <= 0f && lineBox.getBottomPen().getLineWidth().floatValue() > 0f;
 		
 		if (!(copyLeft || copyRight || copyTop))
 		{
@@ -201,24 +215,21 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		{
 			boxContents = (JRFillCellContents) createClone();
 			
-			JRBaseBox newBox = new JRBaseBox(box);
+			JRLineBox newBox = (JRLineBox)lineBox.clone();
 			
 			if (copyLeft)
 			{
-				newBox.setLeftBorder(box.getRightBorder());
-				newBox.setLeftBorderColor(box.getRightBorderColor());
+				newBox.copyLeftPen(lineBox.getRightPen());
 			}
 			
 			if (copyRight)
 			{
-				newBox.setRightBorder(box.getLeftBorder());
-				newBox.setRightBorderColor(box.getLeftBorderColor());
+				newBox.copyRightPen(lineBox.getLeftPen());
 			}
 			
 			if (copyTop)
 			{
-				newBox.setTopBorder(box.getBottomBorder());
-				newBox.setTopBorderColor(box.getBottomBorderColor());
+				newBox.copyTopPen(lineBox.getBottomPen());
 			}
 			
 			boxContents.setBox(newBox);
@@ -530,12 +541,12 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	protected int getTopPadding()
 	{
-		return box == null ? 0 : box.getTopPadding();
+		return lineBox == null ? 0 : lineBox.getTopPadding().intValue();
 	}
 	
 	protected int getBottomPadding()
 	{
-		return box == null ? 0 : box.getBottomPadding();
+		return lineBox == null ? 0 : lineBox.getBottomPadding().intValue();
 	}
 
 	public JRFillCloneable createClone()
@@ -642,6 +653,14 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	public void setStyleNameReference(String name)
 	{
 		throw new UnsupportedOperationException("Style name references not allowed at fill time");
+	}
+
+	/**
+	 * 
+	 */
+	public Color getDefaultLineColor() 
+	{
+		return parentCell.getDefaultLineColor();
 	}
 
 }

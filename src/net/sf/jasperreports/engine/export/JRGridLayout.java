@@ -40,13 +40,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.base.JRBaseBox;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
+import net.sf.jasperreports.engine.util.JRBoxUtil;
 
 /**
  * Utility class used by grid exporters to create a grid for page layout.
@@ -302,8 +302,8 @@ public class JRGridLayout
 			{
 				createCuts(
 					wrapper.getWrappers(), 
-					element.getX() + elementOffsetX + frame.getLeftPadding(), 
-					element.getY() + elementOffsetY + frame.getTopPadding(), 
+					element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(), 
+					element.getY() + elementOffsetY + frame.getLineBox().getTopPadding().intValue(), 
 					createXCuts
 					);
 			}
@@ -340,8 +340,8 @@ public class JRGridLayout
 					{
 						setGridElements(
 							wrapper.getWrappers(), 
-							x + frame.getLeftPadding(), 
-							y + frame.getTopPadding(),
+							x + frame.getLineBox().getLeftPadding().intValue(), 
+							y + frame.getLineBox().getTopPadding().intValue(),
 							row1, col1, row2, col2
 							);
 					}
@@ -481,10 +481,10 @@ public class JRGridLayout
 					);
 			}
 			
-			JRBox cellBox = null;
-			if (element instanceof JRBox)
+			JRLineBox cellBox = null;
+			if (element instanceof JRLineBox)
 			{
-				cellBox = (JRBox) element;
+				cellBox = (JRLineBox) element;
 			}
 			
 			gridCell.setBox(cellBox);
@@ -524,12 +524,12 @@ public class JRGridLayout
 					
 				if (left || right || top || bottom)
 				{
-					JRBox cellBox = cell.getBox();
-					Object key = new BoxKey(frame, cellBox, left, right, top, bottom);
-					JRBox modBox = (JRBox) boxesCache.get(key);
+					JRLineBox cellBox = cell.getBox();
+					Object key = new BoxKey(frame.getLineBox(), cellBox, left, right, top, bottom);
+					JRLineBox modBox = (JRLineBox) boxesCache.get(key);
 					if (modBox == null)
 					{
-						modBox = new JRBaseBox(frame, left, right, top, bottom, cellBox);
+						modBox = JRBoxUtil.clone(frame.getLineBox(), left, right, top, bottom, cellBox);
 						boxesCache.put(key, modBox);
 					}
 					
@@ -795,7 +795,7 @@ public class JRGridLayout
 				addXCuts(
 					nature, 
 					frame.getElements(), 
-					element.getX() + elementOffsetX + frame.getLeftPadding(), 
+					element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(), 
 					xCuts
 					);
 			}
@@ -843,15 +843,15 @@ public class JRGridLayout
 	 */
 	protected static class BoxKey
 	{
-		final JRBox box;
-		final JRBox cellBox;
+		final JRLineBox box;
+		final JRLineBox cellBox;
 		final boolean left;
 		final boolean right;
 		final boolean top;
 		final boolean bottom;
 		final int hashCode;
 		
-		BoxKey(JRBox box, JRBox cellBox, boolean left, boolean right, boolean top, boolean bottom)
+		BoxKey(JRLineBox box, JRLineBox cellBox, boolean left, boolean right, boolean top, boolean bottom)
 		{
 			this.box = box;
 			this.cellBox = cellBox;

@@ -34,7 +34,7 @@ import java.awt.Color;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintElement extends JRStyleContainer
+public interface JRPrintElement extends JRCommonElement
 {
 
 	/**
@@ -50,17 +50,7 @@ public interface JRPrintElement extends JRStyleContainer
 	/**
 	 *
 	 */
-	public byte getMode();
-	
-	/**
-	 *
-	 */
-	public Byte getOwnMode();
-	
-	/**
-	 *
-	 */
-	public void setMode(byte mode);
+	public void setMode(byte mode);//FIXMENOW move these setters to the JRCommonElement too?
 	
 	/**
 	 *
@@ -110,28 +100,8 @@ public interface JRPrintElement extends JRStyleContainer
 	/**
 	 *
 	 */
-	public Color getForecolor();
-	
-	/**
-	 *
-	 */
-	public Color getOwnForecolor();
-	
-	/**
-	 *
-	 */
 	public void setForecolor(Color color);
 	
-	/**
-	 *
-	 */
-	public Color getBackcolor();
-
-	/**
-	 *
-	 */
-	public Color getOwnBackcolor();
-
 	/**
 	 *
 	 */

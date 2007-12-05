@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSortField;
@@ -431,6 +432,28 @@ public class JRXmlConstants
 		}
 
 		return stretchTypeMap;
+	}
+
+	/**
+	 *
+	 */
+	private static final String LINE_STYLE_SOLID = "Solid";
+	private static final String LINE_STYLE_DASHED = "Dashed";
+
+	private static Map lineStyleMap = null;
+
+	public static Map getLineStyleMap()
+	{
+		if (lineStyleMap == null)
+		{
+			lineStyleMap = new HashMap(4);
+			lineStyleMap.put(LINE_STYLE_SOLID,  new Byte(JRPen.LINE_STYLE_SOLID));
+			lineStyleMap.put(LINE_STYLE_DASHED, new Byte(JRPen.LINE_STYLE_DASHED));
+			lineStyleMap.put(new Byte(JRPen.LINE_STYLE_SOLID),  LINE_STYLE_SOLID);
+			lineStyleMap.put(new Byte(JRPen.LINE_STYLE_DASHED), LINE_STYLE_DASHED);
+		}
+
+		return lineStyleMap;
 	}
 
 	/**
@@ -1330,9 +1353,21 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_isSplitAllowed = "isSplitAllowed";
 
 	/**
+	 * JRPenFactory associated constants
+	 */
+	public static final String ELEMENT_pen = "pen";
+
+	public static final String ATTRIBUTE_lineWidth = "lineWidth";
+	public static final String ATTRIBUTE_lineStyle = "lineStyle";
+
+	/**
 	 * JRBoxFactory associated constants
 	 */
 	public static final String ELEMENT_box = "box";
+	public static final String ELEMENT_topPen = "topPen";
+	public static final String ELEMENT_leftPen = "leftPen";
+	public static final String ELEMENT_bottomPen = "bottomPen";
+	public static final String ELEMENT_rightPen = "rightPen";
 
 	public static final String ATTRIBUTE_border = "border";
 	public static final String ATTRIBUTE_borderColor = "borderColor";

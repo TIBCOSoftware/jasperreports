@@ -29,7 +29,9 @@ package net.sf.jasperreports.engine.xml;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRConditionalStyle;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
@@ -71,7 +73,6 @@ public abstract class JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mode, style.getOwnMode(), JRXmlConstants.getModeMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, style.getOwnForecolor());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, style.getOwnBackcolor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_pen, style.getOwnPen(), JRXmlConstants.getPenMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_fill, style.getOwnFill(), JRXmlConstants.getFillMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_radius, style.getOwnRadius());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
@@ -83,26 +84,6 @@ public abstract class JRXmlBaseWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pattern, style.getOwnPattern());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBlankWhenNull, style.isOwnBlankWhenNull());
 		
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_border, style.getOwnBorder(), JRXmlConstants.getPenMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_borderColor, style.getOwnBorderColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_padding, style.getOwnPadding());
-		
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_topBorder, style.getOwnTopBorder(), JRXmlConstants.getPenMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_topBorderColor, style.getOwnTopBorderColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_topPadding, style.getOwnTopPadding());
-		
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftBorder, style.getOwnLeftBorder(), JRXmlConstants.getPenMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftBorderColor, style.getOwnLeftBorderColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftPadding, style.getOwnLeftPadding());
-		
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bottomBorder, style.getOwnBottomBorder(), JRXmlConstants.getPenMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bottomBorderColor, style.getOwnBottomBorderColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bottomPadding, style.getOwnBottomPadding());
-		
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightBorder, style.getOwnRightBorder(), JRXmlConstants.getPenMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightBorderColor, style.getOwnRightBorderColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightPadding, style.getOwnRightPadding());
-
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, style.getOwnFontName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_fontSize, style.getOwnFontSize());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, style.isOwnBold());
@@ -113,6 +94,9 @@ public abstract class JRXmlBaseWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfEncoding, style.getOwnPdfEncoding());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPdfEmbedded, style.isOwnPdfEmbedded());
 
+		writePen(style.getLinePen());
+		writeBox(style.getLineBox());
+		
 		if (toWriteConditionalStyles())
 		{
 			JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
@@ -159,6 +143,44 @@ public abstract class JRXmlBaseWriter
 		writer.writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression(), false);
 		writeStyle(style);
 		writer.closeElement();
+	}
+
+	/**
+	 *
+	 */
+	protected void writePen(JRPen pen) throws IOException
+	{
+		writePen(JRXmlConstants.ELEMENT_pen, pen);
+	}
+
+	/**
+	 *
+	 */
+	private void writePen(String element, JRPen pen) throws IOException
+	{
+		writer.startElement(element);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineWidth, pen.getOwnLineWidth());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineStyle, pen.getOwnLineStyle(), JRXmlConstants.getLineStyleMap());
+		writer.closeElement(true);
+	}
+
+	/**
+	 *
+	 */
+	protected void writeBox(JRLineBox box) throws IOException
+	{
+		if (box != null)
+		{
+			writer.startElement(JRXmlConstants.ELEMENT_box);
+			
+			writePen(JRXmlConstants.ELEMENT_pen, box.getPen());
+			writePen(JRXmlConstants.ELEMENT_topPen, box.getTopPen());
+			writePen(JRXmlConstants.ELEMENT_leftPen, box.getLeftPen());
+			writePen(JRXmlConstants.ELEMENT_bottomPen, box.getBottomPen());
+			writePen(JRXmlConstants.ELEMENT_rightPen, box.getRightPen());
+
+			writer.closeElement(true);
+		}
 	}
 
 }

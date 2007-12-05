@@ -4,7 +4,7 @@
 
 <!ELEMENT template (#PCDATA)>
 
-<!ELEMENT style EMPTY>
+<!ELEMENT style (pen?, box?)>
 <!ATTLIST style
 	name CDATA #REQUIRED
 	isDefault (true | false) "false"
@@ -47,4 +47,40 @@
 	isPdfEmbedded (true | false) #IMPLIED
 	pattern CDATA #IMPLIED
 	isBlankWhenNull (true | false) #IMPLIED
+>
+
+<!ELEMENT pen EMPTY>
+<!ATTLIST pen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
+>
+
+<!ELEMENT box (pen?, topPen?, leftPen?, bottomPen?, rightPen?)>
+<!ATTLIST box
+	padding NMTOKEN #IMPLIED
+	topPadding NMTOKEN #IMPLIED
+	leftPadding NMTOKEN #IMPLIED
+	bottomPadding NMTOKEN #IMPLIED
+	rightPadding NMTOKEN #IMPLIED
+>
+
+<!ELEMENT topPen EMPTY>
+<!ATTLIST topPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
+>
+<!ELEMENT leftPen EMPTY>
+<!ATTLIST leftPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
+>
+<!ELEMENT bottomPen EMPTY>
+<!ATTLIST bottomPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
+>
+<!ELEMENT rightPen EMPTY>
+<!ATTLIST rightPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
 >

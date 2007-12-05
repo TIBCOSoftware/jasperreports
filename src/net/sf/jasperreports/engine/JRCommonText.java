@@ -33,43 +33,8 @@ package net.sf.jasperreports.engine;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id: JRTemplateReference.java 1759 2007-06-20 16:47:34Z lucianc $
  */
-public interface JRText extends JRBox
+public interface JRCommonText extends JRCommonElement, JRBoxContainer
 {
-
-	/**
-	 * Constant useful for displaying the text without rotating it
-	 */
-	byte ROTATION_NONE = 0;
-
-	/**
-	 * Constant useful for rotating the text 90 degrees counter clockwise.
-	 */
-	byte ROTATION_LEFT = 1;
-
-	/**
-	 * Constant useful for rotating the text 90 degrees clockwise.
-	 */
-	byte ROTATION_RIGHT = 2;
-
-	/**
-	 * Constant useful for rotating the text 180 degrees.
-	 */
-	byte ROTATION_UPSIDE_DOWN = 3;
-
-	/**
-	 * Constant for setting normal spacing between lines.
-	 */
-	public static final byte LINE_SPACING_SINGLE = 0;
-
-	/**
-	 * Constant for setting spacing between lines to 50% more than normal.
-	 */
-	public static final byte LINE_SPACING_1_1_2 = 1;
-
-	/**
-	 * Constant for setting spacing between lines to double size.
-	 */
-	public static final byte LINE_SPACING_DOUBLE = 2;
 
 	int getWidth();
 	
@@ -81,16 +46,22 @@ public interface JRText extends JRBox
 	 */
 	byte getRotation();
 	
+	public Byte getOwnRotation();
+
 	/**
 	 * Gets the line spacing.
 	 * @return a value representing one of the line spacing constants in this class
 	 */
 	byte getLineSpacing();
+
+	public Byte getOwnLineSpacing();
 	
 	/**
 	 * Returns true if the text can contain style tags.
 	 */
 	boolean isStyledText();
+
+	public Boolean isOwnStyledText();
 	
 	int getFontSize();
 	

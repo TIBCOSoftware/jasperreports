@@ -39,9 +39,9 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 
 
@@ -53,34 +53,34 @@ import net.sf.jasperreports.engine.JRPrintElement;
 public abstract class ElementDrawer
 {
 
-	private static final double THIN_CORNER_OFFSET = 0.25d;
-	private static final double ONE_POINT_CORNER_OFFSET = 0.5d;
-	
-	private static final Stroke STROKE_THIN = new BasicStroke(0.5f);
-	private static final Stroke STROKE_1_POINT = new BasicStroke(1f);
-	private static final Stroke STROKE_2_POINT = new BasicStroke(2f);
-	private static final Stroke STROKE_4_POINT = new BasicStroke(4f);
-	private static final Stroke STROKE_DOTTED = 
-		new BasicStroke(
-			1f,
-			BasicStroke.CAP_SQUARE,
-			BasicStroke.JOIN_MITER,
-			10f,
-			new float[]{5f, 3f},
-			0f
-			);
-	
-	private static final Stroke BORDER_STROKE_THIN = new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
-	private static final Stroke BORDER_STROKE_1_POINT = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
-	private static final Stroke BORDER_STROKE_DOTTED = 
-		new BasicStroke(
-			1f,
-			BasicStroke.CAP_BUTT,
-			BasicStroke.JOIN_MITER,
-			10f,
-			new float[]{5f, 3f},
-			0f
-			);
+//	private static final double THIN_CORNER_OFFSET = 0.25d;
+//	private static final double ONE_POINT_CORNER_OFFSET = 0.5d;
+//	
+//	private static final Stroke STROKE_THIN = new BasicStroke(0.5f);
+//	private static final Stroke STROKE_1_POINT = new BasicStroke(1f);
+//	private static final Stroke STROKE_2_POINT = new BasicStroke(2f);
+//	private static final Stroke STROKE_4_POINT = new BasicStroke(4f);
+//	private static final Stroke STROKE_DOTTED = 
+//		new BasicStroke(
+//			1f,
+//			BasicStroke.CAP_SQUARE,
+//			BasicStroke.JOIN_MITER,
+//			10f,
+//			new float[]{5f, 3f},
+//			0f
+//			);
+//	
+//	private static final Stroke BORDER_STROKE_THIN = new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+//	private static final Stroke BORDER_STROKE_1_POINT = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+//	private static final Stroke BORDER_STROKE_DOTTED = 
+//		new BasicStroke(
+//			1f,
+//			BasicStroke.CAP_BUTT,
+//			BasicStroke.JOIN_MITER,
+//			10f,
+//			new float[]{5f, 3f},
+//			0f
+//			);
 
 	/**
 	 *
@@ -91,7 +91,7 @@ public abstract class ElementDrawer
 	/**
 	 *
 	 */
-	protected void drawBox(Graphics2D grx, JRBox box, JRPrintElement element, int offsetX, int offsetY)
+	protected void drawBox(Graphics2D grx, JRLineBox box, JRPrintElement element, int offsetX, int offsetY)
 	{
 		Stroke topStroke = null;
 		Stroke leftStroke = null;
@@ -100,18 +100,18 @@ public abstract class ElementDrawer
 		
 		if (box != null)
 		{
-			topStroke = getBorderStroke(box.getTopBorder());
-			leftStroke = getBorderStroke(box.getLeftBorder());
-			bottomStroke = getBorderStroke(box.getBottomBorder());
-			rightStroke = getBorderStroke(box.getRightBorder());
+			topStroke = getBorderStroke(box.getTopPen());
+			leftStroke = getBorderStroke(box.getLeftPen());
+			bottomStroke = getBorderStroke(box.getBottomPen());
+			rightStroke = getBorderStroke(box.getRightPen());
 		}
 
 		if (topStroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(box.getTopBorder());
+			double cornerOffset = getBorderCornerOffset(box.getTopPen());
 			
 			grx.setStroke(topStroke);
-			grx.setColor(box.getTopBorderColor() == null ? element.getForecolor() : box.getTopBorderColor());
+			grx.setColor(box.getTopPen().getLineColor());
 	
 			grx.translate(0, cornerOffset);
 			grx.drawLine(
@@ -125,10 +125,10 @@ public abstract class ElementDrawer
 
 		if (leftStroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(box.getLeftBorder());
+			double cornerOffset = getBorderCornerOffset(box.getLeftPen());
 			
 			grx.setStroke(leftStroke);
-			grx.setColor(box.getLeftBorderColor() == null ? element.getForecolor() : box.getLeftBorderColor());
+			grx.setColor(box.getLeftPen().getLineColor());
 	
 			grx.translate(cornerOffset, 0);
 			grx.drawLine(
@@ -142,10 +142,10 @@ public abstract class ElementDrawer
 
 		if (bottomStroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(box.getBottomBorder());
+			double cornerOffset = getBorderCornerOffset(box.getBottomPen());
 			
 			grx.setStroke(bottomStroke);
-			grx.setColor(box.getBottomBorderColor() == null ? element.getForecolor() : box.getBottomBorderColor());
+			grx.setColor(box.getBottomPen().getLineColor());
 	
 			grx.translate(0, -cornerOffset);
 			grx.drawLine(
@@ -159,10 +159,10 @@ public abstract class ElementDrawer
 
 		if (rightStroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(box.getRightBorder());
+			double cornerOffset = getBorderCornerOffset(box.getRightPen());
 			
 			grx.setStroke(rightStroke);
-			grx.setColor(box.getRightBorderColor() == null ? element.getForecolor() : box.getRightBorderColor());
+			grx.setColor(box.getRightPen().getLineColor());
 	
 			grx.translate(-cornerOffset, 0);
 			grx.drawLine(
@@ -179,34 +179,29 @@ public abstract class ElementDrawer
 	/**
 	 * 
 	 */
-	protected static Stroke getStroke(byte pen)
+	protected static Stroke getStroke(JRPen pen)
 	{
-		switch (pen)
+		float lineWidth = pen.getLineWidth().floatValue();
+		byte lineStyle = pen.getLineStyle().byteValue();
+		
+		switch (lineStyle)
 		{
-			case JRGraphicElement.PEN_DOTTED :
+			case JRPen.LINE_STYLE_DASHED :
 			{
-				return STROKE_DOTTED;
+				return
+					new BasicStroke(
+						lineWidth,
+						BasicStroke.CAP_SQUARE,
+						BasicStroke.JOIN_MITER,
+						10f,
+						new float[]{5f, 3f},
+						0f
+						);
 			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				return STROKE_4_POINT;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				return STROKE_2_POINT;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				return null;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				return STROKE_THIN;
-			}
-			case JRGraphicElement.PEN_1_POINT :
+			case JRPen.LINE_STYLE_SOLID :
 			default :
 			{
-				return STROKE_1_POINT;
+				return new BasicStroke(lineWidth);
 			}
 		}
 	}
@@ -215,76 +210,95 @@ public abstract class ElementDrawer
 	/**
 	 * 
 	 */
-	protected static double getBorderCornerOffset(byte pen)
+	protected static double getBorderCornerOffset(JRPen pen)
 	{
-		switch (pen)
+		float lineWidth = pen.getLineWidth().floatValue();
+		
+		if (lineWidth > 1)
 		{
-			case JRGraphicElement.PEN_THIN :
-			{
-				return THIN_CORNER_OFFSET;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				return ONE_POINT_CORNER_OFFSET;
-			}
-			default :
-			{
-				return 0;
-			}
+			return 0;
 		}
+		else
+		{
+			return lineWidth / 2;
+		}
+//		switch (pen)
+//		{
+//			case JRGraphicElement.PEN_THIN :
+//			{
+//				return THIN_CORNER_OFFSET;
+//			}
+//			case JRGraphicElement.PEN_1_POINT :
+//			case JRGraphicElement.PEN_DOTTED :
+//			{
+//				return ONE_POINT_CORNER_OFFSET;
+//			}
+//			default :
+//			{
+//				return 0;
+//			}
+//		}
 	}
 
 
 	/**
 	 * 
 	 */
-	protected static int getRectangleSizeAdjust(byte pen)
+	protected static int getRectangleSizeAdjust(JRPen pen)
 	{
-		switch (pen)
+		float lineWidth = pen.getLineWidth().floatValue();
+		
+		if (lineWidth == 1f)
 		{
-			case JRGraphicElement.PEN_1_POINT:
-			case JRGraphicElement.PEN_DOTTED:
-				return 1;
-			default:
-				return 0;
+			return 1;
 		}
+		else
+		{
+			return 0;
+		}
+//		switch (pen)
+//		{
+//			case JRGraphicElement.PEN_1_POINT:
+//			case JRGraphicElement.PEN_DOTTED:
+//				return 1;
+//			default:
+//				return 0;
+//		}
 	}
 
 
 	/**
 	 * 
 	 */
-	private static Stroke getBorderStroke(byte pen)
+	private static Stroke getBorderStroke(JRPen pen)
 	{
-		switch (pen)
+		float lineWidth = pen.getLineWidth().floatValue();
+		
+		if (lineWidth > 0f)
 		{
-			case JRGraphicElement.PEN_DOTTED :
+			switch (pen.getLineStyle().byteValue())
 			{
-				return BORDER_STROKE_DOTTED;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				return STROKE_4_POINT;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				return STROKE_2_POINT;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				return null;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				return BORDER_STROKE_THIN;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				return BORDER_STROKE_1_POINT;
+				case JRPen.LINE_STYLE_DASHED :
+				{
+					return
+						new BasicStroke(
+							lineWidth,
+							BasicStroke.CAP_BUTT,//FIXMEBORDER border stroke have different cap? why? test this again. look into history.
+							BasicStroke.JOIN_MITER,
+							10f,
+							new float[]{5f, 3f},
+							0f
+							);
+				}
+				case JRPen.LINE_STYLE_SOLID :
+				default :
+				{
+					return new BasicStroke(lineWidth);
+				}
 			}
 		}
+		
+		return null;
 	}
 
 

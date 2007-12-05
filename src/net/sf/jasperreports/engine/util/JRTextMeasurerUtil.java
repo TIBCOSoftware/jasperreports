@@ -27,10 +27,10 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRText;
 import net.sf.jasperreports.engine.fill.JRTextMeasurer;
 import net.sf.jasperreports.engine.fill.JRTextMeasurerFactory;
 
@@ -83,7 +83,7 @@ public class JRTextMeasurerUtil
 	 * @param text the text object
 	 * @return a text measurer for the text object
 	 */
-	public static JRTextMeasurer createTextMeasurer(JRText text)
+	public static JRTextMeasurer createTextMeasurer(JRCommonText text)
 	{
 		JRPropertiesHolder propertiesHolder =
 			text instanceof JRPropertiesHolder ? (JRPropertiesHolder) text : null;
@@ -98,7 +98,7 @@ public class JRTextMeasurerUtil
 	 * can be <code>null</code>
 	 * @return a text measurer for the text object
 	 */
-	public static JRTextMeasurer createTextMeasurer(JRText text, JRPropertiesHolder propertiesHolder)
+	public static JRTextMeasurer createTextMeasurer(JRCommonText text, JRPropertiesHolder propertiesHolder)
 	{
 		JRTextMeasurerFactory factory = getTextMeasurerFactory(propertiesHolder);
 		return factory.createMeasurer(text);

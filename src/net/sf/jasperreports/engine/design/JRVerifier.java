@@ -64,7 +64,6 @@ import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculator;
 import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculatorFactory;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRDataset;
@@ -83,6 +82,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
@@ -2143,13 +2143,13 @@ public class JRVerifier
 				int bottomPadding = 0;
 				int rightPadding = 0;
 
-				JRBox box = contents.getBox();
+				JRLineBox box = contents.getLineBox();
 				if (box != null)
 				{
-					topPadding = box.getTopPadding();
-					leftPadding = box.getLeftPadding();
-					bottomPadding = box.getBottomPadding();
-					rightPadding = box.getRightPadding();
+					topPadding = box.getTopPadding().intValue();
+					leftPadding = box.getLeftPadding().intValue();
+					bottomPadding = box.getBottomPadding().intValue();
+					rightPadding = box.getRightPadding().intValue();
 				}
 
 				int cellWidth = contents.getWidth();
@@ -2480,10 +2480,10 @@ public class JRVerifier
 		JRElement[] elements = frame.getElements();
 		if (elements != null && elements.length > 0)
 		{
-			int topPadding = frame.getTopPadding();
-			int leftPadding = frame.getLeftPadding();
-			int bottomPadding = frame.getBottomPadding();
-			int rightPadding = frame.getRightPadding();
+			int topPadding = frame.getLineBox().getTopPadding().intValue();
+			int leftPadding = frame.getLineBox().getLeftPadding().intValue();
+			int bottomPadding = frame.getLineBox().getBottomPadding().intValue();
+			int rightPadding = frame.getLineBox().getRightPadding().intValue();
 
 			int avlblWidth = frame.getWidth() - leftPadding - rightPadding;
 			int avlblHeight = frame.getHeight() - topPadding - bottomPadding;

@@ -27,8 +27,12 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
 /**
@@ -56,9 +60,17 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	/**
 	 *
 	 */
+	public JRPen getLinePen()
+	{
+		return ((JRTemplateGraphicElement)template).getLinePen();
+	}
+		
+	/**
+	 *
+	 */
 	public byte getPen()
 	{
-		return ((JRTemplateGraphicElement)this.template).getPen();
+		return JRPenUtil.getPenFromLinePen(getLinePen());
 	}
 		
 	/**
@@ -66,21 +78,23 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	 */
 	public Byte getOwnPen()
 	{
-		return ((JRTemplateGraphicElement)this.template).getOwnPen();
+		return JRPenUtil.getOwnPenFromLinePen(getLinePen());
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLineWidth(float)} and {@link #setLineStyle(byte)()}
 	 */
 	public void setPen(byte pen)
 	{
+		setPen(new Byte(pen));
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLineWidth(Float)} and {@link #setLineStyle(Byte)()}
 	 */
 	public void setPen(Byte pen)
 	{
+		JRPenUtil.setLinePenFromPen(pen, getLinePen());
 	}
 		
 	/**
@@ -114,4 +128,21 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	}
 		
 
+	/**
+	 * 
+	 */
+	public Float getDefaultLineWidth() 
+	{
+		return JRPen.LINE_WIDTH_1;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getDefaultLineColor() 
+	{
+		return getForecolor();
+	}
+
+	
 }

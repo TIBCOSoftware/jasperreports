@@ -30,6 +30,7 @@ package net.sf.jasperreports.crosstabs;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRStyleContainer;
 
@@ -48,7 +49,7 @@ import net.sf.jasperreports.engine.JRStyleContainer;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRCellContents extends JRElementGroup, JRStyleContainer
+public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxContainer
 {
 	/**
 	 * Horizontal stretch position indicating that the contents will be rendered on the left side.
@@ -110,6 +111,7 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer
 	 * Returns the cell border.
 	 * 
 	 * @return the cell border
+	 * @deprecated Replaced by {@link JRBoxContainer#getLineBox()}
 	 */
 	public JRBox getBox();
 	

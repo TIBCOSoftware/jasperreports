@@ -66,9 +66,13 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.util.JRBoxUtil;
+import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 
 /**
@@ -84,40 +88,6 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	/*
-	 * Box properties
-	 */
-	
-	public static final String PROPERTY_BORDER = JRBaseStyle.PROPERTY_BORDER;
-	
-	public static final String PROPERTY_BORDER_COLOR = JRBaseStyle.PROPERTY_BORDER_COLOR;
-	
-	public static final String PROPERTY_BOTTOM_BORDER = JRBaseStyle.PROPERTY_BOTTOM_BORDER;
-	
-	public static final String PROPERTY_BOTTOM_BORDER_COLOR = JRBaseStyle.PROPERTY_BOTTOM_BORDER_COLOR;
-	
-	public static final String PROPERTY_BOTTOM_PADDING = JRBaseStyle.PROPERTY_BOTTOM_PADDING;
-	
-	public static final String PROPERTY_LEFT_BORDER = JRBaseStyle.PROPERTY_LEFT_BORDER;
-	
-	public static final String PROPERTY_LEFT_BORDER_COLOR = JRBaseStyle.PROPERTY_LEFT_BORDER_COLOR;
-	
-	public static final String PROPERTY_LEFT_PADDING = JRBaseStyle.PROPERTY_LEFT_PADDING;
-	
-	public static final String PROPERTY_PADDING = JRBaseStyle.PROPERTY_PADDING;
-	
-	public static final String PROPERTY_RIGHT_BORDER = JRBaseStyle.PROPERTY_RIGHT_BORDER;
-	
-	public static final String PROPERTY_RIGHT_BORDER_COLOR = JRBaseStyle.PROPERTY_RIGHT_BORDER_COLOR;
-	
-	public static final String PROPERTY_RIGHT_PADDING = JRBaseStyle.PROPERTY_RIGHT_PADDING;
-	
-	public static final String PROPERTY_TOP_BORDER = JRBaseStyle.PROPERTY_TOP_BORDER;
-	
-	public static final String PROPERTY_TOP_BORDER_COLOR = JRBaseStyle.PROPERTY_TOP_BORDER_COLOR;
-	
-	public static final String PROPERTY_TOP_PADDING = JRBaseStyle.PROPERTY_TOP_PADDING;
-
 	/*
 	 * Chart properties
 	 */
@@ -161,7 +131,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 *
 	 */
-	protected JRBox box = null;
+	protected JRLineBox lineBox = null;
 	protected JRFont titleFont = null;
 	protected JRFont subtitleFont = null;
 	protected JRFont legendFont = null;
@@ -183,32 +153,12 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	protected JRChartDataset dataset = null;
 	protected JRChartPlot plot = null;
 
-
-	/**
-	 *
-	 */
-	protected Byte border;
-	protected Byte topBorder = null;
-	protected Byte leftBorder = null;
-	protected Byte bottomBorder = null;
-	protected Byte rightBorder = null;
-	protected Color borderColor = null;
-	protected Color topBorderColor = null;
-	protected Color leftBorderColor = null;
-	protected Color bottomBorderColor = null;
-	protected Color rightBorderColor = null;
-	protected Integer padding;
-	protected Integer topPadding = null;
-	protected Integer leftPadding = null;
-	protected Integer bottomPadding = null;
-	protected Integer rightPadding = null;
-
-
 	/**
 	 * The bookmark level for the anchor associated with this chart.
 	 * @see JRAnchor#getBookmarkLevel()
 	 */
 	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
+
 	
 	/**
 	 *
@@ -343,22 +293,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 
 		customizerClass = chart.getCustomizerClass();
 
-		border = chart.getOwnBorder();
-		topBorder = chart.getOwnTopBorder();
-		leftBorder = chart.getOwnLeftBorder();
-		bottomBorder = chart.getOwnBottomBorder();
-		rightBorder = chart.getOwnRightBorder();
-		borderColor = chart.getOwnBorderColor();
-		topBorderColor = chart.getOwnTopBorderColor();
-		leftBorderColor = chart.getOwnLeftBorderColor();
-		bottomBorderColor = chart.getOwnBottomBorderColor();
-		rightBorderColor = chart.getOwnRightBorderColor();
-		padding = chart.getOwnPadding();
-		topPadding = chart.getOwnTopPadding();
-		leftPadding = chart.getOwnLeftPadding();
-		bottomPadding = chart.getOwnBottomPadding();
-		rightPadding = chart.getOwnRightPadding();
-
+		lineBox = chart.getLineBox().clone(this);
 	}
 		
 
@@ -397,11 +332,19 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 		
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public JRBox getBox()
 	{
-		return this;
+		return new LineBoxWrapper(getLineBox());
+	}
+
+	/**
+	 *
+	 */
+	public JRLineBox getLineBox()
+	{
+		return lineBox;
 	}
 
 	/**
@@ -664,464 +607,443 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public byte getBorder()
 	{
-		return JRStyleResolver.getBorder(this);
-	}
-
-	public Byte getOwnBorder()
-	{
-		return border;
+		return JRPenUtil.getPenFromLinePen(lineBox.getPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public Byte getOwnBorder()
+	{
+		return JRPenUtil.getOwnPenFromLinePen(lineBox.getPen());
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBorder(byte border)
 	{
-		setBorder(new Byte(border));
+		JRPenUtil.setLinePenFromPen(border, lineBox.getPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBorder(Byte border)
 	{
-		Object old = this.border;
-		this.border = border;
-		getEventSupport().firePropertyChange(PROPERTY_BORDER, old, this.border);
+		JRPenUtil.setLinePenFromPen(border, lineBox.getPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getBorderColor()
 	{
-		return JRStyleResolver.getBorderColor(this, getForecolor());
-	}
-
-	public Color getOwnBorderColor()
-	{
-		return borderColor;
+		return lineBox.getPen().getLineColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public Color getOwnBorderColor()
+	{
+		return lineBox.getPen().getOwnLineColor();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBorderColor(Color borderColor)
 	{
-		Object old = this.borderColor;
-		this.borderColor = borderColor;
-		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.borderColor);
+		lineBox.getPen().setLineColor(borderColor);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public int getPadding()
 	{
-		return JRStyleResolver.getPadding(this);
-	}
-
-	public Integer getOwnPadding()
-	{
-		return padding;
+		return lineBox.getPadding().intValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public Integer getOwnPadding()
+	{
+		return lineBox.getOwnPadding();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setPadding(int padding)
 	{
-		setPadding(new Integer(padding));
+		lineBox.setPadding(padding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setPadding(Integer padding)
 	{
-		Object old = this.padding;
-		this.padding = padding;
-		getEventSupport().firePropertyChange(PROPERTY_PADDING, old, this.padding);
+		lineBox.setPadding(padding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public byte getTopBorder()
 	{
-		return JRStyleResolver.getTopBorder(this);
+		return JRPenUtil.getPenFromLinePen(lineBox.getTopPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnTopBorder()
 	{
-		return topBorder;
+		return JRPenUtil.getOwnPenFromLinePen(lineBox.getTopPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setTopBorder(byte topBorder)
 	{
-		setTopBorder(new Byte(topBorder));
+		JRPenUtil.setLinePenFromPen(topBorder, lineBox.getTopPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setTopBorder(Byte topBorder)
 	{
-		Object old = this.topBorder;
-		this.topBorder = topBorder;
-		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER, old, this.topBorder);
+		JRPenUtil.setLinePenFromPen(topBorder, lineBox.getTopPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getTopBorderColor()
 	{
-		return JRStyleResolver.getTopBorderColor(this, getForecolor());
+		return lineBox.getTopPen().getLineColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnTopBorderColor()
 	{
-		return topBorderColor;
+		return lineBox.getTopPen().getOwnLineColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setTopBorderColor(Color topBorderColor)
 	{
-		Object old = this.topBorderColor;
-		this.topBorderColor = topBorderColor;
-		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER_COLOR, old, this.topBorderColor);
+		lineBox.getTopPen().setLineColor(topBorderColor);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public int getTopPadding()
 	{
-		return JRStyleResolver.getTopPadding(this);
+		return lineBox.getTopPadding().intValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnTopPadding()
 	{
-		return topPadding;
+		return lineBox.getOwnTopPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setTopPadding(int topPadding)
 	{
-		setTopPadding(new Integer(topPadding));
+		lineBox.setTopPadding(topPadding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setTopPadding(Integer topPadding)
 	{
-		Object old = this.topPadding;
-		this.topPadding = topPadding;
-		getEventSupport().firePropertyChange(PROPERTY_TOP_PADDING, old, this.topPadding);
+		lineBox.setTopPadding(topPadding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public byte getLeftBorder()
 	{
-		return JRStyleResolver.getLeftBorder(this);
+		return JRPenUtil.getPenFromLinePen(lineBox.getLeftPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnLeftBorder()
 	{
-		return leftBorder;
+		return JRPenUtil.getOwnPenFromLinePen(lineBox.getLeftPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setLeftBorder(byte leftBorder)
 	{
-		setLeftBorder(new Byte(leftBorder));
+		JRPenUtil.setLinePenFromPen(leftBorder, lineBox.getLeftPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setLeftBorder(Byte leftBorder)
 	{
-		Object old = this.leftBorder;
-		this.leftBorder = leftBorder;
-		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER, old, this.leftBorder);
+		JRPenUtil.setLinePenFromPen(leftBorder, lineBox.getLeftPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getLeftBorderColor()
 	{
-		return JRStyleResolver.getLeftBorderColor(this, getForecolor());
+		return lineBox.getLeftPen().getLineColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnLeftBorderColor()
 	{
-		return leftBorderColor;
+		return lineBox.getLeftPen().getOwnLineColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
-		Object old = this.leftBorderColor;
-		this.leftBorderColor = leftBorderColor;
-		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER_COLOR, old, this.leftBorderColor);
+		lineBox.getLeftPen().setLineColor(leftBorderColor);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public int getLeftPadding()
 	{
-		return JRStyleResolver.getLeftPadding(this);
+		return lineBox.getLeftPadding().intValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnLeftPadding()
 	{
-		return leftPadding;
+		return lineBox.getOwnLeftPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
-		setLeftPadding(new Integer(leftPadding));
+		lineBox.setLeftPadding(leftPadding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setLeftPadding(Integer leftPadding)
 	{
-		Object old = this.leftPadding;
-		this.leftPadding = leftPadding;
-		getEventSupport().firePropertyChange(PROPERTY_LEFT_PADDING, old, this.leftPadding);
+		lineBox.setLeftPadding(leftPadding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public byte getBottomBorder()
 	{
-		return JRStyleResolver.getBottomBorder(this);
+		return JRPenUtil.getPenFromLinePen(lineBox.getBottomPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnBottomBorder()
 	{
-		return bottomBorder;
+		return JRPenUtil.getOwnPenFromLinePen(lineBox.getBottomPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBottomBorder(byte bottomBorder)
 	{
-		setBottomBorder(new Byte(bottomBorder));
+		JRPenUtil.setLinePenFromPen(bottomBorder, lineBox.getBottomPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBottomBorder(Byte bottomBorder)
 	{
-		Object old = this.bottomBorder;
-		this.bottomBorder = bottomBorder;
-		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER, old, this.bottomBorder);
+		JRPenUtil.setLinePenFromPen(bottomBorder, lineBox.getBottomPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getBottomBorderColor()
 	{
-		return JRStyleResolver.getBottomBorderColor(this, getForecolor());
+		return lineBox.getBottomPen().getLineColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnBottomBorderColor()
 	{
-		return bottomBorderColor;
+		return lineBox.getBottomPen().getOwnLineColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
-		Object old = this.bottomBorderColor;
-		this.bottomBorderColor = bottomBorderColor;
-		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.bottomBorderColor);
+		lineBox.getBottomPen().setLineColor(bottomBorderColor);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public int getBottomPadding()
 	{
-		return JRStyleResolver.getBottomPadding(this);
+		return lineBox.getBottomPadding().intValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnBottomPadding()
 	{
-		return bottomPadding;
+		return lineBox.getOwnBottomPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
-		setBottomPadding(new Integer(bottomPadding));
+		lineBox.setBottomPadding(bottomPadding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBottomPadding(Integer bottomPadding)
 	{
-		Object old = this.bottomPadding;
-		this.bottomPadding = bottomPadding;
-		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_PADDING, old, this.bottomPadding);
+		lineBox.setBottomPadding(bottomPadding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public byte getRightBorder()
 	{
-		return JRStyleResolver.getRightBorder(this);
+		return JRPenUtil.getPenFromLinePen(lineBox.getRightPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnRightBorder()
 	{
-		return rightBorder;
+		return JRPenUtil.getOwnPenFromLinePen(lineBox.getRightPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setRightBorder(byte rightBorder)
 	{
-		setRightBorder(new Byte(rightBorder));
+		JRPenUtil.setLinePenFromPen(rightBorder, lineBox.getRightPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setRightBorder(Byte rightBorder)
 	{
-		Object old = this.rightBorder;
-		this.rightBorder = rightBorder;
-		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER, old, this.rightBorder);
+		JRPenUtil.setLinePenFromPen(rightBorder, lineBox.getRightPen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getRightBorderColor()
 	{
-		return JRStyleResolver.getRightBorderColor(this, getForecolor());
+		return lineBox.getRightPen().getLineColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnRightBorderColor()
 	{
-		return rightBorderColor;
+		return lineBox.getRightPen().getOwnLineColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setRightBorderColor(Color rightBorderColor)
 	{
-		Object old = this.rightBorderColor;
-		this.rightBorderColor = rightBorderColor;
-		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER_COLOR, old, this.rightBorderColor);
+		lineBox.getRightPen().setLineColor(rightBorderColor);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public int getRightPadding()
 	{
-		return JRStyleResolver.getRightPadding(this);
+		return lineBox.getRightPadding().intValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnRightPadding()
 	{
-		return rightPadding;
+		return lineBox.getOwnRightPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setRightPadding(int rightPadding)
 	{
-		setRightPadding(new Integer(rightPadding));
+		lineBox.setRightPadding(rightPadding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
-		Object old = this.rightPadding;
-		this.rightPadding = rightPadding;
-		getEventSupport().firePropertyChange(PROPERTY_RIGHT_PADDING, old, this.rightPadding);
+		lineBox.setRightPadding(rightPadding);
 	}
 
 
@@ -1137,13 +1059,6 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 	
 	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();		
-		normalizeLinkType();
-	}
-
-
 	protected void normalizeLinkType()
 	{
 		if (linkType == null)
@@ -1159,11 +1074,19 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		return hyperlinkTooltipExpression;
 	}
 
+	/**
+	 * 
+	 */
+	public Color getDefaultLineColor() 
+	{
+		return getForecolor();
+	}
+	
 
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRBaseChart clone = (JRBaseChart)super.clone();
 		
@@ -1215,5 +1138,70 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		}
 
 		return clone;
+	}
+
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private Byte border = null;
+	private Byte topBorder = null;
+	private Byte leftBorder = null;
+	private Byte bottomBorder = null;
+	private Byte rightBorder = null;
+	private Color borderColor = null;
+	private Color topBorderColor = null;
+	private Color leftBorderColor = null;
+	private Color bottomBorderColor = null;
+	private Color rightBorderColor = null;
+	private Integer padding = null;
+	private Integer topPadding = null;
+	private Integer leftPadding = null;
+	private Integer bottomPadding = null;
+	private Integer rightPadding = null;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (lineBox == null)
+		{
+			lineBox = new JRBaseLineBox(this);
+			JRBoxUtil.setToBox(
+				border,
+				topBorder,
+				leftBorder,
+				bottomBorder,
+				rightBorder,
+				borderColor,
+				topBorderColor,
+				leftBorderColor,
+				bottomBorderColor,
+				rightBorderColor,
+				padding,
+				topPadding,
+				leftPadding,
+				bottomPadding,
+				rightPadding,
+				lineBox
+				);
+			border = null;
+			topBorder = null;
+			leftBorder = null;
+			bottomBorder = null;
+			rightBorder = null;
+			borderColor = null;
+			topBorderColor = null;
+			leftBorderColor = null;
+			bottomBorderColor = null;
+			rightBorderColor = null;
+			padding = null;
+			topPadding = null;
+			leftPadding = null;
+			bottomPadding = null;
+			rightPadding = null;
+		}
+
+		normalizeLinkType();
 	}
 }

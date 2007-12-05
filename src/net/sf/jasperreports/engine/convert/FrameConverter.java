@@ -80,7 +80,8 @@ public class FrameConverter extends ElementConverter
 		JRFrame frame = (JRFrame)element; 
 		
 		copyElement(reportConverter, frame, printFrame);
-		copyBox(frame, printFrame);
+		
+		printFrame.copyBox(frame.getLineBox());
 		
 		List children = frame.getChildren();
 		if (children != null && children.size() > 0)

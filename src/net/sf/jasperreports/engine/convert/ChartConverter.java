@@ -40,7 +40,6 @@ import java.awt.Image;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -86,13 +85,14 @@ public class ChartConverter extends ElementConverter
 		JRChart chart = (JRChart)element;
 
 		copyElement(reportConverter, chart, printImage);
-		copyBox(chart, printImage);
+		
+		printImage.copyBox(chart.getLineBox());
 		
 		printImage.setAnchorName(JRExpressionUtil.getExpressionText(chart.getAnchorNameExpression()));
 		printImage.setBookmarkLevel(chart.getBookmarkLevel());
 		printImage.setLinkType(chart.getLinkType());
 		printImage.setOnErrorType(JRImage.ON_ERROR_TYPE_ICON);
-		printImage.setPen(JRGraphicElement.PEN_THIN);
+		//printImage.setLineWidth(0.5f);//FIXMECONVERT don't we add contour anyway?
 		printImage.setRenderer(getRenderer(chart));
 		printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
 		
