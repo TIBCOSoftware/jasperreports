@@ -37,6 +37,7 @@ import java.io.PrintWriter;
  */
 public class JRRuntimeException extends RuntimeException
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *
