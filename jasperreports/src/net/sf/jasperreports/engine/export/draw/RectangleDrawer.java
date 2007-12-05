@@ -95,8 +95,7 @@ public class RectangleDrawer extends ElementDrawer
 			AffineTransform transform = grx.getTransform();
 			
 			grx.translate(rectangle.getX() + offsetX + cornerOffset, rectangle.getY() + offsetY + cornerOffset);
-			//if (pen == JRGraphicElement.PEN_THIN)
-			if (rectangle.getLinePen().getLineWidth().floatValue() == 0.5f)//FIXMEBORDER what is this?
+			if (rectangle.getLinePen().getLineWidth().floatValue() == 0.5f)//FIXMEBORDER
 			{
 				grx.scale((rectangle.getWidth() - .5) / rectangle.getWidth(), (rectangle.getHeight() - .5) / rectangle.getHeight());
 			}

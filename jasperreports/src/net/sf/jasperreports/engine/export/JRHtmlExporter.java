@@ -1316,35 +1316,55 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	protected void appendBorderStyle(JRLineBox box, StringBuffer styleBuffer)
+	protected boolean appendBorderStyle(JRLineBox box, StringBuffer styleBuffer)
 	{
+		boolean addedToStyle = false;
+		
 		if (box != null)
 		{
-			appendBorder(
+			addedToStyle |= appendPen(
 				styleBuffer,
 				box.getTopPen(),
+				"top"
+				);
+			addedToStyle |= appendPadding(
+				styleBuffer,
 				box.getTopPadding(),
 				"top"
 				);
-			appendBorder(
+			addedToStyle |= appendPen(
 				styleBuffer,
 				box.getLeftPen(),
+				"left"
+				);
+			addedToStyle |= appendPadding(
+				styleBuffer,
 				box.getLeftPadding(),
 				"left"
 				);
-			appendBorder(
+			addedToStyle |= appendPen(
 				styleBuffer,
 				box.getBottomPen(),
+				"bottom"
+				);
+			addedToStyle |= appendPadding(
+				styleBuffer,
 				box.getBottomPadding(),
 				"bottom"
 				);
-			appendBorder(
+			addedToStyle |= appendPen(
 				styleBuffer,
 				box.getRightPen(),
+				"right"
+				);
+			addedToStyle |= appendPadding(
+				styleBuffer,
 				box.getRightPadding(),
 				"right"
 				);
 		}
+		
+		return addedToStyle;
 	}
 
 
@@ -1429,7 +1449,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		StringBuffer styleBuffer = new StringBuffer();
 		appendBackcolorStyle(gridCell, styleBuffer);
-		appendBorderStyle(gridCell.getBox(), styleBuffer);
+		
+		boolean addedToStyle = appendBorderStyle(gridCell.getBox(), styleBuffer);
+		if (!addedToStyle)
+		{
+			appendPen(
+				styleBuffer,
+				image.getLinePen(),
+				null
+				);
+		}
 
 		if (styleBuffer.length() > 0)
 		{
@@ -1533,13 +1562,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(" src=\"");
 			if (imagePath != null)
 				writer.write(imagePath);
-			writer.write("\"");
-		
-			float borderWidth = image.getLinePen().getLineWidth().intValue();
-			borderWidth = (0f < borderWidth && borderWidth < 1f) ? 1 : (int)borderWidth;
-		
-			writer.write(" border=\"");//FIXMEBORDER is this needed? why can't we do like for box, with css?
-			writer.write(String.valueOf(borderWidth));
 			writer.write("\"");
 		
 			int imageWidth = image.getWidth() - image.getLineBox().getLeftPadding().intValue() - image.getLineBox().getRightPadding().intValue();
@@ -1757,11 +1779,44 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void appendBorder(StringBuffer sb, JRPen pen, Integer padding, String side)
+	private boolean appendPadding(StringBuffer sb, Integer padding, String side)
 	{
-		String borderStyle = null;
-		String borderWidth = null;
+		boolean addedToStyle = false;
+		
+		if (padding.intValue() > 0)
+		{
+			sb.append("padding");
+			if (side != null)
+			{
+				sb.append("-");
+				sb.append(side);
+			}
+			sb.append(": ");
+			sb.append(padding);
+			sb.append(sizeUnit);
+			sb.append("; ");
 
+			addedToStyle = true;
+		}
+		
+		return addedToStyle;
+	}
+
+
+	/**
+	 *
+	 */
+	private boolean appendPen(StringBuffer sb, JRPen pen, String side)
+	{
+		boolean addedToStyle = false;
+		
+		float borderWidth = pen.getLineWidth().floatValue();
+		if (0f < borderWidth && borderWidth < 1f)
+		{
+			borderWidth = 1f;
+		}
+
+		String borderStyle = null;
 		switch (pen.getLineStyle().byteValue())
 		{
 			case JRPen.LINE_STYLE_DASHED :
@@ -1777,76 +1832,43 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 		}
 
-//		switch (pen) //FIXMEBORDER
-//		{
-//			case JRGraphicElement.PEN_DOTTED :
-//			{
-//				borderStyle = "dashed";
-//				borderWidth = "1";
-//				break;
-//			}
-//			case JRGraphicElement.PEN_4_POINT :
-//			{
-//				borderStyle = "solid";
-//				borderWidth = "4";
-//				break;
-//			}
-//			case JRGraphicElement.PEN_2_POINT :
-//			{
-//				borderStyle = "solid";
-//				borderWidth = "2";
-//				break;
-//			}
-//			case JRGraphicElement.PEN_THIN :
-//			{
-//				borderStyle = "solid";
-//				borderWidth = "1";
-//				break;
-//			}
-//			case JRGraphicElement.PEN_NONE :
-//			{
-//				break;
-//			}
-//			case JRGraphicElement.PEN_1_POINT :
-//			default :
-//			{
-//				borderStyle = "solid";
-//				borderWidth = "1";
-//				break;
-//			}
-//		}
-
-		if (borderWidth != null)
+		if (borderWidth > 0f)
 		{
-			sb.append("border-");
-			sb.append(side);
+			sb.append("border");
+			if (side != null)
+			{
+				sb.append("-");
+				sb.append(side);
+			}
 			sb.append("-style: ");
 			sb.append(borderStyle);
 			sb.append("; ");
 
-			sb.append("border-");
-			sb.append(side);
+			sb.append("border");
+			if (side != null)
+			{
+				sb.append("-");
+				sb.append(side);
+			}
 			sb.append("-width: ");
-			sb.append(borderWidth);
+			sb.append((int)borderWidth);
 			sb.append(sizeUnit);
 			sb.append("; ");
 
-			sb.append("border-");
-			sb.append(side);
+			sb.append("border");
+			if (side != null)
+			{
+				sb.append("-");
+				sb.append(side);
+			}
 			sb.append("-color: #");
 			sb.append(JRColorUtil.getColorHexa(pen.getLineColor()));
 			sb.append("; ");
+
+			addedToStyle = true;
 		}
 
-		if (padding.intValue() > 0)
-		{
-			sb.append("padding-");
-			sb.append(side);
-			sb.append(": ");
-			sb.append(padding);
-			sb.append(sizeUnit);
-			sb.append("; ");
-		}
+		return addedToStyle;
 	}
 
 
