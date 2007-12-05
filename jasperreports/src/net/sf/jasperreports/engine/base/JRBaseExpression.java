@@ -295,10 +295,19 @@ public class JRBaseExpression implements JRExpression, Serializable
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseExpression clone = (JRBaseExpression)super.clone();
+		JRBaseExpression clone = null;
 		
+		try
+		{
+			clone = (JRBaseExpression)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (chunks != null)
 		{
 			clone.chunks = new JRExpressionChunk[chunks.length];

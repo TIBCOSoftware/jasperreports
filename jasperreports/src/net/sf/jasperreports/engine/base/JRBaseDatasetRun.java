@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * Base implementation of the {@link net.sf.jasperreports.engine.JRDatasetRun JRDatasetRun} interface.
@@ -113,9 +114,19 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseDatasetRun clone = (JRBaseDatasetRun)super.clone();
+		JRBaseDatasetRun clone = null;
+		
+		try
+		{
+			clone = (JRBaseDatasetRun)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (parametersMapExpression != null)
 		{
 			clone.parametersMapExpression = (JRExpression)parametersMapExpression.clone();

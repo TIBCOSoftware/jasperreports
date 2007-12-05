@@ -184,13 +184,24 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseField clone = (JRBaseField)super.clone();
+		JRBaseField clone = null;
+		
+		try
+		{
+			clone = (JRBaseField)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (propertiesMap != null)
 		{
 			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
 		}
+		
 		return clone;
 	}
 

@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * Read-only implementation of {@link JRHyperlink JRHyperlink}.
@@ -135,9 +136,18 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseHyperlink clone = (JRBaseHyperlink)super.clone();
+		JRBaseHyperlink clone = null;
+
+		try
+		{
+			clone = (JRBaseHyperlink)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 		
 		if (hyperlinkParameters != null)
 		{

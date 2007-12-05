@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -260,9 +261,19 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseDataset clone = (JRBaseDataset)super.clone();
+		JRBaseDataset clone = null;
+
+		try
+		{
+			clone = (JRBaseDataset)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
 		if (query != null)
 		{
 			clone.query = (JRQuery)query.clone();

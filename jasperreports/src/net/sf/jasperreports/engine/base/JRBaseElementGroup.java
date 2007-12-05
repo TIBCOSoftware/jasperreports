@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
 
 
@@ -207,10 +208,19 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseElementGroup clone = (JRBaseElementGroup)super.clone();
+		JRBaseElementGroup clone = null;
 		
+		try
+		{
+			clone = (JRBaseElementGroup)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (children != null)
 		{
 			clone.children = new ArrayList(children.size());
@@ -226,7 +236,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	/**
 	 * 
 	 */
-	public Object clone(JRElementGroup parentGroup) throws CloneNotSupportedException 
+	public Object clone(JRElementGroup parentGroup) 
 	{
 		JRBaseElementGroup clone = (JRBaseElementGroup)this.clone();
 		
