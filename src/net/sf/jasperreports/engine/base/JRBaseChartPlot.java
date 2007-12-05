@@ -37,6 +37,7 @@ import java.util.TreeSet;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -309,8 +310,16 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 			return seriesOrder - ((JRBaseSeriesColor)obj).getSeriesOrder();
 		}
 		
-		public Object clone() throws CloneNotSupportedException {
-			return super.clone();
+		public Object clone()
+		{
+			try
+			{
+				return super.clone();
+			}
+			catch (CloneNotSupportedException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
 	}
 	
@@ -318,9 +327,18 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	/**
 	 *
 	 */
-	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) 
 	{
-		JRBaseChartPlot clone = (JRBaseChartPlot)super.clone();
+		JRBaseChartPlot clone = null;
+
+		try
+		{
+			clone = (JRBaseChartPlot)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 		
 		clone.chart = parentChart;
 		
