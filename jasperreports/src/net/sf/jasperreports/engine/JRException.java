@@ -38,6 +38,7 @@ import java.io.PrintWriter;
  */
 public class JRException extends Exception
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *
