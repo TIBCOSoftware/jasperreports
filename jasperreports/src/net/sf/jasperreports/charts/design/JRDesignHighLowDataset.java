@@ -226,7 +226,7 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignHighLowDataset clone = (JRDesignHighLowDataset)super.clone();
 		

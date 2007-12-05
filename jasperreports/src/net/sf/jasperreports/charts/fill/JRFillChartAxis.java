@@ -89,8 +89,8 @@ public class JRFillChartAxis implements JRChartAxis
 	/**
 	 *
 	 */
-	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) 
 	{
-		throw new CloneNotSupportedException();
+		return null;//FIXMECLONE throw new CloneNotSupportedException();
 	}
 }

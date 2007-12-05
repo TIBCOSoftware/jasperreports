@@ -117,7 +117,7 @@ public class JRBaseXyDataset extends JRBaseChartDataset implements JRXyDataset
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRBaseXyDataset clone = (JRBaseXyDataset)super.clone();
 		

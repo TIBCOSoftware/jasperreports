@@ -33,6 +33,7 @@ import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 
@@ -120,10 +121,19 @@ public class JRBaseTimeSeries implements JRTimeSeries, Serializable
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseTimeSeries clone = (JRBaseTimeSeries)super.clone();
+		JRBaseTimeSeries clone = null;
 		
+		try
+		{
+			clone = (JRBaseTimeSeries)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (seriesExpression != null)
 		{
 			clone.seriesExpression = (JRExpression)seriesExpression.clone();

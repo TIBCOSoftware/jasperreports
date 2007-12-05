@@ -118,7 +118,7 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRBaseCategoryDataset clone = (JRBaseCategoryDataset)super.clone();
 		

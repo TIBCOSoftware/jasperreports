@@ -126,7 +126,7 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignValueDataset clone = (JRDesignValueDataset)super.clone();
 		

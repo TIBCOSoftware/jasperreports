@@ -112,7 +112,7 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRBaseTimeSeriesDataset clone = (JRBaseTimeSeriesDataset)super.clone();
 		

@@ -175,7 +175,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignPieDataset clone = (JRDesignPieDataset)super.clone();
 		

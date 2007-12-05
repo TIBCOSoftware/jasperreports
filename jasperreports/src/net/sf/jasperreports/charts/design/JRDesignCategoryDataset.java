@@ -146,7 +146,7 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignCategoryDataset clone = (JRDesignCategoryDataset)super.clone();
 		

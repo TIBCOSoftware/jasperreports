@@ -307,7 +307,7 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	/**
 	 *
 	 */
-	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) 
 	{
 		JRBaseLinePlot clone = (JRBaseLinePlot)super.clone(parentChart);
 		if (categoryAxisLabelExpression != null)

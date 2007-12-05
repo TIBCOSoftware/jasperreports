@@ -161,7 +161,7 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRBaseHighLowDataset clone = (JRBaseHighLowDataset)super.clone();
 		

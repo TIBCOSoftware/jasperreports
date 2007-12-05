@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -43,7 +44,7 @@ public class JRBaseTimePeriodSeries implements JRTimePeriodSeries, Serializable 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID=608; 
+	private static final long serialVersionUID = 608;// too late to replace this now
 	
 	protected JRExpression seriesExpression;
 	
@@ -100,10 +101,19 @@ public class JRBaseTimePeriodSeries implements JRTimePeriodSeries, Serializable 
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseTimePeriodSeries clone = (JRBaseTimePeriodSeries)super.clone();
+		JRBaseTimePeriodSeries clone = null;
 		
+		try
+		{
+			clone = (JRBaseTimePeriodSeries)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (seriesExpression != null)
 		{
 			clone.seriesExpression = (JRExpression)seriesExpression.clone();

@@ -330,7 +330,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	/**
 	 *
 	 */
-	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) 
 	{
 		JRBaseBar3DPlot clone = (JRBaseBar3DPlot)super.clone(parentChart);
 		if (categoryAxisLabelExpression != null)

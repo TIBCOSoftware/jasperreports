@@ -28,6 +28,7 @@
 package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBaseXyzSeries;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -39,7 +40,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  */
 public class JRDesignXyzSeries extends JRBaseXyzSeries implements JRChangeEventsSupport {
 	
-	private static final long serialVersionUID=608;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_ITEM_HYPERLINK = "itemHyperlink";
 	
