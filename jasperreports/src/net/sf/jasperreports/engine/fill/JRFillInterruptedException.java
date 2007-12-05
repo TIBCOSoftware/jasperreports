@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -34,4 +36,5 @@ package net.sf.jasperreports.engine.fill;
  */
 public class JRFillInterruptedException extends RuntimeException
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 }
