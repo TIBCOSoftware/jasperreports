@@ -991,7 +991,7 @@ public class JRDesignDataset extends JRBaseDataset
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignDataset clone = (JRDesignDataset)super.clone();
 		

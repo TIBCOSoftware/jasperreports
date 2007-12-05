@@ -51,8 +51,6 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 
 	public static final String PROPERTY_PRINT_WHEN_EXPRESSION = "printWhenExpression";
 
-	public static final String PROPERTY_SPLIT_ALLOWED = JRBaseBand.PROPERTY_SPLIT_ALLOWED;
-
 	/**
 	 *
 	 */
@@ -99,7 +97,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	{
 		boolean old = this.isSplitAllowed;
 		this.isSplitAllowed = isSplitAllowed;
-		getEventSupport().firePropertyChange(PROPERTY_SPLIT_ALLOWED, old, this.isSplitAllowed);
+		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_SPLIT_ALLOWED, old, this.isSplitAllowed);
 	}
 
 	/**
@@ -146,7 +144,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignBand clone = (JRDesignBand)super.clone();
 		if (printWhenExpression != null)

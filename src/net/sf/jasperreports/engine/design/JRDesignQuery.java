@@ -274,10 +274,10 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignQuery clone = (JRDesignQuery)super.clone();
-		
+
 		if (chunks != null)
 		{
 			clone.chunks = new ArrayList(chunks.size());

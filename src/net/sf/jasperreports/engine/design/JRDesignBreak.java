@@ -48,8 +48,6 @@ public class JRDesignBreak extends JRDesignElement implements JRBreak
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	public static final String PROPERTY_TYPE = JRBaseBreak.PROPERTY_TYPE;
 
 	/**
 	 *
@@ -105,7 +103,7 @@ public class JRDesignBreak extends JRDesignElement implements JRBreak
 	{
 		byte old = this.type;
 		this.type = type;
-		getEventSupport().firePropertyChange(PROPERTY_TYPE, old, this.type);
+		getEventSupport().firePropertyChange(JRBaseBreak.PROPERTY_TYPE, old, this.type);
 	}
 
 	/**

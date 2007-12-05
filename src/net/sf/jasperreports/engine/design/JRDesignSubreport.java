@@ -67,8 +67,6 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	
 	public static final String PROPERTY_PARAMETERS_MAP_EXPRESSION = "parametersMapExpression";
 	
-	public static final String PROPERTY_USING_CACHE = JRBaseSubreport.PROPERTY_USING_CACHE;
-	
 	public static final String PROPERTY_PARAMETERS = "parameters";
 	
 	public static final String PROPERTY_RETURN_VALUES = "returnValues";
@@ -353,13 +351,13 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	{
 		Object old = this.isUsingCache;
 		this.isUsingCache = isUsingCache;
-		getEventSupport().firePropertyChange(PROPERTY_USING_CACHE, old, this.isUsingCache);
+		getEventSupport().firePropertyChange(JRBaseSubreport.PROPERTY_USING_CACHE, old, this.isUsingCache);
 	}
 
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignSubreport clone = (JRDesignSubreport)super.clone();
 		
