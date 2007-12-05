@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -70,45 +70,26 @@ public class GraphicStyle extends Style
 
 		forecolor = JRColorUtil.getColorHexa(element.getForecolor());
 
-		double doubleWidth = 0;
-
-		switch (element.getPen())
+		double doubleWidth = element.getLinePen().getLineStyle().doubleValue();
+		if (doubleWidth == 0)
 		{
-			case JRGraphicElement.PEN_DOTTED :
+			style = "none";
+		}
+		else
+		{
+			switch (element.getLinePen().getLineStyle().byteValue())
 			{
-				style = "dash";
-				doubleWidth = 1;
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				style = "solid";
-				doubleWidth = 4;
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				style = "solid";
-				doubleWidth = 2;
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				style = "solid";
-				doubleWidth = 0.5f;
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				style = "none";
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				style = "solid";
-				doubleWidth = 1;
-				break;
+				case JRPen.LINE_STYLE_DASHED :
+				{
+					style = "dash";
+					break;
+				}
+				case JRPen.LINE_STYLE_SOLID :
+				default :
+				{
+					style = "solid";
+					break;
+				}
 			}
 		}
 

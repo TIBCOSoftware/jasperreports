@@ -27,7 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRText;
+import net.sf.jasperreports.engine.JRCommonText;
 
 /**
  * Default text measurer factory.
@@ -43,7 +43,7 @@ public class TextMeasurerFactory implements JRTextMeasurerFactory
 	/**
 	 * Returns a {@link TextMeasurer} instance for the text object.
 	 */
-	public JRTextMeasurer createMeasurer(JRText text)
+	public JRTextMeasurer createMeasurer(JRCommonText text)
 	{
 		return new TextMeasurer(text);
 	}

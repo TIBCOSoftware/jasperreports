@@ -37,7 +37,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JROrigin;
@@ -218,6 +217,9 @@ public class JRPrintXmlLoader implements ErrorHandler
 		/*   */
 		digester.addFactoryCreate("jasperPrint/style", JRPrintStyleFactory.class.getName());
 		digester.addSetNext("jasperPrint/style", "addStyle", JRStyle.class.getName());
+		
+		/*   */
+		digester.addFactoryCreate("*/style/pen", JRPenFactory.Style.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("jasperPrint/page", JRPrintPageFactory.class.getName());
@@ -234,6 +236,9 @@ public class JRPrintXmlLoader implements ErrorHandler
 		digester.addFactoryCreate("*/graphicElement", JRPrintGraphicElementFactory.class.getName());
 
 		/*   */
+		digester.addFactoryCreate("*/pen", JRPenFactory.class.getName());
+
+		/*   */
 		digester.addFactoryCreate("*/rectangle", JRPrintRectangleFactory.class.getName());
 		digester.addSetNext("*/rectangle", "addElement", JRPrintElement.class.getName());
 
@@ -247,7 +252,13 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 		/*   */
 		digester.addFactoryCreate("*/box", JRBoxFactory.class.getName());
-		digester.addSetNext("*/box", "setBox", JRBox.class.getName());//FIXME is this necessary?
+
+		/*   */
+		digester.addFactoryCreate("*/box/pen", JRPenFactory.Box.class.getName());
+		digester.addFactoryCreate("*/box/topPen", JRPenFactory.Top.class.getName());
+		digester.addFactoryCreate("*/box/leftPen", JRPenFactory.Left.class.getName());
+		digester.addFactoryCreate("*/box/bottomPen", JRPenFactory.Bottom.class.getName());
+		digester.addFactoryCreate("*/box/rightPen", JRPenFactory.Right.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/image/imageSource", JRPrintImageSourceFactory.class.getName());

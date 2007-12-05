@@ -109,8 +109,8 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		throw new CloneNotSupportedException("FIXMECLONE: implement this");
+		return null;//FIXMECLONE: implement this
 	}
 }

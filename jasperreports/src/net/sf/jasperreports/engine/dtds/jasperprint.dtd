@@ -34,7 +34,7 @@
 	pdfEncoding CDATA #IMPLIED
 	isPdfEmbedded (true | false) #IMPLIED
 >
-<!ELEMENT style EMPTY>
+<!ELEMENT style (pen?, box?)>
 <!ATTLIST style
 	name CDATA #REQUIRED
 	isDefault (true | false) "false"
@@ -78,6 +78,11 @@
 	pattern CDATA #IMPLIED
 	isBlankWhenNull (true | false) #IMPLIED
 >
+<!ELEMENT pen EMPTY>
+<!ATTLIST pen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
+>
 <!ELEMENT page (line | rectangle | ellipse | image | text | frame)*>
 <!ELEMENT line (reportElement?, graphicElement?)>
 <!ATTLIST line
@@ -96,7 +101,7 @@
 	backcolor CDATA #IMPLIED
 	origin NMTOKEN #IMPLIED
 >
-<!ELEMENT graphicElement EMPTY>
+<!ELEMENT graphicElement (pen?)>
 <!ATTLIST graphicElement
 	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
 	fill (Solid) #IMPLIED
@@ -122,7 +127,7 @@
 	hyperlinkTooltip CDATA #IMPLIED
 	bookmarkLevel NMTOKEN "0"
 >
-<!ELEMENT box EMPTY>
+<!ELEMENT box (pen?, topPen?, leftPen?, bottomPen?, rightPen?)>
 <!ATTLIST box
 	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
 	borderColor CDATA #IMPLIED
@@ -139,6 +144,26 @@
 	rightBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
 	rightBorderColor CDATA #IMPLIED
 	rightPadding NMTOKEN #IMPLIED
+>
+<!ELEMENT topPen EMPTY>
+<!ATTLIST topPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
+>
+<!ELEMENT leftPen EMPTY>
+<!ATTLIST leftPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
+>
+<!ELEMENT bottomPen EMPTY>
+<!ATTLIST bottomPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
+>
+<!ELEMENT rightPen EMPTY>
+<!ATTLIST rightPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed) #IMPLIED
 >
 <!ELEMENT imageSource (#PCDATA)>
 <!ATTLIST imageSource

@@ -54,16 +54,16 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -78,7 +78,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBaseBox;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -370,11 +370,11 @@ public class JRRtfExporter extends JRAbstractExporter
 								JRPrintText text = (JRPrintText)element;
 
 								// create color indices for box border color
-								getColorIndex(text.getBorderColor());
-								getColorIndex(text.getTopBorderColor());
-								getColorIndex(text.getBottomBorderColor());
-								getColorIndex(text.getLeftBorderColor());
-								getColorIndex(text.getRightBorderColor());
+								getColorIndex(text.getLineBox().getPen().getLineColor());
+								getColorIndex(text.getLineBox().getTopPen().getLineColor());
+								getColorIndex(text.getLineBox().getBottomPen().getLineColor());
+								getColorIndex(text.getLineBox().getLeftPen().getLineColor());
+								getColorIndex(text.getLineBox().getRightPen().getLineColor());
 
 								int runLimit = 0;
 								JRStyledText styledText = getStyledText((JRPrintText)element);
@@ -539,72 +539,48 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * Get border adjustment for graphic elements depending on pen width used
 	 * @param pen
 	 */
-	protected float getAdjustment(byte pen)
+	protected float getAdjustment(JRPen pen)
 	{
-		switch (pen)
-		{
-			case JRGraphicElement.PEN_THIN:
-				return 0;
-			case JRGraphicElement.PEN_1_POINT:
-				return 0.5f;
-			case JRGraphicElement.PEN_2_POINT:
-				return 1;
-			case JRGraphicElement.PEN_4_POINT:
-				return 2;
-			case JRGraphicElement.PEN_DOTTED:
-				return 0.5f;
-			case JRGraphicElement.PEN_NONE:
-				return 0;
-			default:
-				return 0;
-		}
+		return pen.getLineWidth().floatValue() / 2;
+//		switch (pen)  //FIXMEBORDER
+//		{
+//			case JRGraphicElement.PEN_THIN:
+//				return 0;
+//			case JRGraphicElement.PEN_1_POINT:
+//				return 0.5f;
+//			case JRGraphicElement.PEN_2_POINT:
+//				return 1;
+//			case JRGraphicElement.PEN_4_POINT:
+//				return 2;
+//			case JRGraphicElement.PEN_DOTTED:
+//				return 0.5f;
+//			case JRGraphicElement.PEN_NONE:
+//				return 0;
+//			default:
+//				return 0;
+//		}
 	}
 
 
 	/**
 	 *
 	 */
-	private void exportPen(Color color, byte pen) throws IOException 
+	private void exportPen(Color color, JRPen pen) throws IOException 
 	{
 		writer.write("{\\sp{\\sn lineColor}{\\sv ");
 		writer.write(String.valueOf(getColorRGB(color)));
 		writer.write("}}");
 
-		float lineWidth = 0;
-		switch (pen)
+		float lineWidth = pen == null ? 0f : pen.getLineWidth().floatValue();
+		
+		if (lineWidth == 0f)
 		{
-			case JRGraphicElement.PEN_NONE :
-			{
-				writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
-				lineWidth = 0;
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				lineWidth = 0.5f;
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			{
-				lineWidth = 1;
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				lineWidth = 2;
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				lineWidth = 4;
-				break;
-			}
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				writer.write("{\\sp{\\sn lineDashing}{\\sv 6}}");
-				lineWidth = 1;
-				break;
-			}
+			writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
+		}
+
+		if (pen != null && pen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DASHED)
+		{
+			writer.write("{\\sp{\\sn lineDashing}{\\sv 6}}");
 		}
 
 		writer.write("{\\sp{\\sn lineWidth}{\\sv ");
@@ -652,7 +628,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		writer.write("{\\sp{\\sn shapeType}{\\sv 20}}");
 		
-		exportPen(line.getForecolor(), line.getPen());
+		exportPen(line.getForecolor(), line.getLinePen());
 		
 		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
 		{
@@ -670,7 +646,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportBorder(float x, float y, int width, int height, Color color, byte pen) throws IOException 
+	private void exportBorder(float x, float y, int width, int height, Color color, JRPen pen) throws IOException 
 	{
 		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
 		writer.write(String.valueOf(zorder++));
@@ -710,7 +686,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\sp{\\sn shapeType}{\\sv 2}}");
 		}
 
-		exportPen(rectangle.getForecolor(), rectangle.getPen());
+		exportPen(rectangle.getForecolor(), rectangle.getLinePen());
 		
 		finishElement();
 	}
@@ -726,7 +702,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		writer.write("{\\sp{\\sn shapeType}{\\sv 3}}");
 
-		exportPen(ellipse.getForecolor(), ellipse.getPen());
+		exportPen(ellipse.getForecolor(), ellipse.getLinePen());
 		
 		finishElement();
 	}
@@ -763,10 +739,10 @@ public class JRRtfExporter extends JRAbstractExporter
 		startElement(text);
 
 		// padding for the text
-		int topPadding = text.getTopPadding();
-		int leftPadding = text.getLeftPadding();
-		int bottomPadding = text.getBottomPadding();
-		int rightPadding = text.getRightPadding();
+		int topPadding = text.getLineBox().getTopPadding().intValue();
+		int leftPadding = text.getLineBox().getLeftPadding().intValue();
+		int bottomPadding = text.getLineBox().getBottomPadding().intValue();
+		int rightPadding = text.getLineBox().getRightPadding().intValue();
 
 		String rotation = null;
 
@@ -1008,7 +984,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		/*   */
 		finishElement();
 
-		exportBox(text, text.getX() + getOffsetX(), text.getY() + getOffsetY(), width, height);
+		exportBox(text.getLineBox(), text.getX() + getOffsetX(), text.getY() + getOffsetY(), width, height);
 	}
 
 
@@ -1054,10 +1030,10 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	protected void exportImage(JRPrintImage printImage) throws JRException, IOException
 	{
-		int leftPadding = printImage.getLeftPadding();
-		int topPadding = printImage.getTopPadding();
-		int rightPadding = printImage.getRightPadding();
-		int bottomPadding = printImage.getBottomPadding();
+		int leftPadding = printImage.getLineBox().getLeftPadding().intValue();
+		int topPadding = printImage.getLineBox().getTopPadding().intValue();
+		int rightPadding = printImage.getLineBox().getRightPadding().intValue();
+		int bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
 
 		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
@@ -1209,7 +1185,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 
 			startElement(printImage);
-			exportPen(printImage.getForecolor(), JRGraphicElement.PEN_NONE);
+			exportPen(printImage.getForecolor(), null);
 			finishElement();
 			
 			writer.write("{\\shp{\\*\\shpinst\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
@@ -1287,20 +1263,20 @@ public class JRRtfExporter extends JRAbstractExporter
 		int height = printImage.getHeight();
 
 		if (
-			printImage.getTopBorder() == JRGraphicElement.PEN_NONE &&
-			printImage.getLeftBorder() == JRGraphicElement.PEN_NONE &&
-			printImage.getBottomBorder() == JRGraphicElement.PEN_NONE &&
-			printImage.getRightBorder() == JRGraphicElement.PEN_NONE
+			printImage.getLineBox().getTopPen().getLineWidth().floatValue() <= 0f &&
+			printImage.getLineBox().getLeftPen().getLineWidth().floatValue() <= 0f &&
+			printImage.getLineBox().getBottomPen().getLineWidth().floatValue() <= 0f &&
+			printImage.getLineBox().getRightPen().getLineWidth().floatValue() <= 0f
 			)
 		{
-			if (printImage.getPen() != JRGraphicElement.PEN_NONE)
+			if (printImage.getLinePen().getLineWidth().floatValue() > 0f)
 			{
-				exportBox(new JRBaseBox(printImage.getPen(), printImage.getForecolor()), x, y, width, height);
+				exportBox(new JRBaseLineBox(printImage.getLinePen()), x, y, width, height);
 			}
 		}
 		else
 		{
-			exportBox(printImage, x, y, width, height);
+			exportBox(printImage.getLineBox(), x, y, width, height);
 		}
 	}
 
@@ -1317,7 +1293,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		startElement(frame);
 		
-		exportPen(frame.getForecolor(), JRGraphicElement.PEN_NONE);
+		exportPen(frame.getForecolor(), null);
 		
 		finishElement();
 
@@ -1325,7 +1301,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		exportElements(frame.getElements());
 		restoreElementOffsets();
 
-		exportBox(frame, x, y, width, height);
+		exportBox(frame.getLineBox(), x, y, width, height);
 	}
 
 
@@ -1360,26 +1336,23 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportBox(JRBox box, int x, int y, int width, int height) throws IOException
+	private void exportBox(JRLineBox box, int x, int y, int width, int height) throws IOException
 	{
-		byte pen = box.getTopBorder();
-		if (pen != JRGraphicElement.PEN_NONE) {
-			exportBorder(x, y + getAdjustment(pen), width, 0, box.getTopBorderColor(), pen);
+		JRPen pen = box.getTopPen();
+		if (pen.getLineWidth().floatValue() > 0f) {
+			exportBorder(x, y + getAdjustment(pen), width, 0, pen.getLineColor(), null);
 		}
-		pen = box.getLeftBorder();
-		if (pen != JRGraphicElement.PEN_NONE)
-		{
-			exportBorder(x + getAdjustment(pen), y, 0, height, box.getLeftBorderColor(), pen);
+		pen = box.getLeftPen();
+		if (pen.getLineWidth().floatValue() > 0f) {
+			exportBorder(x + getAdjustment(pen), y, 0, height, pen.getLineColor(), null);
 		}
-		pen = box.getBottomBorder();
-		if (pen != JRGraphicElement.PEN_NONE)
-		{
-			exportBorder(x, y + height - getAdjustment(pen), width, 0, box.getBottomBorderColor(), pen);
+		pen = box.getBottomPen();
+		if (pen.getLineWidth().floatValue() > 0f) {
+			exportBorder(x, y + height - getAdjustment(pen), width, 0, pen.getLineColor(), null);
 		}
-		pen = box.getRightBorder();
-		if (pen != JRGraphicElement.PEN_NONE)
-		{
-			exportBorder(x + width - getAdjustment(pen), y, 0, height, box.getRightBorderColor(), pen);
+		pen = box.getRightPen();
+		if (pen.getLineWidth().floatValue() > 0f) {
+			exportBorder(x + width - getAdjustment(pen), y, 0, height, pen.getLineColor(), null);
 		}
 	}
 

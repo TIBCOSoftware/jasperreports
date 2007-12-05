@@ -890,10 +890,10 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportImage(TableBuilder tableBuilder, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
-		int topPadding = image.getTopPadding();
-		int leftPadding = image.getLeftPadding();
-		int bottomPadding = image.getBottomPadding();
-		int rightPadding = image.getRightPadding();
+		int topPadding = image.getLineBox().getTopPadding().intValue();
+		int leftPadding = image.getLineBox().getLeftPadding().intValue();
+		int bottomPadding = image.getLineBox().getBottomPadding().intValue();
+		int rightPadding = image.getLineBox().getRightPadding().intValue();
 
 		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;

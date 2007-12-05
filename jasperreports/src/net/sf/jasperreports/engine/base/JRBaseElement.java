@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -59,12 +60,6 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	public static final String PROPERTY_BACKCOLOR = JRBaseStyle.PROPERTY_BACKCOLOR;
-
-	public static final String PROPERTY_FORECOLOR = JRBaseStyle.PROPERTY_FORECOLOR;
-
-	public static final String PROPERTY_MODE = JRBaseStyle.PROPERTY_MODE;
 
 	public static final String PROPERTY_POSITION_TYPE = "positionType";
 
@@ -274,7 +269,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	{
 		Object old = this.mode;
 		this.mode = mode;
-		getEventSupport().firePropertyChange(PROPERTY_MODE, old, this.mode);
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.mode);
 	}
 
 	/**
@@ -406,7 +401,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	{
 		Object old = this.forecolor;
 		this.forecolor = forecolor;
-		getEventSupport().firePropertyChange(PROPERTY_FORECOLOR, old, this.forecolor);
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FORECOLOR, old, this.forecolor);
 	}
 
 	/**
@@ -432,7 +427,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	{
 		Object old = this.backcolor;
 		this.backcolor = backcolor;
-		getEventSupport().firePropertyChange(PROPERTY_BACKCOLOR, old, this.backcolor);
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
 	/**
@@ -487,20 +482,31 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseElement clone = (JRBaseElement)super.clone();
+		JRBaseElement clone = null;
+		
+		try
+		{
+			clone = (JRBaseElement)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (printWhenExpression != null)
 		{
 			clone.printWhenExpression = (JRExpression)printWhenExpression.clone();
 		}
+		
 		return clone;
 	}
 
 	/**
 	 * 
 	 */
-	public Object clone(JRElementGroup parentGroup) throws CloneNotSupportedException 
+	public Object clone(JRElementGroup parentGroup) 
 	{
 		JRBaseElement clone = (JRBaseElement)this.clone();
 		

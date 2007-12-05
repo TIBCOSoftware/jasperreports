@@ -27,8 +27,12 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -60,33 +64,41 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	{
 		super(graphicElement, factory);
 	}
-	
 
+	
 	/**
 	 *
+	 */
+	public JRPen getLinePen()
+	{
+		return ((JRGraphicElement)parent).getLinePen();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public byte getPen()
 	{
-		return JRStyleResolver.getPen(this, PEN_1_POINT);
+		return JRPenUtil.getPenFromLinePen(getLinePen());
 	}
-	
+		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public Byte getOwnPen()
 	{
-		return ((JRGraphicElement)this.parent).getOwnPen();
+		return JRPenUtil.getOwnPenFromLinePen(getLinePen());
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(byte pen)
 	{
 	}
-	
+		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(Byte pen)
 	{
@@ -97,7 +109,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	 */
 	public byte getFill()
 	{
-		return JRStyleResolver.getFill(this, FILL_SOLID);
+		return JRStyleResolver.getFill(this);
 	}
 
 	/**
@@ -120,6 +132,22 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	 */
 	public void setFill(Byte fill)
 	{
+	}
+
+	/**
+	 * 
+	 */
+	public Float getDefaultLineWidth() 
+	{
+		return JRPen.LINE_WIDTH_1;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getDefaultLineColor() 
+	{
+		return getForecolor();
 	}
 	
 

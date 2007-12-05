@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabCell;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -95,9 +96,18 @@ public class JRBaseCrosstabCell implements JRCrosstabCell, Serializable
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseCrosstabCell clone = (JRBaseCrosstabCell)super.clone();
+		JRBaseCrosstabCell clone = null;
+
+		try
+		{
+			clone = (JRBaseCrosstabCell)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 		
 		if (contents != null)
 		{

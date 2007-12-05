@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JRText
+public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JRCommonText
 {
 
 	/**
@@ -116,37 +116,37 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	/**
 	 * Constant useful for displaying the text without rotating it
 	 */
-	public static final byte ROTATION_NONE = JRText.ROTATION_NONE;
+	public static final byte ROTATION_NONE = 0;
 
 	/**
 	 * Constant useful for rotating the text 90 degrees counter clockwise.
 	 */
-	public static final byte ROTATION_LEFT = JRText.ROTATION_LEFT;
+	public static final byte ROTATION_LEFT = 1;
 
 	/**
 	 * Constant useful for rotating the text 90 degrees clockwise.
 	 */
-	public static final byte ROTATION_RIGHT = JRText.ROTATION_RIGHT;
+	public static final byte ROTATION_RIGHT = 2;
 
 	/**
 	 * Constant useful for rotating the text 180 degrees.
 	 */
-	public static final byte ROTATION_UPSIDE_DOWN = JRText.ROTATION_UPSIDE_DOWN;
+	public static final byte ROTATION_UPSIDE_DOWN = 3;
 
 	/**
 	 * Constant for setting normal spacing between lines.
 	 */
-	public static final byte LINE_SPACING_SINGLE = JRText.LINE_SPACING_SINGLE;
+	public static final byte LINE_SPACING_SINGLE = 0;
 
 	/**
 	 * Constant for setting spacing between lines to 50% more than normal.
 	 */
-	public static final byte LINE_SPACING_1_1_2 = JRText.LINE_SPACING_1_1_2;
+	public static final byte LINE_SPACING_1_1_2 = 1;
 
 	/**
 	 * Constant for setting spacing between lines to double size.
 	 */
-	public static final byte LINE_SPACING_DOUBLE = JRText.LINE_SPACING_DOUBLE;
+	public static final byte LINE_SPACING_DOUBLE = 2;
 
 
 	/**
@@ -162,8 +162,6 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
 	 */
 	public void setTextAlignment(byte horizontalAlignment);
-		
-	public Byte getOwnRotation();
 
 	/**
 	 * Sets the text rotation.
@@ -173,7 +171,6 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 		
 	public void setRotation(Byte rotation);
 
-	public Byte getOwnLineSpacing();
 	/**
 	 * Sets the line spacing.
 	 * @param lineSpacing a value representing one of the line spacing constants in this class
@@ -182,7 +179,6 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 		
 	public void setLineSpacing(Byte lineSpacing);
 
-	public Boolean isOwnStyledText();
 	/**
 	 * Specifies whether the text can contain style tags.
 	 */
@@ -192,7 +188,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	
 	/**
 	 * Returns an object containing all border and padding properties for this text element
-	 * @deprecated
+	 * @deprecated Replaced by {@link JRBoxContainer#getLineBox()}
 	 */
 	public JRBox getBox();
 

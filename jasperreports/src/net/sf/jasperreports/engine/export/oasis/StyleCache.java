@@ -37,13 +37,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.base.JRBaseBox;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -100,7 +100,7 @@ public class StyleCache
 	public String getFrameStyle(JRPrintText text) throws IOException
 	{
 		FrameStyle frameStyle  = new FrameStyle(styleWriter, text);
-		frameStyle.setBox(text);
+		frameStyle.setBox(text.getLineBox());
 		
 		String frameStyleId = frameStyle.getId();
 		String frameStyleName = (String)frameStyles.get(frameStyleId);
@@ -166,7 +166,7 @@ public class StyleCache
 	 */
 	public String getCellStyle(JRPrintFrame frame) throws IOException
 	{
-		return getCellStyle(frame, frame);
+		return getCellStyle(frame, frame.getLineBox());
 	}
 
 
@@ -175,7 +175,7 @@ public class StyleCache
 	 */
 	public String getCellStyle(JRPrintText text) throws IOException
 	{
-		return getCellStyle(text, text);
+		return getCellStyle(text, text.getLineBox());
 	}
 
 
@@ -184,7 +184,7 @@ public class StyleCache
 	 */
 	public String getCellStyle(JRPrintImage image) throws IOException
 	{
-		return getCellStyle(image, image);
+		return getCellStyle(image, image.getLineBox());
 	}
 
 
@@ -193,14 +193,14 @@ public class StyleCache
 	 */
 	public String getCellStyle(JRPrintGraphicElement element) throws IOException
 	{
-		return getCellStyle(element, new JRBaseBox(element.getPen(), element.getForecolor()));
+		return getCellStyle(element, new JRBaseLineBox(element.getLinePen()));
 	}
 
 
 	/**
 	 *
 	 */
-	public String getCellStyle(JRPrintElement element, JRBox box) throws IOException
+	public String getCellStyle(JRPrintElement element, JRLineBox box) throws IOException
 	{
 		CellStyle cellStyle  = new CellStyle(styleWriter, element);
 		cellStyle.setBox(box);

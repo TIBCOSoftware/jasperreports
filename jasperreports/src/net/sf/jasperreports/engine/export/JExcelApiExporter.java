@@ -77,14 +77,14 @@ import jxl.write.WriteException;
 import jxl.write.biff.CellValue;
 import jxl.write.biff.RowsExceededException;
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -677,10 +677,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		try
 		{
-			int leftPadding = element.getLeftPadding();
-			int topPadding = element.getTopPadding();
-			int rightPadding = element.getRightPadding();
-			int bottomPadding = element.getBottomPadding();
+			int leftPadding = element.getLineBox().getLeftPadding().intValue();
+			int topPadding = element.getLineBox().getTopPadding().intValue();
+			int rightPadding = element.getLineBox().getRightPadding().intValue();
+			int bottomPadding = element.getLineBox().getBottomPadding().intValue();
 
 			int availableImageWidth = element.getWidth() - leftPadding - rightPadding;
 			availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
@@ -766,10 +766,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					}
 				}
 				
-				int topBorderCorrection = getBorderCorrection(element.getTopBorder());
-				int rightBorderCorrection = getBorderCorrection(element.getRightBorder());
-				int bottomBorderCorrection = getBorderCorrection(element.getBottomBorder());
-				int leftBorderCorrection = getBorderCorrection(element.getLeftBorder());
+				//FIXMEBORDER check http://bugzilla.jaspersoft.com/show_bug.cgi?id=9894
+				int topBorderCorrection = getBorderCorrection(element.getLineBox().getTopPen());
+				int rightBorderCorrection = getBorderCorrection(element.getLineBox().getRightPen());
+				int bottomBorderCorrection = getBorderCorrection(element.getLineBox().getBottomPen());
+				int leftBorderCorrection = getBorderCorrection(element.getLineBox().getLeftPen());
 				
 				BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
 				Graphics2D grx = bi.createGraphics();
@@ -850,11 +851,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 				Pattern mode = this.backgroundMode;
 				Colour background = WHITE;
-				Colour forecolor = getWorkbookColour(element.getForecolor());
-
-				if (element.getBorderColor() != null ){
-					forecolor = getWorkbookColour(element.getBorderColor());
-				}
+//				Colour forecolor = getWorkbookColour(element.getForecolor());
+//
+//				if (element.getLineBox().getPen().getLineColor() != null ){
+//					forecolor = getWorkbookColour(element.getLineBox().getPen().getLineColor());
+//				}
+				Colour forecolor = getWorkbookColour(element.getLineBox().getPen().getLineColor());
 
 				WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
 
@@ -1125,12 +1127,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		protected final Colour rightBorderColour;
 		private final int hash;
 
-		public BoxStyle(JRBox box)
+		public BoxStyle(JRLineBox box)
 		{
-			if(box != null && box.getTopBorder() != JRGraphicElement.PEN_NONE)
+			if(box != null && box.getTopPen().getLineStyle().floatValue() > 0f)
 			{
-				topBorder = getBorderLineStyle(box.getTopBorder());
-				topBorderColour = getWorkbookColour(box.getTopBorderColor());
+				topBorder = getBorderLineStyle(box.getTopPen());
+				topBorderColour = getWorkbookColour(box.getTopPen().getLineColor());
 			}
 			else
 			{
@@ -1138,10 +1140,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				topBorderColour = BLACK;
 			}
 
-			if(box != null && box.getBottomBorder() != JRGraphicElement.PEN_NONE)
+			if(box != null && box.getBottomPen().getLineWidth().floatValue() > 0f)
 			{
-				bottomBorder = getBorderLineStyle(box.getBottomBorder());
-				bottomBorderColour = getWorkbookColour(box.getBottomBorderColor());
+				bottomBorder = getBorderLineStyle(box.getBottomPen());
+				bottomBorderColour = getWorkbookColour(box.getBottomPen().getLineColor());
 			}
 			else
 			{
@@ -1149,10 +1151,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				bottomBorderColour = BLACK;
 			}
 
-			if(box != null && box.getLeftBorder()!= JRGraphicElement.PEN_NONE)
+			if(box != null && box.getLeftPen().getLineWidth().floatValue() > 0f)
 			{
-				leftBorder = getBorderLineStyle(box.getLeftBorder());
-				leftBorderColour = getWorkbookColour(box.getLeftBorderColor());
+				leftBorder = getBorderLineStyle(box.getLeftPen());
+				leftBorderColour = getWorkbookColour(box.getLeftPen().getLineColor());
 			}
 			else
 			{
@@ -1160,10 +1162,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				leftBorderColour = BLACK;
 			}
 
-			if(box != null && box.getRightBorder() != JRGraphicElement.PEN_NONE)
+			if(box != null && box.getRightPen().getLineWidth().floatValue() > 0f)
 			{
-				rightBorder = getBorderLineStyle(box.getRightBorder());
-				rightBorderColour = getWorkbookColour(box.getRightBorderColor());
+				rightBorder = getBorderLineStyle(box.getRightPen());
+				rightBorderColour = getWorkbookColour(box.getRightPen().getLineColor());
 			}
 			else
 			{
@@ -1229,7 +1231,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		private DisplayFormat displayFormat;
 		private int hashCode;
 
-		protected StyleInfo(Pattern mode, Colour backcolor, int horizontalAlignment, int verticalAlignment, int rotation, WritableFont font, JRBox box)
+		protected StyleInfo(Pattern mode, Colour backcolor, int horizontalAlignment, int verticalAlignment, int rotation, WritableFont font, JRLineBox box)
 		{
 			this.mode = mode;
 			this.backcolor = backcolor;
@@ -1346,31 +1348,32 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	/**
 	 * @param lineStyle
 	 */
-	protected static BorderLineStyle getBorderLineStyle(byte lineStyle) {
-		BorderLineStyle retVal = null;
-		switch(lineStyle) {
-			case JRGraphicElement.PEN_THIN:
-				retVal =  BorderLineStyle.THIN;
-				break;
-
-			case JRGraphicElement.PEN_1_POINT:
-			case JRGraphicElement.PEN_2_POINT:
-				retVal = BorderLineStyle.MEDIUM;
-				break;
-
-			case JRGraphicElement.PEN_4_POINT:
-				retVal = BorderLineStyle.THICK;
-				break;
-
-			case JRGraphicElement.PEN_DOTTED:
-				retVal = BorderLineStyle.DOTTED;
-				break;
-
-			default:
-				retVal = BorderLineStyle.NONE;
-		}
-
-		return retVal;
+	protected static BorderLineStyle getBorderLineStyle(JRPen pen) {
+		return BorderLineStyle.DOTTED;//FIXMEBORDER
+//		BorderLineStyle retVal = null;
+//		switch(lineStyle) {
+//			case JRGraphicElement.PEN_THIN:
+//				retVal =  BorderLineStyle.THIN;
+//				break;
+//
+//			case JRGraphicElement.PEN_1_POINT:
+//			case JRGraphicElement.PEN_2_POINT:
+//				retVal = BorderLineStyle.MEDIUM;
+//				break;
+//
+//			case JRGraphicElement.PEN_4_POINT:
+//				retVal = BorderLineStyle.THICK;
+//				break;
+//
+//			case JRGraphicElement.PEN_DOTTED:
+//				retVal = BorderLineStyle.DOTTED;
+//				break;
+//
+//			default:
+//				retVal = BorderLineStyle.NONE;
+//		}
+//
+//		return retVal;
 	}
 
 	private final void setSheetSettings(WritableSheet sheet)
@@ -1678,34 +1681,36 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return nature;
 	}
 
-	protected static int getBorderCorrection(byte pen)
+	protected static int getBorderCorrection(JRPen pen)
 	{
-		int borderCorrection = 0;
-		
-		switch (pen)
-		{
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				borderCorrection = 2;
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				borderCorrection = 0;
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			case JRGraphicElement.PEN_DOTTED :
-			case JRGraphicElement.PEN_THIN :
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				borderCorrection = 1;
-				break;
-			}
-		}
-		
-		return borderCorrection;
+		return (int)(pen.getLineWidth().floatValue() / 2);
+		//FIXMEBORDER
+//		int borderCorrection = 0;
+//		
+//		switch (pen)
+//		{
+//			case JRGraphicElement.PEN_4_POINT :
+//			{
+//				borderCorrection = 2;
+//				break;
+//			}
+//			case JRGraphicElement.PEN_NONE :
+//			{
+//				borderCorrection = 0;
+//				break;
+//			}
+//			case JRGraphicElement.PEN_2_POINT :
+//			case JRGraphicElement.PEN_DOTTED :
+//			case JRGraphicElement.PEN_THIN :
+//			case JRGraphicElement.PEN_1_POINT :
+//			default :
+//			{
+//				borderCorrection = 1;
+//				break;
+//			}
+//		}
+//		
+//		return borderCorrection;
 	}
 
 }

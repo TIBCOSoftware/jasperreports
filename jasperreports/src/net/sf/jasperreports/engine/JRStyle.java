@@ -33,7 +33,7 @@ import java.awt.Color;
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRStyle extends JRStyleContainer
+public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContainer
 {
 	/**
 	 * Gets the style unique name.
@@ -65,11 +65,20 @@ public interface JRStyle extends JRStyleContainer
 	public Color getOwnBackcolor();
 
 	/**
+	 * 
+	 */
+	public JRPen getLinePen();
+
+	/**
 	 * Indicates the pen type used for this element.
 	 * @return one of the pen constants in this class
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public Byte getPen();
 
+	/**
+	 * @deprecated Replaced by {@link #getLinePen()}
+	 */
 	public Byte getOwnPen();
 
 	/**
@@ -112,166 +121,157 @@ public interface JRStyle extends JRStyleContainer
 	public Byte getOwnVerticalAlignment();
 
 	/**
-	 * Gets the default border pen size (can be overwritten by individual settings).
+	 * 
+	 */
+	public JRLineBox getLineBox();
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getBorder();
 
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
 	public Byte getOwnBorder();
 
 	/**
-	 * Gets the default border color (can be overwritten by individual settings).
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getBorderColor();
 
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
 	public Color getOwnBorderColor();
 
 	/**
-	 * Gets the default padding in pixels (can be overwritten by individual settings).
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getPadding();
 
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
 	public Integer getOwnPadding();
 
 	/**
-	 * Gets the top border pen size.
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getTopBorder();
 
-
 	/**
-	 * Gets the top border pen size (if the default value was overwritten).
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnTopBorder();
 
-
 	/**
-	 * Gets the top border color.
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getTopBorderColor();
 
-
 	/**
-	 * Gets the top border color (if the default value was overwritten).
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnTopBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getTopPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnTopPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getLeftBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnLeftBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getLeftBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnLeftBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getLeftPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnLeftPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getBottomBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnBottomBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getBottomBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnBottomBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getBottomPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnBottomPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getRightBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnRightBorder();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getRightBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnRightBorderColor();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getRightPadding();
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnRightPadding();
 
@@ -430,12 +430,12 @@ public interface JRStyle extends JRStyleContainer
 	public void setMode(Byte mode);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLineWidth(float)} and {@link #setLineStyle(byte)()}
 	 */
 	public void setPen(byte pen);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLineWidth(Float)} and {@link #setLineStyle(Byte)()}
 	 */
 	public void setPen(Byte pen);
 

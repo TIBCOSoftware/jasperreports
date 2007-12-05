@@ -27,12 +27,14 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRCommonRectangle;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -40,7 +42,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRTemplateRectangle extends JRTemplateGraphicElement
+public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRCommonRectangle
 {
 
 
@@ -98,7 +100,9 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement
 		// don't want to inherit mode because of different defaults for rectangles and subreports
 		setMode(subreport.getMode());
 		
-		setPen(JRGraphicElement.PEN_NONE);
+		linePen = new JRBasePen(this);
+		
+		getLinePen().setLineWidth(0f);
 		setFill(JRGraphicElement.FILL_SOLID);
 	}
 

@@ -35,28 +35,23 @@ import net.sf.jasperreports.charts.JRValueAxisFormat;
 import net.sf.jasperreports.charts.JRXAxisFormat;
 import net.sf.jasperreports.charts.JRYAxisFormat;
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRCommonElement;
+import net.sf.jasperreports.engine.JRCommonGraphicElement;
+import net.sf.jasperreports.engine.JRCommonImage;
+import net.sf.jasperreports.engine.JRCommonRectangle;
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintGraphicElement;
-import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRPrintRectangle;
-import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRRectangle;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
-import net.sf.jasperreports.engine.fill.JRTemplateElement;
-import net.sf.jasperreports.engine.fill.JRTemplateGraphicElement;
-import net.sf.jasperreports.engine.fill.JRTemplateImage;
-import net.sf.jasperreports.engine.fill.JRTemplateRectangle;
-import net.sf.jasperreports.engine.fill.JRTemplateText;
+import net.sf.jasperreports.engine.base.JRBoxPen;
 
 
 /**
@@ -66,6 +61,7 @@ import net.sf.jasperreports.engine.fill.JRTemplateText;
 public class JRStyleResolver
 {
 
+	private static final Integer INTEGER_ZERO = new Integer(0);
 
 	/**
 	 *
@@ -84,10 +80,13 @@ public class JRStyleResolver
 	 */
 	private static JRStyle getBaseStyle(JRStyleContainer styleContainer)
 	{
-		if (styleContainer.getStyle() != null)
-			return styleContainer.getStyle();
-		if (styleContainer.getDefaultStyleProvider() != null)
-			return styleContainer.getDefaultStyleProvider().getDefaultStyle();
+		if (styleContainer != null)
+		{
+			if (styleContainer.getStyle() != null)
+				return styleContainer.getStyle();
+			if (styleContainer.getDefaultStyleProvider() != null)
+				return styleContainer.getDefaultStyleProvider().getDefaultStyle();
+		}
 		return null;
 	}
 
@@ -95,33 +94,7 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static byte getMode(JRElement element, byte defaultMode)
-	{
-		if (element.getOwnMode() != null) 
-			return element.getOwnMode().byteValue();
-		JRStyle style = getBaseStyle(element);
-		if (style != null && style.getMode() != null)
-			return style.getMode().byteValue();
-		return defaultMode;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getMode(JRPrintElement element, byte defaultMode)
-	{
-		if (element.getOwnMode() != null) 
-			return element.getOwnMode().byteValue();
-		JRStyle style = getBaseStyle(element);
-		if (style != null && style.getMode() != null)
-			return style.getMode().byteValue();
-		return defaultMode;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getMode(JRTemplateElement element, byte defaultMode)
+	public static byte getMode(JRCommonElement element, byte defaultMode)
 	{
 		if (element.getOwnMode() != null) 
 			return element.getOwnMode().byteValue();
@@ -147,7 +120,7 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static Color getForecolor(JRElement element)
+	public static Color getForecolor(JRCommonElement element)
 	{
 		if (element.getOwnForecolor() != null) 
 			return element.getOwnForecolor();
@@ -171,32 +144,6 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static Color getForecolor(JRPrintElement element)
-	{
-		if (element.getOwnForecolor() != null) 
-			return element.getOwnForecolor();
-		JRStyle style = getBaseStyle(element);
-		if (style != null && style.getForecolor() != null)
-			return style.getForecolor();
-		return Color.black;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getForecolor(JRTemplateElement element)
-	{
-		if (element.getOwnForecolor() != null) 
-			return element.getOwnForecolor();
-		JRStyle style = getBaseStyle(element);
-		if (style != null && style.getForecolor() != null)
-			return style.getForecolor();
-		return Color.black;
-	}
-
-	/**
-	 *
-	 */
 	public static Color getForecolor(JRStyle style)
 	{
 		if (style.getOwnForecolor() != null)
@@ -210,7 +157,7 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static Color getBackcolor(JRElement element)
+	public static Color getBackcolor(JRCommonElement element)
 	{
 		if (element.getOwnBackcolor() != null) 
 			return element.getOwnBackcolor();
@@ -236,32 +183,6 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static Color getBackcolor(JRPrintElement element)
-	{
-		if (element.getOwnBackcolor() != null) 
-			return element.getOwnBackcolor();
-		JRStyle style = getBaseStyle(element);
-		if (style != null && style.getBackcolor() != null)
-			return style.getBackcolor();
-		return Color.white;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getBackcolor(JRTemplateElement element)
-	{
-		if (element.getOwnBackcolor() != null) 
-			return element.getOwnBackcolor();
-		JRStyle style = getBaseStyle(element);
-		if (style != null && style.getBackcolor() != null)
-			return style.getBackcolor();
-		return Color.white;
-	}
-
-	/**
-	 *
-	 */
 	public static Color getBackcolor(JRStyle style)
 	{
 		if (style.getOwnBackcolor() != null)
@@ -275,92 +196,98 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static byte getPen(JRGraphicElement element, byte defaultPen)
+	public static Float getLineWidth(JRPen pen, Float defaultLineWidth)
 	{
-		if (element.getOwnPen() != null)
-			return element.getOwnPen().byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.getPen() != null)
-			return baseStyle.getPen().byteValue();
-		return defaultPen;
+		if (pen.getOwnLineWidth() != null)
+			return pen.getOwnLineWidth();
+		JRStyle baseStyle = getBaseStyle(pen.getStyleContainer());
+		if (baseStyle != null && baseStyle.getLinePen().getLineWidth() != null)
+			return baseStyle.getLinePen().getLineWidth();
+		return defaultLineWidth;
 	}
 
 	/**
 	 *
 	 */
-	public static byte getPen(JRPrintGraphicElement element, byte defaultPen)
+	public static Float getLineWidth(JRBoxPen boxPen, Float defaultLineWidth)
 	{
-		if (element.getOwnPen() != null)
-			return element.getOwnPen().byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.getPen() != null)
-			return baseStyle.getPen().byteValue();
-		return defaultPen;
+		if (boxPen.getOwnLineWidth() != null)
+			return boxPen.getOwnLineWidth();
+		if (boxPen.getBox().getPen().getOwnLineWidth() != null) 
+			return boxPen.getBox().getPen().getOwnLineWidth();
+		JRStyle baseStyle = getBaseStyle(boxPen.getStyleContainer());
+		if (baseStyle != null && boxPen.getPen(baseStyle.getLineBox()).getLineWidth() != null)
+			return boxPen.getPen(baseStyle.getLineBox()).getLineWidth();
+		return defaultLineWidth;
 	}
 
 	/**
 	 *
 	 */
-	public static byte getPen(JRTemplateGraphicElement element, byte defaultPen)
+	public static Byte getLineStyle(JRPen pen)
 	{
-		if (element.getOwnPen() != null)
-			return element.getOwnPen().byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.getPen() != null)
-			return baseStyle.getPen().byteValue();
-		return defaultPen;
+		if (pen.getOwnLineStyle() != null)
+			return pen.getOwnLineStyle();
+		JRStyle baseStyle = getBaseStyle(pen.getStyleContainer());
+		if (baseStyle != null && baseStyle.getLinePen().getLineStyle() != null)
+			return baseStyle.getLinePen().getLineStyle();
+		return new Byte(JRPen.LINE_STYLE_SOLID);
 	}
 
 	/**
 	 *
 	 */
-	public static Byte getPen(JRStyle style)
+	public static Byte getLineStyle(JRBoxPen boxPen)
 	{
-		if (style.getOwnPen() != null)
-			return style.getOwnPen();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getPen();
-		return null;
+		if (boxPen.getOwnLineStyle() != null)
+			return boxPen.getOwnLineStyle();
+		if (boxPen.getBox().getPen().getOwnLineStyle() != null)
+			return boxPen.getBox().getPen().getOwnLineStyle();
+		JRStyle baseStyle = getBaseStyle(boxPen.getStyleContainer());
+		if (baseStyle != null && boxPen.getPen(baseStyle.getLineBox()).getLineStyle() != null)
+			return boxPen.getPen(baseStyle.getLineBox()).getLineStyle();
+		return new Byte(JRPen.LINE_STYLE_SOLID);
 	}
 
 	/**
 	 *
 	 */
-	public static byte getFill(JRGraphicElement element, byte defaultFill)
+	public static Color getLineColor(JRPen pen, Color defaultColor)
+	{
+		if (pen.getOwnLineColor() != null)
+			return pen.getOwnLineColor();
+		JRStyle baseStyle = getBaseStyle(pen.getStyleContainer());
+		if (baseStyle != null && baseStyle.getLinePen().getLineStyle() != null)
+			return baseStyle.getLinePen().getLineColor();
+		return defaultColor;
+	}
+
+	/**
+	 *
+	 */
+	public static Color getLineColor(JRBoxPen boxPen, Color defaultColor)
+	{
+		if (boxPen.getOwnLineColor() != null)
+			return boxPen.getOwnLineColor();
+		if (boxPen.getBox().getPen().getOwnLineColor() != null)
+			return boxPen.getBox().getPen().getOwnLineColor();
+		JRStyle baseStyle = getBaseStyle(boxPen.getStyleContainer());
+		if (baseStyle != null && boxPen.getPen(baseStyle.getLineBox()).getLineColor() != null)
+			return boxPen.getPen(baseStyle.getLineBox()).getLineColor();
+		return defaultColor;
+	}
+
+	/**
+	 *
+	 */
+	public static byte getFill(JRCommonGraphicElement element)
 	{
 		if (element.getOwnFill() != null)
 			return element.getOwnFill().byteValue();
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null && baseStyle.getFill() != null)
 			return baseStyle.getFill().byteValue();
-		return defaultFill;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getFill(JRPrintGraphicElement element, byte defaultFill)
-	{
-		if (element.getOwnFill() != null)
-			return element.getOwnFill().byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.getFill() != null)
-			return baseStyle.getFill().byteValue();
-		return defaultFill;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getFill(JRTemplateGraphicElement element, byte defaultFill)
-	{
-		if (element.getOwnFill() != null)
-			return element.getOwnFill().byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.getFill() != null)
-			return baseStyle.getFill().byteValue();
-		return defaultFill;
+		return JRGraphicElement.FILL_SOLID;
 	}
 
 	/**
@@ -379,33 +306,7 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static int getRadius(JRRectangle rectangle)
-	{
-		if (rectangle.getOwnRadius() != null)
-			return rectangle.getOwnRadius().intValue();
-		JRStyle baseStyle = getBaseStyle(rectangle);
-		if (baseStyle != null && baseStyle.getRadius() != null)
-			return baseStyle.getRadius().intValue();
-		return 0;
-	}
-
-	/**
-	 *
-	 */
-	public static int getRadius(JRPrintRectangle rectangle)
-	{
-		if (rectangle.getOwnRadius() != null)
-			return rectangle.getOwnRadius().intValue();
-		JRStyle baseStyle = getBaseStyle(rectangle);
-		if (baseStyle != null && baseStyle.getRadius() != null)
-			return baseStyle.getRadius().intValue();
-		return 0;
-	}
-
-	/**
-	 *
-	 */
-	public static int getRadius(JRTemplateRectangle rectangle)
+	public static int getRadius(JRCommonRectangle rectangle)
 	{
 		if (rectangle.getOwnRadius() != null)
 			return rectangle.getOwnRadius().intValue();
@@ -431,33 +332,7 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static byte getScaleImage(JRImage image)
-	{
-		if (image.getOwnScaleImage() != null)
-			return image.getOwnScaleImage().byteValue();
-		JRStyle baseStyle = getBaseStyle(image);
-		if (baseStyle != null && baseStyle.getScaleImage() != null)
-			return baseStyle.getScaleImage().byteValue();
-		return JRImage.SCALE_IMAGE_RETAIN_SHAPE;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getScaleImage(JRPrintImage image)
-	{
-		if (image.getOwnScaleImage() != null)
-			return image.getOwnScaleImage().byteValue();
-		JRStyle baseStyle = getBaseStyle(image);
-		if (baseStyle != null && baseStyle.getScaleImage() != null)
-			return baseStyle.getScaleImage().byteValue();
-		return JRImage.SCALE_IMAGE_RETAIN_SHAPE;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getScaleImage(JRTemplateImage image)
+	public static byte getScaleImage(JRCommonImage image)
 	{
 		if (image.getOwnScaleImage() != null)
 			return image.getOwnScaleImage().byteValue();
@@ -535,33 +410,7 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static byte getRotation(JRTextElement element)
-	{
-		if (element.getOwnRotation() != null)
-			return element.getOwnRotation().byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.getRotation() != null)
-			return baseStyle.getRotation().byteValue();
-		return JRTextElement.ROTATION_NONE;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getRotation(JRPrintText element)
-	{
-		if (element.getOwnRotation() != null)
-			return element.getOwnRotation().byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.getRotation() != null)
-			return baseStyle.getRotation().byteValue();
-		return JRTextElement.ROTATION_NONE;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getRotation(JRTemplateText element)
+	public static byte getRotation(JRCommonText element)
 	{
 		if (element.getOwnRotation() != null)
 			return element.getOwnRotation().byteValue();
@@ -587,33 +436,7 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static byte getLineSpacing(JRTextElement element)
-	{
-		if (element.getOwnLineSpacing() != null)
-			return element.getOwnLineSpacing().byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.getLineSpacing() != null)
-			return baseStyle.getLineSpacing().byteValue();
-		return JRTextElement.LINE_SPACING_SINGLE;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getLineSpacing(JRPrintText element)
-	{
-		if (element.getOwnLineSpacing() != null)
-			return element.getOwnLineSpacing().byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.getLineSpacing() != null)
-			return baseStyle.getLineSpacing().byteValue();
-		return JRTextElement.LINE_SPACING_SINGLE;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getLineSpacing(JRTemplateText element)
+	public static byte getLineSpacing(JRCommonText element)
 	{
 		if (element.getOwnLineSpacing() != null)
 			return element.getOwnLineSpacing().byteValue();
@@ -639,33 +462,7 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static boolean isStyledText(JRTextElement element)
-	{
-		if (element.isOwnStyledText() != null)
-			return element.isOwnStyledText().booleanValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.isStyledText() != null)
-			return baseStyle.isStyledText().booleanValue();
-		return false;
-	}
-
-	/**
-	 *
-	 */
-	public static boolean isStyledText(JRPrintText element)
-	{
-		if (element.isOwnStyledText() != null)
-			return element.isOwnStyledText().booleanValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.isStyledText() != null)
-			return baseStyle.isStyledText().booleanValue();
-		return false;
-	}
-
-	/**
-	 *
-	 */
-	public static boolean isStyledText(JRTemplateText element)
+	public static boolean isStyledText(JRCommonText element)
 	{
 		if (element.isOwnStyledText() != null)
 			return element.isOwnStyledText().booleanValue();
@@ -1004,439 +801,74 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static byte getBorder(JRBox box)
-	{
-		if (box.getOwnBorder() != null)
-			return box.getOwnBorder().byteValue();
-		JRStyle baseStyle = getBaseStyle(box);
-		if (baseStyle != null && baseStyle.getBorder() != null)
-			return baseStyle.getBorder().byteValue();
-		return JRGraphicElement.PEN_NONE;
-	}
-
-	/**
-	 *
-	 */
-	public static Byte getBorder(JRStyle style)
-	{
-		if (style.getOwnBorder() != null)
-			return style.getOwnBorder();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getBorder();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getTopBorder(JRBox box)
-	{
-		if (box.getOwnTopBorder() != null)
-			return box.getOwnTopBorder().byteValue();
-		if (box.getOwnBorder() != null)
-			return box.getOwnBorder().byteValue();
-		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getTopBorder() != null)
-			return style.getTopBorder().byteValue();
-		return JRGraphicElement.PEN_NONE;
-	}
-
-	/**
-	 *
-	 */
-	public static Byte getTopBorder(JRStyle style)
-	{
-		if (style.getOwnTopBorder() != null)
-			return style.getOwnTopBorder();
-		if (style.getOwnBorder() != null)
-			return style.getOwnBorder();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getTopBorder();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getLeftBorder(JRBox box)
-	{
-		if (box.getOwnLeftBorder() != null)
-			return box.getOwnLeftBorder().byteValue();
-		if (box.getOwnBorder() != null)
-			return box.getOwnBorder().byteValue();
-		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getLeftBorder() != null)
-			return style.getLeftBorder().byteValue();
-		return JRGraphicElement.PEN_NONE;
-	}
-
-	/**
-	 *
-	 */
-	public static Byte getLeftBorder(JRStyle style)
-	{
-		if (style.getOwnLeftBorder() != null)
-			return style.getOwnLeftBorder();
-		if (style.getOwnBorder() != null)
-			return style.getOwnBorder();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getLeftBorder();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getBottomBorder(JRBox box)
-	{
-		if (box.getOwnBottomBorder() != null)
-			return box.getOwnBottomBorder().byteValue();
-		if (box.getOwnBorder() != null)
-			return box.getOwnBorder().byteValue();
-		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getBottomBorder() != null)
-			return style.getBottomBorder().byteValue();
-		return JRGraphicElement.PEN_NONE;
-	}
-
-	/**
-	 *
-	 */
-	public static Byte getBottomBorder(JRStyle style)
-	{
-		if (style.getOwnBottomBorder() != null)
-			return style.getOwnBottomBorder();
-		if (style.getOwnBorder() != null)
-			return style.getOwnBorder();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getBottomBorder();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static byte getRightBorder(JRBox box)
-	{
-		if (box.getOwnRightBorder() != null)
-			return box.getOwnRightBorder().byteValue();
-		if (box.getOwnBorder() != null)
-			return box.getOwnBorder().byteValue();
-		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getRightBorder() != null)
-			return style.getRightBorder().byteValue();
-		return JRGraphicElement.PEN_NONE;
-	}
-
-	/**
-	 *
-	 */
-	public static Byte getRightBorder(JRStyle style)
-	{
-		if (style.getOwnRightBorder() != null)
-			return style.getOwnRightBorder();
-		if (style.getOwnBorder() != null)
-			return style.getOwnBorder();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getRightBorder();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getBorderColor(JRBox box, Color defaultColor)
-	{
-		if (box.getOwnBorderColor() != null)
-			return box.getOwnBorderColor();
-		JRStyle baseStyle = getBaseStyle(box);
-		if (baseStyle != null && baseStyle.getBorderColor() != null)
-			return baseStyle.getBorderColor();
-		return defaultColor;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getBorderColor(JRStyle style)
-	{
-		if (style.getOwnBorderColor() != null)
-			return style.getOwnBorderColor();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getBorderColor();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getTopBorderColor(JRBox box, Color defaultColor)
-	{
-		if (box.getOwnTopBorderColor() != null)
-			return box.getOwnTopBorderColor();
-		if (box.getOwnBorderColor() != null)
-			return box.getOwnBorderColor();
-		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getTopBorderColor() != null)
-			return style.getTopBorderColor();
-		return defaultColor;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getTopBorderColor(JRStyle style)
-	{
-		if (style.getOwnTopBorderColor() != null)
-			return style.getOwnTopBorderColor();
-		if (style.getOwnBorderColor() != null)
-			return style.getOwnBorderColor();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getTopBorderColor();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getLeftBorderColor(JRBox box, Color defaultColor)
-	{
-		if (box.getOwnLeftBorderColor() != null)
-			return box.getOwnLeftBorderColor();
-		if (box.getOwnBorderColor() != null)
-			return box.getOwnBorderColor();
-		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getLeftBorderColor() != null)
-			return style.getLeftBorderColor();
-		return defaultColor;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getLeftBorderColor(JRStyle style)
-	{
-		if (style.getOwnLeftBorderColor() != null)
-			return style.getOwnLeftBorderColor();
-		if (style.getOwnBorderColor() != null)
-			return style.getOwnBorderColor();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getLeftBorderColor();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getBottomBorderColor(JRBox box, Color defaultColor)
-	{
-		if (box.getOwnBottomBorderColor() != null)
-			return box.getOwnBottomBorderColor();
-		if (box.getOwnBorderColor() != null)
-			return box.getOwnBorderColor();
-		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getBottomBorderColor() != null)
-			return style.getBottomBorderColor();
-		return defaultColor;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getBottomBorderColor(JRStyle style)
-	{
-		if (style.getOwnBottomBorderColor() != null)
-			return style.getOwnBottomBorderColor();
-		if (style.getOwnBorderColor() != null)
-			return style.getOwnBorderColor();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getBottomBorderColor();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getRightBorderColor(JRBox box, Color defaultColor)
-	{
-		if (box.getOwnRightBorderColor() != null)
-			return box.getOwnRightBorderColor();
-		if (box.getOwnBorderColor() != null)
-			return box.getOwnBorderColor();
-		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getRightBorderColor() != null)
-			return style.getRightBorderColor();
-		return defaultColor;
-	}
-
-	/**
-	 *
-	 */
-	public static Color getRightBorderColor(JRStyle style)
-	{
-		if (style.getOwnRightBorderColor() != null)
-			return style.getOwnRightBorderColor();
-		if (style.getOwnBorderColor() != null)
-			return style.getOwnBorderColor();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getRightBorderColor();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static int getPadding(JRBox box)
+	public static Integer getPadding(JRLineBox box)
 	{
 		if (box.getOwnPadding() != null)
-			return box.getOwnPadding().intValue();
+			return box.getOwnPadding();
 		JRStyle baseStyle = getBaseStyle(box);
-		if (baseStyle != null && baseStyle.getPadding() != null)
-			return baseStyle.getPadding().intValue();
-		return 0;
+		if (baseStyle != null && baseStyle.getLineBox().getPadding() != null)
+			return baseStyle.getLineBox().getPadding();
+		return INTEGER_ZERO;
 	}
 
 	/**
 	 *
 	 */
-	public static Integer getPadding(JRStyle style)
-	{
-		if (style.getOwnPadding() != null)
-			return style.getOwnPadding();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getPadding();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static int getTopPadding(JRBox box)
+	public static Integer getTopPadding(JRLineBox box)
 	{
 		if (box.getOwnTopPadding() != null)
-			return box.getOwnTopPadding().intValue();
+			return box.getOwnTopPadding();
 		if (box.getOwnPadding() != null)
-			return box.getOwnPadding().intValue();
+			return box.getOwnPadding();
 		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getTopPadding() != null)
-			return style.getTopPadding().intValue();
-		return 0;
+		if (style != null && style.getLineBox().getTopPadding() != null)
+			return style.getLineBox().getTopPadding();
+		return INTEGER_ZERO;
 	}
 
 	/**
 	 *
 	 */
-	public static Integer getTopPadding(JRStyle style)
-	{
-		if (style.getOwnTopPadding() != null)
-			return style.getOwnTopPadding();
-		if (style.getOwnPadding() != null)
-			return style.getOwnPadding();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getTopPadding();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static int getLeftPadding(JRBox box)
+	public static Integer getLeftPadding(JRLineBox box)
 	{
 		if (box.getOwnLeftPadding() != null)
-			return box.getOwnLeftPadding().intValue();
+			return box.getOwnLeftPadding();
 		if (box.getOwnPadding() != null)
-			return box.getOwnPadding().intValue();
+			return box.getOwnPadding();
 		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getLeftPadding() != null)
-			return style.getLeftPadding().intValue();
-		return 0;
+		if (style != null && style.getLineBox().getLeftPadding() != null)
+			return style.getLineBox().getLeftPadding();
+		return INTEGER_ZERO;
 	}
 
 	/**
 	 *
 	 */
-	public static Integer getLeftPadding(JRStyle style)
-	{
-		if (style.getOwnLeftPadding() != null)
-			return style.getOwnLeftPadding();
-		if (style.getOwnPadding() != null)
-			return style.getOwnPadding();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getLeftPadding();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static int getBottomPadding(JRBox box)
+	public static Integer getBottomPadding(JRLineBox box)
 	{
 		if (box.getOwnBottomPadding() != null)
-			return box.getOwnBottomPadding().intValue();
+			return box.getOwnBottomPadding();
 		if (box.getOwnPadding() != null)
-			return box.getOwnPadding().intValue();
+			return box.getOwnPadding();
 		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getBottomPadding() != null)
-			return style.getBottomPadding().intValue();
-		return 0;
+		if (style != null && style.getLineBox().getBottomPadding() != null)
+			return style.getLineBox().getBottomPadding();
+		return INTEGER_ZERO;
 	}
 
 	/**
 	 *
 	 */
-	public static Integer getBottomPadding(JRStyle style)
-	{
-		if (style.getOwnBottomPadding() != null)
-			return style.getOwnBottomPadding();
-		if (style.getOwnPadding() != null)
-			return style.getOwnPadding();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getBottomPadding();
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public static int getRightPadding(JRBox box)
+	public static Integer getRightPadding(JRLineBox box)
 	{
 		if (box.getOwnRightPadding() != null)
-			return box.getOwnRightPadding().intValue();
+			return box.getOwnRightPadding();
 		if (box.getOwnPadding() != null)
-			return box.getOwnPadding().intValue();
+			return box.getOwnPadding();
 		JRStyle style = getBaseStyle(box);
-		if (style != null && style.getRightPadding() != null)
-			return style.getRightPadding().intValue();
-		return 0;
-	}
-
-	/**
-	 *
-	 */
-	public static Integer getRightPadding(JRStyle style)
-	{
-		if (style.getOwnRightPadding() != null)
-			return style.getOwnRightPadding();
-		if (style.getOwnPadding() != null)
-			return style.getOwnPadding();
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-			return baseStyle.getRightPadding();
-		return null;
+		if (style != null && style.getLineBox().getRightPadding() != null)
+			return style.getLineBox().getRightPadding();
+		return INTEGER_ZERO;
 	}
 
 
@@ -1452,8 +884,8 @@ public class JRStyleResolver
 		if (srcStyle.getOwnBackcolor() != null)
 			destStyle.setBackcolor(srcStyle.getOwnBackcolor());
 
-		if (srcStyle.getOwnPen() != null)
-			destStyle.setPen(srcStyle.getOwnPen());
+		appendPen(destStyle.getLinePen(), srcStyle.getLinePen());
+		
 		if (srcStyle.getOwnFill() != null)
 			destStyle.setFill(srcStyle.getOwnFill());
 
@@ -1467,36 +899,7 @@ public class JRStyleResolver
 		if (srcStyle.getOwnVerticalAlignment() != null)
 			destStyle.setVerticalAlignment(srcStyle.getOwnVerticalAlignment());
 
-		if (srcStyle.getOwnBorder() != null)
-			destStyle.setBorder(srcStyle.getOwnBorder());
-		if (srcStyle.getOwnTopBorder() != null)
-			destStyle.setTopBorder(srcStyle.getOwnTopBorder());
-		if (srcStyle.getOwnLeftBorder() != null)
-			destStyle.setLeftBorder(srcStyle.getOwnLeftBorder());
-		if (srcStyle.getOwnBottomBorder() != null)
-			destStyle.setBottomBorder(srcStyle.getOwnBottomBorder());
-		if (srcStyle.getOwnRightBorder() != null)
-			destStyle.setRightBorder(srcStyle.getOwnRightBorder());
-		if (srcStyle.getOwnBorderColor() != null)
-			destStyle.setBorderColor(srcStyle.getOwnBorderColor());
-		if (srcStyle.getOwnTopBorderColor() != null)
-			destStyle.setTopBorderColor(srcStyle.getOwnTopBorderColor());
-		if (srcStyle.getOwnLeftBorderColor() != null)
-			destStyle.setLeftBorderColor(srcStyle.getOwnLeftBorderColor());
-		if (srcStyle.getOwnBottomBorderColor() != null)
-			destStyle.setBottomBorderColor(srcStyle.getOwnBottomBorderColor());
-		if (srcStyle.getOwnRightBorderColor() != null)
-			destStyle.setRightBorderColor(srcStyle.getOwnRightBorderColor());
-		if (srcStyle.getOwnPadding() != null)
-			destStyle.setPadding(srcStyle.getOwnPadding());
-		if (srcStyle.getOwnTopPadding() != null)
-			destStyle.setTopPadding(srcStyle.getOwnTopPadding());
-		if (srcStyle.getOwnLeftPadding() != null)
-			destStyle.setLeftPadding(srcStyle.getOwnLeftPadding());
-		if (srcStyle.getOwnBottomPadding() != null)
-			destStyle.setBottomPadding(srcStyle.getOwnBottomPadding());
-		if (srcStyle.getOwnRightPadding() != null)
-			destStyle.setRightPadding(srcStyle.getOwnRightPadding());
+		appendBox(destStyle.getLineBox(), srcStyle.getLineBox());
 
 		if (srcStyle.getOwnRotation() != null)
 			destStyle.setRotation(srcStyle.getOwnRotation());
@@ -1526,6 +929,42 @@ public class JRStyleResolver
 			destStyle.setPdfEncoding(srcStyle.getOwnPdfEncoding());
 		if (srcStyle.isOwnPdfEmbedded() != null)
 			destStyle.setPdfEmbedded(srcStyle.isOwnPdfEmbedded());
+	}
+
+	/**
+	 * Merges two pens, by appending the properties of the source pen to the ones of the destination pen.
+	 */
+	private static void appendPen(JRPen destPen, JRPen srcPen)
+	{
+		if (srcPen.getOwnLineWidth() != null)
+			destPen.setLineWidth(srcPen.getOwnLineWidth());
+		if (srcPen.getOwnLineStyle() != null)
+			destPen.setLineStyle(srcPen.getOwnLineStyle());
+		if (srcPen.getOwnLineColor() != null)
+			destPen.setLineColor(srcPen.getOwnLineColor());
+	}
+
+	/**
+	 * Merges two boxes, by appending the properties of the source box to the ones of the destination box.
+	 */
+	private static void appendBox(JRLineBox destBox, JRLineBox srcBox)
+	{
+		appendPen(destBox.getPen(), srcBox.getPen());
+		appendPen(destBox.getTopPen(), srcBox.getTopPen());
+		appendPen(destBox.getLeftPen(), srcBox.getLeftPen());
+		appendPen(destBox.getBottomPen(), srcBox.getBottomPen());
+		appendPen(destBox.getRightPen(), srcBox.getRightPen());
+
+		if (srcBox.getOwnPadding() != null)
+			destBox.setPadding(srcBox.getOwnPadding());
+		if (srcBox.getOwnTopPadding() != null)
+			destBox.setTopPadding(srcBox.getOwnTopPadding());
+		if (srcBox.getOwnLeftPadding() != null)
+			destBox.setLeftPadding(srcBox.getOwnLeftPadding());
+		if (srcBox.getOwnBottomPadding() != null)
+			destBox.setBottomPadding(srcBox.getOwnBottomPadding());
+		if (srcBox.getOwnRightPadding() != null)
+			destBox.setRightPadding(srcBox.getOwnRightPadding());
 	}
 
 	/**

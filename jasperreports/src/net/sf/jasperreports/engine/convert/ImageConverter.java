@@ -85,7 +85,8 @@ public class ImageConverter extends ElementConverter
 		JRImage image = (JRImage)element;
 
 		copyGraphicElement(reportConverter, image, printImage);
-		copyBox(image, printImage);
+
+		printImage.copyBox(image.getLineBox());
 		
 		printImage.setAnchorName(JRExpressionUtil.getExpressionText(image.getAnchorNameExpression()));
 		printImage.setBookmarkLevel(image.getBookmarkLevel());

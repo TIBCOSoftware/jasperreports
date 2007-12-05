@@ -35,12 +35,11 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -188,73 +187,46 @@ public class TableBuilder
 		bodyWriter.write("</table:table-column>\n");		
 	}
 	
-	public void buildCellBorderStyle(JRPrintElement element, JRBox box) throws IOException 
+	public void buildCellBorderStyle(JRPrintElement element, JRLineBox box) throws IOException 
 	{
 		if (box != null)
 		{
 			appendBorder(
-				box.getTopBorder(),
-				box.getTopBorderColor() == null ? element.getForecolor() : box.getTopBorderColor(),
+				box.getTopPen(),
 				box.getTopPadding(),
 				"top"
 				);
 			appendBorder(
-				box.getLeftBorder(),
-				box.getLeftBorderColor() == null ? element.getForecolor() : box.getLeftBorderColor(),
+				box.getLeftPen(),
 				box.getLeftPadding(),
 				"left"
 				);
 			appendBorder(
-				box.getBottomBorder(),
-				box.getBottomBorderColor() == null ? element.getForecolor() : box.getBottomBorderColor(),
+				box.getBottomPen(),
 				box.getBottomPadding(),
 				"bottom"
 				);
 			appendBorder(
-				box.getRightBorder(),
-				box.getRightBorderColor() == null ? element.getForecolor() : box.getRightBorderColor(),
+				box.getRightPen(),
 				box.getRightPadding(),
 				"right"
 				);
 		}
 	}
 	
-	private void appendBorder(byte pen, Color borderColor, int padding, String side) throws IOException
+	private void appendBorder(JRPen pen, Integer padding, String side) throws IOException
 	{
 		String borderStyle = null;
-		int borderWidth = 0;
+		int borderWidth = (int)(pen.getLineWidth().floatValue() / 2);
 
-		switch (pen)
+		switch (pen.getLineStyle().byteValue())
 		{
-			case JRGraphicElement.PEN_DOTTED :
+			case JRPen.LINE_STYLE_DASHED :
 			{
 				borderStyle = "dashed";
-				borderWidth = 1;
 				break;
 			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				borderStyle = "solid";
-				borderWidth = 4;
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				borderStyle = "solid";
-				borderWidth = 2;
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				borderStyle = "solid";
-				borderWidth = 1;//FIXMEODT can do better
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
+			case JRPen.LINE_STYLE_SOLID :
 			default :
 			{
 				borderStyle = "solid";
@@ -262,6 +234,45 @@ public class TableBuilder
 				break;
 			}
 		}
+
+//		switch (pen) //FIXMEBORDER
+//		{
+//			case JRGraphicElement.PEN_DOTTED :
+//			{
+//				borderStyle = "dashed";
+//				borderWidth = 1;
+//				break;
+//			}
+//			case JRGraphicElement.PEN_4_POINT :
+//			{
+//				borderStyle = "solid";
+//				borderWidth = 4;
+//				break;
+//			}
+//			case JRGraphicElement.PEN_2_POINT :
+//			{
+//				borderStyle = "solid";
+//				borderWidth = 2;
+//				break;
+//			}
+//			case JRGraphicElement.PEN_THIN :
+//			{
+//				borderStyle = "solid";
+//				borderWidth = 1;//FIXMEODT can do better
+//				break;
+//			}
+//			case JRGraphicElement.PEN_NONE :
+//			{
+//				break;
+//			}
+//			case JRGraphicElement.PEN_1_POINT :
+//			default :
+//			{
+//				borderStyle = "solid";
+//				borderWidth = 1;
+//				break;
+//			}
+//		}
 
 		if (borderWidth > 0)
 		{
@@ -272,16 +283,16 @@ public class TableBuilder
 			styleWriter.write("in ");
 			styleWriter.write(borderStyle); 
 			styleWriter.write(" #");
-			styleWriter.write(JRColorUtil.getColorHexa(borderColor));
+			styleWriter.write(JRColorUtil.getColorHexa(pen.getLineColor()));
 			styleWriter.write("\"");
 		}
 
-		if (padding > 0)
+		if (padding.intValue() > 0)
 		{
 			styleWriter.write(" fo:padding-");
 			styleWriter.write(side);
 			styleWriter.write("=\"");
-			styleWriter.write(String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(padding)));
+			styleWriter.write(String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(padding.intValue())));
 			styleWriter.write("\"");
 		}
 	}

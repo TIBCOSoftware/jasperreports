@@ -27,10 +27,15 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -50,7 +55,7 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	/**
 	 *
 	 */
-	protected Byte pen = null;
+	protected JRPen linePen = null;
 	protected Byte fill = null;
 
 
@@ -60,39 +65,57 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	public JRBasePrintGraphicElement(JRDefaultStyleProvider defaultStyleProvider)
 	{
 		super(defaultStyleProvider);
+
+		linePen = new JRBasePen(this);
 	}
 
 
 	/**
 	 *
+	 */
+	public JRPen getLinePen()
+	{
+		return linePen;
+	}
+		
+	/**
+	 *
+	 */
+	public void copyPen(JRPen linePen)
+	{
+		this.linePen = linePen.clone(this);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public byte getPen()
 	{
-		return JRStyleResolver.getPen(this, JRGraphicElement.PEN_1_POINT);
+		return JRPenUtil.getPenFromLinePen(linePen);
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public Byte getOwnPen()
 	{
-		return pen;
+		return JRPenUtil.getOwnPenFromLinePen(linePen);
 	}
-		
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(byte pen)
 	{
-		this.pen = new Byte(pen);
+		setPen(new Byte(pen));
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(Byte pen)
 	{
-		this.pen = pen;
+		JRPenUtil.setLinePenFromPen(pen, linePen);
 	}
 		
 	/**
@@ -100,7 +123,7 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	 */
 	public byte getFill()
 	{
-		return JRStyleResolver.getFill(this, JRGraphicElement.FILL_SOLID);
+		return JRStyleResolver.getFill(this);
 	}
 
 	/**
@@ -128,4 +151,38 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	}
 		
 
+	/**
+	 * 
+	 */
+	public Float getDefaultLineWidth() 
+	{
+		return JRPen.LINE_WIDTH_1;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getDefaultLineColor() 
+	{
+		return getForecolor();
+	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private Byte pen;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (linePen == null)
+		{
+			linePen = new JRBasePen(this);
+			JRPenUtil.setLinePenFromPen(pen, linePen);
+			pen = null;
+		}
+	}
+		
 }

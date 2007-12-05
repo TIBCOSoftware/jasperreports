@@ -59,7 +59,7 @@ public class LineDrawer extends ElementDrawer
 		
 		grx.setColor(line.getForecolor());
 		
-		Stroke stroke = getStroke(line.getPen());
+		Stroke stroke = getStroke(line.getLinePen());
 
 		if (stroke != null)
 		{

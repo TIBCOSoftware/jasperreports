@@ -39,7 +39,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPrintHyperlink, JRAlignment, JRBox
+public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPrintHyperlink, JRAlignment, JRBox, JRCommonImage
 {
 
 
@@ -53,16 +53,6 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	 */
 	public void setRenderer(JRRenderable renderer);
 		
-	/**
-	 *
-	 */
-	public byte getScaleImage();
-
-	/**
-	 *
-	 */
-	public Byte getOwnScaleImage();
-
 	/**
 	 *
 	 */
@@ -86,46 +76,6 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	/**
 	 *
 	 */
-	public byte getHorizontalAlignment();
-		
-	/**
-	 *
-	 */
-	public Byte getOwnHorizontalAlignment();
-		
-	/**
-	 *
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment);
-		
-	/**
-	 *
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment);
-		
-	/**
-	 *
-	 */
-	public byte getVerticalAlignment();
-		
-	/**
-	 *
-	 */
-	public Byte getOwnVerticalAlignment();
-		
-	/**
-	 *
-	 */
-	public void setVerticalAlignment(byte verticalAlignment);
-		
-	/**
-	 *
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment);
-		
-	/**
-	 *
-	 */
 	public boolean isLazy();
 
 	/**
@@ -144,12 +94,12 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	public void setOnErrorType(byte onErrorType);
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link JRBoxContainer#getLineBox()}
 	 */
 	public JRBox getBox();
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link JRBoxContainer#getLineBox()}
 	 */
 	public void setBox(JRBox box);
 

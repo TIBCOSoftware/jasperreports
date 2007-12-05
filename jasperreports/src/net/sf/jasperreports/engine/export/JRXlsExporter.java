@@ -42,11 +42,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -725,46 +725,47 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected static short getBorder(byte pen)
+	protected static short getBorder(JRPen pen)
 	{
-		short border = HSSFCellStyle.BORDER_NONE;
-		
-		switch (pen)
-		{
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				border = HSSFCellStyle.BORDER_DASHED;
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				border = HSSFCellStyle.BORDER_THICK;
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				border = HSSFCellStyle.BORDER_THICK;
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				border = HSSFCellStyle.BORDER_THIN;
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				border = HSSFCellStyle.BORDER_NONE;
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				border = HSSFCellStyle.BORDER_MEDIUM;
-				break;
-			}
-		}
-		
-		return border;
+		return HSSFCellStyle.BORDER_DASHED;
+//		short border = HSSFCellStyle.BORDER_NONE; //FIXMEBORDER
+//		
+//		switch (pen)
+//		{
+//			case JRGraphicElement.PEN_DOTTED :
+//			{
+//				border = HSSFCellStyle.BORDER_DASHED;
+//				break;
+//			}
+//			case JRGraphicElement.PEN_4_POINT :
+//			{
+//				border = HSSFCellStyle.BORDER_THICK;
+//				break;
+//			}
+//			case JRGraphicElement.PEN_2_POINT :
+//			{
+//				border = HSSFCellStyle.BORDER_THICK;
+//				break;
+//			}
+//			case JRGraphicElement.PEN_THIN :
+//			{
+//				border = HSSFCellStyle.BORDER_THIN;
+//				break;
+//			}
+//			case JRGraphicElement.PEN_NONE :
+//			{
+//				border = HSSFCellStyle.BORDER_NONE;
+//				break;
+//			}
+//			case JRGraphicElement.PEN_1_POINT :
+//			default :
+//			{
+//				border = HSSFCellStyle.BORDER_MEDIUM;
+//				break;
+//			}
+//		}
+//		
+//		return border;
 	}
 
 	protected void exportImage(JRPrintImage image, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols)
@@ -821,12 +822,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		protected final short rightBorderColour;
 		private final int hash;
 
-		public BoxStyle(JRBox box, short backcolor, short forecolor)
+		public BoxStyle(JRLineBox box, short backcolor, short forecolor)
 		{
-			if(box != null && box.getTopBorder() != JRGraphicElement.PEN_NONE)
+			if(box != null && box.getTopPen().getLineWidth().floatValue() <= 0f)
 			{
-				topBorder = getBorder(box.getTopBorder());
-				topBorderColour = box.getTopBorderColor() == null ? forecolor : getNearestColor(box.getTopBorderColor()).getIndex();
+				topBorder = getBorder(box.getTopPen());
+				topBorderColour = getNearestColor(box.getTopPen().getLineColor()).getIndex();
 			}
 			else
 			{
@@ -834,10 +835,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				topBorderColour = backcolor;
 			}
 			
-			if(box != null && box.getBottomBorder() != JRGraphicElement.PEN_NONE)
+			if(box != null && box.getBottomPen().getLineWidth().floatValue() <= 0f)
 			{
-				bottomBorder = getBorder(box.getBottomBorder());
-				bottomBorderColour = box.getBottomBorderColor() == null ? forecolor : getNearestColor(box.getBottomBorderColor()).getIndex();
+				bottomBorder = getBorder(box.getBottomPen());
+				bottomBorderColour = getNearestColor(box.getBottomPen().getLineColor()).getIndex();
 			}
 			else
 			{
@@ -845,10 +846,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				bottomBorderColour = backcolor;
 			}
 			
-			if(box != null && box.getLeftBorder() != JRGraphicElement.PEN_NONE)
+			if(box != null && box.getLeftPen().getLineWidth().floatValue() <= 0f)
 			{
-				leftBorder = getBorder(box.getLeftBorder());
-				leftBorderColour = box.getLeftBorderColor() == null ? forecolor : getNearestColor(box.getLeftBorderColor()).getIndex();
+				leftBorder = getBorder(box.getLeftPen());
+				leftBorderColour = getNearestColor(box.getLeftPen().getLineColor()).getIndex();
 			}
 			else
 			{
@@ -856,10 +857,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				leftBorderColour = backcolor;
 			}
 			
-			if(box != null && box.getRightBorder() != JRGraphicElement.PEN_NONE)
+			if(box != null && box.getRightPen().getLineWidth().floatValue() <= 0f)
 			{
-				rightBorder = getBorder(box.getRightBorder());
-				rightBorderColour = box.getRightBorderColor() == null ? forecolor : getNearestColor(box.getRightBorderColor()).getIndex();
+				rightBorder = getBorder(box.getRightPen());
+				rightBorderColour = getNearestColor(box.getRightPen().getLineColor()).getIndex();
 			}
 			else
 			{

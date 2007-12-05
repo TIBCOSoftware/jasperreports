@@ -31,14 +31,17 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
+import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 
 /**
@@ -409,18 +412,27 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public JRBox getBox()
 	{
-		return (JRTemplateText)template;
+		return new LineBoxWrapper(getLineBox());
+	}
+
+	/**
+	 *
+	 */
+	public JRLineBox getLineBox()
+	{
+		return ((JRTemplateText)template).getLineBox();
 	}
 		
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setBox(JRBox box)
 	{
+		JRBoxUtil.setBoxToLineBox(box, getLineBox());
 	}
 
 	/**
@@ -545,339 +557,443 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public byte getBorder()
 	{
-		return ((JRTemplateText)template).getBorder();
-	}
-
-	public Byte getOwnBorder()
-	{
-		return ((JRTemplateText)template).getOwnBorder();
+		return getBox().getBorder();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public Byte getOwnBorder()
+	{
+		return getBox().getOwnBorder();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBorder(byte border)
 	{
+		getBox().setBorder(border);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public void setBorder(Byte border)
+	{
+		getBox().setBorder(border);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getBorderColor()
 	{
-		return ((JRTemplateText)template).getBorderColor();
-	}
-
-	public Color getOwnBorderColor()
-	{
-		return ((JRTemplateText)template).getOwnBorderColor();
+		return getBox().getBorderColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public Color getOwnBorderColor()
+	{
+		return getBox().getOwnBorderColor();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBorderColor(Color borderColor)
 	{
+		getBox().setBorderColor(borderColor);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public int getPadding()
 	{
-		return ((JRTemplateText)template).getPadding();
-	}
-
-	public Integer getOwnPadding()
-	{
-		return ((JRTemplateText)template).getOwnPadding();
+		return getBox().getPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public Integer getOwnPadding()
+	{
+		return getBox().getOwnPadding();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setPadding(int padding)
 	{
+		getBox().setPadding(padding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public void setPadding(Integer padding)
+	{
+		getBox().setPadding(padding);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public byte getTopBorder()
 	{
-		return ((JRTemplateText)template).getTopBorder();
+		return getBox().getTopBorder();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnTopBorder()
 	{
-		return ((JRTemplateText)template).getOwnTopBorder();
+		return getBox().getOwnTopBorder();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setTopBorder(byte topBorder)
 	{
+		getBox().setTopBorder(topBorder);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public void setTopBorder(Byte topBorder)
+	{
+		getBox().setTopBorder(topBorder);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getTopBorderColor()
 	{
-		return ((JRTemplateText)template).getTopBorderColor();
+		return getBox().getTopBorderColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnTopBorderColor()
 	{
-		return ((JRTemplateText)template).getOwnTopBorderColor();
+		return getBox().getOwnTopBorderColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setTopBorderColor(Color topBorderColor)
 	{
+		getBox().setTopBorderColor(topBorderColor);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public int getTopPadding()
 	{
-		return ((JRTemplateText)template).getTopPadding();
+		return getBox().getTopPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnTopPadding()
 	{
-		return ((JRTemplateText)template).getOwnTopPadding();
+		return getBox().getOwnTopPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setTopPadding(int topPadding)
 	{
+		getBox().setTopPadding(topPadding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public void setTopPadding(Integer topPadding)
+	{
+		getBox().setTopPadding(topPadding);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public byte getLeftBorder()
 	{
-		return ((JRTemplateText)template).getLeftBorder();
+		return getBox().getLeftBorder();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnLeftBorder()
 	{
-		return ((JRTemplateText)template).getOwnLeftBorder();
+		return getBox().getOwnLeftBorder();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setLeftBorder(byte leftBorder)
 	{
+		getBox().setLeftBorder(leftBorder);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public void setLeftBorder(Byte leftBorder)
+	{
+		getBox().setLeftBorder(leftBorder);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getLeftBorderColor()
 	{
-		return ((JRTemplateText)template).getLeftBorderColor();
+		return getBox().getLeftBorderColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnLeftBorderColor()
 	{
-		return ((JRTemplateText)template).getOwnLeftBorderColor();
+		return getBox().getOwnLeftBorderColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
+		getBox().setLeftBorderColor(leftBorderColor);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public int getLeftPadding()
 	{
-		return ((JRTemplateText)template).getLeftPadding();
+		return getBox().getLeftPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnLeftPadding()
 	{
-		return ((JRTemplateText)template).getOwnLeftPadding();
+		return getBox().getOwnLeftPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
+		getBox().setLeftPadding(leftPadding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public void setLeftPadding(Integer leftPadding)
+	{
+		getBox().setLeftPadding(leftPadding);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public byte getBottomBorder()
 	{
-		return ((JRTemplateText)template).getBottomBorder();
+		return getBox().getBottomBorder();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnBottomBorder()
 	{
-		return ((JRTemplateText)template).getOwnBottomBorder();
+		return getBox().getOwnBottomBorder();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBottomBorder(byte bottomBorder)
 	{
+		getBox().setBottomBorder(bottomBorder);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public void setBottomBorder(Byte bottomBorder)
+	{
+		getBox().setBottomBorder(bottomBorder);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getBottomBorderColor()
 	{
-		return ((JRTemplateText)template).getBottomBorderColor();
+		return getBox().getBottomBorderColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnBottomBorderColor()
 	{
-		return ((JRTemplateText)template).getOwnBottomBorderColor();
+		return getBox().getOwnBottomBorderColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
+		getBox().setBottomBorderColor(bottomBorderColor);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public int getBottomPadding()
 	{
-		return ((JRTemplateText)template).getBottomPadding();
+		return getBox().getBottomPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnBottomPadding()
 	{
-		return ((JRTemplateText)template).getOwnBottomPadding();
+		return getBox().getOwnBottomPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
+		getBox().setBottomPadding(bottomPadding);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public void setBottomPadding(Integer bottomPadding)
+	{
+		getBox().setBottomPadding(bottomPadding);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public byte getRightBorder()
 	{
-		return ((JRTemplateText)template).getRightBorder();
+		return getBox().getRightBorder();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Byte getOwnRightBorder()
 	{
-		return ((JRTemplateText)template).getOwnRightBorder();
+		return getBox().getOwnRightBorder();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setRightBorder(byte rightBorder)
 	{
+		getBox().setRightBorder(rightBorder);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public void setRightBorder(Byte rightBorder)
+	{
+		getBox().setRightBorder(rightBorder);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getRightBorderColor()
 	{
-		return ((JRTemplateText)template).getRightBorderColor();
+		return getBox().getRightBorderColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Color getOwnRightBorderColor()
 	{
-		return ((JRTemplateText)template).getOwnRightBorderColor();
+		return getBox().getOwnRightBorderColor();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setRightBorderColor(Color rightBorderColor)
 	{
+		getBox().setRightBorderColor(rightBorderColor);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public int getRightPadding()
 	{
-		return ((JRTemplateText)template).getRightPadding();
+		return getBox().getRightPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public Integer getOwnRightPadding()
 	{
-		return ((JRTemplateText)template).getOwnRightPadding();
+		return getBox().getOwnRightPadding();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBox()}
 	 */
 	public void setRightPadding(int rightPadding)
 	{
+		getBox().setRightPadding(rightPadding);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBox()}
+	 */
+	public void setRightPadding(Integer rightPadding)
+	{
+		getBox().setRightPadding(rightPadding);
 	}
 
 	/**
@@ -1185,75 +1301,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	{
 	}
 
-	/**
-	 *
-	 */
-	public void setBorder(Byte border)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public void setPadding(Integer padding)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public void setTopBorder(Byte topBorder)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public void setTopPadding(Integer topPadding)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public void setLeftBorder(Byte leftBorder)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public void setLeftPadding(Integer leftPadding)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public void setBottomBorder(Byte bottomBorder)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public void setBottomPadding(Integer bottomPadding)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public void setRightBorder(Byte rightBorder)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public void setRightPadding(Integer rightPadding)
-	{
-	}
 
 	public String getValueClassName()
 	{

@@ -58,15 +58,15 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRImageRenderer;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -1316,35 +1316,31 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	protected void appendBorderStyle(JRBox box, StringBuffer styleBuffer)
+	protected void appendBorderStyle(JRLineBox box, StringBuffer styleBuffer)
 	{
 		if (box != null)
 		{
 			appendBorder(
 				styleBuffer,
-				box.getTopBorder(),
-				box.getTopBorderColor(),
+				box.getTopPen(),
 				box.getTopPadding(),
 				"top"
 				);
 			appendBorder(
 				styleBuffer,
-				box.getLeftBorder(),
-				box.getLeftBorderColor(),
+				box.getLeftPen(),
 				box.getLeftPadding(),
 				"left"
 				);
 			appendBorder(
 				styleBuffer,
-				box.getBottomBorder(),
-				box.getBottomBorderColor(),
+				box.getBottomPen(),
 				box.getBottomPadding(),
 				"bottom"
 				);
 			appendBorder(
 				styleBuffer,
-				box.getRightBorder(),
-				box.getRightBorderColor(),
+				box.getRightPen(),
 				box.getRightPadding(),
 				"right"
 				);
@@ -1539,53 +1535,20 @@ public class JRHtmlExporter extends JRAbstractExporter
 				writer.write(imagePath);
 			writer.write("\"");
 		
-			int borderWidth = 0;
-			switch (image.getPen())
-			{
-				case JRGraphicElement.PEN_DOTTED :
-				{
-					borderWidth = 1;
-					break;
-				}
-				case JRGraphicElement.PEN_4_POINT :
-				{
-					borderWidth = 4;
-					break;
-				}
-				case JRGraphicElement.PEN_2_POINT :
-				{
-					borderWidth = 2;
-					break;
-				}
-				case JRGraphicElement.PEN_NONE :
-				{
-					borderWidth = 0;
-					break;
-				}
-				case JRGraphicElement.PEN_THIN :
-				{
-					borderWidth = 1;
-					break;
-				}
-				case JRGraphicElement.PEN_1_POINT :
-				default :
-				{
-					borderWidth = 1;
-					break;
-				}
-			}
+			float borderWidth = image.getLinePen().getLineWidth().intValue();
+			borderWidth = (0f < borderWidth && borderWidth < 1f) ? 1 : (int)borderWidth;
 		
-			writer.write(" border=\"");
+			writer.write(" border=\"");//FIXMEBORDER is this needed? why can't we do like for box, with css?
 			writer.write(String.valueOf(borderWidth));
 			writer.write("\"");
 		
-			int imageWidth = image.getWidth() - image.getLeftPadding() - image.getRightPadding();
+			int imageWidth = image.getWidth() - image.getLineBox().getLeftPadding().intValue() - image.getLineBox().getRightPadding().intValue();
 			if (imageWidth < 0)
 			{
 				imageWidth = 0;
 			}
 		
-			int imageHeight = image.getHeight() - image.getTopPadding() - image.getBottomPadding();
+			int imageHeight = image.getHeight() - image.getLineBox().getTopPadding().intValue() - image.getLineBox().getBottomPadding().intValue();
 			if (imageHeight < 0)
 			{
 				imageHeight = 0;
@@ -1794,49 +1757,64 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void appendBorder(StringBuffer sb, byte pen, Color borderColor, int padding, String side)
+	private void appendBorder(StringBuffer sb, JRPen pen, Integer padding, String side)
 	{
 		String borderStyle = null;
 		String borderWidth = null;
 
-		switch (pen)
+		switch (pen.getLineStyle().byteValue())
 		{
-			case JRGraphicElement.PEN_DOTTED :
+			case JRPen.LINE_STYLE_DASHED :
 			{
 				borderStyle = "dashed";
-				borderWidth = "1";
 				break;
 			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				borderStyle = "solid";
-				borderWidth = "4";
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				borderStyle = "solid";
-				borderWidth = "2";
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				borderStyle = "solid";
-				borderWidth = "1";
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
+			case JRPen.LINE_STYLE_SOLID :
 			default :
 			{
 				borderStyle = "solid";
-				borderWidth = "1";
 				break;
 			}
 		}
+
+//		switch (pen) //FIXMEBORDER
+//		{
+//			case JRGraphicElement.PEN_DOTTED :
+//			{
+//				borderStyle = "dashed";
+//				borderWidth = "1";
+//				break;
+//			}
+//			case JRGraphicElement.PEN_4_POINT :
+//			{
+//				borderStyle = "solid";
+//				borderWidth = "4";
+//				break;
+//			}
+//			case JRGraphicElement.PEN_2_POINT :
+//			{
+//				borderStyle = "solid";
+//				borderWidth = "2";
+//				break;
+//			}
+//			case JRGraphicElement.PEN_THIN :
+//			{
+//				borderStyle = "solid";
+//				borderWidth = "1";
+//				break;
+//			}
+//			case JRGraphicElement.PEN_NONE :
+//			{
+//				break;
+//			}
+//			case JRGraphicElement.PEN_1_POINT :
+//			default :
+//			{
+//				borderStyle = "solid";
+//				borderWidth = "1";
+//				break;
+//			}
+//		}
 
 		if (borderWidth != null)
 		{
@@ -1856,11 +1834,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 			sb.append("border-");
 			sb.append(side);
 			sb.append("-color: #");
-			sb.append(JRColorUtil.getColorHexa(borderColor));
+			sb.append(JRColorUtil.getColorHexa(pen.getLineColor()));
 			sb.append("; ");
 		}
 
-		if (padding > 0)
+		if (padding.intValue() > 0)
 		{
 			sb.append("padding-");
 			sb.append(side);

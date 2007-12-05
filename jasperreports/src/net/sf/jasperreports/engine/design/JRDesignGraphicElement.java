@@ -27,10 +27,17 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -49,15 +56,11 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	public static final String PROPERTY_FILL = JRBaseStyle.PROPERTY_FILL;
-	
-	public static final String PROPERTY_PEN = JRBaseStyle.PROPERTY_PEN;
 
 	/**
 	 *
 	 */
-	protected Byte pen;
+	protected JRPen linePen;
 	protected Byte fill;
 
 
@@ -67,38 +70,49 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	protected JRDesignGraphicElement(JRDefaultStyleProvider defaultStyleProvider)
 	{
 		super(defaultStyleProvider);
+		
+		linePen = new JRBasePen(this);
 	}
 		
 
 	/**
 	 *
 	 */
-	public byte getPen()
+	public JRPen getLinePen()
 	{
-		return JRStyleResolver.getPen(this, PEN_1_POINT);
-	}
-
-	public Byte getOwnPen()
-	{
-		return this.pen;
+		return linePen;
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLinePen()}
+	 */
+	public byte getPen()
+	{
+		return JRPenUtil.getPenFromLinePen(linePen);
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getLinePen()}
+	 */
+	public Byte getOwnPen()
+	{
+		return JRPenUtil.getOwnPenFromLinePen(linePen);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(byte pen)
 	{
 		setPen(new Byte(pen));
 	}
-
+		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(Byte pen)
 	{
-		Object old = this.pen;
-		this.pen = pen;
-		getEventSupport().firePropertyChange(PROPERTY_PEN, old, this.pen);
+		JRPenUtil.setLinePenFromPen(pen, linePen);
 	}
 
 	/**
@@ -106,7 +120,7 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 */
 	public byte getFill()
 	{
-		return JRStyleResolver.getFill(this, FILL_SOLID);
+		return JRStyleResolver.getFill(this);
 	}
 
 	public Byte getOwnFill()
@@ -129,7 +143,41 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	{
 		Object old = this.fill;
 		this.fill = fill;
-		getEventSupport().firePropertyChange(PROPERTY_FILL, old, this.fill);
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FILL, old, this.fill);
 	}
 
+	/**
+	 * 
+	 */
+	public Float getDefaultLineWidth() 
+	{
+		return JRPen.LINE_WIDTH_1;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getDefaultLineColor() 
+	{
+		return getForecolor();
+	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private Byte pen;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (linePen == null)
+		{
+			linePen = new JRBasePen(this);
+			JRPenUtil.setLinePenFromPen(pen, linePen);
+			pen = null;
+		}
+	}
+		
 }

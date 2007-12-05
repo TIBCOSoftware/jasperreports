@@ -65,6 +65,7 @@ import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.Pair;
 
 import org.apache.commons.collections.SequencedHashMap;
 
@@ -89,8 +90,6 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public static final String PROPERTY_REPEAT_COLUMN_HEADERS = "repeatColumnHeaders";
 	
 	public static final String PROPERTY_REPEAT_ROW_HEADERS = "repeatRowHeaders";
-	
-	public static final String PROPERTY_RUN_DIRECTION = JRBaseCrosstab.PROPERTY_RUN_DIRECTION;
 	
 	public static final String PROPERTY_WHEN_NO_DATA_CELL = "whenNoDataCell";
 	
@@ -815,48 +814,6 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return removeCell(cell.getRowTotalGroup(), cell.getColumnTotalGroup());
 	}
 	
-	private static class Pair implements Serializable
-	{
-		private static final long serialVersionUID = 1L;
-		
-		final Object o1;
-		final Object o2;
-		
-		Pair(Object o1, Object o2)
-		{
-			this.o1 = o1;
-			this.o2 = o2;
-		}
-		
-		public boolean equals(Object o)
-		{
-			if (o == this)
-			{
-				return true;
-			}
-			
-			if (o == null || !(o instanceof Pair))
-			{
-				return false;
-			}
-			
-			Pair p = (Pair) o;
-			
-			return (p.o1 == null ? o1 == null : (o1 != null && p.o1.equals(o1))) &&
-				(p.o2 == null ? o2 == null : (o2 != null && p.o2.equals(o2)));
-		}
-		
-		public int hashCode()
-		{
-			int hash = o1 == null ? 0 : o1.hashCode();
-			
-			hash *= 31;
-			
-			hash += o2 == null ? 0 : o2.hashCode();
-			
-			return hash;
-		}
-	}
 
 	public JRCrosstabParameter[] getParameters()
 	{
@@ -1436,7 +1393,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	{
 		byte old = this.runDirection;
 		this.runDirection = runDirection;
-		getEventSupport().firePropertyChange(PROPERTY_RUN_DIRECTION, old, this.runDirection);
+		getEventSupport().firePropertyChange(JRBaseCrosstab.PROPERTY_RUN_DIRECTION, old, this.runDirection);
 	}
 	
 	protected void setCellOrigin(JRCellContents cell, JRCrosstabOrigin origin)
@@ -1466,7 +1423,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignCrosstab clone = (JRDesignCrosstab)super.clone();
 		

@@ -50,8 +50,6 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	public static final String PROPERTY_RADIUS = JRBaseStyle.PROPERTY_RADIUS;
 
 	/**
 	 *
@@ -105,7 +103,7 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	{
 		Object old = this.radius;
 		this.radius = radius;
-		getEventSupport().firePropertyChange(PROPERTY_RADIUS, old, this.radius);
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_RADIUS, old, this.radius);
 	}
 
 	/**

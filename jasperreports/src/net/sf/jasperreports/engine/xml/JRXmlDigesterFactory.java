@@ -110,7 +110,6 @@ import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterValueExpressionFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabRowGroupFactory;
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -201,6 +200,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("jasperReport/style/conditionalStyle/conditionExpression", "setConditionExpression", JRExpression.class.getName());
 		digester.addCallMethod("jasperReport/style/conditionalStyle/conditionExpression", "setText", 0);
 		digester.addFactoryCreate("jasperReport/style/conditionalStyle/style", JRConditionalStyleFillerFactory.class.getName());
+		digester.addFactoryCreate("*/style/pen", JRPenFactory.Style.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/parameter", JRParameterFactory.class.getName());
@@ -305,6 +305,9 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/graphicElement", JRGraphicElementFactory.class.getName());
 
 		/*   */
+		digester.addFactoryCreate("*/graphicElement/pen", JRPenFactory.class.getName());
+
+		/*   */
 		digester.addFactoryCreate("*/rectangle", JRRectangleFactory.class.getName());
 		digester.addSetNext("*/rectangle", "addElement", JRDesignElement.class.getName());
 
@@ -318,7 +321,13 @@ public class JRXmlDigesterFactory
 
 		/*   */
 		digester.addFactoryCreate("*/box", JRBoxFactory.class.getName());
-//		digester.addSetNext("*/box", "setBox", JRBox.class.getName());
+
+		/*   */
+		digester.addFactoryCreate("*/box/pen", JRPenFactory.Box.class.getName());
+		digester.addFactoryCreate("*/box/topPen", JRPenFactory.Top.class.getName());
+		digester.addFactoryCreate("*/box/leftPen", JRPenFactory.Left.class.getName());
+		digester.addFactoryCreate("*/box/bottomPen", JRPenFactory.Bottom.class.getName());
+		digester.addFactoryCreate("*/box/rightPen", JRPenFactory.Right.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/image/imageExpression", JRStringExpressionFactory.class.getName());
@@ -339,7 +348,6 @@ public class JRXmlDigesterFactory
 
 		/*   */
 		digester.addFactoryCreate("*/textElement/font", JRFontFactory.TextElementFontFactory.class.getName());
-//		digester.addSetNext("*/textElement/font", "setFont", JRFont.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/textField", JRTextFieldFactory.class.getName());
@@ -938,9 +946,6 @@ public class JRXmlDigesterFactory
 
 		digester.addFactoryCreate("*/crosstab/crosstabHeaderCell/cellContents", JRCellContentsFactory.class.getName());
 		digester.addSetNext("*/crosstab/crosstabHeaderCell/cellContents", "setHeaderCell", JRDesignCellContents.class.getName());
-
-		digester.addFactoryCreate("*/cellContents/box", JRBaseBoxFactory.class.getName());
-		digester.addSetNext("*/cellContents/box", "setBox", JRBox.class.getName());
 	}
 
 

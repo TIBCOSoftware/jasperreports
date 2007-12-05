@@ -90,10 +90,10 @@ public class TextDrawer extends ElementDrawer
 		int y = text.getY() + offsetY;
 		int width = text.getWidth();
 		int height = text.getHeight();
-		int topPadding = text.getTopPadding();
-		int leftPadding = text.getLeftPadding();
-		int bottomPadding = text.getBottomPadding();
-		int rightPadding = text.getRightPadding();
+		int topPadding = text.getLineBox().getTopPadding().intValue();
+		int leftPadding = text.getLineBox().getLeftPadding().intValue();
+		int bottomPadding = text.getLineBox().getBottomPadding().intValue();
+		int rightPadding = text.getLineBox().getRightPadding().intValue();
 		
 		double angle = 0;
 		
@@ -191,7 +191,7 @@ public class TextDrawer extends ElementDrawer
 		grx.rotate(-angle, x, y);
 
 		/*   */
-		drawBox(grx, text, text, offsetX, offsetY);
+		drawBox(grx, text.getLineBox(), text, offsetX, offsetY);
 	}
 
 	

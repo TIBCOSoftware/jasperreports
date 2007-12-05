@@ -31,12 +31,12 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.util.Random;
 
+import net.sf.jasperreports.engine.JRCommonElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRTemplateElement implements JRStyleContainer, Serializable
+public abstract class JRTemplateElement implements JRCommonElement, Serializable
 {
 
 

@@ -38,7 +38,8 @@ package net.sf.jasperreports.engine.convert;
 import java.util.List;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
-import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChild;
@@ -46,7 +47,6 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRFrame;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -239,32 +239,29 @@ public class ConvertVisitor implements JRVisitor
 		if (frame != null)
 		{
 			boolean hasContour = false;
-			JRBox box = element instanceof JRBox ? (JRBox)element : null; 
-			if (
-				box != null 
-				&& box.getTopBorder() == JRGraphicElement.PEN_NONE 
-				&& box.getLeftBorder() == JRGraphicElement.PEN_NONE 
-				&& box.getRightBorder() == JRGraphicElement.PEN_NONE 
-				&& box.getBottomBorder() == JRGraphicElement.PEN_NONE
-				)
+			JRLineBox box = element instanceof JRBoxContainer ? ((JRBoxContainer)element).getLineBox() : null; 
+			if (box == null)
 			{
-				hasContour = true;
+				JRPrintGraphicElement graphicElement = element instanceof JRPrintGraphicElement ? (JRPrintGraphicElement)element : null;
+				hasContour = (graphicElement == null) || graphicElement.getLinePen().getLineWidth().floatValue() <= 0f; 
 			}
 			else
 			{
-				JRPrintGraphicElement graphicElement = element instanceof JRPrintGraphicElement ? (JRPrintGraphicElement)element : null;
-				hasContour = (graphicElement == null);// || graphicElement.getPen() == JRGraphicElement.PEN_NONE); 
+				hasContour = 
+					box.getTopPen().getLineWidth().floatValue() <= 0f 
+					&& box.getLeftPen().getLineWidth().floatValue() <= 0f 
+					&& box.getRightPen().getLineWidth().floatValue() <= 0f 
+					&& box.getBottomPen().getLineWidth().floatValue() <= 0f;
 			}
-
+			
 			if (hasContour)
 			{
-			
 				JRBasePrintRectangle rectangle = new JRBasePrintRectangle(reportConverter.getDefaultStyleProvider());
 				rectangle.setX(element.getX());
 				rectangle.setY(element.getY());
 				rectangle.setWidth(element.getWidth());
 				rectangle.setHeight(element.getHeight());
-				rectangle.setPen(JRGraphicElement.PEN_THIN);
+				rectangle.getLinePen().setLineWidth(0.5f);
 				rectangle.setForecolor(element.getForecolor());
 				rectangle.setMode(JRElement.MODE_TRANSPARENT);
 				frame.addElement(rectangle);

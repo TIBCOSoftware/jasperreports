@@ -40,7 +40,6 @@ import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 
@@ -86,18 +85,18 @@ public class RectangleDrawer extends ElementDrawer
 
 		grx.setColor(rectangle.getForecolor());
 
-		byte pen = rectangle.getPen();
-		Stroke stroke = getStroke(pen);
+		Stroke stroke = getStroke(rectangle.getLinePen());
 
 		if (stroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(pen);
-			int sizeAdjust = getRectangleSizeAdjust(pen);
+			double cornerOffset = getBorderCornerOffset(rectangle.getLinePen());
+			int sizeAdjust = getRectangleSizeAdjust(rectangle.getLinePen());
 			
 			AffineTransform transform = grx.getTransform();
 			
 			grx.translate(rectangle.getX() + offsetX + cornerOffset, rectangle.getY() + offsetY + cornerOffset);
-			if (pen == JRGraphicElement.PEN_THIN)
+			//if (pen == JRGraphicElement.PEN_THIN)
+			if (rectangle.getLinePen().getLineWidth().floatValue() == 0.5f)//FIXMEBORDER what is this?
 			{
 				grx.scale((rectangle.getWidth() - .5) / rectangle.getWidth(), (rectangle.getHeight() - .5) / rectangle.getHeight());
 			}

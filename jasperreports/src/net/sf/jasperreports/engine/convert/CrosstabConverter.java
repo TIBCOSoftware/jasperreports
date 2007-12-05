@@ -45,13 +45,13 @@ import net.sf.jasperreports.crosstabs.JRCrosstabCell;
 import net.sf.jasperreports.crosstabs.JRCrosstabColumnGroup;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRFrame;
-import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
 
@@ -205,31 +205,28 @@ public class CrosstabConverter extends FrameConverter
 		frame.setBackcolor(cell.getBackcolor());
 		frame.setStyle(reportConverter.resolveStyle(cell));
 		
-		JRBox box = cell.getBox();
+		JRLineBox box = cell.getLineBox();
 		if (box != null)
 		{
-			frame.setBox(box);
+			frame.copyBox(box);
 			
-			boolean copyLeft = left && box.getLeftBorder() == JRGraphicElement.PEN_NONE && box.getRightBorder() != JRGraphicElement.PEN_NONE;
-			boolean copyRight = right && box.getRightBorder() == JRGraphicElement.PEN_NONE && box.getLeftBorder() != JRGraphicElement.PEN_NONE;
-			boolean copyTop = top && box.getTopBorder() == JRGraphicElement.PEN_NONE && box.getBottomBorder() != JRGraphicElement.PEN_NONE;
+			boolean copyLeft = left && box.getLeftPen().getLineWidth().floatValue() <= 0f && box.getRightPen().getLineWidth().floatValue() > 0f;
+			boolean copyRight = right && box.getRightPen().getLineWidth().floatValue() <= 0f && box.getLeftPen().getLineWidth().floatValue() > 0f;
+			boolean copyTop = top && box.getTopPen().getLineWidth().floatValue() <= 0f && box.getBottomPen().getLineWidth().floatValue() > 0f;
 			
 			if (copyLeft)
 			{
-				frame.setLeftBorder(box.getRightBorder());
-				frame.setLeftBorderColor(box.getRightBorderColor());
+				((JRBaseLineBox)frame.getLineBox()).copyLeftPen(box.getRightPen());
 			}
 			
 			if (copyRight)
 			{
-				frame.setRightBorder(box.getLeftBorder());
-				frame.setRightBorderColor(box.getLeftBorderColor());
+				((JRBaseLineBox)frame.getLineBox()).copyRightPen(box.getLeftPen());
 			}
 			
 			if (copyTop)
 			{
-				frame.setTopBorder(box.getBottomBorder());
-				frame.setTopBorderColor(box.getBottomBorderColor());
+				((JRBaseLineBox)frame.getLineBox()).copyTopPen(box.getBottomPen());
 			}
 		}
 		

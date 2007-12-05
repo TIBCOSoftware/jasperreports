@@ -29,8 +29,8 @@ package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
 	
@@ -63,7 +63,7 @@ public class JRExporterGridCell
 	
 	private Color backcolor;
 	private Color forecolor;
-	private JRBox box;
+	private JRLineBox box;
 	
 	private int width = 0;
 	private int height = 0;
@@ -164,13 +164,16 @@ public class JRExporterGridCell
 	}
 
 
-	public JRBox getBox()
+	/**
+	 *
+	 */
+	public JRLineBox getBox()
 	{
 		return box;
 	}
 
 
-	public void setBox(JRBox box)
+	public void setBox(JRLineBox box)
 	{
 		this.box = box;
 	}

@@ -39,9 +39,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -63,7 +63,7 @@ public class TextMeasurer implements JRTextMeasurer
 	 */
 	private static final FontRenderContext FONT_RENDER_CONTEXT = TextRenderer.LINE_BREAK_FONT_RENDER_CONTEXT;
 
-	private JRText textElement;
+	private JRCommonText textElement;
 	private JRPropertiesHolder propertiesHolder;
 
 	/**
@@ -148,7 +148,7 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 * 
 	 */
-	public TextMeasurer(JRText textElement)
+	public TextMeasurer(JRCommonText textElement)
 	{
 		this.textElement = textElement;
 		this.propertiesHolder = textElement instanceof JRPropertiesHolder ? (JRPropertiesHolder) textElement : null;
@@ -162,10 +162,10 @@ public class TextMeasurer implements JRTextMeasurer
 		width = textElement.getWidth();
 		height = textElement.getHeight();
 		
-		topPadding = textElement.getTopPadding();
-		leftPadding = textElement.getLeftPadding();
-		bottomPadding = textElement.getBottomPadding();
-		rightPadding = textElement.getRightPadding();
+		topPadding = textElement.getLineBox().getTopPadding().intValue();
+		leftPadding = textElement.getLineBox().getLeftPadding().intValue();
+		bottomPadding = textElement.getLineBox().getBottomPadding().intValue();
+		rightPadding = textElement.getLineBox().getRightPadding().intValue();
 
 		switch (textElement.getRotation())
 		{

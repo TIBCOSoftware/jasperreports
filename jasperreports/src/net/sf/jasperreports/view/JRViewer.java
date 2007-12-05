@@ -73,6 +73,7 @@ import javax.swing.JPanel;
 import javax.swing.JViewport;
 import javax.swing.filechooser.FileFilter;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -104,6 +105,7 @@ import net.sf.jasperreports.view.save.JRPrintSaveContributor;
  */
 public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 * Maximum size (in pixels) of a buffered image that would be used by {@link JRViewer JRViewer} to render a report page.
@@ -1591,8 +1593,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				if (element instanceof JRPrintFrame)
 				{
 					JRPrintFrame frame = (JRPrintFrame) element;
-					int frameOffsetX = offsetX + frame.getX() + frame.getLeftPadding();
-					int frameOffsetY = offsetY + frame.getY() + frame.getTopPadding();
+					int frameOffsetX = offsetX + frame.getX() + frame.getLineBox().getLeftPadding().intValue();
+					int frameOffsetY = offsetY + frame.getY() + frame.getLineBox().getTopPadding().intValue();
 					createHyperlinks(frame.getElements(), frameOffsetX, frameOffsetY);
 				}
 			}
@@ -1602,6 +1604,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	protected class ImageMapPanel extends JPanel implements MouseListener, MouseMotionListener
 	{
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
 		protected final List imageAreaHyperlinks;
 
 		public ImageMapPanel(Rectangle renderingArea, JRImageMapRenderer imageMap)
@@ -1985,6 +1989,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	*/
 	class PageRenderer extends JLabel
 	{
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
 		private boolean renderImage;
 		JRViewer viewer = null;
 

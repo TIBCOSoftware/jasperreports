@@ -35,11 +35,10 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.base.JRBasePrintGraphicElement;
 
 
 /**
@@ -73,41 +72,15 @@ public abstract class ElementConverter
 
 	
 	/**
-	 * 
-	 */
-	protected void copyBox(JRBox source, JRBox dest)
-	{
-		dest.setBorder(source.getOwnBorder());
-		dest.setBorderColor(source.getOwnBorderColor());
-		dest.setPadding(source.getOwnPadding());
-		
-		dest.setBottomBorder(source.getOwnBottomBorder());
-		dest.setBottomBorderColor(source.getOwnBottomBorderColor());
-		dest.setBottomPadding(source.getOwnBottomPadding());
-		
-		dest.setLeftBorder(source.getOwnLeftBorder());
-		dest.setLeftBorderColor(source.getOwnLeftBorderColor());
-		dest.setLeftPadding(source.getOwnLeftPadding());
-		
-		dest.setRightBorder(source.getOwnRightBorder());
-		dest.setRightBorderColor(source.getOwnRightBorderColor());
-		dest.setRightPadding(source.getOwnRightPadding());
-		
-		dest.setTopBorder(source.getOwnTopBorder());
-		dest.setTopBorderColor(source.getOwnTopBorderColor());
-		dest.setTopPadding(source.getOwnTopPadding());
-	}
-	
-
-	/**
 	 *
 	 */
-	protected void copyGraphicElement(ReportConverter reportConverter, JRGraphicElement element, JRPrintGraphicElement printElement)
+	protected void copyGraphicElement(ReportConverter reportConverter, JRGraphicElement element, JRBasePrintGraphicElement printElement)
 	{
 		copyElement(reportConverter, element, printElement);
 		
+		printElement.copyPen(element.getLinePen());
+		
 		printElement.setFill(element.getOwnFill());
-		printElement.setPen(element.getOwnPen());
 	}
 
 

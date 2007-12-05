@@ -43,13 +43,12 @@ import java.awt.geom.Dimension2D;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
-import net.sf.jasperreports.engine.base.JRBaseBox;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 
 
 /**
@@ -78,10 +77,10 @@ public class ImageDrawer extends ElementDrawer
 				);
 		}
 
-		int topPadding = printImage.getTopPadding();
-		int leftPadding = printImage.getLeftPadding();
-		int bottomPadding = printImage.getBottomPadding();
-		int rightPadding = printImage.getRightPadding();
+		int topPadding = printImage.getLineBox().getTopPadding().intValue();
+		int leftPadding = printImage.getLineBox().getLeftPadding().intValue();
+		int bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
+		int rightPadding = printImage.getLineBox().getRightPadding().intValue();
 		
 		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
@@ -256,17 +255,17 @@ public class ImageDrawer extends ElementDrawer
 		}
 
 		if (
-			printImage.getTopBorder() == JRGraphicElement.PEN_NONE &&
-			printImage.getLeftBorder() == JRGraphicElement.PEN_NONE &&
-			printImage.getBottomBorder() == JRGraphicElement.PEN_NONE &&
-			printImage.getRightBorder() == JRGraphicElement.PEN_NONE
+			printImage.getLineBox().getTopPen().getLineWidth().floatValue() <= 0f &&
+			printImage.getLineBox().getLeftPen().getLineWidth().floatValue() <= 0f &&
+			printImage.getLineBox().getBottomPen().getLineWidth().floatValue() <= 0f &&
+			printImage.getLineBox().getRightPen().getLineWidth().floatValue() <= 0f
 			)
 		{
-			if (printImage.getPen() != JRGraphicElement.PEN_NONE)
+			if (printImage.getLinePen().getLineWidth().floatValue() != 0)
 			{
 				drawBox(
 					grx, 
-					new JRBaseBox(printImage.getPen(), printImage.getForecolor()), 
+					new JRBaseLineBox(printImage.getLinePen()), 
 					printImage, 
 					offsetX, 
 					offsetY
@@ -275,7 +274,7 @@ public class ImageDrawer extends ElementDrawer
 		}
 		else
 		{
-			drawBox(grx, printImage, printImage, offsetX, offsetY);
+			drawBox(grx, printImage.getLineBox(), printImage, offsetX, offsetY);
 		}
 	}
 

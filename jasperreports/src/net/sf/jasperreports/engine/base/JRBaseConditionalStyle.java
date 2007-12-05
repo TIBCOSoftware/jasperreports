@@ -27,11 +27,11 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRConditionalStyle;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
@@ -63,7 +63,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 		forecolor = style.getOwnForecolor();
 		backcolor = style.getOwnBackcolor();
 
-		pen = style.getOwnPen();
+		linePen = style.getLinePen().clone(this);
 		fill = style.getOwnFill();
 
 		radius = style.getOwnRadius();
@@ -72,21 +72,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 		horizontalAlignment = style.getOwnHorizontalAlignment();
 		verticalAlignment = style.getOwnVerticalAlignment();
 
-		border = style.getOwnBorder();
-		topBorder = style.getOwnTopBorder();
-		leftBorder = style.getOwnLeftBorder();
-		bottomBorder = style.getOwnBottomBorder();
-		rightBorder = style.getOwnRightBorder();
-		borderColor = style.getOwnBorderColor();
-		topBorderColor = style.getOwnTopBorderColor();
-		leftBorderColor = style.getOwnLeftBorderColor();
-		bottomBorderColor = style.getOwnBottomBorderColor();
-		rightBorderColor = style.getOwnRightBorderColor();
-		padding = style.getOwnPadding();
-		topPadding = style.getOwnTopPadding();
-		leftPadding = style.getOwnLeftPadding();
-		bottomPadding = style.getOwnBottomPadding();
-		rightPadding = style.getOwnRightPadding();
+		lineBox = style.getLineBox().clone(this);
 
 		rotation = style.getOwnRotation();
 		lineSpacing = style.getOwnLineSpacing();

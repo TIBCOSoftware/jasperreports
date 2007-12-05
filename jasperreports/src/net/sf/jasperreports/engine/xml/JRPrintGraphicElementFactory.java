@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.base.JRBasePrintGraphicElement;
+import net.sf.jasperreports.engine.util.JRPenUtil;
 
 import org.xml.sax.Attributes;
 
@@ -49,7 +50,7 @@ public class JRPrintGraphicElementFactory extends JRBaseFactory
 		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_pen));
 		if (pen != null)
 		{
-			graphicElement.setPen(pen);
+			JRPenUtil.setLinePenFromPen(pen, graphicElement.getLinePen());
 		}
 
 		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_fill));

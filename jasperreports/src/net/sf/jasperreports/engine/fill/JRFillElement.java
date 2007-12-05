@@ -1232,17 +1232,17 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		throw new CloneNotSupportedException();
+		return null;
 	}
 
 	/**
 	 *
 	 */
-	public Object clone(JRElementGroup parentGroup) throws CloneNotSupportedException 
+	public Object clone(JRElementGroup parentGroup) 
 	{
-		throw new CloneNotSupportedException();
+		return null;//FIXMECLONE throw
 	}
 
 	public boolean hasProperties()

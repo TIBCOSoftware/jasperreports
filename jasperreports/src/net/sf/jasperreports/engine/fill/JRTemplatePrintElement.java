@@ -32,8 +32,8 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
 
 
@@ -263,4 +263,13 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	{
 		return null;
 	}
+
+	/**
+	 * 
+	 */
+	public Color getDefaultLineColor() 
+	{
+		return getForecolor();
+	}
+
 }

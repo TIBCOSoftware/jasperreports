@@ -37,7 +37,7 @@ import java.awt.Color;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRElement extends JRChild, JRStyleContainer, JRPropertiesHolder
+public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 {
 
 
@@ -133,23 +133,9 @@ public interface JRElement extends JRChild, JRStyleContainer, JRPropertiesHolder
 
 
 	/**
-	 * Returns the element transparency mode.
-	 * The default value depends on the type of the report element. Graphic elements like rectangles and lines are
-	 * opaque by default, but the images are transparent. Both static texts and text fields are transparent
-	 * by default, and so are the subreport elements.
-	 * @return MODE_OPAQUE or MODE_TRANSPARENT
+	 * Sets the element transparency mode.
 	 */
-	public byte getMode();
-	
-	public Byte getOwnMode();
-
-	/**
-	 * Returns the element transparency mode.
-	 * The default value depends on the type of the report element. Graphic elements like rectangles and lines are
-	 * opaque by default, but the images are transparent. Both static texts and text fields are transparent
-	 * by default, and so are the subreport elements.
-	 */
-	public void setMode(byte mode);
+	public void setMode(byte mode);//FIXMENOW move these setters to the JRCommonElement too?
 	
 	public void setMode(Byte mode);
 	
@@ -230,28 +216,8 @@ public interface JRElement extends JRChild, JRStyleContainer, JRPropertiesHolder
 	/**
 	 *
 	 */
-	public Color getForecolor();
-	
-	/**
-	 *
-	 */
-	public Color getOwnForecolor();
-
-	/**
-	 *
-	 */
 	public void setForecolor(Color forecolor);
 	
-	/**
-	 *
-	 */
-	public Color getBackcolor();
-	
-	/**
-	 *
-	 */
-	public Color getOwnBackcolor();
-
 	/**
 	 *
 	 */
