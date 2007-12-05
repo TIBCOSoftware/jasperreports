@@ -165,6 +165,6 @@ public interface JRChartPlot
 	/**
 	 * 
 	 */
-	public Object clone(JRChart parentChart) throws CloneNotSupportedException;
+	public Object clone(JRChart parentChart);
 	
 }
