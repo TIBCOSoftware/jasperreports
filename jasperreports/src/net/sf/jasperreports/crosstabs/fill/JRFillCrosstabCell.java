@@ -83,8 +83,8 @@ public class JRFillCrosstabCell implements JRCrosstabCell
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		throw new CloneNotSupportedException();
+		return null;
 	}
 }
