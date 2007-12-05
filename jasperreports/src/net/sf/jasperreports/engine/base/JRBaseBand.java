@@ -115,7 +115,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRBaseBand clone = (JRBaseBand)super.clone();
 		if (printWhenExpression != null)

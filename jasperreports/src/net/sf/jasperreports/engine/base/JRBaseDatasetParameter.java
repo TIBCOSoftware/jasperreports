@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -96,9 +97,16 @@ public class JRBaseDatasetParameter implements JRDatasetParameter, Serializable
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		return super.clone();
+		try
+		{
+			return super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 }
