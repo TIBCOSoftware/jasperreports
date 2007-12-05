@@ -195,7 +195,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignDatasetRun clone = (JRDesignDatasetRun)super.clone();
 		

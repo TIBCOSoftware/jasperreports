@@ -331,7 +331,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignExpression clone = (JRDesignExpression)super.clone();
 		
