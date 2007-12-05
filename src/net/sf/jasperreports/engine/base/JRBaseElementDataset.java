@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -145,9 +146,19 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseElementDataset clone = (JRBaseElementDataset)super.clone();
+		JRBaseElementDataset clone = null;
+
+		try
+		{
+			clone = (JRBaseElementDataset)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (incrementWhenExpression != null)
 		{
 			clone.incrementWhenExpression = (JRExpression)incrementWhenExpression.clone();

@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -244,9 +245,19 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseGroup clone = (JRBaseGroup)super.clone();
+		JRBaseGroup clone = null;
+
+		try
+		{
+			clone = (JRBaseGroup)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
 		if (expression != null)
 		{
 			clone.expression = (JRExpression)expression.clone();
@@ -263,6 +274,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		{
 			clone.countVariable = (JRVariable)countVariable.clone();
 		}
+		
 		return clone;
 	}
 

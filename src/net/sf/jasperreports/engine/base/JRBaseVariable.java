@@ -271,9 +271,19 @@ public class JRBaseVariable implements JRVariable, Serializable
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseVariable clone = (JRBaseVariable)super.clone();
+		JRBaseVariable clone = null;
+		
+		try
+		{
+			clone = (JRBaseVariable)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (expression != null)
 		{
 			clone.expression = (JRExpression)expression.clone();

@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -83,13 +84,24 @@ public class JRBaseHyperlinkParameter implements JRHyperlinkParameter, Serializa
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseHyperlinkParameter clone = (JRBaseHyperlinkParameter)super.clone();
+		JRBaseHyperlinkParameter clone = null;
+
+		try
+		{
+			clone = (JRBaseHyperlinkParameter)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (valueExpression != null)
 		{
 			clone.valueExpression = (JRExpression)valueExpression.clone();
 		}
+		
 		return clone;
 	}
 

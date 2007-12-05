@@ -220,9 +220,19 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseParameter clone = (JRBaseParameter)super.clone();
+		JRBaseParameter clone = null;
+
+		try
+		{
+			clone = (JRBaseParameter)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (defaultValueExpression != null)
 		{
 			clone.defaultValueExpression = (JRExpression)defaultValueExpression.clone();
@@ -231,6 +241,7 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 		{
 			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
 		}
+		
 		return clone;
 	}
 

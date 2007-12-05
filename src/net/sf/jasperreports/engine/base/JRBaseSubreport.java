@@ -236,7 +236,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRBaseSubreport clone = (JRBaseSubreport)super.clone();
 		
