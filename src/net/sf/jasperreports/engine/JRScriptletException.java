@@ -35,8 +35,9 @@ package net.sf.jasperreports.engine;
  */
 public class JRScriptletException extends JRException
 {
-	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	
 	/**
 	 *
 	 */
