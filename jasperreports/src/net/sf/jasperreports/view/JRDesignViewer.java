@@ -32,6 +32,7 @@ import java.io.InputStream;
 
 import javax.swing.JOptionPane;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.convert.ReportConverter;
@@ -47,6 +48,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
  */
 public class JRDesignViewer extends JRViewer
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	/** Creates new form JRDesignViewer */
 	public JRDesignViewer(String fileName, boolean isXML) throws JRException
