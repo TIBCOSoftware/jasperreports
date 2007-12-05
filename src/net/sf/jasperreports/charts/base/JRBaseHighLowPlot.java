@@ -323,7 +323,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	/**
 	 *
 	 */
-	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) 
 	{
 		JRBaseHighLowPlot clone = (JRBaseHighLowPlot)super.clone(parentChart);
 		if (timeAxisLabelExpression != null)

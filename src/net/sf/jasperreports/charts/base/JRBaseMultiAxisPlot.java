@@ -131,7 +131,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 	/**
 	 *
 	 */
-	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) 
 	{
 		JRBaseMultiAxisPlot clone = (JRBaseMultiAxisPlot)super.clone(parentChart);
 		

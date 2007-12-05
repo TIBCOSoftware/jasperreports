@@ -34,6 +34,7 @@ import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.base.JRBaseDataRange;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -180,10 +181,19 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRMeterInterval clone = (JRMeterInterval)super.clone();
+		JRMeterInterval clone = null;
 		
+		try
+		{
+			clone = (JRMeterInterval)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (dataRange != null)
 		{
 			clone.dataRange = (JRDataRange)dataRange.clone();

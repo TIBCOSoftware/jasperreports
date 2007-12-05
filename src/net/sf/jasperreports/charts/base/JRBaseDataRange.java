@@ -33,6 +33,7 @@ import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -122,9 +123,19 @@ public class JRBaseDataRange implements JRDataRange, Serializable
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		JRBaseDataRange clone = (JRBaseDataRange)super.clone();
+		JRBaseDataRange clone = null;
+		
+		try
+		{
+			clone = (JRBaseDataRange)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
 		if (lowExpression != null)
 		{
 			clone.lowExpression = (JRExpression)lowExpression.clone();
@@ -133,6 +144,7 @@ public class JRBaseDataRange implements JRDataRange, Serializable
 		{
 			clone.highExpression = (JRExpression)highExpression.clone();
 		}
+		
 		return clone;
 	}
 }

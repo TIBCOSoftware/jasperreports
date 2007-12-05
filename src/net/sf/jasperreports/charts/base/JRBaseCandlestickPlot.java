@@ -298,7 +298,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	/**
 	 *
 	 */
-	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) 
 	{
 		JRBaseCandlestickPlot clone = (JRBaseCandlestickPlot)super.clone(parentChart);
 		if (timeAxisLabelExpression != null)

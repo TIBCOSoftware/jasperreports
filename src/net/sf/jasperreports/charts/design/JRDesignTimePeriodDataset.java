@@ -135,7 +135,7 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignTimePeriodDataset clone = (JRDesignTimePeriodDataset)super.clone();
 		

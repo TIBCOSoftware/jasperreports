@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -95,9 +96,18 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	/**
 	 * 
 	 */
-	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) 
 	{
-		JRBaseChartAxis clone = (JRBaseChartAxis)super.clone();
+		JRBaseChartAxis clone = null;
+
+		try
+		{
+			clone = (JRBaseChartAxis)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 		
 		clone.chart = parentChart;
 		

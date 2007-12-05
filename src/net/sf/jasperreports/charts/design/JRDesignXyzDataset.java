@@ -131,7 +131,7 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRDesignXyzDataset clone = (JRDesignXyzDataset)super.clone();
 		

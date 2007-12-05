@@ -136,7 +136,7 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRBasePieDataset clone = (JRBasePieDataset)super.clone();
 		

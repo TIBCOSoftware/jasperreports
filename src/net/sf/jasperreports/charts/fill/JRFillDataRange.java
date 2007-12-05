@@ -67,8 +67,8 @@ public class JRFillDataRange  implements JRDataRange
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		throw new CloneNotSupportedException();
+		return null;
 	}
 }

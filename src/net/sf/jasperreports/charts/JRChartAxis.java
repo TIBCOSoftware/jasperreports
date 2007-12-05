@@ -76,5 +76,5 @@ public interface JRChartAxis
 	/**
 	 * 
 	 */
-	public Object clone(JRChart parentChart) throws CloneNotSupportedException;
+	public Object clone(JRChart parentChart);
 }

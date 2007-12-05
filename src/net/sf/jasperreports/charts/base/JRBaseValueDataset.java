@@ -123,7 +123,7 @@ public class JRBaseValueDataset extends JRBaseChartDataset implements JRValueDat
 	/**
 	 * 
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
 		JRBaseValueDataset clone = (JRBaseValueDataset)super.clone();
 		
