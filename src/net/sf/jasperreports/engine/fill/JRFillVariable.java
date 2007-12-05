@@ -398,9 +398,9 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException 
+	public Object clone() 
 	{
-		throw new CloneNotSupportedException();
+		return null;
 	}
 
 }

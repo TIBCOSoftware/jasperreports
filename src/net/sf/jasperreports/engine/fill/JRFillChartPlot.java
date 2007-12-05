@@ -204,8 +204,8 @@ public class JRFillChartPlot implements JRChartPlot
 	/**
 	 *
 	 */
-	public Object clone(JRChart parentChart) throws CloneNotSupportedException 
+	public Object clone(JRChart parentChart) 
 	{
-		throw new CloneNotSupportedException();
+		return null;//FIXMECLONE throw
 	}
 }
