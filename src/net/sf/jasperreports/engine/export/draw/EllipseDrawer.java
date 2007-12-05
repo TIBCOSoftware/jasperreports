@@ -82,7 +82,6 @@ public class EllipseDrawer extends ElementDrawer
 			
 			grx.translate(ellipse.getX() + offsetX + cornerOffset, ellipse.getY() + offsetY + cornerOffset);
 			if (ellipse.getLinePen().getLineWidth().floatValue() == 0.5f)//FIXMEBORDER
-			//if (pen == JRGraphicElement.PEN_THIN)
 			{
 				grx.scale((ellipse.getWidth() - .5) / ellipse.getWidth(), (ellipse.getHeight() - .5) / ellipse.getHeight());
 			}

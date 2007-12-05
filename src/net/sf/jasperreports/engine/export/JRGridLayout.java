@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -481,13 +482,7 @@ public class JRGridLayout
 					);
 			}
 			
-			JRLineBox cellBox = null;
-			if (element instanceof JRLineBox)
-			{
-				cellBox = (JRLineBox) element;
-			}
-			
-			gridCell.setBox(cellBox);
+			gridCell.setBox((element instanceof JRBoxContainer)?((JRBoxContainer)element).getLineBox():null);
 
 			grid[row1][col1] = gridCell;
 		}

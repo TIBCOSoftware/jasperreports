@@ -1129,7 +1129,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		public BoxStyle(JRLineBox box)
 		{
-			if(box != null && box.getTopPen().getLineStyle().floatValue() > 0f)
+			if(box != null && box.getTopPen().getLineWidth().floatValue() > 0f)
 			{
 				topBorder = getBorderLineStyle(box.getTopPen());
 				topBorderColour = getWorkbookColour(box.getTopPen().getLineColor());
@@ -1346,9 +1346,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	}
 
 	/**
-	 * @param lineStyle
+	 *
 	 */
-	protected static BorderLineStyle getBorderLineStyle(JRPen pen) {
+	protected static BorderLineStyle getBorderLineStyle(JRPen pen) 
+	{
 		return BorderLineStyle.DOTTED;//FIXMEBORDER
 //		BorderLineStyle retVal = null;
 //		switch(lineStyle) {
