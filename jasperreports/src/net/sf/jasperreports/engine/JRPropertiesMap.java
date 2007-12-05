@@ -163,7 +163,7 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	/**
 	 *
 	 */
-	public Object clone() throws CloneNotSupportedException
+	public Object clone()
 	{
 		return this.cloneProperties();
 	}
