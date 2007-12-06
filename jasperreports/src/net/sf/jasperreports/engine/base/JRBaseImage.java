@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -54,7 +55,7 @@ import net.sf.jasperreports.engine.util.LineBoxWrapper;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseImage extends JRBaseGraphicElement implements JRImage//FIXMEBORDER why isn't this overriding the getDefaultLineWidth()?
+public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 {
 
 
@@ -67,7 +68,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage//FIXMEB
 	 * Image properties
 	 */
 
-	public static final String PROPERTY_LAZY = "lazy";//FIXME why these are not part of the style?
+	public static final String PROPERTY_LAZY = "lazy";
 	
 	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
 	
@@ -445,6 +446,16 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage//FIXMEB
 		return bookmarkLevel;
 	}
 
+	
+	/**
+	 * 
+	 */
+	public Float getDefaultLineWidth() 
+	{
+		return JRPen.LINE_WIDTH_0;
+	}
+
+	
 	/**
 	 * @deprecated Replaced by {@link #getBox()}
 	 */

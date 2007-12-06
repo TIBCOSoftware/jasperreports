@@ -85,7 +85,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -1281,7 +1280,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			if (printImage.getLinePen().getLineWidth().floatValue() > 0f)
 			{
-				exportBox(new JRBaseLineBox(printImage.getLinePen()), printImage);
+				exportPen(printImage.getLinePen(), printImage);
 			}
 		}
 		else
@@ -1862,10 +1861,38 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void exportBox(JRLineBox box, JRPrintElement element)
 	{
-		if (box.getTopPen().getLineWidth().floatValue() > 0f)
+		exportTopPen(box.getTopPen(), element);
+		exportLeftPen(box.getLeftPen(), element);
+		exportBottomPen(box.getBottomPen(), element);
+		exportRightPen(box.getRightPen(), element);
+
+		pdfContentByte.setLineDash(0f);
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportPen(JRPen pen, JRPrintElement element)
+	{
+		exportTopPen(pen, element);
+		exportLeftPen(pen, element);
+		exportBottomPen(pen, element);
+		exportRightPen(pen, element);
+
+		pdfContentByte.setLineDash(0f);
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportTopPen(JRPen topPen, JRPrintElement element)
+	{
+		if (topPen.getLineWidth().floatValue() > 0f)
 		{
-			float borderCorrection = prepareBorder(pdfContentByte, box.getTopPen());
-			Color color = box.getTopPen().getLineColor();
+			float borderCorrection = prepareBorder(pdfContentByte, topPen);
+			Color color = topPen.getLineColor();
 			pdfContentByte.setRGBColorStroke(
 					color.getRed(),
 					color.getGreen(),
@@ -1881,11 +1908,18 @@ public class JRPdfExporter extends JRAbstractExporter
 				);
 			pdfContentByte.stroke();
 		}
+	}
 
-		if (box.getLeftPen().getLineWidth().floatValue() > 0f)
+
+	/**
+	 *
+	 */
+	protected void exportLeftPen(JRPen leftPen, JRPrintElement element)
+	{
+		if (leftPen.getLineWidth().floatValue() > 0f)
 		{
-			float borderCorrection = prepareBorder(pdfContentByte, box.getLeftPen());
-			Color color = box.getLeftPen().getLineColor();
+			float borderCorrection = prepareBorder(pdfContentByte, leftPen);
+			Color color = leftPen.getLineColor();
 			pdfContentByte.setRGBColorStroke(
 					color.getRed(),
 					color.getGreen(),
@@ -1901,11 +1935,18 @@ public class JRPdfExporter extends JRAbstractExporter
 				);
 			pdfContentByte.stroke();
 		}
+	}
 
-		if (box.getBottomPen().getLineWidth().floatValue() > 0f)
+
+	/**
+	 *
+	 */
+	protected void exportBottomPen(JRPen bottomPen, JRPrintElement element)
+	{
+		if (bottomPen.getLineWidth().floatValue() > 0f)
 		{
-			float borderCorrection = prepareBorder(pdfContentByte, box.getBottomPen());
-			Color color = box.getBottomPen().getLineColor();
+			float borderCorrection = prepareBorder(pdfContentByte, bottomPen);
+			Color color = bottomPen.getLineColor();
 			pdfContentByte.setRGBColorStroke(
 					color.getRed(),
 					color.getGreen(),
@@ -1921,11 +1962,18 @@ public class JRPdfExporter extends JRAbstractExporter
 				);
 			pdfContentByte.stroke();
 		}
+	}
 
-		if (box.getRightPen().getLineWidth().floatValue() > 0f)
+
+	/**
+	 *
+	 */
+	protected void exportRightPen(JRPen rightPen, JRPrintElement element)
+	{
+		if (rightPen.getLineWidth().floatValue() > 0f)
 		{
-			float borderCorrection = prepareBorder(pdfContentByte, box.getRightPen());
-			Color color = box.getRightPen().getLineColor();
+			float borderCorrection = prepareBorder(pdfContentByte, rightPen);
+			Color color = rightPen.getLineColor();
 			pdfContentByte.setRGBColorStroke(
 					color.getRed(),
 					color.getGreen(),

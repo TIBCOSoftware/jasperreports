@@ -105,17 +105,6 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	public JRBaseLineBox(JRPen pen)
-	{
-		this((JRBoxContainer)null);
-		
-		this.pen = pen;
-	}
-
-
-	/**
-	 *
-	 */
 	public JRDefaultStyleProvider getDefaultStyleProvider() 
 	{
 		if (boxContainer != null)
