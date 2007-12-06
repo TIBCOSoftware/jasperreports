@@ -133,7 +133,7 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	 */
 	public Float getDefaultLineWidth() 
 	{
-		return JRPen.LINE_WIDTH_1;
+		return ((JRTemplateGraphicElement)template).getDefaultLineWidth();
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	 */
 	public Color getDefaultLineColor() 
 	{
-		return getForecolor();
+		return ((JRTemplateGraphicElement)template).getDefaultLineColor();
 	}
 
 	

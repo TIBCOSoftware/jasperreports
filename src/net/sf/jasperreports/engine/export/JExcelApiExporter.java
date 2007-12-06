@@ -77,6 +77,8 @@ import jxl.write.WriteException;
 import jxl.write.biff.CellValue;
 import jxl.write.biff.RowsExceededException;
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBoxContainer;
+import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
@@ -306,9 +308,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			}
 
 			WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue());
-			WritableCellFormat cellStyle = getLoadedCellStyle(mode, backcolor,
-					Alignment.LEFT.getValue(), VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
-					cellFont, gridCell);
+			WritableCellFormat cellStyle = 
+				getLoadedCellStyle(
+					mode, 
+					backcolor,
+					cellFont, 
+					gridCell
+					);
 
 			sheet.addCell(new Blank(colIndex, rowIndex, cellStyle));
 		}
@@ -327,10 +333,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		addMergeRegion(gridCell, col, row);
 
 		Colour forecolor2 = getWorkbookColour(line.getForecolor());
-		WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor2.getValue());
-		WritableCellFormat cellStyle2 = this.getLoadedCellStyle(Pattern.SOLID, forecolor2, Alignment.LEFT.getValue(),
-																VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
-																cellFont2, gridCell);
+		WritableFont cellFont2 = getLoadedFont(getDefaultFont(), forecolor2.getValue());
+		WritableCellFormat cellStyle2 = 
+			getLoadedCellStyle(
+				Pattern.SOLID, 
+				forecolor2, 
+				cellFont2, 
+				gridCell
+				);
 
 		Blank cell2 = new Blank(col, row, cellStyle2);
 
@@ -358,10 +368,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			backcolor = getWorkbookColour(gridCell.getCellBackcolor());
 		}
 
-		WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
-		WritableCellFormat cellStyle2 = this.getLoadedCellStyle(mode, backcolor, Alignment.LEFT.getValue(),
-																VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
-																cellFont2, gridCell);
+		WritableFont cellFont2 = getLoadedFont(getDefaultFont(), forecolor.getValue());
+		WritableCellFormat cellStyle2 = 
+			getLoadedCellStyle(
+				mode, 
+				backcolor, 
+				cellFont2, 
+				gridCell
+				);
+		
 		Blank cell2 = new Blank(col, row, cellStyle2);
 
 		try
@@ -399,10 +414,16 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				backcolor = getWorkbookColour(gridCell.getCellBackcolor());
 			}
 
-			StyleInfo baseStyle = new StyleInfo(mode, backcolor,
-					horizontalAlignment, verticalAlignment,
-					rotation, cellFont,
-					gridCell.getBox());
+			StyleInfo baseStyle =
+				new StyleInfo(
+					mode, 
+					backcolor,
+					horizontalAlignment, 
+					verticalAlignment,
+					rotation, 
+					cellFont,
+					gridCell.getElement()
+					);
 
 			String textStr = styledText.getText();
 
@@ -865,9 +886,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					background = getWorkbookColour(element.getBackcolor());
 				}
 
-				WritableCellFormat cellStyle2 = this.getLoadedCellStyle(mode, background, Alignment.LEFT.getValue(),
-															VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
-															cellFont2, gridCell);
+				WritableCellFormat cellStyle2 = 
+					getLoadedCellStyle(
+						mode, 
+						background, 
+						cellFont2, 
+						gridCell
+						);
 
 
 				sheet.addCell(new Blank(col, row, cellStyle2));
@@ -1117,60 +1142,58 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected class BoxStyle
 	{
-		protected final BorderLineStyle topBorder;
-		protected final BorderLineStyle bottomBorder;
-		protected final BorderLineStyle leftBorder;
-		protected final BorderLineStyle rightBorder;
-		protected final Colour topBorderColour;
-		protected final Colour bottomBorderColour;
-		protected final Colour leftBorderColour;
-		protected final Colour rightBorderColour;
-		private final int hash;
+		protected BorderLineStyle topBorder = BorderLineStyle.NONE;
+		protected BorderLineStyle bottomBorder = BorderLineStyle.NONE;
+		protected BorderLineStyle leftBorder = BorderLineStyle.NONE;
+		protected BorderLineStyle rightBorder = BorderLineStyle.NONE;
+		protected Colour topBorderColour = BLACK;
+		protected Colour bottomBorderColour = BLACK;
+		protected Colour leftBorderColour = BLACK;
+		protected Colour rightBorderColour = BLACK;
+		private int hash;
 
-		public BoxStyle(JRLineBox box)
+		public BoxStyle()
 		{
-			if(box != null && box.getTopPen().getLineWidth().floatValue() > 0f)
-			{
-				topBorder = getBorderLineStyle(box.getTopPen());
-				topBorderColour = getWorkbookColour(box.getTopPen().getLineColor());
-			}
-			else
-			{
-				topBorder = BorderLineStyle.NONE;
-				topBorderColour = BLACK;
-			}
+			hash = computeHash();
+		}
 
-			if(box != null && box.getBottomPen().getLineWidth().floatValue() > 0f)
-			{
-				bottomBorder = getBorderLineStyle(box.getBottomPen());
-				bottomBorderColour = getWorkbookColour(box.getBottomPen().getLineColor());
-			}
-			else
-			{
-				bottomBorder = BorderLineStyle.NONE;
-				bottomBorderColour = BLACK;
-			}
+		public void setBox(JRLineBox box)
+		{
+			topBorder = getBorderLineStyle(box.getTopPen());
+			topBorderColour = getWorkbookColour(box.getTopPen().getLineColor());
 
-			if(box != null && box.getLeftPen().getLineWidth().floatValue() > 0f)
-			{
-				leftBorder = getBorderLineStyle(box.getLeftPen());
-				leftBorderColour = getWorkbookColour(box.getLeftPen().getLineColor());
-			}
-			else
-			{
-				leftBorder = BorderLineStyle.NONE;
-				leftBorderColour = BLACK;
-			}
+			bottomBorder = getBorderLineStyle(box.getBottomPen());
+			bottomBorderColour = getWorkbookColour(box.getBottomPen().getLineColor());
 
-			if(box != null && box.getRightPen().getLineWidth().floatValue() > 0f)
+			leftBorder = getBorderLineStyle(box.getLeftPen());
+			leftBorderColour = getWorkbookColour(box.getLeftPen().getLineColor());
+
+			rightBorder = getBorderLineStyle(box.getRightPen());
+			rightBorderColour = getWorkbookColour(box.getRightPen().getLineColor());
+
+			hash = computeHash();
+		}
+
+		public void setPen(JRPen pen)
+		{
+			if (
+				topBorder == BorderLineStyle.NONE
+				&& leftBorder == BorderLineStyle.NONE
+				&& bottomBorder == BorderLineStyle.NONE
+				&& rightBorder == BorderLineStyle.NONE
+				)
 			{
-				rightBorder = getBorderLineStyle(box.getRightPen());
-				rightBorderColour = getWorkbookColour(box.getRightPen().getLineColor());
-			}
-			else
-			{
-				rightBorder = BorderLineStyle.NONE;
-				rightBorderColour = BLACK;
+				topBorder = getBorderLineStyle(pen);
+				topBorderColour = getWorkbookColour(pen.getLineColor());
+
+				bottomBorder = topBorder;
+				bottomBorderColour = topBorderColour;
+
+				leftBorder = topBorder;
+				leftBorderColour = topBorderColour;
+
+				rightBorder = topBorder;
+				rightBorderColour = topBorderColour;
 			}
 
 			hash = computeHash();
@@ -1199,14 +1222,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			BoxStyle b = (BoxStyle) o;
 
 			return
-				b.topBorder.equals(topBorder) &&
-				b.topBorderColour.equals(topBorderColour) &&
-				b.bottomBorder.equals(bottomBorder) &&
-				b.bottomBorderColour.equals(bottomBorderColour) &&
-				b.leftBorder.equals(leftBorder) &&
-				b.leftBorderColour.equals(leftBorderColour) &&
-				b.rightBorder.equals(rightBorder) &&
-				b.rightBorderColour.equals(rightBorderColour);
+				b.topBorder.equals(topBorder)
+				&& b.topBorderColour.equals(topBorderColour)
+				&& b.leftBorder.equals(leftBorder)
+				&& b.leftBorderColour.equals(leftBorderColour)
+				&& b.bottomBorder.equals(bottomBorder)
+				&& b.bottomBorderColour.equals(bottomBorderColour)
+				&& b.rightBorder.equals(rightBorder)
+				&& b.rightBorderColour.equals(rightBorderColour);
 		}
 
 		public String toString()
@@ -1227,11 +1250,19 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		protected final int verticalAlignment;
 		protected final int rotation;
 		protected final WritableFont font;
-		protected final BoxStyle box;
+		protected final BoxStyle box = new BoxStyle();
 		private DisplayFormat displayFormat;
 		private int hashCode;
 
-		protected StyleInfo(Pattern mode, Colour backcolor, int horizontalAlignment, int verticalAlignment, int rotation, WritableFont font, JRLineBox box)
+		protected StyleInfo(
+			Pattern mode, 
+			Colour backcolor, 
+			int horizontalAlignment, 
+			int verticalAlignment, 
+			int rotation, 
+			WritableFont font, 
+			JRPrintElement element
+			)
 		{
 			this.mode = mode;
 			this.backcolor = backcolor;
@@ -1239,7 +1270,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			this.verticalAlignment = verticalAlignment;
 			this.rotation = rotation;
 			this.font = font;
-			this.box = new BoxStyle(box);
+			if (element instanceof JRBoxContainer)
+				box.setBox(((JRBoxContainer)element).getLineBox());
+			if (element instanceof JRCommonGraphicElement)
+				box.setPen(((JRCommonGraphicElement)element).getLinePen());
 
 			computeHash();
 		}
@@ -1295,10 +1329,23 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	private WritableCellFormat getLoadedCellStyle(Pattern mode, Colour backcolor, int horizontalAlignment,
-			int verticalAlignment, int rotation, WritableFont font, JRExporterGridCell gridCell) throws JRException
+	private WritableCellFormat getLoadedCellStyle(
+		Pattern mode, 
+		Colour backcolor, 
+		WritableFont font, 
+		JRExporterGridCell gridCell
+		) throws JRException
 	{
-		StyleInfo styleKey = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell.getBox());
+		StyleInfo styleKey = 
+			new StyleInfo(
+				mode, 
+				backcolor, 
+				Alignment.LEFT.getValue(), 
+				VerticalAlignment.TOP.getValue(), 
+				Orientation.HORIZONTAL.getValue(),
+				font, 
+				gridCell.getElement()
+				);
 		return getLoadedCellStyle(styleKey);
 	}
 
@@ -1370,6 +1417,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 //				retVal = BorderLineStyle.DOTTED;
 //				break;
 //
+//		case JRGraphicElement.PEN_NONE:
 //			default:
 //				retVal = BorderLineStyle.NONE;
 //		}
@@ -1645,9 +1693,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 
 		WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue());
-		WritableCellFormat cellStyle = getLoadedCellStyle(mode, backcolor,
-				Alignment.LEFT.getValue(), VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
-				cellFont, gridCell);
+		WritableCellFormat cellStyle = 
+			getLoadedCellStyle(
+				mode, 
+				backcolor,
+				cellFont, 
+				gridCell
+				);
 
 		Blank cell = new Blank(col, row, cellStyle);
 		try

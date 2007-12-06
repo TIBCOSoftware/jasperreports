@@ -139,7 +139,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	 */
 	public Float getDefaultLineWidth() 
 	{
-		return JRPen.LINE_WIDTH_1;
+		return ((JRGraphicElement)this.parent).getDefaultLineWidth();
 	}
 
 	/**

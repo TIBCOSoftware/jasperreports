@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
-import net.sf.jasperreports.engine.base.JRBaseLineBox;
 
 
 /**
@@ -263,9 +262,9 @@ public class ImageDrawer extends ElementDrawer
 		{
 			if (printImage.getLinePen().getLineWidth().floatValue() != 0)
 			{
-				drawBox(
+				drawPen(
 					grx, 
-					new JRBaseLineBox(printImage.getLinePen()), 
+					printImage.getLinePen(), 
 					printImage, 
 					offsetX, 
 					offsetY

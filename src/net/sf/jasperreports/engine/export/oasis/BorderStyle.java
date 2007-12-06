@@ -73,28 +73,32 @@ public abstract class BorderStyle extends Style
 	 */
 	public void setBox(JRLineBox box) throws IOException
 	{
-		if (box != null)
+		appendBorder(box.getTopPen(), TOP_BORDER);
+		borderPadding[TOP_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getTopPadding().intValue()));
+		appendBorder(box.getLeftPen(), LEFT_BORDER);
+		borderPadding[LEFT_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getLeftPadding().intValue()));
+		appendBorder(box.getBottomPen(), BOTTOM_BORDER);
+		borderPadding[BOTTOM_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getBottomPadding().intValue()));
+		appendBorder(box.getRightPen(), RIGHT_BORDER);
+		borderPadding[RIGHT_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getRightPadding().intValue()));
+	}
+
+	/**
+	 *
+	 */
+	public void setPen(JRPen pen) throws IOException
+	{
+		if (
+			borderWidth[TOP_BORDER] == null
+			&& borderWidth[LEFT_BORDER] == null
+			&& borderWidth[BOTTOM_BORDER] == null
+			&& borderWidth[RIGHT_BORDER] == null
+			)
 		{
-			appendBorder(
-				box.getTopPen(),
-				box.getTopPadding(),
-				TOP_BORDER
-				);
-			appendBorder(
-				box.getLeftPen(),
-				box.getLeftPadding(),
-				LEFT_BORDER
-				);
-			appendBorder(
-				box.getBottomPen(),
-				box.getBottomPadding(),
-				BOTTOM_BORDER
-				);
-			appendBorder(
-				box.getRightPen(),
-				box.getRightPadding(),
-				RIGHT_BORDER
-				);
+			appendBorder(pen, TOP_BORDER);
+			appendBorder(pen, LEFT_BORDER);
+			appendBorder(pen, BOTTOM_BORDER);
+			appendBorder(pen, RIGHT_BORDER);
 		}
 	}
 
@@ -141,35 +145,37 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	private void appendBorder(JRPen pen, Integer padding, int side) throws IOException
+	private void appendBorder(JRPen pen, int side) throws IOException
 	{
-		String style = null;
 		double width = pen.getLineWidth().doubleValue();
 
-		switch (pen.getLineStyle().byteValue())
+		if (width > 0f)
 		{
-			case JRPen.LINE_STYLE_DASHED :
+			String style = null;
+			switch (pen.getLineStyle().byteValue())
 			{
-				style = "dashed";
-				break;
+				case JRPen.LINE_STYLE_DASHED :
+				{
+					style = "dashed";
+					break;
+				}
+				case JRPen.LINE_STYLE_SOLID :
+				default :
+				{
+					style = "solid";
+					break;
+				}
 			}
-			case JRPen.LINE_STYLE_SOLID :
-			default :
+			
+			if (width <= 0)
 			{
-				style = "solid";
-				break;
+				style = "none";
 			}
-		}
-		
-		if (width <= 0)
-		{
-			style = "none";
-		}
 
-		borderStyle[side] = style;
-		borderWidth[side] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(width));
-		borderColor[side] = JRColorUtil.getColorHexa(pen.getLineColor());
-		borderPadding[side] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(padding.intValue()));
+			borderStyle[side] = style;
+			borderWidth[side] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(width));
+			borderColor[side] = JRColorUtil.getColorHexa(pen.getLineColor());
+		}
 	}
 
 }

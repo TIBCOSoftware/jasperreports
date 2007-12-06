@@ -78,7 +78,6 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -565,20 +564,20 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportPen(Color color, JRPen pen) throws IOException 
+	private void exportPen(JRPen pen) throws IOException 
 	{
 		writer.write("{\\sp{\\sn lineColor}{\\sv ");
-		writer.write(String.valueOf(getColorRGB(color)));
+		writer.write(String.valueOf(getColorRGB(pen.getLineColor())));
 		writer.write("}}");
 
-		float lineWidth = pen == null ? 0f : pen.getLineWidth().floatValue();
+		float lineWidth = pen.getLineWidth().floatValue();
 		
 		if (lineWidth == 0f)
 		{
 			writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
 		}
 
-		if (pen != null && pen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DASHED)
+		if (pen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DASHED)
 		{
 			writer.write("{\\sp{\\sn lineDashing}{\\sv 6}}");
 		}
@@ -586,6 +585,19 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("{\\sp{\\sn lineWidth}{\\sv ");
 		writer.write(String.valueOf(emu(lineWidth)));
 		writer.write("}}");
+	}
+
+
+	/**
+	 *
+	 */
+	private void exportPen(Color color) throws IOException 
+	{
+		writer.write("{\\sp{\\sn lineColor}{\\sv ");
+		writer.write(String.valueOf(getColorRGB(color)));
+		writer.write("}}");
+		writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
+		writer.write("{\\sp{\\sn lineWidth}{\\sv 0}}");
 	}
 
 
@@ -628,7 +640,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		writer.write("{\\sp{\\sn shapeType}{\\sv 20}}");
 		
-		exportPen(line.getForecolor(), line.getLinePen());
+		exportPen(line.getLinePen());
 		
 		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
 		{
@@ -646,7 +658,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportBorder(float x, float y, int width, int height, Color color, JRPen pen) throws IOException 
+	private void exportBorder(JRPen pen, float x, float y, int width, int height) throws IOException 
 	{
 		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
 		writer.write(String.valueOf(zorder++));
@@ -663,7 +675,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		writer.write("{\\sp{\\sn shapeType}{\\sv 20}}");
 		
-		exportPen(color, pen);
+		exportPen(pen);
 		
 		writer.write("}}\n");
 	}
@@ -686,7 +698,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\sp{\\sn shapeType}{\\sv 2}}");
 		}
 
-		exportPen(rectangle.getForecolor(), rectangle.getLinePen());
+		exportPen(rectangle.getLinePen());
 		
 		finishElement();
 	}
@@ -702,7 +714,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		writer.write("{\\sp{\\sn shapeType}{\\sv 3}}");
 
-		exportPen(ellipse.getForecolor(), ellipse.getLinePen());
+		exportPen(ellipse.getLinePen());
 		
 		finishElement();
 	}
@@ -1185,7 +1197,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 
 			startElement(printImage);
-			exportPen(printImage.getForecolor(), null);
+			exportPen(printImage.getForecolor());
 			finishElement();
 			
 			writer.write("{\\shp{\\*\\shpinst\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
@@ -1271,7 +1283,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		{
 			if (printImage.getLinePen().getLineWidth().floatValue() > 0f)
 			{
-				exportBox(new JRBaseLineBox(printImage.getLinePen()), x, y, width, height);
+				exportPen(printImage.getLinePen(), x, y, width, height);
 			}
 		}
 		else
@@ -1293,7 +1305,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		startElement(frame);
 		
-		exportPen(frame.getForecolor(), null);
+		exportPen(frame.getForecolor());
 		
 		finishElement();
 
@@ -1338,21 +1350,60 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	private void exportBox(JRLineBox box, int x, int y, int width, int height) throws IOException
 	{
-		JRPen pen = box.getTopPen();
-		if (pen.getLineWidth().floatValue() > 0f) {
-			exportBorder(x, y + getAdjustment(pen), width, 0, pen.getLineColor(), null);
+		exportTopPen(box.getTopPen(), x, y, width, height);
+		exportLeftPen(box.getLeftPen(), x, y, width, height);
+		exportBottomPen(box.getBottomPen(), x, y, width, height);
+		exportRightPen(box.getRightPen(), x, y, width, height);
+	}
+
+	/**
+	 *
+	 */
+	private void exportPen(JRPen pen, int x, int y, int width, int height) throws IOException
+	{
+		exportTopPen(pen, x, y, width, height);
+		exportLeftPen(pen, x, y, width, height);
+		exportBottomPen(pen, x, y, width, height);
+		exportRightPen(pen, x, y, width, height);
+	}
+
+	/**
+	 *
+	 */
+	private void exportTopPen(JRPen topPen, int x, int y, int width, int height) throws IOException
+	{
+		if (topPen.getLineWidth().floatValue() > 0f) {
+			exportBorder(topPen, x, y + getAdjustment(topPen), width, 0);
 		}
-		pen = box.getLeftPen();
-		if (pen.getLineWidth().floatValue() > 0f) {
-			exportBorder(x + getAdjustment(pen), y, 0, height, pen.getLineColor(), null);
+	}
+
+	/**
+	 *
+	 */
+	private void exportLeftPen(JRPen leftPen, int x, int y, int width, int height) throws IOException
+	{
+		if (leftPen.getLineWidth().floatValue() > 0f) {
+			exportBorder(leftPen, x + getAdjustment(leftPen), y, 0, height);
 		}
-		pen = box.getBottomPen();
-		if (pen.getLineWidth().floatValue() > 0f) {
-			exportBorder(x, y + height - getAdjustment(pen), width, 0, pen.getLineColor(), null);
+	}
+
+	/**
+	 *
+	 */
+	private void exportBottomPen(JRPen bottomPen, int x, int y, int width, int height) throws IOException
+	{
+		if (bottomPen.getLineWidth().floatValue() > 0f) {
+			exportBorder(bottomPen, x, y + height - getAdjustment(bottomPen), width, 0);
 		}
-		pen = box.getRightPen();
-		if (pen.getLineWidth().floatValue() > 0f) {
-			exportBorder(x + width - getAdjustment(pen), y, 0, height, pen.getLineColor(), null);
+	}
+
+	/**
+	 *
+	 */
+	private void exportRightPen(JRPen rightPen, int x, int y, int width, int height) throws IOException
+	{
+		if (rightPen.getLineWidth().floatValue() > 0f) {
+			exportBorder(rightPen, x + width - getAdjustment(rightPen), y, 0, height);
 		}
 	}
 
