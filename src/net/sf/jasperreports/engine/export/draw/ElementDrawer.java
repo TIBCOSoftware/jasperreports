@@ -222,28 +222,34 @@ public abstract class ElementDrawer
 	protected static Stroke getStroke(JRPen pen)
 	{
 		float lineWidth = pen.getLineWidth().floatValue();
-		byte lineStyle = pen.getLineStyle().byteValue();
 		
-		switch (lineStyle)
+		if (lineWidth > 0f)
 		{
-			case JRPen.LINE_STYLE_DASHED :
+			byte lineStyle = pen.getLineStyle().byteValue();
+			
+			switch (lineStyle)
 			{
-				return
-					new BasicStroke(
-						lineWidth,
-						BasicStroke.CAP_SQUARE,
-						BasicStroke.JOIN_MITER,
-						10f,
-						new float[]{5f, 3f},
-						0f
-						);
-			}
-			case JRPen.LINE_STYLE_SOLID :
-			default :
-			{
-				return new BasicStroke(lineWidth);
+				case JRPen.LINE_STYLE_DASHED :
+				{
+					return
+						new BasicStroke(
+							lineWidth,
+							BasicStroke.CAP_SQUARE,
+							BasicStroke.JOIN_MITER,
+							10f,
+							new float[]{5f, 3f},
+							0f
+							);
+				}
+				case JRPen.LINE_STYLE_SOLID :
+				default :
+				{
+					return new BasicStroke(lineWidth);
+				}
 			}
 		}
+		
+		return null;
 	}
 
 	
