@@ -161,7 +161,7 @@ public class JRDesignViewer extends JRViewer
 				protected void setDrawers()
 				{
 					super.setDrawers();
-					frameDrawer.setClip(true);
+					//FIXMEBORDER frameDrawer.setClip(true);
 				}
 			};
 	}
