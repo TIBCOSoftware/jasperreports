@@ -75,24 +75,27 @@ public class EllipseDrawer extends ElementDrawer
 
 		if (stroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(ellipse.getLinePen());
-			int sizeAdjust = getRectangleSizeAdjust(ellipse.getLinePen());
+			//double cornerOffset = getBorderCornerOffset(ellipse.getLinePen());
+			//int sizeAdjust = getRectangleSizeAdjust(ellipse.getLinePen());
 			
 			AffineTransform transform = grx.getTransform();
 			
-			grx.translate(ellipse.getX() + offsetX + cornerOffset, ellipse.getY() + offsetY + cornerOffset);
-			if (ellipse.getLinePen().getLineWidth().floatValue() == 0.5f)//FIXMEBORDER
-			{
-				grx.scale((ellipse.getWidth() - .5) / ellipse.getWidth(), (ellipse.getHeight() - .5) / ellipse.getHeight());
-			}
+			grx.translate(ellipse.getX() + offsetX, ellipse.getY() + offsetY);
+			//grx.translate(ellipse.getX() + offsetX + cornerOffset, ellipse.getY() + offsetY + cornerOffset);
+//			if (ellipse.getLinePen().getLineWidth().floatValue() == 0.5f)
+//			{
+//				grx.scale((ellipse.getWidth() - .5) / ellipse.getWidth(), (ellipse.getHeight() - .5) / ellipse.getHeight());
+//			}
 			
 			grx.setStroke(stroke);
 			
 			grx.drawOval(
 				0, 
 				0, 
-				ellipse.getWidth() - sizeAdjust,
-				ellipse.getHeight() - sizeAdjust
+//				ellipse.getWidth() - sizeAdjust,
+//				ellipse.getHeight() - sizeAdjust
+				ellipse.getWidth(),
+				ellipse.getHeight()
 				);
 			
 			grx.setTransform(transform);
