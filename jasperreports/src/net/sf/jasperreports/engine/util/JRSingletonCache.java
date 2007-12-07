@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.util.Map;
+
 import net.sf.jasperreports.engine.JRException;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -40,6 +42,8 @@ import org.apache.commons.collections.ReferenceMap;
  */
 public class JRSingletonCache
 {
+	private static final Object CONTEXT_KEY_NULL = new Object();
+	
 	private final ReferenceMap cache;
 	private final Class itf;
 
@@ -50,7 +54,7 @@ public class JRSingletonCache
 	 */
 	public JRSingletonCache(Class itf)
 	{
-		cache = new ReferenceMap();
+		cache = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
 		this.itf = itf;
 	}
 
@@ -67,34 +71,61 @@ public class JRSingletonCache
 	 */
 	public synchronized Object getCachedInstance(String className) throws JRException
 	{
-		Object instance = cache.get(className);
+		Map contextCache = getContextInstanceCache();
+		Object instance = contextCache.get(className);
 		if (instance == null)
 		{
-			try
-			{
-				Class clazz = JRClassLoader.loadClassForName(className);
-				if (itf != null && !itf.isAssignableFrom(clazz))
-				{
-					throw new JRException("Class \"" + className + "\" should be compatible with \"" + itf.getName() + "\"");
-				}
-
-				instance = clazz.newInstance();
-			}
-			catch (ClassNotFoundException e)
-			{
-				throw new JRException("Class " + className + " not found.", e);
-			}
-			catch (InstantiationException e)
-			{
-				throw new JRException("Error instantiating class " + className + ".", e);
-			}
-			catch (IllegalAccessException e)
-			{
-				throw new JRException("Error instantiating class " + className + ".", e);
-			}
-			
-			cache.put(className, instance);
+			instance = createInstance(className);
+			contextCache.put(className, instance);
 		}
 		return instance;
+	}
+
+	protected Object createInstance(String className) throws JRException
+	{
+		try
+		{
+			Class clazz = JRClassLoader.loadClassForName(className);
+			if (itf != null && !itf.isAssignableFrom(clazz))
+			{
+				throw new JRException("Class \"" + className + "\" should be compatible with \"" + itf.getName() + "\"");
+			}
+
+			return clazz.newInstance();
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new JRException("Class " + className + " not found.", e);
+		}
+		catch (InstantiationException e)
+		{
+			throw new JRException("Error instantiating class " + className + ".", e);
+		}
+		catch (IllegalAccessException e)
+		{
+			throw new JRException("Error instantiating class " + className + ".", e);
+		}
+	}
+
+	protected Map getContextInstanceCache()
+	{
+		Object contextKey = getContextKey();
+		Map contextCache = (Map) cache.get(contextKey);
+		if (contextCache == null)
+		{
+			contextCache = new ReferenceMap();
+			cache.put(contextKey, contextCache);
+		}
+		return contextCache;
+	}
+	
+	protected Object getContextKey()
+	{
+		Object key = Thread.currentThread().getContextClassLoader();
+		if (key == null)
+		{
+			key = CONTEXT_KEY_NULL;
+		}
+		return key;
 	}
 }
