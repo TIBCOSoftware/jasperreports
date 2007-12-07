@@ -89,16 +89,17 @@ public class RectangleDrawer extends ElementDrawer
 
 		if (stroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(rectangle.getLinePen());
-			int sizeAdjust = getRectangleSizeAdjust(rectangle.getLinePen());
+			//double cornerOffset = getBorderCornerOffset(rectangle.getLinePen());
+			//int sizeAdjust = getRectangleSizeAdjust(rectangle.getLinePen());
 			
 			AffineTransform transform = grx.getTransform();
 			
-			grx.translate(rectangle.getX() + offsetX + cornerOffset, rectangle.getY() + offsetY + cornerOffset);
-			if (rectangle.getLinePen().getLineWidth().floatValue() == 0.5f)//FIXMEBORDER
-			{
-				grx.scale((rectangle.getWidth() - .5) / rectangle.getWidth(), (rectangle.getHeight() - .5) / rectangle.getHeight());
-			}
+			grx.translate(rectangle.getX() + offsetX, rectangle.getY() + offsetY);
+			//grx.translate(rectangle.getX() + offsetX + cornerOffset, rectangle.getY() + offsetY + cornerOffset);
+//			if (rectangle.getLinePen().getLineWidth().floatValue() == 0.5f)
+//			{
+//				grx.scale((rectangle.getWidth() - .5) / rectangle.getWidth(), (rectangle.getHeight() - .5) / rectangle.getHeight());
+//			}
 			
 			grx.setStroke(stroke);
 			
@@ -107,8 +108,10 @@ public class RectangleDrawer extends ElementDrawer
 				grx.drawRoundRect(
 						0, 
 						0, 
-						rectangle.getWidth() - sizeAdjust,
-						rectangle.getHeight() - sizeAdjust,
+						rectangle.getWidth(),
+						rectangle.getHeight(),
+//						rectangle.getWidth() - sizeAdjust,
+//						rectangle.getHeight() - sizeAdjust,
 						2 * rectangle.getRadius(),
 						2 * rectangle.getRadius()
 						);
@@ -118,8 +121,10 @@ public class RectangleDrawer extends ElementDrawer
 				grx.drawRect(
 						0, 
 						0, 
-						rectangle.getWidth() - sizeAdjust,
-						rectangle.getHeight() - sizeAdjust
+//						rectangle.getWidth() - sizeAdjust,
+//						rectangle.getHeight() - sizeAdjust
+						rectangle.getWidth(),
+						rectangle.getHeight()
 						);
 			}
 

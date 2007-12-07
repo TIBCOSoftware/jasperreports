@@ -121,19 +121,19 @@ public abstract class ElementDrawer
 
 		if (topStroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(topPen);
+			//double cornerOffset = getBorderCornerOffset(topPen);
 			
 			grx.setStroke(topStroke);
 			grx.setColor(topPen.getLineColor());
 	
-			grx.translate(0, cornerOffset);
+			//grx.translate(0, cornerOffset);
 			grx.drawLine(
 				element.getX() + offsetX, 
 				element.getY() + offsetY, 
 				element.getX() + offsetX + element.getWidth(),
 				element.getY() + offsetY
 				);
-			grx.translate(0, -cornerOffset);
+			//grx.translate(0, -cornerOffset);
 		}
 	}
 
@@ -147,19 +147,19 @@ public abstract class ElementDrawer
 
 		if (leftStroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(leftPen);
+			//double cornerOffset = getBorderCornerOffset(leftPen);
 			
 			grx.setStroke(leftStroke);
 			grx.setColor(leftPen.getLineColor());
 	
-			grx.translate(cornerOffset, 0);
+			//grx.translate(cornerOffset, 0);
 			grx.drawLine(
 				element.getX() + offsetX, 
 				element.getY() + offsetY, 
 				element.getX() + offsetX,
 				element.getY() + offsetY + element.getHeight()
 				);
-			grx.translate(-cornerOffset, 0);
+			//grx.translate(-cornerOffset, 0);
 		}
 	}
 
@@ -173,19 +173,19 @@ public abstract class ElementDrawer
 
 		if (bottomStroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(bottomPen);
+			//double cornerOffset = getBorderCornerOffset(bottomPen);
 			
 			grx.setStroke(bottomStroke);
 			grx.setColor(bottomPen.getLineColor());
 	
-			grx.translate(0, -cornerOffset);
+			//grx.translate(0, -cornerOffset);
 			grx.drawLine(
 				element.getX() + offsetX, 
 				element.getY() + offsetY + element.getHeight(),
 				element.getX() + offsetX + element.getWidth(),
 				element.getY() + offsetY + element.getHeight()
 				);
-			grx.translate(0, cornerOffset);
+			//grx.translate(0, cornerOffset);
 		}
 	}
 
@@ -199,19 +199,19 @@ public abstract class ElementDrawer
 
 		if (rightStroke != null)
 		{
-			double cornerOffset = getBorderCornerOffset(rightPen);
+			//double cornerOffset = getBorderCornerOffset(rightPen);
 			
 			grx.setStroke(rightStroke);
 			grx.setColor(rightPen.getLineColor());
 	
-			grx.translate(-cornerOffset, 0);
+			//grx.translate(-cornerOffset, 0);
 			grx.drawLine(
 				element.getX() + offsetX + element.getWidth(),
 				element.getY() + offsetY,
 				element.getX() + offsetX + element.getWidth(),
 				element.getY() + offsetY + element.getHeight()
 				);
-			grx.translate(cornerOffset, 0);
+			//grx.translate(cornerOffset, 0);
 		}
 	}
 
@@ -244,7 +244,12 @@ public abstract class ElementDrawer
 				case JRPen.LINE_STYLE_SOLID :
 				default :
 				{
-					return new BasicStroke(lineWidth);
+					return 
+						new BasicStroke(
+							lineWidth,
+							BasicStroke.CAP_SQUARE,
+							BasicStroke.JOIN_MITER
+							);
 				}
 			}
 		}
@@ -255,7 +260,7 @@ public abstract class ElementDrawer
 	
 	/**
 	 * 
-	 */
+	 *
 	protected static double getBorderCornerOffset(JRPen pen)
 	{
 		float lineWidth = pen.getLineWidth().floatValue();
@@ -268,7 +273,7 @@ public abstract class ElementDrawer
 		{
 			return lineWidth / 2;
 		}
-//		switch (pen)
+//		switch (pen) //FIXMEBORDER
 //		{
 //			case JRGraphicElement.PEN_THIN :
 //			{
@@ -289,7 +294,7 @@ public abstract class ElementDrawer
 
 	/**
 	 * 
-	 */
+	 *
 	protected static int getRectangleSizeAdjust(JRPen pen)
 	{
 		float lineWidth = pen.getLineWidth().floatValue();
@@ -302,7 +307,7 @@ public abstract class ElementDrawer
 		{
 			return 0;
 		}
-//		switch (pen)
+//		switch (pen) //FIXMEBORDER
 //		{
 //			case JRGraphicElement.PEN_1_POINT:
 //			case JRGraphicElement.PEN_DOTTED:
@@ -316,7 +321,7 @@ public abstract class ElementDrawer
 	/**
 	 * 
 	 */
-	private static Stroke getBorderStroke(JRPen pen)
+	protected static Stroke getBorderStroke(JRPen pen)
 	{
 		float lineWidth = pen.getLineWidth().floatValue();
 		
@@ -339,7 +344,12 @@ public abstract class ElementDrawer
 				case JRPen.LINE_STYLE_SOLID :
 				default :
 				{
-					return new BasicStroke(lineWidth);
+					return
+						new BasicStroke(
+							lineWidth,
+							BasicStroke.CAP_BUTT,
+							BasicStroke.JOIN_MITER
+							);
 				}
 			}
 		}

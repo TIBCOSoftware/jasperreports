@@ -59,34 +59,68 @@ public class LineDrawer extends ElementDrawer
 		
 		grx.setColor(line.getForecolor());
 		
-		Stroke stroke = getStroke(line.getLinePen());
+		Stroke stroke = getBorderStroke(line.getLinePen());
 
 		if (stroke != null)
 		{
 			grx.setStroke(stroke);
 			
-			grx.translate(.5, .5);
-			
-			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			if (line.getWidth() == 1)
 			{
-				grx.drawLine(
-					line.getX() + offsetX, 
-					line.getY() + offsetY,
-					line.getX() + offsetX + line.getWidth() - 1,  
-					line.getY() + offsetY + line.getHeight() - 1
-					);
+				if (line.getHeight() == 1)
+				{
+					//Nothing to draw
+				}
+				else
+				{
+					//Vertical line
+					grx.translate(0.5, 0);
+					grx.drawLine(
+						line.getX() + offsetX, 
+						line.getY() + offsetY,
+						line.getX() + offsetX,  
+						line.getY() + offsetY + line.getHeight()
+						);
+					grx.translate(-0.5, 0);
+				}
 			}
 			else
 			{
-				grx.drawLine(
-					line.getX() + offsetX, 
-					line.getY() + offsetY + line.getHeight() - 1,
-					line.getX() + offsetX + line.getWidth() - 1,  
-					line.getY() + offsetY
-					);
+				if (line.getHeight() == 1)
+				{
+					//Horizontal line
+					grx.translate(0, 0.5);
+					grx.drawLine(
+						line.getX() + offsetX, 
+						line.getY() + offsetY,
+						line.getX() + offsetX + line.getWidth(),  
+						line.getY() + offsetY
+						);
+					grx.translate(0, -0.5);
+				}
+				else
+				{
+					//Oblique line
+					if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+					{
+						grx.drawLine(
+							line.getX() + offsetX, 
+							line.getY() + offsetY,
+							line.getX() + offsetX + line.getWidth(),  
+							line.getY() + offsetY + line.getHeight()
+							);
+					}
+					else
+					{
+						grx.drawLine(
+							line.getX() + offsetX, 
+							line.getY() + offsetY + line.getHeight(),
+							line.getX() + offsetX + line.getWidth(),  
+							line.getY() + offsetY
+							);
+					}
+				}
 			}
-			
-			grx.translate(-.5, -.5);
 		}
 	}
 
