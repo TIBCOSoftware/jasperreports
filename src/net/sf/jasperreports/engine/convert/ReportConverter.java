@@ -46,9 +46,8 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPen;
-import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportTemplate;
@@ -61,7 +60,6 @@ import net.sf.jasperreports.engine.JRTemplateReference;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
-import net.sf.jasperreports.engine.base.JRBasePrintLine;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
@@ -184,10 +182,10 @@ public class ReportConverter
 			}
 
 			// page dotted contour line
-			addGridLine(0, report.getTopMargin(), pageWidth, 0);
-			addGridLine(0, offsetY, pageWidth, 0);
-			addGridLine(report.getLeftMargin(), 0, 0, jasperPrint.getPageHeight());
-			addGridLine(pageWidth - report.getRightMargin(), 0, 0, jasperPrint.getPageHeight());
+			addHorizontalGridLine(0, report.getTopMargin(), pageWidth);
+			addHorizontalGridLine(0, offsetY, pageWidth);
+			addVerticalGridLine(report.getLeftMargin(), 0, jasperPrint.getPageHeight());
+			addVerticalGridLine(pageWidth - report.getRightMargin(), 0, jasperPrint.getPageHeight());
 
 			page.setElements(pageElements);
 			jasperPrint.addPage(page);
@@ -327,7 +325,7 @@ public class ReportConverter
 			frame.setY(offsetY);
 			frame.setWidth(report.getPageWidth() - report.getLeftMargin() - report.getRightMargin());
 			frame.setHeight(band.getHeight());
-
+			
 			band.visit(new ConvertVisitor(this, frame));
 			
 			pageElements.add(frame);
@@ -342,7 +340,7 @@ public class ReportConverter
 	 */
 	private void addBandSeparator(int bandY)
 	{
-		addGridLine(0, bandY, pageWidth, 0);
+		addHorizontalGridLine(0, bandY, pageWidth);
 	}
 	
 	/**
@@ -350,24 +348,39 @@ public class ReportConverter
 	 */
 	private void addColumnSeparator(int colX)
 	{
-		addGridLine(colX, upColumns, 0, downColumns - upColumns);
+		addVerticalGridLine(colX, upColumns, downColumns - upColumns);
 	}
 	
 	/**
 	 *
 	 */
-	private void addGridLine(int x, int y, int width, int height)
+	private void addHorizontalGridLine(int x, int y, int width)
 	{
-		JRPrintLine line = new JRBasePrintLine(getDefaultStyleProvider());
-		line.setX(x);
-		line.setY(y);
-		line.setWidth(width);
-		line.setHeight(height);
-		line.getLinePen().setLineWidth(0.5f);
-		line.getLinePen().setLineStyle(JRPen.LINE_STYLE_DASHED);
-		line.setForecolor(GRID_LINE_COLOR);
-		line.setDirection(JRLine.DIRECTION_TOP_DOWN);
-		pageElements.add(0, line);
+		JRPrintFrame printFrame = new JRBasePrintFrame(getDefaultStyleProvider());
+		printFrame.setX(x);
+		printFrame.setY(y);
+		printFrame.setWidth(width);
+		printFrame.setHeight(1);
+		printFrame.getLineBox().getTopPen().setLineWidth(0.1f);
+		printFrame.getLineBox().getTopPen().setLineStyle(JRPen.LINE_STYLE_DASHED);
+		printFrame.getLineBox().getTopPen().setLineColor(GRID_LINE_COLOR);
+		pageElements.add(0, printFrame);
+	}
+	
+	/**
+	 *
+	 */
+	private void addVerticalGridLine(int x, int y, int height)
+	{
+		JRPrintFrame printFrame = new JRBasePrintFrame(getDefaultStyleProvider());
+		printFrame.setX(x);
+		printFrame.setY(y);
+		printFrame.setWidth(1);
+		printFrame.setHeight(height);
+		printFrame.getLineBox().getLeftPen().setLineWidth(0.1f);
+		printFrame.getLineBox().getLeftPen().setLineStyle(JRPen.LINE_STYLE_DASHED);
+		printFrame.getLineBox().getLeftPen().setLineColor(GRID_LINE_COLOR);
+		pageElements.add(0, printFrame);
 	}
 	
 	/**
