@@ -82,6 +82,7 @@
 <!ATTLIST pen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 <!ELEMENT page (line | rectangle | ellipse | image | text | frame)*>
 <!ELEMENT line (reportElement?, graphicElement?)>
@@ -149,21 +150,25 @@
 <!ATTLIST topPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 <!ELEMENT leftPen EMPTY>
 <!ATTLIST leftPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 <!ELEMENT bottomPen EMPTY>
 <!ATTLIST bottomPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 <!ELEMENT rightPen EMPTY>
 <!ATTLIST rightPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 <!ELEMENT imageSource (#PCDATA)>
 <!ATTLIST imageSource

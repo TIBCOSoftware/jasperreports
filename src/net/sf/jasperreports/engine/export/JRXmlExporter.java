@@ -51,7 +51,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
-import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -60,6 +59,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -675,6 +675,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.startElement(element);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineWidth, pen.getOwnLineWidth());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineStyle, pen.getOwnLineStyle(), JRXmlConstants.getLineStyleMap());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineColor, pen.getOwnLineColor());
 		xmlWriter.closeElement(true);
 	}
 

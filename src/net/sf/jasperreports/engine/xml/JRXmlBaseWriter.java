@@ -161,6 +161,7 @@ public abstract class JRXmlBaseWriter
 		writer.startElement(element);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineWidth, pen.getOwnLineWidth());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineStyle, pen.getOwnLineStyle(), JRXmlConstants.getLineStyleMap());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineColor, pen.getOwnLineColor());
 		writer.closeElement(true);
 	}
 
