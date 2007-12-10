@@ -54,35 +54,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 public abstract class ElementDrawer
 {
 
-//	private static final double THIN_CORNER_OFFSET = 0.25d;
-//	private static final double ONE_POINT_CORNER_OFFSET = 0.5d;
-//	
-//	private static final Stroke STROKE_THIN = new BasicStroke(0.5f);
-//	private static final Stroke STROKE_1_POINT = new BasicStroke(1f);
-//	private static final Stroke STROKE_2_POINT = new BasicStroke(2f);
-//	private static final Stroke STROKE_4_POINT = new BasicStroke(4f);
-//	private static final Stroke STROKE_DOTTED = 
-//		new BasicStroke(
-//			1f,
-//			BasicStroke.CAP_SQUARE,
-//			BasicStroke.JOIN_MITER,
-//			10f,
-//			new float[]{5f, 3f},
-//			0f
-//			);
-//	
-//	private static final Stroke BORDER_STROKE_THIN = new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
-//	private static final Stroke BORDER_STROKE_1_POINT = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
-//	private static final Stroke BORDER_STROKE_DOTTED = 
-//		new BasicStroke(
-//			1f,
-//			BasicStroke.CAP_BUTT,
-//			BasicStroke.JOIN_MITER,
-//			10f,
-//			new float[]{5f, 3f},
-//			0f
-//			);
-
 	/**
 	 *
 	 */
@@ -330,7 +301,7 @@ public abstract class ElementDrawer
 							BasicStroke.CAP_SQUARE,
 							BasicStroke.JOIN_MITER,
 							10f,
-							new float[]{5f, 3f},
+							new float[]{5 * lineWidth, 3 * lineWidth},
 							0f
 							);
 				}
@@ -353,66 +324,6 @@ public abstract class ElementDrawer
 	
 	/**
 	 * 
-	 *
-	protected static double getBorderCornerOffset(JRPen pen)
-	{
-		float lineWidth = pen.getLineWidth().floatValue();
-		
-		if (lineWidth > 1)
-		{
-			return 0;
-		}
-		else
-		{
-			return lineWidth / 2;
-		}
-//		switch (pen) //FIXMEBORDER
-//		{
-//			case JRGraphicElement.PEN_THIN :
-//			{
-//				return THIN_CORNER_OFFSET;
-//			}
-//			case JRGraphicElement.PEN_1_POINT :
-//			case JRGraphicElement.PEN_DOTTED :
-//			{
-//				return ONE_POINT_CORNER_OFFSET;
-//			}
-//			default :
-//			{
-//				return 0;
-//			}
-//		}
-	}
-
-
-	/**
-	 * 
-	 *
-	protected static int getRectangleSizeAdjust(JRPen pen)
-	{
-		float lineWidth = pen.getLineWidth().floatValue();
-		
-		if (lineWidth == 1f)
-		{
-			return 1;
-		}
-		else
-		{
-			return 0;
-		}
-//		switch (pen) //FIXMEBORDER
-//		{
-//			case JRGraphicElement.PEN_1_POINT:
-//			case JRGraphicElement.PEN_DOTTED:
-//				return 1;
-//			default:
-//				return 0;
-//		}
-	}
-
-
-	/**
-	 * 
 	 */
 	protected static Stroke getBorderStroke(JRPen pen)
 	{
@@ -427,10 +338,10 @@ public abstract class ElementDrawer
 					return
 						new BasicStroke(
 							lineWidth,
-							BasicStroke.CAP_BUTT,//FIXMEBORDER border stroke have different cap? why? test this again. look into history.
+							BasicStroke.CAP_BUTT,
 							BasicStroke.JOIN_MITER,
 							10f,
-							new float[]{5f, 3f},
+							new float[]{5 * lineWidth, 3 * lineWidth},
 							0f
 							);
 				}
