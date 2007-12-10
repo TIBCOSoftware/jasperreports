@@ -257,7 +257,7 @@ public class JRStyleResolver
 		if (pen.getOwnLineColor() != null)
 			return pen.getOwnLineColor();
 		JRStyle baseStyle = getBaseStyle(pen.getStyleContainer());
-		if (baseStyle != null && baseStyle.getLinePen().getLineStyle() != null)
+		if (baseStyle != null && baseStyle.getLinePen().getLineColor() != null)
 			return baseStyle.getLinePen().getLineColor();
 		return defaultColor;
 	}
