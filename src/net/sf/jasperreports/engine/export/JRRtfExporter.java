@@ -535,33 +535,6 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 
 	/**
-	 * Get border adjustment for graphic elements depending on pen width used
-	 * @param pen
-	 */
-	protected float getAdjustment(JRPen pen)
-	{
-		return pen.getLineWidth().floatValue() / 2;
-//		switch (pen)  //FIXMEBORDER
-//		{
-//			case JRGraphicElement.PEN_THIN:
-//				return 0;
-//			case JRGraphicElement.PEN_1_POINT:
-//				return 0.5f;
-//			case JRGraphicElement.PEN_2_POINT:
-//				return 1;
-//			case JRGraphicElement.PEN_4_POINT:
-//				return 2;
-//			case JRGraphicElement.PEN_DOTTED:
-//				return 0.5f;
-//			case JRGraphicElement.PEN_NONE:
-//				return 0;
-//			default:
-//				return 0;
-//		}
-	}
-
-
-	/**
 	 *
 	 */
 	private void exportPen(JRPen pen) throws IOException 
@@ -658,7 +631,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportBorder(JRPen pen, float x, float y, int width, int height) throws IOException 
+	private void exportBorder(JRPen pen, float x, float y, float width, float height) throws IOException 
 	{
 		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
 		writer.write(String.valueOf(zorder++));
@@ -1350,10 +1323,10 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	private void exportBox(JRLineBox box, int x, int y, int width, int height) throws IOException
 	{
-		exportTopPen(box.getTopPen(), x, y, width, height);
-		exportLeftPen(box.getLeftPen(), x, y, width, height);
-		exportBottomPen(box.getBottomPen(), x, y, width, height);
-		exportRightPen(box.getRightPen(), x, y, width, height);
+		exportTopPen(box.getTopPen(), box.getLeftPen(), box.getRightPen(), x, y, width, height);
+		exportLeftPen(box.getTopPen(), box.getLeftPen(), box.getBottomPen(), x, y, width, height);
+		exportBottomPen(box.getLeftPen(), box.getBottomPen(), box.getRightPen(), x, y, width, height);
+		exportRightPen(box.getTopPen(), box.getBottomPen(), box.getRightPen(), x, y, width, height);
 	}
 
 	/**
@@ -1361,49 +1334,113 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	private void exportPen(JRPen pen, int x, int y, int width, int height) throws IOException
 	{
-		exportTopPen(pen, x, y, width, height);
-		exportLeftPen(pen, x, y, width, height);
-		exportBottomPen(pen, x, y, width, height);
-		exportRightPen(pen, x, y, width, height);
+		exportTopPen(pen, pen, pen, x, y, width, height);
+		exportLeftPen(pen, pen, pen, x, y, width, height);
+		exportBottomPen(pen, pen, pen, x, y, width, height);
+		exportRightPen(pen, pen, pen, x, y, width, height);
 	}
 
 	/**
 	 *
 	 */
-	private void exportTopPen(JRPen topPen, int x, int y, int width, int height) throws IOException
+	private void exportTopPen(
+		JRPen topPen, 
+		JRPen leftPen, 
+		JRPen rightPen, 
+		int x, 
+		int y, 
+		int width, 
+		int height
+		) throws IOException
 	{
-		if (topPen.getLineWidth().floatValue() > 0f) {
-			exportBorder(topPen, x, y + getAdjustment(topPen), width, 0);
+		if (topPen.getLineWidth().floatValue() > 0f) 
+		{
+			exportBorder(
+				topPen, 
+				x - leftPen.getLineWidth().floatValue() / 2, 
+				y, 
+				width + rightPen.getLineWidth().floatValue() / 2, 
+				0
+				);
+			//exportBorder(topPen, x, y + getAdjustment(topPen), width, 0);
 		}
 	}
 
 	/**
 	 *
 	 */
-	private void exportLeftPen(JRPen leftPen, int x, int y, int width, int height) throws IOException
+	private void exportLeftPen(
+		JRPen topPen, 
+		JRPen leftPen, 
+		JRPen bottomPen, 
+		int x, 
+		int y, 
+		int width, 
+		int height
+		) throws IOException
 	{
-		if (leftPen.getLineWidth().floatValue() > 0f) {
-			exportBorder(leftPen, x + getAdjustment(leftPen), y, 0, height);
+		if (leftPen.getLineWidth().floatValue() > 0f) 
+		{
+			exportBorder(
+				leftPen, 
+				x, 
+				y - topPen.getLineWidth().floatValue() / 2, 
+				0, 
+				height + bottomPen.getLineWidth().floatValue() / 2
+				);
+			//exportBorder(leftPen, x + getAdjustment(leftPen), y, 0, height);
 		}
 	}
 
 	/**
 	 *
 	 */
-	private void exportBottomPen(JRPen bottomPen, int x, int y, int width, int height) throws IOException
+	private void exportBottomPen(
+		JRPen leftPen, 
+		JRPen bottomPen, 
+		JRPen rightPen, 
+		int x, 
+		int y, 
+		int width, 
+		int height
+		) throws IOException
 	{
-		if (bottomPen.getLineWidth().floatValue() > 0f) {
-			exportBorder(bottomPen, x, y + height - getAdjustment(bottomPen), width, 0);
+		if (bottomPen.getLineWidth().floatValue() > 0f) 
+		{
+			exportBorder(
+				bottomPen, 
+				x - leftPen.getLineWidth().floatValue() / 2, 
+				y + height, 
+				width + rightPen.getLineWidth().floatValue() / 2, 
+				0
+				);
+			//exportBorder(bottomPen, x, y + height - getAdjustment(bottomPen), width, 0);
 		}
 	}
 
 	/**
 	 *
 	 */
-	private void exportRightPen(JRPen rightPen, int x, int y, int width, int height) throws IOException
+	private void exportRightPen(
+		JRPen topPen, 
+		JRPen bottomPen, 
+		JRPen rightPen, 
+		int x, 
+		int y, 
+		int width, 
+		int height
+		) throws IOException
 	{
-		if (rightPen.getLineWidth().floatValue() > 0f) {
-			exportBorder(rightPen, x + width - getAdjustment(rightPen), y, 0, height);
+		if (rightPen.getLineWidth().floatValue() > 0f) 
+		{
+			exportBorder(
+				rightPen, 
+				x + width, 
+				y - topPen.getLineWidth().floatValue() / 2, 
+				0, 
+				height + bottomPen.getLineWidth().floatValue() / 2
+				);
+			//exportBorder(rightPen, x + width - getAdjustment(rightPen), y, 0, height);
 		}
 	}
 
