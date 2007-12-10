@@ -27,8 +27,8 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRStyle;
 
@@ -65,6 +65,12 @@ public class JRPenFactory extends JRBaseFactory
 		if (lineStyle != null)
 		{
 			pen.setLineStyle(lineStyle);
+		}
+
+		String lineColor = atts.getValue(JRXmlConstants.ATTRIBUTE_lineColor);
+		if (lineColor != null && lineColor.length() > 0)
+		{
+			pen.setLineColor(JRXmlConstants.getColor(lineColor, null));
 		}
 	}
 	

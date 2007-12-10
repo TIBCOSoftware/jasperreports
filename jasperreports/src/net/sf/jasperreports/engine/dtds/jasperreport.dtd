@@ -105,6 +105,7 @@
 <!ATTLIST pen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 
 <!ELEMENT conditionalStyle (conditionExpression?, style)>
@@ -279,21 +280,25 @@
 <!ATTLIST topPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 <!ELEMENT leftPen EMPTY>
 <!ATTLIST leftPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 <!ELEMENT bottomPen EMPTY>
 <!ATTLIST bottomPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 <!ELEMENT rightPen EMPTY>
 <!ATTLIST rightPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 
 <!ELEMENT anchorNameExpression (#PCDATA)>

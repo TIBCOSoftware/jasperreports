@@ -1359,6 +1359,7 @@ public class JRXmlConstants
 
 	public static final String ATTRIBUTE_lineWidth = "lineWidth";
 	public static final String ATTRIBUTE_lineStyle = "lineStyle";
+	public static final String ATTRIBUTE_lineColor = "lineColor";
 
 	/**
 	 * JRBoxFactory associated constants

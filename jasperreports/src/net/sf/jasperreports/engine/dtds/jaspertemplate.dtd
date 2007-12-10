@@ -53,6 +53,7 @@
 <!ATTLIST pen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 
 <!ELEMENT box (pen?, topPen?, leftPen?, bottomPen?, rightPen?)>
@@ -68,19 +69,23 @@
 <!ATTLIST topPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 <!ELEMENT leftPen EMPTY>
 <!ATTLIST leftPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 <!ELEMENT bottomPen EMPTY>
 <!ATTLIST bottomPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
 <!ELEMENT rightPen EMPTY>
 <!ATTLIST rightPen
 	lineWidth NMTOKEN #IMPLIED
 	lineStyle (Solid | Dashed) #IMPLIED
+	lineColor CDATA #IMPLIED
 >
