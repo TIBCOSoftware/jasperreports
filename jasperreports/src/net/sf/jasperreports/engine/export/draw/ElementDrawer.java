@@ -38,6 +38,7 @@ package net.sf.jasperreports.engine.export.draw;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -93,10 +94,42 @@ public abstract class ElementDrawer
 	 */
 	protected void drawBox(Graphics2D grx, JRLineBox box, JRPrintElement element, int offsetX, int offsetY)
 	{
-		drawTopPen(grx, box.getTopPen(), element, offsetX, offsetY);
-		drawLeftPen(grx, box.getLeftPen(), element, offsetX, offsetY);
-		drawBottomPen(grx, box.getBottomPen(), element, offsetX, offsetY);
-		drawRightPen(grx, box.getRightPen(), element, offsetX, offsetY);
+		drawTopPen(
+			grx, 
+			box.getTopPen(), 
+			box.getLeftPen(), 
+			box.getRightPen(), 
+			element, 
+			offsetX, 
+			offsetY
+			);
+		drawLeftPen(
+			grx, 
+			box.getTopPen(), 
+			box.getLeftPen(), 
+			box.getBottomPen(), 
+			element, 
+			offsetX, 
+			offsetY
+			);
+		drawBottomPen(
+			grx, 
+			box.getLeftPen(), 
+			box.getBottomPen(), 
+			box.getRightPen(), 
+			element, 
+			offsetX, 
+			offsetY
+			);
+		drawRightPen(
+			grx, 
+			box.getTopPen(), 
+			box.getBottomPen(), 
+			box.getRightPen(), 
+			element, 
+			offsetX, 
+			offsetY
+			);
 	}
 
 	
@@ -105,35 +138,50 @@ public abstract class ElementDrawer
 	 */
 	protected void drawPen(Graphics2D grx, JRPen pen, JRPrintElement element, int offsetX, int offsetY)
 	{
-		drawTopPen(grx, pen, element, offsetX, offsetY);
-		drawLeftPen(grx, pen, element, offsetX, offsetY);
-		drawBottomPen(grx, pen, element, offsetX, offsetY);
-		drawRightPen(grx, pen, element, offsetX, offsetY);
+		drawTopPen(grx, pen, pen, pen, element, offsetX, offsetY);
+		drawLeftPen(grx, pen, pen, pen, element, offsetX, offsetY);
+		drawBottomPen(grx, pen, pen, pen, element, offsetX, offsetY);
+		drawRightPen(grx, pen, pen, pen, element, offsetX, offsetY);
 	}
 
 	
 	/**
 	 *
 	 */
-	protected void drawTopPen(Graphics2D grx, JRPen topPen, JRPrintElement element, int offsetX, int offsetY)
+	protected void drawTopPen(
+		Graphics2D grx, 
+		JRPen topPen, 
+		JRPen leftPen, 
+		JRPen rightPen, 
+		JRPrintElement element, 
+		int offsetX, 
+		int offsetY
+		)
 	{
 		Stroke topStroke = getBorderStroke(topPen);
 
 		if (topStroke != null)
 		{
-			//double cornerOffset = getBorderCornerOffset(topPen);
-			
 			grx.setStroke(topStroke);
 			grx.setColor(topPen.getLineColor());
 	
-			//grx.translate(0, cornerOffset);
-			grx.drawLine(
-				element.getX() + offsetX, 
-				element.getY() + offsetY, 
-				element.getX() + offsetX + element.getWidth(),
+			AffineTransform oldTx = grx.getTransform();
+			grx.translate(
+				element.getX() + offsetX - leftPen.getLineWidth().floatValue() / 2, 
 				element.getY() + offsetY
 				);
-			//grx.translate(0, -cornerOffset);
+			grx.scale(
+				(element.getWidth() + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2) 
+					/ element.getWidth(), 
+				1
+				);
+			grx.drawLine(
+				0, 
+				0, 
+				element.getWidth(),
+				0
+				);
+			grx.setTransform(oldTx);
 		}
 	}
 
@@ -141,25 +189,40 @@ public abstract class ElementDrawer
 	/**
 	 *
 	 */
-	protected void drawLeftPen(Graphics2D grx, JRPen leftPen, JRPrintElement element, int offsetX, int offsetY)
+	protected void drawLeftPen(
+		Graphics2D grx, 
+		JRPen topPen, 
+		JRPen leftPen, 
+		JRPen bottomPen, 
+		JRPrintElement element, 
+		int offsetX, 
+		int offsetY
+		)
 	{
 		Stroke leftStroke = getBorderStroke(leftPen);
 
 		if (leftStroke != null)
 		{
-			//double cornerOffset = getBorderCornerOffset(leftPen);
-			
 			grx.setStroke(leftStroke);
 			grx.setColor(leftPen.getLineColor());
 	
-			//grx.translate(cornerOffset, 0);
-			grx.drawLine(
+			AffineTransform oldTx = grx.getTransform();
+			grx.translate(
 				element.getX() + offsetX, 
-				element.getY() + offsetY, 
-				element.getX() + offsetX,
-				element.getY() + offsetY + element.getHeight()
+				element.getY() + offsetY - topPen.getLineWidth().floatValue() / 2
 				);
-			//grx.translate(-cornerOffset, 0);
+			grx.scale(
+				1,
+				(element.getHeight() + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2) 
+					/ element.getHeight() 
+				);
+			grx.drawLine(
+				0, 
+				0, 
+				0,
+				element.getHeight()
+				);
+			grx.setTransform(oldTx);
 		}
 	}
 
@@ -167,25 +230,40 @@ public abstract class ElementDrawer
 	/**
 	 *
 	 */
-	protected void drawBottomPen(Graphics2D grx, JRPen bottomPen, JRPrintElement element, int offsetX, int offsetY)
+	protected void drawBottomPen(
+		Graphics2D grx, 
+		JRPen leftPen, 
+		JRPen bottomPen, 
+		JRPen rightPen, 
+		JRPrintElement element, 
+		int offsetX, 
+		int offsetY
+		)
 	{
 		Stroke bottomStroke = getBorderStroke(bottomPen);
 
 		if (bottomStroke != null)
 		{
-			//double cornerOffset = getBorderCornerOffset(bottomPen);
-			
 			grx.setStroke(bottomStroke);
 			grx.setColor(bottomPen.getLineColor());
 	
-			//grx.translate(0, -cornerOffset);
-			grx.drawLine(
-				element.getX() + offsetX, 
-				element.getY() + offsetY + element.getHeight(),
-				element.getX() + offsetX + element.getWidth(),
+			AffineTransform oldTx = grx.getTransform();
+			grx.translate(
+				element.getX() + offsetX - leftPen.getLineWidth().floatValue() / 2, 
 				element.getY() + offsetY + element.getHeight()
 				);
-			//grx.translate(0, cornerOffset);
+			grx.scale(
+				(element.getWidth() + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2) 
+					/ element.getWidth(), 
+				1
+				);
+			grx.drawLine(
+				0, 
+				0,
+				element.getWidth(),
+				0
+				);
+			grx.setTransform(oldTx);
 		}
 	}
 
@@ -193,25 +271,40 @@ public abstract class ElementDrawer
 	/**
 	 *
 	 */
-	protected void drawRightPen(Graphics2D grx, JRPen rightPen, JRPrintElement element, int offsetX, int offsetY)
+	protected void drawRightPen(
+		Graphics2D grx, 
+		JRPen topPen, 
+		JRPen bottomPen, 
+		JRPen rightPen, 
+		JRPrintElement element, 
+		int offsetX, 
+		int offsetY
+		)
 	{
 		Stroke rightStroke = getBorderStroke(rightPen);
 
 		if (rightStroke != null)
 		{
-			//double cornerOffset = getBorderCornerOffset(rightPen);
-			
 			grx.setStroke(rightStroke);
 			grx.setColor(rightPen.getLineColor());
 	
-			//grx.translate(-cornerOffset, 0);
-			grx.drawLine(
-				element.getX() + offsetX + element.getWidth(),
-				element.getY() + offsetY,
-				element.getX() + offsetX + element.getWidth(),
-				element.getY() + offsetY + element.getHeight()
+			AffineTransform oldTx = grx.getTransform();
+			grx.translate(
+				element.getX() + offsetX + element.getWidth(), 
+				element.getY() + offsetY - topPen.getLineWidth().floatValue() / 2
 				);
-			//grx.translate(cornerOffset, 0);
+			grx.scale(
+				1,
+				(element.getHeight() + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2) 
+					/ element.getHeight() 
+				);
+			grx.drawLine(
+				0,
+				0,
+				0,
+				element.getHeight()
+				);
+			grx.setTransform(oldTx);
 		}
 	}
 
