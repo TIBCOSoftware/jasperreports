@@ -148,10 +148,10 @@ public abstract class BorderStyle extends Style
 	private void appendBorder(JRPen pen, int side) throws IOException
 	{
 		double width = pen.getLineWidth().doubleValue();
+		String style = null;
 
 		if (width > 0f)
 		{
-			String style = null;
 			switch (pen.getLineStyle().byteValue())
 			{
 				case JRPen.LINE_STYLE_DASHED :
@@ -166,16 +166,16 @@ public abstract class BorderStyle extends Style
 					break;
 				}
 			}
-			
-			if (width <= 0)
-			{
-				style = "none";
-			}
 
-			borderStyle[side] = style;
 			borderWidth[side] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(width));
-			borderColor[side] = JRColorUtil.getColorHexa(pen.getLineColor());
 		}
+		else
+		{
+			style = "none";
+		}
+
+		borderStyle[side] = style;
+		borderColor[side] = JRColorUtil.getColorHexa(pen.getLineColor());
 	}
 
 }

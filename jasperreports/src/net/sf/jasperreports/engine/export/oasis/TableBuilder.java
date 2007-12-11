@@ -187,115 +187,75 @@ public class TableBuilder
 		bodyWriter.write("</table:table-column>\n");		
 	}
 	
-	public void buildCellBorderStyle(JRPrintElement element, JRLineBox box) throws IOException 
-	{
-		if (box != null)
-		{
-			appendBorder(
-				box.getTopPen(),
-				box.getTopPadding(),
-				"top"
-				);
-			appendBorder(
-				box.getLeftPen(),
-				box.getLeftPadding(),
-				"left"
-				);
-			appendBorder(
-				box.getBottomPen(),
-				box.getBottomPadding(),
-				"bottom"
-				);
-			appendBorder(
-				box.getRightPen(),
-				box.getRightPadding(),
-				"right"
-				);
-		}
-	}
-	
-	private void appendBorder(JRPen pen, Integer padding, String side) throws IOException
-	{
-		String borderStyle = null;
-		int borderWidth = (int)(pen.getLineWidth().floatValue() / 2);
-
-		switch (pen.getLineStyle().byteValue())
-		{
-			case JRPen.LINE_STYLE_DASHED :
-			{
-				borderStyle = "dashed";
-				break;
-			}
-			case JRPen.LINE_STYLE_SOLID :
-			default :
-			{
-				borderStyle = "solid";
-				borderWidth = 1;
-				break;
-			}
-		}
-
-//		switch (pen) //FIXMEBORDER
+//	public void buildCellBorderStyle(JRPrintElement element, JRLineBox box) throws IOException 
+//	{
+//		if (box != null)
 //		{
-//			case JRGraphicElement.PEN_DOTTED :
+//			appendBorder(
+//				box.getTopPen(),
+//				box.getTopPadding(),
+//				"top"
+//				);
+//			appendBorder(
+//				box.getLeftPen(),
+//				box.getLeftPadding(),
+//				"left"
+//				);
+//			appendBorder(
+//				box.getBottomPen(),
+//				box.getBottomPadding(),
+//				"bottom"
+//				);
+//			appendBorder(
+//				box.getRightPen(),
+//				box.getRightPadding(),
+//				"right"
+//				);
+//		}
+//	}
+	
+//	private void appendBorder(JRPen pen, Integer padding, String side) throws IOException
+//	{
+//		String borderStyle = null;
+//		float borderWidth = pen.getLineWidth().floatValue();
+//
+//		switch (pen.getLineStyle().byteValue())
+//		{
+//			case JRPen.LINE_STYLE_DASHED :
 //			{
 //				borderStyle = "dashed";
-//				borderWidth = 1;
 //				break;
 //			}
-//			case JRGraphicElement.PEN_4_POINT :
-//			{
-//				borderStyle = "solid";
-//				borderWidth = 4;
-//				break;
-//			}
-//			case JRGraphicElement.PEN_2_POINT :
-//			{
-//				borderStyle = "solid";
-//				borderWidth = 2;
-//				break;
-//			}
-//			case JRGraphicElement.PEN_THIN :
-//			{
-//				borderStyle = "solid";
-//				borderWidth = 1;//FIXMEODT can do better
-//				break;
-//			}
-//			case JRGraphicElement.PEN_NONE :
-//			{
-//				break;
-//			}
-//			case JRGraphicElement.PEN_1_POINT :
+//			case JRPen.LINE_STYLE_SOLID :
 //			default :
 //			{
 //				borderStyle = "solid";
-//				borderWidth = 1;
 //				break;
 //			}
 //		}
-
-		if (borderWidth > 0)
-		{
-			styleWriter.write(" fo:border-");
-			styleWriter.write(side);
-			styleWriter.write("=\"");
-			styleWriter.write(String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(borderWidth)));
-			styleWriter.write("in ");
-			styleWriter.write(borderStyle); 
-			styleWriter.write(" #");
-			styleWriter.write(JRColorUtil.getColorHexa(pen.getLineColor()));
-			styleWriter.write("\"");
-		}
-
-		if (padding.intValue() > 0)
-		{
-			styleWriter.write(" fo:padding-");
-			styleWriter.write(side);
-			styleWriter.write("=\"");
-			styleWriter.write(String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(padding.intValue())));
-			styleWriter.write("\"");
-		}
-	}
+//
+//		if (borderWidth > 0)
+//		{
+//			styleWriter.write(" fo:border-");
+//			styleWriter.write(side);
+//			styleWriter.write("=\"");
+//			styleWriter.write(String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(borderWidth)));
+//			styleWriter.write("in ");
+//			styleWriter.write(borderStyle); 
+//			styleWriter.write(" #");
+//			styleWriter.write(JRColorUtil.getColorHexa(pen.getLineColor()));
+//			styleWriter.write("\"");
+//		}
+//
+//		if (padding.intValue() > 0)
+//		{
+//			styleWriter.write(" fo:padding-");
+//			styleWriter.write(side);
+//			styleWriter.write("=\"");
+//			styleWriter.write(String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(padding.intValue())));
+//			styleWriter.write("\"");
+//		}
+//	}
 
 	public void buildCellHeader(String cellStyleName, int colSpan, int rowSpan) throws IOException 
 	{
