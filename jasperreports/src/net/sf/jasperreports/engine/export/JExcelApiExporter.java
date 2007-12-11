@@ -42,6 +42,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -457,9 +458,16 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			{
 				if (href != null)
 				{
-					URL url = new URL(href);
-					WritableHyperlink hyperlink = new WritableHyperlink(col, row, col, row, url);
-					sheet.addHyperlink(hyperlink);
+					try
+					{
+						URL url = new URL(href);
+						WritableHyperlink hyperlink = new WritableHyperlink(col, row, col, row, url);
+						sheet.addHyperlink(hyperlink);
+					}
+					catch (MalformedURLException e)
+					{
+						log.warn("Reference \"" + href + "\" could not be parsed as URL: " + e);
+					}
 				}
 				addCell(col, row, text, textStr, baseStyle);
 			}
