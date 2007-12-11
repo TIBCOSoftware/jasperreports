@@ -348,7 +348,10 @@ public class ReportConverter
 	 */
 	private void addColumnSeparator(int colX)
 	{
-		addVerticalGridLine(colX, upColumns, downColumns - upColumns);
+		if (downColumns > upColumns)
+		{
+			addVerticalGridLine(colX, upColumns, downColumns - upColumns);
+		}
 	}
 	
 	/**
