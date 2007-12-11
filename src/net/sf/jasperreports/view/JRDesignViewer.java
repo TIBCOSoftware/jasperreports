@@ -161,7 +161,7 @@ public class JRDesignViewer extends JRViewer
 				protected void setDrawers()
 				{
 					super.setDrawers();
-					//FIXMEBORDER frameDrawer.setClip(true);
+					frameDrawer.setClip(true);//FIXMENOW thick border of margin elements is clipped
 				}
 			};
 	}
