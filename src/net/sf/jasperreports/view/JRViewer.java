@@ -34,6 +34,7 @@
  */
 package net.sf.jasperreports.view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -49,6 +50,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -71,6 +74,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -142,6 +146,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected String reportFileName = null;
 	JasperPrint jasperPrint = null;
 	private int pageIndex = 0;
+	private boolean pageError;
 	protected float zoom = 0f;
 
 	private JRGraphics2DExporter exporter = null;
@@ -1341,6 +1346,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			if (index >= 0 && index < jasperPrint.getPages().size())
 			{
 				pageIndex = index;
+				pageError = false;
 				btnFirst.setEnabled( (pageIndex > 0) );
 				btnPrevious.setEnabled( (pageIndex > 0) );
 				btnNext.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
@@ -1482,20 +1488,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 		if (renderImage)
 		{
-			Image image = null;
-			ImageIcon imageIcon = null;
-			try
-			{
-				image = JasperPrintManager.printPageToImage(jasperPrint, pageIndex, realZoom);
-				imageIcon = new ImageIcon(image);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.displaying"));
-			}
-
-			lblPage.setIcon(imageIcon);
+			setPageImage();
 		}
 
 		pnlLinks.removeAll();
@@ -1512,6 +1505,50 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}
 
+
+	protected void setPageImage()
+	{
+		Image image;
+		if (pageError)
+		{
+			image = getPageErrorImage();
+		}
+		else
+		{
+			try
+			{
+				image = JasperPrintManager.printPageToImage(jasperPrint, pageIndex, realZoom);
+			}
+			catch (Exception e)
+			{
+				pageError = true;
+				e.printStackTrace();
+
+				image = getPageErrorImage();
+				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.displaying"));
+			}
+		}
+		ImageIcon imageIcon = new ImageIcon(image);
+		lblPage.setIcon(imageIcon);
+	}
+
+	protected Image getPageErrorImage()
+	{
+		Image image = new BufferedImage(
+				(int) (jasperPrint.getPageWidth() * realZoom) + 1,
+				(int) (jasperPrint.getPageHeight() * realZoom) + 1,
+				BufferedImage.TYPE_INT_RGB
+				);
+		
+		Graphics2D grx = (Graphics2D) image.getGraphics();
+		AffineTransform transform = new AffineTransform();
+		transform.scale(realZoom, realZoom);
+		grx.transform(transform);
+
+		drawPageError((Graphics2D) grx);
+		
+		return image;
+	}
 
 	protected void createHyperlinks()
 	{
@@ -1888,6 +1925,12 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	protected void paintPage(Graphics2D grx)
 	{
+		if (pageError)
+		{
+			paintPageError(grx);
+			return;
+		}
+		
 		try
 		{
 			if (exporter == null)
@@ -1900,7 +1943,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, grx);
+			exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, grx.create());
 			exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
 			exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, new Float(realZoom));
 			exporter.setParameter(JRExporterParameter.OFFSET_X, new Integer(1)); //lblPage border
@@ -1909,14 +1952,49 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 		catch(Exception e)
 		{
+			pageError = true;
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(this, getBundleString("error.displaying"));
+			
+			paintPageError(grx);
+			SwingUtilities.invokeLater(new Runnable()
+			{
+				public void run()
+				{
+					JOptionPane.showMessageDialog(JRViewer.this, getBundleString("error.displaying"));
+				}
+			});
 		}
 
 	}
 
+	protected void paintPageError(Graphics2D grx)
+	{
+		AffineTransform origTransform = grx.getTransform();
+		
+		AffineTransform transform = new AffineTransform();
+		transform.translate(1, 1);
+		transform.scale(realZoom, realZoom);
+		grx.transform(transform);
+		
+		try
+		{
+			drawPageError(grx);
+		}
+		finally
+		{
+			grx.setTransform(origTransform);
+		}
+	}
+
+	protected void drawPageError(Graphics grx)
+	{
+		grx.setColor(Color.white);
+		grx.fillRect(0, 0, jasperPrint.getPageWidth() + 1, jasperPrint.getPageHeight() + 1);
+	}
+
 	protected void keyNavigate(KeyEvent evt)
 	{
+		boolean refresh = true;
 		switch (evt.getKeyCode())
 		{
 		case KeyEvent.VK_DOWN:
@@ -1934,9 +2012,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			homeEndNavigate(jasperPrint.getPages().size() - 1);
 			break;
 		default:
-
+			refresh = false;
 		}
-		refreshPage();//FIXME only on actual key event?
+		
+		if (refresh)
+		{
+			refreshPage();
+		}
 	}
 
 	private void dnNavigate(KeyEvent evt)
