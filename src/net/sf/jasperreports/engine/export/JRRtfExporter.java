@@ -636,7 +636,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
 		writer.write(String.valueOf(zorder++));
 		writer.write("\\shpleft");
-		writer.write(String.valueOf(twip(x)));
+		writer.write(String.valueOf(twip(x)));//FIXMEBORDER starting point of borders seem to have CAP_SQUARE-like appearence at least for Thin
 		writer.write("\\shpright");
 		writer.write(String.valueOf(twip(x + width)));
 		writer.write("\\shptop");
@@ -1359,7 +1359,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				topPen, 
 				x - leftPen.getLineWidth().floatValue() / 2, 
 				y, 
-				width + rightPen.getLineWidth().floatValue() / 2, 
+				width + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2, 
 				0
 				);
 			//exportBorder(topPen, x, y + getAdjustment(topPen), width, 0);
@@ -1386,7 +1386,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				x, 
 				y - topPen.getLineWidth().floatValue() / 2, 
 				0, 
-				height + bottomPen.getLineWidth().floatValue() / 2
+				height + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2
 				);
 			//exportBorder(leftPen, x + getAdjustment(leftPen), y, 0, height);
 		}
@@ -1411,7 +1411,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				bottomPen, 
 				x - leftPen.getLineWidth().floatValue() / 2, 
 				y + height, 
-				width + rightPen.getLineWidth().floatValue() / 2, 
+				width + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2, 
 				0
 				);
 			//exportBorder(bottomPen, x, y + height - getAdjustment(bottomPen), width, 0);
@@ -1438,7 +1438,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				x + width, 
 				y - topPen.getLineWidth().floatValue() / 2, 
 				0, 
-				height + bottomPen.getLineWidth().floatValue() / 2
+				height + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2
 				);
 			//exportBorder(rightPen, x + width - getAdjustment(rightPen), y, 0, height);
 		}
