@@ -185,7 +185,7 @@ public abstract class ElementDrawer
 			grx.scale(
 				1,
 				(element.getHeight() + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2) 
-					/ element.getHeight() 
+					/ element.getHeight() //FIXMEBORDER this might be zero
 				);
 			grx.drawLine(
 				0, 
