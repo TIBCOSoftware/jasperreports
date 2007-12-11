@@ -692,6 +692,8 @@ public class JRPdfExporter extends JRAbstractExporter
 		if (lineWidth > 0f)
 		{
 			preparePen(pdfContentByte, line.getLinePen());
+
+			pdfContentByte.setLineCap(PdfContentByte.LINE_CAP_BUTT);
 			
 			if (line.getWidth() == 1)
 			{
@@ -858,8 +860,6 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		if (printImage.getMode() == JRElement.MODE_OPAQUE)
 		{
-			float borderCorrection = .5f;
-
 			pdfContentByte.setRGBColorStroke(
 				printImage.getBackcolor().getRed(),
 				printImage.getBackcolor().getGreen(),
@@ -868,12 +868,12 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfContentByte.setLineWidth(0.1f);
 			pdfContentByte.setLineDash(0f);
 			pdfContentByte.rectangle(
-				printImage.getX() + getOffsetX() - borderCorrection,
-				jasperPrint.getPageHeight() - printImage.getY() - getOffsetY() + borderCorrection,
-				printImage.getWidth() + 2 * borderCorrection - 1,
-				- printImage.getHeight() - 2 * borderCorrection + 1
+				printImage.getX() + getOffsetX(),
+				jasperPrint.getPageHeight() - printImage.getY() - getOffsetY(),
+				printImage.getWidth(),
+				- printImage.getHeight()
 				);
-			pdfContentByte.fillStroke();
+			pdfContentByte.fill();
 		}
 
 		int topPadding = printImage.getLineBox().getTopPadding().intValue();
@@ -1072,7 +1072,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 				if (image != null)
 				{
-					chunk = new Chunk(image, -0.5f, 0.5f);
+					chunk = new Chunk(image, 0, 0);
 
 					scaledWidth = image.scaledWidth();
 					scaledHeight = image.scaledHeight();
@@ -1805,12 +1805,15 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void exportBox(JRLineBox box, JRPrintElement element)
 	{
+		pdfContentByte.setLineCap(PdfContentByte.LINE_CAP_BUTT);
+
 		exportTopPen(box.getTopPen(), box.getLeftPen(), box.getRightPen(), element);
 		exportLeftPen(box.getTopPen(), box.getLeftPen(), box.getBottomPen(), element);
 		exportBottomPen(box.getLeftPen(), box.getBottomPen(), box.getRightPen(), element);
 		exportRightPen(box.getTopPen(), box.getBottomPen(), box.getRightPen(), element);
 
 		pdfContentByte.setLineDash(0f);
+		pdfContentByte.setLineCap(PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 	}
 
 
@@ -1819,12 +1822,15 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void exportPen(JRPen pen, JRPrintElement element)
 	{
+		pdfContentByte.setLineCap(PdfContentByte.LINE_CAP_BUTT);
+
 		exportTopPen(pen, pen, pen, element);
 		exportLeftPen(pen, pen, pen, element);
 		exportBottomPen(pen, pen, pen, element);
 		exportRightPen(pen, pen, pen, element);
 
 		pdfContentByte.setLineDash(0f);
+		pdfContentByte.setLineCap(PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 	}
 
 
@@ -1930,7 +1936,6 @@ public class JRPdfExporter extends JRAbstractExporter
 		float lineWidth = pen.getLineWidth().floatValue();
 
 		pdfContentByte.setLineWidth(lineWidth);
-		pdfContentByte.setLineCap(PdfContentByte.LINE_CAP_BUTT);
 
 		Color color = pen.getLineColor();
 		pdfContentByte.setRGBColorStroke(
