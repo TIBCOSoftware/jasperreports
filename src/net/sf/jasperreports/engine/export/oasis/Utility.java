@@ -52,13 +52,13 @@ public class Utility {
 		return indent;
 	}
 	
-	public static double translatePixelsToInches(int pixels){
+	public static double translatePixelsToInches(double pixels){
 		double inches = 0.0;
 		inches = pixels/72.0;
 		inches = (Math.floor(inches * 100.0))/100.0;
 		return inches;
 	}
-	public static double translatePixelsToInchesRound(int pixels){
+	public static double translatePixelsToInchesRound(double pixels){
 		double inches = 0.0;
 		inches = pixels/72.0;
 		inches = (Math.round(inches * 100.0))/100.0;

@@ -70,8 +70,8 @@ public class GraphicStyle extends Style
 
 		forecolor = JRColorUtil.getColorHexa(element.getForecolor());
 
-		double doubleWidth = element.getLinePen().getLineStyle().doubleValue();
-		if (doubleWidth == 0)
+		double doubleWidth = element.getLinePen().getLineWidth().doubleValue();
+		if (doubleWidth < 0)
 		{
 			style = "none";
 		}
@@ -123,7 +123,7 @@ public class GraphicStyle extends Style
 		styleWriter.write("   <style:graphic-properties");		
 		styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
 		styleWriter.write(" svg:stroke-color=\"#" + forecolor + "\"");
-		styleWriter.write(" draw:stroke=\"" + style + "\"");
+		styleWriter.write(" draw:stroke=\"" + style + "\"");//FIXMENOW dashed borders do not work; only dashed lines and ellipses seem to work
 		styleWriter.write(" draw:stroke-dash=\"Dashed\"");
 		styleWriter.write(" svg:stroke-width=\"" + width + "in\"");
 		styleWriter.write("/>\n");
