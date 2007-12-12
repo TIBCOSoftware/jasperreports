@@ -57,7 +57,7 @@ public class LineDrawer extends ElementDrawer
 	{
 		JRPrintLine line = (JRPrintLine)element;
 		
-		grx.setColor(line.getForecolor());
+		grx.setColor(line.getLinePen().getLineColor());
 		
 		Stroke stroke = getBorderStroke(line.getLinePen());
 

@@ -147,7 +147,7 @@ public class FrameDrawer extends ElementDrawer
 				);
 		}
 
-		grx.setColor(frame.getForecolor());
+		grx.setColor(frame.getForecolor());//FIXMENOW is this needed?
 
 		setFrameElementsOffset(frame, offsetX, offsetY);
 		try

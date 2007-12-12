@@ -38,7 +38,6 @@ package net.sf.jasperreports.engine.convert;
 import java.util.List;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
-import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
@@ -49,6 +48,7 @@ import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRRectangle;
@@ -262,7 +262,7 @@ public class ConvertVisitor implements JRVisitor
 				rectangle.setWidth(element.getWidth());
 				rectangle.setHeight(element.getHeight());
 				rectangle.getLinePen().setLineWidth(0.5f);
-				rectangle.setForecolor(element.getForecolor());
+				rectangle.getLinePen().setLineColor(element.getForecolor());
 				rectangle.setMode(JRElement.MODE_TRANSPARENT);
 				frame.addElement(rectangle);
 			}

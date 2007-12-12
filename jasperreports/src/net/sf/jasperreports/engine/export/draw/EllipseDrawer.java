@@ -69,7 +69,7 @@ public class EllipseDrawer extends ElementDrawer
 				);
 		}
 
-		grx.setColor(ellipse.getForecolor());
+		grx.setColor(ellipse.getLinePen().getLineColor());
 
 		Stroke stroke = getStroke(ellipse.getLinePen());
 

@@ -68,7 +68,7 @@ public class GraphicStyle extends Style
 			//fill = "none";
 		}
 
-		forecolor = JRColorUtil.getColorHexa(element.getForecolor());
+		forecolor = JRColorUtil.getColorHexa(element.getLinePen().getLineColor());
 
 		double doubleWidth = element.getLinePen().getLineWidth().doubleValue();
 		if (doubleWidth < 0)

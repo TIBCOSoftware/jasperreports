@@ -71,6 +71,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintImageArea;
@@ -789,11 +790,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 						}
 						else if (element instanceof JRPrintRectangle)
 						{
-							exportRectangle(element, gridCell);
+							exportRectangle((JRPrintRectangle)element, gridCell);
 						}
 						else if (element instanceof JRPrintEllipse)
 						{
-							exportRectangle(element, gridCell);
+							exportRectangle((JRPrintEllipse)element, gridCell);
 						}
 						else if (element instanceof JRPrintImage)
 						{
@@ -877,12 +878,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		writeCellTDStart(gridCell);
 
-		if (
-			line.getForecolor().getRGB() != Color.white.getRGB()
-			)
+		Color forecolor = line.getLinePen().getLineColor();
+		
+		if (forecolor.getRGB() != Color.white.getRGB())
 		{
 			writer.write(" bgcolor=\"#");
-			writer.write(JRColorUtil.getColorHexa(line.getForecolor()));
+			writer.write(JRColorUtil.getColorHexa(forecolor));
 			writer.write("\"");
 		}
 
@@ -914,17 +915,24 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell) throws IOException
+	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell gridCell) throws IOException
 	{
 		writeCellTDStart(gridCell);
 
-		if (
-			(backcolor == null || element.getBackcolor().getRGB() != backcolor.getRGB())
-			&& element.getMode() == JRElement.MODE_OPAQUE
-			)
+		StringBuffer styleBuffer = new StringBuffer();
+
+		appendBackcolorStyle(gridCell, styleBuffer);
+		
+		appendPen(
+			styleBuffer,
+			element.getLinePen(),
+			null
+			);
+
+		if (styleBuffer.length() > 0)
 		{
-			writer.write(" bgcolor=\"#");
-			writer.write(JRColorUtil.getColorHexa(element.getBackcolor()));
+			writer.write(" style=\"");
+			writer.write(styleBuffer.toString());
 			writer.write("\"");
 		}
 

@@ -83,7 +83,7 @@ public class RectangleDrawer extends ElementDrawer
 			}
 		}
 
-		grx.setColor(rectangle.getForecolor());
+		grx.setColor(rectangle.getLinePen().getLineColor());
 
 		Stroke stroke = getStroke(rectangle.getLinePen());
 

@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
@@ -523,11 +524,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						}
 						else if (element instanceof JRPrintRectangle)
 						{
-							exportRectangle(element, gridCell, colIndex, rowIndex);
+							exportRectangle((JRPrintRectangle)element, gridCell, colIndex, rowIndex);
 						}
 						else if (element instanceof JRPrintEllipse)
 						{
-							exportRectangle(element, gridCell, colIndex, rowIndex);
+							exportRectangle((JRPrintEllipse)element, gridCell, colIndex, rowIndex);
 						}
 						else if (element instanceof JRPrintImage)
 						{
@@ -796,7 +797,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void exportImage(JRPrintImage image, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols) throws JRException;
 
-	protected abstract void exportRectangle(JRPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
+	protected abstract void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
 	protected abstract void exportLine(JRPrintLine line, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
