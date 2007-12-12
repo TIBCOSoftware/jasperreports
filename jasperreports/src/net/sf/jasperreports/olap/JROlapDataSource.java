@@ -344,7 +344,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 		for (int i = 0; i < hierarchies.length; i++)
 		{
 			JROlapHierarchy hierarchy = hierarchies[i];
-			if (hierarchy.getDimensionName().equals(dimension))
+			if (dimension.equals(hierarchy.getDimensionName()))
 			{
 				dimensionIndex = i;
 			}
@@ -375,7 +375,9 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 		
 		if (levelIndex == -1)
 		{
-			throw new JRRuntimeException("Could not find level \"" + levelName + "\" on hierarchy " + hierarchy.getDimensionName() + ".");
+			throw new JRRuntimeException("Could not find level \"" + levelName 
+					+ "\" on hierarchy #" + pos.getIdx() + " (dimension " + hierarchy.getDimensionName() 
+					+ ") on axis #" + pos.getAxis().getIdx());
 		}
 		
 		return levelIndex;

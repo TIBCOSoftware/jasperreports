@@ -47,17 +47,24 @@ public class JRMondrianHierarchy implements JROlapHierarchy
 	{
 		this.hierarchy = hierarchy;
 		
-		Level[] hierarchyLevels = hierarchy.getLevels();
-		levels = new JRMondrianLevel[hierarchyLevels.length];
-		for (int i = 0; i < hierarchyLevels.length; i++)
+		if (hierarchy == null)
 		{
-			levels[i] = new JRMondrianLevel(hierarchyLevels[i]);
+			levels = new JRMondrianLevel[0];
+		}
+		else
+		{
+			Level[] hierarchyLevels = hierarchy.getLevels();
+			levels = new JRMondrianLevel[hierarchyLevels.length];
+			for (int i = 0; i < hierarchyLevels.length; i++)
+			{
+				levels[i] = new JRMondrianLevel(hierarchyLevels[i]);
+			}
 		}
 	}
 
 	public String getDimensionName()
 	{
-		return hierarchy.getDimension().getName();
+		return hierarchy == null ? null : hierarchy.getDimension().getName();
 	}
 
 	public JROlapHierarchyLevel[] getLevels()
