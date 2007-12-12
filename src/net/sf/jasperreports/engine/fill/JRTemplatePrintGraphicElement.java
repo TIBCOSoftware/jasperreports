@@ -66,7 +66,7 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public byte getPen()
 	{
@@ -74,7 +74,7 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public Byte getOwnPen()
 	{
@@ -82,7 +82,7 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setLineWidth(float)} and {@link #setLineStyle(byte)()}
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(byte pen)
 	{
@@ -90,7 +90,7 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setLineWidth(Float)} and {@link #setLineStyle(Byte)()}
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(Byte pen)
 	{
