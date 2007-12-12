@@ -90,6 +90,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -333,7 +334,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		addMergeRegion(gridCell, col, row);
 
-		Colour forecolor2 = getWorkbookColour(line.getForecolor());
+		Colour forecolor2 = getWorkbookColour(line.getLinePen().getLineColor());
 		WritableFont cellFont2 = getLoadedFont(getDefaultFont(), forecolor2.getValue());
 		WritableCellFormat cellStyle2 = 
 			getLoadedCellStyle(
@@ -355,7 +356,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell, int col, int row) throws JRException
+	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell gridCell, int col, int row) throws JRException
 	{
 		addMergeRegion(gridCell, col, row);
 
@@ -368,7 +369,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			backcolor = getWorkbookColour(gridCell.getCellBackcolor());
 		}
 
-		Colour forecolor = getWorkbookColour(element.getForecolor());
+		Colour forecolor = getWorkbookColour(element.getLinePen().getLineColor());
 		WritableFont cellFont2 = getLoadedFont(getDefaultFont(), forecolor.getValue());
 		WritableCellFormat cellStyle2 = 
 			getLoadedCellStyle(

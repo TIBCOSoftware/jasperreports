@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -238,7 +239,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
-		short forecolor = getNearestColor(line.getForecolor()).getIndex();
+		short forecolor = getNearestColor(line.getLinePen().getLineColor()).getIndex();
 
 		HSSFCellStyle cellStyle = 
 			getLoadedCellStyle(
@@ -263,9 +264,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
-		short forecolor = getNearestColor(element.getForecolor()).getIndex();
+		short forecolor = getNearestColor(element.getLinePen().getLineColor()).getIndex();
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;

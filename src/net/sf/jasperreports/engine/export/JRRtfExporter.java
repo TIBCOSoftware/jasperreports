@@ -1170,7 +1170,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 
 			startElement(printImage);
-			exportPen(printImage.getForecolor());
+			exportPen(printImage.getForecolor());//FIXMEBORDER should we have lineColor here, if at all needed?
 			finishElement();
 			
 			writer.write("{\\shp{\\*\\shpinst\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
