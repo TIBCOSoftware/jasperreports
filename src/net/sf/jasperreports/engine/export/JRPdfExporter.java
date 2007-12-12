@@ -769,11 +769,6 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void exportRectangle(JRPrintRectangle rectangle)
 	{
-		pdfContentByte.setRGBColorStroke(
-			rectangle.getForecolor().getRed(),
-			rectangle.getForecolor().getGreen(),
-			rectangle.getForecolor().getBlue()
-			);
 		pdfContentByte.setRGBColorFill(
 			rectangle.getBackcolor().getRed(),
 			rectangle.getBackcolor().getGreen(),
@@ -782,21 +777,28 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		preparePen(pdfContentByte, rectangle.getLinePen());
 
-		if (rectangle.getLinePen().getLineWidth().floatValue() > 0f)
-		{
-			pdfContentByte.roundRectangle(
-				rectangle.getX() + getOffsetX(),
-				jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight(),
-				rectangle.getWidth(),
-				rectangle.getHeight(),
-				rectangle.getRadius()
-				);
+		pdfContentByte.roundRectangle(
+			rectangle.getX() + getOffsetX(),
+			jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight(),
+			rectangle.getWidth(),
+			rectangle.getHeight(),
+			rectangle.getRadius()
+			);
 
-			if (rectangle.getMode() == JRElement.MODE_OPAQUE)
+		if (rectangle.getMode() == JRElement.MODE_OPAQUE)
+		{
+			if (rectangle.getLinePen().getLineWidth().floatValue() > 0f)
 			{
 				pdfContentByte.fillStroke();
 			}
 			else
+			{
+				pdfContentByte.fill();
+			}
+		}
+		else
+		{
+			if (rectangle.getLinePen().getLineWidth().floatValue() > 0f)
 			{
 				pdfContentByte.stroke();
 			}
@@ -811,11 +813,6 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void exportEllipse(JRPrintEllipse ellipse)
 	{
-		pdfContentByte.setRGBColorStroke(
-			ellipse.getForecolor().getRed(),
-			ellipse.getForecolor().getGreen(),
-			ellipse.getForecolor().getBlue()
-			);
 		pdfContentByte.setRGBColorFill(
 			ellipse.getBackcolor().getRed(),
 			ellipse.getBackcolor().getGreen(),
@@ -824,20 +821,27 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		preparePen(pdfContentByte, ellipse.getLinePen());
 
-		if (ellipse.getLinePen().getLineWidth().floatValue() > 0f)
-		{
-			pdfContentByte.ellipse(
-				ellipse.getX() + getOffsetX(),
-				jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight(),
-				ellipse.getX() + getOffsetX() + ellipse.getWidth(),
-				jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY()
-				);
+		pdfContentByte.ellipse(
+			ellipse.getX() + getOffsetX(),
+			jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight(),
+			ellipse.getX() + getOffsetX() + ellipse.getWidth(),
+			jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY()
+			);
 
-			if (ellipse.getMode() == JRElement.MODE_OPAQUE)
+		if (ellipse.getMode() == JRElement.MODE_OPAQUE)
+		{
+			if (ellipse.getLinePen().getLineWidth().floatValue() > 0f)
 			{
 				pdfContentByte.fillStroke();
 			}
 			else
+			{
+				pdfContentByte.fill();
+			}
+		}
+		else
+		{
+			if (ellipse.getLinePen().getLineWidth().floatValue() > 0f)
 			{
 				pdfContentByte.stroke();
 			}
@@ -852,12 +856,6 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void exportImage(JRPrintImage printImage) throws DocumentException, IOException,  JRException
 	{
-		pdfContentByte.setRGBColorFill(
-			printImage.getBackcolor().getRed(),
-			printImage.getBackcolor().getGreen(),
-			printImage.getBackcolor().getBlue()
-			);
-
 		if (printImage.getMode() == JRElement.MODE_OPAQUE)
 		{
 			pdfContentByte.setRGBColorStroke(
@@ -865,8 +863,6 @@ public class JRPdfExporter extends JRAbstractExporter
 				printImage.getBackcolor().getGreen(),
 				printImage.getBackcolor().getBlue()
 				);
-			pdfContentByte.setLineWidth(0.1f);
-			pdfContentByte.setLineDash(0f);
 			pdfContentByte.rectangle(
 				printImage.getX() + getOffsetX(),
 				jasperPrint.getPageHeight() - printImage.getY() - getOffsetY(),
@@ -1463,12 +1459,6 @@ public class JRPdfExporter extends JRAbstractExporter
 		Exception initialException = null;
 
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
-		/*
-		if (forecolor == null)
-		{
-			forecolor = Color.black;
-		}
-		*/
 
 		Font font = null;
 		PdfFont pdfFont = null;
