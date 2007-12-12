@@ -585,7 +585,7 @@ public class JRBaseBox implements JRBox, Serializable
 		
 		if (lineBox == null)
 		{
-			lineBox = new JRBaseLineBox((JRBoxContainer)this);
+			lineBox = new JRBaseLineBox(null);
 			JRBoxUtil.setToBox(
 				border,
 				topBorder,

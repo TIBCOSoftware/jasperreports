@@ -29,8 +29,6 @@ package net.sf.jasperreports.engine.util;
 
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 
 /**
  * Utility class used to pair two objects.
@@ -40,7 +38,7 @@ import net.sf.jasperreports.engine.JRConstants;
  */
 public class Pair implements Serializable
 {
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	private static final long serialVersionUID = 1; //too late to replace this now
 	
 	private final Object o1;
 	private final Object o2;
