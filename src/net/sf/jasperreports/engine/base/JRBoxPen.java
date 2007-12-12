@@ -41,11 +41,16 @@ public interface JRBoxPen extends JRPen
 	/**
 	 *
 	 */
-	public abstract JRLineBox getBox();
+	public JRLineBox getBox();
 
 	/**
 	 *
 	 */
-	public abstract JRPen getPen(JRLineBox box);
+	public JRPen getPen(JRLineBox box);
+
+	/**
+	 * 
+	 */
+	public JRBoxPen clone(JRLineBox lineBox);
 
 }

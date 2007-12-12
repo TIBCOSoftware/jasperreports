@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.base.JRBoxPen;
+
 
 
 /**
@@ -35,7 +37,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRLineBox extends JRPenContainer, JRCloneable
+public interface JRLineBox extends JRPenContainer
 {
 
 	/**
@@ -52,52 +54,52 @@ public interface JRLineBox extends JRPenContainer, JRCloneable
 	/**
 	 * Gets the pen properties for the border.
 	 */
-	public JRPen getPen();
+	public JRBoxPen getPen();
 
 	/**
 	 *
 	 */
-	public void copyPen(JRPen pen);
+	public void copyPen(JRBoxPen pen);
 
 	/**
 	 * Gets the pen properties for the top border.
 	 */
-	public JRPen getTopPen();
+	public JRBoxPen getTopPen();
 
 	/**
 	 *
 	 */
-	public void copyTopPen(JRPen topPen);
+	public void copyTopPen(JRBoxPen topPen);
 
 	/**
 	 * Gets the pen properties for the left border.
 	 */
-	public JRPen getLeftPen();
+	public JRBoxPen getLeftPen();
 
 	/**
 	 *
 	 */
-	public void copyLeftPen(JRPen leftPen);
+	public void copyLeftPen(JRBoxPen leftPen);
 
 	/**
 	 * Gets the pen properties for the bottom border.
 	 */
-	public JRPen getBottomPen();
+	public JRBoxPen getBottomPen();
 
 	/**
 	 *
 	 */
-	public void copyBottomPen(JRPen bottomPen);
+	public void copyBottomPen(JRBoxPen bottomPen);
 
 	/**
 	 * Gets the pen properties for the right border.
 	 */
-	public JRPen getRightPen();
+	public JRBoxPen getRightPen();
 
 	/**
 	 *
 	 */
-	public void copyRightPen(JRPen rightPen);
+	public void copyRightPen(JRBoxPen rightPen);
 
 	
 	/**

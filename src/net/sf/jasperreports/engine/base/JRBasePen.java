@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBox.java 1924 2007-10-25 13:31:38Z lucianc $
  */
-public class JRBasePen implements JRPen, Serializable, JRChangeEventsSupport
+public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEventsSupport
 {
 
 
@@ -194,24 +194,17 @@ public class JRBasePen implements JRPen, Serializable, JRChangeEventsSupport
 	/**
 	 * 
 	 */
-	public Object clone()
+	public JRPen clone(JRPenContainer penContainer)
 	{
+		JRBasePen clone = null;
 		try
 		{
-			return super.clone();
+			clone = (JRBasePen)super.clone();
 		}
 		catch(CloneNotSupportedException e)
 		{
 			throw new JRRuntimeException(e);
 		}
-	}
-	
-	/**
-	 * 
-	 */
-	public JRPen clone(JRPenContainer penContainer)
-	{
-		JRBasePen clone = (JRBasePen)this.clone();
 		
 		clone.penContainer = penContainer;
 		
