@@ -578,6 +578,18 @@
 </element>
 
 
+<!-- categoryExpression -->
+<element>
+  <name>categoryExpression</name>
+  <description>Defines a category expression in a dataset</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
 <!-- categorySeries -->
 <element>
   <name>categorySeries</name>
