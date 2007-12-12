@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 2.0.3 (2007-1x-xx)
+JasperReports 2.0.3 (2007-12-12)
 -----------------------------------
 
 - the default value of the deprecated JRXlsExporterParameter.IS_AUTO_DETECT_CELL_TYPE
@@ -12,20 +12,23 @@ should be used to control the cell types in the generated XLS documents;
 - exporter filter support added to all exporters, including support for 
 origin exporter filter hints;
 
-- refactored RTF exporter to remove limitations related to Unicode texts;
+- refactored RTF exporter to remove limitations related to Unicode texts and RTL writing;
 
 - change events handling and clone support in the report template object model;
 
 - custom properties support for report templates elements;
 
-- support for pluggable text measurers
+- support for pluggable text measurers, to allow simpler and faster implementations;
 
 - support for keeping the entire original text for text elements that do not
-stretch; the full text is used in data-oriented exporters such as XLS and CSV
+stretch; the full text is used in data-oriented exporters such as XLS and CSV;
 
-- support for truncating texts at character
+- support for truncating texts at character (not word);
 
-- support for text truncation suffix (i.e. ellipses)
+- support for text truncation suffix (i.e. adding ellipses at the end);
+
+- new JRPen and JRLineBox interfaces added to support rendering of an unlimited 
+number of line width/style combinations;
 
 - minor bug fixes and improvements;
 
