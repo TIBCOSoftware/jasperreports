@@ -49,7 +49,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, JRChangeEventsSupport
+public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, Cloneable, JRChangeEventsSupport
 {
 
 
@@ -74,11 +74,11 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	protected JRPen pen = null; 
-	protected JRPen topPen = null;
-	protected JRPen leftPen = null;
-	protected JRPen bottomPen = null;
-	protected JRPen rightPen = null;
+	protected JRBoxPen pen = null; 
+	protected JRBoxPen topPen = null;
+	protected JRBoxPen leftPen = null;
+	protected JRBoxPen bottomPen = null;
+	protected JRBoxPen rightPen = null;
 
 	protected Integer padding = null;
 	protected Integer topPadding = null;
@@ -169,7 +169,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	public JRPen getPen()
+	public JRBoxPen getPen()
 	{
 		return pen;
 	}
@@ -177,7 +177,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	public void copyPen(JRPen pen)
+	public void copyPen(JRBoxPen pen)
 	{
 		this.pen = pen.clone(this);
 	}
@@ -185,7 +185,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	public JRPen getTopPen()
+	public JRBoxPen getTopPen()
 	{
 		return topPen;
 	}
@@ -193,7 +193,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	public void copyTopPen(JRPen topPen)
+	public void copyTopPen(JRBoxPen topPen)
 	{
 		this.topPen = topPen.clone(this);
 	}
@@ -201,7 +201,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	public JRPen getLeftPen()
+	public JRBoxPen getLeftPen()
 	{
 		return leftPen;
 	}
@@ -209,7 +209,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	public void copyLeftPen(JRPen leftPen)
+	public void copyLeftPen(JRBoxPen leftPen)
 	{
 		this.leftPen = leftPen.clone(this);
 	}
@@ -217,7 +217,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	public JRPen getBottomPen()
+	public JRBoxPen getBottomPen()
 	{
 		return bottomPen;
 	}
@@ -225,7 +225,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	public void copyBottomPen(JRPen bottomPen)
+	public void copyBottomPen(JRBoxPen bottomPen)
 	{
 		this.bottomPen = bottomPen.clone(this);
 	}
@@ -233,7 +233,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	public JRPen getRightPen()
+	public JRBoxPen getRightPen()
 	{
 		return rightPen;
 	}
@@ -241,7 +241,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 *
 	 */
-	public void copyRightPen(JRPen rightPen)
+	public void copyRightPen(JRBoxPen rightPen)
 	{
 		this.rightPen = rightPen.clone(this);
 	}
@@ -417,7 +417,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 	/**
 	 * 
 	 */
-	public Object clone()
+	public JRLineBox clone(JRBoxContainer boxContainer)
 	{
 		JRBaseLineBox clone = null;
 		
@@ -429,16 +429,6 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, J
 		{
 			throw new JRRuntimeException(e);
 		}
-		
-		return clone;
-	}
-	
-	/**
-	 * 
-	 */
-	public JRLineBox clone(JRBoxContainer boxContainer)
-	{
-		JRBaseLineBox clone = (JRBaseLineBox)this.clone();
 		
 		clone.boxContainer = boxContainer;
 		

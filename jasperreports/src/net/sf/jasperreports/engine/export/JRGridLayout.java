@@ -512,19 +512,19 @@ public class JRGridLayout
 					cell.setForecolor(frame.getForecolor());
 				}
 				
-				boolean left = col == col1;
-				boolean right = col == col2 - cell.getColSpan();
-				boolean top = row == row1;
-				boolean bottom = row == row2 - cell.getRowSpan();
+				boolean keepLeft = col == col1;
+				boolean keepRight = col == col2 - cell.getColSpan();
+				boolean keepTop = row == row1;
+				boolean keepBottom = row == row2 - cell.getRowSpan();
 					
-				if (left || right || top || bottom)
+				if (keepLeft || keepRight || keepTop || keepBottom)
 				{
 					JRLineBox cellBox = cell.getBox();
-					Object key = new BoxKey(frame.getLineBox(), cellBox, left, right, top, bottom);
+					Object key = new BoxKey(frame.getLineBox(), cellBox, keepLeft, keepRight, keepTop, keepBottom);
 					JRLineBox modBox = (JRLineBox) boxesCache.get(key);
 					if (modBox == null)
 					{
-						modBox = JRBoxUtil.clone(frame.getLineBox(), left, right, top, bottom, cellBox);
+						modBox = JRBoxUtil.clone(frame.getLineBox(), keepLeft, keepRight, keepTop, keepBottom, cellBox);
 						boxesCache.put(key, modBox);
 					}
 					

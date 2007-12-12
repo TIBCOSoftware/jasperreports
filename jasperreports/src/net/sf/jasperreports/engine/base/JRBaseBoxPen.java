@@ -100,4 +100,16 @@ public class JRBaseBoxPen extends JRBasePen implements JRBoxPen
 		return box.getPen();
 	}
 
+	/**
+	 * 
+	 */
+	public JRBoxPen clone(JRLineBox lineBox)
+	{
+		JRBaseBoxPen clone = (JRBaseBoxPen)super.clone(lineBox);
+		
+		clone.lineBox = lineBox;
+		
+		return clone;
+	}
+	
 }

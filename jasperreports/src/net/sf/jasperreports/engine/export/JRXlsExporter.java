@@ -727,45 +727,38 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	protected static short getBorder(JRPen pen)
 	{
-		return HSSFCellStyle.BORDER_DASHED;
-//		short border = HSSFCellStyle.BORDER_NONE; //FIXMEBORDER
-//		
-//		switch (pen)
-//		{
-//			case JRGraphicElement.PEN_DOTTED :
-//			{
-//				border = HSSFCellStyle.BORDER_DASHED;
-//				break;
-//			}
-//			case JRGraphicElement.PEN_4_POINT :
-//			{
-//				border = HSSFCellStyle.BORDER_THICK;
-//				break;
-//			}
-//			case JRGraphicElement.PEN_2_POINT :
-//			{
-//				border = HSSFCellStyle.BORDER_THICK;
-//				break;
-//			}
-//			case JRGraphicElement.PEN_THIN :
-//			{
-//				border = HSSFCellStyle.BORDER_THIN;
-//				break;
-//			}
-//			case JRGraphicElement.PEN_NONE :
-//			{
-//				border = HSSFCellStyle.BORDER_NONE;
-//				break;
-//			}
-//			case JRGraphicElement.PEN_1_POINT :
-//			default :
-//			{
-//				border = HSSFCellStyle.BORDER_MEDIUM;
-//				break;
-//			}
-//		}
-//		
-//		return border;
+		float lineWidth = pen.getLineWidth().floatValue();
+		
+		if (lineWidth > 0f)
+		{
+			switch (pen.getLineStyle().byteValue())
+			{
+				case JRPen.LINE_STYLE_DASHED :
+				{
+					return HSSFCellStyle.BORDER_DASHED;
+				}
+				case JRPen.LINE_STYLE_SOLID :
+				default :
+				{
+					if (lineWidth >= 2f)
+					{
+						return HSSFCellStyle.BORDER_THICK;
+					}
+					else if (lineWidth >= 1f)
+					{
+						return HSSFCellStyle.BORDER_MEDIUM;
+					}
+					else if (lineWidth >= 0.5f)
+					{
+						return HSSFCellStyle.BORDER_THIN;
+					}
+
+					return HSSFCellStyle.BORDER_HAIR;
+				}
+			}
+		}
+		
+		return HSSFCellStyle.BORDER_NONE;
 	}
 
 	protected void exportImage(JRPrintImage image, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols)
@@ -824,7 +817,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		public BoxStyle(JRLineBox box, short backcolor, short forecolor)
 		{
-			if(box != null && box.getTopPen().getLineWidth().floatValue() <= 0f)
+			if(box != null && box.getTopPen().getLineWidth().floatValue() > 0f)
 			{
 				topBorder = getBorder(box.getTopPen());
 				topBorderColour = getNearestColor(box.getTopPen().getLineColor()).getIndex();
@@ -835,7 +828,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				topBorderColour = backcolor;
 			}
 			
-			if(box != null && box.getBottomPen().getLineWidth().floatValue() <= 0f)
+			if(box != null && box.getBottomPen().getLineWidth().floatValue() > 0f)
 			{
 				bottomBorder = getBorder(box.getBottomPen());
 				bottomBorderColour = getNearestColor(box.getBottomPen().getLineColor()).getIndex();
@@ -846,7 +839,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				bottomBorderColour = backcolor;
 			}
 			
-			if(box != null && box.getLeftPen().getLineWidth().floatValue() <= 0f)
+			if(box != null && box.getLeftPen().getLineWidth().floatValue() > 0f)
 			{
 				leftBorder = getBorder(box.getLeftPen());
 				leftBorderColour = getNearestColor(box.getLeftPen().getLineColor()).getIndex();
@@ -857,7 +850,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				leftBorderColour = backcolor;
 			}
 			
-			if(box != null && box.getRightPen().getLineWidth().floatValue() <= 0f)
+			if(box != null && box.getRightPen().getLineWidth().floatValue() > 0f)
 			{
 				rightBorder = getBorder(box.getRightPen());
 				rightBorderColour = getNearestColor(box.getRightPen().getLineColor()).getIndex();

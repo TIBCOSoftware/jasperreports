@@ -34,7 +34,7 @@ import java.awt.Color;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRGraphicElement.java 1229 2006-04-19 10:27:35Z teodord $
  */
-public interface JRPen extends JRCloneable
+public interface JRPen
 {
 
 	/**
