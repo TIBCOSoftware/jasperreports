@@ -858,7 +858,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (printImage.getMode() == JRElement.MODE_OPAQUE)
 		{
-			pdfContentByte.setRGBColorStroke(
+			pdfContentByte.setRGBColorFill(
 				printImage.getBackcolor().getRed(),
 				printImage.getBackcolor().getGreen(),
 				printImage.getBackcolor().getBlue()
