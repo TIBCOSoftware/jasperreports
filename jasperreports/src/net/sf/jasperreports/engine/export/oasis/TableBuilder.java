@@ -38,11 +38,6 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRLineBox;
-import net.sf.jasperreports.engine.JRPen;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.util.JRColorUtil;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

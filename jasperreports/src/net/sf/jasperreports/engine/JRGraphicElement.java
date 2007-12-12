@@ -39,37 +39,31 @@ public interface JRGraphicElement extends JRElement, JRCommonGraphicElement
 
 	/**
 	 * Contant useful for specifying that the element border will not be drawn.
-	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_NONE = 0;
 
 	/**
 	 * Contant useful for specifying that an element border of 1 pixel.
-	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_1_POINT = 1;
 
 	/**
 	 * Contant useful for specifying that an element border of 2 pixels.
-	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_2_POINT = 2;
 
 	/**
 	 * Contant useful for specifying that an element border of 4 pixels.
-	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_4_POINT = 3;
 
 	/**
 	 * Contant useful for specifying that an element has a dashed border.
-	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_DOTTED = 4;
 
 	/**
 	 * Contant useful for specifying that an element has a thin border (0.5 pixels)
-	 * @deprecated Replaced by border style and line width.
 	 */
 	public static final byte PEN_THIN = 5;
 
