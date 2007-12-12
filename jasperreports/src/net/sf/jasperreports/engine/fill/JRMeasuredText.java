@@ -32,7 +32,7 @@ package net.sf.jasperreports.engine.fill;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
- * @see JRTextMeasurer#measure(net.sf.jasperreports.engine.util.JRStyledText, String, int, int)
+ * @see JRTextMeasurer#measure(net.sf.jasperreports.engine.util.JRStyledText, int, int, boolean)
  */
 public interface JRMeasuredText
 {

@@ -168,7 +168,7 @@ public class LineBoxWrapper implements JRBox, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link JRLineBox#setPadding(int))}
+	 * @deprecated Replaced by {@link JRLineBox#setPadding(int)}
 	 */
 	public void setPadding(int padding)
 	{
@@ -176,7 +176,7 @@ public class LineBoxWrapper implements JRBox, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link JRLineBox#setPadding(Integer)))}
+	 * @deprecated Replaced by {@link JRLineBox#setPadding(Integer)}
 	 */
 	public void setPadding(Integer padding)
 	{
@@ -256,7 +256,7 @@ public class LineBoxWrapper implements JRBox, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link JRLineBox#setTopPadding(int))}
+	 * @deprecated Replaced by {@link JRLineBox#setTopPadding(int)}
 	 */
 	public void setTopPadding(int topPadding)
 	{
@@ -264,7 +264,7 @@ public class LineBoxWrapper implements JRBox, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link JRLineBox#setTopPadding(Integer)))}
+	 * @deprecated Replaced by {@link JRLineBox#setTopPadding(Integer)}
 	 */
 	public void setTopPadding(Integer topPadding)
 	{
@@ -344,7 +344,7 @@ public class LineBoxWrapper implements JRBox, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link JRLineBox#setLeftPadding(int))}
+	 * @deprecated Replaced by {@link JRLineBox#setLeftPadding(int)}
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
@@ -352,7 +352,7 @@ public class LineBoxWrapper implements JRBox, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link JRLineBox#setLeftPadding(Integer)))}
+	 * @deprecated Replaced by {@link JRLineBox#setLeftPadding(Integer)}
 	 */
 	public void setLeftPadding(Integer leftPadding)
 	{
@@ -432,7 +432,7 @@ public class LineBoxWrapper implements JRBox, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link JRLineBox#setBottomPadding(int))}
+	 * @deprecated Replaced by {@link JRLineBox#setBottomPadding(int)}
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
@@ -440,7 +440,7 @@ public class LineBoxWrapper implements JRBox, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link JRLineBox#setBottomPadding(Integer)))}
+	 * @deprecated Replaced by {@link JRLineBox#setBottomPadding(Integer)}
 	 */
 	public void setBottomPadding(Integer bottomPadding)
 	{
@@ -520,7 +520,7 @@ public class LineBoxWrapper implements JRBox, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link JRLineBox#setRightPadding(int))}
+	 * @deprecated Replaced by {@link JRLineBox#setRightPadding(int)}
 	 */
 	public void setRightPadding(int rightPadding)
 	{

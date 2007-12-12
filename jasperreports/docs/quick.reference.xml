@@ -327,11 +327,52 @@
 </element>
 
 
+<!-- bottomPen -->
+<element>
+  <name>bottomPen</name>
+  <description>Groups the properties of the pen used to draw lines or borders.</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>lineWidth</name>
+      <description>The line width of the pen.</description>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <name>lineStyle</name>
+      <description>The line style of the pen.</description>
+      <values>
+        <value>
+          <name>Solid</name>
+          <description>Solid line.</description>
+        </value>
+        <value>
+          <name>Dashed</name>
+          <description>Dashed line.</description>
+        </value>
+      </values>
+      <default>Solid</default>
+    </attribute>
+    <attribute>
+      <name>lineColor</name>
+      <description>Line color for the pen. Hexadecimal formatted values preceded by the # character or decimal values are accepted along with the following predefined color values: black, blue, cyan, darkGray, gray, green, lightGray, magenta, orange, pink, red, yellow, white.</description>
+      <required>false</required>
+    </attribute>
+  </attributes>
+</element>
+
+
 <!-- box -->
 <element>
   <name>box</name>
   <description>Element used to specify the common properties of a graphic object on the report (line, rectangle, ellipse or image).</description>
-  <contains>EMPTY</contains>
+  <contains>(
+    <a href="pen">pen</a>?,
+    <a href="topPen">topPen</a>?,
+    <a href="leftPen">leftPen</a>?,
+    <a href="bottomPen">bottomPen</a>?,
+    <a href="rightPen">rightPen</a>?
+  )</contains>
   <attributes>
     <attribute>
       <name>border, topBorder, leftBorder, bottomBorder, rightBorder</name>
@@ -1772,7 +1813,9 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 <element>
   <name>graphicElement</name>
   <description>Element used to specify the common properties of a graphic object on the report (line, rectangle, ellipse or image).</description>
-  <contains>EMPTY</contains>
+  <contains>(
+    <a href="pen">pen</a>?
+  )</contains>
   <attributes>
     <attribute>
       <name>pen</name>
@@ -2778,6 +2821,41 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 </element>
 
 
+<!-- leftPen -->
+<element>
+  <name>leftPen</name>
+  <description>Groups the properties of the pen used to draw lines or borders.</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>lineWidth</name>
+      <description>The line width of the pen.</description>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <name>lineStyle</name>
+      <description>The line style of the pen.</description>
+      <values>
+        <value>
+          <name>Solid</name>
+          <description>Solid line.</description>
+        </value>
+        <value>
+          <name>Dashed</name>
+          <description>Dashed line.</description>
+        </value>
+      </values>
+      <default>Solid</default>
+    </attribute>
+    <attribute>
+      <name>lineColor</name>
+      <description>Line color for the pen. Hexadecimal formatted values preceded by the # character or decimal values are accepted along with the following predefined color values: black, blue, cyan, darkGray, gray, green, lightGray, magenta, orange, pink, red, yellow, white.</description>
+      <required>false</required>
+    </attribute>
+  </attributes>
+</element>
+
+
 <!-- line -->
 <element>
   <name>line</name>
@@ -3314,6 +3392,41 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 </element>
 
 
+<!-- pen -->
+<element>
+  <name>pen</name>
+  <description>Groups the properties of the pen used to draw lines or borders.</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>lineWidth</name>
+      <description>The line width of the pen.</description>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <name>lineStyle</name>
+      <description>The line style of the pen.</description>
+      <values>
+        <value>
+          <name>Solid</name>
+          <description>Solid line.</description>
+        </value>
+        <value>
+          <name>Dashed</name>
+          <description>Dashed line.</description>
+        </value>
+      </values>
+      <default>Solid</default>
+    </attribute>
+    <attribute>
+      <name>lineColor</name>
+      <description>Line color for the pen. Hexadecimal formatted values preceded by the # character or decimal values are accepted along with the following predefined color values: black, blue, cyan, darkGray, gray, green, lightGray, magenta, orange, pink, red, yellow, white.</description>
+      <required>false</required>
+    </attribute>
+  </attributes>
+</element>
+
+
 <!-- pie3DChart -->
 <element>
   <name>pie3DChart</name>
@@ -3803,6 +3916,41 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 </element>
 
 
+<!-- rightPen -->
+<element>
+  <name>rightPen</name>
+  <description>Groups the properties of the pen used to draw lines or borders.</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>lineWidth</name>
+      <description>The line width of the pen.</description>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <name>lineStyle</name>
+      <description>The line style of the pen.</description>
+      <values>
+        <value>
+          <name>Solid</name>
+          <description>Solid line.</description>
+        </value>
+        <value>
+          <name>Dashed</name>
+          <description>Dashed line.</description>
+        </value>
+      </values>
+      <default>Solid</default>
+    </attribute>
+    <attribute>
+      <name>lineColor</name>
+      <description>Line color for the pen. Hexadecimal formatted values preceded by the # character or decimal values are accepted along with the following predefined color values: black, blue, cyan, darkGray, gray, green, lightGray, magenta, orange, pink, red, yellow, white.</description>
+      <required>false</required>
+    </attribute>
+  </attributes>
+</element>
+
+
 <!-- rowGroup -->
 <element>
   <name>rowGroup</name>
@@ -4213,7 +4361,9 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <name>style</name>
   <description>Definition of a report style.</description>
   <contains>(
-	  <a href="conditionalStyle">conditionalStyle</a>*,
+    <a href="pen">pen</a>*,
+    <a href="box">box</a>*,
+    <a href="conditionalStyle">conditionalStyle</a>*,
   )</contains>
   <attributes>
     <attribute>
@@ -5151,6 +5301,41 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     #PCDATA
   )</contains>
   <attributes>
+  </attributes>
+</element>
+
+
+<!-- topPen -->
+<element>
+  <name>topPen</name>
+  <description>Groups the properties of the pen used to draw lines or borders.</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>lineWidth</name>
+      <description>The line width of the pen.</description>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <name>lineStyle</name>
+      <description>The line style of the pen.</description>
+      <values>
+        <value>
+          <name>Solid</name>
+          <description>Solid line.</description>
+        </value>
+        <value>
+          <name>Dashed</name>
+          <description>Dashed line.</description>
+        </value>
+      </values>
+      <default>Solid</default>
+    </attribute>
+    <attribute>
+      <name>lineColor</name>
+      <description>Line color for the pen. Hexadecimal formatted values preceded by the # character or decimal values are accepted along with the following predefined color values: black, blue, cyan, darkGray, gray, green, lightGray, magenta, orange, pink, red, yellow, white.</description>
+      <required>false</required>
+    </attribute>
   </attributes>
 </element>
 

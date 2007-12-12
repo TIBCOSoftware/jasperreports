@@ -272,7 +272,7 @@ public class JRStyledTextParser
 	 * @param endIndex the end index
 	 * @return the String styled text representation of the chunk delimited by
 	 * the start index and the end index
-	 * @see #write(Map, JRStyledText)
+	 * @see #write(Map, AttributedCharacterIterator, String)
 	 */
 	public String write(JRStyledText styledText, 
 			int startIndex, int endIndex)

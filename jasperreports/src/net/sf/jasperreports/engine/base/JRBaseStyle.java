@@ -420,7 +420,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getBorder()
 	{
@@ -428,7 +428,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getOwnBorder()
 	{
@@ -436,7 +436,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getBorderColor()
 	{
@@ -444,7 +444,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getOwnBorderColor()
 	{
@@ -452,7 +452,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getPadding()
 	{
@@ -460,7 +460,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getOwnPadding()
 	{
@@ -468,7 +468,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getTopBorder()
 	{
@@ -476,7 +476,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getOwnTopBorder()
 	{
@@ -484,7 +484,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getTopBorderColor()
 	{
@@ -492,7 +492,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getOwnTopBorderColor()
 	{
@@ -500,7 +500,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getTopPadding()
 	{
@@ -508,7 +508,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getOwnTopPadding()
 	{
@@ -516,7 +516,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getLeftBorder()
 	{
@@ -524,7 +524,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getOwnLeftBorder()
 	{
@@ -532,7 +532,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getLeftBorderColor()
 	{
@@ -540,7 +540,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getOwnLeftBorderColor()
 	{
@@ -548,7 +548,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getLeftPadding()
 	{
@@ -556,7 +556,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getOwnLeftPadding()
 	{
@@ -564,7 +564,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getBottomBorder()
 	{
@@ -572,7 +572,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getOwnBottomBorder()
 	{
@@ -580,7 +580,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getBottomBorderColor()
 	{
@@ -588,7 +588,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getOwnBottomBorderColor()
 	{
@@ -596,7 +596,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getBottomPadding()
 	{
@@ -604,7 +604,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getOwnBottomPadding()
 	{
@@ -612,7 +612,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getRightBorder()
 	{
@@ -620,7 +620,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getOwnRightBorder()
 	{
@@ -628,7 +628,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getRightBorderColor()
 	{
@@ -636,7 +636,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getOwnRightBorderColor()
 	{
@@ -644,7 +644,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getRightPadding()
 	{
@@ -652,7 +652,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getOwnRightPadding()
 	{
@@ -939,7 +939,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setBorder(byte border)
 	{
@@ -947,7 +947,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setBorder(Byte border)
 	{
@@ -955,7 +955,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setBorderColor(Color borderColor)
 	{
@@ -963,7 +963,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setPadding(int padding)
 	{
@@ -971,7 +971,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setPadding(Integer padding)
 	{
@@ -979,7 +979,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setTopBorder(byte topBorder)
 	{
@@ -987,7 +987,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setTopBorder(Byte topBorder)
 	{
@@ -995,7 +995,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setTopBorderColor(Color topBorderColor)
 	{
@@ -1003,7 +1003,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setTopPadding(int topPadding)
 	{
@@ -1011,7 +1011,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setTopPadding(Integer topPadding)
 	{
@@ -1019,7 +1019,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setLeftBorder(byte leftBorder)
 	{
@@ -1027,7 +1027,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setLeftBorder(Byte leftBorder)
 	{
@@ -1035,7 +1035,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
@@ -1043,7 +1043,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
@@ -1051,7 +1051,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setLeftPadding(Integer leftPadding)
 	{
@@ -1059,7 +1059,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setBottomBorder(byte bottomBorder)
 	{
@@ -1067,7 +1067,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setBottomBorder(Byte bottomBorder)
 	{
@@ -1075,7 +1075,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
@@ -1083,7 +1083,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
@@ -1091,7 +1091,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setBottomPadding(Integer bottomPadding)
 	{
@@ -1099,7 +1099,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setRightBorder(byte rightBorder)
 	{
@@ -1107,7 +1107,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setRightBorder(Byte rightBorder)
 	{
@@ -1115,7 +1115,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setRightBorderColor(Color rightBorderColor)
 	{
@@ -1123,7 +1123,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setRightPadding(int rightPadding)
 	{
@@ -1131,7 +1131,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
