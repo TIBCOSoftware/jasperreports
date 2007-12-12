@@ -191,6 +191,9 @@
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox*Pen.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseConditionalStyle.class"/>
+				<!-- FIXME do not put conditional styles in JasperPrint, see artf2774 -->
+				<include name="**/net/sf/jasperreports/engine/base/JRBaseExpression.class"/>
+				<include name="**/net/sf/jasperreports/engine/base/JRBaseExpressionChunk.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseLineBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBasePen.class"/>
