@@ -47,56 +47,61 @@ public class JRBoxUtil
 	{
 		JRLineBox clone = (JRLineBox)box.clone(box.getBoxContainer());
 		
-		if (keepLeft && box.getLeftPen().getLineWidth().floatValue() > 0f)
+		//FIXMEBORDER does not copy padding correctly, if we only test line width
+		if (!keepLeft || box.getLeftPen().getLineWidth().floatValue() <= 0f)
 		{
-			clone.getLeftPen().setLineWidth(box.getLeftPen().getLineWidth());
-			clone.getLeftPen().setLineColor(box.getLeftPen().getLineColor());
-			clone.setLeftPadding(box.getLeftPadding());//FIXMEBORDER does not copy padding correctly, if we only test line width
-		}
-		else if (complementaryBox != null)
-		{
-			clone.getLeftPen().setLineWidth(complementaryBox.getLeftPen().getLineWidth());
-			clone.getLeftPen().setLineColor(complementaryBox.getLeftPen().getLineColor());
-			clone.setLeftPadding(complementaryBox.getLeftPadding());
-		}
-		
-		if (keepRight && box.getRightPen().getLineWidth().floatValue() > 0f)
-		{
-			clone.getRightPen().setLineWidth(box.getRightPen().getLineWidth());
-			clone.getRightPen().setLineColor(box.getRightPen().getLineColor());
-			clone.setRightPadding(box.getRightPadding());
-		}
-		else if (complementaryBox != null)
-		{
-			clone.getRightPen().setLineWidth(complementaryBox.getRightPen().getLineWidth());
-			clone.getRightPen().setLineColor(complementaryBox.getRightPen().getLineColor());
-			clone.setRightPadding(complementaryBox.getRightPadding());
+			if (complementaryBox != null)
+			{
+				clone.getLeftPen().setLineWidth(complementaryBox.getLeftPen().getLineWidth());
+				clone.getLeftPen().setLineColor(complementaryBox.getLeftPen().getLineColor());
+				clone.setLeftPadding(complementaryBox.getLeftPadding());
+			}
+			else
+			{
+				clone.getLeftPen().setLineWidth(0);
+			}
 		}
 		
-		if (keepTop && box.getTopPen().getLineWidth().floatValue() > 0f)
+		if (!keepRight || box.getRightPen().getLineWidth().floatValue() <= 0f)
 		{
-			clone.getTopPen().setLineWidth(box.getTopPen().getLineWidth());
-			clone.getTopPen().setLineColor(box.getTopPen().getLineColor());
-			clone.setTopPadding(box.getTopPadding());
-		}
-		else if (complementaryBox != null)
-		{
-			clone.getTopPen().setLineWidth(complementaryBox.getTopPen().getLineWidth());
-			clone.getTopPen().setLineColor(complementaryBox.getTopPen().getLineColor());
-			clone.setTopPadding(complementaryBox.getTopPadding());
+			if (complementaryBox != null)
+			{
+				clone.getRightPen().setLineWidth(complementaryBox.getRightPen().getLineWidth());
+				clone.getRightPen().setLineColor(complementaryBox.getRightPen().getLineColor());
+				clone.setRightPadding(complementaryBox.getRightPadding());
+			}
+			else
+			{
+				clone.getRightPen().setLineWidth(0);
+			}
 		}
 		
-		if (keepBottom && box.getBottomPen().getLineWidth().floatValue() > 0f)
+		if (!keepTop || box.getTopPen().getLineWidth().floatValue() <= 0f)
 		{
-			clone.getBottomPen().setLineWidth(box.getBottomPen().getLineWidth());
-			clone.getBottomPen().setLineColor(box.getBottomPen().getLineColor());
-			clone.setBottomPadding(box.getBottomPadding());
+			if (complementaryBox != null)
+			{
+				clone.getTopPen().setLineWidth(complementaryBox.getTopPen().getLineWidth());
+				clone.getTopPen().setLineColor(complementaryBox.getTopPen().getLineColor());
+				clone.setTopPadding(complementaryBox.getTopPadding());
+			}
+			else
+			{
+				clone.getTopPen().setLineWidth(0);
+			}
 		}
-		else if (complementaryBox != null)
+		
+		if (!keepBottom || box.getBottomPen().getLineWidth().floatValue() <= 0f)
 		{
-			clone.getBottomPen().setLineWidth(complementaryBox.getBottomPen().getLineWidth());
-			clone.getBottomPen().setLineColor(complementaryBox.getBottomPen().getLineColor());
-			clone.setBottomPadding(complementaryBox.getBottomPadding());
+			if (complementaryBox != null)
+			{
+				clone.getBottomPen().setLineWidth(complementaryBox.getBottomPen().getLineWidth());
+				clone.getBottomPen().setLineColor(complementaryBox.getBottomPen().getLineColor());
+				clone.setBottomPadding(complementaryBox.getBottomPadding());
+			}
+			else
+			{
+				clone.getBottomPen().setLineWidth(0);
+			}
 		}
 		
 		return clone;
