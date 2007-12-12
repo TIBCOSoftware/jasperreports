@@ -1641,44 +1641,18 @@ public class JRPdfExporter extends JRAbstractExporter
 		if (text.getMode() == JRElement.MODE_OPAQUE)
 		{
 			Color backcolor = text.getBackcolor();
-			pdfContentByte.setRGBColorStroke(
-				backcolor.getRed(),
-				backcolor.getGreen(),
-				backcolor.getBlue()
-				);
 			pdfContentByte.setRGBColorFill(
 				backcolor.getRed(),
 				backcolor.getGreen(),
 				backcolor.getBlue()
 				);
-			pdfContentByte.setLineWidth(1f);
-			pdfContentByte.setLineDash(0f);
 			pdfContentByte.rectangle(
 				x + xFillCorrection,
 				jasperPrint.getPageHeight() - y + yFillCorrection,
-				width - 1,
-				- height + 1
+				width,
+				- height
 				);
-			pdfContentByte.fillStroke();
-		}
-		else
-		{
-			/*
-			pdfContentByte.setRGBColorStroke(
-				text.getForecolor().getRed(),
-				text.getForecolor().getGreen(),
-				text.getForecolor().getBlue()
-				);
-			pdfContentByte.setLineWidth(0.1f);
-			pdfContentByte.setLineDash(0f);
-			pdfContentByte.rectangle(
-				text.getX() + offsetX,
-				jasperPrint.getPageHeight() - text.getY() - offsetY,
-				text.getWidth(),
-				- text.getHeight()
-				);
-			pdfContentByte.stroke();
-			*/
+			pdfContentByte.fill();
 		}
 
 		if (textLength > 0)
