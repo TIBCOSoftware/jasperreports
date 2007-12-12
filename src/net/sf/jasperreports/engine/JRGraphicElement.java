@@ -90,12 +90,12 @@ public interface JRGraphicElement extends JRElement, JRCommonGraphicElement
 	/**
 	 * Sets the pen type that will used for this element.
 	 * @param pen one of the pen constants in this class
-	 * @deprecated Replaced by {@link #setLineWidth(float)} and {@link #setLineStyle(byte)()}
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(byte pen);
 
 	/**
-	 * @deprecated Replaced by {@link #setLineWidth(Float)} and {@link #setLineStyle(Byte)()}
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(Byte pen);
 

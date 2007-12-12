@@ -126,152 +126,152 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public JRLineBox getLineBox();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getBorder();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getOwnBorder();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getBorderColor();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getOwnBorderColor();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getOwnPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getTopBorder();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getOwnTopBorder();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getTopBorderColor();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getOwnTopBorderColor();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getTopPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getOwnTopPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getLeftBorder();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getOwnLeftBorder();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getLeftBorderColor();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getOwnLeftBorderColor();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getLeftPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getOwnLeftPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getBottomBorder();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getOwnBottomBorder();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getBottomBorderColor();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getOwnBottomBorderColor();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getBottomPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getOwnBottomPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getRightBorder();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getOwnRightBorder();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getRightBorderColor();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Color getOwnRightBorderColor();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getRightPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #getBox()}
+	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Integer getOwnRightPadding();
 
@@ -430,12 +430,12 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setMode(Byte mode);
 
 	/**
-	 * @deprecated Replaced by {@link #setLineWidth(float)} and {@link #setLineStyle(byte)()}
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(byte pen);
 
 	/**
-	 * @deprecated Replaced by {@link #setLineWidth(Float)} and {@link #setLineStyle(Byte)()}
+	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(Byte pen);
 
