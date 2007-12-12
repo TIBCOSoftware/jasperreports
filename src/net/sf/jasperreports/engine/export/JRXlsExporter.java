@@ -42,6 +42,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
@@ -319,7 +320,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
-		StyleInfo baseStyle = getStyleInfo(
+		StyleInfo baseStyle = 
+			new StyleInfo(
 				mode,
 				backcolor, 
 				horizontalAlignment, 
@@ -709,18 +711,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			JRExporterGridCell gridCell
 			)
 	{
-		StyleInfo style = getStyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell);		
+		StyleInfo style = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell);		
 		return getLoadedCellStyle(style);
 	}
 
-
-	protected StyleInfo getStyleInfo(short mode, short backcolor, short horizontalAlignment, short verticalAlignment, short rotation, HSSFFont font, JRExporterGridCell gridCell)
-	{
-		short gridForecolor = gridCell.getForecolor() == null ? blackIndex : getNearestColor(gridCell.getForecolor()).getIndex();
-		BoxStyle boxStyle = new BoxStyle(gridCell.getBox(), backcolor, gridForecolor);
-		StyleInfo style = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, boxStyle);
-		return style;
-	}
 
 	/**
 	 *
@@ -746,7 +740,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					}
 					else if (lineWidth >= 1f)
 					{
-						return HSSFCellStyle.BORDER_MEDIUM;
+						return HSSFCellStyle.BORDER_MEDIUM;//FIXMEBORDER there is also HSSFCellStyle.BORDER_MEDIUM_DASHED available
 					}
 					else if (lineWidth >= 0.5f)
 					{
@@ -805,63 +799,60 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected static class BoxStyle
 	{
-		protected final short topBorder;
-		protected final short bottomBorder;
-		protected final short leftBorder;
-		protected final short rightBorder;
-		protected final short topBorderColour;
-		protected final short bottomBorderColour;
-		protected final short leftBorderColour;
-		protected final short rightBorderColour;
-		private final int hash;
+		protected short topBorder;
+		protected short bottomBorder;
+		protected short leftBorder;
+		protected short rightBorder;
+		protected short topBorderColour;
+		protected short bottomBorderColour;
+		protected short leftBorderColour;
+		protected short rightBorderColour;
+		private int hash;
 
-		public BoxStyle(JRLineBox box, short backcolor, short forecolor)
+		public BoxStyle()
 		{
-			if(box != null && box.getTopPen().getLineWidth().floatValue() > 0f)
-			{
-				topBorder = getBorder(box.getTopPen());
-				topBorderColour = getNearestColor(box.getTopPen().getLineColor()).getIndex();
-			}
-			else
-			{
-				topBorder = HSSFCellStyle.BORDER_NONE;
-				topBorderColour = backcolor;
-			}
+			hash = computeHash();
+		}
+
+		public void setBox(JRLineBox box)
+		{
+			topBorder = getBorder(box.getTopPen());
+			topBorderColour = getNearestColor(box.getTopPen().getLineColor()).getIndex();
 			
-			if(box != null && box.getBottomPen().getLineWidth().floatValue() > 0f)
-			{
-				bottomBorder = getBorder(box.getBottomPen());
-				bottomBorderColour = getNearestColor(box.getBottomPen().getLineColor()).getIndex();
-			}
-			else
-			{
-				bottomBorder = HSSFCellStyle.BORDER_NONE;
-				bottomBorderColour = backcolor;
-			}
+			bottomBorder = getBorder(box.getBottomPen());
+			bottomBorderColour = getNearestColor(box.getBottomPen().getLineColor()).getIndex();
 			
-			if(box != null && box.getLeftPen().getLineWidth().floatValue() > 0f)
-			{
-				leftBorder = getBorder(box.getLeftPen());
-				leftBorderColour = getNearestColor(box.getLeftPen().getLineColor()).getIndex();
-			}
-			else
-			{
-				leftBorder = HSSFCellStyle.BORDER_NONE;
-				leftBorderColour = backcolor;
-			}
+			leftBorder = getBorder(box.getLeftPen());
+			leftBorderColour = getNearestColor(box.getLeftPen().getLineColor()).getIndex();
 			
-			if(box != null && box.getRightPen().getLineWidth().floatValue() > 0f)
-			{
-				rightBorder = getBorder(box.getRightPen());
-				rightBorderColour = getNearestColor(box.getRightPen().getLineColor()).getIndex();
-			}
-			else
-			{
-				rightBorder = HSSFCellStyle.BORDER_NONE;
-				rightBorderColour = backcolor;
-			}
+			rightBorder = getBorder(box.getRightPen());
+			rightBorderColour = getNearestColor(box.getRightPen().getLineColor()).getIndex();
 			
-			
+			hash = computeHash();
+		}
+
+		public void setPen(JRPen pen)
+		{
+			if (
+				topBorder == HSSFCellStyle.BORDER_NONE
+				&& leftBorder == HSSFCellStyle.BORDER_NONE
+				&& bottomBorder == HSSFCellStyle.BORDER_NONE
+				&& rightBorder == HSSFCellStyle.BORDER_NONE
+				)
+			{
+				topBorder = getBorder(pen);
+				topBorderColour = getNearestColor(pen.getLineColor()).getIndex();
+
+				bottomBorder = topBorder;
+				bottomBorderColour = topBorderColour;
+
+				leftBorder = topBorder;
+				leftBorderColour = topBorderColour;
+
+				rightBorder = topBorder;
+				rightBorderColour = topBorderColour;
+			}
+
 			hash = computeHash();
 		}
 
@@ -917,11 +908,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		protected final short verticalAlignment;
 		protected final short rotation;
 		protected final HSSFFont font;
-		protected final BoxStyle box;
+		protected final BoxStyle box = new BoxStyle();
 		private short dataFormat = -1;
 		private int hashCode;
 		
-		public StyleInfo(short mode, short backcolor, short horizontalAlignment, short verticalAlignment, short rotation, HSSFFont font, BoxStyle box)
+		public StyleInfo(short mode, short backcolor, short horizontalAlignment, short verticalAlignment, short rotation, HSSFFont font, JRExporterGridCell gridCell)
 		{
 			this.mode = mode;
 			this.backcolor = backcolor;
@@ -929,7 +920,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			this.verticalAlignment = verticalAlignment;
 			this.rotation = rotation;
 			this.font = font;
-			this.box = box;
+
+			JRLineBox lineBox = gridCell.getBox();
+			if (lineBox != null)
+				box.setBox(lineBox);
+			JRPrintElement element = gridCell.getElement();
+			if (element instanceof JRCommonGraphicElement)
+				box.setPen(((JRCommonGraphicElement)element).getLinePen());
 			
 			hashCode = computeHash();
 		}

@@ -38,6 +38,7 @@ package net.sf.jasperreports.engine.export;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -78,7 +79,6 @@ import jxl.write.WriteException;
 import jxl.write.biff.CellValue;
 import jxl.write.biff.RowsExceededException;
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
@@ -292,36 +292,36 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException
 	{
+		Colour forecolor = BLACK;
+		if (gridCell.getForecolor() != null)
+		{
+			forecolor = getWorkbookColour(gridCell.getForecolor());
+		}
+
+		Pattern mode = backgroundMode;
+		Colour backcolor = WHITE;
+		if (gridCell.getCellBackcolor() != null)
+		{
+			mode = Pattern.SOLID;
+			backcolor = getWorkbookColour(gridCell.getCellBackcolor());
+		}
+
+		WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue());
+		WritableCellFormat cellStyle = 
+			getLoadedCellStyle(
+				mode, 
+				backcolor,
+				cellFont, 
+				gridCell
+				);
+
 		try
 		{
-			Colour forecolor = BLACK;
-			if (gridCell.getForecolor() != null)
-			{
-				forecolor = getWorkbookColour(gridCell.getForecolor());
-			}
-
-			Pattern mode = backgroundMode;
-			Colour backcolor = WHITE;
-			if (gridCell.getCellBackcolor() != null)
-			{
-				mode = Pattern.SOLID;
-				backcolor = getWorkbookColour(gridCell.getCellBackcolor());
-			}
-
-			WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue());
-			WritableCellFormat cellStyle = 
-				getLoadedCellStyle(
-					mode, 
-					backcolor,
-					cellFont, 
-					gridCell
-					);
-
 			sheet.addCell(new Blank(colIndex, rowIndex, cellStyle));
 		}
 		catch (RowsExceededException e)
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);//FIXMENOW raise same exception everywhere
 		}
 		catch (WriteException e)
 		{
@@ -359,7 +359,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		addMergeRegion(gridCell, col, row);
 
-		Colour forecolor = getWorkbookColour(element.getForecolor());
 		Colour backcolor = WHITE;
 		Pattern mode = this.backgroundMode;
 
@@ -369,6 +368,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			backcolor = getWorkbookColour(gridCell.getCellBackcolor());
 		}
 
+		Colour forecolor = getWorkbookColour(element.getForecolor());
 		WritableFont cellFont2 = getLoadedFont(getDefaultFont(), forecolor.getValue());
 		WritableCellFormat cellStyle2 = 
 			getLoadedCellStyle(
@@ -423,7 +423,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					verticalAlignment,
 					rotation, 
 					cellFont,
-					gridCell.getElement()
+					gridCell
 					);
 
 			String textStr = styledText.getText();
@@ -704,205 +704,212 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		addMergeRegion(gridCell, col, row);
 
-		try
+		int topPadding = 
+			Math.max(element.getLineBox().getTopPadding().intValue(), getBorderCorrection(element.getLineBox().getTopPen()));
+		int leftPadding = 
+			Math.max(element.getLineBox().getLeftPadding().intValue(), getBorderCorrection(element.getLineBox().getLeftPen()));
+		int bottomPadding = 
+			Math.max(element.getLineBox().getBottomPadding().intValue(), getBorderCorrection(element.getLineBox().getBottomPen()));
+		int rightPadding = 
+			Math.max(element.getLineBox().getRightPadding().intValue(), getBorderCorrection(element.getLineBox().getRightPen()));
+		
+		int availableImageWidth = element.getWidth() - leftPadding - rightPadding;
+		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
+
+		int availableImageHeight = element.getHeight() - topPadding - bottomPadding;
+		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
+
+		JRRenderable renderer = element.getRenderer();
+
+		if (
+			renderer != null &&
+			availableImageWidth > 0 &&
+			availableImageHeight > 0
+			)
 		{
-			int leftPadding = element.getLineBox().getLeftPadding().intValue();
-			int topPadding = element.getLineBox().getTopPadding().intValue();
-			int rightPadding = element.getLineBox().getRightPadding().intValue();
-			int bottomPadding = element.getLineBox().getBottomPadding().intValue();
-
-			int availableImageWidth = element.getWidth() - leftPadding - rightPadding;
-			availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
-
-			int availableImageHeight = element.getHeight() - topPadding - bottomPadding;
-			availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
-
-			JRRenderable renderer = element.getRenderer();
-
-			if (
-				renderer != null &&
-				availableImageWidth > 0 &&
-				availableImageHeight > 0
-				)
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 			{
-				if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+				// Image renderers are all asked for their image data and dimension at some point. 
+				// Better to test and replace the renderer now, in case of lazy load error.
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, element.getOnErrorType());
+				if (renderer != null)
 				{
-					// Image renderers are all asked for their image data and dimension at some point. 
-					// Better to test and replace the renderer now, in case of lazy load error.
-					renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, element.getOnErrorType());
-					if (renderer != null)
-					{
-						renderer = JRImageRenderer.getOnErrorRendererForDimension(renderer, element.getOnErrorType());
-					}
+					renderer = JRImageRenderer.getOnErrorRendererForDimension(renderer, element.getOnErrorType());
 				}
 			}
-			else
+		}
+		else
+		{
+			renderer = null;
+		}
+
+		if (renderer != null)
+		{
+			int normalWidth = availableImageWidth;
+			int normalHeight = availableImageHeight;
+
+			Dimension2D dimension = renderer.getDimension();
+			if (dimension != null)
 			{
-				renderer = null;
+				normalWidth = (int) dimension.getWidth();
+				normalHeight = (int) dimension.getHeight();
 			}
 
-			if (renderer != null)
+			float xalignFactor = 0f;
+			switch (element.getHorizontalAlignment())
 			{
-				int normalWidth = availableImageWidth;
-				int normalHeight = availableImageHeight;
+				case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
+				{
+					xalignFactor = 1f;
+					break;
+				}
+				case JRAlignment.HORIZONTAL_ALIGN_CENTER:
+				{
+					xalignFactor = 0.5f;
+					break;
+				}
+				case JRAlignment.HORIZONTAL_ALIGN_LEFT:
+				default:
+				{
+					xalignFactor = 0f;
+					break;
+				}
+			}
 
-				Dimension2D dimension = renderer.getDimension();
-				if (dimension != null)
+			float yalignFactor = 0f;
+			switch (element.getVerticalAlignment())
+			{
+				case JRAlignment.VERTICAL_ALIGN_BOTTOM:
 				{
-					normalWidth = (int) dimension.getWidth();
-					normalHeight = (int) dimension.getHeight();
+					yalignFactor = 1f;
+					break;
 				}
+				case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+				{
+					yalignFactor = 0.5f;
+					break;
+				}
+				case JRAlignment.VERTICAL_ALIGN_TOP:
+				default:
+				{
+					yalignFactor = 0f;
+					break;
+				}
+			}
+			
+			BufferedImage bi = new BufferedImage(element.getWidth(), element.getHeight(), BufferedImage.TYPE_INT_ARGB);
+			Graphics2D grx = bi.createGraphics();
+			
+			switch (element.getScaleImage())
+			{
+				case JRImage.SCALE_IMAGE_CLIP:
+				{
+					int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
+					int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
 
-				float xalignFactor = 0f;
-				switch (element.getHorizontalAlignment())
-				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
-					{
-						xalignFactor = 1f;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER:
-					{
-						xalignFactor = 0.5f;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT:
-					default:
-					{
-						xalignFactor = 0f;
-						break;
-					}
-				}
+					Shape oldClipShape = grx.getClip();
 
-				float yalignFactor = 0f;
-				switch (element.getVerticalAlignment())
-				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+					grx.clip(
+						new Rectangle(
+							leftPadding, 
+							topPadding, 
+							availableImageWidth, 
+							availableImageHeight
+							)
+						);
+					
+					try
 					{
-						yalignFactor = 1f;
-						break;
+						renderer.render(
+							grx, 
+							new Rectangle(
+								xoffset + leftPadding, 
+								yoffset + topPadding,
+								normalWidth, 
+								normalHeight
+								)
+							);
 					}
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+					finally
 					{
-						yalignFactor = 0.5f;
-						break;
+						grx.setClip(oldClipShape);
 					}
-					case JRAlignment.VERTICAL_ALIGN_TOP:
-					default:
-					{
-						yalignFactor = 0f;
-						break;
-					}
+
+					break;
 				}
-				
-				//FIXMEBORDER check http://bugzilla.jaspersoft.com/show_bug.cgi?id=9894
-				int topBorderCorrection = getBorderCorrection(element.getLineBox().getTopPen());
-				int rightBorderCorrection = getBorderCorrection(element.getLineBox().getRightPen());
-				int bottomBorderCorrection = getBorderCorrection(element.getLineBox().getBottomPen());
-				int leftBorderCorrection = getBorderCorrection(element.getLineBox().getLeftPen());
-				
-				BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
-				Graphics2D grx = bi.createGraphics();
-				if (JRElement.MODE_OPAQUE == element.getMode())
+				case JRImage.SCALE_IMAGE_FILL_FRAME:
 				{
-					grx.setColor(element.getBackcolor());
-					grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
+					renderer.render(
+						grx, 
+						new Rectangle(
+							leftPadding, 
+							topPadding, 
+							availableImageWidth, 
+							availableImageHeight
+							)
+						);
+
+					break;
 				}
-				
-				switch (element.getScaleImage())
+				case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
+				default:
 				{
-					case JRImage.SCALE_IMAGE_CLIP:
+					if (element.getHeight() > 0)
 					{
-						int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth)) + leftBorderCorrection;
-						int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight)) + topBorderCorrection;
+						double ratio = (double) normalWidth / (double) normalHeight;
+
+						if (ratio > (double) availableImageWidth / (double) availableImageHeight)
+						{
+							normalWidth = availableImageWidth;
+							normalHeight = (int) (availableImageWidth / ratio);
+						}
+						else
+						{
+							normalWidth = (int) (availableImageHeight * ratio);
+							normalHeight = availableImageHeight;
+						}
+
+						int xoffset = leftPadding + (int) (xalignFactor * (availableImageWidth - normalWidth));
+						int yoffset = topPadding + (int) (yalignFactor * (availableImageHeight - normalHeight));
 
 						renderer.render(
 							grx, 
 							new Rectangle(
 								xoffset, 
 								yoffset,
-								Math.min(normalWidth, availableImageWidth - leftBorderCorrection - rightBorderCorrection), 
-								Math.min(normalHeight, availableImageHeight - topBorderCorrection - bottomBorderCorrection)
+								normalWidth, 
+								normalHeight
 								)
 							);
-
-						break;
 					}
-					case JRImage.SCALE_IMAGE_FILL_FRAME:
-					{
-						renderer.render(
-							grx, 
-							new Rectangle(
-								leftBorderCorrection, 
-								topBorderCorrection, 
-								availableImageWidth - leftBorderCorrection - rightBorderCorrection, 
-								availableImageHeight - topBorderCorrection - bottomBorderCorrection
-								)
-							);
 
-						break;
-					}
-					case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
-					default:
-					{
-						if (element.getHeight() > 0)
-						{
-							double ratio = (double) normalWidth / (double) normalHeight;
-
-							if (ratio > (double) availableImageWidth / (double) availableImageHeight)
-							{
-								normalWidth = availableImageWidth;
-								normalHeight = (int) (availableImageWidth / ratio);
-							}
-							else
-							{
-								normalWidth = (int) (availableImageHeight * ratio);
-								normalHeight = availableImageHeight;
-							}
-
-							int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth)) + leftBorderCorrection;
-							int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight)) + topBorderCorrection;
-
-							renderer.render(
-								grx, 
-								new Rectangle(
-									xoffset, 
-									yoffset,
-									Math.min(normalWidth, availableImageWidth - leftBorderCorrection - rightBorderCorrection), 
-									Math.min(normalHeight, availableImageHeight - topBorderCorrection - bottomBorderCorrection)
-									)
-								);
-						}
-
-						break;
-					}
+					break;
 				}
+			}
 
-				Pattern mode = this.backgroundMode;
-				Colour background = WHITE;
-//				Colour forecolor = getWorkbookColour(element.getForecolor());
-//
-//				if (element.getLineBox().getPen().getLineColor() != null ){
-//					forecolor = getWorkbookColour(element.getLineBox().getPen().getLineColor());
-//				}
-				Colour forecolor = getWorkbookColour(element.getLineBox().getPen().getLineColor());
+			Pattern mode = this.backgroundMode;
+			Colour background = WHITE;
 
-				WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
+			if(element.getMode() == JRElement.MODE_OPAQUE )
+			{
+				mode = Pattern.SOLID;
+				background = getWorkbookColour(element.getBackcolor());
+			}
 
-				if(element.getMode() == JRElement.MODE_OPAQUE ){
-					mode = Pattern.SOLID;
-					background = getWorkbookColour(element.getBackcolor());
-				}
+			Colour forecolor = getWorkbookColour(element.getLineBox().getPen().getLineColor());
 
-				WritableCellFormat cellStyle2 = 
-					getLoadedCellStyle(
-						mode, 
-						background, 
-						cellFont2, 
-						gridCell
-						);
+			WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
 
+			WritableCellFormat cellStyle2 = 
+				getLoadedCellStyle(
+					mode, 
+					background, 
+					cellFont2, 
+					gridCell
+					);
 
+			try
+			{
 				sheet.addCell(new Blank(col, row, cellStyle2));
 				WritableImage image =
 					new WritableImage(
@@ -914,16 +921,16 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						);
 				sheet.addImage(image);
 			}
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-			throw new JRException("The cell cannot be added", ex);
-		}
-		catch (Error err)
-		{
-			err.printStackTrace();
-			throw new JRException("The cell cannot be added", err);
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+				throw new JRException("The cell cannot be added", ex);
+			}
+			catch (Error err)
+			{
+				err.printStackTrace();
+				throw new JRException("The cell cannot be added", err);
+			}
 		}
 	}
 
@@ -1269,7 +1276,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			int verticalAlignment, 
 			int rotation, 
 			WritableFont font, 
-			JRPrintElement element
+			JRExporterGridCell gridCell
 			)
 		{
 			this.mode = mode;
@@ -1278,8 +1285,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			this.verticalAlignment = verticalAlignment;
 			this.rotation = rotation;
 			this.font = font;
-			if (element instanceof JRBoxContainer)
-				box.setBox(((JRBoxContainer)element).getLineBox());
+			
+			JRLineBox lineBox = gridCell.getBox();
+			if (lineBox != null)
+				box.setBox(lineBox);
+			JRPrintElement element = gridCell.getElement();
 			if (element instanceof JRCommonGraphicElement)
 				box.setPen(((JRCommonGraphicElement)element).getLinePen());
 
@@ -1352,7 +1362,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				VerticalAlignment.TOP.getValue(), 
 				Orientation.HORIZONTAL.getValue(),
 				font, 
-				gridCell.getElement()
+				gridCell
 				);
 		return getLoadedCellStyle(styleKey);
 	}
@@ -1405,32 +1415,38 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	 */
 	protected static BorderLineStyle getBorderLineStyle(JRPen pen) 
 	{
-		return BorderLineStyle.DOTTED;//FIXMEBORDER
-//		BorderLineStyle retVal = null;
-//		switch(lineStyle) {
-//			case JRGraphicElement.PEN_THIN:
-//				retVal =  BorderLineStyle.THIN;
-//				break;
-//
-//			case JRGraphicElement.PEN_1_POINT:
-//			case JRGraphicElement.PEN_2_POINT:
-//				retVal = BorderLineStyle.MEDIUM;
-//				break;
-//
-//			case JRGraphicElement.PEN_4_POINT:
-//				retVal = BorderLineStyle.THICK;
-//				break;
-//
-//			case JRGraphicElement.PEN_DOTTED:
-//				retVal = BorderLineStyle.DOTTED;
-//				break;
-//
-//		case JRGraphicElement.PEN_NONE:
-//			default:
-//				retVal = BorderLineStyle.NONE;
-//		}
-//
-//		return retVal;
+		float lineWidth = pen.getLineWidth().floatValue();
+		
+		if (lineWidth > 0f)
+		{
+			switch (pen.getLineStyle().byteValue())
+			{
+				case JRPen.LINE_STYLE_DASHED :
+				{
+					return BorderLineStyle.DASHED;
+				}
+				case JRPen.LINE_STYLE_SOLID :
+				default :
+				{
+					if (lineWidth >= 2f)
+					{
+						return BorderLineStyle.THICK;
+					}
+					else if (lineWidth >= 1f)
+					{
+						return BorderLineStyle.MEDIUM;//FIXMEBORDER there is also BorderLineStyle.MEDIUM_DASHED available
+					}
+					else if (lineWidth >= 0.5f)
+					{
+						return BorderLineStyle.THIN;
+					}
+
+					return BorderLineStyle.HAIR;
+				}
+			}
+		}
+		
+		return BorderLineStyle.NONE;
 	}
 
 	private final void setSheetSettings(WritableSheet sheet)
@@ -1744,34 +1760,30 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected static int getBorderCorrection(JRPen pen)
 	{
-		return (int)(pen.getLineWidth().floatValue() / 2);
-		//FIXMEBORDER
-//		int borderCorrection = 0;
-//		
-//		switch (pen)
-//		{
-//			case JRGraphicElement.PEN_4_POINT :
-//			{
-//				borderCorrection = 2;
-//				break;
-//			}
-//			case JRGraphicElement.PEN_NONE :
-//			{
-//				borderCorrection = 0;
-//				break;
-//			}
-//			case JRGraphicElement.PEN_2_POINT :
-//			case JRGraphicElement.PEN_DOTTED :
-//			case JRGraphicElement.PEN_THIN :
-//			case JRGraphicElement.PEN_1_POINT :
-//			default :
-//			{
-//				borderCorrection = 1;
-//				break;
-//			}
-//		}
-//		
-//		return borderCorrection;
+		float lineWidth = pen.getLineWidth().floatValue();
+		
+		if (lineWidth > 0f)
+		{
+			switch (pen.getLineStyle().byteValue())
+			{
+				case JRPen.LINE_STYLE_DASHED :
+				{
+					return 1;
+				}
+				case JRPen.LINE_STYLE_SOLID :
+				default :
+				{
+					if (lineWidth >= 2f)
+					{
+						return 2;
+					}
+
+					return 1;
+				}
+			}
+		}
+		
+		return 0;
 	}
 
 }
