@@ -180,7 +180,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRStyle.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRStyleContainer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRStyleSetter.class"/>
-				<include name="**/net/sf/jasperreports/engine/JRStyledTextAttributeSelector.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRStyledTextAttributeSelector*.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRSubreport.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRTextElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRTextField.class"/>
@@ -202,14 +202,18 @@
 				<include name="**/net/sf/jasperreports/engine/design/JRDesignFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/design/JRDesignReportFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/design/events/*.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/ExporterFilter.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/ResetableExporterFilter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRExportProgressMonitor.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporterParameter.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/JROriginExporterFilter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/TextRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/data/*.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/BoxDrawer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/ElementDrawer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/EllipseDrawer.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/draw/FrameDrawer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/ImageDrawer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/LineDrawer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/RectangleDrawer.class"/>
