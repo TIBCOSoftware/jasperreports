@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine.xml;
 import net.sf.jasperreports.engine.design.JRDesignGraphicElement;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 
 
@@ -39,6 +41,8 @@ import org.xml.sax.Attributes;
  */
 public class JRGraphicElementFactory extends JRBaseFactory
 {
+	private static final Log log = LogFactory.getLog(JRGraphicElementFactory.class);
+	
 	/**
 	 *
 	 */
@@ -55,6 +59,9 @@ public class JRGraphicElementFactory extends JRBaseFactory
 		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_pen));
 		if (pen != null)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'pen' attribute is deprecated. Use the <pen> tag instead.");
+				
 			JRPenUtil.setLinePenFromPen(pen, graphicElement.getLinePen());
 		}
 

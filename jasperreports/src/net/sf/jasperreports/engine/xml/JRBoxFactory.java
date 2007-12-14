@@ -33,6 +33,8 @@ import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 
 
@@ -42,6 +44,7 @@ import org.xml.sax.Attributes;
  */
 public class JRBoxFactory extends JRBaseFactory
 {
+	private static final Log log = LogFactory.getLog(JRBoxFactory.class);
 
 	/**
 	 *
@@ -58,11 +61,20 @@ public class JRBoxFactory extends JRBaseFactory
 	public static void setBoxAttributes(Attributes atts, JRLineBox box)
 	{
 		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_border));
-		JRPenUtil.setLinePenFromPen(border, box.getPen());
+		if (border != null)
+		{
+			if (log.isWarnEnabled())
+				log.warn("The 'border' attribute is deprecated. Use the <pen> tag instead.");
+				
+			JRPenUtil.setLinePenFromPen(border, box.getPen());
+		}
 
 		Color borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_borderColor), null);
 		if (borderColor != null)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'borderColor' attribute is deprecated. Use the <pen> tag instead.");
+				
 			box.getPen().setLineColor(borderColor);
 		}
 
@@ -73,11 +85,20 @@ public class JRBoxFactory extends JRBaseFactory
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorder));
-		JRPenUtil.setLinePenFromPen(border, box.getTopPen());
+		if (border != null)
+		{
+			if (log.isWarnEnabled())
+				log.warn("The 'topBorder' attribute is deprecated. Use the <pen> tag instead.");
+				
+			JRPenUtil.setLinePenFromPen(border, box.getTopPen());
+		}
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorderColor), Color.black);
 		if (borderColor != null)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'topBorderColor' attribute is deprecated. Use the <pen> tag instead.");
+				
 			box.getTopPen().setLineColor(borderColor);
 		}
 
@@ -88,11 +109,20 @@ public class JRBoxFactory extends JRBaseFactory
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorder));
-		JRPenUtil.setLinePenFromPen(border, box.getLeftPen());
+		if (border != null)
+		{
+			if (log.isWarnEnabled())
+				log.warn("The 'leftBorder' attribute is deprecated. Use the <pen> tag instead.");
+				
+			JRPenUtil.setLinePenFromPen(border, box.getLeftPen());
+		}
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorderColor), Color.black);
 		if (borderColor != null)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'leftBorderColor' attribute is deprecated. Use the <pen> tag instead.");
+				
 			box.getLeftPen().setLineColor(borderColor);
 		}
 
@@ -103,11 +133,20 @@ public class JRBoxFactory extends JRBaseFactory
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorder));
-		JRPenUtil.setLinePenFromPen(border, box.getBottomPen());
+		if (border != null)
+		{
+			if (log.isWarnEnabled())
+				log.warn("The 'bottomBorder' attribute is deprecated. Use the <pen> tag instead.");
+				
+			JRPenUtil.setLinePenFromPen(border, box.getBottomPen());
+		}
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorderColor), Color.black);
 		if (borderColor != null)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'bottomBorderColor' attribute is deprecated. Use the <pen> tag instead.");
+				
 			box.getBottomPen().setLineColor(borderColor);
 		}
 
@@ -118,11 +157,20 @@ public class JRBoxFactory extends JRBaseFactory
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorder));
-		JRPenUtil.setLinePenFromPen(border, box.getRightPen());
+		if (border != null)
+		{
+			if (log.isWarnEnabled())
+				log.warn("The 'rightBorder' attribute is deprecated. Use the <pen> tag instead.");
+				
+			JRPenUtil.setLinePenFromPen(border, box.getRightPen());
+		}
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorderColor), Color.black);
 		if (borderColor != null)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'rightBorderColor' attribute is deprecated. Use the <pen> tag instead.");
+				
 			box.getRightPen().setLineColor(borderColor);
 		}
 
