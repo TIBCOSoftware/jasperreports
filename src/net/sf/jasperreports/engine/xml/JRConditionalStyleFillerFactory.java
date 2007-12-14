@@ -32,6 +32,8 @@ import java.awt.Color;
 import net.sf.jasperreports.engine.design.JRDesignConditionalStyle;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 
 /**
@@ -40,6 +42,7 @@ import org.xml.sax.Attributes;
  */
 public class JRConditionalStyleFillerFactory extends JRBaseFactory
 {
+	private static final Log log = LogFactory.getLog(JRConditionalStyleFillerFactory.class);
 
 
 	/**
@@ -67,7 +70,13 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 
 		// get graphic element attributes
 		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_pen));
-		JRPenUtil.setLinePenFromPen(pen, style.getLinePen());
+		if (pen != null)
+		{
+			if (log.isWarnEnabled())
+				log.warn("The 'pen' attribute is deprecated. Use the <pen> tag instead.");
+				
+			JRPenUtil.setLinePenFromPen(pen, style.getLinePen());
+		}
 
 		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_fill));
 		style.setFill(fill);
@@ -105,77 +114,137 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 
 		// get box attributes
 		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_border));
-		JRPenUtil.setLinePenFromPen(border, style.getLineBox().getPen());
+		if (border != null)
+		{
+			if (log.isWarnEnabled())
+				log.warn("The 'border' attribute is deprecated. Use the <pen> tag instead.");
+				
+			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getPen());
+		}
 
 		Color borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_borderColor), null);
 		if (borderColor != null)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'borderColor' attribute is deprecated. Use the <pen> tag instead.");
+				
 			style.getLineBox().getPen().setLineColor(borderColor);
 		}
 
 		String padding = atts.getValue(JRXmlConstants.ATTRIBUTE_padding);
 		if (padding != null && padding.length() > 0)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'padding' attribute is deprecated. Use the <box> tag instead.");
+				
 			style.getLineBox().setPadding(Integer.parseInt(padding));
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorder));
-		JRPenUtil.setLinePenFromPen(border, style.getLineBox().getTopPen());
+		if (border != null)
+		{
+			if (log.isWarnEnabled())
+				log.warn("The 'topBorder' attribute is deprecated. Use the <pen> tag instead.");
 
+			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getTopPen());
+		}
+				
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorderColor), Color.black);
 		if (borderColor != null)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'topBorderColor' attribute is deprecated. Use the <pen> tag instead.");
+				
 			style.getLineBox().getTopPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_topPadding);
 		if (padding != null && padding.length() > 0)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'topPadding' attribute is deprecated. Use the <box> tag instead.");
+				
 			style.getLineBox().setTopPadding(Integer.parseInt(padding));
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorder));
-		JRPenUtil.setLinePenFromPen(border, style.getLineBox().getLeftPen());
+		if (border != null)
+		{
+			if (log.isWarnEnabled())
+				log.warn("The 'leftBorder' attribute is deprecated. Use the <pen> tag instead.");
+
+			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getLeftPen());
+		}
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorderColor), Color.black);
 		if (borderColor != null)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'leftBorderColor' attribute is deprecated. Use the <pen> tag instead.");
+				
 			style.getLineBox().getLeftPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_leftPadding);
 		if (padding != null && padding.length() > 0)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'leftPadding' attribute is deprecated. Use the <box> tag instead.");
+				
 			style.getLineBox().setLeftPadding(Integer.parseInt(padding));
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorder));
-		JRPenUtil.setLinePenFromPen(border, style.getLineBox().getBottomPen());
+		if (border != null)
+		{
+			if (log.isWarnEnabled())
+				log.warn("The 'bottomBorder' attribute is deprecated. Use the <pen> tag instead.");
+
+			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getBottomPen());
+		}
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorderColor), Color.black);
 		if (borderColor != null)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'bottomBorderColor' attribute is deprecated. Use the <pen> tag instead.");
+				
 			style.getLineBox().getBottomPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_bottomPadding);
 		if (padding != null && padding.length() > 0)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'bottomPadding' attribute is deprecated. Use the <box> tag instead.");
+				
 			style.getLineBox().setBottomPadding(Integer.parseInt(padding));
 		}
 
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorder));
-		JRPenUtil.setLinePenFromPen(border, style.getLineBox().getRightPen());
+		if (border != null)
+		{
+			if (log.isWarnEnabled())
+				log.warn("The 'rightBorder' attribute is deprecated. Use the <pen> tag instead.");
+
+			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getRightPen());
+		}
 
 		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorderColor), Color.black);
 		if (borderColor != null)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'rightBorderColor' attribute is deprecated. Use the <pen> tag instead.");
+				
 			style.getLineBox().getRightPen().setLineColor(borderColor);
 		}
 
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_rightPadding);
 		if (padding != null && padding.length() > 0)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'rightPadding' attribute is deprecated. Use the <box> tag instead.");
+				
 			style.getLineBox().setRightPadding(Integer.parseInt(padding));
 		}
 

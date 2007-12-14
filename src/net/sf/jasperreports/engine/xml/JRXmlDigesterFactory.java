@@ -192,7 +192,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("jasperReport/reportFont", "addFont", JRReportFont.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/style", JRDesignStyleFactory.class.getName());
+		digester.addFactoryCreate("jasperReport/style", JRStyleFactory.class.getName());
 		digester.addSetNext("jasperReport/style", "addStyle", JRStyle.class.getName());
 
 		digester.addFactoryCreate("jasperReport/style/conditionalStyle", JRConditionalStyleFactory.class.getName());

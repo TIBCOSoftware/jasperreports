@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignStyleFactory extends JRAbstractStyleFactory
+public class JRStyleFactory extends JRAbstractStyleFactory
 {
 
 	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)

@@ -47,6 +47,12 @@
   <tr>
     <td></td>
     <td>
+<xsl:apply-templates select="deprecation"/>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
 <xsl:apply-templates select="description"/>
     </td>
   </tr>
@@ -120,6 +126,12 @@
   <tr>
     <td></td>
     <td>
+<xsl:apply-templates select="deprecation"/>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
 <xsl:apply-templates select="description"/>
     </td>
   </tr>
@@ -157,6 +169,11 @@
 </table>
     </td>
   </tr>
+</xsl:template>
+
+
+<xsl:template match="deprecation">
+  <i><b>Deprecated. </b><xsl:apply-templates/></i>
 </xsl:template>
 
 

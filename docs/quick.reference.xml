@@ -376,6 +376,7 @@
   <attributes>
     <attribute>
       <name>border, topBorder, leftBorder, bottomBorder, rightBorder</name>
+      <deprecation>Replaced by tags <a href="pen">&lt;pen&gt;</a>, <a href="topPen">&lt;topPen&gt;</a>, <a href="leftPen">&lt;leftPen&gt;</a>, <a href="bottomPen">&lt;bottomPen&gt;</a>, <a href="rightPen">&lt;rightPen&gt;</a>.</deprecation>
       <description>Type of the border to draw around the element.</description>
       <values>
         <value>
@@ -407,6 +408,7 @@
     </attribute>
     <attribute>
       <name>borderColor, topBorderColor, leftBorderColor, bottomBorderColor, rightBorderColor</name>
+      <deprecation>Replaced by tags <a href="pen">&lt;pen&gt;</a>, <a href="topPen">&lt;topPen&gt;</a>, <a href="leftPen">&lt;leftPen&gt;</a>, <a href="bottomPen">&lt;bottomPen&gt;</a>, <a href="rightPen">&lt;rightPen&gt;</a>.</deprecation>
       <description>Color used to draw the specified border.</description>
       <default>forecolor</default>
     </attribute>
@@ -1819,6 +1821,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   <attributes>
     <attribute>
       <name>pen</name>
+      <deprecation>Replaced by tag <a href="pen">&lt;pen&gt;</a>.</deprecation>
       <description>Type of the lines used to draw the object.</description>
       <values>
         <value>
@@ -4398,6 +4401,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     </attribute>
     <attribute>
       <name>pen</name>
+      <deprecation>Replaced by tag <a href="pen">&lt;pen&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>fill</name>
@@ -4416,48 +4420,63 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     </attribute>
     <attribute>
       <name>border</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>borderColor</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>padding</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>topBorder</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>topBorderColor</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>topPadding</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>leftBorder</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>leftBorderColor</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>leftPadding</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>bottomBorder</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>bottomBorderColor</name> 
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>bottomPadding</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>rightBorder</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>rightBorderColor</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>rightPadding</name>
+      <deprecation>Replaced by tag <a href="box">&lt;box&gt;</a>.</deprecation>
     </attribute>
     <attribute>
       <name>rotation</name>
