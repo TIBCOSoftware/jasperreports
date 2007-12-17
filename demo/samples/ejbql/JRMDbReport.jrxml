@@ -40,7 +40,9 @@
 		<band height="20">
 			<textField evaluationTime="Group" evaluationGroup="GenreGroup" bookmarkLevel="1">
 				<reportElement mode="Opaque" x="0" y="5" width="515" height="15" backcolor="#c0c0c0" style="Arial_Bold"/>
-				<box leftPadding="5" bottomBorder="1Point"/>
+				<box leftPadding="5">
+					<bottomPen lineWidth="1"/>
+				</box>
 				<textFieldExpression class="java.lang.String"><![CDATA[String.valueOf($V{GenreCount}) + ". " + String.valueOf($F{genre})]]></textFieldExpression>
 				<anchorNameExpression><![CDATA[String.valueOf($F{genre})]]></anchorNameExpression>
 			</textField>

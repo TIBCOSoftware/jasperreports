@@ -38,7 +38,9 @@
 		<band height="21">
 			<rectangle>
 				<reportElement x="0" y="5" width="515" height="15" backcolor="#333333"/>
-				<graphicElement pen="None"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
 			</rectangle>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>

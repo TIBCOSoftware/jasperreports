@@ -5,9 +5,12 @@
 
 <jasperTemplate>
 
-	<style name="Base" isDefault="true" 
-		border="Thin" padding="4" hAlign="Center" vAlign="Middle"
-		fontSize="10" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Base" isDefault="true" hAlign="Center" vAlign="Middle"
+			fontSize="10" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false">
+		<box padding="4">
+			<pen lineWidth="0.5"/>
+		</box>
+	</style>
 		
 	<style name="Emphasis" style="Base" 
 		isItalic="true" pdfFontName="Helvetica-Oblique"/>

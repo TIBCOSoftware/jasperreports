@@ -65,7 +65,9 @@
 		<band height="50">
 			<frame>
 				<reportElement x="0" y="0" width="515" height="40" backcolor="#E0E0E0"/>
-				<box topBorder="1Point"/>
+				<box>
+					<topPen lineWidth="1"/>
+				</box>
 				<image scaleImage="Clip" hyperlinkType="Reference">
 					<reportElement x="5" y="5" width="165" height="30"/>
 					<graphicElement/>

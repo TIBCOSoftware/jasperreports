@@ -230,7 +230,9 @@
             </elementGroup>
             <staticText>
                 <reportElement style="Comic_Bold" x="0" y="0" width="555" height="35"/>
-                <box topBorder="Thin" leftBorder="None" bottomBorder="None" rightBorder="None"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
                 <textElement textAlignment="Center">
                     <font size="22"/>
                 </textElement>
@@ -303,7 +305,9 @@
             </textField>
             <line>
                 <reportElement positionType="Float" x="0" y="12" width="270" height="1" forecolor="#808080"/>
-                <graphicElement pen="Thin"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
             </line>
         </band>
     </detail>

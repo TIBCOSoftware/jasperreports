@@ -77,7 +77,9 @@
 		<band height="14">
 			<rectangle>
 				<reportElement x="0" y="2" width="356" height="10" forecolor="#33cccc" backcolor="#33cccc"/>
-				<graphicElement pen="Thin"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
 			</rectangle>
 			<staticText>
 				<reportElement mode="Opaque" x="160" y="2" width="67" height="10" backcolor="#33cccc" style="Arial_Bold"/>

@@ -33,7 +33,9 @@
 		<band height="14">
 			<rectangle>
 				<reportElement mode="Transparent" x="0" y="2" width="175" height="10" forecolor="#8080"/>
-				<graphicElement pen="Thin"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
 			</rectangle>
 			<staticText>
 				<reportElement x="0" y="2" width="60" height="10" forecolor="#8080" style="Arial_Italic"/>
@@ -85,7 +87,9 @@
 		<band height="14">
 			<rectangle>
 				<reportElement mode="Transparent" x="0" y="2" width="175" height="10"/>
-				<graphicElement pen="Thin"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
 			</rectangle>
 			<staticText>
 				<reportElement x="0" y="2" width="60" height="10" style="Arial_Italic"/>
@@ -97,7 +101,9 @@
 		<band height="14">
 			<rectangle>
 				<reportElement mode="Transparent" x="0" y="2" width="175" height="10" forecolor="#8080"/>
-				<graphicElement pen="Thin"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
 			</rectangle>
 			<staticText>
 				<reportElement x="0" y="2" width="60" height="10" forecolor="#8080" style="Arial_Italic"/>
@@ -118,7 +124,9 @@
 		<band height="14">
 			<rectangle>
 				<reportElement x="0" y="2" width="175" height="10" forecolor="#33cccc" backcolor="#33cccc"/>
-				<graphicElement pen="Thin"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
 			</rectangle>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="2" width="100" height="10" backcolor="#33cccc" style="Arial_Italic"/>

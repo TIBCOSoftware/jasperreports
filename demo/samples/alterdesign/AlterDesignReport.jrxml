@@ -13,15 +13,21 @@ Changing element colors or other settings do not require report design recompila
 			</staticText>
 			<rectangle>
 				<reportElement key="first.rectangle" x="0" y="100" width="555" height="90"/>
-				<graphicElement pen="4Point"/>
+				<graphicElement>
+					<pen lineWidth="4"/>
+				</graphicElement>
 			</rectangle>
 			<rectangle>
 				<reportElement key="second.rectangle" x="0" y="200" width="555" height="90"/>
-				<graphicElement pen="4Point"/>
+				<graphicElement>
+					<pen lineWidth="4"/>
+				</graphicElement>
 			</rectangle>
 			<rectangle>
 				<reportElement key="third.rectangle" x="0" y="300" width="555" height="90"/>
-				<graphicElement pen="4Point"/>
+				<graphicElement>
+					<pen lineWidth="4"/>
+				</graphicElement>
 			</rectangle>
 		</band>
 	</title>

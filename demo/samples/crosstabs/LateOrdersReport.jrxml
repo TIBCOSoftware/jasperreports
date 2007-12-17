@@ -19,7 +19,9 @@
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression>$V{DeliveryDelay} != null ? Boolean.TRUE : Boolean.FALSE</conditionExpression>
-			<style border="Thin" borderColor="red"/>
+			<style>
+				<pen lineWidth="0.5" lineColor="red"/>
+			</style>
 		</conditionalStyle>
 	</style>
 	<queryString><![CDATA[SELECT OrderId, ShipCountry, Freight, OrderDate, RequiredDate, ShippedDate FROM Orders WHERE ShippedDate IS NOT NULL]]></queryString>
@@ -150,7 +152,12 @@
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents style="CellStyle">
-							<box borderColor="black" bottomBorder="1Point" rightBorder="1Point" leftBorder="1Point"/>
+							<box>
+								<pen lineColor="black"/>
+								<leftPen lineWidth="1"/>
+								<bottomPen lineWidth="1"/>
+								<rightPen lineWidth="1"/>
+							</box>
 							<textField>
 								<reportElement x="5" y="0" width="75" height="20" style="Arial_Bold"/>
 								<textElement verticalAlignment="Middle"/>
@@ -160,7 +167,12 @@
 					</crosstabRowHeader>
 					<crosstabTotalRowHeader>
 						<cellContents>
-							<box borderColor="black" bottomBorder="1Point" rightBorder="1Point" leftBorder="1Point"/>
+							<box>
+								<pen lineColor="black"/>
+								<leftPen lineWidth="1"/>
+								<bottomPen lineWidth="1"/>
+								<rightPen lineWidth="1"/>
+							</box>
 							<staticText>
 								<reportElement x="5" y="0" width="75" height="20" style="Arial_Bold"/>
 								<textElement verticalAlignment="Middle">
@@ -177,7 +189,12 @@
 					</bucket>
 					<crosstabColumnHeader>
 						<cellContents>
-							<box borderColor="black" topBorder="1Point" rightBorder="1Point" bottomBorder="1Point"/>
+							<box>
+								<pen lineColor="black"/>
+								<topPen lineWidth="1"/>
+								<bottomPen lineWidth="1"/>
+								<rightPen lineWidth="1"/>
+							</box>
 							<textField>
 								<reportElement x="0" y="0" width="60" height="20" style="Arial_Bold"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
@@ -187,7 +204,12 @@
 					</crosstabColumnHeader>
 					<crosstabTotalColumnHeader>
 						<cellContents>
-							<box borderColor="black" topBorder="1Point" rightBorder="1Point" bottomBorder="1Point"/>
+							<box>
+								<pen lineColor="black"/>
+								<topPen lineWidth="1"/>
+								<bottomPen lineWidth="1"/>
+								<rightPen lineWidth="1"/>
+							</box>
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="20" style="Arial_Bold"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -206,7 +228,11 @@
 				</measure>
 				<crosstabCell width="60" height="20">
 					<cellContents style="CellStyle">
-						<box borderColor="black" bottomBorder="1Point" rightBorder="1Point"/>
+						<box>
+							<pen lineColor="black"/>
+							<bottomPen lineWidth="1"/>
+							<rightPen lineWidth="1"/>
+						</box>
 						<textField>
 							<reportElement x="0" y="0" width="60" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
@@ -221,7 +247,11 @@
 				</crosstabCell>
 				<crosstabCell width="60" height="20" rowTotalGroup="CountryRow">
 					<cellContents backcolor="yellow" mode="Opaque">
-						<box borderColor="black" bottomBorder="1Point" rightBorder="1Point"/>
+						<box>
+							<pen lineColor="black"/>
+							<bottomPen lineWidth="1"/>
+							<rightPen lineWidth="1"/>
+						</box>
 						<textField>
 							<reportElement x="0" y="0" width="60" height="10" style="Arial_Bold"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
@@ -236,7 +266,11 @@
 				</crosstabCell>
 				<crosstabCell width="60" height="20" columnTotalGroup="FreightColumn">
 					<cellContents backcolor="green" mode="Opaque">
-						<box borderColor="black" bottomBorder="1Point" rightBorder="1Point"/>
+						<box>
+							<pen lineColor="black"/>
+							<bottomPen lineWidth="1"/>
+							<rightPen lineWidth="1"/>
+						</box>
 						<textField>
 							<reportElement x="0" y="0" width="60" height="10" style="Arial_Bold"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
@@ -251,7 +285,11 @@
 				</crosstabCell>
 				<crosstabCell width="60" height="20" rowTotalGroup="CountryRow" columnTotalGroup="FreightColumn">
 					<cellContents backcolor="gray" mode="Opaque">
-						<box borderColor="black" bottomBorder="1Point" rightBorder="1Point"/>
+						<box>
+							<pen lineColor="black"/>
+							<bottomPen lineWidth="1"/>
+							<rightPen lineWidth="1"/>
+						</box>
 						<textField>
 							<reportElement x="0" y="0" width="60" height="10" style="Arial_Bold"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
