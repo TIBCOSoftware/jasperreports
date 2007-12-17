@@ -54,7 +54,11 @@
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<box leftBorder="1Point" bottomBorder="1Point" rightBorder="1Point"/>
+							<box>
+								<leftPen lineWidth="1"/>
+								<bottomPen lineWidth="1"/>
+								<rightPen lineWidth="1"/>
+							</box>
 							<textField>
 								<reportElement x="5" y="0" width="75" height="10" style="Arial_Bold"/>
 								<textFieldExpression>$V{NameGroup}</textFieldExpression>
@@ -63,7 +67,11 @@
 					</crosstabRowHeader>
 					<crosstabTotalRowHeader>
 						<cellContents backcolor="#E0FFFF" mode="Opaque">
-							<box leftBorder="1Point" bottomBorder="1Point" rightBorder="1Point"/>
+							<box>
+								<leftPen lineWidth="1"/>
+								<bottomPen lineWidth="1"/>
+								<rightPen lineWidth="1"/>
+							</box>
 							<staticText>
 								<reportElement x="5" y="0" width="75" height="10" style="Arial_Bold"/>
 								<text>TOTAL</text>
@@ -77,7 +85,11 @@
 					</bucket>
 					<crosstabColumnHeader>
 						<cellContents>
-							<box topBorder="1Point" bottomBorder="1Point" rightBorder="1Point"/>
+							<box>
+								<topPen lineWidth="1"/>
+								<bottomPen lineWidth="1"/>
+								<rightPen lineWidth="1"/>
+							</box>
 							<textField>
 								<reportElement x="0" y="0" width="20" height="50" style="Arial_Bold"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left"/>
@@ -87,7 +99,11 @@
 					</crosstabColumnHeader>
 					<crosstabTotalColumnHeader>
 						<cellContents backcolor="#FFFF60" mode="Opaque">
-							<box topBorder="1Point" bottomBorder="1Point" rightBorder="1Point"/>
+							<box>
+								<topPen lineWidth="1"/>
+								<bottomPen lineWidth="1"/>
+								<rightPen lineWidth="1"/>
+							</box>
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="50" style="Arial_Bold"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
@@ -101,7 +117,10 @@
 				</measure>
 				<crosstabCell width="20" height="10">
 					<cellContents backcolor="#FFFFFF" mode="Opaque">
-						<box bottomBorder="1Point" rightBorder="1Point"/>
+						<box>
+							<bottomPen lineWidth="1"/>
+							<rightPen lineWidth="1"/>
+						</box>
 						<textField>
 							<reportElement x="0" y="0" width="20" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
@@ -111,7 +130,10 @@
 				</crosstabCell>
 				<crosstabCell width="30" height="10" columnTotalGroup="ProductGroup">
 					<cellContents backcolor="#FFFF60" mode="Opaque">
-						<box bottomBorder="1Point" rightBorder="1Point"/>
+						<box>
+							<bottomPen lineWidth="1"/>
+							<rightPen lineWidth="1"/>
+						</box>
 						<textField>
 							<reportElement x="0" y="0" width="30" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
@@ -121,7 +143,10 @@
 				</crosstabCell>
 				<crosstabCell width="20" height="10" rowTotalGroup="NameGroup">
 					<cellContents backcolor="#E0FFFF" mode="Opaque">
-						<box bottomBorder="1Point" rightBorder="1Point"/>
+						<box>
+							<bottomPen lineWidth="1"/>
+							<rightPen lineWidth="1"/>
+						</box>
 						<textField>
 							<reportElement x="0" y="0" width="20" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
@@ -131,7 +156,10 @@
 				</crosstabCell>
 				<crosstabCell width="30" height="10" rowTotalGroup="NameGroup" columnTotalGroup="ProductGroup">
 					<cellContents backcolor="#C0C0C0" mode="Opaque">
-						<box bottomBorder="1Point" rightBorder="1Point"/>
+						<box>
+							<bottomPen lineWidth="1"/>
+							<rightPen lineWidth="1"/>
+						</box>
 						<textField>
 							<reportElement x="0" y="0" width="30" height="10" style="Arial_Bold"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>

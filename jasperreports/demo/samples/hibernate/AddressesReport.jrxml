@@ -78,7 +78,9 @@
 			<band height="25">
 				<line>
 					<reportElement x="20" y="0" width="475" height="1" forecolor="#808080"/>
-					<graphicElement pen="Thin"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
 				</line>
 				<staticText>
 					<reportElement x="20" y="2" width="70" height="15" style="Arial_Normal_Small"/>

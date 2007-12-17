@@ -64,7 +64,9 @@
 		<band height="16">
 			<frame>
 				<reportElement x="0" y="0" width="515" height="15" mode="Opaque" backcolor="#E0E0E0"/>
-				<box border="Thin"></box>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
 				<staticText>
 					<reportElement x="20" y="0" width="150" height="15"/>
 					<textElement verticalAlignment="Middle"/>
@@ -105,7 +107,9 @@
 		<band height="16">
 			<frame>
 				<reportElement x="0" y="0" width="515" height="15" mode="Opaque" backcolor="#E0E0E0"/>
-				<box border="Thin"></box>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
 				<textField>
 					<reportElement x="10" y="0" width="150" height="15" style="Arial_Bold"/>
 					<textElement verticalAlignment="Middle"/>

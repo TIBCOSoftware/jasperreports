@@ -15,47 +15,57 @@
 			</staticText>
 			<image>
 				<reportElement x="0" y="50" width="150" height="40"/>
-				<box border="Thin"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
 				<imageExpression class="java.lang.String"><![CDATA["dukesign.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="160" y="50" width="390" height="40"/>
 				<textElement/>
-				<text><![CDATA[<image scaleImage="RetainShape"><reportElement x="0" y="50" width="150" height="40"/><box border="Thin"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+				<text><![CDATA[<image scaleImage="RetainShape"><reportElement x="0" y="50" width="150" height="40"/><box><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="Clip">
 				<reportElement x="0" y="100" width="150" height="40" mode="Opaque" backcolor="yellow"/>
-				<box border="Thin" padding="5"/>
+				<box padding="5">
+					<pen lineWidth="0.5"/>
+				</box>
 				<imageExpression class="java.lang.String"><![CDATA["dukesign.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="160" y="100" width="390" height="40"/>
 				<textElement/>
-				<text><![CDATA[<image scaleImage="Clip"><reportElement x="0" y="100" width="150" height="40" mode="Opaque" backcolor="yellow"/><box border="Thin" padding="5"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+				<text><![CDATA[<image scaleImage="Clip"><reportElement x="0" y="100" width="150" height="40" mode="Opaque" backcolor="yellow"/><box padding="5"/><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="FillFrame">
 				<reportElement x="0" y="150" width="150" height="40"/>
-				<box border="Thin"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
 				<imageExpression class="java.lang.String"><![CDATA["dukesign.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="160" y="150" width="390" height="40"/>
 				<textElement/>
-				<text><![CDATA[<image scaleImage="FillFrame" isUsingCache="true"><reportElement x="0" y="150" width="150" height="40"/><box border="Thin"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+				<text><![CDATA[<image scaleImage="FillFrame" isUsingCache="true"><reportElement x="0" y="150" width="150" height="40"/><box><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 			</staticText>
 			<image hAlign="Center" isUsingCache="false">
 				<reportElement x="0" y="200" width="150" height="40"/>
-				<box border="Thin"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
 				<imageExpression class="java.lang.String"><![CDATA["dukesign.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="160" y="200" width="390" height="40"/>
 				<textElement/>
-				<text><![CDATA[<image scaleImage="RetainShape" hAlign="Center" isUsingCache="false"><reportElement x="0" y="200" width="150" height="40"/><box border="Thin"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+				<text><![CDATA[<image scaleImage="RetainShape" hAlign="Center" isUsingCache="false"><reportElement x="0" y="200" width="150" height="40"/><box><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement x="0" y="250" width="150" height="40" backcolor="#ffdddd"/>
-				<graphicElement pen="None"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
 			</rectangle>
 			<image>
 				<reportElement x="5" y="255" width="70" height="30"/>
@@ -69,7 +79,9 @@
 			</staticText>
 			<rectangle>
 				<reportElement x="0" y="300" width="150" height="40" backcolor="#ffdddd"/>
-				<graphicElement pen="None"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
 			</rectangle>
 			<image scaleImage="Clip">
 				<reportElement x="5" y="305" width="70" height="30" backcolor="#ffdddd"/>
@@ -83,7 +95,9 @@
 			</staticText>
 			<rectangle>
 				<reportElement x="0" y="350" width="150" height="40" backcolor="#ffdddd"/>
-				<graphicElement pen="None"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
 			</rectangle>
 			<image>
 				<reportElement mode="Opaque" x="5" y="355" width="30" height="30" backcolor="#ddffdd"/>
@@ -97,7 +111,9 @@
 			</staticText>
 			<rectangle>
 				<reportElement x="0" y="400" width="150" height="40" backcolor="#ffdddd"/>
-				<graphicElement pen="None"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
 			</rectangle>
 			<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
 				<reportElement mode="Opaque" x="5" y="405" width="120" height="30" backcolor="#ddffdd"/>
@@ -111,63 +127,75 @@
 			</staticText>
 			<image scaleImage="Clip">
 				<reportElement x="50" y="455" width="50" height="30" forecolor="#ff0000"/>
-				<box border="Thin"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
 				<imageExpression class="java.lang.String"><![CDATA["transparent.gif"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="160" y="450" width="390" height="40"/>
 				<textElement/>
-				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="455" width="50" height="30" forecolor="red"/><box border="Thin"/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="455" width="50" height="30" forecolor="red"/><box><pen lineWidth="0.5"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="Clip">
 				<reportElement x="50" y="505" width="50" height="30" forecolor="#ff0000"/>
-				<box border="Dotted"/>
+				<box>
+					<pen lineWidth="1" lineStyle="Dashed"/>
+				</box>
 				<imageExpression class="java.lang.String"><![CDATA["transparent.gif"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="160" y="500" width="390" height="40"/>
 				<textElement/>
-				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="505" width="50" height="30" forecolor="red"/><box border="Dotted"/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="505" width="50" height="30" forecolor="red"/><box><pen lineWidth="1" lineStyle="Dashed"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="Clip">
 				<reportElement x="50" y="555" width="50" height="30" forecolor="#ff0000"/>
-				<box border="1Point"/>
+				<box>
+					<pen lineWidth="1"/>
+				</box>
 				<imageExpression class="java.lang.String"><![CDATA["transparent.gif"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="160" y="550" width="390" height="40"/>
 				<textElement/>
-				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="555" width="50" height="30" forecolor="red"/><box border="1Point"/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="555" width="50" height="30" forecolor="red"/><box><pen lineWidth="1"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="Clip">
 				<reportElement x="50" y="605" width="50" height="30" forecolor="#ff0000"/>
-				<box border="2Point"/>
+				<box>
+					<pen lineWidth="2"/>
+				</box>
 				<imageExpression class="java.lang.String"><![CDATA["transparent.gif"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="160" y="600" width="390" height="40"/>
 				<textElement/>
-				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="605" width="50" height="30" forecolor="red"/><box border="2Point"/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="605" width="50" height="30" forecolor="red"/><box><pen lineWidth="2"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="Clip" hAlign="Right">
 				<reportElement x="50" y="655" width="50" height="30" forecolor="#ff0000"/>
-				<box border="4Point"/>
+				<box>
+					<pen lineWidth="4"/>
+				</box>
 				<imageExpression class="java.lang.String"><![CDATA["transparent.gif"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="160" y="650" width="390" height="40"/>
 				<textElement/>
-				<text><![CDATA[<image scaleImage="Clip" hAlign="Right" vAlign="Top"><reportElement x="50" y="655" width="50" height="30" forecolor="red"/><box border="4Point"/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+				<text><![CDATA[<image scaleImage="Clip" hAlign="Right" vAlign="Top"><reportElement x="50" y="655" width="50" height="30" forecolor="red"/><box><pen lineWidth="4"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<image>
 				<reportElement x="50" y="705" width="6" height="6" forecolor="#ff00"/>
-				<box border="4Point"/>
+				<box>
+					<pen lineWidth="4"/>
+				</box>
 				<imageExpression class="java.lang.String"><![CDATA["1redpixel.gif"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="160" y="700" width="390" height="40"/>
 				<textElement/>
-				<text><![CDATA[<image><reportElement x="50" y="705" width="6" height="6" forecolor="green"/><box border="4Point"/><imageExpression>"1redpixel.gif"</imageExpression></image>]]></text>
+				<text><![CDATA[<image><reportElement x="50" y="705" width="6" height="6" forecolor="green"/><box><pen lineWidth="4"/></box><imageExpression>"1redpixel.gif"</imageExpression></image>]]></text>
 			</staticText>
 		</band>
 	</title>

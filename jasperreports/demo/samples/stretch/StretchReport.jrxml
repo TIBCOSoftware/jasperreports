@@ -76,7 +76,9 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 		<band height="15">
 			<rectangle>
 				<reportElement x="0" y="1" width="555" height="13" backcolor="#ffdddd"/>
-				<graphicElement pen="None"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
 			</rectangle>
 			<line>
 				<reportElement x="0" y="14" width="555" height="1" forecolor="#ff0000"/>
@@ -295,7 +297,9 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 		<band height="15">
 			<rectangle>
 				<reportElement x="0" y="1" width="555" height="13" backcolor="#ffdddd"/>
-				<graphicElement pen="None"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
 			</rectangle>
 			<line>
 				<reportElement x="0" y="0" width="555" height="1" forecolor="#ff0000"/>
