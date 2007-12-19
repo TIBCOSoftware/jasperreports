@@ -508,7 +508,7 @@ public class JRClassGenerator
 			sb.append(")(");
 			sb.append(this.generateExpression(expression, evaluationType));
 			sb.append(");");
-			sb.append(expressionComment(expression));
+			appendExpressionComment(sb, expression);
 			sb.append("\n");
 			sb.append("                break;\n");
 			sb.append("            }\n");
@@ -640,30 +640,26 @@ public class JRClassGenerator
 
 	protected void appendExpressionText(JRExpression expression, StringBuffer sb, String chunkText)
 	{
-		StringTokenizer tokenizer = new StringTokenizer(chunkText, "\n");
-		if (tokenizer.hasMoreTokens())
+		for (StringTokenizer tokenizer = new StringTokenizer(chunkText, "\n", true);
+				tokenizer.hasMoreTokens();)
 		{
-			sb.append(tokenizer.nextToken());
-			while (tokenizer.hasMoreTokens())
+			String token = tokenizer.nextToken();
+			if (token.equals("\n"))
 			{
-				sb.append(expressionComment(expression));
-				sb.append("\n");
-				sb.append(tokenizer.nextToken());
+				appendExpressionComment(sb, expression);
 			}
+			sb.append(token);
 		}
 	}
 
-
-	protected String expressionComment(JRExpression expression)
+	protected void appendExpressionComment(StringBuffer sb, JRExpression expression)
 	{
-		StringBuffer sb = new StringBuffer(24);
 		sb.append("//");
 		sb.append(SOURCE_EXPRESSION_ID_START);
 		sb.append(sourceTask.getExpressionId(expression));
 		sb.append(SOURCE_EXPRESSION_ID_END);
-		return sb.toString();
 	}
-
+	
 	protected JRExpression[] parseSourceLines(String sourceCode)
 	{
 		List expressions = new ArrayList();
