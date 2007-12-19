@@ -840,24 +840,28 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("{\\shptxt{\\pard");
 
 		JRFont font = text;
-		writer.write("\\f");
-		writer.write(String.valueOf(getFontIndex(font)));
-		writer.write("\\cf");
-		writer.write(String.valueOf(getColorIndex(text.getForecolor())));
+		if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
+		{
+			writer.write("\\rtlch");
+		}
+//		writer.write("\\f");
+//		writer.write(String.valueOf(getFontIndex(font)));
+//		writer.write("\\cf");
+//		writer.write(String.valueOf(getColorIndex(text.getForecolor())));
 		writer.write("\\cb");
 		writer.write(String.valueOf(getColorIndex(text.getBackcolor())));
 		writer.write(" ");
 
-		if (font.isBold())
-			writer.write("\\b");
-		if (font.isItalic())
-			writer.write("\\i");
-		if (font.isStrikeThrough())
-			writer.write("\\strike");
-		if (font.isUnderline())
-			writer.write("\\ul");
-		writer.write("\\fs");
-		writer.write(String.valueOf(font.getFontSize() * 2));
+//		if (font.isBold())
+//			writer.write("\\b");
+//		if (font.isItalic())
+//			writer.write("\\i");
+//		if (font.isStrikeThrough())
+//			writer.write("\\strike");
+//		if (font.isUnderline())
+//			writer.write("\\ul");
+//		writer.write("\\fs");
+//		writer.write(String.valueOf(font.getFontSize() * 2));
 
 		switch (text.getHorizontalAlignment())
 		{
@@ -942,10 +946,6 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 			writer.write("\\cf");
 			writer.write(String.valueOf(getColorIndex(styleForeground)));
-			if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
-			{
-				writer.write("\\rtlch");
-			}
 			writer.write(" ");
 
 			writer.write(
