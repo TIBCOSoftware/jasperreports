@@ -777,16 +777,16 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		preparePen(pdfContentByte, rectangle.getLinePen());
 
-		pdfContentByte.roundRectangle(
-			rectangle.getX() + getOffsetX(),
-			jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight(),
-			rectangle.getWidth(),
-			rectangle.getHeight(),
-			rectangle.getRadius()
-			);
-
 		if (rectangle.getMode() == JRElement.MODE_OPAQUE)
 		{
+			pdfContentByte.roundRectangle(
+				rectangle.getX() + getOffsetX(),
+				jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight(),
+				rectangle.getWidth(),
+				rectangle.getHeight(),
+				rectangle.getRadius()
+				);
+
 			if (rectangle.getLinePen().getLineWidth().floatValue() > 0f)
 			{
 				pdfContentByte.fillStroke();
@@ -800,6 +800,14 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			if (rectangle.getLinePen().getLineWidth().floatValue() > 0f)
 			{
+				pdfContentByte.roundRectangle(
+					rectangle.getX() + getOffsetX(),
+					jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight(),
+					rectangle.getWidth(),
+					rectangle.getHeight(),
+					rectangle.getRadius()
+					);
+
 				pdfContentByte.stroke();
 			}
 		}
@@ -821,15 +829,15 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		preparePen(pdfContentByte, ellipse.getLinePen());
 
-		pdfContentByte.ellipse(
-			ellipse.getX() + getOffsetX(),
-			jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight(),
-			ellipse.getX() + getOffsetX() + ellipse.getWidth(),
-			jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY()
-			);
-
 		if (ellipse.getMode() == JRElement.MODE_OPAQUE)
 		{
+			pdfContentByte.ellipse(
+				ellipse.getX() + getOffsetX(),
+				jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight(),
+				ellipse.getX() + getOffsetX() + ellipse.getWidth(),
+				jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY()
+				);
+
 			if (ellipse.getLinePen().getLineWidth().floatValue() > 0f)
 			{
 				pdfContentByte.fillStroke();
@@ -843,6 +851,13 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			if (ellipse.getLinePen().getLineWidth().floatValue() > 0f)
 			{
+				pdfContentByte.ellipse(
+					ellipse.getX() + getOffsetX(),
+					jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight(),
+					ellipse.getX() + getOffsetX() + ellipse.getWidth(),
+					jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY()
+					);
+
 				pdfContentByte.stroke();
 			}
 		}
