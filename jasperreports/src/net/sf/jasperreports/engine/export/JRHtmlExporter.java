@@ -1646,11 +1646,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 				writer.write(" usemap=\"#" + imageMapName + "\"");
 			}
 			
-			writer.write(" alt=\"\"/>");
-		
+			writer.write(" alt=\"\"");
+			
 			if (startedHyperlink)
 			{
+				writer.write(" border=\"0\"/>");
 				endHyperlink();
+			}
+			else
+			{
+				writer.write("/>");
 			}
 			
 			if (imageMapAreas != null)
