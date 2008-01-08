@@ -77,7 +77,7 @@ public class ReportConverter
 {
 
 	private static final Log log = LogFactory.getLog(ReportConverter.class);
-	private static final Color GRID_LINE_COLOR = new Color(170, 170, 255);
+	public static final Color GRID_LINE_COLOR = new Color(170, 170, 255);
 	
 	private final JRReport report;
 	private JasperPrint jasperPrint;
@@ -364,6 +364,8 @@ public class ReportConverter
 		printFrame.setY(y);
 		printFrame.setWidth(width);
 		printFrame.setHeight(1);
+		printFrame.getLineBox().getPen().setLineWidth(0);
+		printFrame.getLineBox().getPen().setLineStyle(JRPen.LINE_STYLE_SOLID);
 		printFrame.getLineBox().getTopPen().setLineWidth(0.1f);
 		printFrame.getLineBox().getTopPen().setLineStyle(JRPen.LINE_STYLE_DASHED);
 		printFrame.getLineBox().getTopPen().setLineColor(GRID_LINE_COLOR);
@@ -380,6 +382,8 @@ public class ReportConverter
 		printFrame.setY(y);
 		printFrame.setWidth(1);
 		printFrame.setHeight(height);
+		printFrame.getLineBox().getPen().setLineWidth(0);
+		printFrame.getLineBox().getPen().setLineStyle(JRPen.LINE_STYLE_SOLID);
 		printFrame.getLineBox().getLeftPen().setLineWidth(0.1f);
 		printFrame.getLineBox().getLeftPen().setLineStyle(JRPen.LINE_STYLE_DASHED);
 		printFrame.getLineBox().getLeftPen().setLineColor(GRID_LINE_COLOR);
