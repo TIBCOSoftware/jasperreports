@@ -92,7 +92,6 @@ public class ChartConverter extends ElementConverter
 		printImage.setBookmarkLevel(chart.getBookmarkLevel());
 		printImage.setLinkType(chart.getLinkType());
 		printImage.setOnErrorType(JRImage.ON_ERROR_TYPE_ICON);
-		//printImage.setLineWidth(0.5f);//FIXMECONVERT don't we add contour anyway?
 		printImage.setRenderer(getRenderer(chart));
 		printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
 		
