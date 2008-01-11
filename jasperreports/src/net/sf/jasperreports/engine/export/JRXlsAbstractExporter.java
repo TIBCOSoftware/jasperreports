@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -624,6 +625,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		return textElement.getFullStyledText(JRStyledTextAttributeSelector.NONE);
 	}
 
+	/**
+	 *
+	 */
 	protected static TextAlignHolder getTextAlignHolder(JRPrintText textElement)
 	{
 		short horizontalAlignment;
@@ -754,6 +758,27 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		return new TextAlignHolder(horizontalAlignment, verticalAlignment, rotation);
 	}
 
+	/**
+	 *
+	 */
+	protected static int getImageBorderCorrection(JRPen pen)
+	{
+		float lineWidth = pen.getLineWidth().floatValue();
+		
+		if (lineWidth > 0f)
+		{
+			if (lineWidth >= 2f)
+			{
+				return 2;
+			}
+
+			return 1;
+		}
+		
+		return 0;
+	}
+
+	
 	/**
 	 *
 	 */
