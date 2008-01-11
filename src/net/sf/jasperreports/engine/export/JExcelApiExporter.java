@@ -743,13 +743,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		addMergeRegion(gridCell, col, row);
 
 		int topPadding = 
-			Math.max(element.getLineBox().getTopPadding().intValue(), getBorderCorrection(element.getLineBox().getTopPen()));
+			Math.max(element.getLineBox().getTopPadding().intValue(), getImageBorderCorrection(element.getLineBox().getTopPen()));
 		int leftPadding = 
-			Math.max(element.getLineBox().getLeftPadding().intValue(), getBorderCorrection(element.getLineBox().getLeftPen()));
+			Math.max(element.getLineBox().getLeftPadding().intValue(), getImageBorderCorrection(element.getLineBox().getLeftPen()));
 		int bottomPadding = 
-			Math.max(element.getLineBox().getBottomPadding().intValue(), getBorderCorrection(element.getLineBox().getBottomPen()));
+			Math.max(element.getLineBox().getBottomPadding().intValue(), getImageBorderCorrection(element.getLineBox().getBottomPen()));
 		int rightPadding = 
-			Math.max(element.getLineBox().getRightPadding().intValue(), getBorderCorrection(element.getLineBox().getRightPen()));
+			Math.max(element.getLineBox().getRightPadding().intValue(), getImageBorderCorrection(element.getLineBox().getRightPen()));
 		
 		int availableImageWidth = element.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
@@ -1855,23 +1855,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected ExporterNature getNature()
 	{
 		return nature;
-	}
-
-	protected static int getBorderCorrection(JRPen pen)
-	{
-		float lineWidth = pen.getLineWidth().floatValue();
-		
-		if (lineWidth > 0f)
-		{
-			if (lineWidth >= 2f)
-			{
-				return 2;
-			}
-
-			return 1;
-		}
-		
-		return 0;
 	}
 
 }
