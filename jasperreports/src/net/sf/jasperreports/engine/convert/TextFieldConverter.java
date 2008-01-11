@@ -35,16 +35,11 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import java.util.Map;
-
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
-import net.sf.jasperreports.engine.util.JRStyledText;
 
 
 /**
@@ -89,32 +84,10 @@ public class TextFieldConverter extends TextElementConverter
 		printText.setBookmarkLevel(textField.getBookmarkLevel());
 		printText.setLinkType(textField.getLinkType());
 		printText.setPattern(textField.getOwnPattern());
-		printText.setText(JRExpressionUtil.getExpressionText(textField.getExpression()));
 		
-		measureTextElement(printText);
+		measureTextElement(printText, JRExpressionUtil.getExpressionText(textField.getExpression()));
 
 		return printText;
-	}
-
-	/**
-	 *
-	 */
-	protected JRStyledText getStyledText(JRPrintText printText)
-	{
-		String text = printText.getText();
-		
-		if (text == null)
-		{
-			text = "";
-		}
-
-		Map attributes = JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText); 
-
-		JRStyledText styledText = new JRStyledText();
-		styledText.append(text);
-		styledText.setGlobalAttributes(attributes);
-		
-		return styledText;
 	}
 
 }

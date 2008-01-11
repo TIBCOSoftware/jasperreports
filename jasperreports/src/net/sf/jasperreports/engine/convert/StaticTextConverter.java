@@ -35,16 +35,10 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import java.util.Map;
-
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStaticText;
-import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 
 /**
@@ -58,11 +52,6 @@ public class StaticTextConverter extends TextElementConverter
 	 *
 	 */
 	private final static StaticTextConverter INSTANCE = new StaticTextConverter();
-	
-	/**
-	 *
-	 */
-	private final JRStyledTextParser styledTextParser = new JRStyledTextParser();
 	
 	/**
 	 *
@@ -89,27 +78,9 @@ public class StaticTextConverter extends TextElementConverter
 		
 		copyTextElement(reportConverter, staticText, printText);
 		
-		printText.setText(staticText.getText());
-		
-		measureTextElement(printText);
+		measureTextElement(printText, staticText.getText());
 		
 		return printText;
-	}
-
-	/**
-	 *
-	 */
-	protected JRStyledText getStyledText(JRPrintText printText)
-	{
-		String text = printText.getText();
-		
-		if (text == null)
-		{
-			text = "";
-		}
-
-		Map attributes = JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText); 
-		return styledTextParser.getStyledText(attributes, text, printText.isStyledText());
 	}
 
 }

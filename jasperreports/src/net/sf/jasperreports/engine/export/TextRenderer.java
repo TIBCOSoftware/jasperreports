@@ -118,11 +118,6 @@ public class TextRenderer
 		String allText
 		)
 	{
-		if (initTextHeight == 0)
-		{
-			return;
-		}
-		
 		/*   */
 		initialize(
 			initGrx, 
