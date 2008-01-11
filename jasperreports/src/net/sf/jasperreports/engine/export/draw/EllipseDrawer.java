@@ -35,11 +35,13 @@
  */
 package net.sf.jasperreports.engine.export.draw;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 
@@ -71,34 +73,65 @@ public class EllipseDrawer extends ElementDrawer
 
 		grx.setColor(ellipse.getLinePen().getLineColor());
 
-		Stroke stroke = getStroke(ellipse.getLinePen());
+		Stroke stroke = getStroke(ellipse.getLinePen(), BasicStroke.CAP_SQUARE);
 
 		if (stroke != null)
 		{
-			//double cornerOffset = getBorderCornerOffset(ellipse.getLinePen());
-			//int sizeAdjust = getRectangleSizeAdjust(ellipse.getLinePen());
-			
-			AffineTransform transform = grx.getTransform();
-			
-			grx.translate(ellipse.getX() + offsetX, ellipse.getY() + offsetY);
-			//grx.translate(ellipse.getX() + offsetX + cornerOffset, ellipse.getY() + offsetY + cornerOffset);
-//			if (ellipse.getLinePen().getLineWidth().floatValue() == 0.5f)
-//			{
-//				grx.scale((ellipse.getWidth() - .5) / ellipse.getWidth(), (ellipse.getHeight() - .5) / ellipse.getHeight());
-//			}
-			
 			grx.setStroke(stroke);
 			
-			grx.drawOval(
-				0, 
-				0, 
-//				ellipse.getWidth() - sizeAdjust,
-//				ellipse.getHeight() - sizeAdjust
-				ellipse.getWidth(),
-				ellipse.getHeight()
-				);
-			
-			grx.setTransform(transform);
+			if (ellipse.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			{
+				float lineWidth = ellipse.getLinePen().getLineWidth().floatValue();
+				
+				AffineTransform oldTx = grx.getTransform();
+
+				grx.translate(
+					ellipse.getX() + offsetX - lineWidth / 3, 
+					ellipse.getY() + offsetY - lineWidth / 3
+					);
+				grx.scale(
+					(element.getWidth() + 2 * lineWidth / 3) 
+						/ element.getWidth(), 
+					(element.getHeight() + 2 * lineWidth / 3) 
+						/ element.getHeight() 
+					);
+				grx.drawOval(
+					0, 
+					0, 
+					ellipse.getWidth(),
+					ellipse.getHeight()
+					);
+				
+				grx.setTransform(oldTx);
+
+				grx.translate(
+					ellipse.getX() + offsetX + lineWidth / 3, 
+					ellipse.getY() + offsetY + lineWidth / 3
+					);
+				grx.scale(
+					(element.getWidth() - 2 * lineWidth / 3) 
+						/ element.getWidth(), 
+					(element.getHeight() - 2 * lineWidth / 3) 
+						/ element.getHeight() 
+					);
+				grx.drawOval(
+					0, 
+					0, 
+					ellipse.getWidth(),
+					ellipse.getHeight()
+					);
+
+				grx.setTransform(oldTx);
+			}
+			else
+			{
+				grx.drawOval(
+					ellipse.getX() + offsetX, 
+					ellipse.getY() + offsetY, 
+					ellipse.getWidth(),
+					ellipse.getHeight()
+					);
+			}
 		}
 	}
 

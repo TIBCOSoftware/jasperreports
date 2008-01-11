@@ -47,6 +47,16 @@ public interface JRPen
 	 */
 	public static final byte LINE_STYLE_DASHED = 1;
 
+	/**
+	 * Contant useful for specifying dotted line style.
+	 */
+	public static final byte LINE_STYLE_DOTTED = 2;
+
+	/**
+	 * Contant useful for specifying double line style.
+	 */
+	public static final byte LINE_STYLE_DOUBLE = 3;
+
 	public static final Float LINE_WIDTH_0 = new Float(0f);
 	public static final Float LINE_WIDTH_1 = new Float(1f);
 

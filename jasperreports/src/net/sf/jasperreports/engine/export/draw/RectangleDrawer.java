@@ -35,11 +35,13 @@
  */
 package net.sf.jasperreports.engine.export.draw;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 
@@ -64,71 +66,141 @@ public class RectangleDrawer extends ElementDrawer
 			if (rectangle.getRadius() > 0)
 			{
 				grx.fillRoundRect(
-						rectangle.getX() + offsetX, 
-						rectangle.getY() + offsetY, 
-						rectangle.getWidth(),
-						rectangle.getHeight(),
-						2 * rectangle.getRadius(),
-						2 * rectangle.getRadius()
-						);
+					rectangle.getX() + offsetX, 
+					rectangle.getY() + offsetY, 
+					rectangle.getWidth(),
+					rectangle.getHeight(),
+					2 * rectangle.getRadius(),
+					2 * rectangle.getRadius()
+					);
 			}
 			else
 			{
 				grx.fillRect(
-						rectangle.getX() + offsetX, 
-						rectangle.getY() + offsetY, 
-						rectangle.getWidth(),
-						rectangle.getHeight()
-						);
+					rectangle.getX() + offsetX, 
+					rectangle.getY() + offsetY, 
+					rectangle.getWidth(),
+					rectangle.getHeight()
+					);
 			}
 		}
 
 		grx.setColor(rectangle.getLinePen().getLineColor());
 
-		Stroke stroke = getStroke(rectangle.getLinePen());
+		Stroke stroke = getStroke(rectangle.getLinePen(), BasicStroke.CAP_SQUARE);
 
 		if (stroke != null)
 		{
-			//double cornerOffset = getBorderCornerOffset(rectangle.getLinePen());
-			//int sizeAdjust = getRectangleSizeAdjust(rectangle.getLinePen());
-			
-			AffineTransform transform = grx.getTransform();
-			
-			grx.translate(rectangle.getX() + offsetX, rectangle.getY() + offsetY);
-			//grx.translate(rectangle.getX() + offsetX + cornerOffset, rectangle.getY() + offsetY + cornerOffset);
-//			if (rectangle.getLinePen().getLineWidth().floatValue() == 0.5f)
-//			{
-//				grx.scale((rectangle.getWidth() - .5) / rectangle.getWidth(), (rectangle.getHeight() - .5) / rectangle.getHeight());
-//			}
-			
 			grx.setStroke(stroke);
 			
-			if (rectangle.getRadius() > 0)
+			if (rectangle.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 			{
-				grx.drawRoundRect(
+				float lineWidth = rectangle.getLinePen().getLineWidth().floatValue();
+				
+				AffineTransform oldTx = grx.getTransform();
+
+				if (rectangle.getRadius() > 0)
+				{
+					grx.translate(
+						rectangle.getX() + offsetX - lineWidth / 3, 
+						rectangle.getY() + offsetY - lineWidth / 3
+						);
+					grx.scale(
+						(element.getWidth() + 2 * lineWidth / 3) 
+							/ element.getWidth(), 
+						(element.getHeight() + 2 * lineWidth / 3) 
+							/ element.getHeight() 
+						);
+					grx.drawRoundRect(
 						0, 
 						0, 
 						rectangle.getWidth(),
 						rectangle.getHeight(),
-//						rectangle.getWidth() - sizeAdjust,
-//						rectangle.getHeight() - sizeAdjust,
 						2 * rectangle.getRadius(),
 						2 * rectangle.getRadius()
 						);
-			}
-			else
-			{
-				grx.drawRect(
+					grx.setTransform(oldTx);
+					grx.translate(
+						rectangle.getX() + offsetX + lineWidth / 3, 
+						rectangle.getY() + offsetY + lineWidth / 3
+						);
+					grx.scale(
+						(element.getWidth() - 2 * lineWidth / 3) 
+							/ element.getWidth(), 
+						(element.getHeight() - 2 * lineWidth / 3) 
+							/ element.getHeight() 
+						);
+					grx.drawRoundRect(
 						0, 
 						0, 
-//						rectangle.getWidth() - sizeAdjust,
-//						rectangle.getHeight() - sizeAdjust
+						rectangle.getWidth(),
+						rectangle.getHeight(),
+						2 * rectangle.getRadius(),
+						2 * rectangle.getRadius()
+						);
+				}
+				else
+				{
+					grx.translate(
+						rectangle.getX() + offsetX - lineWidth / 3, 
+						rectangle.getY() + offsetY - lineWidth / 3
+						);
+					grx.scale(
+						(element.getWidth() + 2 * lineWidth / 3) 
+							/ element.getWidth(), 
+						(element.getHeight() + 2 * lineWidth / 3) 
+							/ element.getHeight() 
+						);
+					grx.drawRect(
+						0, 
+						0, 
 						rectangle.getWidth(),
 						rectangle.getHeight()
 						);
-			}
+					grx.setTransform(oldTx);
+					grx.translate(
+						rectangle.getX() + offsetX + lineWidth / 3, 
+						rectangle.getY() + offsetY + lineWidth / 3
+						);
+					grx.scale(
+						(element.getWidth() - 2 * lineWidth / 3) 
+							/ element.getWidth(), 
+						(element.getHeight() - 2 * lineWidth / 3) 
+							/ element.getHeight() 
+						);
+					grx.drawRect(
+						0, 
+						0, 
+						rectangle.getWidth(),
+						rectangle.getHeight()
+						);
+				}
 
-			grx.setTransform(transform);
+				grx.setTransform(oldTx);
+			}
+			else
+			{
+				if (rectangle.getRadius() > 0)
+				{
+					grx.drawRoundRect(
+						rectangle.getX() + offsetX, 
+						rectangle.getY() + offsetY, 
+						rectangle.getWidth(),
+						rectangle.getHeight(),
+						2 * rectangle.getRadius(),
+						2 * rectangle.getRadius()
+						);
+				}
+				else
+				{
+					grx.drawRect(
+						rectangle.getX() + offsetX, 
+						rectangle.getY() + offsetY, 
+						rectangle.getWidth(),
+						rectangle.getHeight()
+						);
+				}
+			}
 		}
 	}
 	

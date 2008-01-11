@@ -79,6 +79,7 @@ public class GraphicStyle extends Style
 		{
 			switch (element.getLinePen().getLineStyle().byteValue())
 			{
+				case JRPen.LINE_STYLE_DOTTED : //FIXMEBORDER
 				case JRPen.LINE_STYLE_DASHED :
 				{
 					style = "dash";

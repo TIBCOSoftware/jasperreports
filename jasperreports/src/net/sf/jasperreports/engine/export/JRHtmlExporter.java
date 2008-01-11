@@ -65,6 +65,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRImageRenderer;
+import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -878,12 +879,45 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		writeCellTDStart(gridCell);
 
-		Color forecolor = line.getLinePen().getLineColor();
+		StringBuffer styleBuffer = new StringBuffer();
+
+		appendBackcolorStyle(gridCell, styleBuffer);
 		
-		if (forecolor.getRGB() != Color.white.getRGB())
+		String side = null;
+		float ratio = line.getWidth() / line.getHeight();
+		if (ratio > 1)
 		{
-			writer.write(" bgcolor=\"#");
-			writer.write(JRColorUtil.getColorHexa(forecolor));
+			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			{
+				side = "top";
+			}
+			else
+			{
+				side = "bottom";
+			}
+		}
+		else
+		{
+			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			{
+				side = "left";
+			}
+			else
+			{
+				side = "right";
+			}
+		}
+
+		appendPen(
+			styleBuffer,
+			line.getLinePen(),
+			side
+			);
+
+		if (styleBuffer.length() > 0)
+		{
+			writer.write(" style=\"");
+			writer.write(styleBuffer.toString());
 			writer.write("\"");
 		}
 
@@ -1385,7 +1419,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			styleBuffer.append(JRColorUtil.getColorHexa(cellBackcolor));
 			styleBuffer.append("; ");
 
-			return backcolor;
+			return cellBackcolor;
 		}
 
 		return null;
@@ -1832,6 +1866,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 		String borderStyle = null;
 		switch (pen.getLineStyle().byteValue())
 		{
+			case JRPen.LINE_STYLE_DOUBLE :
+			{
+				borderStyle = "double";
+				break;
+			}
+			case JRPen.LINE_STYLE_DOTTED :
+			{
+				borderStyle = "dotted";
+				break;
+			}
 			case JRPen.LINE_STYLE_DASHED :
 			{
 				borderStyle = "dashed";
