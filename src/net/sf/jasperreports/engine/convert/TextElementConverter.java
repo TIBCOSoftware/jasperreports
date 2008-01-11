@@ -35,12 +35,16 @@
  */
 package net.sf.jasperreports.engine.convert;
 
+import java.util.Map;
+
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fill.JRMeasuredText;
 import net.sf.jasperreports.engine.fill.JRTextMeasurer;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 
 
@@ -50,6 +54,8 @@ import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
  */
 public abstract class TextElementConverter extends ElementConverter
 {
+	
+	private final JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	/**
 	 *
@@ -81,10 +87,17 @@ public abstract class TextElementConverter extends ElementConverter
 	/**
 	 * 
 	 */
-	protected void measureTextElement(JRPrintText printText)
+	protected void measureTextElement(JRPrintText printText, String text)
 	{
 		JRTextMeasurer textMeasurer = JRTextMeasurerUtil.createTextMeasurer(printText);//FIXME use element properties?
-		JRStyledText styledText = getStyledText(printText);
+		
+		if (text == null)
+		{
+			text = "";
+		}
+		Map attributes = JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText); 
+		JRStyledText styledText = styledTextParser.getStyledText(attributes, text, printText.isStyledText());
+		
 		JRMeasuredText measuredText = textMeasurer.measure(
 				styledText, 
 				0,
@@ -94,13 +107,19 @@ public abstract class TextElementConverter extends ElementConverter
 		printText.setTextHeight(measuredText.getTextHeight() < printText.getHeight() ? measuredText.getTextHeight() : printText.getHeight());
 		printText.setLeadingOffset(measuredText.getLeadingOffset());
 		printText.setLineSpacingFactor(measuredText.getLineSpacingFactor());
+		
+		int textEnd = measuredText.getTextOffset();
+		String printedText;
+		if (printText.isStyledText())
+		{
+			printedText = styledTextParser.write(styledText, 0, textEnd);
+		}
+		else
+		{
+			printedText = text.substring(0, textEnd);
+		}
+		printText.setText(printedText);
 	}
-
-	
-	/**
-	 *
-	 */
-	protected abstract JRStyledText getStyledText(JRPrintText printText);
 
 
 }
