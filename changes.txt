@@ -2,8 +2,10 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 2.0.4 (2008-01-0x)
+JasperReports 2.0.4 (2008-01-11)
 -----------------------------------
+
+- support for Dotted and Double line style added;
 
 - minor bug fixes and improvements;
 
