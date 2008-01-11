@@ -7,6 +7,9 @@ JasperReports 2.0.4 (2008-01-11)
 
 - support for Dotted and Double line style added;
 
+- warning messages added to signal the use of deprecated pen and box 
+attributes and tags in JRXML; all samples refactored;
+
 - minor bug fixes and improvements;
 
 
