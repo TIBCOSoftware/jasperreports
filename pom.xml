@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:svn:http://scm.jasperforge.org/svn/repos/jasperreports</connection>
-		<tag>jr-2-0-3</tag>
+		<tag>jr-2-0-4</tag>
 		<url>http://jasperforge.org/sf/scm/do/viewRepositorySource/projects.jasperreports/scm.jasperreports</url>
 	</scm>
 	<repositories>
