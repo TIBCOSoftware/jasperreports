@@ -350,6 +350,14 @@
           <name>Dashed</name>
           <description>Dashed line.</description>
         </value>
+        <value>
+          <name>Dotted</name>
+          <description>Dotted line.</description>
+        </value>
+        <value>
+          <name>Double</name>
+          <description>Double line.</description>
+        </value>
       </values>
       <default>Solid</default>
     </attribute>
@@ -2847,6 +2855,14 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
           <name>Dashed</name>
           <description>Dashed line.</description>
         </value>
+        <value>
+          <name>Dotted</name>
+          <description>Dotted line.</description>
+        </value>
+        <value>
+          <name>Double</name>
+          <description>Double line.</description>
+        </value>
       </values>
       <default>Solid</default>
     </attribute>
@@ -3418,6 +3434,14 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
           <name>Dashed</name>
           <description>Dashed line.</description>
         </value>
+        <value>
+          <name>Dotted</name>
+          <description>Dotted line.</description>
+        </value>
+        <value>
+          <name>Double</name>
+          <description>Double line.</description>
+        </value>
       </values>
       <default>Solid</default>
     </attribute>
@@ -3941,6 +3965,14 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
         <value>
           <name>Dashed</name>
           <description>Dashed line.</description>
+        </value>
+        <value>
+          <name>Dotted</name>
+          <description>Dotted line.</description>
+        </value>
+        <value>
+          <name>Double</name>
+          <description>Double line.</description>
         </value>
       </values>
       <default>Solid</default>
@@ -5346,6 +5378,14 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
         <value>
           <name>Dashed</name>
           <description>Dashed line.</description>
+        </value>
+        <value>
+          <name>Dotted</name>
+          <description>Dotted line.</description>
+        </value>
+        <value>
+          <name>Double</name>
+          <description>Double line.</description>
         </value>
       </values>
       <default>Solid</default>

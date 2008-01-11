@@ -104,7 +104,7 @@
 <!ELEMENT pen EMPTY>
 <!ATTLIST pen
 	lineWidth NMTOKEN #IMPLIED
-	lineStyle (Solid | Dashed) #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
 	lineColor CDATA #IMPLIED
 >
 
@@ -279,25 +279,25 @@
 <!ELEMENT topPen EMPTY>
 <!ATTLIST topPen
 	lineWidth NMTOKEN #IMPLIED
-	lineStyle (Solid | Dashed) #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
 	lineColor CDATA #IMPLIED
 >
 <!ELEMENT leftPen EMPTY>
 <!ATTLIST leftPen
 	lineWidth NMTOKEN #IMPLIED
-	lineStyle (Solid | Dashed) #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
 	lineColor CDATA #IMPLIED
 >
 <!ELEMENT bottomPen EMPTY>
 <!ATTLIST bottomPen
 	lineWidth NMTOKEN #IMPLIED
-	lineStyle (Solid | Dashed) #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
 	lineColor CDATA #IMPLIED
 >
 <!ELEMENT rightPen EMPTY>
 <!ATTLIST rightPen
 	lineWidth NMTOKEN #IMPLIED
-	lineStyle (Solid | Dashed) #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
 	lineColor CDATA #IMPLIED
 >
 

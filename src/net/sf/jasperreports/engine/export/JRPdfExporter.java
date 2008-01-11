@@ -691,10 +691,8 @@ public class JRPdfExporter extends JRAbstractExporter
 		float lineWidth = line.getLinePen().getLineWidth().floatValue(); 
 		if (lineWidth > 0f)
 		{
-			preparePen(pdfContentByte, line.getLinePen());
+			preparePen(pdfContentByte, line.getLinePen(), PdfContentByte.LINE_CAP_BUTT);
 
-			pdfContentByte.setLineCap(PdfContentByte.LINE_CAP_BUTT);
-			
 			if (line.getWidth() == 1)
 			{
 				if (line.getHeight() == 1)
@@ -704,14 +702,39 @@ public class JRPdfExporter extends JRAbstractExporter
 				else
 				{
 					//Vertical line
-					pdfContentByte.moveTo(
-						line.getX() + getOffsetX() + 0.5f,
-						jasperPrint.getPageHeight() - line.getY() - getOffsetY()
-						);
-					pdfContentByte.lineTo(
-						line.getX() + getOffsetX() + 0.5f,
-						jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight()
-						);
+					if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+					{
+						pdfContentByte.moveTo(
+							line.getX() + getOffsetX() + 0.5f - lineWidth / 3,
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY()
+							);
+						pdfContentByte.lineTo(
+							line.getX() + getOffsetX() + 0.5f - lineWidth / 3,
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight()
+							);
+
+						pdfContentByte.stroke();
+						
+						pdfContentByte.moveTo(
+							line.getX() + getOffsetX() + 0.5f + lineWidth / 3,
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY()
+							);
+						pdfContentByte.lineTo(
+							line.getX() + getOffsetX() + 0.5f + lineWidth / 3,
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight()
+							);
+					}
+					else
+					{
+						pdfContentByte.moveTo(
+							line.getX() + getOffsetX() + 0.5f,
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY()
+							);
+						pdfContentByte.lineTo(
+							line.getX() + getOffsetX() + 0.5f,
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight()
+							);
+					}
 				}
 			}
 			else
@@ -719,39 +742,120 @@ public class JRPdfExporter extends JRAbstractExporter
 				if (line.getHeight() == 1)
 				{
 					//Horizontal line
-					pdfContentByte.moveTo(
-						line.getX() + getOffsetX(),
-						jasperPrint.getPageHeight() - line.getY() - getOffsetY() - 0.5f
-						);
-					pdfContentByte.lineTo(
-						line.getX() + getOffsetX() + line.getWidth(),
-						jasperPrint.getPageHeight() - line.getY() - getOffsetY() - 0.5f
-						);
-				}
-				else
-				{
-					//Oblique line
-					if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+					if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 					{
 						pdfContentByte.moveTo(
 							line.getX() + getOffsetX(),
-							jasperPrint.getPageHeight() - line.getY() - getOffsetY()
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY() - 0.5f + lineWidth / 3
 							);
 						pdfContentByte.lineTo(
 							line.getX() + getOffsetX() + line.getWidth(),
-							jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight()
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY() - 0.5f + lineWidth / 3
+							);
+
+						pdfContentByte.stroke();
+						
+						pdfContentByte.moveTo(
+							line.getX() + getOffsetX(),
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY() - 0.5f - lineWidth / 3
+							);
+						pdfContentByte.lineTo(
+							line.getX() + getOffsetX() + line.getWidth(),
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY() - 0.5f - lineWidth / 3
 							);
 					}
 					else
 					{
 						pdfContentByte.moveTo(
 							line.getX() + getOffsetX(),
-							jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight()
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY() - 0.5f
 							);
 						pdfContentByte.lineTo(
 							line.getX() + getOffsetX() + line.getWidth(),
-							jasperPrint.getPageHeight() - line.getY() - getOffsetY()
+							jasperPrint.getPageHeight() - line.getY() - getOffsetY() - 0.5f
 							);
+					}
+				}
+				else
+				{
+					//Oblique line
+					if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+					{
+						if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+						{
+							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
+							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
+							
+							pdfContentByte.moveTo(
+								line.getX() + getOffsetX() + (float)xtrans,
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY() + (float)ytrans
+								);
+							pdfContentByte.lineTo(
+								line.getX() + getOffsetX() + line.getWidth() + (float)xtrans,
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight() + (float)ytrans
+								);
+
+							pdfContentByte.stroke();
+							
+							pdfContentByte.moveTo(
+								line.getX() + getOffsetX() - (float)xtrans,
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY() - (float)ytrans
+								);
+							pdfContentByte.lineTo(
+								line.getX() + getOffsetX() + line.getWidth() - (float)xtrans,
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight() - (float)ytrans
+								);
+						}
+						else
+						{
+							pdfContentByte.moveTo(
+								line.getX() + getOffsetX(),
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY()
+								);
+							pdfContentByte.lineTo(
+								line.getX() + getOffsetX() + line.getWidth(),
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight()
+								);
+						}
+					}
+					else
+					{
+						if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+						{
+							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
+							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
+							
+							pdfContentByte.moveTo(
+								line.getX() + getOffsetX() + (float)xtrans,
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight() - (float)ytrans
+								);
+							pdfContentByte.lineTo(
+								line.getX() + getOffsetX() + line.getWidth() + (float)xtrans,
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY() - (float)ytrans
+								);
+
+							pdfContentByte.stroke();
+
+							pdfContentByte.moveTo(
+								line.getX() + getOffsetX() - (float)xtrans,
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight() + (float)ytrans
+								);
+							pdfContentByte.lineTo(
+								line.getX() + getOffsetX() + line.getWidth() - (float)xtrans,
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY() + (float)ytrans
+								);
+						}
+						else
+						{
+							pdfContentByte.moveTo(
+								line.getX() + getOffsetX(),
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY() - line.getHeight()
+								);
+							pdfContentByte.lineTo(
+								line.getX() + getOffsetX() + line.getWidth(),
+								jasperPrint.getPageHeight() - line.getY() - getOffsetY()
+								);
+						}
 					}
 				}
 			}
@@ -775,8 +879,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			rectangle.getBackcolor().getBlue()
 			);
 
-		preparePen(pdfContentByte, rectangle.getLinePen());
+		preparePen(pdfContentByte, rectangle.getLinePen(), PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 
+		float lineWidth = rectangle.getLinePen().getLineWidth().floatValue();
+		
 		if (rectangle.getMode() == JRElement.MODE_OPAQUE)
 		{
 			pdfContentByte.roundRectangle(
@@ -787,9 +893,36 @@ public class JRPdfExporter extends JRAbstractExporter
 				rectangle.getRadius()
 				);
 
-			if (rectangle.getLinePen().getLineWidth().floatValue() > 0f)
+			if (lineWidth > 0f)
 			{
-				pdfContentByte.fillStroke();
+				if (rectangle.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+				{
+					pdfContentByte.fill();
+					
+					pdfContentByte.roundRectangle(
+						rectangle.getX() + getOffsetX() - lineWidth / 3,
+						jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight() - lineWidth / 3,
+						rectangle.getWidth() + 2 * lineWidth / 3,
+						rectangle.getHeight() + 2 * lineWidth / 3,
+						rectangle.getRadius()
+						);
+
+					pdfContentByte.stroke();
+					
+					pdfContentByte.roundRectangle(
+						rectangle.getX() + getOffsetX() + lineWidth / 3,
+						jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight() + lineWidth / 3,
+						rectangle.getWidth() - 2 * lineWidth / 3,
+						rectangle.getHeight() - 2 * lineWidth / 3,
+						rectangle.getRadius()
+						);
+					
+					pdfContentByte.stroke();
+				}
+				else
+				{
+					pdfContentByte.fillStroke();
+				}
 			}
 			else
 			{
@@ -798,17 +931,42 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			if (rectangle.getLinePen().getLineWidth().floatValue() > 0f)
+			if (lineWidth > 0f)
 			{
-				pdfContentByte.roundRectangle(
-					rectangle.getX() + getOffsetX(),
-					jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight(),
-					rectangle.getWidth(),
-					rectangle.getHeight(),
-					rectangle.getRadius()
-					);
+				if (rectangle.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+				{
+					pdfContentByte.roundRectangle(
+						rectangle.getX() + getOffsetX() - lineWidth / 3,
+						jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight() - lineWidth / 3,
+						rectangle.getWidth() + 2 * lineWidth / 3,
+						rectangle.getHeight() + 2 * lineWidth / 3,
+						rectangle.getRadius()
+						);
 
-				pdfContentByte.stroke();
+					pdfContentByte.stroke();
+					
+					pdfContentByte.roundRectangle(
+						rectangle.getX() + getOffsetX() + lineWidth / 3,
+						jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight() + lineWidth / 3,
+						rectangle.getWidth() - 2 * lineWidth / 3,
+						rectangle.getHeight() - 2 * lineWidth / 3,
+						rectangle.getRadius()
+						);
+					
+					pdfContentByte.stroke();
+				}
+				else
+				{
+					pdfContentByte.roundRectangle(
+						rectangle.getX() + getOffsetX(),
+						jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight(),
+						rectangle.getWidth(),
+						rectangle.getHeight(),
+						rectangle.getRadius()
+						);
+
+					pdfContentByte.stroke();
+				}
 			}
 		}
 
@@ -827,8 +985,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			ellipse.getBackcolor().getBlue()
 			);
 
-		preparePen(pdfContentByte, ellipse.getLinePen());
+		preparePen(pdfContentByte, ellipse.getLinePen(), PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 
+		float lineWidth = ellipse.getLinePen().getLineWidth().floatValue();
+		
 		if (ellipse.getMode() == JRElement.MODE_OPAQUE)
 		{
 			pdfContentByte.ellipse(
@@ -838,9 +998,34 @@ public class JRPdfExporter extends JRAbstractExporter
 				jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY()
 				);
 
-			if (ellipse.getLinePen().getLineWidth().floatValue() > 0f)
+			if (lineWidth > 0f)
 			{
-				pdfContentByte.fillStroke();
+				if (ellipse.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+				{
+					pdfContentByte.fill();
+
+					pdfContentByte.ellipse(
+						ellipse.getX() + getOffsetX() - lineWidth / 3,
+						jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight() - lineWidth / 3,
+						ellipse.getX() + getOffsetX() + ellipse.getWidth() + lineWidth / 3,
+						jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() + lineWidth / 3
+						);
+
+					pdfContentByte.stroke();
+
+					pdfContentByte.ellipse(
+						ellipse.getX() + getOffsetX() + lineWidth / 3,
+						jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight() + lineWidth / 3,
+						ellipse.getX() + getOffsetX() + ellipse.getWidth() - lineWidth / 3,
+						jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - lineWidth / 3
+						);
+
+					pdfContentByte.stroke();
+				}
+				else
+				{
+					pdfContentByte.fillStroke();
+				}
 			}
 			else
 			{
@@ -849,16 +1034,39 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			if (ellipse.getLinePen().getLineWidth().floatValue() > 0f)
+			if (lineWidth > 0f)
 			{
-				pdfContentByte.ellipse(
-					ellipse.getX() + getOffsetX(),
-					jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight(),
-					ellipse.getX() + getOffsetX() + ellipse.getWidth(),
-					jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY()
-					);
+				if (ellipse.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+				{
+					pdfContentByte.ellipse(
+						ellipse.getX() + getOffsetX() - lineWidth / 3,
+						jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight() - lineWidth / 3,
+						ellipse.getX() + getOffsetX() + ellipse.getWidth() + lineWidth / 3,
+						jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() + lineWidth / 3
+						);
 
-				pdfContentByte.stroke();
+					pdfContentByte.stroke();
+
+					pdfContentByte.ellipse(
+						ellipse.getX() + getOffsetX() + lineWidth / 3,
+						jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight() + lineWidth / 3,
+						ellipse.getX() + getOffsetX() + ellipse.getWidth() - lineWidth / 3,
+						jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - lineWidth / 3
+						);
+
+					pdfContentByte.stroke();
+				}
+				else
+				{
+					pdfContentByte.ellipse(
+						ellipse.getX() + getOffsetX(),
+						jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight(),
+						ellipse.getX() + getOffsetX() + ellipse.getWidth(),
+						jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY()
+						);
+
+					pdfContentByte.stroke();
+				}
 			}
 		}
 
@@ -1784,8 +1992,6 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void exportBox(JRLineBox box, JRPrintElement element)
 	{
-		pdfContentByte.setLineCap(PdfContentByte.LINE_CAP_BUTT);
-
 		exportTopPen(box.getTopPen(), box.getLeftPen(), box.getRightPen(), element);
 		exportLeftPen(box.getTopPen(), box.getLeftPen(), box.getBottomPen(), element);
 		exportBottomPen(box.getLeftPen(), box.getBottomPen(), box.getRightPen(), element);
@@ -1801,8 +2007,6 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void exportPen(JRPen pen, JRPrintElement element)
 	{
-		pdfContentByte.setLineCap(PdfContentByte.LINE_CAP_BUTT);
-
 		exportTopPen(pen, pen, pen, element);
 		exportLeftPen(pen, pen, pen, element);
 		exportBottomPen(pen, pen, pen, element);
@@ -1824,17 +2028,42 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (topPen.getLineWidth().floatValue() > 0f)
 		{
-			preparePen(pdfContentByte, topPen);
+			preparePen(pdfContentByte, topPen, PdfContentByte.LINE_CAP_BUTT);
 			
-			pdfContentByte.moveTo(
-				element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 2,
-				jasperPrint.getPageHeight() - element.getY() - getOffsetY()
-				);
-			pdfContentByte.lineTo(
-				element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 2,
-				jasperPrint.getPageHeight() - element.getY() - getOffsetY()
-				);
-			pdfContentByte.stroke();
+			if (topPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			{
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 2,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 3
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 2,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 3
+					);
+				pdfContentByte.stroke();
+
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX() + leftPen.getLineWidth().floatValue() / 6,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topPen.getLineWidth().floatValue() / 3
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX() + element.getWidth() - rightPen.getLineWidth().floatValue() / 6,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topPen.getLineWidth().floatValue() / 3
+					);
+				pdfContentByte.stroke();
+			}
+			else
+			{
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 2,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY()
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 2,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY()
+					);
+				pdfContentByte.stroke();
+			}
 		}
 	}
 
@@ -1846,17 +2075,42 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (leftPen.getLineWidth().floatValue() > 0f)
 		{
-			preparePen(pdfContentByte, leftPen);
+			preparePen(pdfContentByte, leftPen, PdfContentByte.LINE_CAP_BUTT);
 
-			pdfContentByte.moveTo(
-				element.getX() + getOffsetX(),
-				jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 2
-				);
-			pdfContentByte.lineTo(
-				element.getX() + getOffsetX(),
-				jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 2
-				);
-			pdfContentByte.stroke();
+			if (leftPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			{
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 2
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 2
+					);
+				pdfContentByte.stroke();
+
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX() + leftPen.getLineWidth().floatValue() / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topPen.getLineWidth().floatValue() / 6
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX() + leftPen.getLineWidth().floatValue() / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomPen.getLineWidth().floatValue() / 6
+					);
+				pdfContentByte.stroke();
+			}
+			else
+			{
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX(),
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 2
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX(),
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 2
+					);
+				pdfContentByte.stroke();
+			}
 		}
 	}
 
@@ -1868,17 +2122,42 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (bottomPen.getLineWidth().floatValue() > 0f)
 		{
-			preparePen(pdfContentByte, bottomPen);
+			preparePen(pdfContentByte, bottomPen, PdfContentByte.LINE_CAP_BUTT);
 			
-			pdfContentByte.moveTo(
-				element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 2,
-				jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight()
-				);
-			pdfContentByte.lineTo(
-				element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 2,
-				jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight()
-				);
-			pdfContentByte.stroke();
+			if (bottomPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			{
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 2,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 3
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 2,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 3
+					);
+				pdfContentByte.stroke();
+
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX() + leftPen.getLineWidth().floatValue() / 6,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomPen.getLineWidth().floatValue() / 3
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX() + element.getWidth() - rightPen.getLineWidth().floatValue() / 6,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomPen.getLineWidth().floatValue() / 3
+					);
+				pdfContentByte.stroke();
+			}
+			else
+			{
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 2,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight()
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 2,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight()
+					);
+				pdfContentByte.stroke();
+			}
 		}
 	}
 
@@ -1890,31 +2169,60 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (rightPen.getLineWidth().floatValue() > 0f)
 		{
-			preparePen(pdfContentByte, rightPen);
+			preparePen(pdfContentByte, rightPen, PdfContentByte.LINE_CAP_BUTT);
 
-			pdfContentByte.moveTo(
-				element.getX() + getOffsetX() + element.getWidth(),
-				jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 2
-				);
-			pdfContentByte.lineTo(
-				element.getX() + getOffsetX() + element.getWidth(),
-				jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 2
-				);
-			pdfContentByte.stroke();
+			if (rightPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			{
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 2
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 2
+					);
+				pdfContentByte.stroke();
+
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX() + element.getWidth() - rightPen.getLineWidth().floatValue() / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topPen.getLineWidth().floatValue() / 6
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX() + element.getWidth() - rightPen.getLineWidth().floatValue() / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomPen.getLineWidth().floatValue() / 6
+					);
+				pdfContentByte.stroke();
+			}
+			else
+			{
+				pdfContentByte.moveTo(
+					element.getX() + getOffsetX() + element.getWidth(),
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 2
+					);
+				pdfContentByte.lineTo(
+					element.getX() + getOffsetX() + element.getWidth(),
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 2
+					);
+				pdfContentByte.stroke();
+			}
 		}
-
-		pdfContentByte.setLineDash(0f);
 	}
 
 
 	/**
 	 *
 	 */
-	private static void preparePen(PdfContentByte pdfContentByte, JRPen pen)
+	private static void preparePen(PdfContentByte pdfContentByte, JRPen pen, int lineCap)
 	{
 		float lineWidth = pen.getLineWidth().floatValue();
 
+		if (lineWidth <= 0)
+		{
+			return;
+		}
+		
 		pdfContentByte.setLineWidth(lineWidth);
+		pdfContentByte.setLineCap(lineCap);
 
 		Color color = pen.getLineColor();
 		pdfContentByte.setRGBColorStroke(
@@ -1925,9 +2233,44 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		switch (pen.getLineStyle().byteValue())
 		{
+			case JRPen.LINE_STYLE_DOUBLE :
+			{
+				pdfContentByte.setLineWidth(lineWidth / 3);
+				pdfContentByte.setLineDash(0f);
+				break;
+			}
+			case JRPen.LINE_STYLE_DOTTED :
+			{
+				switch (lineCap)
+				{
+					case PdfContentByte.LINE_CAP_BUTT :
+					{
+						pdfContentByte.setLineDash(lineWidth, lineWidth, 0f);
+						break;
+					}
+					case PdfContentByte.LINE_CAP_PROJECTING_SQUARE :
+					{
+						pdfContentByte.setLineDash(0, 2 * lineWidth, 0f);
+						break;
+					}
+				}
+				break;
+			}
 			case JRPen.LINE_STYLE_DASHED :
 			{
-				pdfContentByte.setLineDash(5 * lineWidth, 3 * lineWidth, 0f);
+				switch (lineCap)
+				{
+					case PdfContentByte.LINE_CAP_BUTT :
+					{
+						pdfContentByte.setLineDash(5 * lineWidth, 3 * lineWidth, 0f);
+						break;
+					}
+					case PdfContentByte.LINE_CAP_PROJECTING_SQUARE :
+					{
+						pdfContentByte.setLineDash(4 * lineWidth, 4 * lineWidth, 0f);
+						break;
+					}
+				}
 				break;
 			}
 			case JRPen.LINE_STYLE_SOLID :

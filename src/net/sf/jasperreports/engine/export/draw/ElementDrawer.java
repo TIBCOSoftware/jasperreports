@@ -129,7 +129,7 @@ public abstract class ElementDrawer
 		int offsetY
 		)
 	{
-		Stroke topStroke = getBorderStroke(topPen);
+		Stroke topStroke = getStroke(topPen, BasicStroke.CAP_BUTT);
 
 		if (topStroke != null)
 		{
@@ -137,21 +137,62 @@ public abstract class ElementDrawer
 			grx.setColor(topPen.getLineColor());
 	
 			AffineTransform oldTx = grx.getTransform();
-			grx.translate(
-				element.getX() + offsetX - leftPen.getLineWidth().floatValue() / 2, 
-				element.getY() + offsetY
-				);
-			grx.scale(
-				(element.getWidth() + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2) 
-					/ element.getWidth(), 
-				1
-				);
-			grx.drawLine(
-				0, 
-				0, 
-				element.getWidth(),
-				0
-				);
+
+			if (topPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			{
+				grx.translate(
+					element.getX() + offsetX - leftPen.getLineWidth().floatValue() / 2, 
+					element.getY() + offsetY - topPen.getLineWidth().floatValue() / 3
+					);
+				grx.scale(
+					(element.getWidth() + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2) 
+						/ element.getWidth(), 
+					1
+					);
+				grx.drawLine(
+					0, 
+					0, 
+					element.getWidth(),
+					0
+					);
+
+				grx.setTransform(oldTx);
+
+				grx.translate(
+					element.getX() + offsetX + leftPen.getLineWidth().floatValue() / 6, 
+					element.getY() + offsetY + topPen.getLineWidth().floatValue() / 3
+					);
+				grx.scale(
+					(element.getWidth() - (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 6) 
+						/ element.getWidth(), 
+					1
+					);
+				grx.drawLine(
+					0, 
+					0, 
+					element.getWidth(),
+					0
+					);
+			}
+			else
+			{
+				grx.translate(
+					element.getX() + offsetX - leftPen.getLineWidth().floatValue() / 2, 
+					element.getY() + offsetY
+					);
+				grx.scale(
+					(element.getWidth() + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2) 
+						/ element.getWidth(), 
+					1
+					);
+				grx.drawLine(
+					0, 
+					0, 
+					element.getWidth(),
+					0
+					);
+			}
+			
 			grx.setTransform(oldTx);
 		}
 	}
@@ -170,7 +211,7 @@ public abstract class ElementDrawer
 		int offsetY
 		)
 	{
-		Stroke leftStroke = getBorderStroke(leftPen);
+		Stroke leftStroke = getStroke(leftPen, BasicStroke.CAP_BUTT);
 
 		if (leftStroke != null)
 		{
@@ -178,21 +219,62 @@ public abstract class ElementDrawer
 			grx.setColor(leftPen.getLineColor());
 	
 			AffineTransform oldTx = grx.getTransform();
-			grx.translate(
-				element.getX() + offsetX, 
-				element.getY() + offsetY - topPen.getLineWidth().floatValue() / 2
-				);
-			grx.scale(
-				1,
-				(element.getHeight() + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2) 
-					/ element.getHeight() //FIXMEBORDER this might be zero
-				);
-			grx.drawLine(
-				0, 
-				0, 
-				0,
-				element.getHeight()
-				);
+
+			if (leftPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			{
+				grx.translate(
+					element.getX() + offsetX - leftPen.getLineWidth().floatValue() / 3, 
+					element.getY() + offsetY - topPen.getLineWidth().floatValue() / 2
+					);
+				grx.scale(
+					1,
+					(element.getHeight() + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2) 
+						/ element.getHeight() //FIXMEBORDER this might be zero
+					);
+				grx.drawLine(
+					0, 
+					0, 
+					0,
+					element.getHeight()
+					);
+
+				grx.setTransform(oldTx);
+
+				grx.translate(
+					element.getX() + offsetX + leftPen.getLineWidth().floatValue() / 3, 
+					element.getY() + offsetY + topPen.getLineWidth().floatValue() / 6
+					);
+				grx.scale(
+					1,
+					(element.getHeight() - (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 6) 
+						/ element.getHeight()
+					);
+				grx.drawLine(
+					0, 
+					0, 
+					0,
+					element.getHeight()
+					);
+			}
+			else
+			{
+				grx.translate(
+					element.getX() + offsetX, 
+					element.getY() + offsetY - topPen.getLineWidth().floatValue() / 2
+					);
+				grx.scale(
+					1,
+					(element.getHeight() + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2) 
+						/ element.getHeight()
+					);
+				grx.drawLine(
+					0, 
+					0, 
+					0,
+					element.getHeight()
+					);
+			}
+
 			grx.setTransform(oldTx);
 		}
 	}
@@ -211,7 +293,7 @@ public abstract class ElementDrawer
 		int offsetY
 		)
 	{
-		Stroke bottomStroke = getBorderStroke(bottomPen);
+		Stroke bottomStroke = getStroke(bottomPen, BasicStroke.CAP_BUTT);
 
 		if (bottomStroke != null)
 		{
@@ -219,21 +301,62 @@ public abstract class ElementDrawer
 			grx.setColor(bottomPen.getLineColor());
 	
 			AffineTransform oldTx = grx.getTransform();
-			grx.translate(
-				element.getX() + offsetX - leftPen.getLineWidth().floatValue() / 2, 
-				element.getY() + offsetY + element.getHeight()
-				);
-			grx.scale(
-				(element.getWidth() + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2) 
-					/ element.getWidth(), 
-				1
-				);
-			grx.drawLine(
-				0, 
-				0,
-				element.getWidth(),
-				0
-				);
+
+			if (bottomPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			{
+				grx.translate(
+					element.getX() + offsetX - leftPen.getLineWidth().floatValue() / 2, 
+					element.getY() + offsetY + element.getHeight() + bottomPen.getLineWidth().floatValue() / 3
+					);
+				grx.scale(
+					(element.getWidth() + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2) 
+						/ element.getWidth(), 
+					1
+					);
+				grx.drawLine(
+					0, 
+					0,
+					element.getWidth(),
+					0
+					);
+
+				grx.setTransform(oldTx);
+
+				grx.translate(
+					element.getX() + offsetX + leftPen.getLineWidth().floatValue() / 6, 
+					element.getY() + offsetY + element.getHeight() - bottomPen.getLineWidth().floatValue() / 3
+					);
+				grx.scale(
+					(element.getWidth() - (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 6) 
+						/ element.getWidth(), 
+					1
+					);
+				grx.drawLine(
+					0, 
+					0,
+					element.getWidth(),
+					0
+					);
+			}
+			else
+			{
+				grx.translate(
+					element.getX() + offsetX - leftPen.getLineWidth().floatValue() / 2, 
+					element.getY() + offsetY + element.getHeight()
+					);
+				grx.scale(
+					(element.getWidth() + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2) 
+						/ element.getWidth(), 
+					1
+					);
+				grx.drawLine(
+					0, 
+					0,
+					element.getWidth(),
+					0
+					);
+			}
+
 			grx.setTransform(oldTx);
 		}
 	}
@@ -252,7 +375,7 @@ public abstract class ElementDrawer
 		int offsetY
 		)
 	{
-		Stroke rightStroke = getBorderStroke(rightPen);
+		Stroke rightStroke = getStroke(rightPen, BasicStroke.CAP_BUTT);
 
 		if (rightStroke != null)
 		{
@@ -260,21 +383,62 @@ public abstract class ElementDrawer
 			grx.setColor(rightPen.getLineColor());
 	
 			AffineTransform oldTx = grx.getTransform();
-			grx.translate(
-				element.getX() + offsetX + element.getWidth(), 
-				element.getY() + offsetY - topPen.getLineWidth().floatValue() / 2
-				);
-			grx.scale(
-				1,
-				(element.getHeight() + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2) 
-					/ element.getHeight() 
-				);
-			grx.drawLine(
-				0,
-				0,
-				0,
-				element.getHeight()
-				);
+
+			if (rightPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			{
+				grx.translate(
+					element.getX() + offsetX + element.getWidth() + rightPen.getLineWidth().floatValue() / 3, 
+					element.getY() + offsetY - topPen.getLineWidth().floatValue() / 2
+					);
+				grx.scale(
+					1,
+					(element.getHeight() + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2) 
+						/ element.getHeight() 
+					);
+				grx.drawLine(
+					0,
+					0,
+					0,
+					element.getHeight()
+					);
+
+				grx.setTransform(oldTx);
+
+				grx.translate(
+					element.getX() + offsetX + element.getWidth() - rightPen.getLineWidth().floatValue() / 3, 
+					element.getY() + offsetY + topPen.getLineWidth().floatValue() / 6
+					);
+				grx.scale(
+					1,
+					(element.getHeight() - (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 6) 
+						/ element.getHeight() 
+					);
+				grx.drawLine(
+					0,
+					0,
+					0,
+					element.getHeight()
+					);
+			}
+			else
+			{
+				grx.translate(
+					element.getX() + offsetX + element.getWidth(), 
+					element.getY() + offsetY - topPen.getLineWidth().floatValue() / 2
+					);
+				grx.scale(
+					1,
+					(element.getHeight() + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2) 
+						/ element.getHeight() 
+					);
+				grx.drawLine(
+					0,
+					0,
+					0,
+					element.getHeight()
+					);
+			}
+
 			grx.setTransform(oldTx);
 		}
 	}
@@ -283,7 +447,7 @@ public abstract class ElementDrawer
 	/**
 	 * 
 	 */
-	protected static Stroke getStroke(JRPen pen)
+	protected static Stroke getStroke(JRPen pen, int lineCap)
 	{
 		float lineWidth = pen.getLineWidth().floatValue();
 		
@@ -293,17 +457,74 @@ public abstract class ElementDrawer
 			
 			switch (lineStyle)
 			{
+				case JRPen.LINE_STYLE_DOUBLE :
+				{
+					return 
+						new BasicStroke(
+							lineWidth / 3,
+							lineCap,
+							BasicStroke.JOIN_MITER
+							);
+				}
+				case JRPen.LINE_STYLE_DOTTED :
+				{
+					switch (lineCap)
+					{
+						case BasicStroke.CAP_SQUARE :
+						{
+							return
+								new BasicStroke(
+									lineWidth,
+									lineCap,
+									BasicStroke.JOIN_MITER,
+									10f,
+									new float[]{0, 2 * lineWidth},
+									0f
+									);
+						}
+						case BasicStroke.CAP_BUTT :
+						{
+							return
+								new BasicStroke(
+									lineWidth,
+									lineCap,
+									BasicStroke.JOIN_MITER,
+									10f,
+									new float[]{lineWidth, lineWidth},
+									0f
+									);
+						}
+					}
+				}
 				case JRPen.LINE_STYLE_DASHED :
 				{
-					return
-						new BasicStroke(
-							lineWidth,
-							BasicStroke.CAP_SQUARE,
-							BasicStroke.JOIN_MITER,
-							10f,
-							new float[]{5 * lineWidth, 3 * lineWidth},
-							0f
-							);
+					switch (lineCap)
+					{
+						case BasicStroke.CAP_SQUARE :
+						{
+							return
+								new BasicStroke(
+									lineWidth,
+									lineCap,
+									BasicStroke.JOIN_MITER,
+									10f,
+									new float[]{4 * lineWidth, 4 * lineWidth},
+									0f
+									);
+						}
+						case BasicStroke.CAP_BUTT :
+						{
+							return
+								new BasicStroke(
+									lineWidth,
+									lineCap,
+									BasicStroke.JOIN_MITER,
+									10f,
+									new float[]{5 * lineWidth, 3 * lineWidth},
+									0f
+									);
+						}
+					}
 				}
 				case JRPen.LINE_STYLE_SOLID :
 				default :
@@ -311,7 +532,7 @@ public abstract class ElementDrawer
 					return 
 						new BasicStroke(
 							lineWidth,
-							BasicStroke.CAP_SQUARE,
+							lineCap,
 							BasicStroke.JOIN_MITER
 							);
 				}
@@ -322,44 +543,4 @@ public abstract class ElementDrawer
 	}
 
 	
-	/**
-	 * 
-	 */
-	protected static Stroke getBorderStroke(JRPen pen)
-	{
-		float lineWidth = pen.getLineWidth().floatValue();
-		
-		if (lineWidth > 0f)
-		{
-			switch (pen.getLineStyle().byteValue())
-			{
-				case JRPen.LINE_STYLE_DASHED :
-				{
-					return
-						new BasicStroke(
-							lineWidth,
-							BasicStroke.CAP_BUTT,
-							BasicStroke.JOIN_MITER,
-							10f,
-							new float[]{5 * lineWidth, 3 * lineWidth},
-							0f
-							);
-				}
-				case JRPen.LINE_STYLE_SOLID :
-				default :
-				{
-					return
-						new BasicStroke(
-							lineWidth,
-							BasicStroke.CAP_BUTT,
-							BasicStroke.JOIN_MITER
-							);
-				}
-			}
-		}
-		
-		return null;
-	}
-
-
 }

@@ -550,9 +550,23 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
 		}
 
-		if (pen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DASHED)
+		switch (pen.getLineStyle().byteValue())
 		{
-			writer.write("{\\sp{\\sn lineDashing}{\\sv 6}}");
+			case JRPen.LINE_STYLE_DOUBLE :
+			{
+				writer.write("{\\sp{\\sn lineStyle}{\\sv 1}}");
+				break;
+			}
+			case JRPen.LINE_STYLE_DOTTED :
+			{
+				writer.write("{\\sp{\\sn lineDashing}{\\sv 2}}");
+				break;
+			}
+			case JRPen.LINE_STYLE_DASHED :
+			{
+				writer.write("{\\sp{\\sn lineDashing}{\\sv 1}}");
+				break;
+			}
 		}
 
 		writer.write("{\\sp{\\sn lineWidth}{\\sv ");

@@ -439,6 +439,8 @@ public class JRXmlConstants
 	 */
 	private static final String LINE_STYLE_SOLID = "Solid";
 	private static final String LINE_STYLE_DASHED = "Dashed";
+	private static final String LINE_STYLE_DOTTED = "Dotted";
+	private static final String lINE_STYLE_DOUBLE = "Double";
 
 	private static Map lineStyleMap = null;
 
@@ -449,8 +451,12 @@ public class JRXmlConstants
 			lineStyleMap = new HashMap(4);
 			lineStyleMap.put(LINE_STYLE_SOLID,  new Byte(JRPen.LINE_STYLE_SOLID));
 			lineStyleMap.put(LINE_STYLE_DASHED, new Byte(JRPen.LINE_STYLE_DASHED));
+			lineStyleMap.put(LINE_STYLE_DOTTED, new Byte(JRPen.LINE_STYLE_DOTTED));
+			lineStyleMap.put(lINE_STYLE_DOUBLE, new Byte(JRPen.LINE_STYLE_DOUBLE));
 			lineStyleMap.put(new Byte(JRPen.LINE_STYLE_SOLID),  LINE_STYLE_SOLID);
 			lineStyleMap.put(new Byte(JRPen.LINE_STYLE_DASHED), LINE_STYLE_DASHED);
+			lineStyleMap.put(new Byte(JRPen.LINE_STYLE_DOTTED), LINE_STYLE_DOTTED);
+			lineStyleMap.put(new Byte(JRPen.LINE_STYLE_DOUBLE), lINE_STYLE_DOUBLE);
 		}
 
 		return lineStyleMap;
