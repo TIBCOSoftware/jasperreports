@@ -62,4 +62,4 @@ by running "ant -p" from the command prompt inside the sample directory.
 
 JasperSoft Corporation now offers support, services and training 
 for JasperReports and you can learn more about all these here:
-http://www.jaspersoft.com/support_options.php
+http://www.jaspersoft.com/ss_overview.html
