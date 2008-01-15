@@ -31,6 +31,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 
 /**
@@ -374,4 +377,87 @@ public class JRResourcesUtil
 		
 		return url;
 	}
+
+	/**
+	 * Loads a resource bundle for a given base name and locale.
+	 * 
+	 * <p>
+	 * This methods calls {@link #loadResourceBundle(String, Locale, ClassLoader)} with a null classloader.
+	 * </p>
+	 * 
+	 * @param baseName the base name
+	 * @param locale the locale
+	 * @return the resource bundle for the given base name and locale
+	 */
+	public static ResourceBundle loadResourceBundle(String baseName, Locale locale)
+	{
+		return loadResourceBundle(baseName, locale, null);
+	}
+	
+	/**
+	 * Loads a resource bundle for a given base name and locale.
+	 * 
+	 * <p>
+	 * The method attempts to load the resource bundle using the following classloaders
+	 * (and stops at the first successful attempt):
+	 * <ul>
+	 * 	<li>the class loader returned by {@link #getClassLoader(ClassLoader) <code>getClassLoader(classLoader)</code>}</li>
+	 * 	<li>the context class loader</li>
+	 * 	<li><code>JRClassLoader.class.getClassLoader()</code></li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @param baseName the base name
+	 * @param locale the locale
+	 * @param classLoader 
+	 * @return the resource bundle for the given base name and locale
+	 * @see ResourceBundle#getBundle(String, Locale, ClassLoader)
+	 */
+	public static ResourceBundle loadResourceBundle(String baseName, Locale locale, ClassLoader classLoader)
+	{
+		ResourceBundle resourceBundle = null;
+		
+		classLoader = getClassLoader(classLoader);
+		if (classLoader != null)
+		{
+			try
+			{
+				resourceBundle = ResourceBundle.getBundle(baseName, locale, classLoader);
+			}
+			catch (MissingResourceException e)
+			{
+			}
+		}
+		
+		if (resourceBundle == null)
+		{
+			classLoader = Thread.currentThread().getContextClassLoader();
+			if (classLoader != null)
+			{
+				try
+				{
+					resourceBundle = ResourceBundle.getBundle(baseName, locale, classLoader);
+				}
+				catch (MissingResourceException e)
+				{
+				}
+			}
+		}
+
+		if (resourceBundle == null)
+		{
+			classLoader = JRClassLoader.class.getClassLoader();
+			if (classLoader == null)
+			{
+				resourceBundle = ResourceBundle.getBundle(baseName, locale);
+			}
+			else
+			{
+				resourceBundle = ResourceBundle.getBundle(baseName, locale, classLoader);
+			}
+		}
+
+		return resourceBundle;
+	}
+	
 }

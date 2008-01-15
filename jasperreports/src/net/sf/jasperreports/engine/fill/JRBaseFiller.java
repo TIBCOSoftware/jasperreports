@@ -838,11 +838,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		boolean classLoaderSet = false;
 		try
 		{
-			/*   */
-			setParameters(parameterValues);
-
 			classLoaderSet = setClassLoader(parameterValues);
 			urlHandlerFactorySet = setUrlHandlerFactory(parameterValues);
+
+			setParameters(parameterValues);
 
 			loadStyles();
 
