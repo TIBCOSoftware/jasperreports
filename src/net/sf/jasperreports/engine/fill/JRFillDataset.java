@@ -34,7 +34,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
@@ -62,6 +61,7 @@ import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
+import net.sf.jasperreports.engine.util.JRResourcesUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -517,43 +517,16 @@ public class JRFillDataset implements JRDataset
 	 */
 	protected ResourceBundle loadResourceBundle()
 	{
-		ResourceBundle tmpResourceBundle = null;
-
-		if (resourceBundleBaseName != null)
+		ResourceBundle loadedBundle;
+		if (resourceBundleBaseName == null)
 		{
-			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-			if (classLoader != null)
-			{
-				try
-				{
-					tmpResourceBundle = ResourceBundle.getBundle(resourceBundleBaseName, locale, classLoader);
-				}
-				catch (MissingResourceException e)
-				{
-					// if (log.isWarnEnabled())
-					// log.warn("Failure using
-					// Thread.currentThread().getContextClassLoader() in
-					// JRClassLoader class. Using
-					// JRClassLoader.class.getClassLoader() instead.");
-				}
-			}
-
-			if (tmpResourceBundle == null)
-			{
-				classLoader = JRClassLoader.class.getClassLoader();
-
-				if (classLoader == null)
-				{
-					tmpResourceBundle = ResourceBundle.getBundle(resourceBundleBaseName, locale);
-				}
-				else
-				{
-					tmpResourceBundle = ResourceBundle.getBundle(resourceBundleBaseName, locale, classLoader);
-				}
-			}
+			loadedBundle = null;
 		}
-
-		return tmpResourceBundle;
+		else
+		{
+			loadedBundle = JRResourcesUtil.loadResourceBundle(resourceBundleBaseName, locale);
+		}
+		return loadedBundle;
 	}
 
 
