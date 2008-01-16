@@ -735,7 +735,7 @@ public class JRGridLayout
 	}
 	
 	
-    /**
+	/**
 	 * This static method calculates all the X cuts for a list of pages.
 	 * 
 	 * @param pages

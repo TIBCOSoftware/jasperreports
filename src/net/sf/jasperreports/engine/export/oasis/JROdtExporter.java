@@ -137,10 +137,10 @@ public class JROdtExporter extends JRAbstractExporter
 	protected Map imageMaps;
 	protected List imagesToProcess = null;
 
-    protected int reportIndex = 0;
-    protected int pageIndex = 0;
-    protected int tableIndex = 0;
-    protected boolean startPage;
+	protected int reportIndex = 0;
+	protected int pageIndex = 0;
+	protected int tableIndex = 0;
+	protected boolean startPage;
 
 	/**
 	 *
@@ -422,7 +422,7 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-        startPage = true;
+		startPage = true;
 		JRGridLayout layout = 
 			new JRGridLayout(
 				nature,
@@ -599,10 +599,10 @@ public class JROdtExporter extends JRAbstractExporter
 			y2 = Utility.translatePixelsToInches(0); 
 		}
 		
-        tempBodyWriter.write("<text:p>");
-        insertPageAnchor();
+		tempBodyWriter.write("<text:p>");
+		insertPageAnchor();
 		tempBodyWriter.write(
-                "<draw:line text:anchor-type=\"paragraph\" " 
+				"<draw:line text:anchor-type=\"paragraph\" " 
 				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" " 
 				+ "svg:x1=\"" + x1 + "in\" " 
 				+ "svg:y1=\"" + y1 + "in\" " 
@@ -632,10 +632,10 @@ public class JROdtExporter extends JRAbstractExporter
 	protected void exportEllipse(TableBuilder tableBuilder, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
 	{
 		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
-        tempBodyWriter.write("<text:p>");
-        insertPageAnchor();
+		tempBodyWriter.write("<text:p>");
+		insertPageAnchor();
 		tempBodyWriter.write(
-            "<draw:ellipse text:anchor-type=\"paragraph\" " 
+			"<draw:ellipse text:anchor-type=\"paragraph\" " 
 			+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" " 
 			+ "svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\" " 
 			+ "svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\" " 
@@ -682,28 +682,28 @@ public class JROdtExporter extends JRAbstractExporter
 //		}
 //
 //		writer.write(">");
-        tempBodyWriter.write("<text:p text:style-name=\"");
-        tempBodyWriter.write(styleCache.getParagraphStyle(text));
-        tempBodyWriter.write("\">");
-        insertPageAnchor();
-        if (text.getAnchorName() != null)
-        {
-            tempBodyWriter.write("<text:bookmark text:name=\"");
-            tempBodyWriter.write(text.getAnchorName());
-            tempBodyWriter.write("\"/>");
-        }
+		tempBodyWriter.write("<text:p text:style-name=\"");
+		tempBodyWriter.write(styleCache.getParagraphStyle(text));
+		tempBodyWriter.write("\">");
+		insertPageAnchor();
+		if (text.getAnchorName() != null)
+		{
+			tempBodyWriter.write("<text:bookmark text:name=\"");
+			tempBodyWriter.write(text.getAnchorName());
+			tempBodyWriter.write("\"/>");
+		}
 
-        boolean startedHyperlink = startHyperlink(text, true);
+		boolean startedHyperlink = startHyperlink(text, true);
 		
 		if (textLength > 0) 
 		{
 			exportStyledText(styledText);
 		}
 		
-        if (startedHyperlink)
-        {
-            endHyperlink(true);
-        }
+		if (startedHyperlink)
+		{
+			endHyperlink(true);
+		}
 
 		tempBodyWriter.write("</text:p>\n");		
 
@@ -760,10 +760,10 @@ public class JROdtExporter extends JRAbstractExporter
 		int bottomPadding = image.getLineBox().getBottomPadding().intValue();
 		int rightPadding = image.getLineBox().getRightPadding().intValue();
 
-        int availableImageWidth = image.getWidth() - leftPadding - rightPadding - (int)getAdjustment(image.getLeftBorder())- (int)getAdjustment(image.getRightBorder());
+		int availableImageWidth = image.getWidth() - leftPadding - rightPadding - (int)getAdjustment(image.getLeftBorder())- (int)getAdjustment(image.getRightBorder());
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
 
-        int availableImageHeight = image.getHeight() - topPadding - bottomPadding - (int)getAdjustment(image.getTopBorder())- (int)getAdjustment(image.getBottomBorder());
+		int availableImageHeight = image.getHeight() - topPadding - bottomPadding - (int)getAdjustment(image.getTopBorder())- (int)getAdjustment(image.getBottomBorder());
 		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
 
 		int width = availableImageWidth;
@@ -852,19 +852,19 @@ public class JROdtExporter extends JRAbstractExporter
 				}
 			}
 
-            tempBodyWriter.write("<text:p>"); 
-            insertPageAnchor();
-            if (image.getAnchorName() != null)
-            {
-                tempBodyWriter.write("<text:bookmark text:name=\"");
-                tempBodyWriter.write(image.getAnchorName());
-                tempBodyWriter.write("\"/>");
-            }
-                    
-            
-            boolean startedHyperlink = startHyperlink(image,false);
-                    
-            tempBodyWriter.write("<draw:frame text:anchor-type=\"paragraph\" " 
+			tempBodyWriter.write("<text:p>"); 
+			insertPageAnchor();
+			if (image.getAnchorName() != null)
+			{
+				tempBodyWriter.write("<text:bookmark text:name=\"");
+				tempBodyWriter.write(image.getAnchorName());
+				tempBodyWriter.write("\"/>");
+			}
+					
+			
+			boolean startedHyperlink = startHyperlink(image,false);
+					
+			tempBodyWriter.write("<draw:frame text:anchor-type=\"paragraph\" " 
 					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" " 
 					+ "svg:x=\"" + Utility.translatePixelsToInches(leftPadding + xoffset) + "in\" " 
 					+ "svg:y=\"" + Utility.translatePixelsToInches(topPadding + yoffset) + "in\" " 
@@ -877,13 +877,13 @@ public class JROdtExporter extends JRAbstractExporter
 			tempBodyWriter.write(" xlink:show=\"embed\"");
 			tempBodyWriter.write(" xlink:actuate=\"onLoad\"");
 			tempBodyWriter.write("/>\n");
-        
-            tempBodyWriter.write("</draw:frame>");
-            if(startedHyperlink)
-            {
-                endHyperlink(false);
-            }
-            tempBodyWriter.write("</text:p>");
+		
+			tempBodyWriter.write("</draw:frame>");
+			if(startedHyperlink)
+			{
+				endHyperlink(false);
+			}
+			tempBodyWriter.write("</text:p>");
 		}
 		
 		tableBuilder.buildCellFooter();
@@ -1143,188 +1143,188 @@ public class JROdtExporter extends JRAbstractExporter
 		return yalignFactor;
 	}
 
-    protected boolean startHyperlink(JRPrintHyperlink link, boolean isText) throws IOException
-    {
-        String href = getHyperlinkURL(link);
+	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText) throws IOException
+	{
+		String href = getHyperlinkURL(link);
 
-        if (href != null)
-        {
-            if(isText)
-            {
-                tempBodyWriter.write("<text:a xlink:href=\"");
-            }
-            else
-            {
-                tempBodyWriter.write("<draw:a xlink:type=\"simple\" xlink:href=\"");
-            }
-            tempBodyWriter.write(href);
-            tempBodyWriter.write("\"");
+		if (href != null)
+		{
+			if(isText)
+			{
+				tempBodyWriter.write("<text:a xlink:href=\"");
+			}
+			else
+			{
+				tempBodyWriter.write("<draw:a xlink:type=\"simple\" xlink:href=\"");
+			}
+			tempBodyWriter.write(href);
+			tempBodyWriter.write("\"");
 
-            
-            String target = getHyperlinkTarget(link);
-            if (target != null)
-            {
-                tempBodyWriter.write(" office:target-frame-name=\"");
-                tempBodyWriter.write(target);
-                tempBodyWriter.write("\"");
-                if(target.equals("_blank"))
-                {
-                    tempBodyWriter.write(" xlink:show=\"new\"");
-                }
-            }
+			
+			String target = getHyperlinkTarget(link);
+			if (target != null)
+			{
+				tempBodyWriter.write(" office:target-frame-name=\"");
+				tempBodyWriter.write(target);
+				tempBodyWriter.write("\"");
+				if(target.equals("_blank"))
+				{
+					tempBodyWriter.write(" xlink:show=\"new\"");
+				}
+			}
 /*
  * tooltips are unavailable for the moment
  * 
-            if (link.getHyperlinkTooltip() != null)
-            {
-                tempBodyWriter.write(" xlink:title=\"");
-                tempBodyWriter.write(JRStringUtil.xmlEncode(link.getHyperlinkTooltip()));
-                tempBodyWriter.write("\"");
-            }
+			if (link.getHyperlinkTooltip() != null)
+			{
+				tempBodyWriter.write(" xlink:title=\"");
+				tempBodyWriter.write(JRStringUtil.xmlEncode(link.getHyperlinkTooltip()));
+				tempBodyWriter.write("\"");
+			}
 */            
-            tempBodyWriter.write(">");
-        }
-        
-        return href != null;
-    }
+			tempBodyWriter.write(">");
+		}
+		
+		return href != null;
+	}
 
 
-    protected String getHyperlinkTarget(JRPrintHyperlink link)
-    {
-        String target = null;
-        switch(link.getHyperlinkTarget())
-        {
-            case JRHyperlink.HYPERLINK_TARGET_SELF :
-            {
-                target = "_self";
-                break;
-            }
-            case JRHyperlink.HYPERLINK_TARGET_BLANK :
-            default :
-            {
-                target = "_blank";
-                break;
-            }
-        }
-        return target;
-    }
-    
+	protected String getHyperlinkTarget(JRPrintHyperlink link)
+	{
+		String target = null;
+		switch(link.getHyperlinkTarget())
+		{
+			case JRHyperlink.HYPERLINK_TARGET_SELF :
+			{
+				target = "_self";
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TARGET_BLANK :
+			default :
+			{
+				target = "_blank";
+				break;
+			}
+		}
+		return target;
+	}
+	
 
-    protected String getHyperlinkURL(JRPrintHyperlink link)
-    {
-        String href = null;
-        JRHyperlinkProducer customHandler = getCustomHandler(link);     
-        if (customHandler == null)
-        {
-            switch(link.getHyperlinkType())
-            {
-                case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
-                {
-                    if (link.getHyperlinkReference() != null)
-                    {
-                        href = link.getHyperlinkReference();
-                    }
-                    break;
-                }
-                case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
-                {
-                    if (link.getHyperlinkAnchor() != null)
-                    {
-                        href = "#" + link.getHyperlinkAnchor();
-                    }
-                    break;
-                }
-                case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
-                {
-                    if (link.getHyperlinkPage() != null)
-                    {
-                        href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
-                    }
-                    break;
-                }
-                case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
-                {
-                    if (
-                        link.getHyperlinkReference() != null &&
-                        link.getHyperlinkAnchor() != null
-                        )
-                    {
-                        href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
-                    }
-                    break;
-                }
-                case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
-                {
-                    if (
-                        link.getHyperlinkReference() != null &&
-                        link.getHyperlinkPage() != null
-                        )
-                    {
-                        href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
-                    }
-                    break;
-                }
-                case JRHyperlink.HYPERLINK_TYPE_NONE :
-                default :
-                {
-                    break;
-                }
-            }
-        }
-        else
-        {
-            href = customHandler.getHyperlink(link);
-        }
-        
-        return href;
-    }
-
-
-    protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
-    {
-        return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
-    }
+	protected String getHyperlinkURL(JRPrintHyperlink link)
+	{
+		String href = null;
+		JRHyperlinkProducer customHandler = getCustomHandler(link);     
+		if (customHandler == null)
+		{
+			switch(link.getHyperlinkType())
+			{
+				case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+				{
+					if (link.getHyperlinkReference() != null)
+					{
+						href = link.getHyperlinkReference();
+					}
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+				{
+					if (link.getHyperlinkAnchor() != null)
+					{
+						href = "#" + link.getHyperlinkAnchor();
+					}
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+				{
+					if (link.getHyperlinkPage() != null)
+					{
+						href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+					}
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+				{
+					if (
+						link.getHyperlinkReference() != null &&
+						link.getHyperlinkAnchor() != null
+						)
+					{
+						href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+					}
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+				{
+					if (
+						link.getHyperlinkReference() != null &&
+						link.getHyperlinkPage() != null
+						)
+					{
+						href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
+					}
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TYPE_NONE :
+				default :
+				{
+					break;
+				}
+			}
+		}
+		else
+		{
+			href = customHandler.getHyperlink(link);
+		}
+		
+		return href;
+	}
 
 
-    protected void endHyperlink(boolean isText) throws IOException
-    {
-        if(isText)
-            tempBodyWriter.write("</text:a>");
-        else
-            tempBodyWriter.write("</draw:a>");
-    }
+	protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
+	{
+		return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
+	}
 
-    protected void insertPageAnchor() throws IOException
-    {
-        if(startPage)
-        {
-            tempBodyWriter.write("<text:bookmark text:name=\"");
-            tempBodyWriter.write(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
-            tempBodyWriter.write("\"/>\n");
-            startPage = false;
-        }
-    }
-    
-    /**
-     * Get border adjustment for graphic elements depending on pen width used
-     * @param pen
-     */
-    protected float getAdjustment(byte pen)
-    {
-        switch (pen)
-        {
-            case JRGraphicElement.PEN_2_POINT:
-                return 2;
-            case JRGraphicElement.PEN_4_POINT:
-                return 4;
-            case JRGraphicElement.PEN_DOTTED:
-                return 1;
-            case JRGraphicElement.PEN_THIN:
-            case JRGraphicElement.PEN_NONE:
-            default:
-                return 0;
-        }
-    }
+
+	protected void endHyperlink(boolean isText) throws IOException
+	{
+		if(isText)
+			tempBodyWriter.write("</text:a>");
+		else
+			tempBodyWriter.write("</draw:a>");
+	}
+
+	protected void insertPageAnchor() throws IOException
+	{
+		if(startPage)
+		{
+			tempBodyWriter.write("<text:bookmark text:name=\"");
+			tempBodyWriter.write(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
+			tempBodyWriter.write("\"/>\n");
+			startPage = false;
+		}
+	}
+	
+	/**
+	 * Get border adjustment for graphic elements depending on pen width used
+	 * @param pen
+	 */
+	protected float getAdjustment(byte pen)
+	{
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_2_POINT:
+				return 2;
+			case JRGraphicElement.PEN_4_POINT:
+				return 4;
+			case JRGraphicElement.PEN_DOTTED:
+				return 1;
+			case JRGraphicElement.PEN_THIN:
+			case JRGraphicElement.PEN_NONE:
+			default:
+				return 0;
+		}
+	}
 
 }
 

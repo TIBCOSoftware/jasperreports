@@ -51,8 +51,8 @@ public class GraphicStyle extends Style
 	private String forecolor = null;
 	private String style = null;
 	private String width = null;
-    private String hAlign = null;
-    private String vAlign = null;
+	private String hAlign = null;
+	private String vAlign = null;
 	
 	
 	/**
@@ -99,61 +99,61 @@ public class GraphicStyle extends Style
 		}
 
 		width = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(doubleWidth));
-        byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;   
-        byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP; 
-                
-        if(element instanceof JRPrintImage)
-        {
-            JRPrintImage imageElement = (JRPrintImage)element;
-            horizontalAlignment = imageElement.getHorizontalAlignment();
-            verticalAlignment = imageElement.getVerticalAlignment();
-        }
+		byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;   
+		byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP; 
+				
+		if(element instanceof JRPrintImage)
+		{
+			JRPrintImage imageElement = (JRPrintImage)element;
+			horizontalAlignment = imageElement.getHorizontalAlignment();
+			verticalAlignment = imageElement.getVerticalAlignment();
+		}
 		
-        switch(horizontalAlignment)
-        {
-            case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
-            {
-                hAlign = "right";
-                break;
-            }
-            case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED:
-            {
-                hAlign = "justified";
-                break;
-            }
-            case JRAlignment.HORIZONTAL_ALIGN_CENTER:
-            {
-                hAlign = "center";
-                break;
-            }
-            case JRAlignment.HORIZONTAL_ALIGN_LEFT:
-            default:
-            {
-                hAlign = "left";
-                break;
-            }
-        }
-        
-        switch(verticalAlignment)
-        {
-            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-            {
-                vAlign = "bottom";
-                break;
-            }
-            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-            {
-                vAlign = "middle";
-                break;
-            }
-            case JRAlignment.VERTICAL_ALIGN_TOP:
-            default:
-            {
-                vAlign = "top";
-                break;
-            }
-            
-        }
+		switch(horizontalAlignment)
+		{
+			case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
+			{
+				hAlign = "right";
+				break;
+			}
+			case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED:
+			{
+				hAlign = "justified";
+				break;
+			}
+			case JRAlignment.HORIZONTAL_ALIGN_CENTER:
+			{
+				hAlign = "center";
+				break;
+			}
+			case JRAlignment.HORIZONTAL_ALIGN_LEFT:
+			default:
+			{
+				hAlign = "left";
+				break;
+			}
+		}
+		
+		switch(verticalAlignment)
+		{
+			case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+			{
+				vAlign = "bottom";
+				break;
+			}
+			case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+			{
+				vAlign = "middle";
+				break;
+			}
+			case JRAlignment.VERTICAL_ALIGN_TOP:
+			default:
+			{
+				vAlign = "top";
+				break;
+			}
+			
+		}
 	}
 	
 	/**
@@ -168,12 +168,12 @@ public class GraphicStyle extends Style
 		id.append(forecolor);
 		id.append("|");
 		id.append(style);
-        id.append("|");
-        id.append(width);
-        id.append("|");
-        id.append(hAlign);
-        id.append("|");
-        id.append(vAlign);
+		id.append("|");
+		id.append(width);
+		id.append("|");
+		id.append(hAlign);
+		id.append("|");
+		id.append(vAlign);
 		return id.toString();
 	}
 
@@ -186,8 +186,8 @@ public class GraphicStyle extends Style
 		styleWriter.write(" style:family=\"graphic\" style:parent-style-name=\"Graphics\">\n");
 		styleWriter.write("   <style:graphic-properties");		
 		styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
-        styleWriter.write(" style:horizontal-pos=\""+hAlign+ "\" style:horizontal-rel=\"paragraph\"");
-        styleWriter.write(" style:vertical-pos=\""+vAlign+ "\" style:vertical-rel=\"paragraph\"");
+		styleWriter.write(" style:horizontal-pos=\""+hAlign+ "\" style:horizontal-rel=\"paragraph\"");
+		styleWriter.write(" style:vertical-pos=\""+vAlign+ "\" style:vertical-rel=\"paragraph\"");
 		styleWriter.write(" svg:stroke-color=\"#" + forecolor + "\"");
 		styleWriter.write(" draw:stroke=\"" + style + "\"");//FIXMENOW dashed borders do not work; only dashed lines and ellipses seem to work
 		styleWriter.write(" draw:stroke-dash=\"Dashed\"");

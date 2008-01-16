@@ -43,68 +43,68 @@ import net.sf.jasperreports.engine.JRPrintText;
  */
 public class JRXlsExporterNature implements ExporterNature
 {
-    
-    private ExporterFilter filter = null;
-    private boolean isIgnoreGraphics = false;
+	
+	private ExporterFilter filter = null;
+	private boolean isIgnoreGraphics = false;
 
-    /**
-     * 
-     */
-    protected JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
-    {
-        this.filter = filter;
-        this.isIgnoreGraphics = isIgnoreGraphics;
-    }
-    
-    /**
-     * 
-     */
-    public boolean isToExport(JRPrintElement element)
-    {
-        return 
-            (!isIgnoreGraphics || (element instanceof JRPrintText) || (element instanceof JRPrintFrame))
-            && (filter == null || filter.isToExport(element));
-            
-    }
-    
-    /**
-     * 
-     */
-    public boolean isDeep()
-    {
-        return true;
-    }
-    
-    /**
-     * 
-     */
-    public boolean isSplitSharedRowSpan()
-    {
-        return false;
-    }
+	/**
+	 * 
+	 */
+	protected JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
+	{
+		this.filter = filter;
+		this.isIgnoreGraphics = isIgnoreGraphics;
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean isToExport(JRPrintElement element)
+	{
+		return 
+			(!isIgnoreGraphics || (element instanceof JRPrintText) || (element instanceof JRPrintFrame))
+			&& (filter == null || filter.isToExport(element));
+			
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean isDeep()
+	{
+		return true;
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean isSplitSharedRowSpan()
+	{
+		return false;
+	}
 
-    /**
-     * 
-     */
-    public boolean isSpanCells()
-    {
-        return true;
-    }
-    
-    /**
-     * 
-     */
-    public boolean isIgnoreLastRow()
-    {
-        return false;
-    }
+	/**
+	 * 
+	 */
+	public boolean isSpanCells()
+	{
+		return true;
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean isIgnoreLastRow()
+	{
+		return false;
+	}
 
-    /**
-     * 
-     */
-    public boolean isHorizontallyMergeEmptyCells()
-    {
-        return false;
-    }
-        
+	/**
+	 * 
+	 */
+	public boolean isHorizontallyMergeEmptyCells()
+	{
+		return false;
+	}
+		
 }
