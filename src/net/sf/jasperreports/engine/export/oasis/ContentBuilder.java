@@ -142,6 +142,7 @@ public class ContentBuilder
 		writer.write(" </office:automatic-styles>\n");
 		
 		writer.write("<office:body><office:text>\n");
+        writer.write("<office:forms form:automatic-focus=\"false\" form:apply-design-mode=\"false\"/>\n");
 		writer.flush();
 		bodyEntry.writeData(contentEntry.getOutputStream());
 		writer.write("</office:text></office:body>\n");
@@ -150,6 +151,7 @@ public class ContentBuilder
 		
 		writer.flush();
 		writer.close();
+		
 	}
 
 }

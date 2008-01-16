@@ -56,6 +56,14 @@ public class ParagraphStyle extends Style
 	private static final String VERTICAL_ALIGN_MIDDLE = "middle";
 	private static final String VERTICAL_ALIGN_BOTTOM = "bottom";
 
+    /**
+    *
+    */
+   protected static final String ROTATION_ALIGN_NONE = "none";
+   protected static final String ROTATION_ALIGN_TOP = "top";
+   protected static final String ROTATION_ALIGN_CENTER = "center";
+   protected static final String ROTATION_ALIGN_BOTTOM = "bottom";
+
 	private String verticalAlignment = null;
 	private String horizontalAlignment = null;
 	private String runDirection = null;
@@ -68,37 +76,72 @@ public class ParagraphStyle extends Style
 	{
 		super(styleWriter);
 		
+        switch(text.getRotation())
+        {
+            case JRTextElement.ROTATION_LEFT:
+                textRotation = "90";
+                break;
+            case JRTextElement.ROTATION_RIGHT:
+                textRotation = "270";
+                break;
+            default:
+                textRotation = "0";
+                
+        }
+
+        horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
 		verticalAlignment = VERTICAL_ALIGN_TOP;
+        
 		switch (text.getVerticalAlignment())
 		{
 			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
 			{
-				verticalAlignment = VERTICAL_ALIGN_BOTTOM;
+				if("270".equals(textRotation))
+				    horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
+				else if("90".equals(textRotation))
+				    horizontalAlignment = HORIZONTAL_ALIGN_RIGHT;
+				else
+					verticalAlignment = VERTICAL_ALIGN_BOTTOM;
 				break;
 			}
 			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
 			{
-				verticalAlignment = VERTICAL_ALIGN_MIDDLE;
+                if("270".equals(textRotation) || "90".equals(textRotation))
+                    horizontalAlignment = HORIZONTAL_ALIGN_CENTER;
+                else
+                	verticalAlignment = VERTICAL_ALIGN_MIDDLE;
 				break;
 			}
 			case JRAlignment.VERTICAL_ALIGN_TOP :
 			default :
 			{
-				verticalAlignment = VERTICAL_ALIGN_TOP;
+                if("270".equals(textRotation))
+                    horizontalAlignment = HORIZONTAL_ALIGN_RIGHT;
+                else if("90".equals(textRotation))
+                    horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
+                else
+                	verticalAlignment = VERTICAL_ALIGN_TOP;
 			}
 		}
 
-		horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
 		switch (text.getHorizontalAlignment())
 		{
 			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
 			{
-				horizontalAlignment = HORIZONTAL_ALIGN_RIGHT;
+                if("270".equals(textRotation))
+                    verticalAlignment = VERTICAL_ALIGN_BOTTOM;
+                else if("90".equals(textRotation))
+                    verticalAlignment = VERTICAL_ALIGN_TOP;
+                else
+                	horizontalAlignment = HORIZONTAL_ALIGN_RIGHT;
 				break;
 			}
 			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
 			{
-				horizontalAlignment = HORIZONTAL_ALIGN_CENTER;
+                if("270".equals(textRotation) || "90".equals(textRotation))
+                    verticalAlignment = VERTICAL_ALIGN_MIDDLE;
+                else
+                	horizontalAlignment = HORIZONTAL_ALIGN_CENTER;
 				break;
 			}
 			case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
@@ -109,6 +152,11 @@ public class ParagraphStyle extends Style
 			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
 			default :
 			{
+                if("270".equals(textRotation))
+                    verticalAlignment = VERTICAL_ALIGN_TOP;
+                else if("90".equals(textRotation))
+                    verticalAlignment = VERTICAL_ALIGN_BOTTOM;
+                else
 				horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
 			}
 		}
@@ -149,6 +197,7 @@ public class ParagraphStyle extends Style
 //		styleWriter.write(" fo:line-height=\"" + pLineHeight + "\"");
 //		styleWriter.write(" style:line-spacing=\"" + pLineSpacing + "\"");
 		styleWriter.write(" fo:text-align=\"" + horizontalAlignment + "\"");
+
 //		styleWriter.write(" fo:keep-together=\"" + pKeepTogether + "\"");
 //		styleWriter.write(" fo:margin-left=\"" + pMarginLeft + "\"");
 //		styleWriter.write(" fo:margin-right=\"" + pMarginRight + "\"");
@@ -166,6 +215,13 @@ public class ParagraphStyle extends Style
 		styleWriter.write(" style:text-rotation-angle=\"" + textRotation + "\"");
 		styleWriter.write("> \r\n");
 		styleWriter.write("</style:text-properties>\n");
+        
+//        styleWriter.write("<style:properties");
+//        styleWriter.write(" style:rotation-align=\"" + rotationAlignment + "\"");
+//        styleWriter.write("> \r\n");
+//        styleWriter.write("</style:properties>\n");
+//        
+
 		styleWriter.write("</style:style>\n");
 	}
 
