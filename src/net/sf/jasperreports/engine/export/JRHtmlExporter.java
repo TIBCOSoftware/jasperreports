@@ -1523,10 +1523,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 		boolean imageMapRenderer = renderer != null && renderer instanceof JRImageMapRenderer;
 
 		boolean startedHyperlink = false;
+		boolean hasHyperlinks = false;
 
 		if(renderer != null || isUsingImagesToAlign)
 		{
-			startedHyperlink = !imageMapRenderer && startHyperlink(image);
+			if (imageMapRenderer)
+			{
+				hasHyperlinks = true;
+			}
+			else
+			{
+				hasHyperlinks = startedHyperlink = startHyperlink(image);
+			}
+			
 			writer.write("<img");
 			String imagePath = null;
 			String imageMapName = null;
@@ -1682,14 +1691,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 			
 			writer.write(" alt=\"\"");
 			
+			if (hasHyperlinks)
+			{
+				writer.write(" border=\"0\"");
+			}
+			writer.write("/>");
 			if (startedHyperlink)
 			{
-				writer.write(" border=\"0\"/>");
 				endHyperlink();
-			}
-			else
-			{
-				writer.write("/>");
 			}
 			
 			if (imageMapAreas != null)
