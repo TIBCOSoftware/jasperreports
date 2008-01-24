@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
 /**
@@ -55,8 +56,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		{
 			super(filler, staticText, factory);
 			
-			//setRawText(JRStringUtil.treatNewLineChars(staticText.getText()));
-			String text = staticText.getText();
+			String text = JRStringUtil.replaceCRwithLF(staticText.getText());
 			if (text == null)
 			{
 				text = "";
@@ -69,8 +69,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	{
 		super(staticText, factory);
 
-		// setRawText(JRStringUtil.treatNewLineChars(staticText.getText()));
-		String text = staticText.getText();
+		String text = JRStringUtil.replaceCRwithLF(staticText.getText());
 		if (text == null)
 		{
 			text = "";
