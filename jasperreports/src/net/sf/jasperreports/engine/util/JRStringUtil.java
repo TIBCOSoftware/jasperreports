@@ -54,11 +54,13 @@ public class JRStringUtil
 			int length = text.length();
 			char[] chars = text.toCharArray();
 			int r = 0;
+			boolean dirty = false;
 			for (int i = 0; i < length; ++i)
 			{
 				char ch = chars[i];
 				if (ch == '\r')
 				{
+					dirty = true;
 					if (i + 1 < length && chars[i + 1] == '\n')
 					{
 						r++;
@@ -74,7 +76,7 @@ public class JRStringUtil
 				}
 			}
 
-			return r > 0 ? new String(chars, 0, length - r) : text;
+			return dirty ? new String(chars, 0, length - r) : text;
 		}
 		return null;
 	}
