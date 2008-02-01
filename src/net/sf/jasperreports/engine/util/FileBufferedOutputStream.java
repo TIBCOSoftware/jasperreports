@@ -53,7 +53,7 @@ public class FileBufferedOutputStream extends OutputStream
 	private static final Log log = LogFactory.getLog(FileBufferedOutputStream.class);
 	
 	/**
-	 * Property specifying the ResultSet fetch size.
+	 * Specifies the maximum in-memory buffer length that triggers the creation of a temporary file on disk to store further content sent to this output stream.  
 	 */
 	public static final String PROPERTY_MEMORY_THRESHOLD = JRProperties.PROPERTY_PREFIX + "file.buffer.os.memory.threshold";
 	//public static final int DEFAULT_MEMORY_THRESHOLD = 1 << 18;

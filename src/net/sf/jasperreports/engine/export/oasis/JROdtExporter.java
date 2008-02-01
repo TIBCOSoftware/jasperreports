@@ -201,14 +201,10 @@ public class JROdtExporter extends JRAbstractExporter
 			}
 	
 			encoding = 
-				getStringParameter(
+				getStringParameterOrDefault(
 					JRExporterParameter.CHARACTER_ENCODING, 
 					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
 					);
-			encoding = 
-				encoding == null 
-				? JRProperties.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING) 
-				: encoding;
 	
 			rendererToImagePathMap = new HashMap();
 			imageMaps = new HashMap();
