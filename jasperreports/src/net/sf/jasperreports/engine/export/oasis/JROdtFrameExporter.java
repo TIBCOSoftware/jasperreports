@@ -161,11 +161,11 @@ public class JROdtFrameExporter extends JRAbstractExporter
 				setPageRange();
 			}
 	
-			encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
-			if (encoding == null)
-			{
-				encoding = "UTF-8";
-			}
+			encoding = 
+				getStringParameterOrDefault(
+					JRExporterParameter.CHARACTER_ENCODING, 
+					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
+					);
 	
 			rendererToImagePathMap = new HashMap();
 			imageMaps = new HashMap();
