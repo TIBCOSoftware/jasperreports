@@ -162,6 +162,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected String sizeUnit = null;
 	protected boolean isUsingImagesToAlign;
 	protected boolean isWrapBreakWord;
+    protected boolean isIgnorePageMargins;
+    protected boolean cutTopMargin;
+    protected boolean cutLeftMargin;
+    protected boolean cutBottomMargin;
+    protected boolean cutRightMargin;
 
 	/**
 	 *
@@ -335,8 +340,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 						}
 					};
 			}
-	
-	
+			
+			isIgnorePageMargins = 
+                getBooleanParameter(
+                    JRExporterParameter.IGNORE_PAGE_MARGINS,
+                    JRExporterParameter.PROPERTY_IGNORE_PAGE_MARGINS,
+                    false
+                    );
+			
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 						
 			setHyperlinkProducerFactory();
@@ -708,7 +719,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		JRGridLayout layout = 
+	    JRGridLayout layout = 
 			new JRGridLayout(
 				nature,
 				page.getElements(),
@@ -733,9 +744,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportGrid(JRGridLayout gridLayout, boolean whitePageBackground) throws IOException, JRException
 	{
-		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
+        Map emptyMargins = getEmptyMargins(grid);
+        int emptyRowsAbove = ((Integer)emptyMargins.get("emptyRowsAbove")).intValue();
+        int emptyRowsBelow = ((Integer)emptyMargins.get("emptyRowsBelow")).intValue();
+        int emptyColsLeft = ((Integer)emptyMargins.get("emptyColsLeft")).intValue();
+        int emptyColsRight = ((Integer)emptyMargins.get("emptyColsRight")).intValue();
+		
 		writer.write("<table style=\"width: " + gridLayout.getWidth() + sizeUnit + "\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"");
 		if (whitePageBackground)
 		{
@@ -748,16 +764,22 @@ public class JRHtmlExporter extends JRAbstractExporter
 			setBackcolor(Color.white);
 		}
 
-		writer.write("<tr>\n");
 		int width = 0;
-		for(int i = 1; i < xCuts.size(); i++)
-		{
-			width = xCuts.getCut(i) - xCuts.getCut(i - 1);
-			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI, width, 1, sizeUnit) + "</td>\n");
-		}
-		writer.write("</tr>\n");
+		CutsInfo xCuts = gridLayout.getXCuts();
+		
+        if(!isIgnorePageMargins)
+        {
+            writer.write("<tr>\n");
 
-		for(int y = 0; y < grid.length; y++)
+            for(int i = 1; i < xCuts.size(); i++)
+    		{
+    			width = xCuts.getCut(i) - xCuts.getCut(i - 1);
+    			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI, width, 1, sizeUnit) + "</td>\n");
+    		}
+    		writer.write("</tr>\n");
+        }
+
+        for(int y = emptyRowsAbove; y < grid.length - emptyRowsBelow; y++)
 		{
 			if (gridLayout.getYCuts().isCutSpanned(y) || !isRemoveEmptySpace)
 			{
@@ -774,15 +796,28 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 				writer.write(">\n");
 
-				for(int x = 0; x < gridRow.length; x++)
+				for(int x = emptyColsLeft; x < gridRow.length - emptyColsRight; x++)
 				{
 					JRExporterGridCell gridCell = gridRow[x];
-					if(gridCell.getWrapper() == null)
+					if(gridCell.isEmpty())
 					{
+					    if(isIgnorePageMargins)
+					    {
+                            if(x == emptyColsLeft && emptyColsLeft > 0 && gridRow[0].getColSpan() > emptyColsLeft)
+                            {
+                                gridCell.setColSpan(gridRow[0].getColSpan()- emptyColsLeft);
+                            }
+                            if(x + gridCell.getColSpan() == gridRow.length && emptyColsRight > 0 && gridCell.getColSpan() > 1)
+                            {
+                                gridCell.setColSpan(Math.max(gridCell.getColSpan()- emptyColsRight, 1));
+                            }
+                            
+					    }
 						writeEmptyCell(gridCell, rowHeight);						
 					}
 					else
 					{
+                        
 						JRPrintElement element = gridCell.getWrapper().getElement();
 
 						if (element instanceof JRPrintLine)
@@ -2010,6 +2045,86 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		backcolor = (Color) backcolorStack.removeLast();
 	}
-
+    
+    protected Map getEmptyMargins(JRExporterGridCell[][] grid)
+    {
+        int emptyRowsAbove = 0;
+        int emptyRowsBelow = 0;
+        int emptyColsLeft = isIgnorePageMargins ? Integer.MAX_VALUE : 0;
+        int emptyColsRight = isIgnorePageMargins ? Integer.MAX_VALUE : 0;
+        
+        if(isIgnorePageMargins)
+        {
+            int gridLength = grid.length;
+            int tempColsLeft;
+            int tempColsRight;
+            boolean stopCountLeft;
+            boolean isEmptyRowAbove = true;
+            boolean isEmptyRowBelow = true;
+            
+            for(int y = 0; y < gridLength; y++)
+            {
+                JRExporterGridCell[] gridRowAbove = grid[y];
+                JRExporterGridCell[] gridRowBelow = grid[gridLength-1-y];
+                tempColsLeft = 0;
+                tempColsRight = 0;
+                stopCountLeft = false;
+                
+                for(int x = 0; x < gridRowAbove.length; x++)
+                {
+                    JRExporterGridCell gridCellAbove = gridRowAbove[x];
+                    JRExporterGridCell gridCellBelow = gridRowBelow[x];
+                    if(gridCellAbove.isEmpty())
+                    {
+                        if(!stopCountLeft)
+                        {
+                            tempColsLeft ++;
+                        }
+                        
+                        tempColsRight ++;
+                    }
+                    else
+                    {
+                        isEmptyRowAbove = false;
+                        stopCountLeft = true;
+                        tempColsRight = 0;
+                    }
+                    if(!gridCellBelow.isEmpty())
+                    {
+                        isEmptyRowBelow = false;
+                    }
+                }
+                
+                emptyColsLeft = tempColsLeft < emptyColsLeft ? tempColsLeft : emptyColsLeft;
+                emptyColsRight = tempColsRight < emptyColsRight ? tempColsRight : emptyColsRight;
+                if(isEmptyRowAbove)
+                {
+                    emptyRowsAbove ++;
+                }
+                if(isEmptyRowBelow)
+                {
+                    emptyRowsBelow ++;
+                }
+            }
+        }
+        //empty pages shouldn't be ignored
+        if(emptyRowsAbove == grid.length)
+        {
+            emptyRowsAbove = 0;
+            emptyRowsBelow = 0;
+            emptyColsLeft = 0;
+            emptyColsRight = 0;
+            
+        }
+            
+        Map emptyMargins = new HashMap();
+        emptyMargins.put("emptyRowsAbove", new Integer(emptyRowsAbove));
+        emptyMargins.put("emptyRowsBelow", new Integer(emptyRowsBelow));
+        emptyMargins.put("emptyColsLeft", new Integer(emptyColsLeft));
+        emptyMargins.put("emptyColsRight", new Integer(emptyColsRight));
+        
+        return emptyMargins;
+    }
+	
 }
 
