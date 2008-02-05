@@ -37,19 +37,16 @@
 		</groupExpression>
 		<groupHeader>
 			<band height="20">
-				<rectangle>
-					<reportElement x="0" y="4" width="515" height="15" forecolor="#C0C0C0" backcolor="#C0C0C0"/>
-				</rectangle>
 				<textField>
-					<reportElement x="0" y="4" width="515" height="15" backcolor="#C0C0C0" mode="Opaque" style="Arial_Bold"/>
+					<reportElement x="0" y="4" width="515" height="16" backcolor="#C0C0C0" mode="Opaque" style="Arial_Bold"/>
+					<box>
+						<bottomPen lineWidth="1"/>
+					</box>
 					<textElement textAlignment="Left"/>
 					<textFieldExpression class="java.lang.String">
 						"  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{City})
 					</textFieldExpression>
 				</textField>
-				<line>
-					<reportElement x="0" y="19" width="515" height="0"/>
-				</line>
 			</band>
 		</groupHeader>
 		<groupFooter>
@@ -96,9 +93,6 @@
 	</title>
 	<pageHeader>
 		<band height="20">
-			<rectangle>
-				<reportElement x="0" y="5" width="515" height="15" forecolor="#333333" backcolor="#333333"/>
-			</rectangle>
 			<staticText>
 				<reportElement x="0" y="5" width="55" height="15" forecolor="white" backcolor="#333333" mode="Opaque" style="Arial_Bold"/>
 				<textElement textAlignment="Center"/>

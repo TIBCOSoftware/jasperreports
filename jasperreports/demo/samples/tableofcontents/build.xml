@@ -152,7 +152,7 @@
 
 	<target name="viewDesignXML1" description="Launches the design viewer to preview the master XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="${file.name}.jrxml"/>
+			<arg value="${basedir}/reports/TableOfContentsReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -166,7 +166,7 @@
 
 	<target name="viewDesignXML2" description="Launches the design viewer to preview the headings XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="HeadingsReport.jrxml"/>
+			<arg value="${basedir}/reports/HeadingsReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

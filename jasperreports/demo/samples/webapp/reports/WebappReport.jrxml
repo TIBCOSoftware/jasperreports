@@ -27,19 +27,14 @@
 		<groupExpression><![CDATA[$F{City}]]></groupExpression>
 		<groupHeader>
 		<band height="20">
-			<rectangle>
-				<reportElement x="0" y="4" width="515" height="15" forecolor="#c0c0c0" backcolor="#c0c0c0"/>
-				<graphicElement/>
-			</rectangle>
 			<textField>
-				<reportElement x="0" y="4" width="515" height="15" style="Arial_Bold"/>
+				<reportElement x="0" y="4" width="515" height="15" style="Arial_Bold" backcolor="#c0c0c0" mode="Opaque"/>
+				<box>
+					<bottomPen lineWidth="1"/>
+				</box>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{City})]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement x="0" y="19" width="515" height="1"/>
-				<graphicElement/>
-			</line>
 		</band>
 		</groupHeader>
 		<groupFooter>
@@ -86,10 +81,6 @@
 	</title>
 	<pageHeader>
 		<band height="20">
-			<rectangle>
-				<reportElement x="0" y="5" width="515" height="15" forecolor="#333333" backcolor="#333333"/>
-				<graphicElement/>
-			</rectangle>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="5" width="55" height="15" style="pageHeader"/>
 				<textElement textAlignment="Center"/>

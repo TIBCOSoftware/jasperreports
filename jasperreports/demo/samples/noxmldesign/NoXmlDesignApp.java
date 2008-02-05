@@ -510,7 +510,7 @@ public class NoXmlDesignApp
 		//Page header
 		band = new JRDesignBand();
 		band.setHeight(20);
-		rectangle = new JRDesignRectangle();
+		rectangle = new JRDesignRectangle();//FIXME use frames
 		rectangle.setX(0);
 		rectangle.setY(5);
 		rectangle.setWidth(515);

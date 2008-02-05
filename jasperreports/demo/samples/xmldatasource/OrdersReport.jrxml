@@ -24,29 +24,28 @@
 	</variable>
 	<pageHeader>
 		<band height="14">
-			<rectangle>
-				<reportElement x="0" y="2" width="356" height="10" forecolor="#ccffff" backcolor="#ccffff"/>
-				<graphicElement/>
-			</rectangle>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="2" width="48" height="10" backcolor="#ccffff" style="Arial_Bold"/>
-				<textElement textAlignment="Right"/>
-				<text><![CDATA[ID]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="54" y="2" width="87" height="10" backcolor="#ccffff" style="Arial_Bold"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[Order Date]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="146" y="2" width="108" height="10" backcolor="#ccffff" style="Arial_Bold"/>
-				<text><![CDATA[Ship City]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="259" y="2" width="92" height="10" backcolor="#ccffff" style="Arial_Bold"/>
-				<textElement textAlignment="Right"/>
-				<text><![CDATA[Freight]]></text>
-			</staticText>
+			<frame>
+				<reportElement x="0" y="2" width="356" height="10" forecolor="#ccffff" backcolor="#ccffff" mode="Opaque"/>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="48" height="10" backcolor="#ccffff" style="Arial_Bold"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[ID]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="54" y="0" width="87" height="10" backcolor="#ccffff" style="Arial_Bold"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Order Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="146" y="0" width="108" height="10" backcolor="#ccffff" style="Arial_Bold"/>
+					<text><![CDATA[Ship City]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="259" y="0" width="92" height="10" backcolor="#ccffff" style="Arial_Bold"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Freight]]></text>
+				</staticText>
+			</frame>
 		</band>
 	</pageHeader>
 	<detail>
@@ -75,27 +74,24 @@
 	</detail>
 	<summary>
 		<band height="14">
-			<rectangle>
-				<reportElement x="0" y="2" width="356" height="10" forecolor="#33cccc" backcolor="#33cccc"/>
-				<graphicElement>
-					<pen lineWidth="0.5"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement mode="Opaque" x="160" y="2" width="67" height="10" backcolor="#33cccc" style="Arial_Bold"/>
-				<textElement textAlignment="Right"/>
-				<text><![CDATA[Total :]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="259" y="2" width="92" height="10" backcolor="#33cccc" style="Arial_Bold"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$V{TotalFreight}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="227" y="2" width="27" height="10" backcolor="#33cccc" style="Arial_Bold"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
-			</textField>
+			<frame>
+				<reportElement x="0" y="2" width="356" height="10" forecolor="#33cccc" backcolor="#33cccc" mode="Opaque"/>
+				<staticText>
+					<reportElement mode="Opaque" x="160" y="0" width="67" height="10" backcolor="#33cccc" style="Arial_Bold"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Total :]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="259" y="0" width="92" height="10" backcolor="#33cccc" style="Arial_Bold"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Float"><![CDATA[$V{TotalFreight}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement mode="Opaque" x="227" y="0" width="27" height="10" backcolor="#33cccc" style="Arial_Bold"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+			</frame>
 		</band>
 	</summary>
 </jasperReport>

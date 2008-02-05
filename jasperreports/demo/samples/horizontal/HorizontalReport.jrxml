@@ -222,10 +222,6 @@
 	</pageHeader>
 	<columnHeader>
 		<band height="11">
-			<rectangle>
-				<reportElement x="0" y="0" width="175" height="11" backcolor="#333333"/>
-				<graphicElement/>
-			</rectangle>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="175" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
 				<text><![CDATA[Orders]]></text>
