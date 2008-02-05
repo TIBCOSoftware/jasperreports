@@ -928,9 +928,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			Pattern mode = this.backgroundMode;
 			Colour background = WHITE;
 
-			if(element.getMode() == JRElement.MODE_OPAQUE )
+			if (gridCell.getCellBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
+				background = getWorkbookColour(gridCell.getCellBackcolor());
+			}
+
+			if(element.getMode() == JRElement.MODE_OPAQUE )
+			{
 				background = getWorkbookColour(element.getBackcolor());
 			}
 
