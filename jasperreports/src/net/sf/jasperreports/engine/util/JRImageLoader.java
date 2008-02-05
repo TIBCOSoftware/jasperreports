@@ -36,6 +36,7 @@ import java.net.URLStreamHandlerFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -45,6 +46,18 @@ import net.sf.jasperreports.engine.JRRenderable;
 public class JRImageLoader
 {
 
+
+	/**
+	 * Configuration property specifying the name of the class implementing the {@link JRImageReader} interface
+	 * to be used by the engine. If not set, the engine will try to an image reader implementation that corresponds to the JVM version.
+	 */
+	public static final String PROPERTY_IMAGE_READER = JRProperties.PROPERTY_PREFIX + "image.reader";
+
+	/**
+	 * Configuration property specifying the name of the class implementing the {@link JRImageEncoder} interface
+	 * to be used by the engine. If not set, the engine will try to an image encoder implementation that corresponds to the JVM version.
+	 */
+	public static final String PROPERTY_IMAGE_ENCODER = JRProperties.PROPERTY_PREFIX + "image.encoder";
 
 	/**
 	 *
@@ -72,28 +85,61 @@ public class JRImageLoader
 
 	static
 	{
-		try 
+		String readerClassName = JRProperties.getProperty(PROPERTY_IMAGE_READER);
+		if (readerClassName == null)
 		{
-			JRClassLoader.loadClassForRealName("javax.imageio.ImageIO");
+			try 
+			{
+				JRClassLoader.loadClassForRealName("javax.imageio.ImageIO");
 
-			Class clazz = JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.util.JRJdk14ImageReader");	
-			imageReader = (JRImageReader) clazz.newInstance();
+				Class clazz = JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.util.JRJdk14ImageReader");	
+				imageReader = (JRImageReader) clazz.newInstance();
+			}
+			catch (Exception e)
+			{
+				imageReader = new JRJdk13ImageReader();
+			}
 		}
-		catch (Exception e)
+		else
 		{
-			imageReader = new JRJdk13ImageReader();
+			try 
+			{
+				Class clazz = JRClassLoader.loadClassForRealName(readerClassName);	
+				imageReader = (JRImageReader) clazz.newInstance();
+			}
+			catch (Exception e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
 
-		try 
-		{
-			JRClassLoader.loadClassForRealName("javax.imageio.ImageIO");
 
-			Class clazz = JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.util.JRJdk14ImageEncoder");	
-			imageEncoder = (JRImageEncoder) clazz.newInstance();
-		}
-		catch (Exception e)
+		String encoderClassName = JRProperties.getProperty(PROPERTY_IMAGE_ENCODER);
+		if (encoderClassName == null)
 		{
-			imageEncoder = new JRDefaultImageEncoder();
+			try 
+			{
+				JRClassLoader.loadClassForRealName("javax.imageio.ImageIO");
+
+				Class clazz = JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.util.JRJdk14ImageEncoder");	
+				imageEncoder = (JRImageEncoder) clazz.newInstance();
+			}
+			catch (Exception e)
+			{
+				imageEncoder = new JRDefaultImageEncoder();
+			}
+		}
+		else
+		{
+			try 
+			{
+				Class clazz = JRClassLoader.loadClassForRealName(encoderClassName);	
+				imageEncoder = (JRImageEncoder) clazz.newInstance();
+			}
+			catch (Exception e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
 	}
 
