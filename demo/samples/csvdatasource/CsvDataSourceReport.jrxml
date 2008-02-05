@@ -85,10 +85,6 @@
 	</title>
 	<pageHeader>
 		<band height="20">
-			<rectangle>
-				<reportElement x="0" y="5" width="515" height="15" forecolor="#333333" backcolor="#333333"/>
-				<graphicElement/>
-			</rectangle>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="5" width="55" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
 				<textElement textAlignment="Center"/>

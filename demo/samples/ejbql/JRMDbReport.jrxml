@@ -81,10 +81,6 @@
 	</title>
 	<pageHeader>
 		<band height="20">
-			<rectangle>
-				<reportElement x="0" y="5" width="515" height="15" forecolor="#333333" backcolor="#333333"/>
-				<graphicElement/>
-			</rectangle>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="5" width="260" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
 				<box leftPadding="10" rightPadding="10"/>
@@ -127,7 +123,7 @@
 				 No new query is executed in the subreport.
 			  -->
 			<subreport>
-				<reportElement positionType="Float" x="20" y="25" width="240" height="20" isRemoveLineWhenBlank="true" backcolor="#99ccff"/>
+				<reportElement positionType="Float" x="15" y="25" width="245" height="20" isRemoveLineWhenBlank="true" backcolor="#99ccff"/>
 				<dataSourceExpression>new JRBeanCollectionDataSource($F{cast})</dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA["JRMDbCastSubreport.jasper"]]></subreportExpression>
 			</subreport>
@@ -137,7 +133,7 @@
 			     Note that the parameter name needs to be 'JPA_ENTITY_MANAGER'.
 			  -->
 			<subreport>
-				<reportElement positionType="Float" x="270" y="25" width="240" height="20" isRemoveLineWhenBlank="true" backcolor="#99ccff"/>
+				<reportElement positionType="Float" x="270" y="25" width="245" height="20" isRemoveLineWhenBlank="true" backcolor="#99ccff"/>
 				<subreportParameter name="JPA_ENTITY_MANAGER">
 					<subreportParameterExpression><![CDATA[$P{JPA_ENTITY_MANAGER}]]></subreportParameterExpression>
 				</subreportParameter>
