@@ -82,11 +82,17 @@ public class JRDefaultImageEncoder extends JRAbstractImageEncoder
 				break;
 			}
 			case JRRenderable.IMAGE_TYPE_GIF :
+			{
+				throw new JRException("Image type GIF not supported by this image encoder.");
+			}
 			case JRRenderable.IMAGE_TYPE_TIFF :
+			{
+				throw new JRException("Image type TIFF not supported by this image encoder.");
+			}
 			case JRRenderable.IMAGE_TYPE_UNKNOWN :
 			default:
 			{
-				throw new JRException("Image type \"" + imageType + "\" not supported by this image encoder.");
+				throw new JRException("Image type UNKNOWN not supported by this image encoder.");
 			}
 		}
 		
