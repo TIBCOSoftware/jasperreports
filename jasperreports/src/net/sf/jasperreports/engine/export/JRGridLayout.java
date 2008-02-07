@@ -258,30 +258,24 @@ public class JRGridLayout
         {
             List xCutsList = xCuts.getCuts();
 
-            if(xCutsList.size()>1)
+            if(hasLeftMargin)
             {
-                if(hasLeftMargin)
-                {
-                    xCutsList.remove(new Integer(0));
-                }
-                if(hasRightMargin)
-                {
-                    xCutsList.remove(new Integer(width));
-                }
+                xCutsList.remove(new Integer(0));
+            }
+            if(hasRightMargin)
+            {
+                xCutsList.remove(new Integer(width));
             }
             
             List yCutsList = yCuts.getCuts();
 
-            if(yCutsList.size()>1)
+            if(hasTopMargin)
             {
-                if(hasTopMargin)
-                {
-                    yCutsList.remove(new Integer(0));
-                }
-                if(hasBottomMargin)
-                {
-                    yCutsList.remove(new Integer(height));
-                }
+                yCutsList.remove(new Integer(0));
+            }
+            if(hasBottomMargin)
+            {
+                yCutsList.remove(new Integer(height));
             }
         }
 
