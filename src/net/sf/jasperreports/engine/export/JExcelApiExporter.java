@@ -176,7 +176,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			initCustomPalette();
 		}
 
-		nature = new JExcelApiExporterNature(filter, isIgnoreGraphics);
+		nature = new JExcelApiExporterNature(filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 
 	protected void initCustomPalette()

@@ -43,17 +43,27 @@ public class JRHtmlExporterNature implements ExporterNature
 {
 	
 	private ExporterFilter filter = null;
-	private final boolean deep;
+    private final boolean deep;
+    private final boolean ignorePageMargins;
 	
-	/**
-	 * 
-	 */
-	public JRHtmlExporterNature(ExporterFilter filter, boolean deep)
-	{
-		this.filter = filter;
-		this.deep = deep;
-	}
-	
+    /**
+     * 
+     */
+    public JRHtmlExporterNature(ExporterFilter filter, boolean deep)
+    {
+        this(filter,deep,false);
+    }
+    
+    /**
+     * 
+     */
+    public JRHtmlExporterNature(ExporterFilter filter, boolean deep, boolean ignorePageMargins)
+    {
+        this.filter = filter;
+        this.deep = deep;
+        this.ignorePageMargins = ignorePageMargins;
+    }
+    
 	/**
 	 * 
 	 */
@@ -99,4 +109,12 @@ public class JRHtmlExporterNature implements ExporterNature
 		return true;
 	}
 
+    /**
+     * Specifies whether empty page margins should be ignored
+     */
+    public boolean isIgnorePageMargins()
+    {
+        return ignorePageMargins;
+    }
+	
 }

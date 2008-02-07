@@ -59,10 +59,10 @@ public class JRGridLayout
 {
 	private final ExporterNature nature;
 	
-	private final int width;
-	private final int height;
-	private final int offsetX;
-	private final int offsetY;
+	private int width;
+	private int height;
+	private int offsetX;
+	private int offsetY;
 	private final String address;
 	
 	private CutsInfo xCuts;
@@ -73,6 +73,10 @@ public class JRGridLayout
 
 	private int virtualFrameIndex = 0;
 
+    private boolean hasTopMargin = true;
+    private boolean hasBottomMargin = true;
+    private boolean hasLeftMargin = true;
+    private boolean hasRightMargin = true;
 	
 	/**
 	 * Constructor.
@@ -239,77 +243,160 @@ public class JRGridLayout
 	}
 
 
-	/**
-	 * Constructs the element grid.
-	 */
-	protected void layoutGrid(ElementWrapper[] wrappers)
-	{
-		boolean createXCuts = (xCuts == null);
+    /**
+     * Constructs the element grid.
+     */
+    protected void layoutGrid(ElementWrapper[] wrappers)
+    {
+        setMargins(wrappers);
+        boolean createXCuts = (xCuts == null);
 
-		xCuts = createXCuts ? new CutsInfo(width) : xCuts;
-		yCuts = nature.isIgnoreLastRow() ? new CutsInfo(0) : new CutsInfo(height);
+        xCuts = createXCuts ? new CutsInfo(width) : xCuts;
+        yCuts = nature.isIgnoreLastRow() ? new CutsInfo(0) : new CutsInfo(height);
+        
+        if(nature.isIgnorePageMargins())
+        {
+            List xCutsList = xCuts.getCuts();
 
-		createCuts(wrappers, offsetX, offsetY, createXCuts);
-		
-		xCuts.use();
-		yCuts.use();
+            if(xCutsList.size()>1)
+            {
+                if(hasLeftMargin)
+                {
+                    xCutsList.remove(new Integer(0));
+                }
+                if(hasRightMargin)
+                {
+                    xCutsList.remove(new Integer(width));
+                }
+            }
+            
+            List yCutsList = yCuts.getCuts();
 
-		int colCount = xCuts.size() - 1;
-		int rowCount = yCuts.size() - 1;
+            if(yCutsList.size()>1)
+            {
+                if(hasTopMargin)
+                {
+                    yCutsList.remove(new Integer(0));
+                }
+                if(hasBottomMargin)
+                {
+                    yCutsList.remove(new Integer(height));
+                }
+            }
+        }
 
-		grid = new JRExporterGridCell[rowCount][colCount];
-				
-		for(int row = 0; row < rowCount; row++)
-		{ 
-			for(int col = 0; col < colCount; col++)
-			{
-				grid[row][col] = 
-					new JRExporterGridCell(
-						null,
-						xCuts.getCut(col + 1) - xCuts.getCut(col),
-						yCuts.getCut(row + 1) - yCuts.getCut(row),
-						1,
-						1
-						);
-			}
-		}
+        createCuts(wrappers, offsetX, offsetY, createXCuts);
+        
+        xCuts.use();
+        yCuts.use();
 
-		setGridElements(wrappers,
-				offsetX, offsetY,
-				0, 0, rowCount, colCount);
-	}
+        int colCount = xCuts.size() - 1;
+        int rowCount = yCuts.size() - 1;
 
+        grid = new JRExporterGridCell[rowCount][colCount];
+                
+        for(int row = 0; row < rowCount; row++)
+        { 
+            for(int col = 0; col < colCount; col++)
+            {
+                grid[row][col] = 
+                    new JRExporterGridCell(
+                        null,
+                        xCuts.getCut(col + 1) - xCuts.getCut(col),
+                        yCuts.getCut(row + 1) - yCuts.getCut(row),
+                        1,
+                        1
+                        );
+            }
+        }
 
-	protected void createCuts(ElementWrapper[] wrappers, int elementOffsetX, int elementOffsetY, boolean createXCuts)
-	{
-		for(int elementIndex = 0; elementIndex < wrappers.length; elementIndex++)
-		{
-			ElementWrapper wrapper = wrappers[elementIndex];
-			JRPrintElement element = wrapper.getElement();
-			
-			if (nature.isToExport(element))
-			{
-				if (createXCuts)
-				{
-					xCuts.addXCuts(element, elementOffsetX);
-				}
-				
-				yCuts.addYCuts(element, elementOffsetY);
-			}
-			
-			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
-			
-			if (nature.isDeep() && frame != null)
-			{
-				createCuts(
-					wrapper.getWrappers(), 
-					element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(), 
-					element.getY() + elementOffsetY + frame.getLineBox().getTopPadding().intValue(), 
-					createXCuts
-					);
-			}
-		}
-	}
+        setGridElements(wrappers,
+                offsetX, offsetY,
+                0, 0, rowCount, colCount);
+        
+        if(nature.isIgnorePageMargins())
+        {
+            int newWidth = 0;
+            int newHeight = 0;
+            
+            for(int x = 1; x < xCuts.size(); x++)
+            {
+                newWidth += xCuts.getCut(x) - xCuts.getCut(x - 1);
+            }
+
+            for(int y = 1; y < yCuts.size(); y++)
+            {
+                newHeight += yCuts.getCut(y) - yCuts.getCut(y - 1);
+            }
+
+            width = newWidth;
+            height = newHeight;
+        }
+    }
+
+    protected void createCuts(ElementWrapper[] wrappers, int elementOffsetX, int elementOffsetY, boolean createXCuts)
+    {
+        for(int elementIndex = 0; elementIndex < wrappers.length; elementIndex++)
+        {
+            ElementWrapper wrapper = wrappers[elementIndex];
+            JRPrintElement element = wrapper.getElement();
+            
+            if (nature.isToExport(element))
+            {
+                if (createXCuts)
+                {
+                    xCuts.addXCuts(element, elementOffsetX);
+                }
+                
+                yCuts.addYCuts(element, elementOffsetY);
+            }
+            
+            JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
+            
+            if (nature.isDeep() && frame != null)
+            {
+                createCuts(
+                    wrapper.getWrappers(), 
+                    element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(), 
+                    element.getY() + elementOffsetY + frame.getLineBox().getTopPadding().intValue(), 
+                    createXCuts
+                    );
+            }
+        }
+    }
+
+    protected void setMargins(ElementWrapper[] wrappers)
+    {
+        for(int elementIndex = 0; elementIndex < wrappers.length; elementIndex++)
+        {
+            ElementWrapper wrapper = wrappers[elementIndex];
+            JRPrintElement element = wrapper.getElement();
+            
+            if (nature.isToExport(element))
+            {
+                if(hasLeftMargin && element.getX() <= 0)
+                {
+                    hasLeftMargin = false;
+                }
+                
+                if(hasRightMargin && element.getX() >= width - element.getWidth())
+                {
+                    hasRightMargin = false;
+                }
+                
+                if(hasTopMargin && element.getY() <= 0)
+                {
+                    hasTopMargin = false;
+                }
+                
+                if(hasBottomMargin && element.getY() >= height - element.getHeight())
+                {
+                    hasBottomMargin = false;
+                }
+                
+            }
+        }
+    }
 
 
 	protected void setGridElements(ElementWrapper[] wrappers, 
@@ -831,7 +918,6 @@ public class JRGridLayout
 		
 		return wrappers;
 	}
-	
 	
 	/**
 	 * 

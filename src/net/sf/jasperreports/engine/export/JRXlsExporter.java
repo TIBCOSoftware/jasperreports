@@ -134,7 +134,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		
 		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 
-		nature = new JRXlsExporterNature(filter, isIgnoreGraphics);
+		nature = new JRXlsExporterNature(filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 
 
