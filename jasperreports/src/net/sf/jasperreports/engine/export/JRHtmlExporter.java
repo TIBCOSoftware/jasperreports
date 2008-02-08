@@ -162,11 +162,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected String sizeUnit = null;
 	protected boolean isUsingImagesToAlign;
 	protected boolean isWrapBreakWord;
-    protected boolean isIgnorePageMargins;
-    protected boolean cutTopMargin;
-    protected boolean cutLeftMargin;
-    protected boolean cutBottomMargin;
-    protected boolean cutRightMargin;
+	protected boolean isIgnorePageMargins;
 
 	/**
 	 *
@@ -342,11 +338,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 			
 			isIgnorePageMargins = 
-                getBooleanParameter(
-                    JRExporterParameter.IGNORE_PAGE_MARGINS,
-                    JRExporterParameter.PROPERTY_IGNORE_PAGE_MARGINS,
-                    false
-                    );
+				getBooleanParameter(
+					JRExporterParameter.IGNORE_PAGE_MARGINS,
+					JRExporterParameter.PROPERTY_IGNORE_PAGE_MARGINS,
+					false
+					);
 			
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 						
@@ -744,6 +740,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportGrid(JRGridLayout gridLayout, boolean whitePageBackground) throws IOException, JRException
 	{
+		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
 		writer.write("<table style=\"width: " + gridLayout.getWidth() + sizeUnit + "\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"");
@@ -758,17 +755,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 			setBackcolor(Color.white);
 		}
 
+		writer.write("<tr>\n");
 		int width = 0;
-		CutsInfo xCuts = gridLayout.getXCuts();
-		
-            writer.write("<tr>\n");
-
-            for(int i = 1; i < xCuts.size(); i++)
-    		{
-    			width = xCuts.getCut(i) - xCuts.getCut(i - 1);
-    			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI, width, 1, sizeUnit) + "</td>\n");
-    		}
-    		writer.write("</tr>\n");
+		for(int i = 1; i < xCuts.size(); i++)
+		{
+			width = xCuts.getCut(i) - xCuts.getCut(i - 1);
+			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI, width, 1, sizeUnit) + "</td>\n");
+		}
+		writer.write("</tr>\n");
         
     	for(int y = 0; y < grid.length; y++)
 		{
@@ -790,7 +784,7 @@ public class JRHtmlExporter extends JRAbstractExporter
                 for(int x = 0; x < gridRow.length; x++)
 				{
 					JRExporterGridCell gridCell = gridRow[x];
-					if(gridCell.isEmpty())
+					if(gridCell.getWrapper() == null)
 					{
 						writeEmptyCell(gridCell, rowHeight);						
 					}
