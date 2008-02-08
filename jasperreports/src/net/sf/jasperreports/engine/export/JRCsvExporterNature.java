@@ -99,12 +99,12 @@ public class JRCsvExporterNature implements ExporterNature
 		return false;
 	}
 
-    /**
-     * Specifies whether empty page margins should be ignored
-     */
-    public boolean isIgnorePageMargins()
-    {
-        return false;
-    }
+	/**
+	 * Specifies whether empty page margins should be ignored
+	 */
+	public boolean isIgnorePageMargins()
+	{
+		return false;
+	}
 	
 }
