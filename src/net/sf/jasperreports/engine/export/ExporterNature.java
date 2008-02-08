@@ -55,12 +55,12 @@ public interface ExporterNature extends ExporterFilter
 	 */
 	public abstract boolean isSpanCells();
 
-    public abstract boolean isIgnoreLastRow();
-    
-    /**
-     * Specifies whether empty page margins should be ignored
-     */
-    public abstract boolean isIgnorePageMargins();
+	public abstract boolean isIgnoreLastRow();
+	
+	/**
+	 * Specifies whether empty page margins should be ignored
+	 */
+	public abstract boolean isIgnorePageMargins();
 
 	
 	/**

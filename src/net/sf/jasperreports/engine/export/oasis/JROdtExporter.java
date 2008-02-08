@@ -28,7 +28,7 @@
 
 /*
  * Special thanks to Google 'Summer of Code 2005' program for supporting this development
- * 
+ *
  * Contributors:
  * Majid Ali Khan - majidkk@users.sourceforge.net
  * Frank Schönheit - Frank.Schoenheit@Sun.COM
@@ -122,7 +122,7 @@ public class JROdtExporter extends JRAbstractExporter
 	protected static final String VERTICAL_ALIGN_TOP = "top";
 	protected static final String VERTICAL_ALIGN_MIDDLE = "middle";
 	protected static final String VERTICAL_ALIGN_BOTTOM = "bottom";
-	
+
 	public static final String IMAGE_NAME_PREFIX = "img_";
 	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
 
@@ -157,7 +157,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 	private LinkedList backcolorStack;
 	private Color backcolor;
-	
+
 	private StyleCache styleCache = null;
 
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
@@ -185,10 +185,10 @@ public class JROdtExporter extends JRAbstractExporter
 		{
 			/*   */
 			setExportContext();
-	
+
 			/*   */
 			setInput();
-			
+
 			if (!parameters.containsKey(JRExporterParameter.FILTER))
 			{
 				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), ODT_ORIGIN_EXPORTER_FILTER_PREFIX);
@@ -199,21 +199,21 @@ public class JROdtExporter extends JRAbstractExporter
 			{
 				setPageRange();
 			}
-	
-			encoding = 
+
+			encoding =
 				getStringParameterOrDefault(
-					JRExporterParameter.CHARACTER_ENCODING, 
+					JRExporterParameter.CHARACTER_ENCODING,
 					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
 					);
-	
+
 			rendererToImagePathMap = new HashMap();
 			imageMaps = new HashMap();
 			imagesToProcess = new ArrayList();
-			
+
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
-						
+
 			setHyperlinkProducerFactory();
-	
+
 			nature = new JROdtExporterNature(filter);
 
 			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
@@ -243,7 +243,7 @@ public class JROdtExporter extends JRAbstractExporter
 						throw new JRException("No output specified for the exporter.");
 					}
 				}
-	
+
 				try
 				{
 					os = new FileOutputStream(destFile);
@@ -282,7 +282,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 
 	/**
-	 * 
+	 *
 	 */
 	public static JRPrintImage getImage(List jasperPrintList, String imageName)
 	{
@@ -306,8 +306,8 @@ public class JROdtExporter extends JRAbstractExporter
 
 		return (JRPrintImage) element;
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -324,12 +324,12 @@ public class JROdtExporter extends JRAbstractExporter
 		styleCache = new StyleCache(tempStyleWriter, fontMap);
 
 		Writer stylesWriter = oasisZip.getStylesEntry().getWriter();
-		
+
 		StyleBuilder styleBuilder = new StyleBuilder(jasperPrintList, stylesWriter);
 		styleBuilder.build();
 
 		stylesWriter.close();
-		
+
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
@@ -357,18 +357,18 @@ public class JROdtExporter extends JRAbstractExporter
 				}
 			}
 		}
-		
+
 
 		tempBodyWriter.flush();
 		tempStyleWriter.flush();
-		
+
 
 		tempBodyWriter.close();
 		tempStyleWriter.close();
-		
+
 
 		/*   */
-		ContentBuilder contentBuilder = 
+		ContentBuilder contentBuilder =
 			new ContentBuilder(
 				oasisZip.getContentEntry(),
 				tempStyleEntry,
@@ -376,7 +376,7 @@ public class JROdtExporter extends JRAbstractExporter
 				styleCache.getFontFaces()
 				);
 		contentBuilder.build();
-		
+
 		tempStyleEntry.dispose();
 		tempBodyEntry.dispose();
 
@@ -406,9 +406,9 @@ public class JROdtExporter extends JRAbstractExporter
 					);
 			}
 		}
-		
+
 		oasisZip.zipEntries(os);
-		
+
 		oasisZip.dispose();
 	}
 
@@ -419,14 +419,14 @@ public class JROdtExporter extends JRAbstractExporter
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
 		startPage = true;
-		JRGridLayout layout = 
+		JRGridLayout layout =
 			new JRGridLayout(
 				nature,
 				page.getElements(),
-				jasperPrint.getPageWidth(), 
+				jasperPrint.getPageWidth(),
 				jasperPrint.getPageHeight(),
-				globalOffsetX, 
-				globalOffsetY, 
+				globalOffsetX,
+				globalOffsetY,
 				null //address
 				);
 
@@ -447,17 +447,17 @@ public class JROdtExporter extends JRAbstractExporter
 		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
-		TableBuilder tableBuilder = frameIndex == null 
+		TableBuilder tableBuilder = frameIndex == null
 			? new TableBuilder(reportIndex, pageIndex, tempBodyWriter, tempStyleWriter)
 			: new TableBuilder(frameIndex.toString(), tempBodyWriter, tempStyleWriter);
-		
+
 		tableBuilder.buildTableStyle();
 		tableBuilder.buildTableHeader();
-		
+
 		for(int col = 1; col < xCuts.size(); col++)
 		{
 			tableBuilder.buildColumnStyle(
-					col - 1, 
+					col - 1,
 					xCuts.getCut(col) - xCuts.getCut(col - 1)
 					);
 			tableBuilder.buildColumnHeader(col - 1);
@@ -468,11 +468,11 @@ public class JROdtExporter extends JRAbstractExporter
 		for(int row = 0; row < grid.length; row++)
 		{
 			//JRExporterGridCell[] gridRow = grid[row];
-			
+
 			int emptyCellColSpan = 0;
 			int emptyCellWidth = 0;
 			int rowHeight = gridLayout.getRowHeight(row);
-			
+
 			tableBuilder.buildRowStyle(row, rowHeight);
 			tableBuilder.buildRowHeader(row);
 
@@ -579,33 +579,33 @@ public class JROdtExporter extends JRAbstractExporter
 		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
 
 		double x1, y1, x2, y2;
-		
+
 		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
 		{
-			x1 = Utility.translatePixelsToInches(0); 
-			y1 = Utility.translatePixelsToInches(0); 
-			x2 = Utility.translatePixelsToInches(line.getWidth() - 1); 
-			y2 = Utility.translatePixelsToInches(line.getHeight() - 1); 
+			x1 = Utility.translatePixelsToInches(0);
+			y1 = Utility.translatePixelsToInches(0);
+			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
+			y2 = Utility.translatePixelsToInches(line.getHeight() - 1);
 		}
 		else
 		{
-			x1 = Utility.translatePixelsToInches(0); 
-			y1 = Utility.translatePixelsToInches(line.getHeight() - 1); 
-			x2 = Utility.translatePixelsToInches(line.getWidth() - 1); 
-			y2 = Utility.translatePixelsToInches(0); 
+			x1 = Utility.translatePixelsToInches(0);
+			y1 = Utility.translatePixelsToInches(line.getHeight() - 1);
+			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
+			y2 = Utility.translatePixelsToInches(0);
 		}
-		
+
 		tempBodyWriter.write("<text:p>");
 		insertPageAnchor();
 		tempBodyWriter.write(
-				"<draw:line text:anchor-type=\"paragraph\" " 
-				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" " 
-				+ "svg:x1=\"" + x1 + "in\" " 
-				+ "svg:y1=\"" + y1 + "in\" " 
-				+ "svg:x2=\"" + x2 + "in\" " 
-				+ "svg:y2=\"" + y2 + "in\">" 
-				//+ "</draw:line>" 
-				+ "<text:p/></draw:line>" 
+				"<draw:line text:anchor-type=\"paragraph\" "
+				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
+				+ "svg:x1=\"" + x1 + "in\" "
+				+ "svg:y1=\"" + y1 + "in\" "
+				+ "svg:x2=\"" + x2 + "in\" "
+				+ "svg:y2=\"" + y2 + "in\">"
+				//+ "</draw:line>"
+				+ "<text:p/></draw:line>"
 				+ "</text:p>"
 				);
 		tableBuilder.buildCellFooter();
@@ -631,12 +631,12 @@ public class JROdtExporter extends JRAbstractExporter
 		tempBodyWriter.write("<text:p>");
 		insertPageAnchor();
 		tempBodyWriter.write(
-			"<draw:ellipse text:anchor-type=\"paragraph\" " 
-			+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" " 
-			+ "svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\" " 
-			+ "svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\" " 
-			+ "svg:x=\"0in\" " 
-			+ "svg:y=\"0in\">" 
+			"<draw:ellipse text:anchor-type=\"paragraph\" "
+			+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" "
+			+ "svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\" "
+			+ "svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\" "
+			+ "svg:x=\"0in\" "
+			+ "svg:y=\"0in\">"
 			+ "<text:p/></draw:ellipse></text:p>"
 			);
 		tableBuilder.buildCellFooter();
@@ -664,7 +664,7 @@ public class JROdtExporter extends JRAbstractExporter
 //			styleBuffer.append("width: " + gridCell.width + "; ");
 //			styleBuffer.append("word-wrap: break-word; ");
 //		}
-		
+
 //		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
 //		{
 //			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
@@ -690,18 +690,18 @@ public class JROdtExporter extends JRAbstractExporter
 		}
 
 		boolean startedHyperlink = startHyperlink(text, true);
-		
-		if (textLength > 0) 
+
+		if (textLength > 0)
 		{
 			exportStyledText(styledText);
 		}
-		
+
 		if (startedHyperlink)
 		{
 			endHyperlink(true);
 		}
 
-		tempBodyWriter.write("</text:p>\n");		
+		tempBodyWriter.write("</text:p>\n");
 
 		tableBuilder.buildCellFooter();
 	}
@@ -733,17 +733,17 @@ public class JROdtExporter extends JRAbstractExporter
 	protected void exportStyledTextRun(Map attributes, String text) throws IOException
 	{
 		String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text);
-		
+
 		tempBodyWriter.write("<text:span");
 		tempBodyWriter.write(" text:style-name=\"" + textSpanStyleName + "\"");
 		tempBodyWriter.write(">");
-		
-		if (text != null) 
+
+		if (text != null)
 		{
 			tempBodyWriter.write(Utility.replaceNewLineWithLineBreak(JRStringUtil.xmlEncode(text)));//FIXMEODT try something nicer for replace
 		}
 
-		tempBodyWriter.write("</text:span>");		
+		tempBodyWriter.write("</text:span>");
 	}
 
 	/**
@@ -767,7 +767,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 		int xoffset = 0;
 		int yoffset = 0;
-		
+
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(image), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		JRRenderable renderer = image.getRenderer();
@@ -780,7 +780,7 @@ public class JROdtExporter extends JRAbstractExporter
 		{
 			if (renderer.getType() == JRRenderable.TYPE_IMAGE && !image.isLazy())
 			{
-				// Non-lazy image renderers are all asked for their image data at some point. 
+				// Non-lazy image renderers are all asked for their image data at some point.
 				// Better to test and replace the renderer now, in case of lazy load error.
 				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, image.getOnErrorType());
 			}
@@ -794,7 +794,7 @@ public class JROdtExporter extends JRAbstractExporter
 		{
 			float xalignFactor = getXAlignFactor(image);
 			float yalignFactor = getYAlignFactor(image);
-	
+
 			switch (image.getScaleImage())
 			{
 				case JRImage.SCALE_IMAGE_FILL_FRAME :
@@ -811,11 +811,11 @@ public class JROdtExporter extends JRAbstractExporter
 				{
 					double normalWidth = availableImageWidth;
 					double normalHeight = availableImageHeight;
-					
+
 					if (!image.isLazy())
 					{
-						// Image load might fail. 
-						JRRenderable tmpRenderer = 
+						// Image load might fail.
+						JRRenderable tmpRenderer =
 							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
 						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
 						// If renderer was replaced, ignore image dimension.
@@ -825,16 +825,16 @@ public class JROdtExporter extends JRAbstractExporter
 							normalHeight = dimension.getHeight();
 						}
 					}
-			
+
 					if (availableImageHeight > 0)
 					{
 						double ratio = (double)normalWidth / (double)normalHeight;
-						
+
 						if( ratio > availableImageWidth / (double)availableImageHeight )
 						{
 							width = availableImageWidth;
 							height = (int)(width/ratio);
-							
+
 						}
 						else
 						{
@@ -842,13 +842,13 @@ public class JROdtExporter extends JRAbstractExporter
 							width = (int)(ratio * height);
 						}
 					}
-	
+
 					xoffset = (int)(xalignFactor * (availableImageWidth - width));
 					yoffset = (int)(yalignFactor * (availableImageHeight - height));
 				}
 			}
 
-			tempBodyWriter.write("<text:p>"); 
+			tempBodyWriter.write("<text:p>");
 			insertPageAnchor();
 			if (image.getAnchorName() != null)
 			{
@@ -856,15 +856,15 @@ public class JROdtExporter extends JRAbstractExporter
 				tempBodyWriter.write(image.getAnchorName());
 				tempBodyWriter.write("\"/>");
 			}
-					
-			
+
+
 			boolean startedHyperlink = startHyperlink(image,false);
-					
-			tempBodyWriter.write("<draw:frame text:anchor-type=\"paragraph\" " 
-					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" " 
-					+ "svg:x=\"" + Utility.translatePixelsToInches(leftPadding + xoffset) + "in\" " 
-					+ "svg:y=\"" + Utility.translatePixelsToInches(topPadding + yoffset) + "in\" " 
-					+ "svg:width=\"" + Utility.translatePixelsToInches(width) + "in\" " 
+
+			tempBodyWriter.write("<draw:frame text:anchor-type=\"paragraph\" "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
+					+ "svg:x=\"" + Utility.translatePixelsToInches(leftPadding + xoffset) + "in\" "
+					+ "svg:y=\"" + Utility.translatePixelsToInches(topPadding + yoffset) + "in\" "
+					+ "svg:width=\"" + Utility.translatePixelsToInches(width) + "in\" "
 					+ "svg:height=\"" + Utility.translatePixelsToInches(height) + "in\">"
 					);
 			tempBodyWriter.write("<draw:image ");
@@ -873,7 +873,7 @@ public class JROdtExporter extends JRAbstractExporter
 			tempBodyWriter.write(" xlink:show=\"embed\"");
 			tempBodyWriter.write(" xlink:actuate=\"onLoad\"");
 			tempBodyWriter.write("/>\n");
-		
+
 			tempBodyWriter.write("</draw:frame>");
 			if(startedHyperlink)
 			{
@@ -881,7 +881,7 @@ public class JROdtExporter extends JRAbstractExporter
 			}
 			tempBodyWriter.write("</text:p>");
 		}
-		
+
 		tableBuilder.buildCellFooter();
 	}
 
@@ -892,7 +892,7 @@ public class JROdtExporter extends JRAbstractExporter
 	protected String getImagePath(JRRenderable renderer, boolean isLazy, JRExporterGridCell gridCell) throws IOException
 	{
 		String imagePath = null;
-		
+
 		if (renderer != null)
 		{
 			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
@@ -917,7 +917,7 @@ public class JROdtExporter extends JRAbstractExporter
 				rendererToImagePathMap.put(renderer.getId(), imagePath);
 			}
 		}
-		
+
 		return imagePath;
 	}
 
@@ -935,7 +935,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 
 	/**
-	 * 
+	 *
 	 *
 	protected void writeImageMap(String imageMapName, JRPrintHyperlink mainHyperlink, List imageMapAreas) throws IOException
 	{
@@ -947,18 +947,18 @@ public class JROdtExporter extends JRAbstractExporter
 			JRPrintImageArea area = areaHyperlink.getArea();
 
 			writer.write("  <area shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
-			writeImageAreaCoordinates(area);			
+			writeImageAreaCoordinates(area);
 			writeImageAreaHyperlink(areaHyperlink.getHyperlink());
 			writer.write("/>\n");
 		}
-		
+
 		if (mainHyperlink.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
 		{
 			writer.write("  <area shape=\"default\"");
 			writeImageAreaHyperlink(mainHyperlink);
 			writer.write("/>\n");
 		}
-		
+
 		writer.write("</map>\n");
 	}
 
@@ -975,7 +975,7 @@ public class JROdtExporter extends JRAbstractExporter
 				coordsEnum.append(',');
 				coordsEnum.append(coords[i]);
 			}
-			
+
 			writer.write(" coords=\"" + coordsEnum + "\"");
 		}
 	}
@@ -991,7 +991,7 @@ public class JROdtExporter extends JRAbstractExporter
 		else
 		{
 			writer.write(" href=\"" + href + "\"");
-			
+
 			String target = getHyperlinkTarget(hyperlink);
 			if (target != null)
 			{
@@ -1040,10 +1040,10 @@ public class JROdtExporter extends JRAbstractExporter
 	{
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(frame), gridCell.getColSpan(), gridCell.getRowSpan());
 
-		boolean appendBackcolor = 
-			frame.getMode() == JRElement.MODE_OPAQUE 
-			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB()); 
-		
+		boolean appendBackcolor =
+			frame.getMode() == JRElement.MODE_OPAQUE
+			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
+
 		if (appendBackcolor)
 		{
 			setBackcolor(frame.getBackcolor());
@@ -1051,7 +1051,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 		try
 		{
-			JRGridLayout layout = gridCell.getLayout(); 
+			JRGridLayout layout = gridCell.getLayout();
 			JRPrintElementIndex frameIndex =
 				new JRPrintElementIndex(
 						reportIndex,
@@ -1072,7 +1072,7 @@ public class JROdtExporter extends JRAbstractExporter
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void setBackcolor(Color color)
 	{
@@ -1156,7 +1156,7 @@ public class JROdtExporter extends JRAbstractExporter
 			tempBodyWriter.write(href);
 			tempBodyWriter.write("\"");
 
-			
+
 			String target = getHyperlinkTarget(link);
 			if (target != null)
 			{
@@ -1170,17 +1170,17 @@ public class JROdtExporter extends JRAbstractExporter
 			}
 /*
  * tooltips are unavailable for the moment
- * 
+ *
 			if (link.getHyperlinkTooltip() != null)
 			{
 				tempBodyWriter.write(" xlink:title=\"");
 				tempBodyWriter.write(JRStringUtil.xmlEncode(link.getHyperlinkTooltip()));
 				tempBodyWriter.write("\"");
 			}
-*/            
+*/
 			tempBodyWriter.write(">");
 		}
-		
+
 		return href != null;
 	}
 
@@ -1204,12 +1204,12 @@ public class JROdtExporter extends JRAbstractExporter
 		}
 		return target;
 	}
-	
+
 
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
 		String href = null;
-		JRHyperlinkProducer customHandler = getCustomHandler(link);     
+		JRHyperlinkProducer customHandler = getCustomHandler(link);
 		if (customHandler == null)
 		{
 			switch(link.getHyperlinkType())
@@ -1271,7 +1271,7 @@ public class JROdtExporter extends JRAbstractExporter
 		{
 			href = customHandler.getHyperlink(link);
 		}
-		
+
 		return href;
 	}
 
@@ -1300,7 +1300,7 @@ public class JROdtExporter extends JRAbstractExporter
 			startPage = false;
 		}
 	}
-	
+
 	/**
 	 * Get border adjustment for graphic elements depending on pen width used
 	 * @param pen

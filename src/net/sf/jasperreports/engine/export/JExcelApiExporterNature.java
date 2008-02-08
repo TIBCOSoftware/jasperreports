@@ -45,27 +45,27 @@ public class JExcelApiExporterNature implements ExporterNature
 {
 	
 	private ExporterFilter filter = null;
-    private boolean isIgnoreGraphics = false;
-    private boolean isIgnorePageMargins = false;
+	private boolean isIgnoreGraphics = false;
+	private boolean isIgnorePageMargins = false;
 
-    /**
-     * 
-     */
-    protected JExcelApiExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
-    {
-        this(filter, isIgnoreGraphics, false);
-    }
-    
-    /**
-     * 
-     */
-    protected JExcelApiExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
-    {
-        this.filter = filter;
-        this.isIgnoreGraphics = isIgnoreGraphics;
-        this.isIgnorePageMargins = isIgnorePageMargins;
-    }
-    
+	/**
+	 * 
+	 */
+	protected JExcelApiExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
+	{
+		this(filter, isIgnoreGraphics, false);
+	}
+	
+	/**
+	 * 
+	 */
+	protected JExcelApiExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
+	{
+		this.filter = filter;
+		this.isIgnoreGraphics = isIgnoreGraphics;
+		this.isIgnorePageMargins = isIgnorePageMargins;
+	}
+	
 	/**
 	 *
 	 */
@@ -116,12 +116,12 @@ public class JExcelApiExporterNature implements ExporterNature
 		return false;
 	}
 
-    /**
-     * Specifies whether empty page margins should be ignored
-     */
-    public boolean isIgnorePageMargins()
-    {
-        return isIgnorePageMargins;
-    }
+	/**
+	 * Specifies whether empty page margins should be ignored
+	 */
+	public boolean isIgnorePageMargins()
+	{
+		return isIgnorePageMargins;
+	}
 	
 }

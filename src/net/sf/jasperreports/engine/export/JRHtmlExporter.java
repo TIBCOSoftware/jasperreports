@@ -715,7 +715,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-	    JRGridLayout layout = 
+		JRGridLayout layout = 
 			new JRGridLayout(
 				nature,
 				page.getElements(),
@@ -763,8 +763,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI, width, 1, sizeUnit) + "</td>\n");
 		}
 		writer.write("</tr>\n");
-        
-    	for(int y = 0; y < grid.length; y++)
+		
+		for(int y = 0; y < grid.length; y++)
 		{
 			if (gridLayout.getYCuts().isCutSpanned(y) || !isRemoveEmptySpace)
 			{
@@ -781,7 +781,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 				writer.write(">\n");
 
-                for(int x = 0; x < gridRow.length; x++)
+				for(int x = 0; x < gridRow.length; x++)
 				{
 					JRExporterGridCell gridCell = gridRow[x];
 					if(gridCell.getWrapper() == null)
@@ -790,7 +790,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					}
 					else
 					{
-                        
+						
 						JRPrintElement element = gridCell.getWrapper().getElement();
 
 						if (element instanceof JRPrintLine)
@@ -2018,6 +2018,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		backcolor = (Color) backcolorStack.removeLast();
 	}
-    
+	
 }
 

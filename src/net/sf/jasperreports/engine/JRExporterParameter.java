@@ -266,27 +266,27 @@ public class JRExporterParameter
 	public static final JRExporterParameter PARAMETERS_OVERRIDE_REPORT_HINTS = new JRExporterParameter("Parameters override hints flag");
 
 	
-    /**
-     * Indicates whether page margins should be ignored when the report is exported using a grid-based exporter
-     * <p>
-     * The type of the parameter is <code>java.lang.Boolean</code>.
-     * </p>
-     * <p>
-     * If set to <code>true</code>, any page in the document will be exported without taking into account its margins.
-     * </p>
-     * @see JRExporterParameter#PROPERTY_IGNORE_PAGE_MARGINS
-     */
-    public static final JRExporterParameter IGNORE_PAGE_MARGINS = new JRExporterParameter("Ignore page margins");
-    
+	/**
+	 * Indicates whether page margins should be ignored when the report is exported using a grid-based exporter
+	 * <p>
+	 * The type of the parameter is <code>java.lang.Boolean</code>.
+	 * </p>
+	 * <p>
+	 * If set to <code>true</code>, any page in the document will be exported without taking into account its margins.
+	 * </p>
+	 * @see JRExporterParameter#PROPERTY_IGNORE_PAGE_MARGINS
+	 */
+	public static final JRExporterParameter IGNORE_PAGE_MARGINS = new JRExporterParameter("Ignore page margins");
+	
 
-    /**
-     * This property serves as default value for the {@link #IGNORE_PAGE_MARGINS IGNORE_PAGE_MARGINS}
-     * export parameter.
-     * <p>
-     * The property itself defaults to <code>false</code>.
-     * </p>
-     * @see JRProperties
-     */
-    public static final String PROPERTY_IGNORE_PAGE_MARGINS = JRProperties.PROPERTY_PREFIX + "export.ignore.page.margins";
+	/**
+	 * This property serves as default value for the {@link #IGNORE_PAGE_MARGINS IGNORE_PAGE_MARGINS}
+	 * export parameter.
+	 * <p>
+	 * The property itself defaults to <code>false</code>.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_IGNORE_PAGE_MARGINS = JRProperties.PROPERTY_PREFIX + "export.ignore.page.margins";
 
 }

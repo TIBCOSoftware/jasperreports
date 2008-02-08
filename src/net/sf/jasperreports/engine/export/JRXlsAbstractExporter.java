@@ -139,7 +139,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected Map sheetNamesMap = null;
 	protected String currentSheetName = null;
 
-    protected boolean isIgnorePageMargins;
+	protected boolean isIgnorePageMargins;
 
 	/**
 	 *
@@ -327,13 +327,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				0
 				);
 		
-        isIgnorePageMargins = 
-            getBooleanParameter(
-                JRExporterParameter.IGNORE_PAGE_MARGINS, 
-                JRExporterParameter.PROPERTY_IGNORE_PAGE_MARGINS, 
-                false
-                ); 
-            
+		isIgnorePageMargins = 
+			getBooleanParameter(
+				JRExporterParameter.IGNORE_PAGE_MARGINS, 
+				JRExporterParameter.PROPERTY_IGNORE_PAGE_MARGINS, 
+				false
+				); 
+			
 		
 	}
 
