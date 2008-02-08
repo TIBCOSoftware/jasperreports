@@ -29,8 +29,6 @@ package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.util.JRProperties;
 
