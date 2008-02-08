@@ -252,7 +252,7 @@ public class JRGridLayout
 	 */
 	protected void layoutGrid(ElementWrapper[] wrappers)
 	{
-		setMargins(wrappers);
+		
 		boolean createXCuts = (xCuts == null);
 
 		xCuts = createXCuts ? new CutsInfo(width) : xCuts;
@@ -260,16 +260,21 @@ public class JRGridLayout
 		
 		if(!isNested && nature.isIgnorePageMargins())
 		{
-			List xCutsList = xCuts.getCuts();
-
-			if(hasLeftMargin)
-			{
-				xCutsList.remove(new Integer(0));
-			}
-			if(hasRightMargin)
-			{
-				xCutsList.remove(new Integer(width));
-			}
+		    setMargins(wrappers);
+		    
+		    if(createXCuts)
+		    {
+    		    List xCutsList = xCuts.getCuts();
+    
+    			if(hasLeftMargin)
+    			{
+    				xCutsList.remove(new Integer(0));
+    			}
+    			if(hasRightMargin)
+    			{
+    				xCutsList.remove(new Integer(width));
+    			}
+		    }
 			
 			List yCutsList = yCuts.getCuts();
 
