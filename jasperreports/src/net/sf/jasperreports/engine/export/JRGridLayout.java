@@ -77,6 +77,8 @@ public class JRGridLayout
     private boolean hasBottomMargin = true;
     private boolean hasLeftMargin = true;
     private boolean hasRightMargin = true;
+    
+    private boolean isNested;
 	
 	/**
 	 * Constructor.
@@ -174,6 +176,9 @@ public class JRGridLayout
 		this.offsetY = offsetY;
 		this.address = address;
 		
+		//this constructor is called only in nested grids:
+		this.isNested = true;
+		
 		boxesCache = new HashMap();
 		
 		layoutGrid(wrappers);
@@ -238,7 +243,6 @@ public class JRGridLayout
 				virtualAddress
 				)
 			);
-		
 		grid[row1][col1] = gridCell; 
 	}
 
@@ -254,7 +258,7 @@ public class JRGridLayout
         xCuts = createXCuts ? new CutsInfo(width) : xCuts;
         yCuts = nature.isIgnoreLastRow() ? new CutsInfo(0) : new CutsInfo(height);
         
-        if(nature.isIgnorePageMargins())
+        if(!isNested && nature.isIgnorePageMargins())
         {
             List xCutsList = xCuts.getCuts();
 
@@ -308,7 +312,7 @@ public class JRGridLayout
                 offsetX, offsetY,
                 0, 0, rowCount, colCount);
         
-        if(nature.isIgnorePageMargins())
+        if(!isNested && nature.isIgnorePageMargins())
         {
             int newWidth = 0;
             int newHeight = 0;
