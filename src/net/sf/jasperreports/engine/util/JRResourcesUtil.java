@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandler;
@@ -44,6 +45,9 @@ import java.util.ResourceBundle;
  */
 public class JRResourcesUtil
 {
+	private static FileResolver globalFileResolver;
+	private static ThreadLocalStack localFileResolverStack = new ThreadLocalStack();
+
 	private static URLStreamHandlerFactory globalURLHandlerFactory;
 	private static ThreadLocalStack localURLHandlerFactoryStack = new ThreadLocalStack();
 
@@ -152,6 +156,118 @@ public class JRResourcesUtil
 	}
 
 	
+	/**
+	 * Returns a file resolver.
+	 * <p/>
+	 * The first not null value from the following is returned:
+	 * <ul>
+	 * 	<li>the value of the parameter</li>
+	 * 	<li>the thread local file resolver</li>
+	 * 	<li>the global file resolver</li>
+	 * </ul>
+	 * 
+	 * @param fileResolver a file resolver that will be returned if not null
+	 * @return a file resolver
+	 * @see #setGlobalFileResolver(FileResolver)
+	 * @see #setThreadFileResolver(FileResolver)
+	 */
+	public static FileResolver getFileResolver(FileResolver fileResolver)
+	{
+		if (fileResolver == null)
+		{
+			fileResolver = getThreadFileResolver();
+			if (fileResolver == null)
+			{
+				fileResolver = globalFileResolver;
+			}
+		}
+		return fileResolver;
+	}
+
+	
+	/**
+	 * Returns the global file resolver.
+	 * 
+	 * @return the global file resolver
+	 * @see #setGlobalFileResolver(FileResolver)
+	 */
+	public static FileResolver getGlobalFileResolver()
+	{
+		return globalFileResolver;
+	}
+
+	
+	/**
+	 * Returns the thread local file resolver.
+	 * 
+	 * @return the thread local file resolver.
+	 * @see #setThreadFileResolver(FileResolver)
+	 */
+	public static FileResolver getThreadFileResolver()
+	{
+		return (FileResolver) localFileResolverStack.top();
+	}
+
+	
+	/**
+	 * Sets the thread local file resolver.
+	 * 
+	 * @param fileResolver a file resolver.
+	 * @see #getFileResolver(FileResolver)
+	 * @see #resetThreadFileResolver()
+	 */
+	public static void setThreadFileResolver(FileResolver fileResolver)
+	{
+		localFileResolverStack.push(fileResolver);
+	}
+	
+	
+	/**
+	 * Resets the the thread local file resolver to its previous value.
+	 */
+	public static void resetThreadFileResolver()
+	{
+		localFileResolverStack.pop();
+	}
+
+	/**
+	 * Sets a global file resolver to be used for file resolution.
+	 * 
+	 * @param fileResolver the file resolver
+	 * @see #getFileResolver(FileResolver)
+	 */
+	public static void setGlobalFileResolver(FileResolver fileResolver)
+	{
+		globalFileResolver = fileResolver;
+	}
+
+	
+	/**
+	 * Attempts to find a file using a file resolver.
+	 * 
+	 * @param location file name
+	 * @param fileResolver a file resolver
+	 * @return the file, if found
+	 */
+	public static File resolveFile(String location, FileResolver fileResolver)
+	{
+		fileResolver = getFileResolver(fileResolver);
+		
+		if (fileResolver != null)
+		{
+			return fileResolver.resolveFile(location);
+		}
+
+		File file = new File(location);
+		if (file.exists() && file.isFile())
+		{
+			return file;
+		}
+		
+		return null;
+	}
+
+
 	/**
 	 * Returns an URL steam handler factory.
 	 * <p/>

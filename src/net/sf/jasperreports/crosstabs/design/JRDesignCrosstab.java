@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.Pair;
@@ -144,7 +145,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		JRParameter.REPORT_TIME_ZONE, TimeZone.class, 
 		JRParameter.REPORT_FORMAT_FACTORY, FormatFactory.class, 
 		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class,
-		JRParameter.REPORT_URL_HANDLER_FACTORY, URLStreamHandlerFactory.class};
+		JRParameter.REPORT_URL_HANDLER_FACTORY, URLStreamHandlerFactory.class,
+		JRParameter.REPORT_FILE_RESOLVER, FileResolver.class};
 	
 	private static final Object[] BUILT_IN_VARIABLES = new Object[] { 
 		JRCrosstab.VARIABLE_ROW_COUNT, Integer.class, 

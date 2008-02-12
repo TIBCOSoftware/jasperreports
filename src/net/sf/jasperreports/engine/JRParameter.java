@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.util.FileResolver;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -102,9 +104,16 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	
 	/**
 	 * A <tt>java.net.URLStreamHandlerFactory</tt> instance to be used during the report filling process to 
-	 * handler custom URL protocols for loading resources such as images, fonts and subreport templates.
+	 * handle custom URL protocols for loading resources such as images, fonts and subreport templates.
 	 */
 	public static final String REPORT_URL_HANDLER_FACTORY = "REPORT_URL_HANDLER_FACTORY";
+
+
+	/**
+	 * A {@link FileResolver} instance to be used during the report filling process to 
+	 * handle locate files on disk using relative paths.
+	 */
+	public static final String REPORT_FILE_RESOLVER = "REPORT_FILE_RESOLVER";
 
 
 	/**

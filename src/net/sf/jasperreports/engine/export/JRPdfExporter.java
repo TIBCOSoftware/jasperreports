@@ -1727,7 +1727,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			try
 			{
-				bytes = JRLoader.loadBytesFromLocation(pdfFont.getPdfFontName(), classLoader, urlHandlerFactory);
+				bytes = JRLoader.loadBytesFromLocation(pdfFont.getPdfFontName(), classLoader, urlHandlerFactory, fileResolver);
 			}
 			catch(JRException e)
 			{

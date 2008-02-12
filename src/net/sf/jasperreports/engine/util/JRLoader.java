@@ -223,7 +223,7 @@ public class JRLoader
 	 */
 	public static Object loadObjectFromLocation(String location) throws JRException
 	{
-		return loadObjectFromLocation(location, null, null);
+		return loadObjectFromLocation(location, null, null, null);
 	}
 
 
@@ -232,7 +232,7 @@ public class JRLoader
 	 */
 	public static Object loadObjectFromLocation(String location, ClassLoader classLoader) throws JRException
 	{
-		return loadObjectFromLocation(location, classLoader, null);
+		return loadObjectFromLocation(location, classLoader, null, null);
 	}
 
 	
@@ -242,7 +242,8 @@ public class JRLoader
 	public static Object loadObjectFromLocation(
 		String location, 
 		ClassLoader classLoader,
-		URLStreamHandlerFactory urlHandlerFactory
+		URLStreamHandlerFactory urlHandlerFactory,
+		FileResolver fileResolver
 		) throws JRException
 	{
 		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
@@ -251,8 +252,8 @@ public class JRLoader
 			return loadObject(url);
 		}
 
-		File file = new File(location);
-		if (file.exists() && file.isFile())
+		File file = JRResourcesUtil.resolveFile(location, fileResolver);
+		if (file != null)
 		{
 			return loadObject(file);
 		}
@@ -424,7 +425,7 @@ public class JRLoader
 	 */
 	public static byte[] loadBytesFromLocation(String location) throws JRException
 	{
-		return loadBytesFromLocation(location, null, null);
+		return loadBytesFromLocation(location, null, null, null);
 	}
 
 
@@ -433,7 +434,7 @@ public class JRLoader
 	 */
 	public static byte[] loadBytesFromLocation(String location, ClassLoader classLoader) throws JRException
 	{
-		return loadBytesFromLocation(location, classLoader, null);
+		return loadBytesFromLocation(location, classLoader, null, null);
 	}
 		
 	
@@ -446,14 +447,28 @@ public class JRLoader
 		URLStreamHandlerFactory urlHandlerFactory
 		) throws JRException
 	{
+		return loadBytesFromLocation(location, classLoader, urlHandlerFactory, null);
+	}
+		
+	
+	/**
+	 *
+	 */
+	public static byte[] loadBytesFromLocation(
+		String location, 
+		ClassLoader classLoader,
+		URLStreamHandlerFactory urlHandlerFactory,
+		FileResolver fileResolver
+		) throws JRException
+	{
 		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
 		if (url != null)
 		{
 			return loadBytes(url);
 		}
 
-		File file = new File(location);
-		if (file.exists() && file.isFile())
+		File file = JRResourcesUtil.resolveFile(location, fileResolver);
+		if (file != null)
 		{
 			return loadBytes(file);
 		}

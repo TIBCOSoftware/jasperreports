@@ -190,6 +190,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 				exporter.setParameter(JRExporterParameter.OFFSET_Y, parameters.get(JRExporterParameter.OFFSET_Y));
 				exporter.setParameter(JRExporterParameter.CLASS_LOADER, classLoader);
 				exporter.setParameter(JRExporterParameter.URL_HANDLER_FACTORY, urlHandlerFactory);
+				exporter.setParameter(JRExporterParameter.FILE_RESOLVER, fileResolver);
 				if (parameters.containsKey(JRExporterParameter.FILTER))
 				{
 					exporter.setParameter(JRExporterParameter.FILTER, filter);
