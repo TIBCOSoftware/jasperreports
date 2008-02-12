@@ -74,6 +74,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
@@ -267,6 +268,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected FormatFactory formatFactory = null;
 
 	protected URLStreamHandlerFactory urlHandlerFactory;
+
+	protected FileResolver fileResolver;
 
 	protected JRFillContext fillContext;
 
@@ -834,12 +837,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 
 		fillingThread = Thread.currentThread();
+		boolean fileResolverSet = false;
 		boolean urlHandlerFactorySet = false;
 		boolean classLoaderSet = false;
 		try
 		{
 			classLoaderSet = setClassLoader(parameterValues);
 			urlHandlerFactorySet = setUrlHandlerFactory(parameterValues);
+			fileResolverSet = setFileResolver(parameterValues);
 
 			setParameters(parameterValues);
 
@@ -924,6 +929,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			if (urlHandlerFactorySet)
 			{
 				JRResourcesUtil.resetThreadURLHandlerFactory();
+			}
+
+			if (fileResolverSet)
+			{
+				JRResourcesUtil.resetThreadFileResolver();
 			}
 		}
 	}
@@ -1244,6 +1254,18 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			JRResourcesUtil.setThreadURLHandlerFactory(urlHandlerFactory);
 		}
 		return setUrlHandlerFactory;
+	}
+
+
+	private boolean setFileResolver(Map parameterValues)
+	{
+		fileResolver = (FileResolver) parameterValues.get(JRParameter.REPORT_FILE_RESOLVER);
+		boolean setFileResolver = fileResolver != null;
+		if (setFileResolver)
+		{
+			JRResourcesUtil.setThreadFileResolver(fileResolver);
+		}
+		return setFileResolver;
 	}
 
 

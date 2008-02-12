@@ -305,8 +305,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				}
 				else if (expressionClass.equals(java.lang.String.class))
 				{
-					jasperReport = (JasperReport)JRLoader.loadObjectFromLocation((String)source, filler.reportClassLoader,
-							filler.urlHandlerFactory);
+					jasperReport = 
+						(JasperReport)JRLoader.loadObjectFromLocation(
+							(String)source, 
+							filler.reportClassLoader,
+							filler.urlHandlerFactory,
+							filler.fileResolver
+							);
 				}
 				
 				if (jasperReport != null)
@@ -507,6 +512,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				filler.urlHandlerFactory != null)
 		{
 			parameterValues.put(JRParameter.REPORT_URL_HANDLER_FACTORY, filler.urlHandlerFactory);
+		}
+		
+		if (!parameterValues.containsKey(JRParameter.REPORT_FILE_RESOLVER) &&
+				filler.fileResolver != null)
+		{
+			parameterValues.put(JRParameter.REPORT_FILE_RESOLVER, filler.fileResolver);
 		}
 		
 		return parameterValues;

@@ -52,6 +52,7 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
@@ -305,6 +306,8 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected boolean classLoaderSet = false;
 	protected URLStreamHandlerFactory urlHandlerFactory = null;
 	protected boolean urlHandlerFactorySet = false;
+	protected FileResolver fileResolver = null;
+	protected boolean fileResolverSet = false;
 	protected ExporterFilter filter = null;
 
 	/**
@@ -489,6 +492,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	{
 		classLoaderSet = false;
 		urlHandlerFactorySet = false;
+		fileResolverSet = false;
 		
 		classLoader = (ClassLoader)parameters.get(JRExporterParameter.CLASS_LOADER);
 		if (classLoader != null)
@@ -502,6 +506,13 @@ public abstract class JRAbstractExporter implements JRExporter
 		{
 			JRResourcesUtil.setThreadURLHandlerFactory(urlHandlerFactory);
 			urlHandlerFactorySet = true;
+		}
+
+		fileResolver = (FileResolver) parameters.get(JRExporterParameter.FILE_RESOLVER);
+		if (fileResolver != null)
+		{
+			JRResourcesUtil.setThreadFileResolver(fileResolver);
+			fileResolverSet = true;
 		}
 	}
 		
@@ -519,6 +530,11 @@ public abstract class JRAbstractExporter implements JRExporter
 		if (urlHandlerFactorySet)
 		{
 			JRResourcesUtil.resetThreadURLHandlerFactory();
+		}
+		
+		if (fileResolverSet)
+		{
+			JRResourcesUtil.resetThreadFileResolver();
 		}
 	}
 

@@ -2,6 +2,17 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 2.0.5 (2008-0x-xx)
+-----------------------------------
+
+- file resolver interface and parameters;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 2.0.4 (2008-01-11)
 -----------------------------------
 

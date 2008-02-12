@@ -38,6 +38,7 @@ import java.lang.ref.SoftReference;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 
+import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
@@ -145,7 +146,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	public static JRRenderable getInstance(String imageLocation, byte onErrorType, boolean isLazy) throws JRException
 	{
-		return getInstance(imageLocation, onErrorType, isLazy, null, null);
+		return getInstance(imageLocation, onErrorType, isLazy, null, null, null);
 	}
 
 	
@@ -157,7 +158,8 @@ public class JRImageRenderer extends JRAbstractRenderer
 		byte onErrorType, 
 		boolean isLazy, 
 		ClassLoader classLoader,
-		URLStreamHandlerFactory urlHandlerFactory
+		URLStreamHandlerFactory urlHandlerFactory,
+		FileResolver fileResolver
 		) throws JRException
 	{
 		if (imageLocation == null)
@@ -172,7 +174,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 		try
 		{
-			byte[] data = JRLoader.loadBytesFromLocation(imageLocation, classLoader, urlHandlerFactory);
+			byte[] data = JRLoader.loadBytesFromLocation(imageLocation, classLoader, urlHandlerFactory, fileResolver);
 			return new JRImageRenderer(data);
 		}
 		catch (JRException e)

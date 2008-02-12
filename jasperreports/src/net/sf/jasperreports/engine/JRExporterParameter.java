@@ -234,6 +234,12 @@ public class JRExporterParameter
 
 	
 	/**
+	 * The {@link FileResolver} instance to be used while exporting the report.
+	 */
+	public static final JRExporterParameter FILE_RESOLVER = new JRExporterParameter("File REsolver");
+
+	
+	/**
 	 * A {@link JRHyperlinkProducerFactory JRHyperlinkProducerFactory} which should be used for custom 
 	 * hyperlink types during export.
 	 */
