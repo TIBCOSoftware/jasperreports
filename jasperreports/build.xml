@@ -19,7 +19,7 @@
 			<equals arg1="${ant.java.version}" arg2="1.6"/>
 			</or>
 		</condition>
-		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.3" source="1.3">
+		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.4" source="1.4">
 			<exclude name="**/JRPrintServiceExporter.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRPrintServiceExporterParameter.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRConcurrentSwapFile.java" unless="using.jdk.1.4"/>
