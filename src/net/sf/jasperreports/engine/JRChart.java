@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.engine.util.JRProperties;
+
 
 /**
  * Implementations of this interface can be used for rendering chart components. Data obtained from the report
@@ -40,7 +42,7 @@ import java.awt.Color;
 public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxContainer
 {
 
-
+	public static final String PROPERTY_CHART_RENDER_TYPE = JRProperties.PROPERTY_PREFIX + "chart.render.type";
 	/**
 	 *
 	 */
@@ -91,6 +93,11 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	public static final byte CHART_TYPE_MULTI_AXIS = 19;
 	public static final byte CHART_TYPE_STACKEDAREA = 20;
 
+	/**
+	 * rendering type
+	 */
+	public static final byte RENDER_TYPE_VECTOR = 1;
+	public static final byte RENDER_TYPE_IMAGE = 2;
 
 	/**
 	 *
@@ -262,12 +269,12 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	/**
 	 *
 	 */
-	public String getRenderType();
+	public byte getRenderType();
 
 
 	/**
 	 *
 	 */
-	public void setRenderType(String renderType);
+	public void setRenderType(byte renderType);
 	
 }

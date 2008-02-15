@@ -141,7 +141,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected Color legendColor = null;
 	protected Color legendBackgroundColor = null;
 	protected byte legendPosition = JRChart.EDGE_BOTTOM;
-	protected String renderType;
+	protected byte renderType;
 
 	/**
 	 *
@@ -216,7 +216,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	public String getRenderType()
+	public byte getRenderType()
 	{
 		return renderType;
 	}
@@ -224,9 +224,9 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	public void setRenderType(String renderType)
+	public void setRenderType(byte renderType)
 	{
-		String old = this.renderType;
+		byte old = this.renderType;
 		this.renderType = renderType;
 		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_RENDER_TYPE, old, this.renderType);
 	}

@@ -179,10 +179,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 */
 	private static final Color TRANSPARENT_PAINT = new Color(0, 0, 0, 0);
-	/**
-	 *
-	 */
-	private static final String RENDER_TYPE_IMAGE = "image";
 
 	/**
 	 *
@@ -215,7 +211,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	protected String customizerClass;
 	protected JRChartCustomizer chartCustomizer;
 	
-	protected String renderType = null;
+	protected byte renderType;
 	/**
 	 *
 	 */
@@ -377,7 +373,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	public String getRenderType()
+	public byte getRenderType()
 	{
 		return ((JRChart)parent).getRenderType();
 	}
@@ -385,7 +381,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	public void setRenderType(String renderType)
+	public void setRenderType(byte renderType)
 	{
 	}
 
@@ -1284,7 +1280,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				throw new JRRuntimeException("Chart type " + getChartType() + " not supported.");
 		}
 
-		if (chartCustomizer != null)
+		if (chartCustomizer != null && renderType != JRChart.RENDER_TYPE_IMAGE)
 		{
 			chartCustomizer.customize(((JFreeChartRenderer)chartRenderer).getChart(), this);
 		}
@@ -1766,13 +1762,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				areaPlot.getValueAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getCategoryAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getCategoryRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getCategoryAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getCategoryRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -1818,13 +1815,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				bar3DPlot.getValueAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getCategoryAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getCategoryRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getCategoryAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getCategoryRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -1884,13 +1882,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 		categoryRenderer.setItemLabelsVisible( barPlot.isShowLabels() );
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getCategoryAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getCategoryRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getCategoryAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getCategoryRenderer(chart);
 		}
 		return chartRenderer;
 
@@ -1929,13 +1928,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				bubblePlot.getYAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getXYZAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getXYZRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getXYZAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getXYZRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -1977,13 +1977,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				candlestickPlot.getValueAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getHighLowAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getHighLowRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getHighLowAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getHighLowRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2026,13 +2027,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				highLowPlot.getValueAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getHighLowAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getHighLowRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getHighLowAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getHighLowRenderer(chart);
 		}
 		return chartRenderer;
 		
@@ -2072,13 +2074,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				linePlot.getValueAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getCategoryAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getCategoryRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getCategoryAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getCategoryRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2121,14 +2124,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 		piePlot3D.setLabelPaint(getForecolor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			
-			chartRenderer =  getPieAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getPieRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getPieAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getPieRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2170,14 +2173,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			
-			chartRenderer =  getPieAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getPieRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getPieAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getPieRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2214,13 +2217,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				scatterPlot.getYAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getXYAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getXYRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getXYAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getXYRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2271,13 +2275,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				bar3DPlot.getValueAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getCategoryAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getCategoryRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getCategoryAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getCategoryRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2336,13 +2341,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				barPlot.getValueAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getCategoryAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getCategoryRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getCategoryAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getCategoryRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2380,13 +2386,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				areaPlot.getValueAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getCategoryAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getCategoryRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getCategoryAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getCategoryRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2418,13 +2425,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getValueAxisTickLabelMask(),
 				areaPlot.getValueAxisLineColor());
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getXYAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getXYRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getXYAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getXYRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2501,13 +2509,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				barPlot.getValueAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getXYBarAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getXYBarRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getXYBarAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getXYBarRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2545,13 +2554,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 		lineRenderer.setLinesVisible(linePlot.isShowLines());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getXYAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getXYRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getXYAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getXYRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2593,13 +2603,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 				timeSeriesPlot.getValueAxisLineColor());
 
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getTimeSeriesAsImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  getTimeSeriesRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getTimeSeriesAsImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  getTimeSeriesRenderer(chart);
 		}
 		return chartRenderer;
 	}
@@ -2742,13 +2753,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		// Meters only display a single value, so no hyperlinks are supported
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getChartImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  new JFreeChartRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getChartImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  new JFreeChartRenderer(chart);
 		}
 		return chartRenderer;
 
@@ -2853,13 +2865,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 		// Thermometer plots only show a single value, so no drilldown or
 		// hyperlinking is supported.
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getChartImageRenderer(chart);
-		}
-		else
-		{
-			chartRenderer =  new JFreeChartRenderer(chart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getChartImageRenderer(chart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  new JFreeChartRenderer(chart);
 		}
 		return chartRenderer;
 
@@ -3003,13 +3016,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 			}
 		}
 		JRRenderable chartRenderer = null;
-		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		switch(renderType)
 		{
-			chartRenderer =  getChartImageRenderer(mainChart);
-		}
-		else
-		{
-			chartRenderer =  new JFreeChartRenderer(mainChart);
+			case JRChart.RENDER_TYPE_IMAGE:
+				chartRenderer =  getChartImageRenderer(mainChart);
+				break;
+			case JRChart.RENDER_TYPE_VECTOR:
+			default:
+				chartRenderer =  new JFreeChartRenderer(mainChart);
 		}
 		return chartRenderer;
 	}
