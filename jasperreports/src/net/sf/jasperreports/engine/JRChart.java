@@ -41,8 +41,15 @@ import net.sf.jasperreports.engine.util.JRProperties;
  */
 public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxContainer
 {
-
+	/**
+	 * Specifies the type of chart rendering. Possible values are <code>vector</code> and <code>image</code>.
+	 * If the rendering type is <code>vector</code> a vector image is constructed, using the <code>JFreeChart</code> dedicated APIs.
+	 * Otherwise a pixel-based image will be generated, using the PNG encoding.
+	 * <p>
+	 * Defaults to <code>vector</code>.
+	 */
 	public static final String PROPERTY_CHART_RENDER_TYPE = JRProperties.PROPERTY_PREFIX + "chart.render.type";
+
 	/**
 	 *
 	 */
