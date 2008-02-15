@@ -102,6 +102,7 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 		chart.setLegendBackgroundColor(parentChart.getLegendBackgroundColor());
 		chart.setLegendFont(parentChart.getLegendFont());
 		chart.setLegendPosition(parentChart.getLegendPosition());
+		chart.setRenderType(parentChart.getRenderType());
 		
 		Object old = this.chart;
 		this.chart = chart;

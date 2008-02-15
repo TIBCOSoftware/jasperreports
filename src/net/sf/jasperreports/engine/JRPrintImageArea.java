@@ -31,6 +31,7 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,9 +43,11 @@ import java.util.Map;
  * @version $Id$
  * @see JRPrintImageAreaHyperlink
  */
-public class JRPrintImageArea
+public class JRPrintImageArea implements Serializable
 {
 
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	public final static byte SHAPE_DEFAULT = 0;
 	public final static byte SHAPE_RECTANGLE = 1;
 	public final static byte SHAPE_CIRCLE = 2;

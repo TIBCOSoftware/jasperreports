@@ -30,6 +30,9 @@ package net.sf.jasperreports.engine.fill;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Paint;
+import java.awt.geom.Rectangle2D;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -95,6 +98,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
+import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
@@ -112,6 +116,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
 import net.sf.jasperreports.renderers.JFreeChartRenderer;
 import net.sf.jasperreports.renderers.JRCategoryChartImageMapRenderer;
+import net.sf.jasperreports.renderers.JRSimpleImageMapRenderer;
 import net.sf.jasperreports.renderers.JRHighLowChartImageMapRenderer;
 import net.sf.jasperreports.renderers.JRPieChartImageMapRenderer;
 import net.sf.jasperreports.renderers.JRTimePeriodChartImageMapRenderer;
@@ -119,6 +124,7 @@ import net.sf.jasperreports.renderers.JRTimeSeriesChartImageMapRenderer;
 import net.sf.jasperreports.renderers.JRXYChartImageMapRenderer;
 
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.AxisLocation;
@@ -173,6 +179,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 */
 	private static final Color TRANSPARENT_PAINT = new Color(0, 0, 0, 0);
+	/**
+	 *
+	 */
+	private static final String RENDER_TYPE_IMAGE = "image";
 
 	/**
 	 *
@@ -204,6 +214,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 	protected String customizerClass;
 	protected JRChartCustomizer chartCustomizer;
+	
+	protected String renderType = null;
 	/**
 	 *
 	 */
@@ -334,6 +346,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 				((JRAbstractChartCustomizer) chartCustomizer).init(filler, this);
 			}
 		}
+		renderType = chart.getRenderType();
+		
 	}
 
 
@@ -357,6 +371,21 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 */
 	public void setShowLegend(boolean isShowLegend)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getRenderType()
+	{
+		return ((JRChart)parent).getRenderType();
+	}
+
+	/**
+	 *
+	 */
+	public void setRenderType(String renderType)
 	{
 	}
 
@@ -1185,11 +1214,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	protected JFreeChartRenderer evaluateImage(byte evaluation) throws JRException
+	protected JRRenderable evaluateImage(byte evaluation) throws JRException
 	{
 		evaluateDatasetRun(evaluation);
 
-		JFreeChartRenderer chartRenderer;
+		JRRenderable chartRenderer;
 		switch(chartType) {
 			case CHART_TYPE_AREA:
 				chartRenderer = evaluateAreaImage(evaluation);
@@ -1257,11 +1286,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		if (chartCustomizer != null)
 		{
-			chartCustomizer.customize(chartRenderer.getChart(), this);
+			chartCustomizer.customize(((JFreeChartRenderer)chartRenderer).getChart(), this);
 		}
 
 		renderer = chartRenderer;
-
+		
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
@@ -1711,7 +1740,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	protected JFreeChartRenderer evaluateAreaImage( byte evaluation ) throws JRException {
+	protected JRRenderable evaluateAreaImage( byte evaluation ) throws JRException {
 		JFreeChart chart = ChartFactory.createAreaChart( (String)evaluateExpression(getTitleExpression(), evaluation ),
 				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation ),
 				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
@@ -1724,7 +1753,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		configureChart(chart, getPlot(), evaluation);
 		JRFillAreaPlot areaPlot = (JRFillAreaPlot)getPlot();
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(((CategoryPlot)chart.getPlot()).getDomainAxis(), areaPlot.getCategoryAxisLabelFont(),
 				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
 				areaPlot.getCategoryAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
@@ -1736,11 +1765,20 @@ public class JRFillChart extends JRFillElement implements JRChart
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
 				areaPlot.getValueAxisLineColor());
 
-		return getCategoryRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getCategoryAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getCategoryRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
-	protected JFreeChartRenderer evaluateBar3DImage( byte evaluation ) throws JRException {
+	protected JRRenderable evaluateBar3DImage( byte evaluation ) throws JRException {
 		JFreeChart chart =
 			ChartFactory.createBarChart3D(
 					(String)evaluateExpression( getTitleExpression(), evaluation ),
@@ -1779,14 +1817,23 @@ public class JRFillChart extends JRFillElement implements JRChart
 				bar3DPlot.getValueAxisTickLabelColor(), bar3DPlot.getValueAxisTickLabelMask(),
 				bar3DPlot.getValueAxisLineColor());
 
-		return getCategoryRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getCategoryAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getCategoryRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
 	/**
 	 *
 	 */
-	protected JFreeChartRenderer evaluateBarImage(byte evaluation) throws JRException
+	protected JRRenderable evaluateBarImage(byte evaluation) throws JRException
 	{
 		CategoryDataset categoryDataset = (CategoryDataset)dataset.getDataset();
 		JFreeChart chart =
@@ -1836,12 +1883,21 @@ public class JRFillChart extends JRFillElement implements JRChart
 		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
 		categoryRenderer.setItemLabelsVisible( barPlot.isShowLabels() );
 
-		return getCategoryRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getCategoryAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getCategoryRenderer(chart);
+		}
+		return chartRenderer;
 
 	}
 
 
-	protected JFreeChartRenderer evaluateBubbleImage( byte evaluation ) throws JRException {
+	protected JRRenderable evaluateBubbleImage( byte evaluation ) throws JRException {
 		JFreeChart chart = ChartFactory.createBubbleChart(
 				(String)evaluateExpression( getTitleExpression(), evaluation),
 				(String)evaluateExpression(((JRBubblePlot)getPlot()).getXAxisLabelExpression(), evaluation ),
@@ -1872,7 +1928,16 @@ public class JRFillChart extends JRFillElement implements JRChart
 				bubblePlot.getYAxisTickLabelColor(), bubblePlot.getYAxisTickLabelMask(),
 				bubblePlot.getYAxisLineColor());
 
-		return getXYZRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getXYZAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getXYZRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
@@ -1881,7 +1946,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 * @param evaluation
 	 * @throws net.sf.jasperreports.engine.JRException
 	 */
-	protected JFreeChartRenderer evaluateCandlestickImage(byte evaluation) throws JRException
+	protected JRRenderable evaluateCandlestickImage(byte evaluation) throws JRException
 	{
 		JFreeChart chart =
 			ChartFactory.createCandlestickChart(
@@ -1911,7 +1976,16 @@ public class JRFillChart extends JRFillElement implements JRChart
 				candlestickPlot.getValueAxisTickLabelColor(), candlestickPlot.getValueAxisTickLabelMask(),
 				candlestickPlot.getValueAxisLineColor());
 
-		return getHighLowRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getHighLowAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getHighLowRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
@@ -1920,7 +1994,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 * @param evaluation
 	 * @throws JRException
 	 */
-	protected JFreeChartRenderer evaluateHighLowImage(byte evaluation) throws JRException
+	protected JRRenderable evaluateHighLowImage(byte evaluation) throws JRException
 	{
 		JFreeChart chart =
 			ChartFactory.createHighLowChart(
@@ -1939,7 +2013,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		hlRenderer.setDrawOpenTicks(highLowPlot.isShowOpenTicks());
 		hlRenderer.setDrawCloseTicks(highLowPlot.isShowCloseTicks());
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(xyPlot.getDomainAxis(), highLowPlot.getTimeAxisLabelFont(),
 				highLowPlot.getTimeAxisLabelColor(), highLowPlot.getTimeAxisTickLabelFont(),
 				highLowPlot.getTimeAxisTickLabelColor(), highLowPlot.getTimeAxisTickLabelMask(),
@@ -1951,11 +2025,21 @@ public class JRFillChart extends JRFillElement implements JRChart
 				highLowPlot.getValueAxisTickLabelColor(), highLowPlot.getValueAxisTickLabelMask(),
 				highLowPlot.getValueAxisLineColor());
 
-		return getHighLowRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getHighLowAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getHighLowRenderer(chart);
+		}
+		return chartRenderer;
+		
 	}
 
 
-	protected JFreeChartRenderer evaluateLineImage( byte evaluation ) throws JRException {
+	protected JRRenderable evaluateLineImage( byte evaluation ) throws JRException {
 		JFreeChart chart = ChartFactory.createLineChart(
 				(String)evaluateExpression( getTitleExpression(), evaluation),
 				(String)evaluateExpression( ((JRLinePlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
@@ -1987,14 +2071,23 @@ public class JRFillChart extends JRFillElement implements JRChart
 				linePlot.getValueAxisTickLabelColor(), linePlot.getValueAxisTickLabelMask(),
 				linePlot.getValueAxisLineColor());
 
-		return getCategoryRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getCategoryAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getCategoryRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
 	/**
 	 *
 	 */
-	protected JFreeChartRenderer evaluatePie3DImage(byte evaluation) throws JRException
+	protected JRRenderable evaluatePie3DImage(byte evaluation) throws JRException
 	{
 		JFreeChart chart =
 			ChartFactory.createPieChart3D(
@@ -2027,14 +2120,24 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		piePlot3D.setLabelPaint(getForecolor());
 
-		return getPieRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			
+			chartRenderer =  getPieAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getPieRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
 	/**
 	 *
 	 */
-	protected JFreeChartRenderer evaluatePieImage(byte evaluation) throws JRException
+	protected JRRenderable evaluatePieImage(byte evaluation) throws JRException
 	{
 		JFreeChart chart =
 			ChartFactory.createPieChart(
@@ -2065,11 +2168,22 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		piePlot.setLabelPaint(getForecolor());
 
-		return getPieRenderer(chart);
+
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			
+			chartRenderer =  getPieAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getPieRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
-	protected JFreeChartRenderer evaluateScatterImage( byte evaluation ) throws JRException {
+	protected JRRenderable evaluateScatterImage( byte evaluation ) throws JRException {
 		JFreeChart chart = ChartFactory.createScatterPlot(
 				(String)evaluateExpression( getTitleExpression(), evaluation),
 				(String)evaluateExpression( ((JRScatterPlot)getPlot()).getXAxisLabelExpression(), evaluation),
@@ -2099,14 +2213,23 @@ public class JRFillChart extends JRFillElement implements JRChart
 				scatterPlot.getYAxisTickLabelColor(), scatterPlot.getYAxisTickLabelMask(),
 				scatterPlot.getYAxisLineColor());
 
-		return getXYRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getXYAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getXYRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
 	/**
 	 *
 	 */
-	protected JFreeChartRenderer evaluateStackedBar3DImage(byte evaluation) throws JRException
+	protected JRRenderable evaluateStackedBar3DImage(byte evaluation) throws JRException
 	{
 		JFreeChart chart =
 			ChartFactory.createStackedBarChart3D(
@@ -2147,14 +2270,23 @@ public class JRFillChart extends JRFillElement implements JRChart
 				bar3DPlot.getValueAxisTickLabelColor(), bar3DPlot.getValueAxisTickLabelMask(),
 				bar3DPlot.getValueAxisLineColor());
 
-		return getCategoryRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getCategoryAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getCategoryRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
 	/**
 	 *
 	 */
-	protected JFreeChartRenderer evaluateStackedBarImage(byte evaluation) throws JRException
+	protected JRRenderable evaluateStackedBarImage(byte evaluation) throws JRException
 	{
 		JFreeChart chart =
 			ChartFactory.createStackedBarChart(
@@ -2203,13 +2335,22 @@ public class JRFillChart extends JRFillElement implements JRChart
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
 				barPlot.getValueAxisLineColor());
 
-		return getCategoryRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getCategoryAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getCategoryRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 	/**
 	 *
 	 */
-	protected JFreeChartRenderer evaluateStackedAreaImage(byte evaluation) throws JRException
+	protected JRRenderable evaluateStackedAreaImage(byte evaluation) throws JRException
 	{
 		JFreeChart chart =
 			ChartFactory.createStackedAreaChart(
@@ -2238,10 +2379,19 @@ public class JRFillChart extends JRFillElement implements JRChart
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
 				areaPlot.getValueAxisLineColor());
 
-		return getCategoryRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getCategoryAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getCategoryRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
-	protected JFreeChartRenderer evaluateXyAreaImage( byte evaluation ) throws JRException {
+	protected JRRenderable evaluateXyAreaImage( byte evaluation ) throws JRException {
 		JFreeChart chart = ChartFactory.createXYAreaChart(
 			(String)evaluateExpression(getTitleExpression(), evaluation ),
 			(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation ),
@@ -2267,14 +2417,23 @@ public class JRFillChart extends JRFillElement implements JRChart
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getValueAxisTickLabelMask(),
 				areaPlot.getValueAxisLineColor());
-		return getXYRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getXYAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getXYRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
 	/**
 	 *
 	 */
-	protected JFreeChartRenderer evaluateXYBarImage(byte evaluation) throws JRException
+	protected JRRenderable evaluateXYBarImage(byte evaluation) throws JRException
 	{
 		IntervalXYDataset tmpDataset = (IntervalXYDataset)dataset.getDataset();
 
@@ -2341,11 +2500,20 @@ public class JRFillChart extends JRFillElement implements JRChart
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
 				barPlot.getValueAxisLineColor());
 
-		return getXYBarRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getXYBarAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getXYBarRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
-	protected JFreeChartRenderer evaluateXyLineImage( byte evaluation ) throws JRException {
+	protected JRRenderable evaluateXyLineImage( byte evaluation ) throws JRException {
 		JRLinePlot linePlot = (JRLinePlot) getPlot();
 
 		JFreeChart chart = ChartFactory.createXYLineChart(
@@ -2376,10 +2544,19 @@ public class JRFillChart extends JRFillElement implements JRChart
 		lineRenderer.setShapesVisible(linePlot.isShowShapes());
 		lineRenderer.setLinesVisible(linePlot.isShowLines());
 
-		return getXYRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getXYAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getXYRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
-	protected JFreeChartRenderer evaluateTimeSeriesImage( byte evaluation ) throws JRException {
+	protected JRRenderable evaluateTimeSeriesImage( byte evaluation ) throws JRException {
 
 
 		String timeAxisLabel = (String)evaluateExpression( ((JRTimeSeriesPlot)getPlot()).getTimeAxisLabelExpression(), evaluation );
@@ -2415,8 +2592,16 @@ public class JRFillChart extends JRFillElement implements JRChart
 				timeSeriesPlot.getValueAxisTickLabelColor(), timeSeriesPlot.getValueAxisTickLabelMask(),
 				timeSeriesPlot.getValueAxisLineColor());
 
-		return getTimeSeriesRenderer(chart);
-
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getTimeSeriesAsImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  getTimeSeriesRenderer(chart);
+		}
+		return chartRenderer;
 	}
 
 
@@ -2471,7 +2656,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 * @return the JFreeChart meter chart
 	 * @throws JRException
 	*/
-	protected JFreeChartRenderer evaluateMeterImage( byte evaluation ) throws JRException {
+	protected JRRenderable evaluateMeterImage( byte evaluation ) throws JRException {
 
 		JRFillMeterPlot jrPlot = (JRFillMeterPlot)getPlot();
 
@@ -2556,7 +2741,16 @@ public class JRFillChart extends JRFillElement implements JRChart
 		configureChart(chart, getPlot(), evaluation);
 
 		// Meters only display a single value, so no hyperlinks are supported
-		return new JFreeChartRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getChartImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  new JFreeChartRenderer(chart);
+		}
+		return chartRenderer;
 
 	}
 
@@ -2569,7 +2763,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 * @return the JFreeChart thermometer chart
 	 * @throws JRException
 	 */
-	protected JFreeChartRenderer evaluateThermometerImage( byte evaluation ) throws JRException {
+	protected JRRenderable evaluateThermometerImage( byte evaluation ) throws JRException {
 
 		JRFillThermometerPlot jrPlot = (JRFillThermometerPlot)getPlot();
 
@@ -2658,7 +2852,16 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		// Thermometer plots only show a single value, so no drilldown or
 		// hyperlinking is supported.
-		return new JFreeChartRenderer(chart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getChartImageRenderer(chart);
+		}
+		else
+		{
+			chartRenderer =  new JFreeChartRenderer(chart);
+		}
+		return chartRenderer;
 
 	}
 
@@ -2681,7 +2884,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 * @return the JFreeChart chart
 	 * @throws JRException
 	 */
-	protected JFreeChartRenderer evaluateMultiAxisImage(byte evaluation) throws JRException
+	protected JRRenderable evaluateMultiAxisImage(byte evaluation) throws JRException
 	{
 		// A multi axis chart has to have at least one axis and chart specified.
 		// Create the first axis as the base plot, and then go ahead and create the
@@ -2698,7 +2901,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			JRFillChartAxis axis = (JRFillChartAxis)iter.next();
 			JRFillChart fillChart = axis.getFillChart();
-			mainChart = fillChart.evaluateImage(evaluation).getChart();
+			mainChart = ((JFreeChartRenderer)fillChart.evaluateImage(evaluation)).getChart();
 			// Override the plot from the first axis with the plot for the multi-axis
 			// chart.
 			configureChart(mainChart, getPlot(), evaluation);
@@ -2726,7 +2929,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			axisNumber++;
 			JRFillChartAxis chartAxis = (JRFillChartAxis)iter.next();
 			JRFillChart fillChart = chartAxis.getFillChart();
-			JFreeChart axisChart = fillChart.evaluateImage(evaluation).getChart();
+			JFreeChart axisChart = ((JFreeChartRenderer)fillChart.evaluateImage(evaluation)).getChart();
 
 			// In JFreeChart to add a second chart type to an existing chart
 			// you need to add an axis, a data series and a renderer.  To
@@ -2799,7 +3002,16 @@ public class JRFillChart extends JRFillElement implements JRChart
 				throw new JRException("MultiAxis charts only support Category and XY plots.");
 			}
 		}
-		return new JFreeChartRenderer(mainChart);
+		JRRenderable chartRenderer = null;
+		if(JRFillChart.RENDER_TYPE_IMAGE.equals(renderType))
+		{
+			chartRenderer =  getChartImageRenderer(mainChart);
+		}
+		else
+		{
+			chartRenderer =  new JFreeChartRenderer(mainChart);
+		}
+		return chartRenderer;
 	}
 
 	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
@@ -3015,4 +3227,156 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return edge;
 	}
 
+	protected JRRenderable getPieAsImageRenderer(JFreeChart chart) throws JRException
+	{
+		JRRenderable imageRenderer = null;
+		JRFillPieDataset dataset = (JRFillPieDataset) getDataset();
+		if (dataset.hasSectionHyperlinks())
+		{
+			JRPieChartImageMapRenderer chartRenderer = (JRPieChartImageMapRenderer)getPieRenderer(chart);
+			imageRenderer = new JRSimpleImageMapRenderer(getChartImageRenderer(chart), 
+					chartRenderer.getImageAreaHyperlinks(new Rectangle2D.Double(0,0,getWidth(),getHeight())));
+		}
+		else
+		{
+			imageRenderer = getChartImageRenderer(chart);
+		}
+		return imageRenderer;
+	}
+
+	protected JRRenderable getCategoryAsImageRenderer(JFreeChart chart) throws JRException
+	{
+		JRRenderable imageRenderer = null;
+		JRFillCategoryDataset dataset = (JRFillCategoryDataset) getDataset();
+		if (dataset.hasItemHyperlinks())
+		{
+			JRCategoryChartImageMapRenderer chartRenderer = (JRCategoryChartImageMapRenderer)getCategoryRenderer(chart);
+			imageRenderer = new JRSimpleImageMapRenderer(getChartImageRenderer(chart), 
+					chartRenderer.getImageAreaHyperlinks(new Rectangle2D.Double(0,0,getWidth(),getHeight())));
+		}
+		else
+		{
+			imageRenderer = getChartImageRenderer(chart);
+		}
+		return imageRenderer;
+	}
+
+	protected JRRenderable getXYAsImageRenderer(JFreeChart chart) throws JRException
+	{
+		JRRenderable imageRenderer = null;
+		JRFillXyDataset dataset = (JRFillXyDataset) getDataset();
+		if (dataset.hasItemHyperlinks())
+		{
+			JRXYChartImageMapRenderer chartRenderer = (JRXYChartImageMapRenderer)getXYRenderer(chart);
+			imageRenderer = new JRSimpleImageMapRenderer(getChartImageRenderer(chart), 
+					chartRenderer.getImageAreaHyperlinks(new Rectangle2D.Double(0,0,getWidth(),getHeight())));
+		}
+		else
+		{
+			imageRenderer = getChartImageRenderer(chart);
+		}
+		return imageRenderer;
+	}
+
+	protected JRRenderable getXYZAsImageRenderer(JFreeChart chart) throws JRException
+	{
+		JRRenderable imageRenderer = null;
+		JRFillXyzDataset dataset = (JRFillXyzDataset) getDataset();
+		if (dataset.hasItemHyperlinks())
+		{
+			JRXYChartImageMapRenderer chartRenderer = (JRXYChartImageMapRenderer)getXYZRenderer(chart);
+			imageRenderer = new JRSimpleImageMapRenderer(getChartImageRenderer(chart), 
+					chartRenderer.getImageAreaHyperlinks(new Rectangle2D.Double(0,0,getWidth(),getHeight())));
+		}
+		else
+		{
+			imageRenderer = getChartImageRenderer(chart);
+		}
+		return imageRenderer;
+	}
+
+	protected JRRenderable getHighLowAsImageRenderer(JFreeChart chart) throws JRException
+	{
+		JRRenderable imageRenderer = null;
+		JRFillHighLowDataset dataset = (JRFillHighLowDataset) getDataset();
+		if (dataset.hasItemHyperlink())
+		{
+			JRHighLowChartImageMapRenderer chartRenderer = new JRHighLowChartImageMapRenderer(chart, dataset.getItemHyperlinks());
+			imageRenderer = new JRSimpleImageMapRenderer(getChartImageRenderer(chart), 
+					chartRenderer.getImageAreaHyperlinks(new Rectangle2D.Double(0,0,getWidth(),getHeight())));
+		}
+		else
+		{
+			imageRenderer = getChartImageRenderer(chart);
+		}
+		return imageRenderer;
+	}
+
+	protected JRRenderable getTimeSeriesAsImageRenderer(JFreeChart chart) throws JRException
+	{
+		JRRenderable imageRenderer = null;
+		JRFillTimeSeriesDataset dataset = (JRFillTimeSeriesDataset) getDataset();
+		if (dataset.hasItemHyperlinks())
+		{
+			JRTimeSeriesChartImageMapRenderer chartRenderer = new JRTimeSeriesChartImageMapRenderer(chart, dataset.getItemHyperlinks());
+			imageRenderer = new JRSimpleImageMapRenderer(getChartImageRenderer(chart), 
+					chartRenderer.getImageAreaHyperlinks(new Rectangle2D.Double(0,0,getWidth(),getHeight())));
+		}
+		else
+		{
+			imageRenderer = getChartImageRenderer(chart);
+		}
+		return imageRenderer;
+	}
+
+	protected JRRenderable getTimePeriodAsImageRenderer(JFreeChart chart) throws JRException
+	{
+		JRRenderable imageRenderer = null;
+		JRFillTimePeriodDataset dataset = (JRFillTimePeriodDataset) getDataset();
+		if (dataset.hasItemHyperlinks())
+		{
+			JRTimePeriodChartImageMapRenderer chartRenderer = new JRTimePeriodChartImageMapRenderer(chart, dataset.getItemHyperlinks());
+			imageRenderer = new JRSimpleImageMapRenderer(getChartImageRenderer(chart), 
+					chartRenderer.getImageAreaHyperlinks(new Rectangle2D.Double(0,0,getWidth(),getHeight())));
+		}
+		else
+		{
+			imageRenderer = getChartImageRenderer(chart);
+		}
+		return imageRenderer;
+	}
+	
+	protected JRRenderable getXYBarAsImageRenderer(JFreeChart chart) throws JRException
+	{
+		JRRenderable chartRenderer = null;
+		if( getDataset().getDatasetType() == JRChartDataset.TIMESERIES_DATASET ) {
+			chartRenderer = getTimeSeriesAsImageRenderer(chart);
+		}
+		else if( getDataset().getDatasetType() == JRChartDataset.TIMEPERIOD_DATASET  ){
+			chartRenderer = getTimePeriodAsImageRenderer(chart);
+		}
+		else if( getDataset().getDatasetType() == JRChartDataset.XY_DATASET ) {
+			chartRenderer = getXYAsImageRenderer(chart);
+		} else {
+			chartRenderer = getChartImageRenderer(chart);
+		}
+		return chartRenderer;
+	}
+	
+	protected JRImageRenderer getChartImageRenderer(JFreeChart chart) throws JRException
+	{
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		JRImageRenderer imageRenderer = null;
+		try
+		{
+			ChartUtilities.writeChartAsPNG(os, chart, getWidth() , getHeight(), false,0);
+			imageRenderer = JRImageRenderer.getInstance(os.toByteArray());
+		}
+		catch(IOException e)
+		{
+			throw new JRException(e);
+		}
+		return imageRenderer;
+	}
+	
 }
