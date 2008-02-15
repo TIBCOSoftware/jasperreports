@@ -858,10 +858,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
         </value>
         <value>
           <name>image</name>
-          <description>The chart is rendered as png image.</description>
+          <description>The chart is rendered as pixel-based (PNG) image.</description>
         </value>
       </values>
-      <default>N/A</default>
+      <default>vector</default>
     </attribute>
   </attributes>
 </element>
