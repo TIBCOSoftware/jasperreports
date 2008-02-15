@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.io.Serializable;
+
 
 /**
  * A component of an image map.
@@ -35,9 +37,10 @@ package net.sf.jasperreports.engine;
  * @version $Id$
  * @see JRImageMapRenderer
  */
-public class JRPrintImageAreaHyperlink
+public class JRPrintImageAreaHyperlink implements Serializable
 {
-
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	private JRPrintImageArea area;
 	private JRPrintHyperlink hyperlink;
 

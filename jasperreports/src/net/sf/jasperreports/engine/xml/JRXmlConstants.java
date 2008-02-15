@@ -1435,6 +1435,7 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
 	public static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
 	public static final String ATTRIBUTE_customizerClass = "customizerClass";
+	public static final String ATTRIBUTE_renderType = "renderType";
 
 	/**
 	 * JRChartAxisFormatFactory associated constants

@@ -101,6 +101,12 @@ public class JRChartFactory extends JRBaseFactory
 			chart.setCustomizerClass(chartCustomizerClass);
 		}
 
+		String renderType = atts.getValue(JRXmlConstants.ATTRIBUTE_renderType);
+		if (renderType != null)
+		{
+			chart.setRenderType(renderType);
+		}
+
 		return chart;
 	}
 

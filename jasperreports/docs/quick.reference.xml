@@ -848,6 +848,21 @@
 should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code> to gain access to such values.
   </description>
     </attribute>
+    <attribute>
+      <name>renderType</name>
+      <description>The chart can be rendered in a specified format.</description>
+      <values>
+        <value>
+          <name>vector</name>
+          <description>The chart is rendered as vectorial image.</description>
+        </value>
+        <value>
+          <name>image</name>
+          <description>The chart is rendered as png image.</description>
+        </value>
+      </values>
+      <default>vector</default>
+    </attribute>
   </attributes>
 </element>
 

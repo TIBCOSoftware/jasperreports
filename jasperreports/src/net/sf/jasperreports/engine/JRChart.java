@@ -259,4 +259,15 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	public String getCustomizerClass();
 
 
+	/**
+	 *
+	 */
+	public String getRenderType();
+
+
+	/**
+	 *
+	 */
+	public void setRenderType(String renderType);
+	
 }
