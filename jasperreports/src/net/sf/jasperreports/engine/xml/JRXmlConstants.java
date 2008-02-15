@@ -1264,7 +1264,26 @@ public class JRXmlConstants
 		return color;
 	}
 
+	/**
+	 *
+	 */
+	private static final String RENDER_TYPE_VECTOR = "vector";
+	private static final String RENDER_TYPE_IMAGE = "image";
+	
+	private static Map renderTypeMap = null;
 
+	public static Map getRenderTypeMap()
+	{
+		if (renderTypeMap == null)
+		{
+			renderTypeMap = new HashMap(2);
+			renderTypeMap.put(RENDER_TYPE_VECTOR,  new Byte(JRChart.RENDER_TYPE_VECTOR));
+			renderTypeMap.put(RENDER_TYPE_IMAGE, new Byte(JRChart.RENDER_TYPE_IMAGE));
+		}
+
+		return renderTypeMap;
+	}
+	
 	/**
 	 *
 	 */

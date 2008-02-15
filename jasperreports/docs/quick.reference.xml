@@ -861,7 +861,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
           <description>The chart is rendered as png image.</description>
         </value>
       </values>
-      <default>vector</default>
+      <default>N/A</default>
     </attribute>
   </attributes>
 </element>

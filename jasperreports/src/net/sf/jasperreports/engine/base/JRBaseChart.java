@@ -130,7 +130,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	protected Color legendBackgroundColor = null;
 	protected byte legendPosition = JRChart.EDGE_BOTTOM;
 
-	protected String renderType;
+	protected byte renderType;
 	/**
 	 *
 	 */
@@ -578,7 +578,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 *
 	 */
-	public String getRenderType()
+	public byte getRenderType()
 	{
 		return renderType;
 	}
@@ -586,9 +586,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 *
 	 */
-	public void setRenderType(String renderType)
+	public void setRenderType(byte renderType)
 	{
-		String old = this.renderType;
+		byte old = this.renderType;
 		this.renderType = renderType;
 		getEventSupport().firePropertyChange(PROPERTY_RENDER_TYPE, old, this.renderType);
 	}
