@@ -35,22 +35,15 @@ package net.sf.jasperreports.engine.data;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.design.JRDesignField;
-import net.sf.jasperreports.engine.util.JRDateLocaleConverter;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
 import net.sf.jasperreports.engine.util.xml.JRXPathExecuter;
 import net.sf.jasperreports.engine.util.xml.JRXPathExecuterUtils;
 
-import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -129,7 +122,7 @@ import org.xml.sax.InputSource;
  * @version $Id$
  * @see JRXPathExecuterUtils
  */
-public class JRXmlDataSource implements JRRewindableDataSource {
+public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource {
 
 	// the xml document
 	private Document document;
@@ -151,12 +144,6 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 
 	private final JRXPathExecuter xPathExecuter;
 	
-	private LocaleConvertUtilsBean convertBean = null;
-	
-	private Locale locale = null;
-	private String datePattern = null;
-	private String numberPattern = null;
-	private TimeZone timeZone = null;
 	
 	// -----------------------------------------------------------------
 	// Constructors
@@ -328,70 +315,6 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		return value;
 	}
 
-	protected Object convertStringValue(String text, Class valueClass)
-	{
-		Object value = null;
-		if (String.class.equals(valueClass))
-		{
-			value = text;
-		}
-		else if (Number.class.isAssignableFrom(valueClass))
-		{
-			value = getConvertBean().convert(text.trim(), valueClass, locale, numberPattern);
-		}
-		else if (Date.class.isAssignableFrom(valueClass))
-		{
-			value = getConvertBean().convert(text.trim(), valueClass, locale, datePattern);
-		}
-		else if (Boolean.class.equals(valueClass))
-		{
-			value = Boolean.valueOf(text);
-		}
-		return value;
-	}
-
-	protected Object convertNumber(Number number, Class valueClass) throws JRException
-	{
-		Number value = null;
-		if (valueClass.equals(Byte.class))
-		{
-			value = new Byte(number.byteValue());
-		}
-		else if (valueClass.equals(Short.class))
-		{
-			value = new Short(number.shortValue());
-		}
-		else if (valueClass.equals(Integer.class))
-		{
-			value = new Integer(number.intValue());
-		}
-		else if (valueClass.equals(Long.class))
-		{
-			value = new Long(number.longValue());
-		}
-		else if (valueClass.equals(Float.class))
-		{
-			value = new Float(number.floatValue());
-		}
-		else if (valueClass.equals(Double.class))
-		{
-			value = new Double(number.doubleValue());
-		}
-		else if (valueClass.equals(BigInteger.class))
-		{
-			value = BigInteger.valueOf(number.longValue());
-		}
-		else if (valueClass.equals(BigDecimal.class))
-		{
-			value = new BigDecimal(Double.toString(number.doubleValue()));
-		}
-		else
-		{
-			throw new JRException("Unknown number class " + valueClass.getName());
-		}
-		return value;
-	}
-
 	/**
 	 * Creates a sub data source using the current node (record) as the root
 	 * of the document. An additional XPath expression specifies the select criteria applied to
@@ -407,10 +330,7 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		// create a new document from the current node
 		Document doc = subDocument();
 		JRXmlDataSource subDataSource = new JRXmlDataSource(doc, selectExpr);
-		subDataSource.setLocale(locale);
-		subDataSource.setDatePattern(datePattern);
-		subDataSource.setNumberPattern(numberPattern);
-		subDataSource.setTimeZone(timeZone);
+		subDataSource.setTextAttributes(this);
 		return subDataSource;
 	}
 
@@ -461,10 +381,7 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	public JRXmlDataSource dataSource(String selectExpr)
 			throws JRException {
 		JRXmlDataSource subDataSource = new JRXmlDataSource(document, selectExpr);
-		subDataSource.setLocale(locale);
-		subDataSource.setDatePattern(datePattern);
-		subDataSource.setNumberPattern(numberPattern);
-		subDataSource.setTimeZone(timeZone);
+		subDataSource.setTextAttributes(this);
 		return subDataSource;
 	}
 
@@ -543,62 +460,6 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		String v1 = (String) subDs.getFieldValue(field1);
 		System.out.println(field1.getDescription() + "=" + v1);
 		
-	}
-
-	protected LocaleConvertUtilsBean getConvertBean() 
-	{
-		if (convertBean == null)
-		{
-			convertBean = new LocaleConvertUtilsBean();
-			if (locale != null)
-			{
-				convertBean.setDefaultLocale(locale);
-				convertBean.deregister();
-				//convertBean.lookup();
-			}
-			convertBean.register(
-				new JRDateLocaleConverter(timeZone), 
-				java.util.Date.class,
-				locale
-				);
-		}
-		return convertBean;
-	}
-
-	public Locale getLocale() {
-		return locale;
-	}
-
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-		convertBean = null;
-	}
-
-	public String getDatePattern() {
-		return datePattern;
-	}
-
-	public void setDatePattern(String datePattern) {
-		this.datePattern = datePattern;
-		convertBean = null;
-	}
-
-	public String getNumberPattern() {
-		return numberPattern;
-	}
-
-	public void setNumberPattern(String numberPattern) {
-		this.numberPattern = numberPattern;
-		convertBean = null;
-	}
-
-	public TimeZone getTimeZone() {
-		return timeZone;
-	}
-
-	public void setTimeZone(TimeZone timeZone) {
-		this.timeZone = timeZone;
-		convertBean = null;
 	}
 
 }
