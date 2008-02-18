@@ -2907,13 +2907,17 @@ public class JRFillChart extends JRFillElement implements JRChart
 		Plot mainPlot = null;
 
 		JRFillMultiAxisPlot jrPlot = (JRFillMultiAxisPlot)getPlot();
-
+		byte oldRenderType = renderType;
 		// Generate the main plot from the first axes specified.
 		Iterator iter = jrPlot.getAxes().iterator();
 		if (iter.hasNext())
 		{
 			JRFillChartAxis axis = (JRFillChartAxis)iter.next();
 			JRFillChart fillChart = axis.getFillChart();
+			
+			//a JFreeChart object should be obtained first; the rendering type should be always "vector"
+			renderType = JRChart.RENDER_TYPE_VECTOR;
+
 			mainChart = ((JFreeChartRenderer)fillChart.evaluateImage(evaluation)).getChart();
 			// Override the plot from the first axis with the plot for the multi-axis
 			// chart.
@@ -3016,6 +3020,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			}
 		}
 		JRRenderable chartRenderer = null;
+		renderType = oldRenderType;
 		switch(renderType)
 		{
 			case JRChart.RENDER_TYPE_IMAGE:
