@@ -103,6 +103,7 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	/**
 	 * rendering type
 	 */
+	public static final byte RENDER_TYPE_NOT_SET = 0;
 	public static final byte RENDER_TYPE_VECTOR = 1;
 	public static final byte RENDER_TYPE_IMAGE = 2;
 

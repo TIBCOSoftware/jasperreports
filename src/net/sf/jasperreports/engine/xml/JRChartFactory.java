@@ -102,16 +102,15 @@ public class JRChartFactory extends JRBaseFactory
 		if( chartCustomizerClass != null && chartCustomizerClass.length() > 0 ){
 			chart.setCustomizerClass(chartCustomizerClass);
 		}
-
-		Byte renderType = (Byte)JRXmlConstants.getRenderTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_renderType));
-		if(renderType == null)
+		
+		byte renderType = JRChart.RENDER_TYPE_NOT_SET;
+		String jrxmlRenderType = atts.getValue(JRXmlConstants.ATTRIBUTE_renderType);
+		if(jrxmlRenderType != null)
 		{
-			renderType = (Byte)JRXmlConstants.getRenderTypeMap().get(JRProperties.getProperty(JRChart.PROPERTY_CHART_RENDER_TYPE));
+			renderType = ((Byte)JRXmlConstants.getRenderTypeMap().get(jrxmlRenderType)).byteValue();
 		}
-		if (renderType != null)
-		{
-			chart.setRenderType(renderType.byteValue());
-		}
+		chart.setRenderType(renderType);
+		
 		return chart;
 	}
 
