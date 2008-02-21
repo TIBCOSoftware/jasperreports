@@ -63,6 +63,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -1703,9 +1704,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		protected JRPrintImageAreaHyperlink getImageMapArea(int x, int y)
 		{
 			JRPrintImageAreaHyperlink image = null;
-			for (Iterator it = imageAreaHyperlinks.iterator(); image == null && it.hasNext();)
+			for (ListIterator it = imageAreaHyperlinks.listIterator(imageAreaHyperlinks.size()); image == null && it.hasPrevious();)
 			{
-				JRPrintImageAreaHyperlink area = (JRPrintImageAreaHyperlink) it.next();
+				JRPrintImageAreaHyperlink area = (JRPrintImageAreaHyperlink) it.previous();
 				if (area.getArea().containsPoint(x, y))
 				{
 					image = area;
