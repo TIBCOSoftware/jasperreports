@@ -54,6 +54,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -1735,9 +1736,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		writer.write("<map name=\"" + imageMapName + "\">\n");
 
-		for (Iterator it = imageMapAreas.iterator(); it.hasNext();)
+		for (ListIterator it = imageMapAreas.listIterator(imageMapAreas.size()); it.hasPrevious();)
 		{
-			JRPrintImageAreaHyperlink areaHyperlink = (JRPrintImageAreaHyperlink) it.next();
+			JRPrintImageAreaHyperlink areaHyperlink = (JRPrintImageAreaHyperlink) it.previous();
 			JRPrintImageArea area = areaHyperlink.getArea();
 
 			writer.write("  <area shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
