@@ -756,10 +756,18 @@ public class JROdtExporter extends JRAbstractExporter
 		int bottomPadding = image.getLineBox().getBottomPadding().intValue();
 		int rightPadding = image.getLineBox().getRightPadding().intValue();
 
-		int availableImageWidth = image.getWidth() - leftPadding - rightPadding - (int)getAdjustment(image.getLeftBorder())- (int)getAdjustment(image.getRightBorder());
+		int availableImageWidth = image.getWidth() 
+								- leftPadding 
+								- rightPadding 
+								- ((int)image.getLineBox().getLeftPen().getLineWidth().floatValue())/2
+								- ((int)image.getLineBox().getRightPen().getLineWidth().floatValue())/2;
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
 
-		int availableImageHeight = image.getHeight() - topPadding - bottomPadding - (int)getAdjustment(image.getTopBorder())- (int)getAdjustment(image.getBottomBorder());
+		int availableImageHeight = image.getHeight() 
+								- topPadding 
+								- bottomPadding 
+								- ((int)image.getLineBox().getTopPen().getLineWidth().floatValue())/2
+								- ((int)image.getLineBox().getBottomPen().getLineWidth().floatValue())/2;
 		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
 
 		int width = availableImageWidth;
@@ -1298,27 +1306,6 @@ public class JROdtExporter extends JRAbstractExporter
 			tempBodyWriter.write(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
 			tempBodyWriter.write("\"/>\n");
 			startPage = false;
-		}
-	}
-
-	/**
-	 * Get border adjustment for graphic elements depending on pen width used
-	 * @param pen
-	 */
-	protected float getAdjustment(byte pen)
-	{
-		switch (pen)
-		{
-			case JRGraphicElement.PEN_2_POINT:
-				return 2;
-			case JRGraphicElement.PEN_4_POINT:
-				return 4;
-			case JRGraphicElement.PEN_DOTTED:
-				return 1;
-			case JRGraphicElement.PEN_THIN:
-			case JRGraphicElement.PEN_NONE:
-			default:
-				return 0;
 		}
 	}
 
