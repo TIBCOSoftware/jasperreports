@@ -301,7 +301,9 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 			if (selectedObject != null) {
 				if (selectedObject instanceof Node) {
 					String text = getText((Node) selectedObject);
-					value = convertStringValue(text, valueClass);
+					if (text != null) {
+						value = convertStringValue(text, valueClass);
+					}
 				} else if (selectedObject instanceof Boolean && valueClass.equals(Boolean.class)) {
 					value = selectedObject;
 				} else if (selectedObject instanceof Number && Number.class.isAssignableFrom(valueClass)) {
