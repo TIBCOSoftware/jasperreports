@@ -101,7 +101,7 @@ public abstract class TextElementConverter extends ElementConverter
 			styledTextParser.getStyledText(
 				attributes, 
 				text, 
-				JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup())
+				JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup())//FIXMEMARKUP only static styled text appears on preview. no other markup
 				);
 		
 		JRMeasuredText measuredText = textMeasurer.measure(
