@@ -262,9 +262,14 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 			style.setLineSpacing(lineSpacing);
 		}
 
+		style.setMarkup(atts.getValue(JRXmlConstants.ATTRIBUTE_markup));
+
 		String isStyledText = atts.getValue(JRXmlConstants.ATTRIBUTE_isStyledText);
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'isStyledText' attribute is deprecated. Use the 'markup' attribute instead.");
+				
 			style.setStyledText(Boolean.valueOf(isStyledText));
 		}
 

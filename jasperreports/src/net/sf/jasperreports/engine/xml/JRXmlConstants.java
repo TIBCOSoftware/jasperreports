@@ -1566,6 +1566,7 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_rotation = "rotation";
 	public static final String ATTRIBUTE_lineSpacing = "lineSpacing";
 	public static final String ATTRIBUTE_isStyledText = "isStyledText";
+	public static final String ATTRIBUTE_markup = "markup";
 	public static final String ATTRIBUTE_pattern = "pattern";
 	public static final String ATTRIBUTE_isBlankWhenNull = "isBlankWhenNull";
 

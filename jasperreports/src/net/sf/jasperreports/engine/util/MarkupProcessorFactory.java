@@ -25,59 +25,22 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.engine.util;
+
 
 /**
- * Common interface of design and print text elements.
- * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRTemplateReference.java 1759 2007-06-20 16:47:34Z lucianc $
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: JFreeChartRenderer.java 1364 2006-08-31 15:13:20Z lucianc $
  */
-public interface JRCommonText extends JRCommonElement, JRBoxContainer
+public interface MarkupProcessorFactory
 {
-	public static final String MARKUP_NONE = "none";
-	public static final String MARKUP_STYLED_TEXT = "styled";
-	public static final String MARKUP_HTML = "html";
-	public static final String MARKUP_RTF = "rtf";
-
-	int getWidth();
-	
-	int getHeight();
+	/**
+	 * 
+	 */
+	public static final String PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX = JRProperties.PROPERTY_PREFIX + "markup.processor.factory.";
 	
 	/**
-	 * Gets the text rotation.
-	 * @return a value representing one of the rotation constants in this class
+	 * 
 	 */
-	byte getRotation();
-	
-	public Byte getOwnRotation();
-
-	/**
-	 * Gets the line spacing.
-	 * @return a value representing one of the line spacing constants in this class
-	 */
-	byte getLineSpacing();
-
-	public Byte getOwnLineSpacing();
-	
-	/**
-	 * Returns true if the text can contain style tags.
-	 * @deprecated Replaced by {@link #getMarkup()}
-	 */
-	boolean isStyledText();
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnMarkup()}
-	 */
-	public Boolean isOwnStyledText();
-	
-	/**
-	 * Returns the text markup.
-	 */
-	String getMarkup();
-
-	public String getOwnMarkup();
-	
-	int getFontSize();
-	
+	public MarkupProcessor createMarkupProcessor();
 }

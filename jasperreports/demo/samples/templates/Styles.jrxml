@@ -65,7 +65,7 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="300" width="555" height="25" positionType="Float" style="Comic"/>
-				<textElement isStyledText="true"/>
+				<textElement markup="styled"/>
 				<textFieldExpression><![CDATA["Comic (styled): font face = Comic, font size = 12, <style forecolor=\"red\">partially red</style>, centered, border"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">

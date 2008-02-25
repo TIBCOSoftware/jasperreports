@@ -388,7 +388,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 						forecolor="#FF0000"
 						backcolor="#FFDDDD"
 						key="textField"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" isStyledText="true">
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
 						<font size="12" />
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA["<i><u>Countries Starting With Letter :</u></i>    <b>" + $V{FirstLetter} + "</b>"]]></textFieldExpression>

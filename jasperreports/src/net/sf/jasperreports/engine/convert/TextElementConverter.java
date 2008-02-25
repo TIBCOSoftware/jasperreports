@@ -37,6 +37,7 @@ package net.sf.jasperreports.engine.convert;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JRTextElement;
@@ -78,7 +79,7 @@ public abstract class TextElementConverter extends ElementConverter
 		printText.setReportFont(textElement.getReportFont());
 		printText.setRotation(textElement.getOwnRotation());
 		printText.setStrikeThrough(textElement.isOwnStrikeThrough());
-		printText.setStyledText(textElement.isOwnStyledText());
+		printText.setMarkup(textElement.getOwnMarkup());
 		printText.setUnderline(textElement.isOwnUnderline());
 		printText.setVerticalAlignment(textElement.getOwnVerticalAlignment());
 	}
@@ -96,7 +97,12 @@ public abstract class TextElementConverter extends ElementConverter
 			text = "";
 		}
 		Map attributes = JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText); 
-		JRStyledText styledText = styledTextParser.getStyledText(attributes, text, printText.isStyledText());
+		JRStyledText styledText = 
+			styledTextParser.getStyledText(
+				attributes, 
+				text, 
+				JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup())
+				);
 		
 		JRMeasuredText measuredText = textMeasurer.measure(
 				styledText, 
@@ -110,7 +116,7 @@ public abstract class TextElementConverter extends ElementConverter
 		
 		int textEnd = measuredText.getTextOffset();
 		String printedText;
-		if (printText.isStyledText())
+		if (JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup()))
 		{
 			printedText = styledTextParser.write(styledText, 0, textEnd);
 		}

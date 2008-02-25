@@ -830,7 +830,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, textElement.getOwnVerticalAlignment(), JRXmlConstants.getVerticalAlignMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, textElement.getOwnRotation(), JRXmlConstants.getRotationMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, textElement.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStyledText, textElement.isOwnStyledText());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_markup, textElement.getOwnMarkup());
 
 		writeFont(textElement);
 

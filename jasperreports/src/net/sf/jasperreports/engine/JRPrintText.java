@@ -217,19 +217,24 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setLineSpacing(Byte lineSpacing);
 		
 	/**
-	 *
-	 */
-	public Boolean isOwnStyledText();
-		
-	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(boolean isStyledText);
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(Boolean isStyledText);
+		
+	/**
+	 *
+	 */
+	public String getOwnMarkup();
+		
+	/**
+	 *
+	 */
+	public void setMarkup(String markup);
 		
 	/**
 	 * @deprecated Replaced by {@link JRBoxContainer#getLineBox()}

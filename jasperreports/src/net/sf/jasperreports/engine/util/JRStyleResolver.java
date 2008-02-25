@@ -462,27 +462,27 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static boolean isStyledText(JRCommonText element)
+	public static String getMarkup(JRCommonText element)
 	{
-		if (element.isOwnStyledText() != null)
-			return element.isOwnStyledText().booleanValue();
+		if (element.getOwnMarkup() != null)
+			return element.getOwnMarkup();
 		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null && baseStyle.isStyledText() != null)
-			return baseStyle.isStyledText().booleanValue();
-		return false;
+		if (baseStyle != null && baseStyle.getMarkup() != null)
+			return baseStyle.getMarkup();
+		return JRCommonText.MARKUP_NONE;
 	}
 
 	/**
 	 *
 	 */
-	public static Boolean isStyledText(JRStyle style)
+	public static String getMarkup(JRStyle style)
 	{
-		if (style.isOwnStyledText() != null)
-			return style.isOwnStyledText();
+		if (style.getOwnMarkup() != null)
+			return style.getOwnMarkup();
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
-			return baseStyle.isStyledText();
-		return null;
+			return baseStyle.getMarkup();
+		return JRCommonText.MARKUP_NONE;
 	}
 
 	/**
@@ -905,8 +905,8 @@ public class JRStyleResolver
 			destStyle.setRotation(srcStyle.getOwnRotation());
 		if (srcStyle.getOwnLineSpacing() != null)
 			destStyle.setLineSpacing(srcStyle.getOwnLineSpacing());
-		if (srcStyle.isOwnStyledText() != null)
-			destStyle.setStyledText(srcStyle.isOwnStyledText());
+		if (srcStyle.getOwnMarkup() != null)
+			destStyle.setMarkup(srcStyle.getOwnMarkup());
 
 		if (srcStyle.getOwnPattern() != null)
 			destStyle.setPattern(srcStyle.getOwnPattern());

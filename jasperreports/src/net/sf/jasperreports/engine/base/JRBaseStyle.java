@@ -33,6 +33,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -96,7 +97,12 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_STRIKE_THROUGH = "strikeThrough";
 	
+	/**
+	 * @deprecated Replaced by {@link #PROPERTY_MARKUP}
+	 */
 	public static final String PROPERTY_IS_STYLED_TEXT = "isStyledText";
+	
+	public static final String PROPERTY_MARKUP = "markup";
 	
 	public static final String PROPERTY_UNDERLINE = "underline";
 	
@@ -145,7 +151,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	protected Byte rotation = null;
 	protected Byte lineSpacing = null;
-	protected Boolean isStyledText = null;
+	protected String markup = null;
 
 	protected String pattern = null;
 	protected Boolean isBlankWhenNull = null;
@@ -212,7 +218,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		
 		rotation = style.getOwnRotation();
 		lineSpacing = style.getOwnLineSpacing();
-		isStyledText = style.isOwnStyledText();
+		markup = style.getOwnMarkup();
 
 		pattern = style.getOwnPattern();
 
@@ -679,14 +685,32 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		return lineSpacing;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getMarkup()}
+	 */
 	public Boolean isStyledText()
 	{
-		return JRStyleResolver.isStyledText(this);
+		String mkp = getMarkup();
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnMarkup()}
+	 */
 	public Boolean isOwnStyledText()
 	{
-		return isStyledText;
+		String mkp = getOwnMarkup();
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
+	}
+
+	public String getMarkup()
+	{
+		return JRStyleResolver.getMarkup(this);
+	}
+
+	public String getOwnMarkup()
+	{
+		return markup;
 	}
 
 	public Boolean isBlankWhenNull()
@@ -696,7 +720,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public Boolean isOwnBlankWhenNull()
 	{
-		return isStyledText;
+		return isBlankWhenNull;
 	}
 
 
@@ -1239,7 +1263,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(boolean styledText)
 	{
@@ -1247,13 +1271,28 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(Boolean styledText)
 	{
-		Object old = this.isStyledText;
-		this.isStyledText = styledText;
-		getEventSupport().firePropertyChange(PROPERTY_IS_STYLED_TEXT, old, this.isStyledText);
+		if (styledText == null)
+		{
+			setMarkup(null);
+		}
+		else
+		{
+			setMarkup(styledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE);
+		}
+	}
+
+	/**
+	 *
+	 */
+	public void setMarkup(String markup)
+	{
+		Object old = this.markup;
+		this.markup = markup;
+		getEventSupport().firePropertyChange(PROPERTY_MARKUP, old, this.markup);
 	}
 
 	/**
@@ -1423,6 +1462,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
+	private Boolean isStyledText = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1471,6 +1511,12 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 			leftPadding = null;
 			bottomPadding = null;
 			rightPadding = null;
+		}
+		
+		if (isStyledText != null)
+		{
+			markup = isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
+			isStyledText = null;
 		}
 	}
 }

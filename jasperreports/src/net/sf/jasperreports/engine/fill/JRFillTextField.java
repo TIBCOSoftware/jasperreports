@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -381,11 +380,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			}
 		}
 
-		String newRawText = 
-			JRStringUtil.replaceCRwithLF(
-				String.valueOf(textFieldValue)
-				);
 		String oldRawText = getRawText();
+		String newRawText = processMarkupText(String.valueOf(textFieldValue));
 
 		setRawText(newRawText);
 		setTextStart(0);

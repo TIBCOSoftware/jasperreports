@@ -52,7 +52,7 @@
     axis has its own range indicator and a data plot.</description>
     <contains>(
         <a href="barChart">barChart</a> |
-        <a href="bar">bar</a>3DChart |
+        <a href="bar">bar3DChart</a> |
         <a href="xyBarChart">xyBarChart</a> |
         <a href="stackedBarChart">stackedBarChart</a> |
         <a href="stackedBar">stackedBar</a>3DChart |
@@ -4533,6 +4533,10 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     </attribute>
     <attribute>
       <name>isStyledText</name>
+      <deprecation>Replaced by attribute <code>markup</code>.</deprecation>
+    </attribute>
+    <attribute>
+      <name>markup</name>
     </attribute>
     <attribute>
       <name>fontName</name>
@@ -4839,6 +4843,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     </attribute>
     <attribute>
       <name>isStyledText</name>
+      <deprecation>Replaced by attribute <code>markup</code>.</deprecation>
       <description>When set to <code>true</code>, this attribute signals to the rendering engine that the text element contains preformatted text. Style information can be introduced in the text content using nested <code>&lt;style&gt;</code> tags that support the folowing attributes : <code>fontName, size, isBold, isItalic, isUnderline, isStrikeThrough, pdfFontName, pdfEncoding, isPdfEmbedded, forecolor, backcolor</code>.</description>
       <values>
         <value>
@@ -4851,6 +4856,11 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
         </value>
       </values>
       <default>false</default>
+    </attribute>
+    <attribute>
+      <name>markup</name>
+      <description>Specifies the name of the markup language used to embed style information into the text content. Supported values are <code>none</code> (plain text), <code>styled</code> (styled text), <code>rtf</code> (RTF format) and <code>html</code> (HTML format), but any custom made markup language can be used as long as there is a <code>net.sf.jasperreports.engine.util.MarkupProcessorFactory</code> implementation specified using a <code>net.sf.jasperreports.markup.processor.factory.{markup}</code> configuration property.</description>
+      <default>none</default>
     </attribute>
   </attributes>
 </element>

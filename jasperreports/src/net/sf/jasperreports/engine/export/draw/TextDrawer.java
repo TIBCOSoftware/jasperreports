@@ -37,6 +37,7 @@ package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
 
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -181,7 +182,7 @@ public class TextDrawer extends ElementDrawer
 				text.getLineSpacingFactor(),
 				text.getLeadingOffset(),
 				text.getFontSize(),
-				text.isStyledText(),
+				!JRCommonText.MARKUP_NONE.equals(text.getMarkup()),
 				styledText, 
 				allText
 				);

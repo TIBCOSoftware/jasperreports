@@ -33,6 +33,7 @@ import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
@@ -81,7 +82,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected byte runDirection = RUN_DIRECTION_LTR;
 	protected float textHeight = 0;
 	protected Byte lineSpacing = null;
-	protected Boolean isStyledText = null;
+	protected String markup = null;
 	protected String anchorName = null;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private String linkType;
@@ -152,7 +153,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 			}
 			else
 			{
-				if (isStyledText())
+				if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
 				{
 					truncatedText = JRStyledTextParser.getInstance().write(
 							getFullStyledText(JRStyledTextAttributeSelector.ALL), 
@@ -228,7 +229,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		return JRStyledTextParser.getInstance().getStyledText(
 				attributeSelector.getStyledTextAttributes(this), 
 				getText(), 
-				isStyledText());
+				!JRCommonText.MARKUP_NONE.equals(getMarkup()));
 	}
 
 	public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector)
@@ -241,7 +242,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		return JRStyledTextParser.getInstance().getStyledText(
 				attributeSelector.getStyledTextAttributes(this), 
 				getFullText(), 
-				isStyledText());
+				!JRCommonText.MARKUP_NONE.equals(getMarkup()));
 	}
 
 	/**
@@ -441,20 +442,24 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getMarkup()}
 	 */
 	public boolean isStyledText()
 	{
-		return JRStyleResolver.isStyledText(this);
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(getMarkup());
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getOwnMarkup()}
+	 */
 	public Boolean isOwnStyledText()
 	{
-		return isStyledText;
+		String mkp = getOwnMarkup();
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(boolean isStyledText)
 	{
@@ -462,11 +467,39 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(Boolean isStyledText)
 	{
-		this.isStyledText = isStyledText;
+		if (isStyledText == null)
+		{
+			setMarkup(null);
+		}
+		else
+		{
+			setMarkup(isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE);
+		}
+	}
+
+	/**
+	 *
+	 */
+	public String getMarkup()
+	{
+		return JRStyleResolver.getMarkup(this);
+	}
+		
+	public String getOwnMarkup()
+	{
+		return markup;
+	}
+
+	/**
+	 *
+	 */
+	public void setMarkup(String markup)
+	{
+		this.markup = markup;
 	}
 
 	/**
@@ -1558,6 +1591,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
+	private Boolean isStyledText = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1599,6 +1633,12 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 			leftPadding = null;
 			bottomPadding = null;
 			rightPadding = null;
+		}
+
+		if (isStyledText != null)
+		{
+			markup = isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
+			isStyledText = null;
 		}
 
 		normalizeLinkType();

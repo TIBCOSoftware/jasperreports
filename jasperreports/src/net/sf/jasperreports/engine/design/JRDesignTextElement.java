@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
@@ -72,7 +73,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	protected Byte verticalAlignment;
 	protected Byte rotation;
 	protected Byte lineSpacing;
-	protected Boolean isStyledText;
+	protected String markup;
 
 	/**
 	 *
@@ -271,20 +272,24 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getMarkup()}
 	 */
 	public boolean isStyledText()
 	{
-		return JRStyleResolver.isStyledText(this);
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(getMarkup());
 	}
-
+		
+	/**
+	 * @deprecated Replaced by {@link #getOwnMarkup()}
+	 */
 	public Boolean isOwnStyledText()
 	{
-		return isStyledText;
+		String mkp = getOwnMarkup();
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(boolean isStyledText)
 	{
@@ -292,13 +297,39 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(Boolean isStyledText)
 	{
-		Object old = this.isStyledText;
-		this.isStyledText = isStyledText;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_IS_STYLED_TEXT, old, this.isStyledText);
+		if (isStyledText == null)
+		{
+			setMarkup(null);
+		}
+		else
+		{
+			setMarkup(isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE);
+		}
+	}
+
+	/**
+	 *
+	 */
+	public String getMarkup()
+	{
+		return JRStyleResolver.getMarkup(this);
+	}
+		
+	public String getOwnMarkup()
+	{
+		return markup;
+	}
+
+	/**
+	 *
+	 */
+	public void setMarkup(String markup)
+	{
+		this.markup = markup;
 	}
 
 	/**
@@ -1161,6 +1192,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
+	private Boolean isStyledText = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1202,6 +1234,12 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 			leftPadding = null;
 			bottomPadding = null;
 			rightPadding = null;
+		}
+		
+		if (isStyledText != null)
+		{
+			markup = isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
+			isStyledText = null;
 		}
 	}
 }

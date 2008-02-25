@@ -231,7 +231,7 @@ public class TextMeasurer implements JRTextMeasurer
 			}
 		}
 
-		maxFontSizeFinder = MaxFontSizeFinder.getInstance(textElement.isStyledText());
+		maxFontSizeFinder = MaxFontSizeFinder.getInstance(!JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()));
 
 		formatWidth = width - leftPadding - rightPadding;
 		formatWidth = formatWidth < 0 ? 0 : formatWidth;
