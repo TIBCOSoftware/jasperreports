@@ -1024,14 +1024,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
 				}
 
-				short forecolor = blackIndex;
-				if (element.getBorderColor() != null ){
-					forecolor = getNearestColor(element.getBorderColor()).getIndex();
-				}
-				else
-				{
-					forecolor = getNearestColor(element.getForecolor()).getIndex();
-				}
+				short forecolor = getNearestColor(element.getLineBox().getPen().getLineColor()).getIndex();
 
 				if(element.getMode() == JRElement.MODE_OPAQUE ){
 					backcolor = getNearestColor(element.getBackcolor()).getIndex();
