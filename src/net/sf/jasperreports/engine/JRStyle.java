@@ -294,10 +294,21 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 
 	/**
 	 * Returns true if the text can contain style tags.
+	 * @deprecated Replaced by {@link #getMarkup()}
 	 */
 	public Boolean isStyledText();
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnMarkup()}
+	 */
 	public Boolean isOwnStyledText();
+
+	/**
+	 * Returns the markup language used to format the text.
+	 */
+	public String getMarkup();
+
+	public String getOwnMarkup();
 
 	/**
 	 *
@@ -670,14 +681,19 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setStrikeThrough(Boolean strikeThrough);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(boolean styledText);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(Boolean styledText);
+
+	/**
+	 *
+	 */
+	public void setMarkup(String markup);
 
 	/**
 	 *

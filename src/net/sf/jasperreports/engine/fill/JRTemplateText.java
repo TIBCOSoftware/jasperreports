@@ -75,7 +75,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private Byte verticalAlignment = null;
 	private Byte rotation = null;
 	private Byte lineSpacing = null;
-	private Boolean isStyledText = null;
+	private String markup = null;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private String linkType;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
@@ -167,7 +167,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		verticalAlignment = textElement.getOwnVerticalAlignment();
 		rotation = textElement.getOwnRotation();
 		lineSpacing = textElement.getOwnLineSpacing();
-		isStyledText = textElement.isOwnStyledText();
+		markup = textElement.getOwnMarkup();
 	}
 
 	
@@ -312,21 +312,35 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getMarkup()}
 	 */
 	public boolean isStyledText()
 	{
-		return JRStyleResolver.isStyledText(this);
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(getMarkup());
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnMarkup()}
 	 */
 	public Boolean isOwnStyledText()
 	{
-		return isStyledText;
+		String mkp = getOwnMarkup();
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
+	}
+
+	/**
+	 *
+	 */
+	public String getMarkup()
+	{
+		return JRStyleResolver.getMarkup(this);
 	}
 		
+	public String getOwnMarkup()
+	{
+		return markup;
+	}
+
 	/**
 	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
@@ -1274,6 +1288,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
+	private Boolean isStyledText = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1315,6 +1330,12 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 			leftPadding = null;
 			bottomPadding = null;
 			rightPadding = null;
+		}
+
+		if (isStyledText != null)
+		{
+			markup = isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
+			isStyledText = null;
 		}
 
 		normalizeLinkType();

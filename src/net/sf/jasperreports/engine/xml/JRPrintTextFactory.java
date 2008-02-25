@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine.xml;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 
 
@@ -39,6 +41,7 @@ import org.xml.sax.Attributes;
  */
 public class JRPrintTextFactory extends JRBaseFactory
 {
+	private static final Log log = LogFactory.getLog(JRPrintTextFactory.class);
 
 	/**
 	 *
@@ -85,9 +88,14 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setLineSpacing(lineSpacing);
 		}
 
+		text.setMarkup(atts.getValue(JRXmlConstants.ATTRIBUTE_markup));
+
 		String isStyledText = atts.getValue(JRXmlConstants.ATTRIBUTE_isStyledText);
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
+			if (log.isWarnEnabled())
+				log.warn("The 'isStyledText' attribute is deprecated. Use the 'markup' attribute instead.");
+				
 			text.setStyledText(Boolean.valueOf(isStyledText));
 		}
 

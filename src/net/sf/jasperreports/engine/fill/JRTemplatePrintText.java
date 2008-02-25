@@ -31,6 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
@@ -102,7 +103,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 			}
 			else
 			{
-				if (isStyledText())
+				if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
 				{
 					truncatedText = JRStyledTextParser.getInstance().write(
 							getFullStyledText(JRStyledTextAttributeSelector.ALL), 
@@ -178,7 +179,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return JRStyledTextParser.getInstance().getStyledText(
 				attributeSelector.getStyledTextAttributes(this), 
 				getText(), 
-				isStyledText());
+				!JRCommonText.MARKUP_NONE.equals(getMarkup()));
 	}
 
 	public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector)
@@ -191,7 +192,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return JRStyledTextParser.getInstance().getStyledText(
 				attributeSelector.getStyledTextAttributes(this), 
 				getFullText(), 
-				isStyledText());
+				!JRCommonText.MARKUP_NONE.equals(getMarkup()));
 	}
 	
 	/**
@@ -385,16 +386,20 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getMarkup()}
 	 */
 	public boolean isStyledText()
 	{
-		return ((JRTemplateText)template).isStyledText();
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(getMarkup());
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getOwnMarkup()}
+	 */
 	public Boolean isOwnStyledText()
 	{
-		return ((JRTemplateText)template).isOwnStyledText();
+		String mkp = getOwnMarkup();
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
 	}
 
 	/**
@@ -408,6 +413,26 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 *
 	 */
 	public void setStyledText(Boolean isStyledText)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public String getMarkup()
+	{
+		return ((JRTemplateText)template).getMarkup();
+	}
+		
+	public String getOwnMarkup()
+	{
+		return ((JRTemplateText)template).getOwnMarkup();
+	}
+
+	/**
+	 *
+	 */
+	public void setMarkup(String markup)
 	{
 	}
 		

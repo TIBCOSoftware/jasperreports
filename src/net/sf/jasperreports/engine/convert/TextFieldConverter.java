@@ -35,6 +35,7 @@
  */
 package net.sf.jasperreports.engine.convert;
 
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRTextField;
@@ -79,7 +80,7 @@ public class TextFieldConverter extends TextElementConverter
 		
 		copyTextElement(reportConverter, textField, printText);
 		
-		printText.setStyledText(false);//text fields are never converted to styled print text elements
+		printText.setMarkup(JRCommonText.MARKUP_NONE);//text fields are never converted to styled print text elements
 		printText.setAnchorName(JRExpressionUtil.getExpressionText(textField.getAnchorNameExpression()));
 		printText.setBookmarkLevel(textField.getBookmarkLevel());
 		printText.setLinkType(textField.getLinkType());

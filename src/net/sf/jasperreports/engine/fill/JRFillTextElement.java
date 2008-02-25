@@ -34,7 +34,9 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRBoxContainer;
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -45,10 +47,14 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRSingletonCache;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
+import net.sf.jasperreports.engine.util.MarkupProcessor;
+import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
 
 
 /**
@@ -58,6 +64,11 @@ import net.sf.jasperreports.engine.util.LineBoxWrapper;
 public abstract class JRFillTextElement extends JRFillElement implements JRTextElement
 {
 
+	/**
+	 *
+	 */
+	private static final JRSingletonCache markupProcessorFactoryCache = new JRSingletonCache(MarkupProcessorFactory.class);
+	private static final Map markupProcessors = new HashMap();
 
 	/**
 	 *
@@ -245,32 +256,59 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getMarkup()}
 	 */
 	public boolean isStyledText()
 	{
-		return JRStyleResolver.isStyledText(this);
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(getMarkup());
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getOwnMarkup()}
+	 */
 	public Boolean isOwnStyledText()
 	{
-		return ((JRTextElement)parent).isOwnStyledText();
+		String mkp = getOwnMarkup();
+		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(boolean isStyledText)
 	{
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}
 	 */
 	public void setStyledText(Boolean isStyledText)
 	{
 	}
 		
+	/**
+	 *
+	 */
+	public String getMarkup()
+	{
+		return JRStyleResolver.getMarkup(this);
+	}
+		
+	/**
+	 *
+	 */
+	public String getOwnMarkup()
+	{
+		return ((JRTextElement)parent).getOwnMarkup();
+	}
+
+	/**
+	 *
+	 */
+	public void setMarkup(String markup)
+	{
+	}
+
 	/**
 	 * @deprecated Replaced by {@link #getLineBox()} 
 	 */
@@ -901,7 +939,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				styledText = filler.getStyledTextParser().getStyledText(
 						getStyledTextAttributes(), 
 						text, 
-						isStyledText());
+						!JRCommonText.MARKUP_NONE.equals(getMarkup()));
 			}
 		}
 		
@@ -1303,6 +1341,54 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		createTextMeasurer();
 	}
 
+	protected String processMarkupText(String text)
+	{
+		text = JRStringUtil.replaceCRwithLF(text);
+		
+		if (text != null)
+		{
+			String markup = getMarkup();
+			if (
+				!JRCommonText.MARKUP_NONE.equals(markup)
+				&& !JRCommonText.MARKUP_STYLED_TEXT.equals(markup)
+				)
+			{
+				text = getMarkupProcessor(markup).convert(text);
+			}
+		}
+		
+		return text;
+	}
+
+	protected static MarkupProcessor getMarkupProcessor(String markup)
+	{
+		MarkupProcessor markupProcessor = (MarkupProcessor)markupProcessors.get(markup);
+		
+		if (markupProcessor == null)
+		{
+			String factoryClass = JRProperties.getProperty(MarkupProcessorFactory.PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX + markup);
+			if (factoryClass == null)
+			{
+				throw new JRRuntimeException("No markup processor factory specifyed for '" + markup + "' markup.");
+			}
+
+			MarkupProcessorFactory factory = null;
+			try
+			{
+				factory = (MarkupProcessorFactory) markupProcessorFactoryCache.getCachedInstance(factoryClass);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			
+			markupProcessor = factory.createMarkupProcessor();
+			markupProcessors.put(markup, markupProcessor);
+		}
+		
+		return markupProcessor;
+	}
+
 	protected void setPrintText(JRPrintText printText)
 	{
 		int startIndex = getTextStart();
@@ -1320,7 +1406,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				throw new JRRuntimeException("Text start index != 0 on keep all text.");
 			}
 			
-			if (isStyledText())
+			if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
 			{
 				//rewrite as styled text
 				String styledText = filler.getStyledTextParser().write(
@@ -1340,7 +1426,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		else
 		{
 			String printedText;
-			if (isStyledText())
+			if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
 			{
 				printedText = filler.getStyledTextParser().write(
 						fullStyledText, 

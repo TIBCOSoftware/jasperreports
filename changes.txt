@@ -5,6 +5,11 @@ JasperReports Change Log
 JasperReports 2.0.5 (2008-0x-xx)
 -----------------------------------
 
+- support for RTF and HTML snippets inside text elements using new markup attribute 
+that deprecates the former isStyledText attribute;
+
+- chart renderType attribute and configuration property;
+
 - file resolver interface and parameters;
 
 - minor bug fixes and improvements;

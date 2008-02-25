@@ -354,6 +354,24 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Markup Sample"/>
+		<echo message="==================================="/>
+		<ant dir="markup" target="clean" />
+		<ant dir="markup" target="javac" />
+		<ant dir="markup" target="compile" />
+		<ant dir="markup" target="fill" />
+		<ant dir="markup" target="pdf" />
+		<ant dir="markup" target="xmlEmbed" />
+		<ant dir="markup" target="xml" />
+		<ant dir="markup" target="html" />
+		<ant dir="markup" target="rtf" />
+		<ant dir="markup" target="xls" />
+		<ant dir="markup" target="jxl" />
+		<ant dir="markup" target="csv" />
+		<ant dir="markup" target="odt" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Mondrian Sample"/>
 		<echo message="==================================="/>
 		<ant dir="mondrian" target="clean" />
@@ -711,6 +729,7 @@
 		<ant dir="jcharts" target="clean" />
 		<ant dir="jfreechart" target="clean" />
 		<ant dir="landscape" target="clean" />
+		<ant dir="markup" target="clean" />
 		<ant dir="mondrian" target="clean" />
 		<ant dir="nopagebreak" target="clean" />
 		<ant dir="noreport" target="clean" />
