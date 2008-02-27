@@ -27,50 +27,63 @@
  */
 package net.sf.jasperreports.renderers;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.List;
 
+import net.sf.jasperreports.charts.util.HighLowChartHyperlinkProvider;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.entity.ChartEntity;
-import org.jfree.chart.entity.XYItemEntity;
 
 
 /**
  * Image map renderer used for charts with high low datasets.
+ * 
+ * @deprecated
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
 public class JRHighLowChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 {
-	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private List itemHyperlinks;
+	private HighLowChartHyperlinkProvider highLowChartHyperlinkProvider = null;
 	
 	public JRHighLowChartImageMapRenderer(JFreeChart chart, List itemHyperlinks)
 	{
 		super(chart);
 		
-		this.itemHyperlinks = itemHyperlinks;
+		highLowChartHyperlinkProvider = new HighLowChartHyperlinkProvider(itemHyperlinks);
 	}
 
 
-	protected JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
+	public JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
 	{
-		JRPrintHyperlink printHyperlink = null;
-		if (entity instanceof XYItemEntity)
-		{
-			XYItemEntity itemEntity = (XYItemEntity) entity;
-			int item = itemEntity.getItem();
-			if (item >= 0 && item < itemHyperlinks.size())
-			{
-				printHyperlink = (JRPrintHyperlink) itemHyperlinks.get(item);
-			}
-		}
-		return printHyperlink;
+		return highLowChartHyperlinkProvider.getEntityHyperlink(entity);
 	}
 
+	public boolean hasHyperlinks()
+	{
+		return highLowChartHyperlinkProvider.hasHyperlinks();
+	}
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private List itemHyperlinks;
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (highLowChartHyperlinkProvider == null)
+		{
+			this.highLowChartHyperlinkProvider = new HighLowChartHyperlinkProvider(itemHyperlinks);
+			itemHyperlinks = null;
+		}
+	}
 }

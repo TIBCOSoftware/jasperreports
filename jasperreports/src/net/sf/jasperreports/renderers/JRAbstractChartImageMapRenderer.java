@@ -27,34 +27,29 @@
  */
 package net.sf.jasperreports.renderers;
 
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.StringTokenizer;
 
+import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
-import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPrintImageArea;
-import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 
-import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.entity.ChartEntity;
-import org.jfree.chart.entity.EntityCollection;
 
 
 /**
  * Abstract image map renderer for charts.
  * 
+ * @deprecated
+ *
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRAbstractChartImageMapRenderer extends JFreeChartRenderer implements JRImageMapRenderer
+public abstract class JRAbstractChartImageMapRenderer extends JFreeChartRenderer implements JRImageMapRenderer, ChartHyperlinkProvider
 {
-	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public JRAbstractChartImageMapRenderer(JFreeChart chart)
@@ -62,69 +57,18 @@ public abstract class JRAbstractChartImageMapRenderer extends JFreeChartRenderer
 		super(chart);
 	}
 
+	public List renderWithHyperlinks(Graphics2D grx, Rectangle2D renderingArea) throws JRException
+	{
+		render(grx, renderingArea);
+		return ChartUtil.getImageAreaHyperlinks(getChart(), this, grx, renderingArea);
+	}
 
+	/**
+	 * @deprecated Replaced by {@link #renderWidthHyperlinks(Graphics2D, Rectangle2D)}
+	 */
 	public List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{
-		//FIXME don't render twice
-		ChartRenderingInfo renderingInfo = new ChartRenderingInfo();
-		getChart().createBufferedImage((int) renderingArea.getWidth(), (int)  renderingArea.getHeight(), renderingInfo);
-		
-		EntityCollection entityCollection = renderingInfo.getEntityCollection();
-		List areaHyperlinks = null;
-		if (entityCollection != null && entityCollection.getEntityCount() > 0)
-		{
-			areaHyperlinks = new ArrayList(entityCollection.getEntityCount());
-			
-			for (Iterator it = entityCollection.iterator(); it.hasNext();)
-			{
-				ChartEntity entity = (ChartEntity) it.next();
-				JRPrintHyperlink printHyperlink = getEntityHyperlink(entity);
-				if (printHyperlink != null)
-				{
-					JRPrintImageArea area = getImageArea(entity);
-
-					JRPrintImageAreaHyperlink areaHyperlink = new JRPrintImageAreaHyperlink();
-					areaHyperlink.setArea(area);
-					areaHyperlink.setHyperlink(printHyperlink);
-					areaHyperlinks.add(areaHyperlink);
-				}
-			}
-		}
-		
-		return areaHyperlinks;
+		return ChartUtil.getImageAreaHyperlinks(getChart(), this, null, renderingArea);
 	}
 
-	protected JRPrintImageArea getImageArea(ChartEntity entity)
-	{
-		JRPrintImageArea area = new JRPrintImageArea();
-		area.setShape(JRPrintImageArea.getShape(entity.getShapeType()));
-		
-		int[] coordinates = getCoordinates(entity);
-		if (coordinates != null)
-		{
-			area.setCoordinates(coordinates);
-		}
-		return area;
-	}
-	
-	protected int[] getCoordinates(ChartEntity entity)
-	{
-		int[] coordinates = null;
-		String shapeCoords = entity.getShapeCoords();
-		if (shapeCoords != null && shapeCoords.length() > 0)
-		{
-			StringTokenizer tokens = new StringTokenizer(shapeCoords, ",");
-			coordinates = new int[tokens.countTokens()];
-			int idx = 0;
-			while (tokens.hasMoreTokens())
-			{
-				String coord = tokens.nextToken();
-				coordinates[idx] = Integer.parseInt(coord);
-				++idx;
-			}
-		}
-		return coordinates;
-	}
-
-	protected abstract JRPrintHyperlink getEntityHyperlink(ChartEntity entity);
 }

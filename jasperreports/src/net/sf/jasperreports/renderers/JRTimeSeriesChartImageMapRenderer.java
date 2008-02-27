@@ -27,21 +27,22 @@
  */
 package net.sf.jasperreports.renderers;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Map;
 
+import net.sf.jasperreports.charts.util.TimeSeriesChartHyperlinkProvider;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.entity.ChartEntity;
-import org.jfree.chart.entity.XYItemEntity;
-import org.jfree.data.time.RegularTimePeriod;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
 
 
 /**
  * Image map renderer used for charts with time series datasets.
+ * 
+ * @deprecated
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
@@ -51,32 +52,40 @@ public class JRTimeSeriesChartImageMapRenderer extends JRAbstractChartImageMapRe
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map itemHyperlinks;
+	private TimeSeriesChartHyperlinkProvider timeSeriesChartHyperlinkProvider = null;
 	
 	public JRTimeSeriesChartImageMapRenderer(JFreeChart chart, Map itemHyperlinks)
 	{
 		super(chart);
 		
-		this.itemHyperlinks = itemHyperlinks;
+		this.timeSeriesChartHyperlinkProvider = new TimeSeriesChartHyperlinkProvider(itemHyperlinks);
 	}
 
 
-	protected JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
+	public JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
 	{
-		JRPrintHyperlink printHyperlink = null;
-		if (entity instanceof XYItemEntity)
-		{
-			XYItemEntity itemEntity = (XYItemEntity) entity;
-			TimeSeriesCollection dataset = (TimeSeriesCollection) itemEntity.getDataset();
-			TimeSeries series = dataset.getSeries(itemEntity.getSeriesIndex());
-			Map serieHyperlinks = (Map) itemHyperlinks.get(series.getKey());
-			if (serieHyperlinks != null)
-			{
-				RegularTimePeriod timePeriod = series.getTimePeriod(itemEntity.getItem());
-				printHyperlink = (JRPrintHyperlink) serieHyperlinks.get(timePeriod);
-			}
-		}
-		return printHyperlink;
+		return timeSeriesChartHyperlinkProvider.getEntityHyperlink(entity);
 	}
 
+
+	public boolean hasHyperlinks()
+	{
+		return timeSeriesChartHyperlinkProvider.hasHyperlinks();
+	}
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private Map itemHyperlinks;
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (timeSeriesChartHyperlinkProvider == null)
+		{
+			this.timeSeriesChartHyperlinkProvider = new TimeSeriesChartHyperlinkProvider(itemHyperlinks);
+			itemHyperlinks = null;
+		}
+	}
 }

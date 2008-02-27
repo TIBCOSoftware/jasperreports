@@ -27,18 +27,22 @@
  */
 package net.sf.jasperreports.renderers;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Map;
 
+import net.sf.jasperreports.charts.util.PieChartHyperlinkProvider;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.entity.ChartEntity;
-import org.jfree.chart.entity.PieSectionEntity;
 
 
 /**
  * Image map renderer used for pie charts.
+ * 
+ * @deprecated
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
@@ -48,25 +52,40 @@ public class JRPieChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map sectionHyperlinks;
+	private PieChartHyperlinkProvider pieChartHyperlinkProvider = null;
 	
 	public JRPieChartImageMapRenderer(JFreeChart chart, Map sectionHyperlinks)
 	{
 		super(chart);
 		
-		this.sectionHyperlinks = sectionHyperlinks;
+		pieChartHyperlinkProvider = new PieChartHyperlinkProvider(sectionHyperlinks);
 	}
 
 	
-	protected JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
+	public JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
 	{
-		JRPrintHyperlink printHyperlink = null;
-		if (entity instanceof PieSectionEntity)
-		{
-			PieSectionEntity pieEntity = (PieSectionEntity) entity;
-			printHyperlink = (JRPrintHyperlink) sectionHyperlinks.get(pieEntity.getSectionKey());
-		}
-		return printHyperlink;
+		return new PieChartHyperlinkProvider(sectionHyperlinks).getEntityHyperlink(entity);
 	}
 
+
+	public boolean hasHyperlinks()
+	{
+		return pieChartHyperlinkProvider.hasHyperlinks();
+	}
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private Map sectionHyperlinks;
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (pieChartHyperlinkProvider == null)
+		{
+			this.pieChartHyperlinkProvider = new PieChartHyperlinkProvider(sectionHyperlinks);
+			sectionHyperlinks = null;
+		}
+	}
 }

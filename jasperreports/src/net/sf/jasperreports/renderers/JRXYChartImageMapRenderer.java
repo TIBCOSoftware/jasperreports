@@ -27,20 +27,22 @@
  */
 package net.sf.jasperreports.renderers;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Map;
 
+import net.sf.jasperreports.charts.util.XYChartHyperlinkProvider;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.util.Pair;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.entity.ChartEntity;
-import org.jfree.chart.entity.XYItemEntity;
-import org.jfree.data.xy.XYDataset;
 
 
 /**
  * Image map renderer used for charts with XY datasets.
+ * 
+ * @deprecated
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
@@ -50,34 +52,39 @@ public class JRXYChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map itemHyperlinks;
+	private XYChartHyperlinkProvider xyChartHyperlinkProvider = null;
 	
 	public JRXYChartImageMapRenderer(JFreeChart chart, Map itemHyperlinks)
 	{
 		super(chart);
 		
-		this.itemHyperlinks = itemHyperlinks;
+		xyChartHyperlinkProvider = new XYChartHyperlinkProvider(itemHyperlinks);
 	}
 
 
-	protected JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
+	public JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
 	{
-		JRPrintHyperlink printHyperlink = null;
-		if (entity instanceof XYItemEntity)
-		{
-			XYItemEntity itemEntity = (XYItemEntity) entity;
-			XYDataset dataset = itemEntity.getDataset();
-			Comparable serie = dataset.getSeriesKey(itemEntity.getSeriesIndex());
-			Map serieHyperlinks = (Map) itemHyperlinks.get(serie);
-			if (serieHyperlinks != null)
-			{
-				Number x = dataset.getX(itemEntity.getSeriesIndex(), itemEntity.getItem());
-				Number y = dataset.getY(itemEntity.getSeriesIndex(), itemEntity.getItem());
-				Object xyKey = new Pair(x, y);
-				printHyperlink = (JRPrintHyperlink) serieHyperlinks.get(xyKey);
-			}
-		}
-		return printHyperlink;
+		return xyChartHyperlinkProvider.getEntityHyperlink(entity);
 	}
 
+	public boolean hasHyperlinks()
+	{
+		return xyChartHyperlinkProvider.hasHyperlinks();
+	}
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private Map itemHyperlinks;
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (xyChartHyperlinkProvider == null)
+		{
+			this.xyChartHyperlinkProvider = new XYChartHyperlinkProvider(itemHyperlinks);
+			itemHyperlinks = null;
+		}
+	}
 }

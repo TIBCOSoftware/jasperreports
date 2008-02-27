@@ -31,12 +31,10 @@ import java.awt.Color;
 import java.util.Collection;
 
 import net.sf.jasperreports.charts.util.JRAxisFormat;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.xml.sax.Attributes;
 
@@ -103,13 +101,7 @@ public class JRChartFactory extends JRBaseFactory
 			chart.setCustomizerClass(chartCustomizerClass);
 		}
 		
-		byte renderType = JRChart.RENDER_TYPE_NOT_SET;
-		String jrxmlRenderType = atts.getValue(JRXmlConstants.ATTRIBUTE_renderType);
-		if(jrxmlRenderType != null)
-		{
-			renderType = ((Byte)JRXmlConstants.getRenderTypeMap().get(jrxmlRenderType)).byteValue();
-		}
-		chart.setRenderType(renderType);
+		chart.setRenderType(atts.getValue(JRXmlConstants.ATTRIBUTE_renderType));
 		
 		return chart;
 	}

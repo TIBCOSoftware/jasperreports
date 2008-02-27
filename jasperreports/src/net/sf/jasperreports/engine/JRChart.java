@@ -41,14 +41,15 @@ import net.sf.jasperreports.engine.util.JRProperties;
  */
 public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxContainer
 {
+
 	/**
-	 * Specifies the type of chart rendering. Possible values are <code>vector</code> and <code>image</code>.
-	 * If the rendering type is <code>vector</code> a vector image is constructed, using the <code>JFreeChart</code> dedicated APIs.
-	 * Otherwise a pixel-based image will be generated, using the PNG encoding.
+	 * Specifies the type of chart rendering. Possible values are <code>draw</code>, <code>image</code> and <code>svg</code>.
+	 * If the rendering type is <code>draw</code> a vector image is constructed, using the <code>JFreeChart</code> dedicated APIs.
+	 * For type image, a PNG encoded image will be generated, while for type svg, an SVG snippet will be generated.
 	 * <p>
-	 * Defaults to <code>vector</code>.
+	 * Defaults to <code>draw</code>.
 	 */
-	public static final String PROPERTY_CHART_RENDER_TYPE = JRProperties.PROPERTY_PREFIX + "chart.render.type";
+	public static final String PROPERTY_CHART_RENDER_TYPE = JRProperties.PROPERTY_PREFIX + "chart.render.type";//FIXMECHART javadoc comment
 
 	/**
 	 *
@@ -103,9 +104,9 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	/**
 	 * rendering type
 	 */
-	public static final byte RENDER_TYPE_NOT_SET = 0;
-	public static final byte RENDER_TYPE_VECTOR = 1;
-	public static final byte RENDER_TYPE_IMAGE = 2;
+	public static final String RENDER_TYPE_DRAW = "draw";
+	public static final String RENDER_TYPE_IMAGE = "image";
+	public static final String RENDER_TYPE_SVG = "svg";
 
 	/**
 	 *
@@ -277,12 +278,12 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	/**
 	 *
 	 */
-	public byte getRenderType();
+	public String getRenderType();
 
 
 	/**
 	 *
 	 */
-	public void setRenderType(byte renderType);
+	public void setRenderType(String renderType);
 	
 }

@@ -27,52 +27,63 @@
  */
 package net.sf.jasperreports.renderers;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Map;
 
+import net.sf.jasperreports.charts.util.CategoryChartHyperlinkProvider;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.ChartEntity;
 
 
 /**
  * Image map renderer used for charts with category datasets.
  * 
+ * @deprecated
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
 public class JRCategoryChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 {
-	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map itemHyperlinks;
+	private CategoryChartHyperlinkProvider categoryChartHyperlinkProvider;
 	
 	public JRCategoryChartImageMapRenderer(JFreeChart chart, Map itemHyperlinks)
 	{
 		super(chart);
 		
-		this.itemHyperlinks = itemHyperlinks;
+		this.categoryChartHyperlinkProvider = new CategoryChartHyperlinkProvider(itemHyperlinks);
 	}
 
 
-	protected JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
+	public JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
 	{
-		JRPrintHyperlink printHyperlink = null;
-		if (entity instanceof CategoryItemEntity)
-		{
-			CategoryItemEntity itemEntity = (CategoryItemEntity) entity;
-			Comparable serie = itemEntity.getDataset().getRowKey(itemEntity.getSeries());
-			Map serieHyperlinks = (Map) itemHyperlinks.get(serie);
-			if (serieHyperlinks != null)
-			{
-				Object category = itemEntity.getCategory();
-				printHyperlink = (JRPrintHyperlink) serieHyperlinks.get(category);
-			}
-		}
-		return printHyperlink;
+		return categoryChartHyperlinkProvider.getEntityHyperlink(entity);
 	}
 
+	public boolean hasHyperlinks()
+	{
+		return categoryChartHyperlinkProvider.hasHyperlinks();
+	}
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private Map itemHyperlinks;
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (categoryChartHyperlinkProvider == null)
+		{
+			this.categoryChartHyperlinkProvider = new CategoryChartHyperlinkProvider(itemHyperlinks);
+			itemHyperlinks = null;
+		}
+	}
 }

@@ -38,6 +38,8 @@ import org.jfree.chart.JFreeChart;
 
 /**
  * Renderer used by JasperReports charts.
+ *
+ * @deprecated
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$

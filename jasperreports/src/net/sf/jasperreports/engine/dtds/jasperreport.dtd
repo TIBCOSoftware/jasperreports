@@ -399,7 +399,7 @@
 	hyperlinkTarget (Self | Blank) "Self"
 	bookmarkLevel NMTOKEN "0"
 	customizerClass CDATA #IMPLIED
-	renderType (vector | image) #IMPLIED
+	renderType CDATA #IMPLIED
 >
 <!ELEMENT chartTitle (font?, titleExpression?)>
 <!ATTLIST chartTitle
