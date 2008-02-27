@@ -14,7 +14,6 @@ import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 import org.apache.batik.bridge.BridgeContext;
-import org.apache.batik.bridge.DocumentLoader;
 import org.apache.batik.bridge.GVTBuilder;
 import org.apache.batik.bridge.UserAgent;
 import org.apache.batik.bridge.UserAgentAdapter;
@@ -47,7 +46,6 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 		try
 		{
 			UserAgent userAgent = new UserAgentAdapter();
-			DocumentLoader loader = new DocumentLoader(userAgent);
 			SVGDocumentFactory documentFactory = 
 				new SAXSVGDocumentFactory(userAgent.getXMLParserClassName(), true);
 			documentFactory.setValidating(userAgent.isXMLParserValidating());
@@ -58,7 +56,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	        		new StringReader(svgText)
 	        		);
 
-			BridgeContext ctx = new BridgeContext(userAgent, loader);
+			BridgeContext ctx = new BridgeContext(userAgent);
 			ctx.setDynamic(true);
 			GVTBuilder builder = new GVTBuilder();
 			GraphicsNode graphicsNode = builder.build(ctx, document);
