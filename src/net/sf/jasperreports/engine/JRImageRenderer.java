@@ -73,7 +73,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
-	private JRImageRenderer(byte[] imageData)
+	protected JRImageRenderer(byte[] imageData)
 	{
 		this.imageData = imageData;
 		
@@ -88,7 +88,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
-	private JRImageRenderer(String imageLocation)
+	protected JRImageRenderer(String imageLocation)
 	{
 		this.imageLocation = imageLocation;
 	}

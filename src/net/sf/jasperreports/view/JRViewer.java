@@ -1650,7 +1650,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			try
 			{
-				imageAreaHyperlinks = imageMap.getImageAreaHyperlinks(renderingArea);
+				imageAreaHyperlinks = imageMap.getImageAreaHyperlinks(renderingArea);//FIXMECHART
 			}
 			catch (JRException e)
 			{
@@ -1704,12 +1704,15 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		protected JRPrintImageAreaHyperlink getImageMapArea(int x, int y)
 		{
 			JRPrintImageAreaHyperlink image = null;
-			for (ListIterator it = imageAreaHyperlinks.listIterator(imageAreaHyperlinks.size()); image == null && it.hasPrevious();)
+			if (imageAreaHyperlinks != null)
 			{
-				JRPrintImageAreaHyperlink area = (JRPrintImageAreaHyperlink) it.previous();
-				if (area.getArea().containsPoint(x, y))
+				for (ListIterator it = imageAreaHyperlinks.listIterator(imageAreaHyperlinks.size()); image == null && it.hasPrevious();)
 				{
-					image = area;
+					JRPrintImageAreaHyperlink area = (JRPrintImageAreaHyperlink) it.previous();
+					if (area.getArea().containsPoint(x, y))
+					{
+						image = area;
+					}
 				}
 			}
 			return image;

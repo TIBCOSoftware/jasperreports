@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
@@ -42,11 +43,21 @@ public interface JRImageMapRenderer extends JRRenderable
 
 	/**
 	 * Returns the list of {@link JRPrintImageAreaHyperlink image map areas}.
-	 * 
+	 *
+	 * @deprecated Replaced by {@link #renderWidthHyperlinks(Graphics2D, Rectangle2D)}
 	 * @param renderingArea the area on which the image would be rendered
 	 * @return a list of {@link JRPrintImageAreaHyperlink JRPrintImageAreaHyperlink} instances.
 	 * @throws JRException
 	 */
 	List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException;
+
+	/**
+	 * Returns the list of {@link JRPrintImageAreaHyperlink image map areas}.
+	 * 
+	 * @param rectangle the area on which the image would be rendered
+	 * @return a list of {@link JRPrintImageAreaHyperlink JRPrintImageAreaHyperlink} instances.
+	 * @throws JRException
+	 */
+	public List renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException;
 
 }

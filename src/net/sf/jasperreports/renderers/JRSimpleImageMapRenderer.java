@@ -28,109 +28,46 @@
 package net.sf.jasperreports.renderers;
 
 import java.awt.Graphics2D;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRRenderable;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JRSimpleImageMapRenderer implements JRImageMapRenderer
+public class JRSimpleImageMapRenderer extends JRImageRenderer implements JRImageMapRenderer
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private JRRenderable imageRenderer;
 	private List areaHyperlinks;
 	
 	/**
 	 * 
-	 * 
 	 */
-	public JRSimpleImageMapRenderer(JRImageRenderer imageRenderer, List areaHyperlinks) {
-		this.imageRenderer = imageRenderer;
-		this.areaHyperlinks = areaHyperlinks;
-	}
-
-	/**
-	 * 
-	 * 
-	 */
-	public JRSimpleImageMapRenderer(byte[] imageData, List areaHyperlinks) {
-		this.imageRenderer = JRImageRenderer.getInstance(imageData);
-		this.areaHyperlinks = areaHyperlinks;
-	}
-
-	/**
-	 * 
-	 * 
-	 */
-	public JRSimpleImageMapRenderer(String imageLocation, List areaHyperlinks) throws JRException
+	public JRSimpleImageMapRenderer(byte[] imageData, List areaHyperlinks) 
 	{
-		this.imageRenderer = JRImageRenderer.getInstance(imageLocation);
+		super(imageData);
 		this.areaHyperlinks = areaHyperlinks;
 	}
 
+	public List renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException
+	{
+		render(grx, rectangle);
+		
+		return areaHyperlinks;
+	}
+	
 	/**
-	 * 
-	 * 
+	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
 	 */
 	public List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException 
 	{
 		return areaHyperlinks;
 	}
 
-	/**
-	 * 
-	 * 
-	 */
-	public Dimension2D getDimension() throws JRException {
-	    return imageRenderer.getDimension();
-    }
-
-	/**
-	 * 
-	 * 
-	 */
-	public String getId() {
-	    return imageRenderer.getId();
-    }
-
-	/**
-	 * 
-	 * 
-	 */
-	public byte[] getImageData() throws JRException {
-	    return imageRenderer.getImageData();
-    }
-
-	/**
-	 * 
-	 * 
-	 */
-	public byte getImageType() {
-	    return imageRenderer.getImageType();
-    }
-
-	/**
-	 * 
-	 * 
-	 */
-	public byte getType() {
-	    return imageRenderer.getType();
-    }
-
-	/**
-	 * 
-	 * 
-	 */
-	public void render(Graphics2D grx, Rectangle2D rectangle)
-            throws JRException {
-		imageRenderer.render(grx, rectangle);
-    }
-	
 }

@@ -1267,26 +1267,6 @@ public class JRXmlConstants
 	/**
 	 *
 	 */
-	private static final String RENDER_TYPE_VECTOR = "vector";
-	private static final String RENDER_TYPE_IMAGE = "image";
-	
-	private static Map renderTypeMap = null;
-
-	public static Map getRenderTypeMap()
-	{
-		if (renderTypeMap == null)
-		{
-			renderTypeMap = new HashMap(2);
-			renderTypeMap.put(RENDER_TYPE_VECTOR,  new Byte(JRChart.RENDER_TYPE_VECTOR));
-			renderTypeMap.put(RENDER_TYPE_IMAGE, new Byte(JRChart.RENDER_TYPE_IMAGE));
-		}
-
-		return renderTypeMap;
-	}
-	
-	/**
-	 *
-	 */
 	public static final String JASPERREPORT_PUBLIC_ID = "-//JasperReports//DTD JasperReport//EN";
 	public static final String JASPERREPORT_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd";
 	public static final String JASPERREPORT_DTD = "net/sf/jasperreports/engine/dtds/jasperreport.dtd";

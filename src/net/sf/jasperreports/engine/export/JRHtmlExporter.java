@@ -1603,7 +1603,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					if (imageMapName == null)
 					{
 						imageMapName = "map_" + getElementIndex(gridCell).toString();
-						imageMapAreas = ((JRImageMapRenderer) originalRenderer).getImageAreaHyperlinks(renderingArea);
+						imageMapAreas = ((JRImageMapRenderer) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 						
 						if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 						{
