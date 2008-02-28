@@ -62,6 +62,8 @@ public class SvgChartRendererFactory implements ChartRendererFactory
 		    domImpl.createDocument(null, "svg", null);
 		SVGGraphics2D grx = 
 		    new SVGGraphics2D(document);
+		
+		grx.setSVGCanvasSize(rectangle.getBounds().getSize());
 
 		List areaHyperlinks = null;
 
