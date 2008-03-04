@@ -338,7 +338,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public void setMarkup(String markup)
 	{
+		Object old = this.markup;
 		this.markup = markup;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MARKUP, old, this.markup);
 	}
 
 	/**
