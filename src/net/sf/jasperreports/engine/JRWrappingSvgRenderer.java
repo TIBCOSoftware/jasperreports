@@ -31,6 +31,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 
 /**
@@ -94,5 +95,14 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 		renderer.render(grx, rectangle);
 	}
 
+	protected Graphics2D createGraphics(BufferedImage bi)
+	{
+		if (renderer instanceof JRAbstractSvgRenderer)
+		{
+			return ((JRAbstractSvgRenderer) renderer).createGraphics(bi);
+		}
+		
+		return super.createGraphics(bi);
+	}
 
 }

@@ -104,7 +104,7 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 						? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB 
 					);
 
-			Graphics2D g = bi.createGraphics();
+			Graphics2D g = createGraphics(bi);
 			Color backcolor = getBackcolor();
 			if (backcolor != null)
 			{
@@ -117,6 +117,12 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 			return JRImageLoader.loadImageDataFromAWTImage(bi, getImageType());
 		}
 		return null;
+	}
+
+
+	protected Graphics2D createGraphics(BufferedImage bi)
+	{
+		return bi.createGraphics();
 	}
 
 
