@@ -82,7 +82,7 @@ public class DrawVisitor implements JRVisitor
 	 */
 	public DrawVisitor(JRReport report, Graphics2D grx)
 	{
-		this(new ReportConverter(report, true), grx);
+		this(new ReportConverter(report, true, true), grx);
 	}
 
 	/**
