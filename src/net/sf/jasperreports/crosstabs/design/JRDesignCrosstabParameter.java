@@ -71,4 +71,14 @@ public class JRDesignCrosstabParameter extends JRDesignParameter implements JRCr
 		this.valueExpression = expression;
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
+	
+	public Object clone()
+	{
+		JRDesignCrosstabParameter clone = (JRDesignCrosstabParameter) super.clone();
+		if (valueExpression != null)
+		{
+			clone.valueExpression = (JRExpression) valueExpression.clone();
+		}
+		return clone;
+	}
 }

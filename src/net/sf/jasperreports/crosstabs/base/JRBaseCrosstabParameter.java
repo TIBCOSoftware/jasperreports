@@ -60,4 +60,14 @@ public class JRBaseCrosstabParameter extends JRBaseParameter implements JRCrosst
 	{
 		return valueExpression;
 	}
+	
+	public Object clone()
+	{
+		JRBaseCrosstabParameter clone = (JRBaseCrosstabParameter) super.clone();
+		if (valueExpression != null)
+		{
+			clone.valueExpression = (JRExpression) valueExpression.clone();
+		}
+		return clone;
+	}
 }
