@@ -67,7 +67,7 @@ public class JRDesignViewer extends JRViewer
 	/** Creates new form JRDesignViewer */
 	public JRDesignViewer(JRReport report) throws JRException
 	{
-		super(new ReportConverter(report, false).getJasperPrint());
+		super(new ReportConverter(report, false, true).getJasperPrint());
 		//reconfigureReloadButton();
 		hideUnusedComponents();
 	}
@@ -148,7 +148,7 @@ public class JRDesignViewer extends JRViewer
 	
 	private void setReport(JRReport report) throws JRException
 	{
-		this.jasperPrint = new ReportConverter(report, false).getJasperPrint();		
+		this.jasperPrint = new ReportConverter(report, false, true).getJasperPrint();		
 	}
 
 	/**

@@ -61,6 +61,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
@@ -94,14 +95,16 @@ public class ReportConverter
 	
 	private StyleFactory styleFactory;
 	protected Map stylesMap;
+	protected final boolean cacheStyles;
 
 	
 	/**
 	 *
 	 */
-	public ReportConverter(JRReport report, boolean ignoreContent)
+	public ReportConverter(JRReport report, boolean ignoreContent, boolean cacheStyles)
 	{
 		this.report = report;
+		this.cacheStyles = cacheStyles;
 		
 		if (report instanceof JasperDesign)
 		{
@@ -449,6 +452,26 @@ public class ReportConverter
 		public JRExpression getExpression(JRExpression expression, boolean assignNotUsedId)
 		{
 			return expression;
+		}
+
+		public JRStyle getStyle(JRStyle style)
+		{
+			JRBaseStyle baseStyle = null;
+
+			if (style != null)
+			{
+				baseStyle = (JRBaseStyle)get(style);
+				if (
+					baseStyle == null
+					|| !ReportConverter.this.cacheStyles
+					)
+				{
+					baseStyle = new JRBaseStyle(style, this);
+					put(style, baseStyle);
+				}
+			}
+
+			return baseStyle;
 		}
 
 		protected void handleStyleNameReference(JRStyleSetter setter, String nameReference)
