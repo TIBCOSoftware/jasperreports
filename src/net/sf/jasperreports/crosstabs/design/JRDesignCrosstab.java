@@ -1471,7 +1471,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRCrosstabRowGroup group = 
 					(JRCrosstabRowGroup)((JRCrosstabRowGroup)rowGroups.get(i)).clone();
 				clone.rowGroups.add(group);
-				clone.rowGroupsMap.put(group.getName(), group);
+				clone.rowGroupsMap.put(group.getName(), new Integer(i));
 			}
 		}
 		
@@ -1484,7 +1484,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRCrosstabColumnGroup group = 
 					(JRCrosstabColumnGroup)((JRCrosstabColumnGroup)columnGroups.get(i)).clone();
 				clone.columnGroups.add(group);
-				clone.columnGroupsMap.put(group.getName(), group);
+				clone.columnGroupsMap.put(group.getName(), new Integer(i));
 			}
 		}
 		
@@ -1497,7 +1497,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRCrosstabMeasure measure = 
 					(JRCrosstabMeasure)((JRCrosstabMeasure)measures.get(i)).clone();
 				clone.measures.add(measure);
-				clone.measuresMap.put(measure.getName(), measure);
+				clone.measuresMap.put(measure.getName(), new Integer(i));
 			}
 		}
 		
@@ -1525,4 +1525,35 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 
 		return clone;
 	}
+	
+	public List getRowGroupsList()
+	{
+		return rowGroups;
+	}
+	
+	public Map getRowGroupIndicesMap()
+	{
+		return rowGroupsMap;
+	}
+	
+	public List getColumnGroupsList()
+	{
+		return columnGroups;
+	}
+	
+	public Map getColumnGroupIndicesMap()
+	{
+		return columnGroupsMap;
+	}
+	
+	public List getMesuresList()
+	{
+		return measures;
+	}
+	
+	public Map getMeasureIndicesMap()
+	{
+		return measuresMap;
+	}
+	
 }
