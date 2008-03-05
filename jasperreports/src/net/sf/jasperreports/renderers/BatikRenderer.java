@@ -3,6 +3,7 @@ package net.sf.jasperreports.renderers;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.apache.batik.bridge.UserAgentAdapter;
 import org.apache.batik.bridge.ViewBox;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.dom.svg.SVGDocumentFactory;
+import org.apache.batik.ext.awt.image.GraphicsUtil;
 import org.apache.batik.gvt.GraphicsNode;
 import org.w3c.dom.svg.SVGDocument;
 
@@ -88,5 +90,10 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	public List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException 
 	{
 		return areaHyperlinks;
+	}
+	
+	protected Graphics2D createGraphics(BufferedImage bi)
+	{
+		return GraphicsUtil.createGraphics(bi);
 	}
 }
