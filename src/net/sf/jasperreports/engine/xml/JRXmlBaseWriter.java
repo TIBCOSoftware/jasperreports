@@ -174,6 +174,12 @@ public abstract class JRXmlBaseWriter
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_box);
 			
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_padding, box.getOwnPadding());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_topPadding, box.getOwnTopPadding());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftPadding, box.getOwnLeftPadding());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_bottomPadding, box.getOwnBottomPadding());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightPadding, box.getOwnRightPadding());
+
 			writePen(JRXmlConstants.ELEMENT_pen, box.getPen());
 			writePen(JRXmlConstants.ELEMENT_topPen, box.getTopPen());
 			writePen(JRXmlConstants.ELEMENT_leftPen, box.getLeftPen());
