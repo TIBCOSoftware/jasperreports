@@ -47,13 +47,11 @@ import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRElementGroup;
-import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
-import net.sf.jasperreports.engine.design.JRDesignFrame;
 
 
 /**
@@ -96,10 +94,11 @@ public class CrosstabConverter extends FrameConverter
 		List children = getCrosstabChildren(reportConverter, crosstab);
 		if (children != null && children.size() > 0)
 		{
-			ConvertVisitor convertVisitor = new ConvertVisitor(reportConverter, printFrame);
+//			ConvertVisitor convertVisitor = new ConvertVisitor(reportConverter, printFrame);
 			for(int i = 0; i < children.size(); i++)
 			{
-				((JRChild)children.get(i)).visit(convertVisitor);
+//				((JRChild)children.get(i)).visit(convertVisitor);
+				printFrame.addElement((JRPrintElement)children.get(i));
 			}
 		}
 		
@@ -185,7 +184,7 @@ public class CrosstabConverter extends FrameConverter
 	/**
 	 * 
 	 */
-	private JRFrame getCrosstabCellFrame(
+	private JRPrintFrame getCrosstabCellFrame(
 		ReportConverter reportConverter,
 		JRCellContents cell, 
 		int x, 
@@ -195,7 +194,7 @@ public class CrosstabConverter extends FrameConverter
 		boolean top
 		)
 	{
-		JRDesignFrame frame = new JRDesignFrame(cell.getDefaultStyleProvider());
+		JRBasePrintFrame frame = new JRBasePrintFrame(cell.getDefaultStyleProvider());
 		frame.setX(x);
 		frame.setY(y);
 		frame.setWidth(cell.getWidth());
@@ -230,20 +229,29 @@ public class CrosstabConverter extends FrameConverter
 			}
 		}
 		
+//		List children = cell.getChildren();
+//		if (children != null)
+//		{
+//			for (Iterator it = children.iterator(); it.hasNext();)
+//			{
+//				JRChild child = (JRChild) it.next();
+//				if (child instanceof JRElement)
+//				{
+//					frame.addElement((JRElement) child);
+//				}
+//				else if (child instanceof JRElementGroup)
+//				{
+//					frame.addElementGroup((JRElementGroup) child);
+//				}
+//			}
+//		}
 		List children = cell.getChildren();
-		if (children != null)
+		if (children != null && children.size() > 0)
 		{
-			for (Iterator it = children.iterator(); it.hasNext();)
+			ConvertVisitor convertVisitor = new ConvertVisitor(reportConverter, frame);
+			for(int i = 0; i < children.size(); i++)
 			{
-				JRChild child = (JRChild) it.next();
-				if (child instanceof JRElement)
-				{
-					frame.addElement((JRElement) child);
-				}
-				else if (child instanceof JRElementGroup)
-				{
-					frame.addElementGroup((JRElementGroup) child);
-				}
+				((JRChild)children.get(i)).visit(convertVisitor);
 			}
 		}
 		
