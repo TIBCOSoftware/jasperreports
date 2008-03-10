@@ -1680,6 +1680,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 		public void mouseDragged(MouseEvent e)
 		{
+			pnlLinksMouseDragged(e);
 		}
 
 		public void mouseMoved(MouseEvent e)
@@ -1737,10 +1738,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 		public void mousePressed(MouseEvent e)
 		{
+			e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+			pnlLinksMousePressed(e);
 		}
 
 		public void mouseReleased(MouseEvent e)
 		{
+			e.getComponent().setCursor(Cursor.getDefaultCursor());
+			pnlLinksMouseReleased(e);
 		}
 	}
 
