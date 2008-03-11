@@ -53,6 +53,17 @@ import org.xml.sax.SAXParseException;
 public class JRXmlTemplateDigesterFactory implements ErrorHandler
 {
 
+	protected static final String PATTERN_ROOT = JRXmlConstants.TEMPLATE_ELEMENT_ROOT;
+	protected static final String PATTERN_INCLUDED_TEMPLATE = PATTERN_ROOT + "/" + JRXmlConstants.TEMPLATE_ELEMENT_INCLUDED_TEMPLATE;
+	protected static final String PATTERN_STYLE = PATTERN_ROOT + "/" + JRXmlConstants.ELEMENT_style;
+	protected static final String PATTERN_STYLE_PEN = PATTERN_STYLE + "/" + JRXmlConstants.ELEMENT_pen;
+	protected static final String PATTERN_BOX = PATTERN_STYLE + "/" + JRXmlConstants.ELEMENT_box;
+	protected static final String PATTERN_BOX_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_pen;
+	protected static final String PATTERN_BOX_TOP_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_topPen;
+	protected static final String PATTERN_BOX_LEFT_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_leftPen;
+	protected static final String PATTERN_BOX_BOTTOM_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_bottomPen;
+	protected static final String PATTERN_BOX_RIGHT_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_rightPen;
+	
 	private static final JRXmlTemplateDigesterFactory instance = new JRXmlTemplateDigesterFactory();
 	
 	private final RuleSet rules;
@@ -78,15 +89,21 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 		{
 			public void addRuleInstances(Digester digester)
 			{
-				String rootPattern = JRXmlConstants.TEMPLATE_ELEMENT_ROOT;
-				digester.addObjectCreate(rootPattern, JRSimpleTemplate.class);
+				digester.addObjectCreate(PATTERN_ROOT, JRSimpleTemplate.class);
 				
-				String includedTemplatePattern = rootPattern + "/" + JRXmlConstants.TEMPLATE_ELEMENT_INCLUDED_TEMPLATE;
-				digester.addCallMethod(includedTemplatePattern, "addIncludedTemplate", 0);
+				digester.addCallMethod(PATTERN_INCLUDED_TEMPLATE, "addIncludedTemplate", 0);
 				
-				String stylePattern = rootPattern + "/" + JRXmlConstants.ELEMENT_style;
-				digester.addFactoryCreate(stylePattern, JRTemplateStyleFactory.class);
-				digester.addSetNext(stylePattern, "addStyle", JRStyle.class.getName());
+				digester.addFactoryCreate(PATTERN_STYLE, JRTemplateStyleFactory.class);
+				digester.addSetNext(PATTERN_STYLE, "addStyle", JRStyle.class.getName());
+				
+				digester.addFactoryCreate(PATTERN_STYLE_PEN, JRPenFactory.Style.class.getName());
+				
+				digester.addFactoryCreate(PATTERN_BOX, JRBoxFactory.class.getName());
+				digester.addFactoryCreate(PATTERN_BOX_PEN, JRPenFactory.Box.class.getName());
+				digester.addFactoryCreate(PATTERN_BOX_TOP_PEN, JRPenFactory.Top.class.getName());
+				digester.addFactoryCreate(PATTERN_BOX_LEFT_PEN, JRPenFactory.Left.class.getName());
+				digester.addFactoryCreate(PATTERN_BOX_BOTTOM_PEN, JRPenFactory.Bottom.class.getName());
+				digester.addFactoryCreate(PATTERN_BOX_RIGHT_PEN, JRPenFactory.Right.class.getName());
 			}
 		};
 	}
