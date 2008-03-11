@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.query.JRClauseFunction;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -36,6 +37,17 @@ import net.sf.jasperreports.engine.query.JRClauseFunction;
  */
 public interface JRQueryChunk extends JRCloneable
 {
+
+	/**
+	 * A property that specifies the list of token separators for
+	 * {@link #TYPE_CLAUSE_TOKENS tokenized query clauses}.
+	 * <p>
+	 * The default separators are the comma (<code>','</code>), the semicolon (<code>';'</code>)
+	 * and the vertical bar (<code>'|'</code>). 
+	 * </p>
+	 */
+	public static final String PROPERTY_CHUNK_TOKEN_SEPARATOR = 
+		JRProperties.PROPERTY_PREFIX + "query.chunk.token.separators";
 
 
 	/**
@@ -46,12 +58,24 @@ public interface JRQueryChunk extends JRCloneable
 	public static final byte TYPE_PARAMETER_CLAUSE = 3;
 	
 	/**
-	 * A <code>$X{..}</code> query clause containing one or several comma-separated tokens.
+	 * A <code>$X{..}</code> query clause containing one or several tokens.
 	 * <p>
 	 * The clause will be processed by the query executer.
 	 * The default implementation treats the first token as a function ID and delegates the processing
 	 * to a {@link JRClauseFunction function} registered for the ID. 
 	 * </p>
+	 * <p>
+	 * The clause text is tokenized in the following manner:
+	 * <ul>
+	 * 	<li>The first appearance of any separator (as specified by {@link #PROPERTY_CHUNK_TOKEN_SEPARATOR})
+	 * if located in the clause text.</li>
+	 * 	<li>This separator is then used to tokenize the entire text, including the remaining separators
+	 * characters in tokens.</li>
+	 * </ul>
+	 * Note that this implies that the first token cannot contain any of the separator characters,
+	 * only subsequent tokens are able to do so.
+	 * </p>
+	 * @see #PROPERTY_CHUNK_TOKEN_SEPARATOR
 	 * @see #getTokens()
 	 */
 	public static final byte TYPE_CLAUSE_TOKENS = 4;
