@@ -29,6 +29,8 @@ package net.sf.jasperreports.view.save;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
@@ -50,14 +52,13 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 	 */
 	private static final String EXTENSION_HTM = ".htm"; 
 	private static final String EXTENSION_HTML = ".html"; 
-	public static final JRHtmlSaveContributor INSTANCE = new JRHtmlSaveContributor(); 
 
 	/**
 	 * 
 	 */
-	public static JRHtmlSaveContributor getInstance()
+	public JRHtmlSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
-		return INSTANCE;
+		super(locale, resBundle);
 	}
 	
 	/**
@@ -78,7 +79,7 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 	 */
 	public String getDescription()
 	{
-		return "HTML (*.htm, *.html)";
+		return getBundleString("file.desc.html");
 	}
 
 	/**
@@ -87,8 +88,8 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
 		if (
-			!file.getName().endsWith(EXTENSION_HTM)
-			&& !file.getName().endsWith(EXTENSION_HTML)
+			!file.getName().toLowerCase().endsWith(EXTENSION_HTM)
+			&& !file.getName().toLowerCase().endsWith(EXTENSION_HTML)
 			)
 		{
 			file = new File(file.getAbsolutePath() + EXTENSION_HTML);
@@ -100,10 +101,10 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 				JOptionPane.showConfirmDialog(
 					null, 
 					MessageFormat.format(
-						java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("file.exists"),
+						getBundleString("file.exists"),
 						new Object[]{file.getName()}
 						), 
-					java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("save"), 
+					getBundleString("save"), 
 					JOptionPane.OK_CANCEL_OPTION
 					)
 			)

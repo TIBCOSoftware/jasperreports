@@ -29,6 +29,8 @@ package net.sf.jasperreports.view.save;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
@@ -49,14 +51,13 @@ public class JROdtSaveContributor extends JRSaveContributor
 	 * 
 	 */
 	private static final String EXTENSION_ODT = ".odt";
-	public static final JROdtSaveContributor INSTANCE = new JROdtSaveContributor(); 
 
 	/**
 	 * 
 	 */
-	public static JROdtSaveContributor getInstance()
+	public JROdtSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
-		return INSTANCE;
+		super(locale, resBundle);
 	}
 	
 	/**
@@ -76,7 +77,7 @@ public class JROdtSaveContributor extends JRSaveContributor
 	 */
 	public String getDescription()
 	{
-		return "ODT (*.odt)";
+		return getBundleString("file.desc.odt");
 	}
 	
 	/**
@@ -84,7 +85,7 @@ public class JROdtSaveContributor extends JRSaveContributor
 	 */
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
-		if(!file.getName().endsWith(EXTENSION_ODT))
+		if(!file.getName().toLowerCase().endsWith(EXTENSION_ODT))
 		{
 			file = new File(file.getAbsolutePath() + EXTENSION_ODT);
 		}
@@ -95,10 +96,10 @@ public class JROdtSaveContributor extends JRSaveContributor
 				JOptionPane.showConfirmDialog(
 					null, 
 					MessageFormat.format(
-						java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("file.exists"),
+						getBundleString("file.exists"),
 						new Object[]{file.getName()}
 						), 
-					java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("save"), 
+					getBundleString("save"), 
 					JOptionPane.OK_CANCEL_OPTION
 					)
 			)

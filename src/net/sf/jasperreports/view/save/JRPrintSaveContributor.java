@@ -29,6 +29,8 @@ package net.sf.jasperreports.view.save;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
@@ -48,14 +50,13 @@ public class JRPrintSaveContributor extends JRSaveContributor
 	 * 
 	 */
 	private static final String EXTENSION_JRPRINT = ".jrprint"; 
-	public static final JRPrintSaveContributor INSTANCE = new JRPrintSaveContributor(); 
 
 	/**
 	 * 
 	 */
-	public static JRPrintSaveContributor getInstance()
+	public JRPrintSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
-		return INSTANCE;
+		super(locale, resBundle);
 	}
 	
 	/**
@@ -75,7 +76,7 @@ public class JRPrintSaveContributor extends JRSaveContributor
 	 */
 	public String getDescription()
 	{
-		return "JasperReports (*.jrprint)";
+		return getBundleString("file.desc.jrprint");
 	}
 
 	/**
@@ -83,7 +84,7 @@ public class JRPrintSaveContributor extends JRSaveContributor
 	 */
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
-		if (!file.getName().endsWith(EXTENSION_JRPRINT))
+		if (!file.getName().toLowerCase().endsWith(EXTENSION_JRPRINT))
 		{
 			file = new File(file.getAbsolutePath() + EXTENSION_JRPRINT);
 		}
@@ -94,10 +95,10 @@ public class JRPrintSaveContributor extends JRSaveContributor
 				JOptionPane.showConfirmDialog(
 					null, 
 					MessageFormat.format(
-						java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("file.exists"),
+						getBundleString("file.exists"),
 						new Object[]{file.getName()}
 						), 
-					java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("save"), 
+					getBundleString("save"), 
 					JOptionPane.OK_CANCEL_OPTION
 					)
 			)
