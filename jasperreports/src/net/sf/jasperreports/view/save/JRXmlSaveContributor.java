@@ -29,6 +29,8 @@ package net.sf.jasperreports.view.save;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
@@ -51,14 +53,13 @@ public class JRXmlSaveContributor extends JRSaveContributor
 	 */
 	private static final String EXTENSION_XML = ".xml"; 
 	private static final String EXTENSION_JRPXML = ".jrpxml"; 
-	public static final JRXmlSaveContributor INSTANCE = new JRXmlSaveContributor(); 
 
 	/**
 	 * 
 	 */
-	public static JRXmlSaveContributor getInstance()
+	public JRXmlSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
-		return INSTANCE;
+		super(locale, resBundle);
 	}
 	
 	/**
@@ -79,7 +80,7 @@ public class JRXmlSaveContributor extends JRSaveContributor
 	 */
 	public String getDescription()
 	{
-		return "XML (*.jrpxml, *.xml)";
+		return getBundleString("file.desc.xml");
 	}
 
 	/**
@@ -88,8 +89,8 @@ public class JRXmlSaveContributor extends JRSaveContributor
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
 		if (
-			!file.getName().endsWith(EXTENSION_XML)
-			&& !file.getName().endsWith(EXTENSION_JRPXML)
+			!file.getName().toLowerCase().endsWith(EXTENSION_XML)
+			&& !file.getName().toLowerCase().endsWith(EXTENSION_JRPXML)
 			)
 		{
 			file = new File(file.getAbsolutePath() + EXTENSION_JRPXML);
@@ -101,10 +102,10 @@ public class JRXmlSaveContributor extends JRSaveContributor
 				JOptionPane.showConfirmDialog(
 					null, 
 					MessageFormat.format(
-						java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("file.exists"),
+						getBundleString("file.exists"),
 						new Object[]{file.getName()}
 						), 
-					java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("save"), 
+					getBundleString("save"), 
 					JOptionPane.OK_CANCEL_OPTION
 					)
 			)

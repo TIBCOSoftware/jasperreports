@@ -29,6 +29,8 @@ package net.sf.jasperreports.view.save;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
@@ -49,14 +51,13 @@ public class JRPdfSaveContributor extends JRSaveContributor
 	 * 
 	 */
 	private static final String EXTENSION_PDF = ".pdf"; 
-	public static final JRPdfSaveContributor INSTANCE = new JRPdfSaveContributor(); 
 
 	/**
 	 * 
 	 */
-	public static JRPdfSaveContributor getInstance()
+	public JRPdfSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
-		return INSTANCE;
+		super(locale, resBundle);
 	}
 	
 	/**
@@ -76,7 +77,7 @@ public class JRPdfSaveContributor extends JRSaveContributor
 	 */
 	public String getDescription()
 	{
-		return "PDF (*.pdf)";
+		return getBundleString("file.desc.pdf");
 	}
 
 	/**
@@ -84,7 +85,7 @@ public class JRPdfSaveContributor extends JRSaveContributor
 	 */
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
-		if (!file.getName().endsWith(EXTENSION_PDF))
+		if (!file.getName().toLowerCase().endsWith(EXTENSION_PDF))
 		{
 			file = new File(file.getAbsolutePath() + EXTENSION_PDF);
 		}
@@ -95,10 +96,10 @@ public class JRPdfSaveContributor extends JRSaveContributor
 				JOptionPane.showConfirmDialog(
 					null, 
 					MessageFormat.format(
-						java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("file.exists"),
+						getBundleString("file.exists"),
 						new Object[]{file.getName()}
 						), 
-					java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("save"), 
+					getBundleString("save"), 
 					JOptionPane.OK_CANCEL_OPTION
 					)
 			)

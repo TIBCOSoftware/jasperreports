@@ -28,6 +28,8 @@
 package net.sf.jasperreports.view;
 
 import java.io.File;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.filechooser.FileFilter;
 
@@ -40,6 +42,46 @@ import net.sf.jasperreports.engine.JasperPrint;
  */
 public abstract class JRSaveContributor extends FileFilter
 {
+	private Locale locale = null;
+	private ResourceBundle resourceBundle = null;
+	
+	/**
+	 * 
+	 */
+	public JRSaveContributor()
+	{
+		this(null, null);
+	}
+	
+	/**
+	 * 
+	 */
+	public JRSaveContributor(Locale locale, ResourceBundle resBundle)
+	{
+		if (locale != null)
+			this.locale = locale;
+		else
+			this.locale = Locale.getDefault();
+
+		if (resBundle == null)
+		{
+			this.resourceBundle = ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", this.locale);
+		}
+		else
+		{
+			this.resourceBundle = resBundle;
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	protected String getBundleString(String key)
+	{
+		return resourceBundle.getString(key);
+	}
+
 	
 	/**
 	 * 

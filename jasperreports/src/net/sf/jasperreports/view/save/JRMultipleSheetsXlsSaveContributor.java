@@ -29,6 +29,8 @@ package net.sf.jasperreports.view.save;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
@@ -50,14 +52,13 @@ public class JRMultipleSheetsXlsSaveContributor extends JRSaveContributor
 	 * 
 	 */
 	private static final String EXTENSION_XLS = ".xls"; 
-	public static final JRMultipleSheetsXlsSaveContributor INSTANCE = new JRMultipleSheetsXlsSaveContributor(); 
 
 	/**
 	 * 
 	 */
-	public static JRMultipleSheetsXlsSaveContributor getInstance()
+	public JRMultipleSheetsXlsSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
-		return INSTANCE;
+		super(locale, resBundle);
 	}
 	
 	/**
@@ -77,7 +78,7 @@ public class JRMultipleSheetsXlsSaveContributor extends JRSaveContributor
 	 */
 	public String getDescription()
 	{
-		return "Multiple sheets XLS (*.xls)";
+		return getBundleString("file.desc.xls.multiple.sheets");
 	}
 
 	/**
@@ -85,7 +86,7 @@ public class JRMultipleSheetsXlsSaveContributor extends JRSaveContributor
 	 */
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
-		if (!file.getName().endsWith(EXTENSION_XLS))
+		if (!file.getName().toLowerCase().endsWith(EXTENSION_XLS))
 		{
 			file = new File(file.getAbsolutePath() + EXTENSION_XLS);
 		}
@@ -96,10 +97,10 @@ public class JRMultipleSheetsXlsSaveContributor extends JRSaveContributor
 				JOptionPane.showConfirmDialog(
 					null, 
 					MessageFormat.format(
-						java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("file.exists"),
+						getBundleString("file.exists"),
 						new Object[]{file.getName()}
 						), 
-					java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("save"), 
+					getBundleString("save"), 
 					JOptionPane.OK_CANCEL_OPTION
 					)
 			)

@@ -54,7 +54,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
-import java.lang.reflect.Method;
+import java.lang.reflect.Constructor;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -432,8 +432,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			try
 			{
 				Class saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
-				Method method = saveContribClass.getMethod("getInstance", (Class[])null);
-				JRSaveContributor saveContrib = (JRSaveContributor)method.invoke(null, (Object[])null);
+				Constructor constructor = saveContribClass.getConstructor(new Class[]{Locale.class, ResourceBundle.class});
+				JRSaveContributor saveContrib = (JRSaveContributor)constructor.newInstance(new Object[]{getLocale(), resourceBundle});
 				saveContributors.add(saveContrib);
 			}
 			catch (Exception e)
@@ -1090,7 +1090,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 				if (contributor == null)
 				{
-					contributor = new JRPrintSaveContributor();
+					contributor = new JRPrintSaveContributor(getLocale(), this.resourceBundle);
 				}
 			}
 
