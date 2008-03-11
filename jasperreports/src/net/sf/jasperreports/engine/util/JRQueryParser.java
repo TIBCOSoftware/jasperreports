@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRQueryChunk;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -42,8 +43,6 @@ import net.sf.jasperreports.engine.JRQueryChunk;
  */
 public class JRQueryParser
 {
-
-	protected static final String CLAUSE_TOKEN_SEPARATOR = ",";
 	
 	private static final JRQueryParser singleton = new JRQueryParser();
 	
@@ -183,11 +182,12 @@ public class JRQueryParser
 		List tokens = new ArrayList();
 		
 		boolean wasClauseToken = false;
-		StringTokenizer tokenizer = new StringTokenizer(clauseChunk, CLAUSE_TOKEN_SEPARATOR, true);
+		String separator = determineClauseTokenSeparator(clauseChunk);
+		StringTokenizer tokenizer = new StringTokenizer(clauseChunk, separator, true);
 		while (tokenizer.hasMoreTokens())
 		{
 			String token = tokenizer.nextToken();
-			if (token.equals(CLAUSE_TOKEN_SEPARATOR))
+			if (token.equals(separator))
 			{
 				if (!wasClauseToken)
 				{
@@ -209,6 +209,34 @@ public class JRQueryParser
 		return (String[]) tokens.toArray(new String[tokens.size()]);
 	}
 
+	protected String determineClauseTokenSeparator(String clauseChunk)
+	{
+		String allSeparators = getTokenSeparators();
+		if (allSeparators == null || allSeparators.length() == 0)
+		{
+			throw new JRRuntimeException("No token separators configured");
+		}
+		
+		int firstSepIdx = 0;//if none of the separators are found in the text, return the first separator
+		int clauseLenght = clauseChunk.length();
+		for (int idx = 0; idx < clauseLenght; ++idx)
+		{
+			int sepIdx = allSeparators.indexOf(clauseChunk.charAt(idx));
+			if (sepIdx >= 0)
+			{
+				firstSepIdx = sepIdx;
+				break;
+			}
+		}
+		
+		return String.valueOf(allSeparators.charAt(firstSepIdx));
+	}
+
+
+	protected String getTokenSeparators()
+	{
+		return JRProperties.getProperty(JRQueryChunk.PROPERTY_CHUNK_TOKEN_SEPARATOR);
+	}
 
 	/**
 	 * (Re)creates the query text from a list of chunks.
