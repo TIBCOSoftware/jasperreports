@@ -154,18 +154,6 @@ tryAgain:
 					theRetToken=_returnToken;
 					break;
 				}
-				case 'a':  case 'b':  case 'c':  case 'd':
-				case 'e':  case 'f':  case 'g':  case 'h':
-				case 'i':  case 'j':  case 'k':  case 'l':
-				case 'm':  case 'n':  case 'o':  case 'p':
-				case 'q':  case 'r':  case 's':  case 't':
-				case 'u':  case 'v':  case 'w':  case 'x':
-				case 'y':  case 'z':
-				{
-					mNAME(true);
-					theRetToken=_returnToken;
-					break;
-				}
 				case '\t':  case '\n':  case '\r':  case ' ':
 				{
 					mWS(true);
@@ -179,6 +167,10 @@ tryAgain:
 					}
 					else if ((LA(1)=='[') && (LA(2)=='#')) {
 						mMONDRIDX(true);
+						theRetToken=_returnToken;
+					}
+					else if ((_tokenSet_1.member(LA(1)))) {
+						mNAME(true);
 						theRetToken=_returnToken;
 					}
 				else {
@@ -360,9 +352,9 @@ tryAgain:
 		{
 		_loop57:
 		do {
-			if ((_tokenSet_1.member(LA(1)))) {
+			if ((_tokenSet_2.member(LA(1)))) {
 				{
-				match(_tokenSet_1);
+				match(_tokenSet_2);
 				}
 			}
 			else {
@@ -417,17 +409,6 @@ tryAgain:
 		_loop63:
 		do {
 			switch ( LA(1)) {
-			case 'a':  case 'b':  case 'c':  case 'd':
-			case 'e':  case 'f':  case 'g':  case 'h':
-			case 'i':  case 'j':  case 'k':  case 'l':
-			case 'm':  case 'n':  case 'o':  case 'p':
-			case 'q':  case 'r':  case 's':  case 't':
-			case 'u':  case 'v':  case 'w':  case 'x':
-			case 'y':  case 'z':
-			{
-				mLETTER(false);
-				break;
-			}
 			case '0':  case '1':  case '2':  case '3':
 			case '4':  case '5':  case '6':  case '7':
 			case '8':  case '9':
@@ -441,7 +422,10 @@ tryAgain:
 				break;
 			}
 			default:
-			{
+				if ((_tokenSet_1.member(LA(1)))) {
+					mLETTER(false);
+				}
+			else {
 				break _loop63;
 			}
 			}
@@ -459,7 +443,16 @@ tryAgain:
 		_ttype = LETTER;
 		int _saveIndex;
 		
-		matchRange('a','z');
+		if (((LA(1) >= 'a' && LA(1) <= 'z'))) {
+			matchRange('a','z');
+		}
+		else if (((LA(1) >= '\u0080' && LA(1) <= '\ufffe'))) {
+			matchRange('\u0080','\ufffe');
+		}
+		else {
+			throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());
+		}
+		
 		if ( _createToken && _token==null && _ttype!=Token.SKIP ) {
 			_token = makeToken(_ttype);
 			_token.setText(new String(text.getBuffer(), _begin, text.length()-_begin));
@@ -514,28 +507,16 @@ tryAgain:
 		_ttype = MONDRCH;
 		int _saveIndex;
 		
-		switch ( LA(1)) {
-		case 'a':  case 'b':  case 'c':  case 'd':
-		case 'e':  case 'f':  case 'g':  case 'h':
-		case 'i':  case 'j':  case 'k':  case 'l':
-		case 'm':  case 'n':  case 'o':  case 'p':
-		case 'q':  case 'r':  case 's':  case 't':
-		case 'u':  case 'v':  case 'w':  case 'x':
-		case 'y':  case 'z':
-		{
+		if ((_tokenSet_1.member(LA(1)))) {
 			mLETTER(false);
-			break;
 		}
-		case ' ':
-		{
+		else if ((LA(1)==' ')) {
 			match(' ');
-			break;
 		}
-		default:
-		{
+		else {
 			throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());
 		}
-		}
+		
 		if ( _createToken && _token==null && _ttype!=Token.SKIP ) {
 			_token = makeToken(_ttype);
 			_token.setText(new String(text.getBuffer(), _begin, text.length()-_begin));
@@ -545,14 +526,29 @@ tryAgain:
 	
 	
 	private static final long[] mk_tokenSet_0() {
-		long[] data = { -34359738369L, -1L, 0L, 0L};
+		long[] data = new long[2048];
+		data[0]=-34359738369L;
+		for (int i = 1; i<=1022; i++) { data[i]=-1L; }
+		data[1023]=9223372036854775807L;
 		return data;
 	}
 	public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
 	private static final long[] mk_tokenSet_1() {
-		long[] data = { -1L, -536870913L, 0L, 0L};
+		long[] data = new long[3072];
+		data[1]=576460743713488896L;
+		for (int i = 2; i<=1022; i++) { data[i]=-1L; }
+		data[1023]=9223372036854775807L;
 		return data;
 	}
 	public static final BitSet _tokenSet_1 = new BitSet(mk_tokenSet_1());
+	private static final long[] mk_tokenSet_2() {
+		long[] data = new long[2048];
+		data[0]=-1L;
+		data[1]=-536870913L;
+		for (int i = 2; i<=1022; i++) { data[i]=-1L; }
+		data[1023]=9223372036854775807L;
+		return data;
+	}
+	public static final BitSet _tokenSet_2 = new BitSet(mk_tokenSet_2());
 	
 	}

@@ -237,7 +237,7 @@ class MappingLexer extends Lexer;
 options
 {
     k=2; // needed for newline junk
-    charVocabulary='\u0000'..'\u007F'; // allow ascii
+    charVocabulary='\u0000'..'\uFFFE'; // allow unicode
     caseSensitive=false;
 }
 
@@ -262,4 +262,4 @@ MONDRCH		: LETTER | ' ' ;
 protected
 DIGIT 		: '0'..'9' ;
 protected
-LETTER 		: 'a'..'z' ;
+LETTER 		: 'a'..'z' | '\u0080'..'\ufffe';
