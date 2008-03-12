@@ -194,6 +194,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		};
 
 	protected List saveContributors = new ArrayList();
+	protected File lastFolder = null;
+	protected JRSaveContributor lastSaveContributor = null;
 
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML) throws JRException
@@ -1073,15 +1075,27 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			fileChooser.addChoosableFileFilter((JRSaveContributor)saveContributors.get(i));
 		}
 
-		if (saveContributors.size() > 0)
+		if (saveContributors.contains(lastSaveContributor))
+		{
+			fileChooser.setFileFilter(lastSaveContributor);
+		}
+		else if (saveContributors.size() > 0)
 		{
 			fileChooser.setFileFilter((JRSaveContributor)saveContributors.get(0));
 		}
+		
+		if (lastFolder != null)
+		{
+			fileChooser.setCurrentDirectory(lastFolder);
+		}
+		
 		int retValue = fileChooser.showSaveDialog(this);
 		if (retValue == JFileChooser.APPROVE_OPTION)
 		{
 			FileFilter fileFilter = fileChooser.getFileFilter();
 			File file = fileChooser.getSelectedFile();
+			
+			lastFolder = file.getParentFile();
 
 			JRSaveContributor contributor = null;
 
@@ -1107,6 +1121,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				}
 			}
 
+			lastSaveContributor = contributor;
+			
 			try
 			{
 				contributor.save(jasperPrint, file);
