@@ -72,7 +72,7 @@ public class DrawChartRenderer extends JRAbstractSvgRenderer implements JRImageM
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #re}
+	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
 	 */
 	public List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{

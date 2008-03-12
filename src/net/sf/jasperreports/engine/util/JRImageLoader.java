@@ -88,17 +88,7 @@ public class JRImageLoader
 		String readerClassName = JRProperties.getProperty(PROPERTY_IMAGE_READER);
 		if (readerClassName == null)
 		{
-			try 
-			{
-				JRClassLoader.loadClassForRealName("javax.imageio.ImageIO");
-
-				Class clazz = JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.util.JRJdk14ImageReader");	
-				imageReader = (JRImageReader) clazz.newInstance();
-			}
-			catch (Exception e)
-			{
-				imageReader = new JRJdk13ImageReader();
-			}
+			imageReader = new JRJdk14ImageReader();
 		}
 		else
 		{
@@ -117,17 +107,7 @@ public class JRImageLoader
 		String encoderClassName = JRProperties.getProperty(PROPERTY_IMAGE_ENCODER);
 		if (encoderClassName == null)
 		{
-			try 
-			{
-				JRClassLoader.loadClassForRealName("javax.imageio.ImageIO");
-
-				Class clazz = JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.util.JRJdk14ImageEncoder");	
-				imageEncoder = (JRImageEncoder) clazz.newInstance();
-			}
-			catch (Exception e)
-			{
-				imageEncoder = new JRDefaultImageEncoder();
-			}
+			imageEncoder = new JRJdk14ImageEncoder();
 		}
 		else
 		{
