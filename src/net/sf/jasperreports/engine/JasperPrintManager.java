@@ -28,13 +28,11 @@
 package net.sf.jasperreports.engine;
 
 import java.awt.Image;
-import java.awt.print.PrinterJob;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
 
+import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
-import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -46,24 +44,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 public class JasperPrintManager
 {
-
-	/**
-	 *
-	 */
-	private static boolean isJre14orLater = true;
-	
-	static
-	{
-		isJre14orLater = true;
-		try 
-		{
-			PrinterJob.class.getMethod("lookupPrintServices", (Class[])null);
-		}
-		catch (NoSuchMethodException e) 
-		{
-			isJre14orLater = false;
-		}
-	}
 
 	/**
 	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdfFile(String)}.
@@ -426,20 +406,7 @@ public class JasperPrintManager
 	// artf1936
 	private static boolean checkAvailablePrinters() 
 	{
-		if (isJre14orLater)
-		{
-			try 
-			{
-				Class printServiceExporterClass = 
-					JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.export.JRPrintServiceExporter");
-				Method method = printServiceExporterClass.getMethod("checkAvailablePrinters", (Class[])null);
-				return ((Boolean)method.invoke(null, (Object[])null)).booleanValue();
-			}
-			catch (Exception e)
-			{
-			}
-		}
-		return true;
+		return JRPrintServiceExporter.checkAvailablePrinters();
 	}
 
 	
