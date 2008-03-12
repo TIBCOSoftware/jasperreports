@@ -2560,7 +2560,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 * Build and configure a meter chart.
 	 *
 	 * @param evaluation current expression evaluation phase
-	 * @return the JFreeChart meter chart
 	 * @throws JRException
 	*/
 	protected void evaluateMeterChart( byte evaluation ) throws JRException 
@@ -2657,7 +2656,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 * ranges seems to be fixed.
 	 *
 	 * @param evaluation current expression evaluation phase
-	 * @return the JFreeChart thermometer chart
 	 * @throws JRException
 	 */
 	protected void evaluateThermometerChart( byte evaluation ) throws JRException 
@@ -2768,7 +2766,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 * a nested report to specify a color for a specific series in that report.
 	 *
 	 * @param evaluation current expression evaluation phase
-	 * @return the JFreeChart chart
 	 * @throws JRException
 	 */
 	protected void evaluateMultiAxisChart(byte evaluation) throws JRException

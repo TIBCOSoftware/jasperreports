@@ -36,8 +36,6 @@ import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -267,17 +265,12 @@ public class JRPrinterAWT implements Printable
 	 */
 	public static void initPrinterJobFields(PrinterJob job)
 	{
-		Class klass = job.getClass();
-		try {
-			Class printServiceClass = Class.forName("javax.print.PrintService");
-			Method method = klass.getMethod("getPrintService", (Class[])null);
-			Object printService = method.invoke(job, (Object[])null);
-			method = klass.getMethod("setPrintService", new Class[]{printServiceClass});
-			method.invoke(job, new Object[] {printService});
-		} catch (NoSuchMethodException e) {
-		} catch (IllegalAccessException e) {
-		} catch (InvocationTargetException e) {
-		} catch (ClassNotFoundException e) {
+		try
+		{
+			job.setPrintService(job.getPrintService());
+		}
+		catch (PrinterException e)
+		{
 		}
 	}
 	

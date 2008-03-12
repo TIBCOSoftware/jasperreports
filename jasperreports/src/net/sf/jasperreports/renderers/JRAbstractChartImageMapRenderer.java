@@ -64,7 +64,7 @@ public abstract class JRAbstractChartImageMapRenderer extends JFreeChartRenderer
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #renderWidthHyperlinks(Graphics2D, Rectangle2D)}
+	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
 	 */
 	public List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{

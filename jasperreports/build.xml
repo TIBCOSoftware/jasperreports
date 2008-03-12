@@ -6,13 +6,6 @@
 
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
-		<condition property="using.jdk.1.4">
-			<or>
-			<equals arg1="${ant.java.version}" arg2="1.4"/>
-			<equals arg1="${ant.java.version}" arg2="1.5"/>
-			<equals arg1="${ant.java.version}" arg2="1.6"/>
-			</or>
-		</condition>
 		<condition property="using.jdk.1.5">
 			<or>
 			<equals arg1="${ant.java.version}" arg2="1.5"/>
@@ -20,13 +13,7 @@
 			</or>
 		</condition>
 		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.4" source="1.4">
-			<exclude name="**/JRPrintServiceExporter.java" unless="using.jdk.1.4"/>
-			<exclude name="**/JRPrintServiceExporterParameter.java" unless="using.jdk.1.4"/>
-			<exclude name="**/JRConcurrentSwapFile.java" unless="using.jdk.1.4"/>
-			<exclude name="**/JRGroovy*.java" unless="using.jdk.1.4"/>
 			<exclude name="**/olap/**/*.java" unless="using.jdk.1.5"/>
-			<exclude name="**/JRJdk14ImageReader.java" unless="using.jdk.1.4"/>
-			<exclude name="**/JRJdk14ImageEncoder.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRJpa*.java" unless="using.jdk.1.5"/>
 			<classpath>
 				<pathelement location="./build/classes"/>

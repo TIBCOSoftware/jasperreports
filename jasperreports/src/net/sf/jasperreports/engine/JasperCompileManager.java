@@ -35,7 +35,6 @@ import java.util.Collection;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.design.JRCompiler;
 import net.sf.jasperreports.engine.design.JRJavacCompiler;
-import net.sf.jasperreports.engine.design.JRJdk12Compiler;
 import net.sf.jasperreports.engine.design.JRJdk13Compiler;
 import net.sf.jasperreports.engine.design.JRJdtCompiler;
 import net.sf.jasperreports.engine.design.JRValidationFault;
@@ -413,18 +412,6 @@ public class JasperCompileManager
 			{
 				JRClassLoader.loadClassForRealName("com.sun.tools.javac.Main");
 				compiler = new JRJdk13Compiler();
-			}
-			catch (Exception e)
-			{
-			}
-		}
-
-		if (compiler == null)
-		{
-			try 
-			{
-				JRClassLoader.loadClassForRealName("sun.tools.javac.Main");
-				compiler = new JRJdk12Compiler();
 			}
 			catch (Exception e)
 			{
