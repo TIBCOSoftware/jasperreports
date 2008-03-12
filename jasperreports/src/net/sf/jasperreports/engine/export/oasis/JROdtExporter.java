@@ -56,7 +56,6 @@ import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -751,24 +750,20 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportImage(TableBuilder tableBuilder, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
-		int topPadding = image.getLineBox().getTopPadding().intValue();
-		int leftPadding = image.getLineBox().getLeftPadding().intValue();
-		int bottomPadding = image.getLineBox().getBottomPadding().intValue();
-		int rightPadding = image.getLineBox().getRightPadding().intValue();
+		int topPadding = 
+			Math.max(image.getLineBox().getTopPadding().intValue(), Math.round(image.getLineBox().getTopPen().getLineWidth().floatValue()));
+		int leftPadding = 
+			Math.max(image.getLineBox().getLeftPadding().intValue(), Math.round(image.getLineBox().getLeftPen().getLineWidth().floatValue()));
+		int bottomPadding = 
+			Math.max(image.getLineBox().getBottomPadding().intValue(), Math.round(image.getLineBox().getBottomPen().getLineWidth().floatValue()));
+		int rightPadding = 
+			Math.max(image.getLineBox().getRightPadding().intValue(), Math.round(image.getLineBox().getRightPen().getLineWidth().floatValue()));
 
-		int availableImageWidth = image.getWidth() 
-								- leftPadding 
-								- rightPadding 
-								- ((int)image.getLineBox().getLeftPen().getLineWidth().floatValue())/2
-								- ((int)image.getLineBox().getRightPen().getLineWidth().floatValue())/2;
-		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
+		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
+		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
 
-		int availableImageHeight = image.getHeight() 
-								- topPadding 
-								- bottomPadding 
-								- ((int)image.getLineBox().getTopPen().getLineWidth().floatValue())/2
-								- ((int)image.getLineBox().getBottomPen().getLineWidth().floatValue())/2;
-		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
+		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
+		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
 		int width = availableImageWidth;
 		int height = availableImageHeight;
