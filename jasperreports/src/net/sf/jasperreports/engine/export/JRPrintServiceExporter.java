@@ -32,6 +32,8 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
@@ -73,6 +75,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	protected int reportIndex = 0;
 	
 	private PrintService printService = null;
+	private Boolean[] printStatus = null;
 	
 	/**
 	 *
@@ -134,6 +137,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			
 			printerJob.setPrintable(this);
 			
+			printStatus = null;
+			
 			// determining the print service only once
 			printService = (PrintService) parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE);
 			if (printService == null) {
@@ -172,12 +177,18 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 				if(displayPrintDialogOnlyOnce)
 				{
 					if(!printerJob.printDialog(printRequestAttributeSet))
+					{
+						printStatus = new Boolean[]{Boolean.FALSE};
 						return;
+					}
 					else
+					{
 						displayPrintDialog = false;
+					}
 				}
 			}
 			
+			List status = new ArrayList();
 			// fix for bug ID artf1455 from jasperforge.org bug database
 			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 			{
@@ -223,7 +234,12 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 					{
 						if (printerJob.printDialog(printRequestAttributeSet))
 						{
+							status.add(Boolean.TRUE);
 							printerJob.print(printRequestAttributeSet);
+						}
+						else
+						{
+							status.add(Boolean.FALSE);
 						}
 					}
 					else
@@ -237,6 +253,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 				}
 			}
 			
+			printStatus = (Boolean[]) status.toArray(new Boolean[status.size()]);
 			printService = printerJob.getPrintService();
 		}
 		finally
@@ -346,6 +363,16 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Returns an array of <tt>java.lang.Boolean</tt> values, one for each appearence of the print dialog during the last export operation.
+	 * A Boolean.TRUE value in this array means that for that particular occurrence of the print dialog, the OK button was hit. 
+	 * A Boolean.FALSE value means the respective print dialog was cancelled.
+	 */
+	public Boolean[] getPrintStatus() 
+	{
+		return printStatus;
 	}
 
 	/**
