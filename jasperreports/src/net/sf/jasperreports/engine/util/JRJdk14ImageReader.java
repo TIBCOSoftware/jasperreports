@@ -57,7 +57,7 @@ public class JRJdk14ImageReader implements JRImageReader
 		{
 			image = ImageIO.read(bais);
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			throw new JRException(e);
 		}
