@@ -8,7 +8,8 @@ JasperReports 2.0.5 (2008-03-12)
 - support for RTF and HTML snippets inside text elements using new "markup" attribute 
 that deprecates the former isStyledText attribute;
 
-- new "renderType" chart attribute and configuration property;
+- new "renderType" chart attribute and configuration property, to support rendering charts as images
+or as SVG, besides the direct drawing performed by the JFreeChart components;
 
 - new FileResolver interface and built-in parameter for better control over resource loading;
 
