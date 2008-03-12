@@ -55,7 +55,7 @@ verticalAlignment="Top"]]></text>
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[rotation="Right" 
-textAlignment="RIght" 
+textAlignment="Right" 
 verticalAlignment="Middle"]]></text>
 			</staticText>
 			<staticText>
