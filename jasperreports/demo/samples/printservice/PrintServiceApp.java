@@ -211,6 +211,7 @@ public class PrintServiceApp
 		text.setY(55);
 		text.setWidth(345);
 		text.setHeight(30);
+		text.setTextHeight(text.getHeight());
 		text.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_RIGHT);
 		text.setLineSpacingFactor(1.3133681f);
 		text.setLeadingOffset(-4.955078f);
@@ -224,6 +225,7 @@ public class PrintServiceApp
 		text.setY(85);
 		text.setWidth(325);
 		text.setHeight(15);
+		text.setTextHeight(text.getHeight());
 		text.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_RIGHT);
 		text.setLineSpacingFactor(1.329241f);
 		text.setLeadingOffset(-4.076172f);
@@ -237,6 +239,7 @@ public class PrintServiceApp
 		text.setY(150);
 		text.setWidth(515);
 		text.setHeight(200);
+		text.setTextHeight(text.getHeight());
 		text.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED);
 		text.setLineSpacingFactor(1.329241f);
 		text.setLeadingOffset(-4.076172f);
