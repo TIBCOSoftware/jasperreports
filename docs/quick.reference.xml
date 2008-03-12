@@ -4556,6 +4556,21 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <attribute>
       <name>isStrikeThrough</name>
     </attribute>
+    <attribute>
+      <name>pdfFontName</name>
+    </attribute>
+    <attribute>
+      <name>pdfEncoding</name>
+    </attribute>
+    <attribute>
+      <name>isPdfEmbedded</name>
+    </attribute>
+    <attribute>
+      <name>pattern</name>
+    </attribute>
+    <attribute>
+      <name>isBlankWhenNull</name>
+    </attribute>
   </attributes>
 </element>
 
