@@ -193,7 +193,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 		};
 
-	protected java.util.List saveContributors = new ArrayList();
+	protected List saveContributors = new ArrayList();
 
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML) throws JRException
@@ -348,6 +348,19 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	public JRSaveContributor[] getSaveContributors()
 	{
 		return (JRSaveContributor[])saveContributors.toArray(new JRSaveContributor[saveContributors.size()]);
+	}
+
+
+	/**
+	 * Replaces the save contributors with the ones provided as parameter. 
+	 */
+	public void setSaveContributors(JRSaveContributor[] saveContributors)
+	{
+		this.saveContributors = new ArrayList();
+		if (saveContributors != null)
+		{
+			this.saveContributors.addAll(Arrays.asList(saveContributors));
+		}
 	}
 
 
