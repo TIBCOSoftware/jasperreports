@@ -76,88 +76,26 @@ public class ParagraphStyle extends Style
 	{
 		super(styleWriter);
 		
+		horizontalAlignment = getHorizontalAlignment(text.getHorizontalAlignment(), text.getVerticalAlignment(), text.getRotation());
+		verticalAlignment = getVerticalAlignment(text.getHorizontalAlignment(), text.getVerticalAlignment(), text.getRotation());
+		
 		switch(text.getRotation())
 		{
 			case JRTextElement.ROTATION_LEFT:
+			{
 				textRotation = "90";
 				break;
+			}
 			case JRTextElement.ROTATION_RIGHT:
+			{
 				textRotation = "270";
 				break;
+			}
+			case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEODT possible?
+			case JRTextElement.ROTATION_NONE:
 			default:
+			{
 				textRotation = "0";
-				
-		}
-
-		horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
-		verticalAlignment = VERTICAL_ALIGN_TOP;
-		
-		switch (text.getVerticalAlignment())
-		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-			{
-				if("270".equals(textRotation))
-					horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
-				else if("90".equals(textRotation))
-					horizontalAlignment = HORIZONTAL_ALIGN_RIGHT;
-				else
-					verticalAlignment = VERTICAL_ALIGN_BOTTOM;
-				break;
-			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-			{
-				if("270".equals(textRotation) || "90".equals(textRotation))
-					horizontalAlignment = HORIZONTAL_ALIGN_CENTER;
-				else
-					verticalAlignment = VERTICAL_ALIGN_MIDDLE;
-				break;
-			}
-			case JRAlignment.VERTICAL_ALIGN_TOP :
-			default :
-			{
-				if("270".equals(textRotation))
-					horizontalAlignment = HORIZONTAL_ALIGN_RIGHT;
-				else if("90".equals(textRotation))
-					horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
-				else
-					verticalAlignment = VERTICAL_ALIGN_TOP;
-			}
-		}
-
-		switch (text.getHorizontalAlignment())
-		{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-			{
-				if("270".equals(textRotation))
-					verticalAlignment = VERTICAL_ALIGN_BOTTOM;
-				else if("90".equals(textRotation))
-					verticalAlignment = VERTICAL_ALIGN_TOP;
-				else
-					horizontalAlignment = HORIZONTAL_ALIGN_RIGHT;
-				break;
-			}
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-			{
-				if("270".equals(textRotation) || "90".equals(textRotation))
-					verticalAlignment = VERTICAL_ALIGN_MIDDLE;
-				else
-					horizontalAlignment = HORIZONTAL_ALIGN_CENTER;
-				break;
-			}
-			case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-			{
-				horizontalAlignment = HORIZONTAL_ALIGN_JUSTIFY;
-				break;
-			}
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-			default :
-			{
-				if("270".equals(textRotation))
-					verticalAlignment = VERTICAL_ALIGN_TOP;
-				else if("90".equals(textRotation))
-					verticalAlignment = VERTICAL_ALIGN_BOTTOM;
-				else
-				horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
 			}
 		}
 
@@ -166,15 +104,121 @@ public class ParagraphStyle extends Style
 		{
 			runDirection = "rl";
 		}
-		
-		switch(text.getRotation())
+	}
+	
+	/**
+	 *
+	 */
+	public static String getVerticalAlignment(
+		byte horizontalAlignment, 
+		byte verticalAlignment, 
+		byte rotation
+		)
+	{
+		switch(rotation)
 		{
 			case JRTextElement.ROTATION_LEFT:
-				textRotation = "90";
-				break;
+			{
+				switch (horizontalAlignment)
+				{
+					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+						return VERTICAL_ALIGN_TOP;
+					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+						return VERTICAL_ALIGN_MIDDLE;
+					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+						return HORIZONTAL_ALIGN_JUSTIFY;//FIXMEODT ?????????????????
+					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					default :
+						return VERTICAL_ALIGN_BOTTOM;
+				}
+			}
 			case JRTextElement.ROTATION_RIGHT:
-				textRotation = "270";
-				break;
+			{
+				switch (horizontalAlignment)
+				{
+					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+						return VERTICAL_ALIGN_BOTTOM;
+					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+						return VERTICAL_ALIGN_MIDDLE;
+					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+						return HORIZONTAL_ALIGN_JUSTIFY;//?????????????????
+					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					default :
+						return VERTICAL_ALIGN_TOP;
+				}
+			}
+			case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEODT possible?
+			case JRTextElement.ROTATION_NONE:
+			default:
+			{
+				switch (verticalAlignment)
+				{
+					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+						return VERTICAL_ALIGN_BOTTOM;
+					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+						return VERTICAL_ALIGN_MIDDLE;
+					case JRAlignment.VERTICAL_ALIGN_TOP :
+					default :
+						return VERTICAL_ALIGN_TOP;
+				}
+			}
+		}
+	}
+	
+	/**
+	 *
+	 */
+	public static String getHorizontalAlignment(
+		byte horizontalAlignment, 
+		byte verticalAlignment, 
+		byte rotation
+		)
+	{
+		switch(rotation)
+		{
+			case JRTextElement.ROTATION_LEFT:
+			{
+				switch (verticalAlignment)
+				{
+					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+						return HORIZONTAL_ALIGN_RIGHT;
+					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+						return HORIZONTAL_ALIGN_CENTER;
+					case JRAlignment.VERTICAL_ALIGN_TOP :
+					default :
+						return HORIZONTAL_ALIGN_LEFT;
+				}
+			}
+			case JRTextElement.ROTATION_RIGHT:
+			{
+				switch (verticalAlignment)
+				{
+					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+						return HORIZONTAL_ALIGN_LEFT;
+					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+						return HORIZONTAL_ALIGN_CENTER;
+					case JRAlignment.VERTICAL_ALIGN_TOP :
+					default :
+						return HORIZONTAL_ALIGN_RIGHT;
+				}
+			}
+			case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEODT possible?
+			case JRTextElement.ROTATION_NONE:
+			default:
+			{
+				switch (horizontalAlignment)
+				{
+					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+						return HORIZONTAL_ALIGN_RIGHT;
+					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+						return HORIZONTAL_ALIGN_CENTER;
+					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+						return HORIZONTAL_ALIGN_JUSTIFY;
+					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					default :
+						return HORIZONTAL_ALIGN_LEFT;
+				}
+			}
 		}
 	}
 	

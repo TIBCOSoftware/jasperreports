@@ -33,6 +33,8 @@ import java.io.Writer;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -42,17 +44,10 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  */
 public class CellStyle extends BorderStyle
 {
-	/**
-	 *
-	 */
-	private static final String VERTICAL_ALIGN_TOP = "top";
-	private static final String VERTICAL_ALIGN_MIDDLE = "middle";
-	private static final String VERTICAL_ALIGN_BOTTOM = "bottom";
-	
 	//private String fill = null;
 	private String backcolor = null;
 	
-	private String verticalAlignment = null;
+	private final String verticalAlignment;
 
 	
 	/**
@@ -72,27 +67,18 @@ public class CellStyle extends BorderStyle
 			//fill = "none";
 		}
 
-		if (element instanceof JRAlignment)
+		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotation() : JRTextElement.ROTATION_NONE;
+		byte vAlign = JRAlignment.VERTICAL_ALIGN_TOP;
+		byte hAlign = JRAlignment.HORIZONTAL_ALIGN_LEFT;
+
+		JRAlignment alignment = element instanceof JRAlignment ? (JRAlignment)element : null;
+		if (alignment != null)
 		{
-			switch (((JRAlignment)element).getVerticalAlignment())
-			{
-				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-				{
-					verticalAlignment = VERTICAL_ALIGN_BOTTOM;
-					break;
-				}
-				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-				{
-					verticalAlignment = VERTICAL_ALIGN_MIDDLE;
-					break;
-				}
-				case JRAlignment.VERTICAL_ALIGN_TOP :
-				default :
-				{
-					verticalAlignment = VERTICAL_ALIGN_TOP;
-				}
-			}
+			vAlign = alignment.getVerticalAlignment();
+			hAlign = alignment.getHorizontalAlignment();
 		}
+		
+		verticalAlignment = ParagraphStyle.getVerticalAlignment(hAlign, vAlign, rotation);
 	}
 	
 	/**
@@ -100,7 +86,7 @@ public class CellStyle extends BorderStyle
 	 */
 	public String getId()
 	{
-		return backcolor + super.getId() + (verticalAlignment != null ? "" : "|" + verticalAlignment); 
+		return backcolor + super.getId() + "|" + verticalAlignment; 
 	}
 
 	/**
