@@ -138,7 +138,7 @@ public abstract class BorderStyle extends Style
 			styleWriter.write(border[side]);
 			styleWriter.write("=\"");
 			styleWriter.write(borderPadding[side]);
-			styleWriter.write("\"");
+			styleWriter.write("in\"");
 		}
 	}
 
