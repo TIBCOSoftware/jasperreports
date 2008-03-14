@@ -1,6 +1,6 @@
 <project name="markup" default="javac" basedir=".">
 
-	<description>Shows how the styled-text feature works in static and dynamic text elements.</description>
+	<description>Shows how the text markup feature works in static and dynamic text elements.</description>
 
 	<property name="class.name" value="MarkupApp" />
 	<property name="file.name" value="${basedir}/MarkupReport" />
