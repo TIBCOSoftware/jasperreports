@@ -1,0 +1,234 @@
+/*
+ * ============================================================================
+ * GNU Lesser General Public License
+ * ============================================================================
+ *
+ * JasperReports - Free Java report-generating library.
+ * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
+ * 
+ * JasperSoft Corporation
+ * 303 Second Street, Suite 450 North
+ * San Francisco, CA 94107
+ * http://www.jaspersoft.com
+ */
+package net.sf.jasperreports.engine.util;
+
+import java.awt.font.TextAttribute;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JEditorPane;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.AbstractDocument.LeafElement;
+
+
+/**
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: JFreeChartRenderer.java 1364 2006-08-31 15:13:20Z lucianc $
+ */
+public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
+{
+	/**
+	 * 
+	 */
+	public static final class RtfFactory implements MarkupProcessorFactory
+	{ 
+		public MarkupProcessor createMarkupProcessor()
+		{
+			return JEditorPaneMarkupProcessor.RTF;
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public static final class HtmlFactory implements MarkupProcessorFactory
+	{ 
+		public MarkupProcessor createMarkupProcessor()
+		{
+			return JEditorPaneMarkupProcessor.HTML;
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public static final JEditorPaneMarkupProcessor RTF = 
+		new JEditorPaneMarkupProcessor()
+		{
+			public String getContentType() 
+			{
+				return "text/rtf";
+			}
+		};
+
+	/**
+	 * 
+	 */
+	public static final JEditorPaneMarkupProcessor HTML = 
+		new JEditorPaneMarkupProcessor()
+		{
+			public String getContentType() 
+			{
+				return "text/html";
+			}
+		};
+
+	/**
+	 * 
+	 */
+	public String convert(String srcText)
+	{
+		JEditorPane editorPane = new JEditorPane(getContentType(), srcText);
+		editorPane.setEditable(false);
+
+		List elements = new ArrayList();
+
+		Document document = editorPane.getDocument();
+
+		Element root = document.getDefaultRootElement();
+		if (root != null)
+		{
+			addElements(elements, root);
+		}
+
+		JRStyledText styledText = new JRStyledText();
+		styledText.setGlobalAttributes(new HashMap());
+		for(int i = 0; i < elements.size(); i++)
+		{
+			Element element = (Element)elements.get(i);
+			int startOffset = element.getStartOffset();
+			int endOffset = element.getEndOffset();
+			
+			String chunk = "";
+
+			try
+			{
+				chunk = document.getText(startOffset, endOffset - startOffset);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+
+			styledText.append(chunk);
+			styledText.addRun(new JRStyledText.Run(getAttributes(element.getAttributes()), startOffset, endOffset));
+		}
+
+		return JRStyledTextParser.getInstance().write(styledText);
+	}
+	
+	/**
+	 * 
+	 */
+	protected void addElements(List elements, Element element) 
+	{
+		if(element instanceof LeafElement)
+		{
+			elements.add(element);
+		}
+		for(int i = 0; i < element.getElementCount(); i++)
+		{
+			Element child = element.getElement(i);
+			addElements(elements, child);
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	protected Map getAttributes(AttributeSet attrSet) 
+	{
+		Map attrMap = new HashMap();
+		if (attrSet.isDefined(StyleConstants.FontFamily))
+		{
+			attrMap.put(
+				TextAttribute.FAMILY,
+				StyleConstants.getFontFamily(attrSet)
+				);
+		}
+					
+		if (attrSet.isDefined(StyleConstants.Bold))
+		{
+			attrMap.put(
+				TextAttribute.WEIGHT,
+				StyleConstants.isBold(attrSet) ? TextAttribute.WEIGHT_BOLD : TextAttribute.WEIGHT_REGULAR
+				);
+		}
+					
+		if (attrSet.isDefined(StyleConstants.Italic))
+		{
+			attrMap.put(
+				TextAttribute.POSTURE,
+				StyleConstants.isItalic(attrSet) ? TextAttribute.POSTURE_OBLIQUE : TextAttribute.POSTURE_REGULAR
+				);
+		}
+					
+		if (attrSet.isDefined(StyleConstants.Underline))
+		{
+			attrMap.put(
+				TextAttribute.UNDERLINE,
+				StyleConstants.isUnderline(attrSet) ? TextAttribute.UNDERLINE_ON : null
+				);
+		}
+					
+		if (attrSet.isDefined(StyleConstants.StrikeThrough))
+		{
+			attrMap.put(
+				TextAttribute.STRIKETHROUGH,
+				StyleConstants.isStrikeThrough(attrSet) ? TextAttribute.STRIKETHROUGH_ON : null
+				);
+		}
+					
+		if (attrSet.isDefined(StyleConstants.FontSize))
+		{
+			attrMap.put(
+				TextAttribute.SIZE,
+				new Float(StyleConstants.getFontSize(attrSet))
+				);
+		}
+					
+		if (attrSet.isDefined(StyleConstants.Foreground))
+		{
+			attrMap.put(
+				TextAttribute.FOREGROUND,
+				StyleConstants.getForeground(attrSet)
+				);
+		}
+					
+		if (attrSet.isDefined(StyleConstants.Background))
+		{
+			attrMap.put(
+				TextAttribute.BACKGROUND,
+				StyleConstants.getBackground(attrSet)
+				);
+		}
+					
+		return attrMap;
+	}
+
+	/**
+	 * 
+	 */
+	public abstract String getContentType();
+	
+}
