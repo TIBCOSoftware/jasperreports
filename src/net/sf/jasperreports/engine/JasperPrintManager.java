@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
- * Façade class for the JasperReports engine.
+ * Faï¿½ade class for the JasperReports engine.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
@@ -403,10 +403,27 @@ public class JasperPrintManager
 	}
 
 
+	/* http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6604109 (artf2423) workaround */
+	protected static final boolean unixSunJDK;
+	static
+	{
+		boolean found = false;
+		try
+		{
+			Class.forName("sun.print.UnixPrintServiceLookup");
+			found = true;
+		}
+		catch (ClassNotFoundException e)
+		{
+			found = false;
+		}
+		unixSunJDK = found;
+	}
+	
 	// artf1936
 	private static boolean checkAvailablePrinters() 
 	{
-		return JRPrintServiceExporter.checkAvailablePrinters();
+		return unixSunJDK ? true : JRPrintServiceExporter.checkAvailablePrinters();
 	}
 
 	
