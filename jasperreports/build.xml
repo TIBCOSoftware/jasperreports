@@ -198,6 +198,7 @@
 				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporterParameter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JROriginExporterFilter.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/JRPrintServiceExporter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/TextRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/data/*.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/BoxDrawer.class"/>
