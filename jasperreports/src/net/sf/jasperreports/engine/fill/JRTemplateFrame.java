@@ -66,7 +66,8 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox, JRBoxCo
 	public JRTemplateFrame(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider, JRFillCellContents cell)
 	{
 		super(origin, defaultStyleProvider);
-		
+	
+		//FIXME properties?
 		parentStyle = cell.getStyle();
 		
 		setBackcolor(cell.getBackcolor());

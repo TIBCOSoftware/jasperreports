@@ -42,6 +42,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.util.JRProperties;
+
 
 /**
  * An instance of this class represents a page-oriented document
@@ -57,6 +59,14 @@ import java.util.Map;
  */
 public class JasperPrint implements Serializable, JRPropertiesHolder
 {
+
+	/**
+	 * Prefix for JasperReports properties that specify properties to be
+	 * transfered from report templates to print objects.
+	 * 
+	 * @see JRProperties#transferProperties(JRPropertiesHolder, JRPropertiesHolder, String)
+	 */
+	public static final String PROPERTIES_PRINT_TRANSFER_PREFIX = JRProperties.PROPERTY_PREFIX + "print.transfer.";
 	
 	/**
 	 * A small class for implementing just the style provider functionality.

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -701,5 +702,45 @@ public class JRProperties
 	protected static JRPropertiesMap getOwnProperties(JRPropertiesHolder propertiesHolder)
 	{
 		return propertiesHolder.hasProperties() ? propertiesHolder.getPropertiesMap() : null;
+	}
+	
+	/**
+	 * Copies properties from one object to another.
+	 * 
+	 * <p>
+	 * The properties to be copied are determined by one or more JasperReports
+	 * properties having a specified prefix.  The values of these properties
+	 * are interpreted as prefixes of properties to copy.
+	 * </p>
+	 * 
+	 * @param source the source properties holder
+	 * @param destination the destination properties holder 
+	 * @param tranferPropertiesPrefix the prefix of the JasperReports properties
+	 * that specify the object properties to copy 
+	 */
+	public static void transferProperties(JRPropertiesHolder source,
+			JRPropertiesHolder destination, String tranferPropertiesPrefix)
+	{
+		if (!source.hasProperties())
+		{
+			return;
+		}
+
+		List transferPrefixProps = getProperties(tranferPropertiesPrefix);
+		for (Iterator prefixIt = transferPrefixProps.iterator(); prefixIt.hasNext();)
+		{
+			JRProperties.PropertySuffix transferPrefixProp = (JRProperties.PropertySuffix) prefixIt.next();
+			String transferPrefix = transferPrefixProp.getValue();
+			if (transferPrefix != null && transferPrefix.length() > 0)
+			{
+				List transferProps = getProperties(source.getPropertiesMap(), transferPrefix);
+				for (Iterator propIt = transferProps.iterator(); propIt.hasNext();)
+				{
+					JRProperties.PropertySuffix property = (JRProperties.PropertySuffix) propIt.next();
+					String value = property.getValue();
+					destination.getPropertiesMap().setProperty(property.getKey(), value);
+				}
+			}
+		}
 	}
 }

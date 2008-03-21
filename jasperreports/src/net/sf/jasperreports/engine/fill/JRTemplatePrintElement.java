@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 
 
@@ -270,6 +272,22 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
+	}
+
+	public boolean hasProperties()
+	{
+		return template.hasProperties();
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		//FIXME return read-only properties or own properties
+		return template.getPropertiesMap();
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return template.getParentProperties();
 	}
 
 }

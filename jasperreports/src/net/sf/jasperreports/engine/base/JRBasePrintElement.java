@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -68,6 +70,8 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 
 	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle style = null;
+	
+	private JRPropertiesMap propertiesMap;
 
 	
 	/**
@@ -291,5 +295,24 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 		return null;
 	}
 	
+
+	public synchronized boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
+	public synchronized JRPropertiesMap getPropertiesMap()
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new JRPropertiesMap();
+		}
+		return propertiesMap;
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
+	}
 
 }

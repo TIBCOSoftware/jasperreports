@@ -28,7 +28,7 @@
 
 /*
  * Contributors:
- * Joakim Sandström - sanjoa@users.sourceforge.net
+ * Joakim Sandstrï¿½m - sanjoa@users.sourceforge.net
  */
 package net.sf.jasperreports.engine.export;
 
@@ -639,6 +639,9 @@ public class JRXmlExporter extends JRAbstractExporter
 		{
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_origin, jasperPrint.getOriginsMap().get(origin));
 		}
+		
+		exportProperties(element);
+		
 		xmlWriter.closeElement();
 	}
 

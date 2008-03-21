@@ -36,7 +36,11 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -44,7 +48,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRTemplateElement implements JRCommonElement, Serializable
+public abstract class JRTemplateElement implements JRCommonElement, Serializable, JRPropertiesHolder
 {
 
 
@@ -69,6 +73,8 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	protected JRStyle parentStyle = null;
 
 	private final String id;
+	
+	private JRPropertiesMap propertiesMap;
 	
 	/**
 	 *
@@ -113,6 +119,9 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 		mode = element.getOwnMode();
 		forecolor = element.getOwnForecolor();
 		backcolor = element.getOwnBackcolor();
+		
+		JRProperties.transferProperties(element, this, 
+				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 	}
 
 	/**
@@ -256,6 +265,26 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	 * Returns null as external style references are not allowed for print objects.
 	 */
 	public String getStyleNameReference()
+	{
+		return null;
+	}
+
+	
+	public synchronized boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
+	public synchronized JRPropertiesMap getPropertiesMap()
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new JRPropertiesMap();
+		}
+		return propertiesMap;
+	}
+
+	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
 	}
