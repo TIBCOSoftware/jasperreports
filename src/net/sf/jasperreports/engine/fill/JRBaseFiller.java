@@ -94,8 +94,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 {
 
 	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
-
-	private static final String PROPERTIES_PRINT_TRANSFER_PREFIX = JRProperties.PROPERTY_PREFIX + "print.transfer.";
 	
 	/**
 	 * Map class to be used for bound elements.
@@ -399,22 +397,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		jasperPrint = new JasperPrint();
 		
-		List transferPrefixProps = JRProperties.getProperties(PROPERTIES_PRINT_TRANSFER_PREFIX);
-		for (Iterator prefixIt = transferPrefixProps.iterator(); prefixIt.hasNext();)
-		{
-			JRProperties.PropertySuffix transferPrefixProp = (JRProperties.PropertySuffix) prefixIt.next();
-			String transferPrefix = transferPrefixProp.getValue();
-			if (transferPrefix != null && transferPrefix.length() > 0)
-			{
-				List transferProps = JRProperties.getProperties(jasperReport.getPropertiesMap(), transferPrefix);
-				for (Iterator propIt = transferProps.iterator(); propIt.hasNext();)
-				{
-					JRProperties.PropertySuffix property = (JRProperties.PropertySuffix) propIt.next();
-					String value = property.getValue();
-					jasperPrint.setProperty(property.getKey(), value);
-				}
-			}
-		}
+		JRProperties.transferProperties(jasperReport, jasperPrint, 
+				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 		
 		if (initEvaluator == null)
 		{

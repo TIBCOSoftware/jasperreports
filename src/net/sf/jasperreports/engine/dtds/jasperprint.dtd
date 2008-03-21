@@ -90,7 +90,7 @@
 <!ATTLIST line
 	direction (TopDown | BottomUp) "TopDown"
 >
-<!ELEMENT reportElement EMPTY>
+<!ELEMENT reportElement (property*)>
 <!ATTLIST reportElement
 	key CDATA #IMPLIED
 	style CDATA #IMPLIED
