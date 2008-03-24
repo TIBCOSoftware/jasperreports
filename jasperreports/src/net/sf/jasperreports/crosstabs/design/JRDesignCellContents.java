@@ -230,7 +230,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		return origin;
 	}
 	
-	void setOrigin(JRCrosstabOrigin origin)
+	public void setOrigin(JRCrosstabOrigin origin)
 	{
 		this.origin = origin;
 	}
