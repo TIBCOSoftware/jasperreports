@@ -2049,6 +2049,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
 		lineRenderer.setShapesVisible( linePlot.isShowShapes() );//FIXMECHART check this
 		lineRenderer.setLinesVisible( linePlot.isShowLines() );
+		
+		//FIXME labels?
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(categoryPlot.getDomainAxis(), linePlot.getCategoryAxisLabelFont(),
