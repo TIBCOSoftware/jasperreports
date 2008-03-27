@@ -746,6 +746,19 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 	
 	/**
+	 * Returns the crosstab cells indexed by corresponding row total group/
+	 * column total group {@link Pair pairs}.
+	 * 
+	 * @return the crosstab cells indexed by row/column total groups
+	 * @see JRCrosstabCell#getRowTotalGroup()
+	 * @see JRCrosstabCell#getColumnTotalGroup()
+	 */
+	public Map getCellsMap()
+	{
+		return cellsMap;
+	}
+	
+	/**
 	 * Adds a data cell to the crosstab.
 	 * 
 	 * @param cell the cell
