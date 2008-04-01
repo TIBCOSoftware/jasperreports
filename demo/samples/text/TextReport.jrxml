@@ -39,7 +39,7 @@
 		]]></groupExpression>
 			<groupHeader>
 			<band height="20"  isSplitAllowed="true" >
-				<rectangle radius="0" >
+				<rectangle>
 					<reportElement
 						mode="Opaque"
 						x="0"
