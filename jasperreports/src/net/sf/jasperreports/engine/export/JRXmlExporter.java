@@ -106,6 +106,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	 *
 	 */
 	private static final String XML_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xml.exclude.origin.";
+	private static final String PROPERTY_PAGE_COUNT = JRProperties.PROPERTY_PREFIX + "export.xml.page.count";
 	protected static final String DEFAULT_XML_ENCODING = "UTF-8";
 	protected static final String DEFAULT_OBJECT_TYPE = "java.lang.String";
 	protected static final String HTML_FILES_SUFFIX = "_files";
@@ -362,6 +363,11 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_locale, jasperPrint.getLocaleCode());		
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());		
 		
+		xmlWriter.startElement(JRXmlConstants.ELEMENT_property); //FIXME make this configurable?
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, PROPERTY_PAGE_COUNT);
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, jasperPrint.getPages() == null ? null : String.valueOf(jasperPrint.getPages().size()));
+		xmlWriter.closeElement();
+
 		exportProperties(jasperPrint);
 		
 		JROrigin[] origins = jasperPrint.getOrigins();
