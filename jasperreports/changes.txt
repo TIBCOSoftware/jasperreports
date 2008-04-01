@@ -2,6 +2,17 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 2.0.6 (2008-0x-xx)
+-----------------------------------
+
+- custom properties in print elements;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 2.0.5 (2008-03-12)
 -----------------------------------
 
