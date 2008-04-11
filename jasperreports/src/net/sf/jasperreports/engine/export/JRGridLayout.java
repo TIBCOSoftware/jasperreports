@@ -529,18 +529,21 @@ public class JRGridLayout
 		yCuts.addUsage(row1, CutsInfo.USAGE_NOT_EMPTY);
 		xCuts.addUsage(col1, CutsInfo.USAGE_NOT_EMPTY);
 		
-		for (int row = row1; row < row2; row++)
+		if (nature.isSpanCells())
 		{
+			for (int row = row1; row < row2; row++)
+			{
+				for (int col = col1; col < col2; col++)
+				{
+					grid[row][col] = JRExporterGridCell.OCCUPIED_CELL;
+				}
+				yCuts.addUsage(row, CutsInfo.USAGE_SPANNED);
+			}
+
 			for (int col = col1; col < col2; col++)
 			{
-				grid[row][col] = JRExporterGridCell.OCCUPIED_CELL;
+				xCuts.addUsage(col, CutsInfo.USAGE_SPANNED);
 			}
-			yCuts.addUsage(row, CutsInfo.USAGE_SPANNED);
-		}
-
-		for (int col = col1; col < col2; col++)
-		{
-			xCuts.addUsage(col, CutsInfo.USAGE_SPANNED);
 		}
 
 		if (col2 - col1 != 0 && row2 - row1 != 0)
@@ -548,13 +551,15 @@ public class JRGridLayout
 			JRPrintElement element = wrapper.getElement();
 			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
 			
+			int rowSpan = nature.isSpanCells() ? row2 - row1 : 1;
+			int colSpan = nature.isSpanCells() ? col2 - col1 : 1;
 			JRExporterGridCell gridCell = 
 				new JRExporterGridCell(
 					wrapper,
 					element.getWidth(), 
 					element.getHeight(), 
-					col2 - col1, 
-					row2 - row1
+					colSpan, 
+					rowSpan
 					);
 			
 			if (frame != null)//FIXMEODT if deep, does this make sense?
