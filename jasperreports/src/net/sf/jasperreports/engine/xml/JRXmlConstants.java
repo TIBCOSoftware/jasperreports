@@ -1330,6 +1330,7 @@ public class JRXmlConstants
 	public static final String ELEMENT_summary = "summary";
 	public static final String ELEMENT_noData = "noData";
 	public static final String ELEMENT_property = "property";
+	public static final String ELEMENT_propertyExpression = "propertyExpression";
 
 	public static final String ELEMENT_page = "page";
 

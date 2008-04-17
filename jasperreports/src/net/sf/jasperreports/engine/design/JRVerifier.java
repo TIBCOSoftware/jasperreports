@@ -84,6 +84,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRReportFont;
@@ -1201,6 +1202,7 @@ public class JRVerifier
 	 */
 	private void verifyStaticText(JRStaticText staticText)
 	{
+		verifyReportElement(staticText);
 		verifyFont(staticText);
 	}
 
@@ -1210,6 +1212,7 @@ public class JRVerifier
 	 */
 	private void verifyTextField(JRTextField textField)
 	{
+		verifyReportElement(textField);
 		verifyFont(textField);
 		verifyAnchor(textField);
 		verifyHyperlink(textField);
@@ -1423,6 +1426,7 @@ public class JRVerifier
 	 */
 	private void verifyImage(JRImage image)
 	{
+		verifyReportElement(image);
 		verifyAnchor(image);
 		verifyHyperlink(image);
 
@@ -1460,6 +1464,8 @@ public class JRVerifier
 	{
 		if (subreport != null)
 		{
+			verifyReportElement(subreport);
+			
 			JRExpression expression = subreport.getExpression();
 
 			if (expression != null)
@@ -1695,6 +1701,7 @@ public class JRVerifier
 
 	private void verifyCrosstab(JRDesignCrosstab crosstab)
 	{
+		verifyReportElement(crosstab);
 		verifyParameters(crosstab);
 
 		JRCrosstabDataset dataset = crosstab.getDataset();
@@ -2114,6 +2121,8 @@ public class JRVerifier
 
 	private void verifyChart(JRChart chart)
 	{
+		verifyReportElement(chart);
+		
 		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO)
 		{
 			addBrokenRule("Charts do not support Auto evaluation time.", chart);
@@ -2477,6 +2486,8 @@ public class JRVerifier
 
 	private void verifyFrame(JRFrame frame)
 	{
+		verifyReportElement(frame);
+		
 		JRElement[] elements = frame.getElements();
 		if (elements != null && elements.length > 0)
 		{
@@ -2635,5 +2646,50 @@ public class JRVerifier
 	protected void verify(JRXyzSeries series)
 	{
 		verifyHyperlink(series.getItemHyperlink());
+	}
+	
+	protected void verifyReportElement(JRElement element)
+	{
+		verifyProperyExpressions(element.getPropertyExpressions());
+	}
+
+	protected void verifyProperyExpressions(
+			JRPropertyExpression[] propertyExpressions)
+	{
+		if (propertyExpressions != null)
+		{
+			for (int i = 0; i < propertyExpressions.length; i++)
+			{
+				verifyPropertyExpression(propertyExpressions[i]);
+			}
+		}
+	}
+
+	protected void verifyPropertyExpression(JRPropertyExpression propertyExpression)
+	{
+		String name = propertyExpression.getName();
+		if (name == null)
+		{
+			addBrokenRule("Property name missing.", propertyExpression);
+		}
+		
+		JRExpression expr = propertyExpression.getValueExpression();
+		if (expr == null)
+		{
+			addBrokenRule("Property value expression missing.", propertyExpression);
+		}
+		else
+		{
+			String valueExprClassName = expr.getValueClassName();
+			if (valueExprClassName == null)
+			{
+				addBrokenRule("Class not set for property value expression.", expr);
+			}
+			else if (!String.class.getName().equals(valueExprClassName))
+			{
+				addBrokenRule("Class " + valueExprClassName 
+						+ " not supported for anchor name expression. Use java.lang.String instead.", expr);
+			}
+		}
 	}
 }

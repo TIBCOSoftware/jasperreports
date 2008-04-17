@@ -285,6 +285,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);
+			transferProperties(template);
 			setTemplatePattern(template);
 			
 			registerTemplate(style, template);
@@ -362,6 +363,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		byte evaluation
 		) throws JRException
 	{
+		evaluateProperties(evaluation);
+		
 		Object textFieldValue = evaluateExpression(getExpression(), evaluation);
 
 		if (textFieldValue == null)
@@ -673,6 +676,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setHyperlinkTooltip(getHyperlinkTooltip());
 		text.setBookmarkLevel(getBookmarkLevel());
 		text.setHyperlinkParameters(hyperlinkParameters);
+		transferProperties(text);
 	}
 	
 	

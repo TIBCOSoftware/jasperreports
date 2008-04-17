@@ -48,9 +48,12 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -121,6 +124,10 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 * @see #setShrinkable(boolean)
 	 */
 	private boolean shrinkable;
+
+	protected JRPropertiesMap staticProperties;
+	protected JRPropertiesMap dynamicProperties;
+	protected JRPropertiesMap mergedProperties;
 	
 	/**
 	 *
@@ -154,6 +161,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			width = element.getWidth();
 			height = element.getHeight();
 			
+			staticProperties = element.hasProperties() ? element.getPropertiesMap().cloneProperties() : null;
+			mergedProperties = staticProperties;
+			
 			factory.registerDelayedStyleSetter(this, parent);
 		}
 
@@ -181,6 +191,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		initStyle = element.initStyle;
 		
 		shrinkable = element.shrinkable;
+		
+		staticProperties = element.staticProperties == null ? null : element.staticProperties.cloneProperties();
+		mergedProperties = staticProperties;
 	}
 
 
@@ -1247,17 +1260,67 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 	public boolean hasProperties()
 	{
-		return parent.hasProperties();
+		return mergedProperties != null && mergedProperties.hasProperties();
 	}
 
 	public JRPropertiesMap getPropertiesMap()
 	{
-		return parent.getPropertiesMap();
+		return mergedProperties;
 	}
 
 	public JRPropertiesHolder getParentProperties()
 	{
 		//element properties default to report properties
 		return filler.getJasperReport();
+	}
+
+
+	public JRPropertyExpression[] getPropertyExpressions()
+	{
+		return parent.getPropertyExpressions();
+	}
+	
+	protected void transferProperties(JRTemplateElement template)
+	{
+		JRProperties.transferProperties(parent, template, 
+				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
+	}
+	
+	protected void transferProperties(JRPrintElement element)
+	{
+		JRProperties.transferProperties(dynamicProperties, element, 
+				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
+	}
+	
+	protected JRPropertiesMap getEvaluatedProperties()
+	{
+		return mergedProperties;
+	}
+	
+	protected void evaluateProperties(byte evaluation) throws JRException
+	{
+		JRPropertyExpression[] propExprs = getPropertyExpressions();
+		if (propExprs == null || propExprs.length == 0)
+		{
+			dynamicProperties = null;
+			mergedProperties = staticProperties;
+		}
+		else
+		{
+			dynamicProperties = new JRPropertiesMap();
+			
+			for (int i = 0; i < propExprs.length; i++)
+			{
+				JRPropertyExpression prop = propExprs[i];
+				String value = (String) evaluateExpression(prop.getValueExpression(), evaluation);
+				if (value != null)
+				{
+					dynamicProperties.setProperty(prop.getName(), value);
+				}
+			}
+			
+			mergedProperties = dynamicProperties.cloneProperties();
+			mergedProperties.setBaseProperties(staticProperties);
+		}
 	}
 }

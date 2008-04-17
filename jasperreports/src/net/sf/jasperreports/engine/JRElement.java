@@ -249,4 +249,10 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	public void collectExpressions(JRExpressionCollector collector);
 
 
+	/**
+	 * Returns the list of dynamic/expression-based properties for this report element.
+	 * 
+	 * @return an array containing the expression-based properties of this report element
+	 */
+	public JRPropertyExpression[] getPropertyExpressions();
 }

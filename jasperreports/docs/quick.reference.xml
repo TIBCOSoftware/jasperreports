@@ -3646,6 +3646,25 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 </element>
 
 
+<!-- propertyExpression -->
+<element>
+  <name>propertyExpression</name>
+  <description>Allows the creation of a dynamic name-value pair property for a report element.
+  The contents of this element is interpreted as a <code>java.lang.String</code> expression,
+  which will be evaluated at fill time, the result being used as property value.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the object property.</description>
+      <required>true</required>
+    </attribute>
+  </attributes>
+</element>
+
+
 <!-- queryString -->
 <element>
   <name>queryString</name>
@@ -3696,6 +3715,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <description>Element used to specify the common properties of an object on the report.</description>
   <contains>(
     <a href="property">property</a>*,
+    <a href="propertyExpression">propertyExpression</a>*,
     <a href="printWhenExpression">printWhenExpression</a>?
   )</contains>
   <attributes>

@@ -505,6 +505,25 @@ public class JRExpressionCollector
 	{
 		collect(element.getStyle());
 		addExpression(element.getPrintWhenExpression());
+		collectPropertyExpressions(element.getPropertyExpressions());
+	}
+
+	protected void collectPropertyExpressions(
+			JRPropertyExpression[] propertyExpressions)
+	{
+		if (propertyExpressions != null && propertyExpressions.length > 0)
+		{
+			for (int i = 0; i < propertyExpressions.length; i++)
+			{
+				collectPropertyExpression(propertyExpressions[i]);
+			}
+		}
+	}
+
+	protected void collectPropertyExpression(
+			JRPropertyExpression propertyExpression)
+	{
+		addExpression(propertyExpression.getValueExpression());
 	}
 
 	/**

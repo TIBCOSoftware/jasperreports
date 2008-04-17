@@ -125,6 +125,7 @@ import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReport;
@@ -716,8 +717,30 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, element.getOwnBackcolor());
 
 		writeProperties(element);
+		writePropertyExpressions(element.getPropertyExpressions());
 		writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, element.getPrintWhenExpression(), false);
 		writer.closeElement();
+	}
+
+
+	protected void writePropertyExpressions(
+			JRPropertyExpression[] propertyExpressions) throws IOException
+	{
+		if (propertyExpressions != null)
+		{
+			for (int i = 0; i < propertyExpressions.length; i++)
+			{
+				writePropertyExpression(propertyExpressions[i]);
+			}
+		}
+	}
+
+
+	protected void writePropertyExpression(JRPropertyExpression propertyExpression) throws IOException
+	{
+		String expressionText = propertyExpression.getValueExpression().getText();
+		writer.writeCDATAElement(JRXmlConstants.ELEMENT_propertyExpression, expressionText, 
+				JRXmlConstants.ATTRIBUTE_name, propertyExpression.getName());
 	}
 
 

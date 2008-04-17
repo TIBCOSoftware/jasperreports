@@ -840,6 +840,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);
+			transferProperties(template);
 			registerTemplate(style, template);
 		}
 		return template;
@@ -880,6 +881,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		byte evaluation
 		) throws JRException
 	{
+		evaluateProperties(evaluation);
+		
 		JRExpression expression = this.getExpression();
 
 		JRRenderable newRenderer = null;
@@ -1127,6 +1130,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		printImage.setHyperlinkTooltip(getHyperlinkTooltip());
 		printImage.setBookmarkLevel(this.getBookmarkLevel());
 		printImage.setHyperlinkParameters(hyperlinkParameters);
+		transferProperties(printImage);
 	}
 
 

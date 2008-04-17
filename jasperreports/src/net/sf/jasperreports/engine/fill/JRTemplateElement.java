@@ -39,8 +39,6 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -119,11 +117,8 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 		mode = element.getOwnMode();
 		forecolor = element.getOwnForecolor();
 		backcolor = element.getOwnBackcolor();
-		
-		JRProperties.transferProperties(element, this, 
-				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 	}
-
+	
 	/**
 	 *
 	 */

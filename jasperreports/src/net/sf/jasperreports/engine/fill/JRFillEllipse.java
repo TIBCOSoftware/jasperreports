@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitor;
 
@@ -78,6 +77,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);
+			transferProperties(template);
 			registerTemplate(style, template);
 		}
 		return template;
@@ -94,6 +94,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 		this.reset();
 		
 		this.evaluatePrintWhenExpression(evaluation);
+		evaluateProperties(evaluation);
 		
 		setValueRepeating(true);
 	}
@@ -104,13 +105,12 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	 */
 	protected JRPrintElement fill()
 	{
-		JRPrintEllipse printEllipse = null;
-
-		printEllipse = new JRTemplatePrintEllipse(this.getJRTemplateEllipse());
+		JRTemplatePrintEllipse printEllipse = new JRTemplatePrintEllipse(this.getJRTemplateEllipse());
 		printEllipse.setX(this.getX());
 		printEllipse.setY(this.getRelativeY());
 		printEllipse.setWidth(getWidth());
 		printEllipse.setHeight(this.getStretchHeight());
+		transferProperties(printEllipse);
 		
 		return printEllipse;
 	}

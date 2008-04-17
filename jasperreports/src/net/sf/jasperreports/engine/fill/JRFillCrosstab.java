@@ -375,6 +375,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		reset();
 
 		evaluatePrintWhenExpression(evaluation);
+		evaluateProperties(evaluation);
 
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{

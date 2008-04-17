@@ -1181,6 +1181,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		if (template == null)
 		{
 			template = new JRTemplateImage(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), this);
+			transferProperties(template);
 			registerTemplate(style, template);
 		}
 		return template;
@@ -1262,6 +1263,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected JFreeChart evaluateChart(byte evaluation) throws JRException
 	{
+		evaluateProperties(evaluation);
 		evaluateDatasetRun(evaluation);
 
 		switch(chartType) {
@@ -1484,6 +1486,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		printImage.setHyperlinkTooltip(getHyperlinkTooltip());
 		printImage.setBookmarkLevel(getBookmarkLevel());
 		printImage.setHyperlinkParameters(hyperlinkParameters);
+		transferProperties(printImage);
 	}
 
 	public byte getChartType()
