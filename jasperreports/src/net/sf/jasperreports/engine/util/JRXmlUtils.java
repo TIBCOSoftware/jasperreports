@@ -108,7 +108,7 @@ public class JRXmlUtils
 		}
 		catch (SAXException e)
 		{
-			throw new JRException("Failed to parse the xmlf document", e);
+			throw new JRException("Failed to parse the xml document", e);
 		}
 		catch (IOException e)
 		{
