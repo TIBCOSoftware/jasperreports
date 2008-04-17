@@ -215,6 +215,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		if (template == null)
 		{
 			template = new JRTemplateRectangle(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), this);
+			transferProperties(template);
 			registerTemplate(style, template);
 		}
 		return template;
@@ -247,6 +248,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		reset();
 		
 		evaluatePrintWhenExpression(evaluation);
+		evaluateProperties(evaluation);
 
 		if (
 			(isPrintWhenExpressionNull() ||

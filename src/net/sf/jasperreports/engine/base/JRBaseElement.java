@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -108,6 +109,8 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 
 	private JRPropertiesMap propertiesMap;
 
+	private JRPropertyExpression[] propertyExpressions;
+	
 	/**
 	 *
 	 */
@@ -153,6 +156,22 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		elementGroup = (JRElementGroup)factory.getVisitResult(element.getElementGroup());
 		
 		propertiesMap = JRPropertiesMap.getPropertiesClone(element);
+		copyPropertyExpressions(element, factory);
+	}
+
+
+	private void copyPropertyExpressions(JRElement element,
+			JRBaseObjectFactory factory)
+	{
+		JRPropertyExpression[] props = element.getPropertyExpressions();
+		if (props != null && props.length > 0)
+		{
+			propertyExpressions = new JRPropertyExpression[props.length];
+			for (int i = 0; i < props.length; i++)
+			{
+				propertyExpressions[i] = factory.getPropertyExpression(props[i]);
+			}
+		}
 	}
 
 
@@ -532,6 +551,11 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
+	}
+
+	public JRPropertyExpression[] getPropertyExpressions()
+	{
+		return propertyExpressions;
 	}
 	
 }

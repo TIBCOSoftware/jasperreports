@@ -28,6 +28,8 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -62,6 +64,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	private int height = 0;
 	private int width = 0;
 
+	private JRPropertiesMap properties;
 	
 	/**
 	 *
@@ -251,6 +254,18 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	public void setTemplate(JRTemplateElement template)
 	{
 		this.template = template;
+		
+		if (properties != null)
+		{
+			if (this.template != null && this.template.hasProperties())
+			{
+				properties.setBaseProperties(this.template.getPropertiesMap());
+			}
+			else
+			{
+				properties.setBaseProperties(null);
+			}
+		}
 	}
 
 	public String getKey()
@@ -274,20 +289,40 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 		return getForecolor();
 	}
 
-	public boolean hasProperties()
+	public synchronized boolean hasProperties()
 	{
-		return template.hasProperties();
+		return properties != null && properties.hasProperties()
+				|| template.hasProperties();
 	}
 
-	public JRPropertiesMap getPropertiesMap()
+	public synchronized JRPropertiesMap getPropertiesMap()
 	{
-		//FIXME return read-only properties or own properties
-		return template.getPropertiesMap();
+		if (properties == null)
+		{
+			//FIXME avoid this on read only calls
+			properties = new JRPropertiesMap();
+			
+			if (template.hasProperties())
+			{
+				properties.setBaseProperties(template.getPropertiesMap());
+			}
+		}
+		
+		return properties;
 	}
 
 	public JRPropertiesHolder getParentProperties()
 	{
-		return template.getParentProperties();
+		return null;
 	}
 
+	private synchronized void writeObject(ObjectOutputStream out) throws IOException
+	{
+		if (properties != null && !properties.hasOwnProperties())
+		{
+			properties = null;
+		}
+		
+		out.defaultWriteObject();
+	}
 }

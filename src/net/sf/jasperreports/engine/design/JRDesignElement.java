@@ -27,12 +27,19 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 
@@ -68,7 +75,10 @@ public abstract class JRDesignElement extends JRBaseElement
 	public static final String PROPERTY_PARENT_STYLE_NAME_REFERENCE = "parentStyleNameReference";
 	
 	public static final String PROPERTY_Y = "y";
+	
+	public static final String PROPERTY_PROPERTY_EXPRESSIONS = "propertyExpressions";
 
+	private List propertyExpressions = new ArrayList();
 
 	/**
 	 *
@@ -168,4 +178,99 @@ public abstract class JRDesignElement extends JRBaseElement
 		this.parentStyleNameReference = styleName;
 		getEventSupport().firePropertyChange(PROPERTY_PARENT_STYLE_NAME_REFERENCE, old, this.parentStyleNameReference);
 	}
+
+	private void readObject(ObjectInputStream stream)
+    		throws IOException, ClassNotFoundException
+    {
+		stream.defaultReadObject();
+		
+		if (propertyExpressions == null)
+		{
+			propertyExpressions = new ArrayList();
+		}
+    }
+	
+	/**
+	 * Add a dynamic/expression-based property.
+	 * 
+	 * @param propertyExpression the property to add
+	 * @see #getPropertyExpressions()
+	 */
+	public void addPropertyExpression(JRPropertyExpression propertyExpression)
+	{
+		propertyExpressions.add(propertyExpression);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PROPERTY_EXPRESSIONS, 
+				propertyExpression, propertyExpressions.size() - 1);
+	}
+
+	/**
+	 * Remove a property expression.
+	 * 
+	 * @param propertyExpression the property expression to remove
+	 * @see #addPropertyExpression(JRPropertyExpression)
+	 */
+	public void removePropertyExpression(JRPropertyExpression propertyExpression)
+	{
+		int idx = propertyExpressions.indexOf(propertyExpression);
+		if (idx >= 0)
+		{
+			propertyExpressions.remove(idx);
+			
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PROPERTY_EXPRESSIONS, 
+					propertyExpression, idx);
+		}
+	}
+	
+	/**
+	 * Remove a property expression.
+	 * 
+	 * @param name the name of the property to remove
+	 * @return the removed property expression (if found)
+	 */
+	public JRPropertyExpression removePropertyExpression(String name)
+	{
+		JRPropertyExpression removed = null;
+		for (ListIterator it = propertyExpressions.listIterator(); it.hasNext();)
+		{
+			JRPropertyExpression prop = (JRPropertyExpression) it.next();
+			if (name.equals(prop.getName()))
+			{
+				removed = prop;
+				int idx = it.previousIndex();
+				
+				it.remove();
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PROPERTY_EXPRESSIONS, 
+						removed, idx);
+				break;
+			}
+		}
+		return removed;
+	}
+	
+	/**
+	 * Returns the list of property expressions.
+	 * 
+	 * @return the list of property expressions ({@link JRPropertyExpression} instances)
+	 * @see #addPropertyExpression(JRPropertyExpression)
+	 */
+	public List getPropertyExpressionsList()
+	{
+		return propertyExpressions;
+	}
+	
+	public JRPropertyExpression[] getPropertyExpressions()
+	{
+		JRPropertyExpression[] props;
+		if (propertyExpressions.isEmpty())
+		{
+			props = null;
+		}
+		else
+		{
+			props = (JRPropertyExpression[]) propertyExpressions.toArray(
+					new JRPropertyExpression[propertyExpressions.size()]);
+		}
+		return props;
+	}
+	
 }

@@ -106,6 +106,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);
+			transferProperties(template);
 			registerTemplate(style, template);
 		}
 		return template;
@@ -122,6 +123,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		this.reset();
 		
 		this.evaluatePrintWhenExpression(evaluation);
+		evaluateProperties(evaluation);
 		
 		setValueRepeating(true);
 	}
@@ -139,6 +141,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		printRectangle.setY(this.getRelativeY());
 		printRectangle.setWidth(getWidth());
 		printRectangle.setHeight(this.getStretchHeight());
+		transferProperties(printRectangle);
 		
 		return printRectangle;
 	}

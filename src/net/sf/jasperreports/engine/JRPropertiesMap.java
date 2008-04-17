@@ -30,7 +30,9 @@ package net.sf.jasperreports.engine;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -50,16 +52,14 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	private Map propertiesMap;
 	private List propertiesList;
 	
+	private JRPropertiesMap base;
 	
 	/**
 	 * Creates a properties map.
 	 */
 	public JRPropertiesMap()
 	{
-		propertiesMap = new HashMap();
-		propertiesList = new ArrayList();
 	}
-
 	
 	/**
 	 * Clones a properties map.
@@ -69,6 +69,8 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	public JRPropertiesMap(JRPropertiesMap propertiesMap)
 	{
 		this();
+		
+		this.base = propertiesMap.base;
 		
 		String[] propertyNames = propertiesMap.getPropertyNames();
 		if (propertyNames != null && propertyNames.length > 0)
@@ -80,6 +82,20 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		}
 	}
 
+	protected synchronized void ensureInit()
+	{
+		if (propertiesMap == null)
+		{
+			init();
+		}
+	}
+
+	private void init()
+	{
+		propertiesMap = new HashMap();
+		propertiesList = new ArrayList();
+	}
+
 	
 	/**
 	 * Returns the names of the properties.
@@ -88,10 +104,46 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	 */
 	public String[] getPropertyNames()
 	{
-		return (String[]) propertiesList.toArray(new String[propertiesList.size()]);
+		String[] names;
+		if (hasOwnProperties())
+		{
+			if (base == null)
+			{
+				names = (String[]) propertiesList.toArray(new String[propertiesList.size()]);
+			}
+			else
+			{
+				LinkedHashSet namesSet = new LinkedHashSet();
+				collectPropertyNames(namesSet);
+				names = (String[]) namesSet.toArray(new String[namesSet.size()]);
+			}
+		}
+		else if (base != null)
+		{
+			names = base.getPropertyNames();
+		}
+		else
+		{
+			names = new String[0];
+		}
+		return names;
 	}
 
 	
+	protected void collectPropertyNames(Collection names)
+	{
+		if (base != null)
+		{
+			base.collectPropertyNames(names);
+		}
+		
+		if (propertiesList != null)
+		{
+			names.addAll(propertiesList);
+		}
+	}
+
+
 	/**
 	 * Returns the value of a property.
 	 * 
@@ -100,7 +152,20 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	 */
 	public String getProperty(String propName)
 	{
-		return (String)propertiesMap.get(propName);
+		String val;
+		if (hasOwnProperty(propName))
+		{
+			val = getOwnProperty(propName);
+		}
+		else if (base != null)
+		{
+			val = base.getProperty(propName);
+		}
+		else
+		{
+			val = null;
+		}
+		return val;
 	}
 	
 	
@@ -114,7 +179,20 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	 */
 	public boolean containsProperty(String propName)
 	{
-		return propertiesMap.containsKey(propName);
+		return hasOwnProperty(propName) 
+				|| base != null && base.containsProperty(propName);
+	}
+
+
+	protected boolean hasOwnProperty(String propName)
+	{
+		return propertiesMap != null && propertiesMap.containsKey(propName);
+	}
+
+
+	protected String getOwnProperty(String propName)
+	{
+		return propertiesMap != null ? (String) propertiesMap.get(propName) : null;
 	}
 
 	
@@ -126,7 +204,9 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	 */
 	public void setProperty(String propName, String value)
 	{
-		if (!propertiesMap.containsKey(propName))
+		ensureInit();
+		
+		if (!hasOwnProperty(propName))
 		{
 			propertiesList.add(propName);
 		}
@@ -141,7 +221,8 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	 */	
 	public void removeProperty(String propName)
 	{
-		if (propertiesMap.containsKey(propName))
+		//FIXME base properties?
+		if (hasOwnProperty(propName))
 		{
 			propertiesList.remove(propName);
 			propertiesMap.remove(propName);
@@ -171,7 +252,7 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	
 	public String toString()
 	{
-		return propertiesMap.toString();
+		return propertiesMap == null ? "" : propertiesMap.toString();
 	}
 	
 	
@@ -179,7 +260,7 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	{
 		in.defaultReadObject();
 		
-		if (propertiesList == null)// an instance from an old version has been deserialized
+		if (propertiesList == null && propertiesMap != null)// an instance from an old version has been deserialized
 		{
 			//recreate the properties list and map
 			propertiesList = new ArrayList(propertiesMap.keySet());
@@ -195,7 +276,21 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	 */
 	public boolean hasProperties()
 	{
-		return !propertiesList.isEmpty();
+		return hasOwnProperties()
+				|| base != null && base.hasProperties();
+	}
+
+
+	/**
+	 * Checks whether this object has properties of its own
+	 * (i.e. not inherited from the base properties).
+	 * 
+	 * @return whether this object has properties of its own
+	 * @see #setBaseProperties(JRPropertiesMap)
+	 */
+	public boolean hasOwnProperties()
+	{
+		return propertiesList != null && !propertiesList.isEmpty();
 	}
 	
 	
@@ -219,5 +314,35 @@ public class JRPropertiesMap implements Serializable, Cloneable
 			clone = null;
 		}
 		return clone;
+	}
+
+
+	/**
+	 * Returns the base properties map, if any.
+	 * 
+	 * @return the base properties map
+	 * @see #setBaseProperties(JRPropertiesMap)
+	 */
+	public JRPropertiesMap getBaseProperties()
+	{
+		return base;
+	}
+
+
+	/**
+	 * Sets the base properties map.
+	 * 
+	 * <p>
+	 * The base properties map are used as base/default properties for this
+	 * instance.  All of the {@link #containsProperty(String)}, 
+	 * {@link #getProperty(String)}, {@link #getPropertyNames()} and 
+	 * {@link #hasProperties()} methods include base properties as well.
+	 * </p>
+	 * 
+	 * @param base the base properties map
+	 */
+	public void setBaseProperties(JRPropertiesMap base)
+	{
+		this.base = base;
 	}
 }

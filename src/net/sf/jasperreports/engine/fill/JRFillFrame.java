@@ -138,6 +138,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		reset();
 
 		evaluatePrintWhenExpression(evaluation);
+		evaluateProperties(evaluation);
 
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
@@ -271,6 +272,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		frameContainer.fillElements(printFrame);
 		
 		printFrame.setHeight(getStretchHeight());
+		transferProperties(printFrame);
 		
 		return printFrame;
 	}
@@ -311,6 +313,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 					band == null ? null : band.getOrigin(), 
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this);
+			transferProperties(boxTemplate);
 			if (first)
 			{
 				if (!fillBottomBorder) //remove the bottom border

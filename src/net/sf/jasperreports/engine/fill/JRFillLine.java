@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitor;
 
@@ -93,6 +92,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);
+			transferProperties(template);
 			registerTemplate(style, template);
 		}
 		return template;
@@ -109,6 +109,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 		this.reset();
 		
 		this.evaluatePrintWhenExpression(evaluation);
+		evaluateProperties(evaluation);
 		
 		setValueRepeating(true);
 	}
@@ -119,13 +120,12 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	 */
 	protected JRPrintElement fill()
 	{
-		JRPrintLine printLine = null;
-
-		printLine = new JRTemplatePrintLine(this.getJRTemplateLine());
+		JRTemplatePrintLine printLine = new JRTemplatePrintLine(this.getJRTemplateLine());
 		printLine.setX(this.getX());
 		printLine.setY(this.getRelativeY());
 		printLine.setWidth(getWidth());
 		printLine.setHeight(this.getStretchHeight());
+		transferProperties(printLine);
 		
 		return printLine;
 	}

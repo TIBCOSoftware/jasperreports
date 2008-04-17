@@ -726,6 +726,32 @@ public class JRProperties
 			return;
 		}
 
+		transfer(source.getPropertiesMap(), destination, tranferPropertiesPrefix);
+	}
+
+	/**
+	 * Copies properties from one object to another.
+	 * 
+	 * @param source the source properties
+	 * @param destination the destination properties holder 
+	 * @param tranferPropertiesPrefix the prefix of the JasperReports properties
+	 * that specify the object properties to copy 
+	 * @see #transferProperties(JRPropertiesHolder, JRPropertiesHolder, String)
+	 */
+	public static void transferProperties(JRPropertiesMap source,
+			JRPropertiesHolder destination, String tranferPropertiesPrefix)
+	{
+		if (source == null || !source.hasProperties())
+		{
+			return;
+		}
+
+		transfer(source, destination, tranferPropertiesPrefix);
+	}
+
+	protected static void transfer(JRPropertiesMap source,
+			JRPropertiesHolder destination, String tranferPropertiesPrefix)
+	{
 		List transferPrefixProps = getProperties(tranferPropertiesPrefix);
 		for (Iterator prefixIt = transferPrefixProps.iterator(); prefixIt.hasNext();)
 		{
@@ -733,7 +759,7 @@ public class JRProperties
 			String transferPrefix = transferPrefixProp.getValue();
 			if (transferPrefix != null && transferPrefix.length() > 0)
 			{
-				List transferProps = getProperties(source.getPropertiesMap(), transferPrefix);
+				List transferProps = getProperties(source, transferPrefix);
 				for (Iterator propIt = transferProps.iterator(); propIt.hasNext();)
 				{
 					JRProperties.PropertySuffix property = (JRProperties.PropertySuffix) propIt.next();

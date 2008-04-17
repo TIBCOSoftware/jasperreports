@@ -119,6 +119,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRSortField;
@@ -180,6 +181,13 @@ public class JRXmlDigesterFactory
 
 		/*   */
 		digester.addRule("*/property", new JRPropertyDigesterRule());
+		
+		String propertyExpressionPattern = "*/" + JRXmlConstants.ELEMENT_propertyExpression;
+		digester.addFactoryCreate(propertyExpressionPattern, JRPropertyExpressionFactory.class.getName());
+		digester.addSetNext(propertyExpressionPattern, "addPropertyExpression", JRPropertyExpression.class.getName());
+		digester.addFactoryCreate(propertyExpressionPattern, JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addSetNext(propertyExpressionPattern, "setValueExpression", JRExpression.class.getName());
+		digester.addCallMethod(propertyExpressionPattern, "setText", 0);
 
 		/*   */
 		digester.addCallMethod("jasperReport/import", "addImport", 1);

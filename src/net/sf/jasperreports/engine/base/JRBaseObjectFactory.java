@@ -123,6 +123,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRectangle;
@@ -1558,4 +1559,17 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseTemplate;
 	}
 
+	public JRPropertyExpression getPropertyExpression(JRPropertyExpression propertyExpression)
+	{
+		JRPropertyExpression baseProp = null;
+		if (propertyExpression != null)
+		{
+			baseProp = (JRPropertyExpression) get(propertyExpression);
+			if (baseProp == null)
+			{
+				baseProp = new JRBasePropertyExpression(propertyExpression, this);
+			}
+		}
+		return baseProp;
+	}
 }

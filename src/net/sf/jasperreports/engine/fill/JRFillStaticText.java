@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitor;
@@ -100,6 +99,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);
+			transferProperties(template);
 			registerTemplate(style, template);
 		}
 		return template;
@@ -116,6 +116,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		reset();
 		
 		evaluatePrintWhenExpression(evaluation);
+		evaluateProperties(evaluation);
 		
 		setTextStart(0);
 		setTextEnd(0);
@@ -204,9 +205,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	 */
 	protected JRPrintElement fill()
 	{
-		JRPrintText text = null;
-
-		text = new JRTemplatePrintText(getJRTemplateText());
+		JRTemplatePrintText text = new JRTemplatePrintText(getJRTemplateText());
 		text.setX(getX());
 		text.setY(getRelativeY());
 		text.setWidth(getWidth());
@@ -222,6 +221,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		text.setLineSpacingFactor(getLineSpacingFactor());
 		text.setLeadingOffset(getLeadingOffset());
 		text.setTextHeight(getTextHeight());
+		transferProperties(text);
 
 		//text.setText(getRawText());
 		setPrintText(text);
