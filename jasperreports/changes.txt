@@ -7,6 +7,8 @@ JasperReports 3.0.0 (2008-0x-xx)
 
 - custom properties in print elements;
 
+- element custom properties can have expressions as values;
+
 - minor bug fixes and improvements;
 
 
