@@ -977,8 +977,8 @@ public abstract class JRAbstractExporter implements JRExporter
 	{
 		String key = formatFactoryClass 
 			+ "|" + pattern 
-			+ "|" + JRDataUtils.getLocaleCode(lc) 
-			+ "|" + JRDataUtils.getTimeZoneId(tz);
+			+ "|" + (lc == null ? "" : JRDataUtils.getLocaleCode(lc)) 
+			+ "|" + (tz == null ? "" : JRDataUtils.getTimeZoneId(tz));
 		DateFormat dateFormat = (DateFormat)dateFormatCache.get(key);
 		if (dateFormat == null)
 		{
@@ -994,13 +994,13 @@ public abstract class JRAbstractExporter implements JRExporter
 	{
 		String key = formatFactoryClass 
 			+ "|" + pattern 
-			+ "|" + JRDataUtils.getLocaleCode(lc); 
+			+ "|" + (lc == null ? "" : JRDataUtils.getLocaleCode(lc)); 
 		NumberFormat numberFormat = (NumberFormat)numberFormatCache.get(key);
 		if (numberFormat == null)
 		{
 			FormatFactory formatFactory = DefaultFormatFactory.createFormatFactory(formatFactoryClass);//FIXMEFORMAT cache this too
 			numberFormat = formatFactory.createNumberFormat(pattern, lc);
-			dateFormatCache.put(key, numberFormat);
+			numberFormatCache.put(key, numberFormat);
 		}
 		return numberFormat;
 	}

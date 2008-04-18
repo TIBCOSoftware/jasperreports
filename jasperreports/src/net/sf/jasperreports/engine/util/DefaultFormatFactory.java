@@ -132,8 +132,11 @@ public class DefaultFormatFactory implements FormatFactory
 			}
 		}
 		
-		format.setTimeZone(tz);
-		
+		if (tz != null)
+		{
+			format.setTimeZone(tz);
+		}
+
 		return format;
 	}
 
