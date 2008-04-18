@@ -73,7 +73,6 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	protected String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException
 	{
 		CompilerConfiguration config = new CompilerConfiguration();
-		config.setUseNewGroovy(true);
 		//config.setClasspath(classpath);
 		CompilationUnit unit = new CompilationUnit(config);
 		
