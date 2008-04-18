@@ -34,11 +34,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JEditorPane;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.AbstractDocument.LeafElement;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTML.Tag;
 
 
 /**
@@ -118,18 +121,56 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 			Element element = (Element)elements.get(i);
 			int startOffset = element.getStartOffset();
 			int endOffset = element.getEndOffset();
-			
+
+			AttributeSet attrs = element.getAttributes();
+
+			Object elementName = attrs.getAttribute(AbstractDocument.ElementNameAttribute);
+			Object object = (elementName != null) ? null : attrs.getAttribute(StyleConstants.NameAttribute);
 			String chunk = "";
-
-			try
+			if (object instanceof HTML.Tag) 
 			{
-				chunk = document.getText(startOffset, endOffset - startOffset);
+				HTML.Tag htmlTag = (HTML.Tag) object;
+				if(htmlTag == Tag.BR)
+				{
+					chunk="\n";
+				}
+				else if(htmlTag == Tag.LI)
+				{
+					try
+					{
+						chunk = " \u2022 "+ document.getText(startOffset, endOffset - startOffset);
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+				else
+				{
+					try
+					{
+						chunk = document.getText(startOffset, endOffset - startOffset);
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+					
+				}
 			}
-			catch(Exception e)
+			else
 			{
-				e.printStackTrace();
+				try
+				{
+					chunk = document.getText(startOffset, endOffset - startOffset);
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+				
 			}
-
+			
 			styledText.append(chunk);
 			styledText.addRun(new JRStyledText.Run(getAttributes(element.getAttributes()), startOffset, endOffset));
 		}
@@ -220,6 +261,23 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 			attrMap.put(
 				TextAttribute.BACKGROUND,
 				StyleConstants.getBackground(attrSet)
+				);
+		}
+		
+		//FIXME: why StyleConstants.isSuperscript(attrSet) does return false
+		if (attrSet.isDefined(StyleConstants.Superscript) && !StyleConstants.isSubscript(attrSet))
+		{
+			attrMap.put(
+				TextAttribute.SUPERSCRIPT,
+				TextAttribute.SUPERSCRIPT_SUPER
+				);
+		}
+					
+		if (attrSet.isDefined(StyleConstants.Subscript) && StyleConstants.isSubscript(attrSet))
+		{
+			attrMap.put(
+				TextAttribute.SUPERSCRIPT,
+				TextAttribute.SUPERSCRIPT_SUB
 				);
 		}
 					
