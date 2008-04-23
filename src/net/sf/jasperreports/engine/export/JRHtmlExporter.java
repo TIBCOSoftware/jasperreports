@@ -1275,6 +1275,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 				target = "_blank";
 				break;
 			}
+			case JRHyperlink.HYPERLINK_TARGET_PARENT :
+			{
+				target = "_parent";
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TARGET_TOP :
+			{
+				target = "_top";
+				break;
+			}
 			case JRHyperlink.HYPERLINK_TARGET_SELF :
 			default :
 			{
