@@ -109,6 +109,16 @@ public interface JRHyperlink extends JRCloneable
 	 */
 	public static final byte HYPERLINK_TARGET_BLANK = 2;
 
+	/**
+	 * Constant useful for specifying that the hyperlink will be opened in the parent frame.
+	 */
+	public static final byte HYPERLINK_TARGET_PARENT = 3;
+
+	/**
+	 * Constant useful for specifying that the hyperlink will be opened in the top frame.
+	 */
+	public static final byte HYPERLINK_TARGET_TOP = 4;
+
 
 	/**
 	 * Retrieves the hyperlink type for the element.

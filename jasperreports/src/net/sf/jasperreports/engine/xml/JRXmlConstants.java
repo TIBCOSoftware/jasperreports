@@ -747,6 +747,8 @@ public class JRXmlConstants
 	 */
 	private static final String HYPERLINK_TARGET_SELF = "Self";
 	private static final String HYPERLINK_TARGET_BLANK = "Blank";
+	private static final String HYPERLINK_TARGET_PARENT = "Parent";
+	private static final String HYPERLINK_TARGET_TOP = "Top";
 
 	private static Map hyperlinkTargetMap = null;
 
@@ -757,8 +759,12 @@ public class JRXmlConstants
 			hyperlinkTargetMap = new HashMap(4);
 			hyperlinkTargetMap.put(HYPERLINK_TARGET_SELF,  new Byte(JRHyperlink.HYPERLINK_TARGET_SELF));
 			hyperlinkTargetMap.put(HYPERLINK_TARGET_BLANK, new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK));
+			hyperlinkTargetMap.put(HYPERLINK_TARGET_PARENT, new Byte(JRHyperlink.HYPERLINK_TARGET_PARENT));
+			hyperlinkTargetMap.put(HYPERLINK_TARGET_TOP, new Byte(JRHyperlink.HYPERLINK_TARGET_TOP));
 			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_SELF),  HYPERLINK_TARGET_SELF);
 			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK), HYPERLINK_TARGET_BLANK);
+			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_PARENT), HYPERLINK_TARGET_PARENT);
+			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_TOP), HYPERLINK_TARGET_TOP);
 		}
 
 		return hyperlinkTargetMap;

@@ -823,6 +823,14 @@
           <name>Blank</name>
           <description>Loads the hyperlink destination document into a new blank window.</description>
         </value>
+        <value>
+          <name>Parent</name>
+          <description>Loads the hyperlink destination document into the parent frame. Can be applied only for the HTML format</description>
+        </value>
+        <value>
+          <name>Top</name>
+          <description>Loads the hyperlink destination document into the top frame. Can be applied only for the HTML format</description>
+        </value>
       </values>
       <default>Self</default>
     </attribute>
@@ -2392,6 +2400,14 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
           <name>Blank</name>
           <description>Loads the hyperlink destination document into a new blank window.</description>
         </value>
+        <value>
+          <name>Parent</name>
+          <description>Loads the hyperlink destination document into the parent frame. Can be applied only for the HTML format</description>
+        </value>
+        <value>
+          <name>Top</name>
+          <description>Loads the hyperlink destination document into the top frame. Can be applied only for the HTML format</description>
+        </value>
       </values>
       <default>Self</default>
     </attribute>
@@ -2551,6 +2567,14 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
         <value>
           <name>Blank</name>
           <description>Loads the hyperlink destination document into a new blank window.</description>
+        </value>
+        <value>
+          <name>Parent</name>
+          <description>Loads the hyperlink destination document into the parent frame. Can be applied only for the HTML format</description>
+        </value>
+        <value>
+          <name>Top</name>
+          <description>Loads the hyperlink destination document into the top frame. Can be applied only for the HTML format</description>
         </value>
       </values>
       <default>Self</default>
@@ -4282,6 +4306,14 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
           <name>Blank</name>
           <description>Loads the hyperlink destination document into a new blank window.</description>
         </value>
+           <value>
+          <name>Parent</name>
+          <description>Loads the hyperlink destination document into the parent frame. Can be applied only for the HTML format</description>
+        </value>
+        <value>
+          <name>Top</name>
+          <description>Loads the hyperlink destination document into the top frame. Can be applied only for the HTML format</description>
+        </value>
       </values>
       <default>Self</default>
     </attribute>
@@ -5035,6 +5067,14 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
         <value>
           <name>Blank</name>
           <description>Loads the hyperlink destination document into a new blank window.</description>
+        </value>
+           <value>
+          <name>Parent</name>
+          <description>Loads the hyperlink destination document into the parent frame. Can be applied only for the HTML format</description>
+        </value>
+        <value>
+          <name>Top</name>
+          <description>Loads the hyperlink destination document into the top frame. Can be applied only for the HTML format</description>
         </value>
       </values>
       <default>Self</default>
