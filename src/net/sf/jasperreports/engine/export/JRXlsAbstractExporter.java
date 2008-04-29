@@ -104,6 +104,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isAutoDetectCellType = false;
 	protected boolean isDetectCellType;
 	protected boolean isFontSizeFixEnabled;
+	protected boolean isImageBorderFixEnabled;
 	protected boolean isIgnoreGraphics;
 	protected boolean isCollapseRowSpan;
 	protected boolean isIgnoreCellBorder;
@@ -293,6 +294,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				false
 				);
 
+		isImageBorderFixEnabled = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.IS_IMAGE_BORDER_FIX_ENABLED,
+				JRXlsAbstractExporterParameter.PROPERTY_IMAGE_BORDER_FIX_ENABLED,
+				false
+				);
+		
 		isIgnoreGraphics = 
 			getBooleanParameter(
 				JRXlsAbstractExporterParameter.IS_IGNORE_GRAPHICS,
@@ -771,7 +779,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected static int getImageBorderCorrection(JRPen pen)
+	protected int getImageBorderCorrection(JRPen pen)
 	{
 		float lineWidth = pen.getLineWidth().floatValue();
 		
@@ -785,7 +793,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			return 1;
 		}
 		
-		return 0;
+		return isImageBorderFixEnabled ? 1 : 0;
 	}
 
 	
