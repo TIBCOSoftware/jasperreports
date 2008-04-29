@@ -174,6 +174,12 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * Flag for forcing the minimum image padding to 1 pixel, to avoid situations where the image hides the cell border.
+	 */
+	public static final JRXlsAbstractExporterParameter IS_IMAGE_BORDER_FIX_ENABLED = new JRXlsAbstractExporterParameter("Is Image Border Fix Enabled");
+
+
+	/**
 	 * Property whose value is used as default state of the {@link #IS_FONT_SIZE_FIX_ENABLED IS_FONT_SIZE_FIX_ENABLED} export flag.
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
@@ -181,6 +187,16 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * @see JRProperties
 	 */
 	public static final String PROPERTY_FONT_SIZE_FIX_ENABLED = JRProperties.PROPERTY_PREFIX + "export.xls.font.size.fix.enabled";
+
+
+	/**
+	 * Property whose value is used as default state of the {@link #IS_IMAGE_BORDER_FIX_ENABLED IS_IMAGE_BORDER_FIX_ENABLED} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_IMAGE_BORDER_FIX_ENABLED = JRProperties.PROPERTY_PREFIX + "export.xls.image.border.fix.enabled";
 
 
 	/**
