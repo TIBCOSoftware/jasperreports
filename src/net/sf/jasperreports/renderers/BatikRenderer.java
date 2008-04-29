@@ -91,6 +91,11 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	{
 		return areaHyperlinks;
 	}
+
+	public boolean hasImageAreaHyperlinks()
+	{
+		return areaHyperlinks != null && !areaHyperlinks.isEmpty();
+	}
 	
 	protected Graphics2D createGraphics(BufferedImage bi)
 	{

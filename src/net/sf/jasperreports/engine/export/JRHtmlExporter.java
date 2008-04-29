@@ -1539,7 +1539,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 		JRRenderable renderer = image.getRenderer();
 		JRRenderable originalRenderer = renderer;
-		boolean imageMapRenderer = renderer != null && renderer instanceof JRImageMapRenderer;
+		boolean imageMapRenderer = renderer != null 
+				&& renderer instanceof JRImageMapRenderer
+				&& ((JRImageMapRenderer) renderer).hasImageAreaHyperlinks();
 
 		boolean startedHyperlink = false;
 		boolean hasHyperlinks = false;
