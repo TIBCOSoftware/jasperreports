@@ -71,4 +71,9 @@ public abstract class JRAbstractChartImageMapRenderer extends JFreeChartRenderer
 		return ChartUtil.getImageAreaHyperlinks(getChart(), this, null, renderingArea);
 	}
 
+	public boolean hasImageAreaHyperlinks()
+	{
+		return hasHyperlinks();
+	}
+
 }

@@ -1602,6 +1602,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					if (renderer instanceof JRImageMapRenderer)
 					{
 						imageMap = (JRImageMapRenderer) renderer;
+						if (!imageMap.hasImageAreaHyperlinks())
+						{
+							imageMap = null;
+						}
 					}
 				}
 				boolean hasImageMap = imageMap != null;

@@ -78,4 +78,9 @@ public class DrawChartRenderer extends JRAbstractSvgRenderer implements JRImageM
 	{
 		return ChartUtil.getImageAreaHyperlinks(chart, chartHyperlinkProvider, null, renderingArea);
 	}
+
+	public boolean hasImageAreaHyperlinks()
+	{
+		return chartHyperlinkProvider != null && chartHyperlinkProvider.hasHyperlinks();
+	}
 }

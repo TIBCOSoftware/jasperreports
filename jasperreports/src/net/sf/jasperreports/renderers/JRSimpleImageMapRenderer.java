@@ -70,4 +70,9 @@ public class JRSimpleImageMapRenderer extends JRImageRenderer implements JRImage
 		return areaHyperlinks;
 	}
 
+	public boolean hasImageAreaHyperlinks()
+	{
+		return areaHyperlinks != null && !areaHyperlinks.isEmpty();
+	}
+
 }
