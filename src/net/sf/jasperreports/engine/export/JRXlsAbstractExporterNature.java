@@ -45,8 +45,8 @@ import net.sf.jasperreports.engine.util.JRProperties;
 public class JRXlsAbstractExporterNature implements ExporterNature
 {
 	
-	public static final String PROPERTY_BREAK_BEFORE = JRProperties.PROPERTY_PREFIX + "export.xls.break.before";
-	public static final String PROPERTY_BREAK_AFTER = JRProperties.PROPERTY_PREFIX + "export.xls.break.after";
+	public static final String PROPERTY_BREAK_BEFORE_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.break.before.row";
+	public static final String PROPERTY_BREAK_AFTER_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.break.after.row";
 
 	protected ExporterFilter filter = null;
 	protected boolean isIgnoreGraphics = false;
@@ -133,7 +133,7 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 	 */
 	public boolean isBreakBeforeRow(JRPrintElement element)
 	{
-		return Boolean.valueOf(element.getPropertiesMap().getProperty(PROPERTY_BREAK_BEFORE));
+		return Boolean.valueOf(element.getPropertiesMap().getProperty(PROPERTY_BREAK_BEFORE_ROW));
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 	 */
 	public boolean isBreakAfterRow(JRPrintElement element)
 	{
-		return Boolean.valueOf(element.getPropertiesMap().getProperty(PROPERTY_BREAK_AFTER));
+		return Boolean.valueOf(element.getPropertiesMap().getProperty(PROPERTY_BREAK_AFTER_ROW));
 	}
 	
 }
