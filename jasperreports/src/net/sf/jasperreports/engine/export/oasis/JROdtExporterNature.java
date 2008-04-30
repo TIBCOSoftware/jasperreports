@@ -107,4 +107,20 @@ public class JROdtExporterNature implements ExporterNature
 		return false;
 	}
 	
+	/**
+	 *
+	 */
+	public boolean isBreakBeforeRow(JRPrintElement element)
+	{
+		return false;
+	}
+	
+	/**
+	 *
+	 */
+	public boolean isBreakAfterRow(JRPrintElement element)
+	{
+		return false;
+	}
+	
 }

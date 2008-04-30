@@ -579,6 +579,15 @@ public class JRGridLayout
 			
 			gridCell.setBox((element instanceof JRBoxContainer)?((JRBoxContainer)element).getLineBox():null);
 
+			if (nature.isBreakBeforeRow(element))
+			{
+				yCuts.addUsage(row1,  CutsInfo.USAGE_BREAK);
+			}
+			if (nature.isBreakAfterRow(element))
+			{
+				yCuts.addUsage(row1 + rowSpan,  CutsInfo.USAGE_BREAK);
+			}
+
 			grid[row1][col1] = gridCell;
 		}
 	}
