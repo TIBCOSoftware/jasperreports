@@ -49,6 +49,7 @@ public class CutsInfo
 {
 	public static final int USAGE_NOT_EMPTY = 1;
 	public static final int USAGE_SPANNED = 2;
+	public static final int USAGE_BREAK = 4;
 	
 	private final List cuts = new ArrayList();
 	private int[] cutUsage;
@@ -161,5 +162,11 @@ public class CutsInfo
 		return ((cutUsage[index] & USAGE_SPANNED) > 0);
 	}
 
-
+	/**
+	 * 
+	 */
+	public boolean isBreak(int index)
+	{
+		return ((cutUsage[index] & USAGE_BREAK) > 0);
+	}
 }

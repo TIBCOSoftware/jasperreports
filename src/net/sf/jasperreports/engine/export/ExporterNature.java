@@ -62,6 +62,16 @@ public interface ExporterNature extends ExporterFilter
 	 */
 	public abstract boolean isIgnorePageMargins();
 
+	/**
+	 *
+	 */
+	public boolean isBreakBeforeRow(JRPrintElement element);
+
+	/**
+	 *
+	 */
+	public boolean isBreakAfterRow(JRPrintElement element);
+
 	
 	/**
 	 * Flag that specifies that empty cells are to be horizontally merged.

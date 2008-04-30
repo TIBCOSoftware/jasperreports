@@ -481,7 +481,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			rowIndex = y - skippedRows + startRow;
 
 			//if number of rows is too large a new sheet is created and populated with remaining rows
-			if(maxRowsPerSheet > 0 && rowIndex >= maxRowsPerSheet)
+			if(
+				(maxRowsPerSheet > 0 && rowIndex >= maxRowsPerSheet)
+				|| yCuts.isBreak(y) 
+				)
 			{
 				createSheet(getSheetName(currentSheetName));
 				startRow = 0;

@@ -33,27 +33,20 @@
 
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRPrintText;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsExporterNature implements ExporterNature
+public class JRXlsExporterNature extends JRXlsAbstractExporterNature
 {
-	
-	private ExporterFilter filter = null;
-	private boolean isIgnoreGraphics = false;
-	private boolean isIgnorePageMargins = false;
 
 	/**
 	 * 
 	 */
 	protected JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
 	{
-		this(filter, isIgnoreGraphics, false);
+		super(filter, isIgnoreGraphics);
 	}
 	
 	/**
@@ -61,68 +54,7 @@ public class JRXlsExporterNature implements ExporterNature
 	 */
 	protected JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
 	{
-		this.filter = filter;
-		this.isIgnoreGraphics = isIgnoreGraphics;
-		this.isIgnorePageMargins = isIgnorePageMargins;
+		super(filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 
-	/**
-	 * 
-	 */
-	public boolean isToExport(JRPrintElement element)
-	{
-		return 
-			(!isIgnoreGraphics || (element instanceof JRPrintText) || (element instanceof JRPrintFrame))
-			&& (filter == null || filter.isToExport(element));
-			
-	}
-	
-	/**
-	 * 
-	 */
-	public boolean isDeep()
-	{
-		return true;
-	}
-	
-	/**
-	 * 
-	 */
-	public boolean isSplitSharedRowSpan()
-	{
-		return false;
-	}
-
-	/**
-	 * 
-	 */
-	public boolean isSpanCells()
-	{
-		return true;
-	}
-	
-	/**
-	 * 
-	 */
-	public boolean isIgnoreLastRow()
-	{
-		return false;
-	}
-
-	/**
-	 * 
-	 */
-	public boolean isHorizontallyMergeEmptyCells()
-	{
-		return false;
-	}
-
-	/**
-	 * Specifies whether empty page margins should be ignored
-	 */
-	public boolean isIgnorePageMargins()
-	{
-		return isIgnorePageMargins;
-	}
-	
 }

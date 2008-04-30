@@ -34,42 +34,50 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: JExcelApiExporterNature.java 2084 2008-02-08 14:44:57Z teodord $
  */
-public class JRHtmlExporterNature implements ExporterNature
+public class JRXlsAbstractExporterNature implements ExporterNature
 {
 	
-	private ExporterFilter filter = null;
-	private final boolean deep;
-	private final boolean ignorePageMargins;
-	
+	public static final String PROPERTY_BREAK_BEFORE = JRProperties.PROPERTY_PREFIX + "export.xls.break.before";
+	public static final String PROPERTY_BREAK_AFTER = JRProperties.PROPERTY_PREFIX + "export.xls.break.after";
+
+	protected ExporterFilter filter = null;
+	protected boolean isIgnoreGraphics = false;
+	protected boolean isIgnorePageMargins = false;
+
 	/**
 	 * 
 	 */
-	public JRHtmlExporterNature(ExporterFilter filter, boolean deep)
+	protected JRXlsAbstractExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
 	{
-		this(filter,deep,false);
+		this(filter, isIgnoreGraphics, false);
 	}
 	
 	/**
 	 * 
 	 */
-	public JRHtmlExporterNature(ExporterFilter filter, boolean deep, boolean ignorePageMargins)
+	protected JRXlsAbstractExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
 	{
 		this.filter = filter;
-		this.deep = deep;
-		this.ignorePageMargins = ignorePageMargins;
+		this.isIgnoreGraphics = isIgnoreGraphics;
+		this.isIgnorePageMargins = isIgnorePageMargins;
 	}
 	
 	/**
-	 * 
+	 *
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return filter == null || filter.isToExport(element);
+		return 
+			(!isIgnoreGraphics || (element instanceof JRPrintText) || (element instanceof JRPrintFrame))
+			&& (filter == null || filter.isToExport(element));
 	}
 	
 	/**
@@ -77,7 +85,7 @@ public class JRHtmlExporterNature implements ExporterNature
 	 */
 	public boolean isDeep()
 	{
-		return deep;
+		return true;
 	}
 	
 	/**
@@ -103,10 +111,13 @@ public class JRHtmlExporterNature implements ExporterNature
 	{
 		return false;
 	}
-
+	
+	/**
+	 * 
+	 */
 	public boolean isHorizontallyMergeEmptyCells()
 	{
-		return true;
+		return false;
 	}
 
 	/**
@@ -114,7 +125,7 @@ public class JRHtmlExporterNature implements ExporterNature
 	 */
 	public boolean isIgnorePageMargins()
 	{
-		return ignorePageMargins;
+		return isIgnorePageMargins;
 	}
 	
 	/**
@@ -122,7 +133,7 @@ public class JRHtmlExporterNature implements ExporterNature
 	 */
 	public boolean isBreakBeforeRow(JRPrintElement element)
 	{
-		return false;
+		return Boolean.valueOf(element.getPropertiesMap().getProperty(PROPERTY_BREAK_BEFORE));
 	}
 	
 	/**
@@ -130,7 +141,7 @@ public class JRHtmlExporterNature implements ExporterNature
 	 */
 	public boolean isBreakAfterRow(JRPrintElement element)
 	{
-		return false;
+		return Boolean.valueOf(element.getPropertiesMap().getProperty(PROPERTY_BREAK_AFTER));
 	}
 	
 }
