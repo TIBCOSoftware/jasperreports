@@ -133,7 +133,7 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 	 */
 	public boolean isBreakBeforeRow(JRPrintElement element)
 	{
-		return Boolean.valueOf(element.getPropertiesMap().getProperty(PROPERTY_BREAK_BEFORE_ROW));
+		return Boolean.valueOf(element.getPropertiesMap().getProperty(PROPERTY_BREAK_BEFORE_ROW)).booleanValue();
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 	 */
 	public boolean isBreakAfterRow(JRPrintElement element)
 	{
-		return Boolean.valueOf(element.getPropertiesMap().getProperty(PROPERTY_BREAK_AFTER_ROW));
+		return Boolean.valueOf(element.getPropertiesMap().getProperty(PROPERTY_BREAK_AFTER_ROW)).booleanValue();
 	}
 	
 }
