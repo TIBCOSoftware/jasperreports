@@ -27,8 +27,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
 
 
 /**
@@ -39,30 +37,6 @@ import java.io.PrintWriter;
 public class JRException extends Exception
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	/**
-	 *
-	 */
-	private static boolean isJre14orLater = true;
-	
-	static
-	{
-		isJre14orLater = true;
-		try 
-		{
-			Exception.class.getMethod("getCause", (Class[])null);
-		}
-		catch (NoSuchMethodException e) 
-		{
-			isJre14orLater = false;
-		}
-	}
-
-	/**
-	 *
-	 */
-	private Throwable nestedThrowable = null;
-
 
 	/**
 	 *
@@ -78,7 +52,7 @@ public class JRException extends Exception
 	 */
 	public JRException(Throwable t)
 	{
-		this(t.toString(), t);
+		super(t);
 	}
 
 
@@ -87,64 +61,8 @@ public class JRException extends Exception
 	 */
 	public JRException(String message, Throwable t)
 	{
-		super(message);
-		
-		nestedThrowable = t;
+		super(message, t);
 	}
 
 
-	/**
-	 *
-	 */
-	public Throwable getCause()
-	{
-		return nestedThrowable;
-	}
-
-
-	/**
-	 *
-	 */
-	public void printStackTrace()
-	{
-		if (!isJre14orLater && nestedThrowable != null)
-		{
-			nestedThrowable.printStackTrace();
-			System.err.println("\nNested by:");
-		}
-
-		super.printStackTrace();
-	}
-	
-
-	/**
-	 *
-	 */
-	public void printStackTrace(PrintStream s)
-	{
-		if (!isJre14orLater && nestedThrowable != null)
-		{
-			nestedThrowable.printStackTrace(s);
-			s.println("\nNested by:");
-		}
-
-		super.printStackTrace(s);
-	}
-	
-
-	/**
-	 *
-	 */
-	public void printStackTrace(PrintWriter s)
-	{
-		if (!isJre14orLater && nestedThrowable != null)
-		{
-			nestedThrowable.printStackTrace(s);
-			s.println("\nNested by:");
-		}
-
-		super.printStackTrace(s);
-	}
-	
-	
 }
