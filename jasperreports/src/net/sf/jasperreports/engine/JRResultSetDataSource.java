@@ -130,7 +130,10 @@ public class JRResultSetDataSource implements JRDataSource
 						objValue = null;
 					}
 				}
-				else if (clazz.equals(java.util.Date.class))
+				else if (
+					clazz.equals(java.util.Date.class)
+					|| clazz.equals(java.sql.Date.class)
+					)
 				{
 					objValue = resultSet.getDate(columnIndex.intValue());
 					if(resultSet.wasNull())
