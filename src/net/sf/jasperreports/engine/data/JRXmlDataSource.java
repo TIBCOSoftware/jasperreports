@@ -294,10 +294,9 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 		Object value = null;
 		
 		Class valueClass = jrField.getValueClass();
-		
+		Object selectedObject = xPathExecuter.selectObject(currentNode, expression);
+
 		if(Object.class != valueClass) {
-			Object selectedObject = xPathExecuter.selectObject(currentNode, expression);
-			
 			if (selectedObject != null) {
 				if (selectedObject instanceof Node) {
 					String text = getText((Node) selectedObject);
@@ -313,6 +312,10 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 					value = convertStringValue(text, valueClass);
 				}
 			}
+		}
+		else
+		{
+			value = selectedObject;
 		}
 		return value;
 	}
