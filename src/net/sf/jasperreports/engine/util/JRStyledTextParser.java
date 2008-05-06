@@ -39,6 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -51,8 +53,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 
 /**
@@ -140,6 +144,7 @@ public class JRStyledTextParser
 		{
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			documentBuilder = factory.newDocumentBuilder();
+			documentBuilder.setErrorHandler(new StyledTextErrorHandler());
 		}
 		catch (ParserConfigurationException e)
 		{
@@ -795,4 +800,26 @@ public class JRStyledTextParser
 		return null;
 	}
 
+    class StyledTextErrorHandler implements ErrorHandler {
+
+        private Logger logger = Logger.getLogger("net.sf.jasperreports.engine.util");
+        
+    	public void error(SAXParseException e) {
+            log(Level.SEVERE, "Error", e);
+        }
+    
+        public void fatalError(SAXParseException e) {
+            log(Level.SEVERE, "Fatal Error", e);
+        }
+    
+        public void warning(SAXParseException e) {
+            log(Level.WARNING, "Warning", e);
+        }
+    
+        private void log(Level level, String message, SAXParseException e) {
+            message += ": " + e.getMessage() + ": at line=" + e.getLineNumber() + ", col=" + e.getColumnNumber();
+            logger.log(level, message);
+        }
+    }
+	
 }
