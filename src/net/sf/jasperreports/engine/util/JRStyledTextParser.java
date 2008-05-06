@@ -39,8 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,6 +47,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -65,6 +65,7 @@ import org.xml.sax.SAXParseException;
  */
 public class JRStyledTextParser
 {
+    private static final Log log = LogFactory.getLog(JRStyledTextParser.class);
 
 	/**
 	 *
@@ -802,23 +803,23 @@ public class JRStyledTextParser
 
     class StyledTextErrorHandler implements ErrorHandler {
 
-        private Logger logger = Logger.getLogger("net.sf.jasperreports.engine.util");
-        
-    	public void error(SAXParseException e) {
-            log(Level.SEVERE, "Error", e);
+        public void error(SAXParseException e) {
+        	if(log.isErrorEnabled())
+        		log.error(getMessage("Error", e), e);
         }
     
         public void fatalError(SAXParseException e) {
-            log(Level.SEVERE, "Fatal Error", e);
+        	if(log.isFatalEnabled())
+        		log.fatal(getMessage("Fatal Error", e), e);
         }
     
         public void warning(SAXParseException e) {
-            log(Level.WARNING, "Warning", e);
+        	if(log.isWarnEnabled())
+        		log.warn(getMessage("Warning", e), e);
         }
     
-        private void log(Level level, String message, SAXParseException e) {
-            message += ": " + e.getMessage() + ": at line=" + e.getLineNumber() + ", col=" + e.getColumnNumber();
-            logger.log(level, message);
+        private String getMessage(String message, SAXParseException e) {
+            return message + ": " + e.getMessage() + ": at line=" + e.getLineNumber() + ", col=" + e.getColumnNumber();
         }
     }
 	
