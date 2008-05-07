@@ -2,6 +2,7 @@ package net.sf.jasperreports.renderers;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import org.apache.batik.dom.svg.SVGDocumentFactory;
 import org.apache.batik.ext.awt.image.GraphicsUtil;
 import org.apache.batik.gvt.GraphicsNode;
 import org.w3c.dom.svg.SVGDocument;
+import org.w3c.dom.svg.SVGPreserveAspectRatio;
 
 
 /**
@@ -63,8 +65,11 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 			GVTBuilder builder = new GVTBuilder();
 			GraphicsNode graphicsNode = builder.build(ctx, document);
 			
-			AffineTransform transform = ViewBox.getViewTransform(null, document.getRootElement(), 
-					(float) rectangle.getWidth(), (float) rectangle.getHeight(), ctx);
+            Dimension2D docSize = ctx.getDocumentSize();
+			AffineTransform transform = ViewBox.getPreserveAspectRatioTransform(
+					new float[]{0, 0, (float) docSize.getWidth(), (float) docSize.getHeight()},
+					SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE, true, 
+					(float) rectangle.getWidth(), (float) rectangle.getHeight());			
 			Graphics2D graphics = (Graphics2D) grx.create();
 			graphics.translate(rectangle.getX(), rectangle.getY());
 			graphics.transform(transform);
