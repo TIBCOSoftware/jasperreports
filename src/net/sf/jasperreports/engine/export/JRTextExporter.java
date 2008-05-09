@@ -401,58 +401,101 @@ public class JRTextExporter extends JRAbstractExporter
 		rows[0] = new StringBuffer();
 		int rowIndex = 0;
 		int rowPosition = 0;
-
+		int newLine = 0;
+		boolean isFirstLine = true;
+		
 		// first search for \n, because it causes immediate line break
-		StringTokenizer lfTokenizer = new StringTokenizer(allText, "\n");
+		StringTokenizer lfTokenizer = new StringTokenizer(allText, "\n", true);
 		label:while (lfTokenizer.hasMoreTokens()) {
 			String line = lfTokenizer.nextToken();
-			StringTokenizer spaceTokenizer = new StringTokenizer(line, " ", true);
-
-			// divide each text line in words
-			while (spaceTokenizer.hasMoreTokens()) {
-				String word = spaceTokenizer.nextToken();
-
-				// situation: word is larger than the entire column
-				// in this case breaking occurs in the middle of the word
-				while (word.length() > columnCount) {
-					rows[rowIndex].append(word.substring(0, columnCount - rowPosition));
-					word = word.substring(columnCount - rowPosition, word.length());
+			// if text starts with a new line:
+			if(isFirstLine && line.equals("\n"))
+			{
+				rows[rowIndex].append("");
+				isFirstLine = false;
+				rowIndex++;
+				if(rowIndex == rowCount || !lfTokenizer.hasMoreTokens())
+					break label;
+				rowPosition = 0;
+				rows[rowIndex] = new StringBuffer();
+				line = lfTokenizer.nextToken();
+			}
+			// if there is a series of new lines:
+			int emptyLinesCount = 0;
+			while(line.equals("\n") && lfTokenizer.hasMoreTokens())
+			{
+				emptyLinesCount ++;
+				line = lfTokenizer.nextToken();
+			}
+				
+			if(emptyLinesCount > 1)
+			{
+				for(int i = 0; i < emptyLinesCount-1; i++)
+				{
+					rows[rowIndex].append("");
 					rowIndex++;
 					if(rowIndex == rowCount)
 						break label;
 					rowPosition = 0;
 					rows[rowIndex] = new StringBuffer();
-				}
-
-				// situation: word is larger than remaining space on the current line
-				// in this case, go to the next line
-				if (rowPosition + word.length() > columnCount) {
-					rowIndex++;
-					if (rowIndex == rowCount)
+					//if this is the last empty line:
+					if(!lfTokenizer.hasMoreTokens() && line.equals("\n"))
+					{
+						rows[rowIndex].append("");
 						break label;
-					rowPosition = 0;
-					rows[rowIndex] = new StringBuffer();
+					}
 				}
-
-				// situation: the word is actually a space and it situated at the beginning of a new line
-				// in this case, it is removed
-				if (rowIndex > 9 && rowPosition == 0 && word.equals(" "))
-					break;
-
-				// situation: the word is small enough to fit in the current line
-				// in this case just add the word and increment the cursor position
-				rows[rowIndex].append(word);
-				rowPosition += word.length();
 			}
-
-
-			rowIndex++;
-			if(rowIndex == rowCount)
-				break;
-			rowPosition = 0;
-			rows[rowIndex] = new StringBuffer();
+			if(!line.equals("\n"))
+			{
+				
+				StringTokenizer spaceTokenizer = new StringTokenizer(line, " ", true);
+	
+				// divide each text line in words
+				while (spaceTokenizer.hasMoreTokens()) {
+					String word = spaceTokenizer.nextToken();
+	
+					// situation: word is larger than the entire column
+					// in this case breaking occurs in the middle of the word
+					while (word.length() > columnCount) {
+						rows[rowIndex].append(word.substring(0, columnCount - rowPosition));
+						word = word.substring(columnCount - rowPosition, word.length());
+						rowIndex++;
+						if(rowIndex == rowCount)
+							break label;
+						rowPosition = 0;
+						rows[rowIndex] = new StringBuffer();
+					}
+	
+					// situation: word is larger than remaining space on the current line
+					// in this case, go to the next line
+					if (rowPosition + word.length() > columnCount) {
+						rowIndex++;
+						if (rowIndex == rowCount)
+							break label;
+						rowPosition = 0;
+						rows[rowIndex] = new StringBuffer();
+					}
+	
+					// situation: the word is actually a space and it situated at the beginning of a new line
+					// in this case, it is removed
+					if (rowIndex > 9 && rowPosition == 0 && word.equals(" "))
+						break;
+	
+					// situation: the word is small enough to fit in the current line
+					// in this case just add the word and increment the cursor position
+					rows[rowIndex].append(word);
+					rowPosition += word.length();
+				}
+	
+	
+				rowIndex++;
+				if(rowIndex == rowCount)
+					break;
+				rowPosition = 0;
+				rows[rowIndex] = new StringBuffer();
+			}
 		}
-
 
 		int xOffset = 0;
 		int yOffset = 0;
