@@ -27,6 +27,10 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
+
 
 /**
  * A report validation fault.
@@ -35,8 +39,9 @@ package net.sf.jasperreports.engine.design;
  * @version $Id$
  * @see JRVerifier
  */
-public class JRValidationFault
+public class JRValidationFault implements Serializable
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private String message;
 	private Object source;
