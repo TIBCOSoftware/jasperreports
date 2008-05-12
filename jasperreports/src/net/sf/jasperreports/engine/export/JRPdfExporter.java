@@ -1595,7 +1595,27 @@ public class JRPdfExporter extends JRAbstractExporter
 					String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
 					if (hyperlink != null)
 					{
-						chunk.setAnchor(hyperlink);
+						switch(link.getHyperlinkTarget())
+						{
+							case JRHyperlink.HYPERLINK_TARGET_BLANK :
+							{
+								chunk.setAction(
+									PdfAction.javaScript(
+										"if (app.viewerVersion < 7)"
+											+ "{this.getURL(\"" + hyperlink + "\");}"
+											+ "else {app.launchURL(\"" + hyperlink + "\", true);};",
+										pdfWriter
+										)
+									);
+								break;
+							}
+							case JRHyperlink.HYPERLINK_TARGET_SELF :
+							default :
+							{
+								chunk.setAnchor(hyperlink);
+								break;
+							}
+						}
 					}
 				}
 			}
