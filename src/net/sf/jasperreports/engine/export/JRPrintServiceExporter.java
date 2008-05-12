@@ -199,6 +199,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 				exporter.setParameter(JRExporterParameter.PROGRESS_MONITOR, parameters.get(JRExporterParameter.PROGRESS_MONITOR));
 				exporter.setParameter(JRExporterParameter.OFFSET_X, parameters.get(JRExporterParameter.OFFSET_X));
 				exporter.setParameter(JRExporterParameter.OFFSET_Y, parameters.get(JRExporterParameter.OFFSET_Y));
+				exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, parameters.get(JRGraphics2DExporterParameter.ZOOM_RATIO));
 				exporter.setParameter(JRExporterParameter.CLASS_LOADER, classLoader);
 				exporter.setParameter(JRExporterParameter.URL_HANDLER_FACTORY, urlHandlerFactory);
 				exporter.setParameter(JRExporterParameter.FILE_RESOLVER, fileResolver);
