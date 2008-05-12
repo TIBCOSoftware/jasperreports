@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.awt.Color;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JROrigin;
@@ -91,29 +90,15 @@ public class JRPrintElementFactory extends JRBaseFactory
 		}
 
 		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);
-		if (forecolor != null)
+		if (forecolor != null && forecolor.length() > 0)
 		{
-			if (forecolor.startsWith("#"))
-			{
-				element.setForecolor(new Color(Integer.parseInt(forecolor.substring(1), 16)));
-			}
-			else
-			{
-				element.setForecolor(new Color(Integer.parseInt(forecolor)));
-			}
+			element.setForecolor(JRXmlConstants.getColor(forecolor, null));
 		}
 
 		String backcolor = atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor);
-		if (backcolor != null)
+		if (backcolor != null && backcolor.length() > 0)
 		{
-			if (backcolor.startsWith("#"))
-			{
-				element.setBackcolor(new Color(Integer.parseInt(backcolor.substring(1), 16)));
-			}
-			else
-			{
-				element.setBackcolor(new Color(Integer.parseInt(backcolor)));
-			}
+			element.setBackcolor(JRXmlConstants.getColor(backcolor, null));
 		}
 
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_style) != null)
