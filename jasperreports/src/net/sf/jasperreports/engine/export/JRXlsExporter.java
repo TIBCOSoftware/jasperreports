@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
@@ -154,7 +155,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		emptyCellStyle.setFillForegroundColor((new HSSFColor.WHITE()).getIndex());
 		emptyCellStyle.setFillPattern(backgroundMode);
 		dataFormat = workbook.createDataFormat();
-
 	}
 
 
@@ -162,6 +162,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		sheet = workbook.createSheet(name);
 		patriarch = sheet.createDrawingPatriarch();
+		sheet.getPrintSetup().setLandscape(jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE);
 	}
 
 	protected void closeWorkbook(OutputStream os) throws JRException

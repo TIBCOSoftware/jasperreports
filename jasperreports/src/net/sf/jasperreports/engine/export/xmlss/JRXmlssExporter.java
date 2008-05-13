@@ -126,6 +126,8 @@ public class JRXmlssExporter extends JRAbstractExporter
 	public static final String IMAGE_NAME_PREFIX = "img_";
 	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
 
+	protected static final String[] PAGE_LAYOUT = new String[] {"Portrait", "Portrait", "Landscape"};
+	
 	/**
 	 *
 	 */
@@ -203,6 +205,8 @@ public class JRXmlssExporter extends JRAbstractExporter
 	
 	protected Map formatPatternsMap = null;
 	
+	protected byte pageOrientation;
+	
 	public JRXmlssExporter()
 	{
 		backcolorStack = new LinkedList();
@@ -242,6 +246,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 			setParameters();
 			
 			nature = new JRXmlssExporterNature(filter, isIgnorePageMargins);
+			pageOrientation = jasperPrint.getOrientation();
 			
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 			if (sb != null)
@@ -417,7 +422,8 @@ public class JRXmlssExporter extends JRAbstractExporter
 						exportPage(page, null, 0, null, true);
 						
 						tempBodyWriter.write("</Table>\n");
-						tempBodyWriter.write("</Worksheet>\n");
+						
+						closeWorksheet();
 					}
 				}
 				else
@@ -468,7 +474,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 						//removeEmptyColumns(xCuts);
 					}
 					tempBodyWriter.write("</Table>\n");
-					tempBodyWriter.write("</Worksheet>\n");
+					closeWorksheet();
 				}
 			}
 			
@@ -542,7 +548,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 	        	if(maxRowsPerSheet > 0 && rowIndex >= maxRowsPerSheet)
 	        	{
 	        		tableBuilder.buildTableFooter();
-	        		tempBodyWriter.write("</Worksheet>\n");
+	        		closeWorksheet();
 	        		tempBodyWriter.write("<Worksheet ss:Name=\""+getSheetName(currentSheetName)+"\">\n");
 	    	        tableBuilder.buildTableHeader();
 	    	        buildColumns(xCuts, tableBuilder);
@@ -1257,5 +1263,14 @@ public class JRXmlssExporter extends JRAbstractExporter
 		return pattern;
 	}
 	
+	private void closeWorksheet() throws IOException
+	{
+		tempBodyWriter.write("<x:WorksheetOptions>\n");
+		tempBodyWriter.write(" <x:PageSetup>\n");
+		tempBodyWriter.write("  <x:Layout x:Orientation=\"" +PAGE_LAYOUT[pageOrientation]+"\"/>\n");
+		tempBodyWriter.write(" </x:PageSetup>\n");
+		tempBodyWriter.write("</x:WorksheetOptions>\n");
+		tempBodyWriter.write("</Worksheet>\n");
+	}
 }
 
