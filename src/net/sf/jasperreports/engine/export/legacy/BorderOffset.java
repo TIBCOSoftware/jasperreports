@@ -69,17 +69,20 @@ public abstract class BorderOffset
 		{
 			public float getValue(JRPen pen)
 			{
+				float lineWidth = pen.getLineWidth().floatValue();
+				byte lineStyle = pen.getLineStyle().byteValue();
+				
 				if (
-					pen.getLineWidth() == 0.5f 
-					&& pen.getLineStyle() == JRPen.LINE_STYLE_SOLID
+					lineWidth == 0.5f 
+					&& lineStyle == JRPen.LINE_STYLE_SOLID
 					)
 				{
 					return 0.25f;
 				}
 				else if (
-					pen.getLineWidth() == 1.0f 
-					&& (pen.getLineStyle() == JRPen.LINE_STYLE_SOLID 
-						|| pen.getLineStyle() == JRPen.LINE_STYLE_DASHED)
+						lineWidth == 1.0f 
+					&& (lineStyle == JRPen.LINE_STYLE_SOLID 
+						|| lineStyle == JRPen.LINE_STYLE_DASHED)
 					)
 				{
 					return 0.5f;
