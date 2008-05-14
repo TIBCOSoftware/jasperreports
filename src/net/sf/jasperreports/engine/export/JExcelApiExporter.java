@@ -966,12 +966,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			}
 			catch (Exception ex)
 			{
-				ex.printStackTrace();
 				throw new JRException("The cell cannot be added", ex);
 			}
 			catch (Error err)
 			{
-				err.printStackTrace();
 				throw new JRException("The cell cannot be added", err);
 			}
 		}

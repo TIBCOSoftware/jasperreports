@@ -36,12 +36,16 @@ import java.util.Map;
 import javax.swing.JEditorPane;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.AbstractDocument.LeafElement;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTML.Tag;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -50,6 +54,8 @@ import javax.swing.text.html.HTML.Tag;
  */
 public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 {
+	private static final Log log = LogFactory.getLog(JEditorPaneMarkupProcessor.class);
+
 	/**
 	 * 
 	 */
@@ -132,7 +138,7 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 				HTML.Tag htmlTag = (HTML.Tag) object;
 				if(htmlTag == Tag.BR)
 				{
-					chunk="\n";
+					chunk = "\n";
 				}
 				else if(htmlTag == Tag.LI)
 				{
@@ -140,9 +146,10 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 					{
 						chunk = " \u2022 "+ document.getText(startOffset, endOffset - startOffset);
 					}
-					catch(Exception e)
+					catch(BadLocationException e)
 					{
-						e.printStackTrace();
+						if (log.isDebugEnabled())
+							log.debug("Error converting markup.", e);
 					}
 				}
 				else
@@ -151,9 +158,10 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 					{
 						chunk = document.getText(startOffset, endOffset - startOffset);
 					}
-					catch(Exception e)
+					catch(BadLocationException e)
 					{
-						e.printStackTrace();
+						if (log.isDebugEnabled())
+							log.debug("Error converting markup.", e);
 					}
 					
 				}
@@ -164,9 +172,10 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 				{
 					chunk = document.getText(startOffset, endOffset - startOffset);
 				}
-				catch(Exception e)
+				catch(BadLocationException e)
 				{
-					e.printStackTrace();
+					if (log.isDebugEnabled())
+						log.debug("Error converting markup.", e);
 				}
 				
 			}
