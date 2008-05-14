@@ -1214,7 +1214,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 				try {
 	                tableBuilder.buildColumnTag(col+1, width);
                 } catch (IOException e) {
-	                e.printStackTrace();
+	                throw new JRRuntimeException(e);
                 }
 			}
 		}
