@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
 
 import org.apache.commons.collections.SequencedHashMap;
@@ -131,6 +132,8 @@ public class ReportConverter
 		jasperPrint.setPageWidth(report.getPageWidth());
 		jasperPrint.setPageHeight(report.getPageHeight());
 		
+		JRProperties.transferProperties(report, jasperPrint, JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
+
 		setStyles(report);
 
 		if (!ignoreContent)
