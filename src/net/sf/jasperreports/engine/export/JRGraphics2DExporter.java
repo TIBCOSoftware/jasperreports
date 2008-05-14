@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.export.draw.FrameDrawer;
+import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -132,6 +133,10 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 				throw new JRException("No output specified for the exporter. java.awt.Graphics2D object expected.");
 			}
 			
+			BorderOffset.setLegacy(
+				JRProperties.getBooleanProperty(jasperPrint, BorderOffset.PROPERTY_LEGACY_BORDER_OFFSET, false)
+				);
+
 			/*   */
 			setDrawers();
 

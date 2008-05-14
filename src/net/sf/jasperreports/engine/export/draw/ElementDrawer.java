@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 
 
 
@@ -131,9 +132,8 @@ public abstract class ElementDrawer
 	{
 		Stroke topStroke = getStroke(topPen, BasicStroke.CAP_BUTT);
 		int width = element.getWidth();
-		float leftPenWidth = leftPen.getLineWidth().floatValue();
-		float rightPenWidth = rightPen.getLineWidth().floatValue();
-		float topPenWidth = topPen.getLineWidth().floatValue();
+		float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
+		float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
 		
 		if (topStroke != null && width > 0)
 		{
@@ -144,12 +144,14 @@ public abstract class ElementDrawer
 
 			if (topPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 			{
+				float topPenWidth = topPen.getLineWidth().floatValue();
+
 				grx.translate(
-					element.getX() + offsetX - leftPenWidth / 2, 
+					element.getX() + offsetX - leftOffset, 
 					element.getY() + offsetY - topPenWidth / 3
 					);
 				grx.scale(
-					(width + (leftPenWidth + rightPenWidth) / 2) 
+					(width + leftOffset + rightOffset) 
 						/ width, 
 					1
 					);
@@ -163,13 +165,13 @@ public abstract class ElementDrawer
 				grx.setTransform(oldTx);
 
 				grx.translate(
-					element.getX() + offsetX + leftPenWidth / 6, 
+					element.getX() + offsetX + leftOffset / 3, 
 					element.getY() + offsetY + topPenWidth / 3
 					);
-				if(width > (leftPenWidth + rightPenWidth) / 6)
+				if(width > (leftOffset + rightOffset) / 3)
 				{
 					grx.scale(
-						(width - (leftPenWidth + rightPenWidth) / 6) 
+						(width - (leftOffset + rightOffset) / 3) 
 							/ width, 
 						1
 						);
@@ -184,11 +186,11 @@ public abstract class ElementDrawer
 			else
 			{
 				grx.translate(
-					element.getX() + offsetX - leftPenWidth / 2, 
-					element.getY() + offsetY
+					element.getX() + offsetX - leftOffset, 
+					element.getY() + offsetY + BorderOffset.getOffset(topPen)
 					);
 				grx.scale(
-					(width + (leftPenWidth + rightPenWidth) / 2) 
+					(width + leftOffset + rightOffset) 
 						/ width, 
 					1
 					);
@@ -220,9 +222,8 @@ public abstract class ElementDrawer
 	{
 		Stroke leftStroke = getStroke(leftPen, BasicStroke.CAP_BUTT);
 		int height = element.getHeight();
-		float topPenWidth = topPen.getLineWidth().floatValue();
-		float leftPenWidth = leftPen.getLineWidth().floatValue();
-		float bottomPenWidth = bottomPen.getLineWidth().floatValue();
+		float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
+		float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
 		
 		if (leftStroke != null && height > 0)
 		{
@@ -233,13 +234,15 @@ public abstract class ElementDrawer
 
 			if (leftPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 			{
+				float leftPenWidth = leftPen.getLineWidth().floatValue();
+
 				grx.translate(
 					element.getX() + offsetX - leftPenWidth / 3, 
-					element.getY() + offsetY - topPenWidth / 2
+					element.getY() + offsetY - topOffset
 					);
 				grx.scale(
 						1,
-						(height + (topPenWidth + bottomPenWidth) / 2) 
+						(height + (topOffset + bottomOffset)) 
 							/ height 
 						);
 				grx.drawLine(
@@ -253,13 +256,13 @@ public abstract class ElementDrawer
 
 				grx.translate(
 					element.getX() + offsetX + leftPenWidth / 3, 
-					element.getY() + offsetY + topPenWidth / 6
+					element.getY() + offsetY + topOffset / 3
 					);
-				if(height > (topPenWidth + bottomPenWidth) / 6)
+				if(height > (topOffset + bottomOffset) / 3)
 				{
 					grx.scale(
 						1,
-						(height - (topPenWidth + bottomPenWidth) / 6) 
+						(height - (topOffset + bottomOffset) / 3) 
 							/ height
 						);
 				}
@@ -273,12 +276,12 @@ public abstract class ElementDrawer
 			else
 			{
 				grx.translate(
-					element.getX() + offsetX, 
-					element.getY() + offsetY - topPenWidth / 2
+					element.getX() + offsetX + BorderOffset.getOffset(leftPen), 
+					element.getY() + offsetY - topOffset
 					);
 				grx.scale(
 					1,
-					(height + (topPenWidth + bottomPenWidth) / 2) 
+					(height + topOffset + bottomOffset) 
 						/ height
 					);
 				grx.drawLine(
@@ -310,9 +313,8 @@ public abstract class ElementDrawer
 		Stroke bottomStroke = getStroke(bottomPen, BasicStroke.CAP_BUTT);
 		int width = element.getWidth();
 		int height = element.getHeight();
-		float leftPenWidth = leftPen.getLineWidth().floatValue();
-		float rightPenWidth = rightPen.getLineWidth().floatValue();
-		float bottomPenWidth = bottomPen.getLineWidth().floatValue();
+		float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
+		float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
 		
 		if (bottomStroke != null && width > 0)
 		{
@@ -323,12 +325,14 @@ public abstract class ElementDrawer
 
 			if (bottomPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 			{
+				float bottomPenWidth = bottomPen.getLineWidth().floatValue();
+
 				grx.translate(
-					element.getX() + offsetX - leftPenWidth / 2, 
+					element.getX() + offsetX - leftOffset, 
 					element.getY() + offsetY + height + bottomPenWidth / 3
 					);
 				grx.scale(
-					(width + (leftPenWidth + rightPenWidth) / 2) 
+					(width + leftOffset + rightOffset) 
 						/ width, 
 					1
 					);
@@ -342,13 +346,13 @@ public abstract class ElementDrawer
 				grx.setTransform(oldTx);
 
 				grx.translate(
-					element.getX() + offsetX + leftPenWidth / 6, 
+					element.getX() + offsetX + leftOffset / 3, 
 					element.getY() + offsetY + height - bottomPenWidth / 3
 					);
-				if(width > (leftPenWidth + rightPenWidth) / 6)
+				if(width > (leftOffset + rightOffset) / 3)
 				{
 					grx.scale(
-						(width - (leftPenWidth + rightPenWidth) / 6) 
+						(width - (leftOffset + rightOffset) / 3) 
 							/ width, 
 						1
 						);
@@ -363,11 +367,11 @@ public abstract class ElementDrawer
 			else
 			{
 				grx.translate(
-					element.getX() + offsetX - leftPenWidth / 2, 
-					element.getY() + offsetY + height
+					element.getX() + offsetX - leftOffset, 
+					element.getY() + offsetY + height - BorderOffset.getOffset(bottomPen)
 					);
 				grx.scale(
-					(width + (leftPenWidth + rightPenWidth) / 2) 
+					(width + leftOffset + rightOffset) 
 						/ width, 
 					1
 					);
@@ -400,9 +404,8 @@ public abstract class ElementDrawer
 		Stroke rightStroke = getStroke(rightPen, BasicStroke.CAP_BUTT);
 		int height = element.getHeight();
 		int width = element.getWidth();
-		float topPenWidth = topPen.getLineWidth().floatValue();
-		float rightPenWidth = rightPen.getLineWidth().floatValue();
-		float bottomPenWidth = bottomPen.getLineWidth().floatValue();
+		float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
+		float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
 		
 		if (rightStroke != null && height > 0)
 		{
@@ -413,13 +416,15 @@ public abstract class ElementDrawer
 
 			if (rightPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 			{
+				float rightPenWidth = rightPen.getLineWidth().floatValue();
+
 				grx.translate(
 					element.getX() + offsetX + width + rightPenWidth / 3, 
-					element.getY() + offsetY - topPenWidth / 2
+					element.getY() + offsetY - topOffset
 					);
 				grx.scale(
 					1,
-					(height + (topPenWidth + bottomPenWidth) / 2) 
+					(height + topOffset + bottomOffset) 
 						/ height 
 					);
 				grx.drawLine(
@@ -433,13 +438,13 @@ public abstract class ElementDrawer
 
 				grx.translate(
 					element.getX() + offsetX + width - rightPenWidth / 3, 
-					element.getY() + offsetY + topPenWidth / 6
+					element.getY() + offsetY + topOffset / 3
 					);
-				if(height > (topPenWidth + bottomPenWidth) / 6)
+				if(height > (topOffset + bottomOffset) / 3)
 				{
 					grx.scale(
 						1,
-						(height - (topPenWidth + bottomPenWidth) / 6) 
+						(height - (topOffset + bottomOffset) / 3) 
 							/ height 
 						);
 				}
@@ -453,12 +458,12 @@ public abstract class ElementDrawer
 			else
 			{
 				grx.translate(
-					element.getX() + offsetX + width, 
-					element.getY() + offsetY - topPenWidth / 2
+					element.getX() + offsetX + width - BorderOffset.getOffset(rightPen), 
+					element.getY() + offsetY - topOffset
 					);
 				grx.scale(
 					1,
-					(height + (topPenWidth + bottomPenWidth) / 2) 
+					(height + topOffset + bottomOffset) 
 						/ height 
 					);
 				grx.drawLine(

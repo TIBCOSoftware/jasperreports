@@ -85,6 +85,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -249,7 +250,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					false
 					);
 
-			forceSvgShapes = 
+			forceSvgShapes = //FIXME certain properties need to be read from each individual document in batch mode; check all exporters and all props
 				getBooleanParameter(
 					JRPdfExporterParameter.FORCE_SVG_SHAPES,
 					JRPdfExporterParameter.PROPERTY_FORCE_SVG_SHAPES,
@@ -493,6 +494,10 @@ public class JRPdfExporter extends JRAbstractExporter
 				jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 				loadedImagesMap = new HashMap();
 				document.setPageSize(new Rectangle(jasperPrint.getPageWidth(), jasperPrint.getPageHeight()));
+				
+				BorderOffset.setLegacy(
+					JRProperties.getBooleanProperty(jasperPrint, BorderOffset.PROPERTY_LEGACY_BORDER_OFFSET, false)
+					);
 
 				List pages = jasperPrint.getPages();
 				if (pages != null && pages.size() > 0)
@@ -2048,39 +2053,45 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (topPen.getLineWidth().floatValue() > 0f)
 		{
+			float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
+			float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
+			
 			preparePen(pdfContentByte, topPen, PdfContentByte.LINE_CAP_BUTT);
 			
 			if (topPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 			{
+				float topOffset = topPen.getLineWidth().floatValue();
+
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 2,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 3
+					element.getX() + getOffsetX() - leftOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topOffset / 3
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 2,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 3
+					element.getX() + getOffsetX() + element.getWidth() + rightOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topOffset / 3
 					);
 				pdfContentByte.stroke();
 
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() + leftPen.getLineWidth().floatValue() / 6,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topPen.getLineWidth().floatValue() / 3
+					element.getX() + getOffsetX() + leftOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topOffset / 3
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + element.getWidth() - rightPen.getLineWidth().floatValue() / 6,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topPen.getLineWidth().floatValue() / 3
+					element.getX() + getOffsetX() + element.getWidth() - rightOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topOffset / 3
 					);
 				pdfContentByte.stroke();
 			}
 			else
 			{
+				float topOffset =  BorderOffset.getOffset(topPen);
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 2,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY()
+					element.getX() + getOffsetX() - leftOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topOffset
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 2,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY()
+					element.getX() + getOffsetX() + element.getWidth() + rightOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topOffset
 					);
 				pdfContentByte.stroke();
 			}
@@ -2095,39 +2106,45 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (leftPen.getLineWidth().floatValue() > 0f)
 		{
+			float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
+			float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
+
 			preparePen(pdfContentByte, leftPen, PdfContentByte.LINE_CAP_BUTT);
 
 			if (leftPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 			{
+				float leftOffset = leftPen.getLineWidth().floatValue();
+
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 3,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 2
+					element.getX() + getOffsetX() - leftOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topOffset
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 3,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 2
+					element.getX() + getOffsetX() - leftOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomOffset
 					);
 				pdfContentByte.stroke();
 
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() + leftPen.getLineWidth().floatValue() / 3,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topPen.getLineWidth().floatValue() / 6
+					element.getX() + getOffsetX() + leftOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topOffset / 3
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + leftPen.getLineWidth().floatValue() / 3,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomPen.getLineWidth().floatValue() / 6
+					element.getX() + getOffsetX() + leftOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomOffset / 3
 					);
 				pdfContentByte.stroke();
 			}
 			else
 			{
+				float leftOffset =  BorderOffset.getOffset(leftPen);
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX(),
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 2
+					element.getX() + getOffsetX() + leftOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topOffset
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX(),
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 2
+					element.getX() + getOffsetX() + leftOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomOffset
 					);
 				pdfContentByte.stroke();
 			}
@@ -2142,39 +2159,45 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (bottomPen.getLineWidth().floatValue() > 0f)
 		{
+			float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
+			float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
+			
 			preparePen(pdfContentByte, bottomPen, PdfContentByte.LINE_CAP_BUTT);
 			
 			if (bottomPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 			{
+				float bottomOffset = bottomPen.getLineWidth().floatValue();
+
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 2,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 3
+					element.getX() + getOffsetX() - leftOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomOffset / 3
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 2,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 3
+					element.getX() + getOffsetX() + element.getWidth() + rightOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomOffset / 3
 					);
 				pdfContentByte.stroke();
 
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() + leftPen.getLineWidth().floatValue() / 6,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomPen.getLineWidth().floatValue() / 3
+					element.getX() + getOffsetX() + leftOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomOffset / 3
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + element.getWidth() - rightPen.getLineWidth().floatValue() / 6,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomPen.getLineWidth().floatValue() / 3
+					element.getX() + getOffsetX() + element.getWidth() - rightOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomOffset / 3
 					);
 				pdfContentByte.stroke();
 			}
 			else
 			{
+				float bottomOffset =  BorderOffset.getOffset(bottomPen);
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() - leftPen.getLineWidth().floatValue() / 2,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight()
+					element.getX() + getOffsetX() - leftOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomOffset
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 2,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight()
+					element.getX() + getOffsetX() + element.getWidth() + rightOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomOffset
 					);
 				pdfContentByte.stroke();
 			}
@@ -2189,39 +2212,45 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (rightPen.getLineWidth().floatValue() > 0f)
 		{
+			float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
+			float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
+
 			preparePen(pdfContentByte, rightPen, PdfContentByte.LINE_CAP_BUTT);
 
 			if (rightPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 			{
+				float rightOffset = rightPen.getLineWidth().floatValue();
+
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 3,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 2
+					element.getX() + getOffsetX() + element.getWidth() + rightOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topOffset
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + element.getWidth() + rightPen.getLineWidth().floatValue() / 3,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 2
+					element.getX() + getOffsetX() + element.getWidth() + rightOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomOffset
 					);
 				pdfContentByte.stroke();
 
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() + element.getWidth() - rightPen.getLineWidth().floatValue() / 3,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topPen.getLineWidth().floatValue() / 6
+					element.getX() + getOffsetX() + element.getWidth() - rightOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topOffset / 3
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + element.getWidth() - rightPen.getLineWidth().floatValue() / 3,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomPen.getLineWidth().floatValue() / 6
+					element.getX() + getOffsetX() + element.getWidth() - rightOffset / 3,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomOffset / 3
 					);
 				pdfContentByte.stroke();
 			}
 			else
 			{
+				float rightOffset =  BorderOffset.getOffset(rightPen);
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() + element.getWidth(),
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topPen.getLineWidth().floatValue() / 2
+					element.getX() + getOffsetX() + element.getWidth() - rightOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topOffset
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + element.getWidth(),
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomPen.getLineWidth().floatValue() / 2
+					element.getX() + getOffsetX() + element.getWidth() - rightOffset,
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomOffset
 					);
 				pdfContentByte.stroke();
 			}
