@@ -27,9 +27,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -48,30 +45,19 @@ public class JRExpressionEvalException extends JRException
 	 *
 	 */
 	private JRExpression expression = null;
-	private Throwable nestedThrowable = null;
 
 
 	/**
 	 *
 	 */
-	public JRExpressionEvalException(JRExpression expr, Throwable e)
+	public JRExpressionEvalException(JRExpression expr, Throwable throwable)
 	{
 		super(
-			"Error evaluating expression : " 
-			+ "\n\tSource text : " + expr.getText()
+			"Error evaluating expression : " + "\n\tSource text : " + expr.getText(),
+			throwable
 			);
 			
 		expression = expr;
-		nestedThrowable = e;
-	}
-
-
-	/**
-	 *
-	 */
-	public Throwable getCause()
-	{
-		return this.nestedThrowable;
 	}
 
 
@@ -84,49 +70,4 @@ public class JRExpressionEvalException extends JRException
 	}
 
 
-	/**
-	 *
-	 */
-	public void printStackTrace()
-	{
-		if (nestedThrowable != null)
-		{
-			nestedThrowable.printStackTrace();
-			System.err.println("\nNESTED BY :");
-		}
-
-		super.printStackTrace();
-	}
-	
-
-	/**
-	 *
-	 */
-	public void printStackTrace(PrintStream s)
-	{
-		if (nestedThrowable != null)
-		{
-			nestedThrowable.printStackTrace(s);
-			s.println("\nNESTED BY :");
-		}
-
-		super.printStackTrace(s);
-	}
-	
-
-	/**
-	 *
-	 */
-	public void printStackTrace(PrintWriter s)
-	{
-		if (nestedThrowable != null)
-		{
-			nestedThrowable.printStackTrace(s);
-			s.println("\nNESTED BY :");
-		}
-
-		super.printStackTrace(s);
-	}
-	
-	
 }
