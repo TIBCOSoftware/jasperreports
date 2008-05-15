@@ -93,7 +93,8 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 				putClassInCache(className, clazz);
 			}
 			
-			if (JRProperties.getBooleanProperty(PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED)) {
+			if (JRProperties.getBooleanProperty(PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED))
+			{
 				//FIXME multiple classes per thread?
 				classFromBytesRef.set(clazz);
 			}
