@@ -231,6 +231,8 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		pdfFontName = style.getOwnPdfFontName();
 		pdfEncoding = style.getOwnPdfEncoding();
 		isPdfEmbedded = style.isOwnPdfEmbedded();
+		
+		isBlankWhenNull = style.isOwnBlankWhenNull();
 
 		JRConditionalStyle[] condStyles = style.getConditionalStyles();
 		if (condStyles != null && condStyles.length > 0) {
