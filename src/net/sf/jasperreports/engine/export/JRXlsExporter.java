@@ -72,9 +72,12 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
@@ -101,6 +104,8 @@ import org.apache.poi.hssf.util.Region;
 public class JRXlsExporter extends JRXlsAbstractExporter
 {
 
+	private static final Log log = LogFactory.getLog(JRXlsAbstractExporter.class);
+	
 	private static Map hssfColorsCache = new ReferenceMap();
 
 	protected Map loadedCellStyles = new HashMap();
@@ -388,7 +393,28 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected void createTextCell(JRPrintText textElement, final JRExporterGridCell gridCell, final int colIndex, final int rowIndex, JRStyledText styledText, final StyleInfo baseStyle) throws JRException
 	{
+		String formula = textElement.getPropertiesMap().getProperty(JRProperties.CELL_FORMULA_PREFIX);
+		if(formula != null)
+		{
+			try
+			{
+				HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
+				cell.setCellType(HSSFCell.CELL_TYPE_FORMULA);
+				cell.setCellFormula(formula);
+				endCreateCell(cellStyle);
+				return;
+			}
+			catch(Exception e)
+			{
+				if(log.isWarnEnabled())
+				{
+					log.warn(e.getMessage());
+				}
+			}
+		}
+		
 		String textStr = styledText.getText();
+
 		if (isDetectCellType)
 		{
 			TextValue value = getTextValue(textElement, textStr);

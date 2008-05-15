@@ -669,12 +669,15 @@ public class JRXmlssExporter extends JRAbstractExporter
 		String pattern = getConvertedPattern(getTextValue(text,styledText.getText()));
 		int colspan = gridCell.getColSpan(), rowspan = gridCell.getRowSpan();
 		
+		String formula = text.getPropertiesMap().getProperty(JRProperties.CELL_FORMULA_PREFIX);
+		
 		//FIXME: transfer the font properties to the cell style
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(text, gridCell.getBackcolor(), pattern, isFontSizeFixEnabled, defaultFont, fontMap), 
 				colspan, 
 				rowspan, 
 				getHyperlinkURL(text), 
-				text.getHyperlinkTooltip() 
+				text.getHyperlinkTooltip(),
+				formula
 				);
 
 
@@ -927,7 +930,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 	 */
 	protected void exportFrame(XmlssTableBuilder tableBuilder, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
 	{
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(frame, gridCell.getBackcolor(), null, isFontSizeFixEnabled, defaultFont, fontMap), gridCell.getColSpan(), gridCell.getRowSpan(), null, null);
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(frame, gridCell.getBackcolor(), null, isFontSizeFixEnabled, defaultFont, fontMap), gridCell.getColSpan(), gridCell.getRowSpan(), null, null, null);
 
 		boolean appendBackcolor =
 			frame.getMode() == JRElement.MODE_OPAQUE

@@ -67,6 +67,7 @@ import jxl.format.UnderlineStyle;
 import jxl.format.VerticalAlignment;
 import jxl.write.Blank;
 import jxl.write.DateTime;
+import jxl.write.Formula;
 import jxl.write.Label;
 import jxl.write.Number;
 import jxl.write.WritableCellFormat;
@@ -106,6 +107,7 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -518,6 +520,27 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void addCell(int x, int y, JRPrintText text, String textStr, StyleInfo baseStyle) throws WriteException, RowsExceededException, JRException
 	{
+		String textFormula = text.getPropertiesMap().getProperty(JRProperties.CELL_FORMULA_PREFIX);
+		if( textFormula != null)
+		{
+			Formula formula = null;
+			try
+			{
+				formula = new Formula(x, y, textFormula, getLoadedCellStyle(baseStyle));
+			}
+			catch(Exception e)
+			{
+				if(log.isWarnEnabled())
+				{
+					log.warn(e.getMessage());
+				}
+			}
+			if(formula != null)
+			{
+				sheet.addCell(formula);
+				return;
+			}
+		}
 		CellValue cellValue;
 		if (isDetectCellType)
 		{
