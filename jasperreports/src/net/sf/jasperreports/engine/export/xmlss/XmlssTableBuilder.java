@@ -113,7 +113,7 @@ public class XmlssTableBuilder
 		bodyWriter.write("/>\n");
 	}
 
-	public void buildCellHeader(String cellStyleID, int colSpan, int rowSpan, String hyperlinkURL, String tooltip) throws IOException 
+	public void buildCellHeader(String cellStyleID, int colSpan, int rowSpan, String hyperlinkURL, String tooltip, String formula) throws IOException 
 	{
 		bodyWriter.write("<Cell");
 		if (cellStyleID != null)
@@ -122,6 +122,8 @@ public class XmlssTableBuilder
 			bodyWriter.write(" ss:MergeAcross=\"" + colSpan + "\"");
 		if (rowSpan > 1)
 			bodyWriter.write(" ss:MergeDown=\"" + rowSpan + "\"");
+		if (formula != null)
+			bodyWriter.write(" ss:Formula=\"" + formula + "\"");
 		if(hyperlinkURL != null)
 		{
 			bodyWriter.write(" ss:HRef=\"" + hyperlinkURL + "\"");
