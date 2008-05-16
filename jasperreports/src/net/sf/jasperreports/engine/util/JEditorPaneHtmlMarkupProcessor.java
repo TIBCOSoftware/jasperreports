@@ -28,42 +28,151 @@
 package net.sf.jasperreports.engine.util;
 
 import java.awt.font.TextAttribute;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.swing.JEditorPane;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.Element;
 import javax.swing.text.StyleConstants;
+import javax.swing.text.AbstractDocument.LeafElement;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTML.Tag;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JFreeChartRenderer.java 1364 2006-08-31 15:13:20Z lucianc $
  */
-public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
+public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 {
+	private static final Log log = LogFactory.getLog(JEditorPaneHtmlMarkupProcessor.class);
 
+	private static JEditorPaneHtmlMarkupProcessor instance = null;  
+	
 	/**
 	 * 
 	 */
-	public static final class RtfFactory implements MarkupProcessorFactory
-	{ 
-		public MarkupProcessor createMarkupProcessor()
+	public static JEditorPaneHtmlMarkupProcessor getInstance()
+	{
+		if (instance == null)
 		{
-			return JEditorPaneRtfMarkupProcessor.getInstance();
+			instance = new JEditorPaneHtmlMarkupProcessor();
 		}
+		return instance;
 	}
-
+	
 	/**
 	 * 
 	 */
-	public static final class HtmlFactory implements MarkupProcessorFactory
-	{ 
-		public MarkupProcessor createMarkupProcessor()
+	public String convert(String srcText)
+	{
+		JEditorPane editorPane = new JEditorPane("text/html", srcText);
+		editorPane.setEditable(false);
+
+		List elements = new ArrayList();
+
+		Document document = editorPane.getDocument();
+
+		Element root = document.getDefaultRootElement();
+		if (root != null)
 		{
-			return JEditorPaneHtmlMarkupProcessor.getInstance();
+			addElements(elements, root);
+		}
+
+		int startOffset = 0;
+		int endOffset = 0;
+		int crtOffset = 0;
+		String chunk = null;
+		Element element = null;
+		boolean bodyOccurred = false;
+		
+		JRStyledText styledText = new JRStyledText();
+		styledText.setGlobalAttributes(new HashMap());
+		
+		for(int i = 0; i < elements.size(); i++)
+		{
+			if (bodyOccurred && chunk != null)
+			{
+				styledText.append(chunk);
+				styledText.addRun(new JRStyledText.Run(getAttributes(element.getAttributes()), startOffset + crtOffset, endOffset + crtOffset));
+			}
+
+			chunk = null;
+			element = (Element)elements.get(i);
+			startOffset = element.getStartOffset();
+			endOffset = element.getEndOffset();
+
+			AttributeSet attrs = element.getAttributes();
+
+			Object elementName = attrs.getAttribute(AbstractDocument.ElementNameAttribute);
+			Object object = (elementName != null) ? null : attrs.getAttribute(StyleConstants.NameAttribute);
+			
+			if (object instanceof HTML.Tag) 
+			{
+				HTML.Tag htmlTag = (HTML.Tag) object;
+				if(htmlTag == Tag.BODY)
+				{
+					bodyOccurred = true;
+					crtOffset = - startOffset;
+				}
+				else if(htmlTag == Tag.BR)
+				{
+					chunk = "\n";
+				}
+				else if(htmlTag == Tag.LI)
+				{
+					chunk = " \u2022 ";
+					crtOffset += chunk.length();
+				}
+				else if (element instanceof LeafElement)
+				{
+					try
+					{
+						chunk = document.getText(startOffset, endOffset - startOffset);
+					}
+					catch(BadLocationException e)
+					{
+						if (log.isDebugEnabled())
+							log.debug("Error converting markup.", e);
+					}
+				}
+			}
+		}
+
+		if (chunk != null && !"\n".equals(chunk))
+		{
+			styledText.append(chunk);
+			styledText.addRun(new JRStyledText.Run(getAttributes(element.getAttributes()), startOffset + crtOffset, endOffset + crtOffset));
+		}
+		
+		return JRStyledTextParser.getInstance().write(styledText);
+	}
+	
+	/**
+	 * 
+	 */
+	protected void addElements(List elements, Element element) 
+	{
+		//if(element instanceof LeafElement)
+		{
+			elements.add(element);
+		}
+		for(int i = 0; i < element.getElementCount(); i++)
+		{
+			Element child = element.getElement(i);
+			addElements(elements, child);
 		}
 	}
-
+	
 	/**
 	 * 
 	 */
@@ -153,10 +262,5 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 					
 		return attrMap;
 	}
-
-	/**
-	 * 
-	 */
-	public abstract String convert(String srcText);
 	
 }
