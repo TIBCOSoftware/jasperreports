@@ -27,8 +27,10 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +48,7 @@ public class JRStyledText
 	private StringBuffer sbuffer = new StringBuffer();
 	private List runs = new ArrayList();
 	private AttributedString attributedString = null;
+	private AttributedString awtAttributedString = null;
 	private Map globalAttributes;
 
 	
@@ -64,6 +67,7 @@ public class JRStyledText
 	{
 		sbuffer.append(text);
 		attributedString = null;
+		awtAttributedString = null;
 	}
 
 	/**
@@ -73,6 +77,7 @@ public class JRStyledText
 	{
 		runs.add(run);
 		attributedString = null;
+		awtAttributedString = null;
 	}
 
 	/**
@@ -111,6 +116,45 @@ public class JRStyledText
 		}
 		
 		return attributedString;
+	}
+
+	/**
+	 * Returns an attributed string that only contains standard Java text
+	 * attributes; JasperReports specific text attributes of the styled text
+	 * are ignored.
+	 * 
+	 * @return an attributed string that only contains standard Java text
+	 * attributes
+	 */
+	public AttributedString getAwtAttributedString()
+	{
+		if (awtAttributedString == null)
+		{
+			awtAttributedString = new AttributedString(sbuffer.toString());
+
+			for(int i = runs.size() - 1; i >= 0; i--)
+			{
+				Run run = (Run)runs.get(i);
+				if (run.startIndex != run.endIndex 
+						&& run.attributes != null && !run.attributes.isEmpty())
+				{
+					for (Iterator it = run.attributes.entrySet().iterator(); it
+							.hasNext();)
+					{
+						Map.Entry entry = (Map.Entry) it.next();
+						AttributedCharacterIterator.Attribute attribute = 
+							(AttributedCharacterIterator.Attribute) entry.getKey();
+						if (!(attribute instanceof JRTextAttribute))
+						{
+							Object value = entry.getValue();
+							awtAttributedString.addAttribute(attribute, value, run.startIndex, run.endIndex);
+						}
+					}
+				}
+			}
+		}
+		
+		return awtAttributedString;
 	}
 
 

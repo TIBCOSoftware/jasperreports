@@ -256,7 +256,7 @@ public class TextMeasurer implements JRTextMeasurer
 		/*   */
 		initialize(styledText, availableStretchHeight, canOverflow);
 
-		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString().getIterator();
 
 		int tokenPosition = remainingTextStart;
 		int lastParagraphStart = remainingTextStart;

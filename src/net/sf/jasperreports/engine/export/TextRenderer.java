@@ -138,7 +138,7 @@ public class TextRenderer
 			isStyledText
 			);
 		
-		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString().getIterator();
 
 		int tokenPosition = 0;
 		int lastParagraphStart = 0;
