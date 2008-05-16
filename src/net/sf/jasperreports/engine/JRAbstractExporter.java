@@ -68,6 +68,10 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public abstract class JRAbstractExporter implements JRExporter
 {
+	/**
+	 * Property that stores the formula which has to be applied to a given cell in an excel sheet.
+	 */
+	public static final String PROPERTY_CELL_FORMULA = JRProperties.PROPERTY_PREFIX + "export.xls.formula";
 
 	protected static interface ParameterResolver
 	{
