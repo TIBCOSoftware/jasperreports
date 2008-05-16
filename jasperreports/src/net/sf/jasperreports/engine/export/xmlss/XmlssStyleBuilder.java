@@ -26,13 +26,6 @@
  * http://www.jaspersoft.com
  */
 
-/*
- * Special thanks to Google 'Summer of Code 2005' program for supporting this development
- * 
- * Contributors:
- * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
- */
 package net.sf.jasperreports.engine.export.xmlss;
 
 import java.io.IOException;
