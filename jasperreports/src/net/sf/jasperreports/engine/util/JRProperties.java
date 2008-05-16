@@ -142,7 +142,7 @@ public class JRProperties
 	public static final String PDF_FORCE_LINEBREAK_POLICY = PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
 	
 	/**
-	 * Prefix of properties that specify the formula which has to be applied to a given cell in an excel sheet.
+	 * Property that stores the formula which has to be applied to a given cell in an excel sheet.
 	 */
 	public static final String CELL_FORMULA_PREFIX = PROPERTY_PREFIX + "export.xls.formula";
 	
