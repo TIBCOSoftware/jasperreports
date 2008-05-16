@@ -26,11 +26,6 @@
  * http://www.jaspersoft.com
  */
 
-/*
- * Contributors:
- * Greg Hilton 
- */
-
 package net.sf.jasperreports.engine.export.xmlss;
 
 import net.sf.jasperreports.engine.JRPrintElement;
