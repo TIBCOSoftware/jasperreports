@@ -669,7 +669,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 		String pattern = getConvertedPattern(getTextValue(text,styledText.getText()));
 		int colspan = gridCell.getColSpan(), rowspan = gridCell.getRowSpan();
 		
-		String formula = text.getPropertiesMap().getProperty(JRProperties.CELL_FORMULA_PREFIX);
+		String formula = text.getPropertiesMap().getProperty(JRAbstractExporter.PROPERTY_CELL_FORMULA);
 		
 		//FIXME: transfer the font properties to the cell style
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(text, gridCell.getBackcolor(), pattern, isFontSizeFixEnabled, defaultFont, fontMap), 

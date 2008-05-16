@@ -79,6 +79,7 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.CellValue;
 import jxl.write.biff.RowsExceededException;
+import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRElement;
@@ -520,7 +521,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void addCell(int x, int y, JRPrintText text, String textStr, StyleInfo baseStyle) throws WriteException, RowsExceededException, JRException
 	{
-		String textFormula = text.getPropertiesMap().getProperty(JRProperties.CELL_FORMULA_PREFIX);
+		String textFormula = text.getPropertiesMap().getProperty(JRAbstractExporter.PROPERTY_CELL_FORMULA);
 		if( textFormula != null)
 		{
 			Formula formula = null;
