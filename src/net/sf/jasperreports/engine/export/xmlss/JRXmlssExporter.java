@@ -889,8 +889,6 @@ public class JRXmlssExporter extends JRAbstractExporter
 	
 	/**
 	 * 
-	 * @param gridCell
-	 * @return
 	 */
 	protected JRPrintElementIndex getElementIndex(JRExporterGridCell gridCell)
 	{

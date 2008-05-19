@@ -47,8 +47,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -63,9 +61,10 @@ import org.xml.sax.SAXParseException;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRStyledTextParser
+public class JRStyledTextParser implements ErrorHandler
 {
-    private static final Log log = LogFactory.getLog(JRStyledTextParser.class);
+    //don't use log because it will be required in applet jar
+	//private static final Log log = LogFactory.getLog(JRStyledTextParser.class);
 
 	/**
 	 *
@@ -145,7 +144,7 @@ public class JRStyledTextParser
 		{
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			documentBuilder = factory.newDocumentBuilder();
-			documentBuilder.setErrorHandler(new StyledTextErrorHandler());
+			documentBuilder.setErrorHandler(this);
 		}
 		catch (ParserConfigurationException e)
 		{
@@ -801,26 +800,19 @@ public class JRStyledTextParser
 		return null;
 	}
 
-    class StyledTextErrorHandler implements ErrorHandler {
-
-        public void error(SAXParseException e) {
-        	if(log.isErrorEnabled())
-        		log.error(getMessage("Error", e), e);
-        }
-    
-        public void fatalError(SAXParseException e) {
-        	if(log.isFatalEnabled())
-        		log.fatal(getMessage("Fatal Error", e), e);
-        }
-    
-        public void warning(SAXParseException e) {
-        	if(log.isWarnEnabled())
-        		log.warn(getMessage("Warning", e), e);
-        }
-    
-        private String getMessage(String message, SAXParseException e) {
-            return message + ": " + e.getMessage() + ": at line=" + e.getLineNumber() + ", col=" + e.getColumnNumber();
-        }
+    public void error(SAXParseException e) {
+//    	if(log.isErrorEnabled())
+//    		log.error("Error parsing styled text.", e);
     }
-	
+
+    public void fatalError(SAXParseException e) {
+//    	if(log.isFatalEnabled())
+//    		log.fatal("Error parsing styled text.", e);
+    }
+
+    public void warning(SAXParseException e) {
+//    	if(log.isWarnEnabled())
+//    		log.warn("Error parsing styled text.", e);
+    }
+
 }
