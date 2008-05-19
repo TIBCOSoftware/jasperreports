@@ -2,12 +2,34 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.0.0 (2008-0x-xx)
+JasperReports 3.0.0 (2008-05-19)
 -----------------------------------
 
-- custom properties in print elements;
+- support for custom properties at element level in generated documents, 
+to allow extending exporter functionality; 
 
-- element custom properties can have expressions as values;
+- custom element properties can have expressions as values (dynamic values);
+
+- support for XLS cell formula, using the "net.sf.jasperreports.export.xls.formula" 
+custom property at element level;
+
+- better control over sheet breaks in XLS exporters using the new custom element
+properties called "net.sf.jasperreports.export.xls.break.before.row" and
+"net.sf.jasperreports.export.xls.break.after.row";
+
+- new configuration property called "net.sf.jasperreports.export.legacy.border.offset"
+to allow rendering element borders in older reports using the legacy border offset 
+technique that that was used in versions prior to the 2.0.3 release.  
+
+- support for "Parent" and "Top" as hyperlink targets;
+
+- enhanced XML exporter and new XML exporter servlet added to facilitate viewing
+reports using the JasperReports Flash Viewer component 
+(http://jasperforge.org/sf/projects/jasperreports-flash);
+
+- new experimental XMLSS exporter (XML Spreadsheet Format) that allows streaming
+content while generating the document and thus avoid memory problems with 
+very large reports; 
 
 - minor bug fixes and improvements;
 
