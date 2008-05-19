@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
+import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 
 
 /**
@@ -60,14 +61,17 @@ public class EllipseDrawer extends ElementDrawer
 	{
 		JRPrintEllipse ellipse = (JRPrintEllipse)element;
 		
+		int width = ellipse.getWidth();
+		int height = ellipse.getHeight();
+		
 		if (ellipse.getMode() == JRElement.MODE_OPAQUE)
 		{
 			grx.setColor(ellipse.getBackcolor());
 			grx.fillOval(
 				ellipse.getX() + offsetX, 
 				ellipse.getY() + offsetY, 
-				ellipse.getWidth(),
-				ellipse.getHeight()
+				width,
+				height
 				);
 		}
 
@@ -79,27 +83,27 @@ public class EllipseDrawer extends ElementDrawer
 		{
 			grx.setStroke(stroke);
 			
+			AffineTransform oldTx = grx.getTransform();
+
 			if (ellipse.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 			{
 				float lineWidth = ellipse.getLinePen().getLineWidth().floatValue();
 				
-				AffineTransform oldTx = grx.getTransform();
-
 				grx.translate(
 					ellipse.getX() + offsetX - lineWidth / 3, 
 					ellipse.getY() + offsetY - lineWidth / 3
 					);
 				grx.scale(
-					(element.getWidth() + 2 * lineWidth / 3) 
-						/ element.getWidth(), 
-					(element.getHeight() + 2 * lineWidth / 3) 
-						/ element.getHeight() 
+					(width + 2 * lineWidth / 3) 
+						/ width, 
+					(height + 2 * lineWidth / 3) 
+						/ height 
 					);
 				grx.drawOval(
 					0, 
 					0, 
-					ellipse.getWidth(),
-					ellipse.getHeight()
+					width,
+					height
 					);
 				
 				grx.setTransform(oldTx);
@@ -108,30 +112,62 @@ public class EllipseDrawer extends ElementDrawer
 					ellipse.getX() + offsetX + lineWidth / 3, 
 					ellipse.getY() + offsetY + lineWidth / 3
 					);
-				grx.scale(
-					(element.getWidth() - 2 * lineWidth / 3) 
-						/ element.getWidth(), 
-					(element.getHeight() - 2 * lineWidth / 3) 
-						/ element.getHeight() 
-					);
+				if (width > 2 * lineWidth / 3)
+				{
+					grx.scale(
+						(width - 2 * lineWidth / 3) 
+							/ width, 
+						1 
+						);
+				}
+				if (height > 2 * lineWidth / 3)
+				{
+					grx.scale(
+						1, 
+						(height - 2 * lineWidth / 3) 
+							/ height 
+						);
+				}
 				grx.drawOval(
 					0, 
 					0, 
-					ellipse.getWidth(),
-					ellipse.getHeight()
+					width,
+					height
 					);
-
-				grx.setTransform(oldTx);
 			}
 			else
 			{
+				float lineOffset = BorderOffset.getOffset(ellipse.getLinePen());
+				
+				grx.translate(
+					ellipse.getX() + offsetX + lineOffset, 
+					ellipse.getY() + offsetY + lineOffset
+					);
+				if (width > 2 * lineOffset)
+				{
+					grx.scale(
+						(width - 2 * lineOffset) 
+							/ width, 
+						1 
+						);
+				}
+				if (height > 2 * lineOffset)
+				{
+					grx.scale(
+						1, 
+						(height - 2 * lineOffset) 
+							/ height 
+						);
+				}
 				grx.drawOval(
-					ellipse.getX() + offsetX, 
-					ellipse.getY() + offsetY, 
-					ellipse.getWidth(),
-					ellipse.getHeight()
+					0, 
+					0, 
+					width,
+					height
 					);
 			}
+
+			grx.setTransform(oldTx);
 		}
 	}
 

@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
+import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 
 
 /**
@@ -60,6 +61,9 @@ public class RectangleDrawer extends ElementDrawer
 	{
 		JRPrintRectangle rectangle = (JRPrintRectangle)element;
 		
+		int width = rectangle.getWidth();
+		int height = rectangle.getHeight();
+		
 		if (rectangle.getMode() == JRElement.MODE_OPAQUE)
 		{
 			grx.setColor(rectangle.getBackcolor());
@@ -68,8 +72,8 @@ public class RectangleDrawer extends ElementDrawer
 				grx.fillRoundRect(
 					rectangle.getX() + offsetX, 
 					rectangle.getY() + offsetY, 
-					rectangle.getWidth(),
-					rectangle.getHeight(),
+					width,
+					height,
 					2 * rectangle.getRadius(),
 					2 * rectangle.getRadius()
 					);
@@ -79,8 +83,8 @@ public class RectangleDrawer extends ElementDrawer
 				grx.fillRect(
 					rectangle.getX() + offsetX, 
 					rectangle.getY() + offsetY, 
-					rectangle.getWidth(),
-					rectangle.getHeight()
+					width,
+					height
 					);
 			}
 		}
@@ -89,16 +93,16 @@ public class RectangleDrawer extends ElementDrawer
 
 		Stroke stroke = getStroke(rectangle.getLinePen(), BasicStroke.CAP_SQUARE);
 
-		if (stroke != null)
+		if (stroke != null && width > 0 && height > 0)
 		{
 			grx.setStroke(stroke);
 			
+			AffineTransform oldTx = grx.getTransform();
+
 			if (rectangle.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
 			{
 				float lineWidth = rectangle.getLinePen().getLineWidth().floatValue();
 				
-				AffineTransform oldTx = grx.getTransform();
-
 				if (rectangle.getRadius() > 0)
 				{
 					grx.translate(
@@ -106,16 +110,16 @@ public class RectangleDrawer extends ElementDrawer
 						rectangle.getY() + offsetY - lineWidth / 3
 						);
 					grx.scale(
-						(element.getWidth() + 2 * lineWidth / 3) 
-							/ element.getWidth(), 
-						(element.getHeight() + 2 * lineWidth / 3) 
-							/ element.getHeight() 
+						(width + 2 * lineWidth / 3) 
+							/ width, 
+						(height + 2 * lineWidth / 3) 
+							/ height 
 						);
 					grx.drawRoundRect(
 						0, 
 						0, 
-						rectangle.getWidth(),
-						rectangle.getHeight(),
+						width,
+						height,
 						2 * rectangle.getRadius(),
 						2 * rectangle.getRadius()
 						);
@@ -124,17 +128,27 @@ public class RectangleDrawer extends ElementDrawer
 						rectangle.getX() + offsetX + lineWidth / 3, 
 						rectangle.getY() + offsetY + lineWidth / 3
 						);
-					grx.scale(
-						(element.getWidth() - 2 * lineWidth / 3) 
-							/ element.getWidth(), 
-						(element.getHeight() - 2 * lineWidth / 3) 
-							/ element.getHeight() 
-						);
+					if (width > 2 * lineWidth / 3)
+					{
+						grx.scale(
+							(width - 2 * lineWidth / 3) 
+								/ width, 
+							1 
+							);
+					}
+					if (height > 2 * lineWidth / 3)
+					{
+						grx.scale(
+							1, 
+							(height - 2 * lineWidth / 3) 
+								/ height 
+							);
+					}
 					grx.drawRoundRect(
 						0, 
 						0, 
-						rectangle.getWidth(),
-						rectangle.getHeight(),
+						width,
+						height,
 						2 * rectangle.getRadius(),
 						2 * rectangle.getRadius()
 						);
@@ -146,47 +160,78 @@ public class RectangleDrawer extends ElementDrawer
 						rectangle.getY() + offsetY - lineWidth / 3
 						);
 					grx.scale(
-						(element.getWidth() + 2 * lineWidth / 3) 
-							/ element.getWidth(), 
-						(element.getHeight() + 2 * lineWidth / 3) 
-							/ element.getHeight() 
+						(width + 2 * lineWidth / 3) 
+							/ width, 
+						(height + 2 * lineWidth / 3) 
+							/ height 
 						);
 					grx.drawRect(
 						0, 
 						0, 
-						rectangle.getWidth(),
-						rectangle.getHeight()
+						width,
+						height
 						);
 					grx.setTransform(oldTx);
 					grx.translate(
 						rectangle.getX() + offsetX + lineWidth / 3, 
 						rectangle.getY() + offsetY + lineWidth / 3
 						);
-					grx.scale(
-						(element.getWidth() - 2 * lineWidth / 3) 
-							/ element.getWidth(), 
-						(element.getHeight() - 2 * lineWidth / 3) 
-							/ element.getHeight() 
-						);
+					if (width > 2 * lineWidth / 3)
+					{
+						grx.scale(
+							(width - 2 * lineWidth / 3) 
+								/ width, 
+							1 
+							);
+					}
+					if (height > 2 * lineWidth / 3)
+					{
+						grx.scale(
+							1, 
+							(height - 2 * lineWidth / 3) 
+								/ height 
+							);
+					}
 					grx.drawRect(
 						0, 
 						0, 
-						rectangle.getWidth(),
-						rectangle.getHeight()
+						width,
+						height
 						);
 				}
-
-				grx.setTransform(oldTx);
 			}
 			else
 			{
+				float lineOffset = BorderOffset.getOffset(rectangle.getLinePen());
+				
+				grx.translate(
+					rectangle.getX() + offsetX + lineOffset, 
+					rectangle.getY() + offsetY + lineOffset
+					);
+				if (width > 2 * lineOffset)
+				{
+					grx.scale(
+						(width - 2 * lineOffset) 
+							/ width, 
+						1 
+						);
+				}
+				if (height > 2 * lineOffset)
+				{
+					grx.scale(
+						1, 
+						(height - 2 * lineOffset) 
+							/ height 
+						);
+				}
+
 				if (rectangle.getRadius() > 0)
 				{
 					grx.drawRoundRect(
-						rectangle.getX() + offsetX, 
-						rectangle.getY() + offsetY, 
-						rectangle.getWidth(),
-						rectangle.getHeight(),
+						0, 
+						0, 
+						width,
+						height,
 						2 * rectangle.getRadius(),
 						2 * rectangle.getRadius()
 						);
@@ -194,13 +239,15 @@ public class RectangleDrawer extends ElementDrawer
 				else
 				{
 					grx.drawRect(
-						rectangle.getX() + offsetX, 
-						rectangle.getY() + offsetY, 
-						rectangle.getWidth(),
-						rectangle.getHeight()
+						0, 
+						0, 
+						width,
+						height
 						);
 				}
 			}
+
+			grx.setTransform(oldTx);
 		}
 	}
 	
