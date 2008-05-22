@@ -634,7 +634,7 @@ public class BucketingService
 		
 		public String toString()
 		{
-			return key + ":" + value;
+			return key + "=" + value;
 		}
 	}
 	
@@ -937,6 +937,23 @@ public class BucketingService
 					totalItEntry = totalIt.hasNext() ? (MapEntry) totalIt.next() : null;
 				}
 			}
+		}
+		
+		public String toString()
+		{
+			StringBuffer sb = new StringBuffer();
+			sb.append('{');
+			for (Iterator it = entries.iterator(); it.hasNext();)
+			{
+				MapEntry entry = (MapEntry) it.next();
+				sb.append(entry);
+				if (it.hasNext())
+				{
+					sb.append(", ");
+				}
+			}
+			sb.append('}');
+			return sb.toString();
 		}
 	}
 
@@ -1255,7 +1272,10 @@ public class BucketingService
 					if (col == colBucketCount)
 					{
 						MeasureValue[] measureValues = (MeasureValue[]) colMap.get((Bucket) vals.get(rowBucketCount + colBucketCount - 1));
-						totals[row][col] = getUserMeasureValues(measureValues);
+						if (measureValues != null)
+						{
+							totals[row][col] = getUserMeasureValues(measureValues);
+						}
 					}
 					else
 					{
