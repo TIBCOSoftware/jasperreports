@@ -1,0 +1,158 @@
+CREATE TABLE PERSON(ID INTEGER NOT NULL PRIMARY KEY,NAME VARCHAR)
+CREATE TABLE MOVIE(ID INTEGER NOT NULL PRIMARY KEY,DIRECTOR INTEGER,TITLE VARCHAR,GENRE VARCHAR,RELEASEDATE DATE)
+CREATE TABLE MOVIE_CAST(ID INTEGER NOT NULL PRIMARY KEY,MOVIE INTEGER,ACTOR INTEGER,CHARACTER VARCHAR,IMPORTANCE INTEGER)
+CREATE TABLE MOVIE_VARIA(ID INTEGER NOT NULL PRIMARY KEY,MOVIE INTEGER,VARIA_TYPE VARCHAR,DESCRIPTION VARCHAR,IMPORTANCE INTEGER)
+CREATE USER SA PASSWORD "" ADMIN
+CREATE ALIAS DAYNAME FOR "org.hsqldb.Library.dayname"
+CREATE ALIAS SPACE FOR "org.hsqldb.Library.space"
+CREATE ALIAS SUBSTRING FOR "org.hsqldb.Library.substring"
+CREATE ALIAS HEXTORAW FOR "org.hsqldb.Library.hexToRaw"
+CREATE ALIAS SQRT FOR "java.lang.Math.sqrt"
+CREATE ALIAS ABS FOR "org.hsqldb.Library.abs"
+CREATE ALIAS POWER FOR "java.lang.Math.pow"
+CREATE ALIAS CHAR FOR "org.hsqldb.Library.character"
+CREATE ALIAS CONCAT FOR "org.hsqldb.Library.concat"
+CREATE ALIAS PI FOR "org.hsqldb.Library.pi"
+CREATE ALIAS RAWTOHEX FOR "org.hsqldb.Library.rawToHex"
+CREATE ALIAS SECOND FOR "org.hsqldb.Library.second"
+CREATE ALIAS TRUNCATE FOR "org.hsqldb.Library.truncate"
+CREATE ALIAS MONTH FOR "org.hsqldb.Library.month"
+CREATE ALIAS LOWER FOR "org.hsqldb.Library.lcase"
+CREATE ALIAS ATAN2 FOR "java.lang.Math.atan2"
+CREATE ALIAS REPEAT FOR "org.hsqldb.Library.repeat"
+CREATE ALIAS DAYOFMONTH FOR "org.hsqldb.Library.dayofmonth"
+CREATE ALIAS TAN FOR "java.lang.Math.tan"
+CREATE ALIAS RADIANS FOR "java.lang.Math.toRadians"
+CREATE ALIAS FLOOR FOR "java.lang.Math.floor"
+CREATE ALIAS NOW FOR "org.hsqldb.Library.now"
+CREATE ALIAS ACOS FOR "java.lang.Math.acos"
+CREATE ALIAS DAYOFWEEK FOR "org.hsqldb.Library.dayofweek"
+CREATE ALIAS CEILING FOR "java.lang.Math.ceil"
+CREATE ALIAS DAYOFYEAR FOR "org.hsqldb.Library.dayofyear"
+CREATE ALIAS LCASE FOR "org.hsqldb.Library.lcase"
+CREATE ALIAS WEEK FOR "org.hsqldb.Library.week"
+CREATE ALIAS SOUNDEX FOR "org.hsqldb.Library.soundex"
+CREATE ALIAS ASIN FOR "java.lang.Math.asin"
+CREATE ALIAS LOCATE FOR "org.hsqldb.Library.locate"
+CREATE ALIAS EXP FOR "java.lang.Math.exp"
+CREATE ALIAS MONTHNAME FOR "org.hsqldb.Library.monthname"
+CREATE ALIAS YEAR FOR "org.hsqldb.Library.year"
+CREATE ALIAS LEFT FOR "org.hsqldb.Library.left"
+CREATE ALIAS ROUNDMAGIC FOR "org.hsqldb.Library.roundMagic"
+CREATE ALIAS BITOR FOR "org.hsqldb.Library.bitor"
+CREATE ALIAS LTRIM FOR "org.hsqldb.Library.ltrim"
+CREATE ALIAS COT FOR "org.hsqldb.Library.cot"
+CREATE ALIAS COS FOR "java.lang.Math.cos"
+CREATE ALIAS MOD FOR "org.hsqldb.Library.mod"
+CREATE ALIAS SIGN FOR "org.hsqldb.Library.sign"
+CREATE ALIAS DEGREES FOR "java.lang.Math.toDegrees"
+CREATE ALIAS LOG FOR "java.lang.Math.log"
+CREATE ALIAS SIN FOR "java.lang.Math.sin"
+CREATE ALIAS CURTIME FOR "org.hsqldb.Library.curtime"
+CREATE ALIAS DIFFERENCE FOR "org.hsqldb.Library.difference"
+CREATE ALIAS INSERT FOR "org.hsqldb.Library.insert"
+CREATE ALIAS SUBSTR FOR "org.hsqldb.Library.substring"
+CREATE ALIAS DATABASE FOR "org.hsqldb.Library.database"
+CREATE ALIAS MINUTE FOR "org.hsqldb.Library.minute"
+CREATE ALIAS HOUR FOR "org.hsqldb.Library.hour"
+CREATE ALIAS IDENTITY FOR "org.hsqldb.Library.identity"
+CREATE ALIAS QUARTER FOR "org.hsqldb.Library.quarter"
+CREATE ALIAS CURDATE FOR "org.hsqldb.Library.curdate"
+CREATE ALIAS BITAND FOR "org.hsqldb.Library.bitand"
+CREATE ALIAS USER FOR "org.hsqldb.Library.user"
+CREATE ALIAS UCASE FOR "org.hsqldb.Library.ucase"
+CREATE ALIAS RTRIM FOR "org.hsqldb.Library.rtrim"
+CREATE ALIAS LOG10 FOR "org.hsqldb.Library.log10"
+CREATE ALIAS RIGHT FOR "org.hsqldb.Library.right"
+CREATE ALIAS ATAN FOR "java.lang.Math.atan"
+CREATE ALIAS UPPER FOR "org.hsqldb.Library.ucase"
+CREATE ALIAS ASCII FOR "org.hsqldb.Library.ascii"
+CREATE ALIAS RAND FOR "java.lang.Math.random"
+CREATE ALIAS LENGTH FOR "org.hsqldb.Library.length"
+CREATE ALIAS ROUND FOR "org.hsqldb.Library.round"
+CREATE ALIAS REPLACE FOR "org.hsqldb.Library.replace"
+INSERT INTO PERSON VALUES(1,'Steven Spielberg')
+INSERT INTO PERSON VALUES(2,'Tom Cruise')
+INSERT INTO PERSON VALUES(3,'Dakota Fanning')
+INSERT INTO PERSON VALUES(4,'Stanley Kubrick')
+INSERT INTO PERSON VALUES(5,'Nicole Kidman')
+INSERT INTO PERSON VALUES(6,'Mimi Leder')
+INSERT INTO PERSON VALUES(7,'George Clooney')
+INSERT INTO PERSON VALUES(8,'George Lucas')
+INSERT INTO PERSON VALUES(9,'Ewan McGregor')
+INSERT INTO PERSON VALUES(10,'Natalie Portman')
+INSERT INTO PERSON VALUES(11,'Hayden Christensen')
+INSERT INTO PERSON VALUES(12,'Mark Hamill')
+INSERT INTO PERSON VALUES(13,'Harrison Ford')
+INSERT INTO PERSON VALUES(14,'Peter Farrelly')
+INSERT INTO PERSON VALUES(15,'Jim Carrey')
+INSERT INTO PERSON VALUES(16,'Jeff Daniels')
+INSERT INTO PERSON VALUES(17,'Lauren Holly')
+INSERT INTO PERSON VALUES(18,'Sydney Pollack')
+INSERT INTO PERSON VALUES(19,'Gene Hackman')
+INSERT INTO PERSON VALUES(20,'Jonathan Mostow')
+INSERT INTO PERSON VALUES(21,'Arnold Schwarzenegger')
+INSERT INTO PERSON VALUES(22,'Nick Stahl')
+INSERT INTO PERSON VALUES(23,'Alejandro Amen\u00e1bar')
+INSERT INTO MOVIE VALUES(1,1,'War of the Worlds','Sci-Fi','2005-06-13')
+INSERT INTO MOVIE VALUES(2,4,'Eyes Wide Shut','Thriller','1999-07-13')
+INSERT INTO MOVIE VALUES(3,6,'The Peacemaker','Action','1997-09-26')
+INSERT INTO MOVIE VALUES(4,8,'Star Wars: Episode III - Revenge of the Sith','Sci-Fi','2005-05-15')
+INSERT INTO MOVIE VALUES(5,8,'Star Wars','Sci-Fi','1977-05-25')
+INSERT INTO MOVIE VALUES(6,14,'Dumb & Dumber','Comedy','1994-12-06')
+INSERT INTO MOVIE VALUES(7,18,'The Firm','Thriller','1993-06-30')
+INSERT INTO MOVIE VALUES(8,20,'Terminator 3: Rise of the Machines','Action','2003-06-30')
+INSERT INTO MOVIE VALUES(9,23,'The Others','Thriller','2001-08-02')
+INSERT INTO MOVIE_CAST VALUES(1,1,2,'Ray Ferrier',1)
+INSERT INTO MOVIE_CAST VALUES(2,1,3,'Rachel Ferrier',2)
+INSERT INTO MOVIE_CAST VALUES(3,2,2,'Dr. William Harford',1)
+INSERT INTO MOVIE_CAST VALUES(4,2,5,'Alice Harford',2)
+INSERT INTO MOVIE_CAST VALUES(5,3,7,'Lt. Col. Thomas Devoe',2)
+INSERT INTO MOVIE_CAST VALUES(6,3,5,'Dr. Julia Kelly',2)
+INSERT INTO MOVIE_CAST VALUES(7,4,9,'Obi-Wan Kenobi',1)
+INSERT INTO MOVIE_CAST VALUES(8,4,10,'Padm\u00e9',2)
+INSERT INTO MOVIE_CAST VALUES(9,4,11,'Anakin Skywalker',3)
+INSERT INTO MOVIE_CAST VALUES(10,5,12,'Luke Skywalker',1)
+INSERT INTO MOVIE_CAST VALUES(11,5,13,'Han Solo',2)
+INSERT INTO MOVIE_CAST VALUES(12,6,15,'Lloyd Christmas',1)
+INSERT INTO MOVIE_CAST VALUES(13,6,16,'Harry Dunne',2)
+INSERT INTO MOVIE_CAST VALUES(14,6,17,'Mary Swanson',3)
+INSERT INTO MOVIE_CAST VALUES(15,7,2,'Mitch McDeere',1)
+INSERT INTO MOVIE_CAST VALUES(16,7,19,'Avery Tolar',2)
+INSERT INTO MOVIE_CAST VALUES(17,8,21,'Terminator',1)
+INSERT INTO MOVIE_CAST VALUES(18,8,22,'John Connor',2)
+INSERT INTO MOVIE_CAST VALUES(19,9,5,'Grace Stewart',1)
+INSERT INTO MOVIE_VARIA VALUES(1,1,'Awards','Nominated for 3 Oscars',1)
+INSERT INTO MOVIE_VARIA VALUES(2,1,'Tagline','They are already here',2)
+INSERT INTO MOVIE_VARIA VALUES(3,2,'Awards','Nominated for Golden Globe',1)
+INSERT INTO MOVIE_VARIA VALUES(4,2,'Fact','Tom Cruise and Nicole Kidmin were real-life husband and wife at the time of the production',2)
+INSERT INTO MOVIE_VARIA VALUES(5,3,'Fact','First film released by film studio Dreamworks',1)
+INSERT INTO MOVIE_VARIA VALUES(6,4,'Budget','$113 million',1)
+INSERT INTO MOVIE_VARIA VALUES(7,4,'Revenue','$850 million worldwide (approx.)',2)
+INSERT INTO MOVIE_VARIA VALUES(8,4,'Awards','Nominated for Oscar',3)
+INSERT INTO MOVIE_VARIA VALUES(9,5,'Opening crawl','It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire. During the battle, Rebel spies managed to steal secret plans to the Empires ultimate weapon, the DEATH STAR, an armored space station with enough power to destroy an entire planet. Pursued by the Empires sinister agents, Princess Leia races home aboard her starship, custodian of the stolen plans that can save her people and restore freedom to the galaxy...',1)
+INSERT INTO MOVIE_VARIA VALUES(10,5,'Awards','Won 6 Oscars',2)
+INSERT INTO MOVIE_VARIA VALUES(11,6,'Quote','She gave me some crap about me not paying enough attention to her or something like that... I dont know, I wasnt really listening.',1)
+INSERT INTO MOVIE_VARIA VALUES(12,7,'Written by','John Grisham',1)
+INSERT INTO MOVIE_VARIA VALUES(13,7,'Awards','Nominated for 2 Oscars',2)
+INSERT INTO MOVIE_VARIA VALUES(14,8,'Quote','The future has not been written. There is no fate but what we make for ourselves. I wish I could believe that. My name is John Connor, they tried to murder me before I was born, when I was 13 they tried again. Machines from the future. Terminators. All my life my mother told me the storm was coming...',2)
+INSERT INTO MOVIE_VARIA VALUES(15,8,'Awards','Nominated for Golden Globe',1)
+INSERT INTO MOVIE_VARIA VALUES(16,9,'Awards','Nominated for Golden Globe',1)
+/*C1*/CONNECT USER sa PASSWORD ""
+/*C3*/CONNECT USER sa PASSWORD ""
+/*C4*/CONNECT USER sa PASSWORD ""
+/*C5*/CONNECT USER sa PASSWORD ""
+/*C6*/CONNECT USER sa PASSWORD ""
+/*C7*/CONNECT USER sa PASSWORD ""
+/*C8*/CONNECT USER sa PASSWORD ""
+/*C3*/SET MAXROWS 100
+SET MAXROWS 0
+/*C2*/CONNECT USER sa PASSWORD ""
+/*C9*/CONNECT USER sa PASSWORD ""
+/*C10*/CONNECT USER sa PASSWORD ""
+/*C11*/CONNECT USER sa PASSWORD ""
+/*C12*/CONNECT USER sa PASSWORD ""
+/*C13*/CONNECT USER sa PASSWORD ""
+/*C14*/CONNECT USER sa PASSWORD ""
+/*C9*/SET MAXROWS 100
+SET MAXROWS 0
