@@ -42,6 +42,7 @@ package net.sf.jasperreports.engine.util;
 public class JRStringUtil
 {
 
+	protected static final String JAVA_IDENTIFIER_PREFIX = "j";
 
 	/**
 	 * This method replaces all occurences of the CR character with the LF character, 
@@ -298,6 +299,7 @@ public class JRStringUtil
 		{
 			if (i == 0 && !Character.isJavaIdentifierStart(literalChars[i]))
 			{
+				buffer.append(JAVA_IDENTIFIER_PREFIX);
 				buffer.append((int)literalChars[i]);
 			}
 			else if (i != 0 && !Character.isJavaIdentifierPart(literalChars[i]))
