@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -255,13 +256,13 @@ public class FileBufferedOutputStream extends OutputStream
 	{
 		private int memoryIdx;
 		private final byte[] memoryData;
-		private final FileInputStream fileInput;
+		private final InputStream fileInput;
 		
 		public DataStream() throws FileNotFoundException
 		{
 			memoryIdx = 0;
 			memoryData = memoryOutput == null ? new byte[0] : memoryOutput.toByteArray(); 
-			fileInput = file == null ? null : new FileInputStream(file);
+			fileInput = file == null ? null : new BufferedInputStream(new FileInputStream(file));
 		}
 		
 		public synchronized int read() throws IOException
