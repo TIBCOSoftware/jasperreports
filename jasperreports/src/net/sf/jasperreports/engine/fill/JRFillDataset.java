@@ -628,6 +628,18 @@ public class JRFillDataset implements JRDataset
 		}
 	}
 
+
+	/**
+	 * Returns the map of parameter values.
+	 * 
+	 * @return the map of parameter values
+	 */
+	protected Map getParameterValuesMap()
+	{
+		JRFillParameter paramValuesParameter = (JRFillParameter) parametersMap.get(
+				JRParameter.REPORT_PARAMETERS_MAP);
+		return (Map) paramValuesParameter.getValue();
+	}
 	
 	/**
 	 * Creates the data source from a connection.
