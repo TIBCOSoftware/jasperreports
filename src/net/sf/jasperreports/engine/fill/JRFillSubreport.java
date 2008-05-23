@@ -439,6 +439,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		if (parameterValues != null)
 		{
+			//if the expression evaluates to the master parameters map
+			if (parameterValues == filler.getParameterValuesMap())
+			{
+				//create a clone of the map so that the master map is not altered
+				parameterValues = new HashMap(parameterValues);
+			}
+			
 			//parameterValues.remove(JRParameter.REPORT_LOCALE);
 			if (removeResourceBundle)
 			{
