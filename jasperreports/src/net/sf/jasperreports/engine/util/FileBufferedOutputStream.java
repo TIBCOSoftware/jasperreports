@@ -269,7 +269,7 @@ public class FileBufferedOutputStream extends OutputStream
 			int read;
 			if (memoryIdx < memoryData.length)
 			{
-				read = memoryData[memoryIdx];
+				read = memoryData[memoryIdx] & 0xff;
 				++memoryIdx;
 			}
 			else if (fileInput != null)
