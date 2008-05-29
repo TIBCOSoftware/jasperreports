@@ -86,6 +86,7 @@ import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartRendererFactory;
 import net.sf.jasperreports.charts.util.HighLowChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
+import net.sf.jasperreports.charts.util.MultiAxisChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.PieChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.TimePeriodChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.TimeSeriesChartHyperlinkProvider;
@@ -1234,6 +1235,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 				chartHyperlinkProvider,
 				rectangle
 				);
+	}
+	
+	protected ChartHyperlinkProvider getHyperlinkProvider()
+	{
+		return chartHyperlinkProvider;
 	}
 	
 	protected static ChartRendererFactory getChartRendererFactory(String renderType)
@@ -2783,6 +2789,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		JRFillMultiAxisPlot jrPlot = (JRFillMultiAxisPlot)getPlot();
 		
+		// create a multi axis hyperlink provider
+		MultiAxisChartHyperlinkProvider multiHyperlinkProvider = new MultiAxisChartHyperlinkProvider();
+		
 		// Generate the main plot from the first axes specified.
 		Iterator iter = jrPlot.getAxes().iterator();
 		if (iter.hasNext())
@@ -2798,19 +2807,26 @@ public class JRFillChart extends JRFillElement implements JRChart
 			// chart.
 			configureChart(getPlot(), evaluation);
 			mainPlot = chart.getPlot();
-			if (axis.getPosition() == JRChartAxis.POSITION_RIGHT_OR_BOTTOM)
+			ChartHyperlinkProvider axisHyperlinkProvider = fillChart.getHyperlinkProvider();
+
+			if (mainPlot instanceof CategoryPlot)
 			{
-				if (mainPlot instanceof CategoryPlot)
-					((CategoryPlot)mainPlot).setRangeAxisLocation(0, AxisLocation.BOTTOM_OR_RIGHT);
-				if (mainPlot instanceof XYPlot)
-					((XYPlot)mainPlot).setRangeAxisLocation(0, AxisLocation.BOTTOM_OR_RIGHT);
+				CategoryPlot categoryPlot = (CategoryPlot) mainPlot;
+				categoryPlot.setRangeAxisLocation(0, getChartAxisLocation(axis));
+				if (axisHyperlinkProvider != null)
+				{
+					multiHyperlinkProvider.addHyperlinkProvider(categoryPlot.getDataset(), 
+							axisHyperlinkProvider);
+				}
 			}
-			else
+			else if (mainPlot instanceof XYPlot)
 			{
-				if (mainPlot instanceof CategoryPlot)
-					((CategoryPlot)mainPlot).setRangeAxisLocation(0, AxisLocation.TOP_OR_LEFT);
-				if (mainPlot instanceof XYPlot)
-					((XYPlot)mainPlot).setRangeAxisLocation(0, AxisLocation.TOP_OR_LEFT);
+				XYPlot xyPlot = (XYPlot) mainPlot;
+				xyPlot.setRangeAxisLocation(0, getChartAxisLocation(axis));
+				if (axisHyperlinkProvider != null)
+				{
+					multiHyperlinkProvider.addHyperlinkProvider(xyPlot.getDataset(), axisHyperlinkProvider);
+				}
 			}
 		 }
 
@@ -2822,6 +2838,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			JRFillChartAxis chartAxis = (JRFillChartAxis)iter.next();
 			JRFillChart fillChart = chartAxis.getFillChart();
 			JFreeChart axisChart = fillChart.evaluateChart(evaluation);
+			ChartHyperlinkProvider axisHyperlinkProvider = fillChart.getHyperlinkProvider();
 
 			// In JFreeChart to add a second chart type to an existing chart
 			// you need to add an axis, a data series and a renderer.  To
@@ -2840,14 +2857,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				// Get the axis and add it to the multi axis chart plot
 				CategoryPlot axisPlot = (CategoryPlot)axisChart.getPlot();
 				mainCatPlot.setRangeAxis(axisNumber, axisPlot.getRangeAxis());
-				if (chartAxis.getPosition() == JRChartAxis.POSITION_RIGHT_OR_BOTTOM)
-				{
-					mainCatPlot.setRangeAxisLocation(axisNumber, AxisLocation.BOTTOM_OR_RIGHT);
-				}
-				else
-				{
-					mainCatPlot.setRangeAxisLocation(axisNumber, AxisLocation.TOP_OR_LEFT);
-				}
+				mainCatPlot.setRangeAxisLocation(axisNumber, getChartAxisLocation(chartAxis));
 
 				// Add the data set and map it to the recently added axis
 				mainCatPlot.setDataset(axisNumber, axisPlot.getDataset());
@@ -2858,6 +2868,12 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 				// Handle any color series for this chart
 				configureAxisSeriesColors(axisPlot.getRenderer(), fillChart.getPlot());
+				
+				if (axisHyperlinkProvider != null)
+				{
+					multiHyperlinkProvider.addHyperlinkProvider(axisPlot.getDataset(), 
+							axisHyperlinkProvider);
+				}
 			}
 			else if (mainPlot instanceof XYPlot)
 			{
@@ -2870,14 +2886,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				// Get the axis and add it to the multi axis chart plot
 				XYPlot axisPlot = (XYPlot)axisChart.getPlot();
 				mainXyPlot.setRangeAxis(axisNumber, axisPlot.getRangeAxis());
-				if (chartAxis.getPosition() == JRChartAxis.POSITION_RIGHT_OR_BOTTOM)
-				{
-					mainXyPlot.setRangeAxisLocation(axisNumber, AxisLocation.BOTTOM_OR_RIGHT);
-				}
-				else
-				{
-					mainXyPlot.setRangeAxisLocation(axisNumber, AxisLocation.TOP_OR_LEFT);
-				}
+				mainXyPlot.setRangeAxisLocation(axisNumber, getChartAxisLocation(chartAxis));
 
 				// Add the data set and map it to the recently added axis
 				mainXyPlot.setDataset(axisNumber, axisPlot.getDataset());
@@ -2888,6 +2897,12 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 				// Handle any color series for this chart
 				configureAxisSeriesColors(axisPlot.getRenderer(), fillChart.getPlot());
+				
+				if (axisHyperlinkProvider != null)
+				{
+					multiHyperlinkProvider.addHyperlinkProvider(axisPlot.getDataset(), 
+							axisHyperlinkProvider);
+				}
 			}
 			else
 			{
@@ -2895,10 +2910,17 @@ public class JRFillChart extends JRFillElement implements JRChart
 			}
 		}
 
-		//multiaxis charts do not support item hyperlinks
-		chartHyperlinkProvider = null;
+		//set the multi hyperlink provider
+		chartHyperlinkProvider = multiHyperlinkProvider;
 	}
 
+	protected AxisLocation getChartAxisLocation(JRFillChartAxis chartAxis)
+	{
+		return chartAxis.getPosition() == JRChartAxis.POSITION_RIGHT_OR_BOTTOM
+				? AxisLocation.BOTTOM_OR_RIGHT 
+				: AxisLocation.TOP_OR_LEFT;
+	}
+	
 	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
 	{
 		evaluateRenderer(evaluation);
