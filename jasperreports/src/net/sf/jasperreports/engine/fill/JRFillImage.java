@@ -75,6 +75,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	private Integer hyperlinkPage = null;
 	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
+	protected final JRLineBox lineBox;
 
 
 	/**
@@ -87,6 +88,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		)
 	{
 		super(filler, image, factory);
+		
+		lineBox = image.getLineBox().clone(this);
 
 		evaluationGroup = factory.getGroup(image.getEvaluationGroup());
 	}
@@ -95,6 +98,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	protected JRFillImage(JRFillImage image, JRFillCloneFactory factory)
 	{
 		super(image, factory);
+		
+		lineBox = image.getLineBox().clone(this);
 
 		evaluationGroup = image.evaluationGroup;
 	}
@@ -278,7 +283,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public JRLineBox getLineBox()
 	{
-		return ((JRImage)parent).getLineBox();
+		return lineBox;
 	}
 
 	/**

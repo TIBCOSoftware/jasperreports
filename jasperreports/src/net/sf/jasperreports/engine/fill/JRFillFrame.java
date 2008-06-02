@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -55,6 +54,8 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 public class JRFillFrame extends JRFillElement implements JRFrame
 {
 	protected final JRFrame parentFrame;
+	
+	protected final JRLineBox lineBox;
 	
 	/**
 	 * Element container used for filling.
@@ -94,6 +95,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		parentFrame = frame;
 		
+		lineBox = frame.getLineBox().clone(this);
+		
 		frameContainer = new JRFillFrameElements(factory);
 		
 		bottomTemplateFrames = new HashMap();
@@ -108,6 +111,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		super(frame, factory);
 		
 		parentFrame = frame.parentFrame;
+		
+		lineBox = frame.getLineBox().clone(this);
 		
 		frameContainer = new JRFillFrameElements(frame.frameContainer, factory);
 		
@@ -367,7 +372,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	 */
 	public JRLineBox getLineBox()
 	{
-		return ((JRBoxContainer)parent).getLineBox();
+		return lineBox;
 	}
 	
 	/**

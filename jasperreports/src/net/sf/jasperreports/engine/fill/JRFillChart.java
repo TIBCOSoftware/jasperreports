@@ -93,7 +93,6 @@ import net.sf.jasperreports.charts.util.TimeSeriesChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.XYChartHyperlinkProvider;
 import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartCustomizer;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -195,6 +194,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	protected JRFont titleFont = null;
 	protected JRFont subtitleFont = null;
 	protected JRFont legendFont = null;
+	protected final JRLineBox lineBox;
 
 	/**
 	 *
@@ -333,6 +333,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 		titleFont = new JRBaseFont(null, null, chart, chart.getTitleFont());
 		subtitleFont = new JRBaseFont(null, null, chart, chart.getSubtitleFont());
 		legendFont = new JRBaseFont(null, null, chart, chart.getLegendFont());
+		
+		lineBox = chart.getLineBox().clone(this);
 
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 
@@ -426,7 +428,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public JRLineBox getLineBox()
 	{
-		return ((JRBoxContainer)parent).getLineBox();
+		return lineBox;
 	}
 
 	/**
