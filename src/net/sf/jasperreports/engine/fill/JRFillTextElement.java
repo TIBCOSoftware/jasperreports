@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
@@ -86,6 +85,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private Map styledTextAttributesMap = new HashMap();
 	
 	protected final JRReportFont reportFont;
+	protected final JRLineBox lineBox;
 
 	/**
 	 *
@@ -99,6 +99,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		super(filler, textElement, factory);
 
 		reportFont = factory.getReportFont(textElement.getReportFont());
+		
+		lineBox = textElement.getLineBox().clone(this);
 	}
 	
 
@@ -107,6 +109,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		super(textElement, factory);
 		
 		reportFont = textElement.reportFont;
+		
+		lineBox = textElement.getLineBox().clone(this);
 	}
 
 
@@ -322,7 +326,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public JRLineBox getLineBox()
 	{
-		return ((JRBoxContainer)parent).getLineBox();
+		return lineBox;
 	}
 
 	/**

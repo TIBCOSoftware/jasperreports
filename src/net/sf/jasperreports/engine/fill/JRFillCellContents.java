@@ -87,7 +87,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		parentCell = cell;
 		
-		lineBox = cell.getLineBox();
+		lineBox = cell.getLineBox().clone(this);
 		
 		width = cell.getWidth();
 		height = cell.getHeight();
@@ -118,7 +118,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		parentCell = cellContents.parentCell;
 		
-		lineBox = cellContents.lineBox;
+		lineBox = cellContents.getLineBox().clone(this);
 		
 		width = cellContents.width;
 		height = cellContents.height;
@@ -215,7 +215,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		{
 			boxContents = (JRFillCellContents) createClone();
 			
-			JRLineBox newBox = (JRLineBox)lineBox.clone(parentCell);
+			JRLineBox newBox = (JRLineBox)lineBox.clone(this);
 			
 			if (copyLeft)
 			{
