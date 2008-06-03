@@ -146,7 +146,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	}
 	
 	
-	private void createStatement() throws JRException
+	protected void createStatement() throws JRException
 	{
 		String queryString = getQueryString();
 		
