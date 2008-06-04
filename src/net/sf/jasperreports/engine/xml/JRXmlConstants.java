@@ -365,6 +365,8 @@ public class JRXmlConstants
 	private static final String SCALE_IMAGE_CLIP = "Clip";
 	private static final String SCALE_IMAGE_FILL_FRAME = "FillFrame";
 	private static final String SCALE_IMAGE_RETAIN_SHAPE = "RetainShape";
+	private static final String SCALE_IMAGE_REAL_HEIGT = "RealHeight";
+	private static final String SCALE_IMAGE_REAL_SIZE = "RealSize";
 
 	private static Map scaleImageMap = null;
 
@@ -376,9 +378,13 @@ public class JRXmlConstants
 			scaleImageMap.put(SCALE_IMAGE_CLIP,         new Byte(JRImage.SCALE_IMAGE_CLIP));
 			scaleImageMap.put(SCALE_IMAGE_FILL_FRAME,   new Byte(JRImage.SCALE_IMAGE_FILL_FRAME));
 			scaleImageMap.put(SCALE_IMAGE_RETAIN_SHAPE, new Byte(JRImage.SCALE_IMAGE_RETAIN_SHAPE));
+			scaleImageMap.put(SCALE_IMAGE_REAL_HEIGT, new Byte(JRImage.SCALE_IMAGE_REAL_HEIGHT));
+			scaleImageMap.put(SCALE_IMAGE_REAL_SIZE, new Byte(JRImage.SCALE_IMAGE_REAL_SIZE));
 			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_CLIP),         SCALE_IMAGE_CLIP);
 			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_FILL_FRAME),   SCALE_IMAGE_FILL_FRAME);
 			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_RETAIN_SHAPE), SCALE_IMAGE_RETAIN_SHAPE);
+			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_REAL_HEIGHT), SCALE_IMAGE_REAL_HEIGT);
+			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_REAL_SIZE), SCALE_IMAGE_REAL_SIZE);
 		}
 
 		return scaleImageMap;
@@ -1273,7 +1279,7 @@ public class JRXmlConstants
 	/**
 	 *
 	 */
-	public static final String JASPERREPORT_PUBLIC_ID = "-//JasperReports//DTD JasperReport//EN";
+	public static final String JASPERREPORT_PUBLIC_ID = "-//JasperReports//DTD JasperReport//EN";//FIXME align with samples
 	public static final String JASPERREPORT_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd";
 	public static final String JASPERREPORT_DTD = "net/sf/jasperreports/engine/dtds/jasperreport.dtd";
 	public static final String JASPERPRINT_PUBLIC_ID = "-//JasperReports//DTD JasperPrint//EN";

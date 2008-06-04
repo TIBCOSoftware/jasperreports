@@ -57,6 +57,40 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 * to those dimensions without needing to change its original proportions.
 	 */
 	public static final byte SCALE_IMAGE_RETAIN_SHAPE = 3;
+	
+	/**
+	 * A scale image type that instructs the engine to stretch the image height
+	 * to fit the actual height of the image.
+	 * 
+	 * <p>
+	 * Several restrictions apply to the image stretching mechanism:
+	 * <ul>
+	 * 	<li>It only works when the image renderer implements
+	 *  {@link JRRenderable#getDimension()}.</li>
+	 *  <li>If the actual image width exceeds the declared image element width,
+	 * the image is proportionally stretched to fit the declared width.</li>
+	 * 	<li>Images with delayed evaluation (see {@link #getEvaluationTime()}) 
+	 * do not stretch and is proportionally shrinked to fit the declared
+	 * height/width.</li>
+	 * 	<li>An image overflows (to the next page/column) only once, after this
+	 * the image gets rendered on the available space by proportionally
+	 * shrinking its size.</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @see #SCALE_IMAGE_REAL_SIZE
+	 */
+	public static final byte SCALE_IMAGE_REAL_HEIGHT = 4;
+	
+	/**
+	 * A scale image type that stretches the images height in the same way as 
+	 * {@link #SCALE_IMAGE_REAL_HEIGHT}, ant in addition it changes the image
+	 * width to the actual with of the image.
+	 * 
+	 * This can be useful when, for instance, a border has to be drawn around
+	 * the image, respecting its actual size.
+	 */
+	public static final byte SCALE_IMAGE_REAL_SIZE = 5;
 
 
 	/**

@@ -29,10 +29,12 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
+import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -69,6 +71,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 *
 	 */
 	private JRRenderable renderer = null;
+	private boolean hasOverflowed;
+	private Integer imageHeight;
+	private Integer imageWidth;
+	private Integer imageX;
 	private String anchorName = null;
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
@@ -845,6 +851,13 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);
+			
+			if (getScaleImage() == JRImage.SCALE_IMAGE_REAL_HEIGHT
+					|| getScaleImage() == JRImage.SCALE_IMAGE_REAL_SIZE)
+			{
+				template.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
+			}
+			
 			transferProperties(template);
 			registerTemplate(style, template);
 		}
@@ -873,6 +886,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		{
 			if (isEvaluateNow())
 			{
+				hasOverflowed = false;
 				this.evaluateImage(evaluation);
 			}
 		}
@@ -963,13 +977,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 	
 
-	/**
-	 *
-	 */
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		)
+		) throws JRException
 	{
 		boolean willOverflow = false;
 
@@ -1017,14 +1028,53 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					isToPrint = false;
 				}
 			}
-	
+
 			if (
 				isToPrint && 
-				availableStretchHeight < this.getRelativeY() - this.getY() - this.getBandBottomY()
+				this.isRemoveLineWhenBlank() &&
+				this.getRenderer() == null
 				)
 			{
 				isToPrint = false;
-				willOverflow = true;
+			}
+	
+			if (isToPrint)
+			{
+				int stretch = availableStretchHeight - this.getRelativeY() + this.getY() + this.getBandBottomY();
+				if (stretch < 0)
+				{
+					isToPrint = false;
+					willOverflow = true;
+				}
+				else if (!isLazy() && (getScaleImage() == JRImage.SCALE_IMAGE_REAL_HEIGHT
+						|| getScaleImage() == JRImage.SCALE_IMAGE_REAL_SIZE))
+				{
+					int padding = getLineBox().getBottomPadding().intValue() 
+							+ getLineBox().getTopPadding().intValue();
+					int availableHeight = getHeight() + stretch - padding;
+					boolean reprinted = isOverflow 
+						&& (this.isPrintWhenDetailOverflows() 
+								&& (this.isAlreadyPrinted() 
+										|| (!this.isAlreadyPrinted() && !this.isPrintRepeatedValues())));
+					boolean imageOverflowAllowed = 
+							filler.isBandOverFlowAllowed() && !reprinted && !hasOverflowed;
+					boolean fits = fitImage(availableHeight, imageOverflowAllowed, 
+							getHorizontalAlignment());
+					if (fits)
+					{
+						if (imageHeight != null)
+						{
+							setStretchHeight(imageHeight.intValue() + padding);
+						}
+					}
+					else
+					{
+						hasOverflowed = true;
+						isToPrint = false;
+						willOverflow = true;
+						setStretchHeight(availableHeight);
+					}
+				}
 			}
 			
 			if (
@@ -1035,15 +1085,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				)
 			{
 				isReprinted = true;
-			}
-
-			if (
-				isToPrint && 
-				this.isRemoveLineWhenBlank() &&
-				this.getRenderer() == null
-				)
-			{
-				isToPrint = false;
 			}
 		}
 		else
@@ -1079,6 +1120,82 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return willOverflow;
 	}
 
+	protected void reset()
+	{
+		imageHeight = null;
+		imageWidth = null;
+		imageX = null;
+		
+		super.reset();
+	}
+
+	protected boolean fitImage(int availableHeight, boolean overflowAllowed,
+			byte hAlign) throws JRException
+	{
+		imageHeight = null;
+		imageWidth = null;
+		imageX = null;
+		
+		Dimension2D imageSize = renderer == null ? null : renderer.getDimension();
+		if (imageSize == null)
+		{
+			return true;
+		}
+		
+		int realHeight = (int) imageSize.getHeight();
+		int realWidth = (int) imageSize.getWidth();
+		boolean fitted;
+		
+		int reducedHeight = realHeight;
+		int reducedWidth = realWidth;
+		if (realWidth > getWidth())
+		{
+			double wRatio = ((double) getWidth()) / realWidth;
+			reducedHeight = (int) (wRatio * realHeight);
+			reducedWidth = getWidth();
+		}		
+		
+		if (reducedHeight <= availableHeight)
+		{
+			imageHeight = new Integer(reducedHeight);
+			if (getScaleImage() == JRImage.SCALE_IMAGE_REAL_SIZE)
+			{
+				imageWidth = new Integer(reducedWidth);
+			}
+			fitted = true;
+		}
+		else if (overflowAllowed)
+		{
+			fitted = false;
+		}
+		else
+		{
+			imageHeight = new Integer(availableHeight);
+			if (getScaleImage() == JRImage.SCALE_IMAGE_REAL_SIZE)
+			{
+				double hRatio = ((double) availableHeight) / realHeight;
+				imageWidth = new Integer((int) (hRatio * realWidth));
+			}
+			fitted = true;
+		}
+
+		if (imageWidth != null && imageWidth.intValue() != getWidth())
+		{
+			switch (hAlign)
+			{
+			case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
+				imageX = new Integer(getX() + getWidth() - imageWidth.intValue());
+				break;
+			case JRAlignment.HORIZONTAL_ALIGN_CENTER:
+				imageX = new Integer(getX() + (getWidth() - imageWidth.intValue()) / 2);
+				break;
+			default:
+				break;
+			}
+		}
+		
+		return fitted;
+	}
 
 	/**
 	 *
@@ -1125,9 +1242,16 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	protected void copy(JRPrintImage printImage)
 	{
-		printImage.setRenderer(
-			this.getRenderer()
-			);
+		if (imageX != null)
+		{
+			printImage.setX(imageX.intValue());
+		}
+		if (imageWidth != null)
+		{
+			printImage.setWidth(imageWidth.intValue());
+		}
+		
+		printImage.setRenderer(this.getRenderer());
 		printImage.setAnchorName(this.getAnchorName());
 		printImage.setHyperlinkReference(this.getHyperlinkReference());
 		printImage.setHyperlinkAnchor(this.getHyperlinkAnchor());
@@ -1160,7 +1284,13 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	{
 		evaluateImage(evaluation);
 
-		copy((JRPrintImage) element);
+		JRPrintImage printImage = (JRPrintImage) element;
+		int padding = printImage.getLineBox().getBottomPadding().intValue() 
+				+ printImage.getLineBox().getTopPadding().intValue();
+		fitImage(getHeight() - padding, false, 
+				printImage.getHorizontalAlignment());
+		
+		copy(printImage);
 	}
 
 
