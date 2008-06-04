@@ -2,6 +2,11 @@
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="ImagesReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<style name="imageBox" mode="Opaque" backcolor="yellow">
+		<box>
+			<pen lineWidth="0.5"/>
+		</box>
+	</style>
 	<title>
 		<band height="782">
 			<image scaleImage="Clip" onErrorType="Icon" isLazy="true">
@@ -199,4 +204,44 @@
 			</staticText>
 		</band>
 	</title>
+	<summary>
+		<band height="140">
+			<frame>
+				<reportElement x="0" y="0" width="550" height="40"/>
+				<image scaleImage="RealHeight">
+					<reportElement x="0" y="0" width="150" height="40" style="imageBox"/>
+					<imageExpression><![CDATA["dukesign.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="160" y="00" width="390" height="40"/>
+					<textElement/>
+					<text><![CDATA[<image scaleImage="RealHeight"><reportElement x="0" y="0" width="150" height="40" style="imageBox"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement x="0" y="50" width="550" height="40" positionType="Float"/>
+				<image scaleImage="RealSize">
+					<reportElement x="0" y="0" width="150" height="40" style="imageBox"/>
+					<imageExpression><![CDATA["dukesign.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="160" y="00" width="390" height="40"/>
+					<textElement/>
+					<text><![CDATA[<image scaleImage="RealSize"><reportElement x="0" y="0" width="150" height="40" style="imageBox"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement x="0" y="100" width="550" height="40" positionType="Float"/>
+				<image scaleImage="RealHeight">
+					<reportElement x="0" y="0" width="100" height="40" style="imageBox"/>
+					<imageExpression><![CDATA["dukesign.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="160" y="00" width="390" height="40"/>
+					<textElement/>
+					<text><![CDATA[<image scaleImage="RealHeight"><reportElement x="0" y="0" width="100" height="40" style="imageBox"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</summary>
 </jasperReport>
