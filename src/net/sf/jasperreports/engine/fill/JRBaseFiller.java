@@ -831,15 +831,15 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 
 		fillingThread = Thread.currentThread();
-		boolean fileResolverSet = false;
-		boolean urlHandlerFactorySet = false;
-		boolean classLoaderSet = false;
+		
+		JRResourcesFillUtil.ResourcesFillContext resourcesContext = 
+			JRResourcesFillUtil.setResourcesFillContext(parameterValues);
+		reportClassLoader = resourcesContext.getClassLoader();
+		urlHandlerFactory = resourcesContext.getUrlHandlerFactory();
+		fileResolver = resourcesContext.getFileResolver();
+
 		try
 		{
-			classLoaderSet = setClassLoader(parameterValues);
-			urlHandlerFactorySet = setUrlHandlerFactory(parameterValues);
-			fileResolverSet = setFileResolver(parameterValues);
-
 			setParameters(parameterValues);
 
 			loadStyles();
@@ -915,20 +915,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			//kill the subreport filler threads
 			killSubfillerThreads();
 
-			if (classLoaderSet)
-			{
-				JRResourcesUtil.resetClassLoader();
-			}
-
-			if (urlHandlerFactorySet)
-			{
-				JRResourcesUtil.resetThreadURLHandlerFactory();
-			}
-
-			if (fileResolverSet)
-			{
-				JRResourcesUtil.resetThreadFileResolver();
-			}
+			JRResourcesFillUtil.revertResourcesFillContext(resourcesContext);
 		}
 	}
 
@@ -1224,42 +1211,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			formatFactory = DefaultFormatFactory.createFormatFactory(jasperReport.getFormatFactoryClass());
 			parameterValues.put(JRParameter.REPORT_FORMAT_FACTORY, formatFactory);
 		}
-	}
-
-
-	private boolean setClassLoader(Map parameterValues)
-	{
-		reportClassLoader = (ClassLoader) parameterValues.get(JRParameter.REPORT_CLASS_LOADER);
-		boolean setClassLoader = reportClassLoader != null;
-		if (setClassLoader)
-		{
-			JRResourcesUtil.setThreadClassLoader(reportClassLoader);
-		}
-		return setClassLoader;
-	}
-
-
-	private boolean setUrlHandlerFactory(Map parameterValues)
-	{
-		urlHandlerFactory = (URLStreamHandlerFactory) parameterValues.get(JRParameter.REPORT_URL_HANDLER_FACTORY);
-		boolean setUrlHandlerFactory = urlHandlerFactory != null;
-		if (setUrlHandlerFactory)
-		{
-			JRResourcesUtil.setThreadURLHandlerFactory(urlHandlerFactory);
-		}
-		return setUrlHandlerFactory;
-	}
-
-
-	private boolean setFileResolver(Map parameterValues)
-	{
-		fileResolver = (FileResolver) parameterValues.get(JRParameter.REPORT_FILE_RESOLVER);
-		boolean setFileResolver = fileResolver != null;
-		if (setFileResolver)
-		{
-			JRResourcesUtil.setThreadFileResolver(fileResolver);
-		}
-		return setFileResolver;
 	}
 
 
