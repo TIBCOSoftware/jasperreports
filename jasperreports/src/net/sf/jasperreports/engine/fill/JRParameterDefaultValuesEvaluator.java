@@ -57,29 +57,39 @@ public class JRParameterDefaultValuesEvaluator
 	 */
 	public static Map evaluateParameterDefaultValues(JasperReport report, Map initialParameters) throws JRException
 	{
+		Map valuesMap = initialParameters == null ? new HashMap() : new HashMap(initialParameters);
+		
 		ObjectFactory factory = new ObjectFactory();
 		JRDataset reportDataset = report.getMainDataset();
 		JRFillDataset fillDataset = factory.getDataset(reportDataset);
 		fillDataset.createCalculator(report);
 		fillDataset.initCalculator();
 
-		Map valuesMap = initialParameters == null ? new HashMap() : new HashMap(initialParameters);
-		fillDataset.setParameterValues(valuesMap);
-		
-		Map parameterValues = new HashMap();
-		JRParameter[] parameters = reportDataset.getParameters();
-		for (int i = 0; i < parameters.length; i++)
+		JRResourcesFillUtil.ResourcesFillContext resourcesContext = 
+			JRResourcesFillUtil.setResourcesFillContext(valuesMap);
+		try
 		{
-			JRParameter param = parameters[i];
-			if (!param.isSystemDefined())
+			fillDataset.setParameterValues(valuesMap);
+			
+			Map parameterValues = new HashMap();
+			JRParameter[] parameters = reportDataset.getParameters();
+			for (int i = 0; i < parameters.length; i++)
 			{
-				String name = param.getName();
-				Object value = fillDataset.getParameterValue(name);
-				parameterValues.put(name, value);
+				JRParameter param = parameters[i];
+				if (!param.isSystemDefined())
+				{
+					String name = param.getName();
+					Object value = fillDataset.getParameterValue(name);
+					parameterValues.put(name, value);
+				}
 			}
+			
+			return parameterValues;
 		}
-		
-		return parameterValues;
+		finally
+		{
+			JRResourcesFillUtil.revertResourcesFillContext(resourcesContext);
+		}
 	}
 	
 	protected static class ObjectFactory extends JRFillObjectFactory
