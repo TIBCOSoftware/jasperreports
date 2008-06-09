@@ -70,7 +70,7 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 *  <li>If the actual image width exceeds the declared image element width,
 	 * the image is proportionally stretched to fit the declared width.</li>
 	 * 	<li>Images with delayed evaluation (see {@link #getEvaluationTime()}) 
-	 * do not stretch and is proportionally shrinked to fit the declared
+	 * do not stretch and is proportionally shrunk to fit the declared
 	 * height/width.</li>
 	 * 	<li>An image overflows (to the next page/column) only once, after this
 	 * the image gets rendered on the available space by proportionally
@@ -84,7 +84,7 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	
 	/**
 	 * A scale image type that stretches the images height in the same way as 
-	 * {@link #SCALE_IMAGE_REAL_HEIGHT}, ant in addition it changes the image
+	 * {@link #SCALE_IMAGE_REAL_HEIGHT}, and in addition it changes the image
 	 * width to the actual with of the image.
 	 * 
 	 * This can be useful when, for instance, a border has to be drawn around
