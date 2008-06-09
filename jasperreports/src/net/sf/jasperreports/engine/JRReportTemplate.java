@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
 /**
  * A template included in a report.
  * <p/>
- * A template inclusion in a report consits of an expression that should
+ * A template inclusion in a report consits of an expression that should be
  * resolved at runtime to a {@link JRTemplate JRTemplate} instance.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
