@@ -2230,6 +2230,29 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
           <name>RetainShape</name>
           <description>Image will adapt to the specified object width or height keeping its original shape.</description>
         </value>
+        <value>
+          <name>RealHeight</name>
+          <description>
+          	A scale image type that instructs the engine to stretch the image height to fit the actual height of the image.
+<p>
+Several restrictions apply to the image stretching mechanism:
+<ul>
+  <li>It only works when the image renderer implements <a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRRenderable.html#getDimension()">JRRenderable.getDimension()</a>.</li>
+  <li>If the actual image width exceeds the declared image element width, the image is proportionally stretched to fit the declared width.</li>
+  <li>Images with delayed evaluation (see the <code>evaluationTime</code> attribute) do not stretch and is proportionally shrunk to fit the declared height/width.</li>
+  <li>An image overflows (to the next page/column) only once, after this the image gets rendered on the available space by proportionally shrinking its size.</li>
+</ul>
+</p>
+          </description>
+        </value>
+        <value>
+          <name>RealSize</name>
+          <description>
+A scale image type that stretches the images height in the same way as <code>RealHeight</code>, and in addition it changes the image width to the actual with of the image.
+
+This can be useful when, for instance, a border has to be drawn around the image, respecting its actual size.
+          </description>
+        </value>
       </values>
       <default>RetainShape</default>
     </attribute>
