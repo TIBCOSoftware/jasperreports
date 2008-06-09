@@ -2613,6 +2613,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <contains>(
     <a href="property">property</a>*,
     <a href="import">import</a>*,
+    <a href="template">template</a>*,
     <a href="reportFont">reportFont</a>*,
     <a href="style">style</a>*,
     <a href="subDataset">subDataset</a>*,
@@ -4823,6 +4824,42 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="band">band</a>?
   )</contains>
   <attributes>
+  </attributes>
+</element>
+
+
+<!-- template -->
+<element>
+  <name>template</name>
+  <description>
+    A style template (*.jrtx file/<a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRTemplate.html">JRTemplate</a> instance) included in a report.
+    The contents of this element is interpreted as an expression which is resolved to a style template at fill time. 
+  </description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>class</name>
+      <description>Class for the style template source expression.</description>
+      <values>
+        <value>
+          <name>java.lang.String</name>
+        </value>
+        <value>
+          <name>java.io.File</name>
+        </value>
+        <value>
+          <name>java.net.URL</name>
+        </value>
+        <value>
+          <name>java.io.InputStream</name>
+        </value>
+        <value>
+          <name>net.sf.jasperreports.engine.JRTemplate</name>
+        </value>
+      <default>java.lang.String</default>
+    </attribute>
   </attributes>
 </element>
 
