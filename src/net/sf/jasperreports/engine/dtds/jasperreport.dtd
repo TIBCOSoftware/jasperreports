@@ -246,7 +246,7 @@
 
 <!ELEMENT image (reportElement, box?, graphicElement?, imageExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
 <!ATTLIST image
-	scaleImage (Clip | FillFrame | RetainShape) #IMPLIED
+	scaleImage (Clip | FillFrame | RetainShape | RealHeight | RealSize) #IMPLIED
 	hAlign (Left | Center | Right) #IMPLIED
 	vAlign (Top | Middle | Bottom) #IMPLIED
 	isUsingCache (true | false) #IMPLIED
