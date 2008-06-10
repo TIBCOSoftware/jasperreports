@@ -71,7 +71,6 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
-import net.sf.jasperreports.engine.export.JROriginExporterFilter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ResetableExporterFilter;
@@ -94,7 +93,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public class JRXmlssExporter extends JRAbstractExporter
 {
 
-	private static final String ODT_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.odt.exclude.origin.";
+	private static final String XMLSS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.odt.";
 
 	/**
 	 *
@@ -227,7 +226,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 
 			if (!parameters.containsKey(JRExporterParameter.FILTER))
 			{
-				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), ODT_ORIGIN_EXPORTER_FILTER_PREFIX);
+				filter = createFilter(XMLSS_EXPORTER_PROPERTIES_PREFIX);
 			}
 
 			/*   */

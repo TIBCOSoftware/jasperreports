@@ -106,7 +106,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private static final String XML_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xml.exclude.origin.";
+	private static final String XML_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xml.";
 	private static final String PROPERTY_PAGE_COUNT = JRProperties.PROPERTY_PREFIX + "export.xml.page.count";
 	protected static final String DEFAULT_XML_ENCODING = "UTF-8";
 	protected static final String DEFAULT_OBJECT_TYPE = "java.lang.String";
@@ -161,7 +161,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	
 			if (!parameters.containsKey(JRExporterParameter.FILTER))
 			{
-				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), XML_ORIGIN_EXPORTER_FILTER_PREFIX);
+				filter = createFilter(XML_EXPORTER_PROPERTIES_PREFIX);
 			}
 
 			/*   */

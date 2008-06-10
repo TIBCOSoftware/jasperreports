@@ -31,7 +31,7 @@
  *
  * Contributors:
  * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
+ * Frank Schï¿½nheit - Frank.Schoenheit@Sun.COM
  */
 package net.sf.jasperreports.engine.export.oasis;
 
@@ -81,7 +81,6 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
-import net.sf.jasperreports.engine.export.JROriginExporterFilter;
 import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZip;
 import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZipEntry;
 import net.sf.jasperreports.engine.export.oasis.zip.OasisZip;
@@ -100,7 +99,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public class JROdtExporter extends JRAbstractExporter
 {
 
-	private static final String ODT_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.odt.exclude.origin.";
+	private static final String ODT_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.odt.";
 
 	/**
 	 *
@@ -190,7 +189,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 			if (!parameters.containsKey(JRExporterParameter.FILTER))
 			{
-				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), ODT_ORIGIN_EXPORTER_FILTER_PREFIX);
+				filter = createFilter(ODT_EXPORTER_PROPERTIES_PREFIX);
 			}
 
 			/*   */

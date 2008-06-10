@@ -31,9 +31,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
@@ -491,23 +493,44 @@ public class JRProperties
 
 	/**
 	 * Returns the list of all properties for a key prefix.
-	 * Only this holder's own properties are considered.
+	 * 
+	 * Only this holder's own properties are considered, and not global
+	 * properties.
 	 * 
 	 * @param propertiesHolder the properties holder
 	 * @param prefix the key prefix
 	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
+	 * @see #getAllProperties(JRPropertiesHolder, String)
 	 */
 	public static List getProperties(JRPropertiesHolder propertiesHolder, String prefix)
 	{
 		return getProperties(getOwnProperties(propertiesHolder), prefix);
 	}
+
+	/**
+	 * Returns the list of all properties for a key prefix, including global
+	 * properties.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param prefix the key prefix
+	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
+	 * @see #getProperties(JRPropertiesHolder, String)
+	 */
+	public static List getAllProperties(JRPropertiesHolder propertiesHolder, String prefix)
+	{
+		return getAllProperties(getOwnProperties(propertiesHolder), prefix);
+	}
 	
 	/**
 	 * Returns the list of all properties for a key prefix.
 	 * 
+	 * Only properties from <code>propertiesMap</code> are considered, and
+	 * not global properties. 
+	 * 
 	 * @param propertiesMap the properties map
 	 * @param prefix the key prefix
 	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
+	 * @see #getAllProperties(JRPropertiesMap, String)
 	 */
 	public static List getProperties(JRPropertiesMap propertiesMap, String prefix)
 	{
@@ -528,6 +551,50 @@ public class JRProperties
 			}
 		}
 		return values;
+	}
+	
+	/**
+	 * Returns the list of all properties for a key prefix, including global
+	 * properties.
+	 * 
+	 * @param propertiesMap the properties map
+	 * @param prefix the key prefix
+	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
+	 * @see #getProperties(JRPropertiesMap, String)
+	 */
+	public static List getAllProperties(JRPropertiesMap propertiesMap, String prefix)
+	{
+		List own = getProperties(propertiesMap, prefix);
+		List global = getProperties(prefix);
+		List collected;
+		if (own.isEmpty())
+		{
+			collected = global;
+		}
+		else
+		{
+			if (!global.isEmpty())
+			{
+				Set ownSuffixes = new HashSet();
+				for (Iterator it = own.iterator(); it.hasNext();)
+				{
+					PropertySuffix prop = (PropertySuffix) it.next();
+					ownSuffixes.add(prop.getSuffix());
+				}
+				
+				for (Iterator it = global.iterator(); it.hasNext();)
+				{
+					PropertySuffix prop = (PropertySuffix) it.next();
+					if (!ownSuffixes.contains(prop.getSuffix()))
+					{
+						own.add(prop);
+					}
+				}
+			}
+			
+			collected = own;
+		}
+		return collected;
 	}
 
 	/**

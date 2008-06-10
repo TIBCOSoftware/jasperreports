@@ -63,7 +63,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public class JRCsvExporter extends JRAbstractExporter
 {
 
-	private static final String CSV_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.csv.exclude.origin.";
+	private static final String CSV_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.csv.";
 
 	/**
 	 *
@@ -99,7 +99,7 @@ public class JRCsvExporter extends JRAbstractExporter
 		
 		if (!parameters.containsKey(JRExporterParameter.FILTER))
 		{
-			filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), CSV_ORIGIN_EXPORTER_FILTER_PREFIX);
+			filter = createFilter(CSV_EXPORTER_PROPERTIES_PREFIX);
 		}
 
 		/*   */
