@@ -95,7 +95,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public class JRRtfExporter extends JRAbstractExporter
 {
-	private static final String RTF_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.rtf.exclude.origin.";
+	private static final String RTF_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.rtf.";
 
 	/**
 	 *
@@ -142,7 +142,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			
 			if (!parameters.containsKey(JRExporterParameter.FILTER))
 			{
-				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), RTF_ORIGIN_EXPORTER_FILTER_PREFIX);
+				filter = createFilter(RTF_EXPORTER_PROPERTIES_PREFIX);
 			}
 
 			if (!isModeBatch) {

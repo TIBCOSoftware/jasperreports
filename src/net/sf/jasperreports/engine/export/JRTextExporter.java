@@ -72,7 +72,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public class JRTextExporter extends JRAbstractExporter
 {
-	private static final String TXT_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.txt.exclude.origin.";
+	private static final String TXT_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.txt.";
 
 	protected int pageWidth;
 	protected int pageHeight;
@@ -101,7 +101,7 @@ public class JRTextExporter extends JRAbstractExporter
 
 		if (!parameters.containsKey(JRExporterParameter.FILTER))
 		{
-			filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), TXT_ORIGIN_EXPORTER_FILTER_PREFIX);
+			filter = createFilter(TXT_EXPORTER_PROPERTIES_PREFIX);
 		}
 
 		/*   */

@@ -46,6 +46,9 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.export.ExporterFilter;
+import net.sf.jasperreports.engine.export.ExporterFilterFactory;
+import net.sf.jasperreports.engine.export.ExporterFilterFactoryUtil;
+import net.sf.jasperreports.engine.export.JRExporterContext;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -73,6 +76,26 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	public static final String PROPERTY_CELL_FORMULA = JRProperties.PROPERTY_PREFIX + "export.xls.formula";
 
+	/**
+	 * A property that gives the generic default filter factory class name.
+	 * 
+	 * @see #PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY
+	 */
+	public static final String PROPERTY_DEFAULT_FILTER_FACTORY = 
+		JRProperties.PROPERTY_PREFIX + "export.default.filter.factory";
+
+	/**
+	 * The suffix applied to properties that give the default filter factory for
+	 * a specific exporter.
+	 * 
+	 * For instance, the default filter factory for XLS exporters is
+	 * <code>net.sf.jasperreports.export.xls.default.filter.factory</code>.
+	 * 
+	 * If this property is not defined for a specific exporter, the generic
+	 * exporter factory given by {@link #PROPERTY_DEFAULT_FILTER_FACTORY} is used.
+	 */
+	public static final String PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY = "default.filter.factory";
+	
 	protected static interface ParameterResolver
 	{
 		String getStringParameter(JRExporterParameter parameter, String property);
@@ -1009,4 +1032,56 @@ public abstract class JRAbstractExporter implements JRExporter
 		return numberFormat;
 	}
 
+	
+	protected ExporterFilter createFilter(final String exportPropertyPrefix) 
+			throws JRException
+	{
+		String exportDefaultFactoryProperty = exportPropertyPrefix 
+				+ PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY;
+		
+		//the default filter class is determined from 4 possible sources
+		String defaultFilterClassName = null;
+		
+		if (jasperPrint.hasProperties())
+		{
+			//try first the exporter specific property from the report
+			defaultFilterClassName = jasperPrint.getPropertiesMap().getProperty(
+					exportDefaultFactoryProperty);
+			
+			//then the generic property from the report
+			if (defaultFilterClassName == null)
+			{
+				defaultFilterClassName = jasperPrint.getPropertiesMap().getProperty(
+						PROPERTY_DEFAULT_FILTER_FACTORY);
+			}
+		}
+		
+		//then the global exporter specific property
+		if (defaultFilterClassName == null)
+		{
+			defaultFilterClassName = JRProperties.getProperty(exportDefaultFactoryProperty);
+		}
+		
+		//and finally the global generic property
+		if (defaultFilterClassName == null)
+		{
+			defaultFilterClassName = JRProperties.getProperty(PROPERTY_DEFAULT_FILTER_FACTORY);
+		}
+		
+		ExporterFilterFactory defaultFactory = ExporterFilterFactoryUtil.getFilterFactory(defaultFilterClassName);
+		
+		JRExporterContext context = new JRExporterContext()
+		{
+			public String getExportPropertiesPrefix()
+			{
+				return exportPropertyPrefix;
+			}
+
+			public JasperPrint getExportedReport()
+			{
+				return jasperPrint;
+			}
+		};
+		return defaultFactory.getFilter(context);
+	}
 }

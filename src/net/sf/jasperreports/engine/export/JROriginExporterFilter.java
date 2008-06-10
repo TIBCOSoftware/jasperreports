@@ -53,6 +53,11 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
 public class JROriginExporterFilter implements ResetableExporterFilter
 {
 
+	/**
+	 * The prefix of origin exclusion properties.
+	 */
+	public static final String PROPERTY_EXCLUDE_ORIGIN_PREFIX = "exclude.origin.";
+	
 	private static final String KEEP_FIRST_PREFIX = "keep.first.";
 	private static final String BAND_PREFIX = "band.";
 	private static final String GROUP_PREFIX = "group.";

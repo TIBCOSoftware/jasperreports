@@ -72,7 +72,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 {
 
-	private static final String XLS_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.exclude.origin.";
+	private static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.";
 
 	
 	protected static class TextAlignHolder
@@ -180,7 +180,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 			if (!parameters.containsKey(JRExporterParameter.FILTER))
 			{
-				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), XLS_ORIGIN_EXPORTER_FILTER_PREFIX);
+				filter = createFilter(XLS_EXPORTER_PROPERTIES_PREFIX);
 			}
 			
 			/*   */
