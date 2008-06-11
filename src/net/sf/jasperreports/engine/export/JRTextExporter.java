@@ -570,7 +570,7 @@ public class JRTextExporter extends JRAbstractExporter
 	 */
 	protected int calculateYCoord(int y)
 	{
-		return pageHeight * y / jasperPrint.getPageHeight();
+		return (int) (((long) pageHeight * y) / jasperPrint.getPageHeight());
 	}
 
 	/**
