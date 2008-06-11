@@ -33,94 +33,25 @@
 
 package net.sf.jasperreports.engine.export.oasis;
 
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.export.ExporterFilter;
-import net.sf.jasperreports.engine.export.ExporterNature;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JROdtExporterNature implements ExporterNature
+public class JROdtExporterNature extends JROpenDocumentExporterNature
 {
-	
-	private ExporterFilter filter = null;
-
 	/**
 	 * 
 	 */
 	public JROdtExporterNature(ExporterFilter filter)
 	{
-		this.filter = filter;
+		super(filter);
 	}
 	
-	/**
-	 * 
-	 */
-	public boolean isToExport(JRPrintElement element)
-	{
-		return (filter == null || filter.isToExport(element));
-	}
-	
-	/**
-	 * 
-	 */
-	public boolean isDeep()
-	{
-		return false;
-	}
-	
-	/**
-	 * 
-	 */
-	public boolean isSplitSharedRowSpan()
-	{
-		return true;
-	}
-
-	/**
-	 * 
-	 */
-	public boolean isSpanCells()
-	{
-		return true;
-	}
-	
-	/**
-	 * 
-	 */
-	public boolean isIgnoreLastRow()
-	{
-		return true;
-	}
-
-	public boolean isHorizontallyMergeEmptyCells()
-	{
-		return false;
-	}
-
-	/**
-	 * Specifies whether empty page margins should be ignored
-	 */
-	public boolean isIgnorePageMargins()
-	{
-		return false;
-	}
-	
-	/**
-	 *
-	 */
-	public boolean isBreakBeforeRow(JRPrintElement element)
-	{
-		return false;
-	}
-	
-	/**
-	 *
-	 */
-	public boolean isBreakAfterRow(JRPrintElement element)
-	{
-		return false;
-	}
+	protected byte getOpenDocumentNature() {
+	    
+	    return JROpenDocumentExporterNature.ODT_NATURE;
+    }
 	
 }
