@@ -332,7 +332,8 @@ public class JROdtFrameExporter extends JRAbstractExporter
 				oasisZip.getContentEntry(),
 				tempStyleEntry,
 				tempBodyEntry,
-				styleCache.getFontFaces()
+				styleCache.getFontFaces(),
+				JROpenDocumentExporterNature.ODT_NATURE
 				);
 		contentBuilder.build();
 		

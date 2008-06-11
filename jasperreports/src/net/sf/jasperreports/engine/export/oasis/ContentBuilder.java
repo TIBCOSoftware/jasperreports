@@ -53,7 +53,7 @@ public class ContentBuilder
 	/**
 	 *
 	 */
-	public static final String VERSION = "1.0";
+	public static final String VERSION = "1.1";
 
 	/**
 	 * 
@@ -63,6 +63,8 @@ public class ContentBuilder
 	private OasisZipEntry bodyEntry = null;
 	
 	private Collection fontFaces = null;
+	
+	private byte openDocumentNature;
 	
 	/**
 	 * 
@@ -74,15 +76,46 @@ public class ContentBuilder
 		Collection fontFaces
 		)
 	{
+		this(
+			contentEntry,
+			styleEntry,
+			bodyEntry,
+			fontFaces,
+			JROpenDocumentExporterNature.ODT_NATURE
+			);
+	}
+	
+	/**
+	 * 
+	 */
+	public ContentBuilder(
+		OasisZipEntry contentEntry,
+		OasisZipEntry styleEntry,
+		OasisZipEntry bodyEntry,
+		Collection fontFaces,
+		byte openDocumentNature
+		)
+	{
 		this.contentEntry = contentEntry;
 		this.styleEntry = styleEntry;
 		this.bodyEntry = bodyEntry;
 		this.fontFaces = fontFaces;
+		this.openDocumentNature = openDocumentNature;
 	}
 	
 
 	public void build() throws IOException
 	{
+		String mimetype;
+		switch(openDocumentNature)
+		{
+			case JROpenDocumentExporterNature.ODS_NATURE:
+				mimetype = "spreadsheet";
+				break;
+			case JROpenDocumentExporterNature.ODT_NATURE:
+			default:
+				mimetype = "text";
+		}
 		Writer writer = contentEntry.getWriter();
 		
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -98,6 +131,7 @@ public class ContentBuilder
 		writer.write(" xmlns:dc=\"http://purl.org/dc/elements/1.1/\"");
 		writer.write(" xmlns:meta=\"urn:oasis:names:tc:opendocument:xmlns:meta:1.0\"");
 		writer.write(" xmlns:number=\"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0\"");
+		writer.write(" xmlns:presentation=\"urn:oasis:names:tc:opendocument:xmlns:presentation:1.0\"");
 		writer.write(" xmlns:svg=\"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0\"");
 		writer.write(" xmlns:chart=\"urn:oasis:names:tc:opendocument:xmlns:chart:1.0\"");
 		writer.write(" xmlns:dr3d=\"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0\"");
@@ -114,7 +148,7 @@ public class ContentBuilder
 		writer.write(" office:version=\"");
 		writer.write(VERSION);
 		writer.write("\">\n");
-
+			   
 		writer.write(" <office:scripts/>\n");
 		
 		writer.write(" <office:font-face-decls>\n");
@@ -141,11 +175,11 @@ public class ContentBuilder
 		writer.write(" </style:style>\n");
 		writer.write(" </office:automatic-styles>\n");
 		
-		writer.write("<office:body><office:text>\n");
+		writer.write("<office:body><office:" + mimetype + ">\n");
 		writer.write("<office:forms form:automatic-focus=\"false\" form:apply-design-mode=\"false\"/>\n");
 		writer.flush();
 		bodyEntry.writeData(contentEntry.getOutputStream());
-		writer.write("</office:text></office:body>\n");
+		writer.write("</office:" + mimetype + ">\n</office:body>\n");
 
 		writer.write("</office:document-content>\n");
 		

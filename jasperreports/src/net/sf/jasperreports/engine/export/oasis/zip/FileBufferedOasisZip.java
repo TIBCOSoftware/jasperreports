@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine.export.oasis.zip;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.engine.export.ExporterNature;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -43,6 +45,14 @@ public class FileBufferedOasisZip extends OasisZip
 	public FileBufferedOasisZip() throws IOException
 	{
 		super();
+	}
+	
+	/**
+	 * 
+	 */
+	public FileBufferedOasisZip(byte nature) throws IOException
+	{
+		super(nature);
 	}
 	
 	/**

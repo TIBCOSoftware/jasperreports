@@ -35,6 +35,8 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterNature;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -54,11 +56,16 @@ public abstract class OasisZip
 	private OasisZipEntry contentEntry = null;
 	private OasisZipEntry stylesEntry = null;
 	
+	public OasisZip() throws IOException
+	{
+		this(JROpenDocumentExporterNature.ODT_NATURE);
+	}
 	/**
 	 * 
 	 */
-	public OasisZip() throws IOException
+	public OasisZip(byte openDocumentNature) throws IOException
 	{
+		
 		oasisZipEntries = new ArrayList();
 
 		contentEntry = createEntry("content.xml");
@@ -69,13 +76,24 @@ public abstract class OasisZip
 
 		stylesEntry = createEntry("styles.xml");
 		oasisZipEntries.add(stylesEntry);
-
+		
+		String mimetype;
+		
+		switch(openDocumentNature)
+		{
+			case JROpenDocumentExporterNature.ODS_NATURE:
+				mimetype = "spreadsheet";
+				break;
+			case JROpenDocumentExporterNature.ODT_NATURE:
+			default:
+				mimetype = "text";
+		}
 		OasisZipEntry mimeEntry = createEntry("mimetype");
 		Writer mimeWriter = null;
 		try
 		{
 			mimeWriter = mimeEntry.getWriter();
-			mimeWriter.write("application/vnd.oasis.opendocument.text");
+			mimeWriter.write("application/vnd.oasis.opendocument."+mimetype);
 			mimeWriter.flush();
 			oasisZipEntries.add(mimeEntry);
 		}
@@ -101,7 +119,7 @@ public abstract class OasisZip
 			manifestWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \r\n");
 			manifestWriter.write("<!DOCTYPE manifest:manifest PUBLIC \"-//OpenOffice.org//DTD Manifest 1.0//EN\" \"Manifest.dtd\"> \r\n");
 			manifestWriter.write("<manifest:manifest xmlns:manifest=\"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0\"> \r\n");
-			manifestWriter.write("  <manifest:file-entry manifest:media-type=\"application/vnd.oasis.opendocument.text\" manifest:full-path=\"/\"/> \r\n");
+			manifestWriter.write("  <manifest:file-entry manifest:media-type=\"application/vnd.oasis.opendocument." + mimetype + "\" manifest:full-path=\"/\"/> \r\n");
 			manifestWriter.write("  <manifest:file-entry manifest:media-type=\"application/vnd.sun.xml.ui.configuration\" manifest:full-path=\"Configurations2/\"/> \r\n");
 			manifestWriter.write("  <manifest:file-entry manifest:media-type=\"\" manifest:full-path=\"Pictures/\"/> \r\n");
 			manifestWriter.write("  <manifest:file-entry manifest:media-type=\"text/xml\" manifest:full-path=\"content.xml\"/> \r\n");
