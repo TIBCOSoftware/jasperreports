@@ -75,10 +75,7 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
-import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -543,13 +540,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		cell.setCellStyle(cellStyle);
 	}
-
+	
+/*
 	protected final void setStringCellValue(String textStr)
 	{
 		//cell.setCellValue(JRStringUtil.replaceDosEOL(textStr));
 		cell.setCellValue(textStr);
 	}
-
+*/
+	
 	protected final void setRichTextStringCellValue(JRStyledText styledText, short forecolor)
 	{
 		cell.setCellValue(getRichTextString(styledText, forecolor));
