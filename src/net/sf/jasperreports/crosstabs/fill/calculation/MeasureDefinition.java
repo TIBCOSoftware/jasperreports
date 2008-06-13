@@ -203,8 +203,11 @@ public class MeasureDefinition
 		 */
 		public void addValue(Object addValue) throws JRException
 		{
-			this.value = incrementer.increment(this, addValue, VALUE_PROVIDER);
-			setInitialized(false);
+			if (addValue != null || !incrementer.ignoresNullValues())
+			{
+				this.value = incrementer.increment(this, addValue, VALUE_PROVIDER);
+				setInitialized(false);
+			}
 		}
 		
 		

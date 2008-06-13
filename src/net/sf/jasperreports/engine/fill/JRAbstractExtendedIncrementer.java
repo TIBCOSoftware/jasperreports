@@ -54,4 +54,15 @@ public abstract class JRAbstractExtendedIncrementer implements JRExtendedIncreme
 		return increment(calculable, calculableValue.getValue(), valueProvider);
 	}
 
+	/**
+	 * This implementation returns <code>true</code>.
+	 * 
+	 * Incrementer implementations can override this to specify that
+	 * <code>null</code> values should not be ignored.
+	 */
+	public boolean ignoresNullValues()
+	{
+		return true;
+	}
+
 }

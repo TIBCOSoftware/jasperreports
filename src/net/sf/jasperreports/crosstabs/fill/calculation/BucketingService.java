@@ -304,7 +304,8 @@ public class BucketingService
 
 		for (int i = 0; i < measures.length; ++i)
 		{
-			values[i].addValue(measureValues[measureIndexes[i]]);
+			Object measureValue = measureValues[measureIndexes[i]];
+			values[i].addValue(measureValue);
 		}
 	}
 	

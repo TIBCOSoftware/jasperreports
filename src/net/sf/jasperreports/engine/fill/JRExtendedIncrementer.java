@@ -83,5 +83,15 @@ public interface JRExtendedIncrementer extends JRIncrementer
 		JRCalculable calculableValue, 
 		AbstractValueProvider valueProvider
 		) throws JRException;
-
+	
+	/**
+	 * Specifies whether <code>null</code> values are ignored by this incrementer.
+	 * 
+	 * If <code>null</code> values are ignored, the caller can chose to skip
+	 * incrementing a calculation with a <code>null</code> value.
+	 * 
+	 * @return whether <code>null</code> values are ignored by this incrementer
+	 */
+	public boolean ignoresNullValues();
+	
 }

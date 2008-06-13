@@ -211,6 +211,12 @@ class JRDefaultNothingIncrementer extends JRAbstractExtendedIncrementer
 	{
 		return null;
 	}
+
+	public boolean ignoresNullValues()
+	{
+		return false;
+	}
+	
 }
 
 
@@ -303,5 +309,10 @@ class JRDefaultFirstIncrementer extends JRAbstractExtendedIncrementer
 		}
 
 		return calculable.getIncrementedValue();
+	}
+
+	public boolean ignoresNullValues()
+	{
+		return false;
 	}
 }
