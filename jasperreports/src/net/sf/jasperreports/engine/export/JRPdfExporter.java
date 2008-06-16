@@ -1216,8 +1216,8 @@ public class JRPdfExporter extends JRAbstractExporter
 
 						image.scaleToFit(availableImageWidth, availableImageHeight);
 
-						xoffset = (int)(xalignFactor * (availableImageWidth - image.plainWidth()));
-						yoffset = (int)(yalignFactor * (availableImageHeight - image.plainHeight()));
+						xoffset = (int)(xalignFactor * (availableImageWidth - image.getPlainWidth()));
+						yoffset = (int)(yalignFactor * (availableImageHeight - image.getPlainHeight()));
 
 						xoffset = (xoffset < 0 ? 0 : xoffset);
 						yoffset = (yoffset < 0 ? 0 : yoffset);
@@ -1230,8 +1230,8 @@ public class JRPdfExporter extends JRAbstractExporter
 				{
 					chunk = new Chunk(image, 0, 0);
 
-					scaledWidth = image.scaledWidth();
-					scaledHeight = image.scaledHeight();
+					scaledWidth = image.getScaledWidth();
+					scaledHeight = image.getScaledHeight();
 				}
 			}
 			else
@@ -1612,11 +1612,11 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			if (TextAttribute.SUPERSCRIPT_SUPER.equals(script))
 			{
-				chunk.setTextRise(font.leading(1f)/2);
+				chunk.setTextRise(font.getCalculatedLeading(1f)/2);
 			}
 			else if (script != null && TextAttribute.SUPERSCRIPT_SUB.equals(script))
 			{
-				chunk.setTextRise(-font.leading(1f)/2);
+				chunk.setTextRise(-font.getCalculatedLeading(1f)/2);
 			}
 		}
 
@@ -1668,7 +1668,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				);
 
 			// check if FontFactory didn't find the font
-			if (font.getBaseFont() == null && font.family() == Font.UNDEFINED)
+			if (font.getBaseFont() == null && font.getFamily() == Font.UNDEFINED)
 			{
 				font = null;
 			}
