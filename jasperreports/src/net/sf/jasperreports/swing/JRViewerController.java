@@ -215,7 +215,7 @@ public class JRViewerController
 		}
 	}
 	
-	protected void setPageIndex(int index)
+	public void setPageIndex(int index)
 	{
 		if (hasPages())
 		{
