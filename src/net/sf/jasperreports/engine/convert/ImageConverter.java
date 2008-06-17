@@ -106,28 +106,25 @@ public class ImageConverter extends ElementConverter
 	 */
 	private JRRenderable getRenderer(JRImage imageElement)
 	{
-		JRRenderable imageRenderer = null;
-		Image awtImage = null;
-		
 		String location = JRExpressionUtil.getSimpleExpressionText(imageElement.getExpression());
 		if(location != null)
 		{
 			try
 			{
-				awtImage = JRImageLoader.loadImage(
-					JRLoader.loadBytesFromLocation(location)
-					);
+				byte[] imageData = JRLoader.loadBytesFromLocation(location); 
+				Image awtImage = JRImageLoader.loadImage(imageData);
 				if (awtImage == null)
 				{
-					awtImage = JRImageLoader.getImage(JRImageLoader.NO_IMAGE);
 					imageElement.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
 					imageElement.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
+					return 
+						JRImageRenderer.getInstance(
+							JRImageLoader.getImage(JRImageLoader.NO_IMAGE), 
+							JRRenderable.IMAGE_TYPE_GIF, 
+							imageElement.getOnErrorType()
+							);
 				}
-				imageRenderer = JRImageRenderer.getInstance(
-						awtImage, 
-						imageElement.getOnErrorType()
-						);
-				return imageRenderer;
+				return JRImageRenderer.getInstance(imageData);
 			}
 			catch (JRException e)
 			{
@@ -137,20 +134,21 @@ public class ImageConverter extends ElementConverter
 		
 		try
 		{
-			awtImage = JRImageLoader.getImage(JRImageLoader.NO_IMAGE);
-			imageRenderer = JRImageRenderer.getInstance(
-					awtImage, 
-					imageElement.getOnErrorType()
-					);
 			imageElement.setScaleImage(JRImage.SCALE_IMAGE_CLIP);//FIXMECONVERT modify original image?
 			imageElement.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
+			return 
+				JRImageRenderer.getInstance(
+					JRImageLoader.getImage(JRImageLoader.NO_IMAGE), 
+					JRRenderable.IMAGE_TYPE_GIF, 
+					imageElement.getOnErrorType()
+					);
 		}
 		catch (JRException e)
 		{
 			e.printStackTrace();//FIXMECONVERT use logging
 		}
 		
-		return imageRenderer;
+		return null;
 	}
 
 }
