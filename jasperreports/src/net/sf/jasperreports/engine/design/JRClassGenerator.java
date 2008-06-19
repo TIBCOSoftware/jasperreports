@@ -67,7 +67,7 @@ public class JRClassGenerator
 	private static final int EXPR_MAX_COUNT_PER_METHOD = 100;
 
 	protected static final String SOURCE_EXPRESSION_ID_START = "$JR_EXPR_ID=";
-	protected static final int sOURCE_EXPRESSION_ID_START_LENGTH = SOURCE_EXPRESSION_ID_START.length();
+	protected static final int SOURCE_EXPRESSION_ID_START_LENGTH = SOURCE_EXPRESSION_ID_START.length();
 	protected static final String SOURCE_EXPRESSION_ID_END = "$";
 
 	private static Map fieldPrefixMap = null;
@@ -654,7 +654,7 @@ public class JRClassGenerator
 
 	protected void appendExpressionComment(StringBuffer sb, JRExpression expression)
 	{
-		sb.append("//");
+		sb.append(" //");
 		sb.append(SOURCE_EXPRESSION_ID_START);
 		sb.append(sourceTask.getExpressionId(expression));
 		sb.append(SOURCE_EXPRESSION_ID_END);
@@ -688,7 +688,7 @@ public class JRClassGenerator
 		int exprIdStart = line.indexOf(SOURCE_EXPRESSION_ID_START);
 		if (exprIdStart >= 0)
 		{
-			exprIdStart += sOURCE_EXPRESSION_ID_START_LENGTH;
+			exprIdStart += SOURCE_EXPRESSION_ID_START_LENGTH;
 			int exprIdEnd = line.indexOf("$", exprIdStart);
 			if (exprIdEnd >= 0)
 			{
