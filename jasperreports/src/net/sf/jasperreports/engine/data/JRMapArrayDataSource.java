@@ -99,5 +99,37 @@ public class JRMapArrayDataSource implements JRRewindableDataSource
 		this.index = -1;
 	}
 
+	/**
+	 * Returns the underlying map array used by this data source.
+	 * 
+	 * @return the underlying map array
+	 */
+	public Object[] getData()
+	{
+		return records;
+	}
+
+	/**
+	 * Returns the total number of records/maps that this data source
+	 * contains.
+	 * 
+	 * @return the total number of records of this data source
+	 */
+	public int getRecordCount()
+	{
+		return records == null ? 0 : records.length;
+	}
+	
+	/**
+	 * Clones this data source by creating a new instance that reuses the same
+	 * underlying map array.
+	 * 
+	 * @return a clone of this data source
+	 */
+	public JRMapArrayDataSource cloneDataSource()
+	{
+		return new JRMapArrayDataSource(records);
+	}
+
 
 }

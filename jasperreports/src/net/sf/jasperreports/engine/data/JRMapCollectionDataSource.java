@@ -111,5 +111,37 @@ public class JRMapCollectionDataSource implements JRRewindableDataSource
 		}
 	}
 
+	/**
+	 * Returns the underlying map collection used by this data source.
+	 * 
+	 * @return the underlying map collection
+	 */
+	public Collection getData()
+	{
+		return records;
+	}
+
+	/**
+	 * Returns the total number of records/maps that this data source
+	 * contains.
+	 * 
+	 * @return the total number of records of this data source
+	 */
+	public int getRecordCount()
+	{
+		return records == null ? 0 : records.size();
+	}
+	
+	/**
+	 * Clones this data source by creating a new instance that reuses the same
+	 * underlying map collection.
+	 * 
+	 * @return a clone of this data source
+	 */
+	public JRMapCollectionDataSource cloneDataSource()
+	{
+		return new JRMapCollectionDataSource(records);
+	}
+
 
 }
