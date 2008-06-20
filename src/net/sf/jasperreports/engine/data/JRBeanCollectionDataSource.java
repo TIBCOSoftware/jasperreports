@@ -116,5 +116,35 @@ public class JRBeanCollectionDataSource extends JRAbstractBeanDataSource
 		}
 	}
 
+	/**
+	 * Returns the underlying bean collection used by this data source.
+	 * 
+	 * @return the underlying bean collection
+	 */
+	public Collection getData()
+	{
+		return data;
+	}
 
+	/**
+	 * Returns the total number of records/beans that this data source
+	 * contains.
+	 * 
+	 * @return the total number of records of this data source
+	 */
+	public int getRecordCount()
+	{
+		return data == null ? 0 : data.size();
+	}
+	
+	/**
+	 * Clones this data source by creating a new instance that reuses the same
+	 * underlying bean collection. 
+	 * 
+	 * @return a clone of this data source
+	 */
+	public JRBeanCollectionDataSource cloneDataSource()
+	{
+		return new JRBeanCollectionDataSource(data);
+	}
 }
