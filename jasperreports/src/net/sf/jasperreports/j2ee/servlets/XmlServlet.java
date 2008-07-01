@@ -53,6 +53,8 @@ public class XmlServlet extends BaseHttpServlet
 	/**
 	 *
 	 */
+	public static final String START_PAGE_INDEX_REQUEST_PARAMETER = "startPage";
+	public static final String END_PAGE_INDEX_REQUEST_PARAMETER = "endPage";
 	public static final String PAGE_INDEX_REQUEST_PARAMETER = "page";
 	
 
@@ -71,6 +73,28 @@ public class XmlServlet extends BaseHttpServlet
 			throw new ServletException("No JasperPrint documents found on the HTTP session.");
 		}
 		
+		int startPageIndex = -1;
+
+		String startPageStr = request.getParameter(START_PAGE_INDEX_REQUEST_PARAMETER);
+		try
+		{
+			startPageIndex = Integer.parseInt(startPageStr);
+		}
+		catch(Exception e)
+		{
+		}
+		
+		int endPageIndex = -1;
+
+		String endPageStr = request.getParameter(END_PAGE_INDEX_REQUEST_PARAMETER);
+		try
+		{
+			endPageIndex = Integer.parseInt(endPageStr);
+		}
+		catch(Exception e)
+		{
+		}
+		
 		int pageIndex = -1;
 
 		String pageStr = request.getParameter(PAGE_INDEX_REQUEST_PARAMETER);
@@ -82,9 +106,10 @@ public class XmlServlet extends BaseHttpServlet
 		{
 		}
 		
-		if (pageIndex < 0)
+		if (pageIndex >= 0)
 		{
-			pageIndex = 0;
+			startPageIndex = pageIndex;
+			endPageIndex = pageIndex;
 		}
 		
 		Boolean isBuffered = Boolean.valueOf(request.getParameter(BaseHttpServlet.BUFFERED_OUTPUT_REQUEST_PARAMETER));
@@ -93,7 +118,14 @@ public class XmlServlet extends BaseHttpServlet
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JRXmlExporter exporter = new JRXmlExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-			exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
+			if (startPageIndex >= 0)
+			{
+				exporter.setParameter(JRExporterParameter.START_PAGE_INDEX, new Integer(startPageIndex));
+			}
+			if (endPageIndex >= 0)
+			{
+				exporter.setParameter(JRExporterParameter.END_PAGE_INDEX, new Integer(endPageIndex));
+			}
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fbos);
 
 			try 
@@ -156,7 +188,14 @@ public class XmlServlet extends BaseHttpServlet
 
 			JRXmlExporter exporter = new JRXmlExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-			exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
+			if (startPageIndex >= 0)
+			{
+				exporter.setParameter(JRExporterParameter.START_PAGE_INDEX, new Integer(startPageIndex));
+			}
+			if (endPageIndex >= 0)
+			{
+				exporter.setParameter(JRExporterParameter.END_PAGE_INDEX, new Integer(endPageIndex));
+			}
 			
 			OutputStream ouputStream = response.getOutputStream();
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, ouputStream);
