@@ -52,5 +52,14 @@
 			<fileset dir="." includes="**/*.jrprint" />
 		</delete>
 	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Print Service Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="fill" />
+	</target>
 
 </project>

@@ -105,5 +105,13 @@
 			</lib>
 		</war>
 	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Webapp Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+	</target>
 
 </project>

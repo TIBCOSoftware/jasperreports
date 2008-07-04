@@ -55,5 +55,14 @@
 	<target name="clean" description="Deletes all the generated files.">
 		<delete dir="./build" />
 	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Ant Compile Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile1" />
+	</target>
 
 </project>
