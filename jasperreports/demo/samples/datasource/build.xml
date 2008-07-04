@@ -201,5 +201,27 @@
 		<delete dir="${file.name}.jrpxml_files" />
 		<delete dir="${file.name}.html_files" />
 	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Data Source Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<antcall target="fill1" />
+		<antcall target="fill2" />
+		<antcall target="fill3" />
+		<antcall target="fill4" />
+		<antcall target="pdf" />
+		<antcall target="xmlEmbed" />
+		<antcall target="xml" />
+		<antcall target="html" />
+		<antcall target="rtf" />
+		<antcall target="xls" />
+		<antcall target="jxl" />
+		<antcall target="csv" />
+		<antcall target="odt" />
+	</target>
 
 </project>

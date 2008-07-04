@@ -93,5 +93,17 @@
 			<fileset dir="." includes="**/*.html_files/**" />
 		</delete>
 	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Charts Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<antcall target="fill" />
+		<antcall target="pdf" />
+		<antcall target="html" />
+	</target>
 
 </project>

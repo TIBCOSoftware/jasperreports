@@ -100,5 +100,16 @@
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
 	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" PDF Encrypt Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<antcall target="fill" />
+		<antcall target="pdf" />
+	</target>
 
 </project>

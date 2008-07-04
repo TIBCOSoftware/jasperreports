@@ -110,5 +110,13 @@
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
 	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Java 1.5 Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="testSample" />
+	</target>
 
 </project>
