@@ -1599,6 +1599,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		sheets.setHeaderMargin(0.0);
 		sheets.setFooterMargin(0.0);
+		
+		if(password != null)
+		{
+			sheets.setPassword(password);
+			sheets.setProtected(true);
+		}
 	}
 
 	private final PaperSize getSuitablePaperSize(JasperPrint jasP)
