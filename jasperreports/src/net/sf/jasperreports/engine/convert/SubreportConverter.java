@@ -35,8 +35,6 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import java.awt.Image;
-
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImage;
@@ -93,23 +91,20 @@ public class SubreportConverter extends ElementConverter
 	 */
 	private JRRenderable getRenderer()
 	{
-		JRRenderable imageRenderer = null;
-		Image awtImage = null;
-		
 		try
 		{
-			awtImage = JRImageLoader.getImage(JRImageLoader.SUBREPORT_IMAGE);
-			imageRenderer = JRImageRenderer.getInstance(
-				awtImage, 
-				JRImage.ON_ERROR_TYPE_ERROR
-				);
+			return
+				JRImageRenderer.getInstance(
+					JRImageLoader.SUBREPORT_IMAGE_RESOURCE, 
+					JRImage.ON_ERROR_TYPE_ERROR
+					);
 		}
 		catch (JRException e)
 		{
 			e.printStackTrace();//FIXMECONVERT use logging
 		}
 		
-		return imageRenderer;
+		return null;
 	}
 
 }

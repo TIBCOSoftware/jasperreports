@@ -35,8 +35,6 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import java.awt.Image;
-
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
@@ -103,24 +101,21 @@ public class ChartConverter extends ElementConverter
 	 */
 	private JRRenderable getRenderer(JRChart chart)
 	{
-		JRRenderable imageRenderer = null;
-		Image awtImage = null;
-		
 		try
 		{
-			awtImage = JRImageLoader.getImage(JRImageLoader.CHART_IMAGE);
-			imageRenderer = JRImageRenderer.getInstance(
-					awtImage, 
+			chart.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
+			return 
+				JRImageRenderer.getInstance(
+					JRImageLoader.CHART_IMAGE_RESOURCE, 
 					JRImage.ON_ERROR_TYPE_ERROR
 					);
-			chart.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
 		}
 		catch (JRException e)
 		{
 			e.printStackTrace();
 		}
 		
-		return imageRenderer;
+		return null;
 	}
 
 }
