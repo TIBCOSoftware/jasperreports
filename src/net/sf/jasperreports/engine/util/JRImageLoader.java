@@ -60,21 +60,37 @@ public class JRImageLoader
 	public static final String PROPERTY_IMAGE_ENCODER = JRProperties.PROPERTY_PREFIX + "image.encoder";
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #NO_IMAGE_RESOURCE}.
 	 */
-	public static final byte NO_IMAGE = 1;
-	public static final byte SUBREPORT_IMAGE = 2;
-	public static final byte CHART_IMAGE = 3;
-	public static final byte CROSSTAB_IMAGE = 4;
+	public static final byte NO_IMAGE = 0;
+	
+	/**
+	 * @deprecated Replaced by {@link #SUBREPORT_IMAGE_RESOURCE}.
+	 */
+	public static final byte SUBREPORT_IMAGE = 1;
+	
+	/**
+	 * @deprecated Replaced by {@link #CHART_IMAGE_RESOURCE}.
+	 */
+	public static final byte CHART_IMAGE = 2;
 
-	private static final String str_NO_IMAGE = "net/sf/jasperreports/engine/images/noimage.GIF";
-	private static final String str_SUBREPORT_IMAGE = "net/sf/jasperreports/engine/images/subreport.GIF";
-	private static final String str_CHART_IMAGE = "net/sf/jasperreports/engine/images/chart.GIF";
-	private static final String str_CROSSTAB_IMAGE = "net/sf/jasperreports/engine/images/crosstab.GIF";
-	private static Image img_NO_IMAGE = null;
-	private static Image img_SUBREPORT_IMAGE = null;
-	private static Image img_CHART_IMAGE = null;
-	private static Image img_CROSSTAB_IMAGE = null;
+	/**
+	 * @deprecated Replaced by {@link #CROSSTAB_IMAGE_RESOURCE}.
+	 */
+	public static final byte CROSSTAB_IMAGE = 3;
+
+	public static final String NO_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/noimage.GIF";
+	public static final String SUBREPORT_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/subreport.GIF";
+	public static final String CHART_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/chart.GIF";
+	public static final String CROSSTAB_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/crosstab.GIF";
+
+	private static final String[] IMAGE_LOCATION = new String[]
+		{
+		NO_IMAGE_RESOURCE,
+		SUBREPORT_IMAGE_RESOURCE,
+		CHART_IMAGE_RESOURCE,
+		CROSSTAB_IMAGE_RESOURCE
+		};
 
 	/**
 	 *
@@ -216,53 +232,11 @@ public class JRImageLoader
 
 
 	/**
-	 *
+	 * @deprecated To be removed in future releases.
 	 */
 	public static Image getImage(byte index) throws JRException
 	{
-		Image image = null;
-
-		switch(index)
-		{
-			case NO_IMAGE:
-			{
-				if (img_NO_IMAGE == null)
-				{
-					img_NO_IMAGE = loadImage(str_NO_IMAGE);
-				}
-				image = img_NO_IMAGE;
-				break;
-			}
-			case SUBREPORT_IMAGE:
-			{
-				if (img_SUBREPORT_IMAGE == null)
-				{
-					img_SUBREPORT_IMAGE = loadImage(str_SUBREPORT_IMAGE);
-				}
-				image = img_SUBREPORT_IMAGE;
-				break;
-			}
-			case CHART_IMAGE:
-			{
-				if (img_CHART_IMAGE == null)
-				{
-					img_CHART_IMAGE = loadImage(str_CHART_IMAGE);
-				}
-				image = img_CHART_IMAGE;
-				break;
-			}
-			case CROSSTAB_IMAGE:
-			{
-				if (img_CROSSTAB_IMAGE == null)
-				{
-					img_CROSSTAB_IMAGE = loadImage(str_CROSSTAB_IMAGE);
-				}
-				image = img_CROSSTAB_IMAGE;
-				break;
-			}
-		}
-		
-		return image;
+		return loadImage(IMAGE_LOCATION[index]);
 	}
 
 

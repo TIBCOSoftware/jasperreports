@@ -119,8 +119,7 @@ public class ImageConverter extends ElementConverter
 					imageElement.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
 					return 
 						JRImageRenderer.getInstance(
-							JRImageLoader.getImage(JRImageLoader.NO_IMAGE), 
-							JRRenderable.IMAGE_TYPE_GIF, 
+							JRImageLoader.NO_IMAGE_RESOURCE, 
 							imageElement.getOnErrorType()
 							);
 				}
@@ -138,8 +137,7 @@ public class ImageConverter extends ElementConverter
 			imageElement.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
 			return 
 				JRImageRenderer.getInstance(
-					JRImageLoader.getImage(JRImageLoader.NO_IMAGE), 
-					JRRenderable.IMAGE_TYPE_GIF, 
+					JRImageLoader.NO_IMAGE_RESOURCE, 
 					imageElement.getOnErrorType()
 					);
 		}
