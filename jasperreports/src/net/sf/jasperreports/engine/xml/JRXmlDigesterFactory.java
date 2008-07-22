@@ -32,6 +32,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
 import net.sf.jasperreports.charts.design.JRDesignDataRange;
+import net.sf.jasperreports.charts.design.JRDesignGanttSeries;
 import net.sf.jasperreports.charts.design.JRDesignTimePeriodSeries;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
 import net.sf.jasperreports.charts.design.JRDesignValueDisplay;
@@ -53,6 +54,9 @@ import net.sf.jasperreports.charts.xml.JRCategoryDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRCategorySeriesFactory;
 import net.sf.jasperreports.charts.xml.JRChartAxisFactory;
 import net.sf.jasperreports.charts.xml.JRDataRangeFactory;
+import net.sf.jasperreports.charts.xml.JRGanttChartFactory;
+import net.sf.jasperreports.charts.xml.JRGanttDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRGanttSeriesFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowChartFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowPlotFactory;
@@ -870,6 +874,36 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/stackedAreaChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/stackedAreaChart/areaPlot", JRAreaPlotFactory.class.getName());
 
+		// gantt charts 
+		digester.addFactoryCreate("*/ganttChart", JRGanttChartFactory.class.getName());
+		digester.addSetNext("*/ganttChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/ganttChart/barPlot", JRBarPlotFactory.class.getName());
+
+		digester.addFactoryCreate("*/ganttDataset", JRGanttDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/ganttDataset/ganttSeries", JRGanttSeriesFactory.class.getName());
+		digester.addSetNext("*/ganttDataset/ganttSeries", "addGanttSeries", JRDesignGanttSeries.class.getName());
+		digester.addFactoryCreate("*/ganttSeries", JRGanttDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/ganttSeries/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addSetNext("*/ganttSeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/ganttSeries/seriesExpression", "setText", 0);
+		digester.addFactoryCreate("*/ganttSeries/taskExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addSetNext("*/ganttSeries/taskExpression", "setTaskExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/ganttSeries/taskExpression", "setText", 0);
+		digester.addFactoryCreate("*/ganttSeries/subtaskExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addSetNext("*/ganttSeries/subtaskExpression", "setSubtaskExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/ganttSeries/subtaskExpression", "setText", 0);
+		digester.addFactoryCreate("*/ganttSeries/startDateExpression", JRExpressionFactory.DateExpressionFactory.class);
+		digester.addSetNext("*/ganttSeries/startDateExpression", "setStartDateExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/ganttSeries/startDateExpression", "setText", 0);
+		digester.addFactoryCreate("*/ganttSeries/endDateExpression", JRExpressionFactory.DateExpressionFactory.class);
+		digester.addSetNext("*/ganttSeries/endDateExpression", "setEndDateExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/ganttSeries/endDateExpression", "setText", 0);
+		digester.addFactoryCreate("*/ganttSeries/percentExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addSetNext("*/ganttSeries/percentExpression", "setPercentExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/ganttSeries/percentExpression", "setText", 0);
+		digester.addFactoryCreate("*/ganttSeries/labelExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addSetNext("*/ganttSeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/ganttSeries/labelExpression", "setText", 0);
 	}
 
 

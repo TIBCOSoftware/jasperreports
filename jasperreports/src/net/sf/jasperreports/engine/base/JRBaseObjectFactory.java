@@ -35,6 +35,8 @@ import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRChartAxis;
+import net.sf.jasperreports.charts.JRGanttDataset;
+import net.sf.jasperreports.charts.JRGanttSeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
@@ -63,6 +65,8 @@ import net.sf.jasperreports.charts.base.JRBaseCandlestickPlot;
 import net.sf.jasperreports.charts.base.JRBaseCategoryDataset;
 import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
 import net.sf.jasperreports.charts.base.JRBaseChartAxis;
+import net.sf.jasperreports.charts.base.JRBaseGanttDataset;
+import net.sf.jasperreports.charts.base.JRBaseGanttSeries;
 import net.sf.jasperreports.charts.base.JRBaseHighLowDataset;
 import net.sf.jasperreports.charts.base.JRBaseHighLowPlot;
 import net.sf.jasperreports.charts.base.JRBaseLinePlot;
@@ -831,6 +835,24 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseTimePeriodDataset;
 	}
 
+	/*
+	 * 
+	 */
+	public JRGanttDataset getGanttDataset(JRGanttDataset ganttDataset)
+	{
+		JRBaseGanttDataset baseGanttDataset = null;
+		
+		if (ganttDataset != null)
+		{
+			baseGanttDataset = (JRBaseGanttDataset)get(ganttDataset);
+			if (baseGanttDataset == null)
+			{
+				baseGanttDataset = new JRBaseGanttDataset(ganttDataset, this);
+			}
+		}
+		
+		return baseGanttDataset;
+	}
 	/**
 	 *
 	 */
@@ -903,6 +925,26 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseTimePeriodSeries;
+	}
+
+
+	/**
+	 * 
+	 */
+	public JRGanttSeries getGanttSeries(JRGanttSeries ganttSeries)
+	{
+		JRBaseGanttSeries baseGanttSeries = null;
+		
+		if (ganttSeries != null)
+		{
+			baseGanttSeries = (JRBaseGanttSeries)get(ganttSeries);
+			if (baseGanttSeries == null)
+			{
+				baseGanttSeries = new JRBaseGanttSeries(ganttSeries, this);
+			}
+		}
+		
+		return baseGanttSeries;
 	}
 
 

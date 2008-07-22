@@ -37,6 +37,8 @@ import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRGanttDataset;
+import net.sf.jasperreports.charts.JRGanttSeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
@@ -264,6 +266,10 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 			case CHART_TYPE_STACKEDAREA:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_GANTT:
+				dataset = factory.getGanttDataset((JRGanttDataset) chart.getDataset());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			default:
 				throw new JRRuntimeException("Chart type not supported.");

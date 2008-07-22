@@ -38,6 +38,8 @@ import java.util.Map;
 
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.JRGanttDataset;
+import net.sf.jasperreports.charts.JRGanttSeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
@@ -2628,6 +2630,12 @@ public class JRVerifier
 	}
 
 
+	protected void verify(JRGanttSeries series)
+	{
+		verifyHyperlink(series.getItemHyperlink());
+	}
+
+
 	public void verify(JRXyzDataset dataset)
 	{
 		verifyElementDataset(dataset);
@@ -2642,6 +2650,22 @@ public class JRVerifier
 		}
 	}
 
+
+	public void verify(JRGanttDataset dataset)
+	{
+		verifyElementDataset(dataset);
+		
+		JRGanttSeries[] series = dataset.getSeries();
+		
+		if (series != null)
+		{
+			for (int i = 0; i < series.length; i++)
+			{
+				verify(series[i]);
+			}
+		}
+	}
+	
 
 	protected void verify(JRXyzSeries series)
 	{

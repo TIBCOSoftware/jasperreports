@@ -1441,6 +1441,7 @@ public class JRXmlConstants
 	public static final String ELEMENT_thermometerChart = "thermometerChart";
 	public static final String ELEMENT_multiAxisChart = "multiAxisChart";
 	public static final String ELEMENT_stackedAreaChart = "stackedAreaChart";
+	public static final String ELEMENT_ganttChart = "ganttChart";
 
 	public static final String ATTRIBUTE_isShowLegend = "isShowLegend";
 	public static final String ATTRIBUTE_evaluationTime = "evaluationTime";
@@ -1505,6 +1506,9 @@ public class JRXmlConstants
 	public static final String ELEMENT_xAxisLabelExpression = "xAxisLabelExpression";
 	public static final String ELEMENT_yAxisLabelExpression = "yAxisLabelExpression";
 	public static final String ELEMENT_timeAxisLabelExpression = "timeAxisLabelExpression";
+	public static final String ELEMENT_taskExpression = "taskExpression";
+	public static final String ELEMENT_subtaskExpression = "subtaskExpression";
+	public static final String ELEMENT_percentExpression = "percentExpression";
 
 	public static final String ATTRIBUTE_backgroundAlpha = "backgroundAlpha";
 	public static final String ATTRIBUTE_foregroundAlpha = "foregroundAlpha";
@@ -1604,12 +1608,14 @@ public class JRXmlConstants
 	public static final String ELEMENT_pieDataset = "pieDataset";
 	public static final String ELEMENT_valueDataset = "valueDataset";
 	public static final String ELEMENT_highLowDataset = "highLowDataset";
+	public static final String ELEMENT_ganttDataset = "ganttDataset";
 
 	public static final String ELEMENT_categorySeries = "categorySeries";
 	public static final String ELEMENT_xyzSeries = "xyzSeries";
 	public static final String ELEMENT_xySeries = "xySeries";
 	public static final String ELEMENT_timeSeries = "timeSeries";
 	public static final String ELEMENT_timePeriodSeries = "timePeriodSeries";
+	public static final String ELEMENT_ganttSeries = "ganttSeries";
 
 	public static final String ELEMENT_incrementWhenExpression = "incrementWhenExpression";
 	public static final String ELEMENT_keyExpression = "keyExpression";

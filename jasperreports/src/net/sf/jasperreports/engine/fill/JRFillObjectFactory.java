@@ -43,6 +43,8 @@ import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRChartAxis;
+import net.sf.jasperreports.charts.JRGanttDataset;
+import net.sf.jasperreports.charts.JRGanttSeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
@@ -71,6 +73,8 @@ import net.sf.jasperreports.charts.fill.JRFillCandlestickPlot;
 import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
 import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
 import net.sf.jasperreports.charts.fill.JRFillChartAxis;
+import net.sf.jasperreports.charts.fill.JRFillGanttDataset;
+import net.sf.jasperreports.charts.fill.JRFillGanttSeries;
 import net.sf.jasperreports.charts.fill.JRFillHighLowDataset;
 import net.sf.jasperreports.charts.fill.JRFillHighLowPlot;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
@@ -867,7 +871,27 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		return fillTimePeriodDataset;
 	}
-
+	
+	/**
+	 * 
+	 */
+	public JRGanttDataset getGanttDataset(JRGanttDataset ganttDataset)
+	{
+		JRFillGanttDataset fillGanttDataset = null;
+		
+		if (ganttDataset != null)
+		{
+			fillGanttDataset = (JRFillGanttDataset)get(ganttDataset);
+			if (fillGanttDataset == null)
+			{
+				fillGanttDataset = new JRFillGanttDataset(ganttDataset, this);
+				addChartDataset(fillGanttDataset);
+			}
+		}
+		
+		return fillGanttDataset;
+	}
+	
 	/**
 	 *
 	 */
@@ -921,8 +945,28 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillXySeries;
 	}
-
-
+	
+	
+	/**
+	 * 
+	 */
+	public JRGanttSeries getGanttSeries(JRGanttSeries ganttSeries)
+	{
+		JRFillGanttSeries fillGanttSeries = null;
+		
+		if (ganttSeries != null)
+		{
+			fillGanttSeries = (JRFillGanttSeries)get(ganttSeries);
+			if (fillGanttSeries == null)
+			{
+				fillGanttSeries = new JRFillGanttSeries(ganttSeries, this);
+			}
+		}
+		
+		return fillGanttSeries;
+	}
+	
+	
 	/**
 	 *
 	 */

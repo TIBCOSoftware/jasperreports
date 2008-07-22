@@ -45,6 +45,8 @@ import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRDataRange;
+import net.sf.jasperreports.charts.JRGanttDataset;
+import net.sf.jasperreports.charts.JRGanttSeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
@@ -748,6 +750,24 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
+	public void collect(JRGanttDataset ganttDataset)
+	{
+		collect((JRElementDataset) ganttDataset);
+		
+		JRGanttSeries[] ganttSeries = ganttDataset.getSeries();
+		if (ganttSeries != null && ganttSeries.length > 0)
+		{
+			JRExpressionCollector collector = getCollector(ganttDataset);
+			for(int j = 0; j < ganttSeries.length; j++)
+			{
+				collector.collect(ganttSeries[j]);
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
 	public void collect( JRValueDataset valueDataset ){
 		collect((JRElementDataset) valueDataset);
 
@@ -779,6 +799,22 @@ public class JRExpressionCollector
 		addExpression(categorySeries.getLabelExpression());
 
 		collectHyperlink(categorySeries.getItemHyperlink());
+	}
+
+	/**
+	 * 
+	 */
+	private void collect(JRGanttSeries ganttSeries)
+	{
+		addExpression(ganttSeries.getSeriesExpression());
+		addExpression(ganttSeries.getTaskExpression());
+		addExpression(ganttSeries.getSubtaskExpression());
+		addExpression(ganttSeries.getStartDateExpression());
+		addExpression(ganttSeries.getEndDateExpression());
+		addExpression(ganttSeries.getPercentExpression());
+		addExpression(ganttSeries.getLabelExpression());
+
+		collectHyperlink(ganttSeries.getItemHyperlink());
 	}
 
 	/**
