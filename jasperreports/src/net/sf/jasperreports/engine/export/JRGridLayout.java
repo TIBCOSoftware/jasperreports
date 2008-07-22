@@ -293,8 +293,8 @@ public class JRGridLayout
 		xCuts.use();
 		yCuts.use();
 
-		int colCount = xCuts.size() - 1;
-		int rowCount = yCuts.size() - 1;
+		int colCount = Math.max(xCuts.size() - 1, 0);
+		int rowCount = Math.max(yCuts.size() - 1, 0);
 
 		grid = new JRExporterGridCell[rowCount][colCount];
 				
