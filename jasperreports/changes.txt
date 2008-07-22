@@ -5,6 +5,8 @@ JasperReports Change Log
 JasperReports 3.0.1 (2008-0x-xx)
 -----------------------------------
 
+- Gantt chart;
+
 - new Swing viewer component, with enhanced plugability and reusability;
 
 - minor bug fixes and improvements;
