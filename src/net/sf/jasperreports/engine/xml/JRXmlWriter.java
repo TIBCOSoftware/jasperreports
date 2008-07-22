@@ -51,6 +51,8 @@ import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRDataRange;
+import net.sf.jasperreports.charts.JRGanttDataset;
+import net.sf.jasperreports.charts.JRGanttSeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
@@ -1148,6 +1150,29 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 
+	/**
+	 * 
+	 */
+	private void writeGanttDataset(JRGanttDataset dataset) throws IOException
+	{
+		writer.startElement(JRXmlConstants.ELEMENT_ganttDataset);
+		
+		writeElementDataset(dataset);
+		
+		/*   */
+		JRGanttSeries[] ganttSeries = dataset.getSeries();
+		if (ganttSeries != null && ganttSeries.length > 0)
+		{
+			for(int i = 0; i < ganttSeries.length; i++)
+			{
+				writeGanttSeries(ganttSeries[i]);
+			}
+		}
+		
+		writer.closeElement();
+	}
+
+
 	private void writeTimePeriodDataset(JRTimePeriodDataset dataset) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_timePeriodDataset);
@@ -1271,6 +1296,26 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, timeSeries.getLabelExpression(), false);
 		writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, timeSeries.getItemHyperlink());
 
+		writer.closeElement();
+	}
+
+
+	/**
+	 * 
+	 */
+	private void writeGanttSeries(JRGanttSeries ganttSeries) throws IOException
+	{
+		writer.startElement(JRXmlConstants.ELEMENT_ganttSeries);
+		
+		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, ganttSeries.getSeriesExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_taskExpression, ganttSeries.getTaskExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_subtaskExpression, ganttSeries.getSubtaskExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_startDateExpression, ganttSeries.getStartDateExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_endDateExpression, ganttSeries.getEndDateExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_percentExpression, ganttSeries.getPercentExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, ganttSeries.getLabelExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, ganttSeries.getItemHyperlink());
+		
 		writer.closeElement();
 	}
 
@@ -1779,6 +1824,21 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 
+	/**
+	 * 
+	 */
+	public void writeGanttChart(JRChart chart) throws IOException
+	{
+		writer.startElement(JRXmlConstants.ELEMENT_ganttChart);
+		
+		writeChart(chart);
+		writeGanttDataset((JRGanttDataset) chart.getDataset());
+		writeBarPlot((JRBarPlot) chart.getPlot());
+		
+		writer.closeElement();
+	}
+
+
 	public void writeCandlestickChart(JRChart chart) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_candlestickChart);
@@ -2149,6 +2209,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				writeXyLineChart(chart);
 				break;
 			case JRChart.CHART_TYPE_STACKEDAREA:
+				writeStackedAreaChart(chart);
+				break;
+			case JRChart.CHART_TYPE_GANTT:
 				writeStackedAreaChart(chart);
 				break;
 			default:

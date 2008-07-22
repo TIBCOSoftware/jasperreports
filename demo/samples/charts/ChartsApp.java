@@ -83,7 +83,8 @@ public class ChartsApp
 		"ThermometerChartReport",
 		"HighLowChartReport",
 		"CandlestickChartReport",
-		"StackedAreaChartReport"
+		"StackedAreaChartReport",
+		"GanttChartReport"
 		};
 	
 	/**

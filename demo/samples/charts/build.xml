@@ -46,7 +46,7 @@
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="MultipleAxisChartReport.jrprint"/>
+			<arg value="GanttChartReport.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -77,7 +77,7 @@
 
 	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="BarChartReport.jrxml"/>
+			<arg value="GanttChartReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

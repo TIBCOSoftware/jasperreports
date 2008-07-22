@@ -40,6 +40,7 @@ import net.sf.jasperreports.charts.design.JRDesignBarPlot;
 import net.sf.jasperreports.charts.design.JRDesignBubblePlot;
 import net.sf.jasperreports.charts.design.JRDesignCandlestickPlot;
 import net.sf.jasperreports.charts.design.JRDesignCategoryDataset;
+import net.sf.jasperreports.charts.design.JRDesignGanttDataset;
 import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
 import net.sf.jasperreports.charts.design.JRDesignHighLowPlot;
 import net.sf.jasperreports.charts.design.JRDesignLinePlot;
@@ -741,6 +742,10 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignAreaPlot(plot, this);
 				break;
+			case CHART_TYPE_GANTT:
+				dataset = new JRDesignGanttDataset(dataset);
+				plot = new JRDesignBarPlot(plot, this);
+				break;
 			default:
 				throw new JRRuntimeException("Chart type not supported.");
 		}
@@ -776,6 +781,9 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				break;
 			case JRChartDataset.XYZ_DATASET:
 				dataset = (JRDesignXyzDataset)ds;
+				break;
+			case JRChartDataset.GANTT_DATASET:
+				dataset = (JRDesignGanttDataset)ds;
 				break;
 		}
 		getEventSupport().firePropertyChange(PROPERTY_DATASET, old, this.dataset);		

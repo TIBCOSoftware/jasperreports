@@ -46,6 +46,7 @@ import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRChartAxis;
+import net.sf.jasperreports.charts.JRGanttDataset;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
@@ -69,6 +70,7 @@ import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillBarPlot;
 import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
 import net.sf.jasperreports.charts.fill.JRFillChartAxis;
+import net.sf.jasperreports.charts.fill.JRFillGanttDataset;
 import net.sf.jasperreports.charts.fill.JRFillHighLowDataset;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
 import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
@@ -154,6 +156,7 @@ import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.gantt.GanttCategoryDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.general.ValueDataset;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -325,6 +328,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 			case CHART_TYPE_STACKEDAREA:
 				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_GANTT:
+				dataset = (JRFillChartDataset) factory.getGanttDataset((JRGanttDataset) chart.getDataset());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			default:
 				throw new JRRuntimeException("Chart type not supported.");
@@ -1334,6 +1341,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 				break;
 			case CHART_TYPE_STACKEDAREA:
 				evaluateStackedAreaChart(evaluation);
+				break;
+			case CHART_TYPE_GANTT:
+				evaluateGanttChart(evaluation);
 				break;
 			default:
 				throw new JRRuntimeException("Chart type " + getChartType() + " not supported.");
@@ -2522,6 +2532,66 @@ public class JRFillChart extends JRFillElement implements JRChart
 				timeSeriesPlot.getValueAxisLineColor());
 
 		chartHyperlinkProvider = new TimeSeriesChartHyperlinkProvider(((JRFillTimeSeriesDataset)getDataset()).getItemHyperlinks());
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluateGanttChart(byte evaluation) throws JRException
+	{
+		GanttCategoryDataset ganttCategoryDataset = (GanttCategoryDataset)dataset.getDataset();
+		//FIXMECHART legend/tooltip/url should come from plot?
+		
+		chart =
+			ChartFactory.createGanttChart(
+				(String)evaluateExpression(getTitleExpression(), evaluation),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+				ganttCategoryDataset,
+				isShowLegend(),
+				true,  //FIXMECHART tooltip: I guess BarPlot is not the best for gantt
+				false
+				);
+
+		configureChart(getPlot(), evaluation);
+		
+		CategoryPlot categoryPlot = (CategoryPlot)chart.getPlot();
+		//plot.setNoDataMessage("No data to display");
+		
+		JRFillBarPlot barPlot = (JRFillBarPlot)getPlot();
+		categoryPlot.getDomainAxis().setTickMarksVisible(
+			barPlot.isShowTickMarks()
+			);
+		categoryPlot.getDomainAxis().setTickLabelsVisible(
+			barPlot.isShowTickLabels()
+			);
+		// Handle the axis formating for the catagory axis
+		configureAxis(
+			categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
+			barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
+			barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
+			barPlot.getCategoryAxisLineColor()
+			);
+		((DateAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(
+			barPlot.isShowTickMarks()
+			);
+		((DateAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(
+			barPlot.isShowTickLabels()
+			);
+		// Handle the axis formating for the value axis
+		configureAxis(
+			categoryPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
+			barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
+			barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
+			barPlot.getValueAxisLineColor()
+			);
+
+		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+		categoryRenderer.setBaseItemLabelGenerator(((JRFillGanttDataset)getDataset()).getLabelGenerator());
+		categoryRenderer.setItemLabelsVisible(barPlot.isShowLabels());
+
+		chartHyperlinkProvider = new CategoryChartHyperlinkProvider(((JRFillGanttDataset)getDataset()).getItemHyperlinks());
 	}
 
 

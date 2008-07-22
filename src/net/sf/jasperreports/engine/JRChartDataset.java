@@ -46,6 +46,7 @@ public interface JRChartDataset extends JRElementDataset
 	public static final byte TIMESERIES_DATASET = 6;
 	public static final byte HIGHLOW_DATASET = 7;
 	public static final byte VALUE_DATASET = 8;
+	public static final byte GANTT_DATASET = 9;
 	
 	/**
 	 * Gets the dataset type. Must be one of the dataset type constants defined in this class.
