@@ -129,17 +129,17 @@
 	<group name="TaskGroup" isReprintHeaderOnEachPage="false">
 		<groupExpression><![CDATA[$F{Task}]]></groupExpression>
 		<groupHeader>
-		<band height="24">
+		<band height="20">
 			<line>
-				<reportElement x="137" y="5" width="270" height="1"/>
+				<reportElement x="137" y="1" width="270" height="1"/>
 				<graphicElement/>
 			</line>
 			<rectangle>
-				<reportElement x="137" y="9" width="270" height="11" forecolor="#c0c0c0" backcolor="#c0c0c0"/>
+				<reportElement x="137" y="5" width="270" height="11" forecolor="#c0c0c0" backcolor="#c0c0c0"/>
 				<graphicElement/>
 			</rectangle>
 			<textField>
-				<reportElement style="Arial_Bold" x="147" y="9" width="100" height="11"/>
+				<reportElement style="Arial_Bold" x="147" y="5" width="62" height="11"/>
 				<textElement>
 					<font/>
 				</textElement>
@@ -164,7 +164,7 @@
 				<textElement textAlignment="Right">
 					<font/>
 				</textElement>
-				<text><![CDATA[Count :]]></text>
+				<text><![CDATA[Stages :]]></text>
 			</staticText>
 			<textField>
 				<reportElement style="Arial_Bold" mode="Opaque" x="382" y="5" width="20" height="11" backcolor="#e0e0e0" />
@@ -177,7 +177,7 @@
 		</groupFooter>
 	</group>
 	<title>
-		<band height="260">
+		<band height="290">
 			<elementGroup>
 			</elementGroup>
 			<staticText>
@@ -216,6 +216,31 @@
 					<plot/>
 				</barPlot>
 			</ganttChart>
+			<rectangle>
+				<reportElement x="137" y="277" width="270" height="11" forecolor="#000000" backcolor="#000000"/>
+				<graphicElement/>
+			</rectangle>
+			<staticText>
+				<reportElement style="Arial_Bold" mode="Opaque" x="210" y="277" width="72" height="11" backcolor="#000000" forecolor="#ffffff"/>
+				<textElement>
+					<font/>
+				</textElement>
+				<text><![CDATA[Subtask]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Arial_Bold" mode="Opaque" x="282" y="277" width="62" height="11" backcolor="#000000" forecolor="#ffffff"/>
+				<textElement>
+					<font/>
+				</textElement>
+				<text><![CDATA[Start Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Arial_Bold" mode="Opaque" x="345" y="277" width="62" height="11" backcolor="#000000" forecolor="#ffffff"/>
+				<textElement>
+					<font/>
+				</textElement>
+				<text><![CDATA[End Date]]></text>
+			</staticText>
 		</band>
 	</title>
 <!--	
