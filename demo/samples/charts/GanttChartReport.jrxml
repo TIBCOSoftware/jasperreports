@@ -16,7 +16,7 @@
 	</parameter>
 -->
 
-	<queryString><![CDATA[SELECT * FROM Tasks]]></queryString>
+	<queryString><![CDATA[SELECT * FROM Tasks ORDER BY Task, Subtask]]></queryString>
 <!--
 	<queryString><![CDATA[SELECT * FROM Orders ORDER BY ShipCountry]]></queryString>
 -->
@@ -125,102 +125,100 @@
 		</band>
 		</groupFooter>
 	</group>
-	<group name="CountryGroup" isReprintHeaderOnEachPage="false">
-		<groupExpression><![CDATA[$F{ShipCountry}]]></groupExpression>
+	-->
+	<group name="TaskGroup" isReprintHeaderOnEachPage="false">
+		<groupExpression><![CDATA[$F{Task}]]></groupExpression>
 		<groupHeader>
-		<band height="200">
+		<band height="24">
 			<line>
-				<reportElement x="0" y="14" width="270" height="1"/>
+				<reportElement x="0" y="5" width="270" height="1"/>
 				<graphicElement/>
 			</line>
+			<rectangle>
+				<reportElement x="0" y="9" width="270" height="11" forecolor="#c0c0c0" backcolor="#c0c0c0"/>
+				<graphicElement/>
+			</rectangle>
 			<textField>
-				<reportElement style="Arial_Bold" x="10" y="2" width="100" height="11"/>
+				<reportElement style="Arial_Bold" x="10" y="9" width="100" height="11"/>
 				<textElement>
 					<font/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Task}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Group" evaluationGroup="CountryGroup" pattern="EEE, MMM d, yyyy">
-				<reportElement style="Arial_Bold" x="170" y="2" width="100" height="11"/>
-				<textElement textAlignment="Right">
-					<font/>
-				</textElement>
-				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{DateHighestCountryGroup}]]></textFieldExpression>
-			</textField>
-			<xyLineChart>
-				<chart evaluationTime="Group" evaluationGroup="CountryGroup">
-					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
-				</chart>
-				<xyDataset>
-					<dataset resetType="Group" resetGroup="CountryGroup"/>
-					<xySeries>
-						<seriesExpression>"Freight"</seriesExpression>
-						<xValueExpression>$F{OrderID}</xValueExpression>
-						<yValueExpression>$F{Freight}</yValueExpression>
-					</xySeries>
-					<xySeries>
-						<seriesExpression>"Half Freight"</seriesExpression>
-						<xValueExpression>$F{OrderID}</xValueExpression>
-						<yValueExpression>new Double($F{Freight}.doubleValue() / 2d)</yValueExpression>
-					</xySeries>
-				</xyDataset>
-				<linePlot isShowLines="true" isShowShapes="false">
-					<plot/>
-				</linePlot>
-			</xyLineChart>
 		</band>
 		</groupHeader>
 		<groupFooter>
-		<band height="15">
+		<band height="20">
+			<line>
+				<reportElement positionType="Float" x="73" y="0" width="197" height="1" forecolor="#808080"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
 			<rectangle>
-				<reportElement x="0" y="0" width="270" height="11" forecolor="#c0c0c0" backcolor="#c0c0c0"/>
+				<reportElement x="0" y="5" width="270" height="11" forecolor="#e0e0e0" backcolor="#e0e0e0"/>
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement style="Arial_Bold" mode="Opaque" x="0" y="0" width="45" height="11" backcolor="#c0c0c0"/>
+				<reportElement style="Arial_Bold" mode="Opaque" x="200" y="5" width="45" height="11" backcolor="#e0e0e0"/>
 				<textElement textAlignment="Right">
 					<font/>
 				</textElement>
 				<text><![CDATA[Count :]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="Arial_Bold" mode="Opaque" x="45" y="0" width="25" height="11" backcolor="#c0c0c0"/>
+				<reportElement style="Arial_Bold" mode="Opaque" x="245" y="5" width="20" height="11" backcolor="#e0e0e0" />
 				<textElement textAlignment="Right">
 					<font/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{CountryGroup_COUNT}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement style="Arial_Bold" mode="Opaque" x="70" y="0" width="140" height="11" backcolor="#c0c0c0"/>
-				<textElement textAlignment="Right">
-					<font/>
-				</textElement>
-				<text><![CDATA[Total :]]></text>
-			</staticText>
-			<textField pattern="0.00">
-				<reportElement style="Arial_Bold" mode="Opaque" x="210" y="0" width="60" height="11" backcolor="#c0c0c0"/>
-				<textElement textAlignment="Right">
-					<font/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumCountryGroup}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{TaskGroup_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 		</groupFooter>
 	</group>
 	<title>
-		<band height="50">
+		<band height="260">
 			<elementGroup>
 			</elementGroup>
 			<staticText>
-				<reportElement style="Comic_Bold" x="0" y="0" width="555" height="35"/>
-				<box topBorder="Thin" leftBorder="None" bottomBorder="None" rightBorder="None"/>
+				<reportElement x="0" y="0" width="555" height="35" style="Comic_Bold"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center">
 					<font size="22"/>
 				</textElement>
-				<text><![CDATA[XY Line Chart Report]]></text>
+				<text><![CDATA[Gantt Chart Report]]></text>
 			</staticText>
+			<rectangle>
+				<reportElement x="0" y="73" width="270" height="179" backcolor="#fcfcfc"/>
+				<graphicElement/>
+			</rectangle>
+			<ganttChart>
+				<chart evaluationTime="Report" isShowLegend="true">
+					<reportElement positionType="Float" x="0" y="75" width="270" height="175"/>
+					<chartTitle>
+						<titleExpression>"Active Tasks Report"</titleExpression>
+					</chartTitle>
+				</chart>
+				<ganttDataset>
+					<dataset/>
+					<ganttSeries>
+						<seriesExpression>$F{Series}</seriesExpression>
+						<taskExpression>$F{Task}</taskExpression>
+						<subtaskExpression>$F{Subtask}</subtaskExpression>
+						<startDateExpression>$F{StartTimestamp}</startDateExpression>
+						<endDateExpression>$F{EndTimestamp}</endDateExpression>
+						<percentExpression>$F{Percent}</percentExpression>
+					</ganttSeries>
+				</ganttDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+				</barPlot>
+			</ganttChart>
 		</band>
 	</title>
+<!--	
 	<columnHeader>
 		<band height="11">
 			<rectangle>
@@ -260,24 +258,32 @@
 	-->
 	<detail>
 		<band height="13">
+		<!-- 
 			<textField>
-				<reportElement x="1" y="0" width="35" height="11"/>
-				<textElement textAlignment="Right"/>
+				<reportElement x="0" y="0" width="72" height="11"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Task}]]></textFieldExpression>
 			</textField>
+		-->
+			<line>
+				<reportElement positionType="Float" x="73" y="0" width="197" height="1" forecolor="#808080"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="40" y="0" width="110" height="11"/>
-				<textElement/>
+				<reportElement positionType="Float" x="73" y="1" width="72" height="11"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Subtask}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="185" y="0" width="50" height="11"/>
-				<textElement/>
+				<reportElement x="145" y="1" width="62" height="11"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{StartTimestamp}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="235" y="0" width="35" height="11"/>
-				<textElement/>
+				<reportElement x="208" y="1" width="62" height="11"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{EndTimestamp}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -377,34 +383,4 @@
 		</band>
 	</pageFooter>
 	-->
-	<summary>
-<!-- -->
-		<band height="200">
-			<ganttChart>
-<!--				<chart evaluationTime="Group" evaluationGroup="CountryGroup">-->
-				<chart isShowLegend="true">
-					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
-					<chartTitle>
-						<titleExpression>"Uite si titlu"</titleExpression>
-					</chartTitle>
-				</chart>
-				<ganttDataset>
-<!--					<dataset resetType="Group" resetGroup="CountryGroup"/>-->
-					<dataset/>
-					<ganttSeries>
-						<seriesExpression>$F{Series}</seriesExpression>
-						<taskExpression>$F{Task}</taskExpression>
-						<subtaskExpression>$F{Subtask}</subtaskExpression>
-						<startDateExpression>$F{StartTimestamp}</startDateExpression>
-						<endDateExpression>$F{EndTimestamp}</endDateExpression>
-						<percentExpression>$F{Percent}</percentExpression>
-					</ganttSeries>
-				</ganttDataset>
-				<barPlot>
-					<plot/>
-				</barPlot>
-			</ganttChart>
-<!-- -->
-		</band>
-	</summary>
 </jasperReport>
