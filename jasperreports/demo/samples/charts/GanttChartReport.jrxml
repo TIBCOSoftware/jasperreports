@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
-<jasperReport name="GanttChartReport" language="java" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+<jasperReport name="GanttChartReport" language="java" pageWidth="595" pageHeight="842" columnWidth="270" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
 <!-- -->
 	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
@@ -131,15 +131,15 @@
 		<groupHeader>
 		<band height="24">
 			<line>
-				<reportElement x="0" y="5" width="270" height="1"/>
+				<reportElement x="137" y="5" width="270" height="1"/>
 				<graphicElement/>
 			</line>
 			<rectangle>
-				<reportElement x="0" y="9" width="270" height="11" forecolor="#c0c0c0" backcolor="#c0c0c0"/>
+				<reportElement x="137" y="9" width="270" height="11" forecolor="#c0c0c0" backcolor="#c0c0c0"/>
 				<graphicElement/>
 			</rectangle>
 			<textField>
-				<reportElement style="Arial_Bold" x="10" y="9" width="100" height="11"/>
+				<reportElement style="Arial_Bold" x="147" y="9" width="100" height="11"/>
 				<textElement>
 					<font/>
 				</textElement>
@@ -150,24 +150,24 @@
 		<groupFooter>
 		<band height="20">
 			<line>
-				<reportElement positionType="Float" x="73" y="0" width="197" height="1" forecolor="#808080"/>
+				<reportElement positionType="Float" x="210" y="0" width="197" height="1" forecolor="#808080"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</line>
 			<rectangle>
-				<reportElement x="0" y="5" width="270" height="11" forecolor="#e0e0e0" backcolor="#e0e0e0"/>
+				<reportElement x="137" y="5" width="270" height="11" forecolor="#e0e0e0" backcolor="#e0e0e0"/>
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement style="Arial_Bold" mode="Opaque" x="200" y="5" width="45" height="11" backcolor="#e0e0e0"/>
+				<reportElement style="Arial_Bold" mode="Opaque" x="337" y="5" width="45" height="11" backcolor="#e0e0e0"/>
 				<textElement textAlignment="Right">
 					<font/>
 				</textElement>
 				<text><![CDATA[Count :]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="Arial_Bold" mode="Opaque" x="245" y="5" width="20" height="11" backcolor="#e0e0e0" />
+				<reportElement style="Arial_Bold" mode="Opaque" x="382" y="5" width="20" height="11" backcolor="#e0e0e0" />
 				<textElement textAlignment="Right">
 					<font/>
 				</textElement>
@@ -191,12 +191,12 @@
 				<text><![CDATA[Gantt Chart Report]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="0" y="73" width="270" height="179" backcolor="#fcfcfc"/>
+				<reportElement x="137" y="73" width="270" height="179" backcolor="#fcfcfc"/>
 				<graphicElement/>
 			</rectangle>
 			<ganttChart>
 				<chart evaluationTime="Report" isShowLegend="true">
-					<reportElement positionType="Float" x="0" y="75" width="270" height="175"/>
+					<reportElement positionType="Float" x="137" y="75" width="270" height="175"/>
 					<chartTitle>
 						<titleExpression>"Active Tasks Report"</titleExpression>
 					</chartTitle>
@@ -266,23 +266,23 @@
 			</textField>
 		-->
 			<line>
-				<reportElement positionType="Float" x="73" y="0" width="197" height="1" forecolor="#808080"/>
+				<reportElement positionType="Float" x="210" y="0" width="197" height="1" forecolor="#808080"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</line>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="73" y="1" width="72" height="11"/>
+				<reportElement positionType="Float" x="210" y="1" width="72" height="11"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Subtask}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="145" y="1" width="62" height="11"/>
+				<reportElement x="282" y="1" width="62" height="11"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{StartTimestamp}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="208" y="1" width="62" height="11"/>
+				<reportElement x="345" y="1" width="62" height="11"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{EndTimestamp}]]></textFieldExpression>
 			</textField>
