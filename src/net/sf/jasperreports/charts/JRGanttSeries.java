@@ -1,11 +1,11 @@
 package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 
 /**
  * @author Peter Risko (peter@risko.hu)
+ * @version $Id: JRDesignTimePeriodSeries.java 1923 2007-10-25 09:44:32Z lucianc $
  */
 public interface JRGanttSeries {
 
@@ -48,7 +48,7 @@ public interface JRGanttSeries {
     /**
      * Returns the hyperlink specification for chart items.
      * <p>
-     * The hyperlink will be evaluated for every chart item and a image map will be created for the chart.
+     * The hyperlink will be evaluated for every chart item and an image map will be created for the chart.
      * </p>
      * 
      * @return hyperlink specification for chart items

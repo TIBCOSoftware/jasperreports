@@ -63,7 +63,7 @@ public interface JRCategorySeries extends JRCloneable
 	/**
 	 * Returns the hyperlink specification for chart items.
 	 * <p>
-	 * The hyperlink will be evaluated for every chart item and a image map will be created for the chart.
+	 * The hyperlink will be evaluated for every chart item and an image map will be created for the chart.
 	 * </p>
 	 * 
 	 * @return hyperlink specification for chart items
