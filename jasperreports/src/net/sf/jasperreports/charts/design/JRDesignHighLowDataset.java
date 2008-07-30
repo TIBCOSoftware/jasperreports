@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.design.JRVerifier;
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHighLowDataset
+public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHighLowDataset //FIXMECHART why is this different?
 {
 
 	/**

@@ -13,6 +13,7 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 
 /**
  * @author Peter Risko (peter@risko.hu)
+ * @version $Id: JRDesignTimePeriodSeries.java 1923 2007-10-25 09:44:32Z lucianc $
  */
 public class JRBaseGanttDataset extends JRBaseChartDataset implements JRGanttDataset {
 

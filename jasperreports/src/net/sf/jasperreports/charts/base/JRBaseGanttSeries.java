@@ -3,16 +3,18 @@ package net.sf.jasperreports.charts.base;
 import java.io.Serializable;
 
 import net.sf.jasperreports.charts.JRGanttSeries;
-import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
  * @author Peter Risko (peter@risko.hu)
+ * @version $Id: JRDesignTimePeriodSeries.java 1923 2007-10-25 09:44:32Z lucianc $
  */
-public class JRBaseGanttSeries implements JRGanttSeries, Serializable {
+public class JRBaseGanttSeries implements JRGanttSeries, Serializable 
+{
     
     /**
      *
@@ -117,5 +119,56 @@ public class JRBaseGanttSeries implements JRGanttSeries, Serializable {
     }
         
 
+	/**
+	 * 
+	 */
+	public Object clone() 
+	{
+		JRBaseGanttSeries clone = null;
+		
+		try
+		{
+			clone = (JRBaseGanttSeries)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		if (seriesExpression != null)
+		{
+			clone.seriesExpression = (JRExpression)seriesExpression.clone();
+		}
+		if (taskExpression != null)
+		{
+			clone.taskExpression = (JRExpression)taskExpression.clone();
+		}
+		if (subtaskExpression != null)
+		{
+			clone.subtaskExpression = (JRExpression)subtaskExpression.clone();
+		}
+		if (startDateExpression != null)
+		{
+			clone.startDateExpression = (JRExpression)startDateExpression.clone();
+		}
+		if (endDateExpression != null)
+		{
+			clone.endDateExpression = (JRExpression)endDateExpression.clone();
+		}
+		if (percentExpression != null)
+		{
+			clone.percentExpression = (JRExpression)percentExpression.clone();
+		}
+		if (labelExpression != null)
+		{
+			clone.labelExpression = (JRExpression)labelExpression.clone();
+		}
+		if (itemHyperlink != null)
+		{
+			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
+		}
+		
+		return clone;
+	}
 
 }
