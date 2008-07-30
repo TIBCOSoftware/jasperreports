@@ -112,7 +112,14 @@ public abstract class BorderOffset
 	 */
 	public static float getOffset(JRPen pen)
 	{
-		return ((BorderOffset)threadInstance.get()).getValue(pen);
+		BorderOffset borderOffset = (BorderOffset)threadInstance.get();
+		if (borderOffset == null)
+		{
+			borderOffset = 
+				JRProperties.getBooleanProperty(BorderOffset.PROPERTY_LEGACY_BORDER_OFFSET)
+				? LEGACY : DEFAULT;
+		}
+		return borderOffset.getValue(pen);
 	}
 
 	/**
