@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
@@ -95,7 +96,7 @@ public class ImageConverter extends ElementConverter
 		printImage.setLinkType(image.getLinkType());
 		printImage.setOnErrorType(image.getOnErrorType());
 		printImage.setVerticalAlignment(image.getOwnVerticalAlignment());
-		printImage.setRenderer(getRenderer(image));
+		printImage.setRenderer(getRenderer(image, printImage));
 		printImage.setScaleImage(image.getOwnScaleImage());
 		
 		return printImage;
@@ -104,7 +105,7 @@ public class ImageConverter extends ElementConverter
 	/**
 	 * 
 	 */
-	private JRRenderable getRenderer(JRImage imageElement)
+	private JRRenderable getRenderer(JRImage imageElement, JRPrintImage printImage)
 	{
 		String location = JRExpressionUtil.getSimpleExpressionText(imageElement.getExpression());
 		if(location != null)
@@ -115,8 +116,7 @@ public class ImageConverter extends ElementConverter
 				Image awtImage = JRImageLoader.loadImage(imageData);
 				if (awtImage == null)
 				{
-					imageElement.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
-					imageElement.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
+					printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
 					return 
 						JRImageRenderer.getInstance(
 							JRImageLoader.NO_IMAGE_RESOURCE, 
@@ -133,8 +133,7 @@ public class ImageConverter extends ElementConverter
 		
 		try
 		{
-			imageElement.setScaleImage(JRImage.SCALE_IMAGE_CLIP);//FIXMECONVERT modify original image?
-			imageElement.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
+			printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
 			return 
 				JRImageRenderer.getInstance(
 					JRImageLoader.NO_IMAGE_RESOURCE, 
