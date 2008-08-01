@@ -1175,6 +1175,18 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		return getForecolor();
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() 
+	{
+		JRDesignTextElement clone = (JRDesignTextElement)super.clone();
+		
+		clone.lineBox = (JRLineBox)lineBox.clone(this);
+		
+		return clone;
+	}
+
 
 	/**
 	 * These fields are only for serialization backward compatibility.

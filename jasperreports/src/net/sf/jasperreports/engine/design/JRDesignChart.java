@@ -1442,6 +1442,8 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	{
 		JRDesignChart clone = (JRDesignChart)super.clone();
 		
+		clone.lineBox = (JRLineBox)lineBox.clone(this);
+
 		if (hyperlinkParameters != null)
 		{
 			clone.hyperlinkParameters = new ArrayList(hyperlinkParameters.size());
