@@ -1165,6 +1165,18 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		return getForecolor();
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone() 
+	{
+		JRBaseTextElement clone = (JRBaseTextElement)super.clone();
+		
+		clone.lineBox = (JRLineBox)lineBox.clone(this);
+		
+		return clone;
+	}
+	
 
 	/**
 	 * These fields are only for serialization backward compatibility.

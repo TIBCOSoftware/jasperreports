@@ -38,7 +38,6 @@ import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRGanttDataset;
-import net.sf.jasperreports.charts.JRGanttSeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
@@ -1118,6 +1117,8 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	{
 		JRBaseChart clone = (JRBaseChart)super.clone();
 		
+		clone.lineBox = (JRLineBox)lineBox.clone(this);
+
 		if (hyperlinkParameters != null)
 		{
 			clone.hyperlinkParameters = new JRHyperlinkParameter[hyperlinkParameters.length];
