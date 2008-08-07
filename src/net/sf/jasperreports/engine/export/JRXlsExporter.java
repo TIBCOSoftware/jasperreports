@@ -37,12 +37,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.AttributedCharacterIterator;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -68,7 +66,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -76,6 +73,7 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -87,7 +85,6 @@ import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -252,7 +249,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT,
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
-				getLoadedFont(getDefaultFont(), forecolor, null),
+				getLoadedFont(getDefaultFont(), forecolor),
 				gridCell
 				);
 
@@ -307,7 +304,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT,
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
-				getLoadedFont(getDefaultFont(), forecolor, null),
+				getLoadedFont(getDefaultFont(), forecolor),
 				boxStyle
 				);
 
@@ -342,7 +339,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT,
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
-				getLoadedFont(getDefaultFont(), forecolor, null),
+				getLoadedFont(getDefaultFont(), forecolor),
 				gridCell
 				);
 
@@ -387,15 +384,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				horizontalAlignment,
 				verticalAlignment,
 				rotation,
-				getLoadedFont(textElement, forecolor, null),
+				getLoadedFont(textElement, forecolor),
 				gridCell
 				);
 
-		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
+		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle);
 	}
 
 
-	protected void createTextCell(JRPrintText textElement, final JRExporterGridCell gridCell, final int colIndex, final int rowIndex, final JRStyledText styledText, final StyleInfo baseStyle, final short forecolor) throws JRException
+	protected void createTextCell(JRPrintText textElement, final JRExporterGridCell gridCell, final int colIndex, final int rowIndex, JRStyledText styledText, final StyleInfo baseStyle) throws JRException
 	{
 		String formula = textElement.getPropertiesMap().getProperty(JRAbstractExporter.PROPERTY_CELL_FORMULA);
 		if(formula != null)
@@ -427,7 +424,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				public void handle(StringTextValue textValue)
 				{
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
-					setRichTextStringCellValue(styledText, forecolor);
+					setStringCellValue(textValue.getText());
 					endCreateCell(cellStyle);
 				}
 
@@ -514,14 +511,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 			catch(NumberFormatException e)
 			{
-				setRichTextStringCellValue(styledText, forecolor);
+				setStringCellValue(textStr);
 			}
 			endCreateCell(cellStyle);
 		}
 		else
 		{
 			HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
-			setRichTextStringCellValue(styledText, forecolor);
+			setStringCellValue(textStr);
 			endCreateCell(cellStyle);
 		}
 	}
@@ -540,41 +537,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		cell.setCellStyle(cellStyle);
 	}
-	
-/*
+
 	protected final void setStringCellValue(String textStr)
 	{
 		//cell.setCellValue(JRStringUtil.replaceDosEOL(textStr));
 		cell.setCellValue(textStr);
 	}
-*/
-	
-	protected final void setRichTextStringCellValue(JRStyledText styledText, short forecolor)
-	{
-		cell.setCellValue(getRichTextString(styledText, forecolor));
-	}
 
-	protected HSSFRichTextString getRichTextString(JRStyledText styledText, short forecolor)
-	{
-		String text = styledText.getText();
-		HSSFRichTextString richTextStr = new HSSFRichTextString(styledText.getText());
 
-		int runLimit = 0;
-		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
-		
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
-		{
-			Map attributes = iterator.getAttributes();
-			short runForecolor = attributes.get(TextAttribute.FOREGROUND) != null ? 
-					getNearestColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex() :
-					forecolor;
-			HSSFFont font = getLoadedFont(new JRBaseFont(attributes), runForecolor, attributes);
-			richTextStr.applyFont(iterator.getIndex(), runLimit, font);
-			iterator.setIndex(runLimit);
-		}
-		
-		return richTextStr;
-	}
 	protected void createMergeRegion(JRExporterGridCell gridCell, int colIndex, int rowIndex, HSSFCellStyle cellStyle)
 	{
 		if (gridCell.getColSpan() > 1 || gridCell.getRowSpan() > 1)
@@ -703,7 +673,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected HSSFFont getLoadedFont(JRFont font, short forecolor, Map attributes)
+	protected HSSFFont getLoadedFont(JRFont font, short forecolor)
 	{
 		HSSFFont cellFont = null;
 
@@ -712,21 +682,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		{
 			fontName = (String) fontMap.get(fontName);
 		}
-		short superscriptType = HSSFFont.SS_NONE;
-		
-		if( attributes != null && attributes.get(TextAttribute.SUPERSCRIPT) != null)
-		{
-			Object value = attributes.get(TextAttribute.SUPERSCRIPT);
-			if(TextAttribute.SUPERSCRIPT_SUPER.equals(value))
-			{
-				superscriptType = HSSFFont.SS_SUPER;
-			}
-			else if(TextAttribute.SUPERSCRIPT_SUB.equals(value))
-			{
-				superscriptType = HSSFFont.SS_SUB;
-			}
-			
-		}
+
 		for (int i = 0; i < loadedFonts.size(); i++)
 		{
 			HSSFFont cf = (HSSFFont)loadedFonts.get(i);
@@ -742,8 +698,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				((cf.getUnderline() == HSSFFont.U_SINGLE)?(font.isUnderline()):(!font.isUnderline())) &&
 				(cf.getStrikeout() == font.isStrikeThrough()) &&
 				((cf.getBoldweight() == HSSFFont.BOLDWEIGHT_BOLD)?(font.isBold()):(!font.isBold())) &&
-				(cf.getItalic() == font.isItalic()) &&
-				(cf.getTypeOffset() == superscriptType)
+				(cf.getItalic() == font.isItalic())
 				)
 			{
 				cellFont = cf;
@@ -780,12 +735,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			{
 				cellFont.setItalic(true);
 			}
-			if (font.isItalic())
-			{
-				cellFont.setItalic(true);
-			}
 
-			cellFont.setTypeOffset(superscriptType);
 			loadedFonts.add(cellFont);
 		}
 
@@ -1115,7 +1065,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						HSSFCellStyle.ALIGN_LEFT,
 						HSSFCellStyle.VERTICAL_TOP,
 						(short)0,
-						getLoadedFont(getDefaultFont(), forecolor, null),
+						getLoadedFont(getDefaultFont(), forecolor),
 						gridCell
 						);
 
@@ -1162,7 +1112,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT,
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
-				getLoadedFont(getDefaultFont(), forecolor, null),
+				getLoadedFont(getDefaultFont(), forecolor),
 				gridCell
 				);
 
