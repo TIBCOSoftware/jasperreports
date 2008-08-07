@@ -886,7 +886,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected TextValue getBooleanCellValue(JRPrintText text, String textStr)
 	{
 		Boolean value = null;
-		if (textStr != null || textStr.length() > 0)
+		if (textStr != null && textStr.length() > 0)
 		{
 			value = Boolean.valueOf(textStr);
 		}
