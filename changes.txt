@@ -2,12 +2,14 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.0.1 (2008-0x-xx)
+JasperReports 3.0.1 (2008-08-0x)
 -----------------------------------
 
 - Gantt chart;
 
 - new Swing viewer component, with enhanced plugability and reusability;
+
+- password protection for the XLS files generated with the JExcelApi-based exporter;
 
 - minor bug fixes and improvements;
 
