@@ -62,17 +62,8 @@ public class XlsFormulaApp
 	 *
 	 */
 	private static final String TASK_FILL = "fill";
-	private static final String TASK_PRINT = "print";
-	private static final String TASK_PDF = "pdf";
-	private static final String TASK_RTF = "rtf";
-	private static final String TASK_XML = "xml";
-	private static final String TASK_XML_EMBED = "xmlEmbed";
-	private static final String TASK_HTML = "html";
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_JXL = "jxl";
-	private static final String TASK_CSV = "csv";
-	private static final String TASK_ODT = "odt";
-	private static final String TASK_RUN = "run";
 	
 	
 	/**
@@ -96,67 +87,6 @@ public class XlsFormulaApp
 			{
 				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_PRINT.equals(taskName))
-			{
-				JasperPrintManager.printReport(fileName, true);
-				System.err.println("Printing time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_PDF.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-				
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-				
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
-
-				JRPdfExporter exporter = new JRPdfExporter();
-
-				Map fontMap = new HashMap();
-				fontMap.put(new FontKey("Arial", true, false), new PdfFont("Helvetica-Bold", "Cp1252", false));
-				fontMap.put(new FontKey("Arial", false, true), new PdfFont("Helvetica-Oblique", "Cp1252", false));
-				fontMap.put(new FontKey("Arial", true, true), new PdfFont("Helvetica-BoldOblique", "Cp1252", false));
-				fontMap.put(new FontKey("Comic Sans MS", false, false), new PdfFont("COMICBD.TTF", "Cp1252", true));
-
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
-
-				exporter.exportReport();
-
-				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_RTF.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-				
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
-				
-				JRRtfExporter exporter = new JRRtfExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				
-				exporter.exportReport();
-
-				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_XML.equals(taskName))
-			{
-				JasperExportManager.exportReportToXmlFile(fileName, false);
-				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_XML_EMBED.equals(taskName))
-			{
-				JasperExportManager.exportReportToXmlFile(fileName, true);
-				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_HTML.equals(taskName))
-			{
-				JasperExportManager.exportReportToHtmlFile(fileName);
-				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_XLS.equals(taskName))
 			{
@@ -194,45 +124,6 @@ public class XlsFormulaApp
 
 				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
 			}
-			else if (TASK_CSV.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".csv");
-				
-				JRCsvExporter exporter = new JRCsvExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				
-				exporter.exportReport();
-
-				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_ODT.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
-				
-				JROdtExporter exporter = new JROdtExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				
-				exporter.exportReport();
-
-				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_RUN.equals(taskName))
-			{
-				JasperRunManager.runReportToPdfFile(fileName, null, new JREmptyDataSource());
-				System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-			}
 			else
 			{
 				usage();
@@ -255,8 +146,8 @@ public class XlsFormulaApp
 	private static void usage()
 	{
 		System.out.println( "XlsFormulaApp usage:" );
-		System.out.println( "\tjava StyledTextApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | run" );
+		System.out.println( "\tjava XlsFormulaApp task file" );
+		System.out.println( "\tTasks : fill | xls | jxl" );
 	}
 
 
