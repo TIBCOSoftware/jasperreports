@@ -108,7 +108,6 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -151,6 +150,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected boolean createCustomPalette;
 	protected Map workbookColours = new HashMap();
 	protected Map usedColours = new HashMap();
+	protected String password;
 	
 	protected ExporterNature nature = null;
 	
@@ -179,6 +179,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			initCustomPalette();
 		}
 
+		password = 
+			getStringParameter(
+				JExcelApiExporterParameter.PASSWORD,
+				JExcelApiExporterParameter.PROPERTY_PASSWORD
+				);
+		
 		nature = new JExcelApiExporterNature(filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 

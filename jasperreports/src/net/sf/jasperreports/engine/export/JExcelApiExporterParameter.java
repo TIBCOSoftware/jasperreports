@@ -84,4 +84,20 @@ public class JExcelApiExporterParameter extends JRXlsAbstractExporterParameter {
 	 */
 	public static final String PROPERTY_CREATE_CUSTOM_PALETTE = JRProperties.PROPERTY_PREFIX + "export.xls.create.custom.palette";
 
+
+	/**
+	 * A String value representing the password in case of password protected documents 
+	 */
+	public static final JRExporterParameter PASSWORD = new JExcelApiExporterParameter("Password");
+
+
+	/**
+	 * Property whose value is used as default value of the {@link #PASSWORD PASSWORD} export parameter.
+	 * <p/>
+	 * This property is by default not set (<code>null</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_PASSWORD = JRProperties.PROPERTY_PREFIX + "export.xls.password";
+
 }

@@ -109,9 +109,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isCollapseRowSpan;
 	protected boolean isIgnoreCellBorder;
 
-	protected String username;
-	protected String password;
-	
 	protected int maxRowsPerSheet;
 
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
@@ -344,18 +341,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				JRExporterParameter.PROPERTY_IGNORE_PAGE_MARGINS, 
 				false
 				); 
-		
-		username = 
-			getStringParameter(
-				JRExporterParameter.USERNAME,
-				JRExporterParameter.PROPERTY_USERNAME
-				);
-		
-		password = 
-			getStringParameter(
-				JRExporterParameter.PASSWORD,
-				JRExporterParameter.PROPERTY_PASSWORD
-				);
+			
 		
 	}
 

@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
-import net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -296,38 +295,5 @@ public class JRExporterParameter
 	 * @see JRProperties
 	 */
 	public static final String PROPERTY_IGNORE_PAGE_MARGINS = JRProperties.PROPERTY_PREFIX + "export.ignore.page.margins";
-
-
-	/**
-	 * A String value representing the username in case of password protected documents 
-	 */
-	public static final JRExporterParameter USERNAME = new JRExporterParameter("Username");
-
-
-	/**
-	 * Property whose value is used as default value of the {@link #USERNAME USERNAME} export parameter.
-	 * <p/>
-	 * This property is by default not set (<code>null</code>).
-	 * 
-	 * @see JRProperties
-	 */
-	public static final String PROPERTY_USERNAME = JRProperties.PROPERTY_PREFIX + "export.username";
-
-
-	/**
-	 * A String value representing the password in case of password protected documents 
-	 */
-	public static final JRExporterParameter PASSWORD = new JRExporterParameter("Password");
-
-
-	/**
-	 * Property whose value is used as default value of the {@link #PASSWORD PASSWORD} export parameter.
-	 * <p/>
-	 * This property is by default not set (<code>null</code>).
-	 * 
-	 * @see JRProperties
-	 */
-	public static final String PROPERTY_PASSWORD = JRProperties.PROPERTY_PREFIX + "export.password";
-
 
 }
