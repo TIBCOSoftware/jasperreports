@@ -24,6 +24,9 @@ based on the element's key property;
 - password protection for the XLS files generated with 
 the JExcelApi-based exporter;
 
+- the Javaflow-based distributed JAR has the JRContinuationSubreportRunnerFactory
+configured as the default subreport runner factory;
+
 - minor bug fixes and improvements;
 
 

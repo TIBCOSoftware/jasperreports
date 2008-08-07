@@ -79,6 +79,12 @@
 			<fileset dir="./build/classes"/>
 		</copy>
 
+		<replace
+			file="./build/javaflow/default.jasperreports.properties"
+			token="net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory"
+			value="net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory">
+		</replace>
+
 		<javaflow srcdir="./build/javaflow" dstdir="./build/javaflow" mode="bcel">
 			<include name="net/sf/jasperreports/engine/fill/JRBaseFiller.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRVerticalFiller.class"/>
