@@ -4858,6 +4858,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
         <value>
           <name>net.sf.jasperreports.engine.JRTemplate</name>
         </value>
+      </values>
       <default>java.lang.String</default>
     </attribute>
   </attributes>

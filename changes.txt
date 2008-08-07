@@ -2,14 +2,27 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.0.1 (2008-08-0x)
+JasperReports 3.0.1 (2008-08-07)
 -----------------------------------
 
-- Gantt chart;
+- new Gantt chart type added;
 
-- new Swing viewer component, with enhanced plugability and reusability;
+- support for item hyperlinks in multi-axis charts;
 
-- password protection for the XLS files generated with the JExcelApi-based exporter;
+- new Swing report viewer component, with enhanced plugability 
+and reusability (the page viewer and its toolbar can be separated);
+
+- new possible values (RealHeight and RealSize) for the "scaleImage" 
+attribute of the image elements;
+
+- support for pluggable exporter filter factories in addition 
+to the existing FILTER exporter parameter;
+
+- new exporter filter implementation for filtering out content 
+based on the element's key property;
+
+- password protection for the XLS files generated with 
+the JExcelApi-based exporter;
 
 - minor bug fixes and improvements;
 
