@@ -84,16 +84,9 @@
 				</textElement>
 				<text><![CDATA[Gantt Chart Report]]></text>
 			</staticText>
-			<rectangle>
-				<reportElement x="137" y="73" width="270" height="179" backcolor="#fcfcfc"/>
-				<graphicElement/>
-			</rectangle>
 			<ganttChart>
 				<chart evaluationTime="Report" isShowLegend="true">
-					<reportElement positionType="Float" x="137" y="75" width="270" height="175"/>
-					<chartTitle>
-						<titleExpression>"Active Tasks Report"</titleExpression>
-					</chartTitle>
+					<reportElement positionType="Float" x="0" y="75" width="555" height="175"/>
 				</chart>
 				<ganttDataset>
 					<dataset/>
