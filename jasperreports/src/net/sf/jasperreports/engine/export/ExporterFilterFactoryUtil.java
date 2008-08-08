@@ -28,7 +28,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.util.JRSingletonCache;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
  * A {@link ExporterFilterFactory} utility class.
@@ -38,8 +38,8 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
  */
 public class ExporterFilterFactoryUtil
 {
-
-	private static final JRSingletonCache cache = new JRSingletonCache(ExporterFilterFactory.class);
+	//FIXME this would add commons collections to applet jar
+	//private static final JRSingletonCache cache = new JRSingletonCache(ExporterFilterFactory.class);
 
 	/**
 	 * Returns an exporter filter factory based on a factory class name.
@@ -50,7 +50,24 @@ public class ExporterFilterFactoryUtil
 	 */
 	public static ExporterFilterFactory getFilterFactory(String factoryClassName) throws JRException
 	{
-		return (ExporterFilterFactory) cache.getCachedInstance(factoryClassName);
+		//return (ExporterFilterFactory) cache.getCachedInstance(factoryClassName);
+		try
+		{
+			Class clazz = JRClassLoader.loadClassForName(factoryClassName);
+			return (ExporterFilterFactory)clazz.newInstance();
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new JRException("Class " + factoryClassName + " not found.", e);
+		}
+		catch (InstantiationException e)
+		{
+			throw new JRException("Error instantiating class " + factoryClassName + ".", e);
+		}
+		catch (IllegalAccessException e)
+		{
+			throw new JRException("Error instantiating class " + factoryClassName + ".", e);
+		}
 	}
 
 }

@@ -198,12 +198,18 @@
 				<include name="**/net/sf/jasperreports/engine/design/JRDesignFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/design/JRDesignReportFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/design/events/*.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/DefaultExporterFilterFactory.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/ElementKeyExporterFilterFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/ExporterFilter.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/ExporterFilterFactory.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/ExporterFilterFactoryUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/ResetableExporterFilter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRExportProgressMonitor.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/JRExporterContext.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporterParameter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JROriginExporterFilter.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/JROriginExporterFilterFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRPrintServiceExporter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/TextRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/data/*.class"/>
@@ -233,7 +239,7 @@
 				<include name="**/net/sf/jasperreports/engine/util/JRJdk14ImageEncoder.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRJdk14ImageReader.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRLoader.class"/>
-				<include name="**/net/sf/jasperreports/engine/util/JRProperties.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRProperties*.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRSaver.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRStringUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRStyledText*.class"/>
