@@ -1,0 +1,104 @@
+<project name="groovy" default="javac" basedir=".">
+
+	<description>Shows how the Groovy scripting languages could be used inside report templates.</description>
+
+	<property name="class.name" value="GroovyApp" />
+	<property name="file.name" value="${basedir}/GroovyReport" />
+	<property name="classes.dir" value="../../../build/classes" />
+	<property name="lib.dir" value="../../../lib" />
+	<property name="fonts.dir" value="../../fonts" />
+	
+	<path id="classpath">
+		<pathelement location="./"/>
+		<pathelement location="${classes.dir}" />
+		<pathelement location="${fonts.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<target name="compile" description="Compiles the XML report designs and produces the .jasper files.">
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+			<classpath refid="classpath"/>
+		</taskdef>
+		<jrc destdir="./">
+			<src>
+				<fileset dir="./">
+					<include name="**/*.jrxml"/>
+				</fileset>
+			</src>
+			<classpath refid="classpath"/>
+		</jrc> 
+	</target>
+
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="fill"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="${file.name}.jrpxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="pdf"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${file.name}.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<delete>
+			<fileset dir="." includes="**/*.class" />
+			<fileset dir="." includes="**/*.jasper" />
+			<fileset dir="." includes="**/*.jrprint" />
+			<fileset dir="." includes="**/*.pdf" />
+		</delete>
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Groovy Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<antcall target="fill" />
+		<antcall target="pdf" />
+	</target>
+
+</project>
