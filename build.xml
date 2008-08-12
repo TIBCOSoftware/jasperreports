@@ -28,6 +28,7 @@
 			<fileset dir="./src">
 				<include name="**/*.dtd"/>
 				<include name="**/*.properties"/>
+				<include name="**/*.png"/>
 				<include name="**/*.GIF"/>
 				<include name="**/*TokenTypes.txt"/>
 			</fileset>

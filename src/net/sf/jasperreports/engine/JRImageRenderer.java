@@ -325,7 +325,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 		{
 			case JRImage.ON_ERROR_TYPE_ICON :
 			{
-				renderer = new JRImageRenderer("net/sf/jasperreports/engine/images/noimage.GIF");
+				renderer = new JRImageRenderer(JRImageLoader.NO_IMAGE_RESOURCE);
 				//FIXME cache these renderers
 				break;
 			}
