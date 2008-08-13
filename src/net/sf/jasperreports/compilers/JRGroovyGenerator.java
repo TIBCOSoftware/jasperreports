@@ -546,22 +546,16 @@ public class JRGroovyGenerator
 		byte evaluationType
 		)
 	{
-		JRParameter jrParameter = null;
-		JRField jrField = null;
-		JRVariable jrVariable = null;
-
 		StringBuffer sb = new StringBuffer();
 
 		JRExpressionChunk[] chunks = expression.getChunks();
-		JRExpressionChunk chunk = null;
-		String chunkText = null;
 		if (chunks != null && chunks.length > 0)
 		{
 			for(int i = 0; i < chunks.length; i++)
 			{
-				chunk = chunks[i];
+				JRExpressionChunk chunk = chunks[i];
 
-				chunkText = chunk.getText();
+				String chunkText = chunk.getText();
 				if (chunkText == null)
 				{
 					chunkText = "";
@@ -576,11 +570,16 @@ public class JRGroovyGenerator
 					}
 					case JRExpressionChunk.TYPE_PARAMETER :
 					{
-						jrParameter = (JRParameter)parametersMap.get(chunkText);
+						JRParameter jrParameter = (JRParameter)parametersMap.get(chunkText);
 	
-						sb.append("((");
-						sb.append(jrParameter.getValueClassName());
-						sb.append(")parameter_");
+						sb.append("(");
+						if (!"java.lang.Object".equals(jrParameter.getValueClassName()))
+						{
+							sb.append("(");
+							sb.append(jrParameter.getValueClassName());
+							sb.append(")");
+						}
+						sb.append("parameter_");
 						sb.append(JRStringUtil.getLiteral(chunkText));
 						sb.append(".getValue())");
 	
@@ -588,11 +587,16 @@ public class JRGroovyGenerator
 					}
 					case JRExpressionChunk.TYPE_FIELD :
 					{
-						jrField = (JRField)fieldsMap.get(chunkText);
-	
-						sb.append("((");
-						sb.append(jrField.getValueClassName());
-						sb.append(")field_");
+						JRField jrField = (JRField)fieldsMap.get(chunkText);
+
+						sb.append("(");
+						if (!"java.lang.Object".equals(jrField.getValueClassName()))
+						{
+							sb.append("(");
+							sb.append(jrField.getValueClassName());
+							sb.append(")");
+						}
+						sb.append("field_");
 						sb.append(JRStringUtil.getLiteral(chunkText)); 
 						sb.append(".get");
 						sb.append((String)fieldPrefixMap.get(new Byte(evaluationType))); 
@@ -602,11 +606,16 @@ public class JRGroovyGenerator
 					}
 					case JRExpressionChunk.TYPE_VARIABLE :
 					{
-						jrVariable = (JRVariable)variablesMap.get(chunkText);
+						JRVariable jrVariable = (JRVariable)variablesMap.get(chunkText);
 	
-						sb.append("((");
-						sb.append(jrVariable.getValueClassName());
-						sb.append(")variable_"); 
+						sb.append("(");
+						if (!"java.lang.Object".equals(jrVariable.getValueClassName()))
+						{
+							sb.append("(");
+							sb.append(jrVariable.getValueClassName());
+							sb.append(")"); 
+						}
+						sb.append("variable_"); 
 						sb.append(JRStringUtil.getLiteral(chunkText)); 
 						sb.append(".get");
 						sb.append((String)variablePrefixMap.get(new Byte(evaluationType))); 
