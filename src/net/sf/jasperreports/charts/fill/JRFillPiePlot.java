@@ -56,4 +56,14 @@ public class JRFillPiePlot extends JRFillChartPlot implements JRPiePlot
 		return ((JRPiePlot)parent).isCircular();
 	}
 	
+	public String getLabelFormat()
+	{
+		return ((JRPiePlot)parent).getLabelFormat();
+	}
+	
+	public String getLegendLabelFormat()
+	{
+		return ((JRPiePlot)parent).getLegendLabelFormat();
+	}
+	
 }

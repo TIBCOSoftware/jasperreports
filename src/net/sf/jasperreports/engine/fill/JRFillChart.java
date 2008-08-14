@@ -46,8 +46,8 @@ import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRChartAxis;
-import net.sf.jasperreports.charts.JRGanttDataset;
 import net.sf.jasperreports.charts.JRDataRange;
+import net.sf.jasperreports.charts.JRGanttDataset;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
@@ -133,6 +133,7 @@ import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.DialShape;
@@ -2117,7 +2118,20 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			piePlot3D.setLabelGenerator(labelGenerator);
 		}
+		else if (((JRFillPie3DPlot)getPlot()).getLabelFormat() != null)
+		{
+			piePlot3D.setLabelGenerator(
+				new StandardPieSectionLabelGenerator(((JRFillPie3DPlot)getPlot()).getLabelFormat())
+				);
+		}
 
+		if (((JRFillPie3DPlot)getPlot()).getLegendLabelFormat() != null)
+		{
+			piePlot3D.setLegendLabelGenerator(
+				new StandardPieSectionLabelGenerator(((JRFillPie3DPlot)getPlot()).getLegendLabelFormat())
+				);
+		}
+		
 		//FIXMECHART at this moment, there are no label font, label backcolor
 		// and label forecolor properties defined for the PieChart3D
 
@@ -2155,7 +2169,20 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			piePlot.setLabelGenerator(labelGenerator);
 		}
+		else if (((JRFillPiePlot)getPlot()).getLabelFormat() != null)
+		{
+			piePlot.setLabelGenerator(
+				new StandardPieSectionLabelGenerator(((JRFillPiePlot)getPlot()).getLabelFormat())
+				);
+		}
 
+		if (((JRFillPiePlot)getPlot()).getLegendLabelFormat() != null)
+		{
+			piePlot.setLegendLabelGenerator(
+				new StandardPieSectionLabelGenerator(((JRFillPiePlot)getPlot()).getLegendLabelFormat())
+				);
+		}
+		
 		//FIXMECHART at this moment, there are no label font, label backcolor
 		// and label forecolor properties defined for the PieChart
 

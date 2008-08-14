@@ -1488,6 +1488,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		JRPiePlot plot = (JRPiePlot) chart.getPlot();
 		writer.startElement(JRXmlConstants.ELEMENT_piePlot);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isCircular, plot.isCircular(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelFormat, plot.getLabelFormat());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_legendLabelFormat, plot.getLegendLabelFormat());
 		writePlot(chart.getPlot());
 		writer.closeElement();
 
@@ -1509,6 +1511,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(JRXmlConstants.ELEMENT_pie3DPlot);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_depthFactor, plot.getDepthFactor(), JRPie3DPlot.DEPTH_FACTOR_DEFAULT);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isCircular, plot.isCircular(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelFormat, plot.getLabelFormat());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_legendLabelFormat, plot.getLegendLabelFormat());
 		writePlot(chart.getPlot());
 		writer.closeElement();
 

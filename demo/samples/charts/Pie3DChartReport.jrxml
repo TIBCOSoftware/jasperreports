@@ -95,7 +95,7 @@
 					<keyExpression>$F{ShipCountry}</keyExpression>
 					<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
 				</pieDataset>
-				<pie3DPlot depthFactor="0.2">
+				<pie3DPlot depthFactor="0.2" labelFormat="{0} {2}" legendLabelFormat="{0} {1}">
 					<plot foregroundAlpha="0.5"/>
 				</pie3DPlot>
 			</pie3DChart>
