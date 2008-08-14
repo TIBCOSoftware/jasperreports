@@ -99,7 +99,7 @@
 						<hyperlinkTooltipExpression><![CDATA["Read more about " + $F{ShipCountry}]]></hyperlinkTooltipExpression>
 					</sectionHyperlink>
 				</pieDataset>
-				<piePlot>
+				<piePlot labelFormat="{0} {2}" legendLabelFormat="{0} {1}">
 					<plot/>
 				</piePlot>
 			</pieChart>

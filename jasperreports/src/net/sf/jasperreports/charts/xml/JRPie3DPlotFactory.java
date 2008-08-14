@@ -65,6 +65,9 @@ public class JRPie3DPlotFactory extends JRBaseFactory
 			pie3DPlot.setCircular(Boolean.valueOf(isCircular).booleanValue());
 		}
 
+		pie3DPlot.setLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_labelFormat));
+		pie3DPlot.setLegendLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_legendLabelFormat));
+
 		return pie3DPlot;
 	}
 }

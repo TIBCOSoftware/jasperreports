@@ -49,11 +49,15 @@ public class JRPiePlotFactory extends JRBaseFactory
 	{
 		JRChart chart = (JRChart) digester.peek();
 		JRDesignPiePlot piePlot = (JRDesignPiePlot)chart.getPlot();
+
 		String isCircular = atts.getValue(JRXmlConstants.ATTRIBUTE_isCircular);
 		if (isCircular != null && isCircular.length() > 0) {
 			piePlot.setCircular(Boolean.valueOf(isCircular).booleanValue());
 		}
 		
+		piePlot.setLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_labelFormat));
+		piePlot.setLegendLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_legendLabelFormat));
+
 		return piePlot;	
 	}
 }

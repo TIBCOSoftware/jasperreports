@@ -2,6 +2,18 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 3.0.2 (2008-0x-xx)
+-----------------------------------
+
+- new "labelFormat" and "legendLabelFormat" properties availabel for pie and pie 3D chart plots
+to allow controlling the labels for pie charts without need for chart customizer;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 3.0.1 (2008-08-07)
 -----------------------------------
 

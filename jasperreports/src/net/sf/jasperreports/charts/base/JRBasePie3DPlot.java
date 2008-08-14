@@ -53,8 +53,13 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	
 	public static final String PROPERTY_DEPTH_FACTOR = "depthFactor";
 	
+	public static final String PROPERTY_LABEL_FORMAT = "labelFormat";
+	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
+	
 	protected double depthFactor = DEPTH_FACTOR_DEFAULT;
 	protected boolean isCircular = false;
+	protected String labelFormat = null;
+	protected String legendLabelFormat = null;
 	
 	/**
 	 *
@@ -74,6 +79,8 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		
 		depthFactor = pie3DPlot.getDepthFactor();
 		isCircular = pie3DPlot.isCircular();
+		labelFormat = pie3DPlot.getLabelFormat();
+		legendLabelFormat = pie3DPlot.getLegendLabelFormat();
 	}
 
 	
@@ -118,6 +125,42 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		boolean old = this.isCircular;
 		this.isCircular = isCircular;
 		getEventSupport().firePropertyChange(PROPERTY_CIRCULAR, old, this.isCircular);
+	}
+
+	
+	/**
+	 * @return the labelFormat
+	 */
+	public String getLabelFormat() {
+		return labelFormat;
+	}
+
+
+	/**
+	 * @param labelFormat the labelFormat to set
+	 */
+	public void setLabelFormat(String labelFormat) {
+		String old = this.labelFormat;
+		this.labelFormat = labelFormat;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_FORMAT, old, this.labelFormat);
+	}
+
+	
+	/**
+	 * @return the legendLabelFormat
+	 */
+	public String getLegendLabelFormat() {
+		return legendLabelFormat;
+	}
+
+
+	/**
+	 * @param legendLabelFormat the legendLabelFormat to set
+	 */
+	public void setLegendLabelFormat(String legendLabelFormat) {
+		String old = this.legendLabelFormat;
+		this.legendLabelFormat = legendLabelFormat;
+		getEventSupport().firePropertyChange(PROPERTY_LEGEND_LABEL_FORMAT, old, this.legendLabelFormat);
 	}
 
 	

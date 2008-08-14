@@ -44,5 +44,18 @@ public interface JRPie3DPlot extends JRChartPlot
 	 */
 	public double getDepthFactor();
 	
+	/**
+	 * 
+	 */
 	public boolean isCircular();
+	
+	/**
+	 * 
+	 */
+	public String getLabelFormat();
+	
+	/**
+	 * 
+	 */
+	public String getLegendLabelFormat();
 }

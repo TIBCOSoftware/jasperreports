@@ -1530,6 +1530,8 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_isShowCloseTicks = "isShowCloseTicks";
 	public static final String ATTRIBUTE_isShowVolume = "isShowVolume";
 	public static final String ATTRIBUTE_isCircular = "isCircular";
+	public static final String ATTRIBUTE_labelFormat = "labelFormat";
+	public static final String ATTRIBUTE_legendLabelFormat = "legendLabelFormat";
 
 	/**
 	 * JRSeriesColorFactory associated constants

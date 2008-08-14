@@ -49,7 +49,12 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	
 	public static final String PROPERTY_CIRCULAR = "circular";
 
+	public static final String PROPERTY_LABEL_FORMAT = "labelFormat";
+	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
+
 	protected boolean isCircular = true;
+	protected String labelFormat = null;
+	protected String legendLabelFormat = null;
 	
 	/**
 	 *
@@ -67,6 +72,8 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	{
 		super(piePlot, factory);
 		isCircular = piePlot.isCircular();
+		labelFormat = piePlot.getLabelFormat();
+		legendLabelFormat = piePlot.getLegendLabelFormat();
 	}
 	
 	/**
@@ -94,9 +101,50 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		getEventSupport().firePropertyChange(PROPERTY_CIRCULAR, old, this.isCircular);
 	}
 
+
+	/**
+	 * @return the labelFormat
+	 */
+	public String getLabelFormat() {
+		return labelFormat;
+	}
+
+
+	/**
+	 * @param labelFormat the labelFormat to set
+	 */
+	public void setLabelFormat(String labelFormat) {
+		String old = this.labelFormat;
+		this.labelFormat = labelFormat;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_FORMAT, old, this.labelFormat);
+	}
+
+	
+	/**
+	 * @return the legendLabelFormat
+	 */
+	public String getLegendLabelFormat() {
+		return legendLabelFormat;
+	}
+
+
+	/**
+	 * @param legendLabelFormat the legendLabelFormat to set
+	 */
+	public void setLegendLabelFormat(String legendLabelFormat) {
+		String old = this.legendLabelFormat;
+		this.legendLabelFormat = legendLabelFormat;
+		getEventSupport().firePropertyChange(PROPERTY_LEGEND_LABEL_FORMAT, old, this.legendLabelFormat);
+	}
+
+	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
+		// this fixes a problem with JFreeChart that changed the default value of isCircular at some point.
+		// look into SVN history for details
 		ObjectInputStream.GetField fields = in.readFields();
 		isCircular = fields.get("isCircular", true);
+		labelFormat = (String)fields.get("labelFormat", null);
+		legendLabelFormat = (String)fields.get("legendLabelFormat", null);
 	}
 }
