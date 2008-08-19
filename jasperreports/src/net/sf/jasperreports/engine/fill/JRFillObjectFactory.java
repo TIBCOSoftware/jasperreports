@@ -886,7 +886,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillGanttDataset == null)
 			{
 				fillGanttDataset = new JRFillGanttDataset(ganttDataset, this);
-				addChartDataset(fillGanttDataset);
+				registerElementDataset(fillGanttDataset);
 			}
 		}
 		
