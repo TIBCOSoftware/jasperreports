@@ -810,6 +810,7 @@
      <xsd:element ref="thermometerChart"/>
      <xsd:element ref="multiAxisChart"/>
      <xsd:element ref="stackedAreaChart"/>
+     <xsd:element ref="ganttChart"/>
      <xsd:element ref="elementGroup"/>
      <xsd:element ref="crosstab"/>
      <xsd:element ref="frame"/>
@@ -1631,6 +1632,7 @@
     <xsd:element ref="thermometerChart"/>
     <xsd:element ref="multiAxisChart"/>
     <xsd:element ref="stackedAreaChart"/>
+    <xsd:element ref="ganttChart"/>
     <xsd:element ref="elementGroup"/>
     <xsd:element ref="crosstab"/>
     <xsd:element ref="frame"/>
@@ -2825,6 +2827,7 @@
     <xsd:element ref="highLowChart"/>
     <xsd:element ref="candlestickChart"/>
     <xsd:element ref="stackedAreaChart"/>
+    <xsd:element ref="ganttChart"/>
    </xsd:choice>
    <xsd:attribute name="position" use="optional" default="leftOrTop">
     <xsd:simpleType>
@@ -3163,11 +3166,59 @@
      <xsd:element ref="thermometerChart"/>
      <xsd:element ref="multiAxisChart"/>
      <xsd:element ref="stackedAreaChart"/>
+     <xsd:element ref="ganttChart"/>
      <xsd:element ref="elementGroup"/>
      <xsd:element ref="crosstab"/>
      <xsd:element ref="frame"/>
     </xsd:choice>
    </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <xsd:element name="ganttChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="ganttDataset"/>
+    <xsd:element ref="barPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <xsd:element name="ganttDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataset" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="ganttSeries" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <xsd:element name="ganttSeries">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="taskExpression"/>
+    <xsd:element ref="subtaskExpression"/>
+    <xsd:element ref="startDateExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="endDateExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="percentExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <xsd:element name="taskExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="subtaskExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="percentExpression">
+  <xsd:complexType mixed="true">
   </xsd:complexType>
  </xsd:element>
 
