@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd" [
-  <!ENTITY reportStyles SYSTEM "./ReportStyles.ent">
-]>
 
 <jasperReport 
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="DocumentsReport" 
 		pageWidth="500" 
 		pageHeight="842" 
