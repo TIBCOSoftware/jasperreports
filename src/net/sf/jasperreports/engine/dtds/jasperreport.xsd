@@ -812,6 +812,7 @@
      <element ref="jr:thermometerChart"/>
      <element ref="jr:multiAxisChart"/>
      <element ref="jr:stackedAreaChart"/>
+     <element ref="jr:ganttChart"/>
      <element ref="jr:elementGroup"/>
      <element ref="jr:crosstab"/>
      <element ref="jr:frame"/>
@@ -1634,6 +1635,7 @@
     <element ref="jr:thermometerChart"/>
     <element ref="jr:multiAxisChart"/>
     <element ref="jr:stackedAreaChart"/>
+    <element ref="jr:ganttChart"/>
     <element ref="jr:elementGroup"/>
     <element ref="jr:crosstab"/>
     <element ref="jr:frame"/>
@@ -2818,6 +2820,7 @@
     <element ref="jr:highLowChart"/>
     <element ref="jr:candlestickChart"/>
     <element ref="jr:stackedAreaChart"/>
+    <element ref="jr:ganttChart"/>
    </choice>
    <attribute name="position" use="optional" default="leftOrTop">
     <simpleType>
@@ -3157,12 +3160,60 @@
      <element ref="jr:thermometerChart"/>
      <element ref="jr:multiAxisChart"/>
      <element ref="jr:stackedAreaChart"/>
+     <element ref="jr:ganttChart"/>
      <element ref="jr:elementGroup"/>
      <element ref="jr:crosstab"/>
      <element ref="jr:frame"/>
      <element ref="jr:componentElement"/>
     </choice>
    </sequence>
+  </complexType>
+ </element>
+ 
+ <element name="ganttChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:ganttDataset"/>
+    <element ref="jr:barPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+ 
+ <element name="ganttDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:ganttSeries" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+  </complexType>
+ </element>
+ 
+ <element name="ganttSeries">
+  <complexType>
+   <sequence>
+    <element ref="jr:seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:taskExpression"/>
+    <element ref="jr:subtaskExpression"/>
+    <element ref="jr:startDateExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:endDateExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:percentExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+ 
+ <element name="taskExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="subtaskExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="percentExpression">
+  <complexType mixed="true">
   </complexType>
  </element>
 
