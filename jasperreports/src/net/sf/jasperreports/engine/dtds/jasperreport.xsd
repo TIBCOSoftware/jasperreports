@@ -1819,6 +1819,8 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="labelFormat" type="string" use="optional"/>
+   <attribute name="legendLabelFormat" type="string" use="optional"/>
   </complexType>
  </element>
 
@@ -1939,6 +1941,8 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="labelFormat" type="string" use="optional"/>
+   <attribute name="legendLabelFormat" type="string" use="optional"/>
   </complexType>
  </element>
 

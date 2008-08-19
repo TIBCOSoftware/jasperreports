@@ -439,8 +439,6 @@
 <!ELEMENT piePlot (plot)>
 <!ATTLIST piePlot
 	isCircular (true | false) "true"
-	labelFormat CDATA #IMPLIED
-	legendLabelFormat CDATA #IMPLIED
 >
 
 <!ELEMENT dataset (incrementWhenExpression?, datasetRun?)>
@@ -485,8 +483,6 @@
 <!ATTLIST pie3DPlot
 	depthFactor CDATA "0.2"
 	isCircular (true | false) "false"
-	labelFormat CDATA #IMPLIED
-	legendLabelFormat CDATA #IMPLIED
 >
 
 <!ELEMENT barChart (chart, categoryDataset, barPlot)>
