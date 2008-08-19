@@ -75,9 +75,20 @@ import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentKey;
+import net.sf.jasperreports.engine.component.ComponentManager;
+import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 
 
 /**
+ * An expression collector traverses a report and collects report expressions
+ * out of it.
+ * 
+ * <p>
+ * The expressions are then included into evaluator classes which are compiled
+ * and used at report fill time to evaluate expressions.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -187,9 +198,11 @@ public class JRExpressionCollector
 	}
 
 	/**
-	 *
+	 * Collects an expression.
+	 * 
+	 * @param expression the expression to collect
 	 */
-	private void addExpression(JRExpression expression)
+	public void addExpression(JRExpression expression)
 	{
 		if (expression != null)
 		{
@@ -232,7 +245,19 @@ public class JRExpressionCollector
 	}
 
 
-	private JRExpressionCollector getCollector(JRElementDataset elementDataset)
+	/**
+	 * Returns the expression collector to which expressions in an element
+	 * dataset belong.
+	 * 
+	 * <p>
+	 * If the element dataset includes a subdataset run, a (sub) expression
+	 * collector that corresponds to the subdataset will be returned.
+	 * Otherwise, this/the main expression collector will be returned.
+	 * 
+	 * @param elementDataset an element dataset
+	 * @return the expression collector to be used for the element dataset
+	 */
+	public JRExpressionCollector getCollector(JRElementDataset elementDataset)
 	{
 		JRExpressionCollector collector;
 
@@ -1149,7 +1174,7 @@ public class JRExpressionCollector
 	 *
 	 * @param dataset the element dataset
 	 */
-	protected void collect(JRElementDataset dataset)
+	public void collect(JRElementDataset dataset)
 	{
 		collect(dataset.getDatasetRun());
 
@@ -1210,5 +1235,15 @@ public class JRExpressionCollector
 				elements[i].collectExpressions(this);
 			}
 		}
+	}
+	
+	public void collect(JRComponentElement componentElement)
+	{
+		collectElement(componentElement);
+		
+		ComponentKey componentKey = componentElement.getComponentKey();
+		ComponentManager manager = ComponentsEnvironment.getComponentsRegistry().getComponentManager(componentKey);
+		Component component = componentElement.getComponent();
+		manager.getComponentCompiler().collectExpressions(component, this);
 	}
 }

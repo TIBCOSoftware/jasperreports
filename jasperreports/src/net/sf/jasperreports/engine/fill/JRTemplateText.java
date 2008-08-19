@@ -56,8 +56,11 @@ import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 
 /**
+ * Text element information shared by multiple print text objects.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @see JRTemplatePrintText
  */
 public class JRTemplateText extends JRTemplateElement implements JRAlignment, JRBox, JRFont, JRCommonText
 {
@@ -124,6 +127,20 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 
 
 	/**
+	 * Creates a template text.
+	 * 
+	 * @param origin the origin of the elements that will use this template
+	 * @param defaultStyleProvider the default style provider to use for
+	 * this template
+	 */
+	public JRTemplateText(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(origin, defaultStyleProvider);
+		
+		lineBox = new JRBaseLineBox(this);
+	}
+	
+	/**
 	 *
 	 */
 	protected void setStaticText(JRStaticText staticText)
@@ -149,7 +166,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	{
 		super.setElement(textElement);
 
-		lineBox = textElement.getLineBox().clone(this);
+		copyLineBox(textElement.getLineBox());
 		
 		reportFont = textElement.getReportFont();
 
@@ -168,6 +185,16 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		rotation = textElement.getOwnRotation();
 		lineSpacing = textElement.getOwnLineSpacing();
 		markup = textElement.getOwnMarkup();
+	}
+
+	/**
+	 * Copies box attributes.
+	 * 
+	 * @param box the object to copy attributes from
+	 */
+	public void copyLineBox(JRLineBox box)
+	{
+		lineBox = box.clone(this);
 	}
 
 	
@@ -294,7 +321,38 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	{
 		return rotation;
 	}
-		
+	
+	/**
+	 * Sets the text rotation.
+	 * 
+	 * @param rotation one of
+	 * 	<ul>
+	 * 		<li>{@link JRTextElement#ROTATION_NONE}</li>
+	 * 		<li>{@link JRTextElement#ROTATION_LEFT}</li>
+	 * 		<li>{@link JRTextElement#ROTATION_RIGHT}</li>
+	 * 		<li>{@link JRTextElement#ROTATION_UPSIDE_DOWN}</li>
+	 * 	</ul>
+	 */
+	public void setRotation(byte rotation)
+	{
+		setRotation(new Byte(rotation));
+	}
+	
+	/**
+	 * Sets the text rotation.
+	 * 
+	 * Unlike {@link #setRotation(byte)}, this methods allows <code>null</code>
+	 * to be set.  In this case, the rotation is inherited from the report style
+	 * associated with the template. 
+	 * 
+	 * @param rotation the text rotation, or <code>null</code> if this template
+	 * should not specify a rotation attribute of its own
+	 */
+	public void setRotation(Byte rotation)
+	{
+		this.rotation = rotation;
+	}
+	
 	/**
 	 *
 	 */
@@ -310,7 +368,37 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	{
 		return lineSpacing;
 	}
+	
+	/**
+	 * Sets the text line spacing.
+	 * 
+	 * @param lineSpacing one of
+	 * 	<ul>
+	 * 		<li>{@link JRTextElement#LINE_SPACING_SINGLE}</li>
+	 * 		<li>{@link JRTextElement#LINE_SPACING_1_1_2}</li>
+	 * 		<li>{@link JRTextElement#LINE_SPACING_DOUBLE}</li>
+	 * 	</ul>
+	 */
+	public void setLineSpacing(byte lineSpacing)
+	{
+		setLineSpacing(new Byte(lineSpacing));
+	}
 		
+	/**
+	 * Sets the text line spacing.
+	 * 
+	 * Unlike {@link #setLineSpacing(byte)}, this methods allows <code>null</code>
+	 * to be set.  In this case, the line spacing is inherited from the report
+	 * style associated with the template. 
+	 * 
+	 * @param lineSpacing the text line spacing, or <code>null</code> if this template
+	 * should not specify a line spacing attribute of its own
+	 */
+	public void setLineSpacing(Byte lineSpacing)
+	{
+		this.lineSpacing = lineSpacing;
+	}
+
 	/**
 	 * @deprecated Replaced by {@link #getMarkup()}
 	 */
@@ -341,6 +429,17 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		return markup;
 	}
 
+	/**
+	 * Sets the text markup attribute.
+	 * 
+	 * @param markup the markup attribute
+	 * @see #getMarkup()
+	 */
+	public void setMarkup(String markup)
+	{
+		this.markup = markup;
+	}
+	
 	/**
 	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
@@ -388,6 +487,22 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	public byte getHyperlinkTarget()
 	{
 		return hyperlinkTarget;
+	}
+	
+	/**
+	 * Sets the hyperlink target type for this text.
+	 * 
+	 * @param hyperlinkTarget one of
+	 * 	<ul>
+	 * 		<li>{@link JRHyperlink#HYPERLINK_TARGET_SELF}</li>
+	 * 		<li>{@link JRHyperlink#HYPERLINK_TARGET_BLANK}</li>
+	 * 		<li>{@link JRHyperlink#HYPERLINK_TARGET_PARENT}</li>
+	 * 		<li>{@link JRHyperlink#HYPERLINK_TARGET_TOP}</li>
+	 * 	</ul>
+	 */
+	public void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+		this.hyperlinkTarget = hyperlinkTarget;
 	}
 
 	/**

@@ -42,6 +42,10 @@ import net.sf.jasperreports.engine.JRStyle;
 
 
 /**
+ * Base implementation of {@link net.sf.jasperreports.engine.JRPrintElement} that uses
+ * a {@link net.sf.jasperreports.engine.fill.JRTemplateElement} instance to
+ * store common attributes. 
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

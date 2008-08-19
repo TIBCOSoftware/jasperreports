@@ -37,8 +37,18 @@ import net.sf.jasperreports.engine.JRGroup;
 
 
 /**
+ * Abstract {@link JRElementDataset} implementation used at report fill time.
+ * 
+ * <p>
+ * A dataset implementation usually involves a set of expressions which are
+ * used to feed data to some internal data structures.  The collected data is
+ * then transformed into report output.
+ * An implementation needs to implement abstract methods that initialize,
+ * evaluate and increment the dataset.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @see JRFillObjectFactory#registerElementDataset(JRFillElementDataset)
  */
 public abstract class JRFillElementDataset implements JRElementDataset
 {
@@ -173,17 +183,32 @@ public abstract class JRFillElementDataset implements JRElementDataset
 
 
 	/**
-	 *
+	 * Initializes the element dataset.
+	 * 
+	 * <p>
+	 * The dataset is initialized before being used and after each time the
+	 * dataset gets reset.
+	 * 
+	 * @see #getResetType()
 	 */
 	protected abstract void customInitialize();
 
 	/**
-	 *
+	 * Evaluates the expressions associated with the dataset.
+	 * 
+	 * <p>
+	 * Usually, the result of the evaluation would be preserved so that it is
+	 * used in {@link #customIncrement()}
+	 * 
+	 * @param calculator used to evaluate expressions
+	 * @throws JRExpressionEvalException any exception that occurs while
+	 * evaluating expressions
 	 */
 	protected abstract void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException;
 
 	/**
-	 *
+	 * Increments the dataset by collecting the result of the expression
+	 * evaluation.
 	 */
 	protected abstract void customIncrement();
 

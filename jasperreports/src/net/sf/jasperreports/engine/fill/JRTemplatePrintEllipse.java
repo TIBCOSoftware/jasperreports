@@ -32,6 +32,10 @@ import net.sf.jasperreports.engine.JRPrintEllipse;
 
 
 /**
+ * Base implementation of {@link net.sf.jasperreports.engine.JRPrintEllipse} that uses
+ * a {@link net.sf.jasperreports.engine.fill.JRTemplateEllipse} instance to
+ * store common attributes. 
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -44,7 +48,9 @@ public class JRTemplatePrintEllipse extends JRTemplatePrintGraphicElement implem
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
-	 *
+	 * Creates a print ellipse element.
+	 * 
+	 * @param ellipse the template ellipse that the element will use
 	 */
 	public JRTemplatePrintEllipse(JRTemplateEllipse ellipse)
 	{

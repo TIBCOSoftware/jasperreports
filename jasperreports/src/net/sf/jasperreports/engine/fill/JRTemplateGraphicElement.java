@@ -43,6 +43,9 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
+ * Base class consisting of graphic print element information shared by multiple
+ * print element instances.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -88,9 +91,19 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	{
 		super.setElement(graphicElement);
 		
-		linePen = graphicElement.getLinePen().clone(this);
+		copyLinePen(graphicElement.getLinePen());
 		
 		setFill(graphicElement.getOwnFill());
+	}
+
+	/**
+	 * Copies {@link JRPen pen} attributes.
+	 * 
+	 * @param pen the object to copy the attributes from
+	 */
+	public void copyLinePen(JRPen pen)
+	{
+		linePen = pen.clone(this);
 	}
 
 	/**
@@ -152,7 +165,7 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	/**
 	 *
 	 */
-	protected void setFill(byte fill)
+	public void setFill(byte fill)
 	{
 		this.fill = new Byte(fill);
 	}
@@ -160,7 +173,7 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	/**
 	 *
 	 */
-	protected void setFill(Byte fill)
+	public void setFill(Byte fill)
 	{
 		this.fill = fill;
 	}

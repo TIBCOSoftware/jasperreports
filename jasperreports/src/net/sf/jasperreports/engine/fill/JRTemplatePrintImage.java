@@ -41,6 +41,10 @@ import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 
 /**
+ * Implementation of {@link net.sf.jasperreports.engine.JRPrintImage} that uses
+ * a {@link net.sf.jasperreports.engine.fill.JRTemplateImage} instance to
+ * store common attributes. 
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -72,7 +76,9 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 
 
 	/**
-	 *
+	 * Creates a print image element.
+	 * 
+	 * @param image the template image that the element will use
 	 */
 	public JRTemplatePrintImage(JRTemplateImage image)
 	{

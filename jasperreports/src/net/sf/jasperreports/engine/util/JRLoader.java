@@ -38,8 +38,12 @@ import java.io.ObjectInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -576,6 +580,77 @@ public class JRLoader
 		return is;
 	}
 
+	/**
+	 * Scans the context classloader for all resources that have a specified
+	 * name, and returns a list of {@link URL}s for the found resources.
+	 * 
+	 * @param resource the resource names
+	 * @return a list of {@link URL}s of resources with the specified name;
+	 * the list is empty if no resources have been found for the name
+	 * @see ClassLoader#getResources(String)
+	 */
+	public static List getResources(String resource)
+	{
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();		
+		if (classLoader == null)
+		{
+			classLoader = JRLoader.class.getClassLoader();
+		}
+		
+		List resources = new ArrayList();
+		if (classLoader != null)
+		{
+			try
+			{
+				for (Enumeration urls = classLoader.getResources(resource);
+						urls.hasMoreElements();)
+				{
+					URL url = (URL) urls.nextElement();
+					resources.add(url);
+				}
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		return resources;
+	}
+
+	/**
+	 * Returns the resource URL for a specified resource name.
+	 * 
+	 * @param resource the resource name
+	 * @return the URL of the resource having the specified name, or
+	 * <code>null</code> if none found
+	 * @see ClassLoader#getResource(String)
+	 */
+	public static URL getResource(String resource)
+	{
+		URL location = null;
+		
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();		
+		if (classLoader != null)
+		{
+			location = classLoader.getResource(resource);
+		}
+		
+		if (location == null)
+		{
+			classLoader = JRLoader.class.getClassLoader();
+			if (classLoader != null)
+			{
+				location = classLoader.getResource(resource);
+			}
+			
+			if (location == null)
+			{
+				location = JRProperties.class.getResource("/" + resource);
+			}
+		}
+
+		return location;
+	}
 
 	/**
 	 * Tries to open an input stream for an URL.

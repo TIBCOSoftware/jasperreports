@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRExpression;
@@ -44,6 +45,15 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public class JRXmlWriteHelper
 {
+	
+	public static final String XML_SCHEMA_NAMESPACE = "http://www.w3.org/2001/XMLSchema-instance";
+	
+	public static final String XML_SCHEMA_NAMESPACE_PREFIX = "xsi";
+	
+	public static final String XML_NAMESPACE_ATTRIBUTE = "xmlns";
+	
+	public static final String XML_SCHEMA_LOCATION_ATTRIBUTE = "schemaLocation";
+	
 	private final Writer writer;
 	
 	private final List indents;
@@ -70,20 +80,31 @@ public class JRXmlWriteHelper
 		String name;
 		List atts;
 		boolean hasChildren;
+		XmlNamespace namespace;
+		String qName;
+		boolean hasAttributes = false;
 
-		StackElement(String name)
+		StackElement(String name, XmlNamespace namespace)
 		{
 			this.name = name;
 			this.atts = new ArrayList();
 			this.hasChildren = false;
+			this.namespace = namespace;
+			this.qName = getQualifiedName(this.name, this.namespace);
 		}
 		
 		void addAttribute(String attName, String value)
 		{
+			addAttribute(attName, value, true);
+		}
+		
+		void addAttribute(String attName, String value, boolean count)
+		{
 			atts.add(new Attribute(attName, value));
+			hasAttributes |= count;
 		}
 	}
-
+	
 	public JRXmlWriteHelper(Writer writer)
 	{
 		this.writer = writer;
@@ -109,9 +130,95 @@ public class JRXmlWriteHelper
 	
 	public void startElement(String name)
 	{
+		startElement(name, null);
+	}
+	
+	public void startElement(String name, XmlNamespace namespace)
+	{
+		boolean startsNS = false;
+		XmlNamespace elementNS = null;
+		if (namespace == null)
+		{
+			elementNS = getParentNamespace();
+		}
+		else
+		{
+			elementNS = findContextNamespace(namespace.getNamespaceURI());
+			if (elementNS == null)
+			{
+				startsNS = true;
+				elementNS = namespace;
+			}
+		}
+		
 		++indent;
-		lastElement = new StackElement(name);
+		lastElement = new StackElement(name, elementNS);
 		elementStack.add(lastElement);
+		
+		if (startsNS)
+		{
+			String xmlnsAttr = XML_NAMESPACE_ATTRIBUTE;
+			if (namespace.getPrefix() != null)
+			{
+				xmlnsAttr += ":" + namespace.getPrefix();
+			}
+			lastElement.addAttribute(xmlnsAttr, namespace.getNamespaceURI(), false);
+			
+			if (indent == 1)//root element
+			{
+				//add the XML Schema namespace
+				String xmlSchemaXmlns = XML_NAMESPACE_ATTRIBUTE + ":" + XML_SCHEMA_NAMESPACE_PREFIX;
+				lastElement.addAttribute(xmlSchemaXmlns, XML_SCHEMA_NAMESPACE, false);
+			}
+			
+			if (namespace.getSchemaURI() != null)
+			{
+				String schemaLocationAttr = getQualifiedName(
+						XML_SCHEMA_LOCATION_ATTRIBUTE, XML_SCHEMA_NAMESPACE_PREFIX);
+				String schemaLocation = namespace.getNamespaceURI() 
+						+ " " + namespace.getSchemaURI();
+				lastElement.addAttribute(schemaLocationAttr, schemaLocation, false);
+			}
+		}
+	}
+	
+	protected XmlNamespace getParentNamespace()
+	{
+		return lastElement == null ? null : lastElement.namespace;
+	}
+
+	protected XmlNamespace findContextNamespace(String namespaceURI)
+	{
+		XmlNamespace ns = null;
+		for (ListIterator it = elementStack.listIterator(elementStack.size()); it.hasPrevious();)
+		{
+			StackElement element = (StackElement) it.previous();
+			if (element.namespace != null && namespaceURI.equals(element.namespace.getNamespaceURI()))
+			{
+				ns = element.namespace;
+				break;
+			}
+		}
+		return ns;
+	}
+	
+	protected static String getQualifiedName(String name, XmlNamespace ns)
+	{
+		return ns == null ? name : getQualifiedName(name, ns.getPrefix()); 
+	}
+	
+	protected static String getQualifiedName(String name, String nsPrefix)
+	{
+		String qName;
+		if (nsPrefix == null)
+		{
+			qName = name;
+		}
+		else
+		{
+			qName = nsPrefix + ":" + name;
+		}
+		return qName;
 	}
 	
 	protected void writeParents(boolean content) throws IOException
@@ -169,11 +276,12 @@ public class JRXmlWriteHelper
 
 			buffer.append(getIndent(indent));
 			buffer.append('<');
-			buffer.append(name);
+			String qName = getQualifiedName(name, getParentNamespace());
+			buffer.append(qName);
 			buffer.append("><![CDATA[");
 			buffer.append(data);
 			buffer.append("]]></");
-			buffer.append(name);
+			buffer.append(qName);
 			buffer.append(">\n");
 			flushBuffer();
 		}
@@ -192,7 +300,8 @@ public class JRXmlWriteHelper
 
 			buffer.append(getIndent(indent));
 			buffer.append('<');
-			buffer.append(name);
+			String qName = getQualifiedName(name, getParentNamespace());
+			buffer.append(qName);
 			if (attValue != null)
 			{
 				buffer.append(' ');
@@ -204,7 +313,7 @@ public class JRXmlWriteHelper
 			buffer.append("><![CDATA[");
 			buffer.append(data);
 			buffer.append("]]></");
-			buffer.append(name);
+			buffer.append(qName);
 			buffer.append(">\n");
 			flushBuffer();
 		}
@@ -214,7 +323,7 @@ public class JRXmlWriteHelper
 	{
 		buffer.append(getIndent(level));
 		buffer.append('<');
-		buffer.append(element.name);
+		buffer.append(element.qName);
 		for (Iterator i = element.atts.iterator(); i.hasNext();)
 		{
 			Attribute att = (Attribute) i.next();
@@ -246,7 +355,7 @@ public class JRXmlWriteHelper
 	{
 		--indent;
 
-		if (skipIfEmpty && lastElement.atts.size() == 0 && !lastElement.hasChildren)
+		if (skipIfEmpty && !lastElement.hasAttributes && !lastElement.hasChildren)
 		{
 			clearBuffer();
 		}
@@ -258,7 +367,7 @@ public class JRXmlWriteHelper
 			{
 				buffer.append(getIndent(indent));
 				buffer.append("</");
-				buffer.append(lastElement.name);
+				buffer.append(lastElement.qName);
 				buffer.append(">\n");
 				flushBuffer();
 			}
@@ -473,5 +582,10 @@ public class JRXmlWriteHelper
 		{
 			addAttribute(name, value, xmlValues);
 		}
+	}
+	
+	public Writer getUnderlyingWriter()
+	{
+		return writer;
 	}
 }

@@ -32,6 +32,10 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 
 
 /**
+ * Implementation of {@link net.sf.jasperreports.engine.JRPrintRectangle} that uses
+ * a {@link net.sf.jasperreports.engine.fill.JRTemplateRectangle} instance to
+ * store common attributes. 
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -44,7 +48,9 @@ public class JRTemplatePrintRectangle extends JRTemplatePrintGraphicElement impl
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
-	 *
+	 * Creates a print rectangle element.
+	 * 
+	 * @param rectangle the template rectangle that the element will use
 	 */
 	public JRTemplatePrintRectangle(JRTemplateRectangle rectangle)
 	{

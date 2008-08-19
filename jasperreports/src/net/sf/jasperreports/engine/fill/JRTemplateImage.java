@@ -54,8 +54,11 @@ import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 
 /**
+ * Image information shared by multiple print image objects.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @see JRTemplatePrintImage
  */
 public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlignment, JRBox, JRCommonImage
 {
@@ -107,6 +110,21 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	}
 
 	/**
+	 * Creates a template image.
+	 * 
+	 * @param origin the origin of the elements that will use this template
+	 * @param defaultStyleProvider the default style provider to use for
+	 * this template
+	 */
+	public JRTemplateImage(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(origin, defaultStyleProvider);
+		
+		this.lineBox = new JRBaseLineBox(this);
+		this.linePen = new JRBasePen(this);
+	}
+
+	/**
 	 *
 	 */
 	protected void setImage(JRImage image)
@@ -137,12 +155,23 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		getLinePen().setLineWidth(0f);
 		setFill(JRGraphicElement.FILL_SOLID);
 		
-		lineBox = chart.getLineBox().clone(this);
+		copyLineBox(chart.getLineBox());
 
 		setLinkType(chart.getLinkType());
 		setHyperlinkTarget(chart.getHyperlinkTarget());
 	}
 
+	
+	/**
+	 * Copies box attributes.
+	 * 
+	 * @param box the object to copy attributes from
+	 */
+	public void copyLineBox(JRLineBox box)
+	{
+		this.lineBox = box.clone(this);
+	}
+	
 	/**
 	 * @deprecated Replaced by {@link #getLineBox()}
 	 */

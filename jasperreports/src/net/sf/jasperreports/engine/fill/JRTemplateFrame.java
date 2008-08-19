@@ -91,6 +91,20 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox, JRBoxCo
 	}
 
 	/**
+	 * Creates a template frame.
+	 * 
+	 * @param origin the origin of the elements that will use this template
+	 * @param defaultStyleProvider the default style provider to use for
+	 * this template
+	 */
+	public JRTemplateFrame(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(origin, defaultStyleProvider);
+		
+		this.lineBox = new JRBaseLineBox(this);
+	}
+	
+	/**
 	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public JRBox getBox()

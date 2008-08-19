@@ -32,6 +32,10 @@ import net.sf.jasperreports.engine.JRPrintLine;
 
 
 /**
+ * Implementation of {@link net.sf.jasperreports.engine.JRPrintLine} that uses
+ * a {@link net.sf.jasperreports.engine.fill.JRTemplateLine} instance to
+ * store common attributes. 
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -46,7 +50,9 @@ public class JRTemplatePrintLine extends JRTemplatePrintGraphicElement implement
 
 
 	/**
-	 *
+	 * Creates a print line element.
+	 * 
+	 * @param line the template line that the element will use
 	 */
 	public JRTemplatePrintLine(JRTemplateLine line)
 	{

@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<!DOCTYPE jasperReport
-  PUBLIC "-//JasperReports//DTD Report Design//EN"
-  "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
-<jasperReport name="Styles" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" whenNoDataType="AllSectionsNoDetail">
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="Styles" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" whenNoDataType="AllSectionsNoDetail">
 
 	<template>"styles.jrtx"</template>
 
