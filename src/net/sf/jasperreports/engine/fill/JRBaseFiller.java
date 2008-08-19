@@ -79,7 +79,6 @@ import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 import org.apache.commons.logging.Log;
@@ -1817,12 +1816,18 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 
+	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, 
+			byte evaluationType, String groupName, JRFillBand band)
+	{
+		JRFillGroup group = groupName == null ? null : getGroup(groupName);
+		addBoundElement(element, printElement, evaluationType, group, band);
+	}
+
 	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, byte evaluationType, JRGroup group, JRFillBand band)
 	{
 		JREvaluationTime evaluationTime = JREvaluationTime.getEvaluationTime(evaluationType, group, band);
 		addBoundElement(element, printElement, evaluationTime);
 	}
-
 
 	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, JREvaluationTime evaluationTime)
 	{
@@ -1830,6 +1835,27 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		boundElementsMap.put(printElement, element);
 	}
 
+	protected JRFillGroup getGroup(String groupName)
+	{
+		JRFillGroup group = null;
+		if (groups != null)
+		{
+			for (int i = 0; i < groups.length; i++)
+			{
+				if (groups[i].getName().equals(groupName))
+				{
+					group = groups[i];
+					break;
+				}
+			}
+		}
+		
+		if (group == null)
+		{
+			throw new JRRuntimeException("No such group " + groupName);
+		}
+		return group;
+	}
 
 
 	/**

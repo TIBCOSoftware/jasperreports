@@ -121,6 +121,17 @@ public class JRExpressionFactory
 			return expression;
 		}
 	}
+	
+	/**
+	 * 
+	 */
+	public static class DoubleExpressionFactory extends JRBaseFactory {
+		public Object createObject( Attributes attrs ){
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClassName( Double.class.getName() );
+			return expression;
+		}
+	}
 
 	/**
 	 * 

@@ -36,6 +36,10 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
 /**
+ * Base implementation of {@link net.sf.jasperreports.engine.JRPrintGraphicElement} that uses
+ * a {@link net.sf.jasperreports.engine.fill.JRTemplateGraphicElement} instance to
+ * store common attributes. 
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

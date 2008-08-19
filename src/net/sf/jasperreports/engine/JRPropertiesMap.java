@@ -28,13 +28,20 @@
 package net.sf.jasperreports.engine;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Properties map of an JR element.
@@ -48,6 +55,8 @@ import java.util.Map;
 public class JRPropertiesMap implements Serializable, Cloneable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	private static final Log log = LogFactory.getLog(JRPropertiesMap.class);
 	
 	private Map propertiesMap;
 	private List propertiesList;
@@ -344,5 +353,54 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	public void setBaseProperties(JRPropertiesMap base)
 	{
 		this.base = base;
+	}
+	
+	/**
+	 * Loads a properties file from a location.
+	 * 
+	 * @param location the properties file URL
+	 * @return the properties file loaded as a in-memory properties map
+	 */
+	public static JRPropertiesMap loadProperties(URL location)
+	{
+		boolean close = true;
+		InputStream stream = null;
+		try
+		{
+			stream = location.openStream();
+			
+			Properties props = new Properties();
+			props.load(stream);
+			
+			close = false;
+			stream.close();
+			
+			JRPropertiesMap properties = new JRPropertiesMap();
+			for (Enumeration names = props.propertyNames(); names.hasMoreElements(); )
+			{
+				String name = (String) names.nextElement();
+				String value = props.getProperty(name);
+				properties.setProperty(name, value);
+			}
+			return properties;
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			if (close && stream != null)
+			{
+				try
+				{
+					stream.close();
+				}
+				catch (IOException e)
+				{
+					log.warn("Error closing stream for " + location, e);
+				}
+			}
+		}
 	}
 }

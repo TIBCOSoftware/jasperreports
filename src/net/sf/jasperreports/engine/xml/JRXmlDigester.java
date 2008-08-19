@@ -34,9 +34,14 @@ package net.sf.jasperreports.engine.xml;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.parsers.SAXParser;
 
 import org.apache.commons.digester.Digester;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 
@@ -53,13 +58,18 @@ public class JRXmlDigester extends Digester
 	 */
 	//private static boolean wasWarning = false;
 
+	private Map internalEntityResources;
 
+	private String lastNamespacePrefix;
+	
 	/**
 	 *
 	 */
 	public JRXmlDigester()
 	{
 		super();
+		
+		initInternalResources();
 	}
 
 
@@ -69,6 +79,46 @@ public class JRXmlDigester extends Digester
 	public JRXmlDigester(XMLReader xmlReader)
 	{
 		super(xmlReader);
+		
+		initInternalResources();
+	}
+
+	public JRXmlDigester(SAXParser parser)
+	{
+		super(parser);
+		
+		initInternalResources();
+	}
+
+	private void initInternalResources()
+	{
+		internalEntityResources = new HashMap();
+		
+		internalEntityResources.put(JRXmlConstants.JASPERREPORT_SYSTEM_ID, 
+				JRXmlConstants.JASPERREPORT_DTD);
+		internalEntityResources.put(JRXmlConstants.JASPERPRINT_SYSTEM_ID, 
+				JRXmlConstants.JASPERPRINT_DTD);
+		internalEntityResources.put(JRXmlConstants.JASPERTEMPLATE_SYSTEM_ID, 
+				JRXmlConstants.JASPERTEMPLATE_DTD);
+		internalEntityResources.put(JRXmlConstants.JASPERREPORT_XSD_SYSTEM_ID, 
+				JRXmlConstants.JASPERREPORT_XSD_RESOURCE);
+	}
+
+
+	/**
+	 * Adds a mapping of an entity system ID to an internal/classloader resource
+	 * name.
+	 * 
+	 * <p>
+	 * This mapping is used by {@link #resolveEntity(String, String)} to
+	 * resolve a system ID to a classloader resource.
+	 * 
+	 * @param systemId the system ID
+	 * @param resource the resource name
+	 */
+	public void addInternalEntityResource(String systemId, String resource)
+	{
+		internalEntityResources.put(systemId, resource);
 	}
 
 
@@ -84,32 +134,19 @@ public class JRXmlDigester extends Digester
 
 		if (systemId != null)
 		{
-			String dtd = null;
+			String resource = (String) internalEntityResources.get(systemId);
 			
-			if (JRXmlConstants.JASPERREPORT_SYSTEM_ID.equals(systemId))
-			{
-				dtd = JRXmlConstants.JASPERREPORT_DTD;
-			}
-			else if (JRXmlConstants.JASPERPRINT_SYSTEM_ID.equals(systemId))
-			{
-				dtd = JRXmlConstants.JASPERPRINT_DTD;
-			}
-			else if (JRXmlConstants.JASPERTEMPLATE_SYSTEM_ID.equals(systemId))
-			{
-				dtd = JRXmlConstants.JASPERTEMPLATE_DTD;
-			}
-			else
+			if (resource == null)
 			{
 				return new InputSource(systemId);
 			}
-			
 
 			ClassLoader clsLoader = Thread.currentThread().getContextClassLoader();
 
 			URL url = null;
 			if (clsLoader != null)
 			{
-				url = clsLoader.getResource(dtd);
+				url = clsLoader.getResource(resource);
 			}
 			if (url == null)
 			{
@@ -125,11 +162,11 @@ public class JRXmlDigester extends Digester
 			InputStream is;
 			if (clsLoader == null)
 			{
-				is = JRXmlDigester.class.getResourceAsStream("/" + dtd);
+				is = JRXmlDigester.class.getResourceAsStream("/" + resource);
 			}
 			else
 			{
-				is = clsLoader.getResourceAsStream(dtd);
+				is = clsLoader.getResourceAsStream(resource);
 			}
 			
 			if (is != null)
@@ -141,5 +178,39 @@ public class JRXmlDigester extends Digester
 		return inputSource;
 	}
 
+
+	public void endElement(String namespaceURI, String localName, String qName)
+			throws SAXException
+	{
+		lastNamespacePrefix = getNamespacePrefix(qName);
+		
+		super.endElement(namespaceURI, localName, qName);
+	}
+
+	protected String getNamespacePrefix(String qName)
+	{
+		String prefix;
+		if (qName == null)
+		{
+			prefix = null;
+		}
+		else
+		{
+			int sepIdx = qName.indexOf(':');
+			if (sepIdx > 0)
+			{
+				prefix = qName.substring(0, sepIdx);
+			}
+			else
+			{
+				prefix = null;
+			}
+		}
+		return prefix;
+	}
 	
+	public String getLastNamespacePrefix()
+	{
+		return lastNamespacePrefix;
+	}
 }

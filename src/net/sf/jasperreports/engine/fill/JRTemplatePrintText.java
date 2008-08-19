@@ -46,6 +46,10 @@ import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 
 /**
+ * Implementation of {@link net.sf.jasperreports.engine.JRPrintText} that uses
+ * a {@link net.sf.jasperreports.engine.fill.JRTemplateText} instance to
+ * store common attributes. 
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -83,7 +87,9 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
 	
 	/**
-	 *
+	 * Creates a print text element.
+	 * 
+	 * @param text the template text that the element will use
 	 */
 	public JRTemplatePrintText(JRTemplateText text)
 	{

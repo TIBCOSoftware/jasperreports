@@ -40,6 +40,7 @@ import java.io.IOException;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRFrame;
@@ -243,6 +244,18 @@ public class XmlWriterVisitor implements JRVisitor
 		try
 		{
 			xmlWriter.writeTextField(textField);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+	
+	public void visitComponentElement(JRComponentElement componentElement)
+	{
+		try
+		{
+			xmlWriter.writeComponentElement(componentElement);
 		}
 		catch (IOException e)
 		{

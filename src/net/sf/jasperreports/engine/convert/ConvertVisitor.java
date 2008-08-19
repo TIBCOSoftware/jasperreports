@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
@@ -269,6 +270,11 @@ public class ConvertVisitor implements JRVisitor
 				frame.addElement(rectangle);
 			}
 		}
+	}
+
+	public void visitComponentElement(JRComponentElement componentElement)
+	{
+		// TODO component
 	}
 	
 }

@@ -97,5 +97,12 @@ public interface JRVisitor
 	 *
 	 */
 	public void visitTextField(JRTextField textField);
+
+	/**
+	 * Visits a component wrapper element.
+	 * 
+	 * @param componentElement the element to visit
+	 */
+	public void visitComponentElement(JRComponentElement componentElement);
 	
 }

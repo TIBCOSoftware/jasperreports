@@ -109,6 +109,7 @@ import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetParameter;
@@ -147,6 +148,8 @@ import net.sf.jasperreports.engine.JRVariable;
 
 
 /**
+ * Factory of objects used in compiled reports.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -410,9 +413,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
 	public JRExpression getExpression(JRExpression expression, boolean assignNotUsedId)
 	{
 		JRBaseExpression baseExpression = null;
@@ -1613,5 +1613,22 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 		return baseProp;
+	}
+
+
+	public void visitComponentElement(JRComponentElement componentElement)
+	{
+		JRBaseComponentElement base = null;
+
+		if (componentElement != null)
+		{
+			base = (JRBaseComponentElement) get(componentElement);
+			if (base == null)
+			{
+				base = new JRBaseComponentElement(componentElement, this);
+			}
+		}
+
+		setVisitResult(base);
 	}
 }

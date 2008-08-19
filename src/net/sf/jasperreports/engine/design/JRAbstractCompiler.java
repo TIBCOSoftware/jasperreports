@@ -182,6 +182,8 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			units[sourcesCount] = createCompileUnit(jasperDesign, crosstab, expressionCollector, tempDirFile, nameSuffix);
 		}
 		
+		//TODO component - component compilation units?
+
 		String classpath = JRProperties.getProperty(JRProperties.COMPILER_CLASSPATH);
 		
 		try

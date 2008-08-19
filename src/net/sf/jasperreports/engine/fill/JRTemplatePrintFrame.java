@@ -41,7 +41,8 @@ import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRPrintFrame JRPrintFrame} that uses
- * {@link net.sf.jasperreports.engine.fill.JRTemplateFrame template frames} for keeping common data. 
+ * {@link net.sf.jasperreports.engine.fill.JRTemplateFrame template frames} to store common
+ * attributes. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
@@ -52,7 +53,12 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 
 	private List elements;
 
-	protected JRTemplatePrintFrame(JRTemplateFrame templateFrame)
+	/**
+	 * Creates a print frame element.
+	 * 
+	 * @param templateFrame the template frame that the element will use
+	 */
+	public JRTemplatePrintFrame(JRTemplateFrame templateFrame)
 	{
 		super(templateFrame);
 		

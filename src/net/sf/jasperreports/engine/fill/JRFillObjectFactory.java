@@ -112,6 +112,7 @@ import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -737,7 +738,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillPieDataset == null)
 			{
 				fillPieDataset = new JRFillPieDataset(pieDataset, this);
-				addChartDataset(fillPieDataset);
+				registerElementDataset(fillPieDataset);
 			}
 		}
 
@@ -798,7 +799,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillCategoryDataset == null)
 			{
 				fillCategoryDataset = new JRFillCategoryDataset(categoryDataset, this);
-				addChartDataset(fillCategoryDataset);
+				registerElementDataset(fillCategoryDataset);
 			}
 		}
 
@@ -811,7 +812,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			fillXyzDataset = (JRFillXyzDataset)get( xyzDataset );
 			if( fillXyzDataset == null ){
 				fillXyzDataset = new JRFillXyzDataset( xyzDataset, this );
-				addChartDataset(fillXyzDataset);
+				registerElementDataset(fillXyzDataset);
 			}
 		}
 
@@ -833,7 +834,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillXyDataset == null)
 			{
 				fillXyDataset = new JRFillXyDataset(xyDataset, this);
-				addChartDataset(fillXyDataset);
+				registerElementDataset(fillXyDataset);
 			}
 		}
 
@@ -853,7 +854,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 			if( fillTimeSeriesDataset == null ){
 				fillTimeSeriesDataset = new JRFillTimeSeriesDataset( timeSeriesDataset, this );
-				addChartDataset(fillTimeSeriesDataset);
+				registerElementDataset(fillTimeSeriesDataset);
 			}
 		}
 
@@ -866,7 +867,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			fillTimePeriodDataset = (JRFillTimePeriodDataset)get( timePeriodDataset );
 			if( fillTimePeriodDataset == null ){
 				fillTimePeriodDataset = new JRFillTimePeriodDataset( timePeriodDataset, this );
-				addChartDataset(fillTimePeriodDataset);
+				registerElementDataset(fillTimePeriodDataset);
 			}
 		}
 		return fillTimePeriodDataset;
@@ -1121,7 +1122,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillHighLowDataset == null)
 			{
 				fillHighLowDataset = new JRFillHighLowDataset(highLowDataset, this);
-				addChartDataset(fillHighLowDataset);
+				registerElementDataset(fillHighLowDataset);
 			}
 		}
 
@@ -1188,7 +1189,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillValueDataset == null)
 			{
 				fillValueDataset = new JRFillValueDataset(valueDataset, this);
-				addChartDataset(fillValueDataset);
+				registerElementDataset(fillValueDataset);
 			}
 		}
 
@@ -1298,7 +1299,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillDataset == null)
 			{
 				fillDataset = fillCrosstab.new JRFillCrosstabDataset(dataset, this);
-				addChartDataset(fillDataset);
+				registerElementDataset(fillDataset);
 			}
 		}
 
@@ -1323,7 +1324,16 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	private void addChartDataset(JRFillElementDataset elementDataset)
+	/**
+	 * Register an element dataset with the report filler.
+	 * 
+	 * <p>
+	 * Registration of element datasets is required in order for the filler
+	 * to increment the datasets when iterating through the datasource.
+	 * 
+	 * @param elementDataset the dataset to register
+	 */
+	public void registerElementDataset(JRFillElementDataset elementDataset)
 	{
 		List elementDatasetsList;
 		JRDatasetRun datasetRun = elementDataset.getDatasetRun();
@@ -1658,6 +1668,23 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return filler.getJasperPrint().getDefaultStyleProvider();
+	}
+
+
+	public void visitComponentElement(JRComponentElement componentElement)
+	{
+		JRFillComponentElement fill = null;
+
+		if (componentElement != null)
+		{
+			fill = (JRFillComponentElement) get(componentElement);
+			if (fill == null)
+			{
+				fill = new JRFillComponentElement(filler, componentElement, this);
+			}
+		}
+
+		setVisitResult(fill);
 	}
 
 }

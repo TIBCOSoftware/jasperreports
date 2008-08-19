@@ -27,7 +27,11 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
 
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
@@ -117,6 +121,7 @@ import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
@@ -126,10 +131,15 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
+import net.sf.jasperreports.engine.component.ComponentsBundle;
+import net.sf.jasperreports.engine.component.ComponentsEnvironment;
+import net.sf.jasperreports.engine.component.ComponentsXmlParser;
+import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
@@ -140,9 +150,12 @@ import net.sf.jasperreports.engine.design.JRDesignReportTemplate;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRSingletonCache;
 
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.SetNestedPropertiesRule;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -158,6 +171,10 @@ import org.xml.sax.SAXParseException;
 public class JRXmlDigesterFactory
 {
 
+	private static final Log log = LogFactory.getLog(JRXmlDigesterFactory.class);
+	
+	protected static final JRSingletonCache reportParserFactories = 
+		new JRSingletonCache(JRSaxParserFactory.class);
 
 	/**
 	 *
@@ -173,11 +190,11 @@ public class JRXmlDigesterFactory
 	 */
 	public static void configureDigester(Digester digester) throws SAXException, ParserConfigurationException
 	{
-		boolean validating = JRProperties.getBooleanProperty(JRProperties.COMPILER_XML_VALIDATION);
-
 		digester.setErrorHandler(new ErrorHandlerImpl());
-		digester.setValidating(validating);
-		digester.setFeature("http://xml.org/sax/features/validation", validating);
+		
+		digester.setNamespaceAware(true);
+		
+		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
 
 		/*   */
 		digester.addFactoryCreate("jasperReport", JasperDesignFactory.class.getName());
@@ -439,6 +456,37 @@ public class JRXmlDigesterFactory
 		addCrosstabRules(digester);
 
 		addFrameRules(digester);
+		
+		addComponentRules(digester);
+	}
+
+
+	protected static void addComponentRules(Digester digester)
+	{
+		digester.addFactoryCreate("*/componentElement", JRComponentElementFactory.class.getName());
+		digester.addSetNext("*/componentElement", "addElement", JRDesignElement.class.getName());
+		
+		Collection components = ComponentsEnvironment.getComponentsRegistry().getComponentBundles();
+		for (Iterator it = components.iterator(); it.hasNext();)
+		{
+			ComponentsBundle componentsBundle = (ComponentsBundle) it.next();
+			ComponentsXmlParser xmlParser = componentsBundle.getXmlParser();
+			digester.setRuleNamespaceURI(xmlParser.getNamespace());
+			
+			XmlDigesterConfigurer configurer = xmlParser.getDigesterConfigurer();
+			if (configurer != null)
+			{
+				configurer.configureDigester(digester);
+			}
+			
+			for (Iterator namesIt = componentsBundle.getComponentNames().iterator(); 
+					namesIt.hasNext();)
+			{
+				String componentName = (String) namesIt.next();
+				digester.addRule("*/componentElement/" + componentName, 
+						JRComponentRule.newInstance());
+			}
+		}
 	}
 
 
@@ -1011,17 +1059,61 @@ public class JRXmlDigesterFactory
 		digester.addCallMethod(hyperlinkParameterExpressionPattern, "setText", 0);
 
 	}
-
-
+	
 	/**
 	 * Creates a new instance of digester. The created digester is ready for
 	 * parsing report definition files.
 	 */
 	public static JRXmlDigester createDigester() throws ParserConfigurationException, SAXException
 	{
-		JRXmlDigester digester = new JRXmlDigester();
+		SAXParser parser = createParser();
+		JRXmlDigester digester = new JRXmlDigester(parser);
+		
+		//normally not required because schemaSource is set, but keeping to be safe
+		setComponentsInternalEntityResources(digester);
+		
 		configureDigester(digester);
 		return digester;
+	}
+
+
+	protected static SAXParser createParser()
+	{
+		try
+		{
+			String parserFactoryClass = JRProperties.getProperty(
+					JRSaxParserFactory.PROPERTY_REPORT_PARSER_FACTORY);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("Using SAX parser factory class " + parserFactoryClass);
+			}
+			
+			JRSaxParserFactory factory = (JRSaxParserFactory) reportParserFactories
+					.getCachedInstance(parserFactoryClass);
+			SAXParser parser = factory.createParser();
+			return parser;
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+	
+	protected static void setComponentsInternalEntityResources(JRXmlDigester digester)
+	{
+		Collection components = ComponentsEnvironment.getComponentsRegistry().getComponentBundles();
+		for (Iterator it = components.iterator(); it.hasNext();)
+		{
+			ComponentsBundle componentManager = (ComponentsBundle) it.next();
+			ComponentsXmlParser xmlParser = componentManager.getXmlParser();
+			String schemaResource = xmlParser.getInternalSchemaResource();
+			if (schemaResource != null)
+			{
+				digester.addInternalEntityResource(xmlParser.getPublicSchemaLocation(), 
+						schemaResource);
+			}
+		}
 	}
 
 

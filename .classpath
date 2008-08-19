@@ -38,5 +38,7 @@
 	<classpathentry kind="lib" path="lib/batik-awt-util.jar"/>
 	<classpathentry kind="lib" path="lib/groovy-all-1.5.5.jar"/>
 	<classpathentry kind="lib" path="lib/iText-2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/spring-beans.jar"/>
+	<classpathentry kind="lib" path="lib/spring-core.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

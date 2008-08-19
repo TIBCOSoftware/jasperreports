@@ -68,6 +68,7 @@ import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -101,6 +102,10 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentCompiler;
+import net.sf.jasperreports.engine.component.ComponentKey;
+import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
@@ -109,6 +114,12 @@ import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
 
 /**
+ * A report verifier.
+ *
+ * <p>
+ * The verifier checks that a report design meets certain rules in order to pass
+ * report compilation.  
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -160,7 +171,19 @@ public class JRVerifier
 		}
 	}
 
-	protected void addBrokenRule(String message, Object source)
+	public JasperDesign getReportDesign()
+	{
+		return jasperDesign;
+	}
+	
+	/**
+	 * Logs a broken rule for the report.
+	 * 
+	 * @param message the message
+	 * @param source the source object to which the rule applies; can be null
+	 * if not available
+	 */
+	public void addBrokenRule(String message, Object source)
 	{
 		JRValidationFault fault = new JRValidationFault();
 		fault.setMessage(message);
@@ -168,7 +191,13 @@ public class JRVerifier
 		brokenRules.add(fault);
 	}
 
-	protected void addBrokenRule(Exception e, Object source)
+	/**
+	 * Logs a broken report rule which was caused by an exception.
+	 * 
+	 * @param e the exception that caused the broken rule
+	 * @param source the source object if available
+	 */
+	public void addBrokenRule(Exception e, Object source)
 	{
 		JRValidationFault fault = new JRValidationFault();
 		fault.setMessage(e.getMessage());
@@ -1139,7 +1168,7 @@ public class JRVerifier
 	}
 
 
-	protected void verifyElement(JRElement element)
+	public void verifyElement(JRElement element)
 	{
 		if (element instanceof JRStaticText)
 		{
@@ -1168,6 +1197,10 @@ public class JRVerifier
 		else if (element instanceof JRFrame)
 		{
 			verifyFrame((JRFrame) element);
+		}
+		else if (element instanceof JRComponentElement)
+		{
+			verifyComponentElement((JRComponentElement) element);
 		}
 	}
 
@@ -2238,7 +2271,7 @@ public class JRVerifier
 	}
 
 
-	private void verifyElementDataset(JRElementDataset dataset)
+	public void verifyElementDataset(JRElementDataset dataset)
 	{
 		JRDatasetRun datasetRun = dataset.getDatasetRun();
 
@@ -2714,6 +2747,31 @@ public class JRVerifier
 				addBrokenRule("Class " + valueExprClassName 
 						+ " not supported for anchor name expression. Use java.lang.String instead.", expr);
 			}
+		}
+	}
+
+
+	protected void verifyComponentElement(JRComponentElement element)
+	{
+		verifyReportElement(element);
+		
+		ComponentKey componentKey = element.getComponentKey();
+		if (componentKey == null)
+		{
+			addBrokenRule("No component key set for component element", element);
+		}
+		
+		Component component = element.getComponent();
+		if (component == null)
+		{
+			addBrokenRule("No component set for component element", element);
+		}
+		
+		if (componentKey != null && component != null)
+		{
+			ComponentCompiler compiler = ComponentsEnvironment.getComponentsRegistry()
+				.getComponentManager(componentKey).getComponentCompiler();
+			compiler.verify(component, this);
 		}
 	}
 }
