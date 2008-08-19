@@ -79,6 +79,9 @@ public class SubreportConverter extends ElementConverter
 	{
 		JRBasePrintImage printImage = new JRBasePrintImage(reportConverter.getDefaultStyleProvider());
 
+		printImage.getLineBox().setPadding(3);
+		printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
+		
 		copyElement(reportConverter, element, printImage);
 		
 		printImage.setRenderer(getRenderer());
