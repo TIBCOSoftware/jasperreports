@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd" [
-  <!ENTITY reportStyles SYSTEM "./ReportStyles.ent">
-]>
 
 <jasperReport 
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="QueryReport" 
 		pageWidth="595" 
 		pageHeight="842" 
@@ -16,9 +16,7 @@
 		whenNoDataType="AllSectionsNoDetail"
 		isTitleNewPage="false"
 		isSummaryNewPage="false">
-
-	&reportStyles;
-
+	<template>"ReportStyles.jrtx"</template>
 	<parameter name="ReportTitle" class="java.lang.String"/>
 	<parameter name="ExcludedCities" class="java.util.Collection"/>
 	<parameter name="OrderClause" class="java.lang.String"/>
