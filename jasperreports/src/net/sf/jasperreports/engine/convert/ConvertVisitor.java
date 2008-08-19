@@ -274,7 +274,10 @@ public class ConvertVisitor implements JRVisitor
 
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
-		// TODO component
+		JRPrintElement image = ComponentElementConverter.getInstance()
+			.convert(reportConverter, componentElement);
+		addElement(parentFrame, image);
+		addContour(reportConverter, parentFrame, image);
 	}
 	
 }

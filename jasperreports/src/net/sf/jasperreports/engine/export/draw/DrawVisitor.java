@@ -287,7 +287,19 @@ public class DrawVisitor implements JRVisitor
 
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
-		// TODO component
+		try
+		{
+			imageDrawer.draw(
+				grx,
+				convertVisitor.getVisitPrintElement(componentElement), 
+				-componentElement.getX(), 
+				-componentElement.getY()
+				);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 }
