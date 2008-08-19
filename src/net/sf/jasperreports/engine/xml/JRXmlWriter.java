@@ -2248,7 +2248,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				writeStackedAreaChart(chart);
 				break;
 			case JRChart.CHART_TYPE_GANTT:
-				writeStackedAreaChart(chart);
+				writeGanttChart(chart);
 				break;
 			default:
 				throw new JRRuntimeException("Chart type not supported.");
