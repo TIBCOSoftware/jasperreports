@@ -1286,10 +1286,29 @@ public class JRXmlConstants
 	public static final String JASPERPRINT_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jasperprint.dtd";
 	public static final String JASPERPRINT_DTD = "net/sf/jasperreports/engine/dtds/jasperprint.dtd";
 	
-	public static final String JASPERREPORTS_NAMESPACE = "http://jasperreports.sourceforge.net/jasperreports";
-	public static final String JASPERREPORT_XSD_SYSTEM_ID = "http://jasperreports.sourceforge.net/xsd/jasperreport.xsd";
-	public static final String JASPERREPORT_XSD_RESOURCE = "net/sf/jasperreports/engine/dtds/jasperreport.xsd";
-	public static final String JASPERREPORT_XSD_DTD_COMPAT_RESOURCE = "net/sf/jasperreports/engine/dtds/jasperreport-dtd-compat.xsd";
+	/**
+	 * The namespace used by the JRXML XML schema.
+	 */
+	public static final String JASPERREPORTS_NAMESPACE = 
+		"http://jasperreports.sourceforge.net/jasperreports";
+	
+	/**
+	 * The system location of the JRXML XML schema.
+	 */
+	public static final String JASPERREPORT_XSD_SYSTEM_ID = 
+		"http://jasperreports.sourceforge.net/xsd/jasperreport.xsd";
+	
+	/**
+	 * The internal location/resource name of the JRXML XML schema.
+	 */
+	public static final String JASPERREPORT_XSD_RESOURCE = 
+		"net/sf/jasperreports/engine/dtds/jasperreport.xsd";
+	
+	/**
+	 * The internal location/resource name of the JRXML DTD compatibility XML schema.
+	 */
+	public static final String JASPERREPORT_XSD_DTD_COMPAT_RESOURCE = 
+		"net/sf/jasperreports/engine/dtds/jasperreport-dtd-compat.xsd";
 
 	/**
 	 * Template XML public ID.
