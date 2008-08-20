@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
+		<property name="xmlParser">
+			<ref local="xmlParser"/>
+		</property>
+		<property name="componentManagers">
+			<map>
+				<entry key="barcode">
+					<ref local="barcodeManager"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="xmlParser" class="net.sf.jasperreports.engine.component.DefaultComponentXmlParser">
+		<property name="namespace">
+			<value>http://jasperreports.sourceforge.net/jasperreports/barcode</value>
+		</property>
+		<property name="publicSchemaLocation">
+			<value>http://jasperreports.sourceforge.net/dtds/barcode.xsd</value>
+		</property>
+		<property name="internalSchemaResource">
+			<value>net/sf/jasperreports/barcode/barcode.xsd</value>
+		</property>
+		<property name="digesterConfigurer">
+			<bean class="net.sf.jasperreports.barcode.BarcodeDigesterRules"/>
+		</property>
+	</bean>
+
+	<bean id="barcodeManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+		<property name="componentCompiler">
+			<bean class="net.sf.jasperreports.barcode.BarcodeCompiler"/>
+		</property>
+		<property name="componentXmlWriter">
+			<bean class="net.sf.jasperreports.barcode.BarcodeXmlWriter"/>
+		</property>
+		<property name="componentFillFactory">
+			<bean class="net.sf.jasperreports.barcode.BarcodeFillFactory"/>
+		</property>
+	</bean>
+
+</beans>
