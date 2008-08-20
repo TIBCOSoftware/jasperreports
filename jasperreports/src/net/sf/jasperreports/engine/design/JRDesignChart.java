@@ -143,6 +143,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected Color legendBackgroundColor = null;
 	protected byte legendPosition = JRChart.EDGE_BOTTOM;
 	protected String renderType;
+	protected String theme;
 
 	/**
 	 *
@@ -230,6 +231,24 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		String old = this.renderType;
 		this.renderType = renderType;
 		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_RENDER_TYPE, old, this.renderType);
+	}
+
+	/**
+	 *
+	 */
+	public String getTheme()
+	{
+		return theme;
+	}
+
+	/**
+	 *
+	 */
+	public void setTheme(String theme)
+	{
+		String old = this.theme;
+		this.theme = theme;
+		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_THEME, old, this.theme);
 	}
 
 	/**

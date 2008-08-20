@@ -109,6 +109,8 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	
 	public static final String PROPERTY_RENDER_TYPE = "renderType";
 	
+	public static final String PROPERTY_THEME = "theme";
+	
 	/**
 	 *
 	 */
@@ -132,6 +134,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	protected byte legendPosition = JRChart.EDGE_BOTTOM;
 
 	protected String renderType;
+	protected String theme;
 
 	/**
 	 *
@@ -285,6 +288,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		legendBackgroundColor = chart.getOwnLegendBackgroundColor();
 		legendPosition = chart.getLegendPosition();
 		renderType = chart.getRenderType();
+		theme = chart.getTheme();
 		
 		titleFont = new JRBaseFont(null, null, this, chart.getTitleFont());
 		subtitleFont = new JRBaseFont(null, null, this, chart.getSubtitleFont());
@@ -597,6 +601,24 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		String old = this.renderType;
 		this.renderType = renderType;
 		getEventSupport().firePropertyChange(PROPERTY_RENDER_TYPE, old, this.renderType);
+	}
+
+	/**
+	 *
+	 */
+	public String getTheme()
+	{
+		return theme;
+	}
+
+	/**
+	 *
+	 */
+	public void setTheme(String theme)
+	{
+		String old = this.theme;
+		this.theme = theme;
+		getEventSupport().firePropertyChange(PROPERTY_THEME, old, this.theme);
 	}
 
 	public void collectExpressions(JRExpressionCollector collector)
