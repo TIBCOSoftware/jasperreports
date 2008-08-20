@@ -27,7 +27,10 @@
  */
 package net.sf.jasperreports.barcode;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
@@ -48,27 +51,34 @@ public class BarbecueRenderer extends JRAbstractSvgRenderer
 	
 	private Barcode barcode = null;
 
-
 	public BarbecueRenderer(Barcode barcode) 
 	{
 		this.barcode = barcode;
 	}
 
+	public Dimension2D getDimension()
+	{
+		return barcode.getSize();
+	}
 
 	public void render(Graphics2D grx, Rectangle2D rectangle) 
 	{
-		if (barcode != null) 
+		AffineTransform origTransform = grx.getTransform();
+		try
 		{
-			try
-			{
-				barcode.draw(grx, (int)rectangle.getX(), (int)rectangle.getY());
-			}
-			catch (OutputException e)
-			{
-				throw new JRRuntimeException(e);
-			}
+			Dimension size = barcode.getSize();
+			grx.translate(rectangle.getX(), rectangle.getY());
+			grx.scale(rectangle.getWidth() / size.getWidth(), rectangle.getHeight() / size.getHeight());
+			barcode.draw(grx, 0, 0);
+		}
+		catch (OutputException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			grx.setTransform(origTransform);
 		}
 	}
-
 	
 }

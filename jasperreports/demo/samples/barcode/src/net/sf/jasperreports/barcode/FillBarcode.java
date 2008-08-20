@@ -29,6 +29,7 @@ package net.sf.jasperreports.barcode;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
@@ -89,6 +90,7 @@ public class FillBarcode extends BaseFillComponent
 			image.setY(fillContext.getElementPrintY());
 			image.setWidth(element.getWidth());
 			image.setHeight(element.getHeight());
+			image.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
 			image.setRenderer(renderer);
 			
 			return image;
