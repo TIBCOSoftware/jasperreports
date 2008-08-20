@@ -54,6 +54,11 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	/**
 	 *
 	 */
+	public static final String PROPERTY_CHART_THEME = JRProperties.PROPERTY_PREFIX + "chart.theme";
+
+	/**
+	 *
+	 */
 	public static final byte EDGE_TOP = 1;
 	public static final byte EDGE_BOTTOM = 2;
 	public static final byte EDGE_LEFT = 3;
@@ -286,5 +291,16 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	 *
 	 */
 	public void setRenderType(String renderType);
+	
+	/**
+	 *
+	 */
+	public String getTheme();
+
+
+	/**
+	 *
+	 */
+	public void setTheme(String theme);
 	
 }

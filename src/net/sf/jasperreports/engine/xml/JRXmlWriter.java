@@ -1036,6 +1036,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_customizerClass, chart.getCustomizerClass());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_renderType, chart.getRenderType());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_theme, chart.getTheme());
 
 		writeReportElement(chart);
 		writeBox(chart.getLineBox());

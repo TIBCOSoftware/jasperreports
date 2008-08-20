@@ -871,6 +871,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
       </values>
       <default>vector</default>
     </attribute>
+    <attribute>
+      <name>theme</name>
+      <description>The chart theme used to draw the chart.</description>
+    </attribute>
   </attributes>
 </element>
 

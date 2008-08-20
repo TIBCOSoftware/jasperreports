@@ -102,6 +102,7 @@ public class JRChartFactory extends JRBaseFactory
 		}
 		
 		chart.setRenderType(atts.getValue(JRXmlConstants.ATTRIBUTE_renderType));
+		chart.setTheme(atts.getValue(JRXmlConstants.ATTRIBUTE_theme));
 		
 		return chart;
 	}

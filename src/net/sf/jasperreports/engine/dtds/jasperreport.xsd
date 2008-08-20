@@ -1683,6 +1683,7 @@
    <attribute name="bookmarkLevel" type="NMTOKEN" use="optional" default="0"/>
    <attribute name="customizerClass" type="string" use="optional"/>
    <attribute name="renderType" type="string" use="optional"/>
+   <attribute name="theme" type="string" use="optional"/>
   </complexType>
  </element>
 

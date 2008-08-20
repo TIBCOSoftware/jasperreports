@@ -821,7 +821,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 * @return the evaluation result
 	 * @throws JRException
 	 */
-	protected final Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
+	public final Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
 	{
 		return expressionEvaluator.evaluate(expression, evaluation);
 	}
