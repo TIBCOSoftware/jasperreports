@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.component;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRPrintElement;
 
 
 /**
@@ -50,6 +51,30 @@ public abstract class BaseFillComponent implements FillComponent
 	protected final Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
 	{
 		return fillContext.evaluate(expression, evaluation);
+	}
+
+	/**
+	 * The default implementation throws {@link UnsupportedOperationException}.
+	 * 
+	 * <p>
+	 * If a component supports delayed evaluation, it needs to override this
+	 * method.
+	 */
+	public void evaluateDelayedElement(JRPrintElement element, byte evaluation)
+			throws JRException
+	{
+		throw new UnsupportedOperationException("");
+	}
+
+	/**
+	 * The default implementation is empty.
+	 * 
+	 * <p>
+	 * Override this method if something needs to be done on component rewind.
+	 */
+	public void rewind()
+	{
+		// NOOP
 	}
 	
 }
