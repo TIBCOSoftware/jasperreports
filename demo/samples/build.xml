@@ -12,6 +12,7 @@
 		<ant dir="alterdesign" target="test" />
 		<ant dir="antcompile" target="test" />
 		<ant dir="barbecue" target="test" />
+		<ant dir="barcode" target="test" />
 		<ant dir="batchexport" target="test" />
 		<ant dir="beanshell" target="test" />
 		<ant dir="charts" target="test" />
@@ -61,6 +62,7 @@
 		<ant dir="alterdesign" target="clean" />
 		<ant dir="antcompile" target="clean" />
 		<ant dir="barbecue" target="clean" />
+		<ant dir="barcode" target="clean" />
 		<ant dir="batchexport" target="clean" />
 		<ant dir="beanshell" target="clean" />
 		<ant dir="charts" target="clean" />

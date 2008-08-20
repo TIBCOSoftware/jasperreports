@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://jasperreports.sourceforge.net/jasperreports/barcode"
+  xmlns:bc="http://jasperreports.sourceforge.net/jasperreports/barcode"
+  xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
+
+	<import namespace="http://jasperreports.sourceforge.net/jasperreports"/>
+
+	<element name="barcode" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element ref="bc:codeExpression"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<element name="codeExpression">
+		<complexType mixed="true"/>
+	</element>
+
+</schema>
