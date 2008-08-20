@@ -31,9 +31,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -134,9 +136,16 @@ public class DefaultComponentsRegistry implements ComponentsRegistry
 	{
 		Map components = new HashMap();
 		List resources = JRLoader.getResources(COMPONENT_RESOURCE_NAME);
+		Set loadedResources = new HashSet();
 		for (Iterator it = resources.iterator(); it.hasNext();)
 		{
 			URL resource = (URL) it.next();
+			
+			//skip duplicated resources
+			if (!loadedResources.add(resource))
+			{
+				continue;
+			}
 			
 			if (log.isDebugEnabled())
 			{
