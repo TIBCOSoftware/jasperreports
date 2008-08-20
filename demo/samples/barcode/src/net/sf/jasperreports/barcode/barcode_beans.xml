@@ -35,13 +35,46 @@
 
 	<bean id="barcodeManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
 		<property name="componentCompiler">
-			<bean class="net.sf.jasperreports.barcode.BarcodeCompiler"/>
+			<bean class="net.sf.jasperreports.barcode.BarcodeCompiler">
+				<property name="providers">
+					<ref local="barcodeProviders"/>
+				</property>
+			</bean>
 		</property>
 		<property name="componentXmlWriter">
 			<bean class="net.sf.jasperreports.barcode.BarcodeXmlWriter"/>
 		</property>
 		<property name="componentFillFactory">
-			<bean class="net.sf.jasperreports.barcode.BarcodeFillFactory"/>
+			<bean class="net.sf.jasperreports.barcode.BarcodeFillFactory">
+				<property name="providers">
+					<ref local="barcodeProviders"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="barcodeProviders" class="net.sf.jasperreports.barcode.BarcodeProviders">
+		<property name="providers">
+			<map>
+				<entry key="UPCA">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$UPCAProvider"/>
+				</entry>
+				<entry key="Code128">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$Code128Provider"/>
+				</entry>
+				<entry key="Codabar">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$CodabarProvider"/>
+				</entry>
+				<entry key="Std2of5">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$Std2of5Provider"/>
+				</entry>
+				<entry key="Int2of5">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$Int2of5Provider"/>
+				</entry>
+				<entry key="UPCA">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$EAN13Provider"/>
+				</entry>
+			</map>
 		</property>
 	</bean>
 

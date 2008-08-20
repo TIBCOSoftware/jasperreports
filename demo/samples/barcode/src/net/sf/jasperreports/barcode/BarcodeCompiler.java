@@ -42,6 +42,8 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 public class BarcodeCompiler implements ComponentCompiler
 {
 
+	private BarcodeProviders providers;
+	
 	public void collectExpressions(Component component, JRExpressionCollector collector)
 	{
 		BarcodeComponent barcode = (BarcodeComponent) component;
@@ -52,9 +54,7 @@ public class BarcodeCompiler implements ComponentCompiler
 			JRBaseObjectFactory baseFactory)
 	{
 		BarcodeComponent barcode = (BarcodeComponent) component;
-		BarcodeComponent compiledBarcode = new BarcodeComponent();
-		JRExpression compiledCodeExpression = baseFactory.getExpression(barcode.getCodeExpression());
-		compiledBarcode.setCodeExpression(compiledCodeExpression);
+		BarcodeComponent compiledBarcode = new BarcodeComponent(barcode, baseFactory);
 		return compiledBarcode;
 	}
 
@@ -81,6 +81,26 @@ public class BarcodeCompiler implements ComponentCompiler
 						codeExpression);
 			}
 		}
+		
+		String type = barcode.getType();
+		if (type == null)
+		{
+			verifier.addBrokenRule("No barcode type set", barcode);
+		}
+		else if (!providers.isTypeSupported(type))
+		{
+			verifier.addBrokenRule("Barcode type " + type + " not supported", barcode);
+		}
+	}
+
+	public BarcodeProviders getProviders()
+	{
+		return providers;
+	}
+
+	public void setProviders(BarcodeProviders providers)
+	{
+		this.providers = providers;
 	}
 
 }

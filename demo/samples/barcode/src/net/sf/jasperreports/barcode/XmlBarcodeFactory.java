@@ -42,6 +42,17 @@ public class XmlBarcodeFactory extends JRBaseFactory
 	public Object createObject(Attributes attrs) throws Exception
 	{
 		BarcodeComponent bc = new BarcodeComponent();
+		
+		String type = attrs.getValue("type");
+		bc.setType(type);
+		
+		String drawTextAttr = attrs.getValue("drawText");
+		if (drawTextAttr != null)
+		{
+			boolean drawText = Boolean.valueOf(drawTextAttr).booleanValue();
+			bc.setDrawText(drawText);
+		}
+		
 		return bc;
 	}
 

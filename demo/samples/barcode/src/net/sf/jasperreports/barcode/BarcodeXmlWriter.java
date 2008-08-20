@@ -58,6 +58,10 @@ public class BarcodeXmlWriter implements ComponentXmlWriter
 				schemaLocation);
 		
 		writer.startElement("barcode", namespace);
+		
+		writer.addAttribute("type", barcode.getType());
+		writer.addAttribute("drawText", barcode.isDrawText(), true);
+		
 		writer.writeExpression("codeExpression", barcode.getCodeExpression(), false);
 		writer.closeElement();
 	}

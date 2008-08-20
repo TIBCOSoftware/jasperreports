@@ -5,6 +5,9 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="BarcodeReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+	<parameter name="Code">
+		<defaultValueExpression>"0123456789"</defaultValueExpression>
+	</parameter>
 	<title>
 		<band height="742">
 			<line>
@@ -34,12 +37,43 @@
 				<hyperlinkReferenceExpression><![CDATA["http://barbecue.sourceforge.net/"]]></hyperlinkReferenceExpression>
 			</textField>
 			<componentElement>
-				<reportElement x="0" y="100" width="200" height="50"/>
+				<reportElement x="0" y="100" width="400" height="50"/>
 				<bc:barcode 
 						xmlns:bc="http://jasperreports.sourceforge.net/jasperreports/barcode"
 						xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/barcode
-							http://jasperreports.sourceforge.net/xsd/barcode.xsd">
-					<bc:codeExpression>"1234567890"</bc:codeExpression>
+							http://jasperreports.sourceforge.net/xsd/barcode.xsd"
+						type="Code128">
+					<bc:codeExpression>"JasperReports"</bc:codeExpression>
+				</bc:barcode>
+			</componentElement>
+			<componentElement>
+				<reportElement x="0" y="160" width="400" height="50"/>
+				<bc:barcode 
+						xmlns:bc="http://jasperreports.sourceforge.net/jasperreports/barcode"
+						xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/barcode
+							http://jasperreports.sourceforge.net/xsd/barcode.xsd"
+						type="Codabar">
+					<bc:codeExpression>$P{Code}</bc:codeExpression>
+				</bc:barcode>
+			</componentElement>
+			<componentElement>
+				<reportElement x="0" y="220" width="400" height="50"/>
+				<bc:barcode 
+						xmlns:bc="http://jasperreports.sourceforge.net/jasperreports/barcode"
+						xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/barcode
+							http://jasperreports.sourceforge.net/xsd/barcode.xsd"
+						type="Int2of5" drawText="false">
+					<bc:codeExpression>$P{Code}</bc:codeExpression>
+				</bc:barcode>
+			</componentElement>
+			<componentElement>
+				<reportElement x="0" y="280" width="400" height="50"/>
+				<bc:barcode 
+						xmlns:bc="http://jasperreports.sourceforge.net/jasperreports/barcode"
+						xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/barcode
+							http://jasperreports.sourceforge.net/xsd/barcode.xsd"
+						type="Std2of5">
+					<bc:codeExpression>$P{Code}</bc:codeExpression>
 				</bc:barcode>
 			</componentElement>
 		</band>

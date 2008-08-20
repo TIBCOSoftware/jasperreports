@@ -27,44 +27,17 @@
  */
 package net.sf.jasperreports.barcode;
 
-import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.component.ComponentFillFactory;
-import net.sf.jasperreports.engine.component.FillComponent;
-import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.BarcodeException;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BarcodeFillFactory implements ComponentFillFactory
+public interface BarcodeProvider
 {
+
+	Barcode createBarcode(String code) throws BarcodeException;
 	
-	private BarcodeProviders providers;
-
-	public FillComponent toFillComponent(Component component,
-			JRFillObjectFactory factory)
-	{
-		BarcodeComponent barcode = (BarcodeComponent) component;
-		return new FillBarcode(providers, barcode);
-	}
-
-	public FillComponent cloneFillComponent(FillComponent component,
-			JRFillCloneFactory factory)
-	{
-		FillBarcode fillBarcode = (FillBarcode) component;
-		return new FillBarcode(providers, fillBarcode.getBarcode());
-	}
-
-	public BarcodeProviders getProviders()
-	{
-		return providers;
-	}
-
-	public void setProviders(BarcodeProviders providers)
-	{
-		this.providers = providers;
-	}
-
 }
