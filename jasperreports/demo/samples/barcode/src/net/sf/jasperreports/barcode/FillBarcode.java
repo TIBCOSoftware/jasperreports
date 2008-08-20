@@ -31,14 +31,11 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sourceforge.barbecue.Barcode;
-import net.sourceforge.barbecue.BarcodeException;
-import net.sourceforge.barbecue.BarcodeFactory;
 
 /**
  * 
@@ -48,11 +45,13 @@ import net.sourceforge.barbecue.BarcodeFactory;
 public class FillBarcode extends BaseFillComponent
 {
 
+	private final BarcodeProviders providers;
 	private final BarcodeComponent barcodeComponent;
 	private String code;
 	
-	public FillBarcode(BarcodeComponent barcode)
+	public FillBarcode(BarcodeProviders providers, BarcodeComponent barcode)
 	{
+		this.providers = providers;
 		this.barcodeComponent = barcode;
 	}
 	
@@ -75,30 +74,26 @@ public class FillBarcode extends BaseFillComponent
 
 	public JRPrintElement fill()
 	{
-		try
-		{
-			Barcode barcode = BarcodeFactory.createCode128B(code);
-			BarbecueRenderer renderer = new BarbecueRenderer(barcode);
-			
-			JRComponentElement element = fillContext.getComponentElement();
-			JRTemplateImage templateImage = new JRTemplateImage(fillContext.getElementOrigin(), 
-					fillContext.getDefaultStyleProvider());
-			templateImage.setStyle(fillContext.getElementStyle());
-			
-			JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage);
-			image.setX(element.getX());
-			image.setY(fillContext.getElementPrintY());
-			image.setWidth(element.getWidth());
-			image.setHeight(element.getHeight());
-			image.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
-			image.setRenderer(renderer);
-			
-			return image;
-		}
-		catch (BarcodeException e)
-		{
-			throw new JRRuntimeException(e);
-		}
+		String type = barcodeComponent.getType();
+		Barcode barcode = providers.createBarcode(type, code);
+		barcode.setDrawingText(barcodeComponent.isDrawText());
+		
+		BarbecueRenderer renderer = new BarbecueRenderer(barcode);
+		
+		JRComponentElement element = fillContext.getComponentElement();
+		JRTemplateImage templateImage = new JRTemplateImage(fillContext.getElementOrigin(), 
+				fillContext.getDefaultStyleProvider());
+		templateImage.setStyle(fillContext.getElementStyle());
+		
+		JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage);
+		image.setX(element.getX());
+		image.setY(fillContext.getElementPrintY());
+		image.setWidth(element.getWidth());
+		image.setHeight(element.getHeight());
+		image.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
+		image.setRenderer(renderer);
+		
+		return image;
 	}
 
 }
