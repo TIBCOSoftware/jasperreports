@@ -36,7 +36,8 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
 
 /**
- * TODO component
+ * A fill context provides access to data and functionality related to a
+ * report component fill.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
@@ -44,18 +45,69 @@ import net.sf.jasperreports.engine.JRStyle;
 public interface FillContext
 {
 	
+	/**
+	 * Returns the component element that wraps the component.
+	 * 
+	 * @return the current component element
+	 */
 	JRComponentElement getComponentElement();
 
+	/**
+	 * Evaluates an expression in the main report dataset.
+	 * 
+	 * @param expression the expression to evaluate
+	 * @param evaluation the evaluation type; usually directly passed from
+	 * {@link FillComponent#evaluate(byte)}
+	 * @return the result of the evaluation
+	 * @throws JRException
+	 */
 	Object evaluate(JRExpression expression, byte evaluation) throws JRException;
 	
+	/**
+	 * Returns the default style provider for the generated report.
+	 * 
+	 * @return the default style provider of the generated report
+	 */
 	JRDefaultStyleProvider getDefaultStyleProvider();
 	
+	/**
+	 * Returns the origin of the current component element.
+	 * 
+	 * @return the origin of the component element
+	 */
 	JROrigin getElementOrigin();
 
+	/**
+	 * Returns the position on the vertical axis where the component element
+	 * starts printing.
+	 * 
+	 * @return the position on the vertical axis of the component element
+	 */
 	int getElementPrintY();
 	
+	/**
+	 * Returns the current style of the component element.
+	 * 
+	 * @return the current style of the component element
+	 */
 	JRStyle getElementStyle();
 	
+	/**
+	 * Registers a delayed evaluation for a print element.
+	 * 
+	 * @param printElement the print element
+	 * @param evaluationTime the delayed evaluation time; one of
+	 * <ul>
+	 * 	<li>{@link JRExpression#EVALUATION_TIME_BAND}
+	 * 	<li>{@link JRExpression#EVALUATION_TIME_COLUMN}
+	 * 	<li>{@link JRExpression#EVALUATION_TIME_PAGE}
+	 * 	<li>{@link JRExpression#EVALUATION_TIME_GROUP}
+	 * 	<li>{@link JRExpression#EVALUATION_TIME_REPORT}
+	 * </ul>
+	 * @param evaluationGroup the evaluation group name, if
+	 * <code>evaluationTime</code> is {@link JRExpression#EVALUATION_TIME_GROUP}
+	 * @see FillComponent#evaluateDelayedElement(JRPrintElement, byte)
+	 */
 	void registerDelayedEvaluation(JRPrintElement printElement, 
 			byte evaluationTime, String evaluationGroup);
 
