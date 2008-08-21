@@ -146,6 +146,8 @@ import org.apache.commons.collections.SequencedHashMap;
 
 
 /**
+ * A factory used to instantiate fill objects based on compiled report objects.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -1496,7 +1498,12 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	protected JRBaseFiller getFiller()
+	/**
+	 * Returns the current report filler.
+	 * 
+	 * @return the current report filler
+	 */
+	public JRBaseFiller getFiller()
 	{
 		return filler;
 	}

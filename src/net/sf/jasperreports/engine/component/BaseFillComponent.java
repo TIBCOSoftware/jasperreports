@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 
 
 /**
- * TODO component
+ * A base abstract implementation of a fill component.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
@@ -41,6 +41,9 @@ import net.sf.jasperreports.engine.JRPrintElement;
 public abstract class BaseFillComponent implements FillComponent
 {
 
+	/**
+	 * The fill context, as set by {@link #initialize(FillContext)}.
+	 */
 	protected FillContext fillContext;
 	
 	public void initialize(FillContext fillContext)
@@ -48,6 +51,14 @@ public abstract class BaseFillComponent implements FillComponent
 		this.fillContext = fillContext;
 	}
 
+	/**
+	 * Evaluates an expression.
+	 * 
+	 * @param expression the expression to evaluate
+	 * @param evaluation the evaluation type
+	 * @return the evaluation result
+	 * @throws JRException
+	 */
 	protected final Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
 	{
 		return fillContext.evaluate(expression, evaluation);
