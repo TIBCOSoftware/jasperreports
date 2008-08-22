@@ -365,6 +365,9 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	{
 		initFill();
 		resetElements();
+		//set bandBottomY again as getContainerHeight() might have changed
+		setElementsBandBottomY();
+		
 		prepareElements(availableStretchHeight, true);
 	}
 
