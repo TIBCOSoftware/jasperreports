@@ -216,6 +216,9 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		frameContainer.initFill();
 		frameContainer.resetElements();
+		//set bandBottomY again as getContainerHeight() might have changed
+		frameContainer.setElementsBandBottomY();
+		
 		int frameElemsAvailableHeight = stretchHeight + bottomPadding + getLineBox().getTopPadding().intValue() - topPadding;
 		frameContainer.prepareElements(frameElemsAvailableHeight, true);
 		
