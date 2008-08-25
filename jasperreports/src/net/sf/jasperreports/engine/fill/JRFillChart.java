@@ -1080,7 +1080,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	public JRFillChartDataset getDataset()
+	public JRChartDataset getDataset()
 	{
 		return dataset;
 	}

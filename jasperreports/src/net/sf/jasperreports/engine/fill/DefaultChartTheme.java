@@ -177,7 +177,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected JRFillChartDataset getDataset()
 	{
-		return chart.getDataset();
+		return (JRFillChartDataset)chart.getDataset();
 	}
 	
 	
