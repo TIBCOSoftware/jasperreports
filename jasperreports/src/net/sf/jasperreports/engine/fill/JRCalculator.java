@@ -163,15 +163,11 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	{
 		if (variables != null && variables.length > 0)
 		{
-			JRFillVariable variable = null;
-			Object expressionValue = null;
-			Object newValue = null;
-			
 			for(int i = 0; i < variables.length; i++)
 			{
-				variable = variables[i];
-				expressionValue = evaluateEstimated(variable.getExpression());
-				newValue = variable.getIncrementer().increment(variable, expressionValue,  AbstractValueProvider.getEstimatedValueProvider());
+				JRFillVariable variable = variables[i];
+				Object expressionValue = evaluateEstimated(variable.getExpression());
+				Object newValue = variable.getIncrementer().increment(variable, expressionValue,  AbstractValueProvider.getEstimatedValueProvider());
 				variable.setEstimatedValue(newValue);
 				//variable.setInitialized(false);
 			}
@@ -189,23 +185,19 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	 */
 	public void estimateGroupRuptures() throws JRException
 	{
-		JRFillGroup group = null;
-		Object oldValue = null;
-		Object estimatedValue = null;
 		boolean groupHasChanged = false;
-		boolean isTopLevelChange = false;
 		if (groups != null && groups.length > 0)
 		{
 			for(int i = 0; i < groups.length; i++)
 			{
-				group = groups[i];
+				JRFillGroup group = groups[i];
 				
-				isTopLevelChange = false;
+				boolean isTopLevelChange = false;
 
 				if (!groupHasChanged)
 				{
-					oldValue = evaluateOld(group.getExpression());
-					estimatedValue = evaluateEstimated(group.getExpression());
+					Object oldValue = evaluateOld(group.getExpression());
+					Object estimatedValue = evaluateEstimated(group.getExpression());
 
 					if ( 
 						(oldValue == null && estimatedValue != null) ||
