@@ -27,6 +27,7 @@
 		<copy todir="./build/classes">
 			<fileset dir="./src">
 				<include name="**/*.dtd"/>
+				<include name="**/*.xsd"/>
 				<include name="**/*.properties"/>
 				<include name="**/*.png"/>
 				<include name="**/*.GIF"/>
