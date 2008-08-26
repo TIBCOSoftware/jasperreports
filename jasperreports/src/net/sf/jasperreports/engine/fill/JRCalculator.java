@@ -185,9 +185,9 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	 */
 	public void estimateGroupRuptures() throws JRException
 	{
-		boolean groupHasChanged = false;
 		if (groups != null && groups.length > 0)
 		{
+			boolean groupHasChanged = false;
 			for(int i = 0; i < groups.length; i++)
 			{
 				JRFillGroup group = groups[i];
