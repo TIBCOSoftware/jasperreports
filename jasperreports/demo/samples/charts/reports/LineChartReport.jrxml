@@ -80,7 +80,7 @@
 	<group name="ChartGroup" isStartNewColumn="true" isReprintHeaderOnEachPage="false" minHeightToStartNewPage="200">
 		<groupExpression><![CDATA[new Integer(($V{FirstLetterCount}.intValue() - 1) / 3)]]></groupExpression>
 		<groupHeader>
-		<band height="200">
+		<band height="250">
 			<rectangle>
 				<reportElement x="0" y="14" width="270" height="11" forecolor="#ffdddd" backcolor="#ffdddd"/>
 				<graphicElement/>
@@ -110,7 +110,7 @@
 			</textField>
 			<lineChart>
 				<chart evaluationTime="Group" evaluationGroup="ChartGroup">
-					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
+					<reportElement positionType="Float" x="0" y="50" width="270" height="175"/>
 				</chart>
 				<categoryDataset>
 					<dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="ChartGroup"/>

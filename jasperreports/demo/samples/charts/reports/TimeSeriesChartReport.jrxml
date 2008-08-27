@@ -15,7 +15,7 @@
 	</parameter>
 	<parameter name="MaxOrderID" class="java.lang.Integer">
 	</parameter>
-	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} AND OrderDate IS NOT NULL ORDER BY ShipCountry]]></queryString>
+	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} AND OrderDate IS NOT NULL ORDER BY ShipCountry, OrderDate]]></queryString>
 	<field name="ShippedDate" class="java.sql.Timestamp">
 	</field>
 	<field name="ShipCountry" class="java.lang.String">
@@ -51,6 +51,9 @@
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
 	<variable name="FreightSumCountryGroup" class="java.lang.Double" resetType="Group" resetGroup="CountryGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
+	</variable>
+	<variable name="FreightSumMonthGroup" class="java.lang.Double" resetType="Group" resetGroup="MonthGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
 	<variable name="FreightSumColumn" class="java.lang.Double" resetType="Column" calculation="Sum">
@@ -132,7 +135,7 @@
 	<group name="CountryGroup" isReprintHeaderOnEachPage="false">
 		<groupExpression><![CDATA[$F{ShipCountry}]]></groupExpression>
 		<groupHeader>
-		<band height="200">
+		<band height="225">
 			<line>
 				<reportElement x="0" y="14" width="270" height="1"/>
 				<graphicElement/>
@@ -155,18 +158,24 @@
 				<chart evaluationTime="Group" evaluationGroup="CountryGroup">
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
-				<timeSeriesDataset timePeriod="Year">
-					<dataset resetType="Group" resetGroup="CountryGroup"/>
+				<timeSeriesDataset timePeriod="Month">
+					<dataset incrementType="Group" incrementGroup="MonthGroup" resetType="Group" resetGroup="CountryGroup"/>
 					<timeSeries>
-						<seriesExpression>"Freight"</seriesExpression>
+						<seriesExpression>"Double Freight"</seriesExpression>
 						<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
-						<valueExpression>$F{Freight}</valueExpression>
+						<valueExpression>new Double($V{FreightSumMonthGroup}.doubleValue() * 2d)</valueExpression>
+						<labelExpression></labelExpression>
+					</timeSeries>
+					<timeSeries>
+						<seriesExpression>"Normal Freight"</seriesExpression>
+						<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
+						<valueExpression>$V{FreightSumMonthGroup}</valueExpression>
 						<labelExpression></labelExpression>
 					</timeSeries>
 					<timeSeries>
 						<seriesExpression>"Half-Freight"</seriesExpression>
 						<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
-						<valueExpression>new Double( $F{Freight}.doubleValue()/2d )</valueExpression>
+						<valueExpression>new Double($V{FreightSumMonthGroup}.doubleValue() / 2d)</valueExpression>
 						<labelExpression></labelExpression>
 					</timeSeries>
 				</timeSeriesDataset>
@@ -212,6 +221,9 @@
 			</textField>
 		</band>
 		</groupFooter>
+	</group>
+	<group name="MonthGroup">
+		<groupExpression><![CDATA[new Integer($F{OrderDate}.getMonth())]]></groupExpression>
 	</group>
 	<title>
 		<band height="50">

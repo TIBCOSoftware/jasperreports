@@ -6,8 +6,8 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="StackedBarChartReport" language="java" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
-	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="true" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="true" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Comic_Normal" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMIC.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	<style name="Comic_Bold" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
@@ -80,7 +80,7 @@
 	<group name="ChartGroup" isStartNewColumn="true" isReprintHeaderOnEachPage="false" minHeightToStartNewPage="200">
 		<groupExpression><![CDATA[new Integer(($V{FirstLetterCount}.intValue() - 1) / 3)]]></groupExpression>
 		<groupHeader>
-		<band height="225">
+		<band height="250">
 			<rectangle>
 				<reportElement x="0" y="14" width="270" height="11" forecolor="#ffdddd" backcolor="#ffdddd"/>
 				<graphicElement/>
@@ -110,7 +110,7 @@
 			</textField>
 			<stackedBarChart>
 				<chart evaluationTime="Group" evaluationGroup="ChartGroup">
-					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
+					<reportElement positionType="Float" x="0" y="50" width="270" height="175"/>
 				</chart>
 				<categoryDataset>
 					<dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="ChartGroup"/>
