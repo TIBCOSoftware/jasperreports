@@ -6,6 +6,9 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="VirtualizerReport" language="java" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<variable name="Random" class="java.util.Random" calculation="System">
+		<initialValueExpression>new java.util.Random(42)</initialValueExpression>
+	</variable>
 	<title>
 		<band height="30">
 			<staticText>
@@ -24,7 +27,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[new Double(1000 * Math.random())]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double(1000 * $V{Random}.nextDouble())]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
