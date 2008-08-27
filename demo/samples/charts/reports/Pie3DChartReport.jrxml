@@ -291,7 +291,7 @@
 			<textField isBlankWhenNull="true">
 				<reportElement x="155" y="0" width="25" height="11"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetterCount}.toString()]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipRegion}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="185" y="0" width="50" height="11"/>
