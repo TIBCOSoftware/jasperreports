@@ -25,10 +25,10 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.charts.ChartTheme;
 import net.sf.jasperreports.charts.ChartThemeFactory;
+import net.sf.jasperreports.engine.fill.JRFillChart;
 
 
 /**
