@@ -25,7 +25,6 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -36,6 +35,8 @@ import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+import net.sf.jasperreports.engine.fill.JRFillChart;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
