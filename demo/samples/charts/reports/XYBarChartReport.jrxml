@@ -15,7 +15,7 @@
 	</parameter>
 	<parameter name="MaxOrderID" class="java.lang.Integer">
 	</parameter>
-	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry]]></queryString>
+	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry, OrderID]]></queryString>
 	<field name="ShippedDate" class="java.sql.Timestamp">
 	</field>
 	<field name="ShipCountry" class="java.lang.String">
@@ -47,13 +47,16 @@
 	<variable name="FirstLetter" class="java.lang.String" resetType="None">
 		<variableExpression><![CDATA[$F{ShipCountry}.substring(0, 1).toUpperCase()]]></variableExpression>
 	</variable>
+	<variable name="OrderIDBucket" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[new Integer(1 * ($F{OrderID}.intValue() / 100))]]></variableExpression>
+	</variable>
 	<variable name="FreightSumFirstLetterGroup" class="java.lang.Double" resetType="Group" resetGroup="FirstLetterGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
 	<variable name="FreightSumCountryGroup" class="java.lang.Double" resetType="Group" resetGroup="CountryGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
-	<variable name="FreightSumYearGroup" class="java.lang.Double" resetType="Group" resetGroup="YearGroup" calculation="Sum">
+	<variable name="FreightSumOrderIDBucketGroup" class="java.lang.Double" resetType="Group" resetGroup="OrderIDBucketGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
 	<variable name="FreightSumColumn" class="java.lang.Double" resetType="Column" calculation="Sum">
@@ -135,7 +138,7 @@
 	<group name="CountryGroup" isReprintHeaderOnEachPage="false">
 		<groupExpression><![CDATA[$F{ShipCountry}]]></groupExpression>
 		<groupHeader>
-		<band height="200">
+		<band height="225">
 			<line>
 				<reportElement x="0" y="14" width="270" height="1"/>
 				<graphicElement/>
@@ -159,16 +162,21 @@
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
 				<xyDataset>
-					<dataset incrementType="None" incrementGroup="YearGroup" resetType="Group" resetGroup="CountryGroup"/>
+					<dataset incrementType="Group" incrementGroup="OrderIDBucketGroup" resetType="Group" resetGroup="CountryGroup"/>
 					<xySeries>
 						<seriesExpression>"Half Freight"</seriesExpression>
-						<xValueExpression>$F{OrderID}</xValueExpression>
-						<yValueExpression>new Double($F{Freight}.doubleValue() / 2d)</yValueExpression>
+						<xValueExpression>$V{OrderIDBucket}</xValueExpression>
+						<yValueExpression>new Double($V{FreightSumOrderIDBucketGroup}.doubleValue() / 2d)</yValueExpression>
 					</xySeries>
 					<xySeries>
-						<seriesExpression>"Freight"</seriesExpression>
-						<xValueExpression>$F{OrderID}</xValueExpression>
-						<yValueExpression>$F{Freight}</yValueExpression>
+						<seriesExpression>"Normal Freight"</seriesExpression>
+						<xValueExpression>$V{OrderIDBucket}</xValueExpression>
+						<yValueExpression>$V{FreightSumOrderIDBucketGroup}</yValueExpression>
+					</xySeries>
+					<xySeries>
+						<seriesExpression>"Double Freight"</seriesExpression>
+						<xValueExpression>$V{OrderIDBucket}</xValueExpression>
+						<yValueExpression>new Double($V{FreightSumOrderIDBucketGroup}.doubleValue() * 2d)</yValueExpression>
 					</xySeries>
 				</xyDataset>
 				<barPlot isShowTickMarks="true" isShowTickLabels="true">
@@ -214,8 +222,8 @@
 		</band>
 		</groupFooter>
 	</group>
-	<group name="YearGroup">
-		<groupExpression><![CDATA[new Integer($F{OrderDate}.getYear())]]></groupExpression>
+	<group name="OrderIDBucketGroup">
+		<groupExpression><![CDATA[$V{OrderIDBucket}]]></groupExpression>
 	</group>
 	<title>
 		<band height="50">
