@@ -47,7 +47,16 @@
 	<variable name="FirstLetter" class="java.lang.String" resetType="None">
 		<variableExpression><![CDATA[$F{ShipCountry}.substring(0, 1).toUpperCase()]]></variableExpression>
 	</variable>
-	<variable name="FreightSumFirstLetterGroup" class="java.lang.Double" resetType="Group" resetGroup="FirstLetterGroup" calculation="Sum">
+	<variable name="FirstLetterCount" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="ChartGroup" incrementType="Group" incrementGroup="FirstLetterGroup">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<variable name="FirstLetterMin" class="java.lang.String" resetType="Group" resetGroup="ChartGroup" calculation="Lowest">
+		<variableExpression><![CDATA[$V{FirstLetter}]]></variableExpression>
+	</variable>
+	<variable name="FirstLetterMax" class="java.lang.String" resetType="Group" resetGroup="ChartGroup" calculation="Highest">
+		<variableExpression><![CDATA[$V{FirstLetter}]]></variableExpression>
+	</variable>
+	<variable name="FreightSumChartGroup" class="java.lang.Double" resetType="Group" resetGroup="ChartGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
 	<variable name="FreightSumCountryGroup" class="java.lang.Double" resetType="Group" resetGroup="CountryGroup" calculation="Sum">
@@ -68,14 +77,10 @@
 	<variable name="RegionCountCountryGroup" class="java.lang.Integer" resetType="Group" resetGroup="CountryGroup" calculation="Count">
 		<variableExpression><![CDATA[$F{ShipRegion}]]></variableExpression>
 	</variable>
-	<group name="FirstLetterGroup" isStartNewColumn="true" isReprintHeaderOnEachPage="false" minHeightToStartNewPage="200">
-		<groupExpression><![CDATA[$V{FirstLetter}]]></groupExpression>
+	<group name="ChartGroup" isStartNewColumn="true" isReprintHeaderOnEachPage="false" minHeightToStartNewPage="200">
+		<groupExpression><![CDATA[new Integer(($V{FirstLetterCount}.intValue() - 1) / 3)]]></groupExpression>
 		<groupHeader>
 		<band height="200">
-			<rectangle>
-				<reportElement x="0" y="14" width="270" height="11" forecolor="#ffdddd" backcolor="#ffdddd"/>
-				<graphicElement/>
-			</rectangle>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="14" width="120" height="11" forecolor="#ff0000" backcolor="#ffdddd" style="Arial_Italic"/>
 				<textElement>
@@ -83,18 +88,36 @@
 				</textElement>
 				<text><![CDATA[Countries Starting With Letter :]]></text>
 			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="120" y="14" width="150" height="11" forecolor="#ff0000" backcolor="#ffdddd" style="Arial_Bold"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetter}]]></textFieldExpression>
+			<textField evaluationTime="Group" evaluationGroup="ChartGroup">
+				<reportElement mode="Opaque" x="120" y="14" width="20" height="11" forecolor="#ff0000" backcolor="#ffdddd" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetterMin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="140" y="14" width="20" height="11" forecolor="#ff0000" backcolor="#ffdddd" style="Arial_Italic"/>
+				<textElement textAlignment="Center">
+					<font isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<textField evaluationTime="Group" evaluationGroup="ChartGroup">
+				<reportElement mode="Opaque" x="160" y="14" width="20" height="11" forecolor="#ff0000" backcolor="#ffdddd" style="Arial_Bold"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetterMax}]]></textFieldExpression>
 			</textField>
 			<areaChart>
-				<chart evaluationTime="Group" evaluationGroup="FirstLetterGroup">
+				<chart evaluationTime="Group" evaluationGroup="ChartGroup">
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
 				<categoryDataset>
-					<dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="FirstLetterGroup"/>
+					<dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="ChartGroup"/>
 					<categorySeries>
-						<seriesExpression>"Freight"</seriesExpression>
+						<seriesExpression>"Double Freight"</seriesExpression>
+						<categoryExpression>$F{ShipCountry}</categoryExpression>
+						<valueExpression>new Double($V{FreightSumCountryGroup}.doubleValue() * 2d)</valueExpression>
+						<labelExpression></labelExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression>"Normal Freight"</seriesExpression>
 						<categoryExpression>$F{ShipCountry}</categoryExpression>
 						<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
 						<labelExpression></labelExpression>
@@ -126,7 +149,7 @@
 			<textField>
 				<reportElement x="45" y="1" width="25" height="11" forecolor="#ff0000" style="Arial_Bold"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{FirstLetterGroup_COUNT}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{ChartGroup_COUNT}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="70" y="1" width="140" height="11" forecolor="#ff0000" style="Arial_Bold"/>
@@ -136,10 +159,13 @@
 			<textField pattern="0.00">
 				<reportElement x="210" y="1" width="60" height="11" forecolor="#ff0000" style="Arial_Bold"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumFirstLetterGroup}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumChartGroup}]]></textFieldExpression>
 			</textField>
 		</band>
 		</groupFooter>
+	</group>
+	<group name="FirstLetterGroup" isReprintHeaderOnEachPage="false">
+		<groupExpression><![CDATA[$V{FirstLetter}]]></groupExpression>
 	</group>
 	<group name="CountryGroup" isReprintHeaderOnEachPage="false">
 		<groupExpression><![CDATA[$F{ShipCountry}]]></groupExpression>
@@ -247,7 +273,7 @@
 			<textField isBlankWhenNull="true">
 				<reportElement x="155" y="0" width="25" height="11"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipRegion}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetterCount}.toString()]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="185" y="0" width="50" height="11"/>
