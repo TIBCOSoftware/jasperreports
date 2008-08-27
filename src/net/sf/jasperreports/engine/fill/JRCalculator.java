@@ -187,6 +187,51 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	{
 		if (groups != null && groups.length > 0)
 		{
+			// we are making a first group break estimation pass just so that we give inner group level 
+			// increment variables the chance to increment themselves, just in case they are participating 
+			// into the group expression of outer groups 
+			for(int i = groups.length - 1; i >= 0; i--)
+			{
+				JRFillGroup group = groups[i];
+				
+				Object oldValue = evaluateOld(group.getExpression());
+				Object estimatedValue = evaluateEstimated(group.getExpression());
+
+				if ( 
+					(oldValue == null && estimatedValue != null) ||
+					(oldValue != null && !oldValue.equals(estimatedValue))
+					)
+				{
+					group.setHasChanged(true);
+				}
+				else
+				{
+					group.setHasChanged(false);
+				}
+			}
+
+			// incrementing inner group level increment variables, just in case they are participating 
+			// into the group expression of outer groups
+			if (variables != null && variables.length > 0)
+			{
+				for(int i = 0; i < variables.length; i++)
+				{
+					JRFillVariable variable = variables[i];
+					if (variable.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+					{
+						JRFillGroup group = (JRFillGroup)variable.getIncrementGroup();
+						if (group.hasChanged())
+						{
+							variable.setIncrementedValue(variable.getValue());
+						}
+					}
+				}
+			}
+			
+			// estimate variables again so that group level increment variables that might have been 
+			// incremented above, are taken into consideration
+			estimateVariables();
+
 			boolean groupHasChanged = false;
 			for(int i = 0; i < groups.length; i++)
 			{
