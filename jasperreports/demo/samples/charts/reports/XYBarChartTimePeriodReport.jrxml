@@ -53,9 +53,6 @@
 	<variable name="FreightSumCountryGroup" class="java.lang.Double" resetType="Group" resetGroup="CountryGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
-	<variable name="FreightSumYearGroup" class="java.lang.Double" resetType="Group" resetGroup="YearGroup" calculation="Sum">
-		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
-	</variable>
 	<variable name="FreightSumColumn" class="java.lang.Double" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
@@ -135,7 +132,7 @@
 	<group name="CountryGroup" isReprintHeaderOnEachPage="false">
 		<groupExpression><![CDATA[$F{ShipCountry}]]></groupExpression>
 		<groupHeader>
-		<band height="200">
+		<band height="225">
 			<line>
 				<reportElement x="0" y="14" width="270" height="1"/>
 				<graphicElement/>
@@ -159,7 +156,7 @@
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
 				<timePeriodDataset>
-					<dataset incrementType="None" incrementGroup="YearGroup" resetType="Group" resetGroup="CountryGroup"/>
+					<dataset incrementType="None" resetType="Group" resetGroup="CountryGroup"/>
 					<timePeriodSeries>
 						<seriesExpression>"Half Freight"</seriesExpression>
 						<startDateExpression>$F{OrderDate}</startDateExpression>
@@ -167,10 +164,16 @@
 						<valueExpression>new Double($F{Freight}.doubleValue() / 2d)</valueExpression>
 					</timePeriodSeries>
 					<timePeriodSeries>
-						<seriesExpression>"Freight"</seriesExpression>
+						<seriesExpression>"Normal Freight"</seriesExpression>
 						<startDateExpression>$F{OrderDate}</startDateExpression>
 						<endDateExpression>$F{ShippedDate}</endDateExpression>
 						<valueExpression>$F{Freight}</valueExpression>
+					</timePeriodSeries>
+					<timePeriodSeries>
+						<seriesExpression>"Double Freight"</seriesExpression>
+						<startDateExpression>$F{OrderDate}</startDateExpression>
+						<endDateExpression>$F{ShippedDate}</endDateExpression>
+						<valueExpression>new Double($F{Freight}.doubleValue() * 2d)</valueExpression>
 					</timePeriodSeries>
 				</timePeriodDataset>
 				<barPlot isShowTickMarks="true" isShowTickLabels="true">
@@ -215,9 +218,6 @@
 			</textField>
 		</band>
 		</groupFooter>
-	</group>
-	<group name="YearGroup">
-		<groupExpression><![CDATA[new Integer($F{OrderDate}.getYear())]]></groupExpression>
 	</group>
 	<title>
 		<band height="50">

@@ -133,7 +133,7 @@
 	<group name="CountryGroup" isReprintHeaderOnEachPage="false">
 		<groupExpression><![CDATA[$F{ShipCountry}]]></groupExpression>
 		<groupHeader>
-		<band height="200">
+		<band height="225">
 			<line>
 				<reportElement x="0" y="14" width="270" height="1"/>
 				<graphicElement/>
@@ -168,9 +168,14 @@
 						<yValueExpression>new Double($F{Freight}.doubleValue() / 2d)</yValueExpression>
 					</xySeries>
 					<xySeries>
-						<seriesExpression>"Freight"</seriesExpression>
+						<seriesExpression>"Normal Freight"</seriesExpression>
 						<xValueExpression>$F{OrderID}</xValueExpression>
 						<yValueExpression>$F{Freight}</yValueExpression>
+					</xySeries>
+					<xySeries>
+						<seriesExpression>"Double Freight"</seriesExpression>
+						<xValueExpression>$F{OrderID}</xValueExpression>
+						<yValueExpression>new Double($F{Freight}.doubleValue() * 2d)</yValueExpression>
 					</xySeries>
 				</xyDataset>
 				<areaPlot>
