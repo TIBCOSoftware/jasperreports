@@ -48,9 +48,11 @@ import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.CategoryDataset;
+import org.jfree.ui.RectangleInsets;
 
 
 /**
@@ -97,11 +99,11 @@ public class SimpleChartTheme extends DefaultChartTheme
 		if (seriesColors == null || seriesColors.size() == 0)
 		{
 			Color[] colors = new Color[]{
-				new Color( 66, 138, 247, 210),
-				new Color(206,  77,  24, 210),
-				new Color(123, 207,  24, 210),
-				new Color(247, 207,  57, 210),
-				new Color( 90, 186, 206, 210)
+				new Color( 66, 138, 247, 180),
+				new Color(206,  77,  24, 180),
+				new Color(123, 207,  24, 180),
+				new Color(247, 207,  57, 180),
+				new Color( 90, 186, 206, 180)
 				};
 			plot.setDrawingSupplier(
 				new DefaultDrawingSupplier(
@@ -122,6 +124,7 @@ public class SimpleChartTheme extends DefaultChartTheme
 				categoryPlot.setBackgroundPaint(
 					new GradientPaint(0, 0, new Color(222, 231, 247), 0, getChart().getHeight() / 2, Color.white, true)
 					);
+				categoryPlot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
 			}
 
 			CategoryDataset categoryDataset = (CategoryDataset)categoryPlot.getDataset();
@@ -138,6 +141,7 @@ public class SimpleChartTheme extends DefaultChartTheme
 		{
 			xyPlot.setBackgroundPaint(new Color(222, 231, 247));
 			xyPlot.setRangeTickBandPaint(new Color(231, 243, 255));
+			xyPlot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
 		}
 	}
 
@@ -150,6 +154,13 @@ public class SimpleChartTheme extends DefaultChartTheme
 		JFreeChart jfreeChart = super.createPieChart(evaluation);
 
 		PiePlot piePlot = (PiePlot)jfreeChart.getPlot();
+
+		if (getPlot().getOwnBackcolor() == null)
+		{
+			piePlot.setBackgroundPaint(
+				new GradientPaint(0, 0, new Color(222, 231, 247), 0, getChart().getHeight() / 2, Color.white, true)
+				);
+		}
 
 		piePlot.setLabelBackgroundPaint(TRANSPARENT_PAINT);
 		piePlot.setLabelShadowPaint(TRANSPARENT_PAINT);
@@ -184,6 +195,13 @@ public class SimpleChartTheme extends DefaultChartTheme
 		JFreeChart jfreeChart = super.createPie3DChart(evaluation);
 
 		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
+
+		if (getPlot().getOwnBackcolor() == null)
+		{
+			piePlot3D.setBackgroundPaint(
+				new GradientPaint(0, 0, new Color(222, 231, 247), 0, getChart().getHeight() / 2, Color.white, true)
+				);
+		}
 
 		piePlot3D.setLabelBackgroundPaint(TRANSPARENT_PAINT);
 		piePlot3D.setLabelShadowPaint(TRANSPARENT_PAINT);
@@ -280,8 +298,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 		xyPlot.setBackgroundPaint(new Color(222, 231, 247));
 		xyPlot.setRangeTickBandPaint(new Color(231, 243, 255));
 
-		XYItemRenderer itemRenderer = xyPlot.getRenderer();
-		itemRenderer.setOutlinePaint(TRANSPARENT_PAINT);
+		XYBarRenderer renderer = (XYBarRenderer)xyPlot.getRenderer();
+		renderer.setOutlinePaint(TRANSPARENT_PAINT);
+		renderer.setMargin(0.1);
 
 		return jfreeChart;
 	}
@@ -358,6 +377,31 @@ public class SimpleChartTheme extends DefaultChartTheme
 		
 		return jfreeChart;
 	}
+
+	protected JFreeChart createStackedBar3DChart(byte evaluation) throws JRException 
+	{
+		JFreeChart jfreeChart = super.createStackedBar3DChart(evaluation);
+
+		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
+		if (getPlot().getOwnBackcolor() == null)
+		{
+			categoryPlot.setBackgroundPaint(
+				new GradientPaint(0, 0, new Color(222, 231, 247), 0, getChart().getHeight(), Color.white, true)
+				);
+		}
+
+		CategoryDataset categoryDataset = (CategoryDataset)categoryPlot.getDataset();
+
+		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+		for(int i = 0; i < categoryDataset.getRowCount(); i++)
+		{
+			categoryRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+		}
+		
+		return jfreeChart;
+	}
+
+
 
 	/*
 	protected JFreeChart createStackedAreaChart(byte evaluation) throws JRException
