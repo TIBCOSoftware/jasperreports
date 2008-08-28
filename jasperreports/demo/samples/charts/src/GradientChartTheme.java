@@ -35,6 +35,7 @@ import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.fill.JRFillChart;
 
 import org.jfree.chart.JFreeChart;
@@ -56,63 +57,85 @@ import org.jfree.data.category.CategoryDataset;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class PieChartEllipticExplodedTheme extends SimpleChartTheme
+public class GradientChartTheme extends SimpleChartTheme
 {
+
+	protected GradientPaint[] colors = null;
 	protected Color LIGHT_GREEN = new Color(239,255,147);
 	
 	/**
 	 *
 	 */
-	public PieChartEllipticExplodedTheme(JRFillChart chart)
+	public GradientChartTheme(JRFillChart chart)
 	{
 		super(chart);
+		colors = new GradientPaint[]{
+				new GradientPaint( 0f,0f, Color.GREEN, 0f,0f, Color.ORANGE),
+				new GradientPaint( 0f,0f, Color.YELLOW, 0f,0f, Color.RED),
+				new GradientPaint( 0f,0f, Color.CYAN, 0f,0f, Color.PINK),
+				new GradientPaint( 0f,0f, Color.YELLOW, 0f,0f, Color.MAGENTA),
+				new GradientPaint( 0f,0f, Color.CYAN, 0f,0f, Color.DARK_GRAY)
+				};
 	}
 	
+
 	/**
 	 *
 	 */
-	protected JFreeChart createPieChart(byte evaluation) throws JRException
+	protected void configurePlot(Plot plot, JRChartPlot jrPlot)
 	{
-		JFreeChart jfreeChart = super.createPieChart(evaluation);
+		super.configurePlot(plot, jrPlot);
 
-		PiePlot piePlot = (PiePlot)jfreeChart.getPlot();
+		// Set any color series
+		SortedSet seriesColors = getPlot().getSeriesColors();
+		if (seriesColors == null || seriesColors.size() == 0)
+		{
+			
+			plot.setDrawingSupplier(
+				new DefaultDrawingSupplier(
+					colors,
+					DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
+					DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
+					DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
+					DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE
+					)
+				);
+			
+			plot.setBackgroundPaint(
+					new GradientPaint(0, 0, LIGHT_GREEN, 0, getChart().getHeight(), Color.WHITE, true)
+					);
+		}
+		
+		if(plot instanceof CategoryPlot)
+		{
+			CategoryItemRenderer categoryRenderer = ((CategoryPlot)plot).getRenderer();
+			categoryRenderer.setSeriesPaint(0, colors[0]);
+			categoryRenderer.setSeriesPaint(1, colors[1]);
+			categoryRenderer.setSeriesPaint(2, colors[2]);
+			categoryRenderer.setSeriesPaint(3, colors[3]);
+			categoryRenderer.setSeriesPaint(4, colors[4]);
+		}
+	}
 
-		piePlot.setExplodePercent(1, 0.2);
-		piePlot.setExplodePercent(2, 0.2);
-		piePlot.setExplodePercent(3, 0.2);
-		piePlot.setExplodePercent(4, 0.2);
-		piePlot.setExplodePercent(5, 0.2);
-		piePlot.setCircular(false);
-		piePlot.setShadowXOffset(1d);
-		piePlot.setShadowYOffset(1d);
-		piePlot.setInteriorGap(0.2);
-		plot.setBackgroundPaint(
+
+	protected JFreeChart createBar3DChart(byte evaluation) throws JRException 
+	{
+		JFreeChart jfreeChart = super.createBar3DChart(evaluation);
+
+		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
+		categoryPlot.setBackgroundPaint(
 				new GradientPaint(0, 0, LIGHT_GREEN, 0, getChart().getHeight(), Color.WHITE, true)
 				);
+		CategoryDataset categoryDataset = (CategoryDataset)categoryPlot.getDataset();
+
+		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+		for(int i = 0; i < categoryDataset.getRowCount(); i++)
+		{
+			categoryRenderer.setSeriesOutlinePaint(i, colors[i]);
+		}
 		
 		return jfreeChart;
 	}
 
-
-	/**
-	 *
-	 */
-	protected JFreeChart createPie3DChart(byte evaluation) throws JRException
-	{
-		JFreeChart jfreeChart = super.createPie3DChart(evaluation);
-
-		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
-
-		piePlot3D.setExplodePercent(1, 0.2);
-		piePlot3D.setExplodePercent(2, 0.2);
-		piePlot3D.setExplodePercent(3, 0.2);
-		piePlot3D.setExplodePercent(4, 0.2);
-		piePlot3D.setExplodePercent(5, 0.2);
-		piePlot3D.setCircular(false);
-		piePlot3D.setShadowXOffset(1d);
-		piePlot3D.setShadowYOffset(1d);
-		piePlot3D.setInteriorGap(0.2);
-		return jfreeChart;
-	}
-
+	
 }
