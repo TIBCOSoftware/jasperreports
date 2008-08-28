@@ -86,7 +86,7 @@ public class PieChartEllipticExplodedTheme extends SimpleChartTheme
 		piePlot.setShadowXOffset(1d);
 		piePlot.setShadowYOffset(1d);
 		piePlot.setInteriorGap(0.2);
-		plot.setBackgroundPaint(
+		piePlot.setBackgroundPaint(
 				new GradientPaint(0, 0, LIGHT_GREEN, 0, getChart().getHeight(), Color.WHITE, true)
 				);
 		
