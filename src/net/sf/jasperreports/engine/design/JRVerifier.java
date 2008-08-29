@@ -81,6 +81,9 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JRGenericElement;
+import net.sf.jasperreports.engine.JRGenericElementParameter;
+import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
@@ -1201,6 +1204,10 @@ public class JRVerifier
 		else if (element instanceof JRComponentElement)
 		{
 			verifyComponentElement((JRComponentElement) element);
+		}
+		else if (element instanceof JRGenericElement)
+		{
+			verifyGenericElement((JRGenericElement) element);
 		}
 	}
 
@@ -2769,9 +2776,61 @@ public class JRVerifier
 		
 		if (componentKey != null && component != null)
 		{
-			ComponentCompiler compiler = ComponentsEnvironment.getComponentsRegistry()
-				.getComponentManager(componentKey).getComponentCompiler();
+			ComponentCompiler compiler = ComponentsEnvironment.
+				getComponentManager(componentKey).getComponentCompiler();
 			compiler.verify(component, this);
+		}
+	}
+
+
+	protected void verifyGenericElement(JRGenericElement element)
+	{
+		verifyReportElement(element);
+
+		if (element.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+		{
+			String groupName = element.getEvaluationGroupName();
+			if (groupName == null)
+			{
+				addBrokenRule("Evaluation group not set for generic element", element);
+			}
+			else
+			{
+				if (!jasperDesign.getGroupsMap().containsKey(groupName))
+				{
+					addBrokenRule("Generic element evaluation group " + groupName 
+							+ " not found in report", element);
+				}
+			}
+		}
+		
+		JRGenericElementType type = element.getGenericType();
+		if (type == null)
+		{
+			addBrokenRule("No type set for generic element", element);
+		}
+		else
+		{
+			if (type.getNamespace() == null)
+			{
+				addBrokenRule("No namespace set for generic element type", type);
+			}
+			
+			if (type.getName() == null)
+			{
+				addBrokenRule("No name set for generic element type", type);
+			}
+		}
+		
+		JRGenericElementParameter[] parameters = element.getParameters();
+		for (int i = 0; i < parameters.length; i++)
+		{
+			JRGenericElementParameter parameter = parameters[i];
+			
+			if (parameter.getName() == null)
+			{
+				addBrokenRule("No name set for generic element parameter", parameter);
+			}
 		}
 	}
 }

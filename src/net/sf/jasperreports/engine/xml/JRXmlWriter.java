@@ -119,6 +119,9 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JRGenericElement;
+import net.sf.jasperreports.engine.JRGenericElementParameter;
+import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -2709,8 +2712,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		
 		ComponentKey componentKey = componentElement.getComponentKey();
 		Component component = componentElement.getComponent();
-		ComponentXmlWriter componentXmlWriter = ComponentsEnvironment.getComponentsRegistry()
-			.getComponentManager(componentKey).getComponentXmlWriter();
+		ComponentXmlWriter componentXmlWriter = ComponentsEnvironment.
+			getComponentManager(componentKey).getComponentXmlWriter();
 		componentXmlWriter.writeToXml(componentKey, component, this);
 		
 		writer.closeElement();
@@ -2719,5 +2722,52 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	protected XmlNamespace getNamespace()
 	{
 		return JASPERREPORTS_NAMESPACE;
+	}
+
+
+	public void writeGenericElement(JRGenericElement element) throws IOException
+	{
+		writer.startElement(JRXmlConstants.ELEMENT_genericElement, getNamespace());
+		
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
+				element.getEvaluationTime(), JRXmlConstants.getEvaluationTimeMap(),
+				JRExpression.EVALUATION_TIME_NOW);
+		if (element.getEvaluationGroupName() != null)
+		{
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
+					element.getEvaluationGroupName());
+		}
+
+		writeReportElement(element);
+		
+		JRGenericElementType printKey = element.getGenericType();
+		writer.startElement(JRXmlConstants.ELEMENT_genericElementType);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_namespace, 
+				printKey.getNamespace());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, 
+				printKey.getName());
+		writer.closeElement();//genericElementType
+
+		JRGenericElementParameter[] params = element.getParameters();
+		for (int i = 0; i < params.length; i++)
+		{
+			JRGenericElementParameter param = params[i];
+			writer.startElement(JRXmlConstants.ELEMENT_genericElementParameter);
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, 
+					param.getName());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_skipWhenNull, 
+					param.isSkipWhenEmpty(), false);
+			
+			JRExpression valueExpression = param.getValueExpression();
+			if (valueExpression != null)
+			{
+				writer.writeExpression(JRXmlConstants.ELEMENT_genericElementParameter_valueExpression, 
+						valueExpression, true, Object.class.getName());
+			}
+			
+			writer.closeElement();//genericElementParameter
+		}
+		
+		writer.closeElement();//genericElement
 	}
 }

@@ -25,32 +25,24 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-
-/*
- * Contributors:
- * Eugene D - eugenedruy@users.sourceforge.net 
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
 package net.sf.jasperreports.engine.convert;
 
-import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
 /**
- * Converter of {@link JRComponentElement} into print elements.
+ * Converter of {@link JRGenericElement} into print elements.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ComponentElementConverter extends ElementIconConverter
+public class GenericElementConverter extends ElementIconConverter
 {
 	
-	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
+	private final static GenericElementConverter INSTANCE = new GenericElementConverter();
 	
-	private ComponentElementConverter()
+	private GenericElementConverter()
 	{
 		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
 	}
@@ -60,7 +52,7 @@ public class ComponentElementConverter extends ElementIconConverter
 	 * 
 	 * @return the singleton component converter instance 
 	 */
-	public static ComponentElementConverter getInstance()
+	public static GenericElementConverter getInstance()
 	{
 		return INSTANCE;
 	}

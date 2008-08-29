@@ -25,44 +25,54 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-
-/*
- * Contributors:
- * Eugene D - eugenedruy@users.sourceforge.net 
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
-package net.sf.jasperreports.engine.convert;
-
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.util.JRImageLoader;
-
+package net.sf.jasperreports.engine;
 
 /**
- * Converter of {@link JRComponentElement} into print elements.
+ * A generic report element parameter.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see JRGenericElement#getParameters()
  */
-public class ComponentElementConverter extends ElementIconConverter
+public interface JRGenericElementParameter
 {
-	
-	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
-	
-	private ComponentElementConverter()
-	{
-		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
-	}
 
 	/**
-	 * Returns the singleton instance of this converter.
+	 * Returns the name of the parameter.
 	 * 
-	 * @return the singleton component converter instance 
+	 * <p>
+	 * The name will be propagated into the generic print element, as in
+	 * {@link JRGenericPrintElement#setParameterValue(String, Object)}.
+	 * 
+	 * @return the name of the parameter
 	 */
-	public static ComponentElementConverter getInstance()
-	{
-		return INSTANCE;
-	}
-
+	String getName();
+	
+	/**
+	 * Returns the expression that provides parameter values.
+	 * 
+	 * <p>
+	 * The result of the expression evaluation will be propagated into the
+	 * generic print element as parameter value, as in
+	 * {@link JRGenericPrintElement#setParameterValue(String, Object)}.
+	 * 
+	 * @return the parameter's value expression
+	 */
+	JRExpression getValueExpression();
+	
+	/**
+	 * Decides whether the parameter is skipped when its value evaluates to
+	 * <code>null</code>.
+	 * 
+	 * <p>
+	 * When the parameter's expression evaluates to <code>null</code> and this
+	 * flag is set and , the parameter is not included in the generated print
+	 * element.  If the flag is not set, the parameter is included with a
+	 * <code>null</code> value. 
+	 * 
+	 * @return whether the parameter is skipped when its value is
+	 * <code>null</code>
+	 */
+	boolean isSkipWhenEmpty();
+	
 }

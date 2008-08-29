@@ -25,45 +25,63 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.component;
+package net.sf.jasperreports.engine;
 
-import java.util.Collection;
+import java.util.Set;
 
 /**
- * A registry of component bundles.
+ * A generic print element.
+ * 
+ * <p>
+ * Such an element has {@link #getGenericType() a type} and includes
+ * a set of parameters.
+ * Export handlers need to registered for the element's type and they are
+ * responsible for producing export output for the element.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
+ * @version $Id$
+ * @see JRGenericElement
  */
-public interface ComponentsRegistry
+public interface JRGenericPrintElement extends JRPrintElement
 {
 
 	/**
-	 * Returns the set of all component bundles present in the registry. 
+	 * Returns the type of this element.
 	 * 
-	 * @return the set of component bundles
+	 * @return the element type
 	 */
-	Collection getComponentBundles();
+	JRGenericElementType getGenericType();
 
 	/**
-	 * Returns a component bundle that corresponds to a namespace.
+	 * Returns the set of parameter names for this element.
 	 * 
-	 * @param namespace a component bundle namespace
-	 * @return the corresponding component bundle
-	 * @throws JRRuntimeException if no bundle corresponding to the namespace
-	 * is found in the registry
+	 * @return the set of parameter names (as <code>String</code>s).
 	 */
-	ComponentsBundle getComponentsBundle(String namespace);
+	Set getParameterNames();
+	
+	/**
+	 * Determines whether the element includes a parameter having a given name.
+	 * 
+	 * @param name the parameter name
+	 * @return whether a parameter having the specified name exists in the element
+	 */
+	boolean hasParameter(String name);
+	
+	/**
+	 * Returns the value of a parameter.
+	 * 
+	 * @param name the parameter name
+	 * @return the parameter value, or <code>null</code> if a parameter by
+	 * the specified name does not exist.
+	 */
+	Object getParameterValue(String name);
 
 	/**
-	 * Returns a component manager that corresponds to a particular component
-	 * type key.
+	 * Sets a parameter value.
 	 * 
-	 * @param componentKey the component type key
-	 * @return the manager for the component type
-	 * @throws JRRuntimeException if the registry does not contain the specified
-	 * component type
+	 * @param name the parameter name
+	 * @param value the parameter value
 	 */
-	ComponentManager getComponentManager(ComponentKey componentKey);
-
+	void setParameterValue(String name, Object value);
+	
 }

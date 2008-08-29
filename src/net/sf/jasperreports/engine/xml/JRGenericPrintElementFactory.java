@@ -25,44 +25,28 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.engine.xml;
 
-/*
- * Contributors:
- * Eugene D - eugenedruy@users.sourceforge.net 
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
-package net.sf.jasperreports.engine.convert;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBaseGenericPrintElement;
 
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.util.JRImageLoader;
-
+import org.xml.sax.Attributes;
 
 /**
- * Converter of {@link JRComponentElement} into print elements.
+ * XML factory of {@link JRBaseGenericPrintElement} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ComponentElementConverter extends ElementIconConverter
+public class JRGenericPrintElementFactory extends JRBaseFactory
 {
-	
-	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
-	
-	private ComponentElementConverter()
-	{
-		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
-	}
 
-	/**
-	 * Returns the singleton instance of this converter.
-	 * 
-	 * @return the singleton component converter instance 
-	 */
-	public static ComponentElementConverter getInstance()
+	public Object createObject(Attributes arg0) throws Exception
 	{
-		return INSTANCE;
+		JasperPrint jasperPrint = (JasperPrint) digester.peek(digester.getCount() - 2);
+		JRBaseGenericPrintElement element = new JRBaseGenericPrintElement(
+				jasperPrint.getDefaultStyleProvider());
+		return element;
 	}
 
 }

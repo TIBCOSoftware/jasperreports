@@ -25,44 +25,49 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.engine.fill;
 
-/*
- * Contributors:
- * Eugene D - eugenedruy@users.sourceforge.net 
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
-package net.sf.jasperreports.engine.convert;
+import java.util.Set;
 
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.util.JRImageLoader;
-
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
- * Converter of {@link JRComponentElement} into print elements.
+ * Generic print element implementation that supports recorded values.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ComponentElementConverter extends ElementIconConverter
+public class JRRecordedValuesGenericPrintElement extends
+		JRTemplateGenericPrintElement implements JRRecordedValuesPrintElement
 {
+
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
-	
-	private ComponentElementConverter()
-	{
-		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
-	}
+	private JRRecordedValues recordedValues;
 
 	/**
-	 * Returns the singleton instance of this converter.
+	 * Creates a generic print element.
 	 * 
-	 * @return the singleton component converter instance 
+	 * @param template the element template to be used by the element
 	 */
-	public static ComponentElementConverter getInstance()
+	public JRRecordedValuesGenericPrintElement(JRTemplateGenericElement template)
 	{
-		return INSTANCE;
+		super(template);
+	}
+
+	public JRRecordedValues getRecordedValues()
+	{
+		return recordedValues;
+	}
+
+	public void deleteRecordedValues()
+	{
+		recordedValues = null;
+	}
+
+	public void initRecordedValues(Set evaluationTimes)
+	{
+		recordedValues = new JRRecordedValues(evaluationTimes);
 	}
 
 }

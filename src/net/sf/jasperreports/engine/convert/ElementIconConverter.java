@@ -35,34 +35,62 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageRenderer;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.base.JRBasePrintImage;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
- * Converter of {@link JRComponentElement} into print elements.
+ * Base converter that generates a static preview icon for the element.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ComponentElementConverter extends ElementIconConverter
+public class ElementIconConverter extends ElementConverter
 {
+
+	private static final Log log = LogFactory.getLog(ElementIconConverter.class);
 	
-	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
+	private final String iconLocation;
 	
-	private ComponentElementConverter()
+	public ElementIconConverter(String iconLocation)
 	{
-		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
+		this.iconLocation = iconLocation;
+	}
+	
+	public JRPrintElement convert(ReportConverter reportConverter, JRElement element)
+	{
+		JRBasePrintImage printImage = new JRBasePrintImage(
+				reportConverter.getDefaultStyleProvider());
+		copyElement(reportConverter, element, printImage);
+		
+		printImage.getLineBox().setPadding(3);
+		printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
+		
+		printImage.setRenderer(getRenderer());
+		return printImage;
 	}
 
-	/**
-	 * Returns the singleton instance of this converter.
-	 * 
-	 * @return the singleton component converter instance 
-	 */
-	public static ComponentElementConverter getInstance()
+	protected JRRenderable getRenderer()
 	{
-		return INSTANCE;
+		try
+		{
+			return JRImageRenderer.getInstance(
+					iconLocation, 
+					JRImage.ON_ERROR_TYPE_ERROR);
+		}
+		catch (JRException e)
+		{
+			log.warn("Error creating component design preview icon", e);
+			return null;
+		}
 	}
 
 }

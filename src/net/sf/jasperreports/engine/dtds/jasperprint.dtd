@@ -85,7 +85,7 @@
 	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
 	lineColor CDATA #IMPLIED
 >
-<!ELEMENT page (line | rectangle | ellipse | image | text | frame)*>
+<!ELEMENT page (line | rectangle | ellipse | image | text | frame | genericElement)*>
 <!ELEMENT line (reportElement?, graphicElement?)>
 <!ATTLIST line
 	direction (TopDown | BottomUp) "TopDown"
@@ -219,7 +219,7 @@
 	truncateIndex NMTOKEN #IMPLIED
 >
 <!ELEMENT textTruncateSuffix (#PCDATA)>
-<!ELEMENT frame (reportElement?, box?, (line | rectangle | ellipse | image | text | frame)*)>
+<!ELEMENT frame (reportElement?, box?, (line | rectangle | ellipse | image | text | frame | genericElement)*)>
 
 <!ELEMENT hyperlinkParameter (hyperlinkParameterValue?)>
 <!ATTLIST hyperlinkParameter
@@ -227,3 +227,18 @@
 	class NMTOKEN "java.lang.String"
 >
 <!ELEMENT hyperlinkParameterValue (#PCDATA)>
+
+<!ELEMENT genericElement (reportElement?, genericElementType, genericElementParameter*)>
+<!ELEMENT genericElementType EMPTY>
+<!ATTLIST genericElementType
+	namespace CDATA #REQUIRED
+	name CDATA #REQUIRED
+>
+<!ELEMENT genericElementParameter (genericElementParameterValue?)>
+<!ATTLIST genericElementParameter
+	name CDATA #REQUIRED
+>
+<!ELEMENT genericElementParameterValue (#PCDATA)>
+<!ATTLIST genericElementParameterValue
+	class NMTOKEN #REQUIRED
+>

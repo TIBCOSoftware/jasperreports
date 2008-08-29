@@ -60,7 +60,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		super(filler, element, factory);
 		
 		ComponentKey componentKey = element.getComponentKey();
-		ComponentManager manager = ComponentsEnvironment.getComponentsRegistry().getComponentManager(componentKey);
+		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
 		fillComponent = manager.getComponentFillFactory().toFillComponent(element.getComponent(), factory);
 		fillComponent.initialize(this);
 	}
@@ -71,7 +71,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		super(element, factory);
 		
 		ComponentKey componentKey = element.getComponentKey();
-		ComponentManager manager = ComponentsEnvironment.getComponentsRegistry().getComponentManager(componentKey);
+		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
 		fillComponent = manager.getComponentFillFactory().cloneFillComponent(element.fillComponent, factory);
 		fillComponent.initialize(this);
 	}

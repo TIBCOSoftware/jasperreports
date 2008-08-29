@@ -52,8 +52,8 @@ public class BarcodeXmlWriter implements ComponentXmlWriter
 		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
 		
 		String namespaceURI = componentKey.getNamespace();
-		String schemaLocation = ComponentsEnvironment.getComponentsRegistry()
-			.getComponentsBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
+		String schemaLocation = ComponentsEnvironment.
+			getComponentsBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
 		XmlNamespace namespace = new XmlNamespace(namespaceURI, componentKey.getNamespacePrefix(),
 				schemaLocation);
 		

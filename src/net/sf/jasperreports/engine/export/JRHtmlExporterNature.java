@@ -33,6 +33,7 @@
 
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 
 /**
@@ -51,7 +52,7 @@ public class JRHtmlExporterNature implements ExporterNature
 	 */
 	public JRHtmlExporterNature(ExporterFilter filter, boolean deep)
 	{
-		this(filter,deep,false);
+		this(filter, deep, false);
 	}
 	
 	/**
@@ -69,6 +70,18 @@ public class JRHtmlExporterNature implements ExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
+		if (element instanceof JRGenericPrintElement)
+		{
+			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
+			GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
+			GenericElementHandlerEnviroment.getHandler(
+					genericElement.getGenericType(), JRHtmlExporter.HTML_EXPORTER_KEY);
+			if (!handler.toExport(genericElement))
+			{
+				return false;
+			}
+		}
+
 		return filter == null || filter.isToExport(element);
 	}
 	

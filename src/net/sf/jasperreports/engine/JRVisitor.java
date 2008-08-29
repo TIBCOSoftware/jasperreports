@@ -104,5 +104,11 @@ public interface JRVisitor
 	 * @param componentElement the element to visit
 	 */
 	public void visitComponentElement(JRComponentElement componentElement);
-	
+
+	/**
+	 * Visits a generic report element.
+	 * 
+	 * @param element the element to visit
+	 */
+	public void visitGenericElement(JRGenericElement element);
 }

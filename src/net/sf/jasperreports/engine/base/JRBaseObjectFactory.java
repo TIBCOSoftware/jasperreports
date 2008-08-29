@@ -122,6 +122,8 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JRGenericElement;
+import net.sf.jasperreports.engine.JRGenericElementParameter;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
@@ -1629,6 +1631,38 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
+		setVisitResult(base);
+	}
+
+
+	public JRGenericElementParameter getGenericElementParameter(
+			JRGenericElementParameter elementParameter)
+	{
+		JRGenericElementParameter baseParameter = null;
+		if (elementParameter != null)
+		{
+			baseParameter = (JRGenericElementParameter) get(elementParameter);
+			if (baseParameter == null)
+			{
+				baseParameter = new JRBaseGenericElementParameter(
+						elementParameter, this);
+			}
+		}
+		return baseParameter;
+	}
+
+
+	public void visitGenericElement(JRGenericElement element)
+	{
+		JRBaseGenericElement base = null;
+		if (element != null)
+		{
+			base = (JRBaseGenericElement) get(element);
+			if (base == null)
+			{
+				base = new JRBaseGenericElement(element, this);
+			}
+		}
 		setVisitResult(base);
 	}
 }

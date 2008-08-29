@@ -25,44 +25,47 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.engine.xml;
 
-/*
- * Contributors:
- * Eugene D - eugenedruy@users.sourceforge.net 
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
-package net.sf.jasperreports.engine.convert;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.design.JRDesignGenericElement;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.util.JRImageLoader;
-
+import org.xml.sax.Attributes;
 
 /**
- * Converter of {@link JRComponentElement} into print elements.
+ * XML factory of {@link JRDesignGenericElement} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ComponentElementConverter extends ElementIconConverter
+public class JRGenericElementFactory extends JRBaseFactory
 {
-	
-	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
-	
-	private ComponentElementConverter()
-	{
-		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
-	}
 
-	/**
-	 * Returns the singleton instance of this converter.
-	 * 
-	 * @return the singleton component converter instance 
-	 */
-	public static ComponentElementConverter getInstance()
+	public Object createObject(Attributes attrs) throws Exception
 	{
-		return INSTANCE;
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+		JRDesignGenericElement element = new JRDesignGenericElement(jasperDesign);
+		
+		String evaluationTimeAttr = attrs.getValue(
+				JRXmlConstants.ATTRIBUTE_evaluationTime);
+		if (evaluationTimeAttr != null)
+		{
+			Byte evaluationTime = (Byte) JRXmlConstants.getEvaluationTimeMap().get(
+					evaluationTimeAttr);
+			element.setEvaluationTime(evaluationTime.byteValue());
+		}
+		
+		if (element.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+		{
+			String groupName = attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
+			if (groupName != null)
+			{
+				element.setEvaluationGroupName(groupName);
+			}
+		}
+		
+		return element;
 	}
 
 }

@@ -125,6 +125,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGenericElementParameter;
+import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRParameter;
@@ -458,6 +460,8 @@ public class JRXmlDigesterFactory
 		addFrameRules(digester);
 		
 		addComponentRules(digester);
+		
+		addGenericElementRules(digester);
 	}
 
 
@@ -466,7 +470,7 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/componentElement", JRComponentElementFactory.class.getName());
 		digester.addSetNext("*/componentElement", "addElement", JRDesignElement.class.getName());
 		
-		Collection components = ComponentsEnvironment.getComponentsRegistry().getComponentBundles();
+		Collection components = ComponentsEnvironment.getComponentBundles();
 		for (Iterator it = components.iterator(); it.hasNext();)
 		{
 			ComponentsBundle componentsBundle = (ComponentsBundle) it.next();
@@ -487,6 +491,8 @@ public class JRXmlDigesterFactory
 						JRComponentRule.newInstance());
 			}
 		}
+		
+		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
 	}
 
 
@@ -1057,7 +1063,38 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate(hyperlinkParameterExpressionPattern, JRStringExpressionFactory.class.getName());
 		digester.addSetNext(hyperlinkParameterExpressionPattern, "setValueExpression", JRExpression.class.getName());
 		digester.addCallMethod(hyperlinkParameterExpressionPattern, "setText", 0);
+	}
 
+
+	protected static void addGenericElementRules(Digester digester)
+	{
+		String genericElementPattern = "*/" + JRXmlConstants.ELEMENT_genericElement;
+		digester.addFactoryCreate(genericElementPattern, 
+				JRGenericElementFactory.class);
+		digester.addSetNext(genericElementPattern, "addElement", 
+				JRDesignElement.class.getName());
+		
+		String genericElementTypePattern = genericElementPattern + "/" 
+			+ JRXmlConstants.ELEMENT_genericElementType;
+		digester.addFactoryCreate(genericElementTypePattern, 
+				JRGenericElementTypeFactory.class);
+		digester.addSetNext(genericElementTypePattern, "setGenericType", 
+				JRGenericElementType.class.getName());
+		
+		String genericElementParameterPattern = genericElementPattern + "/"
+			+ JRXmlConstants.ELEMENT_genericElementParameter;
+		digester.addFactoryCreate(genericElementParameterPattern, 
+				JRGenericElementParameterFactory.class);
+		digester.addSetNext(genericElementParameterPattern, "addParameter", 
+				JRGenericElementParameter.class.getName());
+		
+		String genericElementParameterExpressionPattern = genericElementParameterPattern + "/"
+			+ JRXmlConstants.ELEMENT_genericElementParameter_valueExpression;
+		digester.addFactoryCreate(genericElementParameterExpressionPattern, 
+				JRExpressionFactory.ArbitraryExpressionFactory.class);
+		digester.addSetNext(genericElementParameterExpressionPattern, 
+				"setValueExpression", JRExpression.class.getName());
+		digester.addCallMethod(genericElementParameterExpressionPattern, "setText", 0);
 	}
 	
 	/**
@@ -1102,7 +1139,7 @@ public class JRXmlDigesterFactory
 	
 	protected static void setComponentsInternalEntityResources(JRXmlDigester digester)
 	{
-		Collection components = ComponentsEnvironment.getComponentsRegistry().getComponentBundles();
+		Collection components = ComponentsEnvironment.getComponentBundles();
 		for (Iterator it = components.iterator(); it.hasNext();)
 		{
 			ComponentsBundle componentManager = (ComponentsBundle) it.next();

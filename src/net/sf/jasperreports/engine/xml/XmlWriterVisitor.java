@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRRectangle;
@@ -256,6 +257,18 @@ public class XmlWriterVisitor implements JRVisitor
 		try
 		{
 			xmlWriter.writeComponentElement(componentElement);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public void visitGenericElement(JRGenericElement element)
+	{
+		try
+		{
+			xmlWriter.writeGenericElement(element);
 		}
 		catch (IOException e)
 		{

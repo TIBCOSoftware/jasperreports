@@ -76,6 +76,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
@@ -1237,13 +1238,41 @@ public class JRExpressionCollector
 		}
 	}
 	
+	/**
+	 * Collects expressions from a component element wrapper.
+	 * 
+	 * <p>
+	 * Common element expressions are collected, and then the component
+	 * compiler's
+	 * {@link ComponentCompiler#collectExpressions(Component, JRExpressionCollector)}
+	 * is called to collect component expressions.
+	 * 
+	 * @param componentElement the component element
+	 */
 	public void collect(JRComponentElement componentElement)
 	{
 		collectElement(componentElement);
 		
 		ComponentKey componentKey = componentElement.getComponentKey();
-		ComponentManager manager = ComponentsEnvironment.getComponentsRegistry().getComponentManager(componentKey);
+		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
 		Component component = componentElement.getComponent();
 		manager.getComponentCompiler().collectExpressions(component, this);
+	}
+	
+	/**
+	 * Collects expressions from a generic element.
+	 * 
+	 * @param element the generic element
+	 */
+	public void collect(JRGenericElement element)
+	{
+		collectElement(element);
+		
+		JRGenericElementParameter[] parameters = element.getParameters();
+		for (int i = 0; i < parameters.length; i++)
+		{
+			JRGenericElementParameter parameter = parameters[i];
+			addExpression(parameter.getValueExpression());
+		}
 	}
 }
