@@ -25,44 +25,37 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.extensions;
 
-/*
- * Contributors:
- * Eugene D - eugenedruy@users.sourceforge.net 
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
-package net.sf.jasperreports.engine.convert;
-
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.util.JRImageLoader;
-
+import net.sf.jasperreports.engine.JRPropertiesMap;
 
 /**
- * Converter of {@link JRComponentElement} into print elements.
+ * A factory of {@link ExtensionsRegistry} instance.
+ * 
+ * <p>
+ * Such factories are used by
+ * {@link DefaultExtensionsRegistry the default components registry} to
+ * instantiate sub extensions registries.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see DefaultExtensionsRegistry#PROPERTY_REGISTRY_FACTORY_PREFIX
  */
-public class ComponentElementConverter extends ElementIconConverter
+public interface ExtensionsRegistryFactory
 {
-	
-	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
-	
-	private ComponentElementConverter()
-	{
-		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
-	}
 
 	/**
-	 * Returns the singleton instance of this converter.
+	 * Instantiates an extensions registry.
 	 * 
-	 * @return the singleton component converter instance 
+	 * @param registryId the ID of the registry to instantiate.
+	 * The ID can be used to identify a set of properties to be used
+	 * when instantiating the registry.
+	 * @param properties the map of properties that can be used to configure
+	 * the registry instantiation process
+	 * @return an extensions registry
+	 * @see DefaultExtensionsRegistry#PROPERTY_REGISTRY_PREFIX
 	 */
-	public static ComponentElementConverter getInstance()
-	{
-		return INSTANCE;
-	}
+	ExtensionsRegistry createRegistry(String registryId, 
+			JRPropertiesMap properties);
 
 }

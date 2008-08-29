@@ -25,44 +25,27 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.engine.xml;
 
-/*
- * Contributors:
- * Eugene D - eugenedruy@users.sourceforge.net 
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
-package net.sf.jasperreports.engine.convert;
+import net.sf.jasperreports.engine.JRGenericElementType;
 
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.util.JRImageLoader;
-
+import org.xml.sax.Attributes;
 
 /**
- * Converter of {@link JRComponentElement} into print elements.
+ * XML factory of {@link JRGenericElementType} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ComponentElementConverter extends ElementIconConverter
+public class JRGenericElementTypeFactory extends JRBaseFactory
 {
-	
-	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
-	
-	private ComponentElementConverter()
-	{
-		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
-	}
 
-	/**
-	 * Returns the singleton instance of this converter.
-	 * 
-	 * @return the singleton component converter instance 
-	 */
-	public static ComponentElementConverter getInstance()
+	public Object createObject(Attributes attrs) throws Exception
 	{
-		return INSTANCE;
+		String namespace = attrs.getValue(JRXmlConstants.ATTRIBUTE_namespace);
+		String name = attrs.getValue(JRXmlConstants.ATTRIBUTE_name);
+		JRGenericElementType type = new JRGenericElementType(namespace, name);
+		return type;
 	}
 
 }

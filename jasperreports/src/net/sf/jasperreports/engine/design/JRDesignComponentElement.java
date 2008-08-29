@@ -92,7 +92,7 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 	
 	public void collectExpressions(JRExpressionCollector collector)
 	{
-		ComponentManager manager = ComponentsEnvironment.getComponentsRegistry().getComponentManager(componentKey);
+		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
 		manager.getComponentCompiler().collectExpressions(component, collector);
 	}
 

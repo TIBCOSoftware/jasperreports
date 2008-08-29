@@ -1918,5 +1918,16 @@ public class JRXmlConstants
 	public static final String TEMPLATE_ELEMENT_INCLUDED_TEMPLATE = "template";
 	
 	public static final String ELEMENT_componentElement = "componentElement";
+	
+	public static final String ELEMENT_genericElement = "genericElement";
+	public static final String ELEMENT_genericElementType = "genericElementType";
+	public static final String ELEMENT_genericElementParameter = 
+		"genericElementParameter";
+	public static final String ELEMENT_genericElementParameter_valueExpression = 
+		"valueExpression";
+	public static final String ATTRIBUTE_namespace = "namespace";
+	public static final String ATTRIBUTE_skipWhenNull = "skipWhenNull";
 
+	public static final String ELEMENT_genericElementParameterValue = 
+		"genericElementParameterValue";
 }

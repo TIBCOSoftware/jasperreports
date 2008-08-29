@@ -27,141 +27,124 @@
  */
 package net.sf.jasperreports.engine.component;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.extensions.ExtensionsEnvironment;
+import net.sf.jasperreports.extensions.ExtensionsRegistry;
+
+import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.ClassUtils;
-import net.sf.jasperreports.engine.util.JRProperties;
-
 /**
- * A class that provides means of setting and accessing
- * {@link ComponentsRegistry} instances.
+ * A class that provides access to {@link ComponentsBundle component bundles}.
+ * 
+ * <p>
+ * Component bundles are registered as JasperReports extensions of type
+ * {@link ComponentsBundle} via the central extension framework (see
+ * {@link ExtensionsEnvironment}).
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see #getComponentsRegistry()
  */
 public final class ComponentsEnvironment
 {
-
-	private ComponentsEnvironment()
-	{
-	}
 	
-	private static final Log log = LogFactory.getLog(ComponentsEnvironment.class); 
+	private static final Log log = LogFactory.getLog(ComponentsEnvironment.class);
+	
+	private static final ReferenceMap cache = new ReferenceMap(
+			ReferenceMap.WEAK, ReferenceMap.HARD);
 	
 	/**
-	 * A property that provides the default {@link ComponentsRegistry} 
-	 * implementation class. 
+	 * Returns the set of all component bundles present in the registry. 
 	 * 
-	 * <p>
-	 * This property is only read at initialization time, therefore changing
-	 * the property value at a later time will have no effect. 
+	 * @return the set of component bundles
 	 */
-	public static final String PROPERTY_COMPONENTS_REGISTRY_CLASS = 
-		JRProperties.PROPERTY_PREFIX + "components.registry.class";
-	
-	private static ComponentsRegistry systemRegistry;
-	private static final ThreadLocal threadRegistry = new InheritableThreadLocal();
-	
-	static
+	public static Collection getComponentBundles()
 	{
-		systemRegistry = createDefaultRegistry();
+		Map components = getCachedComponentBundles();
+		return components.values();
 	}
 	
-	private static ComponentsRegistry createDefaultRegistry()
+	protected static Map getCachedComponentBundles()
 	{
-		String registryClass = JRProperties.getProperty(PROPERTY_COMPONENTS_REGISTRY_CLASS);
-		
-		if (log.isDebugEnabled())
+		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
+		synchronized (cache)
 		{
-			log.debug("Instantiating components registry class " + registryClass);
+			Map components = (Map) cache.get(cacheKey);
+			if (components == null)
+			{
+				components = findComponentBundles();
+				cache.put(cacheKey, components);
+			}
+			return components;
 		}
-		
-		ComponentsRegistry registry = (ComponentsRegistry) ClassUtils.
-			instantiateClass(registryClass, ComponentsRegistry.class);
-		return registry;
+	}
+
+	protected static Map findComponentBundles()
+	{
+		Map components = new HashMap();
+		ExtensionsRegistry extensionsRegistry = 
+			ExtensionsEnvironment.getExtensionsRegistry();
+		List bundles = extensionsRegistry.getExtensions(ComponentsBundle.class);
+		for (Iterator it = bundles.iterator(); it.hasNext();)
+		{
+			ComponentsBundle bundle = (ComponentsBundle) it.next();
+			String namespace = bundle.getXmlParser().getNamespace();
+			if (components.containsKey(namespace))
+			{
+				log.warn("Found two components for namespace " + namespace);
+			}
+			else
+			{
+				components.put(namespace, bundle);
+			}
+		}
+		return components;
 	}
 	
 	/**
-	 * Returns the system default components registry object.
+	 * Returns a component bundle that corresponds to a namespace.
 	 * 
-	 * <p>
-	 * This is either the one instantiated based on {@link #PROPERTY_COMPONENTS_REGISTRY_CLASS},
-	 * or the one set by {@link #setSystemComponentsRegistry(ComponentsRegistry)}.
-	 * 
-	 * @return the system default components registry object
+	 * @param namespace a component bundle namespace
+	 * @return the corresponding component bundle
+	 * @throws JRRuntimeException if no bundle corresponding to the namespace
+	 * is found in the registry
 	 */
-	public static synchronized ComponentsRegistry getSystemComponentsRegistry()
+	public static ComponentsBundle getComponentsBundle(String namespace)
 	{
-		return systemRegistry;
-	}
-
-	/**
-	 * Sets the system default components registry.
-	 * 
-	 * @param componentsRegistry the components registry
-	 */
-	public static synchronized void setSystemComponentsRegistry(ComponentsRegistry componentsRegistry)
-	{
-		if (componentsRegistry == null)
+		Map components = getCachedComponentBundles();
+		ComponentsBundle componentsBundle = (ComponentsBundle) components.get(namespace);
+		if (componentsBundle == null)
 		{
-			throw new JRRuntimeException("Cannot set a null components registry.");
+			throw new JRRuntimeException("No components bundle registered for namespace " 
+					+ namespace);
 		}
-		
-		systemRegistry = componentsRegistry;
-	}
-
-	/**
-	 * Returns the thread components registry, if any.
-	 * 
-	 * @return the thread components registry
-	 */
-	public static ComponentsRegistry getThreadComponentsRegistry()
-	{
-		return (ComponentsRegistry) threadRegistry.get();
-	}
-
-	/**
-	 * Sets the thread components registry.
-	 * 
-	 * @param componentsRegistry
-	 * @see #getComponentsRegistry()
-	 */
-	public static void setThreadComponentsRegistry(ComponentsRegistry componentsRegistry)
-	{
-		threadRegistry.set(componentsRegistry);
-	}
-
-	/**
-	 * Resets (to null) the thread components registry.
-	 * 
-	 * @see #setThreadComponentsRegistry(ComponentsRegistry)
-	 */
-	public static void resetThreadComponentsRegistry()
-	{
-		threadRegistry.set(null);
+		return componentsBundle;
 	}
 	
 	/**
-	 * Returns the component registry to be used in the current context.
+	 * Returns a component manager that corresponds to a particular component
+	 * type key.
 	 * 
-	 * <p>
-	 * The method returns the thread component registry (as returned by 
-	 * {@link #getThreadComponentsRegistry()}) if it exists, and the system
-	 * registry (as returned by {@link #getSystemComponentsRegistry()}) otherwise.
-	 * 
-	 * @return the context component registry
+	 * @param componentKey the component type key
+	 * @return the manager for the component type
+	 * @throws JRRuntimeException if the registry does not contain the specified
+	 * component type
 	 */
-	public static ComponentsRegistry getComponentsRegistry()
+	public static ComponentManager getComponentManager(ComponentKey componentKey)
 	{
-		ComponentsRegistry registry = getThreadComponentsRegistry();
-		if (registry == null)
-		{
-			registry = getSystemComponentsRegistry();
-		}
-		return registry;
+		String namespace = componentKey.getNamespace();
+		ComponentsBundle componentsBundle = getComponentsBundle(namespace);
+		
+		String name = componentKey.getName();
+		ComponentManager manager = componentsBundle.getComponentManager(name);
+		return manager;
 	}
 	
 }

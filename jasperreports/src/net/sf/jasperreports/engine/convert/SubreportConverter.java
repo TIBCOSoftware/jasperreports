@@ -35,13 +35,6 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRRenderable;
-import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
@@ -49,7 +42,7 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRGraphics2DExporter.java 1811 2007-08-13 19:52:07Z teodord $
  */
-public class SubreportConverter extends ElementConverter
+public class SubreportConverter extends ElementIconConverter
 {
 
 	/**
@@ -62,6 +55,7 @@ public class SubreportConverter extends ElementConverter
 	 */
 	private SubreportConverter()
 	{
+		super(JRImageLoader.SUBREPORT_IMAGE_RESOURCE);
 	}
 
 	/**
@@ -70,44 +64,6 @@ public class SubreportConverter extends ElementConverter
 	public static SubreportConverter getInstance()
 	{
 		return INSTANCE;
-	}
-	
-	/**
-	 *
-	 */
-	public JRPrintElement convert(ReportConverter reportConverter, JRElement element)
-	{
-		JRBasePrintImage printImage = new JRBasePrintImage(reportConverter.getDefaultStyleProvider());
-
-		printImage.getLineBox().setPadding(3);
-		printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
-		
-		copyElement(reportConverter, element, printImage);
-		
-		printImage.setRenderer(getRenderer());
-		
-		return printImage;
-	}
-
-	/**
-	 * 
-	 */
-	private JRRenderable getRenderer()
-	{
-		try
-		{
-			return
-				JRImageRenderer.getInstance(
-					JRImageLoader.SUBREPORT_IMAGE_RESOURCE, 
-					JRImage.ON_ERROR_TYPE_ERROR
-					);
-		}
-		catch (JRException e)
-		{
-			e.printStackTrace();//FIXMECONVERT use logging
-		}
-		
-		return null;
 	}
 
 }

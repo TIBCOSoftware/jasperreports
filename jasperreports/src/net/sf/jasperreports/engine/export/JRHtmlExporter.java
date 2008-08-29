@@ -62,6 +62,7 @@ import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
@@ -109,6 +110,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	private static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.html.";
 
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String HTML_EXPORTER_KEY = 
+		JRProperties.PROPERTY_PREFIX + "html";
+	
 	/**
 	 * @deprecated Replaced by  {@link JRHtmlExporterParameter#PROPERTY_FRAMES_AS_NESTED_TABLES}.
 	 */
@@ -817,6 +825,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 						else if (element instanceof JRPrintFrame)
 						{
 							exportFrame((JRPrintFrame) element, gridCell);
+						}
+						else if (element instanceof JRGenericPrintElement)
+						{
+							exportGenericElement((JRGenericPrintElement) element, gridCell);
 						}
 					}
 
@@ -2030,6 +2042,37 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected void restoreBackcolor()
 	{
 		backcolor = (Color) backcolorStack.removeLast();
+	}
+
+
+	protected void exportGenericElement(JRGenericPrintElement element,
+			JRExporterGridCell gridCell) throws IOException
+	{
+		GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
+				GenericElementHandlerEnviroment.getHandler(
+						element.getGenericType(), HTML_EXPORTER_KEY);
+
+		writeCellTDStart(gridCell);
+
+		StringBuffer styleBuffer = new StringBuffer();
+		appendBackcolorStyle(gridCell, styleBuffer);
+		appendBorderStyle(gridCell.getBox(), styleBuffer);
+		if (styleBuffer.length() > 0)
+		{
+			writer.write(" style=\"");
+			writer.write(styleBuffer.toString());
+			writer.write("\"");
+		}
+
+		writer.write(">");
+		
+		String htmlFragment = handler.getHtmlFragment(element);
+		if (htmlFragment != null)
+		{
+			writer.write(htmlFragment);
+		}
+
+		writer.write("</td>\n");
 	}
 	
 }

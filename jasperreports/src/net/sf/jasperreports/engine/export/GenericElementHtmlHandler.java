@@ -25,36 +25,26 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.component;
+package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 
 /**
- * A factory of {@link ComponentsBundle} instance.
- * 
- * <p>
- * Such factories are used by
- * {@link DefaultComponentsRegistry the default components registry} to
- * instantiate components bundles. 
+ * A generic print element HTML export handler.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
- * @see DefaultComponentsRegistry#PROPERTY_COMPONENT_FACTORY_PREFIX
+ * @version $Id$
  */
-public interface ComponentsBundleFactory
+public interface GenericElementHtmlHandler extends GenericElementHandler
 {
 
 	/**
-	 * Instantiates a components bundle.
+	 * Returns an HTML fragment that is to be inserted in the export output.
 	 * 
-	 * @param bundleId the ID of the bundle to instantiate.
-	 * The bundle ID can be used to identify a set of properties to be used
-	 * when instantiating the components bundle.
-	 * @param properties the map of properties that can be used to configure
-	 * the bundle instantiation process
-	 * @return a components bundle instance
-	 * @see DefaultComponentsRegistry#PROPERTY_COMPONENT_PREFIX
+	 * @param element the generic print element
+	 * @return the HTML fragment that represents the exported element
 	 */
-	ComponentsBundle createComponentsBundle(String bundleId, JRPropertiesMap properties);
+	//TODO generic element export context
+	String getHtmlFragment(JRGenericPrintElement element);
 	
 }

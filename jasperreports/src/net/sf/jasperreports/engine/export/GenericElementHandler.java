@@ -25,44 +25,29 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.engine.export;
 
-/*
- * Contributors:
- * Eugene D - eugenedruy@users.sourceforge.net 
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
-package net.sf.jasperreports.engine.convert;
-
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.util.JRImageLoader;
-
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 
 /**
- * Converter of {@link JRComponentElement} into print elements.
+ * A generic print element export handler.
+ * 
+ * <p>
+ * This interface is common to all export handlers.
+ * Specialized handler interfaces exist for each exporter.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ComponentElementConverter extends ElementIconConverter
+public interface GenericElementHandler
 {
-	
-	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
-	
-	private ComponentElementConverter()
-	{
-		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
-	}
 
 	/**
-	 * Returns the singleton instance of this converter.
+	 * Decides whether a generic print element is to be exported.
 	 * 
-	 * @return the singleton component converter instance 
+	 * @param element the element
+	 * @return whether the element is to be exported or skipped
 	 */
-	public static ComponentElementConverter getInstance()
-	{
-		return INSTANCE;
-	}
-
+	boolean toExport(JRGenericPrintElement element);
+	
 }

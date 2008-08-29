@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -55,6 +56,8 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGenericElementType;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
@@ -379,6 +382,8 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_locale, jasperPrint.getLocaleCode());		
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());		
 		
+		//FIXME this leads to property duplication if a JasperPrint is loaded
+		//from a *.jrpxml and exported back to xml
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_property);
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, PROPERTY_START_PAGE_INDEX);
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, String.valueOf(startPageIndex));
@@ -623,6 +628,10 @@ public class JRXmlExporter extends JRAbstractExporter
 					else if (element instanceof JRPrintFrame)
 					{
 						exportFrame((JRPrintFrame) element);
+					}
+					else if (element instanceof JRGenericPrintElement)
+					{
+						exportGenericElement((JRGenericPrintElement) element);
 					}
 				}
 			}
@@ -1047,5 +1056,42 @@ public class JRXmlExporter extends JRAbstractExporter
 		}
 		
 		xmlWriter.closeElement();
+	}
+
+
+	protected void exportGenericElement(JRGenericPrintElement element) 
+			throws IOException
+	{
+		xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElement);
+		exportReportElement(element);
+		
+		JRGenericElementType genericType = element.getGenericType();
+		xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementType);
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_namespace, 
+				genericType.getNamespace());
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, 
+				genericType.getName());
+		xmlWriter.closeElement();//genericElementType
+		
+		Set names = element.getParameterNames();
+		for (Iterator it = names.iterator(); it.hasNext();)
+		{
+			String name = (String) it.next();
+			Object value = element.getParameterValue(name);
+			xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementParameter);
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_name, name);
+			if (value != null)
+			{
+				String valueClass = value.getClass().getName();
+				String data = JRValueStringUtils.serialize(valueClass, value);
+				xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementParameterValue);
+				xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_class, valueClass);
+				xmlWriter.writeCDATA(data);
+				xmlWriter.closeElement();//genericElementParameterValue
+			}
+			xmlWriter.closeElement();//genericElementParameter
+		}
+		
+		xmlWriter.closeElement();//genericElement
 	}
 }

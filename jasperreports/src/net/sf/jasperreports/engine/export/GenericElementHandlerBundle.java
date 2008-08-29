@@ -25,44 +25,41 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.engine.export;
 
-/*
- * Contributors:
- * Eugene D - eugenedruy@users.sourceforge.net 
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
-package net.sf.jasperreports.engine.convert;
-
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.util.JRImageLoader;
-
+import net.sf.jasperreports.engine.JRGenericElementType;
 
 /**
- * Converter of {@link JRComponentElement} into print elements.
+ * A bundle of {@link GenericElementHandler generic element handlers} that share
+ * the same namespace.
+ * 
+ * <p>
+ * Such a bundle can contain handlers for several generic element types, each
+ * having a unique name.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see JRGenericElementType
  */
-public class ComponentElementConverter extends ElementIconConverter
+public interface GenericElementHandlerBundle
 {
-	
-	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
-	
-	private ComponentElementConverter()
-	{
-		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
-	}
 
 	/**
-	 * Returns the singleton instance of this converter.
+	 * Returns the namespace of this bundle.
 	 * 
-	 * @return the singleton component converter instance 
+	 * @return the bundle namespace
 	 */
-	public static ComponentElementConverter getInstance()
-	{
-		return INSTANCE;
-	}
+	String getNamespace();
+	
+	/**
+	 * Returns a generic element handler for a element type name and an
+	 * exporter key.
+	 * 
+	 * @param elementName the element type name
+	 * @param exporterKey the exporter key
+	 * @return a generic element handler for the combination
+	 */
+	GenericElementHandler getHandler(String elementName, 
+			String exporterKey);
 
 }

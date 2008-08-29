@@ -75,6 +75,7 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
+		//TODO generic elements
 		return 
 			(!isIgnoreGraphics || (element instanceof JRPrintText) || (element instanceof JRPrintFrame))
 			&& (filter == null || filter.isToExport(element));

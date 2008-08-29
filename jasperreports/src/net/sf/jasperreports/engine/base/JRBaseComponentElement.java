@@ -58,7 +58,7 @@ public class JRBaseComponentElement extends JRBaseElement implements
 		
 		componentKey = element.getComponentKey();
 		
-		ComponentManager manager = ComponentsEnvironment.getComponentsRegistry().getComponentManager(componentKey);
+		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
 		component = manager.getComponentCompiler().toCompiledComponent(
 				element.getComponent(), factory);
 	}
@@ -75,7 +75,7 @@ public class JRBaseComponentElement extends JRBaseElement implements
 
 	public void collectExpressions(JRExpressionCollector collector)
 	{
-		ComponentManager manager = ComponentsEnvironment.getComponentsRegistry().getComponentManager(componentKey);
+		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
 		manager.getComponentCompiler().collectExpressions(component, collector);
 	}
 

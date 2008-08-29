@@ -122,6 +122,7 @@ import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
@@ -1691,6 +1692,21 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
+		setVisitResult(fill);
+	}
+
+
+	public void visitGenericElement(JRGenericElement element)
+	{
+		JRFillGenericElement fill = null;
+		if (element != null)
+		{
+			fill = (JRFillGenericElement) get(element);
+			if (fill == null)
+			{
+				fill = new JRFillGenericElement(filler, element, this);
+			}
+		}
 		setVisitResult(fill);
 	}
 

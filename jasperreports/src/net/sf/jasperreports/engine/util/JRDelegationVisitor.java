@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRRectangle;
@@ -137,6 +138,11 @@ public abstract class JRDelegationVisitor implements JRVisitor
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
 		visitor.visitComponentElement(componentElement);
+	}
+
+	public void visitGenericElement(JRGenericElement element)
+	{
+		visitor.visitGenericElement(element);
 	}
 
 }

@@ -176,4 +176,24 @@ public class JRExpressionFactory
 		}
 	}
 
+	/**
+	 * A {@link JRExpressionFactory} that uses an attribute named
+	 * <code>class</code> to determine the expression value class.
+	 * 
+	 * @author Lucian Chirita (lucianc@users.sourceforge.net)
+	 */
+	public static class ArbitraryExpressionFactory extends JRBaseFactory
+	{
+		public Object createObject(Attributes attrs)
+		{
+			JRDesignExpression expression = new JRDesignExpression();
+			String className = attrs.getValue(JRXmlConstants.ATTRIBUTE_class);
+			if (className != null)
+			{
+				expression.setValueClassName(className);
+			}
+			return expression;
+		}
+	}
+
 }

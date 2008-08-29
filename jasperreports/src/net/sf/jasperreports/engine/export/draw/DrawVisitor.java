@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRRectangle;
@@ -294,6 +295,23 @@ public class DrawVisitor implements JRVisitor
 				convertVisitor.getVisitPrintElement(componentElement), 
 				-componentElement.getX(), 
 				-componentElement.getY()
+				);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public void visitGenericElement(JRGenericElement element)
+	{
+		try
+		{
+			imageDrawer.draw(
+				grx,
+				convertVisitor.getVisitPrintElement(element), 
+				-element.getX(), 
+				-element.getY()
 				);
 		}
 		catch (JRException e)

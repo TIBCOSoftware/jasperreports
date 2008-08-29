@@ -25,44 +25,26 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.extensions;
 
-/*
- * Contributors:
- * Eugene D - eugenedruy@users.sourceforge.net 
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
-package net.sf.jasperreports.engine.convert;
-
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.util.JRImageLoader;
+import java.util.List;
 
 
 /**
- * Converter of {@link JRComponentElement} into print elements.
+ * A registry of JasperReports extensions.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ComponentElementConverter extends ElementIconConverter
+public interface ExtensionsRegistry
 {
-	
-	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
-	
-	private ComponentElementConverter()
-	{
-		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
-	}
 
 	/**
-	 * Returns the singleton instance of this converter.
+	 * Returns a list of extension objects for a specific extension type.
 	 * 
-	 * @return the singleton component converter instance 
+	 * @param extensionType the extension type
+	 * @return a list of extension objects
 	 */
-	public static ComponentElementConverter getInstance()
-	{
-		return INSTANCE;
-	}
-
+	List getExtensions(Class extensionType);
+	
 }

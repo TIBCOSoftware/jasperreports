@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -276,6 +277,14 @@ public class ConvertVisitor implements JRVisitor
 	{
 		JRPrintElement image = ComponentElementConverter.getInstance()
 			.convert(reportConverter, componentElement);
+		addElement(parentFrame, image);
+		addContour(reportConverter, parentFrame, image);
+	}
+
+	public void visitGenericElement(JRGenericElement element)
+	{
+		JRPrintElement image = GenericElementConverter.getInstance()
+			.convert(reportConverter, element);
 		addElement(parentFrame, image);
 		addContour(reportConverter, parentFrame, image);
 	}

@@ -3,7 +3,8 @@
 <schema
   xmlns="http://www.w3.org/2001/XMLSchema"
   targetNamespace="http://jasperreports.sourceforge.net/jasperreports"
-  xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
+  xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
+  elementFormDefault="qualified">
 
  <element name="jasperReport">
   <complexType>
@@ -817,6 +818,7 @@
      <element ref="jr:crosstab"/>
      <element ref="jr:frame"/>
      <element ref="jr:componentElement"/>
+     <element ref="jr:genericElement"/>
     </choice>
    </sequence>
    <attribute name="height" type="NMTOKEN" use="optional" default="0"/>
@@ -1069,19 +1071,7 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="evaluationTime" use="optional" default="Now">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Now"/>
-      <enumeration value="Report"/>
-      <enumeration value="Page"/>
-      <enumeration value="Column"/>
-      <enumeration value="Group"/>
-      <enumeration value="Band"/>
-      <enumeration value="Auto"/>
-     </restriction>
-    </simpleType>
-   </attribute>
+   <attribute name="evaluationTime" use="optional" default="Now" type="jr:complexEvaluationTime"/>
    <attribute name="evaluationGroup" type="string" use="optional"/>
    <attribute name="hyperlinkType" type="string" use="optional" default="None"/>
    <attribute name="hyperlinkTarget" use="optional" default="Self">
@@ -1448,19 +1438,7 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="evaluationTime" use="optional" default="Now">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Now"/>
-      <enumeration value="Report"/>
-      <enumeration value="Page"/>
-      <enumeration value="Column"/>
-      <enumeration value="Group"/>
-      <enumeration value="Band"/>
-      <enumeration value="Auto"/>
-     </restriction>
-    </simpleType>
-   </attribute>
+   <attribute name="evaluationTime" use="optional" default="Now" type="jr:complexEvaluationTime"/>
    <attribute name="evaluationGroup" type="string" use="optional"/>
    <attribute name="pattern" type="string" use="optional"/>
    <attribute name="isBlankWhenNull" use="optional">
@@ -1640,6 +1618,7 @@
     <element ref="jr:crosstab"/>
     <element ref="jr:frame"/>
     <element ref="jr:componentElement"/>
+    <element ref="jr:genericElement"/>
    </choice>
   </complexType>
  </element>
@@ -3108,6 +3087,7 @@
      <element ref="jr:elementGroup"/>
      <element ref="jr:frame"/>
      <element ref="jr:componentElement"/>
+     <element ref="jr:genericElement"/>
     </choice>
    </sequence>
    <attribute name="backcolor" type="string" use="optional"/>
@@ -3170,6 +3150,7 @@
      <element ref="jr:crosstab"/>
      <element ref="jr:frame"/>
      <element ref="jr:componentElement"/>
+     <element ref="jr:genericElement"/>
     </choice>
    </sequence>
   </complexType>
@@ -3245,5 +3226,50 @@
    <enumeration value="Band"/>
   </restriction>
  </simpleType>
+
+ <simpleType name="complexEvaluationTime">
+  <restriction base="string">
+   <enumeration value="Now"/>
+   <enumeration value="Report"/>
+   <enumeration value="Page"/>
+   <enumeration value="Column"/>
+   <enumeration value="Group"/>
+   <enumeration value="Band"/>
+   <enumeration value="Auto"/>
+  </restriction>
+ </simpleType>
+
+ <element name="genericElement">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:genericElementType"/>
+    <element ref="jr:genericElementParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="evaluationTime" use="optional" default="Now" type="jr:complexEvaluationTime"/>
+   <attribute name="evaluationGroup" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="genericElementType">
+  <complexType>
+   <attribute name="namespace" type="string" use="required"/>
+   <attribute name="name" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="genericElementParameter">
+  <complexType>
+   <sequence>
+    <element name="valueExpression" minOccurs="0" maxOccurs="1">
+     <complexType mixed="true">
+      <attribute name="class" type="string" use="optional" default="java.lang.Object"/>
+     </complexType>
+    </element>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="skipWhenNull" type="boolean" use="optional" default="false"/>
+  </complexType>
+ </element>
 
 </schema>
