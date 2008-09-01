@@ -1,9 +1,10 @@
 <project name="barbecue" default="javac" basedir=".">
 
-	<description>Shows how barcodes could be included in reports using specilized barcode APIs.</description>
+	<description>Shows how barcodes could be included in reports using a specially designed component.</description>
 
 	<property name="class.name" value="BarcodeApp" />
-	<property name="file.name" value="${basedir}/build/BarcodeReport" />
+	<property name="base.file.name" value="BarcodeReport" />
+	<property name="file.name" value="${basedir}/build/${base.file.name}" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
@@ -165,7 +166,7 @@
 
 	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="./${file.name}.jrxml"/>
+			<arg value="./${base.file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
