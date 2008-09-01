@@ -21,6 +21,7 @@
 		<ant dir="datasource" target="test" />
 		<ant dir="ejbql" target="test" />
 		<ant dir="fonts" target="test" />
+		<ant dir="genericelement" target="test" />
 		<ant dir="groovy" target="test" />
 		<ant dir="hibernate" target="test" />
 		<ant dir="horizontal" target="test" />
@@ -71,6 +72,7 @@
 		<ant dir="datasource" target="clean" />
 		<ant dir="ejbql" target="clean" />
 		<ant dir="fonts" target="clean" />
+		<ant dir="genericelement" target="clean" />
 		<ant dir="groovy" target="clean" />
 		<ant dir="hibernate" target="clean" />
 		<ant dir="horizontal" target="clean" />
