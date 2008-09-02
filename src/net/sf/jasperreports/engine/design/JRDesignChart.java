@@ -751,6 +751,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignAreaPlot(plot, this);
 				break;
 			case CHART_TYPE_XYBAR:
+                                dataset = new JRDesignXyDataset(dataset);
 				plot = new JRDesignBarPlot(plot, this);
 				break;
 			case CHART_TYPE_XYLINE:
