@@ -751,7 +751,9 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignAreaPlot(plot, this);
 				break;
 			case CHART_TYPE_XYBAR:
-                                dataset = new JRDesignXyDataset(dataset);
+				//create an XY dataset by default
+				//it can be later overwritten by a time period or time series dataset
+				dataset = new JRDesignXyDataset(dataset);
 				plot = new JRDesignBarPlot(plot, this);
 				break;
 			case CHART_TYPE_XYLINE:
