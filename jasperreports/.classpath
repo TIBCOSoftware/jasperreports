@@ -13,8 +13,6 @@
 	<classpathentry kind="lib" path="lib/servlet.jar"/>
 	<classpathentry kind="lib" path="lib/jdt-compiler-3.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate3.jar"/>
-	<classpathentry kind="lib" path="lib/jcommon-1.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart-1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/png-encoder-1.5.jar"/>
 	<classpathentry kind="lib" path="lib/commons-javaflow-20060411.jar"/>
 	<classpathentry kind="lib" path="lib/jpa.jar"/>
@@ -40,5 +38,7 @@
 	<classpathentry kind="lib" path="lib/iText-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/spring-beans.jar"/>
 	<classpathentry kind="lib" path="lib/spring-core.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.13.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.10.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
