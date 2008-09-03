@@ -6,8 +6,8 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="VirtualizerReport" language="java" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
-	<variable name="Random" class="java.util.Random" calculation="System">
-		<initialValueExpression>new java.util.Random(42)</initialValueExpression>
+	<variable name="Value" class="java.lang.Double">
+		<variableExpression>new Double(500 + 500 * Math.sin($V{REPORT_COUNT}.doubleValue() * Math.log(1 + $V{REPORT_COUNT}.doubleValue())))</variableExpression>
 	</variable>
 	<title>
 		<band height="30">
@@ -16,7 +16,7 @@
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
-				<text><![CDATA[This report displays a very long list of random numbers to show that JasperReports can handle very large documents using the so-called virtualizer.]]></text>
+				<text><![CDATA[This report displays a very long list of pseudorandom numbers to show that JasperReports can handle very large documents using the so-called virtualizer.]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -27,7 +27,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[new Double(1000 * $V{Random}.nextDouble())]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{Value}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
