@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.JRDefaultIncrementerFactory;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.fill.JRIncrementerFactoryCache;
 
@@ -48,7 +47,7 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 	protected JRExtendedIncrementerFactory incrementerFactory;
 	protected JRPercentageCalculator percentageCalculator;
 
-	public JRFillCrosstabMeasure(JRCrosstabMeasure measure, JRFillObjectFactory factory)
+	public JRFillCrosstabMeasure(JRCrosstabMeasure measure, JRFillCrosstabObjectFactory factory)
 	{
 		factory.put(measure, this);
 		

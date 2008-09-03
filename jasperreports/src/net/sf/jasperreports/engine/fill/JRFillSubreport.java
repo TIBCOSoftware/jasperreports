@@ -214,7 +214,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		JRTemplateRectangle template = (JRTemplateRectangle) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateRectangle(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), this);
+			template = new JRTemplateRectangle(getElementOrigin(), 
+					filler.getJasperPrint().getDefaultStyleProvider(), this);
 			transferProperties(template);
 			registerTemplate(style, template);
 		}

@@ -195,7 +195,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 
 	public JROrigin getElementOrigin()
 	{
-		return band.getOrigin();
+		return super.getElementOrigin();
 	}
 
 	public int getElementPrintY()

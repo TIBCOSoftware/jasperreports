@@ -47,7 +47,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillBand extends JRFillElementContainer implements JRBand
+public class JRFillBand extends JRFillElementContainer implements JRBand, JROriginProvider
 {
 
 	private static final Log log = LogFactory.getLog(JRFillBand.class);
@@ -107,7 +107,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	/**
 	 *
 	 */
-	protected JROrigin getOrigin()
+	public JROrigin getOrigin()
 	{
 		return origin;
 	}

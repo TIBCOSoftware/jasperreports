@@ -25,34 +25,24 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.crosstabs.fill;
+package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.crosstabs.JRCrosstabColumnGroup;
+import net.sf.jasperreports.engine.JROrigin;
 
 /**
- * Crosstab column group implementation used at fill time.
+ * A provider of {@link JROrigin} instances, used by report elements at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillCrosstabColumnGroup extends JRFillCrosstabGroup implements JRCrosstabColumnGroup
+public interface JROriginProvider
 {
+
+	/**
+	 * Returns an element origin.
+	 * 
+	 * @return an element origin
+	 */
+	JROrigin getOrigin();
 	
-	public JRFillCrosstabColumnGroup(JRCrosstabColumnGroup group, JRFillCrosstabObjectFactory factory)
-	{
-		super(group, factory);
-	}
-
-
-	public byte getPosition()
-	{
-		return ((JRCrosstabColumnGroup) parentGroup).getPosition();
-	}
-
-
-	public int getHeight()
-	{
-		return ((JRCrosstabColumnGroup) parentGroup).getHeight();
-	}
-
 }

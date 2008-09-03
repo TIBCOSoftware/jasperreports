@@ -95,19 +95,10 @@ import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillXySeries;
 import net.sf.jasperreports.charts.fill.JRFillXyzDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyzSeries;
-import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
-import net.sf.jasperreports.crosstabs.JRCrosstabCell;
-import net.sf.jasperreports.crosstabs.JRCrosstabColumnGroup;
 import net.sf.jasperreports.crosstabs.JRCrosstabDataset;
-import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
-import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
-import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabCell;
-import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabColumnGroup;
-import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabParameter;
-import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabRowGroup;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
@@ -159,7 +150,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	private JRBaseFiller filler = null;
+	protected JRBaseFiller filler = null;
 	private JRFillExpressionEvaluator evaluator;
 
 	private JRFillObjectFactory parentFiller;
@@ -1389,91 +1380,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return fillParameter;
-	}
-
-
-	public JRFillCellContents getCell(JRCellContents cell)
-	{
-		JRFillCellContents fillCell = null;
-
-		if (cell != null)
-		{
-			fillCell = (JRFillCellContents) get(cell);
-			if (fillCell == null)
-			{
-				fillCell = new JRFillCellContents(filler, cell, this);
-			}
-		}
-
-		return fillCell;
-	}
-
-
-	public JRFillCrosstabRowGroup getCrosstabRowGroup(JRCrosstabRowGroup group)
-	{
-		JRFillCrosstabRowGroup fillGroup = null;
-
-		if (group != null)
-		{
-			fillGroup = (JRFillCrosstabRowGroup) get(group);
-			if (fillGroup == null)
-			{
-				fillGroup = new JRFillCrosstabRowGroup(group, this);
-			}
-		}
-
-		return fillGroup;
-	}
-
-
-	public JRFillCrosstabColumnGroup getCrosstabColumnGroup(JRCrosstabColumnGroup group)
-	{
-		JRFillCrosstabColumnGroup fillGroup = null;
-
-		if (group != null)
-		{
-			fillGroup = (JRFillCrosstabColumnGroup) get(group);
-			if (fillGroup == null)
-			{
-				fillGroup = new JRFillCrosstabColumnGroup(group, this);
-			}
-		}
-
-		return fillGroup;
-	}
-
-
-	public JRFillCrosstabCell getCrosstabCell(JRCrosstabCell cell)
-	{
-		JRFillCrosstabCell fillCell = null;
-
-		if (cell != null)
-		{
-			fillCell = (JRFillCrosstabCell) get(cell);
-			if (fillCell == null)
-			{
-				fillCell = new JRFillCrosstabCell(cell, this);
-			}
-		}
-
-		return fillCell;
-	}
-
-
-	public JRFillCrosstabMeasure getCrosstabMeasure(JRCrosstabMeasure measure)
-	{
-		JRFillCrosstabMeasure fillMeasure = null;
-
-		if (measure != null)
-		{
-			fillMeasure = (JRFillCrosstabMeasure) get(measure);
-			if (fillMeasure == null)
-			{
-				fillMeasure = new JRFillCrosstabMeasure(measure, this);
-			}
-		}
-
-		return fillMeasure;
 	}
 
 

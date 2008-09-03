@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
@@ -89,6 +90,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 *
 	 */
 	protected JRFillBand band = null;
+	
+	protected JROriginProvider originProvider;
 
 	/**
 	 *
@@ -176,6 +179,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		this.filler = element.filler;
 		this.expressionEvaluator = element.expressionEvaluator;
 		this.defaultStyleProvider = element.defaultStyleProvider;
+		this.originProvider = element.originProvider;
 
 		/*   */
 		printWhenGroupChanges = element.printWhenGroupChanges;
@@ -645,6 +649,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected void setBand(JRFillBand band)
 	{
 		this.band = band;
+		
+		if (this.originProvider == null)
+		{
+			setOriginProvider(band);
+		}
 	}
 
 
@@ -1322,5 +1331,20 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			mergedProperties = dynamicProperties.cloneProperties();
 			mergedProperties.setBaseProperties(staticProperties);
 		}
+	}
+	
+	protected void setOriginProvider(JROriginProvider originProvider)
+	{
+		this.originProvider = originProvider;
+	}
+
+	protected JROrigin getElementOrigin()
+	{
+		JROrigin elementOrigin = null;
+		if (originProvider != null)
+		{
+			elementOrigin = originProvider.getOrigin();
+		}
+		return elementOrigin;
 	}
 }

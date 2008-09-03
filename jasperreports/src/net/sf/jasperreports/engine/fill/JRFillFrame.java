@@ -318,7 +318,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		{
 			boxTemplate = 
 				new JRTemplateFrame(
-					band == null ? null : band.getOrigin(), 
+					getElementOrigin(), 
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this);
 			transferProperties(boxTemplate);

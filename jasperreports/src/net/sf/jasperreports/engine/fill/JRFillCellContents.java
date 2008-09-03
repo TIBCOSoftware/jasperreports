@@ -34,12 +34,14 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
+import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRStyle;
@@ -59,6 +61,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	private final Map transformedContentsCache;
 	private final Map boxContentsCache;
 	private final JRClonePool clonePool;
+	private final JROriginProvider originProvider;
 	
 	private JRFillCellContents original;
 	
@@ -79,7 +82,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	private JRDefaultStyleProvider defaultStyleProvider;
 	private JRStyle initStyle;
 
-	public JRFillCellContents(JRBaseFiller filler, JRCellContents cell, JRFillObjectFactory factory)
+	public JRFillCellContents(JRBaseFiller filler, JRCellContents cell, JRFillCrosstabObjectFactory factory)
 	{
 		super(filler, cell, factory);
 		
@@ -99,6 +102,9 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		initConditionalStyles();
 		
 		initTemplatesMap();
+		
+		this.originProvider = factory.getParentOriginProvider();
+		setElementOriginProvider(this.originProvider);
 		
 		transformedContentsCache = new ReferenceMap();
 		boxContentsCache = new HashMap();
@@ -130,6 +136,8 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		initConditionalStyles();
 		
 		this.templateFrames = cellContents.templateFrames;
+		
+		this.originProvider = cellContents.originProvider;
 		
 		transformedContentsCache = new ReferenceMap();
 		boxContentsCache = new HashMap();
@@ -393,18 +401,23 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	}
 
 	
-	private JRTemplateFrame getTemplateFrame()
+	protected JRTemplateFrame getTemplateFrame()
 	{
 		JRStyle style = getStyle();
 		JRTemplateFrame template = (JRTemplateFrame) templateFrames.get(style);
 		if (template == null)
 		{
-			template = new JRTemplateFrame(null, filler.getJasperPrint().getDefaultStyleProvider(), this);//FIXMEORIGIN
+			template = new JRTemplateFrame(getOrigin(), 
+					filler.getJasperPrint().getDefaultStyleProvider(), this);
 			templateFrames.put(style, template);
 		}
 		return template;
 	}
 
+	protected JROrigin getOrigin()
+	{
+		return originProvider == null ? null : originProvider.getOrigin();
+	}
 	
 	protected void verticallyPositionElements(JRTemplatePrintFrame printCell)
 	{

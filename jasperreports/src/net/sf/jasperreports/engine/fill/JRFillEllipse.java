@@ -73,7 +73,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 		{
 			template = 
 				new JRTemplateEllipse(
-					band == null ? null : band.getOrigin(), 
+					getElementOrigin(), 
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);
