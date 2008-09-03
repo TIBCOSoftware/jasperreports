@@ -28,7 +28,6 @@
 package net.sf.jasperreports.crosstabs.fill;
 
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * Crosstab row group implementation used at fill time.
@@ -39,7 +38,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 public class JRFillCrosstabRowGroup extends JRFillCrosstabGroup implements JRCrosstabRowGroup
 {
 	
-	public JRFillCrosstabRowGroup(JRCrosstabRowGroup group, JRFillObjectFactory factory)
+	public JRFillCrosstabRowGroup(JRCrosstabRowGroup group, JRFillCrosstabObjectFactory factory)
 	{
 		super(group, factory);
 	}

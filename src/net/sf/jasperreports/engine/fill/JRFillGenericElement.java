@@ -201,7 +201,7 @@ public class JRFillGenericElement extends JRFillElement implements
 		{
 			template = 
 				new JRTemplateGenericElement(
-					band == null ? null : band.getOrigin(), 
+					getElementOrigin(), 
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);

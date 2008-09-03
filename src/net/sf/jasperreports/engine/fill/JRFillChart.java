@@ -1164,7 +1164,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 		JRTemplateImage template = (JRTemplateImage) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateImage(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), this);
+			template = new JRTemplateImage(getElementOrigin(), 
+					filler.getJasperPrint().getDefaultStyleProvider(), this);
 			transferProperties(template);
 			registerTemplate(style, template);
 		}

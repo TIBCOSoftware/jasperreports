@@ -52,6 +52,7 @@ import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabCell;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabColumnGroup;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabGroup;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabMeasure;
+import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabObjectFactory;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabParameter;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
@@ -66,6 +67,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -87,7 +89,7 @@ import org.jfree.data.general.Dataset;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillCrosstab extends JRFillElement implements JRCrosstab
+public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROriginProvider
 {
 	final protected JRCrosstab parentCrosstab;
 
@@ -140,7 +142,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 
 		loadEvaluator(filler.getJasperReport());
 
-		JRFillObjectFactory crosstabFactory = new JRFillObjectFactory(factory, crosstabEvaluator);
+		JRFillCrosstabObjectFactory crosstabFactory = new JRFillCrosstabObjectFactory(
+				factory, crosstabEvaluator);
+		crosstabFactory.setParentOriginProvider(this);
 		
 		headerCell = crosstabFactory.getCell(crosstab.getHeaderCell());
 
@@ -167,7 +171,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
 	}
 
-	private void copyRowGroups(JRCrosstab crosstab, JRFillObjectFactory factory)
+	private void copyRowGroups(JRCrosstab crosstab, JRFillCrosstabObjectFactory factory)
 	{
 		JRCrosstabRowGroup[] groups = crosstab.getRowGroups();
 		rowGroups = new JRFillCrosstabRowGroup[groups.length];
@@ -182,7 +186,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		}
 	}
 
-	private void copyColumnGroups(JRCrosstab crosstab, JRFillObjectFactory factory)
+	private void copyColumnGroups(JRCrosstab crosstab, JRFillCrosstabObjectFactory factory)
 	{
 		JRCrosstabColumnGroup[] groups = crosstab.getColumnGroups();
 		columnGroups = new JRFillCrosstabColumnGroup[groups.length];
@@ -195,7 +199,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		}
 	}
 
-	private void copyMeasures(JRCrosstab crosstab, JRFillObjectFactory factory)
+	private void copyMeasures(JRCrosstab crosstab, JRFillCrosstabObjectFactory factory)
 	{
 		JRCrosstabMeasure[] crossMeasures = crosstab.getMeasures();
 		measures = new JRFillCrosstabMeasure[crossMeasures.length];
@@ -217,7 +221,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		}
 	}
 
-	private void copyCells(JRCrosstab crosstab, JRFillObjectFactory factory)
+	private void copyCells(JRCrosstab crosstab, JRFillCrosstabObjectFactory factory)
 	{
 		JRCrosstabCell[][] crosstabCells = crosstab.getCells();		
 		crossCells = new JRFillCrosstabCell[rowGroups.length + 1][columnGroups.length + 1];
@@ -534,7 +538,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			rectangle.setBackcolor(getBackcolor());
 			rectangle.getLinePen().setLineWidth(0f);
 
-			template = new JRTemplateRectangle(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
+			template = new JRTemplateRectangle(getElementOrigin(), 
+					filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
 			
 			registerTemplate(style, template);
 		}
@@ -1970,6 +1975,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 	public void setRunDirection(byte direction)
 	{
 		// nothing
+	}
+
+	public JROrigin getOrigin()
+	{
+		return getElementOrigin();
 	}
 
 }

@@ -88,7 +88,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 		{
 			template = 
 				new JRTemplateLine(
-					band == null ? null : band.getOrigin(), 
+					getElementOrigin(), 
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);

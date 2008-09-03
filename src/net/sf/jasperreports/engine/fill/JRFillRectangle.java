@@ -102,7 +102,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		{
 			template = 
 				new JRTemplateRectangle(
-					band == null ? null : band.getOrigin(), 
+					getElementOrigin(), 
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);

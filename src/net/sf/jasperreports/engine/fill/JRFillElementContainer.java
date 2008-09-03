@@ -805,4 +805,15 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	{
 		return (JRStyle) evaluatedStyles.get(parentStyle);
 	}
+	
+	protected final void setElementOriginProvider(JROriginProvider originProvider)
+	{
+		if (originProvider != null)
+		{
+			for (int i = 0; i < deepElements.length; i++)
+			{
+				deepElements[i].setOriginProvider(originProvider);
+			}
+		}
+	}
 }

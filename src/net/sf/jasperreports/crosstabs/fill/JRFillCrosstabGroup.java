@@ -32,7 +32,6 @@ import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
 import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.JRFillCellContents;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
 
 /**
@@ -48,7 +47,7 @@ public abstract class JRFillCrosstabGroup implements JRCrosstabGroup
 	protected JRFillCellContents totalHeader;
 	protected JRFillVariable variable;
 
-	public JRFillCrosstabGroup(JRCrosstabGroup group, JRFillObjectFactory factory)
+	public JRFillCrosstabGroup(JRCrosstabGroup group, JRFillCrosstabObjectFactory factory)
 	{
 		factory.put(group, this);
 		

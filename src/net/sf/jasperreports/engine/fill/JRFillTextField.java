@@ -281,7 +281,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		{
 			template = 
 				new JRTemplateText(
-					band == null ? null : band.getOrigin(), 
+					getElementOrigin(), 
 					filler.getJasperPrint().getDefaultStyleProvider(), 
 					this
 					);

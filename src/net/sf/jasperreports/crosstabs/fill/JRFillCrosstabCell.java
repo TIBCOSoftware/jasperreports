@@ -30,7 +30,6 @@ package net.sf.jasperreports.crosstabs.fill;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabCell;
 import net.sf.jasperreports.engine.fill.JRFillCellContents;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -41,7 +40,7 @@ public class JRFillCrosstabCell implements JRCrosstabCell
 	private JRCrosstabCell parentCell;
 	protected JRFillCellContents contents;
 	
-	public JRFillCrosstabCell(JRCrosstabCell cell, JRFillObjectFactory factory)
+	public JRFillCrosstabCell(JRCrosstabCell cell, JRFillCrosstabObjectFactory factory)
 	{
 		factory.put(cell, this);
 		
