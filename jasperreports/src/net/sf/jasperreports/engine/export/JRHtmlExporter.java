@@ -1728,6 +1728,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 			{
 				writer.write(" border=\"0\"");
 			}
+			
+			if (image.getHyperlinkTooltip() != null)
+			{
+				writer.write(" title=\"");
+				writer.write(JRStringUtil.xmlEncode(image.getHyperlinkTooltip()));
+				writer.write("\"");
+			}
+			
 			writer.write("/>");
 			if (startedHyperlink)
 			{
