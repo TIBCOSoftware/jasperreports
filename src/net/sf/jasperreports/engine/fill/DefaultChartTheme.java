@@ -1052,6 +1052,8 @@ public class DefaultChartTheme implements ChartTheme
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
 				areaPlot.getValueAxisLineColor());
 
+		((CategoryPlot)jfreeChart.getPlot()).getDomainAxis().setCategoryMargin(0);
+		
 		return jfreeChart;
 	}
 
