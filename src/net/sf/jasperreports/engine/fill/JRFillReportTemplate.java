@@ -31,6 +31,9 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRReportTemplate;
@@ -50,6 +53,8 @@ import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
 public class JRFillReportTemplate implements JRReportTemplate
 {
 
+	private static final Log log = LogFactory.getLog(JRFillReportTemplate.class);
+	
 	private final JRReportTemplate parent;
 	private final JRBaseFiller filler;
 	
@@ -99,6 +104,11 @@ public class JRFillReportTemplate implements JRReportTemplate
 		}
 		else
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Loading styles template from " + source);
+			}
+			
 			if (String.class.equals(sourceType))
 			{
 				template = JRXmlTemplateLoader.load((String) source);

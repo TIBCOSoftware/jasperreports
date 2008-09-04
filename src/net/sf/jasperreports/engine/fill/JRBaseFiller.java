@@ -1030,7 +1030,15 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected void collectStyles(JRTemplate template, List externalStyles, Set loadedLocations) throws JRException
 	{
-		collectIncludedTemplates(template, externalStyles, loadedLocations);
+		HashSet parentLocations = new HashSet();
+		collectStyles(template, externalStyles, loadedLocations, parentLocations);
+	}
+	
+	protected void collectStyles(JRTemplate template, List externalStyles, 
+			Set loadedLocations, Set templateParentLocations) throws JRException
+	{
+		collectIncludedTemplates(template, externalStyles, 
+				loadedLocations, templateParentLocations);
 
 		JRStyle[] templateStyles = template.getStyles();
 		if (templateStyles != null)
@@ -1049,7 +1057,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	}
 
-	protected void collectIncludedTemplates(JRTemplate template, List externalStyles, Set loadedLocations) throws JRException
+	protected void collectIncludedTemplates(JRTemplate template, List externalStyles, 
+			Set loadedLocations, Set templateParentLocations) throws JRException
 	{
 		JRTemplateReference[] includedTemplates = template.getIncludedTemplates();
 		if (includedTemplates != null)
@@ -1059,13 +1068,21 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				JRTemplateReference reference = includedTemplates[i];
 				String location = reference.getLocation();
 
-				if (!loadedLocations.add(location))
+				if (!templateParentLocations.add(location))
 				{
-					throw new JRRuntimeException("Circular dependency found for template at location " + location);
+					throw new JRRuntimeException("Circular dependency found for template at location " 
+							+ location);
 				}
-
-				JRTemplate includedTemplate = JRFillReportTemplate.loadTemplate(location, String.class, fillContext);
-				collectStyles(includedTemplate, externalStyles, loadedLocations);
+				
+				if (loadedLocations.add(location))
+				{
+					//template not yet loaded
+					JRTemplate includedTemplate = JRFillReportTemplate.loadTemplate(
+							location, String.class, fillContext);
+					collectStyles(includedTemplate, externalStyles, 
+							loadedLocations, templateParentLocations);
+					
+				}
 			}
 		}
 	}

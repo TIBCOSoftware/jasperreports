@@ -266,20 +266,29 @@ public class ReportConverter
 			String location = JRExpressionUtil.getSimpleExpressionText(sourceExpression);
 			if (location == null)
 			{
-				log.warn("Template source expression " + sourceExpression.getText() + "cannot be evaluated; some styles might remain unresolved.");
+				log.warn("Template source expression " + sourceExpression.getText() 
+						+ "cannot be evaluated; some styles might remain unresolved.");
 			}
 			else
 			{
-				loadTemplateStyles(location, loadedLocations);
+				HashSet parentLocations = new HashSet();
+				loadTemplateStyles(location, loadedLocations, parentLocations);
 			}
 		}
 	}
 
-	protected void loadTemplateStyles(String location, Set loadedLocations)
+	protected void loadTemplateStyles(String location, Set loadedLocations, Set parentLocations)
 	{
+		if (!parentLocations.add(location))
+		{
+			throw new JRRuntimeException("Circular dependency found for template at location " 
+					+ location);
+		}
+		
 		if (!loadedLocations.add(location))
 		{
-			throw new JRRuntimeException("Circular dependency found for template at location " + location);
+			//already loaded
+			return;
 		}
 		
 		JRTemplate template;
@@ -289,7 +298,8 @@ public class ReportConverter
 		}
 		catch (Exception e)
 		{
-			log.warn("Could not load template from location " + location + "; some styles might remain unresolved.");
+			log.warn("Could not load template from location " + location 
+					+ "; some styles might remain unresolved.");
 			return;
 		}
 		
@@ -299,7 +309,7 @@ public class ReportConverter
 			for (int i = 0; i < includedTemplates.length; i++)
 			{
 				JRTemplateReference reference = includedTemplates[i];
-				loadTemplateStyles(reference.getLocation(), loadedLocations);
+				loadTemplateStyles(reference.getLocation(), loadedLocations, parentLocations);
 			}
 		}
 		
