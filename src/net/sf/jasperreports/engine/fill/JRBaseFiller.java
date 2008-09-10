@@ -1011,7 +1011,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				JRFillReportTemplate reportTemplate = reportTemplates[i];
 				JRTemplate template = reportTemplate.evaluate();
-				collectStyles(template, externalStyles, loadedLocations);
+				if (template != null)
+				{
+					collectStyles(template, externalStyles, loadedLocations);
+				}
 			}
 		}
 
