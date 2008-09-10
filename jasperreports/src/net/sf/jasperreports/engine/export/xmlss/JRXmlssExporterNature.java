@@ -28,6 +28,7 @@
 
 package net.sf.jasperreports.engine.export.xmlss;
 
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -70,8 +71,8 @@ public class JRXmlssExporterNature implements ExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return 
-			(element instanceof JRPrintText || element instanceof JRPrintFrame)
+		return !(element instanceof JRGenericPrintElement)
+			&& (element instanceof JRPrintText || element instanceof JRPrintFrame)
 			&& (filter == null || filter.isToExport(element));
 	}
 	

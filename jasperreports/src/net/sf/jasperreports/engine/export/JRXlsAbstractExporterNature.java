@@ -33,6 +33,7 @@
 
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -75,9 +76,9 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		//TODO generic elements
 		return 
-			(!isIgnoreGraphics || (element instanceof JRPrintText) || (element instanceof JRPrintFrame))
+			!(element instanceof JRGenericPrintElement)
+			&& (!isIgnoreGraphics || (element instanceof JRPrintText) || (element instanceof JRPrintFrame))
 			&& (filter == null || filter.isToExport(element));
 	}
 	
