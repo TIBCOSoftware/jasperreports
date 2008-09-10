@@ -93,7 +93,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public class JRXmlssExporter extends JRAbstractExporter
 {
 
-	private static final String XMLSS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.odt.";
+	private static final String XMLSS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xmlss.";
 
 	/**
 	 *
