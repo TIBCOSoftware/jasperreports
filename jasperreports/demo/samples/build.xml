@@ -31,6 +31,7 @@
 		<ant dir="jasper" target="test" />
 		<ant dir="java1.5" target="test" />
 		<ant dir="jcharts" target="test" />
+		<ant dir="jchartscomponent" target="test" />
 		<ant dir="jfreechart" target="test" />
 		<ant dir="landscape" target="test" />
 		<ant dir="markup" target="test" />
@@ -82,6 +83,7 @@
 		<ant dir="jasper" target="clean" />
 		<ant dir="java1.5" target="clean" />
 		<ant dir="jcharts" target="clean" />
+		<ant dir="jchartscomponent" target="clean" />
 		<ant dir="jfreechart" target="clean" />
 		<ant dir="landscape" target="clean" />
 		<ant dir="markup" target="clean" />
