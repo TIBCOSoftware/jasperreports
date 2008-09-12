@@ -426,7 +426,9 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 					{
 						try
 						{
+							btnPrint.setEnabled(false);
 							JasperPrintManager.printReport(viewerContext.getJasperPrint(), true);
+							btnPrint.setEnabled(true);
 						}
 						catch (Exception ex)
 						{
