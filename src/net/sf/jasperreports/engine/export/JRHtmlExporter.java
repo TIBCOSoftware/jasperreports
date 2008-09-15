@@ -1004,17 +1004,42 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 	 */
 	protected void exportStyledText(JRStyledText styledText) throws IOException
 	{
+		exportStyledText(styledText, null);
+	}
+	
+	protected void exportStyledText(JRStyledText styledText, String tooltip) throws IOException
+	{
 		String text = styledText.getText();
 
 		int runLimit = 0;
 
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 
+		boolean first = true;
+		boolean startedSpan = false;
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			exportStyledTextRun(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
+			//if there are several text runs, write the tooltip into a parent <span>
+			if (first && runLimit < styledText.length() && tooltip != null)
+			{
+				startedSpan = true;
+				writer.write("<span title=\"");
+				writer.write(JRStringUtil.xmlEncode(tooltip));
+				writer.write("\">");
+				//reset the tooltip so that inner <span>s to not use it
+				tooltip = null;
+			}
+			first = false;
+			
+			exportStyledTextRun(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit),
+					tooltip);
 
 			iterator.setIndex(runLimit);
+		}
+		
+		if (startedSpan)
+		{
+			writer.write("</span>");
 		}
 	}
 
@@ -1023,6 +1048,12 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 	 *
 	 */
 	protected void exportStyledTextRun(Map attributes, String text) throws IOException
+	{
+		exportStyledTextRun(attributes, text, null);
+	}
+	
+	protected void exportStyledTextRun(Map attributes, String text,
+			String tooltip) throws IOException
 	{
 		String fontFamily;
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
@@ -1093,8 +1124,17 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 		{
 			writer.write(" vertical-align: sub;");
 		}
+		
+		writer.write("\"");
 
-		writer.write("\">");
+		if (tooltip != null)
+		{
+			writer.write(" title=\"");
+			writer.write(JRStringUtil.xmlEncode(tooltip));
+			writer.write("\"");
+		}
+		
+		writer.write(">");
 
 		writer.write(
 			JRStringUtil.htmlEncode(text)
@@ -1215,7 +1255,7 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 			writer.write(styleBuffer.toString());
 			writer.write("\"");
 		}
-
+		
 		writer.write(">");
 
 		if (text.getAnchorName() != null)
@@ -1229,7 +1269,9 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 
 		if (textLength > 0)
 		{
-			exportStyledText(styledText);
+			//only use text tooltip when no hyperlink present
+			String textTooltip = startedHyperlink ? null : text.getHyperlinkTooltip();
+			exportStyledText(styledText, textTooltip);
 		}
 		else
 		{
