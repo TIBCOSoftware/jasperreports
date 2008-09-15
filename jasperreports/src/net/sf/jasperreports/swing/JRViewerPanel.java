@@ -794,24 +794,29 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 				boolean hasImageMap = imageMap != null;
 
 				JRPrintHyperlink hyperlink = null;
-				if (!hasImageMap && element instanceof JRPrintHyperlink)
+				if (element instanceof JRPrintHyperlink)
 				{
 					hyperlink = (JRPrintHyperlink) element;
 				}
-				boolean hasHyperlink = hyperlink != null && hyperlink.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE;
+				boolean hasHyperlink = !hasImageMap 
+					&& hyperlink != null && hyperlink.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE;
+				boolean hasTooltip = hyperlink != null && hyperlink.getHyperlinkTooltip() != null;
 
-				if (hasHyperlink || hasImageMap)
+				if (hasHyperlink || hasImageMap || hasTooltip)
 				{
 					JPanel link;
-					if (hasHyperlink)
-					{
-						link = new JPanel();
-						link.addMouseListener(mouseListener);
-					}
-					else //hasImageMap
+					if (hasImageMap)
 					{
 						Rectangle renderingArea = new Rectangle(0, 0, element.getWidth(), element.getHeight());
 						link = new ImageMapPanel(renderingArea, imageMap);
+					}
+					else //hasImageMap
+					{
+						link = new JPanel();
+						if (hasHyperlink)
+						{
+							link.addMouseListener(mouseListener);
+						}
 					}
 
 					if (hasHyperlink)
@@ -829,12 +834,8 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 						);
 					link.setOpaque(false);
 
-					String toolTip;
-					if (hasHyperlink)
-					{
-						toolTip = getHyperlinkTooltip(hyperlink);
-					}
-					else //hasImageMap
+					String toolTip = getHyperlinkTooltip(hyperlink);
+					if (toolTip == null && hasImageMap)
 					{
 						toolTip = "";//not null to register the panel as having a tool tip
 					}
