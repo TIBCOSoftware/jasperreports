@@ -27,23 +27,14 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRGenericPrintElement;
-
 /**
- * A generic print element HTML export handler.
+ * A context that represents information about an HTML export process.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see JRHtmlExporter
  */
-public interface GenericElementHtmlHandler extends GenericElementHandler
+public interface JRHtmlExporterContext extends JRExporterContext
 {
 
-	/**
-	 * Returns an HTML fragment that is to be inserted in the export output.
-	 * 
-	 * @param element the generic print element
-	 * @return the HTML fragment that represents the exported element
-	 */
-	String getHtmlFragment(JRHtmlExporterContext exporterContext, JRGenericPrintElement element);
-	
 }

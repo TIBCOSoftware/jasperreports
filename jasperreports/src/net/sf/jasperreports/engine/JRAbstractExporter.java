@@ -1081,6 +1081,11 @@ public abstract class JRAbstractExporter implements JRExporter
 			{
 				return jasperPrint;
 			}
+
+			public Map getExportParameters()
+			{
+				return parameters;
+			}
 		};
 		return defaultFactory.getFilter(context);
 	}
