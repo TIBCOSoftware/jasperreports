@@ -2,6 +2,7 @@ package net.sf.jasperreports.ohloh;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
+import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 
 public class OhlohWidgetHtmlHandler implements
 		GenericElementHtmlHandler
@@ -40,7 +41,7 @@ public class OhlohWidgetHtmlHandler implements
 		return (Integer) element.getParameterValue(getProjectIDParameter());
 	}
 
-	public String getHtmlFragment(JRGenericPrintElement element)
+	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		StringBuffer script = new StringBuffer(128);
 		script.append("<script type=\"text/javascript\" src=\"http://www.ohloh.net/projects/");

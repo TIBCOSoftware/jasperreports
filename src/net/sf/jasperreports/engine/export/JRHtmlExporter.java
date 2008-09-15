@@ -105,7 +105,7 @@ import net.sf.jasperreports.engine.util.Pair;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRHtmlExporter extends JRAbstractExporter
+public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporterContext
 {
 
 	private static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.html.";
@@ -2074,13 +2074,28 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writer.write(">");
 		
-		String htmlFragment = handler.getHtmlFragment(element);
+		String htmlFragment = handler.getHtmlFragment(this, element);
 		if (htmlFragment != null)
 		{
 			writer.write(htmlFragment);
 		}
 
 		writer.write("</td>\n");
+	}
+
+	public Map getExportParameters()
+	{
+		return parameters;
+	}
+
+	public String getExportPropertiesPrefix()
+	{
+		return HTML_EXPORTER_PROPERTIES_PREFIX;
+	}
+
+	public JasperPrint getExportedReport()
+	{
+		return jasperPrint;
 	}
 	
 }

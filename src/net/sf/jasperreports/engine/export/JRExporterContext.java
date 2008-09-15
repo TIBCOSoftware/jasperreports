@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 
 /**
@@ -51,5 +54,15 @@ public interface JRExporterContext
 	 * @return the properties prefix for the current exporter
 	 */
 	String getExportPropertiesPrefix();
+	
+	/**
+	 * Returns the map of export parameters.
+	 * 
+	 * <p>
+	 * The map uses {@link JRExporterParameter} instances as keys.
+	 * 
+	 * @return the map of export parameters
+	 */
+	Map getExportParameters();
 
 }
