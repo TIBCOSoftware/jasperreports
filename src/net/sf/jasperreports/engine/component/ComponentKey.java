@@ -101,8 +101,8 @@ public class ComponentKey implements Serializable
 	 * Returns the component namespace.
 	 * 
 	 * <p>
-	 * This value must match the namespece of a components bundle, as used in
-	 * {@link ComponentsRegistry#getComponentsBundle(String)}.
+	 * This value must match the namespece of a components bundle, as returned by
+	 * {@link ComponentsXmlParser#getNamespace()}.
 	 * 
 	 * @return the component namespace
 	 */

@@ -79,7 +79,8 @@ public class FillPrepareResult
 	 * @param stretchHeight the stretched height of the component
 	 * @param overflow whether a band overflow is required so that the
 	 * component would continue printing on a new column/page
-	 * @return
+	 * @return a result that the component will print with the specified
+	 * stretch height and overflow flag
 	 */
 	public static FillPrepareResult printStretch(int stretchHeight, boolean overflow)
 	{

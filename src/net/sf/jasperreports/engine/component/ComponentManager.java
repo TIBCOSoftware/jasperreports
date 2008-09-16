@@ -33,7 +33,7 @@ package net.sf.jasperreports.engine.component;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
- * @see ComponentsRegistry#getComponentManager(ComponentKey)
+ * @see ComponentsEnvironment#getComponentManager(ComponentKey)
  * @see ComponentsBundle#getComponentManager(String)
  */
 public interface ComponentManager

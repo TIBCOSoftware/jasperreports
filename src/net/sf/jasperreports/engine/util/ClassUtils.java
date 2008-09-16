@@ -46,7 +46,7 @@ public class ClassUtils
 	 * 
 	 * @param className the class name
 	 * @param expectedType the expected (super) type of the result
-	 * @return
+	 * @return a newly created instance of the specified class
 	 * @throws JRRuntimeException if the class cannot be loaded or instantiated,
 	 * or if it does not implement the expected type
 	 */
