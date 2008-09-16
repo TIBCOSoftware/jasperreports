@@ -79,7 +79,7 @@ public class JRProperties
 	 * <p>
 	 * No default value.
 	 * 
-	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.design#COMPILER_PREFIX}.
+	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.design.JRCompiler#COMPILER_PREFIX}.
 	 */
 	public static final String COMPILER_CLASS = PROPERTY_PREFIX + "compiler.class";
 	
