@@ -2,13 +2,32 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.0.2 (2008-0x-xx)
+JasperReports 3.1.0 (2008-09-16)
 -----------------------------------
 
-- chart themes;
+- chart themes support to allow changing the overall appearance 
+of charts generated with the build-in chart element;
 
-- new "labelFormat" and "legendLabelFormat" properties available for pie and pie 3D chart plots
-to allow controlling the labels for pie charts without need for chart customizer;
+- deprecation of DTD based JRXML validation and introduction of 
+XML schema based JRXML validation;
+
+- generic component support to allow extending the functionality of the 
+JasperReports engine by plugging-in custom-made visual components that 
+would take data as input and produce content that is embedded into the 
+resulting documents;
+
+- support for generic print elements in generated documents to allow 
+introducing custom exporter content;
+
+- introducing generic report design elements to simplify creation of 
+custom exporter content, without implementing full-blown components;
+
+- extension support added in order to simplify configuring various 
+JasperReports extension points such as chart themes and generic components;
+
+- new "labelFormat" and "legendLabelFormat" properties available for pie 
+and pie 3D chart plots to allow controlling the labels for pie charts 
+without need for chart customizer;
 
 - minor bug fixes and improvements;
 
