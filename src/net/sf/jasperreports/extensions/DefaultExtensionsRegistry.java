@@ -107,7 +107,10 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 		{
 			ExtensionsRegistry registry = (ExtensionsRegistry) it.next();
 			List registryExtensions = registry.getExtensions(extensionType);
-			extensions.addAll(registryExtensions);
+			if (registryExtensions != null && !registryExtensions.isEmpty())
+			{
+				extensions.addAll(registryExtensions);
+			}
 		}
 		return extensions;
 	}
