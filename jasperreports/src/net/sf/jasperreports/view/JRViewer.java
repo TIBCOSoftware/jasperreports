@@ -1196,35 +1196,19 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						try
 						{
 							
-							pnlInScroll.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-							pnlLinks.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-							pnlMain.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-							pnlPage.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-							pnlSep01.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-							pnlSep02.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-							pnlSep03.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-							pnlStatus.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-							scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-							tlbToolBar.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 							btnPrint.setEnabled(false);
-							Thread.sleep(10000);
+							JRViewer.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 							JasperPrintManager.printReport(jasperPrint, true);
-							pnlInScroll.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-							pnlLinks.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-							pnlMain.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-							pnlPage.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-							pnlSep01.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-							pnlSep02.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-							pnlSep03.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-							pnlStatus.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-							scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-							tlbToolBar.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-							btnPrint.setEnabled(true);
 						}
 						catch (Exception ex)
 						{
 							ex.printStackTrace();
 							JOptionPane.showMessageDialog(JRViewer.this, getBundleString("error.printing"));
+						}
+						finally
+						{
+							JRViewer.this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+							btnPrint.setEnabled(true);
 						}
 					}
 				}
