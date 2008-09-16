@@ -27,21 +27,23 @@
  */
 package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.fill.JRFillChart;
 
-import org.jfree.chart.JFreeChart;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net) 
  * @version $Id: JRAreaPlot.java 1577 2007-02-09 11:25:48Z teodord $
  */
-public interface ChartTheme
+public interface ChartThemeBundle
 {
 
 	/**
 	 * 
 	 */
-	public JFreeChart createChart(JRFillChart chart, byte evaluation) throws JRException;
+	public String[] getChartThemeNames();
+
+	/**
+	 * 
+	 */
+	public ChartTheme getChartTheme(String themeName);
 
 }

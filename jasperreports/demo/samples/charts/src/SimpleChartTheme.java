@@ -36,7 +36,6 @@ import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
-import net.sf.jasperreports.engine.fill.JRFillChart;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
@@ -66,9 +65,8 @@ public class SimpleChartTheme extends DefaultChartTheme
 	/**
 	 *
 	 */
-	public SimpleChartTheme(JRFillChart chart)
+	public SimpleChartTheme()
 	{
-		super(chart);
 	}
 	
 	

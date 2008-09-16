@@ -28,44 +28,27 @@
 
 import java.awt.Color;
 import java.awt.GradientPaint;
-import java.util.SortedSet;
 
-import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
-import net.sf.jasperreports.charts.fill.JRFillPieDataset;
-import net.sf.jasperreports.charts.fill.JRFillPiePlot;
-import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.fill.JRFillChart;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.block.BlockBorder;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
-import org.jfree.chart.plot.Plot;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.title.LegendTitle;
-import org.jfree.data.category.CategoryDataset;
 
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class PieChartEllipticExplodedTheme extends SimpleChartTheme
+public class EllipticExplodedPieChartTheme extends SimpleChartTheme
 {
 	protected Color LIGHT_GREEN = new Color(239,255,147);
 	
 	/**
 	 *
 	 */
-	public PieChartEllipticExplodedTheme(JRFillChart chart)
+	public EllipticExplodedPieChartTheme()
 	{
-		super(chart);
 	}
 	
 	/**

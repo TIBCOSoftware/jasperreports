@@ -148,9 +148,8 @@ public class DefaultChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	public DefaultChartTheme(JRFillChart chart)
+	protected DefaultChartTheme()
 	{
-		this.chart = chart;
 	}
 	
 	
@@ -193,8 +192,10 @@ public class DefaultChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	public JFreeChart createChart(byte evaluation) throws JRException
+	public JFreeChart createChart(JRFillChart chart, byte evaluation) throws JRException
 	{
+		this.chart = chart;
+		
 		JFreeChart jfreeChart = null;
 		
 		switch(chart.getChartType()) {
