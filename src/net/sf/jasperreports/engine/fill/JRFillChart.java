@@ -30,10 +30,11 @@ package net.sf.jasperreports.engine.fill;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
+import java.util.List;
 import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.ChartTheme;
-import net.sf.jasperreports.charts.ChartThemeFactory;
+import net.sf.jasperreports.charts.ChartThemeBundle;
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
@@ -107,6 +108,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
+import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
@@ -132,11 +134,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 */
 	private static final JRSingletonCache chartRendererFactoryCache = new JRSingletonCache(ChartRendererFactory.class);
-
-	/**
-	 *
-	 */
-	private static final JRSingletonCache chartThemeFactoryCache = new JRSingletonCache(ChartThemeFactory.class);
 
 	/**
 	 *
@@ -1248,26 +1245,19 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return chartRendererFactory;
 	}
 
-	protected static ChartThemeFactory getChartThemeFactory(String themeName)
+	protected static ChartTheme getChartTheme(String themeName)
 	{
-		ChartThemeFactory chartThemeFactory = null;
-
-		String factoryClass = JRProperties.getProperty(ChartThemeFactory.PROPERTY_CHART_THEME_FACTORY_PREFIX + themeName);
-		if (factoryClass == null)
+		List themeBundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ChartThemeBundle.class);
+		for (Iterator it = themeBundles.iterator(); it.hasNext();)
 		{
-			throw new JRRuntimeException("No chart theme factory specifyed for the '" + themeName + "' theme.");
+			ChartThemeBundle bundle = (ChartThemeBundle) it.next();
+			ChartTheme chartTheme = bundle.getChartTheme(themeName);
+			if (chartTheme != null)
+			{
+				return chartTheme;
+			}
 		}
-
-		try
-		{
-			chartThemeFactory = (ChartThemeFactory) chartThemeFactoryCache.getCachedInstance(factoryClass);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		
-		return chartThemeFactory;
+		throw new JRRuntimeException("No chart theme '" + themeName + "' not found.");
 	}
 
 	/**
@@ -1281,11 +1271,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 		ChartTheme theme = null;
 		if (themeName == null)
 		{
-			theme = new DefaultChartTheme(this);
+			theme = new DefaultChartTheme();
 		}
 		else
 		{
-			theme = getChartThemeFactory(themeName).create(this);
+			theme = getChartTheme(themeName);
 		}
 		
 		if (getChartType() == JRChart.CHART_TYPE_MULTI_AXIS)
@@ -1294,7 +1284,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		}
 		else
 		{
-			jfreeChart = theme.createChart(evaluation);
+			jfreeChart = theme.createChart(this, evaluation);
 
 			chartHyperlinkProvider = createChartHyperlinkProvider();
 		}

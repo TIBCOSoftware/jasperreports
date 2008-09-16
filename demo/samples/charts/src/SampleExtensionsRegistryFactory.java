@@ -26,24 +26,34 @@
  * http://www.jaspersoft.com
  */
 
-import net.sf.jasperreports.charts.ChartTheme;
-import net.sf.jasperreports.charts.ChartThemeFactory;
-import net.sf.jasperreports.engine.fill.JRFillChart;
+import java.util.Collections;
+import java.util.List;
+
+import net.sf.jasperreports.charts.ChartThemeBundle;
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.extensions.ExtensionsRegistry;
+import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRFillChart.java 2278 2008-08-14 16:14:54Z teodord $
  */
-public class SimpleChartThemeFactory implements ChartThemeFactory
+public class SampleExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-
-	/**
-	 *
-	 */
-	public ChartTheme create(JRFillChart chart)
+	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
-		return new SimpleChartTheme(chart);
+		return 
+			new ExtensionsRegistry()
+			{
+				public List getExtensions(Class extensionType) 
+				{
+					if (ChartThemeBundle.class.equals(extensionType))
+					{
+						return Collections.singletonList(SampleChartThemeBundle.getInstance());
+					}
+					return null;
+				}
+			};
 	}
-
 }

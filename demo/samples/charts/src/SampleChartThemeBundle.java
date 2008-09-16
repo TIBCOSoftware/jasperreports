@@ -5,46 +5,69 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.engine.fill.JRFillChart;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.charts.ChartTheme;
+import net.sf.jasperreports.charts.ChartThemeBundle;
 
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net) 
- * @version $Id: JRAreaPlot.java 1577 2007-02-09 11:25:48Z teodord $
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: JRFillChart.java 2278 2008-08-14 16:14:54Z teodord $
  */
-public interface ChartThemeFactory
+public class SampleChartThemeBundle implements ChartThemeBundle
 {
-	/**
-	 * 
-	 */
-	public static final String PROPERTY_CHART_THEME_FACTORY_PREFIX = JRProperties.PROPERTY_PREFIX + "chart.theme.factory.";
+	private String[] names = new String[]{"simple", "gradient", "elliptic.exploded.pie"};
 
-	/**
-	 * 
-	 */
-	public ChartTheme create(JRFillChart chart);
+	private static final SampleChartThemeBundle INSTANCE = new SampleChartThemeBundle();
 	
+	public static SampleChartThemeBundle getInstance() 
+	{
+		return INSTANCE;
+	}
+	
+	private SampleChartThemeBundle() 
+	{
+	}
+	
+	public String[] getChartThemeNames() 
+	{
+		return names;
+	}
+	
+	public ChartTheme getChartTheme(String themeName) 
+	{
+		if ("simple".equals(themeName))
+		{
+			return new SimpleChartTheme(); 
+		}
+		else if ("gradient".equals(themeName))
+		{
+			return new GradientChartTheme(); 
+		}
+		else if ("elliptic.exploded.pie".equals(themeName))
+		{
+			return new EllipticExplodedPieChartTheme(); 
+		}
+		return null;
+	}
 }
