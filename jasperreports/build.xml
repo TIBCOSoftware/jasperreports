@@ -280,7 +280,8 @@
 				version="true"
 				use="true"
 				windowtitle="JasperReports API version ${version}"
-				excludepackagenames="org.w3c.tools.codec">
+				excludepackagenames="org.w3c.tools.codec"
+				maxmemory="128m">
 			<doctitle><![CDATA[<span style="font-family:verdana,arial,helvetica,sans-serif;font-size:16pt;font-style:normal;color:#000000;"><b><font color="#808080">Jasper</font><font color="#990000">Reports</font></b></span><br><span style="font-family:verdana,arial,helvetica,sans-serif;font-size:10pt;font-weight:bold;color:#000000;">version ${version}</span>]]></doctitle>
 			<bottom><![CDATA[<span style="font-decoration:none;font-family:verdana,arial,helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&copy; 2001-2006 JasperSoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>]]></bottom>
 			<classpath>
