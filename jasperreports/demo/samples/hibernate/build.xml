@@ -1,0 +1,210 @@
+<project name="query" default="javac" basedir=".">
+
+	<description>Shows how the report query can be build dynamically using report parameters.</description>
+
+	<property name="class.name" value="HibernateApp" />
+	<property name="file.name" value="AddressesReport" />
+	<property name="classes.dir" value="../../../build/classes" />
+	<property name="lib.dir" value="../../../lib" />
+	<property name="fonts.dir" value="../../fonts" />
+	
+	<path id="classpath">
+		<pathelement location="./"/>
+		<pathelement location="${classes.dir}" />
+		<pathelement location="${fonts.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="./lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+			<classpath refid="classpath"/>
+		</taskdef>
+		<jrc destdir="./">
+			<src>
+				<fileset dir="./">
+					<include name="**/*.jrxml"/>
+				</fileset>
+			</src>
+			<classpath refid="classpath"/>
+		</jrc> 
+	</target>
+
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<jvmarg value="-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog"/>
+			<jvmarg value="-Dorg.apache.commons.logging.simplelog.defaultlog=error"/>
+			<arg value="fill"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="${file.name}.jrpxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="print" description="Sends the report in the .jrprint file to the printer.">
+		<java classname="${class.name}" fork="true">
+			<arg value="print"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="pdf"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="xml"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="xmlEmbed"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="html"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="rtf"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
+		<java classname="${class.name}" fork="true">
+			<arg value="xls"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<java classname="${class.name}" fork="true">
+			<arg value="jxl"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="csv"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="odt"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="run" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
+		<java classname="${class.name}" fork="true">
+			<jvmarg value="-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog"/>
+			<jvmarg value="-Dorg.apache.commons.logging.simplelog.defaultlog=error"/>
+			<arg value="run"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${file.name}.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<delete>
+			<fileset dir="." includes="**/*.class" />
+			<fileset dir="." includes="**/*.jasper" />
+			<fileset dir="." includes="**/*.jrprint" />
+			<fileset dir="." includes="**/*.jrpxml" />
+			<fileset dir="." includes="**/*.html" />
+			<fileset dir="." includes="**/*.rtf" />
+			<fileset dir="." includes="**/*.xls" />
+			<fileset dir="." includes="**/*.csv" />
+			<fileset dir="." includes="**/*.pdf" />
+			<fileset dir="." includes="**/*.odt" />
+			<fileset dir="." includes="**/*.log" />
+		</delete>
+		<delete dir="${file.name}.jrpxml_files" />
+		<delete dir="${file.name}.html_files" />
+		<delete dir="HibernateQueryReport.jrpxml_files" />
+		<delete dir="HibernateQueryReport.html_files" />
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Hibernate Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<antcall target="fill" />
+		<antcall target="pdf" />
+		<antcall target="xmlEmbed" />
+		<antcall target="xml" />
+		<antcall target="html" />
+		<antcall target="rtf" />
+		<antcall target="xls" />
+		<antcall target="jxl" />
+		<antcall target="csv" />
+		<antcall target="odt" />
+	</target>
+
+</project>
