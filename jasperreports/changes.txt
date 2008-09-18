@@ -2,7 +2,16 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.1.0 (2008-09-16)
+JasperReports 3.1.1 (2008-xx-xx)
+-----------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.1.0 (2008-09-17)
 -----------------------------------
 
 - chart themes support to allow changing the overall appearance 
