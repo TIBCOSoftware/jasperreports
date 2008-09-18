@@ -27,8 +27,14 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.util.Iterator;
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+import net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle;
+import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 /**
  * Query executer utility class.
@@ -38,8 +44,6 @@ import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
  */
 public class JRQueryExecuterUtils
 {
-	private static final JRSingletonCache cache = new JRSingletonCache(JRQueryExecuterFactory.class);
-	
 	/**
 	 * Returns a query executer factory for a query language.
 	 * 
@@ -50,13 +54,16 @@ public class JRQueryExecuterUtils
 	 */
 	public static JRQueryExecuterFactory getQueryExecuterFactory(String language) throws JRException
 	{
-		String factoryClassName = JRProperties.getProperty(JRQueryExecuterFactory.QUERY_EXECUTER_FACTORY_PREFIX + language);
-		if (factoryClassName == null)
+		List bundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(QueryExecuterFactoryBundle.class);
+		for (Iterator it = bundles.iterator(); it.hasNext();)
 		{
-			throw new JRException("No query executer factory class registered for " + language + " queries.  " +
-					"Create a propery named " + JRQueryExecuterFactory.QUERY_EXECUTER_FACTORY_PREFIX + language + ".");
+			QueryExecuterFactoryBundle bundle = (QueryExecuterFactoryBundle)it.next();
+			JRQueryExecuterFactory factory = bundle.getQueryExecuterFactory(language);
+			if (factory != null)
+			{
+				return factory;
+			}
 		}
-		
-		return (JRQueryExecuterFactory) cache.getCachedInstance(factoryClassName);
+		throw new JRRuntimeException("No query executer factory registered for the '" + language + "' language.");
 	}
 }
