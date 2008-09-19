@@ -399,10 +399,32 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		String formula = textElement.getPropertiesMap().getProperty(JRAbstractExporter.PROPERTY_CELL_FORMULA);
 		JRFont defaultFont = textElement.getFont();
+		String textStr = styledText.getText();
+		
 		if(formula != null)
 		{
 			try
 			{
+				TextValue value = getTextValue(textElement, textStr);
+				
+				if (value instanceof NumberTextValue && ((NumberTextValue)value).getPattern() != null)
+				{
+					baseStyle.setDataFormat(
+						dataFormat.getFormat(
+							getConvertedPattern(((NumberTextValue)value).getPattern())
+							)
+						);
+				}
+				else if (value instanceof DateTextValue && ((DateTextValue)value).getPattern() != null)
+				{
+					baseStyle.setDataFormat(
+							dataFormat.getFormat(
+								getConvertedPattern(((DateTextValue)value).getPattern())
+								)
+							);
+					
+				}
+				
 				HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 				cell.setCellType(HSSFCell.CELL_TYPE_FORMULA);
 				cell.setCellFormula(formula);
@@ -418,7 +440,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 		}
 		
-		String textStr = styledText.getText();
+		
 
 		if (isDetectCellType)
 		{
@@ -486,22 +508,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						cell.setCellValue(textValue.getValue().booleanValue());
 					}
 					endCreateCell(cellStyle);
-				}
-
-				/**
-				 * This method is intended to modify a given format pattern so to include
-				 * only the accepted proprietary format characters. The resulted pattern
-				 * will possibly truncate the original pattern
-				 * @param pattern
-				 * @return pattern converted to accepted proprietary formats
-				 */
-				private String getConvertedPattern(String pattern)
-				{
-					if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
-					{
-						return (String) formatPatternsMap.get(pattern);
-					}
-					return pattern;
 				}
 
 			});
@@ -1184,6 +1190,21 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		return nature;
 	}
 
+	/**
+	 * This method is intended to modify a given format pattern so to include
+	 * only the accepted proprietary format characters. The resulted pattern
+	 * will possibly truncate the original pattern
+	 * @param pattern
+	 * @return pattern converted to accepted proprietary formats
+	 */
+	private String getConvertedPattern(String pattern)
+	{
+		if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
+		{
+			return (String) formatPatternsMap.get(pattern);
+		}
+		return pattern;
+	}
 
 	protected static class BoxStyle
 	{
