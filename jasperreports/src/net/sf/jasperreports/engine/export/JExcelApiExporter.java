@@ -533,6 +533,16 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			Formula formula = null;
 			try
 			{
+				TextValue textValue = getTextValue(text, textStr);
+				if (textValue instanceof NumberTextValue && ((NumberTextValue)textValue).getPattern() != null)
+				{
+					baseStyle.setDisplayFormat(getNumberFormat(((NumberTextValue)textValue).getPattern()));
+				}
+				if (textValue instanceof DateTextValue && ((DateTextValue)textValue).getPattern() != null)
+				{
+					baseStyle.setDisplayFormat(getNumberFormat(((DateTextValue)textValue).getPattern()));
+				}
+				
 				formula = new Formula(x, y, textFormula, getLoadedCellStyle(baseStyle));
 			}
 			catch(Exception e)
