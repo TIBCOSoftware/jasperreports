@@ -296,15 +296,11 @@ public class JRPdfExporter extends JRAbstractExporter
 				permissions = permissionsParameter.intValue();
 			}
 
-			String strPdfVersion = 
-				getStringParameter(
-					JRPdfExporterParameter.PDF_VERSION,
-					JRPdfExporterParameter.PROPERTY_PDF_VERSION
-					);
 			pdfVersion = 
-				(strPdfVersion == null || strPdfVersion.length() == 0) 
-				? null 
-				: new Character(strPdfVersion.charAt(0));
+				getCharacterParameter(
+						JRPdfExporterParameter.PDF_VERSION,
+						JRPdfExporterParameter.PROPERTY_PDF_VERSION
+						);
 
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 

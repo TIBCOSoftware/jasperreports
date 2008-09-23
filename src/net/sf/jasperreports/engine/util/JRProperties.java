@@ -835,4 +835,48 @@ public class JRProperties
 			}
 		}
 	}
+	
+	/**
+	 * Returns a property as a <code>Character</code> value.
+	 * 
+	 * @param key the key
+	 * @return the property value as a <code>Character</code>
+	 * @see #asCharacter(String)
+	 */
+	public static Character getCharacterProperty(String key)
+	{
+		return asCharacter(props.getProperty(key));
+	}
+
+	/**
+	 * Returns the value of a property as a <code>Character</code> value, 
+	 * looking first in the supplied properties holder and then in the
+	 * system properties.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @return the property value as a <code>Character</code>
+	 */
+	public static Character getCharacterProperty(JRPropertiesMap propertiesMap, String key)
+	{
+		String value = getProperty(propertiesMap, key);
+		return asCharacter(value);
+	}
+	
+	/**
+	 * Converts a <code>String</code> into a <code>Character</code> value.
+	 * 
+	 * <p>
+	 * If the <code>String</code> value is null or the empty string, 
+	 * <code>null</code> is returned.  Otherwise, the method returns
+	 * the first character in the string.
+	 * 
+	 * @param value the <code>String</code> value
+	 * @return the value converted to <code>Character</code>
+	 */
+	public static Character asCharacter(String value)
+	{
+		return value == null || value.length() == 0 ? null 
+				: new Character(value.charAt(0));
+	}
 }
