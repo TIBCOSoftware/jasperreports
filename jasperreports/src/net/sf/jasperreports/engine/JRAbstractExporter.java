@@ -105,6 +105,8 @@ public abstract class JRAbstractExporter implements JRExporter
 		boolean getBooleanParameter(JRExporterParameter parameter, String property, boolean defaultValue);
 		
 		int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue);
+
+		Character getCharacterParameter(JRExporterParameter parameter, String property);
 	}
 	
 	protected class ParameterOverrideResolver implements ParameterResolver
@@ -197,6 +199,20 @@ public abstract class JRAbstractExporter implements JRExporter
 						property,
 						defaultValue
 						);
+			}
+		}
+		
+		public Character getCharacterParameter(JRExporterParameter parameter, 
+				String property)
+		{
+			if (parameters.containsKey(parameter))
+			{
+				return (Character) parameters.get(parameter);
+			}
+			else
+			{
+				return JRProperties.getCharacterProperty(
+						jasperPrint.getPropertiesMap(), property);
 			}
 		}
 	}
@@ -302,6 +318,27 @@ public abstract class JRAbstractExporter implements JRExporter
 				else
 				{
 					value = param.intValue();
+				}
+			}
+			return value;
+		}
+		
+		public Character getCharacterParameter(JRExporterParameter parameter, String property)
+		{
+			Character value;
+			JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
+			if (hintsMap != null && hintsMap.containsProperty(property))
+			{
+				String prop = hintsMap.getProperty(property);
+				value = JRProperties.asCharacter(prop);
+			}
+			else
+			{
+				value = (Character) parameters.get(parameter);
+				
+				if (value == null)
+				{
+					value = JRProperties.getCharacterProperty(property);
 				}
 			}
 			return value;
@@ -465,6 +502,12 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue)
 	{
 		return getParameterResolver().getIntegerParameter(parameter, property, defaultValue);
+	}
+
+	
+	protected Character getCharacterParameter(JRExporterParameter parameter, String property)
+	{
+		return getParameterResolver().getCharacterParameter(parameter, property);
 	}
 
 	
