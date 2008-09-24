@@ -530,6 +530,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		String textFormula = text.getPropertiesMap().getProperty(JRAbstractExporter.PROPERTY_CELL_FORMULA);
 		if( textFormula != null)
 		{
+			if(textFormula.startsWith("="))
+			{
+				textFormula = textFormula.substring(1);
+			}
+			
 			Formula formula = null;
 			try
 			{

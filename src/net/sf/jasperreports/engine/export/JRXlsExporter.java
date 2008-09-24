@@ -403,6 +403,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		
 		if(formula != null)
 		{
+			if(formula.startsWith("="))
+			{
+				formula = formula.substring(1);
+			}
 			try
 			{
 				TextValue value = getTextValue(textElement, textStr);
