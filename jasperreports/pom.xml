@@ -33,8 +33,11 @@
 				<directory>src</directory>
 				<includes>
 					<include>**/*.dtd</include>
+					<include>**/*.xsd</include>
 					<include>**/*.properties</include>
+					<include>**/*.png</include>
 					<include>**/*.GIF</include>
+					<include>**/*TokenTypes.txt</include>
 				</includes>
 			</resource>
 		</resources>
