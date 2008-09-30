@@ -402,7 +402,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		String textStr = styledText.getText();
 		
 		if(formula != null)
-		{
+		{	
+			formula = formula.trim();
 			if(formula.startsWith("="))
 			{
 				formula = formula.substring(1);
