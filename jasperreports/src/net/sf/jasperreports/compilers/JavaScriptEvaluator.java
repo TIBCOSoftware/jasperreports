@@ -232,7 +232,7 @@ public class JavaScriptEvaluator extends JREvaluator
 	protected void customizedInit(Map parametersMap, Map fieldsMap,
 			Map variablesMap) throws JRException
 	{
-		context = ContextFactory.getGlobal().enterContext();
+		context = ContextFactory.getGlobal().enterContext();//TODO exit context
 		context.getWrapFactory().setJavaPrimitiveWrap(false);
 		scope = context.initStandardObjects();
 		
