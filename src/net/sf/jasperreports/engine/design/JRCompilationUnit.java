@@ -58,7 +58,9 @@ public class JRCompilationUnit
 	 * The list of expressions.
 	 */
 	private final List expressions;
-	
+
+	private final JRSourceCompileTask compileTask;
+
 	/**
 	 * The compilation data used for creating expression evaluators.
 	 */
@@ -72,13 +74,16 @@ public class JRCompilationUnit
 	 * @param sourceCode the source code generated for the unit
 	 * @param sourceFile the file where the source code was saved
 	 * @param expressions the list of expressions
+	 * @param compileTask the compile task for the unit
 	 */
-	public JRCompilationUnit(String name, JRCompilationSourceCode sourceCode, File sourceFile, List expressions)
+	public JRCompilationUnit(String name, JRCompilationSourceCode sourceCode, File sourceFile, 
+			List expressions, JRSourceCompileTask compileTask)
 	{
 		this.name = name;
 		this.source = sourceCode;
 		this.sourceFile = sourceFile;
 		this.expressions = expressions;
+		this.compileTask = compileTask;
 	}
 
 	
@@ -151,5 +156,15 @@ public class JRCompilationUnit
 	public Serializable getCompileData()
 	{
 		return compileData;
+	}
+	
+	/**
+	 * Returns the compile task for the unit.
+	 * 
+	 * @return the compile task
+	 */
+	public JRSourceCompileTask getCompileTask()
+	{
+		return compileTask;
 	}
 }
