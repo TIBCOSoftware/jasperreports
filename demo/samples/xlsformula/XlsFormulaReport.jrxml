@@ -10,7 +10,7 @@
 		<band height="250"  isSplitAllowed="true" >
 			<staticText>
 				<reportElement x="0" y="0" width="595" height="150"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="22"/>
 				</textElement>
 				<text><![CDATA[XLS Formula Report]]></text>
@@ -20,6 +20,7 @@
 					<property name="net.sf.jasperreports.export.xls.formula" value="7" />
 				</reportElement>
 				<box rightPadding="5">
+					<topPen lineColor="#c0c0c0" lineWidth="4"/>
 					<leftPen lineColor="#c0c0c0" lineWidth="4"/>
 					<bottomPen  lineColor="#c0c0c0" lineWidth="1"/>
 					<rightPen lineColor="#c0c0c0" lineWidth="1"/>
@@ -32,6 +33,7 @@
 			<staticText>
 				<reportElement x="280" y="150" width="315" height="23"/>
 				<box leftPadding="5">
+					<topPen lineColor="#c0c0c0" lineWidth="4"/>
 					<leftPen lineColor="#c0c0c0" lineWidth="1"/>
 					<bottomPen  lineColor="#c0c0c0" lineWidth="1"/>
 					<rightPen lineColor="#c0c0c0" lineWidth="2"/>
