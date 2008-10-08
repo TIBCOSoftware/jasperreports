@@ -40,5 +40,6 @@
 	<classpathentry kind="lib" path="lib/spring-core.jar"/>
 	<classpathentry kind="lib" path="lib/jcommon-1.0.13.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.10.jar"/>
+	<classpathentry kind="lib" path="lib/rhino-1.7R1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

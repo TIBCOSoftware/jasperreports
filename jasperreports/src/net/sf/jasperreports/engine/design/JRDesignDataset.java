@@ -217,11 +217,11 @@ public class JRDesignDataset extends JRBaseDataset
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setText("new Integer(1)");
+		expression.setText("new java.lang.Integer(1)");
 		variable.setExpression(expression);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setText("new Integer(0)");
+		expression.setText("new java.lang.Integer(0)");
 		variable.setInitialValueExpression(expression);
 		return variable;
 	}
@@ -240,7 +240,7 @@ public class JRDesignDataset extends JRBaseDataset
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
 		//expression.setText("($V{COLUMN_NUMBER} != null)?(new Integer($V{COLUMN_NUMBER}.intValue() + 1)):(new Integer(1))");
-		expression.setText("new Integer(1)");
+		expression.setText("new java.lang.Integer(1)");
 		variable.setInitialValueExpression(expression);
 		return variable;
 	}
@@ -257,7 +257,7 @@ public class JRDesignDataset extends JRBaseDataset
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
 		//expression.setText("($V{PAGE_NUMBER} != null)?(new Integer($V{PAGE_NUMBER}.intValue() + 1)):(new Integer(1))");
-		expression.setText("new Integer(1)");
+		expression.setText("new java.lang.Integer(1)");
 		variable.setInitialValueExpression(expression);
 		return variable;
 	}
@@ -274,11 +274,11 @@ public class JRDesignDataset extends JRBaseDataset
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setText("new Integer(1)");
+		expression.setText("new java.lang.Integer(1)");
 		variable.setExpression(expression);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setText("new Integer(0)");
+		expression.setText("new java.lang.Integer(0)");
 		variable.setInitialValueExpression(expression);
 		return variable;
 	}
@@ -312,11 +312,11 @@ public class JRDesignDataset extends JRBaseDataset
 		variable.setSystemDefined(true);
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setText("new Integer(1)");
+		expression.setText("new java.lang.Integer(1)");
 		variable.setExpression(expression);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setText("new Integer(0)");
+		expression.setText("new java.lang.Integer(0)");
 		variable.setInitialValueExpression(expression);
 		return variable;
 	}
@@ -816,11 +816,11 @@ public class JRDesignDataset extends JRBaseDataset
 		countVariable.setSystemDefined(true);
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setText("new Integer(1)");
+		expression.setText("new java.lang.Integer(1)");
 		countVariable.setExpression(expression);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setText("new Integer(0)");
+		expression.setText("new java.lang.Integer(0)");
 		countVariable.setInitialValueExpression(expression);
 
 		addVariable(countVariable, true);
