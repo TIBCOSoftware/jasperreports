@@ -36,7 +36,7 @@ import net.sf.jasperreports.charts.ChartThemeBundle;
  */
 public class SampleChartThemeBundle implements ChartThemeBundle
 {
-	private String[] names = new String[]{"simple", "gradient", "elliptic.exploded.pie"};
+	private String[] names = new String[]{"simple", "gradient", "elliptic.exploded.pie", "eye.candy.sixties"};
 
 	private static final SampleChartThemeBundle INSTANCE = new SampleChartThemeBundle();
 	
