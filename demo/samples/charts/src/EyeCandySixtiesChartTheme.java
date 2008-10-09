@@ -130,7 +130,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		}
 		
 		jfreeChart.setBackgroundPaint(
-				new GradientPaint(0, 0, new Color(0, 64, 128), 0, getChart().getHeight(), Color.white, false)
+				new GradientPaint(0, 0, new Color(0, 64, 128), 0, getChart().getHeight(), Color.white, true)
 				);
 		jfreeChart.setAntiAlias(true);
 		jfreeChart.setBorderVisible(true);
