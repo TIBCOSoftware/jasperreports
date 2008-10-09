@@ -68,6 +68,10 @@ public class SampleChartThemeBundle implements ChartThemeBundle
 		{
 			return new EllipticExplodedPieChartTheme(); 
 		}
+		else if ("eye.candy.sixties".equals(themeName))
+		{
+			return new EyeCandySixtiesChartTheme(); 
+		}
 		return null;
 	}
 }
