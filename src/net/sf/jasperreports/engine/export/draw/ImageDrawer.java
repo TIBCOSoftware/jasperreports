@@ -37,7 +37,6 @@ package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 
 import net.sf.jasperreports.engine.JRAlignment;
@@ -64,13 +63,21 @@ public class ImageDrawer extends ElementDrawer
 	{
 		JRPrintImage printImage = (JRPrintImage)element;
 		
+		grx = //FIXME use this for all Graphics2D operations
+			(Graphics2D) grx.create(
+				printImage.getX() + offsetX, 
+				printImage.getY() + offsetY, 
+				printImage.getWidth(),
+				printImage.getHeight()
+				);
+
 		if (printImage.getMode() == JRElement.MODE_OPAQUE)
 		{
 			grx.setColor(printImage.getBackcolor());
 
 			grx.fillRect(
-				printImage.getX() + offsetX, 
-				printImage.getY() + offsetY, 
+				0, 
+				0, 
 				printImage.getWidth(),
 				printImage.getHeight()
 				);
@@ -172,33 +179,33 @@ public class ImageDrawer extends ElementDrawer
 					int xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
 					int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
 
-					Shape oldClipShape = grx.getClip();
+//					Shape oldClipShape = grx.getClip();
 
 					grx.clip(
 						new Rectangle(
-							printImage.getX() + leftPadding + offsetX, 
-							printImage.getY() + topPadding + offsetY, 
+							leftPadding, 
+							topPadding, 
 							availableImageWidth, 
 							availableImageHeight
 							)
 						);
 					
-					try
-					{
+//					try
+//					{
 						renderer.render(
 							grx, 
 							new Rectangle(
-								printImage.getX() + leftPadding + offsetX + xoffset, 
-								printImage.getY() + topPadding + offsetY + yoffset, 
+								leftPadding + xoffset, 
+								topPadding + yoffset, 
 								normalWidth, 
 								normalHeight
 								) 
 							);
-					}
-					finally
-					{
-						grx.setClip(oldClipShape);
-					}
+//					}
+//					finally
+//					{
+//						grx.setClip(oldClipShape);
+//					}
 	
 					break;
 				}
@@ -207,8 +214,8 @@ public class ImageDrawer extends ElementDrawer
 					renderer.render(
 						grx,
 						new Rectangle(
-							printImage.getX() + leftPadding + offsetX, 
-							printImage.getY() + topPadding + offsetY, 
+							leftPadding, 
+							topPadding, 
 							availableImageWidth, 
 							availableImageHeight
 							)
@@ -240,8 +247,8 @@ public class ImageDrawer extends ElementDrawer
 						renderer.render(
 							grx,
 							new Rectangle(
-								printImage.getX() + leftPadding + offsetX + xoffset, 
-								printImage.getY() + topPadding + offsetY + yoffset, 
+								leftPadding + xoffset, 
+								topPadding + yoffset, 
 								normalWidth, 
 								normalHeight
 								) 
