@@ -29,10 +29,6 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
@@ -42,12 +38,9 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.Axis;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
@@ -55,19 +48,17 @@ import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
+import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.title.LegendTitle;
-import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
 
 
 /**
@@ -77,27 +68,52 @@ import org.jfree.ui.RectangleInsets;
 public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 {
 
-	public static final Color[] colors = new Color[]{
-			new Color(234, 171, 53, 180),
-			new Color(250, 97, 18, 180),
-			new Color(220, 1, 83, 180),
-			new Color(0, 111, 60, 180),
-			new Color(237,38,42, 180),
-			new Color(250, 223, 18, 180),
-			new Color(228, 100, 37, 180),
-			new Color(64, 157, 207, 180),
+	public static final Color[] colors = 
+		new Color[]{
+			new Color(250, 223, 18),
+			new Color(250, 97, 18),
+			new Color(0, 111, 60),
+			//new Color(228, 100, 37),
+			new Color(64, 157, 207),
+			new Color(237, 38, 42),
+			new Color(229, 1, 140),
+			new Color(234, 171, 53)
+			
+			//new Color(220, 1, 83, 180),
+
+		
+		
+//			new Color(234, 171, 53, 180),
+//			new Color(250, 97, 18, 180),
+//			new Color(220, 1, 83, 180),
+//			new Color(0, 111, 60, 180),
+//			new Color(237,38,42, 180),
+//			new Color(250, 223, 18, 180),
+//			new Color(228, 100, 37, 180),
+//			new Color(64, 157, 207, 180),
+			};
+	
+	public static final Color[] darkColors = 
+		new Color[]{
+			new Color(219, 192, 4),
+			new Color(200, 72, 4),
+			new Color(0, 70, 38),
+			new Color(40, 120, 164),
+			new Color(188, 16, 20),
+			new Color(169, 1, 102),
+			new Color(201, 138, 20)
 			};
 	
     // gradient paints for series...
 	public static final GradientPaint gp[] = new GradientPaint[]{
-    		new GradientPaint(0.0f, 0.0f, colors[0], 0.0f, 0.0f, Color.BLACK),
-    		new GradientPaint(0.0f, 0.0f, colors[1], 0.0f, 0.0f, Color.BLACK),
-    		new GradientPaint(0.0f, 0.0f, colors[2], 0.0f, 0.0f, Color.BLACK),
-    		new GradientPaint(0.0f, 0.0f, colors[3], 0.0f, 0.0f, Color.BLACK),
-    		new GradientPaint(0.0f, 0.0f, colors[4], 0.0f, 0.0f, Color.BLACK),
-    		new GradientPaint(0.0f, 0.0f, colors[5], 0.0f, 0.0f, Color.BLACK),
-    		new GradientPaint(0.0f, 0.0f, colors[6], 0.0f, 0.0f, Color.BLACK),
-    		new GradientPaint(0.0f, 0.0f, colors[7], 0.0f, 0.0f, Color.BLACK)
+    		new GradientPaint(0.0f, 0.0f, colors[0], 0.0f, 0.0f, darkColors[0]),
+    		new GradientPaint(0.0f, 0.0f, colors[1], 0.0f, 0.0f, darkColors[1]),
+    		new GradientPaint(0.0f, 0.0f, colors[2], 0.0f, 0.0f, darkColors[2]),
+    		new GradientPaint(0.0f, 0.0f, colors[3], 0.0f, 0.0f, darkColors[3]),
+    		new GradientPaint(0.0f, 0.0f, colors[4], 0.0f, 0.0f, darkColors[4]),
+    		new GradientPaint(0.0f, 0.0f, colors[5], 0.0f, 0.0f, darkColors[5]),
+    		new GradientPaint(0.0f, 0.0f, colors[6], 0.0f, 0.0f, darkColors[6])
+    		//new GradientPaint(0.0f, 0.0f, colors[7], 0.0f, 0.0f, Color.BLACK)
     };
 	
 	/**
@@ -115,25 +131,25 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	{
 		super.configureChart(jfreeChart, jrPlot, evaluation);
 
-		TextTitle title = jfreeChart.getTitle();
-		if(title != null)
-		{
-			title.setFont(new Font("Tahoma", Font.BOLD, 6));
-		}
+//		TextTitle title = jfreeChart.getTitle();
+//		if(title != null)
+//		{
+//			title.setFont(new Font("Tahoma", Font.BOLD, 6));
+//		}
 		LegendTitle legend = jfreeChart.getLegend();
 		if (legend != null)
 		{
 			legend.setFrame(BlockBorder.NONE);
-			legend.setItemFont(new Font("Tahoma", Font.PLAIN, 4));
+//			legend.setItemFont(new Font("Tahoma", Font.PLAIN, 4));
 			legend.setPosition(RectangleEdge.RIGHT);
 			legend.setHorizontalAlignment(HorizontalAlignment.RIGHT);
 		}
 		
 		jfreeChart.setBackgroundPaint(
-				new GradientPaint(getChart().getX(), getChart().getY(), new Color(0, 64, 128), 0, getChart().getHeight()*5/6, Color.WHITE, false)
+				new GradientPaint(0, 0, new Color(41, 120, 162), 0, getChart().getHeight() / 2, Color.WHITE, false)
 				);
 		jfreeChart.setAntiAlias(true);
-		jfreeChart.setBorderVisible(true);
+		//jfreeChart.setBorderVisible(true);
 	}
 
 
@@ -212,8 +228,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		)
 	{
 		super.configureAxis(axis, labelFont, labelColor, tickLabelFont, tickLabelColor, tickLabelMask, lineColor);
-		axis.setLabelFont(new Font("Tahoma", Font.BOLD, 4));
-		axis.setTickLabelFont(new Font("Tahoma", Font.PLAIN, 5));
+//		axis.setLabelFont(new Font("Tahoma", Font.BOLD, 4));
+//		axis.setTickLabelFont(new Font("Tahoma", Font.PLAIN, 5));
+		axis.setTickLabelFont(axis.getTickLabelFont().deriveFont(Font.BOLD));
 	}
 
 	/**
@@ -251,7 +268,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 				new StandardPieSectionLabelGenerator("{0}")
 				);
 		}
-		piePlot.setLabelFont(new Font("Tahoma", Font.PLAIN, 4));
+//		piePlot.setLabelFont(new Font("Tahoma", Font.PLAIN, 4));
 		piePlot.setCircular(true);
 		return jfreeChart;
 	}
@@ -293,7 +310,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 				new StandardPieSectionLabelGenerator("{0}")
 				);
 		}
-		piePlot3D.setLabelFont(new Font("Tahoma", Font.PLAIN, 4));
+//		piePlot3D.setLabelFont(new Font("Tahoma", Font.PLAIN, 4));
 		piePlot3D.setCircular(true);
 		return jfreeChart;
 	}
@@ -307,7 +324,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		JFreeChart jfreeChart = super.createBarChart(evaluation);
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
+		//categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		
@@ -323,7 +340,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	{
 		JFreeChart jfreeChart = super.createBar3DChart(evaluation);
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
+		//categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
 		return jfreeChart;
 	}
 
@@ -337,10 +354,12 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		XYDataset xyDataset = xyPlot.getDataset();
-		XYItemRenderer itemRenderer = xyPlot.getRenderer();
+		XYBubbleRenderer bubbleRenderer = (XYBubbleRenderer)xyPlot.getRenderer();
 		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
 		{
-			itemRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+			bubbleRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+			bubbleRenderer.setSeriesPaint(i, gp[i]);
+			bubbleRenderer.setSeriesFillPaint(i, gp[i]);
 		}
 		
 		return jfreeChart;
