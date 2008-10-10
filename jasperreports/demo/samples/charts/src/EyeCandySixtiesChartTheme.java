@@ -115,6 +115,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
     		new GradientPaint(0.0f, 0.0f, colors[6], 0.0f, 0.0f, colors[6].darker())
     };
 	
+	public static final Color lineColor = new Color(134,134,134);
 	/**
 	 *
 	 */
@@ -175,6 +176,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 					)
 				);
 		}
+		
+		
 		if(plot instanceof CategoryPlot)
 		{
 			CategoryPlot categoryPlot = (CategoryPlot)plot;
@@ -185,6 +188,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			{
 				categoryRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
 			}
+			categoryPlot.setRangeGridlinePaint(lineColor);
+			categoryPlot.setRangeGridlineStroke(new BasicStroke(0.75f));
+			categoryPlot.setDomainGridlinesVisible(false);
 			
 		}
 		else if(plot instanceof XYPlot)
@@ -196,8 +202,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			{
 				xyItemRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
 			}
-			
-			
+			xyPlot.setRangeGridlinePaint(lineColor);
+			xyPlot.setRangeGridlineStroke(new BasicStroke(0.75f));
+			xyPlot.setDomainGridlinesVisible(false);
 		}
 		plot.setForegroundAlpha(1f);
 
@@ -225,13 +232,15 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		JRFont tickLabelFont,
 		Color tickLabelColor,
 		String tickLabelMask,
-		Color lineColor
+		Color axisLineColor
 		)
 	{
-		super.configureAxis(axis, labelFont, labelColor, tickLabelFont, tickLabelColor, tickLabelMask, lineColor);
+		super.configureAxis(axis, labelFont, labelColor, tickLabelFont, tickLabelColor, tickLabelMask, axisLineColor);
 //		axis.setLabelFont(new Font("Tahoma", Font.BOLD, 4));
 //		axis.setTickLabelFont(new Font("Tahoma", Font.PLAIN, 5));
 		//axis.setTickLabelFont(axis.getTickLabelFont().deriveFont(Font.BOLD));
+		axis.setAxisLinePaint(lineColor);
+		axis.setAxisLineStroke(new BasicStroke(1.5f));
 	}
 
 	
@@ -493,12 +502,19 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		return jfreeChart;
 	}
 
-//	protected JFreeChart createCandlestickChart(byte evaluation) throws JRException
-//	{
-//		JFreeChart jfreeChart = super.createCandlestickChart(evaluation);
-//		return jfreeChart;
-//	}
-//
+	protected JFreeChart createScatterChart(byte evaluation) throws JRException
+	{
+		JFreeChart jfreeChart = super.createScatterChart(evaluation);
+		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
+		Color gridColor = new Color(196, 196, 196);
+		xyPlot.setRangeGridlinePaint(gridColor);
+		xyPlot.setRangeGridlineStroke(new BasicStroke(0.75f));
+		xyPlot.setDomainGridlinesVisible(true);
+		xyPlot.setDomainGridlinePaint(gridColor);
+		xyPlot.setDomainGridlineStroke(new BasicStroke(0.75f));
+		xyPlot.setRangeZeroBaselineVisible(true);
+		return jfreeChart;
+	}
 
 	protected JFreeChart createXyLineChart(byte evaluation) throws JRException 
 	{
