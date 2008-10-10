@@ -241,6 +241,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		//axis.setTickLabelFont(axis.getTickLabelFont().deriveFont(Font.BOLD));
 		axis.setAxisLinePaint(lineColor);
 		axis.setAxisLineStroke(new BasicStroke(1.5f));
+		axis.setTickMarkPaint(lineColor);
 	}
 
 	
