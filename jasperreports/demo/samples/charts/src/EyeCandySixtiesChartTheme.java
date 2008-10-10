@@ -130,7 +130,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		}
 		
 		jfreeChart.setBackgroundPaint(
-				new GradientPaint(0, 0, new Color(0, 64, 128), 0, getChart().getHeight(), Color.white, true)
+				new GradientPaint(getChart().getX(), getChart().getY(), new Color(0, 64, 128), 0, getChart().getHeight()*5/6, Color.WHITE, false)
 				);
 		jfreeChart.setAntiAlias(true);
 		jfreeChart.setBorderVisible(true);
@@ -158,6 +158,31 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 					)
 				);
 		}
+		if(plot instanceof CategoryPlot)
+		{
+			CategoryPlot categoryPlot = (CategoryPlot)plot;
+			CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+			CategoryDataset categoryDataset = categoryPlot.getDataset();
+			
+			for(int i = 0; i < categoryDataset.getRowCount(); i++)
+			{
+				categoryRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+			}
+			
+		}
+		else if(plot instanceof XYPlot)
+		{
+			XYPlot xyPlot = (XYPlot)plot;
+			XYDataset xyDataset = xyPlot.getDataset();
+			XYItemRenderer xyItemRenderer = xyPlot.getRenderer();
+			for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+			{
+				xyItemRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+			}
+			
+			
+		}
+		plot.setForegroundAlpha(1f);
 
 	}
 
@@ -199,7 +224,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		JFreeChart jfreeChart = super.createPieChart(evaluation);
 
 		PiePlot piePlot = (PiePlot)jfreeChart.getPlot();
-		piePlot.setForegroundAlpha(1f);
+		//piePlot.setForegroundAlpha(1f);
 		piePlot.setLabelBackgroundPaint(TRANSPARENT_PAINT);
 		piePlot.setLabelShadowPaint(TRANSPARENT_PAINT);
 		piePlot.setLabelOutlinePaint(TRANSPARENT_PAINT);
@@ -207,8 +232,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		
 		for(int i = 0; i < pieDataset.getItemCount(); i++)
 		{
-			piePlot.setSectionPaint(pieDataset.getKey(i), gp[i]);
-			//categoryRenderer.setSeriesOutlinePaint(i, gp[i]);
+			piePlot.setSectionOutlinePaint(pieDataset.getKey(i), TRANSPARENT_PAINT);
 		}
 		
 		if (
@@ -241,12 +265,18 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		JFreeChart jfreeChart = super.createPie3DChart(evaluation);
 
 		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
-		piePlot3D.setForegroundAlpha(1f);
 		piePlot3D.setLabelBackgroundPaint(TRANSPARENT_PAINT);
 		piePlot3D.setLabelShadowPaint(TRANSPARENT_PAINT);
 		piePlot3D.setLabelOutlinePaint(TRANSPARENT_PAINT);
 		piePlot3D.setDarkerSides(true);
 		piePlot3D.setDepthFactor(0.1);
+		PieDataset pieDataset = piePlot3D.getDataset();
+		
+		for(int i = 0; i < pieDataset.getItemCount(); i++)
+		{
+			piePlot3D.setSectionOutlinePaint(pieDataset.getKey(i), TRANSPARENT_PAINT);
+		}
+		
 		if (
 			((JRFillPieDataset)getDataset()).getLabelGenerator() == null
 			&& ((JRFillPie3DPlot)getPlot()).getLabelFormat() == null
@@ -279,16 +309,12 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
-		categoryRenderer.setOutlinePaint(TRANSPARENT_PAINT);
-
-        categoryRenderer.setSeriesPaint(0, gp[0]);
-        categoryRenderer.setSeriesPaint(1, gp[1]);
-        categoryRenderer.setSeriesPaint(2, gp[2]);
-        categoryRenderer.setSeriesPaint(3, gp[3]);
-        categoryRenderer.setSeriesPaint(4, gp[4]);
-        categoryRenderer.setSeriesPaint(5, gp[5]);
-        categoryRenderer.setSeriesPaint(6, gp[6]);
-        categoryRenderer.setSeriesPaint(7, gp[7]);
+		CategoryDataset categoryDataset = categoryPlot.getDataset();
+		
+		for(int i = 0; i < categoryDataset.getRowCount(); i++)
+		{
+			categoryRenderer.setSeriesPaint(i, gp[i]);
+		}
 		
 		return jfreeChart;
 	}
@@ -296,19 +322,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	protected JFreeChart createBar3DChart(byte evaluation) throws JRException 
 	{
 		JFreeChart jfreeChart = super.createBar3DChart(evaluation);
-
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
-		categoryPlot.setForegroundAlpha(1f);
-		CategoryDataset categoryDataset = (CategoryDataset)categoryPlot.getDataset();
-
-		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
-		
-		for(int i = 0; i < categoryDataset.getRowCount(); i++)
-		{
-			categoryRenderer.setSeriesOutlinePaint(i, gp[i]);
-		}
-		
 		return jfreeChart;
 	}
 
@@ -323,10 +338,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		XYDataset xyDataset = xyPlot.getDataset();
 		XYItemRenderer itemRenderer = xyPlot.getRenderer();
-		itemRenderer.setOutlinePaint(TRANSPARENT_PAINT);
 		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
 		{
-			itemRenderer.setSeriesOutlinePaint(i, gp[i]);
+			itemRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
 		}
 		
 		return jfreeChart;
@@ -339,103 +353,27 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	protected JFreeChart createXYBarChart(byte evaluation) throws JRException
 	{
 		JFreeChart jfreeChart = super.createXYBarChart(evaluation);
-
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
-
 		XYBarRenderer renderer = (XYBarRenderer)xyPlot.getRenderer();
-		renderer.setOutlinePaint(TRANSPARENT_PAINT);
 		renderer.setMargin(0.1);
 
 		return jfreeChart;
 	}
 
 
-	protected JFreeChart createXyAreaChart(byte evaluation) throws JRException 
-	{
-		JFreeChart jfreeChart = super.createXyAreaChart(evaluation);
-
-		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
-
-		return jfreeChart;
-	}
-
-
-	protected JFreeChart createScatterChart(byte evaluation) throws JRException 
-	{
-		JFreeChart jfreeChart = super.createScatterChart(evaluation);
-
-		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
-
-		return jfreeChart;
-	}
-
-	protected JFreeChart createXyLineChart(byte evaluation) throws JRException 
-	{
-		JFreeChart jfreeChart = super.createXyLineChart(evaluation);
-
-		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
-
-		return jfreeChart;
-	}
-
-	protected JFreeChart createTimeSeriesChart(byte evaluation) throws JRException 
-	{
-		JFreeChart jfreeChart = super.createTimeSeriesChart(evaluation);
-
-		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
-		return jfreeChart;
-	}
-
 	protected JFreeChart createHighLowChart(byte evaluation) throws JRException
 	{
 		JFreeChart jfreeChart = super.createHighLowChart(evaluation);
-
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
-
 		xyPlot.setRangeTickBandPaint(new Color(231, 243, 255));
-
 		return jfreeChart;
 	}
 
-	protected JFreeChart createCandlestickChart(byte evaluation) throws JRException
-	{
-		JFreeChart jfreeChart = super.createCandlestickChart(evaluation);
-
-		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
-
-		return jfreeChart;
-	}
-
-	protected JFreeChart createStackedBar3DChart(byte evaluation) throws JRException 
-	{
-		JFreeChart jfreeChart = super.createStackedBar3DChart(evaluation);
-
-		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		CategoryDataset categoryDataset = (CategoryDataset)categoryPlot.getDataset();
-
-		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
-		for(int i = 0; i < categoryDataset.getRowCount(); i++)
-		{
-			categoryRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
-		}
-		
-		return jfreeChart;
-	}
-
-
-
-	/*
-	protected JFreeChart createStackedAreaChart(byte evaluation) throws JRException
-	{
-		JFreeChart jfreeChart = super.createStackedAreaChart(evaluation);
-
-		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-
-		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
-		categoryRenderer.setOutlinePaint(TRANSPARENT_PAINT);
-
-		return jfreeChart;
-	}
-	*/
+//	protected JFreeChart createCandlestickChart(byte evaluation) throws JRException
+//	{
+//		JFreeChart jfreeChart = super.createCandlestickChart(evaluation);
+//		return jfreeChart;
+//	}
+//
 
 }
