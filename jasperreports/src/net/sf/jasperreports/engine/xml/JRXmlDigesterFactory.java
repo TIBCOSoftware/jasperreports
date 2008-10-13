@@ -192,6 +192,7 @@ public class JRXmlDigesterFactory
 	 */
 	public static void configureDigester(Digester digester) throws SAXException, ParserConfigurationException
 	{
+		digester.setUseContextClassLoader(true);
 		digester.setErrorHandler(new ErrorHandlerImpl());
 		
 		digester.setNamespaceAware(true);

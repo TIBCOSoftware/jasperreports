@@ -88,7 +88,7 @@ public class JRLoader
 		{
 			fis = new FileInputStream(file);
 			BufferedInputStream bufferedIn = new BufferedInputStream(fis);
-			ois = new ObjectInputStream(bufferedIn);
+			ois = new ContextClassLoaderObjectInputStream(bufferedIn);
 			obj = ois.readObject();
 		}
 		catch (IOException e)
@@ -141,7 +141,7 @@ public class JRLoader
 		try
 		{
 			is = url.openStream();
-			ois = new ObjectInputStream(is);
+			ois = new ContextClassLoaderObjectInputStream(is);
 			obj = ois.readObject();
 		}
 		catch (IOException e)
@@ -192,7 +192,7 @@ public class JRLoader
 
 		try
 		{
-			ois = new ObjectInputStream(is);
+			ois = new ContextClassLoaderObjectInputStream(is);
 			obj = ois.readObject();
 		}
 		catch (IOException e)
