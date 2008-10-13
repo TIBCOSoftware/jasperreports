@@ -28,6 +28,7 @@
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -42,11 +43,15 @@ import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+import net.sf.jasperreports.engine.fill.JRFillChart;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.entity.EntityCollection;
@@ -54,12 +59,14 @@ import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.CrosshairState;
+import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
+import org.jfree.chart.plot.SeriesRenderingOrder;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.AreaRenderer;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -78,9 +85,12 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
+import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
+import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.StandardGradientPaintTransformer;
+import org.jfree.util.UnitType;
 
 
 /**
@@ -116,6 +126,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
     };
 	
 	public static final Color lineColor = new Color(134,134,134);
+	public static final Color chartBorderColor = new Color(27,80,108);
 	/**
 	 *
 	 */
@@ -130,14 +141,24 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot, byte evaluation) throws JRException
 	{
 		super.configureChart(jfreeChart, jrPlot, evaluation);
+		JRFillChart fillChart = getChart();
 
 		TextTitle title = jfreeChart.getTitle();
+		LegendTitle legend = jfreeChart.getLegend();
+		
 		if(title != null)
 		{
-			//title.setFont(new Font("Tahoma", Font.BOLD, 6));
-			//title.setFont(title.getFont().deriveFont(Font.BOLD));
+			Font titleFont = title.getFont().deriveFont(Font.BOLD);
+			
+			if(getChart().getTitleFont().getOwnFontSize() == null)
+			{
+				titleFont = titleFont.deriveFont(10f);
+			}
+
+			title.setFont(titleFont);
+			title.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		}
-		LegendTitle legend = jfreeChart.getLegend();
+		
 		if (legend != null)
 		{
 			legend.setFrame(BlockBorder.NONE);
@@ -148,10 +169,22 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		}
 		
 		jfreeChart.setBackgroundPaint(
-				new GradientPaint(0, 0, new Color(41, 120, 162), 0, getChart().getHeight() / 2, Color.WHITE, false)
+				new GradientPaint(0f, 30f, new Color(41, 120, 162), 0f, getChart().getHeight() / 2, Color.WHITE, false)
 				);
 		jfreeChart.setAntiAlias(true);
-		//jfreeChart.setBorderVisible(true);
+		JRLineBox lineBox = fillChart.getLineBox();
+		if(lineBox == null ||(lineBox.getLeftPen().getLineWidth().floatValue() < 0.0001f	
+				&& lineBox.getBottomPen().getLineWidth().floatValue() < 0.0001f
+				&& lineBox.getRightPen().getLineWidth().floatValue() < 0.0001f
+				&& lineBox.getTopPen().getLineWidth().floatValue() < 0.0001f
+				)
+			)
+		{
+			jfreeChart.setBorderStroke(new BasicStroke(2f));
+			jfreeChart.setBorderPaint(chartBorderColor);
+			jfreeChart.setBorderVisible(true);
+		}
+		jfreeChart.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 10, 10, 10, 10));
 	}
 
 
@@ -242,6 +275,29 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		axis.setAxisLinePaint(lineColor);
 		axis.setAxisLineStroke(new BasicStroke(1.5f));
 		axis.setTickMarkPaint(lineColor);
+		if(axis instanceof NumberAxis)
+		{
+			NumberAxis numberAxis = (NumberAxis)axis;
+			
+			// about 5 different values should be exposed on the numeric value axis
+			double interval = (numberAxis.getUpperBound() - numberAxis.getLowerBound())/5d;
+			
+			// the default tick unit size:
+			double oldTickUnitSize = numberAxis.getTickUnit().getSize();
+			
+			// the new unit tick size will be calculated as an integer multiple of 
+			// the default tick unit size
+			int j = (int)(interval/oldTickUnitSize);
+			int count = 1;
+			while(j > 9)
+			{
+				j /= 10;
+				count *= 10;
+			}
+			count *= j;
+			double newTickUnitSize = count * oldTickUnitSize;
+			numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize));
+		}
 	}
 
 	
@@ -351,6 +407,17 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		piePlot3D.setLabelOutlinePaint(TRANSPARENT_PAINT);
 		piePlot3D.setDarkerSides(true);
 		piePlot3D.setDepthFactor(0.1);
+		piePlot3D.setShadowXOffset(40);
+		piePlot3D.setShadowYOffset(50);
+		piePlot3D.setShadowPaint(new GradientPaint(
+				0, 
+				getChart().getHeight() / 2, 
+				new Color(41, 120, 162), 
+				0, 
+				getChart().getHeight(), 
+				Color.white)
+		);
+
 		PieDataset pieDataset = piePlot3D.getDataset();
 		
 		for(int i = 0; i < pieDataset.getItemCount(); i++)
@@ -411,7 +478,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		BarRenderer barRenderer = (BarRenderer)categoryPlot.getRenderer();
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		barRenderer.setItemMargin(0);
-		
+		barRenderer.setGradientPaintTransformer(new StandardGradientPaintTransformer(
+                GradientPaintTransformType.HORIZONTAL));
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
 			barRenderer.setSeriesPaint(i, gp[i]);
@@ -490,7 +558,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		XYBarRenderer renderer = (XYBarRenderer)xyPlot.getRenderer();
 		renderer.setMargin(0.1);
-
+		//xyPlot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+		xyPlot.setSeriesRenderingOrder(SeriesRenderingOrder.FORWARD);
 		return jfreeChart;
 	}
 
@@ -660,8 +729,8 @@ class GradientBarRenderer3D extends BarRenderer3D
 		setBaseItemLabelGenerator(barRenderer3D.getBaseItemLabelGenerator());
 		setItemLabelsVisible(barRenderer3D.isItemLabelVisible(0, 0));//FIXMETHEME
 	}
-	
-    public void drawItem(Graphics2D g2,
+
+	public void drawItem(Graphics2D g2,
         CategoryItemRendererState state,
         Rectangle2D dataArea,
         CategoryPlot plot,
