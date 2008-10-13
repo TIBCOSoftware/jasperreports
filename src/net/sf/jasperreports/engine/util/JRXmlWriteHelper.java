@@ -36,6 +36,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sf.jasperreports.engine.JRExpression;
 
@@ -253,7 +255,7 @@ public class JRXmlWriteHelper
 			writeElementAttributes(element, i);
 		}
 	}
-
+	
 	public void writeCDATA(String data) throws IOException
 	{
 		if (data != null)
@@ -262,7 +264,7 @@ public class JRXmlWriteHelper
 
 			buffer.append(getIndent(indent));
 			buffer.append("<![CDATA[");
-			buffer.append(data);
+			buffer.append(encodeCDATA(data));
 			buffer.append("]]>\n");
 			flushBuffer();
 		}
@@ -279,7 +281,7 @@ public class JRXmlWriteHelper
 			String qName = getQualifiedName(name, getParentNamespace());
 			buffer.append(qName);
 			buffer.append("><![CDATA[");
-			buffer.append(data);
+			buffer.append(encodeCDATA(data));
 			buffer.append("]]></");
 			buffer.append(qName);
 			buffer.append(">\n");
@@ -311,7 +313,7 @@ public class JRXmlWriteHelper
 				buffer.append("\"");
 			}
 			buffer.append("><![CDATA[");
-			buffer.append(data);
+			buffer.append(encodeCDATA(data));
 			buffer.append("]]></");
 			buffer.append(qName);
 			buffer.append(">\n");
@@ -587,5 +589,20 @@ public class JRXmlWriteHelper
 	public Writer getUnderlyingWriter()
 	{
 		return writer;
+	}
+
+	protected static final Pattern PATTERN_CDATA_CLOSE = Pattern.compile("\\]\\]\\>");
+	protected static final String ESCAPED_CDATA_CLOSE = "]]]]><![CDATA[>";
+
+	protected static String encodeCDATA(String data)
+	{
+		if (data == null)
+		{
+			return null;
+		}
+		
+		//replacing "]]>" by "]]]]><![CDATA[>"
+		Matcher matcher = PATTERN_CDATA_CLOSE.matcher(data);
+		return matcher.replaceAll(ESCAPED_CDATA_CLOSE);
 	}
 }
