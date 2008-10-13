@@ -148,8 +148,13 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		
 		if(title != null)
 		{
-			Font titleFont = title.getFont().deriveFont(Font.BOLD);
+			Font titleFont = title.getFont();
 			
+			if(getChart().getTitleFont().isOwnBold() == null)
+			{
+				titleFont = titleFont.deriveFont(Font.BOLD);
+			}
+
 			if(getChart().getTitleFont().getOwnFontSize() == null)
 			{
 				titleFont = titleFont.deriveFont(10f);
@@ -162,6 +167,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		if (legend != null)
 		{
 			legend.setFrame(BlockBorder.NONE);
+
 //			legend.setItemFont(new Font("Tahoma", Font.PLAIN, 4));
 			//legend.setItemFont(legend.getItemFont().deriveFont(Font.BOLD));
 			legend.setPosition(RectangleEdge.RIGHT);
@@ -478,8 +484,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		BarRenderer barRenderer = (BarRenderer)categoryPlot.getRenderer();
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		barRenderer.setItemMargin(0);
-		barRenderer.setGradientPaintTransformer(new StandardGradientPaintTransformer(
-                GradientPaintTransformType.HORIZONTAL));
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
 			barRenderer.setSeriesPaint(i, gp[i]);
@@ -583,6 +587,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		xyPlot.setDomainGridlinePaint(gridColor);
 		xyPlot.setDomainGridlineStroke(new BasicStroke(0.75f));
 		xyPlot.setRangeZeroBaselineVisible(true);
+		
 		return jfreeChart;
 	}
 
