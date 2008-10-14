@@ -59,7 +59,6 @@ import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.CrosshairState;
-import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
@@ -68,12 +67,10 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.SeriesRenderingOrder;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.AreaRenderer;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRendererState;
-import org.jfree.chart.renderer.category.StackedAreaRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
@@ -85,7 +82,6 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
-import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
@@ -100,7 +96,7 @@ import org.jfree.util.UnitType;
 public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 {
 
-	public static final Color[] colors = 
+	public static final Color[] COLORS = 
 		new Color[]{
 			new Color(250, 223,  18),
 			new Color(250,  97,  18),
@@ -115,18 +111,20 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			};
 	
     // gradient paints for series...
-	public static final GradientPaint gp[] = new GradientPaint[]{
-    		new GradientPaint(0.0f, 0.0f, colors[0], 0.0f, 0.0f, colors[0].darker()),
-    		new GradientPaint(0.0f, 0.0f, colors[1], 0.0f, 0.0f, colors[1].darker()),
-    		new GradientPaint(0.0f, 0.0f, colors[2], 0.0f, 0.0f, colors[2].darker()),
-    		new GradientPaint(0.0f, 0.0f, colors[3], 0.0f, 0.0f, colors[3].darker()),
-    		new GradientPaint(0.0f, 0.0f, colors[4], 0.0f, 0.0f, colors[4].darker()),
-    		new GradientPaint(0.0f, 0.0f, colors[5], 0.0f, 0.0f, colors[5].darker()),
-    		new GradientPaint(0.0f, 0.0f, colors[6], 0.0f, 0.0f, colors[6].darker())
+	public static final GradientPaint GRADIENT_PAINTS[] = new GradientPaint[]{
+    		new GradientPaint(0.0f, 0.0f, COLORS[0], 0.0f, 0.0f, COLORS[0].darker()),
+    		new GradientPaint(0.0f, 0.0f, COLORS[1], 0.0f, 0.0f, COLORS[1].darker()),
+    		new GradientPaint(0.0f, 0.0f, COLORS[2], 0.0f, 0.0f, COLORS[2].darker()),
+    		new GradientPaint(0.0f, 0.0f, COLORS[3], 0.0f, 0.0f, COLORS[3].darker()),
+    		new GradientPaint(0.0f, 0.0f, COLORS[4], 0.0f, 0.0f, COLORS[4].darker()),
+    		new GradientPaint(0.0f, 0.0f, COLORS[5], 0.0f, 0.0f, COLORS[5].darker()),
+    		new GradientPaint(0.0f, 0.0f, COLORS[6], 0.0f, 0.0f, COLORS[6].darker())
     };
 	
-	public static final Color lineColor = new Color(134,134,134);
-	public static final Color chartBorderColor = new Color(27,80,108);
+	public static final Color GRIDLINE_COLOR = new Color(134,134,134);
+	public static final Color BORDER_COLOR = new Color(27,80,108);
+
+	
 	/**
 	 *
 	 */
@@ -141,7 +139,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot, byte evaluation) throws JRException
 	{
 		super.configureChart(jfreeChart, jrPlot, evaluation);
-		JRFillChart fillChart = getChart();
+		JRFillChart chart = getChart();
 
 		TextTitle title = jfreeChart.getTitle();
 		LegendTitle legend = jfreeChart.getLegend();
@@ -150,12 +148,12 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		{
 			Font titleFont = title.getFont();
 			
-			if(getChart().getTitleFont().isOwnBold() == null)
+			if(chart.getTitleFont().isOwnBold() == null)
 			{
 				titleFont = titleFont.deriveFont(Font.BOLD);
 			}
 
-			if(getChart().getTitleFont().getOwnFontSize() == null)
+			if(chart.getTitleFont().getOwnFontSize() == null)
 			{
 				titleFont = titleFont.deriveFont(10f);
 			}
@@ -167,9 +165,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		if (legend != null)
 		{
 			legend.setFrame(BlockBorder.NONE);
-
-//			legend.setItemFont(new Font("Tahoma", Font.PLAIN, 4));
-			//legend.setItemFont(legend.getItemFont().deriveFont(Font.BOLD));
 			legend.setPosition(RectangleEdge.RIGHT);
 			legend.setHorizontalAlignment(HorizontalAlignment.RIGHT);
 		}
@@ -178,16 +173,16 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 				new GradientPaint(0f, 30f, new Color(41, 120, 162), 0f, getChart().getHeight() / 2, Color.WHITE, false)
 				);
 		jfreeChart.setAntiAlias(true);
-		JRLineBox lineBox = fillChart.getLineBox();
-		if(lineBox == null ||(lineBox.getLeftPen().getLineWidth().floatValue() < 0.0001f	
-				&& lineBox.getBottomPen().getLineWidth().floatValue() < 0.0001f
-				&& lineBox.getRightPen().getLineWidth().floatValue() < 0.0001f
-				&& lineBox.getTopPen().getLineWidth().floatValue() < 0.0001f
-				)
+		JRLineBox lineBox = chart.getLineBox();
+		if(
+			lineBox.getLeftPen().getLineWidth().floatValue() == 0	
+			&& lineBox.getBottomPen().getLineWidth().floatValue() == 0
+			&& lineBox.getRightPen().getLineWidth().floatValue() == 0
+			&& lineBox.getTopPen().getLineWidth().floatValue() == 0
 			)
 		{
 			jfreeChart.setBorderStroke(new BasicStroke(2f));
-			jfreeChart.setBorderPaint(chartBorderColor);
+			jfreeChart.setBorderPaint(BORDER_COLOR);
 			jfreeChart.setBorderVisible(true);
 		}
 		jfreeChart.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 10, 10, 10, 10));
@@ -207,7 +202,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		{
 			plot.setDrawingSupplier(
 				new DefaultDrawingSupplier(
-					colors,
+					COLORS,
 					DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
 					DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
 					DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
@@ -227,7 +222,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			{
 				categoryRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
 			}
-			categoryPlot.setRangeGridlinePaint(lineColor);
+			categoryPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
 			categoryPlot.setRangeGridlineStroke(new BasicStroke(0.75f));
 			categoryPlot.setDomainGridlinesVisible(false);
 			
@@ -241,7 +236,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			{
 				xyItemRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
 			}
-			xyPlot.setRangeGridlinePaint(lineColor);
+			xyPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
 			xyPlot.setRangeGridlineStroke(new BasicStroke(0.75f));
 			xyPlot.setDomainGridlinesVisible(false);
 		}
@@ -262,7 +257,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	 * 					    the mask should be <code>java.text.DecimalFormat</code> mask, and
 	 * 						if it is a DateAxis then the mask should be a
 	 * 						<code>java.text.SimpleDateFormat</code> mask.
-	 * @param lineColor color to use when drawing the axis line and any tick marks
+	 * @param GRIDLINE_COLOR color to use when drawing the axis line and any tick marks
 	 */
 	protected void configureAxis(
 		Axis axis,
@@ -275,12 +270,10 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		)
 	{
 		super.configureAxis(axis, labelFont, labelColor, tickLabelFont, tickLabelColor, tickLabelMask, axisLineColor);
-//		axis.setLabelFont(new Font("Tahoma", Font.BOLD, 4));
-//		axis.setTickLabelFont(new Font("Tahoma", Font.PLAIN, 5));
-		//axis.setTickLabelFont(axis.getTickLabelFont().deriveFont(Font.BOLD));
-		axis.setAxisLinePaint(lineColor);
+		axis.setAxisLinePaint(GRIDLINE_COLOR);
 		axis.setAxisLineStroke(new BasicStroke(1.5f));
-		axis.setTickMarkPaint(lineColor);
+		axis.setTickMarkPaint(GRIDLINE_COLOR);
+
 		if(axis instanceof NumberAxis)
 		{
 			NumberAxis numberAxis = (NumberAxis)axis;
@@ -307,39 +300,41 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	}
 
 	
-	protected JFreeChart createAreaChart(byte evaluation) throws JRException 
-	{
-		JFreeChart jfreeChart = super.createAreaChart(evaluation);
-		
-		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		AreaRenderer areaRenderer = (AreaRenderer)categoryPlot.getRenderer();
+//	protected JFreeChart createAreaChart(byte evaluation) throws JRException 
+//	{
+//		JFreeChart jfreeChart = super.createAreaChart(evaluation);
+//		
+//		makes series colors darker
+//		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
+//		AreaRenderer areaRenderer = (AreaRenderer)categoryPlot.getRenderer();
 
-		CategoryDataset categoryDataset = categoryPlot.getDataset();
-		
-		for(int i = 0; i < categoryDataset.getRowCount(); i++)
-		{
-			areaRenderer.setSeriesPaint(i, gp[i]);
-		}
-		
-		return jfreeChart;
-	}
+//		CategoryDataset categoryDataset = categoryPlot.getDataset();
+//		
+//		for(int i = 0; i < categoryDataset.getRowCount(); i++)
+//		{
+//			areaRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
+//		}
+//		
+//		return jfreeChart;
+//	}
 	
-	protected JFreeChart createStackedAreaChart(byte evaluation) throws JRException 
-	{
-		JFreeChart jfreeChart = super.createStackedAreaChart(evaluation);
-		
-		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		StackedAreaRenderer stackedAreaRenderer = (StackedAreaRenderer)categoryPlot.getRenderer();
+//	protected JFreeChart createStackedAreaChart(byte evaluation) throws JRException 
+//	{
+//		JFreeChart jfreeChart = super.createStackedAreaChart(evaluation);
+//		
+//		makes series colors darker
+//		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
+//		StackedAreaRenderer stackedAreaRenderer = (StackedAreaRenderer)categoryPlot.getRenderer();
 
-		CategoryDataset categoryDataset = categoryPlot.getDataset();
-		
-		for(int i = 0; i < categoryDataset.getRowCount(); i++)
-		{
-			stackedAreaRenderer.setSeriesPaint(i, gp[i]);
-		}
-		
-		return jfreeChart;
-	}
+//		CategoryDataset categoryDataset = categoryPlot.getDataset();
+//		
+//		for(int i = 0; i < categoryDataset.getRowCount(); i++)
+//		{
+//			stackedAreaRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
+//		}
+//		
+//		return jfreeChart;
+//	}
 	
 //	protected JFreeChart createXYAreaChart(byte evaluation) throws JRException 
 //	{
@@ -377,7 +372,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		for(int i = 0; i < pieDataset.getItemCount(); i++)
 		{
 			piePlot.setSectionOutlinePaint(pieDataset.getKey(i), TRANSPARENT_PAINT);
-			piePlot.setSectionPaint(pieDataset.getKey(i), gp[i]);
+			//makes pie colors darker piePlot.setSectionPaint(pieDataset.getKey(i), GRADIENT_PAINTS[i]);
 		}
 		
 		if (
@@ -466,7 +461,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
-			barRenderer.setSeriesPaint(i, gp[i]);
+			barRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
 		}
 		
 		return jfreeChart;
@@ -486,7 +481,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		barRenderer.setItemMargin(0);
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
-			barRenderer.setSeriesPaint(i, gp[i]);
+			barRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
 		}
 		
 		return jfreeChart;
@@ -510,7 +505,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
-			barRenderer3D.setSeriesPaint(i, gp[i]);
+			barRenderer3D.setSeriesPaint(i, GRADIENT_PAINTS[i]);
 		}
 
 		return jfreeChart;
@@ -546,7 +541,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
 		{
 			bubbleRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
-			bubbleRenderer.setSeriesPaint(i, gp[i]);
+			bubbleRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
 		}
 		
 		return jfreeChart;
@@ -587,6 +582,14 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		xyPlot.setDomainGridlinePaint(gridColor);
 		xyPlot.setDomainGridlineStroke(new BasicStroke(0.75f));
 		xyPlot.setRangeZeroBaselineVisible(true);
+
+//		XYDataset xyDataset = xyPlot.getDataset();
+//		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)xyPlot.getRenderer();
+//		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+//		{
+//			lineRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+//			lineRenderer.setSeriesPaint(i, gp[i]);
+//		}
 		
 		return jfreeChart;
 	}
