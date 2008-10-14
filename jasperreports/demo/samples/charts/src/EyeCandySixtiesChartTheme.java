@@ -35,17 +35,25 @@ import java.awt.Paint;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
+import java.util.Iterator;
+import java.util.List;
 import java.util.SortedSet;
 
+import net.sf.jasperreports.charts.JRMeterPlot;
+import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
+import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.fill.JRFillChart;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
@@ -62,6 +70,8 @@ import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
+import org.jfree.chart.plot.DialShape;
+import org.jfree.chart.plot.MeterPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
@@ -84,6 +94,7 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.chart.title.Title;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.data.general.ValueDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.GradientPaintTransformType;
@@ -226,18 +237,15 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 
 		// Set any color series
 		SortedSet seriesColors = getPlot().getSeriesColors();
-		if (seriesColors == null || seriesColors.size() == 0)
-		{
-			plot.setDrawingSupplier(
-				new DefaultDrawingSupplier(
-					COLORS,
-					DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
-					DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
-					DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
-					DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE
-					)
-				);
-		}
+		plot.setDrawingSupplier(
+			new DefaultDrawingSupplier(
+				COLORS,
+				DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
+				DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
+				DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
+				DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE
+				)
+			);
 		
 		
 		if(plot instanceof CategoryPlot)
@@ -253,18 +261,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			categoryPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
 			categoryPlot.setRangeGridlineStroke(new BasicStroke(0.75f));
 			categoryPlot.setDomainGridlinesVisible(false);
-			if(categoryPlot.getRenderer() instanceof BarRenderer || categoryPlot.getRenderer() instanceof BarRenderer3D)
-			{
-				((BarRenderer)categoryPlot.getRenderer()).setGradientPaintTransformer(
-		                new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
-		                );				
-			}
-			if(categoryPlot.getRenderer() instanceof BarRenderer3D)
-			{
-				((BarRenderer3D)categoryPlot.getRenderer()).setGradientPaintTransformer(
-		                new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
-		                );				
-			}
+			categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+			calculateTickUnits(categoryPlot.getRangeAxis());
 		}
 		else if(plot instanceof XYPlot)
 		{
@@ -278,9 +276,10 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			xyPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
 			xyPlot.setRangeGridlineStroke(new BasicStroke(0.75f));
 			xyPlot.setDomainGridlinesVisible(false);
+			calculateTickUnits(xyPlot.getRangeAxis());
+			calculateTickUnits(xyPlot.getDomainAxis());
 		}
 		plot.setForegroundAlpha(1f);
-
 	}
 
 	/**
@@ -313,34 +312,11 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		axis.setAxisLineStroke(new BasicStroke(1.5f));
 		axis.setTickMarkPaint(GRIDLINE_COLOR);
 
-		if(axis instanceof NumberAxis)
-		{
-			NumberAxis numberAxis = (NumberAxis)axis;
-			
-			// about 5 different values should be exposed on the numeric value axis
-			double interval = (numberAxis.getUpperBound() - numberAxis.getLowerBound())/5d;
-			
-			// the default tick unit size:
-			double oldTickUnitSize = numberAxis.getTickUnit().getSize();
-			
-			// the new unit tick size will be calculated as an integer multiple of 
-			// the default tick unit size
-			int j = (int)(interval/oldTickUnitSize);
-			int count = 1;
-			while(j > 9)
-			{
-				j /= 10;
-				count *= 10;
-			}
-			count *= j;
-			double newTickUnitSize = count * oldTickUnitSize;
-			numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize));
-		}
-		else if(axis instanceof CategoryAxis)
-		{
-			CategoryAxis categoryAxis = (CategoryAxis)axis;
-			categoryAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
-		}
+//		else if(axis instanceof CategoryAxis)
+//		{
+//			CategoryAxis categoryAxis = (CategoryAxis)axis;
+//			categoryAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+//		}
 		
 		if (labelFont.isOwnBold() == null)
 		{
@@ -352,7 +328,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			axis.setLabelFont(axis.getLabelFont().deriveFont(1.5f * tickLabelFont.getFontSize()));
 		}
 	}
-
 	
 //	protected JFreeChart createAreaChart(byte evaluation) throws JRException 
 //	{
@@ -539,6 +514,10 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		BarRenderer barRenderer = (BarRenderer)categoryPlot.getRenderer();
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		barRenderer.setItemMargin(0);
+		((BarRenderer)categoryPlot.getRenderer()).setGradientPaintTransformer(
+                new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
+                );				
+		
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
 			barRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
@@ -603,7 +582,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			bubbleRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
 			bubbleRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
 		}
-		
+		calculateTickUnits(xyPlot.getDomainAxis());
+		calculateTickUnits(xyPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -677,7 +657,144 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		
 		return jfreeChart;
 	}
+
+	/**
+	 *
+	 */
+	protected JFreeChart createMeterChart(byte evaluation) throws JRException
+	{
+		JRFillMeterPlot jrPlot = (JRFillMeterPlot)getPlot();
+
+		// Start by creating the plot that wil hold the meter
+		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset().getDataset());
+
+		// Set the shape
+		int shape = jrPlot.getShape();
+		if (shape == JRMeterPlot.SHAPE_CHORD)
+			chartPlot.setDialShape(DialShape.CHORD);
+		else if (shape == JRMeterPlot.SHAPE_CIRCLE)
+			chartPlot.setDialShape(DialShape.CIRCLE);
+		else
+			chartPlot.setDialShape(DialShape.PIE);
+
+		// Set the meter's range
+		chartPlot.setRange(convertRange(jrPlot.getDataRange(), evaluation));
+
+		// Set the size of the meter
+		chartPlot.setMeterAngle(jrPlot.getMeterAngle());
+
+		// Set the units - this is just a string that will be shown next to the
+		// value
+		String units = jrPlot.getUnits();
+		if (units != null && units.length() > 0)
+			chartPlot.setUnits(units);
+
+		// Set the spacing between ticks.  I hate the name "tickSize" since to me it
+		// implies I am changing the size of the tick, not the spacing between them.
+		chartPlot.setTickSize(jrPlot.getTickInterval());
+
+		// Set all the colors we support
+		//Color color = jrPlot.getMeterBackgroundColor();
+		//if (color != null)
+		
+		chartPlot.setDialBackgroundPaint(Color.LIGHT_GRAY);
+		//chartPlot.setForegroundAlpha(1f);
+		Color color = jrPlot.getNeedleColor();
+		if (color != null)
+			chartPlot.setNeedlePaint(color);
+
+		// Set how the value is displayed.
+		JRValueDisplay display = jrPlot.getValueDisplay();
+		if (display != null)
+		{
+			if (display.getColor() != null)
+			{
+				chartPlot.setValuePaint(display.getColor());
+			}
+
+			if (display.getMask() != null)
+			{
+				chartPlot.setTickLabelFormat(new DecimalFormat(display.getMask()));
+			}
+			if (display.getFont() != null)
+			{
+				chartPlot.setValueFont(new Font(JRFontUtil.getAttributes(display.getFont())));
+			}
+
+		}
+
+		color = jrPlot.getTickColor();
+		if (color != null)
+			chartPlot.setTickPaint(color);
+
+		// Now define all of the intervals, setting their range and color
+		List intervals = jrPlot.getIntervals();
+		if (intervals != null)
+		{
+			Iterator iter = intervals.iterator();
+			int i = 0;
+			while (iter.hasNext())
+			{
+				JRMeterInterval interval = (JRMeterInterval)iter.next();
+				interval.setBackgroundColor(COLORS[i]);
+				i++;
+				chartPlot.addInterval(convertInterval(interval, evaluation));
+			}
+		}
+
+		// Actually create the chart around the plot
+		JFreeChart jfreeChart = 
+			new JFreeChart(
+				(String)evaluateExpression(getChart().getTitleExpression(), evaluation),
+				null, 
+				chartPlot, 
+				getChart().isShowLegend()
+				);
+
+		// Set all the generic options
+		configureChart(jfreeChart, getPlot(), evaluation);
+
+		return jfreeChart;
+	}
 	
+	private void calculateTickUnits(Axis axis)
+	{
+		if(axis instanceof NumberAxis)
+		{
+			NumberAxis numberAxis = (NumberAxis)axis;
+			int numberOfTicks = 5;
+			
+			do
+			{
+				// about 5 different values should be exposed on the numeric value axis
+				double interval = (numberAxis.getUpperBound() - numberAxis.getLowerBound())/numberOfTicks;
+				
+				// the default tick unit size:
+				double oldTickUnitSize = numberAxis.getTickUnit().getSize();
+				
+				// the new unit tick size will be calculated as an integer multiple of 
+				// the default tick unit size
+				int j = (int)(interval/oldTickUnitSize);
+				int count = 1;
+				while(j > 9)
+				{
+					j /= 10;
+					count *= 10;
+				}
+				count *= j;
+				double newTickUnitSize = count * oldTickUnitSize;
+				if(newTickUnitSize > oldTickUnitSize)
+				{
+					numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize));
+					break;
+				}
+				else
+				{
+					numberOfTicks--;
+				}
+			}while(numberOfTicks > 1);
+		}
+	}
 }
 
 class SquareXYAreaRenderer extends XYAreaRenderer
