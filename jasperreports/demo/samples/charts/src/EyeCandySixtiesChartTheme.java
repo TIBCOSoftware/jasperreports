@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.fill.JRFillChart;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.ValueAxis;
@@ -82,6 +83,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
+import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
@@ -225,7 +227,18 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			categoryPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
 			categoryPlot.setRangeGridlineStroke(new BasicStroke(0.75f));
 			categoryPlot.setDomainGridlinesVisible(false);
-			
+			if(categoryPlot.getRenderer() instanceof BarRenderer || categoryPlot.getRenderer() instanceof BarRenderer3D)
+			{
+				((BarRenderer)categoryPlot.getRenderer()).setGradientPaintTransformer(
+		                new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
+		                );				
+			}
+			if(categoryPlot.getRenderer() instanceof BarRenderer3D)
+			{
+				((BarRenderer3D)categoryPlot.getRenderer()).setGradientPaintTransformer(
+		                new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
+		                );				
+			}
 		}
 		else if(plot instanceof XYPlot)
 		{
@@ -296,6 +309,11 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			count *= j;
 			double newTickUnitSize = count * oldTickUnitSize;
 			numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize));
+		}
+		else if(axis instanceof CategoryAxis)
+		{
+			CategoryAxis categoryAxis = (CategoryAxis)axis;
+			categoryAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 		}
 	}
 
@@ -558,7 +576,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		XYBarRenderer renderer = (XYBarRenderer)xyPlot.getRenderer();
 		renderer.setMargin(0.1);
 		//xyPlot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
-		xyPlot.setSeriesRenderingOrder(SeriesRenderingOrder.FORWARD);
+		//xyPlot.setSeriesRenderingOrder(SeriesRenderingOrder.FORWARD);
 		return jfreeChart;
 	}
 
