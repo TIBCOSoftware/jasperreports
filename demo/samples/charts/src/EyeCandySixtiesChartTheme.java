@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.fill.JRFillChart;
 
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
@@ -66,19 +67,21 @@ import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
-import org.jfree.chart.plot.SeriesRenderingOrder;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRendererState;
+import org.jfree.chart.renderer.xy.XYAreaRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRendererState;
+import org.jfree.chart.renderer.xy.XYLine3DRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.chart.title.Title;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.xy.XYDataset;
@@ -141,11 +144,10 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot, byte evaluation) throws JRException
 	{
 		super.configureChart(jfreeChart, jrPlot, evaluation);
+		
 		JRFillChart chart = getChart();
 
 		TextTitle title = jfreeChart.getTitle();
-		LegendTitle legend = jfreeChart.getLegend();
-		
 		if(title != null)
 		{
 			Font titleFont = title.getFont();
@@ -157,13 +159,37 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 
 			if(chart.getTitleFont().getOwnFontSize() == null)
 			{
-				titleFont = titleFont.deriveFont(10f);
+				titleFont = titleFont.deriveFont(2.5f * chart.getLegendFont().getFontSize());
 			}
 
 			title.setFont(titleFont);
 			title.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		}
 		
+		for(int i = 0; i < jfreeChart.getSubtitleCount(); i++)
+		{
+			Title subtitle = jfreeChart.getSubtitle(i);
+			TextTitle textSubtitle = subtitle instanceof TextTitle ? (TextTitle)subtitle : null;
+			if(textSubtitle != null)
+			{
+				Font subtitleFont = textSubtitle.getFont();
+				
+				if(chart.getSubtitleFont().isOwnBold() == null)
+				{
+					subtitleFont = subtitleFont.deriveFont(Font.BOLD);
+				}
+
+				if(chart.getSubtitleFont().getOwnFontSize() == null)
+				{
+					subtitleFont = subtitleFont.deriveFont(1.5f * chart.getLegendFont().getFontSize());
+				}
+
+				textSubtitle.setFont(subtitleFont);
+				//textSubtitle.setHorizontalAlignment(HorizontalAlignment.RIGHT);
+			}
+		}
+		
+		LegendTitle legend = jfreeChart.getLegend();
 		if (legend != null)
 		{
 			legend.setFrame(BlockBorder.NONE);
@@ -172,7 +198,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		}
 		
 		jfreeChart.setBackgroundPaint(
-				new GradientPaint(0f, 30f, new Color(41, 120, 162), 0f, getChart().getHeight() / 2, Color.WHITE, false)
+				new GradientPaint(0f, 0f, new Color(41, 120, 162), 0f, getChart().getHeight() / 2, Color.WHITE, false)
 				);
 		jfreeChart.setAntiAlias(true);
 		JRLineBox lineBox = chart.getLineBox();
@@ -315,6 +341,16 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			CategoryAxis categoryAxis = (CategoryAxis)axis;
 			categoryAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 		}
+		
+		if (labelFont.isOwnBold() == null)
+		{
+			axis.setLabelFont(axis.getLabelFont().deriveFont(Font.BOLD));
+		}
+		
+		if (labelFont.getOwnFontSize() == null)
+		{
+			axis.setLabelFont(axis.getLabelFont().deriveFont(1.5f * tickLabelFont.getFontSize()));
+		}
 	}
 
 	
@@ -354,21 +390,26 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 //		return jfreeChart;
 //	}
 	
-//	protected JFreeChart createXYAreaChart(byte evaluation) throws JRException 
-//	{
-//		JFreeChart jfreeChart = super.createXyAreaChart(evaluation);
-//
-//		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
+	protected JFreeChart createXyAreaChart(byte evaluation) throws JRException 
+	{
+		JFreeChart jfreeChart = super.createXyAreaChart(evaluation);
+
+		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 //		XYDataset xyDataset = xyPlot.getDataset();
 //		XYAreaRenderer xyAreaRenderer = (XYAreaRenderer)xyPlot.getRenderer();
+
+		SquareXYAreaRenderer squareXyAreaRenderer = new SquareXYAreaRenderer((XYAreaRenderer)xyPlot.getRenderer());
+		xyPlot.setRenderer(squareXyAreaRenderer);
+		
 //		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
 //		{
 //			//xyAreaRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
-//			xyAreaRenderer.setSeriesPaint(i, gp[i]);
+//			//xyAreaRenderer.setSeriesPaint(i, gp[i]);
+//			xyAreaRenderer.setSeriesShape(i, new Rectangle2D.Double(-3, -3, 6, 6));
 //		}
-//		
-//		return jfreeChart;
-//	}
+		
+		return jfreeChart;
+	}
 	
 	/**
 	 *
@@ -426,16 +467,17 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		piePlot3D.setLabelOutlinePaint(TRANSPARENT_PAINT);
 		piePlot3D.setDarkerSides(true);
 		piePlot3D.setDepthFactor(0.1);
-		piePlot3D.setShadowXOffset(40);
-		piePlot3D.setShadowYOffset(50);
-		piePlot3D.setShadowPaint(new GradientPaint(
-				0, 
-				getChart().getHeight() / 2, 
-				new Color(41, 120, 162), 
-				0, 
-				getChart().getHeight(), 
-				Color.white)
-		);
+// does not work for 3D
+//		piePlot3D.setShadowXOffset(5);
+//		piePlot3D.setShadowYOffset(10);
+//		piePlot3D.setShadowPaint(new GradientPaint(
+//				0, 
+//				getChart().getHeight() / 2, 
+//				new Color(41, 120, 162), 
+//				0, 
+//				getChart().getHeight(), 
+//				Color.white)
+//		);
 
 		PieDataset pieDataset = piePlot3D.getDataset();
 		
@@ -601,13 +643,16 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		xyPlot.setDomainGridlineStroke(new BasicStroke(0.75f));
 		xyPlot.setRangeZeroBaselineVisible(true);
 
-//		XYDataset xyDataset = xyPlot.getDataset();
-//		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)xyPlot.getRenderer();
-//		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
-//		{
-//			lineRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
-//			lineRenderer.setSeriesPaint(i, gp[i]);
-//		}
+		XYDataset xyDataset = xyPlot.getDataset();
+		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)xyPlot.getRenderer();
+		lineRenderer.setUseFillPaint(true);
+		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+		{
+			lineRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+			lineRenderer.setSeriesFillPaint(i, GRADIENT_PAINTS[i]);
+			lineRenderer.setSeriesPaint(i, COLORS[i]);
+			lineRenderer.setSeriesShape(i, new Ellipse2D.Double(-3, -3, 6, 6));
+		}
 		
 		return jfreeChart;
 	}
@@ -619,21 +664,37 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer) jfreeChart.getXYPlot().getRenderer();
 		lineRenderer.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		
-//		XYLine3DRenderer line3DRenderer = new XYLine3DRenderer();
-//		line3DRenderer.setLinesVisible(lineRenderer.getLinesVisible());
-//		line3DRenderer.setShapesVisible(lineRenderer.getShapesVisible());
-//		line3DRenderer.setBaseToolTipGenerator(lineRenderer.getBaseToolTipGenerator());
-//		line3DRenderer.setURLGenerator(lineRenderer.getURLGenerator());
-//		line3DRenderer.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-//		line3DRenderer.setXOffset(2);
-//		line3DRenderer.setYOffset(2);
-//		jfreeChart.getXYPlot().setRenderer(line3DRenderer);
+		XYLine3DRenderer line3DRenderer = new XYLine3DRenderer();
+		line3DRenderer.setLinesVisible(lineRenderer.getLinesVisible());
+		line3DRenderer.setShapesVisible(lineRenderer.getShapesVisible());
+		line3DRenderer.setBaseToolTipGenerator(lineRenderer.getBaseToolTipGenerator());
+		line3DRenderer.setURLGenerator(lineRenderer.getURLGenerator());
+		line3DRenderer.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		line3DRenderer.setXOffset(2);
+		line3DRenderer.setYOffset(2);
+		line3DRenderer.setWallPaint(GRIDLINE_COLOR);
+		jfreeChart.getXYPlot().setRenderer(line3DRenderer);
 		
 		return jfreeChart;
 	}
 	
 }
 
+class SquareXYAreaRenderer extends XYAreaRenderer
+{
+	public SquareXYAreaRenderer(XYAreaRenderer parent)
+	{
+		super(XYAreaRenderer.AREA, parent.getToolTipGenerator(), parent.getURLGenerator());
+	}
+	
+	public LegendItem getLegendItem(int datasetIndex, int series) 
+	{
+		setLegendArea(new Rectangle2D.Double(-3, -3, 6, 6));
+		return super.getLegendItem(datasetIndex, series);
+	}
+}
+
+	
 class GradientXYBubbleRenderer extends XYBubbleRenderer
 {
 	public GradientXYBubbleRenderer(int scaleType)
@@ -809,7 +870,7 @@ class GradientBarRenderer3D extends BarRenderer3D
 		Paint itemPaint = getItemPaint(row, column);
         if (itemPaint instanceof GradientPaint)
         {
-        	itemPaint = new StandardGradientPaintTransformer().transform((GradientPaint)itemPaint, bar);
+        	itemPaint = getGradientPaintTransformer().transform((GradientPaint)itemPaint, bar);
         }
         g2.setPaint(itemPaint);
 		g2.fill(bar);
