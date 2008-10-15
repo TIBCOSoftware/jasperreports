@@ -5,6 +5,8 @@ JasperReports Change Log
 JasperReports 3.1.1 (2008-xx-xx)
 -----------------------------------
 
+- javascript report compiler;
+
 - minor bug fixes and improvements;
 
 
