@@ -37,7 +37,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
@@ -50,6 +49,7 @@ import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -906,6 +906,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 
 		// Set all the generic options
 		configureChart(jfreeChart, getPlot(), evaluation);
+
+		jfreeChart.setBackgroundPaint(TRANSPARENT_PAINT);
+		jfreeChart.setBorderVisible(false);
 		
 		return jfreeChart;
 	}
@@ -1098,11 +1101,13 @@ class GradientXYBubbleRenderer extends XYBubbleRenderer
 
 class GradientBarRenderer3D extends BarRenderer3D
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
 	public GradientBarRenderer3D(BarRenderer3D barRenderer3D) 
 	{
 		super(barRenderer3D.getXOffset(), barRenderer3D.getYOffset());
 		setBaseItemLabelGenerator(barRenderer3D.getBaseItemLabelGenerator());
-		setItemLabelsVisible(barRenderer3D.isItemLabelVisible(0, 0));//FIXMETHEME
+		setBaseItemLabelsVisible(barRenderer3D.getBaseItemLabelsVisible());
 	}
 
 	public void drawItem(Graphics2D g2,
