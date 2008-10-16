@@ -130,15 +130,12 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	public static final Color[] COLORS = 
 		new Color[]{
 			new Color(250, 223,  18),
-			new Color(250,  97,  18),
+			new Color(231, 133,  35),
 			new Color(237,  38,  42),
 			new Color(  0, 111,  60),
-			new Color(231, 133, 35),
-			new Color(47, 137, 187),
+			new Color( 47, 137, 187),
 			new Color(229,   1, 140),
 			new Color(234, 171,  53)
-			
-			//new Color(220, 1, 83, 180),
 			};
 	
     // gradient paints for series...
@@ -508,9 +505,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		barRenderer.setItemMargin(0);
 		
-		((BarRenderer)categoryPlot.getRenderer()).setGradientPaintTransformer(
-                new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
-                );				
+		barRenderer.setGradientPaintTransformer(
+            new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
+            );				
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
 			barRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
@@ -531,9 +528,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		BarRenderer barRenderer = (BarRenderer)categoryPlot.getRenderer();
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		barRenderer.setItemMargin(0);
-		((BarRenderer)categoryPlot.getRenderer()).setGradientPaintTransformer(
-                new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
-                );				
+		barRenderer.setGradientPaintTransformer(
+            new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
+            );				
 		
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
@@ -552,6 +549,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		barRenderer3D = new GradientBarRenderer3D(barRenderer3D);
 		categoryPlot.setRenderer(barRenderer3D);
 		
+		barRenderer3D.setGradientPaintTransformer(
+            new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
+            );				
 		barRenderer3D.setItemMargin(0);
 		barRenderer3D.setWallPaint(TRANSPARENT_PAINT);
 		//categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
