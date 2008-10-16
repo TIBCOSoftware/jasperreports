@@ -48,33 +48,63 @@ public interface JRBar3DPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueA
 	public JRExpression getValueAxisLabelExpression();
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getXOffsetDouble()}
 	 */
 	public double getXOffset();
 	
 	/**
 	 * 
 	 */
+	public Double getXOffsetDouble();
+	
+	/**
+	 * @deprecated Replaced by {@link #setXOffset(Double)} 
+	 */
 	public void setXOffset(double xOffset);
 	
 	/**
 	 * 
+	 */
+	public void setXOffset(Double xOffset);
+	
+	/**
+	 * @deprecated Replaced by {@link #getYOffsetDouble()} 
 	 */
 	public double getYOffset();
 	
 	/**
 	 * 
 	 */
+	public Double getYOffsetDouble();
+	
+	/**
+	 * @deprecated Replaced by {@link #setYOffset(Double)}
+	 */ 
 	public void setYOffset(double yOffset);
 	
 	/**
 	 * 
+	 */
+	public void setYOffset(Double yOffset);
+	
+	/**
+	 * @deprecated Replaced by {@link #getShowLabels()} 
 	 */
 	public boolean isShowLabels();
 
 	/**
 	 * 
 	 */
+	public Boolean getShowLabels();
+
+	/**
+	 * @deprecated Replaced by {@link #setShowLabels(Boolean)} 
+	 */
 	public void setShowLabels(boolean isShowLabels);
+
+	/**
+	 * 
+	 */
+	public void setShowLabels(Boolean isShowLabels);
 
 }

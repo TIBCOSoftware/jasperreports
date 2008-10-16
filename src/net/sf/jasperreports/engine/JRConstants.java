@@ -40,4 +40,7 @@ public interface JRConstants
 	 */
 	public static final long SERIAL_VERSION_UID = 10200;
 	
+	public static final int PSEUDO_SERIAL_VERSION_UID_3_1_0 = 30101;
+	
+	
 }

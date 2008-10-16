@@ -157,7 +157,6 @@ import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.data.time.Day;
 
 
@@ -1701,9 +1700,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public void writeBar3DPlot(JRBar3DPlot plot) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_bar3DPlot, getNamespace());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLabels, plot.isShowLabels(), false);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_xOffset, plot.getXOffset(), BarRenderer3D.DEFAULT_X_OFFSET);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_yOffset, plot.getYOffset(), BarRenderer3D.DEFAULT_Y_OFFSET);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLabels, plot.getShowLabels());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_xOffset, plot.getXOffsetDouble());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_yOffset, plot.getYOffsetDouble());
 
 		writePlot(plot);
 
