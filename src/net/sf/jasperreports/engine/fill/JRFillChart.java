@@ -1257,7 +1257,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				return chartTheme;
 			}
 		}
-		throw new JRRuntimeException("No chart theme '" + themeName + "' not found.");
+		throw new JRRuntimeException("Chart theme '" + themeName + "' not found.");
 	}
 
 	/**
