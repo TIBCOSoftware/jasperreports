@@ -28,6 +28,8 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.engine.JRChart;
@@ -73,9 +75,9 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	protected String valueAxisTickLabelMask = null;
 	protected Color valueAxisLineColor = null;
 
-	protected double xOffset = BarRenderer3D.DEFAULT_X_OFFSET;
-	protected double yOffset = BarRenderer3D.DEFAULT_Y_OFFSET;
-	protected boolean isShowLabels = false;
+	private Double xOffsetDouble = null;
+	private Double yOffsetDouble = null;
+	private Boolean showLabels = null;
 	
 
 	/**
@@ -92,9 +94,9 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	public JRBaseBar3DPlot( JRBar3DPlot barPlot, JRBaseObjectFactory factory ){
 		super( barPlot, factory );
 		
-		xOffset = barPlot.getXOffset();
-		yOffset = barPlot.getYOffset();
-		isShowLabels = barPlot.isShowLabels();
+		xOffsetDouble = barPlot.getXOffsetDouble();
+		yOffsetDouble = barPlot.getYOffsetDouble();
+		showLabels = barPlot.getShowLabels();
 		
 		categoryAxisLabelExpression = factory.getExpression( barPlot.getCategoryAxisLabelExpression() );
 		categoryAxisLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getCategoryAxisLabelFont());
@@ -272,51 +274,93 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getXOffsetDouble()}
 	 */
 	public double getXOffset(){
-		return xOffset;
+		return getXOffsetDouble() == null ? BarRenderer3D.DEFAULT_X_OFFSET : getXOffsetDouble().doubleValue();
 	}
 	
 	/**
 	 * 
+	 */
+	public Double getXOffsetDouble(){
+		return xOffsetDouble;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setXOffset(Double)}
 	 */
 	public void setXOffset( double xOffset ){
-		double old = this.xOffset;
-		this.xOffset = xOffset;
-		getEventSupport().firePropertyChange(PROPERTY_X_OFFSET, old, this.xOffset);
+		setXOffset(new Double(xOffset));
 	}
 	
 	/**
 	 * 
+	 */
+	public void setXOffset( Double xOffset ){
+		Double old = this.xOffsetDouble;
+		this.xOffsetDouble = xOffset;
+		getEventSupport().firePropertyChange(PROPERTY_X_OFFSET, old, this.xOffsetDouble);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getYOffsetDouble()}
 	 */
 	public double getYOffset(){
-		return yOffset;
+		return getYOffsetDouble() == null ? BarRenderer3D.DEFAULT_Y_OFFSET : getYOffsetDouble().doubleValue();
 	}
 	
 	/**
 	 * 
+	 */
+	public Double getYOffsetDouble(){
+		return yOffsetDouble;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setYOffset(Double)}
 	 */
 	public void setYOffset( double yOffset ){
-		double old = this.yOffset;
-		this.yOffset = yOffset;
-		getEventSupport().firePropertyChange(PROPERTY_Y_OFFSET, old, this.yOffset);
+		setYOffset(new Double(yOffset));
 	}
 	
 	/**
 	 * 
+	 */
+	public void setYOffset( Double yOffset ){
+		Double old = this.yOffsetDouble;
+		this.yOffsetDouble = yOffset;
+		getEventSupport().firePropertyChange(PROPERTY_Y_OFFSET, old, this.yOffsetDouble);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getShowLabels()} 
 	 */
 	public boolean isShowLabels(){
-		return isShowLabels;
+		return showLabels == null ? false : showLabels.booleanValue();
 	}
 	
 	/**
 	 * 
 	 */
+	public Boolean getShowLabels(){
+		return showLabels;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setShowLabels(Boolean)} 
+	 */
 	public void setShowLabels( boolean isShowLabels ){
-		boolean old = this.isShowLabels;
-		this.isShowLabels = isShowLabels;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.isShowLabels);
+		setShowLabels(isShowLabels ? Boolean.TRUE : Boolean.FALSE);
+	}
+
+	/**
+	 * 
+	 */
+	public void setShowLabels( Boolean showLabels ){
+		Boolean old = this.showLabels;
+		this.showLabels = showLabels;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.showLabels);
 	}
 
 	/**
@@ -342,5 +386,26 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 			clone.valueAxisLabelExpression = (JRExpression)valueAxisLabelExpression.clone();
 		}
 		return clone;
+	}
+
+
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private double xOffset = BarRenderer3D.DEFAULT_X_OFFSET;
+	private double yOffset = BarRenderer3D.DEFAULT_Y_OFFSET;
+	private boolean isShowLabels = false;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		{
+			xOffsetDouble = new Double(xOffset);
+			yOffsetDouble = new Double(yOffset);
+			showLabels = isShowLabels ? Boolean.TRUE : Boolean.FALSE;
+		}
 	}
 }

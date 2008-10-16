@@ -30,7 +30,9 @@ package net.sf.jasperreports.extensions;
 import java.util.Collections;
 import java.util.List;
 
+import net.sf.jasperreports.charts.ChartThemeBundle;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.query.DefaultQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle;
 
@@ -49,6 +51,10 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				if (QueryExecuterFactoryBundle.class.equals(extensionType))
 				{
 					return Collections.singletonList(DefaultQueryExecuterFactoryBundle.getInstance());
+				}
+				else if (ChartThemeBundle.class.equals(extensionType))
+				{
+					return Collections.singletonList(DefaultChartTheme.BUNDLE);
 				}
 				return null;
 			}
