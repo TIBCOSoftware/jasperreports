@@ -36,7 +36,6 @@ import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
-import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 
@@ -821,9 +820,11 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         dialFrame.setForegroundPaint(Color.DARK_GRAY);
         dialPlot.setDialFrame(dialFrame);
         
-        GradientPaint gp = new GradientPaint(new Point(), 
-                Color.BLACK, new Point(), 
-                Color.LIGHT_GRAY);
+        GradientPaint gp = 
+        	new GradientPaint(
+        		new Point(), Color.LIGHT_GRAY, 
+        		new Point(), Color.BLACK
+        		);
         DialBackground db = new DialBackground(gp);
         db.setGradientPaintTransformer(new StandardGradientPaintTransformer(
                 GradientPaintTransformType.VERTICAL));
@@ -848,15 +849,21 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 
         Range range = convertRange(jrPlot.getDataRange(), evaluation);
         
-        StandardDialScale scale = new StandardDialScale();
-        scale.setLowerBound(range.getLowerBound());
-        scale.setUpperBound(range.getUpperBound());
+        StandardDialScale scale = 
+        	new StandardDialScale(
+        		range.getLowerBound(), 
+        		range.getUpperBound(), 
+        		225, 
+        		-270,
+        		(int)(range.getUpperBound() - range.getLowerBound())/10, 
+        		4
+        		);
         scale.setTickRadius(0.9);
         scale.setTickLabelOffset(0.15);
         scale.setTickLabelFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(7f));
-        scale.setMajorTickIncrement((int)(range.getUpperBound() - range.getLowerBound())/10);
-        scale.setMajorTickStroke(new BasicStroke(1f));
-        scale.setMinorTickStroke(new BasicStroke(0.5f));
+        //scale.setMajorTickIncrement((int)(range.getUpperBound() - range.getLowerBound())/10);
+        scale.setMajorTickStroke(new BasicStroke(2f));
+        scale.setMinorTickStroke(new BasicStroke(1f));
         scale.setMajorTickPaint(Color.WHITE);
         scale.setMinorTickPaint(Color.WHITE);
 
@@ -864,15 +871,22 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         dialPlot.addScale(0, scale);
         List intervals = jrPlot.getIntervals();
         
-		if (intervals != null)
+		if (intervals != null && intervals.size() > 0)
 		{
-			Iterator iter = intervals.iterator();
-			int i = 0;
-			while (iter.hasNext())
+			int colorStep = 255 / intervals.size();
+			
+			for(int i = 0; i < intervals.size(); i++)
 			{
-				JRMeterInterval interval = (JRMeterInterval)iter.next();
+				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
 				Range intervalRange = convertRange(interval.getDataRange(), evaluation);
-		        StandardDialRange dialRange = new StandardDialRange(intervalRange.getLowerBound(), intervalRange.getUpperBound(), COLORS[i++]);
+		        StandardDialRange dialRange = 
+		        	new StandardDialRange(
+		        		intervalRange.getLowerBound(), 
+		        		intervalRange.getUpperBound(), 
+		        		interval.getBackgroundColor() == null 
+		        			? new Color(255 - colorStep * i, 0 + colorStep * i, 0)
+		        			: interval.getBackgroundColor()
+		        		);
 		        dialRange.setInnerRadius(0.60);
 		        dialRange.setOuterRadius(0.62);
 		        dialPlot.addLayer(dialRange);
