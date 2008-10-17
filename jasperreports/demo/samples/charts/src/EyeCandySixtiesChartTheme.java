@@ -697,11 +697,11 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		JFreeChart jfreeChart = super.createLineChart(evaluation);
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
-		lineRenderer.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		lineRenderer.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		
 		for(int i = 0; i < lineRenderer.getRowCount(); i++)
 		{
-			lineRenderer.setSeriesOutlinePaint(i, GRADIENT_PAINTS[i]);
+			lineRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
 			lineRenderer.setSeriesFillPaint(i, GRADIENT_PAINTS[i]);
 			lineRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
 			lineRenderer.setSeriesShapesVisible(i,true);
