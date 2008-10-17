@@ -613,6 +613,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		XYDataset xyDataset = xyPlot.getDataset();
 		XYBarRenderer renderer = (XYBarRenderer)xyPlot.getRenderer();
 		renderer.setMargin(0.1);
+		renderer.setGradientPaintTransformer(
+	            new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
+	            );				
 		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
 		{
 			renderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
