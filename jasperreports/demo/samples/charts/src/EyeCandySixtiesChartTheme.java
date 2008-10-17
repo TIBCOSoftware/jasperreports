@@ -36,12 +36,10 @@ import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 
-import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
@@ -72,8 +70,6 @@ import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
-import org.jfree.chart.plot.DialShape;
-import org.jfree.chart.plot.MeterPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
@@ -85,7 +81,6 @@ import org.jfree.chart.plot.dial.DialBackground;
 import org.jfree.chart.plot.dial.DialCap;
 import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.chart.plot.dial.DialPointer;
-import org.jfree.chart.plot.dial.DialTextAnnotation;
 import org.jfree.chart.plot.dial.DialValueIndicator;
 import org.jfree.chart.plot.dial.StandardDialFrame;
 import org.jfree.chart.plot.dial.StandardDialRange;
@@ -549,9 +544,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		barRenderer3D = new GradientBarRenderer3D(barRenderer3D);
 		categoryPlot.setRenderer(barRenderer3D);
 		
-		barRenderer3D.setGradientPaintTransformer(
-            new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
-            );				
 		barRenderer3D.setItemMargin(0);
 		barRenderer3D.setWallPaint(TRANSPARENT_PAINT);
 		//categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
