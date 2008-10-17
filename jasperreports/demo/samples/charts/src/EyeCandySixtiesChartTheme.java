@@ -595,6 +595,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		xyPlot.setRenderer(bubbleRenderer);
 		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
 		{
+			bubbleRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
 			bubbleRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
 		}
 		calculateTickUnits(xyPlot.getDomainAxis());
@@ -696,27 +697,29 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		JFreeChart jfreeChart = super.createLineChart(evaluation);
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
-		LineRenderer3D line3DRenderer = new LineRenderer3D();
-		lineRenderer.setBaseShapesVisible(lineRenderer.getBaseLinesVisible());
-		lineRenderer.setBaseLinesVisible( lineRenderer.getBaseLinesVisible());
+		lineRenderer.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		
-		
-		line3DRenderer.setBaseToolTipGenerator(lineRenderer.getBaseToolTipGenerator());
-		line3DRenderer.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		
-		line3DRenderer.setXOffset(2);
-		line3DRenderer.setYOffset(2);
-		
-		for(int i = 0; i < line3DRenderer.getRowCount(); i++)
+		for(int i = 0; i < lineRenderer.getRowCount(); i++)
 		{
-			line3DRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
-			line3DRenderer.setSeriesFillPaint(i, GRADIENT_PAINTS[i]);
-			line3DRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
-			line3DRenderer.setSeriesShapesVisible(i,true);
+			lineRenderer.setSeriesOutlinePaint(i, GRADIENT_PAINTS[i]);
+			lineRenderer.setSeriesFillPaint(i, GRADIENT_PAINTS[i]);
+			lineRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
+			lineRenderer.setSeriesShapesVisible(i,true);
 			//line3DRenderer.setSeriesLinesVisible(i,lineRenderer.getSeriesVisible(i));
 		}
-		categoryPlot.setRenderer(line3DRenderer);
+//		configureChart(jfreeChart, getPlot(), evaluation);
 		calculateTickUnits(categoryPlot.getRangeAxis());
+		return jfreeChart;
+	}
+	
+	/**
+	 *
+	 */
+	protected JFreeChart createGanttChart(byte evaluation) throws JRException
+	{
+		JFreeChart jfreeChart = super.createGanttChart(evaluation);
+		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
+		categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
 		return jfreeChart;
 	}
 	
