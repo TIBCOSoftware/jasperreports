@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.ChartTheme;
+import net.sf.jasperreports.charts.ChartThemeBundle;
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
@@ -544,14 +545,15 @@ public class DefaultChartTheme implements ChartTheme
 
 		BarRenderer3D barRenderer3D =
 			new BarRenderer3D(
-				bar3DPlot.getXOffset(),
-				bar3DPlot.getYOffset()
+				bar3DPlot.getXOffsetDouble() == null ? BarRenderer3D.DEFAULT_X_OFFSET : bar3DPlot.getXOffsetDouble().doubleValue(),
+				bar3DPlot.getYOffsetDouble() == null ? BarRenderer3D.DEFAULT_Y_OFFSET : bar3DPlot.getYOffsetDouble().doubleValue()
 				);
-		categoryPlot.setRenderer(barRenderer3D);
 
 		barRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
-		barRenderer3D.setItemLabelsVisible( bar3DPlot.isShowLabels() );
+		barRenderer3D.setBaseItemLabelsVisible(bar3DPlot.getShowLabels());
 
+		categoryPlot.setRenderer(barRenderer3D);
+		
 		// Handle the axis formating for the catagory axis
 		configureAxis(categoryPlot.getDomainAxis(), bar3DPlot.getCategoryAxisLabelFont(),
 				bar3DPlot.getCategoryAxisLabelColor(), bar3DPlot.getCategoryAxisTickLabelFont(),
@@ -619,7 +621,7 @@ public class DefaultChartTheme implements ChartTheme
 
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
-		categoryRenderer.setItemLabelsVisible( barPlot.isShowLabels() );
+		categoryRenderer.setBaseItemLabelsVisible( barPlot.isShowLabels() );
 		
 		return jfreeChart;
 	}
@@ -758,8 +760,8 @@ public class DefaultChartTheme implements ChartTheme
 		JRFillLinePlot linePlot = (JRFillLinePlot)getPlot();
 
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
-		lineRenderer.setShapesVisible( linePlot.isShowShapes() );//FIXMECHART check this
-		lineRenderer.setLinesVisible( linePlot.isShowLines() );
+		lineRenderer.setBaseShapesVisible( linePlot.isShowShapes() );//FIXMECHART check this
+		lineRenderer.setBaseLinesVisible( linePlot.isShowLines() );
 		
 		//FIXME labels?
 
@@ -899,8 +901,8 @@ public class DefaultChartTheme implements ChartTheme
 		XYLineAndShapeRenderer plotRenderer = (XYLineAndShapeRenderer) ((XYPlot)jfreeChart.getPlot()).getRenderer();
 
 		JRScatterPlot scatterPlot = (JRScatterPlot) getPlot();
-		plotRenderer.setLinesVisible(scatterPlot.isShowLines());
-		plotRenderer.setShapesVisible(scatterPlot.isShowShapes());
+		plotRenderer.setBaseLinesVisible(scatterPlot.isShowLines());
+		plotRenderer.setBaseShapesVisible(scatterPlot.isShowShapes());
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), scatterPlot.getXAxisLabelFont(),
@@ -942,13 +944,14 @@ public class DefaultChartTheme implements ChartTheme
 
 		StackedBarRenderer3D stackedBarRenderer3D =
 			new StackedBarRenderer3D(
-				bar3DPlot.getXOffset(),
-				bar3DPlot.getYOffset()
+				bar3DPlot.getXOffsetDouble() == null ? StackedBarRenderer3D.DEFAULT_X_OFFSET : bar3DPlot.getXOffsetDouble().doubleValue(),
+				bar3DPlot.getYOffsetDouble() == null ? StackedBarRenderer3D.DEFAULT_Y_OFFSET : bar3DPlot.getYOffsetDouble().doubleValue()
 				);
-		categoryPlot.setRenderer(stackedBarRenderer3D);
 
 		stackedBarRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
-		stackedBarRenderer3D.setItemLabelsVisible( bar3DPlot.isShowLabels() );
+		stackedBarRenderer3D.setBaseItemLabelsVisible( bar3DPlot.getShowLabels() );
+
+		categoryPlot.setRenderer(stackedBarRenderer3D);
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(categoryPlot.getDomainAxis(), bar3DPlot.getCategoryAxisLabelFont(),
@@ -1004,7 +1007,7 @@ public class DefaultChartTheme implements ChartTheme
 
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
-		categoryRenderer.setItemLabelsVisible( ((JRFillBarPlot)getPlot()).isShowLabels() );
+		categoryRenderer.setBaseItemLabelsVisible( ((JRFillBarPlot)getPlot()).isShowLabels() );
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
@@ -1195,8 +1198,8 @@ public class DefaultChartTheme implements ChartTheme
 				linePlot.getValueAxisLineColor());
 
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer) jfreeChart.getXYPlot().getRenderer();
-		lineRenderer.setShapesVisible(linePlot.isShowShapes());
-		lineRenderer.setLinesVisible(linePlot.isShowLines());
+		lineRenderer.setBaseShapesVisible(linePlot.isShowShapes());
+		lineRenderer.setBaseLinesVisible(linePlot.isShowLines());
 
 		return jfreeChart;
 	}
@@ -1221,8 +1224,8 @@ public class DefaultChartTheme implements ChartTheme
 		JRTimeSeriesPlot timeSeriesPlot = (JRTimeSeriesPlot)getPlot();
 
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)xyPlot.getRenderer();
-		lineRenderer.setLinesVisible(((JRTimeSeriesPlot)getPlot()).isShowLines() );
-		lineRenderer.setShapesVisible(((JRTimeSeriesPlot)getPlot()).isShowShapes() );
+		lineRenderer.setBaseLinesVisible(((JRTimeSeriesPlot)getPlot()).isShowLines() );
+		lineRenderer.setBaseShapesVisible(((JRTimeSeriesPlot)getPlot()).isShowShapes() );
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(xyPlot.getDomainAxis(), timeSeriesPlot.getTimeAxisLabelFont(),
@@ -1294,7 +1297,7 @@ public class DefaultChartTheme implements ChartTheme
 
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator(((JRFillGanttDataset)getDataset()).getLabelGenerator());
-		categoryRenderer.setItemLabelsVisible(barPlot.isShowLabels());
+		categoryRenderer.setBaseItemLabelsVisible(barPlot.isShowLabels());
 
 		return jfreeChart;
 	}
@@ -1580,4 +1583,23 @@ public class DefaultChartTheme implements ChartTheme
 	}
 
 	
+	public static final ChartThemeBundle BUNDLE = 
+		new ChartThemeBundle()
+		{
+			private static final String NAME = "default";
+
+			public String[] getChartThemeNames() 
+			{
+				return new String[]{NAME};
+			}
+		
+			public ChartTheme getChartTheme(String themeName) 
+			{
+				if (NAME.equals(themeName))
+				{
+					return new DefaultChartTheme(); 
+				}
+				return null;
+			}
+		};
 }
