@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.fill.JRFillLinePlot;
 import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
@@ -52,6 +53,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.fill.JRFillChart;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -92,6 +94,8 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRendererState;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.renderer.category.LineRenderer3D;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.jfree.chart.renderer.xy.XYAreaRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
@@ -212,8 +216,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 
 				textSubtitle.setFont(subtitleFont);
 				textSubtitle.setHorizontalAlignment(HorizontalAlignment.LEFT);
-				subtitle.setWidth(getChart().getWidth()- 2*chartPadding);
-				subtitle.setPadding(2.5 * baseFontSize, 0, 2.5 * baseFontSize, 0);
 				subtitle.setPosition(RectangleEdge.BOTTOM);
 			}
 		}
@@ -593,7 +595,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		xyPlot.setRenderer(bubbleRenderer);
 		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
 		{
-			bubbleRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
 			bubbleRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
 		}
 		calculateTickUnits(xyPlot.getDomainAxis());
@@ -609,8 +610,13 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	{
 		JFreeChart jfreeChart = super.createXYBarChart(evaluation);
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
+		XYDataset xyDataset = xyPlot.getDataset();
 		XYBarRenderer renderer = (XYBarRenderer)xyPlot.getRenderer();
 		renderer.setMargin(0.1);
+		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+		{
+			renderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
+		}
 		calculateTickUnits(xyPlot.getDomainAxis());
 		calculateTickUnits(xyPlot.getRangeAxis());
 		return jfreeChart;
@@ -679,6 +685,38 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		return jfreeChart;
 	}
 
+	/**
+	 *
+	 */
+	protected JFreeChart createLineChart(byte evaluation) throws JRException
+	{
+		JFreeChart jfreeChart = super.createLineChart(evaluation);
+		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
+		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
+		LineRenderer3D line3DRenderer = new LineRenderer3D();
+		lineRenderer.setBaseShapesVisible(lineRenderer.getBaseLinesVisible());
+		lineRenderer.setBaseLinesVisible( lineRenderer.getBaseLinesVisible());
+		
+		
+		line3DRenderer.setBaseToolTipGenerator(lineRenderer.getBaseToolTipGenerator());
+		line3DRenderer.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		
+		line3DRenderer.setXOffset(2);
+		line3DRenderer.setYOffset(2);
+		
+		for(int i = 0; i < line3DRenderer.getRowCount(); i++)
+		{
+			line3DRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+			line3DRenderer.setSeriesFillPaint(i, GRADIENT_PAINTS[i]);
+			line3DRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
+			line3DRenderer.setSeriesShapesVisible(i,true);
+			//line3DRenderer.setSeriesLinesVisible(i,lineRenderer.getSeriesVisible(i));
+		}
+		categoryPlot.setRenderer(line3DRenderer);
+		calculateTickUnits(categoryPlot.getRangeAxis());
+		return jfreeChart;
+	}
+	
 	/**
 	 *
 	 */
@@ -845,10 +883,10 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		JRFont jrFont = display.getFont();
 		
-        String annotation = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.annotation");
+        String annotation = getChart().hasProperties() ? 
+        		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.annotation") : null;
         if(annotation != null)
         {
-            
 			DialTextAnnotation dialAnnotation = new DialTextAnnotation(annotation);
 	        dialAnnotation.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(Font.BOLD));
 	        dialAnnotation.setPaint(Color.WHITE);
