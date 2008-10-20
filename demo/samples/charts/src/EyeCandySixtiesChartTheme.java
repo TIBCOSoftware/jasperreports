@@ -33,16 +33,20 @@ import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.charts.fill.JRFillLinePlot;
 import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
@@ -53,12 +57,11 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
-import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.fill.JRFillChart;
 import net.sf.jasperreports.engine.util.JRFontUtil;
-import net.sf.jasperreports.engine.util.JRProperties;
 
+import org.jfree.chart.HashUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.Axis;
@@ -83,8 +86,10 @@ import org.jfree.chart.plot.ThermometerPlot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.plot.dial.DialBackground;
 import org.jfree.chart.plot.dial.DialCap;
+import org.jfree.chart.plot.dial.DialLayerChangeEvent;
 import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.chart.plot.dial.DialPointer;
+import org.jfree.chart.plot.dial.DialScale;
 import org.jfree.chart.plot.dial.DialTextAnnotation;
 import org.jfree.chart.plot.dial.DialValueIndicator;
 import org.jfree.chart.plot.dial.StandardDialFrame;
@@ -95,7 +100,6 @@ import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRendererState;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
-import org.jfree.chart.renderer.category.LineRenderer3D;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.jfree.chart.renderer.xy.XYAreaRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
@@ -114,6 +118,7 @@ import org.jfree.data.general.ValueDataset;
 import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
+import org.jfree.io.SerialUtilities;
 import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
@@ -717,9 +722,21 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	 */
 	protected JFreeChart createGanttChart(byte evaluation) throws JRException
 	{
+
+
 		JFreeChart jfreeChart = super.createGanttChart(evaluation);
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
+		CategoryDataset categoryDataset = categoryPlot.getDataset();
+		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+		BarRenderer barRenderer = (BarRenderer)categoryRenderer;		
+		for(int i = 0; i < categoryDataset.getRowCount(); i++)
+		{
+			barRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
+		}
+		categoryPlot.setOutlinePaint(Color.DARK_GRAY);
+		categoryPlot.setOutlineStroke(new BasicStroke(1.5f));
+		categoryPlot.setOutlineVisible(true);
 		return jfreeChart;
 	}
 	
@@ -861,13 +878,20 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         GradientPaint gp = 
         	new GradientPaint(
         		new Point(), Color.LIGHT_GRAY, 
-        		new Point(), Color.BLACK
+        		new Point(), Color.BLACK,
+        		false
         		);
         
         GradientPaint gp2 = 
         	new GradientPaint(
         		new Point(), Color.GRAY, 
         		new Point(), Color.BLACK
+        		);
+
+        GradientPaint gp3 = 
+        	new GradientPaint(
+        		new Point(0,0), Color.RED, 
+        		new Point(), Color.RED.brighter()
         		);
 
         
@@ -888,7 +912,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         dialPlot.setBackground(db);
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		JRFont jrFont = display.getFont();
-		
+
         String annotation = getChart().hasProperties() ? 
         		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.annotation") : null;
         if(annotation != null)
@@ -902,10 +926,12 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 
         DialValueIndicator dvi = new DialValueIndicator();
         dvi.setBackgroundPaint(TRANSPARENT_PAINT);
-        dvi.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(12f));
+        dvi.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(12f).deriveFont(Font.BOLD));
         dvi.setOutlinePaint(TRANSPARENT_PAINT);
         dvi.setPaint(Color.WHITE);
-//        dvi.setRadius(0.4);
+        String pattern = display.getMask() != null ? display.getMask() : "#,##0.00";
+        dvi.setNumberFormat( new DecimalFormat(pattern));
+        dvi.setRadius(0.2);
         dialPlot.addLayer(dvi);
 
         Range range = convertRange(jrPlot.getDataRange(), evaluation);
@@ -921,12 +947,13 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         		);
         scale.setTickRadius(0.9);
         scale.setTickLabelOffset(0.15);
-        scale.setTickLabelFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(7f));
+        scale.setTickLabelFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(8f).deriveFont(Font.BOLD));
         //scale.setMajorTickIncrement((int)(range.getUpperBound() - range.getLowerBound())/10);
-        scale.setMajorTickStroke(new BasicStroke(2f));
-        scale.setMinorTickStroke(new BasicStroke(1f));
+        scale.setMajorTickStroke(new BasicStroke(1.5f));
+        scale.setMinorTickStroke(new BasicStroke(0.5f));
         scale.setMajorTickPaint(Color.WHITE);
         scale.setMinorTickPaint(Color.WHITE);
+        scale.setTickLabelFormatter(new DecimalFormat(pattern));
 
         scale.setTickLabelsVisible(true);
         dialPlot.addScale(0, scale);
@@ -948,19 +975,23 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		        			? new Color(255 - colorStep * i, 0 + colorStep * i, 0)
 		        			: interval.getBackgroundColor()
 		        		);
-		        dialRange.setInnerRadius(0.60);
-		        dialRange.setOuterRadius(0.62);
+		        dialRange.setInnerRadius(0.51);
+		        dialRange.setOuterRadius(0.52);
 		        dialPlot.addLayer(dialRange);
 			}
 		}
+//        DialPointer needle = new DialPointer.Pointer();
+        DialPointer needle = new GradientPointer();
         
-        DialPointer needle = new DialPointer.Pointer();
         needle.setVisible(true);
+        needle.setRadius(0.9);
         dialPlot.addLayer(needle);
         
         DialCap cap = new DialCap();
-        cap.setRadius(0.02);
-        cap.setFillPaint(Color.RED);
+        cap.setRadius(0.05);
+        cap.setFillPaint(Color.BLACK);
+        cap.setOutlinePaint(Color.DARK_GRAY);
+        cap.setOutlineStroke(new BasicStroke(0.5f));
         dialPlot.setCap(cap);
         
 		JFreeChart jfreeChart = 
@@ -1315,3 +1346,183 @@ class GradientBarRenderer3D extends BarRenderer3D
     }
 	
 };
+
+class GradientPointer extends DialPointer.Pointer {
+    
+    private Paint gradientFillPaint;
+    
+    /**
+     * Creates a new instance.
+     */
+    public GradientPointer() {
+        this(0, 0.03, Color.RED.darker(), Color.RED.darker());
+    }
+    
+    /**
+     * Creates a new instance.
+     * 
+     * @param datasetIndex  the dataset index.
+     */
+    private GradientPointer(int datasetIndex, double widthRadius, Paint gradientFillPaint, Paint outlinePaint) 
+    {
+        super(datasetIndex);
+        setWidthRadius(widthRadius);
+        this.gradientFillPaint = gradientFillPaint;
+        setOutlinePaint(outlinePaint);
+    }
+    
+    
+    /**
+     * Returns the fill paint.
+     * 
+     * @return The paint (never <code>null</code>).
+     * 
+     * @see #setGradientFillPaint(Paint)
+     * 
+     * @since 1.0.8
+     */
+    public Paint getGradientFillPaint() {
+        return this.gradientFillPaint;
+    }
+    
+    /**
+     * Sets the fill paint and sends a {@link DialLayerChangeEvent} to all 
+     * registered listeners.
+     * 
+     * @param paint  the paint (<code>null</code> not permitted).
+     * 
+     * @see #getFillPaint()
+     * 
+     * @since 1.0.8
+     */
+    public void setGradientFillPaint(Paint paint) {
+        if (paint == null) {
+            throw new IllegalArgumentException("Null 'paint' argument.");
+        }
+        this.gradientFillPaint = paint;
+        notifyListeners(new DialLayerChangeEvent(this));
+    }
+    
+    /**
+     * Draws the pointer.
+     * 
+     * @param g2  the graphics target.
+     * @param plot  the plot.
+     * @param frame  the dial's reference frame.
+     * @param view  the dial's view.
+     */
+    public void draw(Graphics2D g2, DialPlot plot, Rectangle2D frame, 
+            Rectangle2D view) {
+    
+        g2.setPaint(Color.blue);
+        g2.setStroke(new BasicStroke(1.0f));
+        Rectangle2D lengthRect = DialPlot.rectangleByRadius(frame, 
+                this.getRadius(), this.getRadius());
+        Rectangle2D widthRect = DialPlot.rectangleByRadius(frame, 
+                this.getWidthRadius(), this.getWidthRadius());
+        double value = plot.getValue(this.getDatasetIndex());
+        DialScale scale = plot.getScaleForDataset(this.getDatasetIndex());
+        double angle = scale.valueToAngle(value);
+    
+        Arc2D arc1 = new Arc2D.Double(lengthRect, angle, 0, Arc2D.OPEN);
+        Point2D pt1 = arc1.getEndPoint();
+        Arc2D arc2 = new Arc2D.Double(widthRect, angle - 90.0, 180.0, 
+                Arc2D.OPEN);
+        Point2D pt2 = arc2.getStartPoint();
+        Point2D pt3 = arc2.getEndPoint();
+        Arc2D arc3 = new Arc2D.Double(widthRect, angle - 180.0, 0.0, 
+                Arc2D.OPEN);
+        Point2D pt4 = arc3.getStartPoint();
+    
+        GeneralPath gp = new GeneralPath();
+        gp.moveTo((float) pt1.getX(), (float) pt1.getY());
+        gp.lineTo((float) pt2.getX(), (float) pt2.getY());
+        gp.lineTo((float) pt4.getX(), (float) pt4.getY());
+        gp.lineTo((float) pt3.getX(), (float) pt3.getY());
+        gp.closePath();
+        g2.setPaint(this.gradientFillPaint);
+        g2.fill(gp);
+    
+        g2.setPaint(this.getOutlinePaint());
+        Line2D line = new Line2D.Double(frame.getCenterX(), 
+                frame.getCenterY(), pt1.getX(), pt1.getY());
+//        g2.draw(line);
+    
+        line.setLine(pt2, pt3);
+        g2.draw(line);
+    
+        line.setLine(pt3, pt1);
+        g2.draw(line);
+    
+        line.setLine(pt2, pt1);
+        g2.draw(line);
+    
+        line.setLine(pt2, pt4);
+        g2.draw(line);
+
+        line.setLine(pt3, pt4);
+        g2.draw(line);
+    }
+    
+    /**
+     * Tests this pointer for equality with an arbitrary object.
+     * 
+     * @param obj  the object (<code>null</code> permitted).
+     * 
+     * @return A boolean.
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof GradientPointer)) {
+            return false;
+        }
+        GradientPointer that = (GradientPointer) obj;
+        
+        if (!this.gradientFillPaint.equals(that.gradientFillPaint)) 
+        {
+            return false;
+        }
+        return super.equals(obj);
+    }
+    
+    /**
+     * Returns a hash code for this instance.
+     * 
+     * @return A hash code.
+     */
+    public int hashCode() {
+        int result = super.hashCode();
+        result = HashUtilities.hashCode(result, this.gradientFillPaint);
+        return result;
+    }
+    
+    /**
+     * Provides serialization support.
+     *
+     * @param stream  the output stream.
+     *
+     * @throws IOException  if there is an I/O error.
+     */
+    private void writeObject(ObjectOutputStream stream) throws IOException {
+        stream.defaultWriteObject();
+        SerialUtilities.writePaint(this.gradientFillPaint, stream);
+    }
+
+    /**
+     * Provides serialization support.
+     *
+     * @param stream  the input stream.
+     *
+     * @throws IOException  if there is an I/O error.
+     * @throws ClassNotFoundException  if there is a classpath problem.
+     */
+    private void readObject(ObjectInputStream stream) 
+            throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+        this.gradientFillPaint = SerialUtilities.readPaint(stream);
+    }
+   
+};
+
