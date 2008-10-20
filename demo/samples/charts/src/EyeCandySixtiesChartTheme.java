@@ -74,6 +74,7 @@ import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.CategoryMarker;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
@@ -722,11 +723,13 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	 */
 	protected JFreeChart createGanttChart(byte evaluation) throws JRException
 	{
-
-
 		JFreeChart jfreeChart = super.createGanttChart(evaluation);
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
+		categoryPlot.setDomainGridlinesVisible(true);
+		categoryPlot.setDomainGridlineStroke(new BasicStroke(0.5f));
+		categoryPlot.setDomainGridlinePaint(GRIDLINE_COLOR);
+		
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		BarRenderer barRenderer = (BarRenderer)categoryRenderer;		
