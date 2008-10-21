@@ -122,9 +122,11 @@ import org.jfree.data.xy.XYZDataset;
 import org.jfree.io.SerialUtilities;
 import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.HorizontalAlignment;
+import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.StandardGradientPaintTransformer;
+import org.jfree.ui.TextAnchor;
 import org.jfree.util.UnitType;
 
 
@@ -137,13 +139,14 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 
 	public static final Color[] COLORS = 
 		new Color[]{
-			new Color(250, 223,  18),
-			new Color(231, 133,  35),
-			new Color(237,  38,  42),
-			new Color(  0, 111,  60),
-			new Color( 47, 137, 187),
-			new Color(229,   1, 140),
-			new Color(234, 171,  53)
+			new Color(250, 97, 18),
+			new Color(237, 38, 42),
+			new Color(0, 111, 60),
+			new Color(250, 223, 18),
+			new Color(47, 137, 187),
+			new Color(231, 133, 35),
+			new Color(229, 1, 140),
+			new Color(234, 171, 53)
 			};
 	
     // gradient paints for series...
@@ -896,7 +899,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         		new Point(0,0), Color.RED, 
         		new Point(), Color.RED.brighter()
         		);
-
         
         // get data for diagrams
         DialPlot dialPlot = new DialPlot();
@@ -904,9 +906,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         dialPlot.setDataset((ValueDataset)getDataset().getDataset());
         StandardDialFrame dialFrame = new StandardDialFrame();
         //dialFrame.setRadius(0.60);
-        dialFrame.setBackgroundPaint(gp2);
+        //dialFrame.setBackgroundPaint(gp2);
         dialFrame.setForegroundPaint(gp2);
-        
         dialPlot.setDialFrame(dialFrame);
         
         DialBackground db = new DialBackground(gp);
@@ -935,6 +936,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         String pattern = display.getMask() != null ? display.getMask() : "#,##0.00";
         dvi.setNumberFormat( new DecimalFormat(pattern));
         dvi.setRadius(0.2);
+        dvi.setValueAnchor(RectangleAnchor.CENTER);
+        dvi.setTextAnchor(TextAnchor.CENTER);
         dialPlot.addLayer(dvi);
 
         Range range = convertRange(jrPlot.getDataRange(), evaluation);
@@ -987,7 +990,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         DialPointer needle = new GradientPointer();
         
         needle.setVisible(true);
-        needle.setRadius(0.9);
+        needle.setRadius(0.91);
         dialPlot.addLayer(needle);
         
         DialCap cap = new DialCap();
