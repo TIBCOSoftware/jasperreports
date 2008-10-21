@@ -174,6 +174,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected Document imageTesterDocument = null;
 	protected PdfContentByte imageTesterPdfContentByte = null;
 	protected PdfStructureElement allTag = null;
+//	protected PdfStructureElement pageTag = null;
 	protected PdfStructureElement tableTag = null;
 	protected PdfStructureElement tableRowTag = null;
 	protected PdfStructureElement tableHeaderTag = null;
@@ -571,6 +572,13 @@ public class JRPdfExporter extends JRAbstractExporter
 						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
 
 						document.newPage();
+						
+//						if (isTagged)
+//						{
+//							pageTag = new PdfStructureElement(allTag, PdfName.PAGE); 
+//							pdfContentByte.beginMarkedContentSequence(pageTag);
+//							pageTag.put(PdfName.K, new PdfArray());
+//						}
 
 						pdfContentByte = pdfWriter.getDirectContent();
 
@@ -580,6 +588,11 @@ public class JRPdfExporter extends JRAbstractExporter
 
 						/*   */
 						exportPage(page);
+
+//						if (isTagged)
+//						{
+//							pdfContentByte.endMarkedContentSequence();
+//						}
 					}
 				}
 				else

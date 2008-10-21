@@ -197,6 +197,7 @@
 				<reportElement x="0" y="5" width="165" height="40"/>
 				<graphicElement/>
 				<imageExpression class="java.lang.String"><![CDATA["jasperreports.gif"]]></imageExpression>
+				<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 			</image>
 			</elementGroup>
 			<textField isBlankWhenNull="true">
