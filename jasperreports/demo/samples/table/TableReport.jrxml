@@ -9,6 +9,23 @@
 	<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
 	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
 	<style name="Arial" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<title>
+		<band height="50">
+			<image scaleImage="Clip">
+				<reportElement x="0" y="5" width="165" height="40"/>
+				<graphicElement/>
+				<imageExpression class="java.lang.String"><![CDATA["jasperreports.gif"]]></imageExpression>
+				<hyperlinkTooltipExpression>"The JasperReports Logo"</hyperlinkTooltipExpression>
+			</image>
+			<staticText>
+				<reportElement x="180" y="5" width="375" height="40"/>
+				<textElement textAlignment="Right">
+					<font size="22"/>
+				</textElement>
+				<text>Table Report</text>
+			</staticText>
+		</band>
+	</title>
 	<pageHeader>
 		<band height="30">
 			<staticText>
