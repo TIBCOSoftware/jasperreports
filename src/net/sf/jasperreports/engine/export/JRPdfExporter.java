@@ -1536,13 +1536,12 @@ public class JRPdfExporter extends JRAbstractExporter
 				setAnchor(chunk, printImage, printImage);
 				setHyperlinkInfo(chunk, printImage);
 
-				if (isTagged && printImage.getHyperlinkTooltip() != null)
+				if (isTagged)
 				{
 					PdfStructureElement imageTag = new PdfStructureElement(allTag, PdfName.IMAGE);
 					pdfContentByte.beginMarkedContentSequence(imageTag);
-					PdfDictionary dict = new PdfDictionary();
-					dict.put(PdfName.ALT, new PdfString(printImage.getHyperlinkTooltip()));
-					pdfContentByte.beginMarkedContentSequence(PdfName.SPAN, dict, true);
+					if (printImage.getHyperlinkTooltip() != null)
+						imageTag.put(PdfName.ALT, new PdfString(printImage.getHyperlinkTooltip()));
 				}
 				
 				ColumnText colText = new ColumnText(pdfContentByte);
@@ -1560,9 +1559,8 @@ public class JRPdfExporter extends JRAbstractExporter
 
 				colText.go();
 
-				if (isTagged && printImage.getHyperlinkTooltip() != null)
+				if (isTagged)
 				{
-					pdfContentByte.endMarkedContentSequence();
 					pdfContentByte.endMarkedContentSequence();
 				}
 			}
