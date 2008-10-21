@@ -54,6 +54,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
@@ -151,6 +152,9 @@ public class JRPdfExporter extends JRAbstractExporter
 	public static final String PROPERTY_TAG_TR = PDF_EXPORTER_PROPERTIES_PREFIX + "tag.tr";
 	public static final String PROPERTY_TAG_TH = PDF_EXPORTER_PROPERTIES_PREFIX + "tag.th";
 	public static final String PROPERTY_TAG_TD = PDF_EXPORTER_PROPERTIES_PREFIX + "tag.td";
+	public static final String PROPERTY_TAG_H1 = PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h1";
+	public static final String PROPERTY_TAG_H2 = PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h2";
+	public static final String PROPERTY_TAG_H3 = PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h3";
 	public static final String PROPERTY_TAG_COLSPAN = PDF_EXPORTER_PROPERTIES_PREFIX + "tag.colspan";
 	public static final String PROPERTY_TAG_ROWSPAN = PDF_EXPORTER_PROPERTIES_PREFIX + "tag.rowspan";
 	public static final String TAG_START = "start";
@@ -174,12 +178,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected Document imageTesterDocument = null;
 	protected PdfContentByte imageTesterPdfContentByte = null;
 	protected PdfStructureElement allTag = null;
-//	protected PdfStructureElement pageTag = null;
-	protected PdfStructureElement tableTag = null;
-	protected PdfStructureElement tableRowTag = null;
-	protected PdfStructureElement tableHeaderTag = null;
-	protected PdfStructureElement tableCellTag = null;
-	protected boolean isCellTagEmpty = true;
+	protected Stack tagStack = null;
+	protected boolean isTagEmpty = true;
 
 
 	protected JRExportProgressMonitor progressMonitor = null;
@@ -522,6 +522,8 @@ public class JRPdfExporter extends JRAbstractExporter
 							);
 				if (language != null)	
 					allTag.put(PdfName.LANG, new PdfString(language));
+				tagStack = new Stack();
+				tagStack.push(allTag);
 			}
 			
 			initBookmarks();
@@ -771,42 +773,76 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (element.hasProperties())
 		{
-			String tableProp = element.getPropertiesMap().getProperty(PROPERTY_TAG_TABLE);
-			if (TAG_START.equals(tableProp) || TAG_FULL.equals(tableProp))
+			String prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TABLE);
+			if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
 			{
-				tableTag = new PdfStructureElement(allTag, new PdfName("Table"));
+				PdfStructureElement tableTag = new PdfStructureElement(allTag, new PdfName("Table"));
 				pdfContentByte.beginMarkedContentSequence(tableTag);
 				tableTag.put(PdfName.K, new PdfArray());
+				tagStack.push(tableTag);
 			}
 			
-			String tableRowProp = element.getPropertiesMap().getProperty(PROPERTY_TAG_TR);
-			if (TAG_START.equals(tableRowProp) || TAG_FULL.equals(tableRowProp))
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TR);
+			if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
 			{
-				tableRowTag = new PdfStructureElement(tableTag, new PdfName("TR"));
+				PdfStructureElement tableRowTag = new PdfStructureElement((PdfStructureElement)tagStack.peek(), new PdfName("TR"));
 				pdfContentByte.beginMarkedContentSequence(tableRowTag);
 				tableRowTag.put(PdfName.K, new PdfArray());
+				tagStack.push(tableRowTag);
 			}
 			
-			String tableHeaderProp = element.getPropertiesMap().getProperty(PROPERTY_TAG_TH);
-			if (TAG_START.equals(tableHeaderProp) || TAG_FULL.equals(tableHeaderProp))
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TH);
+			if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
 			{
-				tableHeaderTag = new PdfStructureElement(tableRowTag, new PdfName("TH"));
+				PdfStructureElement tableHeaderTag = new PdfStructureElement((PdfStructureElement)tagStack.peek(), new PdfName("TH"));
 				pdfContentByte.beginMarkedContentSequence(tableHeaderTag);
 				tableHeaderTag.put(PdfName.K, new PdfArray());
-				isCellTagEmpty = true;
+				tagStack.push(tableHeaderTag);
+				isTagEmpty = true;
 				
 				createSpanTags(element, tableHeaderTag);
 			}
 			
-			String tableCellProp = element.getPropertiesMap().getProperty(PROPERTY_TAG_TD);
-			if (TAG_START.equals(tableCellProp) || TAG_FULL.equals(tableCellProp))
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TD);
+			if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
 			{
-				tableCellTag = new PdfStructureElement(tableRowTag, new PdfName("TD"));
+				PdfStructureElement tableCellTag = new PdfStructureElement((PdfStructureElement)tagStack.peek(), new PdfName("TD"));
 				pdfContentByte.beginMarkedContentSequence(tableCellTag);
 				tableCellTag.put(PdfName.K, new PdfArray());
-				isCellTagEmpty = true;
+				tagStack.push(tableCellTag);
+				isTagEmpty = true;
 				
 				createSpanTags(element, tableCellTag);
+			}
+			
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H1);
+			if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
+			{
+				PdfStructureElement headingTag = new PdfStructureElement((PdfStructureElement)tagStack.peek(), new PdfName("H1"));
+				pdfContentByte.beginMarkedContentSequence(headingTag);
+				headingTag.put(PdfName.K, new PdfArray());
+				tagStack.push(headingTag);
+				isTagEmpty = true;
+			}
+			
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H2);
+			if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
+			{
+				PdfStructureElement headingTag = new PdfStructureElement((PdfStructureElement)tagStack.peek(), new PdfName("H2"));
+				pdfContentByte.beginMarkedContentSequence(headingTag);
+				headingTag.put(PdfName.K, new PdfArray());
+				tagStack.push(headingTag);
+				isTagEmpty = true;
+			}
+			
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H3);
+			if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
+			{
+				PdfStructureElement headingTag = new PdfStructureElement((PdfStructureElement)tagStack.peek(), new PdfName("H3"));
+				pdfContentByte.beginMarkedContentSequence(headingTag);
+				headingTag.put(PdfName.K, new PdfArray());
+				tagStack.push(headingTag);
+				isTagEmpty = true;
 			}
 		}
 	}
@@ -841,44 +877,88 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (element.hasProperties())
 		{
-			String tableProp = element.getPropertiesMap().getProperty(PROPERTY_TAG_TABLE);
-			if (TAG_END.equals(tableProp) || TAG_FULL.equals(tableProp))
+			String prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TABLE);
+			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
 			{
 				pdfContentByte.endMarkedContentSequence();
+				tagStack.pop();
 			}
 			
-			String tableRowProp = element.getPropertiesMap().getProperty(PROPERTY_TAG_TR);
-			if (TAG_END.equals(tableRowProp) || TAG_FULL.equals(tableRowProp))
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TR);
+			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
 			{
 				pdfContentByte.endMarkedContentSequence();
+				tagStack.pop();
 			}
 			
-			String tableHeaderCellProp = element.getPropertiesMap().getProperty(PROPERTY_TAG_TH);
-			if (TAG_END.equals(tableHeaderCellProp) || TAG_FULL.equals(tableHeaderCellProp))
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TH);
+			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
 			{
 				pdfContentByte.endMarkedContentSequence();
 				
-				if (isCellTagEmpty)
+				if (isTagEmpty)
 				{
-					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tableHeaderTag, PdfName.SPAN));
+					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement((PdfStructureElement)tagStack.peek(), PdfName.SPAN));
 					pdfContentByte.endMarkedContentSequence();
 				}
 				
-				tableHeaderTag = null;
+				tagStack.pop();
 			}
 			
-			String tableCellProp = element.getPropertiesMap().getProperty(PROPERTY_TAG_TD);
-			if (TAG_END.equals(tableCellProp) || TAG_FULL.equals(tableCellProp))
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TD);
+			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
 			{
 				pdfContentByte.endMarkedContentSequence();
 				
-				if (isCellTagEmpty)
+				if (isTagEmpty)
 				{
-					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tableCellTag, PdfName.SPAN));
+					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement((PdfStructureElement)tagStack.peek(), PdfName.SPAN));
 					pdfContentByte.endMarkedContentSequence();
 				}
 
-				tableCellTag = null;
+				tagStack.pop();
+			}
+
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H1);
+			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
+			{
+				pdfContentByte.endMarkedContentSequence(); 
+
+				if (isTagEmpty)
+				{
+					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement((PdfStructureElement)tagStack.peek(), PdfName.SPAN));
+					pdfContentByte.endMarkedContentSequence();
+				}
+
+				tagStack.pop();
+			}
+
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H2);
+			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
+			{
+				pdfContentByte.endMarkedContentSequence(); 
+
+				if (isTagEmpty)
+				{
+					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement((PdfStructureElement)tagStack.peek(), PdfName.SPAN));
+					pdfContentByte.endMarkedContentSequence();
+				}
+
+				tagStack.pop();
+			}
+
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H3);
+			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
+			{
+				pdfContentByte.endMarkedContentSequence(); 
+
+				if (isTagEmpty)
+				{
+					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement((PdfStructureElement)tagStack.peek(), PdfName.SPAN));
+					pdfContentByte.endMarkedContentSequence();
+				}
+
+				tagStack.pop();
 			}
 		}
 	}
@@ -2115,8 +2195,9 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			if (isTagged)
 			{
-				PdfStructureElement parentTag = tableCellTag == null ? (tableHeaderTag == null ? allTag : tableHeaderTag): tableCellTag;
-				PdfStructureElement textTag = new PdfStructureElement(parentTag, PdfName.TEXT);
+//				PdfStructureElement parentTag = tableCellTag == null ? (tableHeaderTag == null ? allTag : tableHeaderTag): tableCellTag;
+//				PdfStructureElement textTag = new PdfStructureElement(parentTag, PdfName.TEXT);
+				PdfStructureElement textTag = new PdfStructureElement((PdfStructureElement)tagStack.peek(), PdfName.TEXT);
 				pdfContentByte.beginMarkedContentSequence(textTag);
 			}
 			
@@ -2150,7 +2231,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			if(isTagged)
 			{
 				pdfContentByte.endMarkedContentSequence();
-				isCellTagEmpty = false;
+				isTagEmpty = false;
 			}
 		}
 

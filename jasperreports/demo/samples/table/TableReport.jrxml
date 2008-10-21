@@ -18,7 +18,9 @@
 				<hyperlinkTooltipExpression>"The JasperReports Logo"</hyperlinkTooltipExpression>
 			</image>
 			<staticText>
-				<reportElement x="180" y="5" width="375" height="40"/>
+				<reportElement x="180" y="5" width="375" height="40">
+					<property name="net.sf.jasperreports.export.pdf.tag.h1" value="full"/>
+				</reportElement>
 				<textElement textAlignment="Right">
 					<font size="22"/>
 				</textElement>
