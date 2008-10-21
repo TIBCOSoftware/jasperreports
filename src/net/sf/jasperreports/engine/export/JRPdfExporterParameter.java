@@ -275,4 +275,32 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	public static final String PROPERTY_PDF_JAVASCRIPT = JRProperties.PROPERTY_PREFIX + "export.pdf.javascript";
 
 
+	/**
+	 * Specifies whether the exporter should put structure tags in the generated PDF.
+	 */
+	public static final JRPdfExporterParameter IS_TAGGED = new JRPdfExporterParameter("Is Tagged");
+	
+	
+	/**
+	 * Property whose value is used as default for the {@link #IS_TAGGED} export parameter.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_TAGGED = JRProperties.PROPERTY_PREFIX + "export.pdf.tagged";
+
+
+	/**
+	 * Specifies the language that the exporter should put in the language tag of the generated PDF.
+	 */
+	public static final JRPdfExporterParameter TAG_LANGUAGE = new JRPdfExporterParameter("Tag Language");
+	
+	
+	/**
+	 * Property whose value is used as default for the {@link #TAG_LANGUAGE} export parameter.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_TAG_LANGUAGE = JRProperties.PROPERTY_PREFIX + "export.pdf.tag.language";
+
+
 }
