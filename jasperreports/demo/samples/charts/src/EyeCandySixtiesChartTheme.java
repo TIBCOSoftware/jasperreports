@@ -122,6 +122,7 @@ import org.jfree.data.xy.XYZDataset;
 import org.jfree.io.SerialUtilities;
 import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.HorizontalAlignment;
+import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
@@ -163,6 +164,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	public static final Color GRIDLINE_COLOR = new Color(134,134,134);
 	public static final Color BORDER_COLOR = new Color(27,80,108);
 	public static final Color THERMOMETER_COLOR = new Color(228, 100, 37);
+//	public static final Color MARKER_COLOR = new Color(210,210,210);
 	
 	/**
 	 *
@@ -181,7 +183,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		JRFillChart chart = getChart();
 
 		TextTitle title = jfreeChart.getTitle();
-		float baseFontSize = chart.getLegendFont().getFontSize();
+		float baseFontSize = chart.getLegendFont() != null ? chart.getLegendFont().getFontSize() : 8f;
+		
 		double chartPadding = 10d;
 		
 		if(title != null)
@@ -226,6 +229,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 				textSubtitle.setFont(subtitleFont);
 				textSubtitle.setHorizontalAlignment(HorizontalAlignment.LEFT);
 				subtitle.setPosition(RectangleEdge.BOTTOM);
+				
 			}
 		}
 		
@@ -320,6 +324,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 //			calculateTickUnits(xyPlot.getRangeAxis());
 //			calculateTickUnits(xyPlot.getDomainAxis());
 		}
+		
 		plot.setForegroundAlpha(1f);
 	}
 
@@ -428,7 +433,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		for(int i = 0; i < pieDataset.getItemCount(); i++)
 		{
 			piePlot.setSectionOutlinePaint(pieDataset.getKey(i), TRANSPARENT_PAINT);
-			//makes pie colors darker piePlot.setSectionPaint(pieDataset.getKey(i), GRADIENT_PAINTS[i]);
+			//makes pie colors darker 
+			//piePlot.setSectionPaint(pieDataset.getKey(i), GRADIENT_PAINTS[i]);
 		}
 		
 		if (
@@ -739,6 +745,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
 			barRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
+//			CategoryMarker categoryMarker = new CategoryMarker(categoryDataset.getColumnKey(i),MARKER_COLOR, new BasicStroke(1f));
+//			categoryMarker.setAlpha(0.5f);
+//			categoryPlot.addDomainMarker(categoryMarker, Layer.BACKGROUND);
 		}
 		categoryPlot.setOutlinePaint(Color.DARK_GRAY);
 		categoryPlot.setOutlineStroke(new BasicStroke(1.5f));
@@ -1420,7 +1429,6 @@ class GradientPointer extends DialPointer.Pointer {
     public void draw(Graphics2D g2, DialPlot plot, Rectangle2D frame, 
             Rectangle2D view) {
     
-        g2.setPaint(Color.blue);
         g2.setStroke(new BasicStroke(1.0f));
         Rectangle2D lengthRect = DialPlot.rectangleByRadius(frame, 
                 this.getRadius(), this.getRadius());
