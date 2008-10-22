@@ -42,11 +42,16 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.SortedSet;
 
+import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.fill.JRFillBarPlot;
+import net.sf.jasperreports.charts.fill.JRFillGanttDataset;
 import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
@@ -61,18 +66,24 @@ import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.fill.JRFillChart;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.HashUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.Axis;
+import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
+import org.jfree.chart.labels.CategorySeriesLabelGenerator;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.labels.StandardCategorySeriesLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryMarker;
 import org.jfree.chart.plot.CategoryPlot;
@@ -114,6 +125,7 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.chart.title.Title;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.gantt.GanttCategoryDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.general.ValueDataset;
 import org.jfree.data.xy.DefaultHighLowDataset;
@@ -732,19 +744,51 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	 */
 	protected JFreeChart createGanttChart(byte evaluation) throws JRException
 	{
+		
 		JFreeChart jfreeChart = super.createGanttChart(evaluation);
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
 		categoryPlot.setDomainGridlinesVisible(true);
-		categoryPlot.setDomainGridlineStroke(new BasicStroke(0.5f));
+		categoryPlot.setDomainGridlinePosition(CategoryAnchor.END);
+		categoryPlot.setDomainGridlineStroke(new BasicStroke(
+				0.5f, 
+				BasicStroke.CAP_BUTT, 
+				BasicStroke.JOIN_MITER, 
+				50, 
+				new float[] {1}, 
+				0
+				)
+		);
+		
 		categoryPlot.setDomainGridlinePaint(GRIDLINE_COLOR);
 		
+		categoryPlot.setRangeGridlinesVisible(true);
+		categoryPlot.setRangeGridlineStroke(new BasicStroke(
+				0.5f, 
+				BasicStroke.CAP_BUTT, 
+				BasicStroke.JOIN_MITER, 
+				50, 
+				new float[] {1}, 
+				0
+				)
+		);
+		
+		categoryPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
+		categoryPlot.getDomainAxis().setTickLabelsVisible(
+				//barPlot.isShowTickLabels()
+				true
+				);
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
-		BarRenderer barRenderer = (BarRenderer)categoryRenderer;		
+		categoryRenderer.setBaseItemLabelsVisible(true);
+		BarRenderer barRenderer = (BarRenderer)categoryRenderer;
+		barRenderer.setSeriesPaint(0, COLORS[3]);
+		barRenderer.setSeriesPaint(1, COLORS[0]);
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
-			barRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
+			barRenderer.setSeriesItemLabelFont(i, categoryPlot.getDomainAxis().getTickLabelFont());
+			barRenderer.setSeriesItemLabelsVisible(i, true);
+//			barRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
 //			CategoryMarker categoryMarker = new CategoryMarker(categoryDataset.getColumnKey(i),MARKER_COLOR, new BasicStroke(1f));
 //			categoryMarker.setAlpha(0.5f);
 //			categoryPlot.addDomainMarker(categoryMarker, Layer.BACKGROUND);
@@ -763,7 +807,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		return createDialChart(evaluation);
 //		JRFillMeterPlot jrPlot = (JRFillMeterPlot)getPlot();
 //		
-//		// Start by creating the plot that wil hold the meter
+//		// Start by creating the plot that will hold the meter
 //		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset().getDataset());
 //		
 //		// Set the shape
@@ -888,6 +932,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	 */
 	protected JFreeChart createDialChart(byte evaluation) throws JRException
 	{
+
 		JRFillMeterPlot jrPlot = (JRFillMeterPlot)getPlot();
 
         GradientPaint gp = 
@@ -902,13 +947,13 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         		new Point(), Color.GRAY, 
         		new Point(), Color.BLACK
         		);
-
+        
         GradientPaint gp3 = 
         	new GradientPaint(
-        		new Point(0,0), Color.RED, 
-        		new Point(), Color.RED.brighter()
+        		new Point(), Color.DARK_GRAY, 
+        		new Point(), Color.BLACK
         		);
-        
+
         // get data for diagrams
         DialPlot dialPlot = new DialPlot();
         //dialPlot.setView(0.0, 0.0, 1.0, 1.0);
@@ -939,7 +984,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 
         DialValueIndicator dvi = new DialValueIndicator();
         dvi.setBackgroundPaint(TRANSPARENT_PAINT);
-        dvi.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(12f).deriveFont(Font.BOLD));
+        dvi.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(10f).deriveFont(Font.BOLD));
         dvi.setOutlinePaint(TRANSPARENT_PAINT);
         dvi.setPaint(Color.WHITE);
         String pattern = display.getMask() != null ? display.getMask() : "#,##0.00";
@@ -957,18 +1002,18 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         		range.getUpperBound(), 
         		225, 
         		-270,
-        		(int)(range.getUpperBound() - range.getLowerBound())/10, 
-        		4
+        		(int)(range.getUpperBound() - range.getLowerBound())/6, 
+        		15
         		);
         scale.setTickRadius(0.9);
-        scale.setTickLabelOffset(0.15);
+        scale.setTickLabelOffset(0.16);
         scale.setTickLabelFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(8f).deriveFont(Font.BOLD));
         //scale.setMajorTickIncrement((int)(range.getUpperBound() - range.getLowerBound())/10);
-        scale.setMajorTickStroke(new BasicStroke(1.5f));
-        scale.setMinorTickStroke(new BasicStroke(0.5f));
+        scale.setMajorTickStroke(new BasicStroke(1f));
+        scale.setMinorTickStroke(new BasicStroke(0.3f));
         scale.setMajorTickPaint(Color.WHITE);
         scale.setMinorTickPaint(Color.WHITE);
-        scale.setTickLabelFormatter(new DecimalFormat(pattern));
+        scale.setTickLabelFormatter(new DecimalFormat("#,##0"));
 
         scale.setTickLabelsVisible(true);
         dialPlot.addScale(0, scale);
@@ -990,12 +1035,12 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		        			? new Color(255 - colorStep * i, 0 + colorStep * i, 0)
 		        			: interval.getBackgroundColor()
 		        		);
-		        dialRange.setInnerRadius(0.51);
-		        dialRange.setOuterRadius(0.52);
+		        dialRange.setInnerRadius(0.41);
+		        dialRange.setOuterRadius(0.42);
 		        dialPlot.addLayer(dialRange);
 			}
 		}
-//        DialPointer needle = new DialPointer.Pointer();
+//	        DialPointer needle = new DialPointer.Pointer();
         DialPointer needle = new GradientPointer();
         
         needle.setVisible(true);
@@ -1004,8 +1049,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         
         DialCap cap = new DialCap();
         cap.setRadius(0.05);
-        cap.setFillPaint(Color.BLACK);
-        cap.setOutlinePaint(Color.DARK_GRAY);
+        cap.setFillPaint(Color.DARK_GRAY);
+        cap.setOutlinePaint(Color.GRAY);
         cap.setOutlineStroke(new BasicStroke(0.5f));
         dialPlot.setCap(cap);
         
@@ -1024,6 +1069,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		jfreeChart.setBorderVisible(false);
 		
 		return jfreeChart;
+		
 	}
 
 	/**
@@ -1370,7 +1416,7 @@ class GradientPointer extends DialPointer.Pointer {
      * Creates a new instance.
      */
     public GradientPointer() {
-        this(0, 0.03, Color.RED.darker(), Color.RED.darker());
+        this(0, 0.03, new Color(191, 48, 0), new Color(191, 48, 0));
     }
     
     /**
@@ -1540,3 +1586,4 @@ class GradientPointer extends DialPointer.Pointer {
    
 };
 
+    
