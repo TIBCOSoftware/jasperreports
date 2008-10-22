@@ -57,8 +57,6 @@
 				
 	JRHtmlExporter exporter = new JRHtmlExporter();
 
-	StringBuffer sbuffer = new StringBuffer();
-
 	session.setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
 	
 	exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
