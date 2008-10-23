@@ -42,8 +42,11 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.SortedSet;
@@ -970,39 +973,38 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         dialPlot.setBackground(db);
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		JRFont jrFont = display.getFont();
-
-        String annotation = getChart().hasProperties() ? 
-        		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.annotation") : null;
-        if(annotation != null)
-        {
-			DialTextAnnotation dialAnnotation = new DialTextAnnotation(annotation);
-	        dialAnnotation.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(Font.BOLD));
-	        dialAnnotation.setPaint(Color.WHITE);
-	        dialAnnotation.setRadius(0.5);
-	        dialPlot.addLayer(dialAnnotation);
-        }
-
-        DialValueIndicator dvi = new DialValueIndicator();
-        dvi.setBackgroundPaint(TRANSPARENT_PAINT);
-        dvi.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(10f).deriveFont(Font.BOLD));
-        dvi.setOutlinePaint(TRANSPARENT_PAINT);
-        dvi.setPaint(Color.WHITE);
-        String pattern = display.getMask() != null ? display.getMask() : "#,##0.00";
-        dvi.setNumberFormat( new DecimalFormat(pattern));
-        dvi.setRadius(0.2);
-        dvi.setValueAnchor(RectangleAnchor.CENTER);
-        dvi.setTextAnchor(TextAnchor.CENTER);
-        dialPlot.addLayer(dvi);
+		
+//        String displayVisibility = getChart().hasProperties() ? 
+//        		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
+//        if(Boolean.parseBoolean(displayVisibility))
+//        {
+//	        DialValueIndicator dvi = new DialValueIndicator();
+//	        dvi.setBackgroundPaint(TRANSPARENT_PAINT);
+//	        dvi.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(10f).deriveFont(Font.BOLD));
+//	        dvi.setOutlinePaint(TRANSPARENT_PAINT);
+//	        dvi.setPaint(Color.WHITE);
+//	        String pattern = display.getMask();
+//	        if(pattern != null)
+//	        	dvi.setNumberFormat( new DecimalFormat(pattern));
+//	        dvi.setRadius(0.2);
+//	        dvi.setValueAnchor(RectangleAnchor.CENTER);
+//	        dvi.setTextAnchor(TextAnchor.CENTER);
+//	        dialPlot.addLayer(dvi);
+//        }
 
         Range range = convertRange(jrPlot.getDataRange(), evaluation);
+        double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
+        int dialUnitScale = getScale(bound);
+        double lowerBound = getDialTickValue(range.getLowerBound(), dialUnitScale);
+        double upperBound = getDialTickValue(range.getUpperBound(), dialUnitScale);
         
         StandardDialScale scale = 
         	new StandardDialScale(
-        		range.getLowerBound(), 
-        		range.getUpperBound(), 
+        		lowerBound,
+        		upperBound,
         		225, 
         		-270,
-        		(int)(range.getUpperBound() - range.getLowerBound())/6, 
+        		(upperBound - lowerBound)/6, 
         		15
         		);
         scale.setTickRadius(0.9);
@@ -1014,7 +1016,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         scale.setMajorTickPaint(Color.WHITE);
         scale.setMinorTickPaint(Color.WHITE);
         scale.setTickLabelFormatter(new DecimalFormat("#,##0"));
-
         scale.setTickLabelsVisible(true);
         dialPlot.addScale(0, scale);
         List intervals = jrPlot.getIntervals();
@@ -1027,10 +1028,13 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			{
 				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
 				Range intervalRange = convertRange(interval.getDataRange(), evaluation);
+		        double intervalLowerBound = getDialTickValue(intervalRange.getLowerBound(), dialUnitScale);
+		        double intervalUpperBound = getDialTickValue(intervalRange.getUpperBound(), dialUnitScale);
+				
 		        StandardDialRange dialRange = 
 		        	new StandardDialRange(
-		        		intervalRange.getLowerBound(), 
-		        		intervalRange.getUpperBound(), 
+		        		intervalLowerBound, 
+		        		intervalUpperBound, 
 		        		interval.getBackgroundColor() == null 
 		        			? new Color(255 - colorStep * i, 0 + colorStep * i, 0)
 		        			: interval.getBackgroundColor()
@@ -1040,7 +1044,30 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		        dialPlot.addLayer(dialRange);
 			}
 		}
-//	        DialPointer needle = new DialPointer.Pointer();
+
+        String label = getChart().hasProperties() ? 
+        		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
+                		
+        if(label != null)
+        {
+        	if(dialUnitScale < 0)
+        		label = new MessageFormat(label).format(new Object[]{String.valueOf(Math.pow(10, dialUnitScale))});
+        	else if(dialUnitScale < 3)
+        		label = new MessageFormat(label).format(new Object[]{"1"});
+        	else
+        		label = new MessageFormat(label).format(new Object[]{String.valueOf((int)Math.pow(10, dialUnitScale-2))});
+
+        	DialTextAnnotation dialAnnotation = new DialTextAnnotation(label);
+	        dialAnnotation.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(Font.BOLD));
+	        dialAnnotation.setPaint(Color.WHITE);
+	        dialAnnotation.setRadius(Math.sin(Math.PI/4.0));
+	        dialAnnotation.setAnchor(TextAnchor.CENTER);
+	        dialPlot.addLayer(dialAnnotation);
+	        
+        }
+		
+		
+		//	        DialPointer needle = new DialPointer.Pointer();
         DialPointer needle = new GradientPointer();
         
         needle.setVisible(true);
@@ -1127,6 +1154,58 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			}
 			
 		}
+	}
+	
+	private int getScale(double value)
+	{
+		if(value == 0.0)
+			return Integer.MIN_VALUE;
+		
+		value = Math.abs(value);
+		int i = 0;
+		if(value < 1)
+		{
+			do
+			{
+				value *= 10;
+				i--;
+			}while(value < 1);
+		}
+		else if(value >= 10)
+		{
+			do
+			{
+				value /= 10;
+				i++;
+			}while(value >= 10);
+		}
+		return i;
+	}
+	
+	private double getDialTickValue(double value, int scale)
+	{
+		String newValue;
+		if(scale == Integer.MIN_VALUE)
+		{
+			return value;
+		}
+		else if(scale < 0)
+		{
+			value *= Math.pow(10, -scale);
+			newValue = (String.valueOf(value) + "0000").substring(0,4);
+		}
+		else if(scale > 2)
+		{
+			newValue =  (String.valueOf(value * 100/Math.pow(10, scale)) + "000").substring(0,3);
+		}
+		else
+		{
+			newValue = String.valueOf(value);
+			if(newValue.length() > 4)
+				newValue = newValue.substring(0,4);
+		}
+		
+		return Double.valueOf(newValue);
 	}
 }
 
