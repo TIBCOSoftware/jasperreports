@@ -93,7 +93,7 @@
 		</java>
 	</target>
 
-	<target name="view" description="Displays the HTML report by starting an embedded web server and launching a browser">
+	<target name="view" description="Displays the HTML report by starting an embedded web server and launching a browser.">
 		<mkdir dir="${web.dir}"/>
 		<copy todir="${web.dir}">
 			<fileset dir="./web"/>
