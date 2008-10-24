@@ -29,6 +29,7 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -42,19 +43,12 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
-import java.text.NumberFormat;
 import java.util.List;
 import java.util.SortedSet;
 
-import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.charts.fill.JRFillBarPlot;
-import net.sf.jasperreports.charts.fill.JRFillGanttDataset;
 import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
@@ -69,7 +63,6 @@ import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.fill.JRFillChart;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.HashUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
@@ -77,18 +70,13 @@ import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
-import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
-import org.jfree.chart.labels.CategorySeriesLabelGenerator;
-import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
-import org.jfree.chart.labels.StandardCategorySeriesLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
-import org.jfree.chart.plot.CategoryMarker;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
@@ -128,19 +116,19 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.chart.title.Title;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.gantt.GanttCategoryDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.general.ValueDataset;
 import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.io.SerialUtilities;
+import org.jfree.text.TextUtilities;
 import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.HorizontalAlignment;
-import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
+import org.jfree.ui.Size2D;
 import org.jfree.ui.StandardGradientPaintTransformer;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.UnitType;
@@ -974,29 +962,11 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		JRFont jrFont = display.getFont();
 		
-//        String displayVisibility = getChart().hasProperties() ? 
-//        		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
-//        if(Boolean.parseBoolean(displayVisibility))
-//        {
-//	        DialValueIndicator dvi = new DialValueIndicator();
-//	        dvi.setBackgroundPaint(TRANSPARENT_PAINT);
-//	        dvi.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(10f).deriveFont(Font.BOLD));
-//	        dvi.setOutlinePaint(TRANSPARENT_PAINT);
-//	        dvi.setPaint(Color.WHITE);
-//	        String pattern = display.getMask();
-//	        if(pattern != null)
-//	        	dvi.setNumberFormat( new DecimalFormat(pattern));
-//	        dvi.setRadius(0.2);
-//	        dvi.setValueAnchor(RectangleAnchor.CENTER);
-//	        dvi.setTextAnchor(TextAnchor.CENTER);
-//	        dialPlot.addLayer(dvi);
-//        }
-
         Range range = convertRange(jrPlot.getDataRange(), evaluation);
         double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
-        int dialUnitScale = getScale(bound);
-        double lowerBound = getDialTickValue(range.getLowerBound(), dialUnitScale);
-        double upperBound = getDialTickValue(range.getUpperBound(), dialUnitScale);
+        int dialUnitScale = EyeCandySixtiesUtilities.getScale(bound);
+        double lowerBound = EyeCandySixtiesUtilities.getTruncatedValue(range.getLowerBound(), dialUnitScale);
+        double upperBound = EyeCandySixtiesUtilities.getTruncatedValue(range.getUpperBound(), dialUnitScale);
         
         StandardDialScale scale = 
         	new StandardDialScale(
@@ -1015,8 +985,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         scale.setMinorTickStroke(new BasicStroke(0.3f));
         scale.setMajorTickPaint(Color.WHITE);
         scale.setMinorTickPaint(Color.WHITE);
-        scale.setTickLabelFormatter(new DecimalFormat("#,##0"));
+        scale.setTickLabelFormatter(new DecimalFormat("#,##0.##"));
         scale.setTickLabelsVisible(true);
+        scale.setFirstTickLabelVisible(true);
         dialPlot.addScale(0, scale);
         List intervals = jrPlot.getIntervals();
         
@@ -1028,8 +999,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			{
 				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
 				Range intervalRange = convertRange(interval.getDataRange(), evaluation);
-		        double intervalLowerBound = getDialTickValue(intervalRange.getLowerBound(), dialUnitScale);
-		        double intervalUpperBound = getDialTickValue(intervalRange.getUpperBound(), dialUnitScale);
+		        double intervalLowerBound = EyeCandySixtiesUtilities.getTruncatedValue(intervalRange.getLowerBound(), dialUnitScale);
+		        double intervalUpperBound = EyeCandySixtiesUtilities.getTruncatedValue(intervalRange.getUpperBound(), dialUnitScale);
 				
 		        StandardDialRange dialRange = 
 		        	new StandardDialRange(
@@ -1045,9 +1016,29 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			}
 		}
 
+        String displayVisibility = getChart().hasProperties() ? 
+        		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
+        if(Boolean.parseBoolean(displayVisibility))
+        {
+        	ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
+	        dvi.setBackgroundPaint(TRANSPARENT_PAINT);
+	        dvi.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(10f).deriveFont(Font.BOLD));
+	        dvi.setOutlinePaint(TRANSPARENT_PAINT);
+	        dvi.setPaint(Color.WHITE);
+	        
+	        String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
+	        if(pattern != null)
+	        	dvi.setNumberFormat( new DecimalFormat(pattern));
+	        dvi.setRadius(0.2);
+	        dvi.setValueAnchor(RectangleAnchor.CENTER);
+	        dvi.setTextAnchor(TextAnchor.CENTER);
+	        //dvi.setTemplateValue(Double.valueOf(getDialTickValue(dialPlot.getValue(0),dialUnitScale)));
+	        dialPlot.addLayer(dvi);
+        }
+		
         String label = getChart().hasProperties() ? 
         		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
-                		
+
         if(label != null)
         {
         	if(dialUnitScale < 0)
@@ -1068,7 +1059,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		
 		
 		//	        DialPointer needle = new DialPointer.Pointer();
-        DialPointer needle = new GradientPointer();
+        DialPointer needle = new GradientPaintDialPointer(dialUnitScale);
         
         needle.setVisible(true);
         needle.setRadius(0.91);
@@ -1118,7 +1109,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		calculateTickUnits(xyPlot.getRangeAxis());
 		return jfreeChart;
 	}
-
 	
 	private void calculateTickUnits(Axis axis)
 	{
@@ -1156,57 +1146,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		}
 	}
 	
-	private int getScale(double value)
-	{
-		if(value == 0.0)
-			return Integer.MIN_VALUE;
-		
-		value = Math.abs(value);
-		int i = 0;
-		if(value < 1)
-		{
-			do
-			{
-				value *= 10;
-				i--;
-			}while(value < 1);
-		}
-		else if(value >= 10)
-		{
-			do
-			{
-				value /= 10;
-				i++;
-			}while(value >= 10);
-		}
-		return i;
-	}
-	
-	private double getDialTickValue(double value, int scale)
-	{
-		String newValue;
-		if(scale == Integer.MIN_VALUE)
-		{
-			return value;
-		}
-		else if(scale < 0)
-		{
-			value *= Math.pow(10, -scale);
-			newValue = (String.valueOf(value) + "0000").substring(0,4);
-		}
-		else if(scale > 2)
-		{
-			newValue =  (String.valueOf(value * 100/Math.pow(10, scale)) + "000").substring(0,3);
-		}
-		else
-		{
-			newValue = String.valueOf(value);
-			if(newValue.length() > 4)
-				newValue = newValue.substring(0,4);
-		}
-		
-		return Double.valueOf(newValue);
-	}
 }
 
 class SquareXYAreaRenderer extends XYAreaRenderer
@@ -1487,30 +1426,50 @@ class GradientBarRenderer3D extends BarRenderer3D
 	
 };
 
-class GradientPointer extends DialPointer.Pointer {
+class GradientPaintDialPointer extends DialPointer.Pointer {
     
     private Paint gradientFillPaint;
+
+    private int scale;
     
     /**
      * Creates a new instance.
      */
-    public GradientPointer() {
-        this(0, 0.03, new Color(191, 48, 0), new Color(191, 48, 0));
+    public GradientPaintDialPointer() {
+        this(0, 0.03, new Color(191, 48, 0), new Color(191, 48, 0), 1);
     }
+ 
+    /**
+     * Creates a new instance.
+     */
+    public GradientPaintDialPointer(int scale) {
+        this(0, 0.03, new Color(191, 48, 0), new Color(191, 48, 0), scale);
+    }
+ 
+    /**
+     * Creates a new instance.
+     * 
+     * @param datasetIndex  the dataset index.
+     */
+    private GradientPaintDialPointer(int datasetIndex, double widthRadius, Paint gradientFillPaint, Paint outlinePaint) 
+    {
+        this(datasetIndex, widthRadius,gradientFillPaint, outlinePaint, 1);
+    }
+    
     
     /**
      * Creates a new instance.
      * 
      * @param datasetIndex  the dataset index.
      */
-    private GradientPointer(int datasetIndex, double widthRadius, Paint gradientFillPaint, Paint outlinePaint) 
+    private GradientPaintDialPointer(int datasetIndex, double widthRadius, Paint gradientFillPaint, Paint outlinePaint, int scale) 
     {
         super(datasetIndex);
         setWidthRadius(widthRadius);
         this.gradientFillPaint = gradientFillPaint;
         setOutlinePaint(outlinePaint);
+        this.scale = scale;
     }
-    
     
     /**
      * Returns the fill paint.
@@ -1559,7 +1518,7 @@ class GradientPointer extends DialPointer.Pointer {
                 this.getRadius(), this.getRadius());
         Rectangle2D widthRect = DialPlot.rectangleByRadius(frame, 
                 this.getWidthRadius(), this.getWidthRadius());
-        double value = plot.getValue(this.getDatasetIndex());
+        double value = EyeCandySixtiesUtilities.getScaledValue(plot.getValue(this.getDatasetIndex()), scale);
         DialScale scale = plot.getScaleForDataset(this.getDatasetIndex());
         double angle = scale.valueToAngle(value);
     
@@ -1614,10 +1573,10 @@ class GradientPointer extends DialPointer.Pointer {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof GradientPointer)) {
+        if (!(obj instanceof GradientPaintDialPointer)) {
             return false;
         }
-        GradientPointer that = (GradientPointer) obj;
+        GradientPaintDialPointer that = (GradientPaintDialPointer) obj;
         
         if (!this.gradientFillPaint.equals(that.gradientFillPaint)) 
         {
@@ -1665,4 +1624,219 @@ class GradientPointer extends DialPointer.Pointer {
    
 };
 
+class ScaledDialValueIndicator extends DialValueIndicator
+{
+
+	private int scale;
+	/**
+     * Creates a new instance of <code>DialValueIndicator</code>.
+     */
+    public ScaledDialValueIndicator() {
+        this(0,1);
+    }
     
+    /** 
+     * Creates a new instance of <code>DialValueIndicator</code>.
+     * 
+     * @param datasetIndex  the dataset index.
+     */
+    public ScaledDialValueIndicator(int datasetIndex) {
+    	this(datasetIndex, 1);
+    }
+    
+    /** 
+     * Creates a new instance of <code>DialValueIndicator</code>.
+     * 
+     * @param datasetIndex  the dataset index.
+     * @param scale  the scale.
+     */
+    public ScaledDialValueIndicator(int datasetIndex, int scale) {
+    	super(datasetIndex);
+    	setScale(scale);
+    }
+    
+    /**
+     * Draws the background to the specified graphics device.  If the dial
+     * frame specifies a window, the clipping region will already have been 
+     * set to this window before this method is called.
+     *
+     * @param g2  the graphics device (<code>null</code> not permitted).
+     * @param plot  the plot (ignored here).
+     * @param frame  the dial frame (ignored here).
+     * @param view  the view rectangle (<code>null</code> not permitted). 
+     */
+    public void draw(Graphics2D g2, DialPlot plot, Rectangle2D frame, 
+            Rectangle2D view) {
+
+        // work out the anchor point
+        Rectangle2D f = DialPlot.rectangleByRadius(frame, getRadius(), 
+                this.getRadius());
+        Arc2D arc = new Arc2D.Double(f, this.getAngle(), 0.0, Arc2D.OPEN);
+        Point2D pt = arc.getStartPoint();
+        
+        // calculate the bounds of the template value
+        FontMetrics fm = g2.getFontMetrics(this.getFont());
+        String s = this.getNumberFormat().format(this.getTemplateValue());
+        Rectangle2D tb = TextUtilities.getTextBounds(s, g2, fm);
+
+        // align this rectangle to the frameAnchor
+        Rectangle2D bounds = RectangleAnchor.createRectangle(new Size2D(
+                tb.getWidth(), tb.getHeight()), pt.getX(), pt.getY(), 
+                this.getFrameAnchor());
+        
+        // add the insets
+        Rectangle2D fb = this.getInsets().createOutsetRectangle(bounds);
+
+        // draw the background
+        g2.setPaint(this.getBackgroundPaint());
+        g2.fill(fb);
+
+        // draw the border
+        g2.setStroke(this.getOutlineStroke());
+        g2.setPaint(this.getOutlinePaint());
+        g2.draw(fb);
+        
+        
+        // now find the text anchor point
+        String valueStr = this.getNumberFormat().format(EyeCandySixtiesUtilities.getScaledValue(plot.getValue(this.getDatasetIndex()), scale));
+        Point2D pt2 = RectangleAnchor.coordinates(bounds, this.getValueAnchor());
+        g2.setPaint(this.getPaint());
+        g2.setFont(this.getFont());
+        TextUtilities.drawAlignedString(valueStr, g2, (float) pt2.getX(), 
+                (float) pt2.getY(), this.getTextAnchor());
+        
+    }
+
+	/**
+     * @return the scale
+     */
+    public int getScale()
+    {
+    	return this.scale;
+    }
+
+	/**
+     * @param scale the scale to set
+     */
+    public void setScale(int scale)
+    {
+    	this.scale = scale;
+    }
+
+    /**
+     * Tests this instance for equality with an arbitrary object.
+     *
+     * @param obj  the object (<code>null</code> permitted).
+     *
+     * @return A boolean.
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof ScaledDialValueIndicator)) {
+            return false;
+        }
+        ScaledDialValueIndicator that = (ScaledDialValueIndicator) obj;
+        if (this.scale != that.scale) {
+            return false;
+        }
+        return super.equals(obj);
+    }
+    
+    /**
+     * Returns a hash code for this instance.
+     * 
+     * @return The hash code.
+     */
+    public int hashCode() {
+        return 37 * super.hashCode() + scale;
+    }
+    
+    /**
+     * Returns a clone of this instance.
+     *
+     * @return The clone.
+     *
+     * @throws CloneNotSupportedException if some attribute of this instance
+     *     cannot be cloned.
+     */
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+    
+};
+
+class EyeCandySixtiesUtilities
+{
+	public static int getScale(double value)
+	{
+		if(value == 0.0)
+			return Integer.MIN_VALUE;
+		
+		value = Math.abs(value);
+		int i = 0;
+		if(value < 1)
+		{
+			do
+			{
+				value *= 10;
+				i--;
+			}while(value < 1);
+		}
+		else if(value >= 10)
+		{
+			do
+			{
+				value /= 10;
+				i++;
+			}while(value >= 10);
+		}
+		return i;
+	}
+	
+	public static double getTruncatedValue(double value, int scale)
+	{
+		String newValue;
+		if(scale == Integer.MIN_VALUE)
+		{
+			return value;
+			
+		}
+		else if(scale < 0)
+		{
+			value *= Math.pow(10.0, -scale);
+			newValue = (String.valueOf(value) + "0000").substring(0,4);
+		}
+		else if(scale > 2)
+		{
+			newValue =  (String.valueOf(value / Math.pow(10.0, scale - 2)) + "000").substring(0,3);
+		}
+		else
+		{
+			newValue = String.valueOf(value);
+			if(newValue.length() > 4)
+				newValue = newValue.substring(0,4);
+		}
+		return Double.valueOf(newValue);
+	}
+	
+	public static double getScaledValue(double value, int scale)
+	{
+		if(scale == Integer.MIN_VALUE)
+		{
+			return value;
+		}
+		else if(scale < 0)
+		{
+			return value * Math.pow(10.0, -scale);
+		}
+		else if(scale > 2)
+		{
+			return value / Math.pow(10.0, scale-2);
+		}
+		
+		return value;
+	}
+	
+};
