@@ -43,6 +43,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.List;
@@ -965,6 +966,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         Range range = convertRange(jrPlot.getDataRange(), evaluation);
         double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
         int dialUnitScale = EyeCandySixtiesUtilities.getScale(bound);
+        
         double lowerBound = EyeCandySixtiesUtilities.getTruncatedValue(range.getLowerBound(), dialUnitScale);
         double upperBound = EyeCandySixtiesUtilities.getTruncatedValue(range.getUpperBound(), dialUnitScale);
         
@@ -980,17 +982,33 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         scale.setTickRadius(0.9);
         scale.setTickLabelOffset(0.16);
         scale.setTickLabelFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(8f).deriveFont(Font.BOLD));
-        //scale.setMajorTickIncrement((int)(range.getUpperBound() - range.getLowerBound())/10);
         scale.setMajorTickStroke(new BasicStroke(1f));
         scale.setMinorTickStroke(new BasicStroke(0.3f));
         scale.setMajorTickPaint(Color.WHITE);
         scale.setMinorTickPaint(Color.WHITE);
-        scale.setTickLabelFormatter(new DecimalFormat("#,##0.##"));
+        
         scale.setTickLabelsVisible(true);
         scale.setFirstTickLabelVisible(true);
+        if((lowerBound == (int)lowerBound &&
+        		upperBound == (int)upperBound &&
+        		scale.getMajorTickIncrement() == (int)scale.getMajorTickIncrement()) ||
+        		dialUnitScale > 1
+        		)
+        {
+			scale.setTickLabelFormatter(new DecimalFormat("#,##0"));
+		}
+		else if(dialUnitScale == 1)
+		{
+			
+			scale.setTickLabelFormatter(new DecimalFormat("#,##0.0"));
+		}
+		else if(dialUnitScale <= 0)
+		{
+			scale.setTickLabelFormatter(new DecimalFormat("#,##0.00"));
+		}
+        
         dialPlot.addScale(0, scale);
         List intervals = jrPlot.getIntervals();
-        
 		if (intervals != null && intervals.size() > 0)
 		{
 			int colorStep = 255 / intervals.size();
@@ -1029,7 +1047,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	        String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
 	        if(pattern != null)
 	        	dvi.setNumberFormat( new DecimalFormat(pattern));
-	        dvi.setRadius(0.2);
+	        dvi.setRadius(0.15);
 	        dvi.setValueAnchor(RectangleAnchor.CENTER);
 	        dvi.setTextAnchor(TextAnchor.CENTER);
 	        //dvi.setTemplateValue(Double.valueOf(getDialTickValue(dialPlot.getValue(0),dialUnitScale)));
@@ -1771,39 +1789,16 @@ class EyeCandySixtiesUtilities
 {
 	public static int getScale(double value)
 	{
-		if(value == 0.0)
-			return Integer.MIN_VALUE;
-		
-		value = Math.abs(value);
-		int i = 0;
-		if(value < 1)
-		{
-			do
-			{
-				value *= 10;
-				i--;
-			}while(value < 1);
-		}
-		else if(value >= 10)
-		{
-			do
-			{
-				value /= 10;
-				i++;
-			}while(value >= 10);
-		}
-		return i;
+		return BigDecimal.valueOf(value).precision() - BigDecimal.valueOf(value).scale() - 1;
 	}
 	
 	public static double getTruncatedValue(double value, int scale)
 	{
 		String newValue;
-		if(scale == Integer.MIN_VALUE)
-		{
-			return value;
-			
-		}
-		else if(scale < 0)
+		String sign = value < 0 ? "-" : ""; 
+		value = Math.abs(value);
+		
+		if(scale < 0)
 		{
 			value *= Math.pow(10.0, -scale);
 			newValue = (String.valueOf(value) + "0000").substring(0,4);
@@ -1818,16 +1813,12 @@ class EyeCandySixtiesUtilities
 			if(newValue.length() > 4)
 				newValue = newValue.substring(0,4);
 		}
-		return Double.valueOf(newValue);
+		return Double.valueOf(sign + newValue);
 	}
 	
 	public static double getScaledValue(double value, int scale)
 	{
-		if(scale == Integer.MIN_VALUE)
-		{
-			return value;
-		}
-		else if(scale < 0)
+		if(scale < 0)
 		{
 			return value * Math.pow(10.0, -scale);
 		}
