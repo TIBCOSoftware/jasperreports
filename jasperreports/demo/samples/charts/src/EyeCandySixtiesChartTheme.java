@@ -49,11 +49,13 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.SortedSet;
 
+import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
+import net.sf.jasperreports.charts.fill.JRFillThermometerPlot;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -167,7 +169,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	
 	public static final Color GRIDLINE_COLOR = new Color(134,134,134);
 	public static final Color BORDER_COLOR = new Color(27,80,108);
-	public static final Color THERMOMETER_COLOR = new Color(228, 100, 37);
+	public static final Color THERMOMETER_COLOR = Color.BLACK;
 //	public static final Color MARKER_COLOR = new Color(210,210,210);
 	
 	/**
@@ -908,15 +910,114 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	 */
 	protected JFreeChart createThermometerChart(byte evaluation) throws JRException
 	{
-		JFreeChart jfreeChart = super.createThermometerChart(evaluation);
-		ThermometerPlot thermometerPlot = (ThermometerPlot)jfreeChart.getPlot();
-		thermometerPlot.setMercuryPaint(GRADIENT_PAINTS[0]);
-		thermometerPlot.setThermometerPaint(THERMOMETER_COLOR);
-		thermometerPlot.setThermometerStroke(new BasicStroke(2f));
-		thermometerPlot.setGap(2);
-		thermometerPlot.setForegroundAlpha(1f);
-		thermometerPlot.setValueFont(thermometerPlot.getValueFont().deriveFont(Font.BOLD));
+		JRFillThermometerPlot jrPlot = (JRFillThermometerPlot)getPlot();
+
+		// Create the plot that will hold the thermometer.
+		ThermometerPlot chartPlot = new ThermometerPlot((ValueDataset)getDataset().getDataset());
+		// Build a chart around this plot
+		JFreeChart jfreeChart = new JFreeChart(chartPlot);
+
+		// Set the generic options
+		configureChart(jfreeChart, getPlot(), evaluation);
+		jfreeChart.setBackgroundPaint(TRANSPARENT_PAINT);
+		jfreeChart.setBorderVisible(false);
+		
+		Range range = convertRange(jrPlot.getDataRange(), evaluation);
+
+		// Set the boundary of the thermomoter
+		chartPlot.setLowerBound(range.getLowerBound());
+		chartPlot.setUpperBound(range.getUpperBound());
+		chartPlot.setGap(0);
+		
+		
+		chartPlot.setShowValueLines(jrPlot.isShowValueLines());
+
+		// Units can only be Fahrenheit, Celsius or none, so turn off for now.
+		chartPlot.setUnits(ThermometerPlot.UNITS_NONE);
+
+		// Set the color of the mercury.  Only used when the value is outside of
+		// any defined ranges.
+		Paint paint = jrPlot.getMercuryColor() != null ? jrPlot.getMercuryColor() : GRADIENT_PAINTS[0];
+		chartPlot.setMercuryPaint(paint);
+
+		chartPlot.setThermometerPaint(THERMOMETER_COLOR);
+		chartPlot.setThermometerStroke(new BasicStroke(2f));
+		chartPlot.setOutlineVisible(false);
+		chartPlot.setValueFont(chartPlot.getValueFont().deriveFont(Font.BOLD));
+
+		
+		
+		// Set the formatting of the value display
+		JRValueDisplay display = jrPlot.getValueDisplay();
+		if (display != null)
+		{
+			if (display.getColor() != null)
+			{
+				chartPlot.setValuePaint(display.getColor());
+			}
+			if (display.getMask() != null)
+			{
+				chartPlot.setValueFormat(new DecimalFormat(display.getMask()));
+			}
+			if (display.getFont() != null)
+			{
+				chartPlot.setValueFont(new Font(JRFontUtil.getAttributes(display.getFont())).deriveFont(Font.BOLD));
+			}
+		}
+
+		// Set the location of where the value is displayed
+		switch (jrPlot.getValueLocation())
+		{
+		  case JRThermometerPlot.LOCATION_NONE:
+			 chartPlot.setValueLocation(ThermometerPlot.NONE);
+			 break;
+		  case JRThermometerPlot.LOCATION_LEFT:
+			 chartPlot.setValueLocation(ThermometerPlot.LEFT);
+			 break;
+		  case JRThermometerPlot.LOCATION_RIGHT:
+			 chartPlot.setValueLocation(ThermometerPlot.RIGHT);
+			 break;
+		  case JRThermometerPlot.LOCATION_BULB:
+		  default:
+			 chartPlot.setValueLocation(ThermometerPlot.BULB);
+			 break;
+		}
+
+		// Define the three ranges
+		range = convertRange(jrPlot.getLowRange(), evaluation);
+		if (range != null)
+		{
+			chartPlot.setSubrangeInfo(2, range.getLowerBound(), range.getUpperBound());
+		}
+
+		range = convertRange(jrPlot.getMediumRange(), evaluation);
+		if (range != null)
+		{
+			chartPlot.setSubrangeInfo(1, range.getLowerBound(), range.getUpperBound());
+		}
+
+		range = convertRange(jrPlot.getHighRange(), evaluation);
+		if (range != null)
+		{
+			chartPlot.setSubrangeInfo(0, range.getLowerBound(), range.getUpperBound());
+		}
+
 		return jfreeChart;
+
+//		
+//		
+//		
+//		
+//		
+//		JFreeChart jfreeChart = super.createThermometerChart(evaluation);
+//		ThermometerPlot thermometerPlot = (ThermometerPlot)jfreeChart.getPlot();
+//		thermometerPlot.setMercuryPaint(GRADIENT_PAINTS[0]);
+//		thermometerPlot.setThermometerPaint(THERMOMETER_COLOR);
+//		thermometerPlot.setThermometerStroke(new BasicStroke(2f));
+//		thermometerPlot.setGap(2);
+//		thermometerPlot.setForegroundAlpha(1f);
+//		thermometerPlot.setValueFont(thermometerPlot.getValueFont().deriveFont(Font.BOLD));
+//		return jfreeChart;
 	}
 
 	/**
@@ -1066,14 +1167,17 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         	else
         		label = new MessageFormat(label).format(new Object[]{String.valueOf((int)Math.pow(10, dialUnitScale-2))});
 
-        	DialTextAnnotation dialAnnotation = new DialTextAnnotation(label);
-	        dialAnnotation.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(Font.BOLD));
-	        dialAnnotation.setPaint(Color.WHITE);
-	        dialAnnotation.setRadius(Math.sin(Math.PI/4.0));
-	        dialAnnotation.setAnchor(TextAnchor.CENTER);
-	        dialPlot.addLayer(dialAnnotation);
-	        
-        }
+        	String[] textLines = label.split("\\n");
+        	for(int i = 0; i < textLines.length; i++)
+        	{
+	        	DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
+		        dialAnnotation.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(Font.BOLD));
+		        dialAnnotation.setPaint(Color.WHITE);
+		        dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
+		        dialAnnotation.setAnchor(TextAnchor.CENTER);
+		        dialPlot.addLayer(dialAnnotation);
+        	}
+       }
 		
 		
 		//	        DialPointer needle = new DialPointer.Pointer();
