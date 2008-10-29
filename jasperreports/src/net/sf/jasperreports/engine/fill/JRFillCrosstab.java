@@ -147,14 +147,16 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				factory, crosstabEvaluator);
 		crosstabFactory.setParentOriginProvider(this);
 		
-		headerCell = crosstabFactory.getCell(crosstab.getHeaderCell());
+		headerCell = crosstabFactory.getCell(crosstab.getHeaderCell(), 
+				JRCellContents.TYPE_CROSSTAB_HEADER);
 
 		copyRowGroups(crosstab, crosstabFactory);
 		copyColumnGroups(crosstab, crosstabFactory);
 		
 		copyMeasures(crosstab, crosstabFactory);
 		copyCells(crosstab, crosstabFactory);
-		whenNoDataCell = crosstabFactory.getCell(crosstab.getWhenNoDataCell());
+		whenNoDataCell = crosstabFactory.getCell(crosstab.getWhenNoDataCell(),
+				JRCellContents.TYPE_NO_DATA_CELL);
 		
 		dataset = factory.getCrosstabDataset(crosstab.getDataset(), this);
 
@@ -1193,6 +1195,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				contents.setX(0);
 				contents.setY(yOffset);
 				contents.setVerticalSpan(columnGroups.length);
+				contents.setHorizontalSpan(rowGroups.length);
 			}
 			return contents;
 		}
@@ -1240,6 +1243,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					contents.setX(columnXOffsets[columnIdx] - columnXOffsets[startColumnIndex] + xOffset);
 					contents.setY(rowY + yOffset);
 					contents.setVerticalSpan(cell.getDepthSpan());
+					contents.setHorizontalSpan(cell.getLevelSpan());
 					
 					preparedContents = contents;
 				}
@@ -1583,6 +1587,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					contents.setX(rowHeadersXOffsets[rowGroup]);
 					contents.setY(headerY + yOffset);
 					contents.setVerticalSpan(vSpan);
+					contents.setHorizontalSpan(cell.getDepthSpan());
 					
 					int rowCellHeight = contents.getPrintHeight() - spanHeight;
 					if (rowCellHeight > preparedRowHeight)
@@ -1774,6 +1779,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					contents.setX(rowHeadersXOffsets[rowGroup]);
 					contents.setY(headerY + yOffset);
 					contents.setVerticalSpan(vSpan);
+					contents.setHorizontalSpan(cell.getDepthSpan());
 					
 					int rowHeight = contents.getPrintHeight() - stretchHeight;
 					if (rowHeight > preparedRowHeight)

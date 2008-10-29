@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.crosstabs.fill;
 
+import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 
 /**
@@ -40,7 +41,7 @@ public class JRFillCrosstabRowGroup extends JRFillCrosstabGroup implements JRCro
 	
 	public JRFillCrosstabRowGroup(JRCrosstabRowGroup group, JRFillCrosstabObjectFactory factory)
 	{
-		super(group, factory);
+		super(group, JRCellContents.TYPE_ROW_HEADER, factory);
 	}
 
 

@@ -47,14 +47,14 @@ public abstract class JRFillCrosstabGroup implements JRCrosstabGroup
 	protected JRFillCellContents totalHeader;
 	protected JRFillVariable variable;
 
-	public JRFillCrosstabGroup(JRCrosstabGroup group, JRFillCrosstabObjectFactory factory)
+	public JRFillCrosstabGroup(JRCrosstabGroup group, String cellType, JRFillCrosstabObjectFactory factory)
 	{
 		factory.put(group, this);
 		
 		parentGroup = group;
 		
-		header = factory.getCell(group.getHeader());
-		totalHeader = factory.getCell(group.getTotalHeader());
+		header = factory.getCell(group.getHeader(), cellType);
+		totalHeader = factory.getCell(group.getTotalHeader(), cellType);
 		
 		variable = factory.getVariable(group.getVariable());
 	}

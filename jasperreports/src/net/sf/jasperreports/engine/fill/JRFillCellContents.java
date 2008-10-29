@@ -66,6 +66,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	private JRFillCellContents original;
 	
 	private final JRCellContents parentCell;
+	private String cellType;
 	
 	private JRLineBox lineBox;
 	
@@ -76,19 +77,22 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	private int y;
 	private int verticalSpan;
 	private byte verticalPositionType = JRCellContents.POSITION_Y_TOP;
+	private int horizontalSpan;
 	
 	private Map templateFrames;
 	
 	private JRDefaultStyleProvider defaultStyleProvider;
 	private JRStyle initStyle;
 
-	public JRFillCellContents(JRBaseFiller filler, JRCellContents cell, JRFillCrosstabObjectFactory factory)
+	public JRFillCellContents(JRBaseFiller filler, JRCellContents cell, String cellType, 
+			JRFillCrosstabObjectFactory factory)
 	{
 		super(filler, cell, factory);
 		
 		defaultStyleProvider = factory.getDefaultStyleProvider();
 		
 		parentCell = cell;
+		this.cellType = cellType;
 		
 		lineBox = cell.getLineBox().clone(this);
 		
@@ -123,6 +127,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		defaultStyleProvider = cellContents.defaultStyleProvider;
 		
 		parentCell = cellContents.parentCell;
+		cellType = cellContents.cellType;
 		
 		lineBox = cellContents.getLineBox().clone(this);
 		
@@ -397,7 +402,30 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		printCell.setHeight(getPrintHeight());
 		
+		setCellProperties(printCell);
+
 		return printCell;
+	}
+
+	protected void setCellProperties(JRTemplatePrintFrame printCell)
+	{
+		if (cellType != null)
+		{
+			printCell.getPropertiesMap().setProperty(
+					JRCellContents.PROPERTY_TPYE, cellType);
+		}
+		
+		if (verticalSpan > 1)
+		{
+			printCell.getPropertiesMap().setProperty(
+					JRCellContents.PROPERTY_ROW_SPAN, Integer.toString(verticalSpan));
+		}
+		
+		if (horizontalSpan > 1)
+		{
+			printCell.getPropertiesMap().setProperty(
+					JRCellContents.PROPERTY_COLUMN_SPAN, Integer.toString(horizontalSpan));
+		}
 	}
 
 	
@@ -612,6 +640,17 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	{
 		this.verticalPositionType = positionType;
 	}
+	
+	public int getHorizontalSpan()
+	{
+		return horizontalSpan;
+	}
+
+	public void setHorizontalSpan(int horizontalSpan)
+	{
+		this.horizontalSpan = horizontalSpan;
+	}
+
 
 	protected void evaluate(byte evaluation) throws JRException
 	{
