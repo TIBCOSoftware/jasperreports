@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1809,6 +1810,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				List rowPrints = (List) it.next();
 				prints.addAll(rowPrints);
 			}
+			
+			Collections.sort(prints, new JRYXComparator());//FIXME make singleton comparator; same of older comparator
 			
 			return prints;
 		}
