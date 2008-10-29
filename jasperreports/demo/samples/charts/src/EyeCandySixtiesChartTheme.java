@@ -289,7 +289,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		super.configurePlot(plot, jrPlot);
 
 		// Set any color series
-		SortedSet seriesColors = getPlot().getSeriesColors();
+		SortedSet seriesColors = getPlot().getSeriesColors();//FIXMETHEME
 		plot.setDrawingSupplier(
 			new DefaultDrawingSupplier(
 				COLORS,
@@ -595,7 +595,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		BarRenderer3D barRenderer3D = (BarRenderer3D)categoryPlot.getRenderer();
 		barRenderer3D.setWallPaint(TRANSPARENT_PAINT);
 
-		CategoryDataset categoryDataset = categoryPlot.getDataset();
+		//CategoryDataset categoryDataset = categoryPlot.getDataset();
 		barRenderer3D.setItemMargin(0);
 		calculateTickUnits(categoryPlot.getRangeAxis());
 		return jfreeChart;
@@ -1041,12 +1041,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
         		new Point(), Color.BLACK
         		);
         
-        GradientPaint gp3 = 
-        	new GradientPaint(
-        		new Point(), Color.DARK_GRAY, 
-        		new Point(), Color.BLACK
-        		);
-
         // get data for diagrams
         DialPlot dialPlot = new DialPlot();
         //dialPlot.setView(0.0, 0.0, 1.0, 1.0);
@@ -1272,6 +1266,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 
 class SquareXYAreaRenderer extends XYAreaRenderer
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
 	public SquareXYAreaRenderer(XYAreaRenderer parent)
 	{
 		super(XYAreaRenderer.AREA, parent.getToolTipGenerator(), parent.getURLGenerator());
@@ -1287,6 +1283,8 @@ class SquareXYAreaRenderer extends XYAreaRenderer
 	
 class GradientXYBubbleRenderer extends XYBubbleRenderer
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
 	public GradientXYBubbleRenderer(int scaleType)
 	{
 		super(scaleType);
@@ -1548,7 +1546,9 @@ class GradientBarRenderer3D extends BarRenderer3D
 	
 };
 
-class GradientPaintDialPointer extends DialPointer.Pointer {
+class GradientPaintDialPointer extends DialPointer.Pointer 
+{
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
     
     private Paint gradientFillPaint;
 
@@ -1568,15 +1568,15 @@ class GradientPaintDialPointer extends DialPointer.Pointer {
         this(0, 0.03, new Color(191, 48, 0), new Color(191, 48, 0), scale);
     }
  
-    /**
-     * Creates a new instance.
-     * 
-     * @param datasetIndex  the dataset index.
-     */
-    private GradientPaintDialPointer(int datasetIndex, double widthRadius, Paint gradientFillPaint, Paint outlinePaint) 
-    {
-        this(datasetIndex, widthRadius,gradientFillPaint, outlinePaint, 1);
-    }
+//    /**
+//     * Creates a new instance.
+//     * 
+//     * @param datasetIndex  the dataset index.
+//     */
+//    private GradientPaintDialPointer(int datasetIndex, double widthRadius, Paint gradientFillPaint, Paint outlinePaint) 
+//    {
+//        this(datasetIndex, widthRadius,gradientFillPaint, outlinePaint, 1);
+//    }
     
     
     /**
@@ -1748,6 +1748,7 @@ class GradientPaintDialPointer extends DialPointer.Pointer {
 
 class ScaledDialValueIndicator extends DialValueIndicator
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private int scale;
 	/**
