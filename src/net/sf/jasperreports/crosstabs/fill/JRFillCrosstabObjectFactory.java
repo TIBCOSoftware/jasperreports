@@ -64,7 +64,7 @@ public class JRFillCrosstabObjectFactory extends JRFillObjectFactory
 		this.parentOriginProvider = parentOriginProvider;
 	}
 
-	public JRFillCellContents getCell(JRCellContents cell)
+	public JRFillCellContents getCell(JRCellContents cell, String cellType)
 	{
 		JRFillCellContents fillCell = null;
 
@@ -73,7 +73,7 @@ public class JRFillCrosstabObjectFactory extends JRFillObjectFactory
 			fillCell = (JRFillCellContents) get(cell);
 			if (fillCell == null)
 			{
-				fillCell = new JRFillCellContents(filler, cell, this);
+				fillCell = new JRFillCellContents(filler, cell, cellType, this);
 			}
 		}
 

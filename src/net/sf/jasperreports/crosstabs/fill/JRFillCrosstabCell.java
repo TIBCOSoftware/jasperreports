@@ -46,7 +46,7 @@ public class JRFillCrosstabCell implements JRCrosstabCell
 		
 		parentCell = cell;
 		
-		contents = factory.getCell(cell.getContents());
+		contents = factory.getCell(cell.getContents(), JRCellContents.TYPE_DATA);
 	}
 
 	public String getRowTotalGroup()
