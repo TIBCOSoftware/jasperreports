@@ -28,7 +28,7 @@
 package net.sf.jasperreports.engine.component;
 
 /**
- * A component manager is the entry point thtough which the handlers for a
+ * A component manager is the entry point through which the handlers for a
  * single component type can be accessed.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
