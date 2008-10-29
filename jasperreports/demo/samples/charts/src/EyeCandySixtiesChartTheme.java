@@ -937,7 +937,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 
 		// Set the color of the mercury.  Only used when the value is outside of
 		// any defined ranges.
-		Paint paint = jrPlot.getMercuryColor() != null ? jrPlot.getMercuryColor() : GRADIENT_PAINTS[0];
+		Paint paint = (jrPlot.getMercuryColor() != null ? (Paint)jrPlot.getMercuryColor() : (Paint)GRADIENT_PAINTS[0]);
 		chartPlot.setMercuryPaint(paint);
 
 		chartPlot.setThermometerPaint(THERMOMETER_COLOR);
@@ -1918,7 +1918,7 @@ class EyeCandySixtiesUtilities
 			if(newValue.length() > 4)
 				newValue = newValue.substring(0,4);
 		}
-		return Double.valueOf(sign + newValue);
+		return Double.valueOf(sign + newValue).doubleValue();
 	}
 	
 	public static double getScaledValue(double value, int scale)
