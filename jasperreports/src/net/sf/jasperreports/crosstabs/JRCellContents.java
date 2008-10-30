@@ -119,7 +119,7 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	 * 	<li>{@link #TYPE_NO_DATA_CELL}</li>
 	 * </ul>
 	 */
-	public static final String PROPERTY_TPYE = PROPERTIES_PREFIX + "type";
+	public static final String PROPERTY_TYPE = PROPERTIES_PREFIX + "type";
 	
 	/**
 	 * A property that provides the crosstab row span of a print frame.

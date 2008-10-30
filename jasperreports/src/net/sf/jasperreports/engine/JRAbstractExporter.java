@@ -472,7 +472,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected String getStringParameter(JRExporterParameter parameter, String property)
+	public String getStringParameter(JRExporterParameter parameter, String property)
 	{
 		return getParameterResolver().getStringParameter(parameter, property);
 	}
@@ -481,7 +481,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected String getStringParameterOrDefault(JRExporterParameter parameter, String property)
+	public String getStringParameterOrDefault(JRExporterParameter parameter, String property)
 	{
 		return getParameterResolver().getStringParameterOrDefault(parameter, property);
 	}
@@ -490,7 +490,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected boolean getBooleanParameter(JRExporterParameter parameter, String property, boolean defaultValue)
+	public boolean getBooleanParameter(JRExporterParameter parameter, String property, boolean defaultValue)
 	{
 		return getParameterResolver().getBooleanParameter(parameter, property, defaultValue);
 	}
@@ -499,13 +499,13 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue)
+	public int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue)
 	{
 		return getParameterResolver().getIntegerParameter(parameter, property, defaultValue);
 	}
 
 	
-	protected Character getCharacterParameter(JRExporterParameter parameter, String property)
+	public Character getCharacterParameter(JRExporterParameter parameter, String property)
 	{
 		return getParameterResolver().getCharacterParameter(parameter, property);
 	}

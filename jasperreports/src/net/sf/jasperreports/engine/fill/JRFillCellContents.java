@@ -412,7 +412,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		if (cellType != null)
 		{
 			printCell.getPropertiesMap().setProperty(
-					JRCellContents.PROPERTY_TPYE, cellType);
+					JRCellContents.PROPERTY_TYPE, cellType);
 		}
 		
 		if (verticalSpan > 1)
