@@ -1,3 +1,4 @@
+package net.sf.jasperreports.charts.themes;
 /*
  * ============================================================================
  * GNU Lesser General Public License
@@ -26,34 +27,44 @@
  * http://www.jaspersoft.com
  */
 
-import java.util.Collections;
-import java.util.List;
-
+import net.sf.jasperreports.charts.ChartTheme;
 import net.sf.jasperreports.charts.ChartThemeBundle;
-import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.extensions.ExtensionsRegistry;
-import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRFillChart.java 2278 2008-08-14 16:14:54Z teodord $
  */
-public class SampleExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public class SampleChartThemeBundle implements ChartThemeBundle
 {
-	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
+	private String[] names = new String[]{"simple", "eye.candy.sixties"};
+
+	private static final SampleChartThemeBundle INSTANCE = new SampleChartThemeBundle();
+	
+	public static SampleChartThemeBundle getInstance() 
 	{
-		return 
-			new ExtensionsRegistry()
-			{
-				public List getExtensions(Class extensionType) 
-				{
-					if (ChartThemeBundle.class.equals(extensionType))
-					{
-						return Collections.singletonList(SampleChartThemeBundle.getInstance());
-					}
-					return null;
-				}
-			};
+		return INSTANCE;
+	}
+	
+	private SampleChartThemeBundle() 
+	{
+	}
+	
+	public String[] getChartThemeNames() 
+	{
+		return names;
+	}
+	
+	public ChartTheme getChartTheme(String themeName) 
+	{
+		if ("simple".equals(themeName))
+		{
+			return new SimpleChartTheme(); 
+		}
+		else if ("eye.candy.sixties".equals(themeName))
+		{
+			return new EyeCandySixtiesChartTheme(); 
+		}
+		return null;
 	}
 }
