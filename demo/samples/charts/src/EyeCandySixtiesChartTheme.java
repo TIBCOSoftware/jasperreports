@@ -1061,8 +1061,7 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		JRFont jrFont = display != null  && display.getFont() != null ? 
 				display.getFont() : 
 				new JRBaseFont(null, null, getChart(), null);
-		//jrFont
-		System.out.println("jrfont = "+ jrFont);
+
         Range range = convertRange(jrPlot.getDataRange(), evaluation);
         double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
         int dialUnitScale = EyeCandySixtiesUtilities.getScale(bound);
