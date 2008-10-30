@@ -1057,7 +1057,6 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
                 GradientPaintTransformType.VERTICAL));
         dialPlot.setBackground(db);
 		JRValueDisplay display = jrPlot.getValueDisplay();
-		System.out.println("display = "+ display);
 		JRFont jrFont = display != null  && display.getFont() != null ? 
 				display.getFont() : 
 				new JRBaseFont(null, null, getChart(), null);
