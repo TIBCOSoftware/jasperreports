@@ -62,6 +62,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.fill.JRFillChart;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -1056,8 +1057,12 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
                 GradientPaintTransformType.VERTICAL));
         dialPlot.setBackground(db);
 		JRValueDisplay display = jrPlot.getValueDisplay();
-		JRFont jrFont = display.getFont();
-		
+		System.out.println("display = "+ display);
+		JRFont jrFont = display != null  && display.getFont() != null ? 
+				display.getFont() : 
+				new JRBaseFont(null, null, getChart(), null);
+		//jrFont
+		System.out.println("jrfont = "+ jrFont);
         Range range = convertRange(jrPlot.getDataRange(), evaluation);
         double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
         int dialUnitScale = EyeCandySixtiesUtilities.getScale(bound);
@@ -1129,8 +1134,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 			}
 		}
 
-        String displayVisibility = getChart().hasProperties() ? 
+        String displayVisibility = display != null && getChart().hasProperties() ? 
         		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
+        
         if(Boolean.parseBoolean(displayVisibility))
         {
         	ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
