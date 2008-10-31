@@ -594,8 +594,8 @@ public class DefaultChartTheme implements ChartTheme
 		//plot.setNoDataMessage("No data to display");
 		
 		JRFillBarPlot barPlot = (JRFillBarPlot)getPlot();
-		boolean isShowTickMarks = barPlot.getShowTickMarks() == null ? true : barPlot.getShowTickMarks();
-		boolean isShowTickLabels = barPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels();
+		boolean isShowTickMarks = barPlot.getShowTickMarks() == null ? true : barPlot.getShowTickMarks().booleanValue();
+		boolean isShowTickLabels = barPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels().booleanValue();
 
 		categoryPlot.getDomainAxis().setTickMarksVisible(isShowTickMarks);
 		categoryPlot.getDomainAxis().setTickLabelsVisible(isShowTickLabels);
