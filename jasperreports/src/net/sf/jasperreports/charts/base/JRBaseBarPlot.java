@@ -28,6 +28,10 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+import org.jfree.chart.renderer.category.BarRenderer3D;
 
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.engine.JRChart;
@@ -77,9 +81,9 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	protected String valueAxisTickLabelMask = null;
 	protected Color valueAxisLineColor = null;
 	
-	protected boolean isShowTickMarks = false;
-	protected boolean isShowTickLabels = false;
-	protected boolean isShowLabels = false;
+	protected Boolean showTickMarks = null;
+	protected Boolean showTickLabels = null;
+	protected Boolean showLabels = null;
 
 	
 	/**
@@ -97,9 +101,9 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	{
 		super(barPlot, factory);
 
-		isShowTickMarks = barPlot.isShowTickMarks();
-		isShowTickLabels = barPlot.isShowTickLabels();
-		isShowLabels = barPlot.isShowLabels();
+		showTickMarks = barPlot.getShowTickMarks();
+		showTickLabels = barPlot.getShowTickLabels();
+		showLabels = barPlot.getShowLabels();
 		
 		categoryAxisLabelExpression = factory.getExpression( barPlot.getCategoryAxisLabelExpression() );
 		categoryAxisLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getCategoryAxisLabelFont());
@@ -275,59 +279,106 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	{
 		return valueAxisLineColor;
 	}
+
+	/**
+	 * @deprecated Replaced by {@link #getShowLabels()} 
+	 */
+	public boolean isShowLabels(){
+		return showLabels == null ? false : showLabels.booleanValue();
+	}
 	
 	/**
-	 *
+	 * 
+	 */
+	public Boolean getShowLabels(){
+		return showLabels;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setShowLabels(Boolean)} 
+	 */
+	public void setShowLabels( boolean isShowLabels ){
+		setShowLabels(Boolean.valueOf(isShowLabels));
+	}
+
+	/**
+	 * 
+	 */
+	public void setShowLabels( Boolean showLabels ){
+		Boolean old = this.showLabels;
+		this.showLabels = showLabels;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.showLabels);
+	}
+	
+	
+	/**
+	 * @deprecated Replaced by {@link #getShowTickMarks()}
 	 */
 	public boolean isShowTickMarks()
 	{
-		return isShowTickMarks;
+		return showTickMarks == null ? false : showTickMarks.booleanValue();
 	}
 		
 	/**
-	 *
+	 * 
+	 */
+	public Boolean getShowTickMarks()
+	{
+		return showTickMarks;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setShowTickMarks(Boolean)}
 	 */
 	public void setShowTickMarks(boolean isShowTickMarks)
 	{
-		boolean old = this.isShowTickMarks;
-		this.isShowTickMarks = isShowTickMarks;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_TICK_MARKS, old, this.isShowTickMarks);
+		setShowTickMarks(Boolean.valueOf(isShowTickMarks));
 	}
 		
 	/**
 	 *
+	 */
+	public void setShowTickMarks(Boolean isShowTickMarks)
+	{
+		Boolean old = this.showTickMarks;
+		this.showTickMarks = isShowTickMarks;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_TICK_MARKS, old, this.showTickMarks);
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getShowTickLabels()}
 	 */
 	public boolean isShowTickLabels()
 	{
-		return isShowTickLabels;
+		return showTickLabels == null ? false : showTickLabels.booleanValue();
 	}
 		
 	/**
 	 *
 	 */
-	public void setShowTickLabels(boolean isShowTickLabels)
+	public Boolean getShowTickLabels()
 	{
-		boolean old = this.isShowTickLabels;
-		this.isShowTickLabels = isShowTickLabels;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_TICK_LABELS, old, this.isShowTickLabels);
-	}
-	
-	/**
-	 * 
-	 */
-	public boolean isShowLabels(){
-		return isShowLabels;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setShowLabels( boolean isShowLabels ){
-		boolean old = this.isShowLabels;
-		this.isShowLabels = isShowLabels;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.isShowLabels);
+		return showTickLabels;
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #setShowTickLabels(Boolean)}
+	 */
+	public void setShowTickLabels(boolean isShowTickLabels)
+	{
+		setShowTickLabels(Boolean.valueOf(isShowTickLabels));
+	}
+	
+	/**
+	 *
+	 */
+	public void setShowTickLabels(Boolean showTickLabels)
+	{
+		Boolean old = this.showTickLabels;
+		this.showTickLabels = showTickLabels;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_TICK_LABELS, old, this.showTickLabels);
+	}
+	
 	/**
 	 *
 	 */
@@ -352,4 +403,26 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		}
 		return clone;
 	}
+
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	protected boolean isShowTickMarks = false;
+	protected boolean isShowTickLabels = false;
+	protected boolean isShowLabels = false;
+
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		{
+			showTickMarks = isShowTickMarks ? Boolean.TRUE : Boolean.FALSE;
+			showTickLabels = isShowTickLabels ? Boolean.TRUE : Boolean.FALSE;
+			showLabels = isShowLabels ? Boolean.TRUE : Boolean.FALSE;
+		}
+	}
+    
 }
