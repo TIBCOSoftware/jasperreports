@@ -49,17 +49,17 @@ public class JRBar3DPlotFactory extends JRBaseFactory {
 
 		String xOffset = atts.getValue(ATTRIBUTE_xOffset);
 		if (xOffset != null && xOffset.length() > 0) {
-			plot.setXOffset(Double.parseDouble(xOffset));
+			plot.setXOffset(Double.valueOf(xOffset));
 		}
  
 		String yOffset = atts.getValue(ATTRIBUTE_yOffset);
 		if (yOffset != null && yOffset.length() > 0) {
-			plot.setYOffset(Double.parseDouble(yOffset));
+			plot.setYOffset(Double.valueOf(yOffset));
 		}
 		
 		String isShowLabels = atts.getValue( ATTRIBUTE_isShowLabels );
 		if( isShowLabels != null && isShowLabels.length() > 0 ){
-			plot.setShowLabels(Boolean.valueOf(isShowLabels).booleanValue());
+			plot.setShowLabels(Boolean.valueOf(isShowLabels));
 		}
 
 		return plot;

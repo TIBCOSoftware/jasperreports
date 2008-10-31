@@ -1607,9 +1607,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeBarPlot(JRBarPlot plot) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_barPlot);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLabels, plot.isShowLabels(), false);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowTickLabels, plot.isShowTickLabels(), true);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowTickMarks, plot.isShowTickMarks(), true);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLabels, plot.getShowLabels());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowTickLabels, plot.getShowTickLabels());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowTickMarks, plot.getShowTickMarks());
 		writePlot(plot);
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);

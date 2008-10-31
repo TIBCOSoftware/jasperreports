@@ -592,26 +592,21 @@ public class DefaultChartTheme implements ChartTheme
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		//plot.setNoDataMessage("No data to display");
-
+		
 		JRFillBarPlot barPlot = (JRFillBarPlot)getPlot();
-		categoryPlot.getDomainAxis().setTickMarksVisible(
-			barPlot.isShowTickMarks()
-			);
-		categoryPlot.getDomainAxis().setTickLabelsVisible(
-				barPlot.isShowTickLabels()
-				);
+		boolean isShowTickMarks = barPlot.getShowTickMarks() == null ? true : barPlot.getShowTickMarks();
+		boolean isShowTickLabels = barPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels();
+
+		categoryPlot.getDomainAxis().setTickMarksVisible(isShowTickMarks);
+		categoryPlot.getDomainAxis().setTickLabelsVisible(isShowTickLabels);
 		// Handle the axis formating for the catagory axis
 		configureAxis(categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
 				barPlot.getCategoryAxisLineColor());
 
-		((NumberAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(
-				barPlot.isShowTickMarks()
-				);
-		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(
-				barPlot.isShowTickLabels()
-				);
+		((NumberAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(isShowTickMarks);
+		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(isShowTickLabels);
 		// Handle the axis formating for the value axis
 		configureAxis(categoryPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
 				barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
@@ -621,7 +616,7 @@ public class DefaultChartTheme implements ChartTheme
 
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
-		categoryRenderer.setBaseItemLabelsVisible( barPlot.isShowLabels() );
+		categoryRenderer.setBaseItemLabelsVisible( barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue());
 		
 		return jfreeChart;
 	}
@@ -991,23 +986,18 @@ public class DefaultChartTheme implements ChartTheme
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		JRFillBarPlot barPlot = (JRFillBarPlot)getPlot();
 		//plot.setNoDataMessage("No data to display");
-
-		categoryPlot.getDomainAxis().setTickMarksVisible(
-				barPlot.isShowTickMarks()
-				);
-		categoryPlot.getDomainAxis().setTickLabelsVisible(
-				barPlot.isShowTickLabels()
-				);
-		((NumberAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(
-				barPlot.isShowTickMarks()
-				);
-		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(
-				barPlot.isShowTickLabels()
-				);
+		boolean isShowTickMarks = barPlot.getShowTickMarks() == null ? true : barPlot.getShowTickMarks().booleanValue();
+		boolean isShowTickLabels = barPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels().booleanValue();
+		boolean isShowLabels = barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue();
+		
+		categoryPlot.getDomainAxis().setTickMarksVisible(isShowTickMarks);
+		categoryPlot.getDomainAxis().setTickLabelsVisible(isShowTickLabels);
+		((NumberAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(isShowTickMarks);
+		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(isShowTickLabels);
 
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
-		categoryRenderer.setBaseItemLabelsVisible( ((JRFillBarPlot)getPlot()).isShowLabels() );
+		categoryRenderer.setBaseItemLabelsVisible(isShowLabels);
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
@@ -1149,8 +1139,9 @@ public class DefaultChartTheme implements ChartTheme
 		}
 
 		JRFillBarPlot barPlot = (JRFillBarPlot)getPlot();
-
-		itemRenderer.setBaseItemLabelsVisible( barPlot.isShowLabels() );
+		boolean isShowLabels = barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue();
+		
+		itemRenderer.setBaseItemLabelsVisible( isShowLabels );
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(xyPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
@@ -1268,12 +1259,12 @@ public class DefaultChartTheme implements ChartTheme
 		//plot.setNoDataMessage("No data to display");
 		
 		JRFillBarPlot barPlot = (JRFillBarPlot)getPlot();
-		categoryPlot.getDomainAxis().setTickMarksVisible(
-			barPlot.isShowTickMarks()
-			);
-		categoryPlot.getDomainAxis().setTickLabelsVisible(
-			barPlot.isShowTickLabels()
-			);
+		boolean isShowTickMarks = barPlot.getShowTickMarks() == null ? true : barPlot.getShowTickMarks().booleanValue();
+		boolean isShowTickLabels = barPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels().booleanValue();
+		boolean isShowLabels = barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue();
+		
+		categoryPlot.getDomainAxis().setTickMarksVisible(isShowTickMarks);
+		categoryPlot.getDomainAxis().setTickLabelsVisible(isShowTickLabels);
 		// Handle the axis formating for the catagory axis
 		configureAxis(
 			categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
@@ -1281,12 +1272,8 @@ public class DefaultChartTheme implements ChartTheme
 			barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
 			barPlot.getCategoryAxisLineColor()
 			);
-		((DateAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(
-			barPlot.isShowTickMarks()
-			);
-		((DateAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(
-			barPlot.isShowTickLabels()
-			);
+		((DateAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(isShowTickMarks);
+		((DateAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(isShowTickLabels);
 		// Handle the axis formating for the value axis
 		configureAxis(
 			categoryPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
@@ -1297,7 +1284,7 @@ public class DefaultChartTheme implements ChartTheme
 
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator(((JRFillGanttDataset)getDataset()).getLabelGenerator());
-		categoryRenderer.setBaseItemLabelsVisible(barPlot.isShowLabels());
+		categoryRenderer.setBaseItemLabelsVisible(isShowLabels);
 
 		return jfreeChart;
 	}

@@ -690,21 +690,29 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 	protected JFreeChart createXyLineChart(byte evaluation) throws JRException 
 	{
 		JFreeChart jfreeChart = super.createXyLineChart(evaluation);
+		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer) jfreeChart.getXYPlot().getRenderer();
-		lineRenderer.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		
 		XYLine3DRenderer line3DRenderer = new XYLine3DRenderer();
-		line3DRenderer.setLinesVisible(lineRenderer.getLinesVisible());
-		line3DRenderer.setShapesVisible(lineRenderer.getShapesVisible());
+		
+		
 		line3DRenderer.setBaseToolTipGenerator(lineRenderer.getBaseToolTipGenerator());
 		line3DRenderer.setURLGenerator(lineRenderer.getURLGenerator());
-		line3DRenderer.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		line3DRenderer.setBaseStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		line3DRenderer.setBaseLinesVisible(lineRenderer.getBaseLinesVisible());
+		line3DRenderer.setBaseShapesVisible(lineRenderer.getBaseShapesVisible());
+		
+		XYDataset xyDataset = xyPlot.getDataset();
+		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+		{
+			line3DRenderer.setSeriesStroke(i, new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+			line3DRenderer.setSeriesLinesVisible(i, lineRenderer.getBaseLinesVisible());
+			line3DRenderer.setSeriesShapesVisible(i, lineRenderer.getBaseShapesVisible());
+		}
 		line3DRenderer.setXOffset(2);
 		line3DRenderer.setYOffset(2);
 		line3DRenderer.setWallPaint(GRIDLINE_COLOR);
-		
-		XYPlot xyPlot = jfreeChart.getXYPlot();
+
 		xyPlot.setRenderer(line3DRenderer);
 		calculateTickUnits(xyPlot.getDomainAxis());
 		calculateTickUnits(xyPlot.getRangeAxis());
