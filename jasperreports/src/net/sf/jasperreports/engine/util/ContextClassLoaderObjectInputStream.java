@@ -49,7 +49,7 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 	 * 
 	 * @param in the input stream to read data from
 	 * @throws IOException
-	 * @see {@link ObjectInputStream#ObjectInputStream(InputStream)}
+	 * @see ObjectInputStream#ObjectInputStream(InputStream)
 	 */
 	public ContextClassLoaderObjectInputStream(InputStream in) throws IOException
 	{
