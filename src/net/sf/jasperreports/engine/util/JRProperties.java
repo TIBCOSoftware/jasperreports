@@ -853,7 +853,7 @@ public class JRProperties
 	 * looking first in the supplied properties holder and then in the
 	 * system properties.
 	 * 
-	 * @param propertiesHolder the properties holder
+	 * @param propertiesMap the properties map
 	 * @param key the key
 	 * @return the property value as a <code>Character</code>
 	 */

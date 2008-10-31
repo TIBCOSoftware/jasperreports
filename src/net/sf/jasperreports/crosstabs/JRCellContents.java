@@ -134,7 +134,7 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	/**
 	 * Type used by the {@link JRCrosstab#getHeaderCell() crosstab header cell}.
 	 * 
-	 * @see #PROPERTY_TPYE
+	 * @see #PROPERTY_TYPE
 	 */
 	public static final String TYPE_CROSSTAB_HEADER = "CrosstabHeader";
 	
@@ -143,7 +143,7 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	 * 
 	 * @see JRCrosstabRowGroup#getHeader()
 	 * @see JRCrosstabRowGroup#getTotalHeader()
-	 * @see #PROPERTY_TPYE
+	 * @see #PROPERTY_TYPE
 	 */
 	public static final String TYPE_ROW_HEADER = "RowHeader";
 	
@@ -152,21 +152,21 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	 * 
 	 * @see JRCrosstabColumnGroup#getHeader()
 	 * @see JRCrosstabColumnGroup#getTotalHeader()
-	 * @see #PROPERTY_TPYE
+	 * @see #PROPERTY_TYPE
 	 */
 	public static final String TYPE_COLUMN_HEADER = "ColumnHeader";
 	
 	/**
 	 * Type used by the {@link JRCrosstab#getCells() crosstab data cells}.
 	 * 
-	 * @see #PROPERTY_TPYE
+	 * @see #PROPERTY_TYPE
 	 */
 	public static final String TYPE_DATA = "Data";
 	
 	/**
 	 * Type used by the {@link JRCrosstab#getWhenNoDataCell() crosstab "no data" cell}.
 	 * 
-	 * @see #PROPERTY_TPYE
+	 * @see #PROPERTY_TYPE
 	 */
 	public static final String TYPE_NO_DATA_CELL = "NoDataCell";
 	
