@@ -149,9 +149,9 @@ public class JavaScriptEvaluator extends JREvaluator
 	
 	protected static JavaScriptCompileData.Expression createJSExpression(JRExpression expression)
 	{
-		StringBuilder defaultExpr = new StringBuilder();
-		StringBuilder oldExpr = new StringBuilder();
-		StringBuilder estimatedExpr = new StringBuilder();
+		StringBuffer defaultExpr = new StringBuffer();
+		StringBuffer oldExpr = new StringBuffer();
+		StringBuffer estimatedExpr = new StringBuffer();
 		
 		JRExpressionChunk[] chunks = expression.getChunks();
 		if (chunks == null)
