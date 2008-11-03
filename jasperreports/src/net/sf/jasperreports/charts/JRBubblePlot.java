@@ -48,13 +48,23 @@ public interface JRBubblePlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat
 	public JRExpression getYAxisLabelExpression();
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getScaleTypeInteger()}
 	 */
 	public int getScaleType();
 
 	/**
 	 * 
 	 */
+	public Integer getScaleTypeInteger();
+
+	/**
+	 * @deprecated Replaced by {@link #setScaleType(Integer)}
+	 */
 	public void setScaleType(int scaleType);
+	
+	/**
+	 * 
+	 */
+	public void setScaleType(Integer scaleType);
 	
 }
