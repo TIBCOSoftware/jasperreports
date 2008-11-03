@@ -50,7 +50,7 @@ public class JRBubblePlotFactory extends JRBaseFactory {
 		String scaleType = attributes.getValue( ATTRIBUTE_scaleType );
 		Integer intScaleType = (Integer)JRXmlConstants.getScaleTypeMap().get( scaleType );
 		if( intScaleType != null ){
-			plot.setScaleType( intScaleType.intValue()  );
+			plot.setScaleType( intScaleType  );
 		}
 
 		return plot;

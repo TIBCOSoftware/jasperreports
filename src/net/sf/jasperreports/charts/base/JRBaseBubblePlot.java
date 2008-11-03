@@ -28,6 +28,8 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.engine.JRChart;
@@ -41,6 +43,7 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
+import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 /**
@@ -69,7 +72,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	protected String yAxisTickLabelMask = null;
 	protected Color yAxisLineColor = null;
 	
-	protected int scaleType = XYBubbleRenderer.SCALE_ON_RANGE_AXIS;
+	protected Integer scaleTypeInteger = null;
 	
 	
 	/**
@@ -86,7 +89,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	public JRBaseBubblePlot( JRBubblePlot bubblePlot, JRBaseObjectFactory factory ){
 		super( bubblePlot, factory );
 		
-		scaleType = bubblePlot.getScaleType();
+		scaleTypeInteger = bubblePlot.getScaleTypeInteger();
 		
 		xAxisLabelExpression = factory.getExpression( bubblePlot.getXAxisLabelExpression() );
 		xAxisLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getXAxisLabelFont());
@@ -264,19 +267,33 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getScaleTypeInteger()}
 	 */
 	public int getScaleType(){
-		return scaleType;
+		return scaleTypeInteger == null ? XYBubbleRenderer.SCALE_ON_RANGE_AXIS : scaleTypeInteger.intValue();
 	}
 	
 	/**
 	 * 
 	 */
+	public Integer getScaleTypeInteger(){
+		return scaleTypeInteger;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setScaleType(Integer)}
+	 */
 	public void setScaleType( int scaleType ){
-		int old = this.scaleType;
-		this.scaleType = scaleType;
-		getEventSupport().firePropertyChange(PROPERTY_SCALE_TYPE, old, this.scaleType);
+		setScaleType(Integer.valueOf(scaleType));
+	}
+
+	/**
+	 * 
+	 */
+	public void setScaleType( Integer scaleType ){
+		Integer old = this.scaleTypeInteger;
+		this.scaleTypeInteger = scaleType;
+		getEventSupport().firePropertyChange(PROPERTY_SCALE_TYPE, old, this.scaleTypeInteger);
 	}
 
 	/**
@@ -303,4 +320,21 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		}
 		return clone;
 	}
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private int scaleType = XYBubbleRenderer.SCALE_ON_RANGE_AXIS;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		{
+			scaleTypeInteger = Integer.valueOf(scaleType);
+		}
+	}
+	
 }

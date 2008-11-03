@@ -638,8 +638,8 @@ public class DefaultChartTheme implements ChartTheme
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		JRBubblePlot bubblePlot = (JRBubblePlot)getPlot();
-
-		XYBubbleRenderer bubbleRenderer = new XYBubbleRenderer( bubblePlot.getScaleType() );
+		int scaleType = bubblePlot.getScaleTypeInteger() == null ? XYBubbleRenderer.SCALE_ON_RANGE_AXIS : bubblePlot.getScaleTypeInteger().intValue();
+		XYBubbleRenderer bubbleRenderer = new XYBubbleRenderer( scaleType );
 		xyPlot.setRenderer( bubbleRenderer );
 
 		// Handle the axis formating for the catagory axis

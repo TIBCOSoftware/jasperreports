@@ -240,16 +240,29 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getScaleTypeInteger()}
 	 */
 	public int getScaleType(){
 		return ((JRBubblePlot)parent).getScaleType();
 	}
 	
 	/**
+	 * 
+	 */
+	public Integer getScaleTypeInteger(){
+		return ((JRBubblePlot)parent).getScaleTypeInteger();
+	}
+	
+	/**
 	 *
 	 */
 	public void setScaleType( int scaleType ){
+	}
+	
+	/**
+	 *
+	 */
+	public void setScaleType( Integer scaleType ){
 	}
 	
 }
