@@ -284,7 +284,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 * @deprecated Replaced by {@link #setScaleType(Integer)}
 	 */
 	public void setScaleType( int scaleType ){
-		setScaleType(Integer.valueOf(scaleType));
+		setScaleType(new Integer(scaleType));
 	}
 
 	/**
@@ -333,7 +333,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
 		{
-			scaleTypeInteger = Integer.valueOf(scaleType);
+			scaleTypeInteger = new Integer(scaleType);
 		}
 	}
 	
