@@ -273,14 +273,20 @@ public class ImageDrawer extends ElementDrawer
 					grx, 
 					printImage.getLinePen(), 
 					printImage, 
-					offsetX, 
-					offsetY
+					- printImage.getX(),//FIXME revisit this; see grx creation above
+					- printImage.getY()
 					);
 			}
 		}
 		else
 		{
-			drawBox(grx, printImage.getLineBox(), printImage, offsetX, offsetY);
+			drawBox(
+				grx, 
+				printImage.getLineBox(), 
+				printImage, 
+				- printImage.getX(),//FIXME revisit this; see grx creation above
+				- printImage.getY()
+				);
 		}
 	}
 
