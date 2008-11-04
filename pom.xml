@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>3.1.1</version>
+	<version>3.1.2</version>
 	<packaging>jar</packaging>
 	<name>JasperReports</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -26,6 +26,14 @@
 			<url>http://www.jasperforge.org/maven2</url>
 		</repository>
 	</repositories>
+<distributionManagement>
+<repository>
+<id>jasperserver-repo</id>
+<name>JasperServer repository</name>
+<layout>default</layout>
+<url>file://D:/Programs/eclipse/workspace/jasperserver-repo</url>
+</repository>
+</distributionManagement>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
