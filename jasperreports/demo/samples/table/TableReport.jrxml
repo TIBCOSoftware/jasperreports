@@ -8,7 +8,7 @@
 		name="TableReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" isFloatColumnFooter="true">
 	<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
 	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
-	<style name="Arial" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<title>
 		<band height="50">
 			<image scaleImage="Clip">
@@ -132,7 +132,7 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="15">
+		<band height="15" isSplitAllowed="false">
 		<frame>
 			<reportElement x="0" y="0" width="555" height="15">
 				<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>

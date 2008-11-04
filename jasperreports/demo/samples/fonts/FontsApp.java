@@ -112,8 +112,8 @@ public class FontsApp
 				JRPdfExporter exporter = new JRPdfExporter();
 
 				HashMap fontMap = new HashMap();
-				FontKey key = new FontKey("Comic Sans MS", true, false);
-				PdfFont font = new PdfFont("COMICBD.TTF", "Cp1252", true);
+				FontKey key = new FontKey("DejaVu Serif", true, false);
+				PdfFont font = new PdfFont("DejaVuSerif-Bold.ttf", "Cp1252", true);
 				fontMap.put(key, font);
 
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
@@ -145,9 +145,9 @@ public class FontsApp
 				JRHtmlExporter exporter = new JRHtmlExporter();
 
 				HashMap fontMap = new HashMap();
-				fontMap.put("sansserif", "Arial, Verdana, Tahoma");
-				fontMap.put("serif", "Times New Roman");
-				fontMap.put("monospaced", "Courier, Courier New");
+				fontMap.put("sansserif", "DejaVu Sans, Arial, Verdana");
+				fontMap.put("serif", "DejaVu Serif, Times New Roman");
+				fontMap.put("monospaced", "DejaVu Sans Mono, Courier, Courier New");
 
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
@@ -166,9 +166,9 @@ public class FontsApp
 				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
 				
 				HashMap fontMap = new HashMap();
-				fontMap.put("sansserif", "Arial");
-				fontMap.put("serif", "Times New Roman");
-				fontMap.put("monospaced", "Courier");
+				fontMap.put("sansserif", "DejaVu Sans");
+				fontMap.put("serif", "DejaVu Serif");
+				fontMap.put("monospaced", "DejaVu Sans Mono");
 
 				JRRtfExporter exporter = new JRRtfExporter();
 				
@@ -191,9 +191,9 @@ public class FontsApp
 				JRXlsExporter exporter = new JRXlsExporter();
 				
 				HashMap fontMap = new HashMap();
-				fontMap.put("sansserif", "Arial");
-				fontMap.put("serif", "Times New Roman");
-				fontMap.put("monospaced", "Courier");
+				fontMap.put("sansserif", "DejaVu Sans");
+				fontMap.put("serif", "DejaVu Serif");
+				fontMap.put("monospaced", "DejaVu Sans Mono");
 
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
@@ -215,9 +215,9 @@ public class FontsApp
 				JExcelApiExporter exporter = new JExcelApiExporter();
 
 				HashMap fontMap = new HashMap();
-				fontMap.put("sansserif", "Arial");
-				fontMap.put("serif", "Times New Roman");
-				fontMap.put("monospaced", "Courier");
+				fontMap.put("sansserif", "DejaVu Sans");
+				fontMap.put("serif", "DejaVu Serif");
+				fontMap.put("monospaced", "DejaVu Sans Mono");
 
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());

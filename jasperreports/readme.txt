@@ -49,7 +49,15 @@ The first is for starting up the HSQL database and the second is for
 lanching the HSQL client application in case you need to view the
 database structure or run some queries against it.
 
-3.2 Build and run samples
+3.2 Fonts
+Some of the supplied samples use the True Type font files found in the 
+/demo/fonts directory. In order to run those samples you should install 
+these fonts into your operating system so that they are available to the JVM. 
+The procedure required to install fonts depends on the operating system. 
+On Windows systems this is equivalent to copying the font files into 
+the <WINDOWS>\Fonts directory.
+
+3.3 Build and run samples
 Inside each sample directory there is a build.xml file that 
 helps compiling the java source files and also run the application. 
 More information about each ANT task available for each sample can be obtained

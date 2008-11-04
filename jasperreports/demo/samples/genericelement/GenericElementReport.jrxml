@@ -11,7 +11,7 @@
 	<title>
 		<band height="742">
 			<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
-				<reportElement x="50" y="30" height="70" width="415"/>
+				<reportElement x="0" y="30" height="70" width="515"/>
 				<textElement textAlignment="Center">
 					<font size="18"/>
 				</textElement>

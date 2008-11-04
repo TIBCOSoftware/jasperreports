@@ -5,8 +5,8 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="ProductsReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="782" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30">
-	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<subDataset name="Customer_Quantity">
 		<parameter name="CityParam" class="java.lang.String"/>
 		<queryString>
@@ -30,7 +30,7 @@
 	<detail>
 		<band height="90">
 			<textField>
-				<reportElement x="0" y="0" width="500" height="15" style="Arial_Bold"/>
+				<reportElement x="0" y="0" width="500" height="15" style="Sans_Bold"/>
 				<textElement>
 					<font size="10"/> 
 				</textElement>
@@ -62,7 +62,7 @@
 								<rightPen lineWidth="1"/>
 							</box>
 							<textField>
-								<reportElement x="5" y="0" width="75" height="10" style="Arial_Bold"/>
+								<reportElement x="5" y="0" width="75" height="10" style="Sans_Bold"/>
 								<textFieldExpression>$V{NameGroup}</textFieldExpression>
 							</textField>
 						</cellContents>
@@ -75,7 +75,7 @@
 								<rightPen lineWidth="1"/>
 							</box>
 							<staticText>
-								<reportElement x="5" y="0" width="75" height="10" style="Arial_Bold"/>
+								<reportElement x="5" y="0" width="75" height="10" style="Sans_Bold"/>
 								<text>TOTAL</text>
 							</staticText>
 						</cellContents>
@@ -93,7 +93,7 @@
 								<rightPen lineWidth="1"/>
 							</box>
 							<textField>
-								<reportElement x="0" y="0" width="20" height="50" style="Arial_Bold"/>
+								<reportElement x="0" y="0" width="20" height="50" style="Sans_Bold"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left"/>
 								<textFieldExpression class="java.lang.String">$V{ProductGroup}</textFieldExpression>
 							</textField>
@@ -107,7 +107,7 @@
 								<rightPen lineWidth="1"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="30" height="50" style="Arial_Bold"/>
+								<reportElement x="0" y="0" width="30" height="50" style="Sans_Bold"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text>TOTAL</text>
 							</staticText>
@@ -163,7 +163,7 @@
 							<rightPen lineWidth="1"/>
 						</box>
 						<textField>
-							<reportElement x="0" y="0" width="30" height="10" style="Arial_Bold"/>
+							<reportElement x="0" y="0" width="30" height="10" style="Sans_Bold"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Integer">$V{QuantityMesure}</textFieldExpression>
 						</textField>

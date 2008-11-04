@@ -89,7 +89,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  * <p>
  * Since classic AWT fonts can be sometimes very different from system fonts (which are used by RTF viewers),
  * a font mapping feature was added. By using the {@link JRExporterParameter#FONT_MAP} parameter, a logical
- * font like "sansserif" can be mapped to a system specific font, like "Comic Sans MS". Both map keys and values are strings.
+ * font like "sansserif" can be mapped to a system specific font, like "DejaVu Serif". Both map keys and values are strings.
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */

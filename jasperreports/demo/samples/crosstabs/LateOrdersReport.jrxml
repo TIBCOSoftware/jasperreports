@@ -6,10 +6,10 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="LateOrdersReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Title" style="Arial_Bold" fontSize="12"/>
-	<style name="ColumnHeader" style="Arial_Bold" forecolor="white"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Title" style="Sans_Bold" fontSize="12"/>
+	<style name="ColumnHeader" style="Sans_Bold" forecolor="white"/>
 	<style name="CellStyle" mode="Opaque">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
@@ -163,7 +163,7 @@
 								<rightPen lineWidth="1"/>
 							</box>
 							<textField>
-								<reportElement x="5" y="0" width="75" height="20" style="Arial_Bold"/>
+								<reportElement x="5" y="0" width="75" height="20" style="Sans_Bold"/>
 								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$V{CountryRow}]]></textFieldExpression>
 							</textField>
@@ -178,7 +178,7 @@
 								<rightPen lineWidth="1"/>
 							</box>
 							<staticText>
-								<reportElement x="5" y="0" width="75" height="20" style="Arial_Bold"/>
+								<reportElement x="5" y="0" width="75" height="20" style="Sans_Bold"/>
 								<textElement verticalAlignment="Middle">
 									<font size="12"/>
 								</textElement>
@@ -200,7 +200,7 @@
 								<rightPen lineWidth="1"/>
 							</box>
 							<textField>
-								<reportElement x="0" y="0" width="60" height="20" style="Arial_Bold"/>
+								<reportElement x="0" y="0" width="60" height="20" style="Sans_Bold"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[String.valueOf($V{FreightColumn}.intValue() * 100) + "-" + String.valueOf(($V{FreightColumn}.intValue() + 1) * 100)]]></textFieldExpression>
 							</textField>
@@ -215,7 +215,7 @@
 								<rightPen lineWidth="1"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="60" height="20" style="Arial_Bold"/>
+								<reportElement x="0" y="0" width="60" height="20" style="Sans_Bold"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12"/>
 								</textElement>
@@ -257,12 +257,12 @@
 							<rightPen lineWidth="1"/>
 						</box>
 						<textField>
-							<reportElement x="0" y="0" width="60" height="10" style="Arial_Bold"/>
+							<reportElement x="0" y="0" width="60" height="10" style="Sans_Bold"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Integer">$V{OrderCount}</textFieldExpression>
 						</textField>
 						<textField isBlankWhenNull="true">
-							<reportElement x="0" y="10" width="60" height="10" style="Arial_Bold"/>
+							<reportElement x="0" y="10" width="60" height="10" style="Sans_Bold"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Integer">$V{Delay}</textFieldExpression>
 						</textField>
@@ -276,12 +276,12 @@
 							<rightPen lineWidth="1"/>
 						</box>
 						<textField>
-							<reportElement x="0" y="0" width="60" height="10" style="Arial_Bold"/>
+							<reportElement x="0" y="0" width="60" height="10" style="Sans_Bold"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Integer">$V{OrderCount}</textFieldExpression>
 						</textField>
 						<textField isBlankWhenNull="true">
-							<reportElement x="0" y="10" width="60" height="10" style="Arial_Bold"/>
+							<reportElement x="0" y="10" width="60" height="10" style="Sans_Bold"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Integer">$V{Delay}</textFieldExpression>
 						</textField>
@@ -295,12 +295,12 @@
 							<rightPen lineWidth="1"/>
 						</box>
 						<textField>
-							<reportElement x="0" y="0" width="60" height="10" style="Arial_Bold"/>
+							<reportElement x="0" y="0" width="60" height="10" style="Sans_Bold"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Integer">$V{OrderCount}</textFieldExpression>
 						</textField>
 						<textField isBlankWhenNull="true">
-							<reportElement x="0" y="10" width="60" height="10" style="Arial_Bold"/>
+							<reportElement x="0" y="10" width="60" height="10" style="Sans_Bold"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Integer">$V{Delay}</textFieldExpression>
 						</textField>

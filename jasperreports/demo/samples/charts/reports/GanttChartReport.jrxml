@@ -5,11 +5,11 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="GanttChartReport" language="java" pageWidth="595" pageHeight="842" columnWidth="270" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
-	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Comic_Normal" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMIC.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-	<style name="Comic_Bold" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Serif_Normal" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="DejaVuSerif.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<style name="Serif_Bold" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="DejaVuSerif-Bold.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	<queryString><![CDATA[SELECT * FROM Tasks ORDER BY Task, Subtask]]></queryString>
 	<field name="Series" class="java.lang.String">
 	</field>
@@ -36,7 +36,7 @@
 				<graphicElement/>
 			</rectangle>
 			<textField>
-				<reportElement style="Arial_Bold" x="147" y="5" width="62" height="11"/>
+				<reportElement style="Sans_Bold" x="147" y="5" width="62" height="11"/>
 				<textElement>
 					<font/>
 				</textElement>
@@ -57,14 +57,14 @@
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement style="Arial_Bold" mode="Opaque" x="337" y="5" width="45" height="11" backcolor="#e0e0e0"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="337" y="5" width="45" height="11" backcolor="#e0e0e0"/>
 				<textElement textAlignment="Right">
 					<font/>
 				</textElement>
 				<text><![CDATA[Stages :]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="Arial_Bold" mode="Opaque" x="382" y="5" width="20" height="11" backcolor="#e0e0e0" />
+				<reportElement style="Sans_Bold" mode="Opaque" x="382" y="5" width="20" height="11" backcolor="#e0e0e0" />
 				<textElement textAlignment="Right">
 					<font/>
 				</textElement>
@@ -78,7 +78,7 @@
 			<elementGroup>
 			</elementGroup>
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="35" style="Comic_Bold"/>
+				<reportElement x="0" y="0" width="555" height="35" style="Serif_Bold"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 				</box>
@@ -111,21 +111,21 @@
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement style="Arial_Bold" mode="Opaque" x="210" y="277" width="72" height="11" backcolor="#000000" forecolor="#ffffff"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="210" y="277" width="72" height="11" backcolor="#000000" forecolor="#ffffff"/>
 				<textElement>
 					<font/>
 				</textElement>
 				<text><![CDATA[Subtask]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Arial_Bold" mode="Opaque" x="282" y="277" width="62" height="11" backcolor="#000000" forecolor="#ffffff"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="282" y="277" width="62" height="11" backcolor="#000000" forecolor="#ffffff"/>
 				<textElement>
 					<font/>
 				</textElement>
 				<text><![CDATA[Start Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Arial_Bold" mode="Opaque" x="345" y="277" width="62" height="11" backcolor="#000000" forecolor="#ffffff"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="345" y="277" width="62" height="11" backcolor="#000000" forecolor="#ffffff"/>
 				<textElement>
 					<font/>
 				</textElement>

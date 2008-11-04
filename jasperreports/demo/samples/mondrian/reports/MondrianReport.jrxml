@@ -5,8 +5,8 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="MondrianReport" pageWidth="595" pageHeight="842" columnWidth="515" columnSpacing="0" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
-	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<queryString language="mdx">
 		<![CDATA[select
 				{[Measures].[Quantity], [Measures].[Unit Price]} ON columns,
@@ -45,16 +45,16 @@
 		<groupHeader>
 			<band height="16">
 				<textField evaluationTime="Group" evaluationGroup="City">
-					<reportElement x="10" y="0" width="150" height="15" style="Arial_Bold"/>
+					<reportElement x="10" y="0" width="150" height="15" style="Sans_Bold"/>
 					<textFieldExpression>$F{City}</textFieldExpression>
 				</textField>
 				<textField pattern="#,###" evaluationTime="Group" evaluationGroup="City">
-					<reportElement x="180" y="0" width="100" height="15" style="Arial_Bold"/>
+					<reportElement x="180" y="0" width="100" height="15" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression class="java.lang.Number">$F{CityQuantity}</textFieldExpression>
 				</textField>
 				<textField pattern="$#,##0.00" evaluationTime="Group" evaluationGroup="City">
-					<reportElement x="300" y="0" width="100" height="15" style="Arial_Bold"/>
+					<reportElement x="300" y="0" width="100" height="15" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression class="java.lang.Number">$F{CityUnitPrice}</textFieldExpression>
 				</textField>
@@ -112,17 +112,17 @@
 					<pen lineWidth="0.5"/>
 				</box>
 				<textField>
-					<reportElement x="10" y="0" width="150" height="15" style="Arial_Bold"/>
+					<reportElement x="10" y="0" width="150" height="15" style="Sans_Bold"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression>"Totals"</textFieldExpression>
 				</textField>
 				<textField pattern="#,###">
-					<reportElement x="180" y="0" width="100" height="15" style="Arial_Bold"/>
+					<reportElement x="180" y="0" width="100" height="15" style="Sans_Bold"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<textFieldExpression class="java.lang.Number">$F{TotalQuantity}</textFieldExpression>
 				</textField>
 				<textField pattern="$#,##0.00">
-					<reportElement x="300" y="0" width="100" height="15" style="Arial_Bold"/>
+					<reportElement x="300" y="0" width="100" height="15" style="Sans_Bold"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<textFieldExpression class="java.lang.Number">$F{TotalUnitPrice}</textFieldExpression>
 				</textField>

@@ -6,7 +6,7 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="StyledTextReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
-	<style name="Arial" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<title>
 		<band height="660">
 			<staticText>
@@ -51,7 +51,7 @@ isPdfEmbedded
 
 <font size="12">&lt;font size=&quot;12&quot;&gt;</font>
 <font color="red">&lt;font color=&quot;red&quot;&gt;</font>
-<font face="Comic Sans MS">&lt;font face=&quot;Comic Sans MS&quot;&gt;</font>
+<font face="DejaVu Serif">&lt;font face=&quot;DejaVu Serif&quot;&gt;</font>
 <b>bold &lt;b&gt;</b> <i>italic &lt;i&gt;</i> <u>underlined &lt;u&gt;</u>
 an empty line follows (&lt;br/&gt;):
 <br/>

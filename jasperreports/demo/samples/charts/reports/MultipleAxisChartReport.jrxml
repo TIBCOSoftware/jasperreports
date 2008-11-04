@@ -27,9 +27,9 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<style 
-		name="Arial_Normal"
+		name="Sans_Normal"
 		isDefault="true"
-		fontName="Arial"
+		fontName="DejaVu Sans"
 		fontSize="8"
 		isBold="false"
 		isItalic="false"
@@ -40,9 +40,9 @@
 		isPdfEmbedded="false"
 	/>
 	<style 
-		name="Arial_Bold"
+		name="Sans_Bold"
 		isDefault="false"
-		fontName="Arial"
+		fontName="DejaVu Sans"
 		fontSize="8"
 		isBold="true"
 		isItalic="false"
@@ -53,9 +53,9 @@
 		isPdfEmbedded="false"
 	/>
 	<style 
-		name="Arial_Italic"
+		name="Sans_Italic"
 		isDefault="false"
-		fontName="Arial"
+		fontName="DejaVu Sans"
 		fontSize="8"
 		isBold="false"
 		isItalic="true"
@@ -66,9 +66,9 @@
 		isPdfEmbedded="false"
 	/>
 	<style 
-		name="Comic_Normal"
+		name="Serif_Normal"
 		isDefault="false"
-		fontName="Comic Sans MS"
+		fontName="DejaVu Serif"
 		fontSize="10"
 		isBold="false"
 		isItalic="false"
@@ -79,9 +79,9 @@
 		isPdfEmbedded="true"
 	/>
 	<style 
-		name="Comic_Bold"
+		name="Serif_Bold"
 		isDefault="false"
-		fontName="Comic Sans MS"
+		fontName="DejaVu Serif"
 		fontSize="10"
 		isBold="true"
 		isItalic="false"
@@ -160,7 +160,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</line>
 				<staticText>
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						x="0"
 						y="1"
 						width="45"
@@ -174,7 +174,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						x="45"
 						y="1"
 						width="25"
@@ -188,7 +188,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</textField>
 				<staticText>
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						x="70"
 						y="1"
 						width="140"
@@ -202,7 +202,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						x="210"
 						y="1"
 						width="60"
@@ -232,7 +232,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</line>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						x="10"
 						y="2"
 						width="100"
@@ -245,7 +245,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="EEE, MMM d, yyyy" isBlankWhenNull="false" evaluationTime="Group" evaluationGroup="CountryGroup"  hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						x="170"
 						y="2"
 						width="100"
@@ -273,7 +273,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</rectangle>
 				<staticText>
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="0"
 						y="0"
@@ -288,7 +288,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="45"
 						y="0"
@@ -303,7 +303,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</textField>
 				<staticText>
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="70"
 						y="0"
@@ -318,7 +318,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="210"
 						y="0"
@@ -353,7 +353,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 			<band height="50"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
-						style="Comic_Bold"
+						style="Serif_Bold"
 						x="0"
 						y="0"
 						width="555"
@@ -382,7 +382,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</rectangle>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						style="Arial_Normal"
+						style="Sans_Normal"
 						mode="Opaque"
 						x="6"
 						y="0"
@@ -511,7 +511,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</rectangle>
 				<staticText>
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="0"
 						y="0"
@@ -527,7 +527,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</staticText>
 				<staticText>
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="40"
 						y="0"
@@ -543,7 +543,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</staticText>
 				<staticText>
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="185"
 						y="0"
@@ -559,7 +559,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</staticText>
 				<staticText>
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="235"
 						y="0"
@@ -667,7 +667,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</rectangle>
 				<staticText>
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="0"
 						y="0"
@@ -683,7 +683,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="45"
 						y="0"
@@ -699,7 +699,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</textField>
 				<staticText>
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="70"
 						y="0"
@@ -715,7 +715,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						style="Arial_Bold"
+						style="Sans_Bold"
 						mode="Opaque"
 						x="210"
 						y="0"
