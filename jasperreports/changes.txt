@@ -20,7 +20,7 @@ accessibility of software solutions for people with disabilities.
 
 - new chart theme implementation (name eye.candy.sixties) shipped with 
 the charts samples, to show how chart themes can be used to change the overall 
-appearence of charts generated with the build-in chart element;
+appearance of charts generated with the build-in chart element;
 
 - minor bug fixes and improvements;
 
