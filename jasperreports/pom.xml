@@ -26,14 +26,6 @@
 			<url>http://www.jasperforge.org/maven2</url>
 		</repository>
 	</repositories>
-<distributionManagement>
-<repository>
-<id>jasperserver-repo</id>
-<name>JasperServer repository</name>
-<layout>default</layout>
-<url>file://D:/Programs/eclipse/workspace/jasperserver-repo</url>
-</repository>
-</distributionManagement>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
