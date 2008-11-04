@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="JChartsReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" scriptletClass="JChartsScriptlet">
+	<variable name="ChartImage" class="java.awt.Image" calculation="System">
+	</variable>
+	<title>
+		<band height="742">
+			<line>
+				<reportElement x="0" y="0" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement x="0" y="3" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="10" width="515" height="30"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[jCharts 0.6.0 - Sample Chart Report]]></text>
+			</staticText>
+			<textField hyperlinkType="Reference">
+				<reportElement x="0" y="40" width="515" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["http://jcharts.sourceforge.net"]]></textFieldExpression>
+				<hyperlinkReferenceExpression><![CDATA["http://jcharts.sourceforge.net"]]></hyperlinkReferenceExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="60" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement x="0" y="63" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<image scaleImage="Clip" hAlign="Center">
+				<reportElement x="0" y="70" width="515" height="350"/>
+				<graphicElement/>
+				<imageExpression class="java.awt.Image"><![CDATA[$V{ChartImage}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+</jasperReport>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="ShapesReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<title>
+		<band height="782">
+			<line>
+				<reportElement x="0" y="50" width="200" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="210" y="50" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<line><reportElement x="0" y="50" width="200" height="0"/></line>]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="100" width="200" height="40"/>
+				<graphicElement>
+					<pen lineWidth="2"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="210" y="100" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<line direction="TopDown"><reportElement x="0" y="100" width="200" height="40"/><graphicElement><pen lineWidth="2"/></graphicElement></line>]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement x="0" y="150" width="200" height="40" forecolor="#ff00"/>
+				<graphicElement>
+					<pen lineWidth="4"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="210" y="150" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<line direction="BottomUp"><reportElement x="0" y="150" width="200" height="40" forecolor="green"/><graphicElement><pen lineWidth="4"/></graphicElement></line>]]></text>
+			</staticText>
+			<line>
+				<reportElement x="100" y="200" width="1" height="40" forecolor="#ff"/>
+				<graphicElement>
+					<pen lineWidth="1" lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="210" y="200" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<line><reportElement x="100" y="200" width="0" height="40" forecolor="blue"/><graphicElement><pen lineWidth="1" lineStyle="Dashed"/></graphicElement></line>]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="250" width="200" height="40" backcolor="#ffff99"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="210" y="250" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<rectangle><reportElement x="0" y="250" width="200" height="40" backcolor="#FFFF99"/><graphicElement><pen lineWidth="0"/></graphicElement></rectangle>]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="300" width="200" height="40"/>
+				<graphicElement/>
+			</rectangle>
+			<staticText>
+				<reportElement x="210" y="300" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<rectangle><reportElement x="0" y="300" width="200" height="40"/><graphicElement><pen lineWidth="1"/></graphicElement></rectangle>]]></text>
+			</staticText>
+			<rectangle radius="15">
+				<reportElement x="0" y="350" width="200" height="40" backcolor="#ffff00"/>
+				<graphicElement>
+					<pen lineWidth="2"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="210" y="350" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<rectangle radius="15"><reportElement x="0" y="350" width="200" height="40" backcolor="#FFFF00"/><graphicElement><pen lineWidth="2"/></graphicElement></rectangle>]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="400" width="200" height="40" forecolor="#ff0000" backcolor="#ffff"/>
+				<graphicElement>
+					<pen lineWidth="4"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="210" y="400" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<rectangle><reportElement x="0" y="400" width="200" height="40" forecolor="red" backcolor="#00FFFF"/><graphicElement><pen lineWidth="4"/></graphicElement></rectangle>]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="450" width="200" height="40" forecolor="#ff00ff" backcolor="#c0c0c0"/>
+				<graphicElement>
+					<pen lineWidth="1" lineStyle="Dashed"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="210" y="450" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<rectangle><reportElement x="0" y="450" width="200" height="40" forecolor="#FF00FF" backcolor="#C0C0C0"/><graphicElement><pen lineWidth="1" lineStyle="Dashed"/></graphicElement></rectangle>]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="500" width="150" height="30" backcolor="#ffaabb"/>
+				<graphicElement>
+					<pen lineWidth="2"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="50" y="510" width="150" height="30" forecolor="#ff"/>
+				<graphicElement>
+					<pen lineWidth="2"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="210" y="500" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<rectangle><reportElement x="50" y="510" width="150" height="30" forecolor="blue" mode="Opaque"/><graphicElement><pen lineWidth="2"/></graphicElement></rectangle>]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="550" width="150" height="30" backcolor="#ffaabb"/>
+				<graphicElement>
+					<pen lineWidth="2"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="50" y="560" width="150" height="30" forecolor="#ff"/>
+				<graphicElement>
+					<pen lineWidth="2"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="210" y="550" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<rectangle><reportElement x="50" y="560" width="150" height="30" forecolor="blue" mode="Transparent"/><graphicElement><pen lineWidth="2"/></graphicElement></rectangle>]]></text>
+			</staticText>
+			<ellipse>
+				<reportElement x="0" y="600" width="200" height="40" forecolor="#ff0000" backcolor="#ffff99"/>
+				<graphicElement>
+					<pen lineWidth="2"/>
+				</graphicElement>
+			</ellipse>
+			<staticText>
+				<reportElement x="210" y="600" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<ellipse><reportElement x="0" y="600" width="200" height="40" forecolor="red" backcolor="#FFFF99"/><graphicElement><pen lineWidth="2"/></graphicElement></ellipse>]]></text>
+			</staticText>
+			<ellipse>
+				<reportElement x="80" y="650" width="40" height="40" forecolor="#9900" backcolor="#99ffff"/>
+				<graphicElement>
+					<pen lineWidth="2"/>
+				</graphicElement>
+			</ellipse>
+			<staticText>
+				<reportElement x="210" y="650" width="340" height="40"/>
+				<textElement/>
+				<text><![CDATA[<ellipse><reportElement x="80" y="650" width="40" height="40" forecolor="#009900" backcolor="#99FFFF"/><graphicElement><pen lineWidth="2"/></graphicElement></ellipse>]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

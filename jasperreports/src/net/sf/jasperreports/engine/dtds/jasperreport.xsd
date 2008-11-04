@@ -1,0 +1,3275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://jasperreports.sourceforge.net/jasperreports"
+  xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
+  elementFormDefault="qualified">
+
+ <element name="jasperReport">
+  <complexType>
+   <sequence>
+    <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:import" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:template" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:reportFont" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:style" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:subDataset" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:parameter" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:queryString" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:field" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:sortField" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:variable" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:filterExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:group" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:background" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:title" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:pageHeader" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:columnHeader" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:detail" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:columnFooter" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:pageFooter" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:lastPageFooter" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:summary" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:noData" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="language" type="string" use="optional" default="java"/>
+   <attribute name="columnCount" type="NMTOKEN" use="optional" default="1"/>
+   <attribute name="printOrder" use="optional" default="Vertical">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Vertical"/>
+      <enumeration value="Horizontal"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="pageWidth" type="NMTOKEN" use="optional" default="595"/>
+   <attribute name="pageHeight" type="NMTOKEN" use="optional" default="842"/>
+   <attribute name="orientation" use="optional" default="Portrait">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Portrait"/>
+      <enumeration value="Landscape"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="whenNoDataType" use="optional" default="NoPages">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="NoPages"/>
+      <enumeration value="BlankPage"/>
+      <enumeration value="AllSectionsNoDetail"/>
+      <enumeration value="NoDataSection"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="columnWidth" type="NMTOKEN" use="optional" default="555"/>
+   <attribute name="columnSpacing" type="NMTOKEN" use="optional" default="0"/>
+   <attribute name="leftMargin" type="NMTOKEN" use="optional" default="20"/>
+   <attribute name="rightMargin" type="NMTOKEN" use="optional" default="20"/>
+   <attribute name="topMargin" type="NMTOKEN" use="optional" default="30"/>
+   <attribute name="bottomMargin" type="NMTOKEN" use="optional" default="30"/>
+   <attribute name="isTitleNewPage" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isSummaryNewPage" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isFloatColumnFooter" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="scriptletClass" type="string" use="optional"/>
+   <attribute name="resourceBundle" type="string" use="optional"/>
+   <attribute name="whenResourceMissingType" use="optional" default="Null">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Null"/>
+      <enumeration value="Empty"/>
+      <enumeration value="Key"/>
+      <enumeration value="Error"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isIgnorePagination" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="formatFactoryClass" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="property">
+  <complexType>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="value" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="propertyExpression">
+  <complexType mixed="true">
+   <attribute name="name" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="import">
+  <complexType>
+   <attribute name="value" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="template">
+  <complexType mixed="true">
+   <attribute name="class" use="optional" default="java.lang.String">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="java.lang.String"/>
+      <enumeration value="java.io.File"/>
+      <enumeration value="java.net.URL"/>
+      <enumeration value="java.io.InputStream"/>
+      <enumeration value="net.sf.jasperreports.engine.JRTemplate"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="reportFont">
+  <complexType>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="isDefault" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="fontName" type="string" use="optional"/>
+   <attribute name="size" type="NMTOKEN" use="optional"/>
+   <attribute name="isBold" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isItalic" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isUnderline" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isStrikeThrough" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="pdfFontName" type="string" use="optional"/>
+   <attribute name="pdfEncoding" type="string" use="optional"/>
+   <attribute name="isPdfEmbedded" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="style">
+  <complexType>
+   <sequence>
+    <element ref="jr:pen" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:conditionalStyle" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="name" type="string" use="optional"/>
+   <attribute name="isDefault" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="style" type="string" use="optional"/>
+   <attribute name="mode" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Opaque"/>
+      <enumeration value="Transparent"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="forecolor" type="string" use="optional"/>
+   <attribute name="backcolor" type="string" use="optional"/>
+   <attribute name="pen" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="fill" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Solid"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="radius" type="NMTOKEN" use="optional"/>
+   <attribute name="scaleImage" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Clip"/>
+      <enumeration value="FillFrame"/>
+      <enumeration value="RetainShape"/>
+      <enumeration value="RealHeight"/>
+      <enumeration value="RealSize"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="hAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left"/>
+      <enumeration value="Center"/>
+      <enumeration value="Right"/>
+      <enumeration value="Justified"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="vAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Top"/>
+      <enumeration value="Middle"/>
+      <enumeration value="Bottom"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="border" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="borderColor" type="string" use="optional"/>
+   <attribute name="padding" type="NMTOKEN" use="optional"/>
+   <attribute name="topBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="topBorderColor" type="string" use="optional"/>
+   <attribute name="topPadding" type="NMTOKEN" use="optional"/>
+   <attribute name="leftBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="leftBorderColor" type="string" use="optional"/>
+   <attribute name="leftPadding" type="NMTOKEN" use="optional"/>
+   <attribute name="bottomBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="bottomBorderColor" type="string" use="optional"/>
+   <attribute name="bottomPadding" type="NMTOKEN" use="optional"/>
+   <attribute name="rightBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="rightBorderColor" type="string" use="optional"/>
+   <attribute name="rightPadding" type="NMTOKEN" use="optional"/>
+   <attribute name="rotation" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Left"/>
+      <enumeration value="Right"/>
+      <enumeration value="UpsideDown"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="lineSpacing" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Single"/>
+      <enumeration value="1_1_2"/>
+      <enumeration value="Double"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isStyledText" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="markup" type="string" use="optional"/>
+   <attribute name="fontName" type="string" use="optional"/>
+   <attribute name="fontSize" type="NMTOKEN" use="optional"/>
+   <attribute name="isBold" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isItalic" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isUnderline" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isStrikeThrough" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="pdfFontName" type="string" use="optional"/>
+   <attribute name="pdfEncoding" type="string" use="optional"/>
+   <attribute name="isPdfEmbedded" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="pattern" type="string" use="optional"/>
+   <attribute name="isBlankWhenNull" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="pen">
+  <complexType>
+   <attribute name="lineWidth" type="NMTOKEN" use="optional"/>
+   <attribute name="lineStyle" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Solid"/>
+      <enumeration value="Dashed"/>
+      <enumeration value="Dotted"/>
+      <enumeration value="Double"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="lineColor" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="conditionalStyle">
+  <complexType>
+   <sequence>
+    <element ref="jr:conditionExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:style"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="conditionExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="subDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:parameter" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:queryString" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:field" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:sortField" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:variable" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:filterExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:group" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="scriptletClass" type="string" use="optional"/>
+   <attribute name="resourceBundle" type="string" use="optional"/>
+   <attribute name="whenResourceMissingType" use="optional" default="Null">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Null"/>
+      <enumeration value="Empty"/>
+      <enumeration value="Key"/>
+      <enumeration value="Error"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="parameter">
+  <complexType>
+   <sequence>
+    <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:parameterDescription" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:defaultValueExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="class" type="string" use="optional" default="java.lang.String"/>
+   <attribute name="isForPrompting" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="parameterDescription">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="defaultValueExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="queryString">
+  <complexType mixed="true">
+   <attribute name="language" type="string" use="optional" default="sql"/>
+  </complexType>
+ </element>
+
+ <element name="field">
+  <complexType>
+   <sequence>
+    <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:fieldDescription" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="class" type="string" use="optional" default="java.lang.String"/>
+  </complexType>
+ </element>
+
+ <element name="fieldDescription">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="sortField">
+  <complexType>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="order" use="optional" default="Ascending">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Ascending"/>
+      <enumeration value="Descending"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="variable">
+  <complexType>
+   <sequence>
+    <element ref="jr:variableExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:initialValueExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="class" type="string" use="optional" default="java.lang.String"/>
+   <attribute name="resetType" use="optional" default="Report">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Report"/>
+      <enumeration value="Page"/>
+      <enumeration value="Column"/>
+      <enumeration value="Group"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="resetGroup" type="string" use="optional"/>
+   <attribute name="incrementType" use="optional" default="None">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Report"/>
+      <enumeration value="Page"/>
+      <enumeration value="Column"/>
+      <enumeration value="Group"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="incrementGroup" type="string" use="optional"/>
+   <attribute name="calculation" use="optional" default="Nothing">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Nothing"/>
+      <enumeration value="Count"/>
+      <enumeration value="DistinctCount"/>
+      <enumeration value="Sum"/>
+      <enumeration value="Average"/>
+      <enumeration value="Lowest"/>
+      <enumeration value="Highest"/>
+      <enumeration value="StandardDeviation"/>
+      <enumeration value="Variance"/>
+      <enumeration value="System"/>
+      <enumeration value="First"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="incrementerFactoryClass" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="variableExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="initialValueExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="filterExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="group">
+  <complexType>
+   <sequence>
+    <element ref="jr:groupExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:groupHeader" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:groupFooter" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="isStartNewColumn" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isStartNewPage" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isResetPageNumber" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isReprintHeaderOnEachPage" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="minHeightToStartNewPage" type="NMTOKEN" use="optional" default="0"/>
+  </complexType>
+ </element>
+
+ <element name="groupExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="groupHeader">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="groupFooter">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="background">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="title">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="pageHeader">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="columnHeader">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="detail">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="columnFooter">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="pageFooter">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="lastPageFooter">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="summary">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="noData">
+  <complexType>
+   <sequence>
+    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="band">
+  <complexType>
+   <sequence>
+    <element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
+    <choice minOccurs="0" maxOccurs="unbounded">
+     <element ref="jr:break"/>
+     <element ref="jr:line"/>
+     <element ref="jr:rectangle"/>
+     <element ref="jr:ellipse"/>
+     <element ref="jr:image"/>
+     <element ref="jr:staticText"/>
+     <element ref="jr:textField"/>
+     <element ref="jr:subreport"/>
+     <element ref="jr:pieChart"/>
+     <element ref="jr:pie3DChart"/>
+     <element ref="jr:barChart"/>
+     <element ref="jr:bar3DChart"/>
+     <element ref="jr:xyBarChart"/>
+     <element ref="jr:stackedBarChart"/>
+     <element ref="jr:stackedBar3DChart"/>
+     <element ref="jr:lineChart"/>
+     <element ref="jr:xyLineChart"/>
+     <element ref="jr:areaChart"/>
+     <element ref="jr:xyAreaChart"/>
+     <element ref="jr:scatterChart"/>
+     <element ref="jr:bubbleChart"/>
+     <element ref="jr:timeSeriesChart"/>
+     <element ref="jr:highLowChart"/>
+     <element ref="jr:candlestickChart"/>
+     <element ref="jr:meterChart"/>
+     <element ref="jr:thermometerChart"/>
+     <element ref="jr:multiAxisChart"/>
+     <element ref="jr:stackedAreaChart"/>
+     <element ref="jr:ganttChart"/>
+     <element ref="jr:elementGroup"/>
+     <element ref="jr:crosstab"/>
+     <element ref="jr:frame"/>
+     <element ref="jr:componentElement"/>
+     <element ref="jr:genericElement"/>
+    </choice>
+   </sequence>
+   <attribute name="height" type="NMTOKEN" use="optional" default="0"/>
+   <attribute name="isSplitAllowed" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="break">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+   </sequence>
+   <attribute name="type" use="optional" default="Page">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Page"/>
+      <enumeration value="Column"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="line">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:graphicElement" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="direction" use="optional" default="TopDown">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="TopDown"/>
+      <enumeration value="BottomUp"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="reportElement">
+  <complexType>
+   <sequence>
+    <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:propertyExpression" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="key" type="string" use="optional"/>
+   <attribute name="style" type="string" use="optional"/>
+   <attribute name="positionType" use="optional" default="FixRelativeToTop">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Float"/>
+      <enumeration value="FixRelativeToTop"/>
+      <enumeration value="FixRelativeToBottom"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="stretchType" use="optional" default="NoStretch">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="NoStretch"/>
+      <enumeration value="RelativeToTallestObject"/>
+      <enumeration value="RelativeToBandHeight"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isPrintRepeatedValues" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="mode" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Opaque"/>
+      <enumeration value="Transparent"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="x" type="NMTOKEN" use="required"/>
+   <attribute name="y" type="NMTOKEN" use="required"/>
+   <attribute name="width" type="NMTOKEN" use="required"/>
+   <attribute name="height" type="NMTOKEN" use="required"/>
+   <attribute name="isRemoveLineWhenBlank" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isPrintInFirstWholeBand" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isPrintWhenDetailOverflows" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="printWhenGroupChanges" type="string" use="optional"/>
+   <attribute name="forecolor" type="string" use="optional"/>
+   <attribute name="backcolor" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="printWhenExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="graphicElement">
+  <complexType>
+   <sequence>
+    <element ref="jr:pen" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="stretchType" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="NoStretch"/>
+      <enumeration value="RelativeToTallestObject"/>
+      <enumeration value="RelativeToBandHeight"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="pen" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="fill" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Solid"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="rectangle">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:graphicElement" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="radius" type="NMTOKEN" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="ellipse">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:graphicElement" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="image">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:graphicElement" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:imageExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="scaleImage" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Clip"/>
+      <enumeration value="FillFrame"/>
+      <enumeration value="RetainShape"/>
+      <enumeration value="RealHeight"/>
+      <enumeration value="RealSize"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="hAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left"/>
+      <enumeration value="Center"/>
+      <enumeration value="Right"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="vAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Top"/>
+      <enumeration value="Middle"/>
+      <enumeration value="Bottom"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isUsingCache" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isLazy" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="onErrorType" use="optional" default="Error">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Error"/>
+      <enumeration value="Blank"/>
+      <enumeration value="Icon"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="evaluationTime" use="optional" default="Now" type="jr:complexEvaluationTime"/>
+   <attribute name="evaluationGroup" type="string" use="optional"/>
+   <attribute name="hyperlinkType" type="string" use="optional" default="None"/>
+   <attribute name="hyperlinkTarget" use="optional" default="Self">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Self"/>
+      <enumeration value="Blank"/>
+      <enumeration value="Parent"/>
+      <enumeration value="Top"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="bookmarkLevel" type="NMTOKEN" use="optional" default="0"/>
+  </complexType>
+ </element>
+
+ <element name="imageExpression">
+  <complexType mixed="true">
+   <attribute name="class" use="optional" default="java.lang.String">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="java.lang.String"/>
+      <enumeration value="java.io.File"/>
+      <enumeration value="java.net.URL"/>
+      <enumeration value="java.io.InputStream"/>
+      <enumeration value="java.awt.Image"/>
+      <enumeration value="net.sf.jasperreports.engine.JRRenderable"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="box">
+  <complexType>
+   <sequence>
+    <element ref="jr:pen" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:topPen" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:leftPen" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:bottomPen" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rightPen" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="border" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="borderColor" type="string" use="optional"/>
+   <attribute name="padding" type="NMTOKEN" use="optional"/>
+   <attribute name="topBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="topBorderColor" type="string" use="optional"/>
+   <attribute name="topPadding" type="NMTOKEN" use="optional"/>
+   <attribute name="leftBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="leftBorderColor" type="string" use="optional"/>
+   <attribute name="leftPadding" type="NMTOKEN" use="optional"/>
+   <attribute name="bottomBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="bottomBorderColor" type="string" use="optional"/>
+   <attribute name="bottomPadding" type="NMTOKEN" use="optional"/>
+   <attribute name="rightBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="rightBorderColor" type="string" use="optional"/>
+   <attribute name="rightPadding" type="NMTOKEN" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="topPen">
+  <complexType>
+   <attribute name="lineWidth" type="NMTOKEN" use="optional"/>
+   <attribute name="lineStyle" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Solid"/>
+      <enumeration value="Dashed"/>
+      <enumeration value="Dotted"/>
+      <enumeration value="Double"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="lineColor" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="leftPen">
+  <complexType>
+   <attribute name="lineWidth" type="NMTOKEN" use="optional"/>
+   <attribute name="lineStyle" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Solid"/>
+      <enumeration value="Dashed"/>
+      <enumeration value="Dotted"/>
+      <enumeration value="Double"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="lineColor" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="bottomPen">
+  <complexType>
+   <attribute name="lineWidth" type="NMTOKEN" use="optional"/>
+   <attribute name="lineStyle" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Solid"/>
+      <enumeration value="Dashed"/>
+      <enumeration value="Dotted"/>
+      <enumeration value="Double"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="lineColor" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="rightPen">
+  <complexType>
+   <attribute name="lineWidth" type="NMTOKEN" use="optional"/>
+   <attribute name="lineStyle" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Solid"/>
+      <enumeration value="Dashed"/>
+      <enumeration value="Dotted"/>
+      <enumeration value="Double"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="lineColor" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="anchorNameExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="hyperlinkReferenceExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="hyperlinkAnchorExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="hyperlinkPageExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="hyperlinkTooltipExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="hyperlinkParameter">
+  <complexType>
+   <sequence>
+    <element ref="jr:hyperlinkParameterExpression"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="hyperlinkParameterExpression">
+  <complexType mixed="true">
+   <attribute name="class" type="string" use="optional" default="java.lang.String"/>
+  </complexType>
+ </element>
+
+ <element name="staticText">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:textElement" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:text" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="text">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="textElement">
+  <complexType>
+   <sequence>
+    <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="textAlignment" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left"/>
+      <enumeration value="Center"/>
+      <enumeration value="Right"/>
+      <enumeration value="Justified"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="verticalAlignment" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Top"/>
+      <enumeration value="Middle"/>
+      <enumeration value="Bottom"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="rotation" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Left"/>
+      <enumeration value="Right"/>
+      <enumeration value="UpsideDown"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="lineSpacing" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Single"/>
+      <enumeration value="1_1_2"/>
+      <enumeration value="Double"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isStyledText" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="markup" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="font">
+  <complexType>
+   <attribute name="reportFont" type="string" use="optional"/>
+   <attribute name="fontName" type="string" use="optional"/>
+   <attribute name="size" type="NMTOKEN" use="optional"/>
+   <attribute name="isBold" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isItalic" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isUnderline" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isStrikeThrough" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="pdfFontName" type="string" use="optional"/>
+   <attribute name="pdfEncoding" type="string" use="optional"/>
+   <attribute name="isPdfEmbedded" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="textField">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:textElement" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:textFieldExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="isStretchWithOverflow" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="evaluationTime" use="optional" default="Now" type="jr:complexEvaluationTime"/>
+   <attribute name="evaluationGroup" type="string" use="optional"/>
+   <attribute name="pattern" type="string" use="optional"/>
+   <attribute name="isBlankWhenNull" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="hyperlinkType" type="string" use="optional" default="None"/>
+   <attribute name="hyperlinkTarget" use="optional" default="Self">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Self"/>
+      <enumeration value="Blank"/>
+      <enumeration value="Parent"/>
+      <enumeration value="Top"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="bookmarkLevel" type="NMTOKEN" use="optional" default="0"/>
+  </complexType>
+ </element>
+
+ <element name="textFieldExpression">
+  <complexType mixed="true">
+   <attribute name="class" use="optional" default="java.lang.String">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="java.lang.Boolean"/>
+      <enumeration value="java.lang.Byte"/>
+      <enumeration value="java.util.Date"/>
+      <enumeration value="java.sql.Timestamp"/>
+      <enumeration value="java.sql.Time"/>
+      <enumeration value="java.lang.Double"/>
+      <enumeration value="java.lang.Float"/>
+      <enumeration value="java.lang.Integer"/>
+      <enumeration value="java.lang.Long"/>
+      <enumeration value="java.lang.Short"/>
+      <enumeration value="java.math.BigDecimal"/>
+      <enumeration value="java.lang.Number"/>
+      <enumeration value="java.lang.String"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="subreport">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:parametersMapExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:subreportParameter" minOccurs="0" maxOccurs="unbounded"/>
+    <choice minOccurs="0" maxOccurs="1">
+     <element ref="jr:connectionExpression"/>
+     <element ref="jr:dataSourceExpression"/>
+    </choice>
+    <element ref="jr:returnValue" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:subreportExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="isUsingCache" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="parametersMapExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="subreportParameter">
+  <complexType>
+   <sequence>
+    <element ref="jr:subreportParameterExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="subreportParameterExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="returnValue">
+  <complexType>
+   <attribute name="subreportVariable" type="string" use="optional"/>
+   <attribute name="toVariable" type="string" use="optional"/>
+   <attribute name="calculation" use="optional" default="Nothing">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Nothing"/>
+      <enumeration value="Count"/>
+      <enumeration value="DistinctCount"/>
+      <enumeration value="Sum"/>
+      <enumeration value="Average"/>
+      <enumeration value="Lowest"/>
+      <enumeration value="Highest"/>
+      <enumeration value="StandardDeviation"/>
+      <enumeration value="Variance"/>
+      <enumeration value="First"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="incrementerFactoryClass" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="connectionExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="dataSourceExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="subreportExpression">
+  <complexType mixed="true">
+   <attribute name="class" use="optional" default="java.lang.String">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="java.lang.String"/>
+      <enumeration value="java.io.File"/>
+      <enumeration value="java.net.URL"/>
+      <enumeration value="java.io.InputStream"/>
+      <enumeration value="net.sf.jasperreports.engine.JasperReport"/>
+      <enumeration value="dori.jasper.engine.JasperReport"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="elementGroup">
+  <complexType>
+   <choice minOccurs="0" maxOccurs="unbounded">
+    <element ref="jr:break"/>
+    <element ref="jr:line"/>
+    <element ref="jr:rectangle"/>
+    <element ref="jr:ellipse"/>
+    <element ref="jr:image"/>
+    <element ref="jr:staticText"/>
+    <element ref="jr:textField"/>
+    <element ref="jr:subreport"/>
+    <element ref="jr:pieChart"/>
+    <element ref="jr:pie3DChart"/>
+    <element ref="jr:barChart"/>
+    <element ref="jr:bar3DChart"/>
+    <element ref="jr:xyBarChart"/>
+    <element ref="jr:stackedBarChart"/>
+    <element ref="jr:stackedBar3DChart"/>
+    <element ref="jr:lineChart"/>
+    <element ref="jr:xyLineChart"/>
+    <element ref="jr:areaChart"/>
+    <element ref="jr:xyAreaChart"/>
+    <element ref="jr:scatterChart"/>
+    <element ref="jr:bubbleChart"/>
+    <element ref="jr:timeSeriesChart"/>
+    <element ref="jr:highLowChart"/>
+    <element ref="jr:candlestickChart"/>
+    <element ref="jr:meterChart"/>
+    <element ref="jr:thermometerChart"/>
+    <element ref="jr:multiAxisChart"/>
+    <element ref="jr:stackedAreaChart"/>
+    <element ref="jr:ganttChart"/>
+    <element ref="jr:elementGroup"/>
+    <element ref="jr:crosstab"/>
+    <element ref="jr:frame"/>
+    <element ref="jr:componentElement"/>
+    <element ref="jr:genericElement"/>
+   </choice>
+  </complexType>
+ </element>
+
+ <element name="chart">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:chartTitle" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:chartSubtitle" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:chartLegend" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="isShowLegend" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="evaluationTime" use="optional" default="Now" type="jr:basicEvaluationTime"/>
+   <attribute name="evaluationGroup" type="string" use="optional"/>
+   <attribute name="hyperlinkType" type="string" use="optional" default="None"/>
+   <attribute name="hyperlinkTarget" use="optional" default="Self">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Self"/>
+      <enumeration value="Blank"/>
+      <enumeration value="Parent"/>
+      <enumeration value="Top"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="bookmarkLevel" type="NMTOKEN" use="optional" default="0"/>
+   <attribute name="customizerClass" type="string" use="optional"/>
+   <attribute name="renderType" type="string" use="optional"/>
+   <attribute name="theme" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="chartTitle">
+  <complexType>
+   <sequence>
+    <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:titleExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="position" use="optional" default="Top">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Top"/>
+      <enumeration value="Bottom"/>
+      <enumeration value="Left"/>
+      <enumeration value="Right"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="color" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="titleExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="chartSubtitle">
+  <complexType>
+   <sequence>
+    <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:subtitleExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="color" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="subtitleExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="chartLegend">
+  <complexType>
+   <sequence>
+    <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="textColor" type="string" use="optional"/>
+   <attribute name="backgroundColor" type="string" use="optional"/>
+   <attribute name="position" use="optional" default="Bottom">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Top"/>
+      <enumeration value="Bottom"/>
+      <enumeration value="Left"/>
+      <enumeration value="Right"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="pieChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:pieDataset"/>
+    <element ref="jr:piePlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="pieDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:keyExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:labelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:sectionHyperlink" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="keyExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="valueExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="labelExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="sectionHyperlink">
+  <complexType>
+   <sequence>
+    <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="hyperlinkType" type="string" use="optional" default="None"/>
+   <attribute name="hyperlinkTarget" use="optional" default="Self">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Self"/>
+      <enumeration value="Blank"/>
+      <enumeration value="Parent"/>
+      <enumeration value="Top"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="piePlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+   </sequence>
+   <attribute name="isCircular" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="labelFormat" type="string" use="optional"/>
+   <attribute name="legendLabelFormat" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="dataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:incrementWhenExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:datasetRun" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="resetType" use="optional" default="Report">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Report"/>
+      <enumeration value="Page"/>
+      <enumeration value="Column"/>
+      <enumeration value="Group"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="resetGroup" type="string" use="optional"/>
+   <attribute name="incrementType" use="optional" default="None">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Report"/>
+      <enumeration value="Page"/>
+      <enumeration value="Column"/>
+      <enumeration value="Group"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="incrementGroup" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="incrementWhenExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="datasetRun">
+  <complexType>
+   <sequence>
+    <element ref="jr:parametersMapExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:datasetParameter" minOccurs="0" maxOccurs="unbounded"/>
+    <choice minOccurs="0" maxOccurs="1">
+     <element ref="jr:connectionExpression"/>
+     <element ref="jr:dataSourceExpression"/>
+    </choice>
+   </sequence>
+   <attribute name="subDataset" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="datasetParameter">
+  <complexType>
+   <sequence>
+    <element ref="jr:datasetParameterExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="datasetParameterExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="plot">
+  <complexType>
+   <sequence>
+    <element ref="jr:seriesColor" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="backcolor" type="string" use="optional"/>
+   <attribute name="orientation" use="optional" default="Vertical">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Horizontal"/>
+      <enumeration value="Vertical"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="backgroundAlpha" type="NMTOKEN" use="optional" default="1"/>
+   <attribute name="foregroundAlpha" type="NMTOKEN" use="optional" default="1"/>
+   <attribute name="labelRotation" type="string" use="optional" default="0.0"/>
+  </complexType>
+ </element>
+
+ <element name="seriesColor">
+  <complexType>
+   <attribute name="seriesOrder" type="string" use="required"/>
+   <attribute name="color" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="pie3DChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:pieDataset"/>
+    <element ref="jr:pie3DPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="pie3DPlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+   </sequence>
+   <attribute name="depthFactor" type="string" use="optional" default="0.2"/>
+   <attribute name="isCircular" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="labelFormat" type="string" use="optional"/>
+   <attribute name="legendLabelFormat" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="barChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:categoryDataset"/>
+    <element ref="jr:barPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="categoryDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:categorySeries" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="categorySeries">
+  <complexType>
+   <sequence>
+    <element ref="jr:seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:categoryExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:labelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="seriesExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="categoryExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="itemHyperlink">
+  <complexType>
+   <sequence>
+    <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="hyperlinkType" type="string" use="optional" default="None"/>
+   <attribute name="hyperlinkTarget" use="optional" default="Self">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Self"/>
+      <enumeration value="Blank"/>
+      <enumeration value="Parent"/>
+      <enumeration value="Top"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="barPlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:categoryAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="isShowLabels" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isShowTickMarks" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isShowTickLabels" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="categoryAxisLabelExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="valueAxisLabelExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="categoryAxisFormat">
+  <complexType>
+   <sequence>
+    <element ref="jr:axisFormat"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="valueAxisFormat">
+  <complexType>
+   <sequence>
+    <element ref="jr:axisFormat"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="axisFormat">
+  <complexType>
+   <sequence>
+    <element ref="jr:labelFont" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:tickLabelFont" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="labelColor" type="string" use="optional"/>
+   <attribute name="tickLabelColor" type="string" use="optional"/>
+   <attribute name="tickLabelMask" type="string" use="optional"/>
+   <attribute name="axisLineColor" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="labelFont">
+  <complexType>
+   <sequence>
+    <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="tickLabelFont">
+  <complexType>
+   <sequence>
+    <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="bar3DChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:categoryDataset"/>
+    <element ref="jr:bar3DPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="bar3DPlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:categoryAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="isShowLabels" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="xOffset" type="string" use="optional"/>
+   <attribute name="yOffset" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="xyBarChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <choice>
+     <element ref="jr:timePeriodDataset"/>
+     <element ref="jr:timeSeriesDataset"/>
+     <element ref="jr:xyDataset"/>
+    </choice>
+    <element ref="jr:barPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="timePeriodDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:timePeriodSeries" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="timePeriodSeries">
+  <complexType>
+   <sequence>
+    <element ref="jr:seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:startDateExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:endDateExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:labelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="startDateExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="endDateExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="stackedBarChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:categoryDataset"/>
+    <element ref="jr:barPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="stackedAreaChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:categoryDataset"/>
+    <element ref="jr:areaPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="stackedBar3DChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:categoryDataset"/>
+    <element ref="jr:bar3DPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="lineChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:categoryDataset"/>
+    <element ref="jr:linePlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="linePlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:categoryAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="isShowLines" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isShowShapes" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="xyLineChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:xyDataset"/>
+    <element ref="jr:linePlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="xyDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:xySeries" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="xySeries">
+  <complexType>
+   <sequence>
+    <element ref="jr:seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:xValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:yValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:labelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="xValueExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="yValueExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="areaChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:categoryDataset"/>
+    <element ref="jr:areaPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="areaPlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:categoryAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="xyAreaChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:xyDataset"/>
+    <element ref="jr:areaPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="scatterChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:xyDataset"/>
+    <element ref="jr:scatterPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="scatterPlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:xAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:xAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:yAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:yAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="isShowLines" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isShowShapes" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="xAxisLabelExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="yAxisLabelExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="xAxisFormat">
+  <complexType>
+   <sequence>
+    <element ref="jr:axisFormat"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="yAxisFormat">
+  <complexType>
+   <sequence>
+    <element ref="jr:axisFormat"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="bubbleChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:xyzDataset"/>
+    <element ref="jr:bubblePlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="xyzDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:xyzSeries" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="xyzSeries">
+  <complexType>
+   <sequence>
+    <element ref="jr:seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:xValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:yValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:zValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="bubblePlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:xAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:xAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:yAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:yAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="scaleType" use="optional" default="RangeAxis">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="BothAxes"/>
+      <enumeration value="DomainAxis"/>
+      <enumeration value="RangeAxis"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="zValueExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="timeSeriesDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:timeSeries" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="timePeriod" use="optional" default="Day">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Year"/>
+      <enumeration value="Quarter"/>
+      <enumeration value="Month"/>
+      <enumeration value="Week"/>
+      <enumeration value="Day"/>
+      <enumeration value="Hour"/>
+      <enumeration value="Minute"/>
+      <enumeration value="Second"/>
+      <enumeration value="Milisecond"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="timeSeries">
+  <complexType>
+   <sequence>
+    <element ref="jr:seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:timePeriodExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:labelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="timePeriodExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="timeSeriesChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:timeSeriesDataset"/>
+    <element ref="jr:timeSeriesPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="timeSeriesPlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:timeAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:timeAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="isShowLines" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isShowShapes" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="timeAxisLabelExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="timeAxisFormat">
+  <complexType>
+   <sequence>
+    <element ref="jr:axisFormat"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="highLowChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:highLowDataset"/>
+    <element ref="jr:highLowPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="highLowDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:dateExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:highExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:lowExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:openExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:closeExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:volumeExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="highLowPlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:timeAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:timeAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="isShowCloseTicks" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isShowOpenTicks" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="dateExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="highExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="lowExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="openExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="closeExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="volumeExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="candlestickChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:highLowDataset"/>
+    <element ref="jr:candlestickPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="candlestickPlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:timeAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:timeAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="isShowVolume" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="meterChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:valueDataset"/>
+    <element ref="jr:meterPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="valueDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueExpression"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="meterPlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:valueDisplay" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:dataRange"/>
+    <element ref="jr:meterInterval" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="shape" use="optional" default="pie">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="chord"/>
+      <enumeration value="circle"/>
+      <enumeration value="pie"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="angle" type="string" use="optional" default="180"/>
+   <attribute name="units" type="string" use="optional"/>
+   <attribute name="tickInterval" type="string" use="optional" default="10.0"/>
+   <attribute name="meterColor" type="string" use="optional"/>
+   <attribute name="needleColor" type="string" use="optional"/>
+   <attribute name="tickColor" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="valueDisplay">
+  <complexType>
+   <sequence>
+    <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="color" type="string" use="optional"/>
+   <attribute name="mask" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="dataRange">
+  <complexType>
+   <sequence>
+    <element ref="jr:lowExpression"/>
+    <element ref="jr:highExpression"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="meterInterval">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataRange"/>
+   </sequence>
+   <attribute name="label" type="string" use="optional"/>
+   <attribute name="color" type="string" use="optional"/>
+   <attribute name="alpha" type="string" use="optional" default="1.0"/>
+  </complexType>
+ </element>
+
+ <element name="thermometerChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:valueDataset"/>
+    <element ref="jr:thermometerPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="thermometerPlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:valueDisplay" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:dataRange"/>
+    <element ref="jr:lowRange" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:mediumRange" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:highRange" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="valueLocation" use="optional" default="bulb">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="none"/>
+      <enumeration value="left"/>
+      <enumeration value="right"/>
+      <enumeration value="bulb"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isShowValueLines" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="mercuryColor" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="lowRange">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataRange"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="mediumRange">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataRange"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="highRange">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataRange"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="multiAxisChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:multiAxisPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="multiAxisPlot">
+  <complexType>
+   <sequence>
+    <element ref="jr:plot"/>
+    <element ref="jr:axis" maxOccurs="unbounded"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="axis">
+  <complexType>
+   <choice>
+    <element ref="jr:barChart"/>
+    <element ref="jr:bar3DChart"/>
+    <element ref="jr:xyBarChart"/>
+    <element ref="jr:stackedBarChart"/>
+    <element ref="jr:stackedBar3DChart"/>
+    <element ref="jr:lineChart"/>
+    <element ref="jr:xyLineChart"/>
+    <element ref="jr:areaChart"/>
+    <element ref="jr:xyAreaChart"/>
+    <element ref="jr:scatterChart"/>
+    <element ref="jr:bubbleChart"/>
+    <element ref="jr:timeSeriesChart"/>
+    <element ref="jr:highLowChart"/>
+    <element ref="jr:candlestickChart"/>
+    <element ref="jr:stackedAreaChart"/>
+    <element ref="jr:ganttChart"/>
+   </choice>
+   <attribute name="position" use="optional" default="leftOrTop">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="leftOrTop"/>
+      <enumeration value="rightOrBottom"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="crosstab">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:crosstabParameter" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:parametersMapExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:crosstabDataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:crosstabHeaderCell" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rowGroup" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:columnGroup" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:measure" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:crosstabCell" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:whenNoDataCell" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="isRepeatColumnHeaders" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isRepeatRowHeaders" use="optional" default="true">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="columnBreakOffset" type="NMTOKEN" use="optional" default="10"/>
+   <attribute name="runDirection" use="optional" default="LTR">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="LTR"/>
+      <enumeration value="RTL"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="crosstabParameter">
+  <complexType>
+   <sequence>
+    <element ref="jr:parameterValueExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="class" type="string" use="optional" default="java.lang.String"/>
+  </complexType>
+ </element>
+
+ <element name="parameterValueExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="crosstabDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="isDataPreSorted" use="optional" default="false">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="crosstabHeaderCell">
+  <complexType>
+   <sequence>
+    <element ref="jr:cellContents"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="rowGroup">
+  <complexType>
+   <sequence>
+    <element ref="jr:bucket"/>
+    <element ref="jr:crosstabRowHeader" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:crosstabTotalRowHeader" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="width" type="NMTOKEN" use="required"/>
+   <attribute name="totalPosition" use="optional" default="None">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Start"/>
+      <enumeration value="End"/>
+      <enumeration value="None"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="headerPosition" use="optional" default="Top">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Top"/>
+      <enumeration value="Middle"/>
+      <enumeration value="Bottom"/>
+      <enumeration value="Stretch"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="crosstabRowHeader">
+  <complexType>
+   <sequence>
+    <element ref="jr:cellContents" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="crosstabTotalRowHeader">
+  <complexType>
+   <sequence>
+    <element ref="jr:cellContents" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="columnGroup">
+  <complexType>
+   <sequence>
+    <element ref="jr:bucket"/>
+    <element ref="jr:crosstabColumnHeader" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:crosstabTotalColumnHeader" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="height" type="NMTOKEN" use="required"/>
+   <attribute name="totalPosition" use="optional" default="None">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Start"/>
+      <enumeration value="End"/>
+      <enumeration value="None"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="headerPosition" use="optional" default="Left">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left"/>
+      <enumeration value="Center"/>
+      <enumeration value="Right"/>
+      <enumeration value="Stretch"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="crosstabColumnHeader">
+  <complexType>
+   <sequence>
+    <element ref="jr:cellContents" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="crosstabTotalColumnHeader">
+  <complexType>
+   <sequence>
+    <element ref="jr:cellContents" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="bucket">
+  <complexType>
+   <sequence>
+    <element ref="jr:bucketExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:comparatorExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="order" use="optional" default="Ascending">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Ascending"/>
+      <enumeration value="Descending"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="bucketExpression">
+  <complexType mixed="true">
+   <attribute name="class" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="comparatorExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="measure">
+  <complexType>
+   <sequence>
+    <element ref="jr:measureExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="class" type="string" use="optional"/>
+   <attribute name="calculation" use="optional" default="Nothing">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Nothing"/>
+      <enumeration value="Count"/>
+      <enumeration value="DistinctCount"/>
+      <enumeration value="Sum"/>
+      <enumeration value="Average"/>
+      <enumeration value="Lowest"/>
+      <enumeration value="Highest"/>
+      <enumeration value="StandardDeviation"/>
+      <enumeration value="Variance"/>
+      <enumeration value="First"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="incrementerFactoryClass" type="string" use="optional"/>
+   <attribute name="percentageOf" use="optional" default="None">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="GrandTotal"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="percentageCalculatorClass" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="measureExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="crosstabCell">
+  <complexType>
+   <sequence>
+    <element ref="jr:cellContents" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="width" type="NMTOKEN" use="optional"/>
+   <attribute name="height" type="NMTOKEN" use="optional"/>
+   <attribute name="rowTotalGroup" type="string" use="optional"/>
+   <attribute name="columnTotalGroup" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="cellContents">
+  <complexType>
+   <sequence>
+    <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
+    <choice minOccurs="0" maxOccurs="unbounded">
+     <element ref="jr:line"/>
+     <element ref="jr:rectangle"/>
+     <element ref="jr:ellipse"/>
+     <element ref="jr:image"/>
+     <element ref="jr:staticText"/>
+     <element ref="jr:textField"/>
+     <element ref="jr:elementGroup"/>
+     <element ref="jr:frame"/>
+     <element ref="jr:componentElement"/>
+     <element ref="jr:genericElement"/>
+    </choice>
+   </sequence>
+   <attribute name="backcolor" type="string" use="optional"/>
+   <attribute name="mode" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Opaque"/>
+      <enumeration value="Transparent"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="style" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="whenNoDataCell">
+  <complexType>
+   <sequence>
+    <element ref="jr:cellContents"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="frame">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
+    <choice minOccurs="0" maxOccurs="unbounded">
+     <element ref="jr:break"/>
+     <element ref="jr:line"/>
+     <element ref="jr:rectangle"/>
+     <element ref="jr:ellipse"/>
+     <element ref="jr:image"/>
+     <element ref="jr:staticText"/>
+     <element ref="jr:textField"/>
+     <element ref="jr:subreport"/>
+     <element ref="jr:pieChart"/>
+     <element ref="jr:pie3DChart"/>
+     <element ref="jr:barChart"/>
+     <element ref="jr:bar3DChart"/>
+     <element ref="jr:xyBarChart"/>
+     <element ref="jr:stackedBarChart"/>
+     <element ref="jr:stackedBar3DChart"/>
+     <element ref="jr:lineChart"/>
+     <element ref="jr:xyLineChart"/>
+     <element ref="jr:areaChart"/>
+     <element ref="jr:xyAreaChart"/>
+     <element ref="jr:scatterChart"/>
+     <element ref="jr:bubbleChart"/>
+     <element ref="jr:timeSeriesChart"/>
+     <element ref="jr:highLowChart"/>
+     <element ref="jr:candlestickChart"/>
+     <element ref="jr:meterChart"/>
+     <element ref="jr:thermometerChart"/>
+     <element ref="jr:multiAxisChart"/>
+     <element ref="jr:stackedAreaChart"/>
+     <element ref="jr:ganttChart"/>
+     <element ref="jr:elementGroup"/>
+     <element ref="jr:crosstab"/>
+     <element ref="jr:frame"/>
+     <element ref="jr:componentElement"/>
+     <element ref="jr:genericElement"/>
+    </choice>
+   </sequence>
+  </complexType>
+ </element>
+ 
+ <element name="ganttChart">
+  <complexType>
+   <sequence>
+    <element ref="jr:chart"/>
+    <element ref="jr:ganttDataset"/>
+    <element ref="jr:barPlot"/>
+   </sequence>
+  </complexType>
+ </element>
+ 
+ <element name="ganttDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:ganttSeries" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+  </complexType>
+ </element>
+ 
+ <element name="ganttSeries">
+  <complexType>
+   <sequence>
+    <element ref="jr:seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:taskExpression"/>
+    <element ref="jr:subtaskExpression"/>
+    <element ref="jr:startDateExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:endDateExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:percentExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+ 
+ <element name="taskExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="subtaskExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="percentExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="componentElement">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:component"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="component" type="jr:componentType" abstract="true"/>
+ 
+ <complexType name="componentType" abstract="true"/>
+
+ <simpleType name="basicEvaluationTime">
+  <restriction base="string">
+   <enumeration value="Now"/>
+   <enumeration value="Report"/>
+   <enumeration value="Page"/>
+   <enumeration value="Column"/>
+   <enumeration value="Group"/>
+   <enumeration value="Band"/>
+  </restriction>
+ </simpleType>
+
+ <simpleType name="complexEvaluationTime">
+  <restriction base="string">
+   <enumeration value="Now"/>
+   <enumeration value="Report"/>
+   <enumeration value="Page"/>
+   <enumeration value="Column"/>
+   <enumeration value="Group"/>
+   <enumeration value="Band"/>
+   <enumeration value="Auto"/>
+  </restriction>
+ </simpleType>
+
+ <element name="genericElement">
+  <complexType>
+   <sequence>
+    <element ref="jr:reportElement"/>
+    <element ref="jr:genericElementType"/>
+    <element ref="jr:genericElementParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="evaluationTime" use="optional" default="Now" type="jr:complexEvaluationTime"/>
+   <attribute name="evaluationGroup" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="genericElementType">
+  <complexType>
+   <attribute name="namespace" type="string" use="required"/>
+   <attribute name="name" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="genericElementParameter">
+  <complexType>
+   <sequence>
+    <element name="valueExpression" minOccurs="0" maxOccurs="1">
+     <complexType mixed="true">
+      <attribute name="class" type="string" use="optional" default="java.lang.Object"/>
+     </complexType>
+    </element>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="skipWhenNull" type="boolean" use="optional" default="false"/>
+  </complexType>
+ </element>
+
+</schema>

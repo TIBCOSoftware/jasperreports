@@ -1,0 +1,118 @@
+<project name="Samples" default="testAll" basedir=".">
+
+	<description>Helps testing all the samples at once.</description>
+	
+	<target name="testAll" description="Test all the samples.">
+		<echo message=""/>
+		<echo message="***********************************"/>
+		<echo message="* TESTING ALL THE SAMPLES         *"/>
+		<echo message="***********************************"/>
+		<echo message=""/>
+
+		<ant dir="alterdesign" target="test" />
+		<ant dir="antcompile" target="test" />
+		<ant dir="barbecue" target="test" />
+		<ant dir="barcode" target="test" />
+		<ant dir="batchexport" target="test" />
+		<ant dir="beanshell" target="test" />
+		<ant dir="charts" target="test" />
+		<ant dir="crosstabs" target="test" />
+		<ant dir="csvdatasource" target="test" />
+		<ant dir="datasource" target="test" />
+		<ant dir="ejbql" target="test" />
+		<ant dir="fonts" target="test" />
+		<ant dir="genericelement" target="test" />
+		<ant dir="groovy" target="test" />
+		<ant dir="hibernate" target="test" />
+		<ant dir="horizontal" target="test" />
+		<ant dir="hyperlink" target="test" />
+		<ant dir="i18n" target="test" />
+		<ant dir="images" target="test" />
+		<ant dir="jasper" target="test" />
+		<ant dir="java1.5" target="test" />
+		<ant dir="javascript" target="test" />
+		<ant dir="jcharts" target="test" />
+		<ant dir="jchartscomponent" target="test" />
+		<ant dir="jfreechart" target="test" />
+		<ant dir="landscape" target="test" />
+		<ant dir="markup" target="test" />
+		<ant dir="mondrian" target="test" />
+		<ant dir="nopagebreak" target="test" />
+		<ant dir="noreport" target="test" />
+		<ant dir="noxmldesign" target="test" />
+		<ant dir="openflashchart" target="test" />
+		<ant dir="pdfencrypt" target="test" />
+		<ant dir="printservice" target="test" />
+		<ant dir="query" target="test" />
+		<ant dir="rotation" target="test" />
+		<ant dir="scriptlet" target="test" />
+		<ant dir="shapes" target="test" />
+		<ant dir="stretch" target="test" />
+		<ant dir="styledtext" target="test" />
+		<ant dir="subreport" target="test" />
+		<ant dir="table" target="test" />
+		<ant dir="tableofcontents" target="test" />
+		<ant dir="templates" target="test" />
+		<ant dir="text" target="test" />
+		<ant dir="unicode" target="test" />
+		<ant dir="virtualizer" target="test" />
+		<ant dir="webapp" target="test" />
+		<ant dir="xlsformula" target="test" />
+		<ant dir="xmldatasource" target="test" />
+	</target>
+
+
+	<target name="clean" description="Clean all the samples.">
+		<ant dir="alterdesign" target="clean" />
+		<ant dir="antcompile" target="clean" />
+		<ant dir="barbecue" target="clean" />
+		<ant dir="barcode" target="clean" />
+		<ant dir="batchexport" target="clean" />
+		<ant dir="beanshell" target="clean" />
+		<ant dir="charts" target="clean" />
+		<ant dir="crosstabs" target="clean" />
+		<ant dir="csvdatasource" target="clean" />
+		<ant dir="datasource" target="clean" />
+		<ant dir="ejbql" target="clean" />
+		<ant dir="fonts" target="clean" />
+		<ant dir="genericelement" target="clean" />
+		<ant dir="groovy" target="clean" />
+		<ant dir="hibernate" target="clean" />
+		<ant dir="horizontal" target="clean" />
+		<ant dir="hyperlink" target="clean" />
+		<ant dir="i18n" target="clean" />
+		<ant dir="images" target="clean" />
+		<ant dir="jasper" target="clean" />
+		<ant dir="java1.5" target="clean" />
+		<ant dir="javascript" target="clean" />
+		<ant dir="jcharts" target="clean" />
+		<ant dir="jchartscomponent" target="clean" />
+		<ant dir="jfreechart" target="clean" />
+		<ant dir="landscape" target="clean" />
+		<ant dir="markup" target="clean" />
+		<ant dir="mondrian" target="clean" />
+		<ant dir="nopagebreak" target="clean" />
+		<ant dir="noreport" target="clean" />
+		<ant dir="noxmldesign" target="clean" />
+		<ant dir="openflashchart" target="clean" />
+		<ant dir="pdfencrypt" target="clean" />
+		<ant dir="printservice" target="clean" />
+		<ant dir="query" target="clean" />
+		<ant dir="rotation" target="clean" />
+		<ant dir="scriptlet" target="clean" />
+		<ant dir="shapes" target="clean" />
+		<ant dir="stretch" target="clean" />
+		<ant dir="styledtext" target="clean" />
+		<ant dir="subreport" target="clean" />
+		<ant dir="table" target="clean" />
+		<ant dir="tableofcontents" target="clean" />
+		<ant dir="templates" target="clean" />
+		<ant dir="text" target="clean" />
+		<ant dir="unicode" target="clean" />
+		<ant dir="virtualizer" target="clean" />
+		<ant dir="webapp" target="clean" />
+		<ant dir="xlsformula" target="clean" />
+		<ant dir="xmldatasource" target="clean" />
+	</target>
+
+</project>

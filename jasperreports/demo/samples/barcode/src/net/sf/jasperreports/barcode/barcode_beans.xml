@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
+		<property name="xmlParser">
+			<ref local="xmlParser"/>
+		</property>
+		<property name="componentManagers">
+			<map>
+				<entry key="barcode">
+					<ref local="barcodeManager"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="xmlParser" class="net.sf.jasperreports.engine.component.DefaultComponentXmlParser">
+		<property name="namespace">
+			<value>http://jasperreports.sourceforge.net/jasperreports/barcode</value>
+		</property>
+		<property name="publicSchemaLocation">
+			<value>http://jasperreports.sourceforge.net/dtds/barcode.xsd</value>
+		</property>
+		<property name="internalSchemaResource">
+			<value>net/sf/jasperreports/barcode/barcode.xsd</value>
+		</property>
+		<property name="digesterConfigurer">
+			<bean class="net.sf.jasperreports.barcode.BarcodeDigesterRules"/>
+		</property>
+	</bean>
+
+	<bean id="barcodeManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+		<property name="componentCompiler">
+			<bean class="net.sf.jasperreports.barcode.BarcodeCompiler">
+				<property name="providers">
+					<ref local="barcodeProviders"/>
+				</property>
+			</bean>
+		</property>
+		<property name="componentXmlWriter">
+			<bean class="net.sf.jasperreports.barcode.BarcodeXmlWriter"/>
+		</property>
+		<property name="componentFillFactory">
+			<bean class="net.sf.jasperreports.barcode.BarcodeFillFactory">
+				<property name="providers">
+					<ref local="barcodeProviders"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="barcodeProviders" class="net.sf.jasperreports.barcode.BarcodeProviders">
+		<property name="providers">
+			<map>
+				<entry key="UPCA">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$UPCAProvider"/>
+				</entry>
+				<entry key="Code128">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$Code128Provider"/>
+				</entry>
+				<entry key="Codabar">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$CodabarProvider"/>
+				</entry>
+				<entry key="Std2of5">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$Std2of5Provider"/>
+				</entry>
+				<entry key="Int2of5">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$Int2of5Provider"/>
+				</entry>
+				<entry key="UPCA">
+					<bean class="net.sf.jasperreports.barcode.BarcodeProviders$EAN13Provider"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>

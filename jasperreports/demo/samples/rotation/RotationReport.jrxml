@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="RotationReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<title>
+		<band height="782">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="90" height="350" backcolor="#c0c0c0"/>
+				<textElement rotation="Left">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[rotation="Left" 
+textAlignment="Left" 
+verticalAlignment="Top"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="0" width="90" height="350" backcolor="#c0c0c0"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" rotation="Left">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[rotation="Left" 
+textAlignment="Center" 
+verticalAlignment="Bottom"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="200" y="0" width="90" height="350" backcolor="#c0c0c0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="Left">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[rotation="Left" 
+textAlignment="Right"
+verticalAlignment="Middle"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="300" y="0" width="90" height="350" backcolor="#c0c0c0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="UpsideDown">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[rotation="UpsideDown"
+textAlignment="Left"
+verticalAlignment="Middle"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="155" y="410" width="90" height="350" forecolor="#ffffff" backcolor="#404040"/>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="UpsideDown">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[rotation="UpsideDown"
+textAlignment="Right"
+verticalAlignment="Top"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="255" y="410" width="90" height="350" forecolor="#ffffff" backcolor="#404040"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="Right">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[rotation="Right" 
+textAlignment="Right" 
+verticalAlignment="Middle"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="355" y="410" width="90" height="350" forecolor="#ffffff" backcolor="#404040"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" rotation="Right">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[rotation="Right" 
+textAlignment="Center" 
+verticalAlignment="Bottom"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="455" y="410" width="90" height="350" forecolor="#ffffff" backcolor="#404040"/>
+				<textElement rotation="Right">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[rotation="Right"
+textAlignment="Left"
+verticalAlignment="Top"]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>
