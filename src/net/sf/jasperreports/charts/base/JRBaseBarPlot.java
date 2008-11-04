@@ -316,7 +316,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	 */
 	public boolean isShowTickMarks()
 	{
-		return showTickMarks == null ? false : showTickMarks.booleanValue();
+		return showTickMarks == null ? true : showTickMarks.booleanValue();
 	}
 		
 	/**
@@ -350,7 +350,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	 */
 	public boolean isShowTickLabels()
 	{
-		return showTickLabels == null ? false : showTickLabels.booleanValue();
+		return showTickLabels == null ? true : showTickLabels.booleanValue();
 	}
 		
 	/**
@@ -408,9 +408,9 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	 * This field is only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
-	protected boolean isShowTickMarks = false;
-	protected boolean isShowTickLabels = false;
-	protected boolean isShowLabels = false;
+	private boolean isShowTickMarks = false;
+	private boolean isShowTickLabels = true;
+	private boolean isShowLabels = true;
 
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
