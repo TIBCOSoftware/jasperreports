@@ -30,7 +30,7 @@
 			<include name="*.java"/>
 		</javac>
 		<mkdir dir="./build/component"/> 
-		<javac srcdir="./src" destdir="./build/component" debug="true" optimize="false" deprecation="false">
+		<javac srcdir="./src" destdir="./build/component" debug="true" optimize="false" deprecation="false" source="1.4" target="1.4">
 			<classpath refid="classpath"/>
 		</javac>
 		<copy todir="./build/component">
@@ -38,6 +38,15 @@
 				<exclude name="**/*.java"/>
 			</fileset>
 		</copy>
+	</target>
+	
+	<target name="jar" description="Packs the component classes and resources into a jar">
+		<jar jarfile="./build/jasperreports-ofc-component.jar">
+			<manifest>
+				<attribute name="Built-By" value="Jaspersoft"/>
+			</manifest>		
+			<fileset dir="./build/component"/>
+		</jar>
 	</target>
 
 	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">

@@ -27,6 +27,9 @@
  */
 package com.jaspersoft.sample.ofc;
 
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
+
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
@@ -40,6 +43,8 @@ public class ChartHtmlHandler implements GenericElementHtmlHandler
 
 	public static final String PARAMETER_CHART_DATA = "ChartData";
 	
+	private final ThreadLocal lastContext = new ThreadLocal();
+	
 	public boolean toExport(JRGenericPrintElement element)
 	{
 		return true;
@@ -52,7 +57,15 @@ public class ChartHtmlHandler implements GenericElementHtmlHandler
 	    int height = element.getHeight();
 		StringBuffer sb = new StringBuffer();
 		
-		sb.append("<script language=\"JavaScript\" src=\"openflashchart/swfobject.js\"></script>\n");
+		sb.append("<div id=\"");
+		sb.append(divID);
+		sb.append("\"></div>\n");
+		
+		if (!sameAsLast(exporterContext))
+		{
+			sb.append("<script language=\"JavaScript\" src=\"openflashchart/swfobject.js\"></script>\n");
+		}
+		
 		sb.append("<script language=\"JavaScript\">\n");
 		sb.append("swfobject.embedSWF(\"openflashchart/open-flash-chart.swf\", \"");
 		sb.append(divID);
@@ -71,11 +84,21 @@ public class ChartHtmlHandler implements GenericElementHtmlHandler
 		sb.append(chartData);
 		sb.append("';}\n");
 		sb.append("</script>\n");
-		sb.append("<div id=\"");
-		sb.append(divID);
-		sb.append("\"></div>\n");
 		
 		return sb.toString();
 	}
 
+	protected boolean sameAsLast(JRHtmlExporterContext exporterContext)
+	{
+		Reference lastRef = (Reference) lastContext.get();
+		JRHtmlExporterContext last = (JRHtmlExporterContext) (lastRef == null ? null : lastRef.get());
+		if (last != null && last.equals(exporterContext))
+		{
+			return true;
+		}
+		
+		WeakReference ref = new WeakReference(exporterContext);
+		lastContext.set(ref);
+		return false;
+	}
 }
