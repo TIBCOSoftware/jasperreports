@@ -50,7 +50,7 @@ lanching the HSQL client application in case you need to view the
 database structure or run some queries against it.
 
 3.2 Fonts
-Some of the supplied samples use the True Type font files found in the 
+Some of the supplied samples use the TrueType font files found in the 
 /demo/fonts directory. In order to run those samples you should install 
 these fonts into your operating system so that they are available to the JVM. 
 The procedure required to install fonts depends on the operating system. 
