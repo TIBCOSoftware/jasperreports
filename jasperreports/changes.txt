@@ -2,12 +2,25 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.1.1 (2008-xx-xx)
+JasperReports 3.1.2 (2008-11-04)
 -----------------------------------
 
-- javascript report compiler;
+- new report compiler based on the Rhino library to support JavaScript 
+as the report expression language;
 
-- 508 compliant PDF exporter;
+- simplified configuration for custom query executers, which can register 
+themselves to a JasperReports deployment using the library's extensions support;
+
+- new custom properties available at report level and element level, 
+to mark document structure and produce produce PDF output that is compliant 
+with Section 508 Amendment to the Rehabilitation Act of 1973, which governs 
+accessibility of software solutions for people with disabilities.
+
+- new TrueType font files (DejaVu fonts) are shipped with the sample reports;
+
+- new chart theme implementation (name eye.candy.sixties) shipped with 
+the charts samples, to show how chart themes can be used to change the overall 
+appearence of charts generated with the build-in chart element;
 
 - minor bug fixes and improvements;
 
