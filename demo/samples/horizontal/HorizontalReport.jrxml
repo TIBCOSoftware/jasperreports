@@ -6,11 +6,11 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="HorizontalReport" columnCount="3" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="175" columnSpacing="5" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30">
-	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Comic_Normal" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMIC.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-	<style name="Comic_Bold" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Serif_Normal" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="DejaVuSerif.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<style name="Serif_Bold" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="DejaVuSerif-Bold.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	<parameter name="ReportTitle" class="java.lang.String">
 	</parameter>
 	<parameter name="MaxOrderID" class="java.lang.Integer">
@@ -77,14 +77,14 @@
 			<frame>
 				<reportElement mode="Opaque" x="0" y="14" width="175" height="11" backcolor="#ffdddd"/>
 				<staticText>
-					<reportElement x="0" y="0" width="120" height="11" forecolor="#ff0000" style="Arial_Italic"/>
+					<reportElement x="0" y="0" width="120" height="11" forecolor="#ff0000" style="Sans_Italic"/>
 					<textElement>
 						<font isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[Countries Starting With Letter :]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="120" y="0" width="55" height="11" forecolor="#ff0000" style="Arial_Bold"/>
+					<reportElement x="120" y="0" width="55" height="11" forecolor="#ff0000" style="Sans_Bold"/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetter}]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -97,22 +97,22 @@
 				<graphicElement/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="1" width="45" height="11" forecolor="#ff0000" style="Arial_Bold"/>
+				<reportElement x="0" y="1" width="45" height="11" forecolor="#ff0000" style="Sans_Bold"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Count :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="45" y="1" width="25" height="11" forecolor="#ff0000" style="Arial_Bold"/>
+				<reportElement x="45" y="1" width="25" height="11" forecolor="#ff0000" style="Sans_Bold"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{FirstLetterGroup_COUNT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="70" y="1" width="50" height="11" forecolor="#ff0000" style="Arial_Bold"/>
+				<reportElement x="70" y="1" width="50" height="11" forecolor="#ff0000" style="Sans_Bold"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Total :]]></text>
 			</staticText>
 			<textField pattern="0.00">
-				<reportElement x="120" y="1" width="55" height="11" forecolor="#ff0000" style="Arial_Bold"/>
+				<reportElement x="120" y="1" width="55" height="11" forecolor="#ff0000" style="Sans_Bold"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumFirstLetterGroup}]]></textFieldExpression>
 			</textField>
@@ -128,11 +128,11 @@
 				<graphicElement/>
 			</line>
 			<textField>
-				<reportElement x="10" y="12" width="90" height="11" style="Arial_Bold"/>
+				<reportElement x="10" y="12" width="90" height="11" style="Sans_Bold"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Group" evaluationGroup="CountryGroup" pattern="EEE, MMM d, yyyy">
-				<reportElement x="100" y="12" width="75" height="11" style="Arial_Bold"/>
+				<reportElement x="100" y="12" width="75" height="11" style="Sans_Bold"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{DateHighestCountryGroup}]]></textFieldExpression>
 			</textField>
@@ -143,22 +143,22 @@
 			<frame>
 				<reportElement mode="Opaque" x="0" y="0" width="175" height="11" backcolor="#c0c0c0"/>
 				<staticText>
-					<reportElement x="0" y="0" width="45" height="11" style="Arial_Bold"/>
+					<reportElement x="0" y="0" width="45" height="11" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Count :]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="45" y="0" width="25" height="11" style="Arial_Bold"/>
+					<reportElement x="45" y="0" width="25" height="11" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{CountryGroup_COUNT}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="70" y="0" width="50" height="11" style="Arial_Bold"/>
+					<reportElement x="70" y="0" width="50" height="11" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Total :]]></text>
 				</staticText>
 				<textField pattern="0.00">
-					<reportElement x="120" y="0" width="55" height="11" style="Arial_Bold"/>
+					<reportElement x="120" y="0" width="55" height="11" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumCountryGroup}]]></textFieldExpression>
 				</textField>			
@@ -180,14 +180,14 @@
 			</image>
 			</elementGroup>
 			<textField isBlankWhenNull="true">
-				<reportElement x="180" y="5" width="355" height="35" style="Comic_Bold"/>
+				<reportElement x="180" y="5" width="355" height="35" style="Serif_Bold"/>
 				<textElement textAlignment="Right">
 					<font size="22"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="180" y="40" width="355" height="15" style="Arial_Italic"/>
+				<reportElement x="180" y="40" width="355" height="15" style="Sans_Italic"/>
 				<textElement textAlignment="Right">
 					<font size="12"/>
 				</textElement>
@@ -227,7 +227,7 @@
 	<columnHeader>
 		<band height="11">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="175" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+				<reportElement mode="Opaque" x="0" y="0" width="175" height="11" forecolor="#ffffff" backcolor="#333333" style="Sans_Bold"/>
 				<text><![CDATA[Orders]]></text>
 			</staticText>
 		</band>
@@ -240,7 +240,7 @@
 					<pen lineWidth="0.5"/>
 				</box>
 				<staticText>
-					<reportElement x="2" y="2" width="38" height="11" style="Arial_Bold"/>
+					<reportElement x="2" y="2" width="38" height="11" style="Sans_Bold"/>
 					<text><![CDATA[Order]]></text>
 				</staticText>
 				<textField>
@@ -251,13 +251,13 @@
 					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{OrderID}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="40" y="2" width="130" height="11" forecolor="#ff0000" style="Arial_Bold">
+					<reportElement x="40" y="2" width="130" height="11" forecolor="#ff0000" style="Sans_Bold">
 						<printWhenExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 == 0)]]></printWhenExpression>
 					</reportElement>
 					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{OrderID}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="2" y="14" width="38" height="11" style="Arial_Bold"/>
+					<reportElement x="2" y="14" width="38" height="11" style="Sans_Bold"/>
 					<text><![CDATA[Name]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
@@ -266,7 +266,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipName}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="2" y="26" width="38" height="11" style="Arial_Bold"/>
+					<reportElement x="2" y="26" width="38" height="11" style="Sans_Bold"/>
 					<text><![CDATA[City]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
@@ -275,7 +275,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCity}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="2" y="38" width="38" height="11" style="Arial_Bold"/>
+					<reportElement x="2" y="38" width="38" height="11" style="Sans_Bold"/>
 					<text><![CDATA[Region]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
@@ -284,7 +284,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipRegion}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="2" y="50" width="38" height="11" style="Arial_Bold"/>
+					<reportElement x="2" y="50" width="38" height="11" style="Sans_Bold"/>
 					<text><![CDATA[Date]]></text>
 				</staticText>
 				<textField pattern="dd/MM/yyyy">
@@ -293,7 +293,7 @@
 					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{OrderDate}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="2" y="62" width="38" height="11" style="Arial_Bold"/>
+					<reportElement x="2" y="62" width="38" height="11" style="Sans_Bold"/>
 					<text><![CDATA[Freight]]></text>
 				</staticText>
 				<textField pattern="0.00">
@@ -309,22 +309,22 @@
 			<frame>
 				<reportElement mode="Opaque" x="0" y="0" width="175" height="11" backcolor="#333333"/>
 				<staticText>
-					<reportElement x="0" y="0" width="45" height="11" forecolor="#ffffff" style="Arial_Bold"/>
+					<reportElement x="0" y="0" width="45" height="11" forecolor="#ffffff" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Count :]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="45" y="0" width="25" height="11" forecolor="#ffffff" style="Arial_Bold"/>
+					<reportElement x="45" y="0" width="25" height="11" forecolor="#ffffff" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="70" y="0" width="50" height="11" forecolor="#ffffff" style="Arial_Bold"/>
+					<reportElement x="70" y="0" width="50" height="11" forecolor="#ffffff" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Total :]]></text>
 				</staticText>
 				<textField pattern="0.00">
-					<reportElement x="120" y="0" width="55" height="11" forecolor="#ffffff" style="Arial_Bold"/>
+					<reportElement x="120" y="0" width="55" height="11" forecolor="#ffffff" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumColumn}]]></textFieldExpression>
 				</textField>

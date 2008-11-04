@@ -21,11 +21,11 @@
 	<style name="Strong" style="Base"
 		isUnderline="true" fontSize="14"/>
 
-	<style name="Comic" style="Base"
+	<style name="Serif" style="Base"
 		fontSize="12"
-		fontName="Comic Sans MS" pdfFontName="COMIC.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+		fontName="DejaVu Serif" pdfFontName="DejaVuSerif.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	
-	<style name="Comic Note" style="Comic"
+	<style name="Serif Note" style="Serif"
 		isUnderline="true"/>
 	
 </jasperTemplate>

@@ -5,8 +5,8 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="MondrianFoodMartSalesReport" pageWidth="595" pageHeight="842" columnWidth="515" columnSpacing="0" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
-	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<queryString language="mdx">
 		<![CDATA[select NON EMPTY {[Measures].[Unit Sales], [Measures].[Customer Count]} ON COLUMNS,
   NON EMPTY Crossjoin({[Store].[All Stores], [Store].[All Stores].[USA].[CA], [Store].[All Stores].[USA].[OR], [Store].[All Stores].[USA].[WA]}, Crossjoin({[Time].[1997], [Time].[1997].[Q1], [Time].[1997].[Q2], [Time].[1997].[Q3], [Time].[1997].[Q4]}, {[Customers].[All Customers], [Customers].[All Customers].[USA].[CA], [Customers].[All Customers].[USA].[OR], [Customers].[All Customers].[USA].[WA]})) ON ROWS
@@ -50,16 +50,16 @@ from [Sales] ]]>
 		<groupHeader>
 			<band height="16">
 				<textField evaluationTime="Group" evaluationGroup="StoreState">
-					<reportElement x="10" y="0" width="150" height="15" style="Arial_Bold"/>
+					<reportElement x="10" y="0" width="150" height="15" style="Sans_Bold"/>
 					<textFieldExpression>"Store " + $F{StoreState}</textFieldExpression>
 				</textField>
 				<textField pattern="$#,##0.00" evaluationTime="Group" evaluationGroup="StoreState">
-					<reportElement x="180" y="0" width="100" height="15" style="Arial_Bold"/>
+					<reportElement x="180" y="0" width="100" height="15" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression class="java.lang.Number">$F{StoreStateUnitSales}</textFieldExpression>
 				</textField>
 				<textField pattern="#,###" evaluationTime="Group" evaluationGroup="StoreState">
-					<reportElement x="300" y="0" width="100" height="15" style="Arial_Bold"/>
+					<reportElement x="300" y="0" width="100" height="15" style="Sans_Bold"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression class="java.lang.Number">$F{StoreStateCustCount}</textFieldExpression>
 				</textField>
@@ -71,7 +71,7 @@ from [Sales] ]]>
 		<groupHeader>
 			<band height="16">
 				<textField evaluationTime="Group" evaluationGroup="Time">
-					<reportElement x="10" y="0" width="150" height="15" style="Arial_Bold"/>
+					<reportElement x="10" y="0" width="150" height="15" style="Sans_Bold"/>
 					<textFieldExpression>$F{Quarter}</textFieldExpression>
 				</textField>
 			</band>
@@ -128,17 +128,17 @@ from [Sales] ]]>
 					<pen lineWidth="0.5"/>
 				</box>
 				<textField>
-					<reportElement x="10" y="0" width="150" height="15" style="Arial_Bold"/>
+					<reportElement x="10" y="0" width="150" height="15" style="Sans_Bold"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression>"Totals"</textFieldExpression>
 				</textField>
 				<textField pattern="$#,##0.00">
-					<reportElement x="180" y="0" width="100" height="15" style="Arial_Bold"/>
+					<reportElement x="180" y="0" width="100" height="15" style="Sans_Bold"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<textFieldExpression class="java.lang.Number">$F{TotalStoreStateUnitSales}</textFieldExpression>
 				</textField>
 				<textField pattern="#,###">
-					<reportElement x="300" y="0" width="100" height="15" style="Arial_Bold"/>
+					<reportElement x="300" y="0" width="100" height="15" style="Sans_Bold"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<textFieldExpression class="java.lang.Number">$F{TotalStoreStateCustCount}</textFieldExpression>
 				</textField>

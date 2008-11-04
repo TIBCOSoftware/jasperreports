@@ -256,9 +256,9 @@ public class NoReportApp
 		
 		//Fonts
 		JRDesignStyle normalStyle = new JRDesignStyle();
-		normalStyle.setName("Arial_Normal");
+		normalStyle.setName("Sans_Normal");
 		normalStyle.setDefault(true);
-		normalStyle.setFontName("Arial");
+		normalStyle.setFontName("DejaVu Sans");
 		normalStyle.setFontSize(8);
 		normalStyle.setPdfFontName("Helvetica");
 		normalStyle.setPdfEncoding("Cp1252");
@@ -266,8 +266,8 @@ public class NoReportApp
 		jasperPrint.addStyle(normalStyle);
 
 		JRDesignStyle boldStyle = new JRDesignStyle();
-		boldStyle.setName("Arial_Bold");
-		boldStyle.setFontName("Arial");
+		boldStyle.setName("Sans_Bold");
+		boldStyle.setFontName("DejaVu Sans");
 		boldStyle.setFontSize(8);
 		boldStyle.setBold(true);
 		boldStyle.setPdfFontName("Helvetica-Bold");
@@ -276,8 +276,8 @@ public class NoReportApp
 		jasperPrint.addStyle(boldStyle);
 
 		JRDesignStyle italicStyle = new JRDesignStyle();
-		italicStyle.setName("Arial_Italic");
-		italicStyle.setFontName("Arial");
+		italicStyle.setName("Sans_Italic");
+		italicStyle.setFontName("DejaVu Sans");
 		italicStyle.setFontSize(8);
 		italicStyle.setItalic(true);
 		italicStyle.setPdfFontName("Helvetica-Oblique");
