@@ -49,13 +49,23 @@ public interface JRHighLowPlot extends JRChartPlot, JRTimeAxisFormat, JRValueAxi
 	public JRExpression getValueAxisLabelExpression();
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getShowOpenTicks()}
 	 */
 	public boolean isShowOpenTicks();
 
 	/**
 	 *
 	 */
+	public Boolean getShowOpenTicks();
+
+	/**
+	 * @deprecated Replaced by {@link #getShowCloseTicks()}
+	 */
 	public boolean isShowCloseTicks();
+	
+	/**
+	 *
+	 */
+	public Boolean getShowCloseTicks();
 	
 }

@@ -325,7 +325,7 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getShowShapes()}
 	 */
 	public boolean isShowShapes(){
 		return ((JRLinePlot)parent).isShowShapes();
@@ -334,11 +334,24 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	/**
 	 *
 	 */
+	public Boolean getShowShapes(){
+		return ((JRLinePlot)parent).getShowShapes();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setShowShapes(Boolean)}
+	 */
 	public void setShowShapes( boolean value ){
 	}
 	
 	/**
 	 *
+	 */
+	public void setShowShapes( Boolean value ){
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getShowLines()}
 	 */
 	public boolean isShowLines(){
 		return ((JRLinePlot)parent).isShowLines();
@@ -347,7 +360,20 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	/**
 	 *
 	 */
+	public Boolean getShowLines(){
+		return ((JRLinePlot)parent).getShowLines();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setShowLines(Boolean)}
+	 */
 	public void setShowLines( boolean value ){
+	}
+	
+	/**
+	 *
+	 */
+	public void setShowLines( Boolean value ){
 	}
 	
 }

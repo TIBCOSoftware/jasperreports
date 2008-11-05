@@ -40,14 +40,24 @@ public interface JRPie3DPlot extends JRChartPlot
 	public static final double DEPTH_FACTOR_DEFAULT = 0.2;
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getDepthFactorDouble()}
 	 */
 	public double getDepthFactor();
 	
 	/**
 	 * 
 	 */
+	public Double getDepthFactorDouble();
+	
+	/**
+	 * @deprecated Replaced by {@link #getCircular()}
+	 */
 	public boolean isCircular();
+	
+	/**
+	 * 
+	 */
+	public Boolean getCircular();
 	
 	/**
 	 * 

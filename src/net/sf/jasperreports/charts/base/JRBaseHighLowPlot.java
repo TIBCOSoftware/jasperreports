@@ -28,6 +28,8 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.engine.JRChart;
@@ -74,8 +76,8 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	protected String valueAxisTickLabelMask = null;
 	protected Color valueAxisLineColor = null;
 
-	protected boolean isShowOpenTicks = false;
-	protected boolean isShowCloseTicks = false;
+	protected Boolean showOpenTicks = null;
+	protected Boolean showCloseTicks = null;
 
 
 	/**
@@ -94,8 +96,8 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	{
 		super(highLowPlot, factory);
 
-		isShowOpenTicks = highLowPlot.isShowOpenTicks();
-		isShowCloseTicks = highLowPlot.isShowCloseTicks();
+		showOpenTicks = highLowPlot.getShowOpenTicks();
+		showCloseTicks = highLowPlot.getShowCloseTicks();
 
 		timeAxisLabelExpression = factory.getExpression( highLowPlot.getTimeAxisLabelExpression() );
 		timeAxisLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getTimeAxisLabelFont());
@@ -274,42 +276,72 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getShowOpenTicks()}
 	 */
 	public boolean isShowOpenTicks()
 	{
-		return isShowOpenTicks;
+		return showOpenTicks == null ? false : showOpenTicks.booleanValue();
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getShowOpenTicks()
+	{
+		return showOpenTicks;
 	}
 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #setShowOpenTicks(Boolean)}
 	 */
 	public void setShowOpenTicks(boolean showOpenTicks)
 	{
-		boolean old = this.isShowOpenTicks;
-		isShowOpenTicks = showOpenTicks;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_OPEN_TICKS, old, this.isShowOpenTicks);
+		setShowOpenTicks(Boolean.valueOf(showOpenTicks));
 	}
-
 
 	/**
 	 * 
+	 */
+	public void setShowOpenTicks(Boolean showOpenTicks)
+	{
+		Boolean old = this.showOpenTicks;
+		this.showOpenTicks = showOpenTicks;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_OPEN_TICKS, old, this.showOpenTicks);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getShowCloseTicks()}
 	 */
 	public boolean isShowCloseTicks()
 	{
-		return isShowCloseTicks;
+		return showCloseTicks == null ? false : showCloseTicks.booleanValue();
 	}
-
 
 	/**
 	 * 
 	 */
+	public Boolean getShowCloseTicks()
+	{
+		return showCloseTicks;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setShowCloseTicks(Boolean)}
+	 */
 	public void setShowCloseTicks(boolean showCloseTicks)
 	{
-		boolean old = this.isShowCloseTicks;
-		isShowCloseTicks = showCloseTicks;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_CLOSE_TICKS, old, this.isShowCloseTicks);
+		setShowCloseTicks(Boolean.valueOf(showCloseTicks));
+	}
+
+	/**
+	 * 
+	 */
+	public void setShowCloseTicks(Boolean showCloseTicks)
+	{
+		Boolean old = this.showCloseTicks;
+		this.showCloseTicks = showCloseTicks;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_CLOSE_TICKS, old, this.showCloseTicks);
 	}
 
 	/**
@@ -336,4 +368,23 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		}
 		return clone;
 	}
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private boolean isShowOpenTicks = false;
+	private boolean isShowCloseTicks = false;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		{
+			showOpenTicks = Boolean.valueOf(isShowOpenTicks);
+			showCloseTicks = Boolean.valueOf(isShowCloseTicks);
+		}
+	}
+	
 }

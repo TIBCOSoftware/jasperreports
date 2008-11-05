@@ -68,11 +68,19 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getShapeByte()}
 	 */
 	public byte getShape()
 	{
 		return ((JRMeterPlot)parent).getShape();
+	}
+
+	/**
+	 * 
+	 */
+	public Byte getShapeByte()
+	{
+		return ((JRMeterPlot)parent).getShapeByte();
 	}
 
 	/**
@@ -83,11 +91,19 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getMeterAngleInteger()}
 	 */
 	public int getMeterAngle()
 	{
 		return ((JRMeterPlot)parent).getMeterAngle();
+	}
+
+	/**
+	 * 
+	 */
+	public Integer getMeterAngleInteger()
+	{
+		return ((JRMeterPlot)parent).getMeterAngleInteger();
 	}
 
 	/**
@@ -99,11 +115,19 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getTickIntervalDouble()}
 	 */
 	public double getTickInterval()
 	{
 		return ((JRMeterPlot)parent).getTickInterval();
+	}
+
+	/**
+	 *
+	 */
+	public Double getTickIntervalDouble()
+	{
+		return ((JRMeterPlot)parent).getTickIntervalDouble();
 	}
 
 	/**

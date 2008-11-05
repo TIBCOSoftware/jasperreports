@@ -51,9 +51,20 @@ public class JRFillPiePlot extends JRFillChartPlot implements JRPiePlot
 		super(piePlot, factory);
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #getCircular()}
+	 */
 	public boolean isCircular()
 	{
 		return ((JRPiePlot)parent).isCircular();
+	}
+	
+	/**
+	 * 
+	 */
+	public Boolean getCircular()
+	{
+		return ((JRPiePlot)parent).getCircular();
 	}
 	
 	public String getLabelFormat()

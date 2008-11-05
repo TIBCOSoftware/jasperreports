@@ -27,6 +27,11 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+import org.jfree.chart.renderer.category.BarRenderer3D;
+
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
@@ -56,8 +61,8 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	public static final String PROPERTY_LABEL_FORMAT = "labelFormat";
 	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
 	
-	protected double depthFactor = DEPTH_FACTOR_DEFAULT;
-	protected boolean isCircular = false;
+	protected Double depthFactorDouble = null;
+	protected Boolean circular = null;
 	protected String labelFormat = null;
 	protected String legendLabelFormat = null;
 	
@@ -77,29 +82,45 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	{
 		super(pie3DPlot, factory);
 		
-		depthFactor = pie3DPlot.getDepthFactor();
-		isCircular = pie3DPlot.isCircular();
+		depthFactorDouble = pie3DPlot.getDepthFactorDouble();
+		circular = pie3DPlot.getCircular();
 		labelFormat = pie3DPlot.getLabelFormat();
 		legendLabelFormat = pie3DPlot.getLegendLabelFormat();
 	}
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getDepthFactorDouble()}
 	 */
 	public double getDepthFactor()
 	{
-		return depthFactor;
+		return depthFactorDouble == null ? DEPTH_FACTOR_DEFAULT : depthFactorDouble.doubleValue();
+	}
+	
+	/**
+	 * 
+	 */
+	public Double getDepthFactorDouble()
+	{
+		return depthFactorDouble;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setDepthFactor(Double)}
+	 */
+	public void setDepthFactor(double depthFactor)
+	{
+		setDepthFactor(new Double(depthFactor));
 	}
 	
 	/**
 	 *
 	 */
-	public void setDepthFactor(double depthFactor)
+	public void setDepthFactor(Double depthFactor)
 	{
-		double old = this.depthFactor;
-		this.depthFactor = depthFactor;
-		getEventSupport().firePropertyChange(PROPERTY_DEPTH_FACTOR, old, this.depthFactor);
+		Double old = this.depthFactorDouble;
+		this.depthFactorDouble = depthFactor;
+		getEventSupport().firePropertyChange(PROPERTY_DEPTH_FACTOR, old, this.depthFactorDouble);
 	}
 	
 	/**
@@ -111,23 +132,37 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 
 
 	/**
-	 * @return the isCircular
+	 * @deprecated Replaced by {@link #getCircular()}
 	 */
 	public boolean isCircular() {
-		return isCircular;
+		return circular == null ? false : circular.booleanValue();
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getCircular() {
+		return circular;
 	}
 
 
 	/**
 	 * @param isCircular the isCircular to set
+	 * @deprecated Replaced by {@link #setCircular(Boolean)}
 	 */
 	public void setCircular(boolean isCircular) {
-		boolean old = this.isCircular;
-		this.isCircular = isCircular;
-		getEventSupport().firePropertyChange(PROPERTY_CIRCULAR, old, this.isCircular);
+		setCircular(Boolean.valueOf(isCircular));
 	}
 
-	
+	/**
+	 * @param isCircular the isCircular to set
+	 */
+	public void setCircular(Boolean isCircular) {
+		Boolean old = this.circular;
+		this.circular = isCircular;
+		getEventSupport().firePropertyChange(PROPERTY_CIRCULAR, old, this.circular);
+	}
+
 	/**
 	 * @return the labelFormat
 	 */
@@ -163,5 +198,22 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		getEventSupport().firePropertyChange(PROPERTY_LEGEND_LABEL_FORMAT, old, this.legendLabelFormat);
 	}
 
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private double depthFactor = DEPTH_FACTOR_DEFAULT;
+	private boolean isCircular = false;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		{
+			depthFactorDouble = new Double(depthFactor);
+			circular = Boolean.valueOf(isCircular);
+		}
+	}
 	
 }

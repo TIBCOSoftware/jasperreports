@@ -1522,7 +1522,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		// write plot
 		JRPiePlot plot = (JRPiePlot) chart.getPlot();
 		writer.startElement(JRXmlConstants.ELEMENT_piePlot);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isCircular, plot.isCircular(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isCircular, plot.getCircular());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelFormat, plot.getLabelFormat());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_legendLabelFormat, plot.getLegendLabelFormat());
 		writePlot(chart.getPlot());
@@ -1544,8 +1544,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		// write plot
 		JRPie3DPlot plot = (JRPie3DPlot) chart.getPlot();
 		writer.startElement(JRXmlConstants.ELEMENT_pie3DPlot);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_depthFactor, plot.getDepthFactor(), JRPie3DPlot.DEPTH_FACTOR_DEFAULT);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isCircular, plot.isCircular(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_depthFactor, plot.getDepthFactorDouble());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isCircular, plot.getCircular());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelFormat, plot.getLabelFormat());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_legendLabelFormat, plot.getLegendLabelFormat());
 		writePlot(chart.getPlot());
@@ -1654,8 +1654,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeLinePlot(JRLinePlot plot) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_linePlot);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLines, plot.isShowLines(), true);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowShapes, plot.isShowShapes(), true);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLines, plot.getShowLines());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowShapes, plot.getShowShapes());
 
 		writePlot(plot);
 
@@ -1843,8 +1843,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		JRHighLowPlot plot = (JRHighLowPlot) chart.getPlot();
 		writer.startElement(JRXmlConstants.ELEMENT_highLowPlot);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowOpenTicks, plot.isShowOpenTicks(), true);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowCloseTicks, plot.isShowCloseTicks(), true);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowOpenTicks, plot.getShowOpenTicks());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowCloseTicks, plot.getShowCloseTicks());
 
 		writePlot(plot);
 
@@ -1887,7 +1887,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		JRCandlestickPlot plot = (JRCandlestickPlot) chart.getPlot();
 		writer.startElement(JRXmlConstants.ELEMENT_candlestickPlot);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowVolume, plot.isShowVolume(), true);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowVolume, plot.getShowVolume());
 
 		writePlot(plot);
 
@@ -1948,8 +1948,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeScatterPlot(JRScatterPlot plot) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_scatterPlot);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLines, plot.isShowLines(), true);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowShapes, plot.isShowShapes(), true);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLines, plot.getShowLines());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowShapes, plot.getShowShapes());
 
 		writePlot(plot);
 
@@ -2052,11 +2052,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		// write plot
 		JRMeterPlot plot = (JRMeterPlot) chart.getPlot();
 		writer.startElement(JRMeterPlotFactory.ELEMENT_meterPlot);
-		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_shape, plot.getShape(),
-							JRXmlConstants.getMeterShapeMap(), JRMeterPlot.SHAPE_PIE);
-		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_angle, plot.getMeterAngle());
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_shape, plot.getShapeByte());
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_angle, plot.getMeterAngleInteger());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_units, plot.getUnits());
-		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickInterval, plot.getTickInterval());
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickInterval, plot.getTickIntervalDouble());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_meterColor, plot.getMeterBackgroundColor());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_needleColor, plot.getNeedleColor());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickColor, plot.getTickColor());

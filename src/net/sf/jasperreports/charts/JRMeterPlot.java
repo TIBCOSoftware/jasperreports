@@ -80,8 +80,13 @@ public interface JRMeterPlot extends JRChartPlot
 	public JRValueDisplay getValueDisplay();
 
 	/**
+	 * @deprecated Replaced by {@link #getShapeByte()}
+	 */
+	public byte getShape();
+
+	/**
 	 * Returns the shape of the Meter.  The shape is only relevant if the Meter face is
-	 * over 180 degrees wide, and controls how the portiong of the circle described by the
+	 * over 180 degrees wide, and controls how the portion of the circle described by the
 	 * Meter but outside of the Meter is drawn.  (If the meter is 240 degrees wide the shape
 	 * setting controls how the remaining 120 degrees is displayed.)
 	 * <br><br>
@@ -89,7 +94,7 @@ public interface JRMeterPlot extends JRChartPlot
 	 *
 	 * @return a description of how the value of the Meter is displayed.
 	 */
-	public byte getShape();
+	public Byte getShapeByte();
 
 	/**
 	 * Returns a list of all the intervals contained in this Meter.  The return value is never
@@ -101,11 +106,16 @@ public interface JRMeterPlot extends JRChartPlot
 	public List getIntervals();
 
 	/**
+	 * @deprecated Replaced by {@link #getMeterAngleInteger()}
+	 */
+	public int getMeterAngle();
+
+	/**
 	 * Returns the size of the Meter face in degrees.
 	 *
 	 * @return the size of the Meter face in degrees
 	 */
-	public int getMeterAngle();
+	public Integer getMeterAngleInteger();
 
 	/**
 	 * Returns the name of the units that the Meter is displaying.  This value will be
@@ -116,13 +126,18 @@ public interface JRMeterPlot extends JRChartPlot
 	public String getUnits();
 
 	/**
+	 * @deprecated Replaced by {@link #getTickIntervalDouble()}
+	 */
+	public double getTickInterval();
+
+	/**
 	 * Returns the spacing between the ticks on the face of the meter.  The spacing is relative
 	 * to the range that the meter is displaying - if the range is 0 to 500 and the tick interval
 	 * is 50 then 10 ticks will be displayed.
 	 *
 	 * @return the spacing between the ticks on the face of the meter
 	 */
-	public double getTickInterval();
+	public Double getTickIntervalDouble();
 
 	/**
 	 * Returns the background color of the meter.  This is the color of the meter's face.

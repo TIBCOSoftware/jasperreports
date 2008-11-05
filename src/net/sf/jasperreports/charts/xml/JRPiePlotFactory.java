@@ -52,7 +52,7 @@ public class JRPiePlotFactory extends JRBaseFactory
 
 		String isCircular = atts.getValue(JRXmlConstants.ATTRIBUTE_isCircular);
 		if (isCircular != null && isCircular.length() > 0) {
-			piePlot.setCircular(Boolean.valueOf(isCircular).booleanValue());
+			piePlot.setCircular(Boolean.valueOf(isCircular));
 		}
 		
 		piePlot.setLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_labelFormat));
