@@ -50,6 +50,7 @@ import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRMeterPlot;
+import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
@@ -679,7 +680,8 @@ public class DefaultChartTheme implements ChartTheme
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		JRCandlestickPlot candlestickPlot = (JRCandlestickPlot)getPlot();
 		CandlestickRenderer candlestickRenderer = (CandlestickRenderer) xyPlot.getRenderer();
-		candlestickRenderer.setDrawVolume(candlestickPlot.isShowVolume());
+		boolean isShowVolume = candlestickPlot.getShowVolume() == null ? true : candlestickPlot.getShowVolume().booleanValue();
+		candlestickRenderer.setDrawVolume(isShowVolume);
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(xyPlot.getDomainAxis(), candlestickPlot.getTimeAxisLabelFont(),
@@ -718,8 +720,11 @@ public class DefaultChartTheme implements ChartTheme
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		JRHighLowPlot highLowPlot = (JRHighLowPlot)getPlot();
 		HighLowRenderer hlRenderer = (HighLowRenderer) xyPlot.getRenderer();
-		hlRenderer.setDrawOpenTicks(highLowPlot.isShowOpenTicks());
-		hlRenderer.setDrawCloseTicks(highLowPlot.isShowCloseTicks());
+		boolean isShowOpenTicks = highLowPlot.getShowOpenTicks() == null ? false : highLowPlot.getShowOpenTicks().booleanValue();
+		boolean isShowCloseTicks = highLowPlot.getShowCloseTicks() == null ? false : highLowPlot.getShowCloseTicks().booleanValue();
+		
+		hlRenderer.setDrawOpenTicks(isShowOpenTicks);
+		hlRenderer.setDrawCloseTicks(isShowCloseTicks);
 
 		// Handle the axis formating for the category axis
 		configureAxis(xyPlot.getDomainAxis(), highLowPlot.getTimeAxisLabelFont(),
@@ -755,8 +760,11 @@ public class DefaultChartTheme implements ChartTheme
 		JRFillLinePlot linePlot = (JRFillLinePlot)getPlot();
 
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
-		lineRenderer.setBaseShapesVisible( linePlot.isShowShapes() );//FIXMECHART check this
-		lineRenderer.setBaseLinesVisible( linePlot.isShowLines() );
+		boolean isShowShapes = linePlot.getShowShapes() == null ? true : linePlot.getShowShapes().booleanValue();
+		boolean isShowLines = linePlot.getShowLines() == null ? true : linePlot.getShowLines().booleanValue();
+		
+		lineRenderer.setBaseShapesVisible( isShowShapes );//FIXMECHART check this
+		lineRenderer.setBaseLinesVisible( isShowLines );
 		
 		//FIXME labels?
 
@@ -796,8 +804,11 @@ public class DefaultChartTheme implements ChartTheme
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
-		piePlot3D.setDepthFactor(((JRFillPie3DPlot)getPlot()).getDepthFactor());
-		piePlot3D.setCircular(((JRFillPie3DPlot)getPlot()).isCircular());
+		JRPie3DPlot jrPlot = (JRFillPie3DPlot)getPlot();
+		double depthFactor = jrPlot.getDepthFactorDouble() == null ? JRPie3DPlot.DEPTH_FACTOR_DEFAULT : jrPlot.getDepthFactorDouble().doubleValue();
+		boolean isCircular =  jrPlot.getCircular() == null ? false : jrPlot.getCircular().booleanValue();
+		piePlot3D.setDepthFactor(depthFactor);
+		piePlot3D.setCircular(isCircular);
 
 		PieSectionLabelGenerator labelGenerator = ((JRFillPieDataset)getDataset()).getLabelGenerator();
 		if (labelGenerator != null)
@@ -848,7 +859,9 @@ public class DefaultChartTheme implements ChartTheme
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
-		piePlot.setCircular(((JRFillPiePlot)getPlot()).isCircular());
+		JRFillPiePlot jrPlot = (JRFillPiePlot)getPlot();
+		boolean isCircular = jrPlot.getCircular() == null ? true : jrPlot.getCircular().booleanValue();
+		piePlot.setCircular(isCircular);
 
 		PieSectionLabelGenerator labelGenerator = ((JRFillPieDataset)getDataset()).getLabelGenerator();
 		if (labelGenerator != null)
@@ -896,8 +909,11 @@ public class DefaultChartTheme implements ChartTheme
 		XYLineAndShapeRenderer plotRenderer = (XYLineAndShapeRenderer) ((XYPlot)jfreeChart.getPlot()).getRenderer();
 
 		JRScatterPlot scatterPlot = (JRScatterPlot) getPlot();
-		plotRenderer.setBaseLinesVisible(scatterPlot.isShowLines());
-		plotRenderer.setBaseShapesVisible(scatterPlot.isShowShapes());
+		boolean isShowLines = scatterPlot.getShowLines() == null ? true : scatterPlot.getShowLines().booleanValue();
+		boolean isShowShapes = scatterPlot.getShowShapes() == null ? true : scatterPlot.getShowShapes().booleanValue();
+		
+		plotRenderer.setBaseLinesVisible(isShowLines);
+		plotRenderer.setBaseShapesVisible(isShowShapes);
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), scatterPlot.getXAxisLabelFont(),
@@ -1189,8 +1205,10 @@ public class DefaultChartTheme implements ChartTheme
 				linePlot.getValueAxisLineColor());
 
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer) jfreeChart.getXYPlot().getRenderer();
-		lineRenderer.setBaseShapesVisible(linePlot.isShowShapes());
-		lineRenderer.setBaseLinesVisible(linePlot.isShowLines());
+		boolean isShowShapes = linePlot.getShowShapes() == null ? true : linePlot.getShowShapes().booleanValue();
+		boolean isShowLines = linePlot.getShowLines() == null ? true : linePlot.getShowLines().booleanValue();
+		lineRenderer.setBaseShapesVisible(isShowShapes);
+		lineRenderer.setBaseLinesVisible(isShowLines);
 
 		return jfreeChart;
 	}
@@ -1348,7 +1366,7 @@ public class DefaultChartTheme implements ChartTheme
 		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset().getDataset());
 
 		// Set the shape
-		int shape = jrPlot.getShape();
+		int shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_PIE : jrPlot.getShapeByte().intValue();
 		if (shape == JRMeterPlot.SHAPE_CHORD)
 			chartPlot.setDialShape(DialShape.CHORD);
 		else if (shape == JRMeterPlot.SHAPE_CIRCLE)
@@ -1360,7 +1378,8 @@ public class DefaultChartTheme implements ChartTheme
 		chartPlot.setRange(convertRange(jrPlot.getDataRange(), evaluation));
 
 		// Set the size of the meter
-		chartPlot.setMeterAngle(jrPlot.getMeterAngle());
+		int meterAngle = jrPlot.getMeterAngleInteger() == null ? 180 : jrPlot.getMeterAngleInteger().intValue();
+		chartPlot.setMeterAngle(meterAngle);
 
 		// Set the units - this is just a string that will be shown next to the
 		// value
@@ -1370,7 +1389,8 @@ public class DefaultChartTheme implements ChartTheme
 
 		// Set the spacing between ticks.  I hate the name "tickSize" since to me it
 		// implies I am changing the size of the tick, not the spacing between them.
-		chartPlot.setTickSize(jrPlot.getTickInterval());
+		double tickInterval = jrPlot.getTickIntervalDouble() == null ? 10.0 : jrPlot.getTickIntervalDouble().doubleValue();
+		chartPlot.setTickSize(tickInterval);
 
 		// Set all the colors we support
 		Color color = jrPlot.getMeterBackgroundColor();
@@ -1453,6 +1473,7 @@ public class DefaultChartTheme implements ChartTheme
 		chartPlot.setLowerBound(range.getLowerBound());
 		chartPlot.setUpperBound(range.getUpperBound());
 
+		
 		chartPlot.setShowValueLines(jrPlot.isShowValueLines());
 
 		// Units can only be Fahrenheit, Celsius or none, so turn off for now.

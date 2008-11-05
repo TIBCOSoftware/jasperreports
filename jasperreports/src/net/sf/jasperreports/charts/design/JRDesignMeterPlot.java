@@ -116,6 +116,14 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	}
 
 	/**
+	 * @deprecated Replaced by {@link #setShape(Byte)}
+	 */
+	public void setShape(byte shape) throws JRException
+	{
+		setShape(new Byte(shape));
+	}
+
+	/**
 	 * Sets the shape of the meter.  Must be one of
 	 * <code>JRMeterPlot.SHAPE_CHORD</code>, <code>JRMeterPlot.SHAPE_CIRCLE</code>
 	 * or <code>JRMeterPlot.SHAPE_PIE</code>.
@@ -123,16 +131,16 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 * @param shape the shape of the meter
 	 * @throws JRException invalid shape was specified
 	 */
-	public void setShape(byte shape) throws JRException
+	public void setShape(Byte shape) throws JRException
 	{
-		if (shape < 0 || shape > JRMeterPlot.SHAPE_PIE)
+		if (shape != null && (shape.byteValue() < 0 || shape.byteValue() > JRMeterPlot.SHAPE_PIE))
 		{
 			throw new JRException("Unknown shape for MeterPlot");
 		}
 
-		byte old = this.shape;
-		this.shape = shape;
-		getEventSupport().firePropertyChange(PROPERTY_SHAPE, old, this.shape);
+		Byte old = this.shapeByte;
+		this.shapeByte = shape;
+		getEventSupport().firePropertyChange(PROPERTY_SHAPE, old, this.shapeByte);
 	}
 
 	/**
@@ -173,15 +181,23 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	}
 	
 	/**
+	 * @deprecated Replaced by {@link #setMeterAngle(Integer)}
+	 */
+	public void setMeterAngle(int meterAngle)
+	{
+		setMeterAngle(new Integer(meterAngle));
+	}
+
+	/**
 	 * Sets the size of the meter face in degrees.
 	 *
 	 * @param meterAngle the size of the meter in degrees
 	 */
-	public void setMeterAngle(int meterAngle)
+	public void setMeterAngle(Integer meterAngle)
 	{
-		int old = this.meterAngle;
-		this.meterAngle = meterAngle;
-		getEventSupport().firePropertyChange(PROPERTY_METER_ANGLE, old, this.meterAngle);
+		Integer old = this.meterAngleInteger;
+		this.meterAngleInteger = meterAngle;
+		getEventSupport().firePropertyChange(PROPERTY_METER_ANGLE, old, this.meterAngleInteger);
 	}
 
 	/**
@@ -198,6 +214,14 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	}
 
 	/**
+	 * @deprecated Replaced by {@link #setTickInterval(Double)}
+	 */
+	public void setTickInterval(double tickInterval)
+	{
+		setTickInterval(new Double(tickInterval));
+	}
+
+	/**
 	 * Sets the space between tick marks on the face of the meter.  The
 	 * spacing is relative to the range of the meter.  If the meter is
 	 * displaying the range 100 to 200 and the tick interval is 20, four
@@ -205,11 +229,11 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 *
 	 * @param tickInterval the space between tick marks on the meter
 	 */
-	public void setTickInterval(double tickInterval)
+	public void setTickInterval(Double tickInterval)
 	{
-		double old = this.tickInterval;
-		this.tickInterval = tickInterval;
-		getEventSupport().firePropertyChange(PROPERTY_TICK_INTERVAL, old, this.tickInterval);
+		Double old = this.tickIntervalDouble;
+		this.tickIntervalDouble = tickInterval;
+		getEventSupport().firePropertyChange(PROPERTY_TICK_INTERVAL, old, this.tickIntervalDouble);
 	}
 
 	/**

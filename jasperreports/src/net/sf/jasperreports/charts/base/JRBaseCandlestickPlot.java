@@ -28,6 +28,10 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+import org.jfree.chart.renderer.category.BarRenderer3D;
 
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.engine.JRChart;
@@ -71,8 +75,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	protected String valueAxisTickLabelMask = null;
 	protected Color valueAxisLineColor = null;
 
-	protected boolean isShowVolume = true;
-
+	protected Boolean showVolume = null;
 
 	/**
 	 *
@@ -90,7 +93,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	{
 		super(candlestickPlot, factory);
 
-		isShowVolume = candlestickPlot.isShowVolume();
+		showVolume = candlestickPlot.getShowVolume();
 
 		timeAxisLabelExpression = factory.getExpression( candlestickPlot.getTimeAxisLabelExpression() );
 		timeAxisLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getTimeAxisLabelFont());
@@ -269,22 +272,38 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getShowVolume()}
 	 */
 	public boolean isShowVolume()
 	{
-		return isShowVolume;
+		return showVolume == null ? true : showVolume.booleanValue();
 	}
-
 
 	/**
 	 * 
 	 */
-	public void setShowVolume(boolean ShowVolume)
+	public Boolean getShowVolume()
 	{
-		boolean old = this.isShowVolume;
-		isShowVolume = ShowVolume;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_VOLUME, old, this.isShowVolume);
+		return showVolume;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #setShowVolume(Boolean)}
+	 */
+	public void setShowVolume(boolean isShowVolume)
+	{
+		setShowVolume(Boolean.valueOf(isShowVolume));
+	}
+
+	/**
+	 * 
+	 */
+	public void setShowVolume(Boolean showVolume)
+	{
+		Boolean old = this.showVolume;
+		this.showVolume = showVolume;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_VOLUME, old, this.showVolume);
 	}
 
 	/**
@@ -311,4 +330,21 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		}
 		return clone;
 	}
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private boolean isShowVolume = true;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		{
+			showVolume = Boolean.valueOf(isShowVolume);
+		}
+	}
+	
 }

@@ -28,9 +28,13 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.jfree.chart.renderer.category.BarRenderer3D;
 
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRMeterPlot;
@@ -72,7 +76,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 * The shape to use when drawing the Meter. Only applied if the meter is
 	 * over 180 degrees wide and less than a full circle.
 	 */
-	protected byte shape = JRMeterPlot.SHAPE_PIE;
+	protected Byte shapeByte = null;
 
 	/**
 	 * The defined intervals for the Meter.  Each interval indicates a
@@ -84,7 +88,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 * The extend of the meter face in degrees.  It will always be centered
 	 * around the straight up position.
 	 */
-	protected int meterAngle = 180;
+	protected Integer meterAngleInteger = null;
 
 	/**
 	 * Optional description of what the meter is displaying.  It will be
@@ -97,7 +101,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 * is relative to the meter range - if the meter displays 100 to 200 and
 	 * the tickInterval is 20, there will be 4 ticks at 120, 140, 160 and 180.
 	 */
-	protected double tickInterval = 10.0;
+	protected Double tickIntervalDouble = null;
 
 	/**
 	 * The color to use for the face of the meter.
@@ -139,7 +143,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 
 		dataRange = new JRBaseDataRange(meterPlot.getDataRange(), factory);
 		valueDisplay = new JRBaseValueDisplay(meterPlot.getValueDisplay(), factory);
-		shape = meterPlot.getShape();
+		shapeByte = meterPlot.getShapeByte();
 		List origIntervals = meterPlot.getIntervals();
 		intervals.clear();
 		if (origIntervals != null)
@@ -152,9 +156,9 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 			}
 		}
 
-		meterAngle = meterPlot.getMeterAngle();
+		meterAngleInteger = meterPlot.getMeterAngleInteger();
 		units = meterPlot.getUnits();
-		tickInterval = meterPlot.getTickInterval();
+		tickIntervalDouble = meterPlot.getTickIntervalDouble();
 
 		meterBackgroundColor = meterPlot.getMeterBackgroundColor();
 		needleColor = meterPlot.getNeedleColor();
@@ -180,11 +184,19 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getShapeByte()}
 	 */
 	public byte getShape()
 	{
-		return shape;
+		return shapeByte == null ? JRMeterPlot.SHAPE_PIE : shapeByte.byteValue();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getShapeByte()
+	{
+		return shapeByte;
 	}
 
 	/**
@@ -195,11 +207,19 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getMeterAngleInteger()}
 	 */
 	public int getMeterAngle()
 	{
-		return meterAngle;
+		return meterAngleInteger == null ? 180 : meterAngleInteger.intValue();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getMeterAngleInteger()
+	{
+		return meterAngleInteger;
 	}
 
 	/**
@@ -211,11 +231,19 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getTickIntervalDouble()}
 	 */
 	public double getTickInterval()
 	{
-		return tickInterval;
+		return tickIntervalDouble == null ? 10.0 : tickIntervalDouble.doubleValue();
+	}
+
+	/**
+	 *
+	 */
+	public Double getTickIntervalDouble()
+	{
+		return tickIntervalDouble;
 	}
 
 	/**
@@ -281,4 +309,25 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		
 		return clone;
 	}
+
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private byte shape = JRMeterPlot.SHAPE_PIE;
+	private int meterAngle = 180;
+	private double tickInterval = 10.0;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		{
+			shapeByte = new Byte(shape);
+			meterAngleInteger = new Integer(meterAngle);
+			tickIntervalDouble = new Double(tickInterval);
+		}
+	}
+	
 }

@@ -68,13 +68,13 @@ public class JRMeterPlotFactory extends JRBaseFactory
 		}
 		else
 		{
-			meterPlot.setShape(shape.byteValue());
+			meterPlot.setShape(shape);
 		}
 
 		String angle = atts.getValue(ATTRIBUTE_angle);
 		if (angle != null && angle.length() > 0)
 		{
-			meterPlot.setMeterAngle(Integer.parseInt(angle));
+			meterPlot.setMeterAngle(Integer.valueOf(angle));
 		}
 
 		String units = atts.getValue(ATTRIBUTE_units);
@@ -86,7 +86,7 @@ public class JRMeterPlotFactory extends JRBaseFactory
 		String tickInterval = atts.getValue(ATTRIBUTE_tickInterval);
 		if (tickInterval != null && tickInterval.length() > 0)
 		{
-			meterPlot.setTickInterval(Double.parseDouble(tickInterval));
+			meterPlot.setTickInterval(Double.valueOf(tickInterval));
 		}
 
 		String meterColor = atts.getValue(ATTRIBUTE_meterColor);

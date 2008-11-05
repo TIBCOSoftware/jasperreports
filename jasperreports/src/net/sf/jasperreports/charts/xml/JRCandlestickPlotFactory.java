@@ -54,7 +54,7 @@ public class JRCandlestickPlotFactory extends JRBaseFactory
 
 		String isShowVolume = atts.getValue(ATTRIBUTE_isShowVolume);
 		if (isShowVolume != null && isShowVolume.length() > 0) {
-			plot.setShowVolume(Boolean.valueOf(isShowVolume).booleanValue());
+			plot.setShowVolume(Boolean.valueOf(isShowVolume));
 		}
 
 		return plot;

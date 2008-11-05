@@ -28,6 +28,8 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.engine.JRChart;
@@ -69,8 +71,8 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	protected String valueAxisTickLabelMask = null;
 	protected Color valueAxisLineColor = null;
 	
-	boolean isShowShapes = true;
-	boolean isShowLines = true;
+	Boolean showShapes = null;
+	Boolean showLines = null;
 	
 	
 	/**
@@ -86,8 +88,8 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	public JRBaseLinePlot( JRLinePlot linePlot, JRBaseObjectFactory factory ){
 		super( linePlot, factory );
 		
-		isShowShapes = linePlot.isShowShapes();
-		isShowLines = linePlot.isShowLines();
+		showShapes = linePlot.getShowShapes();
+		showLines = linePlot.getShowLines();
 		
 		categoryAxisLabelExpression = factory.getExpression( linePlot.getCategoryAxisLabelExpression() );
 		categoryAxisLabelFont = new JRBaseFont(null, null, linePlot.getChart(), linePlot.getCategoryAxisLabelFont());
@@ -265,35 +267,63 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getShowShapes()}
 	 */
 	public boolean isShowShapes(){
-		return isShowShapes;
+		return showShapes == null ? true : showShapes.booleanValue();
 	}
 	
 	/**
 	 * 
+	 */
+	public Boolean getShowShapes(){
+		return showShapes;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getShowLines()}
 	 */
 	public boolean isShowLines(){
-		return isShowLines;
+		return showLines == null ? true : showLines.booleanValue();
 	}
 	
 	/**
 	 * 
+	 */
+	public Boolean getShowLines(){
+		return showLines;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setShowShapes(Boolean)}
 	 */
 	public void setShowShapes( boolean value ){
-		boolean old = this.isShowShapes;
-		this.isShowShapes = value;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.isShowShapes);
+		setShowShapes(Boolean.valueOf(value));
 	}
 	
 	/**
 	 * 
 	 */
+	public void setShowShapes( Boolean value ){
+		Boolean old = this.showShapes;
+		this.showShapes = value;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.showShapes);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setShowLines(Boolean)}
+	 */
 	public void setShowLines( boolean value ){
-		boolean old = this.isShowLines;
-		this.isShowLines = value;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.isShowLines);
+		setShowLines(Boolean.valueOf(value));
+	}
+
+	/**
+	 * 
+	 */
+	public void setShowLines( Boolean value ){
+		Boolean old = this.showLines;
+		this.showLines = value;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.showLines);
 	}
 
 	/**
@@ -320,4 +350,23 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 		}
 		return clone;
 	}
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private boolean isShowShapes = true;
+	private boolean isShowLines = true;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		{
+			showShapes = Boolean.valueOf(isShowShapes);
+			showLines = Boolean.valueOf(isShowLines);
+		}
+	}
+	
 }

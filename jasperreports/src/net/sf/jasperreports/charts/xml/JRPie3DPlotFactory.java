@@ -57,12 +57,12 @@ public class JRPie3DPlotFactory extends JRBaseFactory
 		String depthFactor = atts.getValue(ATTRIBUTE_depthFactor);
 		if (depthFactor != null && depthFactor.length() > 0)
 		{
-			pie3DPlot.setDepthFactor(Double.parseDouble(depthFactor));
+			pie3DPlot.setDepthFactor(Double.valueOf(depthFactor));
 		}
 		
 		String isCircular = atts.getValue(JRXmlConstants.ATTRIBUTE_isCircular);
 		if (isCircular != null && isCircular.length() > 0) {
-			pie3DPlot.setCircular(Boolean.valueOf(isCircular).booleanValue());
+			pie3DPlot.setCircular(Boolean.valueOf(isCircular));
 		}
 
 		pie3DPlot.setLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_labelFormat));

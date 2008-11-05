@@ -52,7 +52,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	public static final String PROPERTY_LABEL_FORMAT = "labelFormat";
 	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
 
-	protected boolean isCircular = true;
+	protected Boolean circular = null;
 	protected String labelFormat = null;
 	protected String legendLabelFormat = null;
 	
@@ -85,10 +85,17 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 
 
 	/**
-	 * @return the isCircular
+	 * @deprecated Replaced by {@link #getCircular()}
 	 */
 	public boolean isCircular() {
-		return isCircular;
+		return circular == null ? true : circular.booleanValue();
+	}
+
+	/**
+	 * @return the circular
+	 */
+	public Boolean getCircular() {
+		return circular;
 	}
 
 
@@ -96,9 +103,16 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	 * @param isCircular the isCircular to set
 	 */
 	public void setCircular(boolean isCircular) {
-		boolean old = this.isCircular;
-		this.isCircular = isCircular;
-		getEventSupport().firePropertyChange(PROPERTY_CIRCULAR, old, this.isCircular);
+		setCircular(Boolean.valueOf(isCircular));
+	}
+
+	/**
+	 * @param isCircular the isCircular to set
+	 */
+	public void setCircular(Boolean isCircular) {
+		Boolean old = this.circular;
+		this.circular = isCircular;
+		getEventSupport().firePropertyChange(PROPERTY_CIRCULAR, old, this.circular);
 	}
 
 
@@ -137,6 +151,11 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		getEventSupport().firePropertyChange(PROPERTY_LEGEND_LABEL_FORMAT, old, this.legendLabelFormat);
 	}
 
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private boolean isCircular = true;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -147,5 +166,11 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		//the following lines are required because above we called readFields(), not defaultReadObject()
 		labelFormat = (String)fields.get("labelFormat", null);
 		legendLabelFormat = (String)fields.get("legendLabelFormat", null);
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		{
+			circular = Boolean.valueOf(isCircular);
+		}
 	}
+	
 }

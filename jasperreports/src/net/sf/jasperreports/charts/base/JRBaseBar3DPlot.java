@@ -351,7 +351,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	 * @deprecated Replaced by {@link #setShowLabels(Boolean)} 
 	 */
 	public void setShowLabels( boolean isShowLabels ){
-		setShowLabels(isShowLabels ? Boolean.TRUE : Boolean.FALSE);
+		setShowLabels(Boolean.valueOf(isShowLabels));
 	}
 
 	/**
@@ -405,7 +405,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 		{
 			xOffsetDouble = new Double(xOffset);
 			yOffsetDouble = new Double(yOffset);
-			showLabels = isShowLabels ? Boolean.TRUE : Boolean.FALSE;
+			showLabels = Boolean.valueOf(isShowLabels);
 		}
 	}
 }
