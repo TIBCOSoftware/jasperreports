@@ -1675,8 +1675,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeTimeSeriesPlot(JRTimeSeriesPlot plot) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_timeSeriesPlot);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLines, plot.isShowLines(), true);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowShapes, plot.isShowShapes(), true);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLines, plot.getShowLines());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowShapes, plot.getShowShapes());
 
 		writePlot( plot );
 
@@ -2098,11 +2098,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writer.startElement(JRThermometerPlotFactory.ELEMENT_thermometerPlot, getNamespace());
 
-		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_valueLocation,
-							plot.getValueLocation(),
-							JRXmlConstants.getThermometerValueLocationMap(),
-							JRThermometerPlot.LOCATION_BULB);
-		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_showValueLines, plot.isShowValueLines());
+		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_valueLocation, plot.getValueLocationByte());
+		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_showValueLines, plot.getShowValueLines());
 		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_mercuryColor, plot.getMercuryColor());
 
 		writePlot(chart.getPlot());

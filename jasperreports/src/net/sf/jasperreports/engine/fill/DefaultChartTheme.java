@@ -1233,8 +1233,11 @@ public class DefaultChartTheme implements ChartTheme
 		JRTimeSeriesPlot timeSeriesPlot = (JRTimeSeriesPlot)getPlot();
 
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)xyPlot.getRenderer();
-		lineRenderer.setBaseLinesVisible(((JRTimeSeriesPlot)getPlot()).isShowLines() );
-		lineRenderer.setBaseShapesVisible(((JRTimeSeriesPlot)getPlot()).isShowShapes() );
+		
+		boolean isShowShapes = timeSeriesPlot.getShowShapes() == null ? true : timeSeriesPlot.getShowShapes().booleanValue();
+		boolean isShowLines = timeSeriesPlot.getShowLines() == null ? true : timeSeriesPlot.getShowLines().booleanValue();
+		lineRenderer.setBaseLinesVisible(isShowLines);
+		lineRenderer.setBaseShapesVisible(isShowShapes);
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(xyPlot.getDomainAxis(), timeSeriesPlot.getTimeAxisLabelFont(),
@@ -1473,8 +1476,8 @@ public class DefaultChartTheme implements ChartTheme
 		chartPlot.setLowerBound(range.getLowerBound());
 		chartPlot.setUpperBound(range.getUpperBound());
 
-		
-		chartPlot.setShowValueLines(jrPlot.isShowValueLines());
+		boolean isShowValueLines = jrPlot.getShowValueLines() == null ? false : jrPlot.getShowValueLines().booleanValue();
+		chartPlot.setShowValueLines(isShowValueLines);
 
 		// Units can only be Fahrenheit, Celsius or none, so turn off for now.
 		chartPlot.setUnits(ThermometerPlot.UNITS_NONE);
@@ -1506,7 +1509,8 @@ public class DefaultChartTheme implements ChartTheme
 		}
 
 		// Set the location of where the value is displayed
-		switch (jrPlot.getValueLocation())
+		byte valueLocation = jrPlot.getValueLocationByte() == null ? ThermometerPlot.BULB : jrPlot.getValueLocationByte().byteValue();
+		switch (valueLocation)
 		{
 		  case JRThermometerPlot.LOCATION_NONE:
 			 chartPlot.setValueLocation(ThermometerPlot.NONE);

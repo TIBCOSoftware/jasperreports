@@ -80,12 +80,22 @@ public interface JRThermometerPlot extends JRChartPlot
 	public JRValueDisplay getValueDisplay();
 
 	/**
+	 * @deprecated Replaced by {@link #getShowValueLines()}
+	 */
+	public boolean isShowValueLines();
+
+	/**
+	 * @deprecated Replaced by {@link #getValueLocationByte()
+	 */
+	public byte getValueLocation();
+
+	/**
 	 * Returns whether or not lines are drawn showing the bounds of each defined
 	 * range.
 	 *
-	 * @return <code>true</code> if range bounds are shown, <code>false</code> otherwise
+	 * @return <code>Boolean.TRUE</code> if range bounds are shown, <code>Boolean.FALSE</code> otherwise
 	 */
-	public boolean isShowValueLines();
+	public Boolean getShowValueLines();
 
 	/**
 	 * Returns the location where the value of the thermometer will be shown.  The
@@ -95,7 +105,7 @@ public interface JRThermometerPlot extends JRChartPlot
 	 *
 	 * @return the location where the value of the thermometer will be shown
 	 */
-	public byte getValueLocation();
+	public Byte getValueLocationByte();
 
 	/**
 	 * Returns the color of the "mercury" in the thermometer when the value is

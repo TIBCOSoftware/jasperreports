@@ -106,16 +106,32 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 
 
 	/**
-	 * Turns the display of value lines on and off.
-	 *
-	 * @param showValueLines <code>true</code> to turn value lines on,
-	 * 						 <code>false</code> to disable them
+	 * @deprecated Replaced by {@link #setShowValueLines(Boolean)}
 	 */
 	public void setShowValueLines(boolean showValueLines)
 	{
-		boolean old = this.showValueLines;
-		this.showValueLines = showValueLines;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_VALUE_LINES, old, this.showValueLines);
+		setShowValueLines(Boolean.valueOf(showValueLines));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setValueLocation(Byte)}
+	 */
+	public void setValueLocation(byte valueLocation)
+	{
+		setValueLocation(new Byte(valueLocation));
+	}
+
+	/**
+	 * Turns the display of value lines on and off.
+	 *
+	 * @param showValueLines <code>Boolean.TRUE</code> to turn value lines on,
+	 * 						 <code>Boolean.FALSE</code> to disable them
+	 */
+	public void setShowValueLines(Boolean showValueLines)
+	{
+		Boolean old = this.showValueLinesBoolean;
+		this.showValueLinesBoolean = showValueLines;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_VALUE_LINES, old, this.showValueLinesBoolean);
 	}
 
 	/**
@@ -123,11 +139,11 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 *
 	 * @param valueLocation where to show the textual display of the value
 	 */
-	public void setValueLocation(byte valueLocation)
+	public void setValueLocation(Byte valueLocation)
 	{
-		byte old = this.valueLocation;
-		this.valueLocation = valueLocation;
-		getEventSupport().firePropertyChange(PROPERTY_VALUE_LOCATION, old, this.valueLocation);
+		Byte old = this.valueLocationByte;
+		this.valueLocationByte = valueLocation;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_LOCATION, old, this.valueLocationByte);
 	}
 
 	/**

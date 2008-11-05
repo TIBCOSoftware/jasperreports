@@ -939,8 +939,8 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		chartPlot.setUpperBound(range.getUpperBound());
 		chartPlot.setGap(0);
 		
-		
-		chartPlot.setShowValueLines(jrPlot.isShowValueLines());
+		boolean isShowValueLines = jrPlot.getShowValueLines() == null ? false : jrPlot.getShowValueLines().booleanValue();
+		chartPlot.setShowValueLines(isShowValueLines);
 
 		// Units can only be Fahrenheit, Celsius or none, so turn off for now.
 		chartPlot.setUnits(ThermometerPlot.UNITS_NONE);
@@ -976,7 +976,9 @@ public class EyeCandySixtiesChartTheme extends DefaultChartTheme
 		}
 
 		// Set the location of where the value is displayed
-		switch (jrPlot.getValueLocation())
+		// Set the location of where the value is displayed
+		byte valueLocation = jrPlot.getValueLocationByte() == null ? ThermometerPlot.BULB : jrPlot.getValueLocationByte().byteValue();
+		switch (valueLocation)
 		{
 		  case JRThermometerPlot.LOCATION_NONE:
 			 chartPlot.setValueLocation(ThermometerPlot.NONE);
