@@ -70,7 +70,7 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getShowValueLines()}
 	 */
 	public boolean isShowValueLines()
 	{
@@ -78,11 +78,27 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getValueLocationByte()
 	 */
 	public byte getValueLocation()
 	{
 		return ((JRThermometerPlot)parent).getValueLocation();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean getShowValueLines()
+	{
+		return ((JRThermometerPlot)parent).getShowValueLines();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getValueLocationByte()
+	{
+		return ((JRThermometerPlot)parent).getValueLocationByte();
 	}
 
 	/**

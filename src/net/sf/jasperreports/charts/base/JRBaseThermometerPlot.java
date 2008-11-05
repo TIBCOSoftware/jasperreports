@@ -28,6 +28,8 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRThermometerPlot;
@@ -67,12 +69,12 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	/**
 	 * Indicates if the boundaries of each range should be shown.
 	 */
-	protected boolean showValueLines = false;
+	protected Boolean showValueLinesBoolean = null;
 
 	/**
 	 * Specifies where the textual display of the value should be shown.
 	 */
-	protected byte valueLocation = JRThermometerPlot.LOCATION_BULB;
+	protected Byte valueLocationByte = null;
 
 	/**
 	 * The default color to use for the mercury in the thermometer.
@@ -119,9 +121,9 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 
 		valueDisplay = new JRBaseValueDisplay(thermoPlot.getValueDisplay(), factory);
 
-		showValueLines = thermoPlot.isShowValueLines();
+		showValueLinesBoolean = thermoPlot.getShowValueLines();
 
-		valueLocation = thermoPlot.getValueLocation();
+		valueLocationByte = thermoPlot.getValueLocationByte();
 
 		mercuryColor = thermoPlot.getMercuryColor();
 
@@ -150,19 +152,35 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getShowValueLines()}
 	 */
 	public boolean isShowValueLines()
 	{
-		return showValueLines;
+		return showValueLinesBoolean == null ? false : showValueLinesBoolean.booleanValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getValueLocationByte()
+	 */
+	public byte getValueLocation()
+	{
+		return valueLocationByte == null ? JRThermometerPlot.LOCATION_BULB : valueLocationByte.byteValue();
 	}
 
 	/**
 	 *
 	 */
-	public byte getValueLocation()
+	public Boolean getShowValueLines()
 	{
-		return valueLocation;
+		return showValueLinesBoolean;
+	}
+
+	/**
+	 *
+	 */
+	public Byte getValueLocationByte()
+	{
+		return valueLocationByte;
 	}
 
 	/**
@@ -239,4 +257,24 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 		
 		return clone;
 	}
+
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private boolean showValueLines = false;
+	private byte valueLocation = JRThermometerPlot.LOCATION_BULB;
+
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		{
+			showValueLinesBoolean = Boolean.valueOf(showValueLines);
+			valueLocationByte = new Byte(valueLocation);
+		}
+	}
+	
 }

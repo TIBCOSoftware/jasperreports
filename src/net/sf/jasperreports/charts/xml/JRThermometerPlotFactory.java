@@ -62,7 +62,7 @@ public class JRThermometerPlotFactory extends JRBaseFactory
 		String showValueLines = atts.getValue(ATTRIBUTE_showValueLines);
 		if (showValueLines != null && showValueLines.length() > 0)
 		{
-			thermometerPlot.setShowValueLines(Boolean.valueOf(showValueLines).booleanValue());
+			thermometerPlot.setShowValueLines(Boolean.valueOf(showValueLines));
 		}
 
 		String location = atts.getValue(ATTRIBUTE_valueLocation);
@@ -73,7 +73,7 @@ public class JRThermometerPlotFactory extends JRBaseFactory
 		}
 		else
 		{
-			thermometerPlot.setValueLocation(loc.byteValue());
+			thermometerPlot.setValueLocation(loc);
 		}
 
 		String mercuryColor = atts.getValue(ATTRIBUTE_mercuryColor);

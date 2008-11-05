@@ -316,17 +316,54 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 		return valueAxisLineColor;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getShowLines()}
+	 */
 	public boolean isShowLines(){
 		return ((JRTimeSeriesPlot)parent).isShowLines();
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #setShowLines(Boolean)}
+	 */
 	public void setShowLines(){
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #getShowShapes()}
+	 */
 	public boolean isShowShapes(){
 		return ((JRTimeSeriesPlot)parent).isShowShapes();
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #setShowShapes(Boolean)}
+	 */
 	public void setShowShapes(){
+	}
+	/**
+	 * 
+	 */
+	public Boolean getShowLines(){
+		return ((JRTimeSeriesPlot)parent).getShowLines();
+	}
+	
+	/**
+	 * 
+	 */
+	public void setShowLines(Boolean showLines){
+	}
+	
+	/**
+	 * 
+	 */
+	public Boolean getShowShapes(){
+		return ((JRTimeSeriesPlot)parent).getShowShapes();
+	}
+	
+	/**
+	 * 
+	 */
+	public void setShowShapes(Boolean showLines){
 	}
 }
