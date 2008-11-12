@@ -521,7 +521,7 @@
 <!ELEMENT bar3DChart (chart, categoryDataset, bar3DPlot)>
 <!ELEMENT bar3DPlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST bar3DPlot
-	isShowLabels (true | false ) "false"
+	isShowLabels (true | false ) #IMPLIED
 	xOffset CDATA #IMPLIED
 	yOffset CDATA #IMPLIED
 >
