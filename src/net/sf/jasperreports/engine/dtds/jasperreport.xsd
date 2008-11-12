@@ -2100,7 +2100,7 @@
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowLabels" use="optional" default="false">
+   <attribute name="isShowLabels" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
