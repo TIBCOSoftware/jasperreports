@@ -23,7 +23,6 @@
 	<classpathentry kind="lib" path="lib/jaxen-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/mondrian-2.3.2.8944.jar"/>
 	<classpathentry kind="lib" path="lib/bsh-2.0b4.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.0.1-FINAL-20070705.jar"/>
 	<classpathentry kind="lib" path="lib/batik-bridge.jar"/>
 	<classpathentry kind="lib" path="lib/batik-gvt.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis-ext.jar"/>
@@ -41,5 +40,6 @@
 	<classpathentry kind="lib" path="lib/jcommon-1.0.13.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.10.jar"/>
 	<classpathentry kind="lib" path="lib/rhino-1.7R1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.2-FINAL-20081019.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
