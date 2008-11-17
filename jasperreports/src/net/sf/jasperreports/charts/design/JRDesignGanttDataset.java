@@ -19,89 +19,89 @@ import net.sf.jasperreports.engine.design.JRVerifier;
  */
 public class JRDesignGanttDataset  extends JRDesignChartDataset implements JRGanttDataset {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-    private List ganttSeriesList = new ArrayList();
-
-
-    /**
-     *
-     */
-    public JRDesignGanttDataset(JRChartDataset dataset)
-    {
-        super(dataset);
-    }
+	private List ganttSeriesList = new ArrayList();
 
 
-    /**
-     *
-     */
-    public JRGanttSeries[] getSeries()
-    {
-        JRGanttSeries[] ganttSeriesArray = new JRGanttSeries[ganttSeriesList.size()];
-        
-        ganttSeriesList.toArray(ganttSeriesArray);
-
-        return ganttSeriesArray;
-    }
-    
-
-    /**
-     * 
-     */
-    public List getSeriesList()
-    {
-        return ganttSeriesList;
-    }
-
-    
-    /**
-     *
-     */
-    public void addGanttSeries(JRGanttSeries ganttSeries)
-    {
-        ganttSeriesList.add(ganttSeries);
-    }
-    
-
-    /**
-     *
-     */
-    public JRGanttSeries removeGanttSeries(JRGanttSeries ganttSeries)
-    {
-        if (ganttSeries != null)
-        {
-            ganttSeriesList.remove(ganttSeries);
-        }
-        
-        return ganttSeries;
-    }
+	/**
+	 *
+	 */
+	public JRDesignGanttDataset(JRChartDataset dataset)
+	{
+		super(dataset);
+	}
 
 
-    /** 
-     * 
-     */
-    public byte getDatasetType() {
-        return JRChartDataset.GANTT_DATASET;
-    }
-    
-    
-    /**
-     *
-     */
-    public void collectExpressions(JRExpressionCollector collector)
-    {
-        collector.collect(this);
-    }
+	/**
+	 *
+	 */
+	public JRGanttSeries[] getSeries()
+	{
+		JRGanttSeries[] ganttSeriesArray = new JRGanttSeries[ganttSeriesList.size()];
+
+		ganttSeriesList.toArray(ganttSeriesArray);
+
+		return ganttSeriesArray;
+	}
 
 
-    public void validate(JRVerifier verifier)
-    {
-        verifier.verify(this);
-    }
+	/**
+	 *
+	 */
+	public List getSeriesList()
+	{
+		return ganttSeriesList;
+	}
 
-    
+
+	/**
+	 *
+	 */
+	public void addGanttSeries(JRGanttSeries ganttSeries)
+	{
+		ganttSeriesList.add(ganttSeries);
+	}
+
+
+	/**
+	 *
+	 */
+	public JRGanttSeries removeGanttSeries(JRGanttSeries ganttSeries)
+	{
+		if (ganttSeries != null)
+		{
+			ganttSeriesList.remove(ganttSeries);
+		}
+
+		return ganttSeries;
+	}
+
+
+	/**
+	 *
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.GANTT_DATASET;
+	}
+
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
+	}
+
+
 }

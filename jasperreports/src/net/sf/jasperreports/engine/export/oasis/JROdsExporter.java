@@ -42,9 +42,9 @@ import net.sf.jasperreports.engine.export.ExporterNature;
 
 
 /**
- * Exports a JasperReports document to Open Document Spreadsheet format. It has character output type 
+ * Exports a JasperReports document to Open Document Spreadsheet format. It has character output type
  * and exports the document to a grid-based layout.
- * 
+ *
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
@@ -59,11 +59,11 @@ public class JROdsExporter extends JROpenDocumentExporter
 
 
 	/**
-	 * 
+	 *
 	 * @see net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporter#getExporterNature(net.sf.jasperreports.engine.export.ExporterFilter)
 	 */
-    protected ExporterNature getExporterNature(ExporterFilter filter) {
-	    return new JROdsExporterNature(filter);
-    }
+	protected ExporterNature getExporterNature(ExporterFilter filter) {
+		return new JROdsExporterNature(filter);
+	}
 }
 

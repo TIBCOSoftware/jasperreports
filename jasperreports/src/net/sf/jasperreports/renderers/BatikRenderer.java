@@ -38,27 +38,27 @@ import org.w3c.dom.svg.SVGPreserveAspectRatio;
 
 /**
  * SVG renderer implementation based on <a href="http://xmlgraphics.apache.org/batik/">Batik</a>.
- * 
+ *
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id: JRAbstractChartImageMapRenderer.java 1364 2006-08-31 15:13:20Z lucianc $
  */
 public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRenderer
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
+
 	private String svgText;
 	private byte[] svgData;
 	private String svgDataLocation;
 	private List areaHyperlinks;
-	
+
 	protected BatikRenderer(List areaHyperlinks)
 	{
 		this.areaHyperlinks = areaHyperlinks;
 	}
-	
+
 	/**
 	 * Creates a SVG renderer.
-	 * 
+	 *
 	 * @param svgText the SVG text
 	 * @param areaHyperlinks a list of {@link JRPrintImageAreaHyperlink area hyperlinks}
 	 */
@@ -67,10 +67,10 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 		this.svgText = svgText;
 		this.areaHyperlinks = areaHyperlinks;
 	}
-	
+
 	/**
 	 * Creates a SVG renderer.
-	 * 
+	 *
 	 * @param svgData the SVG (binary) data
 	 * @param areaHyperlinks a list of {@link JRPrintImageAreaHyperlink area hyperlinks}
 	 */
@@ -79,44 +79,44 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 		this.svgData = svgData;
 		this.areaHyperlinks = areaHyperlinks;
 	}
-	
+
 	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		ensureData();
-		
+
 		try
 		{
 			UserAgent userAgent = new UserAgentAdapter();
-			SVGDocumentFactory documentFactory = 
+			SVGDocumentFactory documentFactory =
 				new SAXSVGDocumentFactory(userAgent.getXMLParserClassName(), true);
 			documentFactory.setValidating(userAgent.isXMLParserValidating());
-    		
-    		SVGDocument document; 
-    		if (svgText != null)
-    		{
-    			document = documentFactory.createSVGDocument("", 
-    	        		new StringReader(svgText));
-    		}
-    		else
-    		{
-    			document = documentFactory.createSVGDocument("", 
-    					new ByteArrayInputStream(svgData));
-    		}
+
+			SVGDocument document;
+			if (svgText != null)
+			{
+				document = documentFactory.createSVGDocument("",
+						new StringReader(svgText));
+			}
+			else
+			{
+				document = documentFactory.createSVGDocument("",
+						new ByteArrayInputStream(svgData));
+			}
 
 			BridgeContext ctx = new BridgeContext(userAgent);
 			ctx.setDynamic(true);
 			GVTBuilder builder = new GVTBuilder();
 			GraphicsNode graphicsNode = builder.build(ctx, document);
-			
-            Dimension2D docSize = ctx.getDocumentSize();
+
+			Dimension2D docSize = ctx.getDocumentSize();
 			AffineTransform transform = ViewBox.getPreserveAspectRatioTransform(
 					new float[]{0, 0, (float) docSize.getWidth(), (float) docSize.getHeight()},
-					SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE, true, 
-					(float) rectangle.getWidth(), (float) rectangle.getHeight());			
+					SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE, true,
+					(float) rectangle.getWidth(), (float) rectangle.getHeight());
 			Graphics2D graphics = (Graphics2D) grx.create();
 			graphics.translate(rectangle.getX(), rectangle.getY());
 			graphics.transform(transform);
-			
+
 			graphicsNode.paint(graphics);
 		}
 		catch (IOException e)
@@ -124,7 +124,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 			throw new JRRuntimeException(e);
 		}
 	}
-	
+
 	protected synchronized void ensureData() throws JRException
 	{
 		if (svgText == null
@@ -137,14 +137,14 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	public List renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		render(grx, rectangle);
-		
+
 		return areaHyperlinks;
 	}
-	
+
 	/**
 	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
 	 */
-	public List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException 
+	public List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{
 		return areaHyperlinks;
 	}
@@ -153,7 +153,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	{
 		return areaHyperlinks != null && !areaHyperlinks.isEmpty();
 	}
-	
+
 	protected Graphics2D createGraphics(BufferedImage bi)
 	{
 		return GraphicsUtil.createGraphics(bi);
@@ -166,7 +166,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 
 	/**
 	 * Creates a SVG renderer from binary data.
-	 * 
+	 *
 	 * @param svgData the SVG (binary) data
 	 * @return a SVG renderer
 	 */
@@ -177,12 +177,12 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 
 	/**
 	 * Creates a SVG renderer from a data stream.
-	 * 
+	 *
 	 * <p>
 	 * Note: the data stream is exhausted, but not closed.
 	 * </p>
-	 * 
-	 * @param svgDataStream the SVG binary data stream 
+	 *
+	 * @param svgDataStream the SVG binary data stream
 	 * @return a SVG renderer
 	 * @throws JRException
 	 */
@@ -194,7 +194,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 
 	/**
 	 * Creates a SVG renderer from a file.
-	 * 
+	 *
 	 * @param svgFile the SVG file to read
 	 * @return a SVG renderer
 	 * @throws JRException
@@ -207,7 +207,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 
 	/**
 	 * Creates a SVG renderer from a {@link URL}.
-	 * 
+	 *
 	 * @param svgURL the SVG URL
 	 * @return a SVG renderer
 	 * @throws JRException
@@ -220,7 +220,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 
 	/**
 	 * Creates a SVG renderer from SVG text.
-	 * 
+	 *
 	 * @param svgText the SVG text
 	 * @return a SVG renderer
 	 * @throws JRException
@@ -232,7 +232,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 
 	/**
 	 * Creates a SVG renderer by loading data from a generic location.
-	 * 
+	 *
 	 * @param location the location
 	 * @return a SVG renderer
 	 * @throws JRException
@@ -246,7 +246,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 
 	/**
 	 * Creates a SVG renderer by loading data from a generic location.
-	 * 
+	 *
 	 * @param location the location
 	 * @param classLoader the classloader to be used to resolve resources
 	 * @param urlHandlerFactory the URL handler factory used to resolve URLs
@@ -263,16 +263,16 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 		byte[] data = JRLoader.loadBytesFromLocation(location);
 		return new BatikRenderer(data, null);
 	}
-	
+
 	/**
 	 * Creates a lazily loaded SVG renderer for a location.
-	 * 
+	 *
 	 * <p>
 	 * The returned renderer loads the SVG data lazily, i.e. only when the data
-	 * is actually required (which is at the first 
+	 * is actually required (which is at the first
 	 * {@link #render(Graphics2D, Rectangle2D)}}.
 	 * </p>
-	 * 
+	 *
 	 * @param location the SVG location
 	 * @throws JRException
 	 */

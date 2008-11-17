@@ -56,12 +56,12 @@ public class JROdtExporter extends JROpenDocumentExporter
 
 
 	/**
-	 * 
+	 *
 	 * @see net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporter#getExporterNature(net.sf.jasperreports.engine.export.ExporterFilter)
 	 */
-    protected ExporterNature getExporterNature(ExporterFilter filter) {
-	    return new JROdtExporterNature(filter);
-    }
+	protected ExporterNature getExporterNature(ExporterFilter filter) {
+		return new JROdtExporterNature(filter);
+	}
 
 }
 

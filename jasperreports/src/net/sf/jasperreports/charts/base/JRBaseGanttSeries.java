@@ -13,119 +13,119 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * @author Peter Risko (peter@risko.hu)
  * @version $Id: JRDesignTimePeriodSeries.java 1923 2007-10-25 09:44:32Z lucianc $
  */
-public class JRBaseGanttSeries implements JRGanttSeries, Serializable 
+public class JRBaseGanttSeries implements JRGanttSeries, Serializable
 {
-    
-    /**
-     *
-     */
-    private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-    protected JRExpression seriesExpression = null;
-    protected JRExpression taskExpression = null;
-    protected JRExpression subtaskExpression = null;
-    protected JRExpression startDateExpression = null;
-    protected JRExpression endDateExpression = null;
-    protected JRExpression percentExpression = null;
-    protected JRExpression labelExpression = null;
-    protected JRHyperlink itemHyperlink;
-
-    /**
-     *
-     */
-    protected JRBaseGanttSeries()
-    {
-    }
-    
-    
-    /**
-     *
-     */
-    public JRBaseGanttSeries(JRGanttSeries ganttSeries, JRBaseObjectFactory factory)
-    {
-        factory.put(ganttSeries, this);
-
-        seriesExpression = factory.getExpression(ganttSeries.getSeriesExpression());
-        taskExpression = factory.getExpression(ganttSeries.getTaskExpression());
-        subtaskExpression = factory.getExpression(ganttSeries.getSubtaskExpression());
-        startDateExpression = factory.getExpression(ganttSeries.getStartDateExpression());
-        endDateExpression = factory.getExpression(ganttSeries.getEndDateExpression());
-        percentExpression = factory.getExpression(ganttSeries.getPercentExpression());
-        labelExpression = factory.getExpression(ganttSeries.getLabelExpression());
-        itemHyperlink = factory.getHyperlink(ganttSeries.getItemHyperlink());
-    }
-
-    
-    /**
-     *
-     */
-    public JRExpression getSeriesExpression()
-    {
-        return seriesExpression;
-    }
-        
-    /**
-     *
-     */
-    public JRExpression getTaskExpression()
-    {
-        return taskExpression;
-    }
-        
-    /**
-     *
-     */
-    public JRExpression getSubtaskExpression()
-    {
-        return subtaskExpression;
-    }
-       
-    /**
-     *
-     */
-    public JRExpression getStartDateExpression()
-    {
-        return startDateExpression;
-    }
-      
-    /**
-     *
-     */
-    public JRExpression getEndDateExpression()
-    {
-        return endDateExpression;
-    }
-        
-    /**
-     *
-     */
-    public JRExpression getPercentExpression()
-    {
-        return percentExpression;
-    }
-       
-    /**
-     *
-     */
-    public JRExpression getLabelExpression()
-    {
-        return labelExpression;
-    }
-
-    
-    public JRHyperlink getItemHyperlink()
-    {
-        return itemHyperlink;
-    }
-        
 
 	/**
-	 * 
+	 *
 	 */
-	public Object clone() 
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	protected JRExpression seriesExpression = null;
+	protected JRExpression taskExpression = null;
+	protected JRExpression subtaskExpression = null;
+	protected JRExpression startDateExpression = null;
+	protected JRExpression endDateExpression = null;
+	protected JRExpression percentExpression = null;
+	protected JRExpression labelExpression = null;
+	protected JRHyperlink itemHyperlink;
+
+	/**
+	 *
+	 */
+	protected JRBaseGanttSeries()
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	public JRBaseGanttSeries(JRGanttSeries ganttSeries, JRBaseObjectFactory factory)
+	{
+		factory.put(ganttSeries, this);
+
+		seriesExpression = factory.getExpression(ganttSeries.getSeriesExpression());
+		taskExpression = factory.getExpression(ganttSeries.getTaskExpression());
+		subtaskExpression = factory.getExpression(ganttSeries.getSubtaskExpression());
+		startDateExpression = factory.getExpression(ganttSeries.getStartDateExpression());
+		endDateExpression = factory.getExpression(ganttSeries.getEndDateExpression());
+		percentExpression = factory.getExpression(ganttSeries.getPercentExpression());
+		labelExpression = factory.getExpression(ganttSeries.getLabelExpression());
+		itemHyperlink = factory.getHyperlink(ganttSeries.getItemHyperlink());
+	}
+
+
+	/**
+	 *
+	 */
+	public JRExpression getSeriesExpression()
+	{
+		return seriesExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getTaskExpression()
+	{
+		return taskExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getSubtaskExpression()
+	{
+		return subtaskExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getStartDateExpression()
+	{
+		return startDateExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getEndDateExpression()
+	{
+		return endDateExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getPercentExpression()
+	{
+		return percentExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getLabelExpression()
+	{
+		return labelExpression;
+	}
+
+
+	public JRHyperlink getItemHyperlink()
+	{
+		return itemHyperlink;
+	}
+
+
+	/**
+	 *
+	 */
+	public Object clone()
 	{
 		JRBaseGanttSeries clone = null;
-		
+
 		try
 		{
 			clone = (JRBaseGanttSeries)super.clone();
@@ -134,7 +134,7 @@ public class JRBaseGanttSeries implements JRGanttSeries, Serializable
 		{
 			throw new JRRuntimeException(e);
 		}
-		
+
 		if (seriesExpression != null)
 		{
 			clone.seriesExpression = (JRExpression)seriesExpression.clone();
@@ -167,7 +167,7 @@ public class JRBaseGanttSeries implements JRGanttSeries, Serializable
 		{
 			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
 		}
-		
+
 		return clone;
 	}
 

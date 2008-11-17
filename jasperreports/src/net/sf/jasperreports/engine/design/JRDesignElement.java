@@ -180,15 +180,15 @@ public abstract class JRDesignElement extends JRBaseElement
 	}
 
 	private void readObject(ObjectInputStream stream)
-    		throws IOException, ClassNotFoundException
-    {
+		throws IOException, ClassNotFoundException
+	{
 		stream.defaultReadObject();
 		
 		if (propertyExpressions == null)
 		{
 			propertyExpressions = new ArrayList();
 		}
-    }
+	}
 	
 	/**
 	 * Add a dynamic/expression-based property.

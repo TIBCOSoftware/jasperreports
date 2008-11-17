@@ -17,71 +17,71 @@ import net.sf.jasperreports.engine.design.JRVerifier;
  */
 public class JRBaseGanttDataset extends JRBaseChartDataset implements JRGanttDataset {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-    protected JRGanttSeries[] ganttSeries = null;
+	protected JRGanttSeries[] ganttSeries = null;
 
-    /**
-     *
-     */
-    public JRBaseGanttDataset(JRChartDataset dataset)
-    {
-        super(dataset);
-    }
-    
-    /**
-     *
-     */
-    public JRBaseGanttDataset(JRGanttDataset dataset, JRBaseObjectFactory factory)
-    {
-        super(dataset, factory);
+	/**
+	 *
+	 */
+	public JRBaseGanttDataset(JRChartDataset dataset)
+	{
+		super(dataset);
+	}
 
-        /*   */
-        JRGanttSeries[] srcGanttSeries = dataset.getSeries();
-        if (srcGanttSeries != null && srcGanttSeries.length > 0)
-        {
-            ganttSeries = new JRGanttSeries[srcGanttSeries.length];
-            for(int i = 0; i < ganttSeries.length; i++)
-            {
-                ganttSeries[i] = factory.getGanttSeries(srcGanttSeries[i]);
-            }
-        }
+	/**
+	 *
+	 */
+	public JRBaseGanttDataset(JRGanttDataset dataset, JRBaseObjectFactory factory)
+	{
+		super(dataset, factory);
 
-    }
+		/*   */
+		JRGanttSeries[] srcGanttSeries = dataset.getSeries();
+		if (srcGanttSeries != null && srcGanttSeries.length > 0)
+		{
+			ganttSeries = new JRGanttSeries[srcGanttSeries.length];
+			for(int i = 0; i < ganttSeries.length; i++)
+			{
+				ganttSeries[i] = factory.getGanttSeries(srcGanttSeries[i]);
+			}
+		}
 
-    
-    /**
-     *
-     */
-    public JRGanttSeries[] getSeries()
-    {
-        return ganttSeries;
-    }
+	}
 
 
-    /* (non-Javadoc)
-     * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetType()
-     */
-    public byte getDatasetType() {
-        return JRChartDataset.GANTT_DATASET;
-    }
-
-    
-    /**
-     *
-     */
-    public void collectExpressions(JRExpressionCollector collector)
-    {
-        collector.collect(this);
-    }
+	/**
+	 *
+	 */
+	public JRGanttSeries[] getSeries()
+	{
+		return ganttSeries;
+	}
 
 
-    public void validate(JRVerifier verifier)
-    {
-        verifier.verify(this);
-    }
+	/* (non-Javadoc)
+	 * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetType()
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.GANTT_DATASET;
+	}
+
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
+	}
 
 }

@@ -9,50 +9,50 @@ import net.sf.jasperreports.engine.JRHyperlink;
  */
 public interface JRGanttSeries {
 
-    /**
-     * 
-     */
-    public JRExpression getSeriesExpression();
+	/**
+	 *
+	 */
+	public JRExpression getSeriesExpression();
 
-    /**
-     * 
-     */
-    public JRExpression getTaskExpression();
-    
-    /**
-     * 
-     */
-    public JRExpression getSubtaskExpression();
-    
-    /**
-     * 
-     */
-    public JRExpression getStartDateExpression();
+	/**
+	 *
+	 */
+	public JRExpression getTaskExpression();
 
-    /**
-     * 
-     */
-    public JRExpression getEndDateExpression();
+	/**
+	 *
+	 */
+	public JRExpression getSubtaskExpression();
 
-    /**
-     * 
-     */
-    public JRExpression getPercentExpression();
+	/**
+	 *
+	 */
+	public JRExpression getStartDateExpression();
 
-    /**
-     * 
-     */
-    public JRExpression getLabelExpression();
+	/**
+	 *
+	 */
+	public JRExpression getEndDateExpression();
 
-    
-    /**
-     * Returns the hyperlink specification for chart items.
-     * <p>
-     * The hyperlink will be evaluated for every chart item and an image map will be created for the chart.
-     * </p>
-     * 
-     * @return hyperlink specification for chart items
-     */
-    public JRHyperlink getItemHyperlink();
+	/**
+	 *
+	 */
+	public JRExpression getPercentExpression();
+
+	/**
+	 *
+	 */
+	public JRExpression getLabelExpression();
+
+
+	/**
+	 * Returns the hyperlink specification for chart items.
+	 * <p>
+	 * The hyperlink will be evaluated for every chart item and an image map will be created for the chart.
+	 * </p>
+	 *
+	 * @return hyperlink specification for chart items
+	 */
+	public JRHyperlink getItemHyperlink();
 
 }
