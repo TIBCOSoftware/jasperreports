@@ -12,25 +12,25 @@ import org.xml.sax.Attributes;
  */
 public class JRGanttDatasetFactory extends JRBaseFactory {
 
-    /**
-     *
-     */
-    public Object createObject(Attributes atts)
-    {
-        JRDesignChart chart = (JRDesignChart) digester.peek();
-        
-        JRDesignGanttDataset dataset = null; 
-        
-        if( chart.getDataset() == null ){
-            dataset = new JRDesignGanttDataset( chart.getDataset() );
-        }
-        else {
-            dataset = (JRDesignGanttDataset)chart.getDataset();
-        }
-        
-        chart.setDataset( dataset );
-        return dataset;
-    }
+	/**
+	 *
+	 */
+	public Object createObject(Attributes atts)
+	{
+		JRDesignChart chart = (JRDesignChart) digester.peek();
 
-    
+		JRDesignGanttDataset dataset = null;
+
+		if( chart.getDataset() == null ){
+			dataset = new JRDesignGanttDataset( chart.getDataset() );
+		}
+		else {
+			dataset = (JRDesignGanttDataset)chart.getDataset();
+		}
+
+		chart.setDataset( dataset );
+		return dataset;
+	}
+
+
 }

@@ -53,15 +53,15 @@ public class GraphicStyle extends Style
 	private String width = null;
 	private String hAlign = null;
 	private String vAlign = null;
-	
-	
+
+
 	/**
 	 *
 	 */
 	public GraphicStyle(Writer styleWriter, JRPrintGraphicElement element)
 	{
 		super(styleWriter);
-		
+
 		if (element.getMode() == JRElement.MODE_OPAQUE)
 		{
 			//fill = "solid";
@@ -99,16 +99,16 @@ public class GraphicStyle extends Style
 		}
 
 		width = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(doubleWidth));
-		byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;   
-		byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP; 
-				
+		byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
+		byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
+
 		if(element instanceof JRPrintImage)
 		{
 			JRPrintImage imageElement = (JRPrintImage)element;
 			horizontalAlignment = imageElement.getHorizontalAlignment();
 			verticalAlignment = imageElement.getVerticalAlignment();
 		}
-		
+
 		switch(horizontalAlignment)
 		{
 			case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
@@ -133,7 +133,7 @@ public class GraphicStyle extends Style
 				break;
 			}
 		}
-		
+
 		switch(verticalAlignment)
 		{
 			case JRAlignment.VERTICAL_ALIGN_BOTTOM:
@@ -152,10 +152,10 @@ public class GraphicStyle extends Style
 				vAlign = "top";
 				break;
 			}
-			
+
 		}
 	}
-	
+
 	/**
 	 *
 	 */
@@ -184,7 +184,7 @@ public class GraphicStyle extends Style
 	{
 		styleWriter.write(" <style:style style:name=\"" + lineStyleName + "\"");
 		styleWriter.write(" style:family=\"graphic\" style:parent-style-name=\"Graphics\">\n");
-		styleWriter.write("   <style:graphic-properties");		
+		styleWriter.write("   <style:graphic-properties");
 		styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
 		styleWriter.write(" style:horizontal-pos=\""+hAlign+ "\" style:horizontal-rel=\"paragraph\"");
 		styleWriter.write(" style:vertical-pos=\""+vAlign+ "\" style:vertical-rel=\"paragraph\"");

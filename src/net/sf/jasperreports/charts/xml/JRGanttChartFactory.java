@@ -13,13 +13,13 @@ import org.xml.sax.Attributes;
  */
 public class JRGanttChartFactory extends JRBaseFactory {
 
-    public Object createObject( Attributes attrs ){
-        JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+	public Object createObject( Attributes attrs ){
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
-        JRDesignChart chart = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_GANTT);
+		JRDesignChart chart = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_GANTT);
 
-        return chart;
-    }
+		return chart;
+	}
 
-    
+
 }

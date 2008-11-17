@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -58,11 +58,11 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
+
 	public static final String PROPERTY_SHOW_LABELS = "showLabels";
-	
+
 	public static final String PROPERTY_SHOW_TICK_LABELS = "showTickLabels";
-	
+
 	public static final String PROPERTY_SHOW_TICK_MARKS = "showTickMarks";
 
 	protected JRExpression categoryAxisLabelExpression = null;
@@ -80,12 +80,12 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	protected Color valueAxisTickLabelColor = null;
 	protected String valueAxisTickLabelMask = null;
 	protected Color valueAxisLineColor = null;
-	
+
 	protected Boolean showTickMarks = null;
 	protected Boolean showTickLabels = null;
 	protected Boolean showLabels = null;
 
-	
+
 	/**
 	 *
 	 */
@@ -93,7 +93,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	{
 		super(barPlot, chart);
 	}
-	
+
 	/**
 	 *
 	 */
@@ -104,7 +104,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		showTickMarks = barPlot.getShowTickMarks();
 		showTickLabels = barPlot.getShowTickLabels();
 		showLabels = barPlot.getShowLabels();
-		
+
 		categoryAxisLabelExpression = factory.getExpression( barPlot.getCategoryAxisLabelExpression() );
 		categoryAxisLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getCategoryAxisLabelFont());
 		categoryAxisLabelColor = barPlot.getOwnCategoryAxisLabelColor();
@@ -112,7 +112,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		categoryAxisTickLabelColor = barPlot.getOwnCategoryAxisTickLabelColor();
 		categoryAxisTickLabelMask = barPlot.getCategoryAxisTickLabelMask();
 		categoryAxisLineColor = barPlot.getCategoryAxisLineColor();
-		
+
 		valueAxisLabelExpression = factory.getExpression( barPlot.getValueAxisLabelExpression() );
 		valueAxisLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = barPlot.getOwnValueAxisLabelColor();
@@ -123,38 +123,38 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public JRExpression getCategoryAxisLabelExpression(){
 		return categoryAxisLabelExpression;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public JRFont getCategoryAxisLabelFont()
 	{
 		return categoryAxisLabelFont;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public Color getCategoryAxisLabelColor()
 	{
 		return JRStyleResolver.getCategoryAxisLabelColor(this, this);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public Color getOwnCategoryAxisLabelColor()
 	{
 		return categoryAxisLabelColor;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public JRFont getCategoryAxisTickLabelFont()
 	{
@@ -162,7 +162,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Color getCategoryAxisTickLabelColor()
 	{
@@ -170,7 +170,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Color getOwnCategoryAxisTickLabelColor()
 	{
@@ -178,7 +178,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public String getCategoryAxisTickLabelMask()
 	{
@@ -186,62 +186,62 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Color getCategoryAxisLineColor()
 	{
 		return JRStyleResolver.getCategoryAxisLineColor(this, this);
 	}
-		
+
 	/**
-	 * 
+	 *
 	 */
 	public Color getOwnCategoryAxisLineColor()
 	{
 		return categoryAxisLineColor;
 	}
-		
+
 	/**
-	 * 
+	 *
 	 */
 	public JRExpression getValueAxisLabelExpression(){
 		return valueAxisLabelExpression;
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public JRFont getValueAxisLabelFont()
 	{
 		return valueAxisLabelFont;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public Color getValueAxisLabelColor()
 	{
 		return JRStyleResolver.getValueAxisLabelColor(this, this);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public Color getOwnValueAxisLabelColor()
 	{
 		return valueAxisLabelColor;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public JRFont getValueAxisTickLabelFont()
 	{
 		return valueAxisTickLabelFont;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public Color getValueAxisTickLabelColor()
 	{
@@ -249,7 +249,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Color getOwnValueAxisTickLabelColor()
 	{
@@ -257,7 +257,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public String getValueAxisTickLabelMask()
 	{
@@ -265,15 +265,15 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Color getValueAxisLineColor()
 	{
 		return JRStyleResolver.getValueAxisLineColor(this, this);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public Color getOwnValueAxisLineColor()
 	{
@@ -281,36 +281,36 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShowLabels()} 
+	 * @deprecated Replaced by {@link #getShowLabels()}
 	 */
 	public boolean isShowLabels(){
 		return showLabels == null ? false : showLabels.booleanValue();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public Boolean getShowLabels(){
 		return showLabels;
 	}
-	
+
 	/**
-	 * @deprecated Replaced by {@link #setShowLabels(Boolean)} 
+	 * @deprecated Replaced by {@link #setShowLabels(Boolean)}
 	 */
 	public void setShowLabels( boolean isShowLabels ){
 		setShowLabels(Boolean.valueOf(isShowLabels));
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void setShowLabels( Boolean showLabels ){
 		Boolean old = this.showLabels;
 		this.showLabels = showLabels;
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.showLabels);
 	}
-	
-	
+
+
 	/**
 	 * @deprecated Replaced by {@link #getShowTickMarks()}
 	 */
@@ -318,15 +318,15 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	{
 		return showTickMarks == null ? true : showTickMarks.booleanValue();
 	}
-		
+
 	/**
-	 * 
+	 *
 	 */
 	public Boolean getShowTickMarks()
 	{
 		return showTickMarks;
 	}
-		
+
 	/**
 	 * @deprecated Replaced by {@link #setShowTickMarks(Boolean)}
 	 */
@@ -334,7 +334,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	{
 		setShowTickMarks(Boolean.valueOf(isShowTickMarks));
 	}
-		
+
 	/**
 	 *
 	 */
@@ -344,7 +344,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		this.showTickMarks = isShowTickMarks;
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_TICK_MARKS, old, this.showTickMarks);
 	}
-		
+
 	/**
 	 * @deprecated Replaced by {@link #getShowTickLabels()}
 	 */
@@ -352,7 +352,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	{
 		return showTickLabels == null ? true : showTickLabels.booleanValue();
 	}
-		
+
 	/**
 	 *
 	 */
@@ -360,7 +360,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	{
 		return showTickLabels;
 	}
-		
+
 	/**
 	 * @deprecated Replaced by {@link #setShowTickLabels(Boolean)}
 	 */
@@ -368,7 +368,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	{
 		setShowTickLabels(Boolean.valueOf(isShowTickLabels));
 	}
-	
+
 	/**
 	 *
 	 */
@@ -378,7 +378,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		this.showTickLabels = showTickLabels;
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_TICK_LABELS, old, this.showTickLabels);
 	}
-	
+
 	/**
 	 *
 	 */
@@ -390,7 +390,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	/**
 	 *
 	 */
-	public Object clone(JRChart parentChart) 
+	public Object clone(JRChart parentChart)
 	{
 		JRBaseBarPlot clone = (JRBaseBarPlot)super.clone(parentChart);
 		if (categoryAxisLabelExpression != null)
@@ -412,11 +412,11 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	private boolean isShowTickLabels = true;
 	private boolean isShowLabels = true;
 
-	
+
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
-		
+
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
 		{
 			showTickMarks = Boolean.valueOf(isShowTickMarks);
@@ -424,5 +424,5 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 			showLabels = Boolean.valueOf(isShowLabels);
 		}
 	}
-    
+
 }

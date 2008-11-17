@@ -93,7 +93,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 		Boolean keepFirst = (origin == null ? null : (Boolean)originsToExclude.get(origin));
 		boolean originMatched = keepFirst != null;
 
-		return   
+		return
 			!originMatched 
 			|| (keepFirst.booleanValue() 
 				&& (!(element instanceof JRTemplatePrintElement) 

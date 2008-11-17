@@ -57,11 +57,11 @@ public class SvgChartRendererFactory implements ChartRendererFactory
 		)
 	{
 		DOMImplementation domImpl = 
-		    GenericDOMImplementation.getDOMImplementation();
+			GenericDOMImplementation.getDOMImplementation();
 		Document document = 
-		    domImpl.createDocument(null, "svg", null);
+			domImpl.createDocument(null, "svg", null);
 		SVGGraphics2D grx = 
-		    new SVGGraphics2D(document);
+			new SVGGraphics2D(document);
 		
 		grx.setSVGCanvasSize(rectangle.getBounds().getSize());
 

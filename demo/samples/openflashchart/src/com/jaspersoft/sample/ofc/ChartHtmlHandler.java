@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -42,9 +42,9 @@ public class ChartHtmlHandler implements GenericElementHtmlHandler
 {
 
 	public static final String PARAMETER_CHART_DATA = "ChartData";
-	
+
 	private final ThreadLocal lastContext = new ThreadLocal();
-	
+
 	public boolean toExport(JRGenericPrintElement element)
 	{
 		return true;
@@ -53,19 +53,19 @@ public class ChartHtmlHandler implements GenericElementHtmlHandler
 	public String getHtmlFragment(JRHtmlExporterContext exporterContext, JRGenericPrintElement element)
 	{
 		String divID = "ofc" + System.identityHashCode(element);
-	    int width = element.getWidth();
-	    int height = element.getHeight();
+		int width = element.getWidth();
+		int height = element.getHeight();
 		StringBuffer sb = new StringBuffer();
-		
+
 		sb.append("<div id=\"");
 		sb.append(divID);
 		sb.append("\"></div>\n");
-		
+
 		if (!sameAsLast(exporterContext))
 		{
 			sb.append("<script language=\"JavaScript\" src=\"openflashchart/swfobject.js\"></script>\n");
 		}
-		
+
 		sb.append("<script language=\"JavaScript\">\n");
 		sb.append("swfobject.embedSWF(\"openflashchart/open-flash-chart.swf\", \"");
 		sb.append(divID);
@@ -84,7 +84,7 @@ public class ChartHtmlHandler implements GenericElementHtmlHandler
 		sb.append(chartData);
 		sb.append("';}\n");
 		sb.append("</script>\n");
-		
+
 		return sb.toString();
 	}
 
@@ -96,7 +96,7 @@ public class ChartHtmlHandler implements GenericElementHtmlHandler
 		{
 			return true;
 		}
-		
+
 		WeakReference ref = new WeakReference(exporterContext);
 		lastContext.set(ref);
 		return false;
