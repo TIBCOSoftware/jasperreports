@@ -91,8 +91,8 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.hssf.util.Region;
 
 
 /**
@@ -188,7 +188,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected void setColumnWidth(int col, int width)
 	{
-		sheet.setColumnWidth((short)col, (short)width);
+		sheet.setColumnWidth(col, width);
 	}
 
 	protected void setRowHeight(int rowIndex, int lastRowHeight)
@@ -204,17 +204,17 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected void setCell(int colIndex, int rowIndex)
 	{
-		HSSFCell emptyCell = row.getCell((short)colIndex);
+		HSSFCell emptyCell = row.getCell(colIndex);
 		if (emptyCell == null)
 		{
-			emptyCell = row.createCell((short)colIndex);
+			emptyCell = row.createCell(colIndex);
 			emptyCell.setCellStyle(emptyCellStyle);
 		}
 	}
 
 	protected void removeColumn(int colIndex)
 	{
-		sheet.setColumnHidden((short)colIndex, true);
+		sheet.setColumnHidden(colIndex, true);
 //      sheet.setColumnGroupCollapsed((short)colIndex, true);
 //      for(int rowIndex = sheet.getLastRowNum(); rowIndex >= 0; rowIndex--)
 //      {
@@ -229,7 +229,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
-		cell = row.createCell((short) colIndex);
+		cell = row.createCell(colIndex);
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
@@ -313,7 +313,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
 
-		cell = row.createCell((short)colIndex);
+		cell = row.createCell(colIndex);
 		cell.setCellStyle(cellStyle);
 	}
 
@@ -346,7 +346,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
 
-		cell = row.createCell((short)colIndex);
+		cell = row.createCell(colIndex);
 		cell.setCellStyle(cellStyle);
 	}
 
@@ -394,7 +394,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected void createTextCell(final JRPrintText textElement, final JRExporterGridCell gridCell, final int colIndex, final int rowIndex, final JRStyledText styledText, final StyleInfo baseStyle, final short forecolor) throws JRException
 	{
 		String formula = textElement.getPropertiesMap().getProperty(JRAbstractExporter.PROPERTY_CELL_FORMULA);
-		JRFont defaultFont = textElement.getFont();
 		String textStr = styledText.getText();
 		
 		if(formula != null)
@@ -539,7 +538,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		HSSFCellStyle cellStyle = getLoadedCellStyle(baseStyle);
 		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
-		cell = row.createCell((short)colIndex);
+		cell = row.createCell(colIndex);
 		return cellStyle;
 	}
 
@@ -567,7 +566,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected HSSFRichTextString getRichTextString(JRStyledText styledText, short forecolor, JRFont defaultFont)
 	{
 		String text = styledText.getText();
-		boolean isStyled = false;
 		HSSFRichTextString richTextStr = new HSSFRichTextString(text);
 		int runLimit = 0;
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
@@ -591,11 +589,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		{
 			if (isCollapseRowSpan)
 			{
-				sheet.addMergedRegion(new Region(rowIndex, (short)colIndex, rowIndex, (short)(colIndex + gridCell.getColSpan() - 1)));
+				sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, colIndex, (colIndex + gridCell.getColSpan() - 1)));
 			}
 			else
 			{
-				sheet.addMergedRegion(new Region(rowIndex, (short)colIndex, (rowIndex + gridCell.getRowSpan() - 1), (short)(colIndex + gridCell.getColSpan() - 1)));
+				sheet.addMergedRegion(new CellRangeAddress(rowIndex, (rowIndex + gridCell.getRowSpan() - 1), colIndex, (colIndex + gridCell.getColSpan() - 1)));
 			}
 
 			for(int i = 0; i < gridCell.getRowSpan(); i++)
@@ -607,10 +605,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				}
 				for(int j = 0; j < gridCell.getColSpan(); j++)
 				{
-					HSSFCell spanCell = spanRow.getCell((short)(colIndex + j));
+					HSSFCell spanCell = spanRow.getCell((colIndex + j));
 					if (spanCell == null)
 					{
-						spanCell = spanRow.createCell((short)(colIndex + j));
+						spanCell = spanRow.createCell((colIndex + j));
 					}
 					spanCell.setCellStyle(cellStyle);
 				}
@@ -1131,7 +1129,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 				createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
 
-				cell = row.createCell((short)colIndex);
+				cell = row.createCell(colIndex);
 				cell.setCellStyle(cellStyle);
 
 				HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, 
@@ -1180,7 +1178,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		createMergeRegion(gridCell, x, y, cellStyle);
 
-		cell = row.createCell((short)x);
+		cell = row.createCell(x);
 		cell.setCellStyle(cellStyle);
 	}
 
