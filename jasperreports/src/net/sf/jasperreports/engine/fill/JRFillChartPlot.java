@@ -121,7 +121,7 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBackgroundAlphaFloat()}
 	 */
 	public float getBackgroundAlpha()
 	{
@@ -129,14 +129,14 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setBackgroundAlpha(Float)}
 	 */
 	public void setBackgroundAlpha(float BackgroundAlpha)
 	{
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getForegroundAlphaFloat()}
 	 */
 	public float getForegroundAlpha()
 	{
@@ -144,14 +144,14 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setForegroundAlpha(Float)}
 	 */
 	public void setForegroundAlpha(float foregroundAlpha)
 	{
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLabelRotationDouble()}
 	 */
 	public double getLabelRotation()
 	{
@@ -159,9 +159,54 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLabelRotation(Double)}
 	 */
 	public void setLabelRotation(double labelRotation)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Float getBackgroundAlphaFloat()
+	{
+		return parent.getBackgroundAlphaFloat();
+	}
+	
+	/**
+	 *
+	 */
+	public void setBackgroundAlpha(Float BackgroundAlpha)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Float getForegroundAlphaFloat()
+	{
+		return parent.getForegroundAlphaFloat();
+	}
+	
+	/**
+	 *
+	 */
+	public void setForegroundAlpha(Float foregroundAlpha)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Double getLabelRotationDouble()
+	{
+		return parent.getLabelRotationDouble();
+	}
+	
+	/**
+	 *
+	 */
+	public void setLabelRotation(Double labelRotation)
 	{
 	}
 	

@@ -96,7 +96,7 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 		timeAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = plot.getOwnTimeAxisTickLabelColor();
 		timeAxisTickLabelMask = plot.getTimeAxisTickLabelMask();
-		timeAxisLineColor = plot.getTimeAxisLineColor();
+		timeAxisLineColor = plot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( plot.getValueAxisLabelExpression() );
 		valueAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getValueAxisLabelFont());
@@ -104,7 +104,7 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 		valueAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = plot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = plot.getValueAxisTickLabelMask();
-		valueAxisLineColor = plot.getValueAxisTickLabelColor();
+		valueAxisLineColor = plot.getOwnValueAxisTickLabelColor();
 	}
 	
 	/**
@@ -353,7 +353,7 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
 	private boolean isShowShapes = true;
 	private boolean isShowLines = true;
 
@@ -362,7 +362,7 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	{
 		in.defaultReadObject();
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			showShapes = Boolean.valueOf(isShowShapes);
 			showLines = Boolean.valueOf(isShowLines);

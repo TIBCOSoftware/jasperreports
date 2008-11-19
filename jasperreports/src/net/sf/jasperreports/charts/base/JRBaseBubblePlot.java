@@ -97,7 +97,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		xAxisTickLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getXAxisTickLabelFont());
 		xAxisTickLabelColor = bubblePlot.getOwnXAxisTickLabelColor();
 		xAxisTickLabelMask = bubblePlot.getXAxisTickLabelMask();
-		xAxisLineColor = bubblePlot.getXAxisLineColor();
+		xAxisLineColor = bubblePlot.getOwnXAxisLineColor();
 		
 		yAxisLabelExpression = factory.getExpression( bubblePlot.getYAxisLabelExpression() );
 		yAxisLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getYAxisLabelFont());
@@ -105,7 +105,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		yAxisTickLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getYAxisTickLabelFont());
 		yAxisTickLabelColor = bubblePlot.getOwnYAxisTickLabelColor();
 		yAxisTickLabelMask = bubblePlot.getYAxisTickLabelMask();
-		yAxisLineColor = bubblePlot.getYAxisLineColor();
+		yAxisLineColor = bubblePlot.getOwnYAxisLineColor();
 	}
 	
 	/**

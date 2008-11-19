@@ -97,7 +97,7 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 		categoryAxisTickLabelFont = new JRBaseFont(null, null, linePlot.getChart(), linePlot.getCategoryAxisTickLabelFont());
 		categoryAxisTickLabelColor = linePlot.getOwnCategoryAxisTickLabelColor();
 		categoryAxisTickLabelMask = linePlot.getCategoryAxisTickLabelMask();
-		categoryAxisLineColor = linePlot.getCategoryAxisLineColor();
+		categoryAxisLineColor = linePlot.getOwnCategoryAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( linePlot.getValueAxisLabelExpression() );
 		valueAxisLabelFont = new JRBaseFont(null, null, linePlot.getChart(), linePlot.getValueAxisLabelFont());
@@ -105,7 +105,7 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 		valueAxisTickLabelFont = new JRBaseFont(null, null, linePlot.getChart(), linePlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = linePlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = linePlot.getValueAxisTickLabelMask();
-		valueAxisLineColor = linePlot.getValueAxisLineColor();
+		valueAxisLineColor = linePlot.getOwnValueAxisLineColor();
 	}
 	
 	/**
@@ -354,7 +354,7 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
 	private boolean isShowShapes = true;
 	private boolean isShowLines = true;
 	
@@ -362,7 +362,7 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	{
 		in.defaultReadObject();
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			showShapes = Boolean.valueOf(isShowShapes);
 			showLines = Boolean.valueOf(isShowLines);

@@ -55,14 +55,14 @@ public class JRChartAxisFactory	extends	JRBaseFactory
 
 		String posAttr = atts.getValue(ATTRIBUTE_position);
 		Byte position =	(Byte)JRXmlConstants.getAxisPositionMap().get(posAttr);
-		if (position ==	null)
-		{
-			throw new JRException("Invalid axis	position: "	+ posAttr);
-		}
-		else
-		{
-			axis.setPosition(position.byteValue());
-		}
+//		if (position ==	null)
+//		{
+//			throw new JRException("Invalid axis	position: "	+ posAttr);
+//		}
+//		else
+//		{
+			axis.setPosition(position);
+//		}
 
 		return axis;
 	}

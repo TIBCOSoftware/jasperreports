@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -101,6 +102,7 @@ import org.jfree.chart.plot.MeterPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.ThermometerPlot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer3D;
@@ -140,6 +142,23 @@ public class DefaultChartTheme implements ChartTheme
 	 *
 	 */
 	protected static final Color TRANSPARENT_PAINT = new Color(0, 0, 0, 0);
+	
+	/**
+	 *
+	 */
+	protected static final Color DEFAULT_AXIS_LINE_PAINT = new Color(0, 0, 0, 0);
+	
+	/**
+	 * Specifies whether a chart legend should be visible or no by default.
+	 * It has to be overriden for child themes which don't show chart legends
+	 */
+	protected final boolean DEFAULT_SHOW_lEGEND = true;
+	
+	/**
+	 * Specifies the default axis location.
+	 * It has to be overriden for child themes with another default axis location
+	 */
+	protected final AxisLocation DEFAULT_AXIS_LOCATION = AxisLocation.TOP_OR_LEFT;
 	
 	/**
 	 *
@@ -277,35 +296,92 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot, byte evaluation) throws JRException
 	{
-		if (getChart().getMode() == JRElement.MODE_OPAQUE)
+		configureChart(jfreeChart, 
+				jrPlot, 
+				evaluation,
+				null,
+				RectangleEdge.TOP, 
+				null, 
+				RectangleEdge.BOTTOM,
+				1f,
+				1f,
+				0.0,
+				PlotOrientation.VERTICAL,
+				null);
+	}
+
+	/**
+	 *
+	 */
+	protected void configureChart(
+			JFreeChart jfreeChart, 
+			JRChartPlot jrPlot, 
+			byte evaluation,
+			Paint defaultBackgroundPaint,
+			RectangleEdge defaultTitlePosition,
+			RectangleEdge defaultSubtitlePosition,
+			RectangleEdge defaultLegendPosition,
+			float defaultBackgroundAlpha,
+			float defaultForegroundAlpha,
+			double defaultLabelRotation,
+			PlotOrientation defaultPlotOrientation,
+			Color[] defaultSeriesColors) throws JRException
+	{
+		JRFillChart jrChart = getChart();
+		if (jrChart.getOwnMode() != null)
 		{
-			jfreeChart.setBackgroundPaint(getChart().getBackcolor());
+			if(jrChart.getOwnMode().byteValue() == JRElement.MODE_OPAQUE)
+			{
+				if(jrChart.getOwnBackcolor() == null && defaultBackgroundPaint != null)
+				{
+					jfreeChart.setBackgroundPaint(defaultBackgroundPaint);
+				}
+				else
+				{
+					jfreeChart.setBackgroundPaint(jrChart.getBackcolor());
+				}
+			}
+			else
+			{
+				jfreeChart.setBackgroundPaint(TRANSPARENT_PAINT);
+			}
 		}
 		else
 		{
-			jfreeChart.setBackgroundPaint(TRANSPARENT_PAINT);
+			jfreeChart.setBackgroundPaint(defaultBackgroundPaint != null ? defaultBackgroundPaint : TRANSPARENT_PAINT);
 		}
-
-		RectangleEdge titleEdge = getEdge(getChart().getTitlePosition());
+		
+		RectangleEdge titleEdge = getEdge(jrChart.getTitlePositionByte(), defaultTitlePosition);
 		
 		if (jfreeChart.getTitle() != null)
 		{
 			TextTitle title = jfreeChart.getTitle();
-			title.setPaint(getChart().getTitleColor());
+			title.setPaint(jrChart.getTitleColor());
 
-			title.setFont(new Font(JRFontUtil.getAttributes(getChart().getTitleFont())));
+			title.setFont(new Font(JRFontUtil.getAttributes(jrChart.getTitleFont())));
 			title.setPosition(titleEdge);
 		}
 
-		String subtitleText = (String)evaluateExpression(getChart().getSubtitleExpression(), evaluation);
+		String subtitleText = (String)evaluateExpression(jrChart.getSubtitleExpression(), evaluation);
 		if (subtitleText != null)
 		{
 			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getChart().getSubtitleColor());
+			subtitle.setPaint(jrChart.getSubtitleColor());
 
-			subtitle.setFont(new Font(JRFontUtil.getAttributes(getChart().getSubtitleFont())));
-			subtitle.setPosition(titleEdge);
-
+			subtitle.setFont(new Font(JRFontUtil.getAttributes(jrChart.getSubtitleFont())));
+			
+			//Subtitle has not its own position set, and by default this will be set the same as title position
+			RectangleEdge subtitleEdge = null;
+			if(defaultSubtitlePosition == null)
+			{	
+				subtitleEdge = titleEdge;
+			}
+			else
+			{
+				subtitleEdge = getEdge(null, defaultSubtitlePosition);
+			}
+			
+			subtitle.setPosition(subtitleEdge);
 			jfreeChart.addSubtitle(subtitle);
 		}
 
@@ -313,22 +389,28 @@ public class DefaultChartTheme implements ChartTheme
 		LegendTitle legend = jfreeChart.getLegend();
 		if (legend != null)
 		{
-			legend.setItemPaint(getChart().getLegendColor());
+			legend.setItemPaint(jrChart.getLegendColor());
 
-			if (getChart().getOwnLegendBackgroundColor() == null)// in a way, legend backcolor inheritence from chart is useless
+			if (jrChart.getOwnLegendBackgroundColor() == null)// in a way, legend backcolor inheritence from chart is useless
 			{
 				legend.setBackgroundPaint(TRANSPARENT_PAINT);
 			}
 			else
 			{
-				legend.setBackgroundPaint(getChart().getLegendBackgroundColor());
+				legend.setBackgroundPaint(jrChart.getLegendBackgroundColor());
 			}
 
-			jfreeChart.getLegend().setItemFont(new Font(JRFontUtil.getAttributes(getChart().getLegendFont())));//FIXME put these in JRFontUtil
-			jfreeChart.getLegend().setPosition(getEdge(getChart().getLegendPosition()));
+			legend.setItemFont(new Font(JRFontUtil.getAttributes(jrChart.getLegendFont())));//FIXME put these in JRFontUtil
+			legend.setPosition(getEdge(jrChart.getLegendPositionByte(), defaultLegendPosition));
 		}
-
-		configurePlot(jfreeChart.getPlot(), jrPlot);
+		
+		configurePlot(jfreeChart.getPlot(), 
+				jrPlot,
+				defaultBackgroundAlpha,
+				defaultForegroundAlpha,
+				defaultLabelRotation,
+				defaultPlotOrientation,
+				defaultSeriesColors);
 	}
 
 
@@ -336,6 +418,26 @@ public class DefaultChartTheme implements ChartTheme
 	 *
 	 */
 	protected void configurePlot(Plot p, JRChartPlot jrPlot)
+	{
+		configurePlot(p,
+				jrPlot,
+				1f,
+				1f,
+				0.0,
+				PlotOrientation.VERTICAL,
+				null);
+	}
+
+	/**
+	 *
+	 */
+	protected void configurePlot(Plot p, 
+			JRChartPlot jrPlot,
+			float defaultBackgroundAlpha,
+			float defaultForegroundAlpha,
+			double defaultLabelRotation,
+			PlotOrientation defaultPlotOrientation,
+			Color[] defaultSeriesColors)
 	{
 		p.setOutlinePaint(TRANSPARENT_PAINT);
 
@@ -348,14 +450,16 @@ public class DefaultChartTheme implements ChartTheme
 			p.setBackgroundPaint(getPlot().getBackcolor());
 		}
 
-		p.setBackgroundAlpha(getPlot().getBackgroundAlpha());
-		p.setForegroundAlpha(getPlot().getForegroundAlpha());
+		float backgroundAlpha = getPlot().getBackgroundAlphaFloat() == null ? defaultBackgroundAlpha : getPlot().getBackgroundAlphaFloat().floatValue();
+		float foregroundAlpha = getPlot().getForegroundAlphaFloat() == null ? defaultForegroundAlpha : getPlot().getForegroundAlphaFloat().floatValue();
+		p.setBackgroundAlpha(backgroundAlpha);
+		p.setForegroundAlpha(foregroundAlpha);
 
 		if (p instanceof CategoryPlot)
 		{
 			// Handle rotation of the category labels.
 			CategoryAxis axis = ((CategoryPlot)p).getDomainAxis();
-			double labelRotation = getPlot().getLabelRotation();
+			double labelRotation = getPlot().getLabelRotationDouble() == null ? defaultLabelRotation : getPlot().getLabelRotationDouble().doubleValue();
 			if (labelRotation == 90)
 			{
 				axis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -378,7 +482,7 @@ public class DefaultChartTheme implements ChartTheme
 
 		// Set any color series
 		SortedSet seriesColors = getPlot().getSeriesColors();
-		if (seriesColors != null)
+		if (seriesColors != null && seriesColors.size() > 0)
 		{
 			if (seriesColors.size() == 1)
 			{
@@ -416,6 +520,17 @@ public class DefaultChartTheme implements ChartTheme
 											DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE));
 			}
 		}
+		else if(defaultSeriesColors != null)
+		{
+			p.setDrawingSupplier(new DefaultDrawingSupplier(
+				defaultSeriesColors,
+				DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
+				DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
+				DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
+				DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE
+				)
+			);
+		}
 	}
 
 	/**
@@ -434,62 +549,93 @@ public class DefaultChartTheme implements ChartTheme
 	 * @param lineColor color to use when drawing the axis line and any tick marks
 	 */
 	protected void configureAxis(
-		Axis axis,
-		JRFont labelFont,
-		Color labelColor,
-		JRFont tickLabelFont,
-		Color tickLabelColor,
-		String tickLabelMask,
-		Color lineColor
-		)
+			Axis axis,
+			JRFont labelFont,
+			Color labelColor,
+			JRFont tickLabelFont,
+			Color tickLabelColor,
+			String tickLabelMask,
+			Color lineColor
+			)
 	{
-		axis.setLabelFont(new Font(JRFontUtil.getAttributes(labelFont)));
-		axis.setTickLabelFont(new Font(JRFontUtil.getAttributes(tickLabelFont)));
-
-		if (labelColor != null)
-		{
-			axis.setLabelPaint(labelColor);
-		}
-
-		if (tickLabelColor != null)
-		{
-			axis.setTickLabelPaint(tickLabelColor);
-		}
-
-		if (lineColor != null)
-		{
-			axis.setAxisLinePaint(lineColor);
-			axis.setTickMarkPaint(lineColor);
-		}
-
-		if (tickLabelMask != null)
-		{
-			if (axis instanceof NumberAxis)
-			{
-				NumberFormat fmt = NumberFormat.getInstance();
-				if (fmt instanceof DecimalFormat)
-					((DecimalFormat) fmt).applyPattern(tickLabelMask);
-				((NumberAxis)axis).setNumberFormatOverride(fmt);
-			}
-			else if (axis instanceof DateAxis)
-			{
-				DateFormat fmt = null;
-				if (tickLabelMask.equals("SHORT") || tickLabelMask.equals("DateFormat.SHORT"))
-					fmt = DateFormat.getDateInstance(DateFormat.SHORT);
-				else if (tickLabelMask.equals("MEDIUM") || tickLabelMask.equals("DateFormat.MEDIUM"))
-					fmt = DateFormat.getDateInstance(DateFormat.MEDIUM);
-				else if (tickLabelMask.equals("LONG") || tickLabelMask.equals("DateFormat.LONG"))
-					fmt = DateFormat.getDateInstance(DateFormat.LONG);
-				else if (tickLabelMask.equals("FULL") || tickLabelMask.equals("DateFormat.FULL"))
-					fmt = DateFormat.getDateInstance(DateFormat.FULL);
-				else
-					fmt = new SimpleDateFormat(tickLabelMask);
-
-				((DateAxis)axis).setDateFormatOverride(fmt);
-			}
-			// ignore mask for other axis types.
-		}
+		configureAxis(
+				axis,
+				labelFont,
+				labelColor,
+				tickLabelFont,
+				tickLabelColor,
+				tickLabelMask,
+				lineColor,
+				null
+		);
 	}
+
+	protected void configureAxis(
+			Axis axis,
+			JRFont labelFont,
+			Color labelColor,
+			JRFont tickLabelFont,
+			Color tickLabelColor,
+			String tickLabelMask,
+			Paint linePaint,
+			Paint defaultLinePaint
+			)
+		{
+			axis.setLabelFont(new Font(JRFontUtil.getAttributes(labelFont)));
+			axis.setTickLabelFont(new Font(JRFontUtil.getAttributes(tickLabelFont)));
+			if (labelColor != null)
+			{
+				axis.setLabelPaint(labelColor);
+			}
+
+			if (tickLabelColor != null)
+			{
+				axis.setTickLabelPaint(tickLabelColor);
+			}
+
+			if (linePaint != null)
+			{
+				axis.setAxisLinePaint(linePaint);
+				axis.setTickMarkPaint(linePaint);
+			}
+			else if(defaultLinePaint != null)
+			{
+				axis.setAxisLinePaint(defaultLinePaint);
+				axis.setTickMarkPaint(defaultLinePaint);
+			}
+			else
+			{
+				axis.setAxisLinePaint(DEFAULT_AXIS_LINE_PAINT);
+				axis.setTickMarkPaint(DEFAULT_AXIS_LINE_PAINT);
+			}
+			if (tickLabelMask != null)
+			{
+				if (axis instanceof NumberAxis)
+				{
+					NumberFormat fmt = NumberFormat.getInstance();
+					if (fmt instanceof DecimalFormat)
+						((DecimalFormat) fmt).applyPattern(tickLabelMask);
+					((NumberAxis)axis).setNumberFormatOverride(fmt);
+				}
+				else if (axis instanceof DateAxis)
+				{
+					DateFormat fmt = null;
+					if (tickLabelMask.equals("SHORT") || tickLabelMask.equals("DateFormat.SHORT"))
+						fmt = DateFormat.getDateInstance(DateFormat.SHORT);
+					else if (tickLabelMask.equals("MEDIUM") || tickLabelMask.equals("DateFormat.MEDIUM"))
+						fmt = DateFormat.getDateInstance(DateFormat.MEDIUM);
+					else if (tickLabelMask.equals("LONG") || tickLabelMask.equals("DateFormat.LONG"))
+						fmt = DateFormat.getDateInstance(DateFormat.LONG);
+					else if (tickLabelMask.equals("FULL") || tickLabelMask.equals("DateFormat.FULL"))
+						fmt = DateFormat.getDateInstance(DateFormat.FULL);
+					else
+						fmt = new SimpleDateFormat(tickLabelMask);
+
+					((DateAxis)axis).setDateFormatOverride(fmt);
+				}
+				// ignore mask for other axis types.
+			}
+		}
 
 	/**
 	 *
@@ -503,25 +649,23 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				(CategoryDataset)getDataset().getDataset(),
 				getPlot().getOrientation(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false);
 
 		configureChart(jfreeChart, getPlot(), evaluation);
 		JRFillAreaPlot areaPlot = (JRFillAreaPlot)getPlot();
-
 		// Handle the axis formating for the category axis
 		configureAxis(((CategoryPlot)jfreeChart.getPlot()).getDomainAxis(), areaPlot.getCategoryAxisLabelFont(),
 				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
 				areaPlot.getCategoryAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
-				areaPlot.getCategoryAxisLineColor());
+				areaPlot.getOwnCategoryAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(((CategoryPlot)jfreeChart.getPlot()).getRangeAxis(), areaPlot.getValueAxisLabelFont(),
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
-				areaPlot.getValueAxisLineColor());
-		
+				areaPlot.getOwnValueAxisLineColor());
 		return jfreeChart;
 	}
 
@@ -535,7 +679,7 @@ public class DefaultChartTheme implements ChartTheme
 					(String)evaluateExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 					(CategoryDataset)getDataset().getDataset(),
 					getPlot().getOrientation(),
-					getChart().isShowLegend(),
+					isShowLegend(),
 					true,
 					false );
 
@@ -559,13 +703,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(categoryPlot.getDomainAxis(), bar3DPlot.getCategoryAxisLabelFont(),
 				bar3DPlot.getCategoryAxisLabelColor(), bar3DPlot.getCategoryAxisTickLabelFont(),
 				bar3DPlot.getCategoryAxisTickLabelColor(), bar3DPlot.getCategoryAxisTickLabelMask(),
-				bar3DPlot.getCategoryAxisLineColor());
+				bar3DPlot.getOwnCategoryAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(categoryPlot.getRangeAxis(), bar3DPlot.getValueAxisLabelFont(),
 				bar3DPlot.getValueAxisLabelColor(), bar3DPlot.getValueAxisTickLabelFont(),
 				bar3DPlot.getValueAxisTickLabelColor(), bar3DPlot.getValueAxisTickLabelMask(),
-				bar3DPlot.getValueAxisLineColor());
+				bar3DPlot.getOwnValueAxisLineColor());
 		
 		return jfreeChart;
 	}
@@ -584,7 +728,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				categoryDataset,
 				getPlot().getOrientation(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false
 				);
@@ -604,7 +748,7 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
-				barPlot.getCategoryAxisLineColor());
+				barPlot.getOwnCategoryAxisLineColor());
 
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(isShowTickMarks);
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(isShowTickLabels);
@@ -612,7 +756,7 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(categoryPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
 				barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
-				barPlot.getValueAxisLineColor());
+				barPlot.getOwnValueAxisLineColor());
 
 
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
@@ -631,7 +775,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRBubblePlot)getPlot()).getYAxisLabelExpression(), evaluation),
 				 (XYZDataset)getDataset().getDataset(),
 				 getPlot().getOrientation(),
-				 getChart().isShowLegend(),
+				 isShowLegend(),
 				 true,
 				 false);
 
@@ -647,13 +791,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(xyPlot.getDomainAxis(), bubblePlot.getXAxisLabelFont(),
 				bubblePlot.getXAxisLabelColor(), bubblePlot.getXAxisTickLabelFont(),
 				bubblePlot.getXAxisTickLabelColor(), bubblePlot.getXAxisTickLabelMask(),
-				bubblePlot.getXAxisLineColor());
+				bubblePlot.getOwnXAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), bubblePlot.getYAxisLabelFont(),
 				bubblePlot.getYAxisLabelColor(), bubblePlot.getYAxisTickLabelFont(),
 				bubblePlot.getYAxisTickLabelColor(), bubblePlot.getYAxisTickLabelMask(),
-				bubblePlot.getYAxisLineColor());
+				bubblePlot.getOwnYAxisLineColor());
 		
 		return jfreeChart;
 	}
@@ -672,7 +816,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRCandlestickPlot)getPlot()).getTimeAxisLabelExpression(), evaluation),
 				(String)evaluateExpression(((JRCandlestickPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				(DefaultHighLowDataset)getDataset().getDataset(),
-				getChart().isShowLegend()
+				isShowLegend()
 				);
 
 		configureChart(jfreeChart, getPlot(), evaluation);
@@ -687,13 +831,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(xyPlot.getDomainAxis(), candlestickPlot.getTimeAxisLabelFont(),
 				candlestickPlot.getTimeAxisLabelColor(), candlestickPlot.getTimeAxisTickLabelFont(),
 				candlestickPlot.getTimeAxisTickLabelColor(), candlestickPlot.getTimeAxisTickLabelMask(),
-				candlestickPlot.getTimeAxisLineColor());
+				candlestickPlot.getOwnTimeAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), candlestickPlot.getValueAxisLabelFont(),
 				candlestickPlot.getValueAxisLabelColor(), candlestickPlot.getValueAxisTickLabelFont(),
 				candlestickPlot.getValueAxisTickLabelColor(), candlestickPlot.getValueAxisTickLabelMask(),
-				candlestickPlot.getValueAxisLineColor());
+				candlestickPlot.getOwnValueAxisLineColor());
 
 		return jfreeChart;
 	}
@@ -712,7 +856,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRHighLowPlot)getPlot()).getTimeAxisLabelExpression(), evaluation),
 				(String)evaluateExpression(((JRHighLowPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				(DefaultHighLowDataset)getDataset().getDataset(),
-				getChart().isShowLegend()
+				isShowLegend()
 				);
 
 		configureChart(jfreeChart, getPlot(), evaluation);
@@ -730,13 +874,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(xyPlot.getDomainAxis(), highLowPlot.getTimeAxisLabelFont(),
 				highLowPlot.getTimeAxisLabelColor(), highLowPlot.getTimeAxisTickLabelFont(),
 				highLowPlot.getTimeAxisTickLabelColor(), highLowPlot.getTimeAxisTickLabelMask(),
-				highLowPlot.getTimeAxisLineColor());
+				highLowPlot.getOwnTimeAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), highLowPlot.getValueAxisLabelFont(),
 				highLowPlot.getValueAxisLabelColor(), highLowPlot.getValueAxisTickLabelFont(),
 				highLowPlot.getValueAxisTickLabelColor(), highLowPlot.getValueAxisTickLabelMask(),
-				highLowPlot.getValueAxisLineColor());
+				highLowPlot.getOwnValueAxisLineColor());
 		
 		return jfreeChart;
 	}
@@ -750,7 +894,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRLinePlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				(CategoryDataset)getDataset().getDataset(),
 				getPlot().getOrientation(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false);
 
@@ -772,13 +916,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(categoryPlot.getDomainAxis(), linePlot.getCategoryAxisLabelFont(),
 				linePlot.getCategoryAxisLabelColor(), linePlot.getCategoryAxisTickLabelFont(),
 				linePlot.getCategoryAxisTickLabelColor(), linePlot.getCategoryAxisTickLabelMask(),
-				linePlot.getCategoryAxisLineColor());
+				linePlot.getOwnCategoryAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(categoryPlot.getRangeAxis(), linePlot.getValueAxisLabelFont(),
 				linePlot.getValueAxisLabelColor(), linePlot.getValueAxisTickLabelFont(),
 				linePlot.getValueAxisTickLabelColor(), linePlot.getValueAxisTickLabelMask(),
-				linePlot.getValueAxisLineColor());
+				linePlot.getOwnValueAxisLineColor());
 
 		return chart;
 	}
@@ -793,7 +937,7 @@ public class DefaultChartTheme implements ChartTheme
 			ChartFactory.createPieChart3D(
 				(String)evaluateExpression(getChart().getTitleExpression(), evaluation),
 				(PieDataset)getDataset().getDataset(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false
 				);
@@ -849,7 +993,7 @@ public class DefaultChartTheme implements ChartTheme
 			ChartFactory.createPieChart(
 				(String)evaluateExpression(getChart().getTitleExpression(), evaluation),
 				(PieDataset)getDataset().getDataset(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false
 				);
@@ -901,7 +1045,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRScatterPlot)getPlot()).getYAxisLabelExpression(), evaluation ),
 				(XYDataset)getDataset().getDataset(),
 				getPlot().getOrientation(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false);
 
@@ -919,13 +1063,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), scatterPlot.getXAxisLabelFont(),
 				scatterPlot.getXAxisLabelColor(), scatterPlot.getXAxisTickLabelFont(),
 				scatterPlot.getXAxisTickLabelColor(), scatterPlot.getXAxisTickLabelMask(),
-				scatterPlot.getXAxisLineColor());
+				scatterPlot.getOwnXAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), scatterPlot.getYAxisLabelFont(),
 				scatterPlot.getYAxisLabelColor(), scatterPlot.getYAxisTickLabelFont(),
 				scatterPlot.getYAxisTickLabelColor(), scatterPlot.getYAxisTickLabelMask(),
-				scatterPlot.getYAxisLineColor());
+				scatterPlot.getOwnYAxisLineColor());
 
 		return jfreeChart;
 	}
@@ -943,7 +1087,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				(CategoryDataset)getDataset().getDataset(),
 				getPlot().getOrientation(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false
 				);
@@ -968,13 +1112,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(categoryPlot.getDomainAxis(), bar3DPlot.getCategoryAxisLabelFont(),
 				bar3DPlot.getCategoryAxisLabelColor(), bar3DPlot.getCategoryAxisTickLabelFont(),
 				bar3DPlot.getCategoryAxisTickLabelColor(), bar3DPlot.getCategoryAxisTickLabelMask(),
-				bar3DPlot.getCategoryAxisLineColor());
+				bar3DPlot.getOwnCategoryAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(categoryPlot.getRangeAxis(), bar3DPlot.getValueAxisLabelFont(),
 				bar3DPlot.getValueAxisLabelColor(), bar3DPlot.getValueAxisTickLabelFont(),
 				bar3DPlot.getValueAxisTickLabelColor(), bar3DPlot.getValueAxisTickLabelMask(),
-				bar3DPlot.getValueAxisLineColor());
+				bar3DPlot.getOwnValueAxisLineColor());
 
 		return jfreeChart;
 	}
@@ -992,7 +1136,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				(CategoryDataset)getDataset().getDataset(),
 				getPlot().getOrientation(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false
 				);
@@ -1019,13 +1163,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
-				barPlot.getCategoryAxisLineColor());
+				barPlot.getOwnCategoryAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(categoryPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
 				barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
-				barPlot.getValueAxisLineColor());
+				barPlot.getOwnValueAxisLineColor());
 
 		return jfreeChart;
 	}
@@ -1042,7 +1186,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				(CategoryDataset)getDataset().getDataset(),
 				getPlot().getOrientation(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false
 				);
@@ -1054,13 +1198,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(((CategoryPlot)jfreeChart.getPlot()).getDomainAxis(), areaPlot.getCategoryAxisLabelFont(),
 				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
 				areaPlot.getCategoryAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
-				areaPlot.getCategoryAxisLineColor());
+				areaPlot.getOwnCategoryAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(((CategoryPlot)jfreeChart.getPlot()).getRangeAxis(), areaPlot.getValueAxisLabelFont(),
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
-				areaPlot.getValueAxisLineColor());
+				areaPlot.getOwnValueAxisLineColor());
 
 		((CategoryPlot)jfreeChart.getPlot()).getDomainAxis().setCategoryMargin(0);
 		
@@ -1076,7 +1220,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				(XYDataset)getDataset().getDataset(),
 				getPlot().getOrientation(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false
 				);
@@ -1088,13 +1232,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), areaPlot.getCategoryAxisLabelFont(),
 				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
 				areaPlot.getCategoryAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
-				areaPlot.getCategoryAxisLineColor());
+				areaPlot.getOwnCategoryAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), areaPlot.getValueAxisLabelFont(),
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getValueAxisTickLabelMask(),
-				areaPlot.getValueAxisLineColor());
+				areaPlot.getOwnValueAxisLineColor());
 
 		return jfreeChart;
 	}
@@ -1120,7 +1264,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				tmpDataset,
 				getPlot().getOrientation(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false
 				);
@@ -1163,13 +1307,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(xyPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
-				barPlot.getCategoryAxisLineColor());
+				barPlot.getOwnCategoryAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
 				barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
-				barPlot.getValueAxisLineColor());
+				barPlot.getOwnValueAxisLineColor());
 
 		return jfreeChart;
 	}
@@ -1186,7 +1330,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(linePlot.getValueAxisLabelExpression(), evaluation ),
 				(XYDataset)getDataset().getDataset(),
 				linePlot.getOrientation(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false);
 
@@ -1196,13 +1340,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), linePlot.getCategoryAxisLabelFont(),
 				linePlot.getCategoryAxisLabelColor(), linePlot.getCategoryAxisTickLabelFont(),
 				linePlot.getCategoryAxisTickLabelColor(), linePlot.getCategoryAxisTickLabelMask(),
-				linePlot.getCategoryAxisLineColor());
+				linePlot.getOwnCategoryAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), linePlot.getValueAxisLabelFont(),
 				linePlot.getValueAxisLabelColor(), linePlot.getValueAxisTickLabelFont(),
 				linePlot.getValueAxisTickLabelColor(), linePlot.getValueAxisTickLabelMask(),
-				linePlot.getValueAxisLineColor());
+				linePlot.getOwnValueAxisLineColor());
 
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer) jfreeChart.getXYPlot().getRenderer();
 		boolean isShowShapes = linePlot.getShowShapes() == null ? true : linePlot.getShowShapes().booleanValue();
@@ -1223,7 +1367,7 @@ public class DefaultChartTheme implements ChartTheme
 				timeAxisLabel,
 				valueAxisLabel,
 				(TimeSeriesCollection)getDataset().getDataset(),
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,
 				false );
 
@@ -1243,13 +1387,13 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(xyPlot.getDomainAxis(), timeSeriesPlot.getTimeAxisLabelFont(),
 				timeSeriesPlot.getTimeAxisLabelColor(), timeSeriesPlot.getTimeAxisTickLabelFont(),
 				timeSeriesPlot.getTimeAxisTickLabelColor(), timeSeriesPlot.getTimeAxisTickLabelMask(),
-				timeSeriesPlot.getTimeAxisLineColor());
+				timeSeriesPlot.getOwnTimeAxisLineColor());
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), timeSeriesPlot.getValueAxisLabelFont(),
 				timeSeriesPlot.getValueAxisLabelColor(), timeSeriesPlot.getValueAxisTickLabelFont(),
 				timeSeriesPlot.getValueAxisTickLabelColor(), timeSeriesPlot.getValueAxisTickLabelMask(),
-				timeSeriesPlot.getValueAxisLineColor());
+				timeSeriesPlot.getOwnValueAxisLineColor());
 
 		return jfreeChart;
 	}
@@ -1269,7 +1413,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				ganttCategoryDataset,
-				getChart().isShowLegend(),
+				isShowLegend(),
 				true,  //FIXMECHART tooltip: I guess BarPlot is not the best for gantt
 				false
 				);
@@ -1291,7 +1435,7 @@ public class DefaultChartTheme implements ChartTheme
 			categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
 			barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 			barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
-			barPlot.getCategoryAxisLineColor()
+			barPlot.getOwnCategoryAxisLineColor()
 			);
 		((DateAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(isShowTickMarks);
 		((DateAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(isShowTickLabels);
@@ -1300,7 +1444,7 @@ public class DefaultChartTheme implements ChartTheme
 			categoryPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
 			barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 			barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
-			barPlot.getValueAxisLineColor()
+			barPlot.getOwnValueAxisLineColor()
 			);
 
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
@@ -1350,7 +1494,8 @@ public class DefaultChartTheme implements ChartTheme
 		Color color = interval.getBackgroundColor();
 		float[] components = color.getRGBColorComponents(null);
 
-		Color alphaColor = new Color(components[0], components[1], components[2], (float)interval.getAlpha());
+		float alpha = interval.getAlphaDouble() == null ? (float)JRMeterInterval.DEFAULT_TRANSPARENCY : interval.getAlphaDouble().floatValue();
+		Color alphaColor = new Color(components[0], components[1], components[2], alpha);
 
 		return new MeterInterval(label, range, alphaColor, null, alphaColor);
 	}
@@ -1446,7 +1591,7 @@ public class DefaultChartTheme implements ChartTheme
 				(String)evaluateExpression(getChart().getTitleExpression(), evaluation),
 				null, 
 				chartPlot, 
-				getChart().isShowLegend()
+				isShowLegend()
 				);
 
 		// Set all the generic options
@@ -1555,40 +1700,47 @@ public class DefaultChartTheme implements ChartTheme
 		return jfreeChart;
 	}
 
+	/**
+	 * Specifies the axis location.
+	 * It has to be overriden for child themes with another default axis location
+	 */
 	protected AxisLocation getChartAxisLocation(JRFillChartAxis chartAxis)
 	{
-		return chartAxis.getPosition() == JRChartAxis.POSITION_RIGHT_OR_BOTTOM
+		return chartAxis.getPositionByte() != null && chartAxis.getPositionByte().byteValue() == JRChartAxis.POSITION_RIGHT_OR_BOTTOM
 				? AxisLocation.BOTTOM_OR_RIGHT 
-				: AxisLocation.TOP_OR_LEFT;
+				: DEFAULT_AXIS_LOCATION;
 	}
 	
 	/**
 	 *
 	 */
-	private static RectangleEdge getEdge(byte position)
+	private static RectangleEdge getEdge(Byte position, RectangleEdge defaultPosition)
 	{
-		RectangleEdge edge = RectangleEdge.TOP;
-		switch (position)
+		RectangleEdge edge = defaultPosition;
+		if(position != null)
 		{
-			case JRChart.EDGE_TOP :
+			switch (position.byteValue())
 			{
-				edge = RectangleEdge.TOP;
-				break;
-			}
-			case JRChart.EDGE_BOTTOM :
-			{
-				edge = RectangleEdge.BOTTOM;
-				break;
-			}
-			case JRChart.EDGE_LEFT :
-			{
-				edge = RectangleEdge.LEFT;
-				break;
-			}
-			case JRChart.EDGE_RIGHT :
-			{
-				edge = RectangleEdge.RIGHT;
-				break;
+				case JRChart.EDGE_TOP :
+				{
+					edge = RectangleEdge.TOP;
+					break;
+				}
+				case JRChart.EDGE_BOTTOM :
+				{
+					edge = RectangleEdge.BOTTOM;
+					break;
+				}
+				case JRChart.EDGE_LEFT :
+				{
+					edge = RectangleEdge.LEFT;
+					break;
+				}
+				case JRChart.EDGE_RIGHT :
+				{
+					edge = RectangleEdge.RIGHT;
+					break;
+				}
 			}
 		}
 		return edge;
@@ -1614,4 +1766,13 @@ public class DefaultChartTheme implements ChartTheme
 				return null;
 			}
 		};
+		
+	/**
+	 * Specifies whether a chart legend should be visible or no by default.
+	 * It has to be overriden for child themes which don't show chart legends
+	 */
+	protected boolean isShowLegend()
+	{
+		return getChart().getShowLegend() == null ? DEFAULT_SHOW_lEGEND : getChart().getShowLegend().booleanValue();
+	}
 }

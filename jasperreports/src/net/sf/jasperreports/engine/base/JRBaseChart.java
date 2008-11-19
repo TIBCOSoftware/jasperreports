@@ -31,6 +31,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import org.jfree.chart.renderer.category.BarRenderer3D;
+
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
@@ -119,19 +121,19 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 *
 	 */
-	protected boolean isShowLegend = false;
+	protected Boolean showLegend = null;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	private JRHyperlinkParameter[] hyperlinkParameters;
 	
-	protected byte titlePosition = JRChart.EDGE_TOP;
 	protected Color titleColor = null;
 	protected Color subtitleColor = null;
 	protected Color legendColor = null;
 	protected Color legendBackgroundColor = null;
-	protected byte legendPosition = JRChart.EDGE_BOTTOM;
+	protected Byte legendPositionByte = null;
+	protected Byte titlePositionByte = null;
 
 	protected String renderType;
 	protected String theme;
@@ -277,16 +279,16 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 				throw new JRRuntimeException("Chart type not supported.");
 		}
 
-		isShowLegend = chart.isShowLegend();
+		showLegend = chart.getShowLegend();
 		evaluationTime = chart.getEvaluationTime();
 		linkType = chart.getLinkType();
 		hyperlinkTarget = chart.getHyperlinkTarget();
-		titlePosition = chart.getTitlePosition();
+		titlePositionByte = chart.getTitlePositionByte();
 		titleColor = chart.getOwnTitleColor();
 		subtitleColor = chart.getOwnSubtitleColor();
 		legendColor = chart.getOwnLegendColor();
 		legendBackgroundColor = chart.getOwnLegendBackgroundColor();
-		legendPosition = chart.getLegendPosition();
+		legendPositionByte = chart.getLegendPositionByte();
 		renderType = chart.getRenderType();
 		theme = chart.getTheme();
 		
@@ -312,21 +314,37 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getShowLegend()}
 	 */
 	public boolean isShowLegend()
 	{
-		return this.isShowLegend;
+		return this.showLegend == null ? false : showLegend.booleanValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setShowLegend(Boolean)}
+	 */
+	public void setShowLegend(boolean isShowLegend)
+	{
+		setShowLegend(Boolean.valueOf(isShowLegend));
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getShowLegend()
+	{
+		return this.showLegend;
 	}
 
 	/**
 	 *
 	 */
-	public void setShowLegend(boolean isShowLegend)
+	public void setShowLegend(Boolean isShowLegend)
 	{
-		boolean old = this.isShowLegend;
-		this.isShowLegend = isShowLegend;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_LEGEND, old, this.isShowLegend);
+		Boolean old = this.showLegend;
+		this.showLegend = isShowLegend;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_LEGEND, old, this.showLegend);
 	}
 
 	/**
@@ -370,21 +388,37 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getTitlePositionByte()}
 	 */
 	public byte getTitlePosition()
 	{
-		return titlePosition;
+		return titlePositionByte == null ? JRChart.EDGE_TOP : titlePositionByte.byteValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setTitlePosition(Byte)}
+	 */
+	public void setTitlePosition(byte titlePosition)
+	{
+		setTitlePosition(new Byte(titlePosition));
 	}
 
 	/**
 	 *
 	 */
-	public void setTitlePosition(byte titlePosition)
+	public Byte getTitlePositionByte()
 	{
-		byte old = this.titlePosition;
-		this.titlePosition = titlePosition;
-		getEventSupport().firePropertyChange(PROPERTY_TITLE_POSITION, old, this.titlePosition);
+		return titlePositionByte;
+	}
+
+	/**
+	 *
+	 */
+	public void setTitlePosition(Byte titlePosition)
+	{
+		Byte old = this.titlePositionByte;
+		this.titlePositionByte = titlePosition;
+		getEventSupport().firePropertyChange(PROPERTY_TITLE_POSITION, old, this.titlePositionByte);
 	}
 
 	/**
@@ -483,21 +517,37 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLegendPositionByte()}
 	 */
 	public byte getLegendPosition()
 	{
-		return legendPosition;
+		return legendPositionByte == null? JRChart.EDGE_BOTTOM : legendPositionByte.byteValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setLegendPosition(Byte)}
+	 */
+	public void setLegendPosition(byte legendPosition)
+	{
+		setLegendPosition(new Byte(legendPosition));
 	}
 
 	/**
 	 *
 	 */
-	public void setLegendPosition(byte legendPosition)
+	public Byte getLegendPositionByte()
 	{
-		byte old = this.legendPosition;
-		this.legendPosition = legendPosition;
-		getEventSupport().firePropertyChange(PROPERTY_LEGEND_POSITION, old, this.legendPosition);
+		return legendPositionByte;
+	}
+
+	/**
+	 *
+	 */
+	public void setLegendPosition(Byte legendPosition)
+	{
+		Byte old = this.legendPositionByte;
+		this.legendPositionByte = legendPosition;
+		getEventSupport().firePropertyChange(PROPERTY_LEGEND_POSITION, old, this.legendPositionByte);
 	}
 
 	/**
@@ -1195,6 +1245,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1210,6 +1261,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
+	protected boolean isShowLegend = false;
+	protected byte legendPosition = JRChart.EDGE_BOTTOM;
+	protected byte titlePosition = JRChart.EDGE_TOP;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1254,5 +1308,12 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		}
 
 		normalizeLinkType();
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
+		{
+			showLegend = Boolean.valueOf(isShowLegend);
+			legendPositionByte = new Byte(legendPosition);
+			titlePositionByte = new Byte(titlePosition);
+		}
 	}
+	
 }

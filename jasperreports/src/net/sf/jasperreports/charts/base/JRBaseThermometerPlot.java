@@ -261,7 +261,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
 	private boolean showValueLines = false;
 	private byte valueLocation = JRThermometerPlot.LOCATION_BULB;
 
@@ -270,7 +270,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	{
 		in.defaultReadObject();
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			showValueLinesBoolean = Boolean.valueOf(showValueLines);
 			valueLocationByte = new Byte(valueLocation);

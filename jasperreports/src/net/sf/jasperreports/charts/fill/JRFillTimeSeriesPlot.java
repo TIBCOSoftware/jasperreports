@@ -70,13 +70,13 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 		timeAxisLabelColor = plot.getOwnTimeAxisLabelColor();
 		timeAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = plot.getOwnTimeAxisTickLabelColor();
-		timeAxisLineColor = plot.getTimeAxisLineColor();
+		timeAxisLineColor = plot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getValueAxisLabelFont());
 		valueAxisLabelColor = plot.getOwnValueAxisLabelColor();
 		valueAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = plot.getOwnValueAxisTickLabelColor();
-		valueAxisLineColor = plot.getValueAxisTickLabelColor();
+		valueAxisLineColor = plot.getOwnValueAxisTickLabelColor();
 	}
 	
 	/**

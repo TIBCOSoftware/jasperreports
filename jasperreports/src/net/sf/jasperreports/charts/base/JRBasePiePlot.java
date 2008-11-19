@@ -154,7 +154,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
 	private boolean isCircular = true;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
@@ -167,7 +167,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		labelFormat = (String)fields.get("labelFormat", null);
 		legendLabelFormat = (String)fields.get("legendLabelFormat", null);
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			circular = Boolean.valueOf(isCircular);
 		}

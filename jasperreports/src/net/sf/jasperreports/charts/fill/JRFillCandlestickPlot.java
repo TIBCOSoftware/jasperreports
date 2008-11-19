@@ -75,13 +75,13 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 		timeAxisLabelColor = candlestickPlot.getOwnTimeAxisLabelColor();
 		timeAxisTickLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = candlestickPlot.getOwnTimeAxisTickLabelColor();
-		timeAxisLineColor = candlestickPlot.getTimeAxisLineColor();
+		timeAxisLineColor = candlestickPlot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = candlestickPlot.getOwnValueAxisLabelColor();
 		valueAxisTickLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = candlestickPlot.getOwnValueAxisTickLabelColor();
-		valueAxisLineColor = candlestickPlot.getValueAxisTickLabelColor();
+		valueAxisLineColor = candlestickPlot.getOwnValueAxisTickLabelColor();
 	}
 
 	/**

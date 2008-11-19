@@ -54,13 +54,17 @@ public interface JRChartAxis
 	 */
 	public static final byte POSITION_RIGHT_OR_BOTTOM = 2;
 
+	/**
+	 * @deprecated Replaced by {@link #getPositionByte()}
+	 */
+	public byte getPosition();
 
 	/**
 	 * Returns the position of this axis.
 	 *
 	 * @return the position of this axis
 	 */
-	public byte getPosition();
+	public Byte getPositionByte();
 
 
 	/**

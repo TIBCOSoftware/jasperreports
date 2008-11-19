@@ -397,7 +397,7 @@
 
 <!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?, chartLegend?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
 <!ATTLIST chart
-	isShowLegend (true | false) "true"
+	isShowLegend (true | false) #IMPLIED
 	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
 	evaluationGroup CDATA #IMPLIED
 	hyperlinkType CDATA "None"
@@ -408,7 +408,7 @@
 >
 <!ELEMENT chartTitle (font?, titleExpression?)>
 <!ATTLIST chartTitle
-	position (Top | Bottom | Left | Right) "Top"
+	position (Top | Bottom | Left | Right) #IMPLIED
 	color CDATA #IMPLIED
 >
 <!ELEMENT titleExpression (#PCDATA)>
@@ -421,7 +421,7 @@
 <!ATTLIST chartLegend
 	textColor CDATA #IMPLIED
 	backgroundColor CDATA #IMPLIED
-	position (Top | Bottom | Left | Right) "Bottom"
+	position (Top | Bottom | Left | Right) #IMPLIED
 >
 
 <!ELEMENT pieChart (chart, pieDataset, piePlot)>
@@ -438,7 +438,7 @@
 
 <!ELEMENT piePlot (plot)>
 <!ATTLIST piePlot
-	isCircular (true | false) "true"
+	isCircular (true | false) #IMPLIED
 >
 
 <!ELEMENT dataset (incrementWhenExpression?, datasetRun?)>
@@ -466,10 +466,10 @@
 <!ELEMENT plot (seriesColor*) >
 <!ATTLIST plot
 	backcolor CDATA #IMPLIED
-	orientation (Horizontal | Vertical) "Vertical"
-	backgroundAlpha NMTOKEN "1"
-	foregroundAlpha NMTOKEN "1"
-	labelRotation CDATA "0.0"
+	orientation (Horizontal | Vertical) #IMPLIED
+	backgroundAlpha NMTOKEN #IMPLIED
+	foregroundAlpha NMTOKEN #IMPLIED
+	labelRotation CDATA #IMPLIED
 >
 
 <!ELEMENT seriesColor EMPTY>
@@ -481,8 +481,8 @@
 <!ELEMENT pie3DChart (chart, pieDataset, pie3DPlot)>
 <!ELEMENT pie3DPlot (plot)>
 <!ATTLIST pie3DPlot
-	depthFactor CDATA "0.2"
-	isCircular (true | false) "false"
+	depthFactor CDATA  #IMPLIED
+	isCircular (true | false) #IMPLIED
 >
 
 <!ELEMENT barChart (chart, categoryDataset, barPlot)>
@@ -499,9 +499,9 @@
 
 <!ELEMENT barPlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST barPlot
-	isShowLabels (true | false ) "false"
-	isShowTickMarks (true | false) "true"
-	isShowTickLabels (true | false) "true"
+	isShowLabels (true | false ) #IMPLIED
+	isShowTickMarks (true | false) #IMPLIED
+	isShowTickLabels (true | false) #IMPLIED
 >
 <!ELEMENT categoryAxisLabelExpression (#PCDATA)>
 <!ELEMENT valueAxisLabelExpression (#PCDATA)>
@@ -541,8 +541,8 @@
 <!ELEMENT lineChart (chart, categoryDataset, linePlot)>
 <!ELEMENT linePlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST linePlot
-	isShowLines (true | false) "true"
-	isShowShapes (true | false) "true"
+	isShowLines (true | false) #IMPLIED
+	isShowShapes (true | false) #IMPLIED
 >
 
 <!ELEMENT xyLineChart (chart, xyDataset, linePlot)>
@@ -559,8 +559,8 @@
 <!ELEMENT scatterChart (chart, xyDataset, scatterPlot)>
 <!ELEMENT scatterPlot (plot, xAxisLabelExpression?, xAxisFormat?, yAxisLabelExpression?, yAxisFormat?)>
 <!ATTLIST scatterPlot
-	isShowLines (true | false) "true"
-	isShowShapes (true | false) "true"
+	isShowLines (true | false) #IMPLIED
+	isShowShapes (true | false) #IMPLIED
 >
 <!ELEMENT xAxisLabelExpression (#PCDATA)>
 <!ELEMENT yAxisLabelExpression (#PCDATA)>
@@ -572,7 +572,7 @@
 <!ELEMENT xyzSeries (seriesExpression?, xValueExpression?, yValueExpression?, zValueExpression?, itemHyperlink?)>
 <!ELEMENT bubblePlot (plot, xAxisLabelExpression?, xAxisFormat?, yAxisLabelExpression?, yAxisFormat?)>
 <!ATTLIST bubblePlot
-	scaleType (BothAxes | DomainAxis | RangeAxis) "RangeAxis"
+	scaleType (BothAxes | DomainAxis | RangeAxis) #IMPLIED
 >
 <!ELEMENT zValueExpression (#PCDATA)>
 
@@ -586,8 +586,8 @@
 <!ELEMENT timeSeriesChart (chart, timeSeriesDataset, timeSeriesPlot)>
 <!ELEMENT timeSeriesPlot (plot, timeAxisLabelExpression?, timeAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST timeSeriesPlot
-	isShowLines (true | false) "true"
-	isShowShapes (true | false) "true"
+	isShowLines (true | false) #IMPLIED
+	isShowShapes (true | false) #IMPLIED
 >
 <!ELEMENT timeAxisLabelExpression (#PCDATA)>
 <!ELEMENT timeAxisFormat (axisFormat)>
@@ -596,8 +596,8 @@
 <!ELEMENT highLowDataset (dataset?, seriesExpression?, dateExpression?, highExpression?, lowExpression?, openExpression?, closeExpression?, volumeExpression?, itemHyperlink?)>
 <!ELEMENT highLowPlot (plot, timeAxisLabelExpression?, timeAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST highLowPlot
-	isShowCloseTicks (true | false) "true"
-	isShowOpenTicks (true | false) "true"
+	isShowCloseTicks (true | false) #IMPLIED
+	isShowOpenTicks (true | false) #IMPLIED
 >
 <!ELEMENT dateExpression (#PCDATA)>
 <!ELEMENT highExpression (#PCDATA)>
@@ -609,17 +609,17 @@
 <!ELEMENT candlestickChart (chart, highLowDataset, candlestickPlot)>
 <!ELEMENT candlestickPlot (plot, timeAxisLabelExpression?, timeAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST candlestickPlot
-	isShowVolume (true | false) "true"
+	isShowVolume (true | false) #IMPLIED
 >
 
 <!ELEMENT meterChart (chart, valueDataset, meterPlot)>
 <!ELEMENT valueDataset (dataset?, valueExpression )>
 <!ELEMENT meterPlot (plot, valueDisplay?, dataRange, meterInterval*)>
 <!ATTLIST meterPlot
-	shape (chord | circle | pie) "pie"
-	angle CDATA "180"
+	shape (chord | circle | pie) #IMPLIED
+	angle CDATA #IMPLIED
 	units CDATA #IMPLIED
-	tickInterval CDATA "10.0"
+	tickInterval CDATA #IMPLIED
 	meterColor CDATA #IMPLIED
 	needleColor CDATA #IMPLIED
 	tickColor CDATA #IMPLIED
@@ -637,14 +637,14 @@
 <!ATTLIST meterInterval
 	label CDATA #IMPLIED
 	color CDATA #IMPLIED
-	alpha CDATA "1.0"
+	alpha CDATA #IMPLIED
 >
 
 <!ELEMENT thermometerChart (chart, valueDataset, thermometerPlot)>
 <!ELEMENT thermometerPlot (plot, valueDisplay?, dataRange, lowRange?, mediumRange?, highRange?)>
 <!ATTLIST thermometerPlot
 	valueLocation ( none | left | right | bulb ) "bulb"
-	isShowValueLines ( true | false) "false"
+	isShowValueLines ( true | false) #IMPLIED
 	mercuryColor CDATA #IMPLIED
 >
 
@@ -657,7 +657,7 @@
 <!ELEMENT multiAxisPlot (plot, axis+)>
 <!ELEMENT axis (barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | stackedAreaChart | ganttChart)>
 <!ATTLIST axis
-	position (leftOrTop | rightOrBottom) "leftOrTop"
+	position (leftOrTop | rightOrBottom) #IMPLIED
 >
 
 <!ELEMENT ganttChart (chart, ganttDataset, barPlot)>

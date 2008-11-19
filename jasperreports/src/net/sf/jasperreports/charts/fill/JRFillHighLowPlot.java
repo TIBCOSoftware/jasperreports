@@ -75,13 +75,13 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 		timeAxisLabelColor = highLowPlot.getOwnTimeAxisLabelColor();
 		timeAxisTickLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = highLowPlot.getOwnTimeAxisTickLabelColor();
-		timeAxisLineColor = highLowPlot.getTimeAxisLineColor();
+		timeAxisLineColor = highLowPlot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = highLowPlot.getOwnValueAxisLabelColor();
 		valueAxisTickLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = highLowPlot.getOwnValueAxisTickLabelColor();
-		valueAxisLineColor = highLowPlot.getValueAxisTickLabelColor();
+		valueAxisLineColor = highLowPlot.getOwnValueAxisTickLabelColor();
 	}
 
 	/**

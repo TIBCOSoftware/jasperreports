@@ -111,7 +111,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		categoryAxisTickLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getCategoryAxisTickLabelFont());
 		categoryAxisTickLabelColor = barPlot.getOwnCategoryAxisTickLabelColor();
 		categoryAxisTickLabelMask = barPlot.getCategoryAxisTickLabelMask();
-		categoryAxisLineColor = barPlot.getCategoryAxisLineColor();
+		categoryAxisLineColor = barPlot.getOwnCategoryAxisLineColor();
 
 		valueAxisLabelExpression = factory.getExpression( barPlot.getValueAxisLabelExpression() );
 		valueAxisLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getValueAxisLabelFont());
@@ -119,7 +119,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		valueAxisTickLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = barPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = barPlot.getValueAxisTickLabelMask();
-		valueAxisLineColor = barPlot.getValueAxisLineColor();
+		valueAxisLineColor = barPlot.getOwnValueAxisLineColor();
 	}
 
 	/**

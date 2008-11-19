@@ -115,14 +115,24 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	public static final String RENDER_TYPE_SVG = "svg";
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getShowLegend()}
 	 */
 	public boolean isShowLegend();
 
 	/**
-	 *
+	 * 
+	 */
+	public Boolean getShowLegend();
+
+	/**
+	 * @deprecated Replaced by {@link #setShowLegend(Boolean)}
 	 */
 	public void setShowLegend(boolean isShowLegend);
+
+	/**
+	 *
+	 */
+	public void setShowLegend(Boolean isShowLegend);
 
 	/**
 	 * Returns the evaluation time for this chart.
@@ -153,15 +163,26 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 
 
 	/**
-	 * Gets the title position relative to the chart.
+	 * @deprecated Replaced by {@link #getTitlePositionByte()}
 	 */
 	public byte getTitlePosition();
 
 
 	/**
-	 * Sets the title position relative to the chart.
+	 * @deprecated Replaced by {@link #setTitlePosition(Byte)}
 	 */
 	public void setTitlePosition(byte titlePosition);
+	
+	/**
+	 * Gets the title position relative to the chart.
+	 */
+	public Byte getTitlePositionByte();
+
+
+	/**
+	 * Sets the title position relative to the chart.
+	 */
+	public void setTitlePosition(Byte titlePosition);
 	
 
 	/**
@@ -246,15 +267,26 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	public JRFont getLegendFont();
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLegendPositionByte()}
 	 */
 	public byte getLegendPosition();
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLegendPosition(Byte)}
 	 */
 	public void setLegendPosition(byte legendPosition);
+	
+	/**
+	 *
+	 */
+	public Byte getLegendPositionByte();
+
+
+	/**
+	 *
+	 */
+	public void setLegendPosition(Byte legendPosition);
 	
 
 	/**
