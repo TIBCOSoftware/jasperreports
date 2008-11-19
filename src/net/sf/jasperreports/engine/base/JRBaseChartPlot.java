@@ -28,6 +28,8 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
@@ -40,6 +42,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -73,9 +76,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	protected JRChart chart = null;
 	protected Color backcolor = null;
 	protected PlotOrientation orientation = PlotOrientation.VERTICAL;
-	protected float backgroundAlpha = 1;
-	protected float foregroundAlpha = 1;
-	protected double labelRotation = 0.0;
+	protected Float backgroundAlphaFloat = null;
+	protected Float foregroundAlphaFloat = null;
+	protected Double labelRotationDouble = null;
 	protected SortedSet  seriesColors = null;
 
 
@@ -90,9 +93,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		{
 			backcolor = plot.getOwnBackcolor();
 			orientation = plot.getOrientation();
-			backgroundAlpha = plot.getBackgroundAlpha();
-			foregroundAlpha = plot.getForegroundAlpha();
-			labelRotation = plot.getLabelRotation();
+			backgroundAlphaFloat = plot.getBackgroundAlphaFloat();
+			foregroundAlphaFloat = plot.getForegroundAlphaFloat();
+			labelRotationDouble = plot.getLabelRotationDouble();
 			seriesColors = new TreeSet(plot.getSeriesColors());
 		}
 		else
@@ -113,9 +116,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 
 		backcolor = plot.getOwnBackcolor();
 		orientation = plot.getOrientation();
-		backgroundAlpha = plot.getBackgroundAlpha();
-		foregroundAlpha = plot.getForegroundAlpha();
-		labelRotation = plot.getLabelRotation();
+		backgroundAlphaFloat = plot.getBackgroundAlphaFloat();
+		foregroundAlphaFloat = plot.getForegroundAlphaFloat();
+		labelRotationDouble = plot.getLabelRotationDouble();
 		seriesColors = new TreeSet(plot.getSeriesColors());
 	}
 
@@ -173,39 +176,87 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getBackgroundAlphaFloat()}
 	 */
 	public float getBackgroundAlpha()
 	{
-		return backgroundAlpha;
+		return backgroundAlphaFloat == null ? 1f : backgroundAlphaFloat.floatValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setBackgroundAlpha(Float)}
 	 */
 	public void setBackgroundAlpha(float backgroundAlpha)
 	{
-		float old = this.backgroundAlpha;
-		this.backgroundAlpha = backgroundAlpha;
-		getEventSupport().firePropertyChange(PROPERTY_BACKGROUND_ALPHA, old, this.backgroundAlpha);
+		setBackgroundAlpha(new Float(backgroundAlpha));
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getForegroundAlphaFloat()}
 	 */
 	public float getForegroundAlpha()
 	{
-		return foregroundAlpha;
+		return foregroundAlphaFloat == null ? 1f : foregroundAlphaFloat.floatValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setForegroundAlpha(Float)}
+	 */
+	public void setForegroundAlpha(float foregroundAlpha)
+	{
+		setForegroundAlpha(new Float(foregroundAlpha));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getLabelRotationDouble()}
+	 */
+	public double getLabelRotation()
+	{
+		return labelRotationDouble == null ? 0d : labelRotationDouble.doubleValue();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setLabelRotation(Double)}
+	 */
+	public void setLabelRotation(double labelRotation)
+	{
+		setLabelRotation(new Double(labelRotation));
+	}
+	
+	/**
+	 *
+	 */
+	public Float getBackgroundAlphaFloat()
+	{
+		return backgroundAlphaFloat;
 	}
 
 	/**
 	 *
 	 */
-	public void setForegroundAlpha(float foregroundAlpha)
+	public void setBackgroundAlpha(Float backgroundAlpha)
 	{
-		float old = this.foregroundAlpha;
-		this.foregroundAlpha = foregroundAlpha;
-		getEventSupport().firePropertyChange(PROPERTY_FOREGROUND_ALPHA, old, this.foregroundAlpha);
+		Float old = this.backgroundAlphaFloat;
+		this.backgroundAlphaFloat = backgroundAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_BACKGROUND_ALPHA, old, this.backgroundAlphaFloat);
+	}
+
+	/**
+	 *
+	 */
+	public Float getForegroundAlphaFloat()
+	{
+		return foregroundAlphaFloat;
+	}
+
+	/**
+	 *
+	 */
+	public void setForegroundAlpha(Float foregroundAlpha)
+	{
+		Float old = this.foregroundAlphaFloat;
+		this.foregroundAlphaFloat = foregroundAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_FOREGROUND_ALPHA, old, this.foregroundAlphaFloat);
 	}
 
 	/**
@@ -213,9 +264,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
 	 * use a category based axis (such as line or bar charts) support label rotation.
 	 */
-	public double getLabelRotation()
+	public Double getLabelRotationDouble()
 	{
-		return labelRotation;
+		return labelRotationDouble;
 	}
 	
 	/**
@@ -223,11 +274,11 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
 	 * use a category based axis (such as line or bar charts) support label rotation.
 	 */
-	public void setLabelRotation(double labelRotation)
+	public void setLabelRotation(Double labelRotation)
 	{
-		double old = this.labelRotation;
-		this.labelRotation = labelRotation;
-		getEventSupport().firePropertyChange(PROPERTY_LABEL_ROTATION, old, this.labelRotation);
+		Double old = this.labelRotationDouble;
+		this.labelRotationDouble = labelRotation;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_ROTATION, old, this.labelRotationDouble);
 	}
 	
 	
@@ -369,4 +420,24 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		
 		return eventSupport;
 	}
+	
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
+	private float backgroundAlpha = 1;
+	private float foregroundAlpha = 1;
+	private double labelRotation = 0.0;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
+		{
+			backgroundAlphaFloat = new Float(backgroundAlpha);
+			foregroundAlphaFloat = new Float(foregroundAlpha);
+			labelRotationDouble = new Double(labelRotation);
+		}
+	}
+	
 }

@@ -131,17 +131,15 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	protected boolean isShowLegend = false;
+	protected Boolean showLegend = null;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
-	protected byte titlePosition = JRChart.EDGE_TOP;
 	protected Color titleColor = null;
 	protected Color subtitleColor = null;
 	protected Color legendColor = null;
 	protected Color legendBackgroundColor = null;
-	protected byte legendPosition = JRChart.EDGE_BOTTOM;
 	protected String renderType;
 	protected String theme;
 
@@ -151,6 +149,8 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected JRFont titleFont = null;
 	protected JRFont subtitleFont = null;
 	protected JRFont legendFont = null;
+	protected Byte legendPositionByte = null;
+	protected Byte titlePositionByte = null;
 
 	protected String customizerClass;
 
@@ -196,25 +196,41 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		lineBox = new JRBaseLineBox(this);
 	}
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getShowLegend()}
 	 */
 	public boolean isShowLegend()
 	{
-		return isShowLegend;
+		return this.showLegend == null ? false : showLegend.booleanValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setShowLegend(Boolean)}
+	 */
+	public void setShowLegend(boolean isShowLegend)
+	{
+		setShowLegend(Boolean.valueOf(isShowLegend));
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getShowLegend()
+	{
+		return this.showLegend;
 	}
 
 	/**
 	 *
 	 */
-	public void setShowLegend(boolean isShowLegend)
+	public void setShowLegend(Boolean isShowLegend)
 	{
-		boolean old = this.isShowLegend;
-		this.isShowLegend = isShowLegend;
-		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_SHOW_LEGEND, old, this.isShowLegend);
+		Boolean old = this.showLegend;
+		this.showLegend = isShowLegend;
+		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_SHOW_LEGEND, old, this.showLegend);
 	}
 
+	
 	/**
 	 *
 	 */
@@ -330,11 +346,11 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLegendPositionByte()}
 	 */
 	public byte getTitlePosition()
 	{
-		return titlePosition;
+		return titlePositionByte == null ? JRChart.EDGE_TOP : titlePositionByte.byteValue();
 	}
 
 	/**
@@ -342,9 +358,25 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public void setTitlePosition(byte titlePosition)
 	{
-		byte old = this.titlePosition;
-		this.titlePosition = titlePosition;
-		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_TITLE_POSITION, old, this.titlePosition);
+		setTitlePosition(new Byte(titlePosition));
+	}
+
+	/**
+	 *
+	 */
+	public Byte getTitlePositionByte()
+	{
+		return titlePositionByte;
+	}
+
+	/**
+	 *
+	 */
+	public void setTitlePosition(Byte titlePosition)
+	{
+		Byte old = this.titlePositionByte;
+		this.titlePositionByte = titlePosition;
+		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_TITLE_POSITION, old, this.titlePositionByte);
 	}
 
 	/**
@@ -488,21 +520,37 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLegendPositionByte()}
 	 */
 	public byte getLegendPosition()
 	{
-		return legendPosition;
+		return legendPositionByte == null ? JRChart.EDGE_BOTTOM : legendPositionByte.byteValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setLegendPosition(Byte)}
+	 */
+	public void setLegendPosition(byte legendPosition)
+	{
+		setLegendPosition(new Byte(legendPosition));
 	}
 
 	/**
 	 *
 	 */
-	public void setLegendPosition(byte legendPosition)
+	public Byte getLegendPositionByte()
 	{
-		byte old = this.legendPosition;
-		this.legendPosition = legendPosition;
-		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_LEGEND_POSITION, old, this.legendPosition);
+		return legendPositionByte;
+	}
+
+	/**
+	 *
+	 */
+	public void setLegendPosition(Byte legendPosition)
+	{
+		Byte old = this.legendPositionByte;
+		this.legendPositionByte = legendPosition;
+		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_LEGEND_POSITION, old, this.legendPositionByte);
 	}
 
 	/**
@@ -1517,6 +1565,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1532,6 +1581,9 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
+	protected boolean isShowLegend = false;
+	protected byte titlePosition = JRChart.EDGE_TOP;
+	protected byte legendPosition = JRChart.EDGE_BOTTOM;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1576,5 +1628,11 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		}
 
 		normalizeLinkType();
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
+		{
+			showLegend = Boolean.valueOf(isShowLegend);
+			legendPositionByte = new Byte(legendPosition);
+			titlePositionByte = new Byte(titlePosition);
+		}
 	}
 }

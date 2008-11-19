@@ -80,44 +80,74 @@ public interface JRChartPlot
 	public void setOrientation(PlotOrientation orientation);
 
 	/**
+	 * @deprecated Replaced by {@link #getBackgroundAlphaFloat()}
+	 */
+	public float getBackgroundAlpha();
+	
+	/**
+	 * @deprecated Replaced by {@link #setBackgroundAlpha(Float)}
+	 */
+	public void setBackgroundAlpha(float backgroundAlpha);
+
+	/**
+	 * @deprecated Replaced by {@link #getForegroundAlphaFloat()}
+	 */
+	public float getForegroundAlpha();
+	
+	/**
+	 * @deprecated Replaced by {@link #setForegroundAlpha(Float)}
+	 */
+	public void setForegroundAlpha(float foregroundAlpha);
+
+	/**
+	 * @deprecated Replaced by {@link #getLabelRotationDouble()}
+	 */
+	public double getLabelRotation();
+	
+	/**
+	 * @deprecated Replaced by {@link #setLabelRotation(Double)}
+	 */
+	public void setLabelRotation(double labelRotation);
+	
+	/**
 	 * Gets the transparency factor for this plot background. The range is from 0 to 1, where 0 means transparent and 1
 	 * opaque. The default is 1.
 	 * @return a float value between 0 and 1.
 	 */
-	public float getBackgroundAlpha();
+	public Float getBackgroundAlphaFloat();
 	
 	/**
 	 * Sets the transparency factor for this plot background. The range is from 0 to 1, where 0 means transparent and 1
 	 * opaque. The default is 1.
 	 */
-	public void setBackgroundAlpha(float backgroundAlpha);
+	public void setBackgroundAlpha(Float backgroundAlpha);
 
 	/**
 	 * Gets the transparency factor for this plot foreground. The range is from 0 to 1, where 0 means transparent and 1
 	 * opaque. The default is 1.
 	 * @return a float value between 0 and 1.
 	 */
-	public float getForegroundAlpha();
+	public Float getForegroundAlphaFloat();
 	
 	/**
 	 * Sets the transparency factor for this plot foreground. The range is from 0 to 1, where 0 means transparent and 1
 	 * opaque. The default is 1.
 	 */
-	public void setForegroundAlpha(float foregroundAlpha);
+	public void setForegroundAlpha(Float foregroundAlpha);
 
 	/**
 	 * Gets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
 	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
 	 * use a category based axis (such as line or bar charts) support label rotation.
 	 */
-	public double getLabelRotation();
+	public Double getLabelRotationDouble();
 	
 	/**
 	 * Sets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
 	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
 	 * use a category based axis (such as line or bar charts) support label rotation.
 	 */
-	public void setLabelRotation(double labelRotation);
+	public void setLabelRotation(Double labelRotation);
 	
 	/**
 	 * Returns a list of all the defined series colors.  Every entry in the list is of type JRChartPlot.JRSeriesColor.

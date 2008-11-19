@@ -1025,7 +1025,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeChart(JRChart chart) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_chart);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLegend, chart.isShowLegend(), true);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLegend, chart.getShowLegend());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, chart.getEvaluationTime(), JRXmlConstants.getEvaluationTimeMap(), JRExpression.EVALUATION_TIME_NOW);
 
 		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
@@ -1045,7 +1045,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		// write title
 		writer.startElement(JRXmlConstants.ELEMENT_chartTitle);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getTitlePosition(), JRXmlConstants.getChartEdgeMap(), JRChart.EDGE_TOP);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getTitlePositionByte());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, chart.getOwnTitleColor());
 		writeFont(chart.getTitleFont());
 		if (chart.getTitleExpression() != null)
@@ -1070,7 +1070,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_textColor, chart.getOwnLegendColor());
 		if (chart.getOwnLegendBackgroundColor() != null)
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundColor, chart.getOwnLegendBackgroundColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getLegendPosition(), JRXmlConstants.getChartEdgeMap(), JRChart.EDGE_BOTTOM);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getLegendPositionByte());
 		writeFont(chart.getLegendFont());
 		writer.closeElement();
 
@@ -1447,7 +1447,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_label, interval.getLabel());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, interval.getBackgroundColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_alpha, interval.getAlpha());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_alpha, interval.getAlphaDouble());
 
 		writeDataRange(interval.getDataRange());
 
@@ -1484,8 +1484,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeChartAxis(JRChartAxis chartAxis) throws IOException
 	{
 		writer.startElement(JRChartAxisFactory.ELEMENT_axis);
-		writer.addAttribute(JRChartAxisFactory.ATTRIBUTE_position, chartAxis.getPosition(),
-							JRXmlConstants.getAxisPositionMap(), JRChartAxis.POSITION_LEFT_OR_TOP);
+		writer.addAttribute(JRChartAxisFactory.ATTRIBUTE_position, chartAxis.getPositionByte());
 
 		// Let the nested chart describe itself
 		writeChartTag(chartAxis.getChart());
@@ -1500,10 +1499,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_plot);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, plot.getOwnBackcolor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, plot.getOrientation(), JRXmlConstants.getPlotOrientationMap(), PlotOrientation.VERTICAL);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundAlpha, plot.getBackgroundAlpha(), 1.0f);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_foregroundAlpha, plot.getForegroundAlpha(), 1.0f);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelRotation, plot.getLabelRotation(), 0.0);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, plot.getOrientation());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundAlpha, plot.getBackgroundAlphaFloat());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_foregroundAlpha, plot.getForegroundAlphaFloat());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelRotation, plot.getLabelRotationDouble());
 		writeSeriesColors(plot.getSeriesColors());
 
 		writer.closeElement();

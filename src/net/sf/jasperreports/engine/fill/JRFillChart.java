@@ -333,7 +333,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getShowLegend()}
 	 */
 	public boolean isShowLegend()
 	{
@@ -341,9 +341,24 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #isShowLegend(Boolean)}
 	 */
 	public void setShowLegend(boolean isShowLegend)
+	{
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getShowLegend()
+	{
+		return ((JRChart)parent).getShowLegend();
+	}
+
+	/**
+	 *
+	 */
+	public void setShowLegend(Boolean isShowLegend)
 	{
 	}
 
@@ -858,7 +873,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getTitlePositionByte()}
 	 */
 	public byte getTitlePosition()
 	{
@@ -866,9 +881,24 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setTitlePosition(Byte)}
 	 */
 	public void setTitlePosition(byte titlePosition)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Byte getTitlePositionByte()
+	{
+		return ((JRChart)parent).getTitlePositionByte();
+	}
+
+	/**
+	 *
+	 */
+	public void setTitlePosition(Byte titlePosition)
 	{
 	}
 
@@ -995,7 +1025,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLegendPositionByte()}
 	 */
 	public byte getLegendPosition()
 	{
@@ -1003,9 +1033,24 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLegendPosition(Byte)}
 	 */
 	public void setLegendPosition(byte legendPosition)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Byte getLegendPositionByte()
+	{
+		return ((JRChart)parent).getLegendPositionByte();
+	}
+
+	/**
+	 *
+	 */
+	public void setLegendPosition(Byte legendPosition)
 	{
 	}
 
@@ -1592,7 +1637,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			if (mainPlot instanceof CategoryPlot)
 			{
 				CategoryPlot categoryPlot = (CategoryPlot) mainPlot;
-				categoryPlot.setRangeAxisLocation(0, getChartAxisLocation(axis));
+//				categoryPlot.setRangeAxisLocation(0, getChartAxisLocation(axis));
 				if (axisHyperlinkProvider != null)
 				{
 					multiHyperlinkProvider.addHyperlinkProvider(categoryPlot.getDataset(), 
@@ -1602,7 +1647,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			else if (mainPlot instanceof XYPlot)
 			{
 				XYPlot xyPlot = (XYPlot) mainPlot;
-				xyPlot.setRangeAxisLocation(0, getChartAxisLocation(axis));
+//				xyPlot.setRangeAxisLocation(0, getChartAxisLocation(axis));
 				if (axisHyperlinkProvider != null)
 				{
 					multiHyperlinkProvider.addHyperlinkProvider(xyPlot.getDataset(), axisHyperlinkProvider);
@@ -1637,7 +1682,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				// Get the axis and add it to the multi axis chart plot
 				CategoryPlot axisPlot = (CategoryPlot)axisChart.getPlot();
 				mainCatPlot.setRangeAxis(axisNumber, axisPlot.getRangeAxis());
-				mainCatPlot.setRangeAxisLocation(axisNumber, getChartAxisLocation(chartAxis));
+//				mainCatPlot.setRangeAxisLocation(axisNumber, getChartAxisLocation(chartAxis));
 
 				// Add the data set and map it to the recently added axis
 				mainCatPlot.setDataset(axisNumber, axisPlot.getDataset());
@@ -1666,7 +1711,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				// Get the axis and add it to the multi axis chart plot
 				XYPlot axisPlot = (XYPlot)axisChart.getPlot();
 				mainXyPlot.setRangeAxis(axisNumber, axisPlot.getRangeAxis());
-				mainXyPlot.setRangeAxisLocation(axisNumber, getChartAxisLocation(chartAxis));
+//				mainXyPlot.setRangeAxisLocation(axisNumber, getChartAxisLocation(chartAxis));
 
 				// Add the data set and map it to the recently added axis
 				mainXyPlot.setDataset(axisNumber, axisPlot.getDataset());
@@ -1789,15 +1834,16 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		Color color = interval.getBackgroundColor();
 		float[] components = color.getRGBColorComponents(null);
+		float alpha = interval.getAlphaDouble() == null ? (float)JRMeterInterval.DEFAULT_TRANSPARENCY : interval.getAlphaDouble().floatValue();
 
-		Color alphaColor = new Color(components[0], components[1], components[2], (float)interval.getAlpha());
+		Color alphaColor = new Color(components[0], components[1], components[2], alpha);
 
 		return new MeterInterval(label, range, alphaColor, null, alphaColor);
 	}
 
 	protected AxisLocation getChartAxisLocation(JRFillChartAxis chartAxis)
 	{
-		return chartAxis.getPosition() == JRChartAxis.POSITION_RIGHT_OR_BOTTOM
+		return chartAxis.getPositionByte() != null && chartAxis.getPositionByte().byteValue() == JRChartAxis.POSITION_RIGHT_OR_BOTTOM
 				? AxisLocation.BOTTOM_OR_RIGHT 
 				: AxisLocation.TOP_OR_LEFT;
 	}

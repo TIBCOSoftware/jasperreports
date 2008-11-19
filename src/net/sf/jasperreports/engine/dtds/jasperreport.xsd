@@ -1638,7 +1638,7 @@
     <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
-   <attribute name="isShowLegend" use="optional" default="true">
+   <attribute name="isShowLegend" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -1672,7 +1672,7 @@
     <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:titleExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="position" use="optional" default="Top">
+   <attribute name="position" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="Top"/>
@@ -1713,7 +1713,7 @@
    </sequence>
    <attribute name="textColor" type="string" use="optional"/>
    <attribute name="backgroundColor" type="string" use="optional"/>
-   <attribute name="position" use="optional" default="Bottom">
+   <attribute name="position" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="Top"/>
@@ -1791,7 +1791,7 @@
    <sequence>
     <element ref="jr:plot"/>
    </sequence>
-   <attribute name="isCircular" use="optional" default="true">
+   <attribute name="isCircular" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -1876,7 +1876,7 @@
     <element ref="jr:seriesColor" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
    <attribute name="backcolor" type="string" use="optional"/>
-   <attribute name="orientation" use="optional" default="Vertical">
+   <attribute name="orientation" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="Horizontal"/>
@@ -1884,9 +1884,9 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="backgroundAlpha" type="NMTOKEN" use="optional" default="1"/>
-   <attribute name="foregroundAlpha" type="NMTOKEN" use="optional" default="1"/>
-   <attribute name="labelRotation" type="string" use="optional" default="0.0"/>
+   <attribute name="backgroundAlpha" type="NMTOKEN" use="optional"/>
+   <attribute name="foregroundAlpha" type="NMTOKEN" use="optional"/>
+   <attribute name="labelRotation" type="string" use="optional"/>
   </complexType>
  </element>
 
@@ -1912,8 +1912,8 @@
    <sequence>
     <element ref="jr:plot"/>
    </sequence>
-   <attribute name="depthFactor" type="string" use="optional" default="0.2"/>
-   <attribute name="isCircular" use="optional" default="false">
+   <attribute name="depthFactor" type="string" use="optional"/>
+   <attribute name="isCircular" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -1999,7 +1999,7 @@
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowLabels" use="optional" default="false">
+   <attribute name="isShowLabels" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2007,7 +2007,7 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isShowTickMarks" use="optional" default="true">
+   <attribute name="isShowTickMarks" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2015,7 +2015,7 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isShowTickLabels" use="optional" default="true">
+   <attribute name="isShowTickLabels" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2208,7 +2208,7 @@
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowLines" use="optional" default="true">
+   <attribute name="isShowLines" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2216,7 +2216,7 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isShowShapes" use="optional" default="true">
+   <attribute name="isShowShapes" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2319,7 +2319,7 @@
     <element ref="jr:yAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:yAxisFormat" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowLines" use="optional" default="true">
+   <attribute name="isShowLines" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2327,7 +2327,7 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isShowShapes" use="optional" default="true">
+   <attribute name="isShowShapes" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2404,7 +2404,7 @@
     <element ref="jr:yAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:yAxisFormat" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="scaleType" use="optional" default="RangeAxis">
+   <attribute name="scaleType" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="BothAxes"/>
@@ -2481,7 +2481,7 @@
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowLines" use="optional" default="true">
+   <attribute name="isShowLines" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2489,7 +2489,7 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isShowShapes" use="optional" default="true">
+   <attribute name="isShowShapes" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2548,7 +2548,7 @@
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowCloseTicks" use="optional" default="true">
+   <attribute name="isShowCloseTicks" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2556,7 +2556,7 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isShowOpenTicks" use="optional" default="true">
+   <attribute name="isShowOpenTicks" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2616,7 +2616,7 @@
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowVolume" use="optional" default="true">
+   <attribute name="isShowVolume" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2663,9 +2663,9 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="angle" type="string" use="optional" default="180"/>
+   <attribute name="angle" type="string" use="optional"/>
    <attribute name="units" type="string" use="optional"/>
-   <attribute name="tickInterval" type="string" use="optional" default="10.0"/>
+   <attribute name="tickInterval" type="string" use="optional"/>
    <attribute name="meterColor" type="string" use="optional"/>
    <attribute name="needleColor" type="string" use="optional"/>
    <attribute name="tickColor" type="string" use="optional"/>
@@ -2698,7 +2698,7 @@
    </sequence>
    <attribute name="label" type="string" use="optional"/>
    <attribute name="color" type="string" use="optional"/>
-   <attribute name="alpha" type="string" use="optional" default="1.0"/>
+   <attribute name="alpha" type="string" use="optional"/>
   </complexType>
  </element>
 
@@ -2732,7 +2732,7 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isShowValueLines" use="optional" default="false">
+   <attribute name="isShowValueLines" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>
@@ -2806,7 +2806,7 @@
     <element ref="jr:stackedAreaChart"/>
     <element ref="jr:ganttChart"/>
    </choice>
-   <attribute name="position" use="optional" default="leftOrTop">
+   <attribute name="position" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="leftOrTop"/>

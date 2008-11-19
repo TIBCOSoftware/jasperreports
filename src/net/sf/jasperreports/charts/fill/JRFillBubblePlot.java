@@ -70,13 +70,13 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 		xAxisLabelColor = bubblePlot.getOwnXAxisLabelColor();
 		xAxisTickLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getXAxisTickLabelFont());
 		xAxisTickLabelColor = bubblePlot.getOwnXAxisTickLabelColor();
-		xAxisLineColor = bubblePlot.getXAxisLineColor();
+		xAxisLineColor = bubblePlot.getOwnXAxisLineColor();
 		
 		yAxisLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getYAxisLabelFont());
 		yAxisLabelColor = bubblePlot.getOwnYAxisLabelColor();
 		yAxisTickLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getYAxisTickLabelFont());
 		yAxisTickLabelColor = bubblePlot.getOwnYAxisTickLabelColor();
-		yAxisLineColor = bubblePlot.getYAxisLineColor();
+		yAxisLineColor = bubblePlot.getOwnYAxisLineColor();
 	}
 	
 	/**

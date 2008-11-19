@@ -101,7 +101,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		timeAxisTickLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = candlestickPlot.getOwnTimeAxisTickLabelColor();
 		timeAxisTickLabelMask = candlestickPlot.getTimeAxisTickLabelMask();
-		timeAxisLineColor = candlestickPlot.getTimeAxisLineColor();
+		timeAxisLineColor = candlestickPlot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression(candlestickPlot.getValueAxisLabelExpression() );
 		valueAxisLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getValueAxisLabelFont());
@@ -109,7 +109,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		valueAxisTickLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = candlestickPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = candlestickPlot.getValueAxisTickLabelMask();
-		valueAxisLineColor = candlestickPlot.getValueAxisTickLabelColor();
+		valueAxisLineColor = candlestickPlot.getOwnValueAxisTickLabelColor();
 	}
 
 
@@ -334,14 +334,14 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
 	private boolean isShowVolume = true;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			showVolume = Boolean.valueOf(isShowVolume);
 		}

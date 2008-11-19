@@ -28,7 +28,11 @@
 package net.sf.jasperreports.charts.util;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+
+import org.jfree.chart.renderer.category.BarRenderer3D;
 
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.base.JRBaseDataRange;
@@ -49,6 +53,8 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 public class JRMeterInterval implements JRCloneable, Serializable
 {
+	public static final double DEFAULT_TRANSPARENCY = 1.0;
+	
 	/**
 	 * The range of this interval.  Must be inside the meter's range.
 	 */
@@ -68,7 +74,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	 * Transparency of the interval's color.  1.0 is fully opaque, 0.0 is
 	 * fully transparent.
 	 */
-	protected double alpha = 1.0;
+	protected Double alphaDouble = null;
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -157,14 +163,30 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	}
 
 	/**
-	 * Returns the transparency of the interval color, with 0.0 being fully
-	 * transparent and 1.0 being fully opaque.
-	 *
-	 * @return the transparency of the interval color
+	 * @deprecated Replaced by {@link #getAlphaDouble()}
 	 */
 	public double getAlpha()
 	{
-		return alpha;
+		return alphaDouble == null ? DEFAULT_TRANSPARENCY : alphaDouble.doubleValue();
+	}
+
+	/**
+	 * Returns the transparency of the interval color, with 0.0 being fully
+	 * transparent and 1.0 being fully opaque.
+	 *
+	 * @return the transparency
+	 */
+	public Double getAlphaDouble()
+	{
+		return alphaDouble;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setAlpha(Double)}
+	 */
+	public void setAlpha(double alpha)
+	{
+		setAlpha(new Double(alpha));
 	}
 
 	/**
@@ -173,9 +195,9 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	 *
 	 * @param alpha the transparency of the interval color
 	 */
-	public void setAlpha(double alpha)
+	public void setAlpha(Double alpha)
 	{
-		this.alpha = alpha;
+		this.alphaDouble = alpha;
 	}
 
 	/**
@@ -201,4 +223,21 @@ public class JRMeterInterval implements JRCloneable, Serializable
 		
 		return clone;
 	}
+
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
+	private double alpha = DEFAULT_TRANSPARENCY;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
+		{
+			alphaDouble = new Double(alpha);
+		}
+	}
+	
 }

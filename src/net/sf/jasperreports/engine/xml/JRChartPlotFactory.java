@@ -62,15 +62,15 @@ public class JRChartPlotFactory extends JRBaseFactory
 
 		String foregroundAlpha = atts.getValue(JRXmlConstants.ATTRIBUTE_foregroundAlpha);
 		if (foregroundAlpha != null && foregroundAlpha.length() > 0)
-			plot.setForegroundAlpha(Float.valueOf(foregroundAlpha).floatValue());
+			plot.setForegroundAlpha(Float.valueOf(foregroundAlpha));
 
 		String backgroundAlpha = atts.getValue(JRXmlConstants.ATTRIBUTE_backgroundAlpha);
 		if (backgroundAlpha != null && backgroundAlpha.length() > 0)
-			plot.setBackgroundAlpha(Float.valueOf(backgroundAlpha).floatValue());
+			plot.setBackgroundAlpha(Float.valueOf(backgroundAlpha));
 
 		String labelRotation = atts.getValue(JRXmlConstants.ATTRIBUTE_labelRotation);
 		if (labelRotation != null && labelRotation.length() > 0)
-			plot.setLabelRotation(Double.valueOf(labelRotation).doubleValue());
+			plot.setLabelRotation(Double.valueOf(labelRotation));
 
 		return plot;
 	}

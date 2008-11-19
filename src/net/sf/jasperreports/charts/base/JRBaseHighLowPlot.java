@@ -105,7 +105,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		timeAxisTickLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = highLowPlot.getOwnTimeAxisTickLabelColor();
 		timeAxisTickLabelMask = highLowPlot.getTimeAxisTickLabelMask();
-		timeAxisLineColor = highLowPlot.getTimeAxisLineColor();
+		timeAxisLineColor = highLowPlot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( highLowPlot.getValueAxisLabelExpression() );
 		valueAxisLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getValueAxisLabelFont());
@@ -113,7 +113,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		valueAxisTickLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = highLowPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = highLowPlot.getValueAxisTickLabelMask();
-		valueAxisLineColor = highLowPlot.getValueAxisTickLabelColor();
+		valueAxisLineColor = highLowPlot.getOwnValueAxisTickLabelColor();
 	}
 
 
@@ -372,7 +372,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
 	private boolean isShowOpenTicks = false;
 	private boolean isShowCloseTicks = false;
 	
@@ -380,7 +380,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	{
 		in.defaultReadObject();
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			showOpenTicks = Boolean.valueOf(isShowOpenTicks);
 			showCloseTicks = Boolean.valueOf(isShowCloseTicks);

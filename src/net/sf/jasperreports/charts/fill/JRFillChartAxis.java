@@ -81,9 +81,17 @@ public class JRFillChartAxis implements JRChartAxis
 		return parent.getChart();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getPositionByte()}
+	 */
 	public byte getPosition()
 	{
 		return parent.getPosition();
+	}
+
+	public Byte getPositionByte()
+	{
+		return parent.getPositionByte();
 	}
 
 	/**

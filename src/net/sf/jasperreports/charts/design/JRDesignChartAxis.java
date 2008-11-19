@@ -66,16 +66,24 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	}
 
 	/**
+	 * @deprecated Replaced by {@link #setPosition(Byte)}
+	 */
+	public void setPosition(byte position)
+	{
+		setPosition(new Byte(position));
+	}
+
+	/**
 	 * Sets the position of this axis' value line relative to the multiple
 	 * axis chart.
 	 *
 	 * @param position the position of this axis
 	 */
-	public void setPosition(byte position)
+	public void setPosition(Byte position)
 	{
-		byte old = this.position;
-		this.position = position;
-		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.position);
+		Byte old = this.positionByte;
+		this.positionByte = position;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.positionByte);
 	}
 
 	/**
@@ -90,10 +98,10 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 		// Override the chart elements that we are going to ignore, as they
 		// are supposed to be controlled by the multi chart's settings.
 		chart.setBackcolor(parentChart.getBackcolor());
-		chart.setShowLegend(parentChart.isShowLegend());
+		chart.setShowLegend(parentChart.getShowLegend());
 		chart.setTitleExpression(parentChart.getTitleExpression());
 		chart.setTitleFont(parentChart.getTitleFont());
-		chart.setTitlePosition(parentChart.getTitlePosition());
+		chart.setTitlePosition(parentChart.getTitlePositionByte());
 		chart.setTitleColor(parentChart.getTitleColor());
 		chart.setSubtitleExpression(parentChart.getSubtitleExpression());
 		chart.setSubtitleFont(parentChart.getSubtitleFont());
@@ -101,7 +109,7 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 		chart.setLegendColor(parentChart.getLegendColor());
 		chart.setLegendBackgroundColor(parentChart.getLegendBackgroundColor());
 		chart.setLegendFont(parentChart.getLegendFont());
-		chart.setLegendPosition(parentChart.getLegendPosition());
+		chart.setLegendPosition(parentChart.getLegendPositionByte());
 		chart.setRenderType(parentChart.getRenderType());
 		chart.setTheme(parentChart.getTheme());
 		

@@ -58,7 +58,7 @@ public class JRChartFactory extends JRBaseFactory
 
 		String isShowLegend = atts.getValue(JRXmlConstants.ATTRIBUTE_isShowLegend);
 		if (isShowLegend != null && isShowLegend.length() > 0)
-			chart.setShowLegend(Boolean.valueOf(isShowLegend).booleanValue());
+			chart.setShowLegend(Boolean.valueOf(isShowLegend));
 
 		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
@@ -119,7 +119,7 @@ public class JRChartFactory extends JRBaseFactory
 
 			String position = atts.getValue(JRXmlConstants.ATTRIBUTE_position);
 			if (position != null && position.length() > 0)
-				chart.setTitlePosition(((Byte)JRXmlConstants.getChartEdgeMap().get(position)).byteValue());
+				chart.setTitlePosition(((Byte)JRXmlConstants.getChartEdgeMap().get(position)));
 
 
 			Color color = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_color), Color.black);
@@ -186,7 +186,7 @@ public class JRChartFactory extends JRBaseFactory
 
 			String position = atts.getValue(JRXmlConstants.ATTRIBUTE_position);
 			if (position != null && position.length() > 0)
-				chart.setLegendPosition(((Byte)JRXmlConstants.getChartEdgeMap().get(position)).byteValue());
+				chart.setLegendPosition(((Byte)JRXmlConstants.getChartEdgeMap().get(position)));
 
 			// Any font set will be put in the chart directly by the digester
 

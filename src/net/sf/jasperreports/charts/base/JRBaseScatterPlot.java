@@ -97,7 +97,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		xAxisTickLabelFont = new JRBaseFont(null, null, scattedPlot.getChart(), scattedPlot.getXAxisTickLabelFont());
 		xAxisTickLabelColor = scattedPlot.getOwnXAxisTickLabelColor();
 		xAxisTickLabelMask = scattedPlot.getXAxisTickLabelMask();
-		xAxisLineColor = scattedPlot.getXAxisLineColor();
+		xAxisLineColor = scattedPlot.getOwnXAxisLineColor();
 		
 		yAxisLabelExpression = factory.getExpression( scattedPlot.getYAxisLabelExpression() );
 		yAxisLabelFont = new JRBaseFont(null, null, scattedPlot.getChart(), scattedPlot.getYAxisLabelFont());
@@ -105,7 +105,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		yAxisTickLabelFont = new JRBaseFont(null, null, scattedPlot.getChart(), scattedPlot.getYAxisTickLabelFont());
 		yAxisTickLabelColor = scattedPlot.getOwnYAxisTickLabelColor();
 		yAxisTickLabelMask = scattedPlot.getYAxisTickLabelMask();
-		yAxisLineColor = scattedPlot.getYAxisLineColor();
+		yAxisLineColor = scattedPlot.getOwnYAxisLineColor();
 	}
 	
 	/**
@@ -354,7 +354,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
 	private boolean isShowShapes = true;
 	private boolean isShowLines = true;
 	
@@ -362,7 +362,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	{
 		in.defaultReadObject();
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			showShapes = Boolean.valueOf(isShowShapes);
 			showLines = Boolean.valueOf(isShowLines);

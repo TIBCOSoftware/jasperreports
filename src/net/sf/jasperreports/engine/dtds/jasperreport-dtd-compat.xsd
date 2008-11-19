@@ -1655,7 +1655,7 @@
     <xsd:element ref="hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
     <xsd:element ref="hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
    </xsd:sequence>
-   <xsd:attribute name="isShowLegend" use="optional" default="true">
+   <xsd:attribute name="isShowLegend" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -1699,7 +1699,7 @@
     <xsd:element ref="font" minOccurs="0" maxOccurs="1"/>
     <xsd:element ref="titleExpression" minOccurs="0" maxOccurs="1"/>
    </xsd:sequence>
-   <xsd:attribute name="position" use="optional" default="Top">
+   <xsd:attribute name="position" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="Top"/>
@@ -1740,7 +1740,7 @@
    </xsd:sequence>
    <xsd:attribute name="textColor" type="xsd:string" use="optional"/>
    <xsd:attribute name="backgroundColor" type="xsd:string" use="optional"/>
-   <xsd:attribute name="position" use="optional" default="Bottom">
+   <xsd:attribute name="position" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="Top"/>
@@ -1818,7 +1818,7 @@
    <xsd:sequence>
     <xsd:element ref="plot"/>
    </xsd:sequence>
-   <xsd:attribute name="isCircular" use="optional" default="true">
+   <xsd:attribute name="isCircular" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -1901,7 +1901,7 @@
     <xsd:element ref="seriesColor" minOccurs="0" maxOccurs="unbounded"/>
    </xsd:sequence>
    <xsd:attribute name="backcolor" type="xsd:string" use="optional"/>
-   <xsd:attribute name="orientation" use="optional" default="Vertical">
+   <xsd:attribute name="orientation" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="Horizontal"/>
@@ -1909,9 +1909,9 @@
      </xsd:restriction>
     </xsd:simpleType>
    </xsd:attribute>
-   <xsd:attribute name="backgroundAlpha" type="xsd:NMTOKEN" use="optional" default="1"/>
-   <xsd:attribute name="foregroundAlpha" type="xsd:NMTOKEN" use="optional" default="1"/>
-   <xsd:attribute name="labelRotation" type="xsd:string" use="optional" default="0.0"/>
+   <xsd:attribute name="backgroundAlpha" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="foregroundAlpha" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="labelRotation" type="xsd:string" use="optional"/>
   </xsd:complexType>
  </xsd:element>
 
@@ -1938,7 +1938,7 @@
     <xsd:element ref="plot"/>
    </xsd:sequence>
    <xsd:attribute name="depthFactor" type="xsd:string" use="optional" default="0.2"/>
-   <xsd:attribute name="isCircular" use="optional" default="false">
+   <xsd:attribute name="isCircular" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2022,7 +2022,7 @@
     <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
    </xsd:sequence>
-   <xsd:attribute name="isShowLabels" use="optional" default="false">
+   <xsd:attribute name="isShowLabels" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2030,7 +2030,7 @@
      </xsd:restriction>
     </xsd:simpleType>
    </xsd:attribute>
-   <xsd:attribute name="isShowTickMarks" use="optional" default="true">
+   <xsd:attribute name="isShowTickMarks" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2038,7 +2038,7 @@
      </xsd:restriction>
     </xsd:simpleType>
    </xsd:attribute>
-   <xsd:attribute name="isShowTickLabels" use="optional" default="true">
+   <xsd:attribute name="isShowTickLabels" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2231,7 +2231,7 @@
     <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
    </xsd:sequence>
-   <xsd:attribute name="isShowLines" use="optional" default="true">
+   <xsd:attribute name="isShowLines" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2239,7 +2239,7 @@
      </xsd:restriction>
     </xsd:simpleType>
    </xsd:attribute>
-   <xsd:attribute name="isShowShapes" use="optional" default="true">
+   <xsd:attribute name="isShowShapes" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2342,7 +2342,7 @@
     <xsd:element ref="yAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <xsd:element ref="yAxisFormat" minOccurs="0" maxOccurs="1"/>
    </xsd:sequence>
-   <xsd:attribute name="isShowLines" use="optional" default="true">
+   <xsd:attribute name="isShowLines" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2350,7 +2350,7 @@
      </xsd:restriction>
     </xsd:simpleType>
    </xsd:attribute>
-   <xsd:attribute name="isShowShapes" use="optional" default="true">
+   <xsd:attribute name="isShowShapes" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2427,7 +2427,7 @@
     <xsd:element ref="yAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <xsd:element ref="yAxisFormat" minOccurs="0" maxOccurs="1"/>
    </xsd:sequence>
-   <xsd:attribute name="scaleType" use="optional" default="RangeAxis">
+   <xsd:attribute name="scaleType" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="BothAxes"/>
@@ -2504,7 +2504,7 @@
     <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
    </xsd:sequence>
-   <xsd:attribute name="isShowLines" use="optional" default="true">
+   <xsd:attribute name="isShowLines" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2512,7 +2512,7 @@
      </xsd:restriction>
     </xsd:simpleType>
    </xsd:attribute>
-   <xsd:attribute name="isShowShapes" use="optional" default="true">
+   <xsd:attribute name="isShowShapes" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2571,7 +2571,7 @@
     <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
    </xsd:sequence>
-   <xsd:attribute name="isShowCloseTicks" use="optional" default="true">
+   <xsd:attribute name="isShowCloseTicks" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2579,7 +2579,7 @@
      </xsd:restriction>
     </xsd:simpleType>
    </xsd:attribute>
-   <xsd:attribute name="isShowOpenTicks" use="optional" default="true">
+   <xsd:attribute name="isShowOpenTicks" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2639,7 +2639,7 @@
     <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
    </xsd:sequence>
-   <xsd:attribute name="isShowVolume" use="optional" default="true">
+   <xsd:attribute name="isShowVolume" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2686,9 +2686,9 @@
      </xsd:restriction>
     </xsd:simpleType>
    </xsd:attribute>
-   <xsd:attribute name="angle" type="xsd:string" use="optional" default="180"/>
+   <xsd:attribute name="angle" type="xsd:string" use="optional"/>
    <xsd:attribute name="units" type="xsd:string" use="optional"/>
-   <xsd:attribute name="tickInterval" type="xsd:string" use="optional" default="10.0"/>
+   <xsd:attribute name="tickInterval" type="xsd:string" use="optional"/>
    <xsd:attribute name="meterColor" type="xsd:string" use="optional"/>
    <xsd:attribute name="needleColor" type="xsd:string" use="optional"/>
    <xsd:attribute name="tickColor" type="xsd:string" use="optional"/>
@@ -2721,7 +2721,7 @@
    </xsd:sequence>
    <xsd:attribute name="label" type="xsd:string" use="optional"/>
    <xsd:attribute name="color" type="xsd:string" use="optional"/>
-   <xsd:attribute name="alpha" type="xsd:string" use="optional" default="1.0"/>
+   <xsd:attribute name="alpha" type="xsd:string" use="optional"/>
   </xsd:complexType>
  </xsd:element>
 
@@ -2755,7 +2755,7 @@
      </xsd:restriction>
     </xsd:simpleType>
    </xsd:attribute>
-   <xsd:attribute name="isShowValueLines" use="optional" default="false">
+   <xsd:attribute name="isShowValueLines" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>
@@ -2829,7 +2829,7 @@
     <xsd:element ref="stackedAreaChart"/>
     <xsd:element ref="ganttChart"/>
    </xsd:choice>
-   <xsd:attribute name="position" use="optional" default="leftOrTop">
+   <xsd:attribute name="position" use="optional">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="leftOrTop"/>

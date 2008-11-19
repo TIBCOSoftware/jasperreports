@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.charts.JRChartAxis;
@@ -47,7 +49,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	/**
 	 * Where to position the axis.
 	 */
-	protected byte position = POSITION_LEFT_OR_TOP;
+	protected Byte positionByte = null;
 
 	/**
 	 * The Chart object containing the dataset and plot to use with this axis.
@@ -67,8 +69,16 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	{
 		factory.put(axis, this);
 
-		this.position = axis.getPosition();
+		this.positionByte = axis.getPositionByte();
 		this.chart = (JRChart)factory.getVisitResult(axis.getChart());
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getPositionByte()}
+	 */
+	public byte getPosition()
+	{
+		return positionByte == null ? POSITION_LEFT_OR_TOP : positionByte.byteValue();
 	}
 
 	/**
@@ -76,9 +86,9 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	 *
 	 * @return the position of this axis
 	 */
-	public byte getPosition()
+	public Byte getPositionByte()
 	{
-		return position;
+		return positionByte;
 	}
 
 	/**
@@ -113,4 +123,20 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 		
 		return clone;
 	}
+	
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
+	private byte position = POSITION_LEFT_OR_TOP;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
+		{
+			positionByte = new Byte(position);
+		}
+	}
+	
 }
