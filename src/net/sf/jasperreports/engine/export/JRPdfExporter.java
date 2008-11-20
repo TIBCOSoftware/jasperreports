@@ -453,6 +453,8 @@ public class JRPdfExporter extends JRAbstractExporter
 					permissions
 					);
 			}
+			
+			pdfWriter.setRgbTransparencyBlending(true);
 
 			// Add meta-data parameters to generated PDF document
 			// mtclough@users.sourceforge.net 2005-12-05
