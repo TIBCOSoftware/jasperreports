@@ -25,7 +25,7 @@
 				<textElement textAlignment="Center">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["This sample uses Barbecue Version 1.0.6b\n" + ""]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["This sample uses Barbecue Version 1.0.6b"]]></textFieldExpression>
 			</textField>
 			<textField hyperlinkType="Reference">
 				<reportElement x="0" y="70" width="515" height="20"/>
