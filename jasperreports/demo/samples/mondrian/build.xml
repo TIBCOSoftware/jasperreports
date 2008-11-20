@@ -180,7 +180,7 @@
 	</target>
 
 	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design.">
-		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true" dir="build">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true" dir="reports">
 			<arg value="${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
