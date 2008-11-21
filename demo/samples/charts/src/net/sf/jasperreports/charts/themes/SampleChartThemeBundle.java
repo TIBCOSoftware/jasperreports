@@ -37,7 +37,7 @@ import net.sf.jasperreports.charts.ChartThemeBundle;
  */
 public class SampleChartThemeBundle implements ChartThemeBundle
 {
-	private String[] names = new String[]{"simple", "eye.candy.sixties"};
+	private String[] names = new String[]{"simple", "eye.candy.sixties", "aegean"};
 
 	private static final SampleChartThemeBundle INSTANCE = new SampleChartThemeBundle();
 	
@@ -64,6 +64,10 @@ public class SampleChartThemeBundle implements ChartThemeBundle
 		else if ("eye.candy.sixties".equals(themeName))
 		{
 			return new EyeCandySixtiesChartTheme(); 
+		}
+		else if ("aegean".equals(themeName))
+		{
+			return new AegeanChartTheme(); 
 		}
 		return null;
 	}
