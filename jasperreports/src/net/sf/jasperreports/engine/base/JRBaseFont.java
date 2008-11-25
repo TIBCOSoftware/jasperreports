@@ -116,8 +116,16 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	 */
 	public JRBaseFont(Map attributes)
 	{
-		String fontNameAttr = (String)attributes.get(TextAttribute.FAMILY);
-		if (fontNameAttr != null)
+		String fontNameAttr = (String)attributes.get(JRTextAttribute.FONT_NAME);
+		if (fontNameAttr == null)
+		{
+			fontNameAttr = (String)attributes.get(TextAttribute.FAMILY);
+			if (fontNameAttr != null)
+			{
+				setFontName(fontNameAttr);
+			}
+		}
+		else
 		{
 			setFontName(fontNameAttr);
 		}

@@ -802,7 +802,9 @@ public class JRXmlssExporter extends JRAbstractExporter
 		}
 		else
 		{
-			//FIXME: how to distinguish between font name and font family
+			//FIXME: how to distinguish between font name and font family; 
+			// now it's possible thanks to FONT_NAME attribute;
+			// see other exporters for details about font mapping
 			String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
 			String fontFamily = (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 				? (String) fontMap.get(fontFamilyAttr)

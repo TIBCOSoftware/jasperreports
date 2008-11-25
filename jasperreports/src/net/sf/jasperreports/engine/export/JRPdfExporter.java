@@ -86,7 +86,9 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
+import net.sf.jasperreports.engine.fonts.FontEntry;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -1676,7 +1678,32 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			pdfFont = new PdfFont(jrFont.getPdfFontName(), jrFont.getPdfEncoding(), jrFont.isPdfEmbedded());
+			FontEntry fontEntry = JRFontUtil.getFontEntry(jrFont.getFontName());
+			if (fontEntry == null)
+			{
+				pdfFont = new PdfFont(jrFont.getPdfFontName(), jrFont.getPdfEncoding(), jrFont.isPdfEmbedded());
+			}
+			else
+			{//FIXMEFONT refactor this
+				String ttf = null;
+				if (jrFont.isBold() && jrFont.isItalic())
+				{
+					ttf = fontEntry.getBoldItalic();
+				}
+				if (ttf == null && jrFont.isBold())
+				{
+					ttf = fontEntry.getBold();
+				}
+				if (ttf == null && jrFont.isItalic())
+				{
+					ttf = fontEntry.getItalic();
+				}
+				if (ttf == null)
+				{
+					ttf = fontEntry.getNormal();
+				}
+				pdfFont = new PdfFont(ttf, fontEntry.getPdfEncoding(), fontEntry.isPdfEmbedded());
+			}
 		}
 
 		try

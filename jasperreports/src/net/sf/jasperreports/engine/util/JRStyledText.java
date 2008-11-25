@@ -126,7 +126,7 @@ public class JRStyledText
 	 * @return an attributed string that only contains standard Java text
 	 * attributes
 	 */
-	public AttributedString getAwtAttributedString()
+	public AttributedString getAwtAttributedString()//FIXMEFONT why is this filtering needed?
 	{
 		if (awtAttributedString == null)
 		{

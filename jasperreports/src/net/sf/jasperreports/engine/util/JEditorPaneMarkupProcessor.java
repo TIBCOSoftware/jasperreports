@@ -73,7 +73,7 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 		if (attrSet.isDefined(StyleConstants.FontFamily))
 		{
 			attrMap.put(
-				TextAttribute.FAMILY,
+				TextAttribute.FAMILY,//FIXMEFONT what to do with the font name?
 				StyleConstants.getFontFamily(attrSet)
 				);
 		}
