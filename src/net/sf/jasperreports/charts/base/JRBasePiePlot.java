@@ -71,7 +71,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	public JRBasePiePlot(JRPiePlot piePlot, JRBaseObjectFactory factory)
 	{
 		super(piePlot, factory);
-		isCircular = piePlot.isCircular();
+		circular = piePlot.getCircular();
 		labelFormat = piePlot.getLabelFormat();
 		legendLabelFormat = piePlot.getLegendLabelFormat();
 	}
@@ -167,7 +167,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		labelFormat = (String)fields.get("labelFormat", null);
 		legendLabelFormat = (String)fields.get("legendLabelFormat", null);
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)//FIXMETHEME check this in light of the above comment
 		{
 			circular = Boolean.valueOf(isCircular);
 		}
