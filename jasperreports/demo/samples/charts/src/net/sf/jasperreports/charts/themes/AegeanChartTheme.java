@@ -934,7 +934,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 		scale.setTickLabelOffset(0.16);
 		scale.setTickLabelFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(8f).deriveFont(Font.BOLD));
 		scale.setMajorTickStroke(new BasicStroke(1f));
-		scale.setMinorTickStroke(new BasicStroke(0.3f));
+		scale.setMinorTickStroke(new BasicStroke(0.7f));
 		scale.setMajorTickPaint(Color.BLACK);
 		scale.setMinorTickPaint(Color.BLACK);
 
