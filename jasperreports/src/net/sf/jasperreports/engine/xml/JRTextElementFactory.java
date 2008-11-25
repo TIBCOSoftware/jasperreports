@@ -81,6 +81,7 @@ public class JRTextElementFactory extends JRBaseFactory
 			if (log.isWarnEnabled())
 				log.warn("The 'isStyledText' attribute is deprecated. Use the 'markup' attribute instead.");
 				
+			//OK to use deprecated method here, until it is removed
 			textElement.setStyledText(Boolean.valueOf(isStyledText));
 		}
 
