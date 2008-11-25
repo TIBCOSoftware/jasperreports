@@ -53,7 +53,7 @@ public interface JRStyledTextAttributeSelector
 		public Map getStyledTextAttributes(JRPrintText printText)
 		{
 			Map attributes = new HashMap(); 
-			attributes.putAll(JRFontUtil.setAttributes(attributes, printText));
+			JRFontUtil.getAttributes(attributes, printText);
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
 			if (printText.getMode() == JRElement.MODE_OPAQUE)
 			{
@@ -72,7 +72,7 @@ public interface JRStyledTextAttributeSelector
 		public Map getStyledTextAttributes(JRPrintText printText)
 		{
 			Map attributes = new HashMap(); 
-			attributes.putAll(JRFontUtil.setAttributes(attributes, printText));
+			JRFontUtil.getAttributes(attributes, printText);
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
 			return attributes;
 		}

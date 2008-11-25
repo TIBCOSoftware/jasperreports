@@ -409,7 +409,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 		Font font = null;
 		if (labelFont != null)
 		{
-			font = new Font(JRFontUtil.getAttributes(labelFont));
+			font = JRFontUtil.getLiteFont(labelFont);
 			if (labelFont.isOwnBold() == null)
 			{
 				font = font.deriveFont(Font.BOLD);
@@ -429,7 +429,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 		Font tickFont = null;
 		if(tickLabelFont != null)
 		{
-			tickFont = new Font(JRFontUtil.getAttributes(labelFont));
+			tickFont = JRFontUtil.getLiteFont(labelFont);
 			if (tickLabelFont.isOwnBold() == null)
 			{
 				tickFont = tickFont.deriveFont(Font.PLAIN);
@@ -829,7 +829,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 			}
 			if (display.getFont() != null)
 			{
-				chartPlot.setValueFont(new Font(JRFontUtil.getAttributes(display.getFont())).deriveFont(Font.BOLD));
+				chartPlot.setValueFont(JRFontUtil.getLiteFont(display.getFont()).deriveFont(Font.BOLD));//FIXMETHEME check lite font everywhere
 			}
 		}
 
@@ -932,7 +932,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 				);
 		scale.setTickRadius(0.9);
 		scale.setTickLabelOffset(0.16);
-		scale.setTickLabelFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(8f).deriveFont(Font.BOLD));
+		scale.setTickLabelFont(JRFontUtil.getLiteFont(jrFont).deriveFont(8f).deriveFont(Font.BOLD));
 		scale.setMajorTickStroke(new BasicStroke(1f));
 		scale.setMinorTickStroke(new BasicStroke(0.7f));
 		scale.setMajorTickPaint(Color.BLACK);
@@ -1000,7 +1000,7 @@ public class AegeanChartTheme extends DefaultChartTheme
        {
        	ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
 	        dvi.setBackgroundPaint(TRANSPARENT_PAINT);
-	        dvi.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(10f).deriveFont(Font.BOLD));
+	        dvi.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
 	        dvi.setOutlinePaint(TRANSPARENT_PAINT);
 	        dvi.setPaint(Color.WHITE);
 	        
@@ -1018,7 +1018,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 		{
 			ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
 			dvi.setBackgroundPaint(TRANSPARENT_PAINT);
-			dvi.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(10f).deriveFont(Font.BOLD));
+			dvi.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
 			dvi.setOutlinePaint(TRANSPARENT_PAINT);
 			dvi.setPaint(Color.WHITE);
 
@@ -1048,7 +1048,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 			for(int i = 0; i < textLines.length; i++)
 			{
 				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
-				dialAnnotation.setFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(Font.BOLD));
+				dialAnnotation.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(Font.BOLD));
 				dialAnnotation.setPaint(Color.BLACK);
 				dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
 				dialAnnotation.setAnchor(TextAnchor.CENTER);

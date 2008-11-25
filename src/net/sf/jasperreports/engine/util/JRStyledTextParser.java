@@ -349,6 +349,10 @@ public class JRStyledTextParser implements ErrorHandler
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontName) != null)
 				{
 					styleAttrs.put(
+						JRTextAttribute.FONT_NAME,
+						nodeAttrs.getNamedItem(ATTRIBUTE_fontName).getNodeValue()
+						);
+					styleAttrs.put(
 						TextAttribute.FAMILY,
 						nodeAttrs.getNamedItem(ATTRIBUTE_fontName).getNodeValue()
 						);
@@ -515,13 +519,6 @@ public class JRStyledTextParser implements ErrorHandler
 
 				Map styleAttrs = new HashMap();
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontFace) != null)
-				{
-					styleAttrs.put(
-						JRTextAttribute.HTML_FONT_FACE,
-						nodeAttrs.getNamedItem(ATTRIBUTE_fontFace).getNodeValue()
-						);
-				}
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_size) != null)
 				{
 					styleAttrs.put(
@@ -543,20 +540,27 @@ public class JRStyledTextParser implements ErrorHandler
 						);
 				}
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontFace) != null) {
-					String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontFace) != null) 
+				{
+					String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();//FIXMEFONT check in font entries too
 					String fontFaces = nodeAttrs.getNamedItem(ATTRIBUTE_fontFace).getNodeValue();
 
 					StringTokenizer t = new StringTokenizer(fontFaces, ",");
-					label:while (t.hasMoreTokens()) {
+					label:while (t.hasMoreTokens()) 
+					{
 						String face = t.nextToken().trim();
 						for (int j = 0; j < fontList.length; j++)
-							if (fontList[j].equals(face)) {
+						{
+							if (fontList[j].equals(face)) 
+							{
+								styleAttrs.put(JRTextAttribute.FONT_NAME, face);//FIXMEFONT should we load the awt font?
 								styleAttrs.put(TextAttribute.FAMILY, face);
 								break label;
 							}
+						}
 					}
 				}
+				
 				int startIndex = styledText.length();
 
 				parseStyle(styledText, node);
@@ -636,8 +640,10 @@ public class JRStyledTextParser implements ErrorHandler
 	{
 		StringBuffer sbuffer = new StringBuffer();
 		
-		Object value = attrs.get(TextAttribute.FAMILY);
-		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
+//		Object value = attrs.get(TextAttribute.FAMILY);
+//		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
+		Object value = attrs.get(JRTextAttribute.FONT_NAME);
+		Object oldValue = parentAttrs.get(JRTextAttribute.FONT_NAME);
 		
 		if (value != null && !value.equals(oldValue))
 		{

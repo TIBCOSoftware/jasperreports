@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.fonts.LiteFont;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
@@ -357,7 +358,7 @@ public class DefaultChartTheme implements ChartTheme
 			TextTitle title = jfreeChart.getTitle();
 			title.setPaint(jrChart.getTitleColor());
 
-			title.setFont(new Font(JRFontUtil.getAttributes(jrChart.getTitleFont())));
+			title.setFont(JRFontUtil.getLiteFont(jrChart.getTitleFont()));
 			title.setPosition(titleEdge);
 		}
 
@@ -367,7 +368,7 @@ public class DefaultChartTheme implements ChartTheme
 			TextTitle subtitle = new TextTitle(subtitleText);
 			subtitle.setPaint(jrChart.getSubtitleColor());
 
-			subtitle.setFont(new Font(JRFontUtil.getAttributes(jrChart.getSubtitleFont())));
+			subtitle.setFont(JRFontUtil.getLiteFont(jrChart.getSubtitleFont()));
 			
 			//Subtitle has not its own position set, and by default this will be set the same as title position
 			RectangleEdge subtitleEdge = null;
@@ -399,7 +400,7 @@ public class DefaultChartTheme implements ChartTheme
 				legend.setBackgroundPaint(jrChart.getLegendBackgroundColor());
 			}
 
-			legend.setItemFont(new Font(JRFontUtil.getAttributes(jrChart.getLegendFont())));//FIXME put these in JRFontUtil
+			legend.setItemFont(JRFontUtil.getLiteFont(jrChart.getLegendFont()));
 			legend.setPosition(getEdge(jrChart.getLegendPositionByte(), defaultLegendPosition));
 		}
 		
@@ -580,8 +581,8 @@ public class DefaultChartTheme implements ChartTheme
 			Paint defaultLinePaint
 			)
 		{
-			axis.setLabelFont(new Font(JRFontUtil.getAttributes(labelFont)));
-			axis.setTickLabelFont(new Font(JRFontUtil.getAttributes(tickLabelFont)));
+			axis.setLabelFont(JRFontUtil.getLiteFont(labelFont));
+			axis.setTickLabelFont(JRFontUtil.getLiteFont(tickLabelFont));
 			if (labelColor != null)
 			{
 				axis.setLabelPaint(labelColor);
@@ -975,7 +976,7 @@ public class DefaultChartTheme implements ChartTheme
 		//FIXMECHART at this moment, there are no label font, label backcolor
 		// and label forecolor properties defined for the PieChart3D
 
-		piePlot3D.setLabelFont(new Font(JRFontUtil.getAttributes(new JRBaseFont(null, null, getChart(), null))));
+		piePlot3D.setLabelFont(JRFontUtil.getLiteFont(new JRBaseFont(null, null, getChart(), null)));
 
 		piePlot3D.setLabelPaint(getChart().getForecolor());
 
@@ -1028,7 +1029,7 @@ public class DefaultChartTheme implements ChartTheme
 		//FIXMECHART at this moment, there are no label font, label backcolor
 		// and label forecolor properties defined for the PieChart
 
-		piePlot.setLabelFont(new Font(JRFontUtil.getAttributes(new JRBaseFont(null, null, getChart(), null))));
+		piePlot.setLabelFont(JRFontUtil.getLiteFont(new JRBaseFont(null, null, getChart(), null)));
 
 		piePlot.setLabelPaint(getChart().getForecolor());
 		
@@ -1563,7 +1564,7 @@ public class DefaultChartTheme implements ChartTheme
 			}
 			if (display.getFont() != null)
 			{
-				chartPlot.setValueFont(new Font(JRFontUtil.getAttributes(display.getFont())));
+				chartPlot.setValueFont(JRFontUtil.getLiteFont(display.getFont()));
 			}
 
 		}
@@ -1648,7 +1649,7 @@ public class DefaultChartTheme implements ChartTheme
 			}
 			if (display.getFont() != null)
 			{
-				chartPlot.setValueFont(new Font(JRFontUtil.getAttributes(display.getFont())));
+				chartPlot.setValueFont(JRFontUtil.getLiteFont(display.getFont()));
 			}
 		}
 

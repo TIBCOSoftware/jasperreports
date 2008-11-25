@@ -1056,7 +1056,7 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 			String tooltip) throws IOException
 	{
 		String fontFamily;
-		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
+		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);//FIXMEFONT check this
 		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 		{
 			fontFamily = (String) fontMap.get(fontFamilyAttr);
