@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -325,7 +324,7 @@ public class DefaultChartTheme implements ChartTheme
 			float defaultForegroundAlpha,
 			double defaultLabelRotation,
 			PlotOrientation defaultPlotOrientation,
-			Color[] defaultSeriesColors) throws JRException
+			Paint[] defaultSeriesColors) throws JRException
 	{
 		JRFillChart jrChart = getChart();
 		if (jrChart.getOwnMode() != null)
@@ -437,7 +436,7 @@ public class DefaultChartTheme implements ChartTheme
 			float defaultForegroundAlpha,
 			double defaultLabelRotation,
 			PlotOrientation defaultPlotOrientation,
-			Color[] defaultSeriesColors)
+			Paint[] defaultSeriesColors)
 	{
 		p.setOutlinePaint(TRANSPARENT_PAINT);
 
