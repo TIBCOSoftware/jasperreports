@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- general constants -->
+	<util:constant id="isTrue" static-field="java.lang.Boolean.TRUE"/>
+	<util:constant id="isFalse" static-field="java.lang.Boolean.FALSE"/>
+	
+	<util:constant id="oneFloat" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.ONE_FLOAT"/>
+	<util:constant id="zeroDouble" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.ZERO_DOUBLE"/>
+
+	<util:constant id="transparentPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.TRANSPARENT_PAINT"/>
+
+	<util:constant id="whiteColor" static-field="java.awt.Color.WHITE"/>
+	<util:constant id="blackColor" static-field="java.awt.Color.BLACK"/>
+	<util:constant id="greyColor" static-field="java.awt.Color.GRAY"/>
+	<util:constant id="darkGreyColor" static-field="java.awt.Color.DARK_GRAY"/>
+	<util:constant id="lightGreyColor" static-field="java.awt.Color.LIGHT_GRAY"/>
+
+	<util:constant id="eyeCandySixtiesSeriesColors" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS"/>
+	<util:constant id="eyeCandySixtiesSeriesGradientPaints" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS"/>
+
+	<util:constant id="rectangleEdgeTop" static-field="org.jfree.ui.RectangleEdge.TOP"/>
+	<util:constant id="rectangleEdgeLeft" static-field="org.jfree.ui.RectangleEdge.LEFT"/>
+	<util:constant id="rectangleEdgeBottom" static-field="org.jfree.ui.RectangleEdge.BOTTOM"/>
+	<util:constant id="rectangleEdgeRight" static-field="org.jfree.ui.RectangleEdge.RIGHT"/>
+	
+	<util:constant id="plotOrientationHorizontal" static-field="org.jfree.chart.plot.PlotOrientation.HORIZONTAL"/>
+	<util:constant id="plotOrientationVertical" static-field="org.jfree.chart.plot.PlotOrientation.VERTICAL"/>
+
+	<bean id="halfPointStroke" class="java.awt.BasicStroke">
+		<constructor-arg index="0" value="0.5f"/>
+	</bean>
+
+	<bean id="onePointStroke" class="java.awt.BasicStroke">
+		<constructor-arg index="0" value="1f"/>
+	</bean>
+
+	<bean id="twoPointStroke" class="java.awt.BasicStroke">
+		<constructor-arg index="0" value="2f"/>
+	</bean>
+
+	<bean id="threePointStroke" class="java.awt.BasicStroke">
+		<constructor-arg index="0" value="3f"/>
+	</bean>
+
+	<!-- chart property names -->
+	
+	<util:constant id="defaultBackgroundPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_BACKGROUND_PAINT"/>
+	<util:constant id="defaultTitlePosition" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_TITLE_POSITION"/>
+	<util:constant id="defaultSubtitlePosition" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_SUBTITLE_POSITION"/>
+	<util:constant id="defaultLegendPosition" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_LEGEND_POSITION"/>
+	<util:constant id="defaultSeriesColors" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_SERIES_COLORS"/>
+	<util:constant id="defaultSeriesGradientPaints" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_SERIES_GRADIENT_PAINTS"/>
+	<util:constant id="defaultChartBorderPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_CHART_BORDER_PAINT"/>
+	<util:constant id="defaultChartBorderStroke" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_CHART_BORDER_STROKE"/>
+	<util:constant id="defaultChartBorderVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_CHART_BORDER_VISIBLE"/>
+
+	<!-- plot property names -->
+	
+	<util:constant id="defaultPlotBackgroundAlpha" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_ALPHA"/>
+	<util:constant id="defaultPlotForegroundAlpha" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_FOREGROUND_ALPHA"/>
+	<util:constant id="defaultPlotLabelRotation" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_LABEL_ROTATION"/>
+	<util:constant id="defaultPlotOrientation" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_ORIENTATION"/>
+
+</beans>

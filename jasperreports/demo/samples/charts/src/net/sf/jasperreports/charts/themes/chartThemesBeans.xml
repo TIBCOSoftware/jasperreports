@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="themeBundle" class="net.sf.jasperreports.charts.themes.ChartThemeMapBundle">
+		<property name="themes">
+			<map>
+				<entry key="generic">
+					<ref local="genericChartTheme"/>
+				</entry>
+				<entry key="default">
+					<ref local="defaultChartTheme"/>
+				</entry>
+				<entry key="eye.candy.sixties">
+					<ref local="eyeCandySixtiesChartTheme"/>
+				</entry>
+				<entry key="aegean">
+					<ref local="aegeanChartTheme"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="genericChartTheme" class="net.sf.jasperreports.charts.themes.GenericChartTheme">
+		<property name="defaultChartPropertiesMap">
+			<null/>
+		</property>
+		<property name="defaultPlotPropertiesMap">
+			<null/>
+		</property>
+		<property name="defaultAxisPropertiesMap">
+			<null/>
+		</property>
+		<property name="defaultChartTypePropertiesMap">
+			<null/>
+		</property>
+	</bean>
+
+	<bean id="defaultChartTheme" class="net.sf.jasperreports.charts.themes.DefaultJRChartTheme" parent="genericChartTheme">
+		<property name="defaultChartPropertiesMap" ref="defaultChartProperties"/>
+		<property name="defaultPlotPropertiesMap" ref="defaultPlotProperties"/>
+		<property name="defaultAxisPropertiesMap" ref="defaultAxisProperties"/>
+		<property name="defaultChartTypePropertiesMap" ref="defaultChartTypeProperties"/>
+	</bean>
+
+	<bean id="eyeCandySixtiesChartTheme" class="net.sf.jasperreports.charts.themes.EyeCandySixtiesChartTheme" parent="defaultChartTheme">
+		<property name="defaultChartPropertiesMap" ref="eyeCandySixtiesDefaultChartProperties"/>
+	</bean>
+	
+	<bean id="aegeanChartTheme" class="net.sf.jasperreports.charts.themes.AegeanChartTheme" parent="defaultChartTheme">
+		<property name="defaultChartPropertiesMap" ref="aegeanDefaultChartProperties"/>
+	</bean>
+	
+	<import resource="defaultChartPropertiesBean.xml"/>
+	<import resource="defaultPlotPropertiesBean.xml"/>
+	<import resource="defaultAxisPropertiesBean.xml"/>
+	<import resource="defaultChartTypePropertiesBean.xml"/>
+	
+	<import resource="eyeCandySixtiesChartPropertiesBean.xml"/>
+	<import resource="aegeanChartPropertiesBean.xml"/>
+	
+</beans>

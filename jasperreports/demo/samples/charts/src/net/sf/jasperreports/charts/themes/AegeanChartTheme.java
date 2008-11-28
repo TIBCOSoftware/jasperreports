@@ -34,6 +34,7 @@ import java.awt.Paint;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
@@ -48,7 +49,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.base.JRBaseFont;
-import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.fill.JRFillChart;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
@@ -103,8 +103,13 @@ import org.jfree.util.UnitType;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class AegeanChartTheme extends DefaultChartTheme
+public class AegeanChartTheme extends DefaultJRChartTheme
 {
+//	protected Map defaultChartPropertiesMap;
+//	protected Map defaultPlotPropertiesMap;
+//	protected Map defaultAxisPropertiesMap;
+//	protected Map defaultChartTypePropertiesMap;
+	
 	/**
 	 * 
 	 */
@@ -115,18 +120,6 @@ public class AegeanChartTheme extends DefaultChartTheme
 	 */
 	protected final AxisLocation DEFAULT_AXIS_LOCATION = AxisLocation.TOP_OR_LEFT;
 
-	public static final Paint[] COLORS =
-		new Paint[]{
-			new Color(156, 181, 218),
-			new Color(46, 49, 146),
-			new Color(22, 161, 197),
-			new Color(170, 185, 51),
-			new Color(82, 117, 168),
-			new Color(193, 118, 100),
-			new Color(0, 82, 37),
-			new Color(172, 72, 48)
-			};
-	
 	public static final Color BORDER_COLOR = new Color(134, 134, 134);
 	public static final Color GRIDLINE_COLOR = new Color(217, 217, 217);
 	public static final Color THERMOMETER_COLOR = Color.BLACK;
@@ -144,22 +137,9 @@ public class AegeanChartTheme extends DefaultChartTheme
 	 */
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot, byte evaluation) throws JRException
 	{
-		Paint defaultBackgroundPaint = TRANSPARENT_PAINT;
+		Paint defaultBackgroundPaint = (Paint)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BACKGROUND_PAINT);
 
-		super.configureChart(jfreeChart, 
-				jrPlot, 
-				evaluation, 
-				defaultBackgroundPaint,
-				RectangleEdge.TOP, 
-				RectangleEdge.BOTTOM, 
-				RectangleEdge.RIGHT,
-				1f,
-				1f,
-				0.0,
-				PlotOrientation.HORIZONTAL,
-				COLORS);
-		
-		JRFillChart chart = getChart();
+		super.configureChart(jfreeChart, jrPlot, evaluation);
 		TextTitle title = jfreeChart.getTitle();
 		float baseFontSize = chart.getLegendFont() != null ? chart.getLegendFont().getFontSize() : 8f;
 
@@ -235,63 +215,16 @@ public class AegeanChartTheme extends DefaultChartTheme
 		}
 
 		jfreeChart.setAntiAlias(true);
-		JRLineBox lineBox = chart.getLineBox();
-		if(
-			lineBox.getLeftPen().getLineWidth().floatValue() == 0
-			&& lineBox.getBottomPen().getLineWidth().floatValue() == 0
-			&& lineBox.getRightPen().getLineWidth().floatValue() == 0
-			&& lineBox.getTopPen().getLineWidth().floatValue() == 0
-			)
-		{
-			jfreeChart.setBorderStroke(new BasicStroke(1f));
-			jfreeChart.setBorderPaint(BORDER_COLOR);
-			jfreeChart.setBorderVisible(true);
-		}
 		jfreeChart.setPadding(new RectangleInsets(UnitType.ABSOLUTE, chartPadding, chartPadding, chartPadding, chartPadding));
 	}
 
 	/**
 	 *
 	 */
-	protected void configurePlot(Plot p, JRChartPlot jrPlot)
+	protected void configurePlot(Plot plot, JRChartPlot jrPlot)
 	{
-		configurePlot(p,
-				jrPlot,
-				1f,
-				1f,
-				0.0,
-				PlotOrientation.VERTICAL,
-				COLORS);
-	}
 
-	/**
-	 *
-	 */
-	protected void configurePlot(Plot plot, 
-			JRChartPlot jrPlot,
-			float defaultBackgroundAlpha,
-			float defaultForegroundAlpha,
-			double defaultLabelRotation,
-			PlotOrientation defaultPlotOrientation,
-			Paint[] defaultSeriesPaints)
-	{
-		super.configurePlot(plot,
-				jrPlot,
-				defaultBackgroundAlpha,
-				defaultForegroundAlpha,
-				defaultLabelRotation,
-				defaultPlotOrientation,
-				defaultSeriesPaints);
-
-		plot.setDrawingSupplier(
-			new DefaultDrawingSupplier(
-				defaultSeriesPaints == null ? COLORS : defaultSeriesPaints,
-				DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
-				DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
-				DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
-				DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE
-				)
-			);
+		super.configurePlot(plot, jrPlot);
 
 		if(plot instanceof CategoryPlot)
 		{
@@ -300,7 +233,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 			CategoryDataset categoryDataset = categoryPlot.getDataset();
 			for(int i = 0; i < categoryDataset.getRowCount(); i++)
 			{
-				categoryRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+				categoryRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 			}
 			categoryPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
 			categoryPlot.setRangeGridlineStroke(new BasicStroke(0.5f));
@@ -314,7 +247,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 			XYItemRenderer xyItemRenderer = xyPlot.getRenderer();
 			for(int i = 0; i < xyDataset.getSeriesCount(); i++)
 			{
-				xyItemRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+				xyItemRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 			}
 			xyPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
 			xyPlot.setRangeGridlineStroke(new BasicStroke(0.5f));
@@ -409,16 +342,17 @@ public class AegeanChartTheme extends DefaultChartTheme
 		Font font = null;
 		if (labelFont != null)
 		{
-			font = JRFontUtil.getLiteFont(labelFont);
-			if (labelFont.isOwnBold() == null)
-			{
-				font = font.deriveFont(Font.BOLD);
-			}
-			
-			if (labelFont.getOwnFontSize() == null)
-			{
-				font = font.deriveFont(baseFontSize);
-			}
+//			font = JRFontUtil.getLiteFont(labelFont);
+//			if (labelFont.isOwnBold() == null)
+//			{
+//				font = font.deriveFont(Font.BOLD);
+//			}
+//			
+//			if (labelFont.getOwnFontSize() == null)
+//			{
+//				font = font.deriveFont(baseFontSize);
+//			}
+			font = axis.getLabelFont().deriveFont(Font.BOLD).deriveFont(baseFontSize);//FIXME: de scos si de decomentat ce e mai sus
 		}
 		else
 		{
@@ -429,11 +363,12 @@ public class AegeanChartTheme extends DefaultChartTheme
 		Font tickFont = null;
 		if(tickLabelFont != null)
 		{
-			tickFont = JRFontUtil.getLiteFont(labelFont);
-			if (tickLabelFont.isOwnBold() == null)
-			{
-				tickFont = tickFont.deriveFont(Font.PLAIN);
-			}
+//			tickFont = JRFontUtil.getLiteFont(labelFont);
+//			if (tickLabelFont.isOwnBold() == null)
+//			{
+//				tickFont = tickFont.deriveFont(Font.PLAIN);
+//			}
+			tickFont = axis.getTickLabelFont().deriveFont(Font.PLAIN).deriveFont(baseFontSize);
 		}
 		else
 		{
@@ -464,16 +399,16 @@ public class AegeanChartTheme extends DefaultChartTheme
 		JFreeChart jfreeChart = super.createPieChart(evaluation);
 
 		PiePlot piePlot = (PiePlot)jfreeChart.getPlot();
-		piePlot.setLabelBackgroundPaint(TRANSPARENT_PAINT);
-		piePlot.setLabelShadowPaint(TRANSPARENT_PAINT);
-		piePlot.setLabelOutlinePaint(TRANSPARENT_PAINT);
+		piePlot.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		piePlot.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		piePlot.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		piePlot.setShadowXOffset(0);
 		piePlot.setShadowYOffset(0);
-//		piePlot.setShadowPaint(new GradientPaint(0, getChart().getHeight() / 2, new Color(41, 120, 162), 0, getChart().getHeight(), Color.white));
+//		piePlot.setShadowPaint(new GradientPaint(0, chart.getHeight() / 2, new Color(41, 120, 162), 0, chart.getHeight(), Color.white));
 		PieDataset pieDataset = piePlot.getDataset();
 		for(int i = 0; i < pieDataset.getItemCount(); i++)
 		{
-			piePlot.setSectionOutlinePaint(pieDataset.getKey(i), TRANSPARENT_PAINT);
+			piePlot.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
 			//makes pie colors darker
 			//piePlot.setSectionPaint(pieDataset.getKey(i), GRADIENT_PAINTS[i]);
 		}
@@ -505,9 +440,9 @@ public class AegeanChartTheme extends DefaultChartTheme
 		JFreeChart jfreeChart = super.createPie3DChart(evaluation);
 
 		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
-		piePlot3D.setLabelBackgroundPaint(TRANSPARENT_PAINT);
-		piePlot3D.setLabelShadowPaint(TRANSPARENT_PAINT);
-		piePlot3D.setLabelOutlinePaint(TRANSPARENT_PAINT);
+		piePlot3D.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		piePlot3D.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		piePlot3D.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		piePlot3D.setDarkerSides(true);
 		piePlot3D.setDepthFactor(0.07);
 //does not work for 3D
@@ -515,10 +450,10 @@ public class AegeanChartTheme extends DefaultChartTheme
 //		piePlot3D.setShadowYOffset(10);
 //		piePlot3D.setShadowPaint(new GradientPaint(
 //				0,
-//				getChart().getHeight() / 2,
+//				chart.getHeight() / 2,
 //				new Color(41, 120, 162),
 //				0,
-//				getChart().getHeight(),
+//				chart.getHeight(),
 //				Color.white)
 //		);
 
@@ -526,7 +461,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 
 		for(int i = 0; i < pieDataset.getItemCount(); i++)
 		{
-			piePlot3D.setSectionOutlinePaint(pieDataset.getKey(i), TRANSPARENT_PAINT);
+			piePlot3D.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
 		}
 
 		if (
@@ -554,12 +489,12 @@ public class AegeanChartTheme extends DefaultChartTheme
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		BarRenderer3D barRenderer3D = (BarRenderer3D)categoryPlot.getRenderer();
 		barRenderer3D.setItemMargin(0);
-		barRenderer3D.setWallPaint(TRANSPARENT_PAINT);
+		barRenderer3D.setWallPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		//categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
-			barRenderer3D.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+			barRenderer3D.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 		}
 		
 		return jfreeChart;
@@ -571,12 +506,12 @@ public class AegeanChartTheme extends DefaultChartTheme
 		JFreeChart jfreeChart = super.createStackedBar3DChart(evaluation);
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		BarRenderer3D barRenderer3D = (BarRenderer3D)categoryPlot.getRenderer();
-		barRenderer3D.setWallPaint(TRANSPARENT_PAINT);
+		barRenderer3D.setWallPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		barRenderer3D.setItemMargin(0);
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
-			barRenderer3D.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+			barRenderer3D.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 		}
 		
 		return jfreeChart;
@@ -595,7 +530,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 		XYBubbleRenderer bubbleRenderer = (XYBubbleRenderer)xyPlot.getRenderer();
 		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
 		{
-			bubbleRenderer.setSeriesOutlinePaint(i, TRANSPARENT_PAINT);
+			bubbleRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 		}
 		return jfreeChart;
 	}
@@ -644,8 +579,9 @@ public class AegeanChartTheme extends DefaultChartTheme
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelsVisible(true);
 		BarRenderer barRenderer = (BarRenderer)categoryRenderer;
-		barRenderer.setSeriesPaint(0, COLORS[3]);
-		barRenderer.setSeriesPaint(1, COLORS[0]);
+		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SERIES_COLORS);
+		barRenderer.setSeriesPaint(0, (Paint)seriesPaints.get(3));
+		barRenderer.setSeriesPaint(1, (Paint)seriesPaints.get(0));
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
 		{
 			barRenderer.setSeriesItemLabelFont(i, categoryPlot.getDomainAxis().getTickLabelFont());
@@ -761,10 +697,10 @@ public class AegeanChartTheme extends DefaultChartTheme
 //		// Actually create the chart around the plot
 //		JFreeChart jfreeChart =
 //			new JFreeChart(
-//				(String)evaluateExpression(getChart().getTitleExpression(), evaluation),
+//				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
 //				null,
 //				chartPlot,
-//				getChart().isShowLegend()
+//				chart.isShowLegend()
 //				);
 //
 //		// Set all the generic options
@@ -787,7 +723,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 
 		// Set the generic options
 		configureChart(jfreeChart, getPlot(), evaluation);
-		jfreeChart.setBackgroundPaint(TRANSPARENT_PAINT);
+		jfreeChart.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		jfreeChart.setBorderVisible(false);
 
 		Range range = convertRange(jrPlot.getDataRange(), evaluation);
@@ -805,7 +741,9 @@ public class AegeanChartTheme extends DefaultChartTheme
 
 		// Set the color of the mercury.  Only used when the value is outside of
 		// any defined ranges.
-		Paint paint = (jrPlot.getMercuryColor() != null ? (Paint)jrPlot.getMercuryColor() : (Paint)COLORS[0]);
+		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SERIES_COLORS);
+		
+		Paint paint = (jrPlot.getMercuryColor() != null ? (Paint)jrPlot.getMercuryColor() : (Paint)seriesPaints.get(0));
 		chartPlot.setMercuryPaint(paint);
 
 		chartPlot.setThermometerPaint(THERMOMETER_COLOR);
@@ -829,7 +767,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 			}
 			if (display.getFont() != null)
 			{
-				chartPlot.setValueFont(JRFontUtil.getLiteFont(display.getFont()).deriveFont(Font.BOLD));//FIXMETHEME check lite font everywhere
+//				chartPlot.setValueFont(JRFontUtil.getLiteFont(display.getFont()).deriveFont(Font.BOLD));//FIXMETHEME check lite font everywhere
 			}
 		}
 
@@ -902,17 +840,17 @@ public class AegeanChartTheme extends DefaultChartTheme
 		DialPlot dialPlot = new DialPlot();
 		dialPlot.setDataset((ValueDataset)getDataset().getDataset());
 		StandardDialFrame dialFrame = new StandardDialFrame();
-		dialFrame.setForegroundPaint(TRANSPARENT_PAINT);
+		dialFrame.setForegroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		dialFrame.setBackgroundPaint(Color.BLACK);
 //		dialFrame.setStroke(new BasicStroke(0.1f));
 		dialPlot.setDialFrame(dialFrame);
 
-		DialBackground db = new DialBackground(TRANSPARENT_PAINT);
+		DialBackground db = new DialBackground(ChartThemesConstants.TRANSPARENT_PAINT);
 		dialPlot.setBackground(db);
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		JRFont jrFont = display != null  && display.getFont() != null ?
 				display.getFont() :
-				new JRBaseFont(null, null, getChart(), null);
+				new JRBaseFont(null, null, chart, chart.getLegendFont());
 
 		Range range = convertRange(jrPlot.getDataRange(), evaluation);
 		double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
@@ -932,12 +870,11 @@ public class AegeanChartTheme extends DefaultChartTheme
 				);
 		scale.setTickRadius(0.9);
 		scale.setTickLabelOffset(0.16);
-		scale.setTickLabelFont(JRFontUtil.getLiteFont(jrFont).deriveFont(8f).deriveFont(Font.BOLD));
+//		scale.setTickLabelFont(JRFontUtil.getLiteFont(jrFont).deriveFont(8f).deriveFont(Font.BOLD));
 		scale.setMajorTickStroke(new BasicStroke(1f));
 		scale.setMinorTickStroke(new BasicStroke(0.7f));
 		scale.setMajorTickPaint(Color.BLACK);
 		scale.setMinorTickPaint(Color.BLACK);
-
 		scale.setTickLabelsVisible(true);
 		scale.setFirstTickLabelVisible(true);
 		if((lowerBound == (int)lowerBound &&
@@ -993,15 +930,15 @@ public class AegeanChartTheme extends DefaultChartTheme
 			}
 		}
 
-       String displayVisibility = display != null && getChart().hasProperties() ? 
-       		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
+       String displayVisibility = display != null && chart.hasProperties() ? 
+       		chart.getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
        
        if(Boolean.valueOf(displayVisibility).booleanValue())
        {
        	ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
-	        dvi.setBackgroundPaint(TRANSPARENT_PAINT);
-	        dvi.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
-	        dvi.setOutlinePaint(TRANSPARENT_PAINT);
+	        dvi.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+//	        dvi.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
+	        dvi.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 	        dvi.setPaint(Color.WHITE);
 	        
 	        String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
@@ -1017,9 +954,9 @@ public class AegeanChartTheme extends DefaultChartTheme
 		if(Boolean.parseBoolean(displayVisibility))
 		{
 			ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
-			dvi.setBackgroundPaint(TRANSPARENT_PAINT);
-			dvi.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
-			dvi.setOutlinePaint(TRANSPARENT_PAINT);
+			dvi.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+//			dvi.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
+			dvi.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 			dvi.setPaint(Color.WHITE);
 
 			String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
@@ -1032,8 +969,8 @@ public class AegeanChartTheme extends DefaultChartTheme
 			dialPlot.addLayer(dvi);
 		}
 
-		String label = getChart().hasProperties() ?
-				getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
+		String label = chart.hasProperties() ?
+				chart.getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
 
 		if(label != null)
 		{
@@ -1048,7 +985,7 @@ public class AegeanChartTheme extends DefaultChartTheme
 			for(int i = 0; i < textLines.length; i++)
 			{
 				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
-				dialAnnotation.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(Font.BOLD));
+//				dialAnnotation.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(Font.BOLD));
 				dialAnnotation.setPaint(Color.BLACK);
 				dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
 				dialAnnotation.setAnchor(TextAnchor.CENTER);
@@ -1067,21 +1004,21 @@ public class AegeanChartTheme extends DefaultChartTheme
 		DialCap cap = new DialCap();
 		cap.setRadius(0.03);
 		cap.setFillPaint(Color.BLACK);
-		cap.setOutlinePaint(TRANSPARENT_PAINT);
+		cap.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		dialPlot.setCap(cap);
 
 		JFreeChart jfreeChart =
 		new JFreeChart(
-			(String)evaluateExpression(getChart().getTitleExpression(), evaluation),
+			(String)evaluateExpression(chart.getTitleExpression(), evaluation),
 			null,
 			dialPlot,
-			getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
+			chart.getShowLegend() == null ? false : chart.getShowLegend().booleanValue()
 			);
 
 		// Set all the generic options
 		configureChart(jfreeChart, getPlot(), evaluation);
 
-		jfreeChart.setBackgroundPaint(TRANSPARENT_PAINT);
+		jfreeChart.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		jfreeChart.setBorderVisible(false);
 
 		return jfreeChart;
@@ -1097,10 +1034,12 @@ public class AegeanChartTheme extends DefaultChartTheme
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		CandlestickRenderer renderer = (CandlestickRenderer)xyPlot.getRenderer();
 		DefaultHighLowDataset dataset = (DefaultHighLowDataset)xyPlot.getDataset();
+		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SERIES_COLORS);
 
 		for(int i = 0; i < dataset.getSeriesCount(); i++)
 		{
-			renderer.setSeriesFillPaint(i, COLORS[i]);
+			
+			renderer.setSeriesFillPaint(i, (Paint)seriesPaints.get(i));
 			renderer.setSeriesPaint(i, Color.DARK_GRAY);
 		}
 		return jfreeChart;
