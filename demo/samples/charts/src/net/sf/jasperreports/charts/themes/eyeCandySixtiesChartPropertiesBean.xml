@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<util:map id="eyeCandySixtiesDefaultChartProperties">
+	    <entry key-ref="defaultBackgroundPaint" value-ref="eyeCandySixtiesDefaultBackgroundColor"/>
+	    <entry key-ref="defaultSeriesColors" value-ref="eyeCandySixtiesSeriesColors"/>
+	    <entry key-ref="defaultSeriesGradientPaints" value-ref="eyeCandySixtiesSeriesGradientPaints"/>
+	    <entry key-ref="defaultChartBorderPaint" value-ref="eyeCandySixtiesChartBorderPaint"/>
+	    <entry key-ref="defaultChartBorderStroke" value-ref="threePointStroke"/>
+	    <entry key-ref="defaultChartBorderVisible" value-ref="isTrue"/>
+	    <entry key-ref="defaultTitlePosition" value-ref="rectangleEdgeTop"/>
+   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeBottom"/>
+   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeRight"/>
+	    
+	</util:map>
+
+	<bean id="eyeCandySixtiesDefaultBackgroundColor" class="java.awt.GradientPaint">
+		<constructor-arg index="0" value="0f"/>
+		<constructor-arg index="1" value="0f"/>
+		<constructor-arg index="2" ref="eyeCandySixtiesBackgroundColor1"/>
+		<constructor-arg index="3" value="0f"/>
+		<constructor-arg index="4" value="0f"/>
+		<constructor-arg index="5" ref="whiteColor"/>
+		<constructor-arg index="6" value="false"/>
+	</bean>
+
+	<bean id="eyeCandySixtiesBackgroundColor1" class="java.awt.Color">
+		<constructor-arg index="0" value="41"/>
+		<constructor-arg index="1" value="120"/>
+		<constructor-arg index="2" value="162"/>
+	</bean>
+
+	<bean id="eyeCandySixtiesChartBorderPaint" class="java.awt.Color">
+		<constructor-arg index="0" value="27"/>
+		<constructor-arg index="1" value="80"/>
+		<constructor-arg index="2" value="108"/>
+	</bean>
+
+	<import resource="chartConstantsBean.xml"/>
+</beans>
