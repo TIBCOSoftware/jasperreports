@@ -27,79 +27,33 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
-import java.awt.Font;
-import java.io.ObjectStreamException;
-import java.util.Map;
-
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: BarbecueRenderer.java 1229 2006-04-19 10:27:35Z teodord $
+ * @version $Id: JRChart.java 2469 2008-11-19 15:12:30Z shertage $
  */
-public class LiteFont extends Font
+public interface FontFace
 {
 
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	private String liteName = null;
-//	private int liteStyle = Font.PLAIN;
-
-	/**
-	 *
-	 */
-	public LiteFont(String name, Map attr) 
-	{
-		super(attr);
-		
-		liteName = name;
-	}
+	public String getName();
 	
 	/**
-	 *
+	 * 
 	 */
-	public LiteFont(String name, int style, int size) 
-	{
-		super(name, style, size);
-		
-		liteName = name;
-		//liteStyle = style;
-	}
+	public void setName(String name);
 	
 	/**
-	 *
+	 * 
 	 */
-	public String getLiteName()
-	{
-		return liteName;
-	}
+	public String getFile();
 	
 	/**
-	 *
-	 *
-	public int getLiteStyle()
-	{
-		return liteStyle;
-	}
-	
-	/**
-	 *
+	 * 
 	 */
-	private Object readResolve() throws ObjectStreamException
-	{
-		//Font font = JRFontUtil.getAwtFont(new JRBaseFont(getAttributes()));
-		Font font = JRFontUtil.getAwtFont(getLiteName(), getStyle(), getSize());//FIXMEFONT replicate all attributes
-		
-		if (font != null)
-		{
-			return font;
-		}
-		
-		return this;
-	}
+	public void setFile(String file);
+	
 }

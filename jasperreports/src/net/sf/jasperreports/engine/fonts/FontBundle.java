@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
+import java.util.List;
+
 
 
 /**
@@ -39,6 +41,6 @@ public interface FontBundle
 	/**
 	 * 
 	 */
-	public FontEntry getFontEntry(String name);
+	public List getFontFamilies();
 
 }

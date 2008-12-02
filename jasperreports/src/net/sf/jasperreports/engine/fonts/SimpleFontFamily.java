@@ -33,17 +33,17 @@ package net.sf.jasperreports.engine.fonts;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRChart.java 2469 2008-11-19 15:12:30Z shertage $
  */
-public class SimpleFontEntry implements FontEntry
+public class SimpleFontFamily implements FontFamily
 {
 
 	/**
 	 * 
 	 */
 	private String name = null;
-	private String normal = null;
-	private String bold = null;
-	private String italic = null;
-	private String boldItalic = null;
+	private FontFace normalFace = null;
+	private FontFace boldFace = null;
+	private FontFace italicFace = null;
+	private FontFace boldItalicFace = null;
 	private String pdfEncoding = null;
 	private boolean isPdfEmbedded = false;
 	private boolean isSimulatedBold = false;
@@ -70,7 +70,7 @@ public class SimpleFontEntry implements FontEntry
 	 */
 	public String getNormal()
 	{
-		return normal;
+		return normalFace == null ? null : normalFace.getFile();
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class SimpleFontEntry implements FontEntry
 	 */
 	public void setNormal(String normal)
 	{
-		this.normal = normal;
+		normalFace = SimpleFontFace.createInstance(normal);
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public class SimpleFontEntry implements FontEntry
 	 */
 	public String getBold()
 	{
-		return bold;
+		return boldFace == null ? null : boldFace.getFile();
 	}
 	
 	/**
@@ -94,7 +94,7 @@ public class SimpleFontEntry implements FontEntry
 	 */
 	public void setBold(String bold)
 	{
-		this.bold = bold;
+		boldFace = SimpleFontFace.createInstance(bold);
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class SimpleFontEntry implements FontEntry
 	 */
 	public String getItalic()
 	{
-		return italic;
+		return italicFace == null ? null : italicFace.getFile();
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class SimpleFontEntry implements FontEntry
 	 */
 	public void setItalic(String italic)
 	{
-		this.italic = italic;
+		italicFace = SimpleFontFace.createInstance(italic);
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class SimpleFontEntry implements FontEntry
 	 */
 	public String getBoldItalic()
 	{
-		return boldItalic;
+		return boldItalicFace == null ? null : boldItalicFace.getFile();
 	}
 	
 	/**
@@ -126,7 +126,71 @@ public class SimpleFontEntry implements FontEntry
 	 */
 	public void setBoldItalic(String boldItalic)
 	{
-		this.boldItalic = boldItalic;
+		boldItalicFace = SimpleFontFace.createInstance(boldItalic);
+	}
+
+	/**
+	 * 
+	 */
+	public FontFace getNormalFace()
+	{
+		return normalFace;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setNormalFace(FontFace normalFace)
+	{
+		this.normalFace = normalFace;
+	}
+	
+	/**
+	 * 
+	 */
+	public FontFace getBoldFace()
+	{
+		return boldFace;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setBoldFace(FontFace boldFace)
+	{
+		this.boldFace = boldFace;
+	}
+	
+	/**
+	 * 
+	 */
+	public FontFace getItalicFace()
+	{
+		return italicFace;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setItalicFace(FontFace italicFace)
+	{
+		this.italicFace = italicFace;
+	}
+	
+	/**
+	 * 
+	 */
+	public FontFace getBoldItalicFace()
+	{
+		return boldItalicFace;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setBoldItalicFace(FontFace boldItalicFace)
+	{
+		this.boldItalicFace = boldItalicFace;
 	}
 	
 	/**

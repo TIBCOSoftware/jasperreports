@@ -27,7 +27,7 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
-import java.util.Map;
+import java.util.List;
 
 
 /**
@@ -39,29 +39,40 @@ public class SimpleFontBundle implements FontBundle
 	/**
 	 * 
 	 */
-	private Map fontEntriesMap = null;
+	private List fontFamilies = null;
+	//private Map fontFamiliesMap = null;
 	
 	/**
 	 * 
 	 */
-	public Map getFontEntries()
+	public List getFontFamilies()
 	{
-		return fontEntriesMap;
+		return fontFamilies;
 	}
 	
 	/**
 	 * 
 	 */
-	public void setFontEntries(Map fontEntriesMap)
+	public void setFontFamilies(List fontFamilies)
 	{
-		this.fontEntriesMap = fontEntriesMap;
+		this.fontFamilies = fontFamilies;
+		
+//		if (fontFamilies != null)
+//		{
+//			fontFamiliesMap = new HashMap(fontFamilies.size());
+//			for (Iterator it = fontFamilies.iterator(); it.hasNext();)
+//			{
+//				FontFamily fontFamily = (FontFamily)it.next();
+//				fontFamiliesMap.put(fontFamily.getName(), fontFamily);
+//			}
+//		}
 	}
 	
-	/**
-	 * 
-	 */
-	public FontEntry getFontEntry(String name)
-	{
-		return (FontEntry)fontEntriesMap.get(name);
-	}
+//	/**
+//	 * 
+//	 */
+//	public FontFamily getFontFamily(String name)
+//	{
+//		return fontFamiliesMap == null ? null : (FontFamily)fontFamiliesMap.get(name);
+//	}
 }

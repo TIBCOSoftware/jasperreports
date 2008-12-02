@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.awt.Font;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -54,6 +55,8 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 	public ContextClassLoaderObjectInputStream(InputStream in) throws IOException
 	{
 		super(in);
+		
+		enableResolveObject(true);
 	}
 
 	/**
@@ -89,5 +92,33 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 			}
 		}
 	}
+
+	
+	/**
+	 * Calls <code>super.resolveObject()</code> and in case the object is 
+	 * a <code>java.awt.Font</code>, it look up for it is fails with
+	 * {@link ClassNotFoundException} attempts to load the class using the
+	 * context class loader.
+	 */
+	protected Object resolveObject(Object obj) throws IOException
+	{
+		Font font = (obj instanceof Font) ? (Font)obj : null;
+		
+		if (font != null)
+		{
+			//String fontName = (String)font.getAttributes().get(TextAttribute.FAMILY);//FIXMEFONT check this
+			String fontName = font.getName();
+			Font newFont = JRFontUtil.getAwtFontFromBundles(fontName, font.getStyle(), font.getSize());
+			
+			if (newFont != null)
+			{
+				return newFont; //this does not work in jdk1.4, where dialog font gets used unless we derive it using all attributes
+				//return newFont.deriveFont(font.getAttributes()); //this does not work in jdk1.6 where dialog gets used if we derive the font using attributes
+			}
+		}
+		
+		return obj;
+	}
+
 
 }
