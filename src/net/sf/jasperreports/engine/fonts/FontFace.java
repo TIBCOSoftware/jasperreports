@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
+import java.awt.Font;
+
 
 
 /**
@@ -56,4 +58,14 @@ public interface FontFace
 	 */
 	public void setFile(String file);
 	
+	/**
+	 * 
+	 */
+	public Font getFont();
+	
+	/**
+	 * 
+	 */
+	public void setFont(Font font);
+
 }
