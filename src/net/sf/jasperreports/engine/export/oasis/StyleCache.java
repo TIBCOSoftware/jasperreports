@@ -214,7 +214,7 @@ public class StyleCache
 	public String getTextSpanStyle(Map attributes, String text) throws IOException
 	{
 		String fontFamily;
-		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);//FIXMEFONT check this
+		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
 		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 		{
 			fontFamily = (String) fontMap.get(fontFamilyAttr);

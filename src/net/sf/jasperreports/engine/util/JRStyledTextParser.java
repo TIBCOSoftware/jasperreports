@@ -349,10 +349,6 @@ public class JRStyledTextParser implements ErrorHandler
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontName) != null)
 				{
 					styleAttrs.put(
-						JRTextAttribute.FONT_NAME,
-						nodeAttrs.getNamedItem(ATTRIBUTE_fontName).getNodeValue()
-						);
-					styleAttrs.put(
 						TextAttribute.FAMILY,
 						nodeAttrs.getNamedItem(ATTRIBUTE_fontName).getNodeValue()
 						);
@@ -553,7 +549,6 @@ public class JRStyledTextParser implements ErrorHandler
 						{
 							if (fontList[j].equals(face)) 
 							{
-								styleAttrs.put(JRTextAttribute.FONT_NAME, face);//FIXMEFONT should we load the awt font?
 								styleAttrs.put(TextAttribute.FAMILY, face);
 								break label;
 							}
@@ -640,10 +635,8 @@ public class JRStyledTextParser implements ErrorHandler
 	{
 		StringBuffer sbuffer = new StringBuffer();
 		
-//		Object value = attrs.get(TextAttribute.FAMILY);
-//		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
-		Object value = attrs.get(JRTextAttribute.FONT_NAME);
-		Object oldValue = parentAttrs.get(JRTextAttribute.FONT_NAME);
+		Object value = attrs.get(TextAttribute.FAMILY);
+		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
 		
 		if (value != null && !value.equals(oldValue))
 		{

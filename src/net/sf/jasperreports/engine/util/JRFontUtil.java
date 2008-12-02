@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.util;
 
 import java.awt.Font;
 import java.awt.font.TextAttribute;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,9 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fonts.FontBundle;
-import net.sf.jasperreports.engine.fonts.FontEntry;
-import net.sf.jasperreports.engine.fonts.LiteFont;
+import net.sf.jasperreports.engine.fonts.FontFace;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 
@@ -54,11 +56,9 @@ public class JRFontUtil
 	 */
 	public static Map getAttributes(Map attributes, JRFont font)
 	{
-		attributes.put(JRTextAttribute.FONT_NAME, font.getFontName());
-
 		//Font awtFont = getAwtFont(font);//FIXMEFONT optimize so that we don't load the AWT font for all exporters.
 		Font awtFont = 
-			getAwtFont(
+			getAwtFontFromBundles(
 				font.getFontName(), 
 				((font.isBold()?Font.BOLD:Font.PLAIN)|(font.isItalic()?Font.ITALIC:Font.PLAIN)), 
 				font.getFontSize()
@@ -102,25 +102,49 @@ public class JRFontUtil
 
 
 	/**
-	 * Returns a font entry by name.
+	 * Returns font information containing the font family, font face and font style.
 	 * 
-	 * @param name the font entry name
-	 * @return a font entry
+	 * @param name the font family or font face name
+	 * @return a font info object
 	 */
-	public static FontEntry getFontEntry(String name)
+	public static FontInfo getFontInfo(String name)
 	{
 		//FIXMEFONT do some cache
 		List bundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontBundle.class);
-		for (Iterator it = bundles.iterator(); it.hasNext();)
+		for (Iterator itb = bundles.iterator(); itb.hasNext();)
 		{
-			FontBundle bundle = (FontBundle)it.next();
-			FontEntry fontEntry = bundle.getFontEntry(name);
-			if (fontEntry != null)
+			FontBundle bundle = (FontBundle)itb.next();
+			List families = bundle.getFontFamilies();
+			for (Iterator itf = families.iterator(); itf.hasNext();)
 			{
-				return fontEntry;
+				FontFamily family = (FontFamily)itf.next();
+				if (name.equals(family.getName()))
+				{
+					return new FontInfo(family, null, Font.PLAIN);
+				}
+				FontFace face = family.getNormalFace();
+				if (face != null && name.equals(face.getName()))
+				{
+					return new FontInfo(family, face, Font.PLAIN);
+				}
+				face = family.getBoldFace();
+				if (face != null && name.equals(face.getName()))
+				{
+					return new FontInfo(family, face, Font.BOLD);
+				}
+				face = family.getItalicFace();
+				if (face != null && name.equals(face.getName()))
+				{
+					return new FontInfo(family, face, Font.ITALIC);
+				}
+				face = family.getBoldItalicFace();
+				if (face != null && name.equals(face.getName()))
+				{
+					return new FontInfo(family, face, Font.BOLD | Font.ITALIC);
+				}
 			}
 		}
-		//throw new JRRuntimeException("Font entry named '" + name + "' not found.");
+		//throw new JRRuntimeException("Font family/face named '" + name + "' not found.");
 		return null;
 	}
 
@@ -128,62 +152,66 @@ public class JRFontUtil
 	/**
 	 *
 	 */
-	public static Font getAwtFont(String name, int style, int size)
+	public static Font getAwtFontFromBundles(String name, int style, int size)
 	{
 		Font awtFont = null;
-		FontEntry fontEntry = getFontEntry(name);
+		FontInfo fontInfo = getFontInfo(name);
 		
-		if (fontEntry != null)
+		if (fontInfo != null)
 		{
-			boolean isSimulatedBold = false;
-			boolean isSimulatedItalic = false;
-			 
 			String ttf = null;
-			
-			if (((style & Font.BOLD) > 0) && ((style & Font.ITALIC) > 0))
+			int faceStyle = Font.PLAIN;
+			FontFace face = fontInfo.getFontFace();
+			if (face == null)
 			{
-				ttf = fontEntry.getBoldItalic();
-				if (ttf == null)
+				FontFamily family = fontInfo.getFontFamily();
+				if (((style & Font.BOLD) > 0) && ((style & Font.ITALIC) > 0))
 				{
-					isSimulatedBold = true;
-					isSimulatedItalic = true;
+					face = family.getBoldItalicFace();
+					faceStyle = Font.BOLD | Font.ITALIC;
 				}
-			}
-			
-			if (ttf == null && ((style & Font.BOLD) > 0))
-			{
-				ttf = fontEntry.getBold();
-				if (ttf == null)
-				{
-					isSimulatedBold = true;
-				}
-			}
-			
-			if (ttf == null && ((style & Font.ITALIC) > 0))
-			{
-				ttf = fontEntry.getItalic();
-				if (ttf == null)
-				{
-					isSimulatedItalic = true;
-				}
-			}
-			
-			if (ttf == null)
-			{
-				ttf = fontEntry.getNormal();
-			}
 				
-			if (ttf == null)
+				if (face == null && ((style & Font.BOLD) > 0))
+				{
+					face = family.getBoldFace();
+					faceStyle = Font.BOLD;
+				}
+				
+				if (face == null && ((style & Font.ITALIC) > 0))
+				{
+					face = family.getItalicFace();
+					faceStyle = Font.ITALIC;
+				}
+				
+				if (face == null)
+				{
+					face = family.getNormalFace();
+					faceStyle = Font.PLAIN;
+				}
+					
+				if (face == null)
+				{
+					throw new JRRuntimeException("Font family '" + name + "' does not have the normal font face.");
+				}
+			}
+			else
 			{
-				throw new JRRuntimeException("Font entry '" + name + "' does not have the normal font set.");
+				faceStyle = fontInfo.getStyle();
 			}
 
+			ttf = face.getFile();
+
+			if (ttf == null)
+			{
+				//FIXMEFONT throw something
+			}
+			
 			try
 			{
 				awtFont = //FIXMEFONT do some cache here
 					Font.createFont(
 						Font.TRUETYPE_FONT, 
-						JRLoader.getResourceInputStream(ttf)
+						JRLoader.getLocationInputStream(ttf)//FIXMEFONT close stream
 						);
 			}
 			catch(Exception e)
@@ -192,18 +220,30 @@ public class JRFontUtil
 			}
 
 			awtFont = awtFont.deriveFont((float)size);
+			
+			String javaVersion = System.getProperty("java.version");
+			if (javaVersion.startsWith("1.4"))
+			{
+				Map attrs = new HashMap();
+				attrs.putAll(awtFont.getAttributes());
+				attrs.put(TextAttribute.FAMILY, name);
+				if ((style & Font.BOLD) > 0)
+				{
+					attrs.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+				}
 
-//			if ((style & Font.BOLD) > 0)
-//			//if (isSimulatedBold)
-//			{
-//				awtFont = awtFont.deriveFont(Font.BOLD);
-//			}
-//			if ((style & Font.ITALIC) > 0)
-//			//if (isSimulatedItalic)
-//			{
-//				awtFont = awtFont.deriveFont(Font.ITALIC);
-//			}
-			awtFont = awtFont.deriveFont(style);
+				if ((style & Font.ITALIC) > 0)
+				{
+					attrs.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
+				}
+				
+				awtFont = new Font(attrs);
+			}
+			else
+			{
+				awtFont = awtFont.deriveFont(style | faceStyle);//FIXMEFONT this is not good
+			}
+			
 		}
 		
 		return awtFont;
@@ -213,130 +253,27 @@ public class JRFontUtil
 	/**
 	 *
 	 */
-	public static LiteFont getLiteFont(String name, int style, int size)
+	public static Font getAwtFont(JRFont font)
 	{
-		Font awtFont = getAwtFont(name, style, size);
-		
-		if (awtFont != null)
+		if (font == null)
 		{
-			return new LiteFont(name, awtFont.getAttributes());
+			return null;
 		}
 		
-		return null;
-	}
-	
-	
-	/**
-	 *
-	 */
-	public static LiteFont getLiteFont(JRFont font)
-	{
-		return 
-			getLiteFont(
+		Font awtFont = 
+			getAwtFontFromBundles(
 				font.getFontName(), 
 				((font.isBold()?Font.BOLD:Font.PLAIN)|(font.isItalic()?Font.ITALIC:Font.PLAIN)), 
 				font.getFontSize()
 				);
-	}
-	
-	
-	/**
-	 *
-	 *
-	public static Font getAwtFont(JRFont font)
-	{
-		Font awtFont = null;
-		FontEntry fontEntry = getFontEntry(font.getFontName());
 		
-		if (fontEntry != null)
+		if (awtFont == null)
 		{
-			boolean isSimulatedBold = false;
-			boolean isSimulatedItalic = false;
-			 
-			try
-			{
-				String ttf = null;
-				
-				if (font.isBold() && font.isItalic())
-				{
-					ttf = fontEntry.getBoldItalic();
-					if (ttf == null)
-					{
-						isSimulatedBold = true;
-						isSimulatedItalic = true;
-					}
-				}
-				
-				if (ttf == null && font.isBold())
-				{
-					ttf = fontEntry.getBold();
-					if (ttf == null)
-					{
-						isSimulatedBold = true;
-					}
-				}
-				
-				if (ttf == null && font.isItalic())
-				{
-					ttf = fontEntry.getItalic();
-					if (ttf == null)
-					{
-						isSimulatedItalic = true;
-					}
-				}
-				
-				if (ttf == null)
-				{
-					ttf = fontEntry.getNormal();
-				}
-					
-				awtFont = //FIXMEFONT do some cache here
-					Font.createFont(
-						Font.TRUETYPE_FONT, 
-						JRLoader.getResourceInputStream(ttf)
-						);
-			}
-			catch(Exception e)
-			{
-				throw new JRRuntimeException(e);
-			}
-
-//			Map attributes = new HashMap();
-//			attributes.putAll(awtFont.getAttributes());
-//			attributes.put(JRTextAttribute.FONT_NAME, font.getFontName());//FIXMEFONT maybe create only one getLiteFont method to be used everywhere
-//			awtFont = new Font(attributes);
-
-			awtFont = awtFont.deriveFont((float)font.getFontSize());
-
-			if (isSimulatedBold)
-			{
-				awtFont = awtFont.deriveFont(Font.BOLD);
-			}
-			if (isSimulatedItalic)
-			{
-				awtFont = awtFont.deriveFont(Font.ITALIC);
-			}
+			awtFont = new Font(getAttributes(new HashMap(), font));//FIXMEFONT this is not working in 1.6?
 		}
 		
 		return awtFont;
 	}
-
 	
-	/**
-	 *
-	 *
-	public static LiteFont getLiteFont(JRFont font)
-	{
-		Font awtFont = getAwtFont(font);
-		
-		if (awtFont != null)
-		{
-			return new LiteFont(awtFont.getAttributes());
-		}
-		
-		return null;
-	}
-	*/
-
 	
 }

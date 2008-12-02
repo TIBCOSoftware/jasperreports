@@ -27,103 +27,83 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
+import java.awt.Font;
+
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRChart.java 2469 2008-11-19 15:12:30Z shertage $
  */
-public interface FontEntry
+public class FontInfo
 {
 
 	/**
 	 * 
 	 */
-	public String getName();
+	private FontFamily family = null;
+	private FontFace face = null;
+	private int style = Font.PLAIN;
 	
 	/**
 	 * 
 	 */
-	public void setName(String name);
+	public FontInfo(
+		FontFamily family,
+		FontFace face,
+		int style
+		)
+	{
+		this.family = family;
+		this.face = face;
+		this.style = style;
+	}
 	
 	/**
 	 * 
 	 */
-	public String getNormal();
+	public FontFamily getFontFamily()
+	{
+		return family;
+	}
 	
 	/**
 	 * 
 	 */
-	public void setNormal(String normal);
+	public void setFontFamily(FontFamily family)
+	{
+		this.family = family;
+	}
 	
 	/**
 	 * 
 	 */
-	public String getBold();
+	public FontFace getFontFace()
+	{
+		return face;
+	}
 	
 	/**
 	 * 
 	 */
-	public void setBold(String bold);
+	public void setFontFace(FontFace face)
+	{
+		this.face = face;
+	}
 	
 	/**
 	 * 
 	 */
-	public String getItalic();
+	public int getStyle()
+	{
+		return style;
+	}
 	
 	/**
 	 * 
 	 */
-	public void setItalic(String italic);
-	
-	/**
-	 * 
-	 */
-	public String getBoldItalic();
-	
-	/**
-	 * 
-	 */
-	public void setBoldItalic(String boldItalic);
-	
-	/**
-	 * 
-	 */
-	public boolean isSimulatedBold();
-	
-	/**
-	 * 
-	 */
-	public void setSimulatedBold(boolean isSimulatedBold);
-	
-	/**
-	 * 
-	 */
-	public boolean isSimulatedItalic();
-	
-	/**
-	 * 
-	 */
-	public void setSimulatedItalic(boolean isSimulatedItalic);
-	
-	/**
-	 * 
-	 */
-	public String getPdfEncoding();
-	
-	/**
-	 * 
-	 */
-	public void setPdfEncoding(String pdfEncoding);
-	
-	/**
-	 * 
-	 */
-	public boolean isPdfEmbedded();
-	
-	/**
-	 * 
-	 */
-	public void setPdfEmbedded(boolean isPdfEmbedded);
-	
+	public void setStyle(int style)
+	{
+		this.style = style;
+	}
 }

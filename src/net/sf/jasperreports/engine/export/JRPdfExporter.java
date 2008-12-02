@@ -86,7 +86,9 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
-import net.sf.jasperreports.engine.fonts.FontEntry;
+import net.sf.jasperreports.engine.fonts.FontFace;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -1678,31 +1680,69 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			FontEntry fontEntry = JRFontUtil.getFontEntry(jrFont.getFontName());
-			if (fontEntry == null)
+			FontInfo fontInfo = JRFontUtil.getFontInfo(jrFont.getFontName());
+			if (fontInfo == null)
 			{
 				pdfFont = new PdfFont(jrFont.getPdfFontName(), jrFont.getPdfEncoding(), jrFont.isPdfEmbedded());
 			}
 			else
-			{//FIXMEFONT refactor this
+			{
+				FontFamily family = fontInfo.getFontFamily();
+				FontFace face = fontInfo.getFontFace();
+				int faceStyle = java.awt.Font.PLAIN;
 				String ttf = null;
-				if (jrFont.isBold() && jrFont.isItalic())
+
+				if (face == null)
 				{
-					ttf = fontEntry.getBoldItalic();
+					if (jrFont.isBold() && jrFont.isItalic())
+					{
+						face = family.getBoldItalicFace();
+						faceStyle = java.awt.Font.BOLD | java.awt.Font.ITALIC;
+					}
+					
+					if (face == null && jrFont.isBold())
+					{
+						face = family.getBoldFace();
+						faceStyle = java.awt.Font.BOLD;
+					}
+					
+					if (face == null && jrFont.isItalic())
+					{
+						face = family.getItalicFace();
+						faceStyle = java.awt.Font.ITALIC;
+					}
+					
+					if (face == null)
+					{
+						face = family.getNormalFace();
+						faceStyle = java.awt.Font.PLAIN;
+					}
+						
+					if (face == null)
+					{
+						throw new JRRuntimeException("Font family '" + jrFont.getFontName() + "' does not have the normal font face.");
+					}
 				}
-				if (ttf == null && jrFont.isBold())
+				else
 				{
-					ttf = fontEntry.getBold();
+					faceStyle = fontInfo.getStyle();
 				}
-				if (ttf == null && jrFont.isItalic())
-				{
-					ttf = fontEntry.getItalic();
-				}
+
+				ttf = face.getFile();
+
 				if (ttf == null)
 				{
-					ttf = fontEntry.getNormal();
+					//FIXMEFONT throw something
 				}
-				pdfFont = new PdfFont(ttf, fontEntry.getPdfEncoding(), fontEntry.isPdfEmbedded());
+				
+				pdfFont = 
+					new PdfFont(
+						ttf, 
+						family.getPdfEncoding(), 
+						family.isPdfEmbedded(), 
+						jrFont.isBold() && ((faceStyle & java.awt.Font.BOLD) == 0), 
+						jrFont.isItalic() && ((faceStyle & java.awt.Font.ITALIC) == 0)
+						);
 			}
 		}
 
