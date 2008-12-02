@@ -159,7 +159,6 @@ public class JRFontUtil
 		
 		if (fontInfo != null)
 		{
-			String ttf = null;
 			int faceStyle = Font.PLAIN;
 			FontFace face = fontInfo.getFontFace();
 			if (face == null)
@@ -199,24 +198,10 @@ public class JRFontUtil
 				faceStyle = fontInfo.getStyle();
 			}
 
-			ttf = face.getFile();
-
-			if (ttf == null)
+			awtFont = face.getFont();
+			if (awtFont == null)
 			{
 				//FIXMEFONT throw something
-			}
-			
-			try
-			{
-				awtFont = //FIXMEFONT do some cache here
-					Font.createFont(
-						Font.TRUETYPE_FONT, 
-						JRLoader.getLocationInputStream(ttf)//FIXMEFONT close stream
-						);
-			}
-			catch(Exception e)
-			{
-				throw new JRRuntimeException(e);
 			}
 
 			awtFont = awtFont.deriveFont((float)size);

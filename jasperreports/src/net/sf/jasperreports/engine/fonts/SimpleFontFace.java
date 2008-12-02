@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.fonts;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -49,6 +50,7 @@ public class SimpleFontFace implements FontFace
 	 */
 	private String name = null;
 	private String file = null;
+	private Font font = null;
 	
 	/**
 	 * 
@@ -60,13 +62,19 @@ public class SimpleFontFace implements FontFace
 		{
 			Font awtFont = null;
 			
+			InputStream is = null;
 			try
 			{
-				awtFont = Font.createFont(Font.TRUETYPE_FONT, JRLoader.getLocationInputStream(file));//FIXMEFONT close stream 
+				is = JRLoader.getLocationInputStream(file);
 			}
 			catch(JRException e)
 			{
 				throw new JRRuntimeException(e);
+			}
+			
+			try
+			{
+				awtFont = Font.createFont(Font.TRUETYPE_FONT, is); 
 			}
 			catch(FontFormatException e)
 			{
@@ -76,8 +84,19 @@ public class SimpleFontFace implements FontFace
 			{
 				throw new JRRuntimeException(e);
 			}
+			finally
+			{
+				try
+				{
+					is.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
 			
 			fontFace = new SimpleFontFace();
+			fontFace.setFont(awtFont);
 			fontFace.setFile(file);
 			//fontFace.setName((String)awtFont.getAttributes().get(TextAttribute.FAMILY));
 			fontFace.setName(awtFont.getName());
@@ -115,6 +134,22 @@ public class SimpleFontFace implements FontFace
 	public void setFile(String file)
 	{
 		this.file = file;
+	}
+	
+	/**
+	 * 
+	 */
+	public Font getFont()
+	{
+		return font;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setFont(Font font)
+	{
+		this.font = font;
 	}
 	
 }
