@@ -6,7 +6,6 @@
 	<classpathentry kind="lib" path="lib/ant-1.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-2.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.2.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-api-1.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/xalan.jar"/>
 	<classpathentry kind="lib" path="lib/commons-digester-1.7.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
