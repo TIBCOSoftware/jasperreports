@@ -29,12 +29,6 @@
 			    <exclude name="**/build.xml"/>
 			</fileset>
 		</copy>
-		<!--copy todir="./build/classes">
-			<fileset dir="./src">
-				<include name="**/*.xml"/>
-			    <exclude name="**/pom.xml"/>
-			</fileset>
-		</copy-->
 	</target>
 
 	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
