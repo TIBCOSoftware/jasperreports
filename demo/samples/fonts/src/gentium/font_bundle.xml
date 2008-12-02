@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="fontBundle" class="net.sf.jasperreports.engine.fonts.SimpleFontBundle">
+		<property name="fontFamilies">
+			<list>
+				<ref bean="gentiumFamily"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="gentiumFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
+		<property name="name" value="Gentium"/>
+		<property name="normal" value="gentium/GenR102.TTF"/>
+		<property name="italic" value="gentium/GenI102.TTF"/>
+		<property name="pdfEncoding" value="Identity-H"/>
+		<property name="pdfEmbedded" value="true"/>
+	</bean>
+
+</beans>

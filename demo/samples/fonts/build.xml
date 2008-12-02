@@ -24,7 +24,11 @@
 		</javac>
 		<copy todir="./build/classes">
 			<fileset dir="./src">
-				<include name="*.properties"/>
+				<include name="**/*.properties"/>
+				<include name="**/*.xml"/>
+				<include name="**/*.TTF"/>
+				<include name="**/*.ttf"/>
+				<include name="**/*.txt"/>
 			</fileset>
 		</copy>
 	</target>
