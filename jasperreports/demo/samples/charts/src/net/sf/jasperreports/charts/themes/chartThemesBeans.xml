@@ -11,13 +11,13 @@
 					<ref local="genericChartTheme"/>
 				</entry>
 				<entry key="default">
-					<ref local="defaultChartTheme"/>
+					<ref bean="defaultChartTheme"/>
 				</entry>
 				<entry key="eye.candy.sixties">
-					<ref local="eyeCandySixtiesChartTheme"/>
+					<ref bean="eyeCandySixtiesChartTheme"/>
 				</entry>
 				<entry key="aegean">
-					<ref local="aegeanChartTheme"/>
+					<ref bean="aegeanChartTheme"/>
 				</entry>
 			</map>
 		</property>
@@ -38,26 +38,7 @@
 		</property>
 	</bean>
 
-	<bean id="defaultChartTheme" class="net.sf.jasperreports.charts.themes.DefaultJRChartTheme" parent="genericChartTheme">
-		<property name="defaultChartPropertiesMap" ref="defaultChartProperties"/>
-		<property name="defaultPlotPropertiesMap" ref="defaultPlotProperties"/>
-		<property name="defaultAxisPropertiesMap" ref="defaultAxisProperties"/>
-		<property name="defaultChartTypePropertiesMap" ref="defaultChartTypeProperties"/>
-	</bean>
-
-	<bean id="eyeCandySixtiesChartTheme" class="net.sf.jasperreports.charts.themes.EyeCandySixtiesChartTheme" parent="defaultChartTheme">
-		<property name="defaultChartPropertiesMap" ref="eyeCandySixtiesDefaultChartProperties"/>
-	</bean>
-	
-	<bean id="aegeanChartTheme" class="net.sf.jasperreports.charts.themes.AegeanChartTheme" parent="defaultChartTheme">
-		<property name="defaultChartPropertiesMap" ref="aegeanDefaultChartProperties"/>
-	</bean>
-	
 	<import resource="defaultChartPropertiesBean.xml"/>
-	<import resource="defaultPlotPropertiesBean.xml"/>
-	<import resource="defaultAxisPropertiesBean.xml"/>
-	<import resource="defaultChartTypePropertiesBean.xml"/>
-	
 	<import resource="eyeCandySixtiesChartPropertiesBean.xml"/>
 	<import resource="aegeanChartPropertiesBean.xml"/>
 	

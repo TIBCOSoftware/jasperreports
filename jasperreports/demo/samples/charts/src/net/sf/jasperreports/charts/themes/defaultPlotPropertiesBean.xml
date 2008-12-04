@@ -8,9 +8,15 @@
        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<util:map id="defaultPlotProperties">
-   	    <entry key-ref="defaultPlotBackgroundAlpha" value-ref="oneFloat" />
-   	    <entry key-ref="defaultPlotForegroundAlpha" value-ref="oneFloat"/>
-   	    <entry key-ref="defaultPlotLabelRotation" value-ref="zeroDouble"/>
+   	    <entry key-ref="defaultPlotBackgroundAlpha">
+   	    	<value type="java.lang.Float">1f</value>
+   	    </entry>
+   	    <entry key-ref="defaultPlotForegroundAlpha">
+   	    	<value type="java.lang.Float">1f</value>
+   	    </entry>
+   	    <entry key-ref="defaultPlotLabelRotation">
+   	    	<value type="java.lang.Double">0.0</value>
+   	    </entry>
    	    <entry key-ref="defaultPlotOrientation" value-ref="plotOrientationVertical"/>
 	</util:map>
 

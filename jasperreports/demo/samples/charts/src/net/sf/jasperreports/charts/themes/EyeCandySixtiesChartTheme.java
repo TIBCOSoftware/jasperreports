@@ -161,29 +161,32 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 		GradientPaint gp = (GradientPaint)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BACKGROUND_PAINT);
 		Color color1 = gp.getColor1();
 		Color color2 = gp.getColor2();
+		Float defaultBaseFontSize = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BASEFONT_SIZE);
 
 		super.configureChart(jfreeChart, jrPlot, evaluation);
 
 		TextTitle title = jfreeChart.getTitle();
-		float baseFontSize = chart.getLegendFont() != null ? chart.getLegendFont().getFontSize() : 8f;
+		float baseFontSize = chart.getLegendFont() != null ? 
+				chart.getLegendFont().getFontSize() : 
+				(defaultBaseFontSize != null ? defaultBaseFontSize.floatValue() : -1f);
 
 		double chartPadding = 10d;
 
 		if(title != null)
 		{
-			Font titleFont = title.getFont();
-
-			if(chart.getTitleFont().isOwnBold() == null)
-			{
-				titleFont = titleFont.deriveFont(Font.BOLD);///FIXMEFONT deriveFont is not additive
-			}
-
-			if(chart.getTitleFont().getOwnFontSize() == null)
-			{
-				titleFont = titleFont.deriveFont(2.25f * baseFontSize);
-			}
-
-			title.setFont(titleFont);
+//			Font titleFont = title.getFont();
+//
+//			if(chart.getTitleFont().isOwnBold() == null)
+//			{
+//				titleFont = titleFont.deriveFont(Font.BOLD);///FIXMEFONT deriveFont is not additive
+//			}
+//
+//			if(chart.getTitleFont().getOwnFontSize() == null)
+//			{
+//				titleFont = titleFont.deriveFont(2.25f * baseFontSize);
+//			}
+//
+//			title.setFont(titleFont);
 			
 			title.setHorizontalAlignment(HorizontalAlignment.CENTER);
 			
@@ -198,22 +201,22 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 			TextTitle textSubtitle = subtitle instanceof TextTitle ? (TextTitle)subtitle : null;
 			if(textSubtitle != null)
 			{
-				Font subtitleFont = textSubtitle.getFont();
-
-				if(chart.getSubtitleFont().isOwnBold() == null)
-				{
-					subtitleFont = subtitleFont.deriveFont(Font.PLAIN);
-				}
-
-				if(chart.getSubtitleFont().getOwnFontSize() == null)
-				{
-					subtitleFont = subtitleFont.deriveFont(baseFontSize);
-				}
-
-				textSubtitle.setFont(subtitleFont);
+//				Font subtitleFont = textSubtitle.getFont();
+//
+//				if(chart.getSubtitleFont().isOwnBold() == null)
+//				{
+//					subtitleFont = subtitleFont.deriveFont(Font.PLAIN);
+//				}
+//
+//				if(chart.getSubtitleFont().getOwnFontSize() == null)
+//				{
+//					subtitleFont = subtitleFont.deriveFont(baseFontSize);
+//				}
+//
+//				textSubtitle.setFont(subtitleFont);
 				textSubtitle.setHorizontalAlignment(HorizontalAlignment.LEFT);
 
-				subtitle.setPosition(RectangleEdge.BOTTOM);
+//				subtitle.setPosition(RectangleEdge.BOTTOM);
 
 			}
 		}
@@ -221,19 +224,19 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 		LegendTitle legend = jfreeChart.getLegend();
 		if (legend != null)
 		{
-			Font legendFont = legend.getItemFont();
-
-			if(chart.getLegendFont().isOwnBold() == null)
-			{
-				legendFont = legendFont.deriveFont(Font.PLAIN);
-			}
-
-			if(chart.getLegendFont().getOwnFontSize() == null)
-			{
-				legendFont = legendFont.deriveFont(baseFontSize);
-			}
-
-			legend.setItemFont(legendFont);
+//			Font legendFont = legend.getItemFont();
+//
+//			if(chart.getLegendFont().isOwnBold() == null)
+//			{
+//				legendFont = legendFont.deriveFont(Font.PLAIN);
+//			}
+//
+//			if(chart.getLegendFont().getOwnFontSize() == null)
+//			{
+//				legendFont = legendFont.deriveFont(baseFontSize);
+//			}
+//
+//			legend.setItemFont(legendFont);
 			legend.setFrame(BlockBorder.NONE);
 			legend.setHorizontalAlignment(HorizontalAlignment.RIGHT);
 		}
@@ -366,7 +369,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 		Font font = null;
 		if (labelFont != null)
 		{
-//			font = JRFontUtil.getLiteFont(labelFont);
+//			font = JRFontUtil.getAwtFont(labelFont);
 //			if (labelFont.isOwnBold() == null)
 //			{
 //				font = font.deriveFont(Font.BOLD);
@@ -387,7 +390,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 		Font tickFont = null;
 		if(tickLabelFont != null)
 		{
-//			tickFont = JRFontUtil.getLiteFont(labelFont);
+//			tickFont = JRFontUtil.getAwtFont(labelFont);
 //			if (tickLabelFont.isOwnBold() == null)
 //			{
 //				tickFont = tickFont.deriveFont(Font.PLAIN);
@@ -993,7 +996,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 			}
 			if (display.getFont() != null)
 			{
-//				chartPlot.setValueFont(JRFontUtil.getLiteFont(display.getFont()).deriveFont(Font.BOLD));
+//				chartPlot.setValueFont(JRFontUtil.getAwtFont(display.getFont()).deriveFont(Font.BOLD));
 			}
 		}
 
@@ -1112,7 +1115,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 				);
 		scale.setTickRadius(0.9);
 		scale.setTickLabelOffset(0.16);
-//		scale.setTickLabelFont(JRFontUtil.getLiteFont(jrFont).deriveFont(8f).deriveFont(Font.BOLD));
+//		scale.setTickLabelFont(JRFontUtil.getAwtFont(jrFont).deriveFont(8f).deriveFont(Font.BOLD));
 		scale.setMajorTickStroke(new BasicStroke(1f));
 		scale.setMinorTickStroke(new BasicStroke(0.3f));
 		scale.setMajorTickPaint(Color.WHITE);
@@ -1172,7 +1175,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
         {
         	ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
 	        dvi.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-//	        dvi.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
+//	        dvi.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
 	        dvi.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 	        dvi.setPaint(Color.WHITE);
 	        
@@ -1190,7 +1193,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 		{
 			ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
 			dvi.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-//			dvi.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
+//			dvi.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
 			dvi.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 			dvi.setPaint(Color.WHITE);
 
@@ -1220,7 +1223,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 			for(int i = 0; i < textLines.length; i++)
 			{
 				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
-//				dialAnnotation.setFont(JRFontUtil.getLiteFont(jrFont).deriveFont(Font.BOLD));
+//				dialAnnotation.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(Font.BOLD));
 				dialAnnotation.setPaint(Color.WHITE);
 				dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
 				dialAnnotation.setAnchor(TextAnchor.CENTER);
