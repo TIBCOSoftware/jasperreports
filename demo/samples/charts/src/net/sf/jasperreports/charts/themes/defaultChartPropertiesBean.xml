@@ -7,17 +7,66 @@
        http://www.springframework.org/schema/util 
        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
+
+
+	<bean id="defaultChartTheme" class="net.sf.jasperreports.charts.themes.DefaultJRChartTheme" parent="genericChartTheme">
+		<!-- property name="defaultChartPropertiesMap" ref="defaultChartProperties"/-->
+		<property name="defaultChartPropertiesMap">
+			<map>
+			    <entry key-ref="defaultBackgroundPaint" value-ref="transparentPaint"/>
+			    
+		   	    <entry key-ref="defaultTitlePosition" value-ref="rectangleEdgeTop"/>
+		   	    <entry key-ref="defaultTitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="defaultTitleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="defaultTitleForecolor" value-ref="blackColor"/>
+		   	    <entry key-ref="defaultTitleBackcolor" value-ref="transparentPaint"/>
+				
+		   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeTop"/>
+		   	    <entry key-ref="defaultSubtitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="defaultSubtitleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="defaultSubtitleForecolor" value-ref="blackColor"/>
+		   	    <entry key-ref="defaultSubtitleBackcolor" value-ref="transparentPaint"/>
+		   	    
+		   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeBottom"/>
+		   	    <entry key-ref="defaultLegendBaseFontBoldStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="defaultLegendBaseFontItalicStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="defaultLegendForecolor" value-ref="blackColor"/>
+		   	    <entry key-ref="defaultLegendBackcolor" value-ref="transparentPaint"/>
+
+			    <entry key-ref="defaultChartBorderVisible" value-ref="isFalse"/>
+			</map>
+		</property>
+		<property name="defaultPlotPropertiesMap" ref="defaultPlotProperties"/>
+		<property name="defaultAxisPropertiesMap" ref="defaultAxisProperties"/>
+		<property name="defaultChartTypePropertiesMap" ref="defaultChartTypeProperties"/>
+	</bean>
+
 	<util:map id="defaultChartProperties">
 	    <entry key-ref="defaultBackgroundPaint" value-ref="transparentPaint"/>
-	    <!-- entry key-ref="defaultSeriesColors" value-ref="defaultJRSeriesColors"/-->
-	    <!-- entry key-ref="defaultChartBorderPaint" value-ref="transparentPaint"/-->
-	    <!-- entry key-ref="defaultChartBorderStroke" value-ref="onePointStroke"/-->
-	    <entry key-ref="defaultChartBorderVisible" value-ref="isFalse"/>
-   	    <entry key-ref="defaultTitlePosition" value-ref="rectangleEdgeTop"/>
-   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeTop"/>
-   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeBottom"/>
 	    
+   	    <entry key-ref="defaultTitlePosition" value-ref="rectangleEdgeTop"/>
+   	    <entry key-ref="defaultTitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
+   	    <entry key-ref="defaultTitleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
+   	    <entry key-ref="defaultTitleForecolor" value-ref="blackColor"/>
+   	    <entry key-ref="defaultTitleBackcolor" value-ref="transparentPaint"/>
+		
+   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeTop"/>
+   	    <entry key-ref="defaultSubtitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
+   	    <entry key-ref="defaultSubtitleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
+   	    <entry key-ref="defaultSubtitleForecolor" value-ref="blackColor"/>
+   	    <entry key-ref="defaultSubtitleBackcolor" value-ref="transparentPaint"/>
+   	    
+   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeBottom"/>
+   	    <entry key-ref="defaultLegendBaseFontBoldStyle" value-ref="fontPlainStyle"/>
+   	    <entry key-ref="defaultLegendBaseFontItalicStyle" value-ref="fontPlainStyle"/>
+   	    <entry key-ref="defaultLegendForecolor" value-ref="blackColor"/>
+   	    <entry key-ref="defaultLegendBackcolor" value-ref="transparentPaint"/>
+
+	    <entry key-ref="defaultChartBorderVisible" value-ref="isFalse"/>
 	</util:map>
 
+	<import resource="defaultPlotPropertiesBean.xml"/>
+	<import resource="defaultAxisPropertiesBean.xml"/>
+	<import resource="defaultChartTypePropertiesBean.xml"/>
 	<import resource="chartConstantsBean.xml"/>
 </beans>

@@ -3,7 +3,10 @@
  */
 package net.sf.jasperreports.charts.themes;
 
+import java.awt.Font;
 import java.math.BigDecimal;
+
+import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -52,5 +55,27 @@ public class ChartThemesUtilities
 		}
 
 		return value;
+	}
+	
+	public static int getAwtFontStyle(JRFont font, int defaultBoldStyle, int defaultItalicStyle)
+	{
+		if(font == null)
+			return Font.PLAIN;
+		
+		int boldStyle = Font.PLAIN;
+		if((font.isOwnBold() == null && defaultBoldStyle == Font.BOLD) ||
+		(font.isOwnBold() != null && font.isOwnBold().booleanValue()))
+		{
+				boldStyle = Font.BOLD;
+		}
+		
+		int italicStyle = Font.PLAIN;
+		if((font.isOwnItalic() == null && defaultItalicStyle == Font.ITALIC) ||
+		(font.isOwnItalic() != null && font.isOwnItalic().booleanValue()))
+		{
+			italicStyle = Font.ITALIC;
+		}
+		
+		return boldStyle | italicStyle;
 	}
 }

@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.themes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Paint;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -93,6 +94,7 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
@@ -117,6 +119,7 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.chart.title.Title;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.gantt.GanttCategoryDataset;
@@ -127,7 +130,9 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
+import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
+import org.jfree.ui.RectangleInsets;
 
 
 /**
@@ -302,8 +307,8 @@ public class GenericChartTheme implements ChartTheme
 		RectangleEdge defaultTitlePosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_POSITION);
 		RectangleEdge defaultSubtitlePosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_POSITION);
 		RectangleEdge defaultLegendPosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_POSITION);
-		List defaultSeriesColors = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SERIES_COLORS);
-		
+		Float defaultBaseFontSize = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BASEFONT_SIZE);
+
 		if (chart.getOwnMode() != null)
 		{
 			if(chart.getOwnMode().byteValue() == JRElement.MODE_OPAQUE)
@@ -327,60 +332,168 @@ public class GenericChartTheme implements ChartTheme
 			jfreeChart.setBackgroundPaint(defaultBackgroundPaint);
 		}
 		
+		TextTitle title = jfreeChart.getTitle();
+		float baseFontSize = chart.getLegendFont() != null ? 
+				chart.getLegendFont().getFontSize() : 
+				(defaultBaseFontSize != null ? defaultBaseFontSize.floatValue() : -1f);
 		RectangleEdge titleEdge = null;
-		if (jfreeChart.getTitle() != null)
-		{
-			TextTitle title = jfreeChart.getTitle();
-			title.setPaint(chart.getTitleColor());
 
-//			title.setFont(JRFontUtil.getLiteFont(jrChart.getTitleFont()));
+		if(title != null)
+		{
+			Font titleFont = title.getFont();
+			
+			int defaultTitleBaseFontBoldStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BASEFONT_BOLD_STYLE) != null ?
+					((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BASEFONT_BOLD_STYLE)).intValue() :
+					Font.PLAIN;
+			int defaultTitleBaseFontItalicStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BASEFONT_BOLD_STYLE) != null ?
+					((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BASEFONT_BOLD_STYLE)).intValue() :
+					Font.PLAIN;
+			
+			titleFont = titleFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(chart.getTitleFont(), defaultTitleBaseFontBoldStyle, defaultTitleBaseFontItalicStyle));
+
+			float defaultTitleBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BASEFONT_SIZE) != null ?
+					((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BASEFONT_SIZE)).floatValue() :
+					baseFontSize;
+			
+			if(chart.getTitleFont().getOwnFontSize() == null && defaultTitleBaseFontSize >=0)
+			{
+				titleFont = titleFont.deriveFont(defaultTitleBaseFontSize);
+			}
+
+			title.setFont(titleFont);
+			
+//			title.setHorizontalAlignment(HorizontalAlignment.CENTER);
+//			
+//			RectangleInsets padding = title.getPadding();
+//			double bottomPadding = Math.max(padding.getBottom(), 15d);
+//			title.setPadding(padding.getTop(), padding.getLeft(), bottomPadding, padding.getRight());
+			
+			Color titleForecolor = chart.getOwnTitleColor() != null ? 
+					chart.getOwnTitleColor() :
+					(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_FORECOLOR) != null ? 
+							(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_FORECOLOR) :
+							chart.getTitleColor());
+			if(titleForecolor != null)
+				title.setPaint(titleForecolor);
+
+			Color titleBackcolor = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BACKCOLOR) != null ? 
+					(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BACKCOLOR) :
+					null;
+			if(titleBackcolor != null)
+				title.setBackgroundPaint(titleBackcolor);
+			
 			titleEdge = getEdge(chart.getTitlePositionByte(), defaultTitlePosition);
 			if(titleEdge != null)
 				title.setPosition(titleEdge);
 		}
 
-		String subtitleText = (String)evaluateExpression(chart.getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
+		for(int i = 0; i < jfreeChart.getSubtitleCount(); i++)
 		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(chart.getSubtitleColor());
-
-//			subtitle.setFont(JRFontUtil.getLiteFont(jrChart.getSubtitleFont()));
-			
-			//Subtitle has not its own position set, and by default this will be set the same as title position
-			RectangleEdge subtitleEdge = null;
-			if(defaultSubtitlePosition == null)
-			{	
-				subtitleEdge = titleEdge;
-			}
-			else
+			Title subtitle = jfreeChart.getSubtitle(i);
+			TextTitle textSubtitle = subtitle instanceof TextTitle ? (TextTitle)subtitle : null;
+			if(textSubtitle != null)
 			{
-				subtitleEdge = getEdge(null, defaultSubtitlePosition);
+				Font subtitleFont = textSubtitle.getFont();
+				int defaultSubtitleBaseFontBoldStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_BOLD_STYLE) != null ?
+						((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_BOLD_STYLE)).intValue() :
+						Font.PLAIN;
+				int defaultSubtitleBaseFontItalicStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_BOLD_STYLE) != null ?
+						((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_BOLD_STYLE)).intValue() :
+						Font.PLAIN;
+				
+				subtitleFont = subtitleFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(chart.getSubtitleFont(), defaultSubtitleBaseFontBoldStyle, defaultSubtitleBaseFontItalicStyle));
+
+				float defaultSubtitleBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_SIZE) != null ?
+						((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_SIZE)).floatValue() :
+						baseFontSize;
+				
+				if(chart.getSubtitleFont().getOwnFontSize() == null && defaultSubtitleBaseFontSize >=0)
+				{
+					subtitleFont = subtitleFont.deriveFont(defaultSubtitleBaseFontSize);
+				}
+
+				textSubtitle.setFont(subtitleFont);
+//				textSubtitle.setHorizontalAlignment(HorizontalAlignment.LEFT);
+
+				Color subtitleForecolor = chart.getOwnSubtitleColor() != null ? 
+						chart.getOwnSubtitleColor() :
+						(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_FORECOLOR) != null ? 
+								(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_FORECOLOR) :
+								chart.getSubtitleColor());
+				if(subtitleForecolor != null)
+					textSubtitle.setPaint(subtitleForecolor);
+
+				Color subtitleBackcolor = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BACKCOLOR) != null ? 
+						(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BACKCOLOR) :
+						null;
+				if(subtitleBackcolor != null)
+					textSubtitle.setBackgroundPaint(subtitleBackcolor);
+
+				//Subtitle has not its own position set, and by default this will be set the same as title position
+				RectangleEdge subtitleEdge = null;
+				if(defaultSubtitlePosition == null)
+				{	
+					subtitleEdge = titleEdge;
+				}
+				else
+				{
+					subtitleEdge = getEdge(null, defaultSubtitlePosition);
+				}
+				if(subtitleEdge != null)
+					subtitle.setPosition(subtitleEdge);
+
+				jfreeChart.addSubtitle(subtitle);
 			}
-			if(subtitleEdge != null)
-				subtitle.setPosition(subtitleEdge);
-			jfreeChart.addSubtitle(subtitle);
 		}
 
-		// Apply all of the legend formatting options
 		LegendTitle legend = jfreeChart.getLegend();
 		if (legend != null)
 		{
-			legend.setItemPaint(chart.getLegendColor());
+			Font legendFont = legend.getItemFont();
 
-			if (chart.getOwnLegendBackgroundColor() == null)// in a way, legend backcolor inheritence from chart is useless
+			int defaultLegendBaseFontBoldStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_BOLD_STYLE) != null ?
+					((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_BOLD_STYLE)).intValue() :
+					Font.PLAIN;
+			int defaultLegendBaseFontItalicStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_ITALIC_STYLE) != null ?
+					((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_ITALIC_STYLE)).intValue() :
+					Font.PLAIN;
+			
+			legendFont = legendFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(chart.getLegendFont(), defaultLegendBaseFontBoldStyle, defaultLegendBaseFontItalicStyle));
+
+			float defaultLegendBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_SIZE) != null ?
+					((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_SIZE)).floatValue() :
+					baseFontSize;
+			
+			if(chart.getLegendFont().getOwnFontSize() == null && defaultLegendBaseFontSize >=0)
 			{
-				legend.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-			}
-			else
-			{
-				legend.setBackgroundPaint(chart.getLegendBackgroundColor());
+				legendFont = legendFont.deriveFont(defaultLegendBaseFontSize);
 			}
 
-//			legend.setItemFont(JRFontUtil.getLiteFont(jrChart.getLegendFont()));
+			legend.setItemFont(legendFont);
+			
+			Color legendForecolor = chart.getOwnLegendColor() != null ? 
+					chart.getOwnLegendColor() :
+					(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_FORECOLOR) != null ? 
+							(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_FORECOLOR) :
+							chart.getLegendColor());
+			if(legendForecolor != null)
+				legend.setItemPaint(legendForecolor);
+
+			Color legendBackcolor = chart.getOwnLegendBackgroundColor() != null ? 
+					chart.getOwnLegendBackgroundColor() :
+					(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BACKCOLOR) != null ? 
+							(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BACKCOLOR) :
+							chart.getLegendBackgroundColor());
+			if(legendBackcolor != null)
+				legend.setBackgroundPaint(legendBackcolor);
+			
+//			legend.setFrame(BlockBorder.NONE);
+//			legend.setHorizontalAlignment(HorizontalAlignment.RIGHT);
 			if(getEdge(chart.getLegendPositionByte(), defaultLegendPosition) != null)
 				legend.setPosition(getEdge(chart.getLegendPositionByte(), defaultLegendPosition));
+			
 		}
+//		double chartPadding = 10d;
 		
 		JRLineBox lineBox = chart.getLineBox();
 		if(
@@ -572,8 +685,8 @@ public class GenericChartTheme implements ChartTheme
 			Paint defaultLinePaint
 			)
 		{
-//			axis.setLabelFont(JRFontUtil.getLiteFont(labelFont));
-//			axis.setTickLabelFont(JRFontUtil.getLiteFont(tickLabelFont));
+//			axis.setLabelFont(JRFontUtil.getAwtFont(labelFont));
+//			axis.setTickLabelFont(JRFontUtil.getAwtFont(tickLabelFont));
 			if (labelColor != null)
 			{
 				axis.setLabelPaint(labelColor);
@@ -967,7 +1080,7 @@ public class GenericChartTheme implements ChartTheme
 		//FIXMECHART at this moment, there are no label font, label backcolor
 		// and label forecolor properties defined for the PieChart3D
 
-//		piePlot3D.setLabelFont(JRFontUtil.getLiteFont(new JRBaseFont(null, null, chart, null)));
+//		piePlot3D.setLabelFont(JRFontUtil.getAwtFont(new JRBaseFont(null, null, chart, null)));
 
 		piePlot3D.setLabelPaint(chart.getForecolor());
 
@@ -1020,7 +1133,7 @@ public class GenericChartTheme implements ChartTheme
 		//FIXMECHART at this moment, there are no label font, label backcolor
 		// and label forecolor properties defined for the PieChart
 
-//		piePlot.setLabelFont(JRFontUtil.getLiteFont(new JRBaseFont(null, null, chart, null)));
+//		piePlot.setLabelFont(JRFontUtil.getAwtFont(new JRBaseFont(null, null, chart, null)));
 
 		piePlot.setLabelPaint(chart.getForecolor());
 		
@@ -1555,7 +1668,7 @@ public class GenericChartTheme implements ChartTheme
 			}
 			if (display.getFont() != null)
 			{
-//				chartPlot.setValueFont(JRFontUtil.getLiteFont(display.getFont()));
+//				chartPlot.setValueFont(JRFontUtil.getAwtFont(display.getFont()));
 			}
 
 		}
@@ -1640,7 +1753,7 @@ public class GenericChartTheme implements ChartTheme
 			}
 			if (display.getFont() != null)
 			{
-//				chartPlot.setValueFont(JRFontUtil.getLiteFont(display.getFont()));
+//				chartPlot.setValueFont(JRFontUtil.getAwtFont(display.getFont()));
 			}
 		}
 
