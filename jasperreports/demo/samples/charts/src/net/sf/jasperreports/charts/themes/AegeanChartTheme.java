@@ -34,7 +34,6 @@ import java.awt.Paint;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
@@ -47,9 +46,7 @@ import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.base.JRBaseFont;
-import net.sf.jasperreports.engine.fill.JRFillChart;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.JFreeChart;
@@ -60,11 +57,9 @@ import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.ThermometerPlot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.plot.dial.DialBackground;
@@ -73,8 +68,6 @@ import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.chart.plot.dial.DialPointer;
 import org.jfree.chart.plot.dial.DialTextAnnotation;
 import org.jfree.chart.plot.dial.StandardDialFrame;
-import org.jfree.chart.plot.dial.StandardDialRange;
-import org.jfree.chart.plot.dial.StandardDialScale;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
@@ -93,7 +86,6 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.UnitType;
@@ -838,9 +830,9 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 		DialPlot dialPlot = new DialPlot();
 		dialPlot.setDataset((ValueDataset)getDataset().getDataset());
 		StandardDialFrame dialFrame = new StandardDialFrame();
-		dialFrame.setForegroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		dialFrame.setForegroundPaint(Color.BLACK);
 		dialFrame.setBackgroundPaint(Color.BLACK);
-//		dialFrame.setStroke(new BasicStroke(0.1f));
+		dialFrame.setStroke(new BasicStroke(1f));
 		dialPlot.setDialFrame(dialFrame);
 
 		DialBackground db = new DialBackground(ChartThemesConstants.TRANSPARENT_PAINT);
@@ -857,18 +849,18 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 		double lowerBound = ChartThemesUtilities.getTruncatedValue(range.getLowerBound(), dialUnitScale);
 		double upperBound = ChartThemesUtilities.getTruncatedValue(range.getUpperBound(), dialUnitScale);
 
-		StandardDialScale scale =
-			new StandardDialScale(
+		ScaledDialScale scale =
+			new ScaledDialScale(
 				lowerBound,
 				upperBound,
-				225,
-				-270,
+				210,
+				-240,
 				(upperBound - lowerBound)/6,
-				15
+				1
 				);
 		scale.setTickRadius(0.9);
 		scale.setTickLabelOffset(0.16);
-//		scale.setTickLabelFont(JRFontUtil.getAwtFont(jrFont).deriveFont(8f).deriveFont(Font.BOLD));
+		scale.setTickLabelFont(JRFontUtil.getAwtFont(jrFont).deriveFont(16f).deriveFont(Font.BOLD));
 		scale.setMajorTickStroke(new BasicStroke(1f));
 		scale.setMinorTickStroke(new BasicStroke(0.7f));
 		scale.setMajorTickPaint(Color.BLACK);
@@ -893,38 +885,55 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 			scale.setTickLabelFormatter(new DecimalFormat("#,##0.00"));
 		}
 		dialPlot.addScale(0, scale);
-//		StandardDialFrame dialFrame2 = new StandardDialFrame();
-//		dialFrame2.setRadius(0.9);
-//		//dialFrame.setBackgroundPaint(gp2);
-//		dialFrame2.setForegroundPaint(Color.BLACK);
-//		dialFrame2.setBackgroundPaint(Color.BLACK);
-//		dialFrame2.setStroke(new BasicStroke(0.1f));
-//		dialFrame2.setVisible(true);
-//		dialPlot.addLayer(dialFrame2);
 		
 		List intervals = jrPlot.getIntervals();
 		if (intervals != null && intervals.size() > 0)
 		{
-			int colorStep = 255 / intervals.size();
-
-			for(int i = 0; i < intervals.size(); i++)
+			int size = Math.min(3, intervals.size());
+			for(int i = 0; i < size; i++)
 			{
 				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
 				Range intervalRange = convertRange(interval.getDataRange(), evaluation);
 				double intervalLowerBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getLowerBound(), dialUnitScale);
 				double intervalUpperBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getUpperBound(), dialUnitScale);
 
-				StandardDialRange dialRange =
-					new StandardDialRange(
+				ScaledDialRange dialRange =
+					new ScaledDialRange(
 						intervalLowerBound,
 						intervalUpperBound,
 						interval.getBackgroundColor() == null
-							? new Color(255 - colorStep * i, 0 + colorStep * i, 0)
-							: interval.getBackgroundColor()
+							? (Color)ChartThemesConstants.AEGEAN_INTERVAL_COLORS.get(i)
+							: interval.getBackgroundColor(),
+						15f
 						);
-				dialRange.setInnerRadius(0.41);
-				dialRange.setOuterRadius(0.42);
+				dialRange.setInnerRadius(0.5);
+				dialRange.setOuterRadius(0.5);
 				dialPlot.addLayer(dialRange);
+			}
+			
+			if(intervals.size() > 3)
+			{
+				int colorStep = 255 / (intervals.size() - 3);
+				for(int i = 3; i < intervals.size(); i++)
+				{
+					JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
+					Range intervalRange = convertRange(interval.getDataRange(), evaluation);
+					double intervalLowerBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getLowerBound(), dialUnitScale);
+					double intervalUpperBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getUpperBound(), dialUnitScale);
+	
+					ScaledDialRange dialRange =
+						new ScaledDialRange(
+							intervalLowerBound,
+							intervalUpperBound,
+							interval.getBackgroundColor() == null
+								? new Color(255 - colorStep * (i - 3), 0 + colorStep * (i - 3), 0)
+								: interval.getBackgroundColor(),
+							15f
+							);
+					dialRange.setInnerRadius(0.5);
+					dialRange.setOuterRadius(0.5);
+					dialPlot.addLayer(dialRange);
+				}
 			}
 		}
 
@@ -991,16 +1000,14 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 			}
 		}
 
-
-		//DialPointer needle = new DialPointer.Pointer();
-		DialPointer needle = new ScaledDialPointer(dialUnitScale);
+		DialPointer needle = new ScaledDialPointer(dialUnitScale, 0.047);
 
 		needle.setVisible(true);
-		needle.setRadius(0.91);
+		needle.setRadius(0.7);
 		dialPlot.addLayer(needle);
 
 		DialCap cap = new DialCap();
-		cap.setRadius(0.03);
+		cap.setRadius(0.05);
 		cap.setFillPaint(Color.BLACK);
 		cap.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		dialPlot.setCap(cap);

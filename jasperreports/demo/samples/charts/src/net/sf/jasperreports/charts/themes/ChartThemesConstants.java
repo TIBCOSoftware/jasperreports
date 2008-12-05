@@ -32,6 +32,13 @@ public interface ChartThemesConstants
 			add(new Color(234, 171, 53));
 			}};
 	
+		public static final List AEGEAN_INTERVAL_COLORS =
+			new ArrayList(){{
+				add(new Color(182, 0, 40));
+				add(new Color(240, 205, 0));
+				add(new Color(0,153,0));
+				}};
+			
 	public static final List EYE_CANDY_SIXTIES_GRADIENT_PAINTS = new ArrayList(){{
 			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(0), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(0)).darker()));
 			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(1), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(1)).darker()));

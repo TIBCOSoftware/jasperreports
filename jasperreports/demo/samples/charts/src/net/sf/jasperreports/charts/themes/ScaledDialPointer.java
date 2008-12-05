@@ -74,7 +74,17 @@ public class ScaledDialPointer extends Pointer
 	 *
 	 * @param datasetIndex  the dataset index.
 	 */
-	private ScaledDialPointer(int datasetIndex, double widthRadius, Paint fillPaint, Paint outlinePaint, int scale)
+	public ScaledDialPointer(int scale, double widthRadius)
+	{
+		this(0, widthRadius, Color.BLACK, Color.BLACK, scale);
+	}
+	
+	/**
+	 * Creates a new instance.
+	 *
+	 * @param datasetIndex  the dataset index.
+	 */
+	public ScaledDialPointer(int datasetIndex, double widthRadius, Paint fillPaint, Paint outlinePaint, int scale)
 	{
 		super(datasetIndex);
 		setWidthRadius(widthRadius);
