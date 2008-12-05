@@ -15,8 +15,6 @@
 			    <entry key-ref="defaultChartBorderPaint" value-ref="aegeanChartBorderPaint"/>
 			    <entry key-ref="defaultChartBorderStroke" value-ref="onePointStroke"/>
 			    <entry key-ref="defaultChartBorderVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeBottom"/>
-		   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeRight"/>
 		   	    <entry key-ref="defaultBaseFontSize">
 		   	    	<value type="java.lang.Float">8f</value>
 		   	    </entry>
@@ -24,7 +22,15 @@
 		   	    <entry key-ref="defaultTitleBaseFontSize">
 		   	    	<value type="java.lang.Float">18f</value>
 		   	    </entry>
-
+		   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeBottom"/>
+		   	    <entry key-ref="defaultSubtitleHorizontalAlignment" value-ref="leftHorizontalAlignment"/>
+		   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeRight"/>
+		   	    <entry key-ref="defaultLegendHorizontalAlignment" value-ref="rightHorizontalAlignment"/>
+		   	    <entry key-ref="defaultLegendBlockFrame" value-ref="blockBorderNone"/>
+		   	    <entry key-ref="defaultChartPadding">
+		   	    	<value type="java.lang.Double">0.02</value>
+		   	    </entry>
+		   	    
 			</map>		
 		</property>
 	</bean>

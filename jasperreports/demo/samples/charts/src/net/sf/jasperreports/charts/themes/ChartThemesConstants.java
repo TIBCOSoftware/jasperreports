@@ -52,17 +52,22 @@ public interface ChartThemesConstants
     // generic chart default properties names
 	public static final String DEFAULT_BACKGROUND_PAINT = "defaultBackgroundPaint";
 	public static final String DEFAULT_SERIES_COLORS = "defaultSeriesColors";
+	public static final String DEFAULT_BASEFONT_SIZE = "defaultBaseFontSize";
 	public static final String DEFAULT_SERIES_GRADIENT_PAINTS = "defaultSeriesGradientPaints";
 	public static final String DEFAULT_CHART_BORDER_PAINT = "defaultChartBorderPaint";
 	public static final String DEFAULT_CHART_BORDER_STROKE = "defaultChartBorderStroke";
 	public static final String DEFAULT_CHART_BORDER_VISIBLE = "defaultChartBorderVisible";
-	
+	public static final String DEFAULT_CHART_ANTI_ALIAS = "defaultChartAntiAlias";
+	public static final String DEFAULT_CHART_PADDING = "defaultChartPadding";
+	public static final String DEFAULT_UNIT_TYPE = "defaultUnitType";
+
 	public static final String DEFAULT_TITLE_POSITION = "defaultTitlePosition";
 	public static final String DEFAULT_TITLE_BASEFONT_BOLD_STYLE = "defaultTitleBaseFontBoldStyle";
 	public static final String DEFAULT_TITLE_BASEFONT_ITALIC_STYLE = "defaultTitleBaseFontItalicStyle";
 	public static final String DEFAULT_TITLE_FORECOLOR = "defaultTitleForecolor";
 	public static final String DEFAULT_TITLE_BACKCOLOR = "defaultTitleBackcolor";
 	public static final String DEFAULT_TITLE_BASEFONT_SIZE = "defaultTitleBaseFontSize";
+	public static final String DEFAULT_TITLE_HORIZONTAL_ALIGNMENT = "defaultTitleHorizontalAlignment";
 	
 	public static final String DEFAULT_SUBTITLE_POSITION = "defaultSubtitlePosition";
 	public static final String DEFAULT_SUBTITLE_BASEFONT_BOLD_STYLE = "defaultSubtitleBaseFontBoldStyle";
@@ -70,6 +75,7 @@ public interface ChartThemesConstants
 	public static final String DEFAULT_SUBTITLE_FORECOLOR = "defaultSubtitleForecolor";
 	public static final String DEFAULT_SUBTITLE_BACKCOLOR = "defaultSubtitleBackcolor";
 	public static final String DEFAULT_SUBTITLE_BASEFONT_SIZE = "defaultSubtitleBaseFontSize";
+	public static final String DEFAULT_SUBTITLE_HORIZONTAL_ALIGNMENT = "defaultSubitleHorizontalAlignment";
 	
 	public static final String DEFAULT_LEGEND_POSITION = "defaultLegendPosition";
 	public static final String DEFAULT_LEGEND_BASEFONT_BOLD_STYLE = "defaultLegendBaseFontBoldStyle";
@@ -77,8 +83,8 @@ public interface ChartThemesConstants
 	public static final String DEFAULT_LEGEND_FORECOLOR = "defaultLegendForecolor";
 	public static final String DEFAULT_LEGEND_BACKCOLOR = "defaultLegendBackcolor";
 	public static final String DEFAULT_LEGEND_BASEFONT_SIZE = "defaultLegendBaseFontSize";
-	
-	public static final String DEFAULT_BASEFONT_SIZE = "defaultBaseFontSize";
+	public static final String DEFAULT_LEGEND_HORIZONTAL_ALIGNMENT = "defaultLegendHorizontalAlignment";
+	public static final String DEFAULT_LEGEND_BLOCK_FRAME = "defaultLegendBlockFrame";
 	
 	// generic plot default properties names
 	public static final String DEFAULT_PLOT_BACKGROUND_ALPHA = "defaultPlotBackgroundAlpha";

@@ -31,6 +31,15 @@
 	<util:constant id="rectangleEdgeBottom" static-field="org.jfree.ui.RectangleEdge.BOTTOM"/>
 	<util:constant id="rectangleEdgeRight" static-field="org.jfree.ui.RectangleEdge.RIGHT"/>
 	
+	<util:constant id="centerHorizontalAlignment" static-field="org.jfree.ui.HorizontalAlignment.CENTER"/>
+	<util:constant id="leftHorizontalAlignment" static-field="org.jfree.ui.HorizontalAlignment.LEFT"/>
+	<util:constant id="rightHorizontalAlignment" static-field="org.jfree.ui.HorizontalAlignment.RIGHT"/>
+	
+	<util:constant id="blockBorderNone" static-field="org.jfree.chart.block.BlockBorder.NONE"/>
+	
+	<util:constant id="unitTypeAbsolute" static-field="org.jfree.util.UnitType.ABSOLUTE"/>
+	<util:constant id="unitTypeRelative" static-field="org.jfree.util.UnitType.RELATIVE"/>
+	
 	<util:constant id="plotOrientationHorizontal" static-field="org.jfree.chart.plot.PlotOrientation.HORIZONTAL"/>
 	<util:constant id="plotOrientationVertical" static-field="org.jfree.chart.plot.PlotOrientation.VERTICAL"/>
 
@@ -61,6 +70,7 @@
 	<util:constant id="defaultTitleForecolor" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_TITLE_FORECOLOR"/>
 	<util:constant id="defaultTitleBackcolor" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_TITLE_BACKCOLOR"/>
 	<util:constant id="defaultTitleBaseFontSize" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_TITLE_BASEFONT_SIZE"/>
+	<util:constant id="defaultTitleHorizontalAlignment" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_TITLE_HORIZONTAL_ALIGNMENT"/>
 
 	<util:constant id="defaultSubtitlePosition" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_SUBTITLE_POSITION"/>
 	<util:constant id="defaultSubtitleBaseFontBoldStyle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_BOLD_STYLE"/>
@@ -68,6 +78,7 @@
 	<util:constant id="defaultSubtitleForecolor" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_SUBTITLE_FORECOLOR"/>
 	<util:constant id="defaultSubtitleBackcolor" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_SUBTITLE_BACKCOLOR"/>
 	<util:constant id="defaultSubtitleBaseFontSize" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_SIZE"/>
+	<util:constant id="defaultSubtitleHorizontalAlignment" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_SUBTITLE_HORIZONTAL_ALIGNMENT"/>
 
 	<util:constant id="defaultLegendPosition" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_LEGEND_POSITION"/>
 	<util:constant id="defaultLegendBaseFontBoldStyle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_BOLD_STYLE"/>
@@ -75,12 +86,17 @@
 	<util:constant id="defaultLegendForecolor" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_LEGEND_FORECOLOR"/>
 	<util:constant id="defaultLegendBackcolor" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_LEGEND_BACKCOLOR"/>
 	<util:constant id="defaultLegendBaseFontSize" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_SIZE"/>
+	<util:constant id="defaultLegendHorizontalAlignment" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_LEGEND_HORIZONTAL_ALIGNMENT"/>
+	<util:constant id="defaultLegendBlockFrame" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_LEGEND_BLOCK_FRAME"/>
 
 	<util:constant id="defaultSeriesColors" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_SERIES_COLORS"/>
 	<util:constant id="defaultSeriesGradientPaints" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_SERIES_GRADIENT_PAINTS"/>
 	<util:constant id="defaultChartBorderPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_CHART_BORDER_PAINT"/>
 	<util:constant id="defaultChartBorderStroke" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_CHART_BORDER_STROKE"/>
 	<util:constant id="defaultChartBorderVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_CHART_BORDER_VISIBLE"/>
+	<util:constant id="defaultChartAntiAlias" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_CHART_ANTI_ALIAS"/>
+	<util:constant id="defaultChartPadding" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_CHART_PADDING"/>
+	<util:constant id="defaultUnitType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_UNIT_TYPE"/>
 
 	<!-- plot property names -->
 	

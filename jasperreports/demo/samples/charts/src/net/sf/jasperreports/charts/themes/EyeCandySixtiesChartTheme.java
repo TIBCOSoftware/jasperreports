@@ -56,9 +56,7 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.base.JRBaseFont;
-import net.sf.jasperreports.engine.fill.JRFillChart;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
@@ -70,7 +68,6 @@ import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
@@ -89,7 +86,6 @@ import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.chart.plot.dial.DialPointer;
 import org.jfree.chart.plot.dial.DialTextAnnotation;
 import org.jfree.chart.plot.dial.StandardDialFrame;
-import org.jfree.chart.plot.dial.StandardDialRange;
 import org.jfree.chart.plot.dial.StandardDialScale;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BarRenderer3D;
@@ -104,9 +100,7 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRendererState;
 import org.jfree.chart.renderer.xy.XYLine3DRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
-import org.jfree.chart.title.Title;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
@@ -115,13 +109,11 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.GradientPaintTransformType;
-import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.StandardGradientPaintTransformer;
 import org.jfree.ui.TextAnchor;
-import org.jfree.util.UnitType;
 
 
 /**
@@ -158,92 +150,19 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 	 */
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot, byte evaluation) throws JRException
 	{
-		GradientPaint gp = (GradientPaint)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BACKGROUND_PAINT);
-		Color color1 = gp.getColor1();
-		Color color2 = gp.getColor2();
-		Float defaultBaseFontSize = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BASEFONT_SIZE);
-
 		super.configureChart(jfreeChart, jrPlot, evaluation);
 
 		TextTitle title = jfreeChart.getTitle();
-		float baseFontSize = chart.getLegendFont() != null ? 
-				chart.getLegendFont().getFontSize() : 
-				(defaultBaseFontSize != null ? defaultBaseFontSize.floatValue() : -1f);
-
-		double chartPadding = 10d;
-
 		if(title != null)
 		{
-//			Font titleFont = title.getFont();
-//
-//			if(chart.getTitleFont().isOwnBold() == null)
-//			{
-//				titleFont = titleFont.deriveFont(Font.BOLD);///FIXMEFONT deriveFont is not additive
-//			}
-//
-//			if(chart.getTitleFont().getOwnFontSize() == null)
-//			{
-//				titleFont = titleFont.deriveFont(2.25f * baseFontSize);
-//			}
-//
-//			title.setFont(titleFont);
-			
-			title.setHorizontalAlignment(HorizontalAlignment.CENTER);
-			
 			RectangleInsets padding = title.getPadding();
 			double bottomPadding = Math.max(padding.getBottom(), 15d);
 			title.setPadding(padding.getTop(), padding.getLeft(), bottomPadding, padding.getRight());
 		}
 
-		for(int i = 0; i < jfreeChart.getSubtitleCount(); i++)
-		{
-			Title subtitle = jfreeChart.getSubtitle(i);
-			TextTitle textSubtitle = subtitle instanceof TextTitle ? (TextTitle)subtitle : null;
-			if(textSubtitle != null)
-			{
-//				Font subtitleFont = textSubtitle.getFont();
-//
-//				if(chart.getSubtitleFont().isOwnBold() == null)
-//				{
-//					subtitleFont = subtitleFont.deriveFont(Font.PLAIN);
-//				}
-//
-//				if(chart.getSubtitleFont().getOwnFontSize() == null)
-//				{
-//					subtitleFont = subtitleFont.deriveFont(baseFontSize);
-//				}
-//
-//				textSubtitle.setFont(subtitleFont);
-				textSubtitle.setHorizontalAlignment(HorizontalAlignment.LEFT);
+		GradientPaint gp = (GradientPaint)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BACKGROUND_PAINT);
 
-//				subtitle.setPosition(RectangleEdge.BOTTOM);
-
-			}
-		}
-
-		LegendTitle legend = jfreeChart.getLegend();
-		if (legend != null)
-		{
-//			Font legendFont = legend.getItemFont();
-//
-//			if(chart.getLegendFont().isOwnBold() == null)
-//			{
-//				legendFont = legendFont.deriveFont(Font.PLAIN);
-//			}
-//
-//			if(chart.getLegendFont().getOwnFontSize() == null)
-//			{
-//				legendFont = legendFont.deriveFont(baseFontSize);
-//			}
-//
-//			legend.setItemFont(legendFont);
-			legend.setFrame(BlockBorder.NONE);
-			legend.setHorizontalAlignment(HorizontalAlignment.RIGHT);
-		}
-		jfreeChart.setBackgroundPaint(new GradientPaint(0f, 0f, color1, 0f, chart.getHeight() * 0.7f, color2, false));
-		jfreeChart.setAntiAlias(true);
-		jfreeChart.setPadding(new RectangleInsets(UnitType.ABSOLUTE, chartPadding, chartPadding, chartPadding, chartPadding));
-
+		jfreeChart.setBackgroundPaint(new GradientPaint(0f, 0f, gp.getColor1(), 0f, chart.getHeight() * 0.7f, gp.getColor2(), false));
 	}
 
 	/**
