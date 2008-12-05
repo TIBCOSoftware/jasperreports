@@ -94,6 +94,7 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.block.BlockFrame;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
@@ -128,7 +129,10 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
+import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
+import org.jfree.ui.RectangleInsets;
+import org.jfree.util.UnitType;
 
 
 /**
@@ -308,6 +312,19 @@ public class GenericChartTheme implements ChartTheme
 		setChartSubtitles(jfreeChart, baseFontSize, evaluation);
 		setChartLegend(jfreeChart, baseFontSize);
 		setChartBorder(jfreeChart);
+		
+		Boolean isAntiAlias = (Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_CHART_ANTI_ALIAS);
+		if(isAntiAlias != null)
+			jfreeChart.setAntiAlias(isAntiAlias.booleanValue());
+		
+		Double padding = (Double)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_CHART_PADDING);
+		UnitType unitType = (UnitType)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_UNIT_TYPE);
+		if(padding != null && unitType != null)
+		{
+			double chartPadding = padding.doubleValue();
+			jfreeChart.setPadding(new RectangleInsets(unitType, chartPadding, chartPadding, chartPadding, chartPadding));
+		}
+		
 		configurePlot(jfreeChart.getPlot(), jrPlot);
 	}
 
@@ -1713,7 +1730,9 @@ public class GenericChartTheme implements ChartTheme
 
 			title.setFont(titleFont);
 			
-//			title.setHorizontalAlignment(HorizontalAlignment.CENTER);
+			HorizontalAlignment titleAlignment = (HorizontalAlignment)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_HORIZONTAL_ALIGNMENT);
+			if(titleAlignment != null)
+				title.setHorizontalAlignment(HorizontalAlignment.CENTER);
 //			
 //			RectangleInsets padding = title.getPadding();
 //			double bottomPadding = Math.max(padding.getBottom(), 15d);
@@ -1767,7 +1786,10 @@ public class GenericChartTheme implements ChartTheme
 			}
 
 			subtitle.setFont(subtitleFont);
-//			textSubtitle.setHorizontalAlignment(HorizontalAlignment.LEFT);
+			
+			HorizontalAlignment subtitleAlignment = (HorizontalAlignment)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_HORIZONTAL_ALIGNMENT);
+			if(subtitleAlignment != null)
+				subtitle.setHorizontalAlignment(subtitleAlignment);
 
 			Color subtitleForecolor = chart.getOwnSubtitleColor() != null ? 
 					chart.getOwnSubtitleColor() :
@@ -1844,8 +1866,14 @@ public class GenericChartTheme implements ChartTheme
 			if(legendBackcolor != null)
 				legend.setBackgroundPaint(legendBackcolor);
 			
-//			legend.setFrame(BlockBorder.NONE);
-//			legend.setHorizontalAlignment(HorizontalAlignment.RIGHT);
+			BlockFrame frame = (BlockFrame)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BLOCK_FRAME);
+			if(frame != null)
+				legend.setFrame(frame);
+			
+			HorizontalAlignment legendAlignment = (HorizontalAlignment)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_HORIZONTAL_ALIGNMENT);
+			if(legendAlignment != null)
+				legend.setHorizontalAlignment(legendAlignment);
+			
 			RectangleEdge defaultLegendPosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_POSITION);
 			if(getEdge(chart.getLegendPositionByte(), defaultLegendPosition) != null)
 				legend.setPosition(getEdge(chart.getLegendPositionByte(), defaultLegendPosition));
