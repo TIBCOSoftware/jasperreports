@@ -1145,26 +1145,50 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 		List intervals = jrPlot.getIntervals();
 		if (intervals != null && intervals.size() > 0)
 		{
-			int colorStep = 255 / intervals.size();
-
-			for(int i = 0; i < intervals.size(); i++)
+			int size = Math.min(3, intervals.size());
+			for(int i = 0; i < size; i++)
 			{
 				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
 				Range intervalRange = convertRange(interval.getDataRange(), evaluation);
 				double intervalLowerBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getLowerBound(), dialUnitScale);
 				double intervalUpperBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getUpperBound(), dialUnitScale);
 
-				StandardDialRange dialRange =
-					new StandardDialRange(
+				ScaledDialRange dialRange =
+					new ScaledDialRange(
 						intervalLowerBound,
 						intervalUpperBound,
 						interval.getBackgroundColor() == null
-							? new Color(255 - colorStep * i, 0 + colorStep * i, 0)
-							: interval.getBackgroundColor()
+							? (Color)ChartThemesConstants.AEGEAN_INTERVAL_COLORS.get(i)
+							: interval.getBackgroundColor(),
+						12f
 						);
 				dialRange.setInnerRadius(0.41);
-				dialRange.setOuterRadius(0.42);
+				dialRange.setOuterRadius(0.41);
 				dialPlot.addLayer(dialRange);
+			}
+			if(intervals.size() > 3)
+			{
+				int colorStep = 255 / (intervals.size() - 3);
+				for(int i = 3; i < intervals.size(); i++)
+				{
+					JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
+					Range intervalRange = convertRange(interval.getDataRange(), evaluation);
+					double intervalLowerBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getLowerBound(), dialUnitScale);
+					double intervalUpperBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getUpperBound(), dialUnitScale);
+	
+					ScaledDialRange dialRange =
+						new ScaledDialRange(
+							intervalLowerBound,
+							intervalUpperBound,
+							interval.getBackgroundColor() == null
+								? new Color(255 - colorStep * (i - 3), 0 + colorStep * (i - 3), 0)
+								: interval.getBackgroundColor(),
+							12f
+							);
+					dialRange.setInnerRadius(0.41);
+					dialRange.setOuterRadius(0.41);
+					dialPlot.addLayer(dialRange);
+				}
 			}
 		}
 
