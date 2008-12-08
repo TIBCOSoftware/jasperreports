@@ -26,7 +26,7 @@
 		   	    <entry key-ref="defaultSubtitleHorizontalAlignment" value-ref="leftHorizontalAlignment"/>
 		   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeRight"/>
 		   	    <entry key-ref="defaultLegendHorizontalAlignment" value-ref="rightHorizontalAlignment"/>
-		   	    <entry key-ref="defaultLegendBlockFrame" value-ref="blockBorderNone"/>
+		   	    <entry key-ref="defaultLegendFrame" value-ref="blockBorderNone"/>
 		   	    <entry key-ref="defaultChartPadding">
 		   	    	<value type="java.lang.Double">0.02</value>
 		   	    </entry>

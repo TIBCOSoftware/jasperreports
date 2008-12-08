@@ -14,6 +14,7 @@
 		<property name="defaultChartPropertiesMap">
 			<map>
 			    <entry key-ref="defaultBackgroundPaint" value-ref="transparentPaint"/>
+			    <entry key-ref="defaultShowLegend" value-ref="isTrue"/>
 			    
 		   	    <entry key-ref="defaultTitlePosition" value-ref="rectangleEdgeTop"/>
 		   	    <entry key-ref="defaultTitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>

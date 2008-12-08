@@ -324,7 +324,6 @@ public class GenericChartTheme implements ChartTheme
 			double chartPadding = padding.doubleValue();
 			jfreeChart.setPadding(new RectangleInsets(unitType, chartPadding, chartPadding, chartPadding, chartPadding));
 		}
-		
 		configurePlot(jfreeChart.getPlot(), jrPlot);
 	}
 
@@ -770,7 +769,6 @@ public class GenericChartTheme implements ChartTheme
 				);
 
 		configureChart(jfreeChart, getPlot(), evaluation);
-
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		JRHighLowPlot highLowPlot = (JRHighLowPlot)getPlot();
 		HighLowRenderer hlRenderer = (HighLowRenderer) xyPlot.getRenderer();
@@ -1705,7 +1703,6 @@ public class GenericChartTheme implements ChartTheme
 	{
 		TextTitle title = jfreeChart.getTitle();
 		RectangleEdge titleEdge = null;
-
 		if(title != null)
 		{
 			Font titleFont = title.getFont();
@@ -1866,7 +1863,7 @@ public class GenericChartTheme implements ChartTheme
 			if(legendBackcolor != null)
 				legend.setBackgroundPaint(legendBackcolor);
 			
-			BlockFrame frame = (BlockFrame)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BLOCK_FRAME);
+			BlockFrame frame = (BlockFrame)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_FRAME);
 			if(frame != null)
 				legend.setFrame(frame);
 			
@@ -1877,6 +1874,8 @@ public class GenericChartTheme implements ChartTheme
 			RectangleEdge defaultLegendPosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_POSITION);
 			if(getEdge(chart.getLegendPositionByte(), defaultLegendPosition) != null)
 				legend.setPosition(getEdge(chart.getLegendPositionByte(), defaultLegendPosition));
+			
+			
 			
 		}
 	}
@@ -1934,7 +1933,9 @@ public class GenericChartTheme implements ChartTheme
 	 */
 	protected boolean isShowLegend()
 	{
-		return chart.getShowLegend() == null ? DEFAULT_SHOW_lEGEND : chart.getShowLegend().booleanValue();
+		return chart.getShowLegend() == null ? 
+				DEFAULT_SHOW_lEGEND : 
+				chart.getShowLegend().booleanValue();
 	}
 
     public Object getDefaultValue(Map map, Object key)
