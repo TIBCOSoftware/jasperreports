@@ -92,10 +92,7 @@ import org.jfree.ui.TextAnchor;
  */
 public class AegeanChartTheme extends DefaultJRChartTheme
 {
-	/**
-	 * 
-	 */
-	protected final boolean DEFAULT_SHOW_lEGEND = true;
+
 	/**
 	 * Specifies the default axis location.
 	 * It has to be overriden for child themes with another default axis location
