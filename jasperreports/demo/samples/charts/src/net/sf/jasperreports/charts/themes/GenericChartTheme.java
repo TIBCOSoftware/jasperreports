@@ -156,12 +156,6 @@ public class GenericChartTheme implements ChartTheme
 	protected static final Color DEFAULT_AXIS_LINE_PAINT = new Color(0, 0, 0, 0);
 	
 	/**
-	 * Specifies whether a chart legend should be visible or no by default.
-	 * It has to be overriden for child themes which don't show chart legends
-	 */
-	protected final boolean DEFAULT_SHOW_lEGEND = true;
-	
-	/**
 	 * Specifies the default axis location.
 	 * It has to be overriden for child themes with another default axis location
 	 */
@@ -1933,9 +1927,10 @@ public class GenericChartTheme implements ChartTheme
 	 */
 	protected boolean isShowLegend()
 	{
-		return chart.getShowLegend() == null ? 
-				DEFAULT_SHOW_lEGEND : 
-				chart.getShowLegend().booleanValue();
+		Boolean showLegend = (Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SHOW_LEGEND);
+		return chart.getShowLegend() != null ? 
+				chart.getShowLegend().booleanValue() : 
+				(showLegend != null ? showLegend.booleanValue() : true);
 	}
 
     public Object getDefaultValue(Map map, Object key)

@@ -122,10 +122,7 @@ import org.jfree.ui.TextAnchor;
  */
 public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 {
-	/**
-	 * 
-	 */
-	protected final boolean DEFAULT_SHOW_lEGEND = true;
+
 	/**
 	 * Specifies the default axis location.
 	 * It has to be overriden for child themes with another default axis location
@@ -1264,11 +1261,6 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 		}
 	}
 
-	protected boolean isShowLegend()
-	{
-		return chart.getShowLegend() == null ? DEFAULT_SHOW_lEGEND : chart.getShowLegend().booleanValue();
-	}
-	
 	/**
 	 * Specifies the axis location.
 	 * It has to be overriden for child themes with another default axis location
