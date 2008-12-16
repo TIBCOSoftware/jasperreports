@@ -25,7 +25,11 @@
 
 	<bean id="genericChartTheme" class="net.sf.jasperreports.charts.themes.GenericChartTheme">
 		<property name="defaultChartPropertiesMap">
-			<null/>
+			<map>
+		   	    <entry key-ref="defaultTitleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultSubtitleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultLegendVisible" value-ref="isTrue"/>
+			</map>
 		</property>
 		<property name="defaultPlotPropertiesMap">
 			<null/>
