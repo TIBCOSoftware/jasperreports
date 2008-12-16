@@ -199,8 +199,6 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 			xyPlot.setRangeZeroBaselineVisible(true);
 
 		}
-
-		plot.setForegroundAlpha(1f);
 	}
 
 	/**

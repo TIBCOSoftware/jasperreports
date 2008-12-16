@@ -7,6 +7,8 @@ import java.awt.Paint;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jfree.chart.plot.DefaultDrawingSupplier;
+
 import net.sf.jasperreports.engine.JRConstants;
 
 public interface ChartThemesConstants
@@ -66,8 +68,9 @@ public interface ChartThemesConstants
 	public static final String DEFAULT_UNIT_TYPE = "defaultUnitType";
 	public static final String DEFAULT_RENDERING_HINTS = "defaultRenderingHints";
 	public static final String DEFAULT_TITLE = "defaultTitle";
-	public static final String DEFAULT_SHOW_LEGEND = "defaultShowLegend";
 
+    // generic chart title default properties names
+	public static final String DEFAULT_TITLE_VISIBLE = "defaultTitleVisible";
 	public static final String DEFAULT_TITLE_POSITION = "defaultTitlePosition";
 	public static final String DEFAULT_TITLE_BASEFONT_BOLD_STYLE = "defaultTitleBaseFontBoldStyle";
 	public static final String DEFAULT_TITLE_BASEFONT_ITALIC_STYLE = "defaultTitleBaseFontItalicStyle";
@@ -89,6 +92,8 @@ public interface ChartThemesConstants
 	public static final String DEFAULT_TITLE_URL_TEXT = "defaultTitleURLText";
 	public static final String DEFAULT_TITLE_EXPAND_TO_FIT_SPACE = "defaultTitleExpandToFitSpace";
 	
+    // generic chart subtitle default properties names
+	public static final String DEFAULT_SUBTITLE_VISIBLE = "defaultSubtitleVisible";
 	public static final String DEFAULT_SUBTITLE_POSITION = "defaultSubtitlePosition";
 	public static final String DEFAULT_SUBTITLE_BASEFONT_BOLD_STYLE = "defaultSubtitleBaseFontBoldStyle";
 	public static final String DEFAULT_SUBTITLE_BASEFONT_ITALIC_STYLE = "defaultSubtitleBaseFontItalicStyle";
@@ -110,6 +115,8 @@ public interface ChartThemesConstants
 	public static final String DEFAULT_SUBTITLE_URL_TEXT = "defaultSubtitleURLText";
 	public static final String DEFAULT_SUBTITLE_EXPAND_TO_FIT_SPACE = "defaultSubtitleExpandToFitSpace";
 	
+    // generic chart legend default properties names
+	public static final String DEFAULT_LEGEND_VISIBLE = "defaultLegendVisible";
 	public static final String DEFAULT_LEGEND_POSITION = "defaultLegendPosition";
 	public static final String DEFAULT_LEGEND_BASEFONT_BOLD_STYLE = "defaultLegendBaseFontBoldStyle";
 	public static final String DEFAULT_LEGEND_BASEFONT_ITALIC_STYLE = "defaultLegendBaseFontItalicStyle";
@@ -131,8 +138,20 @@ public interface ChartThemesConstants
 	public static final String DEFAULT_LEGEND_ITEM_LABEL_PADDING = "defaultLegendItemLabelPadding";
 	
 	// generic plot default properties names
+	public static final String DEFAULT_PLOT_BACKGROUND_PAINT = "defaultPlotBackgroundPaint";
 	public static final String DEFAULT_PLOT_BACKGROUND_ALPHA = "defaultPlotBackgroundAlpha";
 	public static final String DEFAULT_PLOT_FOREGROUND_ALPHA = "defaultPlotForegroundAlpha";
+	public static final String DEFAULT_PLOT_BACKGROUND_IMAGE = "defaultPlotBackgroundImage";
+	public static final String DEFAULT_PLOT_BACKGROUND_IMAGE_ALIGNMENT = "defaultPlotBackgroundImageAlignment";
+	public static final String DEFAULT_PLOT_BACKGROUND_IMAGE_ALPHA = "defaultPlotBackgroundImageAlpha";
+	public static final String DEFAULT_PLOT_OUTLINE_PAINT_SEQUENCE = "defaultPlotOutlinePaintSequence";
+	public static final String DEFAULT_PLOT_STROKE_SEQUENCE = "defaultPlotStrokeSequence";
+	public static final String DEFAULT_PLOT_OUTLINE_STROKE_SEQUENCE = "defaultPlotOutlineStrokeSequence";
+	public static final String DEFAULT_PLOT_SHAPE_SEQUENCE = "defaultPlotShapeSequence";
 	public static final String DEFAULT_PLOT_LABEL_ROTATION = "defaultPlotLabelRotation";
 	public static final String DEFAULT_PLOT_ORIENTATION = "defaultPlotOrientation";
+	public static final String DEFAULT_PLOT_INSETS = "defaultPlotInsets";
+	public static final String DEFAULT_PLOT_OUTLINE_PAINT = "defaultPlotOutlinePaint";
+	public static final String DEFAULT_PLOT_OUTLINE_STROKE = "defaultPlotOutlineStroke";
+	public static final String DEFAULT_PLOT_OUTLINE_VISIBLE = "defaultPlotOutlineVisible";
 }

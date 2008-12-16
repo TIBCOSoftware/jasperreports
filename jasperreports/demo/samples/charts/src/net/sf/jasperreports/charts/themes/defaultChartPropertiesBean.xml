@@ -12,9 +12,8 @@
 	<bean id="defaultChartTheme" class="net.sf.jasperreports.charts.themes.DefaultJRChartTheme" parent="genericChartTheme">
 		<!-- property name="defaultChartPropertiesMap" ref="defaultChartProperties"/-->
 		<property name="defaultChartPropertiesMap">
-			<map>
+			<map merge="true">
 			    <entry key-ref="defaultBackgroundPaint" value-ref="transparentPaint"/>
-			    <entry key-ref="defaultShowLegend" value-ref="isTrue"/>
 			    
 		   	    <entry key-ref="defaultTitlePosition" value-ref="rectangleEdgeTop"/>
 		   	    <entry key-ref="defaultTitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
