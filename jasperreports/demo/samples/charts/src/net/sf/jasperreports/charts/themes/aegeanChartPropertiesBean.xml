@@ -30,9 +30,14 @@
 		   	    <entry key-ref="defaultChartPadding">
 		   	    	<value type="java.lang.Double">0.02</value>
 		   	    </entry>
-		   	    
 			</map>		
 		</property>
+		<property name="defaultAxisPropertiesMap">
+			<map merge="true">
+			    <entry key-ref="defaultAxisLinePaint" value-ref="aegeanBorderPaint"/>
+			</map>		
+		</property>
+		
 	</bean>
 	
 	<util:map id="aegeanDefaultChartProperties">

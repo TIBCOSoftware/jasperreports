@@ -43,7 +43,9 @@
 			</map>
 		</property>
 		<property name="defaultAxisPropertiesMap">
-			<null/>
+			<map>
+		   	    <entry key-ref="defaultAxisVisible" value-ref="isTrue"/>
+			</map>
 		</property>
 		<property name="defaultChartTypePropertiesMap">
 			<null/>

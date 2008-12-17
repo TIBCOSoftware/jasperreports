@@ -34,6 +34,11 @@
 		   	    </entry>
 			</map>
 		</property>
+		<property name="defaultAxisPropertiesMap">
+			<map merge="true">
+			    <entry key-ref="defaultAxisLinePaint" value-ref="eyeCandySixtiesGridlinePaint"/>
+			</map>		
+		</property>
 	</bean>
 	
 

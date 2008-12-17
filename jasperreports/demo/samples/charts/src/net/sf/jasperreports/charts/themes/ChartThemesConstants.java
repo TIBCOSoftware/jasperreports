@@ -22,8 +22,15 @@ public interface ChartThemesConstants
 	public static final Integer FONT_BOLD_STYLE = new Integer(Font.BOLD);
 	public static final Integer FONT_ITALIC_STYLE = new Integer(Font.ITALIC);
 
-	public static final List EYE_CANDY_SIXTIES_COLORS =
-		new ArrayList(){{
+	public static final Paint AEGEAN_BORDER_PAINT = new Color(134,134,134);
+	
+	public static final List AEGEAN_INTERVAL_COLORS = new ArrayList(){{
+		add(new Color(182, 0, 40));
+		add(new Color(240, 205, 0));
+		add(new Color(0,153,0));
+		}};
+	
+	public static final List EYE_CANDY_SIXTIES_COLORS =	new ArrayList(){{
 			add(new Color(250, 97, 18));
 			add(new Color(237, 38, 42));
 			add(new Color(0, 111, 60));
@@ -34,13 +41,6 @@ public interface ChartThemesConstants
 			add(new Color(234, 171, 53));
 			}};
 	
-		public static final List AEGEAN_INTERVAL_COLORS =
-			new ArrayList(){{
-				add(new Color(182, 0, 40));
-				add(new Color(240, 205, 0));
-				add(new Color(0,153,0));
-				}};
-			
 	public static final List EYE_CANDY_SIXTIES_GRADIENT_PAINTS = new ArrayList(){{
 			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(0), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(0)).darker()));
 			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(1), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(1)).darker()));
@@ -51,6 +51,8 @@ public interface ChartThemesConstants
 			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(6), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(6)).darker()));
     }};
 
+	public static final Paint EYE_CANDY_SIXTIES_GRIDLINE_PAINT = new Color(134,134,134);
+    
     // generic chart default properties names
 	public static final String DEFAULT_BACKGROUND_PAINT = "defaultBackgroundPaint";
 	public static final String DEFAULT_BACKGROUND_IMAGE = "defaultBackgroundImage";
@@ -154,4 +156,31 @@ public interface ChartThemesConstants
 	public static final String DEFAULT_PLOT_OUTLINE_PAINT = "defaultPlotOutlinePaint";
 	public static final String DEFAULT_PLOT_OUTLINE_STROKE = "defaultPlotOutlineStroke";
 	public static final String DEFAULT_PLOT_OUTLINE_VISIBLE = "defaultPlotOutlineVisible";
+	
+	// generic axis default properties names
+	public static final String DEFAULT_AXIS_VISIBLE = "defaultAxisVisible";
+	public static final String DEFAULT_AXIS_LINE_PAINT = "defaultAxisLinePaint";
+	public static final String DEFAULT_AXIS_LINE_STROKE = "defaultAxisLineStroke";
+	public static final String DEFAULT_AXIS_LINE_VISIBLE = "defaultAxisLineVisible";
+	public static final String DEFAULT_AXIS_FIXED_DIMENSION = "defaultAxisFixedDimension";
+	public static final String DEFAULT_AXIS_LABEL = "defaultAxisLabel";
+	public static final String DEFAULT_AXIS_LABEL_ANGLE = "defaultAxisLabelAngle";
+	public static final String DEFAULT_AXIS_LABEL_PAINT = "defaultAxisLabelPaint";
+	public static final String DEFAULT_AXIS_LABEL_FONT = "defaultAxisLabelFont";
+	public static final String DEFAULT_AXIS_LABEL_FONT_BOLD_STYLE = "defaultAxisLabelFontBoldStyle";
+	public static final String DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE = "defaultAxisLabelFontItalicStyle";
+	public static final String DEFAULT_AXIS_LABEL_INSETS = "defaultAxisLabelInsets";
+	public static final String DEFAULT_AXIS_LABEL_VISIBLE = "defaultAxisLabelVisible";
+	public static final String DEFAULT_AXIS_TICK_LABEL_PAINT = "defaultAxisTickLabelPaint";
+	public static final String DEFAULT_AXIS_TICK_LABEL_FONT = "defaultAxisTickLabelFont";
+	public static final String DEFAULT_AXIS_TICK_LABEL_FONT_BOLD_STYLE = "defaultAxisTickLabelFontBoldStyle";
+	public static final String DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE = "defaultAxisTickLabelFontItalicStyle";
+	public static final String DEFAULT_AXIS_TICK_LABEL_INSETS = "defaultAxisTickLabelInsets";
+	public static final String DEFAULT_AXIS_TICK_LABELS_VISIBLE = "defaultAxisTickLabelsVisible";
+	public static final String DEFAULT_AXIS_TICK_MARKS_INSIDE_LENGTH = "defaultAxisTickMarksInsideLength";
+	public static final String DEFAULT_AXIS_TICK_MARKS_OUTSIDE_LENGTH = "defaultAxisTickMarksOutsideLength";
+	public static final String DEFAULT_AXIS_TICK_MARKS_PAINT = "defaultAxisTickMarksPaint";
+	public static final String DEFAULT_AXIS_TICK_MARKS_STROKE = "defaultAxisTickMarksStroke";
+	public static final String DEFAULT_AXIS_TICK_MARKS_VISIBLE = "defaultAxisTickMarksVisible";
+	
 }

@@ -214,7 +214,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 	 * the mask should be <code>java.text.DecimalFormat</code> mask, and
 	 * if it is a DateAxis then the mask should be a
 	 * <code>java.text.SimpleDateFormat</code> mask.
-	 * @param GRIDLINE_COLOR color to use when drawing the axis line and any tick marks
+	 * @param axisLinePaint color to use when drawing the axis line and any tick marks
 	 */
 	protected void configureAxis(
 		Axis axis,
@@ -223,45 +223,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 		JRFont tickLabelFont,
 		Color tickLabelColor,
 		String tickLabelMask,
-		Paint axisLineColor
-		)
-	{
-		configureAxis(
-				axis, 
-				labelFont, 
-				labelColor, 
-				tickLabelFont, 
-				tickLabelColor, 
-				tickLabelMask, 
-				axisLineColor, 
-				GRIDLINE_COLOR
-		);
-	}
-
-	/**
-	 * Sets all the axis formatting options.  This includes the colors and fonts to use on
-	 * the axis as well as the color to use when drawing the axis line.
-	 *
-	 * @param axis the axis to format
-	 * @param labelFont the font to use for the axis label
-	 * @param labelColor the color of the axis label
-	 * @param tickLabelFont the font to use for each tick mark value label
-	 * @param tickLabelColor the color of each tick mark value label
-	 * @param tickLabelMask formatting mask for the label.  If the axis is a NumberAxis then
-	 * the mask should be <code>java.text.DecimalFormat</code> mask, and
-	 * if it is a DateAxis then the mask should be a
-	 * <code>java.text.SimpleDateFormat</code> mask.
-	 * @param GRIDLINE_COLOR color to use when drawing the axis line and any tick marks
-	 */
-	protected void configureAxis(
-		Axis axis,
-		JRFont labelFont,
-		Color labelColor,
-		JRFont tickLabelFont,
-		Color tickLabelColor,
-		String tickLabelMask,
-		Paint axisLinePaint,
-		Paint defaultLinePaint
+		Paint axisLinePaint
 		)
 	{
 		super.configureAxis(
@@ -271,15 +233,14 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 				tickLabelFont, 
 				tickLabelColor, 
 				tickLabelMask, 
-				axisLinePaint, 
-				defaultLinePaint
+				axisLinePaint 
 		);
 		float baseFontSize = tickLabelFont != null ? tickLabelFont.getFontSize() : 8f;
 		axis.setAxisLineStroke(new BasicStroke(1f));
-		if (defaultLinePaint == null)
-			defaultLinePaint = GRIDLINE_COLOR;
-		axis.setAxisLinePaint(axisLinePaint == null ? defaultLinePaint : axisLinePaint);
-		axis.setTickMarkPaint(axisLinePaint == null ? defaultLinePaint : axisLinePaint);
+//		if (defaultLinePaint == null)
+//			defaultLinePaint = GRIDLINE_COLOR;
+//		axis.setAxisLinePaint(axisLinePaint == null ? defaultLinePaint : axisLinePaint);
+//		axis.setTickMarkPaint(axisLinePaint == null ? defaultLinePaint : axisLinePaint);
 		Font font = null;
 		if (labelFont != null)
 		{
