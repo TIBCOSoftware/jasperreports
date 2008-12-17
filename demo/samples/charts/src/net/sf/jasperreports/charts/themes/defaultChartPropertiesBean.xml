@@ -42,7 +42,11 @@
 			    
 			</map>
 		</property>
-		<property name="defaultPlotPropertiesMap" ref="defaultPlotProperties"/>
+		<property name="defaultPlotPropertiesMap">
+			<map merge="true">
+				<entry key-ref="defaultPlotOutlineVisible" value-ref="isFalse"/>
+			</map>
+		</property>
 		<property name="defaultAxisPropertiesMap" ref="defaultAxisProperties"/>
 		<property name="defaultChartTypePropertiesMap" ref="defaultChartTypeProperties"/>
 	</bean>

@@ -149,9 +149,21 @@
 
 	<!-- plot property names -->
 	
+	<util:constant id="defaultPlotBackgroundPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_PAINT"/>
 	<util:constant id="defaultPlotBackgroundAlpha" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_ALPHA"/>
 	<util:constant id="defaultPlotForegroundAlpha" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_FOREGROUND_ALPHA"/>
+	<util:constant id="defaultPlotBackgroundImage" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_IMAGE"/>
+	<util:constant id="defaultPlotBackgroundImageAlignment" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_IMAGE_ALIGNMENT"/>
+	<util:constant id="defaultPlotBackgroundImageAlpha" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_IMAGE_ALPHA"/>
+	<util:constant id="defaultPlotOutlinePaintSequence" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_OUTLINE_PAINT_SEQUENCE"/>
+	<util:constant id="defaultPlotStrokeSequence" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_STROKE_SEQUENCE"/>
+	<util:constant id="defaultPlotOutlineStrokeSequence" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_OUTLINE_STROKE_SEQUENCE"/>
+	<util:constant id="defaultPlotShapeSequence" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_SHAPE_SEQUENCE"/>
 	<util:constant id="defaultPlotLabelRotation" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_LABEL_ROTATION"/>
 	<util:constant id="defaultPlotOrientation" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_ORIENTATION"/>
+	<util:constant id="defaultPlotInsets" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_INSETS"/>
+	<util:constant id="defaultPlotOutlinePaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_OUTLINE_PAINT"/>
+	<util:constant id="defaultPlotOutlineStroke" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_OUTLINE_STROKE"/>
+	<util:constant id="defaultPlotOutlineVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_OUTLINE_VISIBLE"/>
 
 </beans>

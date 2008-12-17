@@ -32,6 +32,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Paint;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -328,92 +330,40 @@ public class GenericChartTheme implements ChartTheme
 	 */
 	protected void configurePlot(Plot p, JRChartPlot jrPlot)
 	{
-		Double defaultLabelRotation = (Double)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_LABEL_ROTATION);
-		List defaultSeriesColors = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SERIES_COLORS);
+		RectangleInsets defaultPlotInsets = (RectangleInsets)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_INSETS);
+		Paint defaultPlotOutlinePaint = (Paint)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_OUTLINE_PAINT);
+		Stroke defaultPlotOutlineStroke = (Stroke)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_OUTLINE_STROKE);
+		Boolean defaultPlotOutlineVisible = (Boolean)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_OUTLINE_VISIBLE);
+
+		if(defaultPlotInsets != null) 
+			p.setInsets(defaultPlotInsets);
+
+		if(defaultPlotOutlineVisible != null) 
+		{
+			if(defaultPlotOutlineVisible.booleanValue())
+			{
+				if(defaultPlotOutlinePaint != null)
+					p.setOutlinePaint(defaultPlotOutlinePaint);
+				
+				if(defaultPlotOutlineStroke != null)
+					p.setOutlineStroke(defaultPlotOutlineStroke);
+				
+				p.setOutlineVisible(true);
+			}
+			else
+			{
+				p.setOutlineVisible(false);
+			}
+		}
 		
-		p.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		setPlotBackground(p, jrPlot);
 		
 		if (p instanceof CategoryPlot)
 		{
-			PlotOrientation defaultPlotOrientation = (PlotOrientation)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_ORIENTATION);
-			// Handle rotation of the category labels.
-			CategoryAxis axis = ((CategoryPlot)p).getDomainAxis();
-			boolean hasRotation = jrPlot.getLabelRotationDouble() != null || defaultLabelRotation != null;
-			if(hasRotation)
-			{
-				double labelRotation = jrPlot.getLabelRotationDouble() != null ? 
-						jrPlot.getLabelRotationDouble().doubleValue() :
-						defaultLabelRotation.doubleValue();
-				
-				if (labelRotation == 90)
-				{
-					axis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
-				}
-				else if (labelRotation == -90) {
-					axis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
-				}
-				else if (labelRotation < 0)
-				{
-					axis.setCategoryLabelPositions(
-							CategoryLabelPositions.createUpRotationLabelPositions( (-labelRotation / 180.0) * Math.PI));
-				}
-				else if (labelRotation > 0)
-				{
-					axis.setCategoryLabelPositions(
-							CategoryLabelPositions.createDownRotationLabelPositions((labelRotation / 180.0) * Math.PI));
-				}
-			}
-			
-			if(defaultPlotOrientation != null)
-			{
-				((CategoryPlot)p).setOrientation(defaultPlotOrientation);
-			}
+			handleCategoryPlotSettings(p, jrPlot);
 		}
 
-		// Set color series
-		Paint[] colors = null;
-		SortedSet seriesColors = jrPlot.getSeriesColors();
-		Paint[] colorSequence = null;
-		if (seriesColors != null && seriesColors.size() > 0)
-		{
-			int seriesColorsSize = seriesColors.size();
-			
-			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + seriesColorsSize];
-
-			JRSeriesColor[] jrColorSequence = new JRSeriesColor[seriesColorsSize];
-			seriesColors.toArray(jrColorSequence);
-			colorSequence = new Paint[seriesColorsSize];
-			
-			for (int i = 0; i < seriesColorsSize; i++)
-			{
-				colorSequence[i] = jrColorSequence[i].getColor();
-			}
-			populateSeriesColors(colors, colorSequence);
-		}
-		else if(defaultSeriesColors != null && defaultSeriesColors.size() > 0)
-		{
-			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + defaultSeriesColors.size()];
-			colorSequence = new Paint[defaultSeriesColors.size()];
-			defaultSeriesColors.toArray(colorSequence);
-			populateSeriesColors(colors, colorSequence);
-		}
-		else
-		{
-			colors = DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE;
-		}
-		
-		p.setDrawingSupplier(new DefaultDrawingSupplier(
-				colors,
-				DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
-				DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
-				DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
-				DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE
-				)
-			);
-		
-//		p.setOutlineVisible(true);
-//		p.setOutlinePaint(Color.BLACK);
+		setPlotDrawingDefaults(p, jrPlot);
 	}
 
 	/**
@@ -1956,13 +1906,13 @@ public class GenericChartTheme implements ChartTheme
 
 	protected void setPlotBackground(Plot p, JRChartPlot jrPlot)
 	{
-		Paint defaultBackgroundPaint = (Paint)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_PAINT);
-		Float defaultBackgroundAlpha = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_ALPHA);
-		Float defaultForegroundAlpha = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_FOREGROUND_ALPHA);
+		Paint defaultBackgroundPaint = (Paint)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_PAINT);
+		Float defaultBackgroundAlpha = (Float)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_ALPHA);
+		Float defaultForegroundAlpha = (Float)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_FOREGROUND_ALPHA);
 		
-		Image defaultBackgroundImage = (Image)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_IMAGE);
-		Integer defaultBackgroundImageAlignment = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_IMAGE_ALIGNMENT);
-		Float defaultBackgroundImageAlpha = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_IMAGE_ALPHA);
+		Image defaultBackgroundImage = (Image)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_IMAGE);
+		Integer defaultBackgroundImageAlignment = (Integer)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_IMAGE_ALIGNMENT);
+		Float defaultBackgroundImageAlpha = (Float)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_BACKGROUND_IMAGE_ALPHA);
 
 		Paint backgroundPaint = jrPlot.getOwnBackcolor() != null ? jrPlot.getOwnBackcolor() : defaultBackgroundPaint;
 		if(backgroundPaint != null)
@@ -1997,26 +1947,108 @@ public class GenericChartTheme implements ChartTheme
 		
 	}
 	
-//	public static final ChartThemeBundle BUNDLE = 
-//		new ChartThemeBundle()
-//		{
-//			private static final String NAME = "default";
-//
-//			public String[] getChartThemeNames() 
-//			{
-//				return new String[]{NAME};
-//			}
-//		
-//			public ChartTheme getChartTheme(String themeName) 
-//			{
-//				if (NAME.equals(themeName))
-//				{
-//					return new GenericChartTheme(); 
-//				}
-//				return null;
-//			}
-//		};
-//		
+	protected void handleCategoryPlotSettings(Plot p, JRChartPlot jrPlot)
+	{
+		Double defaultPlotLabelRotation = (Double)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_LABEL_ROTATION);
+		PlotOrientation defaultPlotOrientation = (PlotOrientation)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_ORIENTATION);
+		// Handle rotation of the category labels.
+		CategoryAxis axis = ((CategoryPlot)p).getDomainAxis();
+		boolean hasRotation = jrPlot.getLabelRotationDouble() != null || defaultPlotLabelRotation != null;
+		if(hasRotation)
+		{
+			double labelRotation = jrPlot.getLabelRotationDouble() != null ? 
+					jrPlot.getLabelRotationDouble().doubleValue() :
+					defaultPlotLabelRotation.doubleValue();
+			
+			if (labelRotation == 90)
+			{
+				axis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			}
+			else if (labelRotation == -90) {
+				axis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
+			}
+			else if (labelRotation < 0)
+			{
+				axis.setCategoryLabelPositions(
+						CategoryLabelPositions.createUpRotationLabelPositions( (-labelRotation / 180.0) * Math.PI));
+			}
+			else if (labelRotation > 0)
+			{
+				axis.setCategoryLabelPositions(
+						CategoryLabelPositions.createDownRotationLabelPositions((labelRotation / 180.0) * Math.PI));
+			}
+		}
+		
+		if(defaultPlotOrientation != null)
+		{
+			((CategoryPlot)p).setOrientation(defaultPlotOrientation);
+		}
+	}
+
+	protected void setPlotDrawingDefaults(Plot p, JRChartPlot jrPlot)
+	{
+		List defaultSeriesColors = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SERIES_COLORS);
+		Paint[] defaultPlotOutlinePaintSequence = 
+			getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_OUTLINE_PAINT_SEQUENCE) != null ?
+			(Paint[])getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_OUTLINE_PAINT_SEQUENCE) :
+			DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE;
+			
+		Stroke[] defaultPlotStrokeSequence = 
+			getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_STROKE_SEQUENCE) != null ?
+			(Stroke[])getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_STROKE_SEQUENCE) :
+			DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE;
+			
+		Stroke[] defaultPlotOutlineStrokeSequence = 
+			getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_OUTLINE_STROKE_SEQUENCE) != null ?
+			(Stroke[])getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_OUTLINE_STROKE_SEQUENCE) :
+			DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE;
+			
+		Shape[] defaultPlotShapeSequence = 
+			getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_SHAPE_SEQUENCE) != null ?
+			(Shape[])getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.DEFAULT_PLOT_SHAPE_SEQUENCE) :
+			DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE;
+		// Set color series
+		Paint[] colors = null;
+		SortedSet seriesColors = jrPlot.getSeriesColors();
+		Paint[] colorSequence = null;
+		if (seriesColors != null && seriesColors.size() > 0)
+		{
+			int seriesColorsSize = seriesColors.size();
+			
+			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + seriesColorsSize];
+
+			JRSeriesColor[] jrColorSequence = new JRSeriesColor[seriesColorsSize];
+			seriesColors.toArray(jrColorSequence);
+			colorSequence = new Paint[seriesColorsSize];
+			
+			for (int i = 0; i < seriesColorsSize; i++)
+			{
+				colorSequence[i] = jrColorSequence[i].getColor();
+			}
+			populateSeriesColors(colors, colorSequence);
+		}
+		else if(defaultSeriesColors != null && defaultSeriesColors.size() > 0)
+		{
+			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + defaultSeriesColors.size()];
+			colorSequence = new Paint[defaultSeriesColors.size()];
+			defaultSeriesColors.toArray(colorSequence);
+			populateSeriesColors(colors, colorSequence);
+		}
+		else
+		{
+			colors = DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE;
+		}
+		
+		p.setDrawingSupplier(new DefaultDrawingSupplier(
+				colors,
+				defaultPlotOutlinePaintSequence,
+				defaultPlotStrokeSequence,
+				defaultPlotOutlineStrokeSequence,
+				defaultPlotShapeSequence
+				)
+			);
+		
+	}
 	/**
 	 * Specifies whether a chart legend should be visible or no by default.
 	 * It has to be overriden for child themes which don't show chart legends

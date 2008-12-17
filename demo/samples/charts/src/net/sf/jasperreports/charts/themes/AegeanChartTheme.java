@@ -165,8 +165,6 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 			xyPlot.setDomainGridlinesVisible(false);
 			xyPlot.setRangeZeroBaselineVisible(true);
 		}
-
-		plot.setForegroundAlpha(1f);
 	}
 
 	/**

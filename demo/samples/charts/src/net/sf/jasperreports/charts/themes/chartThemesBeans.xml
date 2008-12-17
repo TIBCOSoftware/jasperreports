@@ -32,7 +32,15 @@
 			</map>
 		</property>
 		<property name="defaultPlotPropertiesMap">
-			<null/>
+			<map>
+		   	    <entry key-ref="defaultPlotBackgroundPaint" value-ref="transparentPaint"/>
+		   	    <entry key-ref="defaultPlotBackgroundAlpha">
+		   	    	<value type="java.lang.Float">1f</value>
+		   	    </entry>
+		   	    <entry key-ref="defaultPlotForegroundAlpha">
+		   	    	<value type="java.lang.Float">1f</value>
+		   	    </entry>
+			</map>
 		</property>
 		<property name="defaultAxisPropertiesMap">
 			<null/>
