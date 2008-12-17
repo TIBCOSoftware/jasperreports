@@ -23,8 +23,13 @@
 	<util:constant id="darkGrayColor" static-field="java.awt.Color.DARK_GRAY"/>
 	<util:constant id="lightGrayColor" static-field="java.awt.Color.LIGHT_GRAY"/>
 
+
+	<util:constant id="aegeanBorderPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.AEGEAN_BORDER_PAINT"/>
+
 	<util:constant id="eyeCandySixtiesSeriesColors" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS"/>
 	<util:constant id="eyeCandySixtiesSeriesGradientPaints" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS"/>
+	<util:constant id="eyeCandySixtiesGridlinePaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.EYE_CANDY_SIXTIES_GRIDLINE_PAINT"/>
+
 
 	<util:constant id="rectangleEdgeTop" static-field="org.jfree.ui.RectangleEdge.TOP"/>
 	<util:constant id="rectangleEdgeLeft" static-field="org.jfree.ui.RectangleEdge.LEFT"/>
@@ -165,5 +170,32 @@
 	<util:constant id="defaultPlotOutlinePaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_OUTLINE_PAINT"/>
 	<util:constant id="defaultPlotOutlineStroke" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_OUTLINE_STROKE"/>
 	<util:constant id="defaultPlotOutlineVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_PLOT_OUTLINE_VISIBLE"/>
+	
+	<!-- axis property names -->
+	
+	<util:constant id="defaultAxisVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_VISIBLE"/>
+	<util:constant id="defaultAxisLinePaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LINE_PAINT"/>
+	<util:constant id="defaultAxisLineStroke" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LINE_STROKE"/>
+	<util:constant id="defaultAxisLineVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LINE_VISIBLE"/>
+	<util:constant id="defaultAxisFixedDimension" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_FIXED_DIMENSION"/>
+	<util:constant id="defaultAxisLabel" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL"/>
+	<util:constant id="defaultAxisLabelAngle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_ANGLE"/>
+	<util:constant id="defaultAxisLabelPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_PAINT"/>
+	<util:constant id="defaultAxisLabelFont" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT"/>
+	<util:constant id="defaultAxisLabelFontBoldStyle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_BOLD_STYLE"/>	
+	<util:constant id="defaultAxisLabelFontItalicStyle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE"/>	
+	<util:constant id="defaultAxisLabelInsets" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_INSETS"/>
+	<util:constant id="defaultAxisLabelVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_VISIBLE"/>
+	<util:constant id="defaultAxisTickLabelPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_PAINT"/>
+	<util:constant id="defaultAxisTickLabelFont" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT"/>
+	<util:constant id="defaultAxisTickLabelFontBoldStyle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_BOLD_STYLE"/>	
+	<util:constant id="defaultAxisTickLabelFontItalicStyle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE"/>	
+	<util:constant id="defaultAxisTickLabelInsets" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_INSETS"/>
+	<util:constant id="defaultAxisTickLabelsVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABELS_VISIBLE"/>
+	<util:constant id="defaultAxisTickMarksInsideLength" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_INSIDE_LENGTH"/>
+	<util:constant id="defaultAxisTickMarksOutsideLength" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_OUTSIDE_LENGTH"/>
+	<util:constant id="defaultAxisTickMarksPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_PAINT"/>
+	<util:constant id="defaultAxisTickMarksStroke" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_STROKE"/>
+	<util:constant id="defaultAxisTickMarksVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_VISIBLE"/>
 
 </beans>

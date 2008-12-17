@@ -47,7 +47,11 @@
 				<entry key-ref="defaultPlotOutlineVisible" value-ref="isFalse"/>
 			</map>
 		</property>
-		<property name="defaultAxisPropertiesMap" ref="defaultAxisProperties"/>
+		<property name="defaultAxisPropertiesMap">
+			<map merge="true">
+				<entry key-ref="defaultAxisLinePaint" value-ref="transparentPaint"/>
+			</map>
+		</property>
 		<property name="defaultChartTypePropertiesMap" ref="defaultChartTypeProperties"/>
 	</bean>
 

@@ -87,6 +87,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.fill.JRFillChart;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -388,85 +389,109 @@ public class GenericChartTheme implements ChartTheme
 			JRFont tickLabelFont,
 			Color tickLabelColor,
 			String tickLabelMask,
-			Color lineColor
+			Paint lineColor
 			)
 	{
-		configureAxis(
-				axis,
-				labelFont,
-				labelColor,
-				tickLabelFont,
-				tickLabelColor,
-				tickLabelMask,
-				lineColor,
-				null
-		);
-	}
-
-	protected void configureAxis(
-			Axis axis,
-			JRFont labelFont,
-			Color labelColor,
-			JRFont tickLabelFont,
-			Color tickLabelColor,
-			String tickLabelMask,
-			Paint linePaint,
-			Paint defaultLinePaint
-			)
-		{
-//			axis.setLabelFont(JRFontUtil.getAwtFont(labelFont));
-//			axis.setTickLabelFont(JRFontUtil.getAwtFont(tickLabelFont));
-			if (labelColor != null)
+//		configureAxis(
+//				axis,
+//				labelFont,
+//				labelColor,
+//				tickLabelFont,
+//				tickLabelColor,
+//				tickLabelMask,
+//				lineColor,
+//				null
+//		);
+//	}
+//
+//	protected void configureAxis(
+//			Axis axis,
+//			JRFont labelFont,
+//			Color labelColor,
+//			JRFont tickLabelFont,
+//			Color tickLabelColor,
+//			String tickLabelMask,
+//			Paint linePaint,
+//			Paint defaultLinePaint
+//			)
+//		{
+		
+			Boolean defaultAxisVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_VISIBLE);
+			
+			if(defaultAxisVisible != null && defaultAxisVisible.booleanValue())
 			{
-				axis.setLabelPaint(labelColor);
-			}
-
-			if (tickLabelColor != null)
-			{
-				axis.setTickLabelPaint(tickLabelColor);
-			}
-
-			if (linePaint != null)
-			{
-				axis.setAxisLinePaint(linePaint);
-				axis.setTickMarkPaint(linePaint);
-			}
-			else if(defaultLinePaint != null)
-			{
-				axis.setAxisLinePaint(defaultLinePaint);
-				axis.setTickMarkPaint(defaultLinePaint);
-			}
-			else
-			{
-				axis.setAxisLinePaint(DEFAULT_AXIS_LINE_PAINT);
-				axis.setTickMarkPaint(DEFAULT_AXIS_LINE_PAINT);
-			}
-			if (tickLabelMask != null)
-			{
-				if (axis instanceof NumberAxis)
+				
+				int defaultAxisLabelFontBoldStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_BOLD_STYLE) != null ?
+						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_BOLD_STYLE)).intValue() :
+						Font.PLAIN;
+				int defaultAxisLabelFontItalicStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE) != null ?
+						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE)).intValue() :
+						Font.PLAIN;
+			
+				Font themeLabelFont = JRFontUtil.getAwtFont(labelFont);
+				axis.setLabelFont(themeLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(labelFont, 
+						defaultAxisLabelFontBoldStyle, 
+						defaultAxisLabelFontItalicStyle)));
+				
+				int defaultAxisTickLabelFontBoldStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_BOLD_STYLE) != null ?
+						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_BOLD_STYLE)).intValue() :
+						Font.PLAIN;
+				int defaultAxisTickLabelFontItalicStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE) != null ?
+						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE)).intValue() :
+						Font.PLAIN;
+			
+				Font themeTickLabelFont = JRFontUtil.getAwtFont(tickLabelFont);
+				axis.setTickLabelFont(themeTickLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(tickLabelFont, 
+						defaultAxisTickLabelFontBoldStyle, 
+						defaultAxisTickLabelFontItalicStyle)));
+				
+				if (labelColor != null)
 				{
-					NumberFormat fmt = NumberFormat.getInstance();
-					if (fmt instanceof DecimalFormat)
-						((DecimalFormat) fmt).applyPattern(tickLabelMask);
-					((NumberAxis)axis).setNumberFormatOverride(fmt);
+					axis.setLabelPaint(labelColor);
 				}
-				else if (axis instanceof DateAxis)
+	
+				if (tickLabelColor != null)
 				{
-					DateFormat fmt = null;
-					if (tickLabelMask.equals("SHORT") || tickLabelMask.equals("DateFormat.SHORT"))
-						fmt = DateFormat.getDateInstance(DateFormat.SHORT);
-					else if (tickLabelMask.equals("MEDIUM") || tickLabelMask.equals("DateFormat.MEDIUM"))
-						fmt = DateFormat.getDateInstance(DateFormat.MEDIUM);
-					else if (tickLabelMask.equals("LONG") || tickLabelMask.equals("DateFormat.LONG"))
-						fmt = DateFormat.getDateInstance(DateFormat.LONG);
-					else if (tickLabelMask.equals("FULL") || tickLabelMask.equals("DateFormat.FULL"))
-						fmt = DateFormat.getDateInstance(DateFormat.FULL);
-					else
-						fmt = new SimpleDateFormat(tickLabelMask);
-
-					((DateAxis)axis).setDateFormatOverride(fmt);
+					axis.setTickLabelPaint(tickLabelColor);
 				}
-				// ignore mask for other axis types.
+	
+				Paint linePaint = lineColor != null ?
+						lineColor :
+						(Paint)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LINE_PAINT);
+				
+				if (linePaint != null)
+				{
+					axis.setAxisLinePaint(linePaint);
+//					axis.setTickMarkPaint(linePaint);
+				}
+
+				if (tickLabelMask != null)
+				{
+					if (axis instanceof NumberAxis)
+					{
+						NumberFormat fmt = NumberFormat.getInstance();
+						if (fmt instanceof DecimalFormat)
+							((DecimalFormat) fmt).applyPattern(tickLabelMask);
+						((NumberAxis)axis).setNumberFormatOverride(fmt);
+					}
+					else if (axis instanceof DateAxis)
+					{
+						DateFormat fmt = null;
+						if (tickLabelMask.equals("SHORT") || tickLabelMask.equals("DateFormat.SHORT"))
+							fmt = DateFormat.getDateInstance(DateFormat.SHORT);
+						else if (tickLabelMask.equals("MEDIUM") || tickLabelMask.equals("DateFormat.MEDIUM"))
+							fmt = DateFormat.getDateInstance(DateFormat.MEDIUM);
+						else if (tickLabelMask.equals("LONG") || tickLabelMask.equals("DateFormat.LONG"))
+							fmt = DateFormat.getDateInstance(DateFormat.LONG);
+						else if (tickLabelMask.equals("FULL") || tickLabelMask.equals("DateFormat.FULL"))
+							fmt = DateFormat.getDateInstance(DateFormat.FULL);
+						else
+							fmt = new SimpleDateFormat(tickLabelMask);
+	
+						((DateAxis)axis).setDateFormatOverride(fmt);
+					}
+					// ignore mask for other axis types.
+				}
 			}
 		}
 
