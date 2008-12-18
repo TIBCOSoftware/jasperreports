@@ -2755,7 +2755,7 @@
      </xsd:restriction>
     </xsd:simpleType>
    </xsd:attribute>
-   <xsd:attribute name="isShowValueLines" use="optional">
+   <xsd:attribute name="isShowValueLines" use="optional" default="false">
     <xsd:simpleType>
      <xsd:restriction base="xsd:string">
       <xsd:enumeration value="true"/>

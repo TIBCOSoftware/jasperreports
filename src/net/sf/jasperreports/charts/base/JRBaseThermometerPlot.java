@@ -68,8 +68,9 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 
 	/**
 	 * Indicates if the boundaries of each range should be shown.
+	 * @deprecated No longer used.
 	 */
-	protected Boolean showValueLinesBoolean = null;
+	protected boolean showValueLines = false;
 
 	/**
 	 * Specifies where the textual display of the value should be shown.
@@ -121,7 +122,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 
 		valueDisplay = new JRBaseValueDisplay(thermoPlot.getValueDisplay(), factory);
 
-		showValueLinesBoolean = thermoPlot.getShowValueLines();
+		showValueLines = thermoPlot.isShowValueLines();
 
 		valueLocationByte = thermoPlot.getValueLocationByte();
 
@@ -152,11 +153,11 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShowValueLines()}
+	 * @deprecated No longer used.
 	 */
 	public boolean isShowValueLines()
 	{
-		return showValueLinesBoolean == null ? false : showValueLinesBoolean.booleanValue();
+		return showValueLines;
 	}
 
 	/**
@@ -165,14 +166,6 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	public byte getValueLocation()
 	{
 		return valueLocationByte == null ? JRThermometerPlot.LOCATION_BULB : valueLocationByte.byteValue();
-	}
-
-	/**
-	 *
-	 */
-	public Boolean getShowValueLines()
-	{
-		return showValueLinesBoolean;
 	}
 
 	/**
@@ -262,7 +255,6 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	 * This field is only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
-	private boolean showValueLines = false;
 	private byte valueLocation = JRThermometerPlot.LOCATION_BULB;
 
 	
@@ -272,7 +264,6 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
-			showValueLinesBoolean = Boolean.valueOf(showValueLines);
 			valueLocationByte = new Byte(valueLocation);
 		}
 	}

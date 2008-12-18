@@ -156,7 +156,6 @@ import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
 
 
@@ -2098,7 +2097,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(JRThermometerPlotFactory.ELEMENT_thermometerPlot, getNamespace());
 
 		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_valueLocation, plot.getValueLocationByte());
-		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_showValueLines, plot.getShowValueLines());
+		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_showValueLines, plot.isShowValueLines(), false);
 		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_mercuryColor, plot.getMercuryColor());
 
 		writePlot(chart.getPlot());
