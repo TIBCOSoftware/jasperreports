@@ -2732,7 +2732,7 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isShowValueLines" use="optional">
+   <attribute name="isShowValueLines" use="optional" default="false">
     <simpleType>
      <restriction base="string">
       <enumeration value="true"/>

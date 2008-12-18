@@ -47,6 +47,9 @@ public class JRThermometerPlotFactory extends JRBaseFactory
 	public static final String ELEMENT_mediumRange = "mediumRange";
 	public static final String ELEMENT_highRange = "highRange";
 
+	/**
+	 * @deprecated No longer used.
+	 */
 	public static final String ATTRIBUTE_showValueLines = "isShowValueLines";
 	public static final String ATTRIBUTE_valueLocation = "valueLocation";
 	public static final String ATTRIBUTE_mercuryColor = "mercuryColor";
@@ -62,7 +65,7 @@ public class JRThermometerPlotFactory extends JRBaseFactory
 		String showValueLines = atts.getValue(ATTRIBUTE_showValueLines);
 		if (showValueLines != null && showValueLines.length() > 0)
 		{
-			thermometerPlot.setShowValueLines(Boolean.valueOf(showValueLines));
+			thermometerPlot.setShowValueLines(Boolean.valueOf(showValueLines).booleanValue());
 		}
 
 		String location = atts.getValue(ATTRIBUTE_valueLocation);

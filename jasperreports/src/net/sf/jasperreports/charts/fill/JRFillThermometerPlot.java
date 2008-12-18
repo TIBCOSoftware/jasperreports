@@ -70,7 +70,7 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShowValueLines()}
+	 * @deprecated No longer used.
 	 */
 	public boolean isShowValueLines()
 	{
@@ -83,14 +83,6 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	public byte getValueLocation()
 	{
 		return ((JRThermometerPlot)parent).getValueLocation();
-	}
-
-	/**
-	 *
-	 */
-	public Boolean getShowValueLines()
-	{
-		return ((JRThermometerPlot)parent).getShowValueLines();
 	}
 
 	/**

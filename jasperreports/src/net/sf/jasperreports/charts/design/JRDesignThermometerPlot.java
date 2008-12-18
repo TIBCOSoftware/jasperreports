@@ -27,14 +27,14 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseThermometerPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
-
-import java.awt.Color;
 
 /**
  * The layout options of a thermometer chart.
@@ -61,6 +61,9 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	
 	public static final String PROPERTY_MERCURY_COLOR = "mercuryColor";
 	
+	/**
+	 * @deprecated No longer used.
+	 */
 	public static final String PROPERTY_SHOW_VALUE_LINES = "showValueLines";
 	
 	public static final String PROPERTY_VALUE_DISPLAY = "valueDisplay";
@@ -106,11 +109,13 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 
 
 	/**
-	 * @deprecated Replaced by {@link #setShowValueLines(Boolean)}
+	 * @deprecated No longer used.
 	 */
 	public void setShowValueLines(boolean showValueLines)
 	{
-		setShowValueLines(Boolean.valueOf(showValueLines));
+		boolean old = this.showValueLines;
+		this.showValueLines = showValueLines;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_VALUE_LINES, old, this.showValueLines);
 	}
 
 	/**
@@ -119,19 +124,6 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	public void setValueLocation(byte valueLocation)
 	{
 		setValueLocation(new Byte(valueLocation));
-	}
-
-	/**
-	 * Turns the display of value lines on and off.
-	 *
-	 * @param showValueLines <code>Boolean.TRUE</code> to turn value lines on,
-	 * 						 <code>Boolean.FALSE</code> to disable them
-	 */
-	public void setShowValueLines(Boolean showValueLines)
-	{
-		Boolean old = this.showValueLinesBoolean;
-		this.showValueLinesBoolean = showValueLines;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_VALUE_LINES, old, this.showValueLinesBoolean);
 	}
 
 	/**

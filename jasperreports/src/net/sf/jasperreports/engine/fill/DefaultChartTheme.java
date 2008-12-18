@@ -693,7 +693,7 @@ public class DefaultChartTheme implements ChartTheme
 				);
 
 		barRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
-		barRenderer3D.setBaseItemLabelsVisible(bar3DPlot.getShowLabels());
+		barRenderer3D.setBaseItemLabelsVisible(bar3DPlot.getShowLabels() == null ? false : bar3DPlot.getShowLabels().booleanValue());
 
 		categoryPlot.setRenderer(barRenderer3D);
 		
@@ -1102,7 +1102,7 @@ public class DefaultChartTheme implements ChartTheme
 				);
 
 		stackedBarRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
-		stackedBarRenderer3D.setBaseItemLabelsVisible( bar3DPlot.getShowLabels() );
+		stackedBarRenderer3D.setBaseItemLabelsVisible(bar3DPlot.getShowLabels() == null ? false : bar3DPlot.getShowLabels().booleanValue());
 
 		categoryPlot.setRenderer(stackedBarRenderer3D);
 
@@ -1618,9 +1618,6 @@ public class DefaultChartTheme implements ChartTheme
 		// Set the boundary of the thermomoter
 		chartPlot.setLowerBound(range.getLowerBound());
 		chartPlot.setUpperBound(range.getUpperBound());
-
-		boolean isShowValueLines = jrPlot.getShowValueLines() == null ? false : jrPlot.getShowValueLines().booleanValue();
-		chartPlot.setShowValueLines(isShowValueLines);
 
 		// Units can only be Fahrenheit, Celsius or none, so turn off for now.
 		chartPlot.setUnits(ThermometerPlot.UNITS_NONE);

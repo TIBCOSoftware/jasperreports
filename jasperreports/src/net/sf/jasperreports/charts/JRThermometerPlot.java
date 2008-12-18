@@ -80,7 +80,7 @@ public interface JRThermometerPlot extends JRChartPlot
 	public JRValueDisplay getValueDisplay();
 
 	/**
-	 * @deprecated Replaced by {@link #getShowValueLines()}
+	 * @deprecated No longer used.
 	 */
 	public boolean isShowValueLines();
 
@@ -88,14 +88,6 @@ public interface JRThermometerPlot extends JRChartPlot
 	 * @deprecated Replaced by {@link #getValueLocationByte()
 	 */
 	public byte getValueLocation();
-
-	/**
-	 * Returns whether or not lines are drawn showing the bounds of each defined
-	 * range.
-	 *
-	 * @return <code>Boolean.TRUE</code> if range bounds are shown, <code>Boolean.FALSE</code> otherwise
-	 */
-	public Boolean getShowValueLines();
 
 	/**
 	 * Returns the location where the value of the thermometer will be shown.  The

@@ -98,7 +98,7 @@
                     <dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="FirstLetterGroup"/>
                     <valueExpression>$V{FreightSumFirstLetterGroup}</valueExpression>
                 </valueDataset>
-                <thermometerPlot isShowValueLines="true" mercuryColor="#0000CC">
+                <thermometerPlot mercuryColor="#0000CC">
                     <plot />
                     <valueDisplay color="#000000" mask="$#,###">
                         <font size="12"/>

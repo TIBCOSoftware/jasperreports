@@ -1531,9 +1531,6 @@ public class GenericChartTheme implements ChartTheme
 		chartPlot.setLowerBound(range.getLowerBound());
 		chartPlot.setUpperBound(range.getUpperBound());
 
-		boolean isShowValueLines = jrPlot.getShowValueLines() == null ? false : jrPlot.getShowValueLines().booleanValue();
-		chartPlot.setShowValueLines(isShowValueLines);
-
 		// Units can only be Fahrenheit, Celsius or none, so turn off for now.
 		chartPlot.setUnits(ThermometerPlot.UNITS_NONE);
 

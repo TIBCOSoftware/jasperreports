@@ -600,9 +600,6 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 		chartPlot.setUpperBound(range.getUpperBound());
 		chartPlot.setGap(0);
 
-		boolean isShowValueLines = jrPlot.getShowValueLines() == null ? false : jrPlot.getShowValueLines().booleanValue();
-		chartPlot.setShowValueLines(isShowValueLines);
-
 		// Units can only be Fahrenheit, Celsius or none, so turn off for now.
 		chartPlot.setUnits(ThermometerPlot.UNITS_NONE);
 

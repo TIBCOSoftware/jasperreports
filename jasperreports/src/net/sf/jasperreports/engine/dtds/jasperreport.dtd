@@ -644,7 +644,7 @@
 <!ELEMENT thermometerPlot (plot, valueDisplay?, dataRange, lowRange?, mediumRange?, highRange?)>
 <!ATTLIST thermometerPlot
 	valueLocation ( none | left | right | bulb ) "bulb"
-	isShowValueLines ( true | false) #IMPLIED
+	isShowValueLines ( true | false) "false"
 	mercuryColor CDATA #IMPLIED
 >
 
