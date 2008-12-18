@@ -126,7 +126,7 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	
 	/**
 	 * Whether to use pagination.
-	 * <b>
+	 * <p>
 	 * If set to <code>true</code> the report will be generated on one long page.
 	 */
 	public static final String IS_IGNORE_PAGINATION = "IS_IGNORE_PAGINATION";
