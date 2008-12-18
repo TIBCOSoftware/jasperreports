@@ -392,69 +392,13 @@ public class GenericChartTheme implements ChartTheme
 			Paint lineColor
 			)
 	{
-//		configureAxis(
-//				axis,
-//				labelFont,
-//				labelColor,
-//				tickLabelFont,
-//				tickLabelColor,
-//				tickLabelMask,
-//				lineColor,
-//				null
-//		);
-//	}
-//
-//	protected void configureAxis(
-//			Axis axis,
-//			JRFont labelFont,
-//			Color labelColor,
-//			JRFont tickLabelFont,
-//			Color tickLabelColor,
-//			String tickLabelMask,
-//			Paint linePaint,
-//			Paint defaultLinePaint
-//			)
-//		{
+		Boolean axisVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_VISIBLE);
 		
-			Boolean defaultAxisVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_VISIBLE);
-			
-			if(defaultAxisVisible != null && defaultAxisVisible.booleanValue())
+		if(axisVisible != null && axisVisible.booleanValue())
+		{
+			Boolean defaultAxisLineVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LINE_VISIBLE);
+			if(defaultAxisLineVisible != null && defaultAxisLineVisible.booleanValue())
 			{
-				
-				int defaultAxisLabelFontBoldStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_BOLD_STYLE) != null ?
-						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_BOLD_STYLE)).intValue() :
-						Font.PLAIN;
-				int defaultAxisLabelFontItalicStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE) != null ?
-						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE)).intValue() :
-						Font.PLAIN;
-			
-				Font themeLabelFont = JRFontUtil.getAwtFont(labelFont);
-				axis.setLabelFont(themeLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(labelFont, 
-						defaultAxisLabelFontBoldStyle, 
-						defaultAxisLabelFontItalicStyle)));
-				
-				int defaultAxisTickLabelFontBoldStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_BOLD_STYLE) != null ?
-						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_BOLD_STYLE)).intValue() :
-						Font.PLAIN;
-				int defaultAxisTickLabelFontItalicStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE) != null ?
-						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE)).intValue() :
-						Font.PLAIN;
-			
-				Font themeTickLabelFont = JRFontUtil.getAwtFont(tickLabelFont);
-				axis.setTickLabelFont(themeTickLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(tickLabelFont, 
-						defaultAxisTickLabelFontBoldStyle, 
-						defaultAxisTickLabelFontItalicStyle)));
-				
-				if (labelColor != null)
-				{
-					axis.setLabelPaint(labelColor);
-				}
-	
-				if (tickLabelColor != null)
-				{
-					axis.setTickLabelPaint(tickLabelColor);
-				}
-	
 				Paint linePaint = lineColor != null ?
 						lineColor :
 						(Paint)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LINE_PAINT);
@@ -462,9 +406,88 @@ public class GenericChartTheme implements ChartTheme
 				if (linePaint != null)
 				{
 					axis.setAxisLinePaint(linePaint);
-//					axis.setTickMarkPaint(linePaint);
 				}
+				Stroke defaultAxisLineStroke = (Stroke)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LINE_STROKE);
+				if(defaultAxisLineStroke != null)
+					axis.setAxisLineStroke(defaultAxisLineStroke);
+			}
 
+			Double defaultFixedDimension = (Double)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_FIXED_DIMENSION);
+			if(defaultFixedDimension != null)
+			{
+				axis.setFixedDimension(defaultFixedDimension.doubleValue());
+			}
+			
+			Boolean defaultAxisLabelVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_VISIBLE);
+			if(defaultAxisLabelVisible != null && defaultAxisLabelVisible.booleanValue())
+			{
+				if(axis.getLabel() == null)
+					axis.setLabel((String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL));
+
+				Double defaultLabelAngle = (Double)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_ANGLE);
+				if(defaultLabelAngle != null)
+					axis.setLabelAngle(defaultLabelAngle.doubleValue());
+				Font themeLabelFont = labelFont != null ? 
+						JRFontUtil.getAwtFont(labelFont) :
+						(Font)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT);
+				if(themeLabelFont != null)
+				{
+					int defaultAxisLabelFontBoldStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_BOLD_STYLE) != null ?
+							((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_BOLD_STYLE)).intValue() :
+							Font.PLAIN;
+					int defaultAxisLabelFontItalicStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE) != null ?
+							((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE)).intValue() :
+							Font.PLAIN;
+				
+					axis.setLabelFont(themeLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(labelFont, 
+							defaultAxisLabelFontBoldStyle, 
+							defaultAxisLabelFontItalicStyle)));
+				}
+				RectangleInsets defaultLabelInsets = (RectangleInsets)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_INSETS);
+				if(defaultLabelInsets != null)
+				{
+					axis.setLabelInsets(defaultLabelInsets);
+				}
+				Paint labelPaint = labelColor != null ? 
+						labelColor :
+						(Paint)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_PAINT);	
+				if (labelPaint != null)
+				{
+					axis.setLabelPaint(labelPaint);
+				}
+			}
+
+			Boolean defaultAxisTickLabelsVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABELS_VISIBLE);
+			if(defaultAxisTickLabelsVisible != null && defaultAxisTickLabelsVisible.booleanValue())
+			{
+				Font themeTickLabelFont = tickLabelFont != null ? 
+						JRFontUtil.getAwtFont(tickLabelFont) :
+						(Font)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT);
+				if(themeTickLabelFont != null)
+				{
+					int defaultAxisTickLabelFontBoldStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_BOLD_STYLE) != null ?
+							((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_BOLD_STYLE)).intValue() :
+							Font.PLAIN;
+					int defaultAxisTickLabelFontItalicStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE) != null ?
+							((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE)).intValue() :
+							Font.PLAIN;
+				
+					axis.setLabelFont(themeTickLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(labelFont, 
+							defaultAxisTickLabelFontBoldStyle, 
+							defaultAxisTickLabelFontItalicStyle)));
+				}
+				RectangleInsets defaultTickLabelInsets = (RectangleInsets)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_INSETS);
+				if(defaultTickLabelInsets != null)
+				{
+					axis.setLabelInsets(defaultTickLabelInsets);
+				}
+				Paint tickLabelPaint = tickLabelColor != null ? 
+						tickLabelColor :
+						(Paint)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_PAINT);	
+				if (tickLabelPaint != null)
+				{
+					axis.setLabelPaint(tickLabelPaint);
+				}
 				if (tickLabelMask != null)
 				{
 					if (axis instanceof NumberAxis)
@@ -487,13 +510,43 @@ public class GenericChartTheme implements ChartTheme
 							fmt = DateFormat.getDateInstance(DateFormat.FULL);
 						else
 							fmt = new SimpleDateFormat(tickLabelMask);
-	
+
 						((DateAxis)axis).setDateFormatOverride(fmt);
 					}
 					// ignore mask for other axis types.
 				}
 			}
+			
+			Boolean defaultAxisTickMarksVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_VISIBLE);
+			if(defaultAxisTickMarksVisible != null && defaultAxisTickMarksVisible.booleanValue())
+			{
+				Float defaultAxisTickMarksInsideLength = (Float)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_INSIDE_LENGTH);
+				if(defaultAxisTickMarksInsideLength != null)
+					axis.setTickMarkInsideLength(defaultAxisTickMarksInsideLength.floatValue());
+				
+				Float defaultAxisTickMarksOutsideLength = (Float)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_OUTSIDE_LENGTH);
+				if(defaultAxisTickMarksOutsideLength != null)
+					axis.setTickMarkInsideLength(defaultAxisTickMarksOutsideLength.floatValue());
+				
+				Paint tickMarkPaint = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_PAINT) != null ?
+						(Paint)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_PAINT) :
+						lineColor;
+				
+				if (tickMarkPaint != null)
+				{
+					axis.setAxisLinePaint(tickMarkPaint);
+				}
+				Stroke defaultTickMarkStroke = (Stroke)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_STROKE);
+				if(defaultTickMarkStroke != null)
+					axis.setAxisLineStroke(defaultTickMarkStroke);
+			}
+			
 		}
+		else
+		{
+			axis.setVisible(false);
+		}
+	}
 
 	/**
 	 *

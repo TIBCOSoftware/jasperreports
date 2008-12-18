@@ -7,8 +7,6 @@ import java.awt.Paint;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jfree.chart.plot.DefaultDrawingSupplier;
-
 import net.sf.jasperreports.engine.JRConstants;
 
 public interface ChartThemesConstants
@@ -23,6 +21,7 @@ public interface ChartThemesConstants
 	public static final Integer FONT_ITALIC_STYLE = new Integer(Font.ITALIC);
 
 	public static final Paint AEGEAN_BORDER_PAINT = new Color(134,134,134);
+	public static final Paint AEGEAN_GRIDLINE_PAINT = new Color(217, 217, 217);
 	
 	public static final List AEGEAN_INTERVAL_COLORS = new ArrayList(){{
 		add(new Color(182, 0, 40));
