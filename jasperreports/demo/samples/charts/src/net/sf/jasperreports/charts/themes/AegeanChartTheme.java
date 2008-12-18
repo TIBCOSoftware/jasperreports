@@ -99,8 +99,6 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 	 */
 	protected final AxisLocation DEFAULT_AXIS_LOCATION = AxisLocation.TOP_OR_LEFT;
 
-	public static final Color BORDER_COLOR = new Color(134, 134, 134);
-	public static final Color GRIDLINE_COLOR = new Color(217, 217, 217);
 	public static final Color THERMOMETER_COLOR = Color.BLACK;
 //	public static final Color MARKER_COLOR = new Color(210,210,210);
 
@@ -146,7 +144,7 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 			{
 				categoryRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 			}
-			categoryPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
+			categoryPlot.setRangeGridlinePaint(ChartThemesConstants.AEGEAN_GRIDLINE_PAINT);
 			categoryPlot.setRangeGridlineStroke(new BasicStroke(0.5f));
 			categoryPlot.setDomainGridlinesVisible(false);
 			categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -160,7 +158,7 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 			{
 				xyItemRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 			}
-			xyPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
+			xyPlot.setRangeGridlinePaint(ChartThemesConstants.AEGEAN_GRIDLINE_PAINT);
 			xyPlot.setRangeGridlineStroke(new BasicStroke(0.5f));
 			xyPlot.setDomainGridlinesVisible(false);
 			xyPlot.setRangeZeroBaselineVisible(true);
@@ -206,11 +204,6 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 
 		float baseFontSize = tickLabelFont != null ? tickLabelFont.getFontSize() : 8f;
 		axis.setAxisLineStroke(new BasicStroke(1f));
-		
-//		if (defaultLinePaint == null)
-//			defaultLinePaint = BORDER_COLOR;
-//		axis.setAxisLinePaint(axisLinePaint == null ? defaultLinePaint : axisLinePaint);
-//		axis.setTickMarkPaint(axisLinePaint == null ? defaultLinePaint : axisLinePaint);
 		axis.setAxisLineVisible(true);
 		axis.setTickMarksVisible(true);
 		Font font = null;
@@ -430,7 +423,7 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 				)
 		);
 
-		categoryPlot.setDomainGridlinePaint(GRIDLINE_COLOR);
+		categoryPlot.setDomainGridlinePaint(ChartThemesConstants.AEGEAN_GRIDLINE_PAINT);
 
 		categoryPlot.setRangeGridlinesVisible(true);
 		categoryPlot.setRangeGridlineStroke(new BasicStroke(
@@ -443,7 +436,7 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 				)
 		);
 
-		categoryPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
+		categoryPlot.setRangeGridlinePaint(ChartThemesConstants.AEGEAN_GRIDLINE_PAINT);
 //		JRBarPlot barPlot = (BarPlot)categoryPlot;
 //		categoryPlot.getDomainAxis().setTickLabelsVisible(
 //				categoryPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels().
