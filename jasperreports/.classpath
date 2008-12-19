@@ -36,9 +36,9 @@
 	<classpathentry kind="lib" path="lib/iText-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/spring-beans.jar"/>
 	<classpathentry kind="lib" path="lib/spring-core.jar"/>
-	<classpathentry kind="lib" path="lib/jcommon-1.0.13.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart-1.0.10.jar"/>
 	<classpathentry kind="lib" path="lib/rhino-1.7R1.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.2-FINAL-20081019.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.12-20081219.135154-4.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.14.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
