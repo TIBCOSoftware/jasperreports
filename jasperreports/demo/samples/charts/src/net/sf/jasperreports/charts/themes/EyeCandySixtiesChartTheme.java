@@ -130,7 +130,6 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 	protected final AxisLocation DEFAULT_AXIS_LOCATION = AxisLocation.TOP_OR_LEFT;
 
 	
-	public static final Color GRIDLINE_COLOR = new Color(134,134,134);
 	public static final Color THERMOMETER_COLOR = Color.BLACK;
 //	public static final Color MARKER_COLOR = new Color(210,210,210);
 	public static final Color SCATTER_GRIDLINE_COLOR = new Color(196, 196, 196);
@@ -178,7 +177,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 			{
 				categoryRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 			}
-			categoryPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
+			categoryPlot.setRangeGridlinePaint(ChartThemesConstants.GRAY_PAINT_134);
 			categoryPlot.setRangeGridlineStroke(new BasicStroke(1f));
 			categoryPlot.setDomainGridlinesVisible(false);
 			categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -192,7 +191,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 			{
 				xyItemRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 			}
-			xyPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
+			xyPlot.setRangeGridlinePaint(ChartThemesConstants.GRAY_PAINT_134);
 			xyPlot.setRangeGridlineStroke(new BasicStroke(1f));
 			xyPlot.setDomainGridlinesVisible(false);
 			
@@ -235,15 +234,15 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 				tickLabelMask, 
 				axisLinePaint 
 		);
-		float baseFontSize = tickLabelFont != null ? tickLabelFont.getFontSize() : 8f;
-		axis.setAxisLineStroke(new BasicStroke(1f));
+//		float baseFontSize = tickLabelFont != null ? tickLabelFont.getFontSize() : 8f;
+//		axis.setAxisLineStroke(new BasicStroke(1f));
 //		if (defaultLinePaint == null)
 //			defaultLinePaint = GRIDLINE_COLOR;
 //		axis.setAxisLinePaint(axisLinePaint == null ? defaultLinePaint : axisLinePaint);
 //		axis.setTickMarkPaint(axisLinePaint == null ? defaultLinePaint : axisLinePaint);
-		Font font = null;
-		if (labelFont != null)
-		{
+//		Font font = null;
+//		if (labelFont != null)
+//		{
 //			font = JRFontUtil.getAwtFont(labelFont);
 //			if (labelFont.isOwnBold() == null)
 //			{
@@ -254,32 +253,32 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 //			{
 //				font = font.deriveFont(baseFontSize);
 //			}
-			font = axis.getLabelFont().deriveFont(Font.BOLD).deriveFont(baseFontSize);
-		}
-		else
-		{
-			font = axis.getLabelFont().deriveFont(Font.BOLD).deriveFont(baseFontSize);
-		}
-		axis.setLabelFont(font);
+//			font = axis.getLabelFont().deriveFont(Font.BOLD).deriveFont(baseFontSize);
+//		}
+//		else
+//		{
+//			font = axis.getLabelFont().deriveFont(Font.BOLD).deriveFont(baseFontSize);
+//		}
+//		axis.setLabelFont(font);
 
-		Font tickFont = null;
-		if(tickLabelFont != null)
-		{
+//		Font tickFont = null;
+//		if(tickLabelFont != null)
+//		{
 //			tickFont = JRFontUtil.getAwtFont(labelFont);
 //			if (tickLabelFont.isOwnBold() == null)
 //			{
 //				tickFont = tickFont.deriveFont(Font.PLAIN);
 //			}
-			tickFont = axis.getTickLabelFont().deriveFont(Font.PLAIN).deriveFont(baseFontSize);
-		}
-		else
-		{
-			tickFont = axis.getTickLabelFont().deriveFont(Font.PLAIN).deriveFont(baseFontSize);
-		}
-		axis.setTickLabelFont(tickFont);
-		
-		axis.setAxisLineVisible(true);
-		
+//			tickFont = axis.getTickLabelFont().deriveFont(Font.PLAIN).deriveFont(baseFontSize);
+//		}
+//		else
+//		{
+//			tickFont = axis.getTickLabelFont().deriveFont(Font.PLAIN).deriveFont(baseFontSize);
+//		}
+//		axis.setTickLabelFont(tickFont);
+//		
+//		axis.setAxisLineVisible(true);
+//		
 	}
 
 	protected JFreeChart createAreaChart(byte evaluation) throws JRException
@@ -566,7 +565,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 		xyPlot.setDomainGridlinesVisible(true);
 		xyPlot.setDomainGridlinePaint(SCATTER_GRIDLINE_COLOR);
 		xyPlot.setDomainGridlineStroke(new BasicStroke(0.75f));
-		xyPlot.setRangeZeroBaselinePaint(GRIDLINE_COLOR);
+		xyPlot.setRangeZeroBaselinePaint(ChartThemesConstants.GRAY_PAINT_134);
 
 		XYDataset xyDataset = xyPlot.getDataset();
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)xyPlot.getRenderer();
@@ -611,7 +610,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 		}
 		line3DRenderer.setXOffset(2);
 		line3DRenderer.setYOffset(2);
-		line3DRenderer.setWallPaint(GRIDLINE_COLOR);
+		line3DRenderer.setWallPaint(ChartThemesConstants.GRAY_PAINT_134);
 
 		xyPlot.setRenderer(line3DRenderer);
 		calculateTickUnits(xyPlot.getDomainAxis());
@@ -664,7 +663,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 				)
 		);
 
-		categoryPlot.setDomainGridlinePaint(GRIDLINE_COLOR);
+		categoryPlot.setDomainGridlinePaint(ChartThemesConstants.GRAY_PAINT_134);
 
 		categoryPlot.setRangeGridlinesVisible(true);
 		categoryPlot.setRangeGridlineStroke(new BasicStroke(
@@ -677,7 +676,7 @@ public class EyeCandySixtiesChartTheme extends DefaultJRChartTheme
 				)
 		);
 
-		categoryPlot.setRangeGridlinePaint(GRIDLINE_COLOR);
+		categoryPlot.setRangeGridlinePaint(ChartThemesConstants.GRAY_PAINT_134);
 		categoryPlot.getDomainAxis().setTickLabelsVisible(
 				//barPlot.isShowTickLabels()
 				true

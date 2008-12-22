@@ -62,20 +62,21 @@ public class ChartThemesUtilities
 		if(font == null)
 			return Font.PLAIN;
 		
-		int boldStyle = Font.PLAIN;
+		int style = Font.PLAIN;
 		if((font.isOwnBold() == null && defaultBoldStyle == Font.BOLD) ||
 		(font.isOwnBold() != null && font.isOwnBold().booleanValue()))
 		{
-				boldStyle = Font.BOLD;
+				style = Font.BOLD;
 		}
 		
-		int italicStyle = Font.PLAIN;
 		if((font.isOwnItalic() == null && defaultItalicStyle == Font.ITALIC) ||
 		(font.isOwnItalic() != null && font.isOwnItalic().booleanValue()))
 		{
-			italicStyle = Font.ITALIC;
+			if(style == Font.BOLD)
+				style |= Font.ITALIC;
+			else
+				style = Font.ITALIC;
 		}
-		
-		return boldStyle | italicStyle;
+		return style;
 	}
 }

@@ -36,7 +36,10 @@
 		</property>
 		<property name="defaultAxisPropertiesMap">
 			<map merge="true">
-			    <entry key-ref="defaultAxisLinePaint" value-ref="eyeCandySixtiesGridlinePaint"/>
+			    <entry key-ref="defaultAxisLinePaint" value-ref="grayPaint134"/>
+			    <entry key-ref="defaultAxisLineStroke" value-ref="onePointStroke"/>
+			    <entry key-ref="defaultAxisLabelFontBoldStyle" value-ref="fontBoldStyle"/>
+			    <entry key-ref="defaultAxisTickLabelFontBoldStyle" value-ref="fontPlainStyle"/>
 			</map>		
 		</property>
 	</bean>

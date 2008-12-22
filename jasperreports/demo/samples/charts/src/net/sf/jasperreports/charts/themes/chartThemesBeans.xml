@@ -45,6 +45,10 @@
 		<property name="defaultAxisPropertiesMap">
 			<map>
 		   	    <entry key-ref="defaultAxisVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisLineVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisLabelVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisTickLabelsVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisTickMarksVisible" value-ref="isTrue"/>
 			</map>
 		</property>
 		<property name="defaultChartTypePropertiesMap">
