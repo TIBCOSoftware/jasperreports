@@ -144,7 +144,7 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 			{
 				categoryRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 			}
-			categoryPlot.setRangeGridlinePaint(ChartThemesConstants.AEGEAN_GRIDLINE_PAINT);
+			categoryPlot.setRangeGridlinePaint(ChartThemesConstants.GRAY_PAINT_217);
 			categoryPlot.setRangeGridlineStroke(new BasicStroke(0.5f));
 			categoryPlot.setDomainGridlinesVisible(false);
 			categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -158,7 +158,7 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 			{
 				xyItemRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 			}
-			xyPlot.setRangeGridlinePaint(ChartThemesConstants.AEGEAN_GRIDLINE_PAINT);
+			xyPlot.setRangeGridlinePaint(ChartThemesConstants.GRAY_PAINT_217);
 			xyPlot.setRangeGridlineStroke(new BasicStroke(0.5f));
 			xyPlot.setDomainGridlinesVisible(false);
 			xyPlot.setRangeZeroBaselineVisible(true);
@@ -180,72 +180,69 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 	 * <code>java.text.SimpleDateFormat</code> mask.
 	 * @param axisLinePaint color to use when drawing the axis line and any tick marks
 	 */
-	protected void configureAxis(
-		Axis axis,
-		JRFont labelFont,
-		Color labelColor,
-		JRFont tickLabelFont,
-		Color tickLabelColor,
-		String tickLabelMask,
-		Paint axisLinePaint
-		)
-	{
-		super.configureAxis(
-				axis, 
-				labelFont, 
-				labelColor, 
-				tickLabelFont, 
-				tickLabelColor, 
-				tickLabelMask, 
-				axisLinePaint 
-		);
+//	protected void configureAxis(
+//		Axis axis,
+//		JRFont labelFont,
+//		Color labelColor,
+//		JRFont tickLabelFont,
+//		Color tickLabelColor,
+//		String tickLabelMask,
+//		Paint axisLinePaint
+//		)
+//	{
+//		super.configureAxis(
+//				axis, 
+//				labelFont, 
+//				labelColor, 
+//				tickLabelFont, 
+//				tickLabelColor, 
+//				tickLabelMask, 
+//				axisLinePaint 
+//		);
 		
 		
 
-		float baseFontSize = tickLabelFont != null ? tickLabelFont.getFontSize() : 8f;
-		axis.setAxisLineStroke(new BasicStroke(1f));
-		axis.setAxisLineVisible(true);
-		axis.setTickMarksVisible(true);
-		Font font = null;
-		if (labelFont != null)
-		{
-			font = JRFontUtil.getAwtFont(labelFont);
-			if (labelFont.isOwnBold() == null)
-			{
-				font = font.deriveFont(Font.BOLD);
-			}
-			
-			if (labelFont.getOwnFontSize() == null)
-			{
-				font = font.deriveFont(baseFontSize);
-			}
-			font = axis.getLabelFont().deriveFont(Font.BOLD).deriveFont(baseFontSize);//FIXME: de scos si de decomentat ce e mai sus
-		}
-		else
-		{
-			font = axis.getLabelFont().deriveFont(Font.BOLD).deriveFont(baseFontSize);
-		}
-		axis.setLabelFont(font);
+//		float baseFontSize = tickLabelFont != null ? tickLabelFont.getFontSize() : 8f;
+//		axis.setAxisLineStroke(new BasicStroke(1f));
+//		axis.setAxisLineVisible(true);
+//		axis.setTickMarksVisible(true);
+//		Font font = null;
+//		if (labelFont != null)
+//		{
+//			font = JRFontUtil.getAwtFont(labelFont);
+//			if (labelFont.isOwnBold() == null)
+//			{
+//				font = font.deriveFont(Font.BOLD);
+//			}
+//			
+//			if (labelFont.getOwnFontSize() == null)
+//			{
+//				font = font.deriveFont(baseFontSize);
+//			}
+//			font = axis.getLabelFont().deriveFont(Font.BOLD).deriveFont(baseFontSize);//FIXME: de scos si de decomentat ce e mai sus
+//		}
+//		else
+//		{
+//			font = axis.getLabelFont().deriveFont(Font.BOLD).deriveFont(baseFontSize);
+//		}
+//		axis.setLabelFont(font);
 
-		Font tickFont = null;
-		if(tickLabelFont != null)
-		{
+//		Font tickFont = null;
+//		if(tickLabelFont != null)
+//		{
 //			tickFont = JRFontUtil.getAwtFont(labelFont);
 //			if (tickLabelFont.isOwnBold() == null)
 //			{
 //				tickFont = tickFont.deriveFont(Font.PLAIN);
 //			}
-			tickFont = axis.getTickLabelFont().deriveFont(Font.PLAIN).deriveFont(baseFontSize);
-		}
-		else
-		{
-			tickFont = axis.getTickLabelFont().deriveFont(Font.PLAIN).deriveFont(baseFontSize);
-		}
-		axis.setTickLabelFont(tickFont);
-		
-		
-		
-	}
+//			tickFont = axis.getTickLabelFont().deriveFont(Font.PLAIN).deriveFont(baseFontSize);
+//		}
+//		else
+//		{
+//			tickFont = axis.getTickLabelFont().deriveFont(Font.PLAIN).deriveFont(baseFontSize);
+//		}
+//		axis.setTickLabelFont(tickFont);
+//	}
 
 	protected JFreeChart createScatterChart(byte evaluation) throws JRException
 	{
@@ -271,7 +268,6 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 		piePlot.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		piePlot.setShadowXOffset(0);
 		piePlot.setShadowYOffset(0);
-//		piePlot.setShadowPaint(new GradientPaint(0, chart.getHeight() / 2, new Color(41, 120, 162), 0, chart.getHeight(), Color.white));
 		PieDataset pieDataset = piePlot.getDataset();
 		for(int i = 0; i < pieDataset.getItemCount(); i++)
 		{
@@ -423,7 +419,7 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 				)
 		);
 
-		categoryPlot.setDomainGridlinePaint(ChartThemesConstants.AEGEAN_GRIDLINE_PAINT);
+		categoryPlot.setDomainGridlinePaint(ChartThemesConstants.GRAY_PAINT_217);
 
 		categoryPlot.setRangeGridlinesVisible(true);
 		categoryPlot.setRangeGridlineStroke(new BasicStroke(
@@ -436,7 +432,7 @@ public class AegeanChartTheme extends DefaultJRChartTheme
 				)
 		);
 
-		categoryPlot.setRangeGridlinePaint(ChartThemesConstants.AEGEAN_GRIDLINE_PAINT);
+		categoryPlot.setRangeGridlinePaint(ChartThemesConstants.GRAY_PAINT_217);
 //		JRBarPlot barPlot = (BarPlot)categoryPlot;
 //		categoryPlot.getDomainAxis().setTickLabelsVisible(
 //				categoryPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels().

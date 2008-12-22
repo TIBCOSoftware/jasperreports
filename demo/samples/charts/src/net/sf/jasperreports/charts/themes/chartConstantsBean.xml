@@ -19,12 +19,13 @@
 
 	<util:constant id="whiteColor" static-field="java.awt.Color.WHITE"/>
 	<util:constant id="blackColor" static-field="java.awt.Color.BLACK"/>
-	<util:constant id="greyColor" static-field="java.awt.Color.GRAY"/>
+	<util:constant id="grayColor" static-field="java.awt.Color.GRAY"/>
 	<util:constant id="darkGrayColor" static-field="java.awt.Color.DARK_GRAY"/>
 	<util:constant id="lightGrayColor" static-field="java.awt.Color.LIGHT_GRAY"/>
 
 
-	<util:constant id="aegeanBorderPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.AEGEAN_BORDER_PAINT"/>
+	<util:constant id="grayPaint134" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.GRAY_PAINT_134"/>
+	<util:constant id="grayPaint217" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.GRAY_PAINT_217"/>
 
 	<util:constant id="eyeCandySixtiesSeriesColors" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS"/>
 	<util:constant id="eyeCandySixtiesSeriesGradientPaints" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS"/>
@@ -182,12 +183,14 @@
 	<util:constant id="defaultAxisLabelAngle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_ANGLE"/>
 	<util:constant id="defaultAxisLabelPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_PAINT"/>
 	<util:constant id="defaultAxisLabelFont" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT"/>
+	<util:constant id="defaultAxisLabelFontSize" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_SIZE"/>
 	<util:constant id="defaultAxisLabelFontBoldStyle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_BOLD_STYLE"/>	
 	<util:constant id="defaultAxisLabelFontItalicStyle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE"/>	
 	<util:constant id="defaultAxisLabelInsets" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_INSETS"/>
 	<util:constant id="defaultAxisLabelVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LABEL_VISIBLE"/>
 	<util:constant id="defaultAxisTickLabelPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_PAINT"/>
 	<util:constant id="defaultAxisTickLabelFont" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT"/>
+	<util:constant id="defaultAxisTickLabelFontSize" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_SIZE"/>
 	<util:constant id="defaultAxisTickLabelFontBoldStyle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_BOLD_STYLE"/>	
 	<util:constant id="defaultAxisTickLabelFontItalicStyle" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE"/>	
 	<util:constant id="defaultAxisTickLabelInsets" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_INSETS"/>

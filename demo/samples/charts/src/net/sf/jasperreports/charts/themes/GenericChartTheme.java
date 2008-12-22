@@ -301,14 +301,14 @@ public class GenericChartTheme implements ChartTheme
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot, byte evaluation) throws JRException
 	{	
 		Float defaultBaseFontSize = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BASEFONT_SIZE);
-		float baseFontSize = chart.getLegendFont() != null ? 
-				chart.getLegendFont().getFontSize() : 
-				(defaultBaseFontSize != null ? defaultBaseFontSize.floatValue() : -1f);
+//		float baseFontSize = chart.getLegendFont() != null ? 
+//				chart.getLegendFont().getFontSize() : 
+//				(defaultBaseFontSize != null ? defaultBaseFontSize.floatValue() : -1f);
 		
 		setChartBackground(jfreeChart);
-		setChartTitle(jfreeChart, baseFontSize);
-		setChartSubtitles(jfreeChart, baseFontSize, evaluation);
-		setChartLegend(jfreeChart, baseFontSize);
+		setChartTitle(jfreeChart, defaultBaseFontSize);
+		setChartSubtitles(jfreeChart, defaultBaseFontSize, evaluation);
+		setChartLegend(jfreeChart, defaultBaseFontSize);
 		setChartBorder(jfreeChart);
 		
 		Boolean isAntiAlias = (Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_CHART_ANTI_ALIAS);
@@ -438,10 +438,21 @@ public class GenericChartTheme implements ChartTheme
 					int defaultAxisLabelFontItalicStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE) != null ?
 							((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE)).intValue() :
 							Font.PLAIN;
-				
-					axis.setLabelFont(themeLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(labelFont, 
+					themeLabelFont = themeLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(
+							labelFont, 
 							defaultAxisLabelFontBoldStyle, 
-							defaultAxisLabelFontItalicStyle)));
+							defaultAxisLabelFontItalicStyle));
+					if(labelFont.getOwnFontSize() == null)
+					{
+						Float defaultLabelBaseFontSize = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_SIZE) != null ?
+								(Float)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT_SIZE) :
+								(Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BASEFONT_SIZE);
+						if(defaultLabelBaseFontSize != null)
+						{
+							themeLabelFont = themeLabelFont.deriveFont(defaultLabelBaseFontSize.floatValue());
+						}
+					}
+					axis.setLabelFont(themeLabelFont);
 				}
 				RectangleInsets defaultLabelInsets = (RectangleInsets)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_INSETS);
 				if(defaultLabelInsets != null)
@@ -471,10 +482,21 @@ public class GenericChartTheme implements ChartTheme
 					int defaultAxisTickLabelFontItalicStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE) != null ?
 							((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE)).intValue() :
 							Font.PLAIN;
-				
-					axis.setLabelFont(themeTickLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(labelFont, 
-							defaultAxisTickLabelFontBoldStyle, 
-							defaultAxisTickLabelFontItalicStyle)));
+							
+					themeTickLabelFont = themeTickLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(tickLabelFont, 
+									defaultAxisTickLabelFontBoldStyle, 
+									defaultAxisTickLabelFontItalicStyle));
+					if(tickLabelFont.getOwnFontSize() == null)
+					{
+						Float defaultTickLabelBaseFontSize = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_SIZE) != null ?
+								(Float)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT_SIZE) :
+								(Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BASEFONT_SIZE);
+						if(defaultTickLabelBaseFontSize != null)
+						{
+							themeTickLabelFont = themeTickLabelFont.deriveFont(defaultTickLabelBaseFontSize.floatValue());
+						}
+					}
+					axis.setLabelFont(themeTickLabelFont);
 				}
 				RectangleInsets defaultTickLabelInsets = (RectangleInsets)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_INSETS);
 				if(defaultTickLabelInsets != null)
@@ -1732,7 +1754,7 @@ public class GenericChartTheme implements ChartTheme
 		}
 	}
 
-	protected void setChartTitle(JFreeChart jfreeChart, float baseFontSize)
+	protected void setChartTitle(JFreeChart jfreeChart, Float baseFontSize)
 	{
 		Boolean titleVisibility = (Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_VISIBLE);
 		if(titleVisibility != null && titleVisibility.booleanValue())
@@ -1753,13 +1775,13 @@ public class GenericChartTheme implements ChartTheme
 				
 				titleFont = titleFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(chart.getTitleFont(), defaultTitleBaseFontBoldStyle, defaultTitleBaseFontItalicStyle));
 	
-				float defaultTitleBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BASEFONT_SIZE) != null ?
-						((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BASEFONT_SIZE)).floatValue() :
+				Float defaultTitleBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BASEFONT_SIZE) != null ?
+						((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_TITLE_BASEFONT_SIZE)) :
 						baseFontSize;
 				
-				if(chart.getTitleFont().getOwnFontSize() == null && defaultTitleBaseFontSize >=0)
+				if(chart.getTitleFont().getOwnFontSize() == null && defaultTitleBaseFontSize != null)
 				{
-					titleFont = titleFont.deriveFont(defaultTitleBaseFontSize);
+					titleFont = titleFont.deriveFont(defaultTitleBaseFontSize.floatValue());
 				}
 	
 				title.setFont(titleFont);
@@ -1804,7 +1826,7 @@ public class GenericChartTheme implements ChartTheme
 		}
 	}
 
-	protected void setChartSubtitles(JFreeChart jfreeChart, float baseFontSize, byte evaluation) throws JRException
+	protected void setChartSubtitles(JFreeChart jfreeChart, Float baseFontSize, byte evaluation) throws JRException
 	{			
 		Boolean subtitleVisibility = (Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_VISIBLE);
 
@@ -1825,13 +1847,13 @@ public class GenericChartTheme implements ChartTheme
 				
 				subtitleFont = subtitleFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(chart.getSubtitleFont(), defaultSubtitleBaseFontBoldStyle, defaultSubtitleBaseFontItalicStyle));
 	
-				float defaultSubtitleBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_SIZE) != null ?
-						((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_SIZE)).floatValue() :
+				Float defaultSubtitleBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_SIZE) != null ?
+						((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SUBTITLE_BASEFONT_SIZE)) :
 						baseFontSize;
 				
-				if(chart.getSubtitleFont().getOwnFontSize() == null && defaultSubtitleBaseFontSize >=0)
+				if(chart.getSubtitleFont().getOwnFontSize() == null && defaultSubtitleBaseFontSize != null)
 				{
-					subtitleFont = subtitleFont.deriveFont(defaultSubtitleBaseFontSize);
+					subtitleFont = subtitleFont.deriveFont(defaultSubtitleBaseFontSize.floatValue());
 				}
 	
 				subtitle.setFont(subtitleFont);
@@ -1882,7 +1904,7 @@ public class GenericChartTheme implements ChartTheme
 		}
 	}
 	
-	protected void setChartLegend(JFreeChart jfreeChart, float baseFontSize)
+	protected void setChartLegend(JFreeChart jfreeChart, Float baseFontSize)
 	{
 
 		//The legend visibility is already taken into account in the jfreeChart object's constructor
@@ -1901,13 +1923,13 @@ public class GenericChartTheme implements ChartTheme
 			
 			legendFont = legendFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(chart.getLegendFont(), defaultLegendBaseFontBoldStyle, defaultLegendBaseFontItalicStyle));
 
-			float defaultLegendBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_SIZE) != null ?
-					((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_SIZE)).floatValue() :
+			Float defaultLegendBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_SIZE) != null ?
+					((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_LEGEND_BASEFONT_SIZE)) :
 					baseFontSize;
 			
-			if(chart.getLegendFont().getOwnFontSize() == null && defaultLegendBaseFontSize >=0)
+			if(chart.getLegendFont().getOwnFontSize() == null && defaultLegendBaseFontSize != null)
 			{
-				legendFont = legendFont.deriveFont(defaultLegendBaseFontSize);
+				legendFont = legendFont.deriveFont(defaultLegendBaseFontSize.floatValue());
 			}
 
 			legend.setItemFont(legendFont);

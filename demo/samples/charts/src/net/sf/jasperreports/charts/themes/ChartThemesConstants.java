@@ -20,8 +20,8 @@ public interface ChartThemesConstants
 	public static final Integer FONT_BOLD_STYLE = new Integer(Font.BOLD);
 	public static final Integer FONT_ITALIC_STYLE = new Integer(Font.ITALIC);
 
-	public static final Paint AEGEAN_BORDER_PAINT = new Color(134,134,134);
-	public static final Paint AEGEAN_GRIDLINE_PAINT = new Color(217, 217, 217);
+	public static final Paint GRAY_PAINT_134 = new Color(134,134,134);
+	public static final Paint GRAY_PAINT_217 = new Color(217, 217, 217);
 	
 	public static final List AEGEAN_INTERVAL_COLORS = new ArrayList(){{
 		add(new Color(182, 0, 40));
@@ -50,8 +50,6 @@ public interface ChartThemesConstants
 			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(6), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(6)).darker()));
     }};
 
-	public static final Paint EYE_CANDY_SIXTIES_GRIDLINE_PAINT = new Color(134,134,134);
-    
     // generic chart default properties names
 	public static final String DEFAULT_BACKGROUND_PAINT = "defaultBackgroundPaint";
 	public static final String DEFAULT_BACKGROUND_IMAGE = "defaultBackgroundImage";
@@ -166,12 +164,14 @@ public interface ChartThemesConstants
 	public static final String DEFAULT_AXIS_LABEL_ANGLE = "defaultAxisLabelAngle";
 	public static final String DEFAULT_AXIS_LABEL_PAINT = "defaultAxisLabelPaint";
 	public static final String DEFAULT_AXIS_LABEL_FONT = "defaultAxisLabelFont";
+	public static final String DEFAULT_AXIS_LABEL_FONT_SIZE = "defaultAxisLabelFontSize";
 	public static final String DEFAULT_AXIS_LABEL_FONT_BOLD_STYLE = "defaultAxisLabelFontBoldStyle";
 	public static final String DEFAULT_AXIS_LABEL_FONT_ITALIC_STYLE = "defaultAxisLabelFontItalicStyle";
 	public static final String DEFAULT_AXIS_LABEL_INSETS = "defaultAxisLabelInsets";
 	public static final String DEFAULT_AXIS_LABEL_VISIBLE = "defaultAxisLabelVisible";
 	public static final String DEFAULT_AXIS_TICK_LABEL_PAINT = "defaultAxisTickLabelPaint";
 	public static final String DEFAULT_AXIS_TICK_LABEL_FONT = "defaultAxisTickLabelFont";
+	public static final String DEFAULT_AXIS_TICK_LABEL_FONT_SIZE = "defaultAxisTickLabelFontSize";
 	public static final String DEFAULT_AXIS_TICK_LABEL_FONT_BOLD_STYLE = "defaultAxisTickLabelFontBoldStyle";
 	public static final String DEFAULT_AXIS_TICK_LABEL_FONT_ITALIC_STYLE = "defaultAxisTickLabelFontItalicStyle";
 	public static final String DEFAULT_AXIS_TICK_LABEL_INSETS = "defaultAxisTickLabelInsets";
