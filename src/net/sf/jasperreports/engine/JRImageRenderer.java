@@ -30,8 +30,11 @@ package net.sf.jasperreports.engine;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Transparency;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.ColorModel;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
@@ -189,7 +192,19 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	public static JRRenderable getInstance(Image img, byte onErrorType) throws JRException
 	{
-		return getInstance(img, JRRenderable.IMAGE_TYPE_JPEG, onErrorType);
+		byte type = JRRenderable.IMAGE_TYPE_JPEG;
+		if (img instanceof RenderedImage)
+		{
+			ColorModel colorModel = ((RenderedImage) img).getColorModel();
+			//if the image has transparency, encode as PNG
+			if (colorModel.hasAlpha() 
+					&& colorModel.getTransparency() != Transparency.OPAQUE)
+			{
+				type = JRRenderable.IMAGE_TYPE_PNG;
+			}
+		}
+		
+		return getInstance(img, type, onErrorType);
 	}
 
 
