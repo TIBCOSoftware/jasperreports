@@ -600,15 +600,15 @@ public class GenericChartTheme implements ChartTheme
 				{
 					if(axis instanceof DateAxis)
 					{
-						DateAxis dateAxis = (DateAxis)axis;
-						try
-                        {
-	                        dateAxis.setMinimumDate(dateAxis.getDateFormatOverride().parse(axisMinValue));
-                        }
-                        catch (ParseException e)
-                        {
-	                        throw new JRException(e);
-                        }
+//						DateAxis dateAxis = (DateAxis)axis;
+//						try
+//                        {
+//	                        dateAxis.setMinimumDate(dateAxis.getDateFormatOverride().parse(axisMinValue));
+//                        }
+//                        catch (ParseException e)
+//                        {
+//	                        throw new JRException(e);
+//                        }
 					}
 					else
 					{
@@ -620,15 +620,15 @@ public class GenericChartTheme implements ChartTheme
 				{
 					if(axis instanceof DateAxis)
 					{
-						DateAxis dateAxis = (DateAxis)axis;
-						try
-                        {
-	                        dateAxis.setMaximumDate(dateAxis.getDateFormatOverride().parse(axisMaxValue));
-                        }
-                        catch (ParseException e)
-                        {
-	                        throw new JRException(e);
-                        }
+//						DateAxis dateAxis = (DateAxis)axis;
+//						try
+//                        {
+//	                        dateAxis.setMaximumDate(dateAxis.getDateFormatOverride().parse(axisMaxValue));
+//                        }
+//                        catch (ParseException e)
+//                        {
+//	                        throw new JRException(e);
+//                        }
 					}
 					else
 					{
