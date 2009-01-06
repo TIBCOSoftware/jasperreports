@@ -37,6 +37,7 @@ import java.awt.Stroke;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
@@ -391,7 +392,7 @@ public class GenericChartTheme implements ChartTheme
 			String tickLabelMask,
 			Paint lineColor,
 			boolean isRangeAxis
-			)
+			) throws JRException
 	{
 		Boolean axisVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_VISIBLE);
 		
@@ -597,13 +598,51 @@ public class GenericChartTheme implements ChartTheme
 				
 				if(axisMinValue != null)
 				{
-					((ValueAxis)axis).setLowerBound(Double.valueOf(axisMinValue).doubleValue());
+					if(axis instanceof DateAxis)
+					{
+						DateAxis dateAxis = (DateAxis)axis;
+						try
+                        {
+	                        dateAxis.setMinimumDate(dateAxis.getDateFormatOverride().parse(axisMinValue));
+                        }
+                        catch (ParseException e)
+                        {
+	                        throw new JRException(e);
+                        }
+					}
+					else
+					{
+						((ValueAxis)axis).setLowerBound(Double.valueOf(axisMinValue).doubleValue());
+					}
 				}
+				
 				if(axisMaxValue != null)
 				{
-					((ValueAxis)axis).setUpperBound(Double.valueOf(axisMaxValue).doubleValue());
+					if(axis instanceof DateAxis)
+					{
+						DateAxis dateAxis = (DateAxis)axis;
+						try
+                        {
+	                        dateAxis.setMaximumDate(dateAxis.getDateFormatOverride().parse(axisMaxValue));
+                        }
+                        catch (ParseException e)
+                        {
+	                        throw new JRException(e);
+                        }
+					}
+					else
+					{
+						((ValueAxis)axis).setUpperBound(Double.valueOf(axisMaxValue).doubleValue());
+					}
 				}
 			}
+			
+			if(axis instanceof DateAxis)
+			{
+				DateAxis dateAxis = (DateAxis)axis;
+				System.out.println("date format: " + dateAxis.getDateFormatOverride());
+			}
+
 		}
 		else
 		{
