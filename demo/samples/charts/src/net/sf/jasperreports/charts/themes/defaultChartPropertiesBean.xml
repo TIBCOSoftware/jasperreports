@@ -47,37 +47,12 @@
 				<entry key-ref="defaultPlotOutlineVisible" value-ref="isFalse"/>
 			</map>
 		</property>
-		<property name="defaultAxisPropertiesMap">
+		<!-- property name="defaultAxisPropertiesMap">
 			<map merge="true">
-				<entry key-ref="defaultAxisLinePaint" value-ref="transparentPaint"/>
 			</map>
-		</property>
+		</property-->
 		<property name="defaultChartTypePropertiesMap" ref="defaultChartTypeProperties"/>
 	</bean>
-
-	<util:map id="defaultChartProperties">
-	    <entry key-ref="defaultBackgroundPaint" value-ref="transparentPaint"/>
-	    
-   	    <entry key-ref="defaultTitlePosition" value-ref="rectangleEdgeTop"/>
-   	    <entry key-ref="defaultTitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
-   	    <entry key-ref="defaultTitleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
-   	    <entry key-ref="defaultTitleForecolor" value-ref="blackColor"/>
-   	    <entry key-ref="defaultTitleBackcolor" value-ref="transparentPaint"/>
-		
-   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeTop"/>
-   	    <entry key-ref="defaultSubtitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
-   	    <entry key-ref="defaultSubtitleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
-   	    <entry key-ref="defaultSubtitleForecolor" value-ref="blackColor"/>
-   	    <entry key-ref="defaultSubtitleBackcolor" value-ref="transparentPaint"/>
-   	    
-   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeBottom"/>
-   	    <entry key-ref="defaultLegendBaseFontBoldStyle" value-ref="fontPlainStyle"/>
-   	    <entry key-ref="defaultLegendBaseFontItalicStyle" value-ref="fontPlainStyle"/>
-   	    <entry key-ref="defaultLegendForecolor" value-ref="blackColor"/>
-   	    <entry key-ref="defaultLegendBackcolor" value-ref="transparentPaint"/>
-
-	    <entry key-ref="defaultChartBorderVisible" value-ref="isFalse"/>
-	</util:map>
 
 	<import resource="defaultPlotPropertiesBean.xml"/>
 	<import resource="defaultAxisPropertiesBean.xml"/>

@@ -17,7 +17,7 @@ public class ChartThemeMapBundle implements ChartThemeBundle
 	
 	public ChartTheme getChartTheme(String themeName)
 	{
-		return themes.get(themeName) != null ? (ChartTheme) themes.get(themeName) : (ChartTheme)themes.get("default");
+		return (ChartTheme) themes.get(themeName);
 	}
 
 	public String[] getChartThemeNames()

@@ -10,7 +10,7 @@
 				<entry key="generic">
 					<ref local="genericChartTheme"/>
 				</entry>
-				<entry key="default">
+				<entry key="default.spring">
 					<ref bean="defaultChartTheme"/>
 				</entry>
 				<entry key="eye.candy.sixties">

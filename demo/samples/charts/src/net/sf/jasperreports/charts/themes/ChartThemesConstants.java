@@ -181,5 +181,9 @@ public interface ChartThemesConstants
 	public static final String DEFAULT_AXIS_TICK_MARKS_PAINT = "defaultAxisTickMarksPaint";
 	public static final String DEFAULT_AXIS_TICK_MARKS_STROKE = "defaultAxisTickMarksStroke";
 	public static final String DEFAULT_AXIS_TICK_MARKS_VISIBLE = "defaultAxisTickMarksVisible";
+	public static final String DEFAULT_RANGE_AXIS_MIN_VALUE = "defaultRangeAxisMinValue";
+	public static final String DEFAULT_RANGE_AXIS_MAX_VALUE = "defaultRangeAxisMaxValue";
+	public static final String DEFAULT_DOMAIN_AXIS_MIN_VALUE = "defaultDomainAxisMinValue";
+	public static final String DEFAULT_DOMAIN_AXIS_MAX_VALUE = "defaultDomainAxisMaxValue";
 	
 }

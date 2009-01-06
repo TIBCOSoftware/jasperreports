@@ -43,25 +43,6 @@
 		
 	</bean>
 	
-	<util:map id="aegeanDefaultChartProperties">
-	    <entry key-ref="defaultBackgroundPaint" value-ref="transparentPaint"/>
-	    <entry key-ref="defaultSeriesColors" value-ref="aegeanSeriesColors"/>
-	    <entry key-ref="defaultChartBorderPaint" value-ref="aegeanChartBorderPaint"/>
-	    <entry key-ref="defaultChartBorderStroke" value-ref="onePointStroke"/>
-	    <entry key-ref="defaultChartBorderVisible" value-ref="isTrue"/>
-	    <entry key-ref="defaultTitlePosition" value-ref="rectangleEdgeTop"/>
-   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeBottom"/>
-   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeRight"/>
-   	    <entry key-ref="defaultBaseFontSize">
-   	    	<value type="java.lang.Float">8f</value>
-   	    </entry>
-   	    <entry key-ref="defaultTitleBaseFontBoldStyle" value-ref="fontBoldStyle"/>
-   	    <entry key-ref="defaultTitleBaseFontSize">
-   	    	<value type="java.lang.Float">18f</value>
-   	    </entry>
-   	    
-	</util:map>
-	
 	<util:list id="aegeanSeriesColors">
 		<ref local="aegeanSeriesColor0"/>
 		<ref local="aegeanSeriesColor1"/>
