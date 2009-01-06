@@ -30,6 +30,7 @@ package net.sf.jasperreports.extensions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
@@ -48,6 +49,9 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 	private static final Log log = LogFactory.getLog(SpringExtensionsRegistry.class);
 	
 	private final ListableBeanFactory beanFactory;
+	
+	private final ReferenceMap extensionBeanNamesCache = new ReferenceMap(
+			ReferenceMap.WEAK, ReferenceMap.HARD);
 
 	/**
 	 * Creates a Spring-based extension registry.
@@ -64,7 +68,7 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 	 */
 	public List getExtensions(Class extensionType)
 	{
-		String[] beanNames = beanFactory.getBeanNamesForType(extensionType);
+		String[] beanNames = getExtensionBeanNames(extensionType);
 		List beans = new ArrayList(beanNames.length);
 		for (int i = 0; i < beanNames.length; i++)
 		{
@@ -78,6 +82,32 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 			beans.add(bean);
 		}
 		return beans;
+	}
+
+	protected String[] getExtensionBeanNames(Class extensionType)
+	{
+		synchronized (extensionBeanNamesCache)
+		{
+			String[] beanNames = (String[]) extensionBeanNamesCache.get(extensionType);
+			if (beanNames == null)
+			{
+				beanNames = findExtensionBeanNames(extensionType);
+				extensionBeanNamesCache.put(extensionType, beanNames);
+			}
+			return beanNames;
+		}
+	}
+
+	protected String[] findExtensionBeanNames(Class extensionType)
+	{
+		String[] beanNames = beanFactory.getBeanNamesForType(extensionType);
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Found " + beanNames.length + " beans for extension type " + extensionType);
+		}
+		
+		return beanNames;
 	}
 
 }
