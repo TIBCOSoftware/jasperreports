@@ -303,9 +303,6 @@ public class GenericChartTheme implements ChartTheme
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot, byte evaluation) throws JRException
 	{	
 		Float defaultBaseFontSize = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BASEFONT_SIZE);
-//		float baseFontSize = chart.getLegendFont() != null ? 
-//				chart.getLegendFont().getFontSize() : 
-//				(defaultBaseFontSize != null ? defaultBaseFontSize.floatValue() : -1f);
 		
 		setChartBackground(jfreeChart);
 		setChartTitle(jfreeChart, defaultBaseFontSize);
@@ -600,15 +597,20 @@ public class GenericChartTheme implements ChartTheme
 				{
 					if(axis instanceof DateAxis)
 					{
-//						DateAxis dateAxis = (DateAxis)axis;
-//						try
-//                        {
-//	                        dateAxis.setMinimumDate(dateAxis.getDateFormatOverride().parse(axisMinValue));
-//                        }
-//                        catch (ParseException e)
-//                        {
-//	                        throw new JRException(e);
-//                        }
+						DateAxis dateAxis = (DateAxis)axis;
+						DateFormat df  = dateAxis.getDateFormatOverride();
+						if(df != null)
+						{
+							try
+	                        {
+		                        dateAxis.setMinimumDate(df.parse(axisMinValue));
+		                        
+	                        }
+	                        catch (ParseException e)
+	                        {
+		                        throw new JRException(e);
+	                        }
+						}
 					}
 					else
 					{
@@ -620,15 +622,20 @@ public class GenericChartTheme implements ChartTheme
 				{
 					if(axis instanceof DateAxis)
 					{
-//						DateAxis dateAxis = (DateAxis)axis;
-//						try
-//                        {
-//	                        dateAxis.setMaximumDate(dateAxis.getDateFormatOverride().parse(axisMaxValue));
-//                        }
-//                        catch (ParseException e)
-//                        {
-//	                        throw new JRException(e);
-//                        }
+						DateAxis dateAxis = (DateAxis)axis;
+						DateFormat df  = dateAxis.getDateFormatOverride();
+						
+						if(df != null)
+						{
+							try
+	                        {
+		                        dateAxis.setMaximumDate(df.parse(axisMaxValue));
+	                        }
+	                        catch (ParseException e)
+	                        {
+		                        throw new JRException(e);
+	                        }
+						}
 					}
 					else
 					{
