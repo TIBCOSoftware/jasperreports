@@ -636,13 +636,6 @@ public class GenericChartTheme implements ChartTheme
 					}
 				}
 			}
-			
-			if(axis instanceof DateAxis)
-			{
-				DateAxis dateAxis = (DateAxis)axis;
-				System.out.println("date format: " + dateAxis.getDateFormatOverride());
-			}
-
 		}
 		else
 		{
