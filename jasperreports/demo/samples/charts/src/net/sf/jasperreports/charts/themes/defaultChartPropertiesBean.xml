@@ -9,11 +9,14 @@
 
 
 
-	<bean id="defaultChartTheme" class="net.sf.jasperreports.charts.themes.DefaultJRChartTheme" parent="genericChartTheme">
-		<!-- property name="defaultChartPropertiesMap" ref="defaultChartProperties"/-->
+	<bean id="defaultChartTheme" class="net.sf.jasperreports.charts.themes.GenericChartTheme">
 		<property name="defaultChartPropertiesMap">
-			<map merge="true">
+			<map>
 			    <entry key-ref="defaultBackgroundPaint" value-ref="transparentPaint"/>
+			    
+		   	    <entry key-ref="defaultTitleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultSubtitleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultLegendVisible" value-ref="isTrue"/>
 			    
 		   	    <entry key-ref="defaultTitlePosition" value-ref="rectangleEdgeTop"/>
 		   	    <entry key-ref="defaultTitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
@@ -43,19 +46,29 @@
 			</map>
 		</property>
 		<property name="defaultPlotPropertiesMap">
-			<map merge="true">
+			<map>
 				<entry key-ref="defaultPlotOutlineVisible" value-ref="isFalse"/>
+		   	    <entry key-ref="defaultPlotBackgroundPaint" value-ref="transparentPaint"/>
+		   	    <entry key-ref="defaultPlotBackgroundAlpha">
+		   	    	<value type="java.lang.Float">1f</value>
+		   	    </entry>
+		   	    <entry key-ref="defaultPlotForegroundAlpha">
+		   	    	<value type="java.lang.Float">1f</value>
+		   	    </entry>
 			</map>
 		</property>
-		<!-- property name="defaultAxisPropertiesMap">
-			<map merge="true">
+		<property name="defaultAxisPropertiesMap">
+			<map>
+		   	    <entry key-ref="defaultAxisVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisLineVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisLabelVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisTickLabelsVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisTickMarksVisible" value-ref="isTrue"/>
 			</map>
-		</property-->
+		</property>
 		<property name="defaultChartTypePropertiesMap" ref="defaultChartTypeProperties"/>
 	</bean>
 
-	<import resource="defaultPlotPropertiesBean.xml"/>
-	<import resource="defaultAxisPropertiesBean.xml"/>
 	<import resource="defaultChartTypePropertiesBean.xml"/>
 	<import resource="chartConstantsBean.xml"/>
 </beans>

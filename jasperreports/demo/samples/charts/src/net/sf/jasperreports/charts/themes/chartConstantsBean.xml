@@ -29,8 +29,6 @@
 
 	<util:constant id="eyeCandySixtiesSeriesColors" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS"/>
 	<util:constant id="eyeCandySixtiesSeriesGradientPaints" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS"/>
-	<util:constant id="eyeCandySixtiesGridlinePaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.EYE_CANDY_SIXTIES_GRIDLINE_PAINT"/>
-
 
 	<util:constant id="rectangleEdgeTop" static-field="org.jfree.ui.RectangleEdge.TOP"/>
 	<util:constant id="rectangleEdgeLeft" static-field="org.jfree.ui.RectangleEdge.LEFT"/>
