@@ -200,5 +200,9 @@
 	<util:constant id="defaultAxisTickMarksPaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_PAINT"/>
 	<util:constant id="defaultAxisTickMarksStroke" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_STROKE"/>
 	<util:constant id="defaultAxisTickMarksVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_TICK_MARKS_VISIBLE"/>
+	<util:constant id="defaultRangeAxisMinValue" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_RANGE_AXIS_MIN_VALUE"/>
+	<util:constant id="defaultRangeAxisMaxValue" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_RANGE_AXIS_MAX_VALUE"/>
+	<util:constant id="defaultDomainAxisMinValue" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_DOMAIN_AXIS_MIN_VALUE"/>
+	<util:constant id="defaultDomainAxisMaxValue" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_DOMAIN_AXIS_MAX_VALUE"/>
 
 </beans>
