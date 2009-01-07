@@ -50,6 +50,11 @@
 	
 	<util:constant id="plotOrientationHorizontal" static-field="org.jfree.chart.plot.PlotOrientation.HORIZONTAL"/>
 	<util:constant id="plotOrientationVertical" static-field="org.jfree.chart.plot.PlotOrientation.VERTICAL"/>
+	
+	<util:constant id="axisLocationTopOrLeft" static-field="org.jfree.chart.axis.AxisLocation.TOP_OR_LEFT"/>
+	<util:constant id="axisLocationTopOrRight" static-field="org.jfree.chart.axis.AxisLocation.TOP_OR_RIGHT"/>
+	<util:constant id="axisLocationBottomOrLeft" static-field="org.jfree.chart.axis.AxisLocation.BOTTOM_OR_LEFT"/>
+	<util:constant id="axisLocationBottomOrRight" static-field="org.jfree.chart.axis.AxisLocation.BOTTOM_OR_RIGHT"/>
 
 	<bean id="halfPointStroke" class="java.awt.BasicStroke">
 		<constructor-arg index="0" value="0.5f"/>
@@ -173,6 +178,7 @@
 	<!-- axis property names -->
 	
 	<util:constant id="defaultAxisVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_VISIBLE"/>
+	<util:constant id="defaultAxisLocation" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LOCATION"/>
 	<util:constant id="defaultAxisLinePaint" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LINE_PAINT"/>
 	<util:constant id="defaultAxisLineStroke" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LINE_STROKE"/>
 	<util:constant id="defaultAxisLineVisible" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_AXIS_LINE_VISIBLE"/>
@@ -202,5 +208,28 @@
 	<util:constant id="defaultRangeAxisMaxValue" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_RANGE_AXIS_MAX_VALUE"/>
 	<util:constant id="defaultDomainAxisMinValue" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_DOMAIN_AXIS_MIN_VALUE"/>
 	<util:constant id="defaultDomainAxisMaxValue" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DEFAULT_DOMAIN_AXIS_MAX_VALUE"/>
+
+	<!-- chart type names -->
+	<util:constant id="areaType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.AREA_TYPE"/>
+	<util:constant id="barType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.BAR_TYPE"/>
+	<util:constant id="bar3DType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.BAR3D_TYPE"/>
+	<util:constant id="bubbleType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.BUBBLE_TYPE"/>
+	<util:constant id="candlestickType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.CANDLESTICK_TYPE"/>
+	<util:constant id="highLowType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.HIGH_LOW_TYPE"/>
+	<util:constant id="lineType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.LINE_TYPE"/>
+	<util:constant id="meterType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.METER_TYPE"/>
+	<util:constant id="multiAxisType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.MULTI_AXIS_TYPE"/>
+	<util:constant id="pieType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.PIE_TYPE"/>
+	<util:constant id="pie3DType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.PIE3D_TYPE"/>
+	<util:constant id="scatterType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.SCATTER_TYPE"/>
+	<util:constant id="stackedBarType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.STACKED_BAR_TYPE"/>
+	<util:constant id="stackedBar3DType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.STACKED_BAR3D_TYPE"/>
+	<util:constant id="thermometerType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.THERMOMETER_TYPE"/>
+	<util:constant id="timeSeriesType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.TIME_SERIES_TYPE"/>
+	<util:constant id="xyAreaType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.XY_AREA_TYPE"/>
+	<util:constant id="xyBarType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.XY_BAR_TYPE"/>
+	<util:constant id="xyLineType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.XY_LINE_TYPE"/>
+	<util:constant id="stackedAreaType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.STACKED_AREA_TYPE"/>
+	<util:constant id="ganttType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.GANTT_TYPE"/>
 
 </beans>

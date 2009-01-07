@@ -41,11 +41,9 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.List;
 
-import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.charts.fill.JRFillChartAxis;
 import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
@@ -61,7 +59,6 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.Axis;
-import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
@@ -123,13 +120,6 @@ import org.jfree.ui.TextAnchor;
 public class EyeCandySixtiesChartTheme extends GenericChartTheme
 {
 
-	/**
-	 * Specifies the default axis location.
-	 * It has to be overriden for child themes with another default axis location
-	 */
-	protected final AxisLocation DEFAULT_AXIS_LOCATION = AxisLocation.TOP_OR_LEFT;
-
-	
 	public static final Color THERMOMETER_COLOR = Color.BLACK;
 //	public static final Color MARKER_COLOR = new Color(210,210,210);
 	public static final Color SCATTER_GRIDLINE_COLOR = new Color(196, 196, 196);
@@ -1131,22 +1121,8 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			{
 				numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize));
 			}
-
 		}
 	}
-
-	/**
-	 * Specifies the axis location.
-	 * It has to be overriden for child themes with another default axis location
-	 */
-	protected AxisLocation getChartAxisLocation(JRFillChartAxis chartAxis)
-	{
-		return chartAxis.getPositionByte() != null && chartAxis.getPositionByte().byteValue() == JRChartAxis.POSITION_RIGHT_OR_BOTTOM
-				? AxisLocation.BOTTOM_OR_RIGHT 
-				: DEFAULT_AXIS_LOCATION;
-	}
-	
-	
 }
 
 class SquareXYAreaRenderer extends XYAreaRenderer
