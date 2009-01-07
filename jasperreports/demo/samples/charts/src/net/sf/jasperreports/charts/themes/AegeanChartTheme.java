@@ -50,8 +50,6 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.Axis;
-import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
@@ -92,13 +90,6 @@ import org.jfree.ui.TextAnchor;
  */
 public class AegeanChartTheme extends GenericChartTheme
 {
-
-	/**
-	 * Specifies the default axis location.
-	 * It has to be overriden for child themes with another default axis location
-	 */
-	protected final AxisLocation DEFAULT_AXIS_LOCATION = AxisLocation.TOP_OR_LEFT;
-
 	public static final Color THERMOMETER_COLOR = Color.BLACK;
 //	public static final Color MARKER_COLOR = new Color(210,210,210);
 

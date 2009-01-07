@@ -21,6 +21,7 @@ public interface ChartThemesConstants
 	public static final Integer FONT_ITALIC_STYLE = new Integer(Font.ITALIC);
 
 	public static final Paint GRAY_PAINT_134 = new Color(134,134,134);
+	public static final Paint GRAY_PAINT_196 = new Color(196,196,196);
 	public static final Paint GRAY_PAINT_217 = new Color(217, 217, 217);
 	
 	public static final List AEGEAN_INTERVAL_COLORS = new ArrayList(){{
@@ -156,6 +157,7 @@ public interface ChartThemesConstants
 	
 	// generic axis default properties names
 	public static final String DEFAULT_AXIS_VISIBLE = "defaultAxisVisible";
+	public static final String DEFAULT_AXIS_LOCATION = "defaultAxisLocation";
 	public static final String DEFAULT_AXIS_LINE_PAINT = "defaultAxisLinePaint";
 	public static final String DEFAULT_AXIS_LINE_STROKE = "defaultAxisLineStroke";
 	public static final String DEFAULT_AXIS_LINE_VISIBLE = "defaultAxisLineVisible";
@@ -186,4 +188,26 @@ public interface ChartThemesConstants
 	public static final String DEFAULT_DOMAIN_AXIS_MIN_VALUE = "defaultDomainAxisMinValue";
 	public static final String DEFAULT_DOMAIN_AXIS_MAX_VALUE = "defaultDomainAxisMaxValue";
 	
+	// chart type names
+	public static final String AREA_TYPE = "areaType";
+	public static final String BAR_TYPE = "barType";
+	public static final String BAR3D_TYPE = "bar3DType";
+	public static final String BUBBLE_TYPE = "bubbleType";
+	public static final String CANDLESTICK_TYPE = "candlestickType";
+	public static final String HIGH_LOW_TYPE = "highLowType";
+	public static final String LINE_TYPE = "lineType";
+	public static final String METER_TYPE = "meterType";
+	public static final String MULTI_AXIS_TYPE = "multiAxisType";
+	public static final String PIE_TYPE = "pieType";
+	public static final String PIE3D_TYPE = "pie3DType";
+	public static final String SCATTER_TYPE = "scatterType";
+	public static final String STACKED_BAR_TYPE = "stackedBarType";
+	public static final String STACKED_BAR3D_TYPE = "stackedBar3DType";
+	public static final String THERMOMETER_TYPE = "thermometerType";
+	public static final String TIME_SERIES_TYPE = "timeSeriesType";
+	public static final String XY_AREA_TYPE = "xyAreaType";
+	public static final String XY_BAR_TYPE = "xyBarType";
+	public static final String XY_LINE_TYPE = "xyLineType";
+	public static final String STACKED_AREA_TYPE = "stackedAreaType";
+	public static final String GANTT_TYPE = "ganttType";
 }
