@@ -58,11 +58,11 @@ public class CategoryChartHyperlinkProvider implements ChartHyperlinkProvider
 		if (hasHyperlinks() && entity instanceof CategoryItemEntity)
 		{
 			CategoryItemEntity itemEntity = (CategoryItemEntity) entity;
-			Comparable serie = itemEntity.getDataset().getRowKey(itemEntity.getSeries());
+			Comparable serie = itemEntity.getRowKey();
 			Map serieHyperlinks = (Map) itemHyperlinks.get(serie);
 			if (serieHyperlinks != null)
 			{
-				Object category = itemEntity.getCategory();
+				Object category = itemEntity.getColumnKey();
 				printHyperlink = (JRPrintHyperlink) serieHyperlinks.get(category);
 			}
 		}
