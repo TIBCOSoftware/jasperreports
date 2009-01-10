@@ -235,7 +235,7 @@ ORDER BY ShipCountry, ShipCity]]></queryString>
 						style="Sans_Bold"
 						x="10"
 						y="2"
-						width="100"
+						width="150"
 						height="11"
 						key="textField"/>
 					<textElement>

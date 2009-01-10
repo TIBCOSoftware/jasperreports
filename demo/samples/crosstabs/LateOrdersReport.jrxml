@@ -157,10 +157,7 @@
 					<crosstabRowHeader>
 						<cellContents style="CellStyle">
 							<box>
-								<pen lineColor="black"/>
-								<leftPen lineWidth="1"/>
-								<bottomPen lineWidth="1"/>
-								<rightPen lineWidth="1"/>
+								<pen lineWidth="1" lineColor="black"/>
 							</box>
 							<textField>
 								<reportElement x="5" y="0" width="75" height="20" style="Sans_Bold"/>
@@ -172,10 +169,7 @@
 					<crosstabTotalRowHeader>
 						<cellContents>
 							<box>
-								<pen lineColor="black"/>
-								<leftPen lineWidth="1"/>
-								<bottomPen lineWidth="1"/>
-								<rightPen lineWidth="1"/>
+								<pen lineWidth="1" lineColor="black"/>
 							</box>
 							<staticText>
 								<reportElement x="5" y="0" width="75" height="20" style="Sans_Bold"/>
@@ -194,10 +188,7 @@
 					<crosstabColumnHeader>
 						<cellContents>
 							<box>
-								<pen lineColor="black"/>
-								<topPen lineWidth="1"/>
-								<bottomPen lineWidth="1"/>
-								<rightPen lineWidth="1"/>
+								<pen lineWidth="1" lineColor="black"/>
 							</box>
 							<textField>
 								<reportElement x="0" y="0" width="60" height="20" style="Sans_Bold"/>
@@ -209,10 +200,7 @@
 					<crosstabTotalColumnHeader>
 						<cellContents>
 							<box>
-								<pen lineColor="black"/>
-								<topPen lineWidth="1"/>
-								<bottomPen lineWidth="1"/>
-								<rightPen lineWidth="1"/>
+								<pen lineWidth="1" lineColor="black"/>
 							</box>
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="20" style="Sans_Bold"/>
@@ -233,9 +221,7 @@
 				<crosstabCell width="60" height="20">
 					<cellContents style="CellStyle">
 						<box>
-							<pen lineColor="black"/>
-							<bottomPen lineWidth="1"/>
-							<rightPen lineWidth="1"/>
+							<pen lineWidth="1" lineColor="black"/>
 						</box>
 						<textField>
 							<reportElement x="0" y="0" width="60" height="10"/>
@@ -252,9 +238,7 @@
 				<crosstabCell width="60" height="20" rowTotalGroup="CountryRow">
 					<cellContents backcolor="yellow" mode="Opaque">
 						<box>
-							<pen lineColor="black"/>
-							<bottomPen lineWidth="1"/>
-							<rightPen lineWidth="1"/>
+							<pen lineWidth="1" lineColor="black"/>
 						</box>
 						<textField>
 							<reportElement x="0" y="0" width="60" height="10" style="Sans_Bold"/>
@@ -271,9 +255,7 @@
 				<crosstabCell width="60" height="20" columnTotalGroup="FreightColumn">
 					<cellContents backcolor="green" mode="Opaque">
 						<box>
-							<pen lineColor="black"/>
-							<bottomPen lineWidth="1"/>
-							<rightPen lineWidth="1"/>
+							<pen lineWidth="1" lineColor="black"/>
 						</box>
 						<textField>
 							<reportElement x="0" y="0" width="60" height="10" style="Sans_Bold"/>
@@ -290,9 +272,7 @@
 				<crosstabCell width="60" height="20" rowTotalGroup="CountryRow" columnTotalGroup="FreightColumn">
 					<cellContents backcolor="gray" mode="Opaque">
 						<box>
-							<pen lineColor="black"/>
-							<bottomPen lineWidth="1"/>
-							<rightPen lineWidth="1"/>
+							<pen lineWidth="1" lineColor="black"/>
 						</box>
 						<textField>
 							<reportElement x="0" y="0" width="60" height="10" style="Sans_Bold"/>

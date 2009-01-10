@@ -86,26 +86,26 @@
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement style="Sans_Italic" mode="Opaque" x="0" y="14" width="120" height="11" forecolor="#ff0000" backcolor="#ffdddd"/>
+				<reportElement style="Sans_Italic" mode="Opaque" x="0" y="14" width="130" height="11" forecolor="#ff0000" backcolor="#ffdddd"/>
 				<textElement>
 					<font isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Countries Starting With Letter :]]></text>
 			</staticText>
 			<textField evaluationTime="Group" evaluationGroup="ChartGroup">
-				<reportElement mode="Opaque" x="120" y="14" width="20" height="11" forecolor="#ff0000" backcolor="#ffdddd" style="Sans_Bold"/>
+				<reportElement mode="Opaque" x="130" y="14" width="20" height="11" forecolor="#ff0000" backcolor="#ffdddd" style="Sans_Bold"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetterMin}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="140" y="14" width="20" height="11" forecolor="#ff0000" backcolor="#ffdddd" style="Sans_Italic"/>
+				<reportElement mode="Opaque" x="150" y="14" width="20" height="11" forecolor="#ff0000" backcolor="#ffdddd" style="Sans_Italic"/>
 				<textElement textAlignment="Center">
 					<font isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField evaluationTime="Group" evaluationGroup="ChartGroup">
-				<reportElement mode="Opaque" x="160" y="14" width="20" height="11" forecolor="#ff0000" backcolor="#ffdddd" style="Sans_Bold"/>
+				<reportElement mode="Opaque" x="170" y="14" width="20" height="11" forecolor="#ff0000" backcolor="#ffdddd" style="Sans_Bold"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetterMax}]]></textFieldExpression>
 			</textField>
 			<lineChart>
@@ -198,7 +198,7 @@
 				<graphicElement/>
 			</line>
 			<textField>
-				<reportElement style="Sans_Bold" x="10" y="2" width="100" height="11"/>
+				<reportElement style="Sans_Bold" x="10" y="2" width="150" height="11"/>
 				<textElement>
 					<font/>
 				</textElement>

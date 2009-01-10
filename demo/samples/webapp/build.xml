@@ -2,6 +2,15 @@
 
 	<description>Shows how reporting functionality could be added to a Web application.</description>
 
+	<path id="classpath">
+		<pathelement location="./WEB-INF/classes/"/>
+		<pathelement location="../../../build/classes" />
+		<pathelement location="../../fonts/" />
+		<fileset dir="../../../lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
 	<target name="prepare" description="Copies the required JAR files from the project's /lib directory">
 		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../dist">
@@ -18,12 +27,16 @@
 				<include name="**/poi*.jar"/>
 				<include name="**/jxl*.jar"/>
 				<include name="**/png-encoder*.jar"/>
+				<include name="**/spring*.jar"/>
 				<exclude name="**/commons-javaflow-*.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="./applets">
 			<fileset dir="../../../dist" includes="**/jasperreports-*-applet.jar"/>
 		</copy>
+		<jar jarfile="./WEB-INF/lib/dejavu-fonts.jar">
+			<fileset dir="../../fonts/"/>
+		</jar>
 	</target>
 
 	<target name="javac" depends="prepare" description="Compiles the java source files of the web application.">
@@ -50,26 +63,14 @@
 	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/WebappReport.jrxml"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../build/classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/WebappReport.jasper"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../build/classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 

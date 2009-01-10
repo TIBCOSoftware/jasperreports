@@ -80,14 +80,14 @@
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement style="Sans_Italic" mode="Opaque" x="0" y="14" width="120" height="11" forecolor="#ff0000" backcolor="#ffdddd"/>
+				<reportElement style="Sans_Italic" mode="Opaque" x="0" y="14" width="130" height="11" forecolor="#ff0000" backcolor="#ffdddd"/>
 				<textElement>
 					<font isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Countries Starting With Letter :]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="Sans_Bold" mode="Opaque" x="120" y="14" width="150" height="11" forecolor="#ff0000" backcolor="#ffdddd"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="130" y="14" width="140" height="11" forecolor="#ff0000" backcolor="#ffdddd"/>
 				<textElement>
 					<font/>
 				</textElement>
@@ -141,7 +141,7 @@
 				<graphicElement/>
 			</line>
 			<textField>
-				<reportElement style="Sans_Bold" x="10" y="2" width="100" height="11"/>
+				<reportElement style="Sans_Bold" x="10" y="2" width="150" height="11"/>
 				<textElement>
 					<font/>
 				</textElement>

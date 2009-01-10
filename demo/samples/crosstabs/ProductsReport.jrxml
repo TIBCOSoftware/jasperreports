@@ -57,9 +57,7 @@
 					<crosstabRowHeader>
 						<cellContents>
 							<box>
-								<leftPen lineWidth="1"/>
-								<bottomPen lineWidth="1"/>
-								<rightPen lineWidth="1"/>
+								<pen lineWidth="0.5"/>
 							</box>
 							<textField>
 								<reportElement x="5" y="0" width="75" height="10" style="Sans_Bold"/>
@@ -70,9 +68,7 @@
 					<crosstabTotalRowHeader>
 						<cellContents backcolor="#E0FFFF" mode="Opaque">
 							<box>
-								<leftPen lineWidth="1"/>
-								<bottomPen lineWidth="1"/>
-								<rightPen lineWidth="1"/>
+								<pen lineWidth="0.5"/>
 							</box>
 							<staticText>
 								<reportElement x="5" y="0" width="75" height="10" style="Sans_Bold"/>
@@ -88,9 +84,7 @@
 					<crosstabColumnHeader>
 						<cellContents>
 							<box>
-								<topPen lineWidth="1"/>
-								<bottomPen lineWidth="1"/>
-								<rightPen lineWidth="1"/>
+								<pen lineWidth="0.5"/>
 							</box>
 							<textField>
 								<reportElement x="0" y="0" width="20" height="50" style="Sans_Bold"/>
@@ -102,9 +96,7 @@
 					<crosstabTotalColumnHeader>
 						<cellContents backcolor="#FFFF60" mode="Opaque">
 							<box>
-								<topPen lineWidth="1"/>
-								<bottomPen lineWidth="1"/>
-								<rightPen lineWidth="1"/>
+								<pen lineWidth="0.5"/>
 							</box>
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="50" style="Sans_Bold"/>
@@ -120,8 +112,7 @@
 				<crosstabCell width="20" height="10">
 					<cellContents backcolor="#FFFFFF" mode="Opaque">
 						<box>
-							<bottomPen lineWidth="1"/>
-							<rightPen lineWidth="1"/>
+							<pen lineWidth="0.5"/>
 						</box>
 						<textField>
 							<reportElement x="0" y="0" width="20" height="10"/>
@@ -133,8 +124,7 @@
 				<crosstabCell width="30" height="10" columnTotalGroup="ProductGroup">
 					<cellContents backcolor="#FFFF60" mode="Opaque">
 						<box>
-							<bottomPen lineWidth="1"/>
-							<rightPen lineWidth="1"/>
+							<pen lineWidth="0.5"/>
 						</box>
 						<textField>
 							<reportElement x="0" y="0" width="30" height="10"/>
@@ -146,8 +136,7 @@
 				<crosstabCell width="20" height="10" rowTotalGroup="NameGroup">
 					<cellContents backcolor="#E0FFFF" mode="Opaque">
 						<box>
-							<bottomPen lineWidth="1"/>
-							<rightPen lineWidth="1"/>
+							<pen lineWidth="0.5"/>
 						</box>
 						<textField>
 							<reportElement x="0" y="0" width="20" height="10"/>
@@ -159,8 +148,7 @@
 				<crosstabCell width="30" height="10" rowTotalGroup="NameGroup" columnTotalGroup="ProductGroup">
 					<cellContents backcolor="#C0C0C0" mode="Opaque">
 						<box>
-							<bottomPen lineWidth="1"/>
-							<rightPen lineWidth="1"/>
+							<pen lineWidth="0.5"/>
 						</box>
 						<textField>
 							<reportElement x="0" y="0" width="30" height="10" style="Sans_Bold"/>
