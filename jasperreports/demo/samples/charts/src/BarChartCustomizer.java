@@ -25,18 +25,17 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-import net.sf.jasperreports.engine.JRChartCustomizer;
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRChartPlot;
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRChartCustomizer;
+
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.category.BarRenderer;
 
-import java.awt.*;
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id:BarChartCustomizer.java 2317 2008-08-27 09:06:42Z teodord $
  */
 public class BarChartCustomizer implements JRChartCustomizer
 {

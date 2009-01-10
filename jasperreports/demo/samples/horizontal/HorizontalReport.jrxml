@@ -77,14 +77,14 @@
 			<frame>
 				<reportElement mode="Opaque" x="0" y="14" width="175" height="11" backcolor="#ffdddd"/>
 				<staticText>
-					<reportElement x="0" y="0" width="120" height="11" forecolor="#ff0000" style="Sans_Italic"/>
+					<reportElement x="0" y="0" width="130" height="11" forecolor="#ff0000" style="Sans_Italic"/>
 					<textElement>
 						<font isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[Countries Starting With Letter :]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="120" y="0" width="55" height="11" forecolor="#ff0000" style="Sans_Bold"/>
+					<reportElement x="130" y="0" width="45" height="11" forecolor="#ff0000" style="Sans_Bold"/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetter}]]></textFieldExpression>
 				</textField>
 			</frame>

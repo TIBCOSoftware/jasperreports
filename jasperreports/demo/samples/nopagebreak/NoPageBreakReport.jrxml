@@ -44,11 +44,11 @@
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="10" width="170" height="15" backcolor="#c0c0c0" style="Sans_Italic"/>
+				<reportElement mode="Opaque" x="0" y="10" width="190" height="15" backcolor="#c0c0c0" style="Sans_Italic"/>
 				<text><![CDATA[Countries Starting With Letter :]]></text>
 			</staticText>
 			<textField>
-				<reportElement mode="Opaque" x="170" y="10" width="345" height="15" backcolor="#c0c0c0" style="Sans_Bold"/>
+				<reportElement mode="Opaque" x="190" y="10" width="325" height="15" backcolor="#c0c0c0" style="Sans_Bold"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetter}]]></textFieldExpression>
 				<anchorNameExpression><![CDATA["FirstLetterGroup_" + $V{FirstLetter}]]></anchorNameExpression>
 			</textField>

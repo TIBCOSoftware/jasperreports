@@ -61,7 +61,7 @@
 				<graphicElement/>
 			</line>
 			<textField>
-				<reportElement style="Sans_Bold" x="10" y="2" width="100" height="16"/>
+				<reportElement style="Sans_Bold" x="10" y="2" width="150" height="16"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
