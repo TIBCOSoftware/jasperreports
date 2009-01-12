@@ -6,8 +6,8 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="SubDatasetChartReport" language="java" pageWidth="595" pageHeight="842" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Serif_Bold" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="DejaVuSerif-Bold.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Serif_Bold" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<subDataset name="Country_Orders">
 		<parameter name="Country" class="java.lang.String">
 		</parameter>

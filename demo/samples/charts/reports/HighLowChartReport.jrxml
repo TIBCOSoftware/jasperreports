@@ -6,11 +6,11 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="HighLowChartReport" language="java" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
-	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Serif_Normal" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="DejaVuSerif.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-	<style name="Serif_Bold" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="DejaVuSerif-Bold.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Serif_Normal" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Serif_Bold" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="ReportTitle" class="java.lang.String">
 	</parameter>
 	<parameter name="MaxOrderID" class="java.lang.Integer">

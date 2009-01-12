@@ -35,9 +35,6 @@
 		isItalic="false"
 		isUnderline="false"
 		isStrikeThrough="false"
-		pdfFontName="Helvetica"
-		pdfEncoding="Cp1252"
-		isPdfEmbedded="false"
 	/>
 	<style 
 		name="Sans_Bold"
@@ -48,9 +45,6 @@
 		isItalic="false"
 		isUnderline="false"
 		isStrikeThrough="false"
-		pdfFontName="Helvetica-Bold"
-		pdfEncoding="Cp1252"
-		isPdfEmbedded="false"
 	/>
 	<style 
 		name="Sans_Italic"
@@ -61,9 +55,6 @@
 		isItalic="true"
 		isUnderline="false"
 		isStrikeThrough="false"
-		pdfFontName="Helvetica-Oblique"
-		pdfEncoding="Cp1252"
-		isPdfEmbedded="false"
 	/>
 	<style 
 		name="Serif_Normal"
@@ -74,9 +65,6 @@
 		isItalic="false"
 		isUnderline="false"
 		isStrikeThrough="false"
-		pdfFontName="Helvetica"
-		pdfEncoding="Cp1252"
-		isPdfEmbedded="true"
 	/>
 	<style 
 		name="Serif_Bold"
@@ -87,9 +75,6 @@
 		isItalic="false"
 		isUnderline="false"
 		isStrikeThrough="false"
-		pdfFontName="Helvetica-Bold"
-		pdfEncoding="Cp1252"
-		isPdfEmbedded="true"
 	/>
 
 	<parameter name="ReportTitle" isForPrompting="false" class="java.lang.String"/>

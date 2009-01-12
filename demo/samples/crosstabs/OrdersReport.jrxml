@@ -6,12 +6,12 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="OrdersReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="782" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30">
-	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="OrderCountStyle" style="Sans_Normal">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean($V{OrderCount}.intValue() > 0 && $V{OrderCount}.intValue() % 10 == 0)]]></conditionExpression>
-			<style forecolor="#ff0000" isBold="true" pdfFontName="Helvetica-Bold"/>
+			<style forecolor="#ff0000" isBold="true"/>
 		</conditionalStyle>
 	</style>
 	<style name="CellStyle" mode="Opaque">
