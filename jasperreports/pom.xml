@@ -123,7 +123,7 @@
 		<dependency>
 			<groupId>jfree</groupId>
 			<artifactId>jcommon</artifactId>
-			<version>1.0.12</version>
+			<version>1.0.15</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
@@ -135,7 +135,7 @@
 		<dependency>
 			<groupId>jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>1.0.9</version>
+			<version>1.0.12</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
