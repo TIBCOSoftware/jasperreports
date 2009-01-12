@@ -56,7 +56,14 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 	{
 		super(in);
 		
-		enableResolveObject(true);
+		try
+		{
+			enableResolveObject(true);
+		}
+		catch(SecurityException ex)
+		{
+			//FIXMEFONT we silence this for applets. but are there other similar situations that we need to deal with by signing jars?
+		}
 	}
 
 	/**
