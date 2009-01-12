@@ -78,7 +78,7 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getValueLocationByte()
+	 * @deprecated Replaced by {@link #getValueLocationByte()}
 	 */
 	public byte getValueLocation()
 	{

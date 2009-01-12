@@ -342,7 +342,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #isShowLegend(Boolean)}
+	 * @deprecated Replaced by {@link #setShowLegend(Boolean)}
 	 */
 	public void setShowLegend(boolean isShowLegend)
 	{

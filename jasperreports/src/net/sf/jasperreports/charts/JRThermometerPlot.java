@@ -85,7 +85,7 @@ public interface JRThermometerPlot extends JRChartPlot
 	public boolean isShowValueLines();
 
 	/**
-	 * @deprecated Replaced by {@link #getValueLocationByte()
+	 * @deprecated Replaced by {@link #getValueLocationByte()}
 	 */
 	public byte getValueLocation();
 
