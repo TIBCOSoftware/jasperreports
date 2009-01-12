@@ -10,7 +10,7 @@ them into the system; this also allows using different TTF files for the same
 logical font name, depending on the locale;
 
 - primitive type chart properties replaced with equivalent object type properties 
-to allow chart theme implementations check if they were set or not;
+to allow chart theme implementations to check if they were set or not;
 
 - XML based chart theme implementations provided with the charts sample;
 
