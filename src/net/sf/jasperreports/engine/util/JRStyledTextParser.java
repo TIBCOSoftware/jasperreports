@@ -35,9 +35,14 @@ import java.io.StringReader;
 import java.lang.ref.SoftReference;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -45,7 +50,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.fonts.FontBundle;
+import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -65,6 +73,27 @@ public class JRStyledTextParser implements ErrorHandler
 {
     //don't use log because it will be required in applet jar
 	//private static final Log log = LogFactory.getLog(JRStyledTextParser.class);
+
+	private static final Set AVAILABLE_FONT_FACE_NAMES = new HashSet();
+	static
+	{
+		//FIXMEFONT do some cache
+		List bundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontBundle.class);
+		for (Iterator itb = bundles.iterator(); itb.hasNext();)
+		{
+			FontBundle bundle = (FontBundle)itb.next();
+			List families = bundle.getFontFamilies();
+			for (Iterator itf = families.iterator(); itf.hasNext();)
+			{
+				FontFamily family = (FontFamily)itf.next();
+				AVAILABLE_FONT_FACE_NAMES.add(family.getName());
+			}
+		}
+			
+		AVAILABLE_FONT_FACE_NAMES.addAll(
+			Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
+			);
+	}
 
 	/**
 	 *
@@ -108,6 +137,11 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final ThreadLocal threadInstances = new ThreadLocal();
 	
 	/**
+	 * 
+	 */
+	private static final ThreadLocal threadLocale = new ThreadLocal();
+	
+	/**
 	 * Return a cached instance.
 	 * 
 	 * @return a cached instance
@@ -129,6 +163,22 @@ public class JRStyledTextParser implements ErrorHandler
 	}
 	
 
+	/**
+	 * 
+	 */
+	public static void setLocale(Locale locale)
+	{
+		threadLocale.set(locale);
+	}
+	
+	/**
+	 * 
+	 */
+	public static Locale getLocale()
+	{
+		return (Locale)threadLocale.get();
+	}
+	
 	/**
 	 *
 	 */
@@ -538,20 +588,16 @@ public class JRStyledTextParser implements ErrorHandler
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontFace) != null) 
 				{
-					String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();//FIXMEFONT check in font entries too
 					String fontFaces = nodeAttrs.getNamedItem(ATTRIBUTE_fontFace).getNodeValue();
 
 					StringTokenizer t = new StringTokenizer(fontFaces, ",");
-					label:while (t.hasMoreTokens()) 
+					while (t.hasMoreTokens()) 
 					{
 						String face = t.nextToken().trim();
-						for (int j = 0; j < fontList.length; j++)
+						if (AVAILABLE_FONT_FACE_NAMES.contains(face)) 
 						{
-							if (fontList[j].equals(face)) 
-							{
-								styleAttrs.put(TextAttribute.FAMILY, face);
-								break label;
-							}
+							styleAttrs.put(TextAttribute.FAMILY, face);
+							break;
 						}
 					}
 				}

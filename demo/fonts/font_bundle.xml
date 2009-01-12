@@ -26,6 +26,14 @@
 
 	<bean id="dejaVuSerifFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
 		<property name="name" value="DejaVu Serif"/>
+		<!--
+		<property name="locales">
+			<set>
+				<value>en_US</value>
+				<value>de_DE</value>
+			</set>
+		</property>
+		-->
 		<property name="normal" value="DejaVuSerif.ttf"/>
 		<property name="bold" value="DejaVuSerif-Bold.ttf"/>
 		<property name="italic" value="DejaVuSerif-Italic.ttf"/>

@@ -256,7 +256,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
-			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
 
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0){
@@ -338,7 +338,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	protected void createColorAndFontEntries() throws JRException {
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
-			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
 
 			getFontIndex(new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
 

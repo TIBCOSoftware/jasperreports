@@ -108,11 +108,11 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 		{
 			//String fontName = (String)font.getAttributes().get(TextAttribute.FAMILY);//FIXMEFONT check this
 			String fontName = font.getName();
-			Font newFont = JRFontUtil.getAwtFontFromBundles(fontName, font.getStyle(), font.getSize());
+			Font newFont = JRFontUtil.getAwtFontFromBundles(fontName, font.getStyle(), font.getSize(), null);
 			
 			if (newFont != null)
 			{
-				return newFont; //this does not work in jdk1.4, where dialog font gets used unless we derive it using all attributes
+				return newFont; //FIXMEFONT this does not work in jdk1.4, where dialog font gets used unless we derive it using all attributes
 				//return newFont.deriveFont(font.getAttributes()); //this does not work in jdk1.6 where dialog gets used if we derive the font using attributes
 			}
 		}

@@ -643,7 +643,7 @@ public class AegeanChartTheme extends GenericChartTheme
 				);
 		scale.setTickRadius(0.9);
 		scale.setTickLabelOffset(0.16);
-		scale.setTickLabelFont(JRFontUtil.getAwtFont(jrFont).deriveFont(16f).deriveFont(Font.BOLD));
+		scale.setTickLabelFont(JRFontUtil.getAwtFont(jrFont, getLocale()).deriveFont(16f).deriveFont(Font.BOLD));
 		scale.setMajorTickStroke(new BasicStroke(1f));
 		scale.setMinorTickStroke(new BasicStroke(0.7f));
 		scale.setMajorTickPaint(Color.BLACK);

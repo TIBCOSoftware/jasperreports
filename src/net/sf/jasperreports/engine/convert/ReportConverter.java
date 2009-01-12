@@ -127,6 +127,9 @@ public class ReportConverter
 		//FIXME locale and timezone settings jasperprint object
 		//jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(Locale.getDefault()));
 		//jasperPrint.setTimeZoneId(JRDataUtils.getTimeZoneId(TimeZone.getDefault()));
+		//FIXMEFONT the locale is important for font
+		//jasperPrint.setLocaleCode(report.getProperty(JRProperties.PROPERTY_PREFIX + "net.sf.jasperreports.locale"));
+		//JRStyledTextAttributeSelector.setLocale(locale);
 		jasperPrint.setName(report.getName());
 		jasperPrint.setOrientation(report.getOrientation());
 		jasperPrint.setPageWidth(report.getPageWidth());

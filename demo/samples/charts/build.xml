@@ -16,7 +16,14 @@
 		</fileset>
 	</path>
 
-	<target name="javac" description="Compiles the java source files of the test application.">
+	<condition property="using.jdk.1.5">
+		<or>
+		<equals arg1="${ant.java.version}" arg2="1.5"/>
+		<equals arg1="${ant.java.version}" arg2="1.6"/>
+		</or>
+	</condition>
+
+	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application.">
 		<mkdir dir="./build/classes"/> 
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false" target="1.4" source="1.4">
 			<classpath refid="classpath"/>
@@ -31,7 +38,7 @@
 		</copy>
 	</target>
 
-	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+	<target name="compile" if="using.jdk.1.5" description="Compiles the XML report design and produces the .jasper file.">
 		<mkdir dir="./build/reports"/> 
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
@@ -46,7 +53,7 @@
 		</jrc> 
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+	<target name="fill" if="using.jdk.1.5" description="Fills the compiled report design with data and produces the .jrprint file.">
 		<java classname="${class.name}">
 			<arg value="fill"/>
 			<arg value="${basedir}/build/reports"/>
@@ -54,14 +61,14 @@
 		</java>
 	</target>
 
-	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+	<target name="view" if="using.jdk.1.5" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="${basedir}/build/reports/AreaChartReport.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 	
-	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+	<target name="pdf" if="using.jdk.1.5" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}">
 			<arg value="pdf"/>
 			<arg value="${basedir}/build/reports"/>
@@ -69,7 +76,7 @@
 		</java>
 	</target>
 	
-	<target name="html" description="Generates a HTML version of the report by converting the .jrprint file.">
+	<target name="html" if="using.jdk.1.5" description="Generates a HTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}">
 			<arg value="html"/>
 			<arg value="${basedir}/build/reports"/>
@@ -77,7 +84,7 @@
 		</java>
 	</target>
 
-	<target name="writeXml" description="Generates a report design XML file from a .jasper file.">
+	<target name="writeXml" if="using.jdk.1.5" description="Generates a report design XML file from a .jasper file.">
 		<java classname="${class.name}">
 			<arg value="writeXml"/>
 			<arg value="${basedir}/build/reports"/>
@@ -85,7 +92,7 @@
 		</java>
 	</target>
 
-	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
+	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${basedir}/reports/AreaChartReport.jrxml"/>
 			<classpath refid="classpath"/>

@@ -1817,7 +1817,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				prints.addAll(rowPrints);
 			}
 			
-			Collections.sort(prints, new JRYXComparator());//FIXME make singleton comparator; same of older comparator
+			Collections.sort(prints, new JRYXComparator());//FIXME make singleton comparator; same for older comparator
 			
 			return prints;
 		}

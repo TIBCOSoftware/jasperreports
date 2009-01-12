@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
+import java.util.Locale;
+
 
 
 /**
@@ -44,57 +46,7 @@ public interface FontFamily
 	/**
 	 * 
 	 */
-	public void setName(String name);
-	
-	/**
-	 * 
-	 */
-	public String getNormal();
-	
-	/**
-	 * 
-	 */
-	public void setNormal(String normal);
-	
-	/**
-	 * 
-	 */
-	public String getBold();
-	
-	/**
-	 * 
-	 */
-	public void setBold(String bold);
-	
-	/**
-	 * 
-	 */
-	public String getItalic();
-	
-	/**
-	 * 
-	 */
-	public void setItalic(String italic);
-	
-	/**
-	 * 
-	 */
-	public String getBoldItalic();
-	
-	/**
-	 * 
-	 */
-	public void setBoldItalic(String boldItalic);
-	
-	/**
-	 * 
-	 */
 	public FontFace getNormalFace();
-	
-	/**
-	 * 
-	 */
-	public void setNormalFace(FontFace normal);
 	
 	/**
 	 * 
@@ -104,17 +56,7 @@ public interface FontFamily
 	/**
 	 * 
 	 */
-	public void setBoldFace(FontFace bold);
-	
-	/**
-	 * 
-	 */
 	public FontFace getItalicFace();
-	
-	/**
-	 * 
-	 */
-	public void setItalicFace(FontFace italic);
 	
 	/**
 	 * 
@@ -124,17 +66,7 @@ public interface FontFamily
 	/**
 	 * 
 	 */
-	public void setBoldItalicFace(FontFace boldItalic);
-	
-	/**
-	 * 
-	 */
 	public boolean isSimulatedBold();
-	
-	/**
-	 * 
-	 */
-	public void setSimulatedBold(boolean isSimulatedBold);
 	
 	/**
 	 * 
@@ -144,26 +76,16 @@ public interface FontFamily
 	/**
 	 * 
 	 */
-	public void setSimulatedItalic(boolean isSimulatedItalic);
-	
-	/**
-	 * 
-	 */
 	public String getPdfEncoding();
 	
 	/**
 	 * 
 	 */
-	public void setPdfEncoding(String pdfEncoding);
+	public Boolean isPdfEmbedded();
 	
 	/**
 	 * 
 	 */
-	public boolean isPdfEmbedded();
-	
-	/**
-	 * 
-	 */
-	public void setPdfEmbedded(boolean isPdfEmbedded);
+	public boolean supportsLocale(Locale locale);
 	
 }

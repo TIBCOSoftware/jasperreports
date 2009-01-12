@@ -31,6 +31,7 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.ChartTheme;
@@ -1118,6 +1119,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return ((JRChart)parent).getHyperlinkPageExpression();
 	}
 
+
+	/**
+	 *
+	 */
+	public Locale getLocale()
+	{
+		return filler.getLocale();
+	}
 
 	/**
 	 *

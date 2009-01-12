@@ -27,12 +27,18 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.awt.Font;
+import java.awt.font.TextAttribute;
+import java.awt.geom.AffineTransform;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -42,6 +48,21 @@ import java.util.Map;
 public class JRStyledText
 {
 
+	private static final String PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED = JRProperties.PROPERTY_PREFIX + "awt.superscript.fix.enabled";
+	private static final boolean AWT_SUPERSCRIPT_FIX_ENABLED = 
+		System.getProperty("java.version").startsWith("1.6") 
+		&& JRProperties.getBooleanProperty(PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED);
+	
+	private static final Set FONT_ATTRS = new HashSet();
+	static
+	{
+		FONT_ATTRS.add(TextAttribute.FAMILY);
+		FONT_ATTRS.add(TextAttribute.WEIGHT);
+		FONT_ATTRS.add(TextAttribute.POSTURE);
+		FONT_ATTRS.add(TextAttribute.SIZE);
+		FONT_ATTRS.add(TextAttribute.SUPERSCRIPT);
+	}
+	
 	/**
 	 *
 	 */
@@ -50,6 +71,7 @@ public class JRStyledText
 	private AttributedString attributedString = null;
 	private AttributedString awtAttributedString = null;
 	private Map globalAttributes;
+	private Locale locale;
 
 	
 	/**
@@ -99,6 +121,14 @@ public class JRStyledText
 	/**
 	 *
 	 */
+	public Locale getLocale()
+	{
+		return locale;
+	}
+
+	/**
+	 *
+	 */
 	public AttributedString getAttributedString()
 	{
 		if (attributedString == null)
@@ -135,11 +165,13 @@ public class JRStyledText
 			for(int i = runs.size() - 1; i >= 0; i--)
 			{
 				Run run = (Run)runs.get(i);
-				if (run.startIndex != run.endIndex 
-						&& run.attributes != null && !run.attributes.isEmpty())
+				if (
+					run.startIndex != run.endIndex 
+					&& run.attributes != null 
+					&& !run.attributes.isEmpty()
+					)
 				{
-					for (Iterator it = run.attributes.entrySet().iterator(); it
-							.hasNext();)
+					for (Iterator it = run.attributes.entrySet().iterator(); it.hasNext();)
 					{
 						Map.Entry entry = (Map.Entry) it.next();
 						AttributedCharacterIterator.Attribute attribute = 
@@ -152,6 +184,55 @@ public class JRStyledText
 					}
 				}
 			}
+			
+			AttributedCharacterIterator iterator = awtAttributedString.getIterator();
+			
+			int runLimit = 0;
+			AffineTransform atrans = null;
+
+			while(runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit(FONT_ATTRS)) <= iterator.getEndIndex())
+			{
+				Map attrs = iterator.getAttributes();
+					
+				Font awtFont = 
+					JRFontUtil.getAwtFontFromBundles(
+						(String)attrs.get(TextAttribute.FAMILY), 
+						((TextAttribute.WEIGHT_BOLD.equals(attrs.get(TextAttribute.WEIGHT))?Font.BOLD:Font.PLAIN)
+							|(TextAttribute.POSTURE_OBLIQUE.equals(attrs.get(TextAttribute.POSTURE))?Font.ITALIC:Font.PLAIN)), 
+						((Float)attrs.get(TextAttribute.SIZE)).intValue(),
+						locale
+						);
+				if (awtFont != null)
+				{
+					if (AWT_SUPERSCRIPT_FIX_ENABLED && atrans != null)
+					{
+						double y = atrans.getTranslateY();
+						atrans = new AffineTransform();
+						atrans.translate(0, - y);
+						awtFont = awtFont.deriveFont(atrans);
+						atrans = null;
+					}
+					Integer superscript = (Integer)attrs.get(TextAttribute.SUPERSCRIPT);
+					if (TextAttribute.SUPERSCRIPT_SUPER.equals(superscript))
+					{
+						atrans = new AffineTransform();
+						atrans.scale(2 / 3d, 2 / 3d);
+						atrans.translate(0, - awtFont.getSize() / 2f);
+						awtFont = awtFont.deriveFont(atrans);
+					}
+					else if (TextAttribute.SUPERSCRIPT_SUB.equals(superscript))
+					{
+						atrans = new AffineTransform();
+						atrans.scale(2 / 3d, 2 / 3d);
+						atrans.translate(0, awtFont.getSize() / 2f);
+						awtFont = awtFont.deriveFont(atrans);
+					}
+					awtAttributedString.addAttribute(TextAttribute.FONT, awtFont, iterator.getIndex(), runLimit);
+				}
+				
+				iterator.setIndex(runLimit);
+			}
+
 		}
 		
 		return awtAttributedString;
