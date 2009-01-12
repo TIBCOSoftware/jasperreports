@@ -16,9 +16,9 @@
 		whenNoDataType="NoPages"
 		isTitleNewPage="false"
 		isSummaryNewPage="false">
-	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="10" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="10" isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="10" isBold="true"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="10" isItalic="true"/>
 	<field name="id" class="java.lang.Long"/>
 	<field name="total" class="java.lang.Double"/>
 	<title>

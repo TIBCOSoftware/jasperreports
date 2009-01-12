@@ -8,7 +8,7 @@
 		name="TableReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" isFloatColumnFooter="true">
 	<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
 	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
-	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<title>
 		<band height="50">
 			<image scaleImage="Clip">
@@ -44,7 +44,7 @@
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Header 1]]></text>
 			</staticText>
@@ -60,7 +60,7 @@
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Header 2]]></text>
 			</staticText>
@@ -76,7 +76,7 @@
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Header 3]]></text>
 			</staticText>
@@ -92,7 +92,7 @@
 					<rightPen lineWidth="1" lineColor="red"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Header 4]]></text>
 			</staticText>
@@ -108,7 +108,7 @@
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement>
-					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Header 4.1]]></text>
 			</staticText>
@@ -125,7 +125,7 @@
 					<rightPen lineWidth="1" lineColor="red"/>
 				</box>
 				<textElement textAlignment="Right">
-					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Header 4.2]]></text>
 			</staticText>
@@ -205,7 +205,7 @@
 					<bottomPen lineWidth="1" lineColor="red"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total 1]]></text>
 			</staticText>
@@ -219,7 +219,7 @@
 					<bottomPen lineWidth="1" lineColor="red"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total 2]]></text>
 			</staticText>
@@ -233,7 +233,7 @@
 					<bottomPen lineWidth="1" lineColor="red"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total 3]]></text>
 			</staticText>
@@ -247,7 +247,7 @@
 					<bottomPen lineWidth="1" lineColor="red"/>
 				</box>
 				<textElement>
-					<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total 4.1]]></text>
 			</staticText>
@@ -264,7 +264,7 @@
 					<rightPen lineWidth="1" lineColor="red"/>
 				</box>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total 4.2]]></text>
 			</staticText>

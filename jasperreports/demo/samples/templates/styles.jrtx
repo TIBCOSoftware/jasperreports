@@ -23,7 +23,7 @@
 
 	<style name="Serif" style="Base"
 		fontSize="12"
-		fontName="DejaVu Serif" pdfFontName="DejaVuSerif.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+		fontName="DejaVu Serif"/>
 	
 	<style name="Serif Note" style="Serif"
 		isUnderline="true"/>
