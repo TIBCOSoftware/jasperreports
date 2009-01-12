@@ -82,7 +82,6 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
-import net.sf.jasperreports.engine.export.JROriginExporterFilter;
 import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZip;
 import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZipEntry;
 import net.sf.jasperreports.engine.export.oasis.zip.OasisZip;
@@ -334,7 +333,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
 
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)

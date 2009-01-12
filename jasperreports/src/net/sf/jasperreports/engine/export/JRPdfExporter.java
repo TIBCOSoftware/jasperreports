@@ -53,6 +53,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -507,7 +508,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 			{
-				jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+				setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
 				loadedImagesMap = new HashMap();
 				document.setPageSize(new Rectangle(jasperPrint.getPageWidth(), jasperPrint.getPageHeight()));
 				
@@ -606,7 +607,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		if (pdfFontAttrs == null) {
 			chunk = new Chunk(" ");
 		} else {
-			Font pdfFont = getFont(pdfFontAttrs);
+			Font pdfFont = getFont(pdfFontAttrs, getLocale());
 			chunk = new Chunk(" ", pdfFont);
 		}
 		
@@ -1603,6 +1604,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		Phrase phrase = new Phrase();
 
 		String text = styledText.getText();
+		Locale locale = getTextLocale(textElement);
 
 		int runLimit = 0;
 
@@ -1610,7 +1612,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			Chunk chunk = getChunk(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
+			Chunk chunk = getChunk(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit), locale);
 			setAnchor(chunk, textElement, textElement);
 			setHyperlinkInfo(chunk, textElement);
 			phrase.add(chunk);
@@ -1625,9 +1627,9 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Chunk getChunk(Map attributes, String text)
+	protected Chunk getChunk(Map attributes, String text, Locale locale)
 	{
-		Font font = getFont(attributes);
+		Font font = getFont(attributes, locale);
 
 		Chunk chunk = new Chunk(text, font);
 
@@ -1662,7 +1664,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Font getFont(Map attributes)
+	protected Font getFont(Map attributes, Locale locale)
 	{
 		JRFont jrFont = new JRBaseFont(attributes);
 
@@ -1680,7 +1682,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			FontInfo fontInfo = JRFontUtil.getFontInfo(jrFont.getFontName());
+			FontInfo fontInfo = JRFontUtil.getFontInfo(jrFont.getFontName(), locale);
 			if (fontInfo == null)
 			{
 				pdfFont = new PdfFont(jrFont.getPdfFontName(), jrFont.getPdfEncoding(), jrFont.isPdfEmbedded());
@@ -1690,7 +1692,6 @@ public class JRPdfExporter extends JRAbstractExporter
 				FontFamily family = fontInfo.getFontFamily();
 				FontFace face = fontInfo.getFontFace();
 				int faceStyle = java.awt.Font.PLAIN;
-				String ttf = null;
 
 				if (face == null)
 				{
@@ -1720,7 +1721,7 @@ public class JRPdfExporter extends JRAbstractExporter
 						
 					if (face == null)
 					{
-						throw new JRRuntimeException("Font family '" + jrFont.getFontName() + "' does not have the normal font face.");
+						throw new JRRuntimeException("Font family '" + family.getName() + "' does not have the normal font face.");
 					}
 				}
 				else
@@ -1728,18 +1729,17 @@ public class JRPdfExporter extends JRAbstractExporter
 					faceStyle = fontInfo.getStyle();
 				}
 
-				ttf = face.getFile();
-
-				if (ttf == null)
-				{
-					//FIXMEFONT throw something
-				}
+//				String ttf = face.getFile();
+//				if (ttf == null)
+//				{
+//					throw new JRRuntimeException("The '" + face.getName() + "' font face in family '" + family.getName() + "' returns a null file.");
+//				}
 				
 				pdfFont = 
 					new PdfFont(
-						ttf, 
-						family.getPdfEncoding(), 
-						family.isPdfEmbedded(), 
+						face.getFile() == null ? jrFont.getPdfFontName() : face.getFile(), 
+						family.getPdfEncoding() == null ? jrFont.getPdfEncoding() : family.getPdfEncoding(),
+ 						family.isPdfEmbedded() == null ? jrFont.isPdfEmbedded() : family.isPdfEmbedded().booleanValue(), 
 						jrFont.isBold() && ((faceStyle & java.awt.Font.BOLD) == 0), 
 						jrFont.isItalic() && ((faceStyle & java.awt.Font.ITALIC) == 0)
 						);
@@ -2567,7 +2567,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		public BaseFont awtToPdf(java.awt.Font font)
 		{
-			return getFont(font.getAttributes()).getBaseFont();
+			return getFont(font.getAttributes(), null).getBaseFont();
 		}
 
 		public java.awt.Font pdfToAwt(BaseFont font, int size)

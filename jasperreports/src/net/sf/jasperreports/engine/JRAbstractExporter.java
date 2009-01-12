@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 
 /**
@@ -630,6 +631,18 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
+	protected void setJasperPrint(JasperPrint jasperPrint)
+	{
+		this.jasperPrint = jasperPrint;
+
+		String localeCode = jasperPrint.getLocaleCode();
+		JRStyledTextParser.setLocale(localeCode == null ? null : JRDataUtils.getLocale(localeCode));
+	}
+	
+	
+	/**
+	 *
+	 */
 	protected void setInput() throws JRException
 	{
 		jasperPrintList = (List)parameters.get(JRExporterParameter.JASPER_PRINT_LIST);
@@ -674,7 +687,7 @@ public abstract class JRAbstractExporter implements JRExporter
 					}
 				}
 			}
-
+			
 			jasperPrintList = new ArrayList();
 			jasperPrintList.add(jasperPrint);
 		}
@@ -689,6 +702,8 @@ public abstract class JRAbstractExporter implements JRExporter
 
 			jasperPrint = (JasperPrint)jasperPrintList.get(0);
 		}
+
+		setJasperPrint(jasperPrint);
 
 		filter = (ExporterFilter)parameters.get(JRExporterParameter.FILTER);
 	}
@@ -856,6 +871,12 @@ public abstract class JRAbstractExporter implements JRExporter
 			formatFactoryClass = jasperPrint.getFormatFactoryClass();
 		}
 		return formatFactoryClass;
+	}
+
+	protected Locale getLocale()
+	{
+		String localeCode = jasperPrint.getLocaleCode();
+		return localeCode == null ? null : JRDataUtils.getLocale(localeCode);
 	}
 
 	protected Locale getTextLocale(JRPrintText text)

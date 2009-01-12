@@ -46,26 +46,11 @@ public interface FontFace
 	/**
 	 * 
 	 */
-	public void setName(String name);
-	
-	/**
-	 * 
-	 */
 	public String getFile();
 	
 	/**
 	 * 
 	 */
-	public void setFile(String file);
-	
-	/**
-	 * 
-	 */
 	public Font getFont();
-	
-	/**
-	 * 
-	 */
-	public void setFont(Font font);
 
 }

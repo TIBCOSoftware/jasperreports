@@ -355,7 +355,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
 			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 
 			List pages = jasperPrint.getPages();

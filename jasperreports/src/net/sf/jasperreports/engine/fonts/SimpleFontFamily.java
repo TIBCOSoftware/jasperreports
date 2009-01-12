@@ -27,6 +27,11 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
+import java.util.Locale;
+import java.util.Set;
+
+import net.sf.jasperreports.engine.util.JRDataUtils;
+
 
 
 /**
@@ -45,9 +50,10 @@ public class SimpleFontFamily implements FontFamily
 	private FontFace italicFace = null;
 	private FontFace boldItalicFace = null;
 	private String pdfEncoding = null;
-	private boolean isPdfEmbedded = false;
+	private Boolean isPdfEmbedded = null;
 	private boolean isSimulatedBold = false;
 	private boolean isSimulatedItalic = false;
+	private Set locales = null;
 	
 	/**
 	 * 
@@ -68,25 +74,9 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public String getNormal()
-	{
-		return normalFace == null ? null : normalFace.getFile();
-	}
-	
-	/**
-	 * 
-	 */
 	public void setNormal(String normal)
 	{
 		normalFace = SimpleFontFace.createInstance(normal);
-	}
-	
-	/**
-	 * 
-	 */
-	public String getBold()
-	{
-		return boldFace == null ? null : boldFace.getFile();
 	}
 	
 	/**
@@ -100,25 +90,9 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public String getItalic()
-	{
-		return italicFace == null ? null : italicFace.getFile();
-	}
-	
-	/**
-	 * 
-	 */
 	public void setItalic(String italic)
 	{
 		italicFace = SimpleFontFace.createInstance(italic);
-	}
-	
-	/**
-	 * 
-	 */
-	public String getBoldItalic()
-	{
-		return boldItalicFace == null ? null : boldItalicFace.getFile();
 	}
 	
 	/**
@@ -140,25 +114,9 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public void setNormalFace(FontFace normalFace)
-	{
-		this.normalFace = normalFace;
-	}
-	
-	/**
-	 * 
-	 */
 	public FontFace getBoldFace()
 	{
 		return boldFace;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setBoldFace(FontFace boldFace)
-	{
-		this.boldFace = boldFace;
 	}
 	
 	/**
@@ -172,25 +130,9 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public void setItalicFace(FontFace italicFace)
-	{
-		this.italicFace = italicFace;
-	}
-	
-	/**
-	 * 
-	 */
 	public FontFace getBoldItalicFace()
 	{
 		return boldItalicFace;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setBoldItalicFace(FontFace boldItalicFace)
-	{
-		this.boldItalicFace = boldItalicFace;
 	}
 	
 	/**
@@ -244,7 +186,7 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public boolean isPdfEmbedded()
+	public Boolean isPdfEmbedded()
 	{
 		return isPdfEmbedded;
 	}
@@ -252,9 +194,33 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public void setPdfEmbedded(boolean isPdfEmbedded)
+	public void setPdfEmbedded(Boolean isPdfEmbedded)
 	{
 		this.isPdfEmbedded = isPdfEmbedded;
+	}
+	
+	/**
+	 * 
+	 */
+	public Set getLocales()
+	{
+		return locales;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setLocales(Set locales)
+	{
+		this.locales = locales;
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean supportsLocale(Locale locale)
+	{
+		return locales == null || locales.contains(JRDataUtils.getLocaleCode(locale));
 	}
 	
 }

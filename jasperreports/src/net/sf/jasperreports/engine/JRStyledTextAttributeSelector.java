@@ -29,9 +29,12 @@ package net.sf.jasperreports.engine;
 
 import java.awt.font.TextAttribute;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRFontUtil;
+import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 /**
  * Selector of element-level styled text attributes for print text objects.
@@ -41,19 +44,39 @@ import net.sf.jasperreports.engine.util.JRFontUtil;
  * @see JRPrintText#getStyledText(JRStyledTextAttributeSelector)
  * @see JRPrintText#getFullStyledText(JRStyledTextAttributeSelector)
  */
-public interface JRStyledTextAttributeSelector
+public abstract class JRStyledTextAttributeSelector
 {
-
+	/**
+	 * 
+	 */
+	private static Locale getLocale()
+	{
+		return JRStyledTextParser.getLocale();
+	}
+	
+	/**
+	 * 
+	 */
+	private static Locale getTextLocale(JRPrintText printText)
+	{
+		String localeCode = printText.getLocaleCode();
+		if (localeCode == null)
+		{
+			return getLocale();
+		}
+		return JRDataUtils.getLocale(localeCode);
+	}
+	
 	/**
 	 * Selects all styled text attributes, i.e. font attributes plus forecolor
 	 * and backcolor.
 	 */
-	JRStyledTextAttributeSelector ALL = new JRStyledTextAttributeSelector()
+	public static final JRStyledTextAttributeSelector ALL = new JRStyledTextAttributeSelector()
 	{
 		public Map getStyledTextAttributes(JRPrintText printText)
 		{
 			Map attributes = new HashMap(); 
-			JRFontUtil.getAttributes(attributes, printText);
+			JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
 			if (printText.getMode() == JRElement.MODE_OPAQUE)
 			{
@@ -67,12 +90,12 @@ public interface JRStyledTextAttributeSelector
 	 * Selects all styled text attribute except backcolor, i.e. font attributes
 	 * plus forecolor.
 	 */
-	JRStyledTextAttributeSelector NO_BACKCOLOR = new JRStyledTextAttributeSelector()
+	public static final JRStyledTextAttributeSelector NO_BACKCOLOR = new JRStyledTextAttributeSelector()
 	{
 		public Map getStyledTextAttributes(JRPrintText printText)
 		{
 			Map attributes = new HashMap(); 
-			JRFontUtil.getAttributes(attributes, printText);
+			JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
 			return attributes;
 		}
@@ -81,7 +104,7 @@ public interface JRStyledTextAttributeSelector
 	/**
 	 * Doesn't select any styled text attribute.
 	 */
-	JRStyledTextAttributeSelector NONE = new JRStyledTextAttributeSelector()
+	public static final JRStyledTextAttributeSelector NONE = new JRStyledTextAttributeSelector()
 	{
 		public Map getStyledTextAttributes(JRPrintText printText)
 		{
@@ -96,6 +119,6 @@ public interface JRStyledTextAttributeSelector
 	 * @param printText the print text object
 	 * @return a map containing styled text attributes
 	 */
-	Map getStyledTextAttributes(JRPrintText printText);
+	public abstract Map getStyledTextAttributes(JRPrintText printText);
 	
 }

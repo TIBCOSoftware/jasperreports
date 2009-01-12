@@ -41,6 +41,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedSet;
 
@@ -194,6 +195,15 @@ public class GenericChartTheme implements ChartTheme
 	protected JRFillChartDataset getDataset()
 	{
 		return (JRFillChartDataset)chart.getDataset();
+	}
+	
+	
+	/**
+	 *
+	 */
+	protected Locale getLocale()
+	{
+		return chart.getLocale();
 	}
 	
 	
@@ -2021,7 +2031,7 @@ public class GenericChartTheme implements ChartTheme
 			if(defaultLabelAngle != null)
 				axis.setLabelAngle(defaultLabelAngle.doubleValue());
 			Font themeLabelFont = labelFont != null ? 
-					JRFontUtil.getAwtFont(labelFont) :
+					JRFontUtil.getAwtFont(labelFont, getLocale()) :
 					(Font)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_LABEL_FONT);
 			if(themeLabelFont != null)
 			{
@@ -2068,7 +2078,7 @@ public class GenericChartTheme implements ChartTheme
 		if(defaultAxisTickLabelsVisible != null && defaultAxisTickLabelsVisible.booleanValue())
 		{
 			Font themeTickLabelFont = tickLabelFont != null ? 
-					JRFontUtil.getAwtFont(tickLabelFont) :
+					JRFontUtil.getAwtFont(tickLabelFont, getLocale()) :
 					(Font)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DEFAULT_AXIS_TICK_LABEL_FONT);
 			if(themeTickLabelFont != null)
 			{

@@ -48,7 +48,6 @@ public class SimpleFontFace implements FontFace
 	/**
 	 * 
 	 */
-	private String name = null;
 	private String file = null;
 	private Font font = null;
 	
@@ -60,46 +59,7 @@ public class SimpleFontFace implements FontFace
 		SimpleFontFace fontFace = null;
 		if (file != null)
 		{
-			Font awtFont = null;
-			
-			InputStream is = null;
-			try
-			{
-				is = JRLoader.getLocationInputStream(file);
-			}
-			catch(JRException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			
-			try
-			{
-				awtFont = Font.createFont(Font.TRUETYPE_FONT, is); 
-			}
-			catch(FontFormatException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch(IOException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			finally
-			{
-				try
-				{
-					is.close();
-				}
-				catch (IOException e)
-				{
-				}
-			}
-			
-			fontFace = new SimpleFontFace();
-			fontFace.setFont(awtFont);
-			fontFace.setFile(file);
-			//fontFace.setName((String)awtFont.getAttributes().get(TextAttribute.FAMILY));
-			fontFace.setName(awtFont.getName());
+			fontFace = new SimpleFontFace(file);
 		}
 		return fontFace;
 	}
@@ -107,17 +67,51 @@ public class SimpleFontFace implements FontFace
 	/**
 	 * 
 	 */
-	public String getName()
+	private SimpleFontFace(String file)
 	{
-		return name;
+		this.file = file;
+
+		InputStream is = null;
+		try
+		{
+			is = JRLoader.getLocationInputStream(file);
+		}
+		catch(JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		try
+		{
+			font = Font.createFont(Font.TRUETYPE_FONT, is); 
+		}
+		catch(FontFormatException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch(IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			try
+			{
+				is.close();
+			}
+			catch (IOException e)
+			{
+			}
+		}
 	}
 	
 	/**
 	 * 
 	 */
-	public void setName(String name)
+	public String getName()
 	{
-		this.name = name;
+		//(String)font.getAttributes().get(TextAttribute.FAMILY);
+		return font.getName();
 	}
 	
 	/**
@@ -131,25 +125,9 @@ public class SimpleFontFace implements FontFace
 	/**
 	 * 
 	 */
-	public void setFile(String file)
-	{
-		this.file = file;
-	}
-	
-	/**
-	 * 
-	 */
 	public Font getFont()
 	{
 		return font;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setFont(Font font)
-	{
-		this.font = font;
 	}
 	
 }

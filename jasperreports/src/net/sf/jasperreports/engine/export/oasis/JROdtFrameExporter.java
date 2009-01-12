@@ -291,7 +291,7 @@ public class JROdtFrameExporter extends JRAbstractExporter
 		
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
 
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
