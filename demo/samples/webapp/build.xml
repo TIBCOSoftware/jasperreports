@@ -33,6 +33,8 @@
 		</copy>
 		<copy todir="./applets">
 			<fileset dir="../../../dist" includes="**/jasperreports-*-applet.jar"/>
+			<fileset dir="../../../lib" includes="**/commons-logging-*.jar"/>
+			<fileset dir="../../../lib" includes="**/commons-collections-*.jar"/>
 		</copy>
 		<jar jarfile="./WEB-INF/lib/dejavu-fonts.jar">
 			<fileset dir="../../fonts/"/>

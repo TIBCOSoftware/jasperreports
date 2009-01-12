@@ -227,11 +227,17 @@
 				<include name="**/net/sf/jasperreports/engine/fill/JRTemplate*.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRRecordedValues*.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRVirtualizationContext.class"/>
+				<include name="**/net/sf/jasperreports/engine/fonts/FontBundle.class"/>
+				<include name="**/net/sf/jasperreports/engine/fonts/FontFace.class"/>
+				<include name="**/net/sf/jasperreports/engine/fonts/FontFamily.class"/>
 				<include name="**/net/sf/jasperreports/engine/print/JRPrinterAWT.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/AwtFontDeriver*.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/ClassUtils.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/ContextClassLoaderObjectInputStream.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/FileResolver.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRAbstractImageEncoder.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRClassLoader.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRDataUtils.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRDefaultImageEncoder.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRFontUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRGraphEnvInitializer.class"/>
@@ -251,6 +257,9 @@
 				<include name="**/net/sf/jasperreports/engine/util/MaxFontSizeFinder*.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/ProtectionDomainFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/xml/JRXmlConstants.class"/>
+				<include name="**/net/sf/jasperreports/extensions/DefaultExtensionsRegistry.class"/>
+				<include name="**/net/sf/jasperreports/extensions/ExtensionsEnvironment.class"/>
+				<include name="**/net/sf/jasperreports/extensions/ExtensionsRegistry.class"/>
 				<include name="**/net/sf/jasperreports/renderers/JCommonDrawableRenderer.class"/>
 				<include name="**/net/sf/jasperreports/view/JasperViewer*.class"/>
 				<include name="**/net/sf/jasperreports/view/JRSaveContributor.class"/>
