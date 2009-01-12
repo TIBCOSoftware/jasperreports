@@ -47,7 +47,7 @@ public interface JRValueParameter extends JRParameter
 	/**
 	 * Assigns the value to the parameter.
 	 * 
-	 * @param the value assigned to the parameter
+	 * @param value the value assigned to the parameter
 	 */
 	void setValue(Object value);
 

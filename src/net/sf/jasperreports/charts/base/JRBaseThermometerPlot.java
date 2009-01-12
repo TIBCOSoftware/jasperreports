@@ -161,7 +161,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getValueLocationByte()
+	 * @deprecated Replaced by {@link #getValueLocationByte()}
 	 */
 	public byte getValueLocation()
 	{
