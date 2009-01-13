@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE jasperTemplate
+  PUBLIC "-//JasperReports//DTD Template//EN"
+  "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd">
+
+<jasperTemplate>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="true"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="12" isItalic="true"/>
+</jasperTemplate>

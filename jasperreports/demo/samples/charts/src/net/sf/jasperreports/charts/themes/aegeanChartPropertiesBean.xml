@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="aegeanChartTheme" class="net.sf.jasperreports.charts.themes.AegeanChartTheme" parent="defaultChartTheme">
+		<!-- property name="defaultChartPropertiesMap" ref="aegeanDefaultChartProperties"/-->
+		<property name="defaultChartPropertiesMap">
+			<map merge="true">
+			    <entry key-ref="defaultSeriesColors" value-ref="aegeanSeriesColors"/>
+			    <entry key-ref="defaultChartBorderPaint" value-ref="aegeanChartBorderPaint"/>
+			    <entry key-ref="defaultChartBorderStroke" value-ref="onePointStroke"/>
+			    <entry key-ref="defaultChartBorderVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultBaseFontSize">
+		   	    	<value type="java.lang.Float">8f</value>
+		   	    </entry>
+		   	    <entry key-ref="defaultTitleBaseFontBoldStyle" value-ref="fontBoldStyle"/>
+		   	    <entry key-ref="defaultTitleBaseFontSize">
+		   	    	<value type="java.lang.Float">18f</value>
+		   	    </entry>
+		   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeBottom"/>
+		   	    <entry key-ref="defaultSubtitleHorizontalAlignment" value-ref="leftHorizontalAlignment"/>
+		   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeRight"/>
+		   	    <entry key-ref="defaultLegendHorizontalAlignment" value-ref="rightHorizontalAlignment"/>
+		   	    <entry key-ref="defaultLegendFrame" value-ref="blockBorderNone"/>
+		   	    <entry key-ref="defaultChartPadding">
+		   	    	<value type="java.lang.Double">0.02</value>
+		   	    </entry>
+			</map>		
+		</property>
+		<property name="defaultAxisPropertiesMap">
+			<map merge="true">
+			    <entry key-ref="defaultAxisLinePaint" value-ref="grayPaint134"/>
+			    <entry key-ref="defaultAxisLineStroke" value-ref="onePointStroke"/>
+			    <entry key-ref="defaultAxisLabelFontBoldStyle" value-ref="fontBoldStyle"/>
+			    <entry key-ref="defaultAxisTickLabelFontBoldStyle" value-ref="fontPlainStyle"/>
+			</map>		
+		</property>
+		
+	</bean>
+	
+	<util:list id="aegeanSeriesColors">
+		<ref local="aegeanSeriesColor0"/>
+		<ref local="aegeanSeriesColor1"/>
+		<ref local="aegeanSeriesColor2"/>
+		<ref local="aegeanSeriesColor3"/>
+		<ref local="aegeanSeriesColor4"/>
+		<ref local="aegeanSeriesColor5"/>
+		<ref local="aegeanSeriesColor6"/>
+		<ref local="aegeanSeriesColor7"/>
+	</util:list>
+
+	<bean id="aegeanSeriesColor0" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="156"/>
+		<constructor-arg index="1" type="int" value="181"/>
+		<constructor-arg index="2" type="int" value="218"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor1" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="46"/>
+		<constructor-arg index="1" type="int" value="49"/>
+		<constructor-arg index="2" type="int" value="146"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor2" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="22"/>
+		<constructor-arg index="1" type="int" value="161"/>
+		<constructor-arg index="2" type="int" value="197"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor3" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="170"/>
+		<constructor-arg index="1" type="int" value="185"/>
+		<constructor-arg index="2" type="int" value="51"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor4" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="82"/>
+		<constructor-arg index="1" type="int" value="117"/>
+		<constructor-arg index="2" type="int" value="168"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor5" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="193"/>
+		<constructor-arg index="1" type="int" value="118"/>
+		<constructor-arg index="2" type="int" value="100"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor6" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="0"/>
+		<constructor-arg index="1" type="int" value="82"/>
+		<constructor-arg index="2" type="int" value="37"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor7" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="172"/>
+		<constructor-arg index="1" type="int" value="72"/>
+		<constructor-arg index="2" type="int" value="48"/>
+	</bean>
+
+	<bean id="aegeanChartBorderPaint" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="134"/>
+		<constructor-arg index="1" type="int" value="134"/>
+		<constructor-arg index="2" type="int" value="134"/>
+	</bean>
+
+	<import resource="chartConstantsBean.xml"/>
+</beans>

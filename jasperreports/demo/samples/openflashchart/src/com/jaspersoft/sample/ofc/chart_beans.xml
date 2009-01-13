@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
+		<property name="xmlParser">
+			<ref local="xmlParser"/>
+		</property>
+		<property name="componentManagers">
+			<map>
+				<entry key="pieChart">
+					<ref local="pieChartManager"/>
+				</entry>
+				<entry key="barChart">
+					<ref local="barChartManager"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="xmlParser" class="net.sf.jasperreports.engine.component.DefaultComponentXmlParser">
+		<property name="namespace">
+			<value>http://jaspersoft.com/sample/openflashchart</value>
+		</property>
+		<property name="publicSchemaLocation">
+			<value>http://jaspersoft.com/xsd/openflashchart.xsd</value>
+		</property>
+		<property name="internalSchemaResource">
+			<value>com/jaspersoft/sample/ofc/openflashchart.xsd</value>
+		</property>
+		<property name="digesterConfigurer">
+			<bean class="com.jaspersoft.sample.ofc.ChartsDigester"/>
+		</property>
+	</bean>
+
+	<bean id="pieChartManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+		<property name="componentCompiler">
+			<bean class="com.jaspersoft.sample.ofc.PieChartCompiler"/>
+		</property>
+		<property name="componentXmlWriter">
+			<bean class="com.jaspersoft.sample.ofc.PieChartXmlWriter"/>
+		</property>
+		<property name="componentFillFactory">
+			<bean class="com.jaspersoft.sample.ofc.PieChartFillFactory"/>
+		</property>
+	</bean>
+
+	<bean id="barChartManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+		<property name="componentCompiler">
+			<bean class="com.jaspersoft.sample.ofc.BarChartCompiler"/>
+		</property>
+		<property name="componentXmlWriter">
+			<bean class="com.jaspersoft.sample.ofc.BarChartXmlWriter"/>
+		</property>
+		<property name="componentFillFactory">
+			<bean class="com.jaspersoft.sample.ofc.BarChartFillFactory"/>
+		</property>
+	</bean>
+
+	<bean id="chartsExportHandlerBundle" 
+			class="net.sf.jasperreports.engine.export.DefaultElementHandlerBundle">
+		<property name="namespace" value="http://jaspersoft.com/sample/openflashchart"/>
+		<property name="elementHandlers">
+			<map>
+				<entry key="chart">
+					<map>
+						<entry key="net.sf.jasperreports.html">
+							<bean class="com.jaspersoft.sample.ofc.ChartHtmlHandler"/>
+						</entry>
+					</map>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>

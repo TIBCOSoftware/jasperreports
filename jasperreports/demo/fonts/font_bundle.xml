@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="fontBundle" class="net.sf.jasperreports.engine.fonts.SimpleFontBundle">
+		<property name="fontFamilies">
+			<list>
+				<ref bean="dejaVuSansFamily"/>
+				<ref bean="dejaVuSerifFamily"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dejaVuSansFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
+		<property name="name" value="DejaVu Sans"/>
+		<property name="normal" value="DejaVuSans.ttf"/>
+		<property name="bold" value="DejaVuSans-Bold.ttf"/>
+		<property name="italic" value="DejaVuSans-Oblique.ttf"/>
+		<property name="boldItalic" value="DejaVuSans-BoldOblique.ttf"/>
+		<property name="pdfEncoding" value="Identity-H"/>
+		<property name="pdfEmbedded" value="true"/>
+	</bean>
+
+	<bean id="dejaVuSerifFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
+		<property name="name" value="DejaVu Serif"/>
+		<!--
+		<property name="locales">
+			<set>
+				<value>en_US</value>
+				<value>de_DE</value>
+			</set>
+		</property>
+		-->
+		<property name="normal" value="DejaVuSerif.ttf"/>
+		<property name="bold" value="DejaVuSerif-Bold.ttf"/>
+		<property name="italic" value="DejaVuSerif-Italic.ttf"/>
+		<property name="boldItalic" value="DejaVuSerif-BoldItalic.ttf"/>
+		<property name="pdfEncoding" value="Identity-H"/>
+		<property name="pdfEmbedded" value="true"/>
+	</bean>
+
+</beans>
