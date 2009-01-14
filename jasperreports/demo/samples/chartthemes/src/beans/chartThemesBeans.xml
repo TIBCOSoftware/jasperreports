@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="themeBundle" class="net.sf.jasperreports.charts.themes.ChartThemeMapBundle">
+		<property name="themes">
+			<map>
+				<entry key="generic">
+					<ref local="genericChartTheme"/>
+				</entry>
+				<entry key="default.spring">
+					<ref bean="defaultChartTheme"/>
+				</entry>
+				<entry key="eye.candy.sixties">
+					<ref bean="eyeCandySixtiesChartTheme"/>
+				</entry>
+				<entry key="aegean">
+					<ref bean="aegeanChartTheme"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="genericChartTheme" class="net.sf.jasperreports.charts.themes.GenericChartTheme">
+		<property name="defaultChartPropertiesMap">
+			<map>
+		   	    <entry key-ref="defaultTitleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultSubtitleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultLegendVisible" value-ref="isTrue"/>
+			</map>
+		</property>
+		<property name="defaultPlotPropertiesMap">
+			<map>
+		   	    <entry key-ref="defaultPlotBackgroundPaint" value-ref="transparentPaint"/>
+		   	    <entry key-ref="defaultPlotBackgroundAlpha">
+		   	    	<value type="java.lang.Float">1f</value>
+		   	    </entry>
+		   	    <entry key-ref="defaultPlotForegroundAlpha">
+		   	    	<value type="java.lang.Float">1f</value>
+		   	    </entry>
+			</map>
+		</property>
+		<property name="defaultAxisPropertiesMap">
+			<map>
+		   	    <entry key-ref="defaultAxisVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisLineVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisLabelVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisTickLabelsVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisTickMarksVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultAxisLocation" value-ref="axisLocationTopOrLeft"/>
+			</map>
+		</property>
+		<property name="defaultChartTypePropertiesMap">
+			<null/>
+		</property>
+	</bean>
+
+	<import resource="defaultChartPropertiesBean.xml"/>
+	<import resource="eyeCandySixtiesChartPropertiesBean.xml"/>
+	<import resource="aegeanChartPropertiesBean.xml"/>
+	
+</beans>
