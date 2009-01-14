@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="eyeCandySixtiesChartTheme" class="net.sf.jasperreports.charts.themes.EyeCandySixtiesChartTheme" parent="defaultChartTheme">
+		<!-- property name="defaultChartPropertiesMap" ref="eyeCandySixtiesDefaultChartProperties"/-->
+		<property name="defaultChartPropertiesMap">
+			<map merge="true">
+			    <entry key-ref="defaultBackgroundPaint" value-ref="eyeCandySixtiesDefaultBackgroundColor"/>
+			    <entry key-ref="defaultSeriesColors" value-ref="eyeCandySixtiesSeriesColors"/>
+			    <entry key-ref="defaultSeriesGradientPaints" value-ref="eyeCandySixtiesSeriesGradientPaints"/>
+			    <entry key-ref="defaultChartBorderPaint" value-ref="eyeCandySixtiesChartBorderPaint"/>
+			    <entry key-ref="defaultChartBorderStroke" value-ref="threePointStroke"/>
+			    <entry key-ref="defaultChartBorderVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="defaultBaseFontSize">
+		   	    	<value type="java.lang.Float">8f</value>
+		   	    </entry>
+		   	    <entry key-ref="defaultTitleBaseFontBoldStyle" value-ref="fontBoldStyle"/>
+		   	    <entry key-ref="defaultTitleBaseFontSize">
+		   	    	<value type="java.lang.Float">18f</value>
+		   	    </entry>
+		   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeBottom"/>
+		   	    <entry key-ref="defaultSubtitleHorizontalAlignment" value-ref="leftHorizontalAlignment"/>
+		   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeRight"/>
+		   	    <entry key-ref="defaultLegendHorizontalAlignment" value-ref="rightHorizontalAlignment"/>
+		   	    <entry key-ref="defaultLegendFrame" value-ref="blockBorderNone"/>
+		   	    <entry key-ref="defaultChartPadding">
+		   	    	<value type="java.lang.Double">0.02</value>
+		   	    </entry>
+			</map>
+		</property>
+		<property name="defaultAxisPropertiesMap">
+			<map merge="true">
+			    <entry key-ref="defaultAxisLinePaint" value-ref="grayPaint134"/>
+			    <entry key-ref="defaultAxisLineStroke" value-ref="onePointStroke"/>
+			    <entry key-ref="defaultAxisLabelFontBoldStyle" value-ref="fontBoldStyle"/>
+			    <entry key-ref="defaultAxisTickLabelFontBoldStyle" value-ref="fontPlainStyle"/>
+			</map>		
+		</property>
+	</bean>
+
+	<bean id="eyeCandySixtiesDefaultBackgroundColor" class="java.awt.GradientPaint">
+		<constructor-arg index="0" value="0f"/>
+		<constructor-arg index="1" value="0f"/>
+		<constructor-arg index="2" ref="eyeCandySixtiesBackgroundColor1"/>
+		<constructor-arg index="3" value="0f"/>
+		<constructor-arg index="4" value="0f"/>
+		<constructor-arg index="5" ref="whiteColor"/>
+		<constructor-arg index="6" value="false"/>
+	</bean>
+
+	<bean id="eyeCandySixtiesBackgroundColor1" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="41"/>
+		<constructor-arg index="1" type="int" value="120"/>
+		<constructor-arg index="2" type="int" value="162"/>
+	</bean>
+
+	<bean id="eyeCandySixtiesChartBorderPaint" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="27"/>
+		<constructor-arg index="1" type="int" value="80"/>
+		<constructor-arg index="2" type="int" value="108"/>
+	</bean>
+
+	<import resource="chartConstantsBean.xml"/>
+</beans>
