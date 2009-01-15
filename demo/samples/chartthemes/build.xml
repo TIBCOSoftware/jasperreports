@@ -164,7 +164,7 @@
 
 	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="${file.name}.jrxml"/>
+			<arg value="${basedir}/reports/AllChartsReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
