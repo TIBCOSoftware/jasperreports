@@ -574,7 +574,7 @@
 			</band>
 		</groupHeader>
 	</group>
-	<!-- group name="XyBarTimePeriod">
+	<group name="XyBarTimePeriod">
 		<groupExpression><![CDATA[null]]></groupExpression>
 		<groupHeader>
 			<band height="400">
@@ -647,7 +647,7 @@
 				</xyBarChart>
 			</band>
 		</groupHeader>
-	</group-->
+	</group>
 	<group name="XyArea">
 		<groupExpression><![CDATA[null]]></groupExpression>
 		<groupHeader>
@@ -763,7 +763,7 @@
 			</band>
 		</groupHeader>
 	</group>
-	<!-- group name="TimeSeries">
+	<group name="TimeSeries">
 		<groupExpression><![CDATA[null]]></groupExpression>
 		<groupHeader>
 			<band height="400">
@@ -794,10 +794,6 @@
 					<timeSeriesPlot isShowLines="true" isShowShapes="true">
 						<plot/>
 						<timeAxisLabelExpression><![CDATA["Time"]]></timeAxisLabelExpression>
-						<timeAxisFormat>
-							<axisFormat tickLabelMask="yyyy-MM-dd hh:mm:ss">
-							</axisFormat>
-						</timeAxisFormat>
 						<valueAxisLabelExpression><![CDATA["Amount"]]></valueAxisLabelExpression>
 					</timeSeriesPlot>
 				</timeSeriesChart>
@@ -836,16 +832,12 @@
 					<highLowPlot>
 						<plot/>
 						<timeAxisLabelExpression><![CDATA["Time"]]></timeAxisLabelExpression>
-						<timeAxisFormat>
-							<axisFormat tickLabelMask="yyyy-MM-dd hh:mm:ss">
-							</axisFormat>
-						</timeAxisFormat>
 						<valueAxisLabelExpression><![CDATA["Amount"]]></valueAxisLabelExpression>
 					</highLowPlot>
 				</highLowChart>
 			</band>
 		</groupHeader>
-	</group-->
+	</group>
 	<group name="Meter">
 		<groupExpression><![CDATA[null]]></groupExpression>
 		<groupHeader>

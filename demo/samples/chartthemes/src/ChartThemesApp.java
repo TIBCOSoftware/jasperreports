@@ -26,6 +26,7 @@
  * http://www.jaspersoft.com
  */
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -151,16 +152,19 @@ public class ChartThemesApp
 				JRCsvDataSource tsds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("datasources/timeSeriesDatasource.csv"), "UTF-8");
 				tsds1.setRecordDelimiter("\r\n");
 				tsds1.setUseFirstRowAsHeader(true);
+				tsds1.setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
 				parameters.put("timeSeriesDatasource1", tsds1);
 				
 				JRCsvDataSource tsds2 = new JRCsvDataSource(JRLoader.getLocationInputStream("datasources/timeSeriesDatasource.csv"), "UTF-8");
 				tsds2.setRecordDelimiter("\r\n");
 				tsds2.setUseFirstRowAsHeader(true);
+				tsds2.setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
 				parameters.put("timeSeriesDatasource2", tsds2);
 				
 				JRCsvDataSource tsds3 = new JRCsvDataSource(JRLoader.getLocationInputStream("datasources/timeSeriesDatasource.csv"), "UTF-8");
 				tsds3.setRecordDelimiter("\r\n");
 				tsds3.setUseFirstRowAsHeader(true);
+				tsds3.setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
 				parameters.put("timeSeriesDatasource3", tsds3);
 				
 				JRCsvDataSource xyds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("datasources/xyDatasource.csv"), "UTF-8");
