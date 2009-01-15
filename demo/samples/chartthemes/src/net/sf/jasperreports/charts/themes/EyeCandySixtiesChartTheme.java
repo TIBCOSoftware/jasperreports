@@ -146,7 +146,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			title.setPadding(padding.getTop(), padding.getLeft(), bottomPadding, padding.getRight());
 		}
 
-		GradientPaint gp = (GradientPaint)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_BACKGROUND_PAINT);
+		GradientPaint gp = (GradientPaint)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_PAINT);
 
 		jfreeChart.setBackgroundPaint(new GradientPaint(0f, 0f, gp.getColor1(), 0f, chart.getHeight() * 0.7f, gp.getColor2(), false));
 	}
