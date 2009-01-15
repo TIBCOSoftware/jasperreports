@@ -71,15 +71,15 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	{
 		super(highLowPlot, factory);
 
-		timeAxisLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getTimeAxisLabelFont());
+		timeAxisLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getTimeAxisLabelFont());
 		timeAxisLabelColor = highLowPlot.getOwnTimeAxisLabelColor();
-		timeAxisTickLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = highLowPlot.getOwnTimeAxisTickLabelColor();
 		timeAxisLineColor = highLowPlot.getOwnTimeAxisLineColor();
 		
-		valueAxisLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getValueAxisLabelFont());
+		valueAxisLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = highLowPlot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = highLowPlot.getOwnValueAxisTickLabelColor();
 		valueAxisLineColor = highLowPlot.getOwnValueAxisTickLabelColor();
 	}
@@ -100,13 +100,6 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 		return timeAxisLabelFont;
 	}
 
-	/**
-	 *
-	 */
-	public void setTimeAxisLabelFont(JRFont font)
-	{
-	}
-	
 	/**
 	 *
 	 */
@@ -138,13 +131,6 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 		return timeAxisTickLabelFont;
 	}
 
-	/**
-	 *
-	 */
-	public void setTimeAxisTickLabelFont(JRFont font)
-	{
-	}
-	
 	/**
 	 *
 	 */
@@ -225,13 +211,6 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	/**
 	 *
 	 */
-	public void setValueAxisLabelFont(JRFont font)
-	{
-	}
-	
-	/**
-	 *
-	 */
 	public Color getValueAxisLabelColor()
 	{
 		return JRStyleResolver.getValueAxisLabelColor(this, this);
@@ -260,13 +239,6 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 		return valueAxisTickLabelFont;
 	}
 
-	/**
-	 *
-	 */
-	public void setValueAxisTickLabelFont(JRFont font)
-	{
-	}
-	
 	/**
 	 *
 	 */

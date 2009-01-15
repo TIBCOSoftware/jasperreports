@@ -65,15 +65,15 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	public JRFillScatterPlot( JRScatterPlot plot, JRFillObjectFactory factory ){
 		super( plot, factory );
 		
-		xAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getXAxisLabelFont());
+		xAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getXAxisLabelFont());
 		xAxisLabelColor = plot.getOwnXAxisLabelColor();
-		xAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getXAxisTickLabelFont());
+		xAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getXAxisTickLabelFont());
 		xAxisTickLabelColor = plot.getOwnXAxisTickLabelColor();
 		xAxisLineColor = plot.getOwnXAxisLineColor();
 		
-		yAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getYAxisLabelFont());
+		yAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getYAxisLabelFont());
 		yAxisLabelColor = plot.getOwnYAxisLabelColor();
-		yAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getYAxisTickLabelFont());
+		yAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getYAxisTickLabelFont());
 		yAxisTickLabelColor = plot.getOwnYAxisTickLabelColor();
 		yAxisLineColor = plot.getOwnYAxisLineColor();
 	}

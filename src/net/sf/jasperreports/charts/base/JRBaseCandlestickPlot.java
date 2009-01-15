@@ -31,8 +31,6 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-import org.jfree.chart.renderer.category.BarRenderer3D;
-
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
@@ -96,17 +94,17 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		showVolume = candlestickPlot.getShowVolume();
 
 		timeAxisLabelExpression = factory.getExpression( candlestickPlot.getTimeAxisLabelExpression() );
-		timeAxisLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getTimeAxisLabelFont());
+		timeAxisLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getTimeAxisLabelFont());
 		timeAxisLabelColor = candlestickPlot.getOwnTimeAxisLabelColor();
-		timeAxisTickLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = candlestickPlot.getOwnTimeAxisTickLabelColor();
 		timeAxisTickLabelMask = candlestickPlot.getTimeAxisTickLabelMask();
 		timeAxisLineColor = candlestickPlot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression(candlestickPlot.getValueAxisLabelExpression() );
-		valueAxisLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getValueAxisLabelFont());
+		valueAxisLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = candlestickPlot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = candlestickPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = candlestickPlot.getValueAxisTickLabelMask();
 		valueAxisLineColor = candlestickPlot.getOwnValueAxisTickLabelColor();

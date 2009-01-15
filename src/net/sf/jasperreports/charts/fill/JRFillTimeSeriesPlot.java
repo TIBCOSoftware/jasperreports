@@ -66,15 +66,15 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	public JRFillTimeSeriesPlot( JRTimeSeriesPlot plot, JRFillObjectFactory factory ){
 		super( plot, factory );
 
-		timeAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getTimeAxisLabelFont());
+		timeAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getTimeAxisLabelFont());
 		timeAxisLabelColor = plot.getOwnTimeAxisLabelColor();
-		timeAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = plot.getOwnTimeAxisTickLabelColor();
 		timeAxisLineColor = plot.getOwnTimeAxisLineColor();
 		
-		valueAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getValueAxisLabelFont());
+		valueAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getValueAxisLabelFont());
 		valueAxisLabelColor = plot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = plot.getOwnValueAxisTickLabelColor();
 		valueAxisLineColor = plot.getOwnValueAxisTickLabelColor();
 	}
@@ -95,13 +95,6 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 		return timeAxisLabelFont;
 	}
 
-	/**
-	 *
-	 */
-	public void setTimeAxisLabelFont(JRFont font)
-	{
-	}
-	
 	/**
 	 *
 	 */
@@ -133,13 +126,6 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 		return timeAxisTickLabelFont;
 	}
 
-	/**
-	 *
-	 */
-	public void setTimeAxisTickLabelFont(JRFont font)
-	{
-	}
-	
 	/**
 	 *
 	 */
@@ -220,13 +206,6 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	/**
 	 *
 	 */
-	public void setValueAxisLabelFont(JRFont font)
-	{
-	}
-	
-	/**
-	 *
-	 */
 	public Color getValueAxisLabelColor()
 	{
 		return JRStyleResolver.getValueAxisLabelColor(this, this);
@@ -255,13 +234,6 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 		return valueAxisTickLabelFont;
 	}
 
-	/**
-	 *
-	 */
-	public void setValueAxisTickLabelFont(JRFont font)
-	{
-	}
-	
 	/**
 	 *
 	 */

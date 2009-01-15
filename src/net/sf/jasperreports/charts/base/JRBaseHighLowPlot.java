@@ -100,17 +100,17 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		showCloseTicks = highLowPlot.getShowCloseTicks();
 
 		timeAxisLabelExpression = factory.getExpression( highLowPlot.getTimeAxisLabelExpression() );
-		timeAxisLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getTimeAxisLabelFont());
+		timeAxisLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getTimeAxisLabelFont());
 		timeAxisLabelColor = highLowPlot.getOwnTimeAxisLabelColor();
-		timeAxisTickLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = highLowPlot.getOwnTimeAxisTickLabelColor();
 		timeAxisTickLabelMask = highLowPlot.getTimeAxisTickLabelMask();
 		timeAxisLineColor = highLowPlot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( highLowPlot.getValueAxisLabelExpression() );
-		valueAxisLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getValueAxisLabelFont());
+		valueAxisLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = highLowPlot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = highLowPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = highLowPlot.getValueAxisTickLabelMask();
 		valueAxisLineColor = highLowPlot.getOwnValueAxisTickLabelColor();
