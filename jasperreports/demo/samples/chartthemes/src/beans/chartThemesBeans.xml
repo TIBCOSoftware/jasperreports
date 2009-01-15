@@ -26,30 +26,30 @@
 	<bean id="genericChartTheme" class="net.sf.jasperreports.charts.themes.GenericChartTheme">
 		<property name="defaultChartPropertiesMap">
 			<map>
-		   	    <entry key-ref="defaultTitleVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultSubtitleVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultLegendVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="titleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="subtitleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="legendVisible" value-ref="isTrue"/>
 			</map>
 		</property>
 		<property name="defaultPlotPropertiesMap">
 			<map>
-		   	    <entry key-ref="defaultPlotBackgroundPaint" value-ref="transparentPaint"/>
-		   	    <entry key-ref="defaultPlotBackgroundAlpha">
+		   	    <entry key-ref="plotBackgroundPaint" value-ref="transparentPaint"/>
+		   	    <entry key-ref="plotBackgroundAlpha">
 		   	    	<value type="java.lang.Float">1f</value>
 		   	    </entry>
-		   	    <entry key-ref="defaultPlotForegroundAlpha">
+		   	    <entry key-ref="plotForegroundAlpha">
 		   	    	<value type="java.lang.Float">1f</value>
 		   	    </entry>
 			</map>
 		</property>
 		<property name="defaultAxisPropertiesMap">
 			<map>
-		   	    <entry key-ref="defaultAxisVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultAxisLineVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultAxisLabelVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultAxisTickLabelsVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultAxisTickMarksVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultAxisLocation" value-ref="axisLocationTopOrLeft"/>
+		   	    <entry key-ref="axisVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisLineVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisLabelVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisTickLabelsVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisTickMarksVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisLocation" value-ref="axisLocationTopOrLeft"/>
 			</map>
 		</property>
 		<property name="defaultChartTypePropertiesMap">

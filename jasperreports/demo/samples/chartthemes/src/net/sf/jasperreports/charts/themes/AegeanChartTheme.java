@@ -355,7 +355,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelsVisible(true);
 		BarRenderer barRenderer = (BarRenderer)categoryRenderer;
-		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SERIES_COLORS);
+		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
 		barRenderer.setSeriesPaint(0, (Paint)seriesPaints.get(3));
 		barRenderer.setSeriesPaint(1, (Paint)seriesPaints.get(0));
 		for(int i = 0; i < categoryDataset.getRowCount(); i++)
@@ -514,7 +514,7 @@ public class AegeanChartTheme extends GenericChartTheme
 
 		// Set the color of the mercury.  Only used when the value is outside of
 		// any defined ranges.
-		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SERIES_COLORS);
+		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
 		
 		Paint paint = (jrPlot.getMercuryColor() != null ? (Paint)jrPlot.getMercuryColor() : (Paint)seriesPaints.get(0));
 		chartPlot.setMercuryPaint(paint);
@@ -804,7 +804,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		CandlestickRenderer renderer = (CandlestickRenderer)xyPlot.getRenderer();
 		DefaultHighLowDataset dataset = (DefaultHighLowDataset)xyPlot.getDataset();
-		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.DEFAULT_SERIES_COLORS);
+		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
 
 		for(int i = 0; i < dataset.getSeriesCount(); i++)
 		{

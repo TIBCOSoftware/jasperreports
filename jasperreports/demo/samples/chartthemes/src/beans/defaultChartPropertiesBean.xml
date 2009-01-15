@@ -12,64 +12,65 @@
 	<bean id="defaultChartTheme" class="net.sf.jasperreports.charts.themes.GenericChartTheme">
 		<property name="defaultChartPropertiesMap">
 			<map>
-			    <entry key-ref="defaultBackgroundPaint" value-ref="transparentPaint"/>
+			    <entry key-ref="backgroundPaint" value-ref="transparentPaint"/>
 			    
-		   	    <entry key-ref="defaultTitleVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultSubtitleVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultLegendVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="titleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="subtitleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="legendVisible" value-ref="isTrue"/>
 			    
-		   	    <entry key-ref="defaultTitlePosition" value-ref="rectangleEdgeTop"/>
-		   	    <entry key-ref="defaultTitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
-		   	    <entry key-ref="defaultTitleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
-		   	    <entry key-ref="defaultTitleForecolor" value-ref="blackColor"/>
-		   	    <entry key-ref="defaultTitleBackcolor" value-ref="transparentPaint"/>
-		   	    <entry key-ref="defaultTitleHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
+		   	    <entry key-ref="titlePosition" value-ref="rectangleEdgeTop"/>
+		   	    <entry key-ref="titleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="titleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="titleForecolor" value-ref="blackColor"/>
+		   	    <entry key-ref="titleBackcolor" value-ref="transparentPaint"/>
+		   	    <entry key-ref="titleHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
 				
-		   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeTop"/>
-		   	    <entry key-ref="defaultSubtitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
-		   	    <entry key-ref="defaultSubtitleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
-		   	    <entry key-ref="defaultSubtitleForecolor" value-ref="blackColor"/>
-		   	    <entry key-ref="defaultSubtitleBackcolor" value-ref="transparentPaint"/>
-		   	    <entry key-ref="defaultSubtitleHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
+		   	    <entry key-ref="subtitlePosition" value-ref="rectangleEdgeTop"/>
+		   	    <entry key-ref="subtitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="subtitleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="subtitleForecolor" value-ref="blackColor"/>
+		   	    <entry key-ref="subtitleBackcolor" value-ref="transparentPaint"/>
+		   	    <entry key-ref="subtitleHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
 		   	    
-		   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeBottom"/>
-		   	    <entry key-ref="defaultLegendBaseFontBoldStyle" value-ref="fontPlainStyle"/>
-		   	    <entry key-ref="defaultLegendBaseFontItalicStyle" value-ref="fontPlainStyle"/>
-		   	    <entry key-ref="defaultLegendForecolor" value-ref="blackColor"/>
-		   	    <entry key-ref="defaultLegendBackcolor" value-ref="transparentPaint"/>
-		   	    <entry key-ref="defaultLegendHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
+		   	    <entry key-ref="legendPosition" value-ref="rectangleEdgeBottom"/>
+		   	    <entry key-ref="legendBaseFontBoldStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="legendBaseFontItalicStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="legendForecolor" value-ref="blackColor"/>
+		   	    <entry key-ref="legendBackcolor" value-ref="transparentPaint"/>
+		   	    <entry key-ref="legendHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
 
-			    <entry key-ref="defaultChartBorderVisible" value-ref="isFalse"/>
-			    <entry key-ref="defaultChartAntiAlias" value-ref="isTrue"/>
-			    <entry key-ref="defaultUnitType" value-ref="unitTypeRelative"/>
+			    <entry key-ref="chartBorderVisible" value-ref="isFalse"/>
+			    <entry key-ref="chartAntiAlias" value-ref="isTrue"/>
+			    <entry key-ref="unitType" value-ref="unitTypeRelative"/>
 			    
 			</map>
 		</property>
 		<property name="defaultPlotPropertiesMap">
 			<map>
-				<entry key-ref="defaultPlotOutlineVisible" value-ref="isFalse"/>
-		   	    <entry key-ref="defaultPlotBackgroundPaint" value-ref="transparentPaint"/>
-		   	    <entry key-ref="defaultPlotBackgroundAlpha">
+				<entry key-ref="plotOutlineVisible" value-ref="isFalse"/>
+		   	    <entry key-ref="plotBackgroundPaint" value-ref="transparentPaint"/>
+		   	    <entry key-ref="plotBackgroundAlpha">
 		   	    	<value type="java.lang.Float">1f</value>
 		   	    </entry>
-		   	    <entry key-ref="defaultPlotForegroundAlpha">
+		   	    <entry key-ref="plotForegroundAlpha">
 		   	    	<value type="java.lang.Float">1f</value>
 		   	    </entry>
 			</map>
 		</property>
 		<property name="defaultAxisPropertiesMap">
 			<map>
-		   	    <entry key-ref="defaultAxisVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultAxisLineVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultAxisLabelVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultAxisTickLabelsVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultAxisTickMarksVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultAxisLocation" value-ref="axisLocationTopOrLeft"/>
+		   	    <entry key-ref="axisVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisLineVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisLabelVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisTickLabelsVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisTickMarksVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisLocation" value-ref="axisLocationTopOrLeft"/>
 			</map>
 		</property>
-		<property name="defaultChartTypePropertiesMap" ref="defaultChartTypeProperties"/>
+		<property name="defaultChartTypePropertiesMap">
+			<null/>
+		</property>
 	</bean>
 
-	<import resource="defaultChartTypePropertiesBean.xml"/>
 	<import resource="chartConstantsBean.xml"/>
 </beans>

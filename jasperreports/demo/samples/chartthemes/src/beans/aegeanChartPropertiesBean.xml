@@ -11,37 +11,37 @@
 		<!-- property name="defaultChartPropertiesMap" ref="aegeanDefaultChartProperties"/-->
 		<property name="defaultChartPropertiesMap">
 			<map merge="true">
-			    <entry key-ref="defaultSeriesColors" value-ref="aegeanSeriesColors"/>
-			    <entry key-ref="defaultChartBorderPaint" value-ref="aegeanChartBorderPaint"/>
-			    <entry key-ref="defaultChartBorderStroke" value-ref="onePointStroke"/>
-			    <entry key-ref="defaultChartBorderVisible" value-ref="isTrue"/>
-		   	    <entry key-ref="defaultBaseFontSize">
+			    <entry key-ref="seriesColors" value-ref="aegeanSeriesColors"/>
+			    <entry key-ref="chartBorderPaint" value-ref="aegeanChartBorderPaint"/>
+			    <entry key-ref="chartBorderStroke" value-ref="onePointStroke"/>
+			    <entry key-ref="chartBorderVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="baseFontSize">
 		   	    	<value type="java.lang.Float">8f</value>
 		   	    </entry>
-		   	    <entry key-ref="defaultTitleBaseFontBoldStyle" value-ref="fontBoldStyle"/>
-		   	    <entry key-ref="defaultTitleBaseFontSize">
+		   	    <entry key-ref="titleBaseFontBoldStyle" value-ref="fontBoldStyle"/>
+		   	    <entry key-ref="titleBaseFontSize">
 		   	    	<value type="java.lang.Float">18f</value>
 		   	    </entry>
-		   	    <entry key-ref="defaultSubtitlePosition" value-ref="rectangleEdgeBottom"/>
-		   	    <entry key-ref="defaultSubtitleHorizontalAlignment" value-ref="leftHorizontalAlignment"/>
-		   	    <entry key-ref="defaultLegendPosition" value-ref="rectangleEdgeRight"/>
-		   	    <entry key-ref="defaultLegendHorizontalAlignment" value-ref="rightHorizontalAlignment"/>
-		   	    <entry key-ref="defaultLegendFrame" value-ref="blockBorderNone"/>
-		   	    <entry key-ref="defaultChartPadding">
+		   	    <entry key-ref="subtitlePosition" value-ref="rectangleEdgeBottom"/>
+		   	    <entry key-ref="subtitleHorizontalAlignment" value-ref="leftHorizontalAlignment"/>
+		   	    <entry key-ref="legendPosition" value-ref="rectangleEdgeRight"/>
+		   	    <entry key-ref="legendHorizontalAlignment" value-ref="rightHorizontalAlignment"/>
+		   	    <entry key-ref="legendFrame" value-ref="blockBorderNone"/>
+		   	    <entry key-ref="chartPadding">
 		   	    	<value type="java.lang.Double">0.02</value>
 		   	    </entry>
 			</map>		
 		</property>
 		<property name="defaultAxisPropertiesMap">
 			<map merge="true">
-			    <entry key-ref="defaultAxisLinePaint" value-ref="grayPaint134"/>
-			    <entry key-ref="defaultAxisLineStroke" value-ref="onePointStroke"/>
-			    <entry key-ref="defaultAxisLabelFontBoldStyle" value-ref="fontBoldStyle"/>
-			    <entry key-ref="defaultAxisTickLabelFontBoldStyle" value-ref="fontPlainStyle"/>
-			    <!-- entry key-ref="defaultRangeAxisTickCount">
+			    <entry key-ref="axisLinePaint" value-ref="grayPaint134"/>
+			    <entry key-ref="axisLineStroke" value-ref="onePointStroke"/>
+			    <entry key-ref="axisLabelFontBoldStyle" value-ref="fontBoldStyle"/>
+			    <entry key-ref="axisTickLabelFontBoldStyle" value-ref="fontPlainStyle"/>
+			    <!-- entry key-ref="rangeAxisTickCount">
 			    	<value type="java.lang.Integer">5</value>
 			    </entry>
-			    <entry key-ref="defaultDomainAxisTickCount">
+			    <entry key-ref="domainAxisTickCount">
 			    	<value type="java.lang.Integer">4</value>
 			    </entry-->
 			    
