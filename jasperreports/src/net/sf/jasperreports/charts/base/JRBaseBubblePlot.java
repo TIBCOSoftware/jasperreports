@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
-import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 /**
@@ -92,17 +91,17 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		scaleTypeInteger = bubblePlot.getScaleTypeInteger();
 		
 		xAxisLabelExpression = factory.getExpression( bubblePlot.getXAxisLabelExpression() );
-		xAxisLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getXAxisLabelFont());
+		xAxisLabelFont = new JRBaseFont(bubblePlot.getChart(), bubblePlot.getXAxisLabelFont());
 		xAxisLabelColor = bubblePlot.getOwnXAxisLabelColor();
-		xAxisTickLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getXAxisTickLabelFont());
+		xAxisTickLabelFont = new JRBaseFont(bubblePlot.getChart(), bubblePlot.getXAxisTickLabelFont());
 		xAxisTickLabelColor = bubblePlot.getOwnXAxisTickLabelColor();
 		xAxisTickLabelMask = bubblePlot.getXAxisTickLabelMask();
 		xAxisLineColor = bubblePlot.getOwnXAxisLineColor();
 		
 		yAxisLabelExpression = factory.getExpression( bubblePlot.getYAxisLabelExpression() );
-		yAxisLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getYAxisLabelFont());
+		yAxisLabelFont = new JRBaseFont(bubblePlot.getChart(), bubblePlot.getYAxisLabelFont());
 		yAxisLabelColor = bubblePlot.getOwnYAxisLabelColor();
-		yAxisTickLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getYAxisTickLabelFont());
+		yAxisTickLabelFont = new JRBaseFont(bubblePlot.getChart(), bubblePlot.getYAxisTickLabelFont());
 		yAxisTickLabelColor = bubblePlot.getOwnYAxisTickLabelColor();
 		yAxisTickLabelMask = bubblePlot.getYAxisTickLabelMask();
 		yAxisLineColor = bubblePlot.getOwnYAxisLineColor();

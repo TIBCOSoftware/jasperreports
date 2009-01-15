@@ -91,17 +91,17 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 		showShapes = plot.getShowShapes();
 		
 		timeAxisLabelExpression = factory.getExpression( plot.getTimeAxisLabelExpression() );
-		timeAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getTimeAxisLabelFont());
+		timeAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getTimeAxisLabelFont());
 		timeAxisLabelColor = plot.getOwnTimeAxisLabelColor();
-		timeAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = plot.getOwnTimeAxisTickLabelColor();
 		timeAxisTickLabelMask = plot.getTimeAxisTickLabelMask();
 		timeAxisLineColor = plot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( plot.getValueAxisLabelExpression() );
-		valueAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getValueAxisLabelFont());
+		valueAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getValueAxisLabelFont());
 		valueAxisLabelColor = plot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = plot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = plot.getValueAxisTickLabelMask();
 		valueAxisLineColor = plot.getOwnValueAxisTickLabelColor();

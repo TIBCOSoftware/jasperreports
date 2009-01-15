@@ -66,15 +66,15 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	public JRFillBubblePlot( JRBubblePlot bubblePlot, JRFillObjectFactory factory ){
 		super( bubblePlot, factory );
 		
-		xAxisLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getXAxisLabelFont());
+		xAxisLabelFont = new JRBaseFont(bubblePlot.getChart(), bubblePlot.getXAxisLabelFont());
 		xAxisLabelColor = bubblePlot.getOwnXAxisLabelColor();
-		xAxisTickLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getXAxisTickLabelFont());
+		xAxisTickLabelFont = new JRBaseFont(bubblePlot.getChart(), bubblePlot.getXAxisTickLabelFont());
 		xAxisTickLabelColor = bubblePlot.getOwnXAxisTickLabelColor();
 		xAxisLineColor = bubblePlot.getOwnXAxisLineColor();
 		
-		yAxisLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getYAxisLabelFont());
+		yAxisLabelFont = new JRBaseFont(bubblePlot.getChart(), bubblePlot.getYAxisLabelFont());
 		yAxisLabelColor = bubblePlot.getOwnYAxisLabelColor();
-		yAxisTickLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getYAxisTickLabelFont());
+		yAxisTickLabelFont = new JRBaseFont(bubblePlot.getChart(), bubblePlot.getYAxisTickLabelFont());
 		yAxisTickLabelColor = bubblePlot.getOwnYAxisTickLabelColor();
 		yAxisLineColor = bubblePlot.getOwnYAxisLineColor();
 	}

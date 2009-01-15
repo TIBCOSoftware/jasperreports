@@ -66,15 +66,15 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	public JRFillBar3DPlot( JRBar3DPlot barPlot, JRFillObjectFactory factory ){
 		super( barPlot, factory );
 
-		categoryAxisLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getCategoryAxisLabelFont()); 
+		categoryAxisLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getCategoryAxisLabelFont()); 
 		categoryAxisLabelColor = barPlot.getOwnCategoryAxisLabelColor();
-		categoryAxisTickLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getCategoryAxisTickLabelFont());
+		categoryAxisTickLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getCategoryAxisTickLabelFont());
 		categoryAxisTickLabelColor = barPlot.getOwnCategoryAxisTickLabelColor();
 		categoryAxisLineColor = barPlot.getOwnCategoryAxisLineColor();
 		
-		valueAxisLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getValueAxisLabelFont());
+		valueAxisLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = barPlot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = barPlot.getOwnValueAxisTickLabelColor();
 		valueAxisLineColor = barPlot.getOwnValueAxisLineColor();
 	}
@@ -95,13 +95,6 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 		return categoryAxisLabelFont;
 	}
 
-	/**
-	 *
-	 */
-	public void setCategoryAxisLabelFont(JRFont font)
-	{
-	}
-	
 	/**
 	 *
 	 */
@@ -133,13 +126,6 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 		return categoryAxisTickLabelFont;
 	}
 
-	/**
-	 *
-	 */
-	public void setCategoryAxisTickLabelFont(JRFont font)
-	{
-	}
-	
 	/**
 	 *
 	 */
@@ -220,13 +206,6 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	/**
 	 *
 	 */
-	public void setValueAxisLabelFont(JRFont font)
-	{
-	}
-	
-	/**
-	 *
-	 */
 	public Color getValueAxisLabelColor()
 	{
 		return JRStyleResolver.getValueAxisLabelColor(this, this);
@@ -255,13 +234,6 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 		return valueAxisTickLabelFont;
 	}
 
-	/**
-	 *
-	 */
-	public void setValueAxisTickLabelFont(JRFont font)
-	{
-	}
-	
 	/**
 	 *
 	 */

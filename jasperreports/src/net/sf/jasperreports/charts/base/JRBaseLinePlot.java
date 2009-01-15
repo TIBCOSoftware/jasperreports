@@ -92,17 +92,17 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 		showLines = linePlot.getShowLines();
 		
 		categoryAxisLabelExpression = factory.getExpression( linePlot.getCategoryAxisLabelExpression() );
-		categoryAxisLabelFont = new JRBaseFont(null, null, linePlot.getChart(), linePlot.getCategoryAxisLabelFont());
+		categoryAxisLabelFont = new JRBaseFont(linePlot.getChart(), linePlot.getCategoryAxisLabelFont());
 		categoryAxisLabelColor = linePlot.getOwnCategoryAxisLabelColor();
-		categoryAxisTickLabelFont = new JRBaseFont(null, null, linePlot.getChart(), linePlot.getCategoryAxisTickLabelFont());
+		categoryAxisTickLabelFont = new JRBaseFont(linePlot.getChart(), linePlot.getCategoryAxisTickLabelFont());
 		categoryAxisTickLabelColor = linePlot.getOwnCategoryAxisTickLabelColor();
 		categoryAxisTickLabelMask = linePlot.getCategoryAxisTickLabelMask();
 		categoryAxisLineColor = linePlot.getOwnCategoryAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( linePlot.getValueAxisLabelExpression() );
-		valueAxisLabelFont = new JRBaseFont(null, null, linePlot.getChart(), linePlot.getValueAxisLabelFont());
+		valueAxisLabelFont = new JRBaseFont(linePlot.getChart(), linePlot.getValueAxisLabelFont());
 		valueAxisLabelColor = linePlot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(null, null, linePlot.getChart(), linePlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = new JRBaseFont(linePlot.getChart(), linePlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = linePlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = linePlot.getValueAxisTickLabelMask();
 		valueAxisLineColor = linePlot.getOwnValueAxisLineColor();

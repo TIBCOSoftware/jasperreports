@@ -173,7 +173,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 		
 
 	/**
-	 *
+	 * @deprecated To be removed in future versions.
 	 */
 	protected JRBaseFont(JRDefaultFontProvider defaultFontProvider)
 	{
@@ -182,7 +182,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 		
 
 	/**
-	 *
+	 * @deprecated To be removed in future versions.
 	 */
 	public JRBaseFont(
 		JRDefaultFontProvider defaultFontProvider, 
@@ -200,7 +200,24 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 		
 
 	/**
-	 *
+	 * 
+	 */
+	public JRBaseFont(
+		JRStyleContainer styleContainer,
+		JRFont font
+		)
+	{
+		this(
+			null, 
+			null,
+			styleContainer,
+			font
+			);
+	}
+		
+
+	/**
+	 * @deprecated To be removed in future versions.
 	 */
 	public JRBaseFont(
 		JRDefaultFontProvider defaultFontProvider, 
