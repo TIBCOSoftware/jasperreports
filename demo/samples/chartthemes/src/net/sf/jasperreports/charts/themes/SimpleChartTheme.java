@@ -74,9 +74,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 	/**
 	 *
 	 */
-	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot, byte evaluation) throws JRException
+	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot) throws JRException
 	{
-		super.configureChart(jfreeChart, jrPlot, evaluation);
+		super.configureChart(jfreeChart, jrPlot);
 
 		LegendTitle legend = jfreeChart.getLegend();
 		if (legend != null)
@@ -148,9 +148,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createPieChart(byte evaluation) throws JRException
+	protected JFreeChart createPieChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createPieChart(evaluation);
+		JFreeChart jfreeChart = super.createPieChart();
 
 		PiePlot piePlot = (PiePlot)jfreeChart.getPlot();
 
@@ -189,9 +189,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createPie3DChart(byte evaluation) throws JRException
+	protected JFreeChart createPie3DChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createPie3DChart(evaluation);
+		JFreeChart jfreeChart = super.createPie3DChart();
 
 		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
 
@@ -230,9 +230,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createBarChart(byte evaluation) throws JRException
+	protected JFreeChart createBarChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createBarChart(evaluation);
+		JFreeChart jfreeChart = super.createBarChart();
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 
@@ -242,9 +242,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 		return jfreeChart;
 	}
 
-	protected JFreeChart createBar3DChart(byte evaluation) throws JRException 
+	protected JFreeChart createBar3DChart() throws JRException 
 	{
-		JFreeChart jfreeChart = super.createBar3DChart(evaluation);
+		JFreeChart jfreeChart = super.createBar3DChart();
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		if (getPlot().getOwnBackcolor() == null)
@@ -269,9 +269,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createBubbleChart(byte evaluation) throws JRException 
+	protected JFreeChart createBubbleChart() throws JRException 
 	{
-		JFreeChart jfreeChart = super.createBubbleChart(evaluation);
+		JFreeChart jfreeChart = super.createBubbleChart();
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		
@@ -288,9 +288,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createXYBarChart(byte evaluation) throws JRException
+	protected JFreeChart createXYBarChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createXYBarChart(evaluation);
+		JFreeChart jfreeChart = super.createXYBarChart();
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 
@@ -305,9 +305,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 	}
 
 
-	protected JFreeChart createXyAreaChart(byte evaluation) throws JRException 
+	protected JFreeChart createXyAreaChart() throws JRException 
 	{
-		JFreeChart jfreeChart = super.createXyAreaChart(evaluation);
+		JFreeChart jfreeChart = super.createXyAreaChart();
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 
@@ -318,9 +318,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 	}
 
 
-	protected JFreeChart createScatterChart(byte evaluation) throws JRException 
+	protected JFreeChart createScatterChart() throws JRException 
 	{
-		JFreeChart jfreeChart = super.createScatterChart(evaluation);
+		JFreeChart jfreeChart = super.createScatterChart();
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 
@@ -330,9 +330,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 		return jfreeChart;
 	}
 
-	protected JFreeChart createXyLineChart(byte evaluation) throws JRException 
+	protected JFreeChart createXyLineChart() throws JRException 
 	{
-		JFreeChart jfreeChart = super.createXyLineChart(evaluation);
+		JFreeChart jfreeChart = super.createXyLineChart();
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 
@@ -342,9 +342,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 		return jfreeChart;
 	}
 
-	protected JFreeChart createTimeSeriesChart(byte evaluation) throws JRException 
+	protected JFreeChart createTimeSeriesChart() throws JRException 
 	{
-		JFreeChart jfreeChart = super.createTimeSeriesChart(evaluation);
+		JFreeChart jfreeChart = super.createTimeSeriesChart();
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		xyPlot.setBackgroundPaint(new Color(222, 231, 247));
@@ -353,9 +353,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 		return jfreeChart;
 	}
 
-	protected JFreeChart createHighLowChart(byte evaluation) throws JRException
+	protected JFreeChart createHighLowChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createHighLowChart(evaluation);
+		JFreeChart jfreeChart = super.createHighLowChart();
 
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 
@@ -365,9 +365,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 		return jfreeChart;
 	}
 
-	protected JFreeChart createCandlestickChart(byte evaluation) throws JRException
+	protected JFreeChart createCandlestickChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createCandlestickChart(evaluation);
+		JFreeChart jfreeChart = super.createCandlestickChart();
 
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 
@@ -377,9 +377,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 		return jfreeChart;
 	}
 
-	protected JFreeChart createStackedBar3DChart(byte evaluation) throws JRException 
+	protected JFreeChart createStackedBar3DChart() throws JRException 
 	{
-		JFreeChart jfreeChart = super.createStackedBar3DChart(evaluation);
+		JFreeChart jfreeChart = super.createStackedBar3DChart();
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		if (getPlot().getOwnBackcolor() == null)
@@ -403,9 +403,9 @@ public class SimpleChartTheme extends DefaultChartTheme
 
 
 	/*
-	protected JFreeChart createStackedAreaChart(byte evaluation) throws JRException
+	protected JFreeChart createStackedAreaChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createStackedAreaChart(evaluation);
+		JFreeChart jfreeChart = super.createStackedAreaChart();
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 

@@ -83,9 +83,25 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	/**
 	 *
 	 */
-	public JRBaseHighLowPlot(JRChartPlot highLowPlot, JRChart chart)
+	public JRBaseHighLowPlot(JRChartPlot plot, JRChart chart)
 	{
-		super(highLowPlot, chart);
+		super(plot, chart);
+		
+		JRHighLowPlot highLowPlot = plot instanceof JRHighLowPlot ? (JRHighLowPlot)plot : null;
+		if (highLowPlot == null)
+		{
+			timeAxisLabelFont = new JRBaseFont(chart, null);
+			timeAxisTickLabelFont = new JRBaseFont(chart, null);
+			valueAxisLabelFont = new JRBaseFont(chart, null);
+			valueAxisTickLabelFont = new JRBaseFont(chart, null);
+		}
+		else
+		{
+			timeAxisLabelFont = new JRBaseFont(chart, highLowPlot.getTimeAxisLabelFont());
+			timeAxisTickLabelFont = new JRBaseFont(chart, highLowPlot.getTimeAxisTickLabelFont());
+			valueAxisLabelFont = new JRBaseFont(chart, highLowPlot.getValueAxisLabelFont());
+			valueAxisTickLabelFont = new JRBaseFont(chart, highLowPlot.getValueAxisTickLabelFont());
+		}
 	}
 
 

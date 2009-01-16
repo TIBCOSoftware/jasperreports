@@ -28,6 +28,7 @@
 package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.design.JRDesignValueDisplay;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
@@ -48,7 +49,7 @@ public class JRValueDisplayFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRDesignValueDisplay valueDisplay = new JRDesignValueDisplay(null);
+		JRDesignValueDisplay valueDisplay = new JRDesignValueDisplay(null, (JRChart)digester.peek());
 
 		String color = atts.getValue(ATTRIBUTE_color);
 		if (color != null && color.length() > 0)

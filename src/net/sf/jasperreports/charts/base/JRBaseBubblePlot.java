@@ -77,15 +77,33 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	/**
 	 * 
 	 */
-	public JRBaseBubblePlot(JRChartPlot bubblePlot, JRChart chart){
-		super(bubblePlot, chart);
+	public JRBaseBubblePlot(JRChartPlot plot, JRChart chart)
+	{
+		super(plot, chart);
+		
+		JRBubblePlot bubblePlot = plot instanceof JRBubblePlot ? (JRBubblePlot)plot : null;
+		if (bubblePlot == null)
+		{
+			xAxisLabelFont = new JRBaseFont(chart, null);
+			xAxisTickLabelFont = new JRBaseFont(chart, null);
+			yAxisLabelFont = new JRBaseFont(chart, null);
+			yAxisTickLabelFont = new JRBaseFont(chart, null);
+		}
+		else
+		{
+			xAxisLabelFont = new JRBaseFont(chart, bubblePlot.getXAxisLabelFont());
+			xAxisTickLabelFont = new JRBaseFont(chart, bubblePlot.getXAxisTickLabelFont());
+			yAxisLabelFont = new JRBaseFont(chart, bubblePlot.getYAxisLabelFont());
+			yAxisTickLabelFont = new JRBaseFont(chart, bubblePlot.getYAxisTickLabelFont());
+		}
 	}
 
 
 	/**
 	 * 
 	 */
-	public JRBaseBubblePlot( JRBubblePlot bubblePlot, JRBaseObjectFactory factory ){
+	public JRBaseBubblePlot(JRBubblePlot bubblePlot, JRBaseObjectFactory factory )
+	{
 		super( bubblePlot, factory );
 		
 		scaleTypeInteger = bubblePlot.getScaleTypeInteger();

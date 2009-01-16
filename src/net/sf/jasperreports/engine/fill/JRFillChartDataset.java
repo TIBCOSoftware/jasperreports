@@ -63,4 +63,9 @@ public abstract class JRFillChartDataset extends JRFillElementDataset implements
 	 *
 	 */
 	public abstract Dataset getCustomDataset();
+
+	/**
+	 *
+	 */
+	public abstract Object getLabelGenerator();//FIXMETHEME this could return some sort of base label generator interface from JFreeChart
 }

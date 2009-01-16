@@ -27,20 +27,44 @@
  */
 package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.engine.JRException;
+import java.util.Locale;
 
-import org.jfree.chart.JFreeChart;
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+
+import org.jfree.data.general.Dataset;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net) 
  * @version $Id: JRAreaPlot.java 1577 2007-02-09 11:25:48Z teodord $
  */
-public interface ChartTheme
+public interface ChartContext
 {
 
 	/**
 	 * 
 	 */
-	public JFreeChart createChart(ChartContext charContext) throws JRException;
+	public JRChart getChart();
+
+	/**
+	 * 
+	 */
+	public Dataset getDataset();
+
+	/**
+	 * 
+	 */
+	public Object getLabelGenerator();
+
+	/**
+	 * 
+	 */
+	public Locale getLocale();
+
+	/**
+	 * 
+	 */
+	public Object evaluateExpression(JRExpression expression) throws JRException;
 
 }

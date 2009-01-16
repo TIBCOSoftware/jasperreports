@@ -164,6 +164,12 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	}
 
 
+	public Object getLabelGenerator()
+	{
+		return null;
+	}
+
+
 	public JRExpression getSeriesExpression()
 	{
 		return ((JRHighLowDataset)parent).getSeriesExpression();

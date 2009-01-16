@@ -52,7 +52,7 @@ public class JRBaseReportFont extends JRBaseFont implements JRReportFont
 
 
 	/**
-	 *
+	 * @deprecated To be removed in future versions.
 	 */
 	public JRBaseReportFont(JRReportFont reportFont)
 	{

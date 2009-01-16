@@ -34,8 +34,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jfree.chart.renderer.category.BarRenderer3D;
-
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
@@ -125,9 +123,19 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 *
 	 * @param meterPlot the meter to copy
 	 */
-	public JRBaseMeterPlot(JRChartPlot meterPlot, JRChart chart)
+	public JRBaseMeterPlot(JRChartPlot plot, JRChart chart)
 	{
-		super(meterPlot, chart);
+		super(plot, chart);
+		
+		JRMeterPlot meterPlot = plot instanceof JRMeterPlot ? (JRMeterPlot)plot : null;
+		if (meterPlot == null)
+		{
+			valueDisplay = new JRBaseValueDisplay(null, chart);
+		}
+		else
+		{
+			valueDisplay = new JRBaseValueDisplay(meterPlot.getValueDisplay(), chart);
+		}
 	}
 
 	/**

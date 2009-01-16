@@ -130,6 +130,14 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 		}
 	}
 	
+	/**
+	 *
+	 */
+	public Object getLabelGenerator()
+	{
+		return null;
+	}
+
 	public Dataset getCustomDataset() {
 		return dataset;
 	}

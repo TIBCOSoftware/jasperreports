@@ -78,9 +78,25 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	/**
 	 *
 	 */
-	protected JRBaseCandlestickPlot(JRChartPlot candlestickPlot, JRChart chart)
+	protected JRBaseCandlestickPlot(JRChartPlot plot, JRChart chart)
 	{
-		super(candlestickPlot, chart);
+		super(plot, chart);
+		
+		JRCandlestickPlot candlestickPlot = plot instanceof JRCandlestickPlot ? (JRCandlestickPlot)plot : null;
+		if (candlestickPlot == null)
+		{
+			timeAxisLabelFont = new JRBaseFont(chart, null);
+			timeAxisTickLabelFont = new JRBaseFont(chart, null);
+			valueAxisLabelFont = new JRBaseFont(chart, null);
+			valueAxisTickLabelFont = new JRBaseFont(chart, null);
+		}
+		else
+		{
+			timeAxisLabelFont = new JRBaseFont(chart, candlestickPlot.getTimeAxisLabelFont());
+			timeAxisTickLabelFont = new JRBaseFont(chart, candlestickPlot.getTimeAxisTickLabelFont());
+			valueAxisLabelFont = new JRBaseFont(chart, candlestickPlot.getValueAxisLabelFont());
+			valueAxisTickLabelFont = new JRBaseFont(chart, candlestickPlot.getValueAxisTickLabelFont());
+		}
 	}
 
 

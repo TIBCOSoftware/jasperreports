@@ -34,9 +34,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.charts.ChartTheme;
+import net.sf.jasperreports.charts.ChartThemeBundle;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImageArea;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRSingletonCache;
+import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
@@ -50,6 +58,11 @@ import org.jfree.chart.entity.EntityCollection;
  */
 public class ChartUtil
 {
+
+	/**
+	 *
+	 */
+	private static final JRSingletonCache CHART_RENDERER_FACTORY_CACHE = new JRSingletonCache(ChartRendererFactory.class);
 
 	/**
 	 * 
@@ -132,4 +145,53 @@ public class ChartUtil
 		}
 		return coordinates;
 	}
+
+	/**
+	 * 
+	 */
+	public static ChartTheme getChartTheme(String themeName)
+	{
+		if (themeName == null)
+		{
+			return new DefaultChartTheme();
+		}
+
+		List themeBundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ChartThemeBundle.class);
+		for (Iterator it = themeBundles.iterator(); it.hasNext();)
+		{
+			ChartThemeBundle bundle = (ChartThemeBundle) it.next();
+			ChartTheme chartTheme = bundle.getChartTheme(themeName);
+			if (chartTheme != null)
+			{
+				return chartTheme;
+			}
+		}
+		throw new JRRuntimeException("Chart theme '" + themeName + "' not found.");
+	}
+
+	/**
+	 * 
+	 */
+	public static ChartRendererFactory getChartRendererFactory(String renderType)
+	{
+		ChartRendererFactory chartRendererFactory = null;
+
+		String factoryClass = JRProperties.getProperty(ChartRendererFactory.PROPERTY_CHART_RENDERER_FACTORY_PREFIX + renderType);
+		if (factoryClass == null)
+		{
+			throw new JRRuntimeException("No chart renderer factory specifyed for '" + renderType + "' render type.");
+		}
+
+		try
+		{
+			chartRendererFactory = (ChartRendererFactory) CHART_RENDERER_FACTORY_CACHE.getCachedInstance(factoryClass);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		return chartRendererFactory;
+	}
+
 }

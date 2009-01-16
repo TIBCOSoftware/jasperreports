@@ -205,8 +205,8 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	}
 	
 	
-	public TimeSeriesLabelGenerator getLabelGenerator(){
-		return new TimeSeriesLabelGenerator(labelsMap);
+	public Object getLabelGenerator(){
+		return new TimeSeriesLabelGenerator(labelsMap);//FIXMETHEME this and other similar implementations should be able to return null and chart themes should be protected agains null;
 	}
 	
 	

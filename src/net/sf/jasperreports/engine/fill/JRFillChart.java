@@ -30,12 +30,11 @@ package net.sf.jasperreports.engine.fill;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.SortedSet;
 
+import net.sf.jasperreports.charts.ChartContext;
 import net.sf.jasperreports.charts.ChartTheme;
-import net.sf.jasperreports.charts.ChartThemeBundle;
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
@@ -73,7 +72,7 @@ import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyzDataset;
 import net.sf.jasperreports.charts.util.CategoryChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
-import net.sf.jasperreports.charts.util.ChartRendererFactory;
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.charts.util.HighLowChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.charts.util.MultiAxisChartHyperlinkProvider;
@@ -106,10 +105,8 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
-import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
@@ -120,6 +117,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.Range;
+import org.jfree.data.general.Dataset;
 
 
 /**
@@ -130,11 +128,6 @@ import org.jfree.data.Range;
 public class JRFillChart extends JRFillElement implements JRChart
 {
 
-
-	/**
-	 *
-	 */
-	private static final JRSingletonCache chartRendererFactoryCache = new JRSingletonCache(ChartRendererFactory.class);
 
 	/**
 	 *
@@ -288,9 +281,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 				throw new JRRuntimeException("Chart type not supported.");
 		}
 
-		titleFont = new JRBaseFont(null, null, chart, chart.getTitleFont());
-		subtitleFont = new JRBaseFont(null, null, chart, chart.getSubtitleFont());
-		legendFont = new JRBaseFont(null, null, chart, chart.getLegendFont());
+		titleFont = new JRBaseFont(chart, chart.getTitleFont());
+		subtitleFont = new JRBaseFont(chart, chart.getSubtitleFont());
+		legendFont = new JRBaseFont(chart, chart.getLegendFont());
 		
 		lineBox = chart.getLineBox().clone(this);
 
@@ -1265,7 +1258,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		Rectangle2D rectangle = new Rectangle2D.Double(0,0,getWidth(),getHeight());
 
 		renderer = 
-			getChartRendererFactory(getRenderType()).getRenderer(
+			ChartUtil.getChartRendererFactory(getRenderType()).getRenderer(
 				chart, 
 				chartHyperlinkProvider,
 				rectangle
@@ -1277,43 +1270,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return chartHyperlinkProvider;
 	}
 	
-	protected static ChartRendererFactory getChartRendererFactory(String renderType)
-	{
-		ChartRendererFactory chartRendererFactory = null;
-
-		String factoryClass = JRProperties.getProperty(ChartRendererFactory.PROPERTY_CHART_RENDERER_FACTORY_PREFIX + renderType);
-		if (factoryClass == null)
-		{
-			throw new JRRuntimeException("No chart renderer factory specifyed for '" + renderType + "' render type.");
-		}
-
-		try
-		{
-			chartRendererFactory = (ChartRendererFactory) chartRendererFactoryCache.getCachedInstance(factoryClass);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		
-		return chartRendererFactory;
-	}
-
-	protected static ChartTheme getChartTheme(String themeName)
-	{
-		List themeBundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ChartThemeBundle.class);
-		for (Iterator it = themeBundles.iterator(); it.hasNext();)
-		{
-			ChartThemeBundle bundle = (ChartThemeBundle) it.next();
-			ChartTheme chartTheme = bundle.getChartTheme(themeName);
-			if (chartTheme != null)
-			{
-				return chartTheme;
-			}
-		}
-		throw new JRRuntimeException("Chart theme '" + themeName + "' not found.");
-	}
-
 	/**
 	 *
 	 */
@@ -1322,15 +1278,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		evaluateProperties(evaluation);
 		evaluateDatasetRun(evaluation);
 
-		ChartTheme theme = null;
-		if (themeName == null)
-		{
-			theme = new DefaultChartTheme();
-		}
-		else
-		{
-			theme = getChartTheme(themeName);
-		}
+		ChartTheme theme = ChartUtil.getChartTheme(themeName);
 		
 		if (getChartType() == JRChart.CHART_TYPE_MULTI_AXIS)
 		{
@@ -1338,7 +1286,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		}
 		else
 		{
-			jfreeChart = theme.createChart(this, evaluation);
+			jfreeChart = theme.createChart(new FillChartContext(evaluation));
 
 			chartHyperlinkProvider = createChartHyperlinkProvider();
 		}
@@ -1910,4 +1858,34 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	
+	class FillChartContext implements ChartContext
+	{
+		private final byte evaluation; 
+		
+		protected FillChartContext(byte evaluation)
+		{
+			this.evaluation = evaluation;
+		}
+		
+		public Object evaluateExpression(JRExpression expression) throws JRException {
+			return null;
+		}
+
+		public JRChart getChart() {
+			return JRFillChart.this;
+		}
+
+		public Dataset getDataset() {
+			return ((JRFillChartDataset)JRFillChart.this.getDataset()).getDataset();
+		}
+
+		public Object getLabelGenerator() {
+			return ((JRFillChartDataset)JRFillChart.this.getDataset()).getLabelGenerator();
+		}
+
+		public Locale getLocale() {
+			return JRFillChart.this.getLocale();
+		}
+		
+	}
 }

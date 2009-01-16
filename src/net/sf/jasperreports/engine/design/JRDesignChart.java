@@ -75,6 +75,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseChart;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -191,6 +192,10 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		
 		setChartType(chartType);
 		
+		titleFont = new JRBaseFont(this, null);
+		subtitleFont = new JRBaseFont(this, null);
+		legendFont = new JRBaseFont(this, null);
+
 		hyperlinkParameters = new ArrayList();
 		
 		lineBox = new JRBaseLineBox(this);
@@ -338,10 +343,10 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	public void setTitleFont(JRFont font)
+	public void setTitleFont(JRFont font)//FIXMEFONT embedded fonts should never be null so these font setting methods should be deprecated; check iR impact
 	{
 		Object old = this.titleFont;
-		this.titleFont = font;
+		this.titleFont = new JRBaseFont(this, font);
 		getEventSupport().firePropertyChange(PROPERTY_TITLE_FONT, old, this.titleFont);
 	}
 	
@@ -419,7 +424,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	public void setSubtitleFont(JRFont font)
 	{
 		Object old = this.subtitleFont;
-		this.subtitleFont = font;
+		this.subtitleFont = new JRBaseFont(this, font);
 		getEventSupport().firePropertyChange(PROPERTY_SUBTITLE_FONT, old, this.subtitleFont);
 	}
 	
@@ -515,7 +520,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	public void setLegendFont(JRFont legendFont)
 	{
 		Object old = this.legendFont;
-		this.legendFont = legendFont;
+		this.legendFont = new JRBaseFont(this, legendFont);
 		getEventSupport().firePropertyChange(PROPERTY_LEGEND_FONT, old, this.legendFont);
 	}
 	

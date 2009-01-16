@@ -32,6 +32,7 @@ import java.awt.Color;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseThermometerPlot;
+import net.sf.jasperreports.charts.base.JRBaseValueDisplay;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -103,7 +104,7 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	public void setValueDisplay(JRValueDisplay valueDisplay)
 	{
 		Object old = this.valueDisplay;
-		this.valueDisplay = valueDisplay;
+		this.valueDisplay = new JRBaseValueDisplay(valueDisplay, getChart());
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_DISPLAY, old, this.valueDisplay);
 	}
 

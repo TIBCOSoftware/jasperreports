@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -95,7 +96,7 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	public void setCategoryAxisLabelFont(JRFont categoryAxisLabelFont)
 	{
 		Object old = this.categoryAxisLabelFont;
-		this.categoryAxisLabelFont = categoryAxisLabelFont;
+		this.categoryAxisLabelFont = new JRBaseFont(this.getChart(), categoryAxisLabelFont);
 		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_LABEL_FONT, old, this.categoryAxisLabelFont);
 	}
 
@@ -115,7 +116,7 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	public void setCategoryAxisTickLabelFont(JRFont categoryAxisTickLabelFont)
 	{
 		Object old = this.categoryAxisTickLabelFont;
-		this.categoryAxisTickLabelFont = categoryAxisTickLabelFont;
+		this.categoryAxisTickLabelFont = new JRBaseFont(this.getChart(), categoryAxisTickLabelFont);
 		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_FONT, old, this.categoryAxisTickLabelFont);
 	}
 
@@ -165,7 +166,7 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	public void setValueAxisLabelFont(JRFont valueAxisLabelFont)
 	{
 		Object old = this.valueAxisLabelFont;
-		this.valueAxisLabelFont = valueAxisLabelFont;
+		this.valueAxisLabelFont = new JRBaseFont(this.getChart(), valueAxisLabelFont);
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LABEL_FONT, old, this.valueAxisLabelFont);
 	}
 
@@ -185,7 +186,7 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	public void setValueAxisTickLabelFont(JRFont valueAxisTickLabelFont)
 	{
 		Object old = this.valueAxisTickLabelFont;
-		this.valueAxisTickLabelFont = valueAxisTickLabelFont;
+		this.valueAxisTickLabelFont = new JRBaseFont(this.getChart(), valueAxisTickLabelFont);
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_TICK_LABEL_FONT, old, this.valueAxisTickLabelFont);
 	}
 

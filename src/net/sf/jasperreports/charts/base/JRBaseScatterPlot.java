@@ -78,15 +78,33 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	/**
 	 * 
 	 */
-	public JRBaseScatterPlot(JRChartPlot scattedPlot, JRChart chart){
-		super(scattedPlot, chart);
+	public JRBaseScatterPlot(JRChartPlot plot, JRChart chart)
+	{
+		super(plot, chart);
+		
+		JRScatterPlot scattedPlot = plot instanceof JRScatterPlot ? (JRScatterPlot)plot : null;
+		if (scattedPlot == null)
+		{
+			xAxisLabelFont = new JRBaseFont(chart, null);
+			xAxisTickLabelFont = new JRBaseFont(chart, null);
+			yAxisLabelFont = new JRBaseFont(chart, null);
+			yAxisTickLabelFont = new JRBaseFont(chart, null);
+		}
+		else
+		{
+			xAxisLabelFont = new JRBaseFont(chart, scattedPlot.getXAxisLabelFont());
+			xAxisTickLabelFont = new JRBaseFont(chart, scattedPlot.getXAxisTickLabelFont());
+			yAxisLabelFont = new JRBaseFont(chart, scattedPlot.getYAxisLabelFont());
+			yAxisTickLabelFont = new JRBaseFont(chart, scattedPlot.getYAxisTickLabelFont());
+		}
 	}
 
 	/**
 	 * 
 	 */
-	public JRBaseScatterPlot( JRScatterPlot scattedPlot, JRBaseObjectFactory factory ){
-		super( scattedPlot, factory );
+	public JRBaseScatterPlot(JRScatterPlot scattedPlot, JRBaseObjectFactory factory )
+	{
+		super(scattedPlot, factory );
 		
 		showShapes = scattedPlot.getShowShapes();
 		showLines = scattedPlot.getShowLines();

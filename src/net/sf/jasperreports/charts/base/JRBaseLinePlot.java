@@ -78,15 +78,33 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	/**
 	 * 
 	 */
-	public JRBaseLinePlot(JRChartPlot linePlot, JRChart chart){
-		super(linePlot, chart);
+	public JRBaseLinePlot(JRChartPlot plot, JRChart chart)
+	{
+		super(plot, chart);
+		
+		JRLinePlot linePlot = plot instanceof JRLinePlot ? (JRLinePlot)plot : null;
+		if (linePlot == null)
+		{
+			categoryAxisLabelFont = new JRBaseFont(chart, null); 
+			categoryAxisTickLabelFont = new JRBaseFont(chart, null);
+			valueAxisLabelFont = new JRBaseFont(chart, null);
+			valueAxisTickLabelFont = new JRBaseFont(chart, null);
+		}
+		else
+		{
+			categoryAxisLabelFont = new JRBaseFont(chart, linePlot.getCategoryAxisLabelFont()); 
+			categoryAxisTickLabelFont = new JRBaseFont(chart, linePlot.getCategoryAxisTickLabelFont());
+			valueAxisLabelFont = new JRBaseFont(chart, linePlot.getValueAxisLabelFont());
+			valueAxisTickLabelFont = new JRBaseFont(chart, linePlot.getValueAxisTickLabelFont());
+		}
 	}
 	
 	/**
 	 * 
 	 */
-	public JRBaseLinePlot( JRLinePlot linePlot, JRBaseObjectFactory factory ){
-		super( linePlot, factory );
+	public JRBaseLinePlot(JRLinePlot linePlot, JRBaseObjectFactory factory )
+	{
+		super(linePlot, factory);
 		
 		showShapes = linePlot.getShowShapes();
 		showLines = linePlot.getShowLines();

@@ -101,10 +101,21 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	 * Constructs a new thermometer plot that is a copy of an existing one.
 	 *
 	 * @param thermoPlot the plot to copy
+	 * @param chart the parent chart
 	 */
-	public JRBaseThermometerPlot(JRChartPlot thermoPlot, JRChart chart)
+	public JRBaseThermometerPlot(JRChartPlot plot, JRChart chart)
 	{
-		super(thermoPlot, chart);
+		super(plot, chart);
+		
+		JRThermometerPlot thermoPlot = plot instanceof JRThermometerPlot ? (JRThermometerPlot)plot : null;
+		if (thermoPlot == null)
+		{
+			valueDisplay = new JRBaseValueDisplay(null, chart);
+		}
+		else
+		{
+			valueDisplay = new JRBaseValueDisplay(thermoPlot.getValueDisplay(), chart);
+		}
 	}
 
 	/**

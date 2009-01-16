@@ -69,15 +69,33 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	/**
 	 * 
 	 */
-	public JRBaseAreaPlot( JRChartPlot areaPlot, JRChart chart){
-		super( areaPlot, chart);
+	public JRBaseAreaPlot(JRChartPlot plot, JRChart chart)
+	{
+		super(plot, chart);
+		
+		JRAreaPlot areaPlot = plot instanceof JRAreaPlot ? (JRAreaPlot)plot : null;
+		if (areaPlot == null)//FIXMECHART make a common interface and try copy props that are common to different plots
+		{
+			categoryAxisLabelFont = new JRBaseFont(chart, null); 
+			categoryAxisTickLabelFont = new JRBaseFont(chart, null);
+			valueAxisLabelFont = new JRBaseFont(chart, null);
+			valueAxisTickLabelFont = new JRBaseFont(chart, null);
+		}
+		else
+		{
+			categoryAxisLabelFont = new JRBaseFont(chart, areaPlot.getCategoryAxisLabelFont()); 
+			categoryAxisTickLabelFont = new JRBaseFont(chart, areaPlot.getCategoryAxisTickLabelFont());
+			valueAxisLabelFont = new JRBaseFont(chart, areaPlot.getValueAxisLabelFont());
+			valueAxisTickLabelFont = new JRBaseFont(chart, areaPlot.getValueAxisTickLabelFont());
+		}
 	}
 
 
 	/**
 	 * 
 	 */
-	public JRBaseAreaPlot( JRAreaPlot areaPlot, JRBaseObjectFactory factory ){
+	public JRBaseAreaPlot( JRAreaPlot areaPlot, JRBaseObjectFactory factory )
+	{
 		super( areaPlot, factory );
 		
 		categoryAxisLabelExpression = factory.getExpression( areaPlot.getCategoryAxisLabelExpression() );
