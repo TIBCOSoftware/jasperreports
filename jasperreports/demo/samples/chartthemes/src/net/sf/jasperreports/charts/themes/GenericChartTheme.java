@@ -41,9 +41,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedSet;
 
+import net.sf.jasperreports.charts.ChartContext;
 import net.sf.jasperreports.charts.ChartTheme;
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
@@ -56,25 +58,11 @@ import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
+import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.charts.fill.JRFillAreaPlot;
-import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
-import net.sf.jasperreports.charts.fill.JRFillBarPlot;
-import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
-import net.sf.jasperreports.charts.fill.JRFillChartAxis;
-import net.sf.jasperreports.charts.fill.JRFillGanttDataset;
-import net.sf.jasperreports.charts.fill.JRFillLinePlot;
-import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
-import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
-import net.sf.jasperreports.charts.fill.JRFillPieDataset;
-import net.sf.jasperreports.charts.fill.JRFillPiePlot;
-import net.sf.jasperreports.charts.fill.JRFillThermometerPlot;
-import net.sf.jasperreports.charts.fill.JRFillTimePeriodDataset;
-import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
-import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -86,8 +74,6 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
-import net.sf.jasperreports.engine.fill.JRFillChart;
-import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
@@ -102,8 +88,10 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.block.BlockFrame;
+import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.labels.XYItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.DialShape;
@@ -129,6 +117,7 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.gantt.GanttCategoryDataset;
+import org.jfree.data.general.Dataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.general.ValueDataset;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -161,7 +150,7 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected JRFillChart chart = null;
+	protected ChartContext chartContext = null;
 	
 
 	/**
@@ -175,9 +164,9 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected JRFillChart getChart()
+	protected JRChart getChart()
 	{
-		return chart;
+		return chartContext.getChart();
 	}
 	
 	
@@ -186,103 +175,121 @@ public class GenericChartTheme implements ChartTheme
 	 */
 	protected JRChartPlot getPlot()
 	{
-		return chart.getPlot();
+		return getChart().getPlot();
 	}
 	
 	
 	/**
 	 *
 	 */
-	protected JRFillChartDataset getDataset()
+	protected Dataset getDataset()
 	{
-		return (JRFillChartDataset)chart.getDataset();
+		return chartContext.getDataset();
 	}
 	
 	
 	/**
 	 *
 	 */
-	protected final Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
+	protected Object getLabelGenerator()
 	{
-		return chart.evaluateExpression(expression, evaluation);
+		return chartContext.getLabelGenerator();
+	}
+	
+	
+	/**
+	 *
+	 */
+	protected Locale getLocale()
+	{
+		return chartContext.getLocale();
+	}
+	
+	
+	/**
+	 *
+	 */
+	protected final Object evaluateExpression(JRExpression expression) throws JRException
+	{
+		return chartContext.evaluateExpression(expression);
 	}
 
 	
 	/**
 	 *
 	 */
-	public JFreeChart createChart(JRFillChart chart, byte evaluation) throws JRException
+	public JFreeChart createChart(ChartContext chartContext) throws JRException
 	{
-		this.chart = chart;
+		this.chartContext = chartContext;
 		
 		JFreeChart jfreeChart = null;
 		
-		switch(chart.getChartType()) {
+		switch(getChart().getChartType()) {
 			case JRChart.CHART_TYPE_AREA:
-				jfreeChart = createAreaChart(evaluation);
+				jfreeChart = createAreaChart();
 				break;
 			case JRChart.CHART_TYPE_BAR:
-				jfreeChart = createBarChart(evaluation);
+				jfreeChart = createBarChart();
 				break;
 			case JRChart.CHART_TYPE_BAR3D:
-				jfreeChart = createBar3DChart(evaluation);
+				jfreeChart = createBar3DChart();
 				break;
 			case JRChart.CHART_TYPE_BUBBLE:
-				jfreeChart = createBubbleChart(evaluation);
+				jfreeChart = createBubbleChart();
 				break;
 			case JRChart.CHART_TYPE_CANDLESTICK:
-				jfreeChart = createCandlestickChart(evaluation);
+				jfreeChart = createCandlestickChart();
 				break;
 			case JRChart.CHART_TYPE_HIGHLOW:
-				jfreeChart = createHighLowChart(evaluation);
+				jfreeChart = createHighLowChart();
 				break;
 			case JRChart.CHART_TYPE_LINE:
-				jfreeChart = createLineChart(evaluation);
+				jfreeChart = createLineChart();
 				break;
 			case JRChart.CHART_TYPE_METER:
-				jfreeChart = createMeterChart(evaluation);
+				jfreeChart = createMeterChart();
 				break;
 			case JRChart.CHART_TYPE_MULTI_AXIS:
-				//multi-axis charts are dealt with in JRFillChart
+				//multi-axis charts are dealt with in JRChart
 				break;
 			case JRChart.CHART_TYPE_PIE:
-				jfreeChart = createPieChart(evaluation);
+				jfreeChart = createPieChart();
 				break;
 			case JRChart.CHART_TYPE_PIE3D:
-				jfreeChart = createPie3DChart(evaluation);
+				jfreeChart = createPie3DChart();
 				break;
 			case JRChart.CHART_TYPE_SCATTER:
-				jfreeChart = createScatterChart(evaluation);
+				jfreeChart = createScatterChart();
 				break;
 			case JRChart.CHART_TYPE_STACKEDBAR:
-				jfreeChart = createStackedBarChart(evaluation);
+				jfreeChart = createStackedBarChart();
 				break;
 			case JRChart.CHART_TYPE_STACKEDBAR3D:
-				jfreeChart = createStackedBar3DChart(evaluation);
+				jfreeChart = createStackedBar3DChart();
 				break;
 			case JRChart.CHART_TYPE_THERMOMETER:
-				jfreeChart = createThermometerChart(evaluation);
+				jfreeChart = createThermometerChart();
 				break;
 			case JRChart.CHART_TYPE_TIMESERIES:
-				jfreeChart = createTimeSeriesChart(evaluation);
+				jfreeChart = createTimeSeriesChart();
 				break;
 			case JRChart.CHART_TYPE_XYAREA:
-				jfreeChart = createXyAreaChart(evaluation);
+				jfreeChart = createXyAreaChart();
 				break;
 			case JRChart.CHART_TYPE_XYBAR:
-				jfreeChart = createXYBarChart(evaluation);
+				jfreeChart = createXYBarChart();
 				break;
 			case JRChart.CHART_TYPE_XYLINE:
-				jfreeChart = createXyLineChart(evaluation);
+				jfreeChart = createXyLineChart();
 				break;
 			case JRChart.CHART_TYPE_STACKEDAREA:
-				jfreeChart = createStackedAreaChart(evaluation);
+				jfreeChart = createStackedAreaChart();
 				break;
 			case JRChart.CHART_TYPE_GANTT:
-				jfreeChart = createGanttChart(evaluation);
+				jfreeChart = createGanttChart();
 				break;
 			default:
-				throw new JRRuntimeException("Chart type " + chart.getChartType() + " not supported.");
+				throw new JRRuntimeException("Chart type " + getChart().getChartType() + " not supported.");
 		}
 
 		return jfreeChart;
@@ -291,13 +298,13 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot, byte evaluation) throws JRException
+	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot) throws JRException
 	{	
 		Float defaultBaseFontSize = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BASEFONT_SIZE);
 		
 		setChartBackground(jfreeChart);
 		setChartTitle(jfreeChart, defaultBaseFontSize);
-		setChartSubtitles(jfreeChart, defaultBaseFontSize, evaluation);
+		setChartSubtitles(jfreeChart, defaultBaseFontSize);
 		setChartLegend(jfreeChart, defaultBaseFontSize);
 		setChartBorder(jfreeChart);
 		
@@ -442,21 +449,21 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createAreaChart(byte evaluation) throws JRException 
+	protected JFreeChart createAreaChart() throws JRException 
 	{
 		JFreeChart jfreeChart = 
 			ChartFactory.createAreaChart( 
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(CategoryDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression()),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression()),
+				(CategoryDataset)getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
 				false);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
-		JRFillAreaPlot areaPlot = (JRFillAreaPlot)getPlot();
+		configureChart(jfreeChart, getPlot());
+		JRAreaPlot areaPlot = (JRAreaPlot)getPlot();
 		// Handle the axis formating for the category axis
 		configureAxis(((CategoryPlot)jfreeChart.getPlot()).getDomainAxis(), areaPlot.getCategoryAxisLabelFont(),
 				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
@@ -472,23 +479,23 @@ public class GenericChartTheme implements ChartTheme
 	}
 
 
-	protected JFreeChart createBar3DChart(byte evaluation) throws JRException 
+	protected JFreeChart createBar3DChart() throws JRException 
 	{
 		JFreeChart jfreeChart =
 			ChartFactory.createBarChart3D(
-					(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-					(String)evaluateExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
-					(String)evaluateExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-					(CategoryDataset)getDataset().getDataset(),
+					(String)evaluateExpression(getChart().getTitleExpression()),
+					(String)evaluateExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression()),
+					(String)evaluateExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression()),
+					(CategoryDataset)getDataset(),
 					getPlot().getOrientation(),
 					isShowLegend(),
 					true,
 					false );
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		JRFillBar3DPlot bar3DPlot = (JRFillBar3DPlot)getPlot();
+		JRBar3DPlot bar3DPlot = (JRBar3DPlot)getPlot();
 
 		BarRenderer3D barRenderer3D =
 			new BarRenderer3D(
@@ -496,7 +503,7 @@ public class GenericChartTheme implements ChartTheme
 				bar3DPlot.getYOffsetDouble() == null ? BarRenderer3D.DEFAULT_Y_OFFSET : bar3DPlot.getYOffsetDouble().doubleValue()
 				);
 
-		barRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
+		barRenderer3D.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
 		barRenderer3D.setBaseItemLabelsVisible(bar3DPlot.getShowLabels());
 
 		categoryPlot.setRenderer(barRenderer3D);
@@ -520,27 +527,26 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createBarChart(byte evaluation) throws JRException
+	protected JFreeChart createBarChart() throws JRException
 	{
-		CategoryDataset categoryDataset = (CategoryDataset)getDataset().getDataset();
 		JFreeChart jfreeChart =
 			ChartFactory.createBarChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				categoryDataset,
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression()),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression()),
+				(CategoryDataset)getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
 				false
 				);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		//plot.setNoDataMessage("No data to display");
 		
-		JRFillBarPlot barPlot = (JRFillBarPlot)getPlot();
+		JRBarPlot barPlot = (JRBarPlot)getPlot();
 		boolean isShowTickMarks = barPlot.getShowTickMarks() == null ? true : barPlot.getShowTickMarks().booleanValue();
 		boolean isShowTickLabels = barPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels().booleanValue();
 
@@ -562,26 +568,26 @@ public class GenericChartTheme implements ChartTheme
 
 
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
-		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
+		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
 		categoryRenderer.setBaseItemLabelsVisible( barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue());
 		
 		return jfreeChart;
 	}
 
 
-	protected JFreeChart createBubbleChart(byte evaluation) throws JRException 
+	protected JFreeChart createBubbleChart() throws JRException 
 	{
 		JFreeChart jfreeChart = ChartFactory.createBubbleChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(((JRBubblePlot)getPlot()).getXAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(((JRBubblePlot)getPlot()).getYAxisLabelExpression(), evaluation),
-				 (XYZDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(((JRBubblePlot)getPlot()).getXAxisLabelExpression()),
+				(String)evaluateExpression(((JRBubblePlot)getPlot()).getYAxisLabelExpression()),
+				 (XYZDataset)getDataset(),
 				 getPlot().getOrientation(),
 				 isShowLegend(),
 				 true,
 				 false);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		JRBubblePlot bubblePlot = (JRBubblePlot)getPlot();
@@ -610,18 +616,18 @@ public class GenericChartTheme implements ChartTheme
 	 * @param evaluation
 	 * @throws net.sf.jasperreports.engine.JRException
 	 */
-	protected JFreeChart createCandlestickChart(byte evaluation) throws JRException
+	protected JFreeChart createCandlestickChart() throws JRException
 	{
 		JFreeChart jfreeChart =
 			ChartFactory.createCandlestickChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(((JRCandlestickPlot)getPlot()).getTimeAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(((JRCandlestickPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(DefaultHighLowDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(((JRCandlestickPlot)getPlot()).getTimeAxisLabelExpression()),
+				(String)evaluateExpression(((JRCandlestickPlot)getPlot()).getValueAxisLabelExpression()),
+				(DefaultHighLowDataset)getDataset(),
 				isShowLegend()
 				);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		JRCandlestickPlot candlestickPlot = (JRCandlestickPlot)getPlot();
@@ -650,18 +656,18 @@ public class GenericChartTheme implements ChartTheme
 	 * @param evaluation
 	 * @throws JRException
 	 */
-	protected JFreeChart createHighLowChart(byte evaluation) throws JRException
+	protected JFreeChart createHighLowChart() throws JRException
 	{
 		JFreeChart jfreeChart =
 			ChartFactory.createHighLowChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(((JRHighLowPlot)getPlot()).getTimeAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(((JRHighLowPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(DefaultHighLowDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(((JRHighLowPlot)getPlot()).getTimeAxisLabelExpression()),
+				(String)evaluateExpression(((JRHighLowPlot)getPlot()).getValueAxisLabelExpression()),
+				(DefaultHighLowDataset)getDataset(),
 				isShowLegend()
 				);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		JRHighLowPlot highLowPlot = (JRHighLowPlot)getPlot();
 		HighLowRenderer hlRenderer = (HighLowRenderer) xyPlot.getRenderer();
@@ -687,22 +693,22 @@ public class GenericChartTheme implements ChartTheme
 	}
 
 
-	protected JFreeChart createLineChart(byte evaluation) throws JRException 
+	protected JFreeChart createLineChart() throws JRException 
 	{
 		JFreeChart freeChart = ChartFactory.createLineChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression( ((JRLinePlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(((JRLinePlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(CategoryDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression( ((JRLinePlot)getPlot()).getCategoryAxisLabelExpression()),
+				(String)evaluateExpression(((JRLinePlot)getPlot()).getValueAxisLabelExpression()),
+				(CategoryDataset)getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
 				false);
 
-		configureChart(freeChart, getPlot(), evaluation);
+		configureChart(freeChart, getPlot());
 
 		CategoryPlot categoryPlot = (CategoryPlot)freeChart.getPlot();
-		JRFillLinePlot linePlot = (JRFillLinePlot)getPlot();
+		JRLinePlot linePlot = (JRLinePlot)getPlot();
 
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
 		boolean isShowShapes = linePlot.getShowShapes() == null ? true : linePlot.getShowShapes().booleanValue();
@@ -732,45 +738,45 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createPie3DChart(byte evaluation) throws JRException
+	protected JFreeChart createPie3DChart() throws JRException
 	{
 		JFreeChart jfreeChart =
 			ChartFactory.createPieChart3D(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(PieDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(PieDataset)getDataset(),
 				isShowLegend(),
 				true,
 				false
 				);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 
 		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
-		JRPie3DPlot jrPlot = (JRFillPie3DPlot)getPlot();
+		JRPie3DPlot jrPlot = (JRPie3DPlot)getPlot();
 		double depthFactor = jrPlot.getDepthFactorDouble() == null ? JRPie3DPlot.DEPTH_FACTOR_DEFAULT : jrPlot.getDepthFactorDouble().doubleValue();
 		boolean isCircular =  jrPlot.getCircular() == null ? false : jrPlot.getCircular().booleanValue();
 		piePlot3D.setDepthFactor(depthFactor);
 		piePlot3D.setCircular(isCircular);
 
-		PieSectionLabelGenerator labelGenerator = ((JRFillPieDataset)getDataset()).getLabelGenerator();
+		PieSectionLabelGenerator labelGenerator = (PieSectionLabelGenerator)getLabelGenerator();
 		if (labelGenerator != null)
 		{
 			piePlot3D.setLabelGenerator(labelGenerator);
 		}
-		else if (((JRFillPie3DPlot)getPlot()).getLabelFormat() != null)
+		else if (((JRPie3DPlot)getPlot()).getLabelFormat() != null)
 		{
 			piePlot3D.setLabelGenerator(
-				new StandardPieSectionLabelGenerator(((JRFillPie3DPlot)getPlot()).getLabelFormat())
+				new StandardPieSectionLabelGenerator(((JRPie3DPlot)getPlot()).getLabelFormat())
 				);
 		}
 
-		if (((JRFillPie3DPlot)getPlot()).getLegendLabelFormat() != null)
+		if (((JRPie3DPlot)getPlot()).getLegendLabelFormat() != null)
 		{
 			piePlot3D.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(((JRFillPie3DPlot)getPlot()).getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(((JRPie3DPlot)getPlot()).getLegendLabelFormat())
 				);
 		}
 		
@@ -779,7 +785,7 @@ public class GenericChartTheme implements ChartTheme
 
 //		piePlot3D.setLabelFont(JRFontUtil.getAwtFont(new JRBaseFont(null, null, chart, null)));
 
-		piePlot3D.setLabelPaint(chart.getForecolor());
+		piePlot3D.setLabelPaint(getChart().getForecolor());
 
 		return jfreeChart;
 	}
@@ -788,42 +794,42 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createPieChart(byte evaluation) throws JRException
+	protected JFreeChart createPieChart() throws JRException
 	{
 		JFreeChart jfreeChart =
 			ChartFactory.createPieChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(PieDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(PieDataset)getDataset(),
 				isShowLegend(),
 				true,
 				false
 				);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 		PiePlot piePlot = (PiePlot)jfreeChart.getPlot();
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
-		JRFillPiePlot jrPlot = (JRFillPiePlot)getPlot();
+		JRPiePlot jrPlot = (JRPiePlot)getPlot();
 		boolean isCircular = jrPlot.getCircular() == null ? true : jrPlot.getCircular().booleanValue();
 		piePlot.setCircular(isCircular);
 
-		PieSectionLabelGenerator labelGenerator = ((JRFillPieDataset)getDataset()).getLabelGenerator();
+		PieSectionLabelGenerator labelGenerator = (PieSectionLabelGenerator)getLabelGenerator();
 		if (labelGenerator != null)
 		{
 			piePlot.setLabelGenerator(labelGenerator);
 		}
-		else if (((JRFillPiePlot)getPlot()).getLabelFormat() != null)
+		else if (((JRPiePlot)getPlot()).getLabelFormat() != null)
 		{
 			piePlot.setLabelGenerator(
-				new StandardPieSectionLabelGenerator(((JRFillPiePlot)getPlot()).getLabelFormat())
+				new StandardPieSectionLabelGenerator(((JRPiePlot)getPlot()).getLabelFormat())
 				);
 		}
 
-		if (((JRFillPiePlot)getPlot()).getLegendLabelFormat() != null)
+		if (((JRPiePlot)getPlot()).getLegendLabelFormat() != null)
 		{
 			piePlot.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(((JRFillPiePlot)getPlot()).getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(((JRPiePlot)getPlot()).getLegendLabelFormat())
 				);
 		}
 		
@@ -832,25 +838,25 @@ public class GenericChartTheme implements ChartTheme
 
 //		piePlot.setLabelFont(JRFontUtil.getAwtFont(new JRBaseFont(null, null, chart, null)));
 
-		piePlot.setLabelPaint(chart.getForecolor());
+		piePlot.setLabelPaint(getChart().getForecolor());
 		
 		return jfreeChart;
 	}
 
 
-	protected JFreeChart createScatterChart(byte evaluation) throws JRException 
+	protected JFreeChart createScatterChart() throws JRException 
 	{
 		JFreeChart jfreeChart = ChartFactory.createScatterPlot(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(((JRScatterPlot)getPlot()).getXAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(((JRScatterPlot)getPlot()).getYAxisLabelExpression(), evaluation ),
-				(XYDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(((JRScatterPlot)getPlot()).getXAxisLabelExpression()),
+				(String)evaluateExpression(((JRScatterPlot)getPlot()).getYAxisLabelExpression()),
+				(XYDataset)getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
 				false);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 		XYLineAndShapeRenderer plotRenderer = (XYLineAndShapeRenderer) ((XYPlot)jfreeChart.getPlot()).getRenderer();
 
 		JRScatterPlot scatterPlot = (JRScatterPlot) getPlot();
@@ -879,24 +885,24 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createStackedBar3DChart(byte evaluation) throws JRException
+	protected JFreeChart createStackedBar3DChart() throws JRException
 	{
 		JFreeChart jfreeChart =
 			ChartFactory.createStackedBarChart3D(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(CategoryDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression()),
+				(String)evaluateExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression()),
+				(CategoryDataset)getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
 				false
 				);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		JRFillBar3DPlot bar3DPlot = (JRFillBar3DPlot)getPlot();
+		JRBar3DPlot bar3DPlot = (JRBar3DPlot)getPlot();
 
 		StackedBarRenderer3D stackedBarRenderer3D =
 			new StackedBarRenderer3D(
@@ -904,7 +910,7 @@ public class GenericChartTheme implements ChartTheme
 				bar3DPlot.getYOffsetDouble() == null ? StackedBarRenderer3D.DEFAULT_Y_OFFSET : bar3DPlot.getYOffsetDouble().doubleValue()
 				);
 
-		stackedBarRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
+		stackedBarRenderer3D.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
 		stackedBarRenderer3D.setBaseItemLabelsVisible( bar3DPlot.getShowLabels() );
 
 		categoryPlot.setRenderer(stackedBarRenderer3D);
@@ -928,24 +934,24 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createStackedBarChart(byte evaluation) throws JRException
+	protected JFreeChart createStackedBarChart() throws JRException
 	{
 		JFreeChart jfreeChart =
 			ChartFactory.createStackedBarChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(CategoryDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression()),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression()),
+				(CategoryDataset)getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
 				false
 				);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		JRFillBarPlot barPlot = (JRFillBarPlot)getPlot();
+		JRBarPlot barPlot = (JRBarPlot)getPlot();
 		//plot.setNoDataMessage("No data to display");
 		boolean isShowTickMarks = barPlot.getShowTickMarks() == null ? true : barPlot.getShowTickMarks().booleanValue();
 		boolean isShowTickLabels = barPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels().booleanValue();
@@ -957,7 +963,7 @@ public class GenericChartTheme implements ChartTheme
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(isShowTickLabels);
 
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
-		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
+		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
 		categoryRenderer.setBaseItemLabelsVisible(isShowLabels);
 
 		// Handle the axis formating for the catagory axis
@@ -978,22 +984,22 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createStackedAreaChart(byte evaluation) throws JRException
+	protected JFreeChart createStackedAreaChart() throws JRException
 	{
 		JFreeChart jfreeChart =
 			ChartFactory.createStackedAreaChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(CategoryDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression()),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression()),
+				(CategoryDataset)getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
 				false
 				);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
-		JRFillAreaPlot areaPlot = (JRFillAreaPlot)getPlot();
+		configureChart(jfreeChart, getPlot());
+		JRAreaPlot areaPlot = (JRAreaPlot)getPlot();
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(((CategoryPlot)jfreeChart.getPlot()).getDomainAxis(), areaPlot.getCategoryAxisLabelFont(),
@@ -1012,21 +1018,21 @@ public class GenericChartTheme implements ChartTheme
 		return jfreeChart;
 	}
 
-	protected JFreeChart createXyAreaChart(byte evaluation) throws JRException 
+	protected JFreeChart createXyAreaChart() throws JRException 
 	{
 		JFreeChart jfreeChart = 
 			ChartFactory.createXYAreaChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation ),
-				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation ),
-				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(XYDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression() ),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression()),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression()),
+				(XYDataset)getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
 				false
 				);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 		JRAreaPlot areaPlot = (JRAreaPlot)getPlot();
 
 		// Handle the axis formating for the catagory axis
@@ -1048,21 +1054,21 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createXYBarChart(byte evaluation) throws JRException
+	protected JFreeChart createXYBarChart() throws JRException
 	{
-		IntervalXYDataset tmpDataset = (IntervalXYDataset)getDataset().getDataset();
+		IntervalXYDataset tmpDataset = (IntervalXYDataset)getDataset();
 
 		boolean isDate = true;
-		if( getDataset().getDatasetType() == JRChartDataset.XY_DATASET ){
+		if( getChart().getDataset().getDatasetType() == JRChartDataset.XY_DATASET ){
 			isDate = false;
 		}
 
 		JFreeChart jfreeChart =
 			ChartFactory.createXYBarChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression()),
 				isDate,
-				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression()),
 				tmpDataset,
 				getPlot().getOrientation(),
 				isShowLegend(),
@@ -1070,36 +1076,28 @@ public class GenericChartTheme implements ChartTheme
 				false
 				);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		//plot.setNoDataMessage("No data to display");
 //		((XYPlot)plot.getDomainAxis()).setTickMarksVisible(
-//			((JRFillBarPlot)getPlot()).isShowTickMarks()
+//			((JRBarPlot)getPlot()).isShowTickMarks()
 //			);
 //		((CategoryAxis)plot.getDomainAxis()).setTickLabelsVisible(
-//				((JRFillBarPlot)getPlot()).isShowTickLabels()
+//				((JRBarPlot)getPlot()).isShowTickLabels()
 //				);
 //		((NumberAxis)plot.getRangeAxis()).setTickMarksVisible(
-//				((JRFillBarPlot)getPlot()).isShowTickMarks()
+//				((JRBarPlot)getPlot()).isShowTickMarks()
 //				);
 //		((NumberAxis)plot.getRangeAxis()).setTickLabelsVisible(
-//				((JRFillBarPlot)getPlot()).isShowTickLabels()
+//				((JRBarPlot)getPlot()).isShowTickLabels()
 //				);
 
 
 		XYItemRenderer itemRenderer = xyPlot.getRenderer();
-		if( getDataset().getDatasetType() == JRChartDataset.TIMESERIES_DATASET ) {
-			itemRenderer.setBaseItemLabelGenerator( ((JRFillTimeSeriesDataset)getDataset()).getLabelGenerator() );
-		}
-		else if( getDataset().getDatasetType() == JRChartDataset.TIMEPERIOD_DATASET  ){
-			itemRenderer.setBaseItemLabelGenerator( ((JRFillTimePeriodDataset)getDataset()).getLabelGenerator() );
-		}
-		else if( getDataset().getDatasetType() == JRChartDataset.XY_DATASET ) {
-			itemRenderer.setBaseItemLabelGenerator( ((JRFillXyDataset)getDataset()).getLabelGenerator() );
-		}
+		itemRenderer.setBaseItemLabelGenerator((XYItemLabelGenerator)getLabelGenerator());
 
-		JRFillBarPlot barPlot = (JRFillBarPlot)getPlot();
+		JRBarPlot barPlot = (JRBarPlot)getPlot();
 		boolean isShowLabels = barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue();
 		
 		itemRenderer.setBaseItemLabelsVisible( isShowLabels );
@@ -1120,22 +1118,22 @@ public class GenericChartTheme implements ChartTheme
 	}
 
 
-	protected JFreeChart createXyLineChart(byte evaluation) throws JRException 
+	protected JFreeChart createXyLineChart() throws JRException 
 	{
 		JRLinePlot linePlot = (JRLinePlot) getPlot();
 
 		JFreeChart jfreeChart = 
 			ChartFactory.createXYLineChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(linePlot.getCategoryAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(linePlot.getValueAxisLabelExpression(), evaluation ),
-				(XYDataset)getDataset().getDataset(),
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(linePlot.getCategoryAxisLabelExpression()),
+				(String)evaluateExpression(linePlot.getValueAxisLabelExpression()),
+				(XYDataset)getDataset(),
 				linePlot.getOrientation(),
 				isShowLegend(),
 				true,
 				false);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), linePlot.getCategoryAxisLabelFont(),
@@ -1158,21 +1156,21 @@ public class GenericChartTheme implements ChartTheme
 		return jfreeChart;
 	}
 
-	protected JFreeChart createTimeSeriesChart(byte evaluation) throws JRException 
+	protected JFreeChart createTimeSeriesChart() throws JRException 
 	{
-		String timeAxisLabel = (String)evaluateExpression(((JRTimeSeriesPlot)getPlot()).getTimeAxisLabelExpression(), evaluation);
-		String valueAxisLabel = (String)evaluateExpression(((JRTimeSeriesPlot)getPlot()).getValueAxisLabelExpression(), evaluation);
+		String timeAxisLabel = (String)evaluateExpression(((JRTimeSeriesPlot)getPlot()).getTimeAxisLabelExpression());
+		String valueAxisLabel = (String)evaluateExpression(((JRTimeSeriesPlot)getPlot()).getValueAxisLabelExpression());
 
 		JFreeChart jfreeChart = ChartFactory.createTimeSeriesChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
+				(String)evaluateExpression(getChart().getTitleExpression()),
 				timeAxisLabel,
 				valueAxisLabel,
-				(TimeSeriesCollection)getDataset().getDataset(),
+				(TimeSeriesCollection)getDataset(),
 				isShowLegend(),
 				true,
 				false );
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		JRTimeSeriesPlot timeSeriesPlot = (JRTimeSeriesPlot)getPlot();
@@ -1202,28 +1200,27 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected JFreeChart createGanttChart(byte evaluation) throws JRException
+	protected JFreeChart createGanttChart() throws JRException
 	{
-		GanttCategoryDataset ganttCategoryDataset = (GanttCategoryDataset)getDataset().getDataset();
 		//FIXMECHART legend/tooltip/url should come from plot?
 		
 		JFreeChart jfreeChart =
 			ChartFactory.createGanttChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
-				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
-				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				ganttCategoryDataset,
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression()),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression()),
+				(GanttCategoryDataset)getDataset(),
 				isShowLegend(),
 				true,  //FIXMECHART tooltip: I guess BarPlot is not the best for gantt
 				false
 				);
 
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 		
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		//plot.setNoDataMessage("No data to display");
 		
-		JRFillBarPlot barPlot = (JRFillBarPlot)getPlot();
+		JRBarPlot barPlot = (JRBarPlot)getPlot();
 		boolean isShowTickMarks = barPlot.getShowTickMarks() == null ? true : barPlot.getShowTickMarks().booleanValue();
 		boolean isShowTickLabels = barPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels().booleanValue();
 		boolean isShowLabels = barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue();
@@ -1248,7 +1245,7 @@ public class GenericChartTheme implements ChartTheme
 			);
 
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
-		categoryRenderer.setBaseItemLabelGenerator(((JRFillGanttDataset)getDataset()).getLabelGenerator());
+		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
 		categoryRenderer.setBaseItemLabelsVisible(isShowLabels);
 
 		return jfreeChart;
@@ -1264,13 +1261,13 @@ public class GenericChartTheme implements ChartTheme
 	 * @throws JRException thrown when the low value of the range is greater than the
 	 * 						high value
 	 */
-	protected Range convertRange(JRDataRange dataRange, byte evaluation) throws JRException
+	protected Range convertRange(JRDataRange dataRange) throws JRException
 	{
 		if (dataRange == null)
 			return null;
 
-		Number low = (Number)evaluateExpression(dataRange.getLowExpression(), evaluation);
-		Number high = (Number)evaluateExpression(dataRange.getHighExpression(), evaluation);
+		Number low = (Number)evaluateExpression(dataRange.getLowExpression());
+		Number high = (Number)evaluateExpression(dataRange.getHighExpression());
 		return new Range( low != null ? low.doubleValue() : 0.0,
 								 high != null ? high.doubleValue() : 100.0);
 	}
@@ -1283,13 +1280,13 @@ public class GenericChartTheme implements ChartTheme
 	 * @return the JFreeChart version of the same interval
 	 * @throws JRException thrown when the interval contains an invalid range
 	 */
-	protected MeterInterval convertInterval(JRMeterInterval interval, byte evaluation) throws JRException
+	protected MeterInterval convertInterval(JRMeterInterval interval) throws JRException
 	{
 		String label = interval.getLabel();
 		if (label == null)
 			label = "";
 
-		Range range = convertRange(interval.getDataRange(), evaluation);
+		Range range = convertRange(interval.getDataRange());
 
 		Color color = interval.getBackgroundColor() != null ? interval.getBackgroundColor() : (Color)ChartThemesConstants.TRANSPARENT_PAINT;
 		float[] components = color.getRGBColorComponents(null);
@@ -1306,12 +1303,12 @@ public class GenericChartTheme implements ChartTheme
 	 * @param evaluation current expression evaluation phase
 	 * @throws JRException
 	*/
-	protected JFreeChart createMeterChart( byte evaluation ) throws JRException 
+	protected JFreeChart createMeterChart() throws JRException 
 	{
-		JRFillMeterPlot jrPlot = (JRFillMeterPlot)getPlot();
+		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
 
 		// Start by creating the plot that wil hold the meter
-		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset().getDataset());
+		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset());
 
 		// Set the shape
 		int shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_PIE : jrPlot.getShapeByte().intValue();
@@ -1323,7 +1320,7 @@ public class GenericChartTheme implements ChartTheme
 			chartPlot.setDialShape(DialShape.PIE);
 
 		// Set the meter's range
-		chartPlot.setRange(convertRange(jrPlot.getDataRange(), evaluation));
+		chartPlot.setRange(convertRange(jrPlot.getDataRange()));
 
 		// Set the size of the meter
 		int meterAngle = jrPlot.getMeterAngleInteger() == null ? 180 : jrPlot.getMeterAngleInteger().intValue();
@@ -1382,21 +1379,21 @@ public class GenericChartTheme implements ChartTheme
 			{
 				JRMeterInterval interval = (JRMeterInterval)iter.next();
 				if(interval != null)
-					chartPlot.addInterval(convertInterval(interval, evaluation));
+					chartPlot.addInterval(convertInterval(interval));
 			}
 		}
 
 		// Actually create the chart around the plot
 		JFreeChart jfreeChart = 
 			new JFreeChart(
-				(String)evaluateExpression(chart.getTitleExpression(), evaluation),
+				(String)evaluateExpression(getChart().getTitleExpression()),
 				null, 
 				chartPlot, 
 				isShowLegend()
 				);
 
 		// Set all the generic options
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 
 		return jfreeChart;
 	}
@@ -1409,14 +1406,14 @@ public class GenericChartTheme implements ChartTheme
 	 * @param evaluation current expression evaluation phase
 	 * @throws JRException
 	 */
-	protected JFreeChart createThermometerChart( byte evaluation ) throws JRException 
+	protected JFreeChart createThermometerChart() throws JRException 
 	{
-		JRFillThermometerPlot jrPlot = (JRFillThermometerPlot)getPlot();
+		JRThermometerPlot jrPlot = (JRThermometerPlot)getPlot();
 
 		// Create the plot that will hold the thermometer.
-		ThermometerPlot chartPlot = new ThermometerPlot((ValueDataset)getDataset().getDataset());
+		ThermometerPlot chartPlot = new ThermometerPlot((ValueDataset)getDataset());
 
-		Range range = convertRange(jrPlot.getDataRange(), evaluation);
+		Range range = convertRange(jrPlot.getDataRange());
 
 		// Set the boundary of the thermomoter
 		chartPlot.setLowerBound(range.getLowerBound());
@@ -1471,19 +1468,19 @@ public class GenericChartTheme implements ChartTheme
 		}
 
 		// Define the three ranges
-		range = convertRange(jrPlot.getLowRange(), evaluation);
+		range = convertRange(jrPlot.getLowRange());
 		if (range != null)
 		{
 			chartPlot.setSubrangeInfo(2, range.getLowerBound(), range.getUpperBound());
 		}
 
-		range = convertRange(jrPlot.getMediumRange(), evaluation);
+		range = convertRange(jrPlot.getMediumRange());
 		if (range != null)
 		{
 			chartPlot.setSubrangeInfo(1, range.getLowerBound(), range.getUpperBound());
 		}
 
-		range = convertRange(jrPlot.getHighRange(), evaluation);
+		range = convertRange(jrPlot.getHighRange());
 		if (range != null)
 		{
 			chartPlot.setSubrangeInfo(0, range.getLowerBound(), range.getUpperBound());
@@ -1493,7 +1490,7 @@ public class GenericChartTheme implements ChartTheme
 		JFreeChart jfreeChart = new JFreeChart(chartPlot);
 
 		// Set the generic options
-		configureChart(jfreeChart, getPlot(), evaluation);
+		configureChart(jfreeChart, getPlot());
 		
 		return jfreeChart;
 	}
@@ -1502,7 +1499,7 @@ public class GenericChartTheme implements ChartTheme
 	 * Specifies the axis location.
 	 * It has to be overriden for child themes with another default axis location
 	 */
-	protected AxisLocation getChartAxisLocation(JRFillChartAxis chartAxis)
+	protected AxisLocation getChartAxisLocation(JRChartAxis chartAxis)
 	{
 		if(chartAxis.getPositionByte() != null)
 		{
@@ -1578,17 +1575,17 @@ public class GenericChartTheme implements ChartTheme
 		Integer defaultBackgroundImageAlignment = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE_ALIGNMENT);
 		Float defaultBackgroundImageAlpha = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE_ALPHA);
 
-		if (chart.getOwnMode() != null)
+		if (getChart().getOwnMode() != null)
 		{
-			if(chart.getOwnMode().byteValue() == JRElement.MODE_OPAQUE)
+			if(getChart().getOwnMode().byteValue() == JRElement.MODE_OPAQUE)
 			{
-				if(chart.getOwnBackcolor() == null && defaultBackgroundPaint != null)
+				if(getChart().getOwnBackcolor() == null && defaultBackgroundPaint != null)
 				{
 					jfreeChart.setBackgroundPaint(defaultBackgroundPaint);
 				}
 				else
 				{
-					jfreeChart.setBackgroundPaint(chart.getBackcolor());
+					jfreeChart.setBackgroundPaint(getChart().getBackcolor());
 				}
 				
 				setChartBackgroundImage(jfreeChart, 
@@ -1651,13 +1648,13 @@ public class GenericChartTheme implements ChartTheme
 						((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BASEFONT_BOLD_STYLE)).intValue() :
 						Font.PLAIN;
 				
-				titleFont = titleFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(chart.getTitleFont(), defaultTitleBaseFontBoldStyle, defaultTitleBaseFontItalicStyle));
+				titleFont = titleFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(getChart().getTitleFont(), defaultTitleBaseFontBoldStyle, defaultTitleBaseFontItalicStyle));
 	
 				Float defaultTitleBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BASEFONT_SIZE) != null ?
 						((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BASEFONT_SIZE)) :
 						baseFontSize;
 				
-				if(chart.getTitleFont().getOwnFontSize() == null && defaultTitleBaseFontSize != null)
+				if(getChart().getTitleFont().getOwnFontSize() == null && defaultTitleBaseFontSize != null)
 				{
 					titleFont = titleFont.deriveFont(defaultTitleBaseFontSize.floatValue());
 				}
@@ -1677,11 +1674,11 @@ public class GenericChartTheme implements ChartTheme
 				if(titlePadding != null)
 					title.setPadding(titlePadding);
 				
-				Color titleForecolor = chart.getOwnTitleColor() != null ? 
-						chart.getOwnTitleColor() :
+				Color titleForecolor = getChart().getOwnTitleColor() != null ? 
+						getChart().getOwnTitleColor() :
 						(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_FORECOLOR) != null ? 
 								(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_FORECOLOR) :
-								chart.getTitleColor());
+								getChart().getTitleColor());
 				if(titleForecolor != null)
 					title.setPaint(titleForecolor);
 	
@@ -1692,7 +1689,7 @@ public class GenericChartTheme implements ChartTheme
 					title.setBackgroundPaint(titleBackcolor);
 				
 				RectangleEdge defaultTitlePosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_POSITION);
-				titleEdge = getEdge(chart.getTitlePositionByte(), defaultTitlePosition);
+				titleEdge = getEdge(getChart().getTitlePositionByte(), defaultTitlePosition);
 				if(titleEdge != null)
 					title.setPosition(titleEdge);
 			}
@@ -1704,13 +1701,13 @@ public class GenericChartTheme implements ChartTheme
 		}
 	}
 
-	protected void setChartSubtitles(JFreeChart jfreeChart, Float baseFontSize, byte evaluation) throws JRException
+	protected void setChartSubtitles(JFreeChart jfreeChart, Float baseFontSize) throws JRException
 	{			
 		Boolean subtitleVisibility = (Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_VISIBLE);
 
 		if(subtitleVisibility != null && subtitleVisibility.booleanValue())
 		{
-			String subtitleText = (String)evaluateExpression(chart.getSubtitleExpression(), evaluation);
+			String subtitleText = (String)evaluateExpression(getChart().getSubtitleExpression());
 			if (subtitleText != null)
 			{
 				TextTitle subtitle = new TextTitle(subtitleText);
@@ -1723,13 +1720,13 @@ public class GenericChartTheme implements ChartTheme
 						((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_BASEFONT_BOLD_STYLE)).intValue() :
 						Font.PLAIN;
 				
-				subtitleFont = subtitleFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(chart.getSubtitleFont(), defaultSubtitleBaseFontBoldStyle, defaultSubtitleBaseFontItalicStyle));
+				subtitleFont = subtitleFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(getChart().getSubtitleFont(), defaultSubtitleBaseFontBoldStyle, defaultSubtitleBaseFontItalicStyle));
 	
 				Float defaultSubtitleBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_BASEFONT_SIZE) != null ?
 						((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_BASEFONT_SIZE)) :
 						baseFontSize;
 				
-				if(chart.getSubtitleFont().getOwnFontSize() == null && defaultSubtitleBaseFontSize != null)
+				if(getChart().getSubtitleFont().getOwnFontSize() == null && defaultSubtitleBaseFontSize != null)
 				{
 					subtitleFont = subtitleFont.deriveFont(defaultSubtitleBaseFontSize.floatValue());
 				}
@@ -1749,11 +1746,11 @@ public class GenericChartTheme implements ChartTheme
 				if(subtitlePadding != null)
 					subtitle.setPadding(subtitlePadding);
 
-				Color subtitleForecolor = chart.getOwnSubtitleColor() != null ? 
-						chart.getOwnSubtitleColor() :
+				Color subtitleForecolor = getChart().getOwnSubtitleColor() != null ? 
+						getChart().getOwnSubtitleColor() :
 						(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_FORECOLOR) != null ? 
 								(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_FORECOLOR) :
-								chart.getSubtitleColor());
+								getChart().getSubtitleColor());
 				if(subtitleForecolor != null)
 					subtitle.setPaint(subtitleForecolor);
 	
@@ -1799,32 +1796,32 @@ public class GenericChartTheme implements ChartTheme
 					((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BASEFONT_ITALIC_STYLE)).intValue() :
 					Font.PLAIN;
 			
-			legendFont = legendFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(chart.getLegendFont(), defaultLegendBaseFontBoldStyle, defaultLegendBaseFontItalicStyle));
+			legendFont = legendFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(getChart().getLegendFont(), defaultLegendBaseFontBoldStyle, defaultLegendBaseFontItalicStyle));
 
 			Float defaultLegendBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BASEFONT_SIZE) != null ?
 					((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BASEFONT_SIZE)) :
 					baseFontSize;
 			
-			if(chart.getLegendFont().getOwnFontSize() == null && defaultLegendBaseFontSize != null)
+			if(getChart().getLegendFont().getOwnFontSize() == null && defaultLegendBaseFontSize != null)
 			{
 				legendFont = legendFont.deriveFont(defaultLegendBaseFontSize.floatValue());
 			}
 
 			legend.setItemFont(legendFont);
 			
-			Color legendForecolor = chart.getOwnLegendColor() != null ? 
-					chart.getOwnLegendColor() :
+			Color legendForecolor = getChart().getOwnLegendColor() != null ? 
+					getChart().getOwnLegendColor() :
 					(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_FORECOLOR) != null ? 
 							(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_FORECOLOR) :
-							chart.getLegendColor());
+							getChart().getLegendColor());
 			if(legendForecolor != null)
 				legend.setItemPaint(legendForecolor);
 
-			Color legendBackcolor = chart.getOwnLegendBackgroundColor() != null ? 
-					chart.getOwnLegendBackgroundColor() :
+			Color legendBackcolor = getChart().getOwnLegendBackgroundColor() != null ? 
+					getChart().getOwnLegendBackgroundColor() :
 					(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BACKCOLOR) != null ? 
 							(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BACKCOLOR) :
-							chart.getLegendBackgroundColor());
+							getChart().getLegendBackgroundColor());
 			if(legendBackcolor != null)
 				legend.setBackgroundPaint(legendBackcolor);
 			
@@ -1846,15 +1843,15 @@ public class GenericChartTheme implements ChartTheme
 				legend.setPadding(legendPadding);
 
 			RectangleEdge defaultLegendPosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_POSITION);
-			if(getEdge(chart.getLegendPositionByte(), defaultLegendPosition) != null)
-				legend.setPosition(getEdge(chart.getLegendPositionByte(), defaultLegendPosition));
+			if(getEdge(getChart().getLegendPositionByte(), defaultLegendPosition) != null)
+				legend.setPosition(getEdge(getChart().getLegendPositionByte(), defaultLegendPosition));
 			
 		}
 	}
 	
 	protected void setChartBorder(JFreeChart jfreeChart)
 	{
-		JRLineBox lineBox = chart.getLineBox();
+		JRLineBox lineBox = getChart().getLineBox();
 		if(
 			lineBox.getLeftPen().getLineWidth().floatValue() == 0
 			&& lineBox.getBottomPen().getLineWidth().floatValue() == 0
@@ -2056,7 +2053,7 @@ public class GenericChartTheme implements ChartTheme
 			if(defaultLabelAngle != null)
 				axis.setLabelAngle(defaultLabelAngle.doubleValue());
 			Font themeLabelFont = labelFont != null ? 
-					JRFontUtil.getAwtFont(labelFont, chart.getLocale()) :
+					JRFontUtil.getAwtFont(labelFont, getLocale()) :
 					(Font)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_FONT);
 			if(themeLabelFont != null)
 			{
@@ -2103,7 +2100,7 @@ public class GenericChartTheme implements ChartTheme
 		if(defaultAxisTickLabelsVisible != null && defaultAxisTickLabelsVisible.booleanValue())
 		{
 			Font themeTickLabelFont = tickLabelFont != null ? 
-					JRFontUtil.getAwtFont(tickLabelFont, chart.getLocale()) :
+					JRFontUtil.getAwtFont(tickLabelFont, getLocale()) :
 					(Font)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_FONT);
 			if(themeTickLabelFont != null)
 			{
@@ -2210,20 +2207,20 @@ public class GenericChartTheme implements ChartTheme
 			int tickCount = -1;
 			
 			
-			if(chart.hasProperties())
+			if(getChart().hasProperties())
 			{
 				String tickCountProperty = null;
 				if(isRangeAxis)
 				{
-					axisMinValue = chart.getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.minvalue");
-					axisMaxValue = chart.getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.maxvalue");
-					tickCountProperty = chart.getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.tickcount");
+					axisMinValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.minvalue");
+					axisMaxValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.maxvalue");
+					tickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.tickcount");
 				}
 				else
 				{
-					axisMinValue = chart.getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.minvalue");
-					axisMaxValue = chart.getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.maxvalue");
-					tickCountProperty = chart.getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.tickcount");
+					axisMinValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.minvalue");
+					axisMaxValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.maxvalue");
+					tickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.tickcount");
 				}
 				if(tickCountProperty != null)
 				{
@@ -2336,8 +2333,8 @@ public class GenericChartTheme implements ChartTheme
 	 */
 	protected boolean isShowLegend()
 	{
-		Boolean legendVisibility = chart.getShowLegend() != null ?
-				chart.getShowLegend() :
+		Boolean legendVisibility = getChart().getShowLegend() != null ?
+				getChart().getShowLegend() :
 				(Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_VISIBLE);
 
 		return legendVisibility != null ? legendVisibility.booleanValue() : false;

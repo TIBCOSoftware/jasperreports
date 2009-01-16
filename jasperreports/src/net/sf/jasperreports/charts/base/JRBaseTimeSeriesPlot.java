@@ -77,21 +77,39 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	/**
 	 * 
 	 */
-	protected JRBaseTimeSeriesPlot(JRChartPlot plot, JRChart chart){
+	protected JRBaseTimeSeriesPlot(JRChartPlot plot, JRChart chart)
+	{
 		super(plot, chart);
+		
+		JRTimeSeriesPlot timeSeriesPlot = plot instanceof JRTimeSeriesPlot ? (JRTimeSeriesPlot)plot : null;
+		if (timeSeriesPlot == null)
+		{
+			timeAxisLabelFont = new JRBaseFont(chart, null);
+			timeAxisTickLabelFont = new JRBaseFont(chart, null);
+			valueAxisLabelFont = new JRBaseFont(chart, null);
+			valueAxisTickLabelFont = new JRBaseFont(chart, null);
+		}
+		else
+		{//FIXMETHEME you could copy more things
+			timeAxisLabelFont = new JRBaseFont(chart, timeSeriesPlot.getTimeAxisLabelFont());
+			timeAxisTickLabelFont = new JRBaseFont(chart, timeSeriesPlot.getTimeAxisTickLabelFont());
+			valueAxisLabelFont = new JRBaseFont(chart, timeSeriesPlot.getValueAxisLabelFont());
+			valueAxisTickLabelFont = new JRBaseFont(chart, timeSeriesPlot.getValueAxisTickLabelFont());
+		}
 	}
 	
 	/**
 	 * 
 	 */
-	public JRBaseTimeSeriesPlot( JRTimeSeriesPlot plot, JRBaseObjectFactory factory ){
-		super( plot, factory );
+	public JRBaseTimeSeriesPlot(JRTimeSeriesPlot plot, JRBaseObjectFactory factory)
+	{
+		super(plot, factory);
 		
 		showLines = plot.getShowLines();
 		showShapes = plot.getShowShapes();
 		
 		timeAxisLabelExpression = factory.getExpression( plot.getTimeAxisLabelExpression() );
-		timeAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getTimeAxisLabelFont());
+		timeAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getTimeAxisLabelFont());//FIXMETHEME check this plot.getChart(); don't we get the design chart?
 		timeAxisLabelColor = plot.getOwnTimeAxisLabelColor();
 		timeAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = plot.getOwnTimeAxisTickLabelColor();

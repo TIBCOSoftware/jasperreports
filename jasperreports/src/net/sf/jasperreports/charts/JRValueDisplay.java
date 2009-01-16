@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.charts;
 
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRFont;
 
@@ -43,6 +44,11 @@ import java.awt.Color;
  */
 public interface JRValueDisplay extends JRCloneable
 {
+	/**
+	 * 
+	 */
+	public JRChart getChart();
+	
 	/**
 	 * Returns the color to use when writing the value.
 	 *

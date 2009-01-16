@@ -27,14 +27,16 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseValueDisplay;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
-
-import java.awt.Color;
 
 /**
  * An object that specifies how a single value should be displayed.  Used with
@@ -62,9 +64,9 @@ public class JRDesignValueDisplay extends JRBaseValueDisplay implements JRChange
 	 *
 	 * @param valueDisplay the display to copy
 	 */
-	public JRDesignValueDisplay(JRValueDisplay valueDisplay)
+	public JRDesignValueDisplay(JRValueDisplay valueDisplay, JRChart chart)//FIXMECHART this should be very similar to font; just a container, with unimportant design object
 	{
-		super(valueDisplay);
+		super(valueDisplay, chart);
 	}
 
 	/**
@@ -100,7 +102,7 @@ public class JRDesignValueDisplay extends JRBaseValueDisplay implements JRChange
 	public void setFont(JRFont font)
 	{
 		Object old = this.font;
-		this.font = font;
+		this.font = new JRBaseFont(getChart(), font);
 		getEventSupport().firePropertyChange(PROPERTY_FONT, old, this.font);
 	}
 	

@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -95,7 +96,7 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	public void setXAxisLabelFont(JRFont xAxisLabelFont)
 	{
 		Object old = this.xAxisLabelFont;
-		this.xAxisLabelFont = xAxisLabelFont;
+		this.xAxisLabelFont = new JRBaseFont(this.getChart(), xAxisLabelFont);
 		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_LABEL_FONT, old, this.xAxisLabelFont);
 	}
 
@@ -115,7 +116,7 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	public void setXAxisTickLabelFont(JRFont xAxisTickLabelFont)
 	{
 		Object old = this.xAxisTickLabelFont;
-		this.xAxisTickLabelFont = xAxisTickLabelFont;
+		this.xAxisTickLabelFont = new JRBaseFont(this.getChart(), xAxisTickLabelFont);
 		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_TICK_LABEL_FONT, old, this.xAxisTickLabelFont);
 	}
 
@@ -164,7 +165,7 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	public void setYAxisLabelFont(JRFont yAxisLabelFont)
 	{
 		Object old = this.yAxisLabelFont;
-		this.yAxisLabelFont = yAxisLabelFont;
+		this.yAxisLabelFont = new JRBaseFont(this.getChart(), yAxisLabelFont);
 		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_LABEL_FONT, old, this.yAxisLabelFont);
 	}
 
@@ -184,7 +185,7 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	public void setYAxisTickLabelFont(JRFont yAxisTickLabelFont)
 	{
 		Object old = this.yAxisTickLabelFont;
-		this.yAxisTickLabelFont = yAxisTickLabelFont;
+		this.yAxisTickLabelFont = new JRBaseFont(this.getChart(), yAxisTickLabelFont);
 		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_TICK_LABEL_FONT, old, this.yAxisTickLabelFont);
 	}
 

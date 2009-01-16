@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.fill;
 import java.awt.Color;
 
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -40,7 +41,16 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 public class JRFillValueDisplay implements JRValueDisplay
 {
 
+	/**
+	 *
+	 */
 	protected JRValueDisplay parent = null;
+
+	/**
+	 *
+	 */
+	protected JRChart chart = null;
+
 	/**
 	 *
 	 */
@@ -49,8 +59,18 @@ public class JRFillValueDisplay implements JRValueDisplay
 		factory.put(valueDisplay, this);
 
 		parent = valueDisplay;
+		
+		chart = (JRChart)factory.getVisitResult(valueDisplay.getChart());
 	}
 
+	/**
+	 *
+	 */
+	public JRChart getChart()
+	{
+		return chart;
+	}
+	
 	/**
 	 *
 	 */

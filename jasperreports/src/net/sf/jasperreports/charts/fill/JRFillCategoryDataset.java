@@ -196,7 +196,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	/**
 	 *
 	 */
-	public CategoryLabelGenerator getLabelGenerator()
+	public Object getLabelGenerator()
 	{
 		return new CategoryLabelGenerator(labelsMap);
 	}

@@ -17,7 +17,6 @@ import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.util.Pair;
 
-import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
@@ -222,7 +221,7 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 	/**
 	 *
 	 */
-	public CategoryItemLabelGenerator getLabelGenerator(){
+	public Object getLabelGenerator(){
 		return new CategoryLabelGenerator(labelsMap);
 	}
 

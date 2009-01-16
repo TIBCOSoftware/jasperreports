@@ -35,16 +35,23 @@
  */
 package net.sf.jasperreports.engine.convert;
 
+import java.awt.geom.Rectangle2D;
+
+import net.sf.jasperreports.charts.ChartContext;
+import net.sf.jasperreports.charts.ChartTheme;
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
-import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
+
+import org.jfree.chart.JFreeChart;
 
 
 /**
@@ -90,7 +97,7 @@ public class ChartConverter extends ElementConverter
 		printImage.setBookmarkLevel(chart.getBookmarkLevel());
 		printImage.setLinkType(chart.getLinkType());
 		printImage.setOnErrorType(JRImage.ON_ERROR_TYPE_ICON);
-		printImage.setRenderer(getRenderer(chart));
+		printImage.setRenderer(getRenderer(reportConverter, chart));
 		printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
 		
 		return printImage;
@@ -99,23 +106,41 @@ public class ChartConverter extends ElementConverter
 	/**
 	 * 
 	 */
-	private JRRenderable getRenderer(JRChart chart)
+	private JRRenderable getRenderer(ReportConverter reportConverter, JRChart chart)
 	{
+		String renderType = chart.getRenderType();//FIXMETHEME try reuse this sequence
+		if(renderType == null)
+		{
+			renderType = JRProperties.getProperty(reportConverter.getReport(), JRChart.PROPERTY_CHART_RENDER_TYPE);
+		}
+		
+		String themeName = chart.getTheme();
+		if(themeName == null)
+		{
+			themeName = JRProperties.getProperty(reportConverter.getReport(), JRChart.PROPERTY_CHART_THEME);
+		}
+		
+		ChartTheme theme = ChartUtil.getChartTheme(themeName);
+		
+		ChartContext chartContext = new ConvertChartContext(chart);
+		
+		JFreeChart jfreeChart = null;
 		try
 		{
-			chart.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
-			return 
-				JRImageRenderer.getInstance(
-					JRImageLoader.CHART_IMAGE_RESOURCE, 
-					JRImage.ON_ERROR_TYPE_ERROR
-					);
+			jfreeChart = theme.createChart(chartContext);
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			throw new JRRuntimeException(e);
 		}
 		
-		return null;
-	}
+		Rectangle2D rectangle = new Rectangle2D.Double(0, 0, chart.getWidth(), chart.getHeight());
 
+		return 
+			ChartUtil.getChartRendererFactory(renderType).getRenderer(
+				jfreeChart, 
+				null,
+				rectangle
+				);
+	}
 }

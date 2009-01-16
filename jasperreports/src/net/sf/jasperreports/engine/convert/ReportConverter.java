@@ -440,6 +440,15 @@ public class ReportConverter
 	/**
 	 * 
 	 */	
+	public JRReport getReport()
+	{
+		return report;
+	}
+	
+	
+	/**
+	 * 
+	 */	
 	public JasperPrint getJasperPrint()
 	{
 		return jasperPrint;

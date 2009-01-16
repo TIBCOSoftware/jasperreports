@@ -58,7 +58,7 @@ public class JRDesignFont extends JRBaseFont
 		
 
 	/**
-	 *
+	 * @deprecated To be removed in future versions.
 	 */
 	public JRDesignFont(JRDefaultFontProvider defaultFontProvider)
 	{

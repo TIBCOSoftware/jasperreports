@@ -83,15 +83,33 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	/**
 	 * 
 	 */
-	public JRBaseBar3DPlot(JRChartPlot barPlot, JRChart chart){
-		super(barPlot, chart);
+	public JRBaseBar3DPlot(JRChartPlot plot, JRChart chart)
+	{
+		super(plot, chart);
+		
+		JRBar3DPlot barPlot = plot instanceof JRBar3DPlot ? (JRBar3DPlot)plot : null;
+		if (barPlot == null)
+		{
+			categoryAxisLabelFont = new JRBaseFont(chart, null);
+			categoryAxisTickLabelFont = new JRBaseFont(chart, null);
+			valueAxisLabelFont = new JRBaseFont(chart, null);
+			valueAxisTickLabelFont = new JRBaseFont(chart, null);
+		}
+		else
+		{
+			categoryAxisLabelFont = new JRBaseFont(chart, barPlot.getCategoryAxisLabelFont());
+			categoryAxisTickLabelFont = new JRBaseFont(chart, barPlot.getCategoryAxisTickLabelFont());
+			valueAxisLabelFont = new JRBaseFont(chart, barPlot.getValueAxisLabelFont());
+			valueAxisTickLabelFont = new JRBaseFont(chart, barPlot.getValueAxisTickLabelFont());
+		}
 	}
 
 
 	/**
 	 * 
 	 */
-	public JRBaseBar3DPlot( JRBar3DPlot barPlot, JRBaseObjectFactory factory ){
+	public JRBaseBar3DPlot(JRBar3DPlot barPlot, JRBaseObjectFactory factory )
+	{
 		super( barPlot, factory );
 		
 		xOffsetDouble = barPlot.getXOffsetDouble();

@@ -182,7 +182,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	}
 
 
-	public PieLabelGenerator getLabelGenerator(){
+	public Object getLabelGenerator(){
 		return (getLabelExpression() == null) ? null : new PieLabelGenerator( labels );
 	}
 	

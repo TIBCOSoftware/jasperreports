@@ -205,7 +205,7 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 	/**
 	 * 
 	 */
-	public TimePeriodDatasetLabelGenerator getLabelGenerator()
+	public Object getLabelGenerator()
 	{
 		return new TimePeriodDatasetLabelGenerator(labelsMap);
 	}

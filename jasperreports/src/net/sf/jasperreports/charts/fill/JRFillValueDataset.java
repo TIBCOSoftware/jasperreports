@@ -108,6 +108,14 @@ public class JRFillValueDataset extends JRFillChartDataset implements JRValueDat
 	/**
 	 *
 	 */
+	public Object getLabelGenerator()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
 	public byte getDatasetType() {
 		return JRChartDataset.VALUE_DATASET;
 	}

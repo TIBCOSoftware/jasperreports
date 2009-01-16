@@ -35,6 +35,7 @@ import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseMeterPlot;
+import net.sf.jasperreports.charts.base.JRBaseValueDisplay;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
@@ -111,7 +112,7 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	public void setValueDisplay(JRValueDisplay valueDisplay)
 	{
 		Object old = this.valueDisplay;
-		this.valueDisplay = valueDisplay;
+		this.valueDisplay = new JRBaseValueDisplay(valueDisplay, getChart());
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_DISPLAY, old, this.valueDisplay);
 	}
 

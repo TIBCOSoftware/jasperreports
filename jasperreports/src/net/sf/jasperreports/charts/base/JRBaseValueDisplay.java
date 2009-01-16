@@ -31,10 +31,12 @@ import java.awt.Color;
 import java.io.Serializable;
 
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -53,6 +55,8 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	protected JRChart chart = null;
 
 	/**
 	 * The color to use when writing the value.
@@ -75,14 +79,21 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 	 * Constructs a copy of an existing value format specification.
 	 *
 	 * @param valueDisplay the value formatting object to copy
+	 * @param chart the parent chart
 	 */
-	public JRBaseValueDisplay(JRValueDisplay valueDisplay)
+	public JRBaseValueDisplay(JRValueDisplay valueDisplay, JRChart chart)
 	{
-		if (valueDisplay != null)
+		this.chart = chart;
+		
+		if (valueDisplay == null)
+		{
+			font = new JRBaseFont(chart, null);
+		}
+		else
 		{
 			color = valueDisplay.getColor();
 			mask = valueDisplay.getMask();
-			font = valueDisplay.getFont();
+			font = new JRBaseFont(valueDisplay.getChart(), valueDisplay.getFont());
 		}
 	}
 
@@ -97,14 +108,21 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 	{
 		factory.put(valueDisplay, this);
 
-		if (valueDisplay != null)
-		{
-			color = valueDisplay.getColor();
-			mask = valueDisplay.getMask();
-			font = valueDisplay.getFont();
-		}
+		chart = (JRChart)factory.getVisitResult(valueDisplay.getChart());
+
+		color = valueDisplay.getColor();
+		mask = valueDisplay.getMask();
+		font = new JRBaseFont(valueDisplay.getChart(), valueDisplay.getFont());
 	}
 
+
+	/**
+	 *
+	 */
+	public JRChart getChart()
+	{
+		return chart;
+	}
 
 	/**
 	 *

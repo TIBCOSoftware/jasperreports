@@ -31,8 +31,6 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-import org.jfree.chart.renderer.category.BarRenderer3D;
-
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
@@ -292,9 +290,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		renderType = chart.getRenderType();
 		theme = chart.getTheme();
 		
-		titleFont = new JRBaseFont(null, null, this, chart.getTitleFont());
-		subtitleFont = new JRBaseFont(null, null, this, chart.getSubtitleFont());
-		legendFont = new JRBaseFont(null, null, this, chart.getLegendFont());
+		titleFont = new JRBaseFont(this, chart.getTitleFont());
+		subtitleFont = new JRBaseFont(this, chart.getSubtitleFont());
+		legendFont = new JRBaseFont(this, chart.getLegendFont());
 
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 		titleExpression = factory.getExpression(chart.getTitleExpression());

@@ -217,7 +217,7 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	/**
 	 * 
 	 */
-	public XYDatasetLabelGenerator getLabelGenerator(){
+	public Object getLabelGenerator(){
 		return new XYDatasetLabelGenerator(labelsMap);	
 	}
 	
