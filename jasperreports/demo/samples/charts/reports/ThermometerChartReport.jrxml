@@ -240,7 +240,7 @@
                 <textElement textAlignment="Center">
                     <font size="22"/>
                 </textElement>
-                <text><![CDATA[Meter Chart Report]]></text>
+                <text><![CDATA[Thermometer Chart Report]]></text>
             </staticText>
         </band>
     </title>
