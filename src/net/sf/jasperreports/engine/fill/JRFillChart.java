@@ -1868,7 +1868,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		}
 		
 		public Object evaluateExpression(JRExpression expression) throws JRException {
-			return null;
+			return JRFillChart.this.evaluateExpression(expression, evaluation);
 		}
 
 		public JRChart getChart() {
