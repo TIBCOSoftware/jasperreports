@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
@@ -164,10 +165,10 @@ public class JRXmlConstants
 			colorMap.put(Color.black,      COLOR_BLACK);
 			colorMap.put(Color.blue,       COLOR_BLUE);
 			colorMap.put(Color.cyan,       COLOR_CYAN);
-			colorMap.put(Color.darkGray,  COLOR_DARK_GRAY);
+			colorMap.put(Color.darkGray,   COLOR_DARK_GRAY);
 			colorMap.put(Color.gray,       COLOR_GRAY);
 			colorMap.put(Color.green,      COLOR_GREEN);
-			colorMap.put(Color.lightGray, COLOR_LIGHT_GRAY);
+			colorMap.put(Color.lightGray,  COLOR_LIGHT_GRAY);
 			colorMap.put(Color.magenta,    COLOR_MAGENTA);
 			colorMap.put(Color.orange,     COLOR_ORANGE);
 			colorMap.put(Color.pink,       COLOR_PINK);
@@ -1243,7 +1244,7 @@ public class JRXmlConstants
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRColorUtil#getColor(String, Color)}.
 	 */
 	public static Color getColor(String strColor, Color defaultColor)
 	{
