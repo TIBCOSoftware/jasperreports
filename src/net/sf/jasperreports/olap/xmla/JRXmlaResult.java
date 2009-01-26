@@ -62,7 +62,17 @@ public class JRXmlaResult implements JROlapResult
 	public JROlapCell getCell(int[] axisPositions)
 	{
 		int cellOrdinal = getCellOrdinal(axisPositions);
-		return (JROlapCell) cells.get(cellOrdinal);
+		JROlapCell cell;
+		if (cellOrdinal < cells.size())
+		{
+			cell = (JROlapCell) cells.get(cellOrdinal);
+		}
+		else
+		{
+			// no cell with that ordinal
+			cell = null;
+		}
+		return cell;
 	}
 	
 	protected int getCellOrdinal(int[] axisPositions)
