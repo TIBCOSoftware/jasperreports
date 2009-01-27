@@ -1682,9 +1682,7 @@ public class GenericChartTheme implements ChartTheme
 				if(titleForecolor != null)
 					title.setPaint(titleForecolor);
 	
-				Color titleBackcolor = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BACKCOLOR) != null ? 
-						(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BACKCOLOR) :
-						null;
+				Color titleBackcolor = (Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BACKCOLOR);
 				if(titleBackcolor != null)
 					title.setBackgroundPaint(titleBackcolor);
 				
