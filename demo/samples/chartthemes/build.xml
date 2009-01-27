@@ -10,6 +10,9 @@
 	
 	<path id="classpath">
 		<pathelement location="./build/classes"/>
+		<fileset dir="./lib">
+			<include name="**/*.jar"/>
+		</fileset>
 		<pathelement location="${classes.dir}" />
 		<pathelement location="${fonts.dir}" />
 		<fileset dir="${lib.dir}">
@@ -26,6 +29,7 @@
 			<fileset dir="./src">
 				<include name="**/*.properties"/>
 				<include name="**/*.xml"/>
+				<include name="**/*.jrctx"/>
 			    <exclude name="**/pom.xml"/>
 			    <exclude name="**/build.xml"/>
 			</fileset>
@@ -50,6 +54,14 @@
 			</src>
 			<classpath refid="classpath"/>
 		</jrc> 
+	</target>
+
+	<target name="theme" description="Creates the *.jrctx file containing the chart theme settings.">
+		<java classname="${class.name}">
+			<arg value="theme"/>
+			<arg value="./src/simple.jrctx"/>
+			<classpath refid="classpath"/>
+		</java>
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
