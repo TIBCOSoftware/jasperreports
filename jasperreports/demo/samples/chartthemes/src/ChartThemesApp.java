@@ -34,11 +34,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.charts.themes.ColorProvider;
-import net.sf.jasperreports.charts.themes.FileBeanChartTheme;
-import net.sf.jasperreports.charts.themes.GradientPaintProvider;
-import net.sf.jasperreports.charts.themes.SimpleChartSettingsBean;
-import net.sf.jasperreports.charts.themes.SimpleChartThemeSettingsBean;
+import net.sf.jasperreports.chartthemes.simple.GradientPaintProvider;
+import net.sf.jasperreports.chartthemes.simple.SimpleChartSettings;
+import net.sf.jasperreports.chartthemes.simple.SimpleChartThemeSettings;
+import net.sf.jasperreports.chartthemes.simple.XmlChartTheme;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -102,7 +102,7 @@ public class ChartThemesApp
 			
 			if (TASK_THEME.equals(taskName))
 			{
-				FileBeanChartTheme.saveSettings(createChartThemeSettings(), new File(fileName));
+				XmlChartTheme.saveSettings(createChartThemeSettings(), new File(fileName));
 				System.err.println("Theme saving time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_FILL.equals(taskName))
@@ -380,16 +380,27 @@ public class ChartThemesApp
 	/**
 	 *
 	 */
-	public static final SimpleChartThemeSettingsBean createChartThemeSettings()
+	public static final SimpleChartThemeSettings createChartThemeSettings()
 	{
-		SimpleChartThemeSettingsBean settings = new SimpleChartThemeSettingsBean();
+		SimpleChartThemeSettings settings = new SimpleChartThemeSettings();
 
-		SimpleChartSettingsBean chartSettings = settings.getChartSettings();
-		//chartSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
-		chartSettings.setBackgroundPaint(new ColorProvider(Color.red));
+		SimpleChartSettings chartSettings = settings.getChartSettings();
+		chartSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
+		//chartSettings.setBackgroundPaint(new ColorProvider(Color.red));
+		chartSettings.setBorderVisible(Boolean.TRUE);
+		chartSettings.setAntiAlias(Boolean.TRUE);
 		chartSettings.setShowTitle(Boolean.TRUE);
+		chartSettings.setTitlePosition(new Byte(JRChart.EDGE_TOP));
+		chartSettings.setTitleForecolor(Color.black);
+		chartSettings.setTitleBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		chartSettings.setShowSubtitle(Boolean.TRUE);
+		chartSettings.setSubtitlePosition(new Byte(JRChart.EDGE_TOP));
+		chartSettings.setSubtitleForecolor(Color.black);
+		chartSettings.setSubtitleBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		chartSettings.setShowLegend(Boolean.TRUE);
+		chartSettings.setLegendPosition(new Byte(JRChart.EDGE_BOTTOM));
+		chartSettings.setLegendForecolor(Color.black);
+		chartSettings.setLegendBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		
 		return settings;
 	}

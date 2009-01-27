@@ -26,7 +26,7 @@
 		</property>
 	</bean>
 
-	<bean id="simpleChartTheme" class="net.sf.jasperreports.charts.themes.FileBeanChartTheme">
+	<bean id="simpleChartTheme" class="net.sf.jasperreports.chartthemes.simple.XmlChartTheme">
 		<property name="file" value="simple.jrctx"/>
 	</bean>
 
