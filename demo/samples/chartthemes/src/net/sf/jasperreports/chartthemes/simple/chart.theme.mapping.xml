@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="net.sf.jasperreports.chartthemes.simple.SimpleChartThemeSettings" auto-complete="true">
+		<map-to xml="chart-theme"/>
+	</class>
+
+	<class name="net.sf.jasperreports.chartthemes.simple.SimpleChartSettings" auto-complete="true">
+		<map-to xml="chart"/>
+		<field name="backgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="titlePosition" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="titleForecolor" type="java.awt.Color" handler="net.sf.jasperreports.chartthemes.simple.handlers.ColorFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="titleBackgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="subtitlePosition" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="subtitleForecolor" type="java.awt.Color" handler="net.sf.jasperreports.chartthemes.simple.handlers.ColorFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="subtitleBackgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="legendPosition" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="legendForecolor" type="java.awt.Color" handler="net.sf.jasperreports.chartthemes.simple.handlers.ColorFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="legendBackgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.chartthemes.simple.ColorProvider">
+		<map-to xml="color"/>
+		<field name="color" type="java.awt.Color" handler="net.sf.jasperreports.chartthemes.simple.handlers.ColorFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.chartthemes.simple.GradientPaintProvider">
+		<map-to xml="gradient-paint"/>
+		<field name="x1" type="integer">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="y1" type="integer">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="color1" type="java.awt.Color" handler="net.sf.jasperreports.chartthemes.simple.handlers.ColorFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="x2" type="integer">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="y2" type="integer">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="color2" type="java.awt.Color" handler="net.sf.jasperreports.chartthemes.simple.handlers.ColorFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+</mapping>
