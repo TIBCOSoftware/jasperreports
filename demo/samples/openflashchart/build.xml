@@ -40,7 +40,7 @@
 		</copy>
 	</target>
 	
-	<target name="jar" description="Packs the component classes and resources into a jar">
+	<target name="jar" description="Packs the component classes and resources into a jar" depends="javac">
 		<jar jarfile="./build/jasperreports-ofc-component.jar">
 			<manifest>
 				<attribute name="Built-By" value="Jaspersoft"/>
