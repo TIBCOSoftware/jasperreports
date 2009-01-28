@@ -41,11 +41,8 @@
 		<field name="antiAlias" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="unitType" type="org.jfree.util.UnitType" handler="net.sf.jasperreports.chartthemes.simple.handlers.UnitTypeFieldHandler">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="padding" type="java.lang.Double">
-			<bind-xml node="attribute"/>
+		<field name="padding" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
 		</field>
 	</class>
 	
@@ -68,6 +65,12 @@
 		</field>
 		<field name="horizontalAlignment" type="org.jfree.ui.HorizontalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentFieldHandler">
 			<bind-xml node="attribute"/>
+		</field>
+		<field name="verticalAlignment" type="org.jfree.ui.VerticalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="padding" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
 		</field>
 	</class>
 	
@@ -119,6 +122,27 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="italic" type="java.lang.Boolean" get-method="isOwnItalic" set-method="setItalic">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
+	<class name="org.jfree.ui.RectangleInsets" verify-constructable="false">
+		<map-to xml="insets"/>
+		<!--FIXMETHEME
+		<field name="unitType" type="org.jfree.util.UnitType" get-method="getUnitType" set-method="%1" handler="net.sf.jasperreports.chartthemes.simple.handlers.UnitTypeFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		-->
+		<field name="top" type="double" get-method="getTop" set-method="%1">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="left" type="double" get-method="getLeft" set-method="%2">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="bottom" type="double" get-method="getBottom" set-method="%3">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="right" type="double" get-method="getRight" set-method="%4">
 			<bind-xml node="attribute"/>
 		</field>
 	</class>

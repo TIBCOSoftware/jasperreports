@@ -26,24 +26,19 @@ package net.sf.jasperreports.chartthemes.simple;
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-import java.awt.Color;
-
-import net.sf.jasperreports.engine.JRChart;
-
-import org.jfree.util.UnitType;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: ChartThemesApp.java 2548 2009-01-27 12:44:51Z teodord $
  */
-public class AegeanSettingsFactory
+public class AegeanSettingsFactory extends SimpleSettingsFactory
 {
 
 
 	/**
 	 *
-	 */
+	 *
 	public static final ChartThemeSettings createChartThemeSettings()
 	{
 		ChartThemeSettings settings = new ChartThemeSettings();
@@ -89,4 +84,5 @@ public class AegeanSettingsFactory
 		
 		return settings;
 	}
+	*/
 }
