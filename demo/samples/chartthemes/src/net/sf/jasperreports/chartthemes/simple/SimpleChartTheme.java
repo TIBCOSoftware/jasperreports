@@ -110,7 +110,7 @@ import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
-import org.jfree.util.UnitType;
+import org.jfree.ui.VerticalAlignment;
 
 
 /**
@@ -359,14 +359,10 @@ public class SimpleChartTheme implements ChartTheme
 		if(isAntiAlias != null)
 			jfreeChart.setAntiAlias(isAntiAlias.booleanValue());
 		
-		Double padding = getChartSettings().getPadding();
+		RectangleInsets padding = getChartSettings().getPadding();
 		if(padding != null)
 		{
-			double chartPadding = padding.doubleValue();
-			UnitType unitType = getChartSettings().getUnitType();
-			if (unitType == null)
-				unitType = UnitType.ABSOLUTE;
-			jfreeChart.setPadding(new RectangleInsets(unitType, chartPadding, chartPadding, chartPadding, chartPadding));//FIXMETHEME consider using linebox
+			jfreeChart.setPadding(padding);//FIXMETHEME consider using linebox
 		}
 		configurePlot(jfreeChart.getPlot(), jrPlot);
 	}
@@ -1700,15 +1696,14 @@ public class SimpleChartTheme implements ChartTheme
 				if(titleHAlignment != null)
 					title.setHorizontalAlignment(titleHAlignment);
 				
-//				VerticalAlignment defaultTitleVAlignment = (VerticalAlignment)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_VERTICAL_ALIGNMENT);
-//				if(defaultTitleVAlignment != null)
-//					title.setVerticalAlignment(defaultTitleVAlignment);
-//				
-//				RectangleInsets defaultTitlePadding = (RectangleInsets)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_PADDING);
-//				RectangleInsets titlePadding = title.getPadding() != null ? title.getPadding() : defaultTitlePadding;
-//				if(titlePadding != null)
-//					title.setPadding(titlePadding);
-//				
+				VerticalAlignment titleVAlignment = (VerticalAlignment)getTitleSettings().getVerticalAlignment();
+				if(titleVAlignment != null)
+					title.setVerticalAlignment(titleVAlignment);
+				
+				RectangleInsets titlePadding = getTitleSettings().getPadding();
+				if(titlePadding != null)
+					title.setPadding(titlePadding);
+				
 				Paint titleForePaint = getChart().getOwnTitleColor();
 				if (titleForePaint == null && getTitleSettings().getForegroundPaint() != null)
 				{

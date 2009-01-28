@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
-import org.jfree.util.UnitType;
+import org.jfree.ui.RectangleInsets;
 
 
 /**
@@ -61,7 +61,6 @@ public class ChartSettings implements Serializable
 	public static final String PROPERTY_antiAlias = "antiAlias";
 //	public static final String TEXT_ANTI_ALIAS = "textAntiAlias";
 	public static final String PROPERTY_padding = "padding";
-	public static final String PROPERTY_unitType = "unitType";
 //	public static final String RENDERING_HINTS = "renderingHints";
 //	public static final String TITLE = "title";
 
@@ -72,8 +71,7 @@ public class ChartSettings implements Serializable
 	private JRFont font = new JRBaseFont();
 	private Boolean borderVisible = null;
 	private Boolean antiAlias = null;
-	private Double padding = null;
-	private UnitType unitType = null;
+	private RectangleInsets padding = null;
 	
 	/**
 	 *
@@ -171,33 +169,17 @@ public class ChartSettings implements Serializable
 	/**
 	 * @return the padding
 	 */
-	public Double getPadding() {
+	public RectangleInsets getPadding() {
 		return padding;
 	}
 
 	/**
 	 * @param padding the padding to set
 	 */
-	public void setPadding(Double padding) {
-		Double old = getPadding();
+	public void setPadding(RectangleInsets padding) {
+		RectangleInsets old = getPadding();
 		this.padding = padding;
 		getEventSupport().firePropertyChange(PROPERTY_padding, old, getPadding());
-	}
-
-	/**
-	 * @return the unitType
-	 */
-	public UnitType getUnitType() {
-		return unitType;
-	}
-
-	/**
-	 * @param unitType the unitType to set
-	 */
-	public void setUnitType(UnitType unitType) {
-		UnitType old = getUnitType();
-		this.unitType = unitType;
-		getEventSupport().firePropertyChange(PROPERTY_unitType, old, getUnitType());
 	}
 
 }

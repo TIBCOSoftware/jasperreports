@@ -31,6 +31,8 @@ import java.awt.Color;
 import net.sf.jasperreports.engine.JRChart;
 
 import org.jfree.ui.HorizontalAlignment;
+import org.jfree.ui.RectangleInsets;
+import org.jfree.ui.VerticalAlignment;
 import org.jfree.util.UnitType;
 
 
@@ -55,8 +57,7 @@ public class SimpleSettingsFactory
 		chartSettings.getFont().setBold(Boolean.TRUE);
 		chartSettings.setBorderVisible(Boolean.TRUE);
 		chartSettings.setAntiAlias(Boolean.TRUE);
-		chartSettings.setUnitType(UnitType.ABSOLUTE);
-		chartSettings.setPadding(new Double(12.34));
+		chartSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 
 		TitleSettings titleSettings = settings.getTitleSettings();
 		titleSettings.setShowTitle(Boolean.TRUE);
@@ -65,6 +66,8 @@ public class SimpleSettingsFactory
 		titleSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		titleSettings.getFont().setBold(Boolean.TRUE);
 		titleSettings.setHorizontalAlignment(HorizontalAlignment.CENTER);
+		titleSettings.setVerticalAlignment(VerticalAlignment.TOP);
+		titleSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 		
 		TitleSettings subtitleSettings = settings.getSubtitleSettings();
 		subtitleSettings.setShowTitle(Boolean.TRUE);
@@ -73,6 +76,8 @@ public class SimpleSettingsFactory
 		subtitleSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		subtitleSettings.getFont().setBold(Boolean.TRUE);
 		subtitleSettings.setHorizontalAlignment(HorizontalAlignment.CENTER);
+		subtitleSettings.setVerticalAlignment(VerticalAlignment.TOP);
+		subtitleSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 
 		LegendSettings legendSettings = settings.getLegendSettings();
 		legendSettings.setShowLegend(Boolean.TRUE);

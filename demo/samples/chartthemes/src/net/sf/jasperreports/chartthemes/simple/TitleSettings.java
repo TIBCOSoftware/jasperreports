@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 import org.jfree.ui.HorizontalAlignment;
+import org.jfree.ui.RectangleInsets;
+import org.jfree.ui.VerticalAlignment;
 
 
 /**
@@ -54,13 +56,13 @@ public class TitleSettings implements Serializable
 	public static final String PROPERTY_backgroundPaint = "backgroundPaint";
 	public static final String PROPERTY_font = "font";
 	public static final String PROPERTY_horizontalAlignment = "horizontalAlignment";
-//	public static final String TITLE_VERTICAL_ALIGNMENT = "titleVerticalAlignment";
+	public static final String PROPERTY_verticalAlignment = "verticalAlignment";
 //	public static final String TITLE_HEIGHT = "titleHeight";
 //	public static final String TITLE_WIDTH = "titleWidth";
 //	public static final String TITLE_BOUNDS = "titleBounds";
 //	public static final String TITLE_FRAME = "titleFrame";
 //	public static final String TITLE_MARGIN = "titleMargin";
-//	public static final String TITLE_PADDING = "titlePadding";
+	public static final String PROPERTY_padding = "padding";
 //	public static final String TITLE_TEXT = "titleText";
 //	public static final String TITLE_TEXT_ALIGNMENT = "titleTextAlignment";
 //	public static final String TITLE_MAXIMUM_LINES_TO_DISPLAY = "titleMaximumLinesToDisplay";
@@ -82,6 +84,8 @@ public class TitleSettings implements Serializable
 	private PaintProvider backgroundPaint = null;
 	private JRFont font = new JRBaseFont();
 	private HorizontalAlignment horizontalAlignment = null;
+	private VerticalAlignment verticalAlignment = null;
+	private RectangleInsets padding = null;
 	
 	/**
 	 *
@@ -214,6 +218,38 @@ public class TitleSettings implements Serializable
 		}
 		
 		return eventSupport;
+	}
+
+	/**
+	 * @return the verticalAlignment
+	 */
+	public VerticalAlignment getVerticalAlignment() {
+		return verticalAlignment;
+	}
+
+	/**
+	 * @param verticalAlignment the verticalAlignment to set
+	 */
+	public void setVerticalAlignment(VerticalAlignment verticalAlignment) {
+		VerticalAlignment old = getVerticalAlignment();
+		this.verticalAlignment = verticalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_verticalAlignment, old, getVerticalAlignment());
+	}
+
+	/**
+	 * @return the padding
+	 */
+	public RectangleInsets getPadding() {
+		return padding;
+	}
+
+	/**
+	 * @param padding the padding to set
+	 */
+	public void setPadding(RectangleInsets padding) {
+		RectangleInsets old = getPadding();
+		this.padding = padding;
+		getEventSupport().firePropertyChange(PROPERTY_padding, old, getPadding());
 	}
 
 }
