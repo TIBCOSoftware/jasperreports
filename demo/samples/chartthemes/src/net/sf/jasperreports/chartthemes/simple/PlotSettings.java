@@ -59,7 +59,7 @@ public class PlotSettings implements Serializable
 //	public static final String PLOT_SHAPE_SEQUENCE = "plotShapeSequence";
 //	public static final String PLOT_LABEL_ROTATION = "plotLabelRotation";
 //	public static final String PLOT_ORIENTATION = "plotOrientation";
-	public static final String PROPERTY_insets = "insets";
+	public static final String PROPERTY_insets = "insets";//FIXMETHEME padding
 	public static final String PROPERTY_outlineVisible = "outlineVisible";
 	public static final String PROPERTY_outlinePaint = "outlinePaint";
 	public static final String PROPERTY_outlineStroke = "outlineStroke";

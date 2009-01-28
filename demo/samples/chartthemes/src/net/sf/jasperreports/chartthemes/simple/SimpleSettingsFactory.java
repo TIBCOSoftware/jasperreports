@@ -86,6 +86,9 @@ public class SimpleSettingsFactory
 		legendSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		legendSettings.getFont().setBold(Boolean.TRUE);
 		legendSettings.setHorizontalAlignment(HorizontalAlignment.CENTER);
+		legendSettings.setVerticalAlignment(VerticalAlignment.BOTTOM);
+		//FIXMETHEME legendSettings.setBlockFrame();
+		legendSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 		
 		PlotSettings plotSettings = settings.getPlotSettings();
 		plotSettings.setOutlineVisible(Boolean.TRUE);
