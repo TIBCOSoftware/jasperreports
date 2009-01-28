@@ -375,9 +375,9 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected void configurePlot(Plot p, JRChartPlot jrPlot)
 	{
-		RectangleInsets plotInsets = getPlotSettings().getInsets();
-		if(plotInsets != null) 
-			p.setInsets(plotInsets);
+		RectangleInsets padding = getPlotSettings().getPadding();
+		if(padding != null) 
+			p.setInsets(padding);
 
 		Boolean plotOutlineVisible = getPlotSettings().getOutlineVisible();
 		if(plotOutlineVisible != null && plotOutlineVisible.booleanValue()) 

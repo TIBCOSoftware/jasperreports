@@ -91,6 +91,7 @@ public class SimpleSettingsFactory
 		legendSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 		
 		PlotSettings plotSettings = settings.getPlotSettings();
+		plotSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 		plotSettings.setOutlineVisible(Boolean.TRUE);
 		plotSettings.setOutlinePaint(new ColorProvider(Color.red));
 		
