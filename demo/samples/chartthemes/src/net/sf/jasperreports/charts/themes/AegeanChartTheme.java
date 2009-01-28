@@ -1,4 +1,3 @@
-package net.sf.jasperreports.charts.themes;
 /*
  * ============================================================================
  * GNU Lesser General Public License
@@ -26,6 +25,7 @@ package net.sf.jasperreports.charts.themes;
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.charts.themes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
