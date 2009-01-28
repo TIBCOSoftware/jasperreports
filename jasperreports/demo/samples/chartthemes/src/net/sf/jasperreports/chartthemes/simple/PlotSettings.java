@@ -46,7 +46,7 @@ public class PlotSettings implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
+//	FIXMETHEME complete props
 //	public static final String PLOT_BACKGROUND_PAINT = "plotBackgroundPaint";
 //	public static final String PLOT_BACKGROUND_ALPHA = "plotBackgroundAlpha";
 //	public static final String PLOT_FOREGROUND_ALPHA = "plotForegroundAlpha";
@@ -59,7 +59,7 @@ public class PlotSettings implements Serializable
 //	public static final String PLOT_SHAPE_SEQUENCE = "plotShapeSequence";
 //	public static final String PLOT_LABEL_ROTATION = "plotLabelRotation";
 //	public static final String PLOT_ORIENTATION = "plotOrientation";
-	public static final String PROPERTY_insets = "insets";//FIXMETHEME padding
+	public static final String PROPERTY_padding = "padding";
 	public static final String PROPERTY_outlineVisible = "outlineVisible";
 	public static final String PROPERTY_outlinePaint = "outlinePaint";
 	public static final String PROPERTY_outlineStroke = "outlineStroke";
@@ -67,25 +67,25 @@ public class PlotSettings implements Serializable
 	/**
 	 *
 	 */
-	private RectangleInsets insets = null;
+	private RectangleInsets padding = null;
 	private Boolean outlineVisible = null;
 	private PaintProvider outlinePaint = null;
 	private Stroke outlineStroke = null;
 	
 	/**
-	 * @return the insets
+	 * @return the padding
 	 */
-	public RectangleInsets getInsets() {
-		return insets;
+	public RectangleInsets getPadding() {
+		return padding;
 	}
 
 	/**
-	 * @param insets the insets to set
+	 * @param padding the padding to set
 	 */
-	public void setInsets(RectangleInsets insets) {
-		RectangleInsets old = getInsets();
-		this.insets = insets;
-		getEventSupport().firePropertyChange(PROPERTY_insets, old, getInsets());
+	public void setPadding(RectangleInsets padding) {
+		RectangleInsets old = getPadding();
+		this.padding = padding;
+		getEventSupport().firePropertyChange(PROPERTY_padding, old, getPadding());
 	}
 
 	/**

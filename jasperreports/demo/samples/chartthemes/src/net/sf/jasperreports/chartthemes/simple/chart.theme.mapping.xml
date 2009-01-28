@@ -104,6 +104,9 @@
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.PlotSettings">
 		<map-to xml="plot"/>
+		<field name="padding" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
+		</field>
 		<field name="outlineVisible" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
