@@ -30,6 +30,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRChart;
 
+import org.jfree.ui.HorizontalAlignment;
 import org.jfree.util.UnitType;
 
 
@@ -63,6 +64,7 @@ public class SimpleSettingsFactory
 		titleSettings.setForegroundPaint(new ColorProvider(Color.black));
 		titleSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		titleSettings.getFont().setBold(Boolean.TRUE);
+		titleSettings.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		
 		TitleSettings subtitleSettings = settings.getSubtitleSettings();
 		subtitleSettings.setShowTitle(Boolean.TRUE);
@@ -70,6 +72,7 @@ public class SimpleSettingsFactory
 		subtitleSettings.setForegroundPaint(new ColorProvider(Color.black));
 		subtitleSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		subtitleSettings.getFont().setBold(Boolean.TRUE);
+		subtitleSettings.setHorizontalAlignment(HorizontalAlignment.CENTER);
 
 		LegendSettings legendSettings = settings.getLegendSettings();
 		legendSettings.setShowLegend(Boolean.TRUE);
@@ -77,6 +80,7 @@ public class SimpleSettingsFactory
 		legendSettings.setForegroundPaint(new ColorProvider(Color.black));
 		legendSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		legendSettings.getFont().setBold(Boolean.TRUE);
+		legendSettings.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		
 		PlotSettings plotSettings = settings.getPlotSettings();
 		plotSettings.setOutlineVisible(Boolean.TRUE);

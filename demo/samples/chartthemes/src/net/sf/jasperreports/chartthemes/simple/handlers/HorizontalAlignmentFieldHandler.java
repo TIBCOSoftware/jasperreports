@@ -27,9 +27,8 @@
  */
 package net.sf.jasperreports.chartthemes.simple.handlers;
 
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
-
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
+import org.jfree.ui.HorizontalAlignment;
 
 
 /**
@@ -55,7 +54,7 @@ public class HorizontalAlignmentFieldHandler extends GeneralizedFieldHandler
 		{
 			return null;
 		}
-		return JRXmlConstants.getChartEdgeMap().get(value);
+		return ((HorizontalAlignment)value).toString();
 	}
 
 	/**
@@ -63,12 +62,17 @@ public class HorizontalAlignmentFieldHandler extends GeneralizedFieldHandler
 	 */
 	public Object convertUponSet(Object value)
 	{
-		System.out.println(value);
 		if (value == null)
 		{
 			return null;
 		}
-		return JRXmlConstants.getChartEdgeMap().get(value);
+		return 
+			HorizontalAlignment.LEFT.toString().equals(value) 
+			? HorizontalAlignment.LEFT 
+			: HorizontalAlignment.CENTER.toString().equals(value)
+			? HorizontalAlignment.CENTER
+			: HorizontalAlignment.RIGHT.toString().equals(value)
+			? HorizontalAlignment.RIGHT : null;
 	}
 	
 	/**
@@ -76,7 +80,7 @@ public class HorizontalAlignmentFieldHandler extends GeneralizedFieldHandler
 	 */
 	public Class getFieldType()
 	{
-		return Byte.class;
+		return HorizontalAlignment.class;
 	}
 
 	/**

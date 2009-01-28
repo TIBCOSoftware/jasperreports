@@ -66,6 +66,9 @@
 		<field name="font" type="net.sf.jasperreports.engine.JRFont">
 			<bind-xml auto-naming="deriveByClass" node="element"/>
 		</field>
+		<field name="horizontalAlignment" type="org.jfree.ui.HorizontalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
 	</class>
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.LegendSettings">
@@ -84,6 +87,9 @@
 		</field>
 		<field name="font" type="net.sf.jasperreports.engine.JRFont">
 			<bind-xml auto-naming="deriveByClass" node="element"/>
+		</field>
+		<field name="horizontalAlignment" type="org.jfree.ui.HorizontalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentFieldHandler">
+			<bind-xml node="attribute"/>
 		</field>
 	</class>
 	

@@ -107,6 +107,7 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
+import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.UnitType;
@@ -1695,10 +1696,10 @@ public class SimpleChartTheme implements ChartTheme
 //						);
 				title.setFont(JRFontUtil.getAwtFont(titleFont, getLocale()));
 				
-//				HorizontalAlignment defaultTitleHAlignment = (HorizontalAlignment)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_HORIZONTAL_ALIGNMENT);
-//				if(defaultTitleHAlignment != null)
-//					title.setHorizontalAlignment(defaultTitleHAlignment);
-//				
+				HorizontalAlignment titleHAlignment = (HorizontalAlignment)getTitleSettings().getHorizontalAlignment();
+				if(titleHAlignment != null)
+					title.setHorizontalAlignment(titleHAlignment);
+				
 //				VerticalAlignment defaultTitleVAlignment = (VerticalAlignment)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_VERTICAL_ALIGNMENT);
 //				if(defaultTitleVAlignment != null)
 //					title.setVerticalAlignment(defaultTitleVAlignment);
