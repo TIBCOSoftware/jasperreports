@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
+import org.jfree.ui.HorizontalAlignment;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -73,7 +75,7 @@ public class LegendSettings implements Serializable
 	private PaintProvider foregroundPaint = null;
 	private PaintProvider backgroundPaint = null;
 	private JRFont font = new JRBaseFont();
-	private Byte horizontalAlignment = null;
+	private HorizontalAlignment horizontalAlignment = null;
 	
 	/**
 	 *
@@ -151,15 +153,15 @@ public class LegendSettings implements Serializable
 	/**
 	 * @return the horizontalAlignment
 	 */
-	public Byte getHorizontalAlignment() {
+	public HorizontalAlignment getHorizontalAlignment() {
 		return horizontalAlignment;
 	}
 
 	/**
 	 * @param horizontalAlignment the horizontalAlignment to set
 	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment) {
-		Byte old = getHorizontalAlignment();
+	public void setHorizontalAlignment(HorizontalAlignment horizontalAlignment) {
+		HorizontalAlignment old = getHorizontalAlignment();
 		this.horizontalAlignment = horizontalAlignment;
 		getEventSupport().firePropertyChange(PROPERTY_horizontalAlignment, old, getHorizontalAlignment());
 	}
