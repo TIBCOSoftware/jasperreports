@@ -30,6 +30,7 @@ package net.sf.jasperreports.chartthemes.simple;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Paint;
+import java.awt.Stroke;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
@@ -61,6 +62,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -92,6 +95,7 @@ import org.jfree.chart.renderer.xy.HighLowRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.gantt.GanttCategoryDataset;
@@ -104,6 +108,8 @@ import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.RectangleEdge;
+import org.jfree.ui.RectangleInsets;
+import org.jfree.util.UnitType;
 
 
 /**
@@ -115,7 +121,7 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected SimpleChartThemeSettings chartThemeSettings = null;
+	protected ChartThemeSettings chartThemeSettings = null;
 	
 	/**
 	 *
@@ -134,7 +140,7 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	public SimpleChartTheme(SimpleChartThemeSettings chartThemeSettings)
+	public SimpleChartTheme(ChartThemeSettings chartThemeSettings)
 	{
 		this.chartThemeSettings = chartThemeSettings;
 	}
@@ -143,7 +149,7 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	public SimpleChartThemeSettings getChartThemeSettings()
+	public ChartThemeSettings getChartThemeSettings()
 	{
 		return chartThemeSettings;
 	}
@@ -152,7 +158,7 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	public void setChartThemeSettings(SimpleChartThemeSettings chartThemeSettings)
+	public void setChartThemeSettings(ChartThemeSettings chartThemeSettings)
 	{
 		this.chartThemeSettings = chartThemeSettings;
 	}
@@ -161,9 +167,45 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	public SimpleChartSettings getChartSettings()
+	public ChartSettings getChartSettings()
 	{
 		return getChartThemeSettings().getChartSettings();
+	}
+	
+	
+	/**
+	 *
+	 */
+	public TitleSettings getTitleSettings()
+	{
+		return getChartThemeSettings().getTitleSettings();
+	}
+	
+	
+	/**
+	 *
+	 */
+	public TitleSettings getSubtitleSettings()
+	{
+		return getChartThemeSettings().getSubtitleSettings();
+	}
+	
+	
+	/**
+	 *
+	 */
+	public LegendSettings getLegendSettings()
+	{
+		return getChartThemeSettings().getLegendSettings();
+	}
+	
+	
+	/**
+	 *
+	 */
+	public PlotSettings getPlotSettings()
+	{
+		return getChartThemeSettings().getPlotSettings();
 	}
 	
 	
@@ -306,26 +348,25 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot) throws JRException
 	{	
-		jfreeChart.setBackgroundPaint(getChartSettings().getBackgroundPaint().getPaint());
-//		Float defaultBaseFontSize = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BASEFONT_SIZE);
-//		
-//		setChartBackground(jfreeChart);
-//		setChartTitle(jfreeChart, defaultBaseFontSize);
-//		setChartSubtitles(jfreeChart, defaultBaseFontSize);
-//		setChartLegend(jfreeChart, defaultBaseFontSize);
-//		setChartBorder(jfreeChart);
-//		
-//		Boolean isAntiAlias = (Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.CHART_ANTI_ALIAS);
-//		if(isAntiAlias != null)
-//			jfreeChart.setAntiAlias(isAntiAlias.booleanValue());
-//		
-//		Double padding = (Double)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.CHART_PADDING);
-//		UnitType unitType = (UnitType)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.UNIT_TYPE);
-//		if(padding != null && unitType != null)
-//		{
-//			double chartPadding = padding.doubleValue();
-//			jfreeChart.setPadding(new RectangleInsets(unitType, chartPadding, chartPadding, chartPadding, chartPadding));
-//		}
+		setChartBackground(jfreeChart);
+		setChartTitle(jfreeChart);
+		setChartSubtitles(jfreeChart);
+		setChartLegend(jfreeChart);
+		setChartBorder(jfreeChart);
+		
+		Boolean isAntiAlias = getChartSettings().getAntiAlias();
+		if(isAntiAlias != null)
+			jfreeChart.setAntiAlias(isAntiAlias.booleanValue());
+		
+		Double padding = getChartSettings().getPadding();
+		if(padding != null)
+		{
+			double chartPadding = padding.doubleValue();
+			UnitType unitType = getChartSettings().getUnitType();
+			if (unitType == null)
+				unitType = UnitType.ABSOLUTE;
+			jfreeChart.setPadding(new RectangleInsets(unitType, chartPadding, chartPadding, chartPadding, chartPadding));//FIXMETHEME consider using linebox
+		}
 		configurePlot(jfreeChart.getPlot(), jrPlot);
 	}
 
@@ -335,39 +376,35 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected void configurePlot(Plot p, JRChartPlot jrPlot)
 	{
-//		RectangleInsets defaultPlotInsets = (RectangleInsets)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_INSETS);
-//		Paint defaultPlotOutlinePaint = (Paint)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_PAINT);
-//		Stroke defaultPlotOutlineStroke = (Stroke)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_STROKE);
-//		Boolean defaultPlotOutlineVisible = (Boolean)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_VISIBLE);
-//
-//		if(defaultPlotInsets != null) 
-//			p.setInsets(defaultPlotInsets);
-//
-//		if(defaultPlotOutlineVisible != null) 
-//		{
-//			if(defaultPlotOutlineVisible.booleanValue())
-//			{
-//				if(defaultPlotOutlinePaint != null)
-//					p.setOutlinePaint(defaultPlotOutlinePaint);
-//				
-//				if(defaultPlotOutlineStroke != null)
-//					p.setOutlineStroke(defaultPlotOutlineStroke);
-//				
-//				p.setOutlineVisible(true);
-//			}
-//			else
-//			{
-//				p.setOutlineVisible(false);
-//			}
-//		}
-//		
-//		setPlotBackground(p, jrPlot);
-//		if (p instanceof CategoryPlot)
-//		{
-//			handleCategoryPlotSettings((CategoryPlot)p, jrPlot);
-//		}
-//
-//		setPlotDrawingDefaults(p, jrPlot);
+		RectangleInsets plotInsets = getPlotSettings().getInsets();
+		if(plotInsets != null) 
+			p.setInsets(plotInsets);
+
+		Boolean plotOutlineVisible = getPlotSettings().getOutlineVisible();
+		if(plotOutlineVisible != null && plotOutlineVisible.booleanValue()) 
+		{
+			Paint outlinePaint = getPlotSettings().getOutlinePaint() == null ? null : getPlotSettings().getOutlinePaint().getPaint();
+			if(outlinePaint != null)
+				p.setOutlinePaint(outlinePaint);
+			
+			Stroke plotOutlineStroke = getPlotSettings().getOutlineStroke();
+			if(plotOutlineStroke != null)
+				p.setOutlineStroke(plotOutlineStroke);
+			
+			p.setOutlineVisible(true);
+		}
+		else
+		{
+			p.setOutlineVisible(false);
+		}
+		
+		setPlotBackground(p, jrPlot);
+		if (p instanceof CategoryPlot)
+		{
+			handleCategoryPlotSettings((CategoryPlot)p, jrPlot);
+		}
+
+		setPlotDrawingDefaults(p, jrPlot);
 	}
 
 	/**
@@ -1577,7 +1614,8 @@ public class SimpleChartTheme implements ChartTheme
 
 	protected void setChartBackground(JFreeChart jfreeChart)
 	{
-//		Paint defaultBackgroundPaint = (Paint)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_PAINT);
+		Paint backgroundPaint = getChartSettings().getBackgroundPaint() == null ? null : getChartSettings().getBackgroundPaint().getPaint();
+		jfreeChart.setBackgroundPaint(backgroundPaint);
 //		Image defaultBackgroundImage = (Image)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE);
 //		Integer defaultBackgroundImageAlignment = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE_ALIGNMENT);
 //		Float defaultBackgroundImageAlpha = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE_ALPHA);
@@ -1636,38 +1674,27 @@ public class SimpleChartTheme implements ChartTheme
 		}
 	}
 
-	protected void setChartTitle(JFreeChart jfreeChart, Float baseFontSize)
+	protected void setChartTitle(JFreeChart jfreeChart)
 	{
-//		Boolean titleVisibility = (Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_VISIBLE);
-//		if(titleVisibility != null && titleVisibility.booleanValue())
-//		{
-//			TextTitle title = jfreeChart.getTitle();
-//			RectangleEdge titleEdge = null;
-//					
-//			if(title != null)
-//			{
-//				Font titleFont = title.getFont();
-//				
-//				int defaultTitleBaseFontBoldStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BASEFONT_BOLD_STYLE) != null ?
-//						((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BASEFONT_BOLD_STYLE)).intValue() :
-//						Font.PLAIN;
-//				int defaultTitleBaseFontItalicStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BASEFONT_BOLD_STYLE) != null ?
-//						((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BASEFONT_BOLD_STYLE)).intValue() :
-//						Font.PLAIN;
-//				
-//				titleFont = titleFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(getChart().getTitleFont(), defaultTitleBaseFontBoldStyle, defaultTitleBaseFontItalicStyle));
-//	
-//				Float defaultTitleBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BASEFONT_SIZE) != null ?
-//						((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BASEFONT_SIZE)) :
-//						baseFontSize;
-//				
-//				if(getChart().getTitleFont().getOwnFontSize() == null && defaultTitleBaseFontSize != null)
-//				{
-//					titleFont = titleFont.deriveFont(defaultTitleBaseFontSize.floatValue());
-//				}
-//	
-//				title.setFont(titleFont);
-//				
+		Boolean showTitle = getTitleSettings().getShowTitle();
+		if(showTitle != null && showTitle.booleanValue())
+		{
+			TextTitle title = jfreeChart.getTitle();
+					
+			if(title != null)
+			{
+				JRFont titleFont = new JRBaseFont(getChart(), getTitleSettings().getFont());
+//					new JRBaseFont(//FIXMETHEME font inheritence is too much trouble for such a small gain
+//						getChart(), 
+//						new JRBaseFont(
+//							JRFontUtil.getAttributesWithoutAwtFont(
+//								new HashMap(), 
+//								getTitleSettings().getFont() 
+//								)
+//							)
+//						);
+				title.setFont(JRFontUtil.getAwtFont(titleFont, getLocale()));
+				
 //				HorizontalAlignment defaultTitleHAlignment = (HorizontalAlignment)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_HORIZONTAL_ALIGNMENT);
 //				if(defaultTitleHAlignment != null)
 //					title.setHorizontalAlignment(defaultTitleHAlignment);
@@ -1681,34 +1708,32 @@ public class SimpleChartTheme implements ChartTheme
 //				if(titlePadding != null)
 //					title.setPadding(titlePadding);
 //				
-//				Color titleForecolor = getChart().getOwnTitleColor() != null ? 
-//						getChart().getOwnTitleColor() :
-//						(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_FORECOLOR) != null ? 
-//								(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_FORECOLOR) :
-//								getChart().getTitleColor());
-//				if(titleForecolor != null)
-//					title.setPaint(titleForecolor);
-//	
-//				Color titleBackcolor = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BACKCOLOR) != null ? 
-//						(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_BACKCOLOR) :
-//						null;
-//				if(titleBackcolor != null)
-//					title.setBackgroundPaint(titleBackcolor);
-//				
-//				RectangleEdge defaultTitlePosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_POSITION);
-//				titleEdge = getEdge(getChart().getTitlePositionByte(), defaultTitlePosition);
-//				if(titleEdge != null)
-//					title.setPosition(titleEdge);
-//			}
-//		}
-//		else
-//		{
-//			TextTitle title = null;
-//			jfreeChart.setTitle(title);
-//		}
+				Paint titleForePaint = getChart().getOwnTitleColor();
+				if (titleForePaint == null && getTitleSettings().getForegroundPaint() != null)
+				{
+					titleForePaint = getTitleSettings().getForegroundPaint().getPaint();
+				}
+				if (titleForePaint == null)
+				{
+					titleForePaint = getChart().getTitleColor();
+				}
+				if (titleForePaint != null)
+					title.setPaint(titleForePaint);
+	
+				Paint titleBackPaint = getTitleSettings().getBackgroundPaint() != null ? getTitleSettings().getBackgroundPaint().getPaint() : null;
+				if(titleBackPaint != null)
+					title.setBackgroundPaint(titleBackPaint);
+				
+				title.setPosition(getEdge(getTitleSettings().getPosition(), RectangleEdge.TOP));
+			}
+		}
+		else
+		{
+			jfreeChart.setTitle((TextTitle)null);
+		}
 	}
 
-	protected void setChartSubtitles(JFreeChart jfreeChart, Float baseFontSize) throws JRException
+	protected void setChartSubtitles(JFreeChart jfreeChart) throws JRException
 	{			
 //		Boolean subtitleVisibility = (Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_VISIBLE);
 //
@@ -1786,9 +1811,9 @@ public class SimpleChartTheme implements ChartTheme
 //		}
 	}
 	
-	protected void setChartLegend(JFreeChart jfreeChart, Float baseFontSize)
+	protected void setChartLegend(JFreeChart jfreeChart)
 	{
-
+//
 //		//The legend visibility is already taken into account in the jfreeChart object's constructor
 //		
 //		LegendTitle legend = jfreeChart.getLegend();
@@ -1923,7 +1948,7 @@ public class SimpleChartTheme implements ChartTheme
 //				p.setBackgroundImageAlpha(defaultBackgroundImageAlpha.floatValue());
 //			}
 //		}
-		
+//		
 	}
 	
 	protected void handleCategoryPlotSettings(CategoryPlot p, JRChartPlot jrPlot)
@@ -2026,7 +2051,7 @@ public class SimpleChartTheme implements ChartTheme
 //				defaultPlotShapeSequence
 //				)
 //			);
-		
+//		
 	}
 	
 	protected void setAxisLine(Axis axis, Paint lineColor)
@@ -2340,12 +2365,17 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected boolean isShowLegend()
 	{
-		return getChartSettings().getShowLegend() == null ? false : getChartSettings().getShowLegend().booleanValue();
-//		Boolean legendVisibility = getChart().getShowLegend() != null ?
-//				getChart().getShowLegend() :
-//				(Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_VISIBLE);
-//
-//		return legendVisibility != null ? legendVisibility.booleanValue() : false;
+		Boolean showLegend = getChart().getShowLegend();
+		if (showLegend == null)
+		{
+			showLegend = getLegendSettings().getShowLegend();
+		}
+		if (showLegend == null)
+		{
+			return false;
+		}
+
+		return showLegend.booleanValue();
 	}
 
 	/**
@@ -2386,7 +2416,7 @@ public class SimpleChartTheme implements ChartTheme
 
 	/**
      * @param defaultPlotPropertiesMap the defaultPlotPropertiesMap to set
-     
+     *
     public void setDefaultPlotPropertiesMap(Map defaultPlotPropertiesMap)
     {
     	this.defaultPlotPropertiesMap = defaultPlotPropertiesMap;
@@ -2428,4 +2458,5 @@ public class SimpleChartTheme implements ChartTheme
     	this.defaultChartTypePropertiesMap = defaultChartTypePropertiesMap;
     }
     */
+
 }

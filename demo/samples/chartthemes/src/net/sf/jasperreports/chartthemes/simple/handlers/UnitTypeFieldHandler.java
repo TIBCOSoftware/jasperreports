@@ -25,49 +25,69 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.chartthemes.simple;
+package net.sf.jasperreports.chartthemes.simple.handlers;
 
-import java.io.Serializable;
-
-import net.sf.jasperreports.engine.JRConstants;
+import org.exolab.castor.mapping.GeneralizedFieldHandler;
+import org.jfree.util.UnitType;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: GenericChartTheme.java 2535 2009-01-16 14:06:40Z teodord $
  */
-public class SimpleChartThemeSettings implements Serializable
+public class UnitTypeFieldHandler extends GeneralizedFieldHandler
 {
 	/**
-	 * 
+	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	public UnitTypeFieldHandler()
+	{
+		super();
+	}
+	
+	/**
+	 *
+	 */
+	public Object convertUponGet(Object value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return ((UnitType)value).toString();
+	}
 
 	/**
 	 *
 	 */
-	private SimpleChartSettings chartSettings = new SimpleChartSettings();
-	
-	/**
-	 *
-	 */
-	public SimpleChartThemeSettings()
+	public Object convertUponSet(Object value)
 	{
+		if (value == null)
+		{
+			return null;
+		}
+		return 
+			UnitType.RELATIVE.toString().equals(value) 
+			? UnitType.RELATIVE 
+			: UnitType.ABSOLUTE.toString().equals(value)
+			? UnitType.ABSOLUTE : null;
 	}
 	
 	/**
 	 *
 	 */
-	public SimpleChartSettings getChartSettings()
+	public Class getFieldType()
 	{
-		return chartSettings;
+		return UnitType.class;
 	}
-	
+
 	/**
 	 *
 	 */
-	public void setChartSettings(SimpleChartSettings chartSettings)
+	public Object newInstance(Object parent) throws IllegalStateException
 	{
-		this.chartSettings = chartSettings;
+		//-- Since it's marked as a string...just return null,
+		//-- it's not needed.
+		return null;
 	}
 }
