@@ -57,18 +57,7 @@ public class TitleSettings implements Serializable
 	public static final String PROPERTY_font = "font";
 	public static final String PROPERTY_horizontalAlignment = "horizontalAlignment";
 	public static final String PROPERTY_verticalAlignment = "verticalAlignment";
-//	public static final String TITLE_HEIGHT = "titleHeight";
-//	public static final String TITLE_WIDTH = "titleWidth";
-//	public static final String TITLE_BOUNDS = "titleBounds";
-//	public static final String TITLE_FRAME = "titleFrame";
-//	public static final String TITLE_MARGIN = "titleMargin";
 	public static final String PROPERTY_padding = "padding";
-//	public static final String TITLE_TEXT = "titleText";
-//	public static final String TITLE_TEXT_ALIGNMENT = "titleTextAlignment";
-//	public static final String TITLE_MAXIMUM_LINES_TO_DISPLAY = "titleMaximumLinesToDisplay";
-//	public static final String TITLE_TOOLTIP_TEXT = "titleTooltipText";
-//	public static final String TITLE_URL_TEXT = "titleURLText";
-//	public static final String TITLE_EXPAND_TO_FIT_SPACE = "titleExpandToFitSpace";
 
 	/**
 	 *

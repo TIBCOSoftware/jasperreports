@@ -34,7 +34,10 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
+import org.jfree.chart.block.BlockFrame;
 import org.jfree.ui.HorizontalAlignment;
+import org.jfree.ui.RectangleInsets;
+import org.jfree.ui.VerticalAlignment;
 
 
 /**
@@ -54,18 +57,9 @@ public class LegendSettings implements Serializable
 	public static final String PROPERTY_backgroundPaint = "backgroundPaint";
 	public static final String PROPERTY_font = "font";
 	public static final String PROPERTY_horizontalAlignment = "horizontalAlignment";
-//	public static final String LEGEND_FRAME = "legendFrame";
-//	public static final String LEGEND_VERTICAL_ALIGNMENT = "legendVerticalAlignment";
-//	public static final String LEGEND_HEIGHT = "legendHeight";
-//	public static final String LEGEND_WIDTH = "legendWidth";
-//	public static final String LEGEND_BOUNDS = "legendBounds";
-//	public static final String LEGEND_MARGIN = "legendMargin";
-//	public static final String LEGEND_PADDING = "legendPadding";
-//	public static final String LEGEND_ITEM_GRAPHIC_PADDING = "legendItemGraphicPadding";
-//	public static final String LEGEND_ITEM_GRAPHIC_LOCATION = "legendItemGraphicLocation";
-//	public static final String LEGEND_ITEM_GRAPHIC_EDGE = "legendItemGraphicEdge";
-//	public static final String LEGEND_ITEM_GRAPHIC_ANCHOR = "legendItemGraphicAnchor";
-//	public static final String LEGEND_ITEM_LABEL_PADDING = "legendItemLabelPadding";
+	public static final String PROPERTY_verticalAlignment = "verticalAlignment";
+	public static final String PROPERTY_blockFrame = "blockFrame";
+	public static final String PROPERTY_padding = "padding";
 
 	/**
 	 *
@@ -76,6 +70,9 @@ public class LegendSettings implements Serializable
 	private PaintProvider backgroundPaint = null;
 	private JRFont font = new JRBaseFont();
 	private HorizontalAlignment horizontalAlignment = null;
+	private VerticalAlignment verticalAlignment = null;
+	private BlockFrame blockFrame = null;
+	private RectangleInsets padding = null;
 	
 	/**
 	 *
@@ -196,6 +193,54 @@ public class LegendSettings implements Serializable
 		}
 		
 		return eventSupport;
+	}
+
+	/**
+	 * @return the blockFrame
+	 */
+	public BlockFrame getBlockFrame() {
+		return blockFrame;
+	}
+
+	/**
+	 * @param blockFrame the blockFrame to set
+	 */
+	public void setBlockFrame(BlockFrame blockFrame) {
+		BlockFrame old = getBlockFrame();
+		this.blockFrame = blockFrame;
+		getEventSupport().firePropertyChange(PROPERTY_blockFrame, old, getBlockFrame());
+	}
+
+	/**
+	 * @return the padding
+	 */
+	public RectangleInsets getPadding() {
+		return padding;
+	}
+
+	/**
+	 * @param padding the padding to set
+	 */
+	public void setPadding(RectangleInsets padding) {
+		RectangleInsets old = getPadding();
+		this.padding = padding;
+		getEventSupport().firePropertyChange(PROPERTY_padding, old, getPadding());
+	}
+
+	/**
+	 * @return the verticalAlignment
+	 */
+	public VerticalAlignment getVerticalAlignment() {
+		return verticalAlignment;
+	}
+
+	/**
+	 * @param verticalAlignment the verticalAlignment to set
+	 */
+	public void setVerticalAlignment(VerticalAlignment verticalAlignment) {
+		VerticalAlignment old = getVerticalAlignment();
+		this.verticalAlignment = verticalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_verticalAlignment, old, getVerticalAlignment());
 	}
 
 }

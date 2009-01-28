@@ -45,6 +45,7 @@ public class AxisSettings implements Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String PROPERTY_axisVisible = "axisVisible";
+//FIXMETHEME complete props
 //	public static final String AXIS_LOCATION = "axisLocation";
 //	public static final String AXIS_LINE_PAINT = "axisLinePaint";
 //	public static final String AXIS_LINE_STROKE = "axisLineStroke";

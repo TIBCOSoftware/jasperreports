@@ -72,6 +72,7 @@ import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.DateTickUnit;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.block.BlockFrame;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
@@ -95,6 +96,7 @@ import org.jfree.chart.renderer.xy.HighLowRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
@@ -1680,7 +1682,7 @@ public class SimpleChartTheme implements ChartTheme
 					
 			if(title != null)
 			{
-				JRFont titleFont = new JRBaseFont(getChart(), getTitleSettings().getFont());
+				JRFont font = new JRBaseFont(getChart(), getTitleSettings().getFont());
 //					new JRBaseFont(//FIXMETHEME font inheritence is too much trouble for such a small gain
 //						getChart(), 
 //						new JRBaseFont(
@@ -1690,37 +1692,45 @@ public class SimpleChartTheme implements ChartTheme
 //								)
 //							)
 //						);
-				title.setFont(JRFontUtil.getAwtFont(titleFont, getLocale()));
+				title.setFont(JRFontUtil.getAwtFont(font, getLocale()));
 				
-				HorizontalAlignment titleHAlignment = (HorizontalAlignment)getTitleSettings().getHorizontalAlignment();
-				if(titleHAlignment != null)
-					title.setHorizontalAlignment(titleHAlignment);
+				HorizontalAlignment hAlign = (HorizontalAlignment)getTitleSettings().getHorizontalAlignment();
+				if(hAlign != null)
+					title.setHorizontalAlignment(hAlign);
 				
-				VerticalAlignment titleVAlignment = (VerticalAlignment)getTitleSettings().getVerticalAlignment();
-				if(titleVAlignment != null)
-					title.setVerticalAlignment(titleVAlignment);
+				VerticalAlignment vAlign = (VerticalAlignment)getTitleSettings().getVerticalAlignment();
+				if(vAlign != null)
+					title.setVerticalAlignment(vAlign);
 				
-				RectangleInsets titlePadding = getTitleSettings().getPadding();
-				if(titlePadding != null)
-					title.setPadding(titlePadding);
+				RectangleInsets padding = getTitleSettings().getPadding();
+				if(padding != null)
+					title.setPadding(padding);
 				
-				Paint titleForePaint = getChart().getOwnTitleColor();
-				if (titleForePaint == null && getTitleSettings().getForegroundPaint() != null)
+				Paint forePaint = getChart().getOwnTitleColor();
+				if (forePaint == null && getTitleSettings().getForegroundPaint() != null)
 				{
-					titleForePaint = getTitleSettings().getForegroundPaint().getPaint();
+					forePaint = getTitleSettings().getForegroundPaint().getPaint();
 				}
-				if (titleForePaint == null)
+				if (forePaint == null)
 				{
-					titleForePaint = getChart().getTitleColor();
+					forePaint = getChart().getTitleColor();
 				}
-				if (titleForePaint != null)
-					title.setPaint(titleForePaint);
+				if (forePaint != null)
+					title.setPaint(forePaint);
 	
-				Paint titleBackPaint = getTitleSettings().getBackgroundPaint() != null ? getTitleSettings().getBackgroundPaint().getPaint() : null;
-				if(titleBackPaint != null)
-					title.setBackgroundPaint(titleBackPaint);
+				Paint backPaint = getTitleSettings().getBackgroundPaint() != null ? getTitleSettings().getBackgroundPaint().getPaint() : null;
+				if(backPaint != null)
+					title.setBackgroundPaint(backPaint);
 				
-				title.setPosition(getEdge(getTitleSettings().getPosition(), RectangleEdge.TOP));
+				title.setPosition(
+					getEdge(
+						getChart().getTitlePositionByte(), 
+						getEdge(
+							getTitleSettings().getPosition(), 
+							RectangleEdge.TOP
+							)
+						)
+					);
 			}
 		}
 		else
@@ -1809,72 +1819,73 @@ public class SimpleChartTheme implements ChartTheme
 	
 	protected void setChartLegend(JFreeChart jfreeChart)
 	{
-//
-//		//The legend visibility is already taken into account in the jfreeChart object's constructor
-//		
-//		LegendTitle legend = jfreeChart.getLegend();
-//		if (legend != null)
-//		{
-//			Font legendFont = legend.getItemFont();
-//
-//			int defaultLegendBaseFontBoldStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BASEFONT_BOLD_STYLE) != null ?
-//					((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BASEFONT_BOLD_STYLE)).intValue() :
-//					Font.PLAIN;
-//			int defaultLegendBaseFontItalicStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BASEFONT_ITALIC_STYLE) != null ?
-//					((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BASEFONT_ITALIC_STYLE)).intValue() :
-//					Font.PLAIN;
-//			
-//			legendFont = legendFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(getChart().getLegendFont(), defaultLegendBaseFontBoldStyle, defaultLegendBaseFontItalicStyle));
-//
-//			Float defaultLegendBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BASEFONT_SIZE) != null ?
-//					((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BASEFONT_SIZE)) :
-//					baseFontSize;
-//			
-//			if(getChart().getLegendFont().getOwnFontSize() == null && defaultLegendBaseFontSize != null)
-//			{
-//				legendFont = legendFont.deriveFont(defaultLegendBaseFontSize.floatValue());
-//			}
-//
-//			legend.setItemFont(legendFont);
-//			
-//			Color legendForecolor = getChart().getOwnLegendColor() != null ? 
-//					getChart().getOwnLegendColor() :
-//					(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_FORECOLOR) != null ? 
-//							(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_FORECOLOR) :
-//							getChart().getLegendColor());
-//			if(legendForecolor != null)
-//				legend.setItemPaint(legendForecolor);
-//
-//			Color legendBackcolor = getChart().getOwnLegendBackgroundColor() != null ? 
-//					getChart().getOwnLegendBackgroundColor() :
-//					(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BACKCOLOR) != null ? 
-//							(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_BACKCOLOR) :
-//							getChart().getLegendBackgroundColor());
-//			if(legendBackcolor != null)
-//				legend.setBackgroundPaint(legendBackcolor);
-//			
-//			BlockFrame frame = (BlockFrame)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_FRAME);
-//			if(frame != null)
-//				legend.setFrame(frame);
-//			
-//			HorizontalAlignment defaultLegendHAlignment = (HorizontalAlignment)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_HORIZONTAL_ALIGNMENT);
-//			if(defaultLegendHAlignment != null)
-//				legend.setHorizontalAlignment(defaultLegendHAlignment);
-//			
-//			VerticalAlignment defaultLegendVAlignment = (VerticalAlignment)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_VERTICAL_ALIGNMENT);
-//			if(defaultLegendVAlignment != null)
-//				legend.setVerticalAlignment(defaultLegendVAlignment);
-//			
-//			RectangleInsets defaultLegendPadding = (RectangleInsets)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_PADDING);
-//			RectangleInsets legendPadding = legend.getPadding() != null ? legend.getPadding() : defaultLegendPadding;
-//			if(legendPadding != null)
-//				legend.setPadding(legendPadding);
-//
-//			RectangleEdge defaultLegendPosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_POSITION);
-//			if(getEdge(getChart().getLegendPositionByte(), defaultLegendPosition) != null)
-//				legend.setPosition(getEdge(getChart().getLegendPositionByte(), defaultLegendPosition));
-//			
-//		}
+		//The legend visibility is already taken into account in the jfreeChart object's constructor
+		
+		LegendTitle legend = jfreeChart.getLegend();
+		if (legend != null)
+		{
+			JRFont font = new JRBaseFont(getChart(), getLegendSettings().getFont());
+//			new JRBaseFont(//FIXMETHEME font inheritence is too much trouble for such a small gain
+//				getChart(), 
+//				new JRBaseFont(
+//					JRFontUtil.getAttributesWithoutAwtFont(
+//						new HashMap(), 
+//						getTitleSettings().getFont() 
+//						)
+//					)
+//				);
+			legend.setItemFont(JRFontUtil.getAwtFont(font, getLocale()));
+
+			Paint forePaint = getChart().getOwnLegendColor();
+			if (forePaint == null && getLegendSettings().getForegroundPaint() != null)
+			{
+				forePaint = getLegendSettings().getForegroundPaint().getPaint();
+			}
+			if (forePaint == null)
+			{
+				forePaint = getChart().getLegendColor();
+			}
+			if (forePaint != null)
+				legend.setItemPaint(forePaint);
+
+			Paint backPaint = getChart().getOwnLegendBackgroundColor();
+			if (backPaint == null && getLegendSettings().getBackgroundPaint() != null)
+			{
+				backPaint = getLegendSettings().getBackgroundPaint().getPaint();
+			}
+			if (backPaint == null)
+			{
+				backPaint = getChart().getLegendBackgroundColor();
+			}
+			if (backPaint != null)
+				legend.setBackgroundPaint(backPaint);
+
+			BlockFrame blockFrame = getLegendSettings().getBlockFrame();
+			if(blockFrame != null)
+				legend.setFrame(blockFrame);
+			
+			HorizontalAlignment hAlign = getLegendSettings().getHorizontalAlignment();
+			if(hAlign != null)
+				legend.setHorizontalAlignment(hAlign);
+			
+			VerticalAlignment vAlign = getLegendSettings().getVerticalAlignment();
+			if(vAlign != null)
+				legend.setVerticalAlignment(vAlign);
+			
+			RectangleInsets padding = getLegendSettings().getPadding();
+			if(padding != null)
+				legend.setPadding(padding);
+
+			legend.setPosition(
+				getEdge(
+					getChart().getLegendPositionByte(), 
+					getEdge(
+						getLegendSettings().getPosition(), 
+						RectangleEdge.BOTTOM
+						)
+					)
+				);
+		}
 	}
 	
 	protected void setChartBorder(JFreeChart jfreeChart)
