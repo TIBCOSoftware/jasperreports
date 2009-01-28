@@ -48,34 +48,28 @@ public class ChartSettings implements Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	public static final String PROPERTY_font = "font";
 	public static final String PROPERTY_backgroundPaint = "backgroundPaint";
-	public static final String PROPERTY_borderVisible = "borderVisible";
-	public static final String PROPERTY_antiAlias = "antiAlias";
-	public static final String PROPERTY_unitType = "unitType";
-	public static final String PROPERTY_padding = "padding";
-//	public static final String BACKGROUND_PAINT = "backgroundPaint";
 //	public static final String BACKGROUND_IMAGE = "backgroundImage";
 //	public static final String BACKGROUND_IMAGE_ALIGNMENT = "backgroundImageAlignment";
 //	public static final String BACKGROUND_IMAGE_ALPHA = "backgroundImageAlpha";
 //	public static final String SERIES_COLORS = "seriesColors";
-//	public static final String BASEFONT_SIZE = "baseFontSize";
+	public static final String PROPERTY_font = "font";
 //	public static final String SERIES_GRADIENT_PAINTS = "seriesGradientPaints";
 //	public static final String CHART_BORDER_PAINT = "chartBorderPaint";
 //	public static final String CHART_BORDER_STROKE = "chartBorderStroke";
-//	public static final String CHART_BORDER_VISIBLE = "chartBorderVisible";
-//	public static final String CHART_ANTI_ALIAS = "chartAntiAlias";
+	public static final String PROPERTY_borderVisible = "borderVisible";
+	public static final String PROPERTY_antiAlias = "antiAlias";
 //	public static final String TEXT_ANTI_ALIAS = "textAntiAlias";
-//	public static final String CHART_PADDING = "chartPadding";
-//	public static final String UNIT_TYPE = "unitType";
+	public static final String PROPERTY_padding = "padding";
+	public static final String PROPERTY_unitType = "unitType";
 //	public static final String RENDERING_HINTS = "renderingHints";
 //	public static final String TITLE = "title";
 
 	/**
 	 *
 	 */
-	private JRFont font = new JRBaseFont();
 	private PaintProvider backgroundPaint = null;
+	private JRFont font = new JRBaseFont();
 	private Boolean borderVisible = null;
 	private Boolean antiAlias = null;
 	private Double padding = null;

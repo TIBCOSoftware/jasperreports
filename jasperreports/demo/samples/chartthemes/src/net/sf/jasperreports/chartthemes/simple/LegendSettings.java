@@ -48,18 +48,10 @@ public class LegendSettings implements Serializable
 
 	public static final String PROPERTY_showLegend = "showLegend";
 	public static final String PROPERTY_position = "position";
-	public static final String PROPERTY_font = "font";
 	public static final String PROPERTY_foregroundPaint = "foregroundPaint";
 	public static final String PROPERTY_backgroundPaint = "backgroundPaint";
+	public static final String PROPERTY_font = "font";
 	public static final String PROPERTY_horizontalAlignment = "horizontalAlignment";
-//	public static final String LEGEND_VISIBLE = "legendVisible";
-//	public static final String LEGEND_POSITION = "legendPosition";
-//	public static final String LEGEND_BASEFONT_BOLD_STYLE = "legendBaseFontBoldStyle";
-//	public static final String LEGEND_BASEFONT_ITALIC_STYLE = "legendBaseFontItalicStyle";
-//	public static final String LEGEND_FORECOLOR = "legendForecolor";
-//	public static final String LEGEND_BACKCOLOR = "legendBackcolor";
-//	public static final String LEGEND_BASEFONT_SIZE = "legendBaseFontSize";
-//	public static final String LEGEND_HORIZONTAL_ALIGNMENT = "legendHorizontalAlignment";
 //	public static final String LEGEND_FRAME = "legendFrame";
 //	public static final String LEGEND_VERTICAL_ALIGNMENT = "legendVerticalAlignment";
 //	public static final String LEGEND_HEIGHT = "legendHeight";
@@ -78,9 +70,9 @@ public class LegendSettings implements Serializable
 	 */
 	private Boolean showLegend = null;
 	private Byte position = null;
-	private JRFont font = new JRBaseFont();
 	private PaintProvider foregroundPaint = null;
 	private PaintProvider backgroundPaint = null;
+	private JRFont font = new JRBaseFont();
 	private Byte horizontalAlignment = null;
 	
 	/**

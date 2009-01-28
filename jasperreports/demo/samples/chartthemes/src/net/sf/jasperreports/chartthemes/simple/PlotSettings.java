@@ -47,10 +47,6 @@ public class PlotSettings implements Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	public static final String PROPERTY_outlineVisible = "outlineVisible";
-	public static final String PROPERTY_outlinePaint = "outlinePaint";
-	public static final String PROPERTY_outlineStroke = "outlineStroke";
-	public static final String PROPERTY_insets = "insets";
 //	public static final String PLOT_BACKGROUND_PAINT = "plotBackgroundPaint";
 //	public static final String PLOT_BACKGROUND_ALPHA = "plotBackgroundAlpha";
 //	public static final String PLOT_FOREGROUND_ALPHA = "plotForegroundAlpha";
@@ -63,18 +59,18 @@ public class PlotSettings implements Serializable
 //	public static final String PLOT_SHAPE_SEQUENCE = "plotShapeSequence";
 //	public static final String PLOT_LABEL_ROTATION = "plotLabelRotation";
 //	public static final String PLOT_ORIENTATION = "plotOrientation";
-//	public static final String PLOT_INSETS = "plotInsets";
-//	public static final String PLOT_OUTLINE_PAINT = "plotOutlinePaint";
-//	public static final String PLOT_OUTLINE_STROKE = "plotOutlineStroke";
-//	public static final String PLOT_OUTLINE_VISIBLE = "plotOutlineVisible";
+	public static final String PROPERTY_insets = "insets";
+	public static final String PROPERTY_outlineVisible = "outlineVisible";
+	public static final String PROPERTY_outlinePaint = "outlinePaint";
+	public static final String PROPERTY_outlineStroke = "outlineStroke";
 
 	/**
 	 *
 	 */
+	private RectangleInsets insets = null;
 	private Boolean outlineVisible = null;
 	private PaintProvider outlinePaint = null;
 	private Stroke outlineStroke = null;
-	private RectangleInsets insets = null;
 	
 	/**
 	 * @return the insets
