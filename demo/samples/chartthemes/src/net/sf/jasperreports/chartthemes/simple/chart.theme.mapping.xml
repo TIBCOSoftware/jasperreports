@@ -29,11 +29,11 @@
 
 	<class name="net.sf.jasperreports.chartthemes.simple.ChartSettings">
 		<map-to xml="chart"/>
-		<field name="font" type="net.sf.jasperreports.engine.JRFont">
-			<bind-xml auto-naming="deriveByClass" node="element"/>
-		</field>
 		<field name="backgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
 			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="font" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByClass" node="element"/>
 		</field>
 		<field name="borderVisible" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
@@ -51,6 +51,9 @@
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.TitleSettings">
 		<map-to xml="title"/>
+		<field name="showTitle" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="position" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
 			<bind-xml node="attribute"/>
 		</field>
@@ -59,11 +62,17 @@
 		</field>
 		<field name="backgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
 			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="font" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByClass" node="element"/>
 		</field>
 	</class>
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.LegendSettings">
 		<map-to xml="legend"/>
+		<field name="showLegend" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="position" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
 			<bind-xml node="attribute"/>
 		</field>
@@ -72,6 +81,9 @@
 		</field>
 		<field name="backgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
 			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="font" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByClass" node="element"/>
 		</field>
 	</class>
 	
@@ -79,6 +91,9 @@
 		<map-to xml="plot"/>
 		<field name="outlineVisible" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
+		</field>
+		<field name="outlinePaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
 	</class>
 	

@@ -49,9 +49,9 @@ public class SimpleSettingsFactory
 		ChartThemeSettings settings = new ChartThemeSettings();
 
 		ChartSettings chartSettings = settings.getChartSettings();
-		chartSettings.getFont().setBold(Boolean.TRUE);
 		chartSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		//chartSettings.setBackgroundPaint(new ColorProvider(Color.red));
+		chartSettings.getFont().setBold(Boolean.TRUE);
 		chartSettings.setBorderVisible(Boolean.TRUE);
 		chartSettings.setAntiAlias(Boolean.TRUE);
 		chartSettings.setUnitType(UnitType.ABSOLUTE);
@@ -80,6 +80,7 @@ public class SimpleSettingsFactory
 		
 		PlotSettings plotSettings = settings.getPlotSettings();
 		plotSettings.setOutlineVisible(Boolean.TRUE);
+		plotSettings.setOutlinePaint(new ColorProvider(Color.red));
 		
 		AxisSettings domainAxisSettings = settings.getDomainAxisSettings();
 		domainAxisSettings.setAxisVisible(Boolean.TRUE);

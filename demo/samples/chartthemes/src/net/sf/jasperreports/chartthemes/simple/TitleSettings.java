@@ -48,18 +48,10 @@ public class TitleSettings implements Serializable
 
 	public static final String PROPERTY_showTitle = "showTitle";
 	public static final String PROPERTY_position = "position";
-	public static final String PROPERTY_font = "font";
 	public static final String PROPERTY_foregroundPaint = "foregroundPaint";
 	public static final String PROPERTY_backgroundPaint = "backgroundPaint";
+	public static final String PROPERTY_font = "font";
 	public static final String PROPERTY_horizontalAlignment = "horizontalAlignment";
-//	public static final String TITLE_VISIBLE = "titleVisible";
-//	public static final String TITLE_POSITION = "titlePosition";
-//	public static final String TITLE_BASEFONT_BOLD_STYLE = "titleBaseFontBoldStyle";
-//	public static final String TITLE_BASEFONT_ITALIC_STYLE = "titleBaseFontItalicStyle";
-//	public static final String TITLE_FORECOLOR = "titleForecolor";
-//	public static final String TITLE_BACKCOLOR = "titleBackcolor";
-//	public static final String TITLE_BASEFONT_SIZE = "titleBaseFontSize";
-//	public static final String TITLE_HORIZONTAL_ALIGNMENT = "titleHorizontalAlignment";
 //	public static final String TITLE_VERTICAL_ALIGNMENT = "titleVerticalAlignment";
 //	public static final String TITLE_HEIGHT = "titleHeight";
 //	public static final String TITLE_WIDTH = "titleWidth";
@@ -84,9 +76,9 @@ public class TitleSettings implements Serializable
 	 */
 	private Boolean showTitle = null;
 	private Byte position = null;
-	private JRFont font = new JRBaseFont();
 	private PaintProvider foregroundPaint = null;
 	private PaintProvider backgroundPaint = null;
+	private JRFont font = new JRBaseFont();
 	private Byte horizontalAlignment = null;
 	
 	/**

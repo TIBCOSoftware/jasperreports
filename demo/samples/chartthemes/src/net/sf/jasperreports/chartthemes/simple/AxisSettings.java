@@ -45,7 +45,6 @@ public class AxisSettings implements Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String PROPERTY_axisVisible = "axisVisible";
-//	public static final String AXIS_VISIBLE = "axisVisible";
 //	public static final String AXIS_LOCATION = "axisLocation";
 //	public static final String AXIS_LINE_PAINT = "axisLinePaint";
 //	public static final String AXIS_LINE_STROKE = "axisLineStroke";
@@ -72,12 +71,9 @@ public class AxisSettings implements Serializable
 //	public static final String AXIS_TICK_MARKS_PAINT = "axisTickMarksPaint";
 //	public static final String AXIS_TICK_MARKS_STROKE = "axisTickMarksStroke";
 //	public static final String AXIS_TICK_MARKS_VISIBLE = "axisTickMarksVisible";
-//	public static final String RANGE_AXIS_MIN_VALUE = "rangeAxisMinValue";
-//	public static final String RANGE_AXIS_MAX_VALUE = "rangeAxisMaxValue";
-//	public static final String RANGE_AXIS_TICK_COUNT = "rangeAxisTickCount";
-//	public static final String DOMAIN_AXIS_MIN_VALUE = "domainAxisMinValue";
-//	public static final String DOMAIN_AXIS_MAX_VALUE = "domainAxisMaxValue";
-//	public static final String DOMAIN_AXIS_TICK_COUNT = "domainAxisTickCount";
+//	public static final String AXIS_MIN_VALUE = "minValue";
+//	public static final String AXIS_MAX_VALUE = "maxValue";
+//	public static final String AXIS_TICK_COUNT = "tickCount";
 
 	/**
 	 *
