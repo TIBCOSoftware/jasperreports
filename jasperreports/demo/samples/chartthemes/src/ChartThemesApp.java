@@ -25,7 +25,6 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-import java.awt.Color;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -34,11 +33,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.chartthemes.simple.GradientPaintProvider;
-import net.sf.jasperreports.chartthemes.simple.SimpleChartSettings;
-import net.sf.jasperreports.chartthemes.simple.SimpleChartThemeSettings;
+import net.sf.jasperreports.chartthemes.simple.AegeanSettingsFactory;
+import net.sf.jasperreports.chartthemes.simple.EyeCandySixtiesSettingsFactory;
+import net.sf.jasperreports.chartthemes.simple.SimpleSettingsFactory;
 import net.sf.jasperreports.chartthemes.simple.XmlChartTheme;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -68,7 +66,7 @@ public class ChartThemesApp
 	/**
 	 *
 	 */
-	private static final String TASK_THEME = "theme";
+	private static final String TASK_THEMES = "themes";
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PDF = "pdf";
 	private static final String TASK_HTML = "html";
@@ -93,16 +91,18 @@ public class ChartThemesApp
 			return;
 		}
 				
-		String taskName = args[0];
-		String fileName = args[1];
+		String taskName = args.length > 0 ? args[0] : null;
+		String fileName = args.length > 1 ? args[1] : null;
 
 		try
 		{
 			long start = System.currentTimeMillis();
 			
-			if (TASK_THEME.equals(taskName))
+			if (TASK_THEMES.equals(taskName))
 			{
-				XmlChartTheme.saveSettings(createChartThemeSettings(), new File(fileName));
+				XmlChartTheme.saveSettings(SimpleSettingsFactory.createChartThemeSettings(), new File(".\\src\\simple.jrctx"));
+				XmlChartTheme.saveSettings(EyeCandySixtiesSettingsFactory.createChartThemeSettings(), new File(".\\src\\eye.candy.sixties.jrctx"));
+				XmlChartTheme.saveSettings(AegeanSettingsFactory.createChartThemeSettings(), new File(".\\src\\aegean.jrctx"));
 				System.err.println("Theme saving time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_FILL.equals(taskName))
@@ -257,7 +257,7 @@ public class ChartThemesApp
 	{
 		System.out.println( "ChartsApp usage:" );
 		System.out.println( "\tjava ChartsApp task" );
-		System.out.println( "\tTasks : fill | pdf | html" );
+		System.out.println( "\tTasks : themes | fill | pdf | html" );//FIXMETHEME
 	}
 
 
@@ -376,32 +376,4 @@ public class ChartThemesApp
 		parameters.put("xyDatasource5", xyds5);
 	}
 
-
-	/**
-	 *
-	 */
-	public static final SimpleChartThemeSettings createChartThemeSettings()
-	{
-		SimpleChartThemeSettings settings = new SimpleChartThemeSettings();
-
-		SimpleChartSettings chartSettings = settings.getChartSettings();
-		chartSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
-		//chartSettings.setBackgroundPaint(new ColorProvider(Color.red));
-		chartSettings.setBorderVisible(Boolean.TRUE);
-		chartSettings.setAntiAlias(Boolean.TRUE);
-		chartSettings.setShowTitle(Boolean.TRUE);
-		chartSettings.setTitlePosition(new Byte(JRChart.EDGE_TOP));
-		chartSettings.setTitleForecolor(Color.black);
-		chartSettings.setTitleBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
-		chartSettings.setShowSubtitle(Boolean.TRUE);
-		chartSettings.setSubtitlePosition(new Byte(JRChart.EDGE_TOP));
-		chartSettings.setSubtitleForecolor(Color.black);
-		chartSettings.setSubtitleBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
-		chartSettings.setShowLegend(Boolean.TRUE);
-		chartSettings.setLegendPosition(new Byte(JRChart.EDGE_BOTTOM));
-		chartSettings.setLegendForecolor(Color.black);
-		chartSettings.setLegendBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
-		
-		return settings;
-	}
 }

@@ -87,7 +87,7 @@ public class XmlChartTheme extends SimpleChartTheme
 	/**
 	 *
 	 */
-	public SimpleChartThemeSettings getChartThemeSettings()
+	public ChartThemeSettings getChartThemeSettings()
 	{
 		if (chartThemeSettings == null)
 		{
@@ -100,9 +100,9 @@ public class XmlChartTheme extends SimpleChartTheme
 	/**
 	 *
 	 */
-	public static SimpleChartThemeSettings loadSettings(String file)
+	public static ChartThemeSettings loadSettings(String file)
 	{
-		SimpleChartThemeSettings settings = null;
+		ChartThemeSettings settings = null;
 		
 		try
 		{
@@ -113,7 +113,7 @@ public class XmlChartTheme extends SimpleChartTheme
 			
 			Unmarshaller unmarshaller = new Unmarshaller(mapping);
 			settings = 
-				(SimpleChartThemeSettings)unmarshaller.unmarshal(
+				(ChartThemeSettings)unmarshaller.unmarshal(
 					new InputSource(JRLoader.getLocationInputStream(file)
 					)
 				);//FIXMETHEME close streams
@@ -142,7 +142,7 @@ public class XmlChartTheme extends SimpleChartTheme
 	/**
 	 *
 	 */
-	public static void saveSettings(SimpleChartThemeSettings settings, File file)
+	public static void saveSettings(ChartThemeSettings settings, File file)
 	{
 		try
 		{

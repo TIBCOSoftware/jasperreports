@@ -56,10 +56,9 @@
 		</jrc> 
 	</target>
 
-	<target name="theme" description="Creates the *.jrctx file containing the chart theme settings.">
+	<target name="themes" description="Creates the *.jrctx file containing the chart theme settings.">
 		<java classname="${class.name}">
-			<arg value="theme"/>
-			<arg value="./src/simple.jrctx"/>
+			<arg value="themes"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
