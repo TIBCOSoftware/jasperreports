@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 import org.jfree.chart.block.BlockFrame;
@@ -44,7 +45,7 @@ import org.jfree.ui.VerticalAlignment;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: GenericChartTheme.java 2535 2009-01-16 14:06:40Z teodord $
  */
-public class LegendSettings implements Serializable
+public class LegendSettings implements JRChangeEventsSupport, Serializable
 {
 	/**
 	 * 

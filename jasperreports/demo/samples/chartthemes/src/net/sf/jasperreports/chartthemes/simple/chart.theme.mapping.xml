@@ -171,6 +171,9 @@
 		<field name="linePaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
+		<field name="lineStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
 		<field name="lineVisible" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
@@ -211,6 +214,9 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="tickMarksPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="tickMarksStroke" type="java.awt.Stroke">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
 		<field name="tickMarksVisible" type="java.lang.Boolean">

@@ -107,5 +107,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor</artifactId>
+			<version>1.2</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 </project>

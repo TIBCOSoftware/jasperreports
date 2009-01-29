@@ -27,23 +27,24 @@
  */
 package net.sf.jasperreports.chartthemes.simple;
 
-import java.awt.Paint;
+import java.awt.Stroke;
 import java.io.Serializable;
-
-import org.jfree.chart.axis.AxisLocation;
-import org.jfree.ui.RectangleInsets;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+
+import org.jfree.chart.axis.AxisLocation;
+import org.jfree.ui.RectangleInsets;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: GenericChartTheme.java 2535 2009-01-16 14:06:40Z teodord $
  */
-public class AxisSettings implements Serializable
+public class AxisSettings implements JRChangeEventsSupport, Serializable
 {
 	/**
 	 * 
@@ -53,29 +54,23 @@ public class AxisSettings implements Serializable
 	public static final String PROPERTY_visible = "visible";
 	public static final String PROPERTY_location = "location";
 	public static final String PROPERTY_linePaint = "linePaint";
-//	public static final String PROPERTY_lineStroke = "lineStroke";
+	public static final String PROPERTY_lineStroke = "lineStroke";
 	public static final String PROPERTY_lineVisible = "lineVisible";
 //	public static final String PROPERTY_fixedDimension = "fixedDimension";
 	public static final String PROPERTY_label = "label";
 	public static final String PROPERTY_labelAngle = "labelAngle";
 	public static final String PROPERTY_labelPaint = "labelPaint";
 	public static final String PROPERTY_labelFont = "labelFont";
-//	public static final String PROPERTY_labelFontSize = "labelFontSize";
-//	public static final String PROPERTY_labelFontBoldStyle = "labelFontBoldStyle";
-//	public static final String PROPERTY_labelFontItalicStyle = "labelFontItalicStyle";
 	public static final String PROPERTY_labelInsets = "labelInsets";
 	public static final String PROPERTY_labelVisible = "labelVisible";
 	public static final String PROPERTY_tickLabelPaint = "tickLabelPaint";
 	public static final String PROPERTY_tickLabelFont = "tickLabelFont";
-//	public static final String PROPERTY_tickLabelFontSize = "tickLabelFontSize";
-//	public static final String PROPERTY_tickLabelFontBoldStyle = "tickLabelFontBoldStyle";
-//	public static final String PROPERTY_tickLabelFontItalicStyle = "tickLabelFontItalicStyle";
 	public static final String PROPERTY_tickLabelInsets = "tickLabelInsets";
 	public static final String PROPERTY_tickLabelsVisible = "tickLabelsVisible";
 	public static final String PROPERTY_tickMarksInsideLength = "tickMarksInsideLength";
 	public static final String PROPERTY_tickMarksOutsideLength = "tickMarksOutsideLength";
 	public static final String PROPERTY_tickMarksPaint = "tickMarksPaint";
-//	public static final String PROPERTY_tickMarksStroke = "tickMarksStroke";
+	public static final String PROPERTY_tickMarksStroke = "tickMarksStroke";
 	public static final String PROPERTY_tickMarksVisible = "tickMarksVisible";
 	public static final String PROPERTY_minValue = "minValue";
 	public static final String PROPERTY_maxValue = "maxValue";
@@ -87,6 +82,7 @@ public class AxisSettings implements Serializable
 	private Boolean visible = null;
 	private AxisLocation location = null;
 	private PaintProvider linePaint = null;
+	private Stroke lineStroke = null;
 	private Boolean lineVisible = null;
 	private String label = null;
 	private Double labelAngle = null;
@@ -101,6 +97,7 @@ public class AxisSettings implements Serializable
 	private Float tickMarksInsideLength = null;
 	private Float tickMarksOutsideLength = null;
 	private PaintProvider tickMarksPaint = null;
+	private Stroke tickMarksStroke = null;
 	private Boolean tickMarksVisible = null;
 	private Double minValue = null;
 	private Double maxValue = null;
@@ -504,5 +501,37 @@ public class AxisSettings implements Serializable
 		this.tickCount = tickCount;
 		getEventSupport().firePropertyChange(PROPERTY_tickCount, old, getTickCount());
     }
+
+	/**
+	 * @return the lineStroke
+	 */
+	public Stroke getLineStroke() {
+		return lineStroke;
+	}
+
+	/**
+	 * @param lineStroke the lineStroke to set
+	 */
+	public void setLineStroke(Stroke lineStroke) {
+		Stroke old = getLineStroke();
+		this.lineStroke = lineStroke;
+		getEventSupport().firePropertyChange(PROPERTY_lineStroke, old, getLineStroke());
+	}
+
+	/**
+	 * @return the tickMarksStroke
+	 */
+	public Stroke getTickMarksStroke() {
+		return tickMarksStroke;
+	}
+
+	/**
+	 * @param tickMarksStroke the tickMarksStroke to set
+	 */
+	public void setTickMarksStroke(Stroke tickMarksStroke) {
+		Stroke old = getTickMarksStroke();
+		this.tickMarksStroke = tickMarksStroke;
+		getEventSupport().firePropertyChange(PROPERTY_tickMarksStroke, old, getTickMarksStroke());
+	}
 
 }
