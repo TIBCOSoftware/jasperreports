@@ -32,13 +32,25 @@
 		<field name="backgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
+		<field name="backgroundImageAlignment" type="java.lang.Integer" handler="net.sf.jasperreports.chartthemes.simple.handlers.BackgoundImageAlignmentFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="backgroundImageAlpha" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="font" type="net.sf.jasperreports.engine.JRFont">
 			<bind-xml auto-naming="deriveByClass" node="element"/>
+		</field>
+		<field name="chartBorderPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
 		<field name="borderVisible" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="antiAlias" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="textAntiAlias" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="padding" type="org.jfree.ui.RectangleInsets">

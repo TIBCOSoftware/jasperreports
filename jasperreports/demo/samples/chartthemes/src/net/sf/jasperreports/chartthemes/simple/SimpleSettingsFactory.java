@@ -30,6 +30,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRChart;
 
+import org.jfree.ui.Align;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.VerticalAlignment;
@@ -53,10 +54,13 @@ public class SimpleSettingsFactory
 
 		ChartSettings chartSettings = settings.getChartSettings();
 		chartSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
-		//chartSettings.setBackgroundPaint(new ColorProvider(Color.red));
+		chartSettings.setBackgroundImageAlignment(new Integer(Align.CENTER));
+		chartSettings.setBackgroundImageAlpha(new Float(1f));
 		chartSettings.getFont().setBold(Boolean.TRUE);
+		chartSettings.setChartBorderPaint(new ColorProvider(Color.GREEN));
 		chartSettings.setBorderVisible(Boolean.TRUE);
 		chartSettings.setAntiAlias(Boolean.TRUE);
+		chartSettings.setTextAntiAlias(Boolean.TRUE);
 		chartSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 
 		TitleSettings titleSettings = settings.getTitleSettings();
