@@ -26,10 +26,12 @@ package net.sf.jasperreports.chartthemes.simple;
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+import java.awt.BasicStroke;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRChart;
 
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.ui.Align;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleInsets;
@@ -58,8 +60,9 @@ public class SimpleSettingsFactory
 		chartSettings.setBackgroundImageAlignment(new Integer(Align.CENTER));
 		chartSettings.setBackgroundImageAlpha(new Float(1f));
 		chartSettings.getFont().setBold(Boolean.TRUE);
-		chartSettings.setBorderPaint(new ColorProvider(Color.GREEN));
 		chartSettings.setBorderVisible(Boolean.TRUE);
+		chartSettings.setBorderPaint(new ColorProvider(Color.GREEN));
+		chartSettings.setBorderStroke(new BasicStroke(1f));
 		chartSettings.setAntiAlias(Boolean.TRUE);
 		chartSettings.setTextAntiAlias(Boolean.TRUE);
 		chartSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
@@ -96,6 +99,7 @@ public class SimpleSettingsFactory
 		legendSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 		
 		PlotSettings plotSettings = settings.getPlotSettings();
+		plotSettings.setOrientation(PlotOrientation.HORIZONTAL);
 		plotSettings.setForegroundAlpha(new Float(0.5f));
 		plotSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		plotSettings.setBackgroundAlpha(new Float(0.5f));
@@ -106,6 +110,7 @@ public class SimpleSettingsFactory
 		plotSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 		plotSettings.setOutlineVisible(Boolean.TRUE);
 		plotSettings.setOutlinePaint(new ColorProvider(Color.red));
+		plotSettings.setOutlineStroke(new BasicStroke(1f));
 		
 		AxisSettings domainAxisSettings = settings.getDomainAxisSettings();
 		domainAxisSettings.setAxisVisible(Boolean.TRUE);

@@ -1679,7 +1679,7 @@ public class SimpleChartTheme implements ChartTheme
 			if(title != null)
 			{
 				JRFont font = new JRBaseFont(getChart(), getTitleSettings().getFont());
-//					new JRBaseFont(//FIXMETHEME font inheritence is too much trouble for such a small gain
+//					new JRBaseFont(//font inheritence is too much trouble for such a small gain
 //						getChart(), 
 //						new JRBaseFont(
 //							JRFontUtil.getAttributesWithoutAwtFont(
@@ -1816,12 +1816,11 @@ public class SimpleChartTheme implements ChartTheme
 	protected void setChartLegend(JFreeChart jfreeChart)
 	{
 		//The legend visibility is already taken into account in the jfreeChart object's constructor
-		
 		LegendTitle legend = jfreeChart.getLegend();
 		if (legend != null)
 		{
 			JRFont font = new JRBaseFont(getChart(), getLegendSettings().getFont());
-//			new JRBaseFont(//FIXMETHEME font inheritence is too much trouble for such a small gain
+//			new JRBaseFont(//font inheritence is too much trouble for such a small gain
 //				getChart(), 
 //				new JRBaseFont(
 //					JRFontUtil.getAttributesWithoutAwtFont(

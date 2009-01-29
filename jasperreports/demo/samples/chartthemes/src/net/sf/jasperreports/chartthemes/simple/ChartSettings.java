@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.chartthemes.simple;
 
+import java.awt.Stroke;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -55,9 +56,9 @@ public class ChartSettings implements Serializable
 //	public static final String PROPERTY_seriesColors = "seriesColors";
 	public static final String PROPERTY_font = "font";
 //	public static final String PROPERTY_seriesGradientPaints = "seriesGradientPaints";
-	public static final String PROPERTY_borderPaint = "chartBorderPaint";
-//	public static final String PROPERTY_chartBorderStroke = "chartBorderStroke";
 	public static final String PROPERTY_borderVisible = "borderVisible";
+	public static final String PROPERTY_borderPaint = "borderPaint";
+	public static final String PROPERTY_borderStroke = "borderStroke";
 	public static final String PROPERTY_antiAlias = "antiAlias";
 	public static String PROPERTY_textAntiAlias = "textAntiAlias";
 	public static final String PROPERTY_padding = "padding";
@@ -72,8 +73,9 @@ public class ChartSettings implements Serializable
 	private Integer backgroundImageAlignment = null;
 	private Float backgroundImageAlpha = null;
 	private JRFont font = new JRBaseFont();
-	private PaintProvider borderPaint = null;
 	private Boolean borderVisible = null;
+	private PaintProvider borderPaint = null;
+	private Stroke borderStroke = null;
 	private Boolean antiAlias = null;
 	private Boolean textAntiAlias = null;
 	private RectangleInsets padding = null;
@@ -273,6 +275,22 @@ public class ChartSettings implements Serializable
 		ImageProvider old = getBackgroundImage();
 		this.backgroundImage = backgroundImage;
 		getEventSupport().firePropertyChange(PROPERTY_backgroundImage, old, getBackgroundImage());
+	}
+
+	/**
+	 * @return the borderStroke
+	 */
+	public Stroke getBorderStroke() {
+		return borderStroke;
+	}
+
+	/**
+	 * @param borderStroke the borderStroke to set
+	 */
+	public void setBorderStroke(Stroke borderStroke) {
+		Stroke old = getBorderStroke();
+		this.borderStroke = borderStroke;
+		getEventSupport().firePropertyChange(PROPERTY_borderStroke, old, getBorderStroke());
 	}
 
 

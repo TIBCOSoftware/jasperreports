@@ -81,7 +81,7 @@ public class TitleSettings implements Serializable
 	 */
 	public TitleSettings()
 	{
-		//font = new JRBaseFont(chartSettings.getFont(), null);//FIXMETHEME inheritence is too much trouble for such a small gain
+		//font = new JRBaseFont(chartSettings.getFont(), null);//inheritence is too much trouble for such a small gain
 	}
 	
 	/**
