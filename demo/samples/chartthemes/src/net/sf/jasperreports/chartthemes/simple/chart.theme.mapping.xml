@@ -162,7 +162,67 @@
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.AxisSettings" >
 		<map-to xml="axis"/>
-		<field name="axisVisible" type="java.lang.Boolean">
+		<field name="visible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="location" type="org.jfree.chart.axis.AxisLocation" handler="net.sf.jasperreports.chartthemes.simple.handlers.AxisLocationHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="linePaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="lineVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="label" type="java.lang.String">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="labelAngle" type="java.lang.Double">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="labelPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="labelFont" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="labelInsets" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
+		</field>
+		<field name="labelVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickLabelPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="tickLabelFont" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="tickLabelInsets" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
+		</field>
+		<field name="tickLabelsVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickMarksInsideLength" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickMarksOutsideLength" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickMarksPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="tickMarksVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="minValue" type="java.lang.Double">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="maxValue" type="java.lang.Double">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickCount" type="java.lang.Integer">
 			<bind-xml node="attribute"/>
 		</field>
 	</class>

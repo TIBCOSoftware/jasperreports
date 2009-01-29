@@ -31,6 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRChart;
 
+import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.ui.Align;
 import org.jfree.ui.HorizontalAlignment;
@@ -57,7 +58,7 @@ public class SimpleSettingsFactory
 		ChartSettings chartSettings = settings.getChartSettings();
 		chartSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		chartSettings.setBackgroundImage(new FileImageProvider("jasperreports.gif"));
-		chartSettings.setBackgroundImageAlignment(new Integer(Align.CENTER));
+		chartSettings.setBackgroundImageAlignment(new Integer(Align.TOP_RIGHT));
 		chartSettings.setBackgroundImageAlpha(new Float(1f));
 		chartSettings.getFont().setBold(Boolean.TRUE);
 		chartSettings.setBorderVisible(Boolean.TRUE);
@@ -113,10 +114,59 @@ public class SimpleSettingsFactory
 		plotSettings.setOutlineStroke(new BasicStroke(1f));
 		
 		AxisSettings domainAxisSettings = settings.getDomainAxisSettings();
-		domainAxisSettings.setAxisVisible(Boolean.TRUE);
+		domainAxisSettings.setVisible(Boolean.TRUE);
+		domainAxisSettings.setLocation(AxisLocation.BOTTOM_OR_RIGHT);
+		domainAxisSettings.setLinePaint(new ColorProvider(Color.green));
+		domainAxisSettings.setLineVisible(Boolean.TRUE);
+		domainAxisSettings.setLabel("Domain Axis");
+		domainAxisSettings.setLabelAngle(new Double(0.0));
+		domainAxisSettings.setLabelPaint(new ColorProvider(Color.magenta));
+		domainAxisSettings.getLabelFont().setBold(Boolean.TRUE);
+		domainAxisSettings.getLabelFont().setItalic(Boolean.TRUE);
+		domainAxisSettings.getLabelFont().setFontName("Comic Sans MS");
+		domainAxisSettings.getLabelFont().setFontSize(12);
+		domainAxisSettings.setLabelInsets(new RectangleInsets(UnitType.ABSOLUTE, 0.5, 0.5, 1, 1));
+		domainAxisSettings.setLabelVisible(Boolean.TRUE);
+		domainAxisSettings.setTickLabelPaint(new ColorProvider(Color.cyan));
+		domainAxisSettings.getTickLabelFont().setBold(Boolean.TRUE);
+		domainAxisSettings.getTickLabelFont().setItalic(Boolean.FALSE);
+		domainAxisSettings.getTickLabelFont().setFontName("Arial");
+		domainAxisSettings.getTickLabelFont().setFontSize(10);
+		domainAxisSettings.setTickLabelInsets(new RectangleInsets(UnitType.ABSOLUTE, 0.5, 0.5, 0.5, 0.5));
+		domainAxisSettings.setTickLabelsVisible(Boolean.TRUE);
+		domainAxisSettings.setTickMarksInsideLength(new Float(0.1f));
+		domainAxisSettings.setTickMarksOutsideLength(new Float(0.2f));
+		domainAxisSettings.setTickMarksPaint(new ColorProvider(Color.ORANGE));
+		domainAxisSettings.setTickMarksVisible(Boolean.TRUE);
+		domainAxisSettings.setTickCount(new Integer(5));
+
 		
 		AxisSettings rangeAxisSettings = settings.getRangeAxisSettings();
-		rangeAxisSettings.setAxisVisible(Boolean.TRUE);
+		rangeAxisSettings.setVisible(Boolean.TRUE);
+		rangeAxisSettings.setLocation(AxisLocation.TOP_OR_RIGHT);
+		rangeAxisSettings.setLinePaint(new ColorProvider(Color.yellow));
+		rangeAxisSettings.setLineVisible(Boolean.TRUE);
+		rangeAxisSettings.setLabel("Range Axis");
+		rangeAxisSettings.setLabelAngle(new Double(Math.PI/2.0));
+		rangeAxisSettings.setLabelPaint(new ColorProvider(Color.green));
+		rangeAxisSettings.getLabelFont().setBold(Boolean.TRUE);
+		rangeAxisSettings.getLabelFont().setItalic(Boolean.TRUE);
+		rangeAxisSettings.getLabelFont().setFontName("Comic Sans MS");
+		rangeAxisSettings.getLabelFont().setFontSize(12);
+		rangeAxisSettings.setLabelInsets(new RectangleInsets(UnitType.ABSOLUTE, 0.5, 0.5, 1, 1));
+		rangeAxisSettings.setLabelVisible(Boolean.TRUE);
+		rangeAxisSettings.setTickLabelPaint(new ColorProvider(Color.pink));
+		rangeAxisSettings.getTickLabelFont().setBold(Boolean.FALSE);
+		rangeAxisSettings.getTickLabelFont().setItalic(Boolean.TRUE);
+		rangeAxisSettings.getTickLabelFont().setFontName("Arial");
+		rangeAxisSettings.getTickLabelFont().setFontSize(10);
+		rangeAxisSettings.setTickLabelInsets(new RectangleInsets(UnitType.ABSOLUTE, 0.5, 0.5, 0.5, 0.5));
+		rangeAxisSettings.setTickLabelsVisible(Boolean.TRUE);
+		rangeAxisSettings.setTickMarksInsideLength(new Float(0.2f));
+		rangeAxisSettings.setTickMarksOutsideLength(new Float(0.1f));
+		rangeAxisSettings.setTickMarksPaint(new ColorProvider(Color.black));
+		rangeAxisSettings.setTickMarksVisible(Boolean.TRUE);
+		rangeAxisSettings.setTickCount(new Integer(6));
 		
 		return settings;
 	}

@@ -60,7 +60,7 @@ public class ChartSettings implements Serializable
 	public static final String PROPERTY_borderPaint = "borderPaint";
 	public static final String PROPERTY_borderStroke = "borderStroke";
 	public static final String PROPERTY_antiAlias = "antiAlias";
-	public static String PROPERTY_textAntiAlias = "textAntiAlias";
+	public static final String PROPERTY_textAntiAlias = "textAntiAlias";
 	public static final String PROPERTY_padding = "padding";
 //	public static final String PROPERTY_renderingHints = "renderingHints";
 //	public static final String PROPERTY_title = "title";

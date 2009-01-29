@@ -28,10 +28,15 @@
 package net.sf.jasperreports.chartthemes.simple;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Paint;
 import java.awt.Stroke;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -54,6 +59,7 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.themes.ChartThemesConstants;
+import net.sf.jasperreports.charts.themes.ChartThemesUtilities;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -74,6 +80,7 @@ import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.DateTickUnit;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.block.BlockFrame;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
@@ -472,28 +479,28 @@ public class SimpleChartTheme implements ChartTheme
 			int timePeriod
 			) throws JRException
 	{
-//		Boolean axisVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_VISIBLE);
-//		
-//		if(axisVisible != null && axisVisible.booleanValue())
-//		{
-//			setAxisLine(axis, lineColor);
-//
-//			Double defaultFixedDimension = (Double)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_FIXED_DIMENSION);
+		Boolean axisVisible = getAxisSettings(isRangeAxis).getVisible();
+		
+		if(axisVisible != null && axisVisible.booleanValue())
+		{
+			setAxisLine(axis, lineColor);
+
+//			Double defaultFixedDimension = getAxisSettings(isRangeAxis);
 //			if(defaultFixedDimension != null)
 //			{
 //				axis.setFixedDimension(defaultFixedDimension.doubleValue());
 //			}
-//			
-//			setAxisLabel(axis, labelFont, labelColor);
-//			setAxisTickLabels(axis, tickLabelFont, tickLabelColor, tickLabelMask);
-//			setAxisTickMarks(axis, lineColor);
-//			setAxisBounds(axis, isRangeAxis, timePeriod);
-//			
-//		}
-//		else
-//		{
-//			axis.setVisible(false);
-//		}
+			
+			setAxisLabel(axis, labelFont, labelColor, isRangeAxis);
+			setAxisTickLabels(axis, tickLabelFont, tickLabelColor, tickLabelMask, isRangeAxis);
+			setAxisTickMarks(axis, lineColor, isRangeAxis);
+			setAxisBounds(axis, isRangeAxis, timePeriod);
+			
+		}
+		else
+		{
+			axis.setVisible(false);
+		}
 	}
 
 	/**
@@ -2079,262 +2086,264 @@ public class SimpleChartTheme implements ChartTheme
 //		}
 	}
 	
-	protected void setAxisLabel(Axis axis, JRFont labelFont, Paint labelColor)
+	protected void setAxisLabel(Axis axis, JRFont labelFont, Paint labelColor, boolean isRangeAxis)
 	{
-//		Boolean defaultAxisLabelVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_VISIBLE);
-//		if(defaultAxisLabelVisible != null && defaultAxisLabelVisible.booleanValue())
-//		{
-//			if(axis.getLabel() == null)
-//				axis.setLabel((String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL));
-//
-//			Double defaultLabelAngle = (Double)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_ANGLE);
-//			if(defaultLabelAngle != null)
-//				axis.setLabelAngle(defaultLabelAngle.doubleValue());
-//			Font themeLabelFont = labelFont != null ? 
-//					JRFontUtil.getAwtFont(labelFont, getLocale()) :
-//					(Font)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_FONT);
-//			if(themeLabelFont != null)
-//			{
-//				int defaultAxisLabelFontBoldStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_FONT_BOLD_STYLE) != null ?
-//						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_FONT_BOLD_STYLE)).intValue() :
-//						Font.PLAIN;
-//				int defaultAxisLabelFontItalicStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_FONT_ITALIC_STYLE) != null ?
-//						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_FONT_ITALIC_STYLE)).intValue() :
-//						Font.PLAIN;
-//				themeLabelFont = themeLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(
-//						labelFont, 
-//						defaultAxisLabelFontBoldStyle, 
-//						defaultAxisLabelFontItalicStyle));
-//				if(labelFont.getOwnFontSize() == null)
-//				{
-//					Float defaultLabelBaseFontSize = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_FONT_SIZE) != null ?
-//							(Float)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_FONT_SIZE) :
-//							(Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BASEFONT_SIZE);
-//					if(defaultLabelBaseFontSize != null)
-//					{
-//						themeLabelFont = themeLabelFont.deriveFont(defaultLabelBaseFontSize.floatValue());
-//					}
-//				}
-//				axis.setLabelFont(themeLabelFont);
-//			}
-//			RectangleInsets defaultLabelInsets = (RectangleInsets)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_INSETS);
-//			if(defaultLabelInsets != null)
-//			{
-//				axis.setLabelInsets(defaultLabelInsets);
-//			}
-//			Paint labelPaint = labelColor != null ? 
-//					labelColor :
-//					(Paint)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LABEL_PAINT);	
-//			if (labelPaint != null)
-//			{
-//				axis.setLabelPaint(labelPaint);
-//			}
-//		}
+		Boolean axisLabelVisible = getAxisSettings(isRangeAxis).getLabelVisible();
+		if(axisLabelVisible != null && axisLabelVisible.booleanValue())
+		{
+			if(axis.getLabel() == null)
+				axis.setLabel(getAxisSettings(isRangeAxis).getLabel());
+
+			Double labelAngle = getAxisSettings(isRangeAxis).getLabelAngle();
+			if(labelAngle != null)
+				axis.setLabelAngle(labelAngle.doubleValue());
+			Font themeLabelFont = labelFont != null ? 
+					JRFontUtil.getAwtFont(labelFont, getLocale()) :
+					JRFontUtil.getAwtFont(getAxisSettings(isRangeAxis).getLabelFont(), getLocale());
+			if(themeLabelFont != null)
+			{
+				int axisLabelFontBoldStyle = getAxisSettings(isRangeAxis).getLabelFont().isBold() ? Font.BOLD : Font.PLAIN;
+				int axisLabelFontItalicStyle = getAxisSettings(isRangeAxis).getLabelFont().isItalic() ? Font.ITALIC : Font.PLAIN;
+				themeLabelFont = themeLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(
+						labelFont, 
+						axisLabelFontBoldStyle, 
+						axisLabelFontItalicStyle));
+				if(labelFont.getOwnFontSize() == null)
+				{
+					Float labelBaseFontSize = getAxisSettings(isRangeAxis).getLabelFont().getFontSize() > 0 
+							? new Float(getAxisSettings(isRangeAxis).getLabelFont().getFontSize())
+							: getChartSettings().getFont().getFontSize() > 0 
+							? new Float(getChartSettings().getFont().getFontSize()) 
+							: null;
+					if(labelBaseFontSize != null)
+					{
+						themeLabelFont = themeLabelFont.deriveFont(labelBaseFontSize.floatValue());
+					}
+				}
+				axis.setLabelFont(themeLabelFont);
+			}
+			RectangleInsets labelInsets = getAxisSettings(isRangeAxis).getLabelInsets();
+			if(labelInsets != null)
+			{
+				axis.setLabelInsets(labelInsets);
+			}
+			Paint labelPaint = labelColor != null 
+					? labelColor 
+					: getAxisSettings(isRangeAxis).getLabelPaint() != null 
+					? getAxisSettings(isRangeAxis).getLabelPaint().getPaint()
+					: null;
+			if (labelPaint != null)
+			{
+				axis.setLabelPaint(labelPaint);
+			}
+		}
 	}
 
-	protected void setAxisTickLabels(Axis axis, JRFont tickLabelFont, Paint tickLabelColor, String tickLabelMask)
+	protected void setAxisTickLabels(Axis axis, JRFont tickLabelFont, Paint tickLabelColor, String tickLabelMask, boolean isRangeAxis)
 	{
-//		Boolean defaultAxisTickLabelsVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABELS_VISIBLE);
-//		if(defaultAxisTickLabelsVisible != null && defaultAxisTickLabelsVisible.booleanValue())
-//		{
-//			Font themeTickLabelFont = tickLabelFont != null ? 
-//					JRFontUtil.getAwtFont(tickLabelFont, getLocale()) :
-//					(Font)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_FONT);
-//			if(themeTickLabelFont != null)
-//			{
-//				int defaultAxisTickLabelFontBoldStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_FONT_BOLD_STYLE) != null ?
-//						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_FONT_BOLD_STYLE)).intValue() :
-//						Font.PLAIN;
-//				int defaultAxisTickLabelFontItalicStyle = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_FONT_ITALIC_STYLE) != null ?
-//						((Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_FONT_ITALIC_STYLE)).intValue() :
-//						Font.PLAIN;
-//						
-//				themeTickLabelFont = themeTickLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(tickLabelFont, 
-//								defaultAxisTickLabelFontBoldStyle, 
-//								defaultAxisTickLabelFontItalicStyle));
-//				if(tickLabelFont.getOwnFontSize() == null)
-//				{
-//					Float defaultTickLabelBaseFontSize = (Float)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_FONT_SIZE);
-////							(Float)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_FONT_SIZE) :
-////							(Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BASEFONT_SIZE);
-//					if(defaultTickLabelBaseFontSize != null)
-//					{
-//						themeTickLabelFont = themeTickLabelFont.deriveFont(defaultTickLabelBaseFontSize.floatValue());
-//					}
-//				}
-//				axis.setLabelFont(themeTickLabelFont);
-//			}
-//			RectangleInsets defaultTickLabelInsets = (RectangleInsets)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_INSETS);
-//			if(defaultTickLabelInsets != null)
-//			{
-//				axis.setLabelInsets(defaultTickLabelInsets);
-//			}
-//			Paint tickLabelPaint = tickLabelColor != null ? 
-//					tickLabelColor :
-//					(Paint)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_PAINT);	
-//			if (tickLabelPaint != null)
-//			{
-//				axis.setLabelPaint(tickLabelPaint);
-//			}
-//			if (tickLabelMask != null)
-//			{
-//				if (axis instanceof NumberAxis)
-//				{
-//					NumberFormat fmt = NumberFormat.getInstance();
-//					if (fmt instanceof DecimalFormat)
-//						((DecimalFormat) fmt).applyPattern(tickLabelMask);
-//					((NumberAxis)axis).setNumberFormatOverride(fmt);
-//				}
-//				else if (axis instanceof DateAxis)
-//				{
-//					DateFormat fmt = null;
-//					if (tickLabelMask.equals("SHORT") || tickLabelMask.equals("DateFormat.SHORT"))
-//						fmt = DateFormat.getDateInstance(DateFormat.SHORT);
-//					else if (tickLabelMask.equals("MEDIUM") || tickLabelMask.equals("DateFormat.MEDIUM"))
-//						fmt = DateFormat.getDateInstance(DateFormat.MEDIUM);
-//					else if (tickLabelMask.equals("LONG") || tickLabelMask.equals("DateFormat.LONG"))
-//						fmt = DateFormat.getDateInstance(DateFormat.LONG);
-//					else if (tickLabelMask.equals("FULL") || tickLabelMask.equals("DateFormat.FULL"))
-//						fmt = DateFormat.getDateInstance(DateFormat.FULL);
-//					else
-//						fmt = new SimpleDateFormat(tickLabelMask);
-//					
-//					if (fmt != null)
-//						((DateAxis)axis).setDateFormatOverride(fmt);
-//					else
-//						((DateAxis)axis).setDateFormatOverride(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT));
-//				}
-//				// ignore mask for other axis types.
-//			}
-//		}
+		Boolean axisTickLabelsVisible = getAxisSettings(isRangeAxis).getTickLabelsVisible();
+		if(axisTickLabelsVisible != null && axisTickLabelsVisible.booleanValue())
+		{
+			Font themeTickLabelFont = tickLabelFont != null ? 
+					JRFontUtil.getAwtFont(tickLabelFont, getLocale()) :
+					JRFontUtil.getAwtFont(getAxisSettings(isRangeAxis).getTickLabelFont(), getLocale());
+			if(themeTickLabelFont != null)
+			{
+				int axisTickLabelFontBoldStyle = getAxisSettings(isRangeAxis).getTickLabelFont().isBold() ? Font.BOLD : Font.PLAIN;
+				int axisTickLabelFontItalicStyle = getAxisSettings(isRangeAxis).getTickLabelFont().isItalic() ? Font.ITALIC : Font.PLAIN;
+
+				themeTickLabelFont = themeTickLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(
+						tickLabelFont, 
+						axisTickLabelFontBoldStyle, 
+						axisTickLabelFontItalicStyle));
+				if(tickLabelFont.getOwnFontSize() == null)
+				{
+					Float tickLabelBaseFontSize = getAxisSettings(isRangeAxis).getTickLabelFont().getFontSize() > 0 
+						? new Float(getAxisSettings(isRangeAxis).getLabelFont().getFontSize())
+						: getChartSettings().getFont().getFontSize() > 0 
+						? new Float(getChartSettings().getFont().getFontSize()) 
+						: null;
+					if(tickLabelBaseFontSize != null)
+					{
+						themeTickLabelFont = themeTickLabelFont.deriveFont(tickLabelBaseFontSize.floatValue());
+					}
+				}
+				axis.setLabelFont(themeTickLabelFont);
+			}
+			
+			RectangleInsets tickLabelInsets = getAxisSettings(isRangeAxis).getTickLabelInsets();
+			if(tickLabelInsets != null)
+			{
+				axis.setLabelInsets(tickLabelInsets);
+			}
+			
+			Paint tickLabelPaint = tickLabelColor != null 
+				? tickLabelColor 
+				: getAxisSettings(isRangeAxis).getTickLabelPaint() != null 
+				? getAxisSettings(isRangeAxis).getTickLabelPaint().getPaint()
+				: null;
+				
+			if (tickLabelPaint != null)
+			{
+				axis.setLabelPaint(tickLabelPaint);
+			}
+			
+			if (tickLabelMask != null)
+			{
+				if (axis instanceof NumberAxis)
+				{
+					NumberFormat fmt = NumberFormat.getInstance();
+					if (fmt instanceof DecimalFormat)
+						((DecimalFormat) fmt).applyPattern(tickLabelMask);
+					((NumberAxis)axis).setNumberFormatOverride(fmt);
+				}
+				else if (axis instanceof DateAxis)
+				{
+					DateFormat fmt = null;
+					if (tickLabelMask.equals("SHORT") || tickLabelMask.equals("DateFormat.SHORT"))
+						fmt = DateFormat.getDateInstance(DateFormat.SHORT);
+					else if (tickLabelMask.equals("MEDIUM") || tickLabelMask.equals("DateFormat.MEDIUM"))
+						fmt = DateFormat.getDateInstance(DateFormat.MEDIUM);
+					else if (tickLabelMask.equals("LONG") || tickLabelMask.equals("DateFormat.LONG"))
+						fmt = DateFormat.getDateInstance(DateFormat.LONG);
+					else if (tickLabelMask.equals("FULL") || tickLabelMask.equals("DateFormat.FULL"))
+						fmt = DateFormat.getDateInstance(DateFormat.FULL);
+					else
+						fmt = new SimpleDateFormat(tickLabelMask);
+					
+					if (fmt != null)
+						((DateAxis)axis).setDateFormatOverride(fmt);
+					else
+						((DateAxis)axis).setDateFormatOverride(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT));
+				}
+				// ignore mask for other axis types.
+			}
+		}
 	}
 	
-	protected void setAxisTickMarks(Axis axis, Paint lineColor)
+	protected void setAxisTickMarks(Axis axis, Paint lineColor, boolean isRangeAxis)
 	{
-//		Boolean defaultAxisTickMarksVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_MARKS_VISIBLE);
-//		if(defaultAxisTickMarksVisible != null && defaultAxisTickMarksVisible.booleanValue())
-//		{
-//			Float defaultAxisTickMarksInsideLength = (Float)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_MARKS_INSIDE_LENGTH);
-//			if(defaultAxisTickMarksInsideLength != null)
-//				axis.setTickMarkInsideLength(defaultAxisTickMarksInsideLength.floatValue());
-//			
-//			Float defaultAxisTickMarksOutsideLength = (Float)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_MARKS_OUTSIDE_LENGTH);
-//			if(defaultAxisTickMarksOutsideLength != null)
-//				axis.setTickMarkInsideLength(defaultAxisTickMarksOutsideLength.floatValue());
-//			
-//			Paint tickMarkPaint = getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_MARKS_PAINT) != null ?
-//					(Paint)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_MARKS_PAINT) :
-//					lineColor;
-//			
-//			if (tickMarkPaint != null)
-//			{
-//				axis.setAxisLinePaint(tickMarkPaint);
-//			}
+		Boolean axisTickMarksVisible = getAxisSettings(isRangeAxis).getTickMarksVisible();
+		if(axisTickMarksVisible != null && axisTickMarksVisible.booleanValue())
+		{
+			Float axisTickMarksInsideLength = getAxisSettings(isRangeAxis).getTickMarksInsideLength();
+			if(axisTickMarksInsideLength != null)
+				axis.setTickMarkInsideLength(axisTickMarksInsideLength.floatValue());
+			
+			Float axisTickMarksOutsideLength = getAxisSettings(isRangeAxis).getTickMarksOutsideLength();
+			if(axisTickMarksOutsideLength != null)
+				axis.setTickMarkInsideLength(axisTickMarksOutsideLength.floatValue());
+			
+			Paint tickMarkPaint = getAxisSettings(isRangeAxis).getTickMarksPaint() != null && getAxisSettings(isRangeAxis).getTickMarksPaint().getPaint() != null
+				? getAxisSettings(isRangeAxis).getTickMarksPaint().getPaint()
+				: lineColor;
+			
+			if (tickMarkPaint != null)
+			{
+				axis.setAxisLinePaint(tickMarkPaint);
+			}
 //			Stroke defaultTickMarkStroke = (Stroke)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_MARKS_STROKE);
 //			if(defaultTickMarkStroke != null)
 //				axis.setAxisLineStroke(defaultTickMarkStroke);
-//		}
+		}
 	}
 	
 	protected void setAxisBounds(Axis axis, boolean isRangeAxis, int timeUnit) throws JRException
 	{
-//		if (axis instanceof ValueAxis)
-//		{
-//			String axisMinValue = null;
-//			String axisMaxValue = null;
-//			int tickCount = -1;
-//			
-//			
-//			if(getChart().hasProperties())
-//			{
-//				String tickCountProperty = null;
-//				if(isRangeAxis)
-//				{
-//					axisMinValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.minvalue");
-//					axisMaxValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.maxvalue");
-//					tickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.tickcount");
-//				}
-//				else
-//				{
-//					axisMinValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.minvalue");
-//					axisMaxValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.maxvalue");
-//					tickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.tickcount");
-//				}
-//				if(tickCountProperty != null)
-//				{
-//					tickCount = Integer.valueOf(tickCountProperty).intValue();
-//				}
-//			}
-//			else
-//			{
-//				Integer tickCountInteger = null;
-//				if(isRangeAxis)
-//				{
-//					axisMinValue = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_MIN_VALUE);
-//					axisMaxValue = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_MAX_VALUE);
-//					tickCountInteger = (Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_TICK_COUNT);
-//				}
-//				else
-//				{
-//					axisMinValue = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_MIN_VALUE);
-//					axisMaxValue = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_MAX_VALUE);
-//					tickCountInteger = (Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_TICK_COUNT);
-//				}
-//				if(tickCountInteger != null)
-//				{
-//					tickCount = tickCountInteger.intValue();
-//				}
-//			}
-//			
-//			
-//			if(axis instanceof DateAxis)
-//			{
-//				DateAxis dateAxis = (DateAxis)axis;
-//				DateFormat df  = dateAxis.getDateFormatOverride();
-//
-//				if(df != null)
-//				{
-//					if(axisMinValue != null)
-//					{
-//						try
-//                        {
-//	                        dateAxis.setMinimumDate(df.parse(axisMinValue));
-//                        }
-//                        catch (ParseException e)
-//                        {
-//	                        throw new JRException(e);
-//                        }
-//					}
-//					if(axisMaxValue != null)
-//					{
-//						try
-//                        {
-//	                        dateAxis.setMaximumDate(df.parse(axisMaxValue));
-//                        }
-//                        catch (ParseException e)
-//                        {
-//	                        throw new JRException(e);
-//                        }
-//					}
-//				}
-//			}
-//			else
-//			{
-//				if(axisMinValue != null)
-//				{
-//					((ValueAxis)axis).setLowerBound(Double.valueOf(axisMinValue).doubleValue());
-//				}
-//				if(axisMaxValue != null)
-//				{
-//					((ValueAxis)axis).setUpperBound(Double.valueOf(axisMaxValue).doubleValue());
-//				}
-//			}
-//			
-//			calculateTickUnits(axis, tickCount, timeUnit);
-//		}
+		if (axis instanceof ValueAxis)
+		{
+			String axisMinValue = null;
+			String axisMaxValue = null;
+			int tickCount = -1;
+			
+			
+			if(getChart().hasProperties())
+			{
+				String tickCountProperty = null;
+				if(isRangeAxis)
+				{
+					axisMinValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.minvalue");
+					axisMaxValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.maxvalue");
+					tickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.tickcount");
+				}
+				else
+				{
+					axisMinValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.minvalue");
+					axisMaxValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.maxvalue");
+					tickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.tickcount");
+				}
+				if(tickCountProperty != null)
+				{
+					tickCount = Integer.valueOf(tickCountProperty).intValue();
+				}
+			}
+			else
+			{
+				Integer tickCountInteger = null;
+				axisMinValue = String.valueOf(getAxisSettings(isRangeAxis).getMinValue());
+				axisMaxValue = String.valueOf(getAxisSettings(isRangeAxis).getMaxValue());
+				tickCountInteger = getAxisSettings(isRangeAxis).getTickCount();
+				if(tickCountInteger != null)
+				{
+					tickCount = tickCountInteger.intValue();
+				}
+			}
+			
+			if(axis instanceof DateAxis)
+			{
+				DateAxis dateAxis = (DateAxis)axis;
+				DateFormat df  = dateAxis.getDateFormatOverride();
+
+				if(df != null)
+				{
+					if(axisMinValue != null)
+					{
+						try
+                        {
+	                        dateAxis.setMinimumDate(df.parse(axisMinValue));
+                        }
+                        catch (ParseException e)
+                        {
+	                        throw new JRException(e);
+                        }
+					}
+					if(axisMaxValue != null)
+					{
+						try
+                        {
+	                        dateAxis.setMaximumDate(df.parse(axisMaxValue));
+                        }
+                        catch (ParseException e)
+                        {
+	                        throw new JRException(e);
+                        }
+					}
+				}
+			}
+			else
+			{
+				if(axisMinValue != null && !axisMinValue.equals("null"))
+				{
+					((ValueAxis)axis).setLowerBound(Double.valueOf(axisMinValue).doubleValue());
+				}
+				if(axisMaxValue != null && !axisMaxValue.equals("null"))
+				{
+					((ValueAxis)axis).setUpperBound(Double.valueOf(axisMaxValue).doubleValue());
+				}
+			}
+			
+			calculateTickUnits(axis, tickCount, timeUnit);
+		}
 	}
 
-	protected void calculateTickUnits(Axis axis, int tickCount, int timePeriod)
+	/**
+	 * For a given axis, adjust the tick unit size, in order to 
+	 * have a customizable number of ticks on that axis
+	 * @param axis the axis 
+	 * @param tickCount the user defined number of ticks for the axis
+	 * @param timePeriodUnit the time period used as measure unit on a org.jfree.chart.axis.NumberAxis
+	 */
+	protected void calculateTickUnits(Axis axis, int tickCount, int timePeriodUnit)
 	{
 		if(tickCount < 0)
 			return;
@@ -2357,11 +2366,11 @@ public class SimpleChartTheme implements ChartTheme
 //			int axisRange = (int)dateAxis.getRange().getLength();
 //			if(dateAxis.getDateFormatOverride() != null)
 //			{
-//				dateAxis.setTickUnit(new DateTickUnit(timePeriod, axisRange/tickCount, dateAxis.getDateFormatOverride()));
+//				dateAxis.setTickUnit(new DateTickUnit(timePeriodUnit, axisRange/tickCount, dateAxis.getDateFormatOverride()));
 //			}
 //			else
 //			{
-//				dateAxis.setTickUnit(new DateTickUnit(timePeriod, axisRange/tickCount));
+//				dateAxis.setTickUnit(new DateTickUnit(timePeriodUnit, axisRange/tickCount));
 //			}
 		}
 	}
@@ -2382,6 +2391,11 @@ public class SimpleChartTheme implements ChartTheme
 		}
 
 		return showLegend.booleanValue();
+	}
+	
+	protected AxisSettings getAxisSettings(boolean isRangeAxis)
+	{
+		return isRangeAxis ? getChartThemeSettings().getRangeAxisSettings() : getChartThemeSettings().getDomainAxisSettings();
 	}
 
 	/**
