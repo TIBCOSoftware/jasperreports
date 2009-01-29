@@ -1912,9 +1912,9 @@ public class SimpleChartTheme implements ChartTheme
 //				BasicStroke stroke = (BasicStroke)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.CHART_BORDER_STROKE);
 //				if(stroke != null)
 //					jfreeChart.setBorderStroke(stroke);
-				Paint paint = getChartSettings().getChartBorderPaint() == null
+				Paint paint = getChartSettings().getBorderPaint() == null
 						? null
-						: getChartSettings().getChartBorderPaint().getPaint();
+						: getChartSettings().getBorderPaint().getPaint();
 				if(paint != null)
 					jfreeChart.setBorderPaint(paint);
 			}
