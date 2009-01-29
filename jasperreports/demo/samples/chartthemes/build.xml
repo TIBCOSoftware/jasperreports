@@ -30,6 +30,7 @@
 				<include name="**/*.properties"/>
 				<include name="**/*.xml"/>
 				<include name="**/*.jrctx"/>
+				<include name="**/*.gif"/>
 			    <exclude name="**/pom.xml"/>
 			    <exclude name="**/build.xml"/>
 			</fileset>

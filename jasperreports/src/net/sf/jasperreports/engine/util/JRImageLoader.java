@@ -255,6 +255,7 @@ public class JRImageLoader
 	 * 
 	 * @param image the resource name
 	 * @throws JRException
+	 * @deprecated To be removed in future releases.
 	 */
 	protected static Image loadImage(String image) throws JRException 
 	{
