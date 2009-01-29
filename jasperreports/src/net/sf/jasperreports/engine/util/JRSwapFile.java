@@ -97,7 +97,7 @@ public class JRSwapFile
 				swapFile.deleteOnExit();
 			}
 			
-			file = new RandomAccessFile(swapFile, "rw");
+			file = new RandomAccessFile(swapFile, "rw");//FIXME to this lazily?
 
 			this.blockSize = blockSize;
 			this.minGrowCount = minGrowCount;
