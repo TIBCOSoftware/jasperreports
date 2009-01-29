@@ -1,4 +1,3 @@
-package net.sf.jasperreports.chartthemes.simple;
 /*
  * ============================================================================
  * GNU Lesser General Public License
@@ -26,6 +25,8 @@ package net.sf.jasperreports.chartthemes.simple;
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.chartthemes.simple;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 
@@ -117,6 +118,7 @@ public class SimpleSettingsFactory
 		domainAxisSettings.setVisible(Boolean.TRUE);
 		domainAxisSettings.setLocation(AxisLocation.BOTTOM_OR_RIGHT);
 		domainAxisSettings.setLinePaint(new ColorProvider(Color.green));
+		domainAxisSettings.setLineStroke(new BasicStroke(1f));
 		domainAxisSettings.setLineVisible(Boolean.TRUE);
 		domainAxisSettings.setLabel("Domain Axis");
 		domainAxisSettings.setLabelAngle(new Double(0.0));
@@ -137,6 +139,7 @@ public class SimpleSettingsFactory
 		domainAxisSettings.setTickMarksInsideLength(new Float(0.1f));
 		domainAxisSettings.setTickMarksOutsideLength(new Float(0.2f));
 		domainAxisSettings.setTickMarksPaint(new ColorProvider(Color.ORANGE));
+		domainAxisSettings.setTickMarksStroke(new BasicStroke(1f));
 		domainAxisSettings.setTickMarksVisible(Boolean.TRUE);
 		domainAxisSettings.setTickCount(new Integer(5));
 
@@ -145,6 +148,7 @@ public class SimpleSettingsFactory
 		rangeAxisSettings.setVisible(Boolean.TRUE);
 		rangeAxisSettings.setLocation(AxisLocation.TOP_OR_RIGHT);
 		rangeAxisSettings.setLinePaint(new ColorProvider(Color.yellow));
+		rangeAxisSettings.setLineStroke(new BasicStroke(1f));
 		rangeAxisSettings.setLineVisible(Boolean.TRUE);
 		rangeAxisSettings.setLabel("Range Axis");
 		rangeAxisSettings.setLabelAngle(new Double(Math.PI/2.0));
@@ -165,6 +169,7 @@ public class SimpleSettingsFactory
 		rangeAxisSettings.setTickMarksInsideLength(new Float(0.2f));
 		rangeAxisSettings.setTickMarksOutsideLength(new Float(0.1f));
 		rangeAxisSettings.setTickMarksPaint(new ColorProvider(Color.black));
+		rangeAxisSettings.setTickMarksStroke(new BasicStroke(1f));
 		rangeAxisSettings.setTickMarksVisible(Boolean.TRUE);
 		rangeAxisSettings.setTickCount(new Integer(6));
 		
