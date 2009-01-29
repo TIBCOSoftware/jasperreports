@@ -29,7 +29,6 @@ package net.sf.jasperreports.chartthemes.simple.handlers;
 
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
 import org.jfree.ui.Align;
-import org.jfree.ui.HorizontalAlignment;
 
 
 /**
@@ -55,7 +54,31 @@ public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 		{
 			return null;
 		}
-		return ((Integer)value).toString();
+		return 
+			new Integer(Align.BOTTOM).equals(value) 
+			? "Align.BOTTOM"
+			: new Integer(Align.BOTTOM_LEFT).equals(value)
+			? "Align.BOTTOM_LEFT"
+			: new Integer(Align.BOTTOM_RIGHT).equals(value)
+			? "Align.BOTTOM_RIGHT"
+			: new Integer(Align.CENTER).equals(value)
+			? "Align.CENTER"
+			: new Integer(Align.FIT).equals(value)
+			? "Align.FIT"
+			: new Integer(Align.FIT_HORIZONTAL).equals(value)
+			? "Align.FIT_HORIZONTAL"
+			: new Integer(Align.FIT_VERTICAL).equals(value)
+			? "Align.FIT_VERTICAL"
+			: new Integer(Align.LEFT).equals(value)
+			? "Align.LEFT"
+			: new Integer(Align.RIGHT).equals(value)
+			? "Align.RIGHT"
+			: new Integer(Align.TOP).equals(value)
+			? "Align.TOP"
+			: new Integer(Align.TOP_LEFT).equals(value)
+			? "Align.TOP_LEFT"
+			: new Integer(Align.TOP_RIGHT).equals(value)
+			? "Align.TOP_RIGHT" : null;
 	}
 
 	/**
@@ -68,46 +91,30 @@ public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 			return null;
 		}
 		return 
-			String.valueOf(Align.BOTTOM).equals(value) 
+			"Align.BOTTOM".equals(value) 
 			? new Integer(Align.BOTTOM) 
-			: String.valueOf(Align.BOTTOM_LEFT).equals(value)
+			: "Align.BOTTOM_LEFT".equals(value)
 			? new Integer(Align.BOTTOM_LEFT)
-			: String.valueOf(Align.BOTTOM_RIGHT).equals(value)
+			: "Align.BOTTOM_RIGHT".equals(value)
 			? new Integer(Align.BOTTOM_RIGHT)
-			: String.valueOf(Align.CENTER).equals(value)
+			: "Align.CENTER".equals(value)
 			? new Integer(Align.CENTER)
-			: String.valueOf(Align.EAST).equals(value)
-			? new Integer(Align.EAST)
-			: String.valueOf(Align.FIT).equals(value)
+			: "Align.FIT".equals(value)
 			? new Integer(Align.FIT)
-			: String.valueOf(Align.FIT_HORIZONTAL).equals(value)
+			: "Align.FIT_HORIZONTAL".equals(value)
 			? new Integer(Align.FIT_HORIZONTAL)
-			: String.valueOf(Align.FIT_VERTICAL).equals(value)
+			: "Align.FIT_VERTICAL".equals(value)
 			? new Integer(Align.FIT_VERTICAL)
-			: String.valueOf(Align.LEFT).equals(value)
+			: "Align.LEFT".equals(value)
 			? new Integer(Align.LEFT)
-			: String.valueOf(Align.NORTH).equals(value)
-			? new Integer(Align.NORTH)
-			: String.valueOf(Align.NORTH_EAST).equals(value)
-			? new Integer(Align.NORTH_EAST)
-			: String.valueOf(Align.NORTH_WEST).equals(value)
-			? new Integer(Align.NORTH_WEST)
-			: String.valueOf(Align.RIGHT).equals(value)
+			: "Align.RIGHT".equals(value)
 			? new Integer(Align.RIGHT)
-			: String.valueOf(Align.SOUTH).equals(value)
-			? new Integer(Align.SOUTH)
-			: String.valueOf(Align.SOUTH_EAST).equals(value)
-			? new Integer(Align.SOUTH_EAST)
-			: String.valueOf(Align.SOUTH_WEST).equals(value)
-			? new Integer(Align.SOUTH_WEST)
-			: String.valueOf(Align.TOP).equals(value)
+			: "Align.TOP".equals(value)
 			? new Integer(Align.TOP)
-			: String.valueOf(Align.TOP_LEFT).equals(value)
+			: "Align.TOP_LEFT".equals(value)
 			? new Integer(Align.TOP_LEFT)
-			: String.valueOf(Align.TOP_RIGHT).equals(value)
-			? new Integer(Align.TOP_RIGHT)
-			: String.valueOf(Align.WEST).equals(value)
-			? new Integer(Align.WEST) : null;
+			: "Align.TOP_RIGHT".equals(value)
+			? new Integer(Align.TOP_RIGHT) : null;
 	}
 	
 	/**

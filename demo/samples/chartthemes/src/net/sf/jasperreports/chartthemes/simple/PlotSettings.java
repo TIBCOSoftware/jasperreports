@@ -47,26 +47,33 @@ public class PlotSettings implements Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 //	FIXMETHEME complete props
-//	public static final String PLOT_BACKGROUND_PAINT = "plotBackgroundPaint";
-//	public static final String PLOT_BACKGROUND_ALPHA = "plotBackgroundAlpha";
-//	public static final String PLOT_FOREGROUND_ALPHA = "plotForegroundAlpha";
-//	public static final String PLOT_BACKGROUND_IMAGE = "plotBackgroundImage";
-//	public static final String PLOT_BACKGROUND_IMAGE_ALIGNMENT = "plotBackgroundImageAlignment";
-//	public static final String PLOT_BACKGROUND_IMAGE_ALPHA = "plotBackgroundImageAlpha";
-//	public static final String PLOT_OUTLINE_PAINT_SEQUENCE = "plotOutlinePaintSequence";
-//	public static final String PLOT_STROKE_SEQUENCE = "plotStrokeSequence";
-//	public static final String PLOT_OUTLINE_STROKE_SEQUENCE = "plotOutlineStrokeSequence";
-//	public static final String PLOT_SHAPE_SEQUENCE = "plotShapeSequence";
-//	public static final String PLOT_LABEL_ROTATION = "plotLabelRotation";
+	public static final String PROPERTY_foregroundAlpha = "foregroundAlpha";
+	public static final String PROPERTY_backgroundPaint = "backgroundPaint";
+	public static final String PROPERTY_backgroundAlpha = "backgroundAlpha";
+	public static final String PROPERTY_backgroundImage = "backgroundImage";
+	public static final String PROPERTY_backgroundImageAlpha = "backgroundImageAlpha";
+	public static final String PROPERTY_backgroundImageAlignment = "backgroundImageAlignment";
+	public static final String PROPERTY_labelRotation = "labelRotation";
 //	public static final String PLOT_ORIENTATION = "plotOrientation";
 	public static final String PROPERTY_padding = "padding";
 	public static final String PROPERTY_outlineVisible = "outlineVisible";
 	public static final String PROPERTY_outlinePaint = "outlinePaint";
 	public static final String PROPERTY_outlineStroke = "outlineStroke";
+//	public static final String PLOT_OUTLINE_PAINT_SEQUENCE = "plotOutlinePaintSequence";
+//	public static final String PLOT_STROKE_SEQUENCE = "plotStrokeSequence";
+//	public static final String PLOT_OUTLINE_STROKE_SEQUENCE = "plotOutlineStrokeSequence";
+//	public static final String PLOT_SHAPE_SEQUENCE = "plotShapeSequence";
 
 	/**
 	 *
 	 */
+	private Float foregroundAlpha = null;
+	private PaintProvider backgroundPaint = null;
+	private Float backgroundAlpha = null;
+	private ImageProvider backgroundImage = null;
+	private Float backgroundImageAlpha = null;
+	private Integer backgroundImageAlignment = null;
+	private Double labelRotation = null;
 	private RectangleInsets padding = null;
 	private Boolean outlineVisible = null;
 	private PaintProvider outlinePaint = null;
@@ -157,6 +164,118 @@ public class PlotSettings implements Serializable
 		Stroke old = getOutlineStroke();
 		this.outlineStroke = outlineStroke;
 		getEventSupport().firePropertyChange(PROPERTY_outlineStroke, old, getOutlineStroke());
+	}
+
+	/**
+	 * @return the backgroundPaint
+	 */
+	public PaintProvider getBackgroundPaint() {
+		return backgroundPaint;
+	}
+
+	/**
+	 * @param backgroundPaint the backgroundPaint to set
+	 */
+	public void setBackgroundPaint(PaintProvider backgroundPaint) {
+		PaintProvider old = getBackgroundPaint();
+		this.backgroundPaint = backgroundPaint;
+		getEventSupport().firePropertyChange(PROPERTY_backgroundPaint, old, getBackgroundPaint());
+	}
+
+	/**
+	 * @return the backgroundAlpha
+	 */
+	public Float getBackgroundAlpha() {
+		return backgroundAlpha;
+	}
+
+	/**
+	 * @param backgroundAlpha the backgroundAlpha to set
+	 */
+	public void setBackgroundAlpha(Float backgroundAlpha) {
+		Float old = getBackgroundAlpha();
+		this.backgroundAlpha = backgroundAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_backgroundAlpha, old, getBackgroundAlpha());
+	}
+
+	/**
+	 * @return the backgroundImageAlignment
+	 */
+	public Integer getBackgroundImageAlignment() {
+		return backgroundImageAlignment;
+	}
+
+	/**
+	 * @param backgroundImageAlignment the backgroundImageAlignment to set
+	 */
+	public void setBackgroundImageAlignment(Integer backgroundImageAlignment) {
+		Integer old = getBackgroundImageAlignment();
+		this.backgroundImageAlignment = backgroundImageAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_backgroundImageAlignment, old, getBackgroundImageAlignment());
+	}
+
+	/**
+	 * @return the backgroundImageAlpha
+	 */
+	public Float getBackgroundImageAlpha() {
+		return backgroundImageAlpha;
+	}
+
+	/**
+	 * @param backgroundImageAlpha the backgroundImageAlpha to set
+	 */
+	public void setBackgroundImageAlpha(Float backgroundImageAlpha) {
+		Float old = getBackgroundImageAlpha();
+		this.backgroundImageAlpha = backgroundImageAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_backgroundImageAlpha, old, getBackgroundImageAlpha());
+	}
+
+	/**
+	 * @return the foregroundAlpha
+	 */
+	public Float getForegroundAlpha() {
+		return foregroundAlpha;
+	}
+
+	/**
+	 * @param foregroundAlpha the foregroundAlpha to set
+	 */
+	public void setForegroundAlpha(Float foregroundAlpha) {
+		Float old = getForegroundAlpha();
+		this.foregroundAlpha = foregroundAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_foregroundAlpha, old, getForegroundAlpha());
+	}
+
+	/**
+	 * @return the labelRotation
+	 */
+	public Double getLabelRotation() {
+		return labelRotation;
+	}
+
+	/**
+	 * @param labelRotation the labelRotation to set
+	 */
+	public void setLabelRotation(Double labelRotation) {
+		Double old = getLabelRotation();
+		this.labelRotation = labelRotation;
+		getEventSupport().firePropertyChange(PROPERTY_labelRotation, old, getLabelRotation());
+	}
+
+	/**
+	 * @return the backgroundImage
+	 */
+	public ImageProvider getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	/**
+	 * @param backgroundImage the backgroundImage to set
+	 */
+	public void setBackgroundImage(ImageProvider backgroundImage) {
+		ImageProvider old = getBackgroundImage();
+		this.backgroundImage = backgroundImage;
+		getEventSupport().firePropertyChange(PROPERTY_backgroundImage, old, getBackgroundImage());
 	}
 
 }

@@ -49,7 +49,7 @@ public class ChartSettings implements Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String PROPERTY_backgroundPaint = "backgroundPaint";
-//	public static final String PROPERTY_backgroundImage = "backgroundImage";
+	public static final String PROPERTY_backgroundImage = "backgroundImage";
 	public static final String PROPERTY_backgroundImageAlignment = "backgroundImageAlignment";
 	public static final String PROPERTY_backgroundImageAlpha = "backgroundImageAlpha";
 //	public static final String PROPERTY_seriesColors = "seriesColors";
@@ -68,6 +68,7 @@ public class ChartSettings implements Serializable
 	 *
 	 */
 	private PaintProvider backgroundPaint = null;
+	private ImageProvider backgroundImage = null;
 	private Integer backgroundImageAlignment = null;
 	private Float backgroundImageAlpha = null;
 	private JRFont font = new JRBaseFont();
@@ -257,6 +258,22 @@ public class ChartSettings implements Serializable
 		this.borderPaint = borderPaint;
 		getEventSupport().firePropertyChange(PROPERTY_borderPaint, old, getBorderPaint());
     }
+
+	/**
+	 * @return the backgroundImage
+	 */
+	public ImageProvider getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	/**
+	 * @param backgroundImage the backgroundImage to set
+	 */
+	public void setBackgroundImage(ImageProvider backgroundImage) {
+		ImageProvider old = getBackgroundImage();
+		this.backgroundImage = backgroundImage;
+		getEventSupport().firePropertyChange(PROPERTY_backgroundImage, old, getBackgroundImage());
+	}
 
 
 }
