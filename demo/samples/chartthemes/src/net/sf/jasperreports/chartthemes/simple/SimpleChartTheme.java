@@ -1896,11 +1896,11 @@ public class SimpleChartTheme implements ChartTheme
 			boolean isVisible = getChartSettings().getBorderVisible() == null 
 				? false 
 				: getChartSettings().getBorderVisible().booleanValue();
-			if(isVisible)
+			if (isVisible)
 			{
-//				BasicStroke stroke = (BasicStroke)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.CHART_BORDER_STROKE);
-//				if(stroke != null)
-//					jfreeChart.setBorderStroke(stroke);
+				Stroke stroke = getChartSettings().getBorderStroke();
+				if(stroke != null)
+					jfreeChart.setBorderStroke(stroke);
 				Paint paint = getChartSettings().getBorderPaint() == null
 						? null
 						: getChartSettings().getBorderPaint().getPaint();
