@@ -58,9 +58,11 @@ import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -357,9 +359,13 @@ public class SimpleChartTheme implements ChartTheme
 		setChartLegend(jfreeChart);
 		setChartBorder(jfreeChart);
 		
-		Boolean isAntiAlias = getChartSettings().getAntiAlias();
-		if(isAntiAlias != null)
-			jfreeChart.setAntiAlias(isAntiAlias.booleanValue());
+		Boolean chartAntiAlias = getChartSettings().getAntiAlias();
+		if(chartAntiAlias != null)
+			jfreeChart.setAntiAlias(chartAntiAlias.booleanValue());
+		
+		Boolean textAntiAlias = getChartSettings().getTextAntiAlias();
+		if(textAntiAlias != null)
+			jfreeChart.setTextAntiAlias(textAntiAlias.booleanValue());
 		
 		RectangleInsets padding = getChartSettings().getPadding();
 		if(padding != null)
@@ -1616,59 +1622,59 @@ public class SimpleChartTheme implements ChartTheme
 		Paint backgroundPaint = getChartSettings().getBackgroundPaint() == null ? null : getChartSettings().getBackgroundPaint().getPaint();
 		jfreeChart.setBackgroundPaint(backgroundPaint);
 //		Image defaultBackgroundImage = (Image)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE);
-//		Integer defaultBackgroundImageAlignment = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE_ALIGNMENT);
-//		Float defaultBackgroundImageAlpha = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE_ALPHA);
-//
-//		if (getChart().getOwnMode() != null)
-//		{
-//			if(getChart().getOwnMode().byteValue() == JRElement.MODE_OPAQUE)
-//			{
-//				if(getChart().getOwnBackcolor() == null && defaultBackgroundPaint != null)
-//				{
-//					jfreeChart.setBackgroundPaint(defaultBackgroundPaint);
-//				}
-//				else
-//				{
-//					jfreeChart.setBackgroundPaint(getChart().getBackcolor());
-//				}
-//				
+		Integer backgroundImageAlignment = getChartSettings().getBackgroundImageAlignment();
+		Float backgroundImageAlpha = getChartSettings().getBackgroundImageAlpha();
+
+		if (getChart().getOwnMode() != null)
+		{
+			if(getChart().getOwnMode().byteValue() == JRElement.MODE_OPAQUE)
+			{
+				if(getChart().getOwnBackcolor() == null && backgroundPaint != null)
+				{
+					jfreeChart.setBackgroundPaint(backgroundPaint);
+				}
+				else
+				{
+					jfreeChart.setBackgroundPaint(getChart().getBackcolor());
+				}
+				
 //				setChartBackgroundImage(jfreeChart, 
 //						defaultBackgroundImage,
 //						defaultBackgroundImageAlignment,
 //						defaultBackgroundImageAlpha);
-//			}
-//			else
-//			{
-//				jfreeChart.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+			}
+			else
+			{
+				jfreeChart.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 //				setChartBackgroundImage(jfreeChart, 
 //						defaultBackgroundImage,
 //						defaultBackgroundImageAlignment,
 //						new Float(0f));
-//			}
-//		}
-//		else if (defaultBackgroundPaint != null)
-//		{
-//			jfreeChart.setBackgroundPaint(defaultBackgroundPaint);
-//		}
+			}
+		}
+		else if (backgroundPaint != null)
+		{
+			jfreeChart.setBackgroundPaint(backgroundPaint);
+		}
 	}
 	
 	protected void setChartBackgroundImage(JFreeChart jfreeChart, 
-			Image defaultBackgroundImage,
-			Integer defaultBackgroundImageAlignment,
-			Float defaultBackgroundImageAlpha)
+			Image backgroundImage,
+			Integer backgroundImageAlignment,
+			Float backgroundImageAlpha)
 
 	{
 		
-		if(defaultBackgroundImage != null)
+		if(backgroundImage != null)
 		{
-			jfreeChart.setBackgroundImage(defaultBackgroundImage);
-			if(defaultBackgroundImageAlignment != null)
+			jfreeChart.setBackgroundImage(backgroundImage);
+			if(backgroundImageAlignment != null)
 			{
-				jfreeChart.setBackgroundImageAlignment(defaultBackgroundImageAlignment.intValue());
+				jfreeChart.setBackgroundImageAlignment(backgroundImageAlignment.intValue());
 			}
-			if(defaultBackgroundImageAlpha != null)
+			if(backgroundImageAlpha != null)
 			{
-				jfreeChart.setBackgroundImageAlpha(defaultBackgroundImageAlpha.floatValue());
+				jfreeChart.setBackgroundImageAlpha(backgroundImageAlpha.floatValue());
 			}
 		}
 	}
@@ -1890,29 +1896,31 @@ public class SimpleChartTheme implements ChartTheme
 	
 	protected void setChartBorder(JFreeChart jfreeChart)
 	{
-//		JRLineBox lineBox = getChart().getLineBox();
-//		if(
-//			lineBox.getLeftPen().getLineWidth().floatValue() == 0
-//			&& lineBox.getBottomPen().getLineWidth().floatValue() == 0
-//			&& lineBox.getRightPen().getLineWidth().floatValue() == 0
-//			&& lineBox.getTopPen().getLineWidth().floatValue() == 0
-//			)
-//		{
-//			boolean isVisible = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.CHART_BORDER_VISIBLE) == null ?
-//					false : 
-//					((Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.CHART_BORDER_VISIBLE)).booleanValue();
-//			if(isVisible)
-//			{
+		JRLineBox lineBox = getChart().getLineBox();
+		if(
+			lineBox.getLeftPen().getLineWidth().floatValue() == 0
+			&& lineBox.getBottomPen().getLineWidth().floatValue() == 0
+			&& lineBox.getRightPen().getLineWidth().floatValue() == 0
+			&& lineBox.getTopPen().getLineWidth().floatValue() == 0
+			)
+		{
+			boolean isVisible = getChartSettings().getBorderVisible() == null 
+				? false 
+				: getChartSettings().getBorderVisible().booleanValue();
+			if(isVisible)
+			{
 //				BasicStroke stroke = (BasicStroke)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.CHART_BORDER_STROKE);
 //				if(stroke != null)
 //					jfreeChart.setBorderStroke(stroke);
-//				Paint paint = (Paint)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.CHART_BORDER_PAINT);
-//				if(paint != null)
-//					jfreeChart.setBorderPaint(paint);
-//			}
-//				
-//			jfreeChart.setBorderVisible(isVisible);
-//		}
+				Paint paint = getChartSettings().getChartBorderPaint() == null
+						? null
+						: getChartSettings().getChartBorderPaint().getPaint();
+				if(paint != null)
+					jfreeChart.setBorderPaint(paint);
+			}
+				
+			jfreeChart.setBorderVisible(isVisible);
+		}
 	}
 
 	protected void setPlotBackground(Plot p, JRChartPlot jrPlot)

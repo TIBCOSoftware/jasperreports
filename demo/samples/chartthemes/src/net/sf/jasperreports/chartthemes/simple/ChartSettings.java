@@ -49,28 +49,32 @@ public class ChartSettings implements Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String PROPERTY_backgroundPaint = "backgroundPaint";
-//	public static final String BACKGROUND_IMAGE = "backgroundImage";
-//	public static final String BACKGROUND_IMAGE_ALIGNMENT = "backgroundImageAlignment";
-//	public static final String BACKGROUND_IMAGE_ALPHA = "backgroundImageAlpha";
-//	public static final String SERIES_COLORS = "seriesColors";
+//	public static final String PROPERTY_backgroundImage = "backgroundImage";
+	public static final String PROPERTY_backgroundImageAlignment = "backgroundImageAlignment";
+	public static final String PROPERTY_backgroundImageAlpha = "backgroundImageAlpha";
+//	public static final String PROPERTY_seriesColors = "seriesColors";
 	public static final String PROPERTY_font = "font";
-//	public static final String SERIES_GRADIENT_PAINTS = "seriesGradientPaints";
-//	public static final String CHART_BORDER_PAINT = "chartBorderPaint";
-//	public static final String CHART_BORDER_STROKE = "chartBorderStroke";
+//	public static final String PROPERTY_seriesGradientPaints = "seriesGradientPaints";
+	public static final String PROPERTY_chartBorderPaint = "chartBorderPaint";
+//	public static final String PROPERTY_chartBorderStroke = "chartBorderStroke";
 	public static final String PROPERTY_borderVisible = "borderVisible";
 	public static final String PROPERTY_antiAlias = "antiAlias";
-//	public static final String TEXT_ANTI_ALIAS = "textAntiAlias";
+	public static String PROPERTY_textAntiAlias = "textAntiAlias";
 	public static final String PROPERTY_padding = "padding";
-//	public static final String RENDERING_HINTS = "renderingHints";
-//	public static final String TITLE = "title";
+//	public static final String PROPERTY_renderingHints = "renderingHints";
+//	public static final String PROPERTY_title = "title";
 
 	/**
 	 *
 	 */
 	private PaintProvider backgroundPaint = null;
+	private Integer backgroundImageAlignment = null;
+	private Float backgroundImageAlpha = null;
 	private JRFont font = new JRBaseFont();
+	private PaintProvider chartBorderPaint = null;
 	private Boolean borderVisible = null;
 	private Boolean antiAlias = null;
+	private Boolean textAntiAlias = null;
 	private RectangleInsets padding = null;
 	
 	/**
@@ -181,5 +185,78 @@ public class ChartSettings implements Serializable
 		this.padding = padding;
 		getEventSupport().firePropertyChange(PROPERTY_padding, old, getPadding());
 	}
+
+	/**
+     * @return the textAntiAlias
+     */
+    public Boolean getTextAntiAlias()
+    {
+    	return textAntiAlias;
+    }
+
+	/**
+     * @param textAntiAlias the textAntiAlias to set
+     */
+    public void setTextAntiAlias(Boolean textAntiAlias)
+    {
+    	Boolean old = getTextAntiAlias();
+		this.textAntiAlias = textAntiAlias;
+		getEventSupport().firePropertyChange(PROPERTY_textAntiAlias, old, getTextAntiAlias());
+    }
+
+	/**
+     * @return the backgroundImageAlignment
+     */
+    public Integer getBackgroundImageAlignment()
+    {
+    	return backgroundImageAlignment;
+    }
+
+	/**
+     * @param backgroundImageAlignment the backgroundImageAlignment to set
+     */
+    public void setBackgroundImageAlignment(Integer backgroundImageAlignment)
+    {
+    	Integer old = getBackgroundImageAlignment();
+		this.backgroundImageAlignment = backgroundImageAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_backgroundImageAlignment, old, getBackgroundImageAlignment());
+    }
+
+	/**
+     * @return the backgroundImageAlpha
+     */
+    public Float getBackgroundImageAlpha()
+    {
+    	return backgroundImageAlpha;
+    }
+
+	/**
+     * @param backgroundImageAlpha the backgroundImageAlpha to set
+     */
+    public void setBackgroundImageAlpha(Float backgroundImageAlpha)
+    {
+    	Float old = getBackgroundImageAlpha();
+		this.backgroundImageAlpha = backgroundImageAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_backgroundImageAlpha, old, getBackgroundImageAlpha());
+    }
+
+	/**
+     * @return the chartBorderPaint
+     */
+    public PaintProvider getChartBorderPaint()
+    {
+    	return chartBorderPaint;
+    }
+
+	/**
+     * @param chartBorderPaint the chartBorderPaint to set
+     */
+    public void setChartBorderPaint(PaintProvider chartBorderPaint)
+    {
+		PaintProvider old = getChartBorderPaint();
+		this.chartBorderPaint = chartBorderPaint;
+		getEventSupport().firePropertyChange(PROPERTY_chartBorderPaint, old, getChartBorderPaint());
+    }
+
 
 }
