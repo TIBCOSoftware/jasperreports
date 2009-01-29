@@ -44,11 +44,14 @@
 		<field name="font" type="net.sf.jasperreports.engine.JRFont">
 			<bind-xml auto-naming="deriveByClass" node="element"/>
 		</field>
+		<field name="borderVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="borderPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
-		<field name="borderVisible" type="java.lang.Boolean">
-			<bind-xml node="attribute"/>
+		<field name="borderStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByClass" node="element"/>
 		</field>
 		<field name="antiAlias" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
@@ -119,6 +122,9 @@
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.PlotSettings">
 		<map-to xml="plot"/>
+		<field name="orientation" type="org.jfree.chart.plot.PlotOrientation" handler="net.sf.jasperreports.chartthemes.simple.handlers.PlotOrientationFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="foregroundAlpha" type="java.lang.Float">
 			<bind-xml node="attribute"/>
 		</field>
@@ -149,7 +155,9 @@
 		<field name="outlinePaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
-		<!--FIXMETHEME outline stroke-->
+		<field name="outlineStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByClass" node="element"/>
+		</field>
 	</class>
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.AxisSettings" >
@@ -189,6 +197,13 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="right" type="double" get-method="getRight" set-method="%4">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
+	<class name="java.awt.BasicStroke" verify-constructable="false">
+		<map-to xml="stroke"/>
+		<field name="width" type="float" get-method="getLineWidth" set-method="%1">
 			<bind-xml node="attribute"/>
 		</field>
 	</class>

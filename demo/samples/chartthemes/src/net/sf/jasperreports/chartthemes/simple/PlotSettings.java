@@ -33,6 +33,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.ui.RectangleInsets;
 
 
@@ -47,6 +48,7 @@ public class PlotSettings implements Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 //	FIXMETHEME complete props
+	public static final String PROPERTY_orientation = "orientation";
 	public static final String PROPERTY_foregroundAlpha = "foregroundAlpha";
 	public static final String PROPERTY_backgroundPaint = "backgroundPaint";
 	public static final String PROPERTY_backgroundAlpha = "backgroundAlpha";
@@ -54,7 +56,6 @@ public class PlotSettings implements Serializable
 	public static final String PROPERTY_backgroundImageAlpha = "backgroundImageAlpha";
 	public static final String PROPERTY_backgroundImageAlignment = "backgroundImageAlignment";
 	public static final String PROPERTY_labelRotation = "labelRotation";
-//	public static final String PLOT_ORIENTATION = "plotOrientation";
 	public static final String PROPERTY_padding = "padding";
 	public static final String PROPERTY_outlineVisible = "outlineVisible";
 	public static final String PROPERTY_outlinePaint = "outlinePaint";
@@ -67,6 +68,7 @@ public class PlotSettings implements Serializable
 	/**
 	 *
 	 */
+	private PlotOrientation orientation = null;
 	private Float foregroundAlpha = null;
 	private PaintProvider backgroundPaint = null;
 	private Float backgroundAlpha = null;
@@ -276,6 +278,22 @@ public class PlotSettings implements Serializable
 		ImageProvider old = getBackgroundImage();
 		this.backgroundImage = backgroundImage;
 		getEventSupport().firePropertyChange(PROPERTY_backgroundImage, old, getBackgroundImage());
+	}
+
+	/**
+	 * @return the orientation
+	 */
+	public PlotOrientation getOrientation() {
+		return orientation;
+	}
+
+	/**
+	 * @param orientation the orientation to set
+	 */
+	public void setOrientation(PlotOrientation orientation) {
+		PlotOrientation old = getOrientation();
+		this.orientation = orientation;
+		getEventSupport().firePropertyChange(PROPERTY_orientation, old, getOrientation());
 	}
 
 }
