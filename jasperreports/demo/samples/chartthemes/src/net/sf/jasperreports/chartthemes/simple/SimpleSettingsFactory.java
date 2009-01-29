@@ -54,6 +54,7 @@ public class SimpleSettingsFactory
 
 		ChartSettings chartSettings = settings.getChartSettings();
 		chartSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
+		chartSettings.setBackgroundImage(new FileImageProvider("jasperreports.gif"));
 		chartSettings.setBackgroundImageAlignment(new Integer(Align.CENTER));
 		chartSettings.setBackgroundImageAlpha(new Float(1f));
 		chartSettings.getFont().setBold(Boolean.TRUE);
@@ -95,6 +96,13 @@ public class SimpleSettingsFactory
 		legendSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 		
 		PlotSettings plotSettings = settings.getPlotSettings();
+		plotSettings.setForegroundAlpha(new Float(0.5f));
+		plotSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
+		plotSettings.setBackgroundAlpha(new Float(0.5f));
+		plotSettings.setBackgroundImage(new FileImageProvider("jasperreports.gif"));
+		plotSettings.setBackgroundImageAlpha(new Float(0.5f));
+		plotSettings.setBackgroundImageAlignment(new Integer(Align.NORTH_WEST));
+		plotSettings.setLabelRotation(new Double(0));
 		plotSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 		plotSettings.setOutlineVisible(Boolean.TRUE);
 		plotSettings.setOutlinePaint(new ColorProvider(Color.red));

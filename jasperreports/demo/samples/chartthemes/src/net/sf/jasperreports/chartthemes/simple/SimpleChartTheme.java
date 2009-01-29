@@ -379,37 +379,38 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected void configurePlot(Plot p, JRChartPlot jrPlot)
+	protected void configurePlot(Plot plot, JRChartPlot jrPlot)
 	{
 		RectangleInsets padding = getPlotSettings().getPadding();
 		if(padding != null) 
-			p.setInsets(padding);
+			plot.setInsets(padding);
 
 		Boolean plotOutlineVisible = getPlotSettings().getOutlineVisible();
 		if(plotOutlineVisible != null && plotOutlineVisible.booleanValue()) 
 		{
 			Paint outlinePaint = getPlotSettings().getOutlinePaint() == null ? null : getPlotSettings().getOutlinePaint().getPaint();
 			if(outlinePaint != null)
-				p.setOutlinePaint(outlinePaint);
+				plot.setOutlinePaint(outlinePaint);
 			
 			Stroke plotOutlineStroke = getPlotSettings().getOutlineStroke();
 			if(plotOutlineStroke != null)
-				p.setOutlineStroke(plotOutlineStroke);
+				plot.setOutlineStroke(plotOutlineStroke);
 			
-			p.setOutlineVisible(true);
+			plot.setOutlineVisible(true);
 		}
 		else
 		{
-			p.setOutlineVisible(false);
+			plot.setOutlineVisible(false);
 		}
 		
-		setPlotBackground(p, jrPlot);
-		if (p instanceof CategoryPlot)
+		setPlotBackground(plot, jrPlot);
+		
+		if (plot instanceof CategoryPlot)
 		{
-			handleCategoryPlotSettings((CategoryPlot)p, jrPlot);
+			handleCategoryPlotSettings((CategoryPlot)plot, jrPlot);
 		}
 
-		setPlotDrawingDefaults(p, jrPlot);
+		setPlotDrawingDefaults(plot, jrPlot);
 	}
 
 	/**
@@ -1620,58 +1621,47 @@ public class SimpleChartTheme implements ChartTheme
 	protected void setChartBackground(JFreeChart jfreeChart)
 	{
 		Paint backgroundPaint = getChartSettings().getBackgroundPaint() == null ? null : getChartSettings().getBackgroundPaint().getPaint();
-		jfreeChart.setBackgroundPaint(backgroundPaint);
-//		Image defaultBackgroundImage = (Image)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE);
-		Integer backgroundImageAlignment = getChartSettings().getBackgroundImageAlignment();
-		Float backgroundImageAlpha = getChartSettings().getBackgroundImageAlpha();
 
 		if (getChart().getOwnMode() != null)
 		{
 			if(getChart().getOwnMode().byteValue() == JRElement.MODE_OPAQUE)
 			{
-				if(getChart().getOwnBackcolor() == null && backgroundPaint != null)
+				if(getChart().getOwnBackcolor() != null || backgroundPaint == null)
 				{
-					jfreeChart.setBackgroundPaint(backgroundPaint);
+					backgroundPaint = getChart().getBackcolor();
 				}
-				else
-				{
-					jfreeChart.setBackgroundPaint(getChart().getBackcolor());
-				}
-				
-//				setChartBackgroundImage(jfreeChart, 
-//						defaultBackgroundImage,
-//						defaultBackgroundImageAlignment,
-//						defaultBackgroundImageAlpha);
 			}
 			else
 			{
-				jfreeChart.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-//				setChartBackgroundImage(jfreeChart, 
-//						defaultBackgroundImage,
-//						defaultBackgroundImageAlignment,
-//						new Float(0f));
+				backgroundPaint = ChartThemesConstants.TRANSPARENT_PAINT;
 			}
 		}
-		else if (backgroundPaint != null)
+		
+		if (backgroundPaint != null)
 		{
 			jfreeChart.setBackgroundPaint(backgroundPaint);
 		}
+
+		setChartBackgroundImage(jfreeChart);
 	}
 	
-	protected void setChartBackgroundImage(JFreeChart jfreeChart, 
-			Image backgroundImage,
-			Integer backgroundImageAlignment,
-			Float backgroundImageAlpha)
-
+	protected void setChartBackgroundImage(JFreeChart jfreeChart)
 	{
-		
+		Image backgroundImage = getChartSettings().getBackgroundImage() == null ? null : getChartSettings().getBackgroundImage().getImage();
 		if(backgroundImage != null)
 		{
 			jfreeChart.setBackgroundImage(backgroundImage);
+
+			Integer backgroundImageAlignment = getChartSettings().getBackgroundImageAlignment();
 			if(backgroundImageAlignment != null)
 			{
 				jfreeChart.setBackgroundImageAlignment(backgroundImageAlignment.intValue());
 			}
+			Float backgroundImageAlpha = getChartSettings().getBackgroundImageAlpha();
+//			if(getChart().getOwnMode() != null && getChart().getOwnMode().byteValue() == JRElement.MODE_TRANSPARENT)
+//			{
+//				backgroundImageAlpha = new Float(0);
+//			}
 			if(backgroundImageAlpha != null)
 			{
 				jfreeChart.setBackgroundImageAlpha(backgroundImageAlpha.floatValue());
@@ -1923,47 +1913,49 @@ public class SimpleChartTheme implements ChartTheme
 		}
 	}
 
-	protected void setPlotBackground(Plot p, JRChartPlot jrPlot)
+	protected void setPlotBackground(Plot plot, JRChartPlot jrPlot)
 	{
-//		Paint defaultBackgroundPaint = (Paint)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_BACKGROUND_PAINT);
-//		Float defaultBackgroundAlpha = (Float)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_BACKGROUND_ALPHA);
-//		Float defaultForegroundAlpha = (Float)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_FOREGROUND_ALPHA);
-//		
-//		Image defaultBackgroundImage = (Image)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_BACKGROUND_IMAGE);
-//		Integer defaultBackgroundImageAlignment = (Integer)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_BACKGROUND_IMAGE_ALIGNMENT);
-//		Float defaultBackgroundImageAlpha = (Float)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_BACKGROUND_IMAGE_ALPHA);
-//
-//		Paint backgroundPaint = jrPlot.getOwnBackcolor() != null ? jrPlot.getOwnBackcolor() : defaultBackgroundPaint;
-//		if(backgroundPaint != null)
-//		{
-//			p.setBackgroundPaint(backgroundPaint);
-//		}
-//		
-//		Float backgroundAlpha = jrPlot.getBackgroundAlphaFloat() != null ? 
-//				jrPlot.getBackgroundAlphaFloat() : 
-//				defaultBackgroundAlpha;
-//		if(backgroundAlpha != null)
-//			p.setBackgroundAlpha(backgroundAlpha.floatValue());
-//		
-//		Float foregroundAlpha = jrPlot.getForegroundAlphaFloat() != null ? 
-//				jrPlot.getForegroundAlphaFloat() : 
-//				defaultForegroundAlpha;
-//		if(foregroundAlpha != null)
-//			p.setForegroundAlpha(foregroundAlpha.floatValue());
-//		
-//		if(defaultBackgroundImage != null)
-//		{
-//			p.setBackgroundImage(defaultBackgroundImage);
-//			if(defaultBackgroundImageAlignment != null)
-//			{
-//				p.setBackgroundImageAlignment(defaultBackgroundImageAlignment.intValue());
-//			}
-//			if(defaultBackgroundImageAlpha != null)
-//			{
-//				p.setBackgroundImageAlpha(defaultBackgroundImageAlpha.floatValue());
-//			}
-//		}
-//		
+		Paint backgroundPaint = jrPlot.getOwnBackcolor();
+		if(backgroundPaint == null && getPlotSettings().getBackgroundPaint() != null)
+		{
+			backgroundPaint = getPlotSettings().getBackgroundPaint().getPaint();
+		}
+		if(backgroundPaint != null)
+		{
+			plot.setBackgroundPaint(backgroundPaint);
+		}
+		
+		Float backgroundAlpha = jrPlot.getBackgroundAlphaFloat();
+		if (backgroundAlpha == null)
+		{
+			backgroundAlpha = getPlotSettings().getBackgroundAlpha();
+		}
+		if(backgroundAlpha != null)
+			plot.setBackgroundAlpha(backgroundAlpha.floatValue());
+		
+		Float foregroundAlpha = jrPlot.getForegroundAlphaFloat();
+		if (foregroundAlpha == null)
+		{
+			foregroundAlpha = getPlotSettings().getForegroundAlpha();
+		}
+		if(foregroundAlpha != null)
+			plot.setForegroundAlpha(foregroundAlpha.floatValue());
+		
+		Image backgroundImage = getPlotSettings().getBackgroundImage() == null ? null : getPlotSettings().getBackgroundImage().getImage();
+		if(backgroundImage != null)
+		{
+			plot.setBackgroundImage(backgroundImage);
+			Integer backgroundImageAlignment = getPlotSettings().getBackgroundImageAlignment();
+			if(backgroundImageAlignment != null)
+			{
+				plot.setBackgroundImageAlignment(backgroundImageAlignment.intValue());
+			}
+			Float backgroundImageAlpha = getPlotSettings().getBackgroundImageAlpha();
+			if(backgroundImageAlpha != null)
+			{
+				plot.setBackgroundImageAlpha(backgroundImageAlpha.floatValue());
+			}
+		}
 	}
 	
 	protected void handleCategoryPlotSettings(CategoryPlot p, JRChartPlot jrPlot)

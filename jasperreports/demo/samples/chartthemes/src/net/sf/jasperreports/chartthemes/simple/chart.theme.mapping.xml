@@ -32,7 +32,10 @@
 		<field name="backgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
-		<field name="backgroundImageAlignment" type="java.lang.Integer" handler="net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentFieldHandler">
+		<field name="backgroundImage" type="net.sf.jasperreports.chartthemes.simple.ImageProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="backgroundImageAlignment" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentFieldHandler">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="backgroundImageAlpha" type="java.lang.Float">
@@ -116,6 +119,27 @@
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.PlotSettings">
 		<map-to xml="plot"/>
+		<field name="foregroundAlpha" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="backgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="backgroundAlpha" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="backgroundImage" type="net.sf.jasperreports.chartthemes.simple.ImageProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="backgroundImageAlpha" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="backgroundImageAlignment" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="labelRotation" type="java.lang.Double">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="padding" type="org.jfree.ui.RectangleInsets">
 			<bind-xml node="element"/>
 		</field>
@@ -125,6 +149,7 @@
 		<field name="outlinePaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
+		<!--FIXMETHEME outline stroke-->
 	</class>
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.AxisSettings" >
@@ -196,4 +221,12 @@
 			<bind-xml node="attribute"/>
 		</field>
 	</class>
+
+	<class name="net.sf.jasperreports.chartthemes.simple.FileImageProvider">
+		<map-to xml="file"/>
+		<field name="file" type="java.lang.String">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
 </mapping>
