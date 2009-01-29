@@ -57,7 +57,7 @@ public class SimpleSettingsFactory
 		chartSettings.setBackgroundImageAlignment(new Integer(Align.CENTER));
 		chartSettings.setBackgroundImageAlpha(new Float(1f));
 		chartSettings.getFont().setBold(Boolean.TRUE);
-		chartSettings.setChartBorderPaint(new ColorProvider(Color.GREEN));
+		chartSettings.setBorderPaint(new ColorProvider(Color.GREEN));
 		chartSettings.setBorderVisible(Boolean.TRUE);
 		chartSettings.setAntiAlias(Boolean.TRUE);
 		chartSettings.setTextAntiAlias(Boolean.TRUE);

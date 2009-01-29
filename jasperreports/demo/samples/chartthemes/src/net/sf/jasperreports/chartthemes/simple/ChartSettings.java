@@ -55,7 +55,7 @@ public class ChartSettings implements Serializable
 //	public static final String PROPERTY_seriesColors = "seriesColors";
 	public static final String PROPERTY_font = "font";
 //	public static final String PROPERTY_seriesGradientPaints = "seriesGradientPaints";
-	public static final String PROPERTY_chartBorderPaint = "chartBorderPaint";
+	public static final String PROPERTY_borderPaint = "chartBorderPaint";
 //	public static final String PROPERTY_chartBorderStroke = "chartBorderStroke";
 	public static final String PROPERTY_borderVisible = "borderVisible";
 	public static final String PROPERTY_antiAlias = "antiAlias";
@@ -71,7 +71,7 @@ public class ChartSettings implements Serializable
 	private Integer backgroundImageAlignment = null;
 	private Float backgroundImageAlpha = null;
 	private JRFont font = new JRBaseFont();
-	private PaintProvider chartBorderPaint = null;
+	private PaintProvider borderPaint = null;
 	private Boolean borderVisible = null;
 	private Boolean antiAlias = null;
 	private Boolean textAntiAlias = null;
@@ -241,21 +241,21 @@ public class ChartSettings implements Serializable
     }
 
 	/**
-     * @return the chartBorderPaint
+     * @return the borderPaint
      */
-    public PaintProvider getChartBorderPaint()
+    public PaintProvider getBorderPaint()
     {
-    	return chartBorderPaint;
+    	return borderPaint;
     }
 
 	/**
-     * @param chartBorderPaint the chartBorderPaint to set
+     * @param borderPaint the borderPaint to set
      */
-    public void setChartBorderPaint(PaintProvider chartBorderPaint)
+    public void setBorderPaint(PaintProvider borderPaint)
     {
-		PaintProvider old = getChartBorderPaint();
-		this.chartBorderPaint = chartBorderPaint;
-		getEventSupport().firePropertyChange(PROPERTY_chartBorderPaint, old, getChartBorderPaint());
+		PaintProvider old = getBorderPaint();
+		this.borderPaint = borderPaint;
+		getEventSupport().firePropertyChange(PROPERTY_borderPaint, old, getBorderPaint());
     }
 
 

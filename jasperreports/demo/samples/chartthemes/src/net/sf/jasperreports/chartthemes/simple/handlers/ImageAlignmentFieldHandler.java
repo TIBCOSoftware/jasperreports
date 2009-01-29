@@ -36,12 +36,12 @@ import org.jfree.ui.HorizontalAlignment;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class BackgoundImageAlignmentFieldHandler extends GeneralizedFieldHandler
+public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 {
 	/**
 	 *
 	 */
-	public BackgoundImageAlignmentFieldHandler()
+	public ImageAlignmentFieldHandler()
 	{
 		super();
 	}
