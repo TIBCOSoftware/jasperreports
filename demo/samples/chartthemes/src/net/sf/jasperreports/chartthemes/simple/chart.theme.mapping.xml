@@ -41,6 +41,9 @@
 		<field name="backgroundImageAlpha" type="java.lang.Float">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="seriesColors" type="net.sf.jasperreports.chartthemes.simple.PaintProvider" collection="arraylist">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
 		<field name="font" type="net.sf.jasperreports.engine.JRFont">
 			<bind-xml auto-naming="deriveByClass" node="element"/>
 		</field>
