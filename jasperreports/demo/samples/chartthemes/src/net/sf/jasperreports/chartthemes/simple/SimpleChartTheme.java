@@ -28,7 +28,6 @@
 package net.sf.jasperreports.chartthemes.simple;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.Paint;
 import java.awt.Stroke;
@@ -59,7 +58,6 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.themes.ChartThemesConstants;
-import net.sf.jasperreports.charts.themes.ChartThemesUtilities;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -1703,7 +1701,10 @@ public class SimpleChartTheme implements ChartTheme
 					
 			if(title != null)
 			{
-				JRFont font = new JRBaseFont(getChart(), getTitleSettings().getFont());
+				JRBaseFont font = new JRBaseFont();
+				JRFontUtil.copyNonNullOwnProperties(getTitleSettings().getFont(), font);
+				JRFontUtil.copyNonNullOwnProperties(getChart().getTitleFont(), font);
+				font = new JRBaseFont(getChart(), font);
 //					new JRBaseFont(//font inheritence is too much trouble for such a small gain
 //						getChart(), 
 //						new JRBaseFont(
@@ -2116,31 +2117,13 @@ public class SimpleChartTheme implements ChartTheme
 			Double labelAngle = axisSettings.getLabelAngle();
 			if(labelAngle != null)
 				axis.setLabelAngle(labelAngle.doubleValue());
-			Font themeLabelFont = labelFont != null ? 
-					JRFontUtil.getAwtFont(labelFont, getLocale()) :
-					JRFontUtil.getAwtFont(axisSettings.getLabelFont(), getLocale());
-			if(themeLabelFont != null)
-			{
-				int axisLabelFontBoldStyle = axisSettings.getLabelFont().isBold() ? Font.BOLD : Font.PLAIN;
-				int axisLabelFontItalicStyle = axisSettings.getLabelFont().isItalic() ? Font.ITALIC : Font.PLAIN;
-				themeLabelFont = themeLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(
-						labelFont, 
-						axisLabelFontBoldStyle, 
-						axisLabelFontItalicStyle));
-				if(labelFont.getOwnFontSize() == null)
-				{
-					Float labelBaseFontSize = axisSettings.getLabelFont().getFontSize() > 0 
-							? new Float(axisSettings.getLabelFont().getFontSize())
-							: getChartSettings().getFont().getFontSize() > 0 
-							? new Float(getChartSettings().getFont().getFontSize()) 
-							: null;
-					if(labelBaseFontSize != null)
-					{
-						themeLabelFont = themeLabelFont.deriveFont(labelBaseFontSize.floatValue());
-					}
-				}
-				axis.setLabelFont(themeLabelFont);
-			}
+
+			JRBaseFont font = new JRBaseFont();
+			JRFontUtil.copyNonNullOwnProperties(axisSettings.getLabelFont(), font);
+			JRFontUtil.copyNonNullOwnProperties(labelFont, font);
+			font = new JRBaseFont(getChart(), font);
+			axis.setLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
+			
 			RectangleInsets labelInsets = axisSettings.getLabelInsets();
 			if(labelInsets != null)
 			{
@@ -2163,32 +2146,11 @@ public class SimpleChartTheme implements ChartTheme
 		Boolean axisTickLabelsVisible = axisSettings.getTickLabelsVisible();
 		if(axisTickLabelsVisible != null && axisTickLabelsVisible.booleanValue())
 		{
-			Font themeTickLabelFont = tickLabelFont != null ? 
-					JRFontUtil.getAwtFont(tickLabelFont, getLocale()) :
-					JRFontUtil.getAwtFont(axisSettings.getTickLabelFont(), getLocale());
-			if(themeTickLabelFont != null)
-			{
-				int axisTickLabelFontBoldStyle = axisSettings.getTickLabelFont().isBold() ? Font.BOLD : Font.PLAIN;
-				int axisTickLabelFontItalicStyle = axisSettings.getTickLabelFont().isItalic() ? Font.ITALIC : Font.PLAIN;
-
-				themeTickLabelFont = themeTickLabelFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(
-						tickLabelFont, 
-						axisTickLabelFontBoldStyle, 
-						axisTickLabelFontItalicStyle));
-				if(tickLabelFont.getOwnFontSize() == null)
-				{
-					Float tickLabelBaseFontSize = axisSettings.getTickLabelFont().getFontSize() > 0 
-						? new Float(axisSettings.getLabelFont().getFontSize())
-						: getChartSettings().getFont().getFontSize() > 0 
-						? new Float(getChartSettings().getFont().getFontSize()) 
-						: null;
-					if(tickLabelBaseFontSize != null)
-					{
-						themeTickLabelFont = themeTickLabelFont.deriveFont(tickLabelBaseFontSize.floatValue());
-					}
-				}
-				axis.setLabelFont(themeTickLabelFont);
-			}
+			JRBaseFont font = new JRBaseFont();
+			JRFontUtil.copyNonNullOwnProperties(axisSettings.getTickLabelFont(), font);
+			JRFontUtil.copyNonNullOwnProperties(tickLabelFont, font);
+			font = new JRBaseFont(getChart(), font);
+			axis.setTickLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
 			
 			RectangleInsets tickLabelInsets = axisSettings.getTickLabelInsets();
 			if(tickLabelInsets != null)
