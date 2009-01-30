@@ -29,6 +29,7 @@ package net.sf.jasperreports.chartthemes.simple;
 
 import java.awt.Stroke;
 import java.io.Serializable;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
@@ -54,7 +55,7 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_backgroundImage = "backgroundImage";
 	public static final String PROPERTY_backgroundImageAlignment = "backgroundImageAlignment";
 	public static final String PROPERTY_backgroundImageAlpha = "backgroundImageAlpha";
-//	public static final String PROPERTY_seriesColors = "seriesColors";
+	public static final String PROPERTY_seriesColors = "seriesColors";
 	public static final String PROPERTY_font = "font";
 //	public static final String PROPERTY_seriesGradientPaints = "seriesGradientPaints";
 	public static final String PROPERTY_borderVisible = "borderVisible";
@@ -73,6 +74,7 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 	private ImageProvider backgroundImage = null;
 	private Integer backgroundImageAlignment = null;
 	private Float backgroundImageAlpha = null;
+	private List seriesColors = null;
 	private JRFont font = new JRBaseFont();
 	private Boolean borderVisible = null;
 	private PaintProvider borderPaint = null;
@@ -293,6 +295,24 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 		this.borderStroke = borderStroke;
 		getEventSupport().firePropertyChange(PROPERTY_borderStroke, old, getBorderStroke());
 	}
+
+	/**
+     * @return the seriesColors
+     */
+    public List getSeriesColors()
+    {
+    	return seriesColors;
+    }
+
+	/**
+     * @param seriesColors the seriesColors to set
+     */
+    public void setSeriesColors(List seriesColors)
+    {
+    	List old = getSeriesColors();
+		this.seriesColors = seriesColors;
+		getEventSupport().firePropertyChange(PROPERTY_seriesColors, old, getSeriesColors());
+    }
 
 
 }

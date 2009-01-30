@@ -36,9 +36,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.ChartContext;
 import net.sf.jasperreports.charts.ChartTheme;
@@ -68,6 +70,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
@@ -507,7 +510,8 @@ public class SimpleChartTheme implements ChartTheme
 //				axis.setFixedDimension(defaultFixedDimension.doubleValue());
 //			}
 			
-			setAxisLabel(axis, labelFont, labelColor, axisSettings);
+//			setAxisLabel(axis, labelFont, labelColor, axisSettings);
+			setAxisLabel(axis, null, labelColor, axisSettings);
 			setAxisTickLabels(axis, tickLabelFont, tickLabelColor, tickLabelMask, axisSettings);
 			setAxisTickMarks(axis, lineColor, axisSettings);
 			setAxisBounds(axis, axisSettings, timePeriod);
@@ -2023,7 +2027,7 @@ public class SimpleChartTheme implements ChartTheme
 
 	protected void setPlotDrawingDefaults(Plot p, JRChartPlot jrPlot)
 	{
-//		List defaultSeriesColors = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
+			
 //		Paint[] defaultPlotOutlinePaintSequence = 
 //			getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_PAINT_SEQUENCE) != null ?
 //			(Paint[])getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_PAINT_SEQUENCE) :
@@ -2043,38 +2047,43 @@ public class SimpleChartTheme implements ChartTheme
 //			getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_SHAPE_SEQUENCE) != null ?
 //			(Shape[])getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_SHAPE_SEQUENCE) :
 //			DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE;
-//		// Set color series
-//		Paint[] colors = null;
-//		SortedSet seriesColors = jrPlot.getSeriesColors();
-//		Paint[] colorSequence = null;
-//		if (seriesColors != null && seriesColors.size() > 0)
-//		{
-//			int seriesColorsSize = seriesColors.size();
-//			
-//			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + seriesColorsSize];
-//
-//			JRSeriesColor[] jrColorSequence = new JRSeriesColor[seriesColorsSize];
-//			seriesColors.toArray(jrColorSequence);
-//			colorSequence = new Paint[seriesColorsSize];
-//			
-//			for (int i = 0; i < seriesColorsSize; i++)
-//			{
-//				colorSequence[i] = jrColorSequence[i].getColor();
-//			}
-//			populateSeriesColors(colors, colorSequence);
-//		}
-//		else if(defaultSeriesColors != null && defaultSeriesColors.size() > 0)
-//		{
-//			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + defaultSeriesColors.size()];
-//			colorSequence = new Paint[defaultSeriesColors.size()];
-//			defaultSeriesColors.toArray(colorSequence);
-//			populateSeriesColors(colors, colorSequence);
-//		}
-//		else
-//		{
-//			colors = DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE;
-//		}
-//		
+		// Set color series
+		Paint[] colors = null;
+		SortedSet seriesColors = jrPlot.getSeriesColors();
+		Paint[] colorSequence = null;
+		List themeSeriesColorsProvider = getChartSettings().getSeriesColors();
+		if (seriesColors != null && seriesColors.size() > 0)
+		{
+			int seriesColorsSize = seriesColors.size();
+			
+			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + seriesColorsSize];
+
+			JRSeriesColor[] jrColorSequence = new JRSeriesColor[seriesColorsSize];
+			seriesColors.toArray(jrColorSequence);
+			colorSequence = new Paint[seriesColorsSize];
+			
+			for (int i = 0; i < seriesColorsSize; i++)
+			{
+				colorSequence[i] = jrColorSequence[i].getColor();
+			}
+			populateSeriesColors(colors, colorSequence);
+		}
+		else if(themeSeriesColorsProvider != null && !themeSeriesColorsProvider.isEmpty())
+		{
+			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + themeSeriesColorsProvider.size()];
+			colorSequence = new Paint[themeSeriesColorsProvider.size()];
+			List themeSeriesColors = new ArrayList();
+			for(int i=0; i< themeSeriesColorsProvider.size(); i++)
+			{
+				themeSeriesColors.add(((PaintProvider)themeSeriesColorsProvider.get(i)).getPaint());
+			}
+			themeSeriesColors.toArray(colorSequence);
+			populateSeriesColors(colors, colorSequence);
+		}
+		else
+		{
+			colors = DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE;
+		}
 //		p.setDrawingSupplier(new DefaultDrawingSupplier(
 //				colors,
 //				defaultPlotOutlinePaintSequence,
@@ -2083,7 +2092,14 @@ public class SimpleChartTheme implements ChartTheme
 //				defaultPlotShapeSequence
 //				)
 //			);
-//		
+		p.setDrawingSupplier(new DefaultDrawingSupplier(
+				colors,
+				DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
+				DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
+				DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
+				DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE
+				)
+			);
 	}
 	
 	protected void setAxisLine(Axis axis, Paint lineColor, AxisSettings axisSettings)
@@ -2109,6 +2125,7 @@ public class SimpleChartTheme implements ChartTheme
 	protected void setAxisLabel(Axis axis, JRFont labelFont, Paint labelColor, AxisSettings axisSettings)
 	{
 		Boolean axisLabelVisible = axisSettings.getLabelVisible();
+		
 		if(axisLabelVisible != null && axisLabelVisible.booleanValue())
 		{
 			if(axis.getLabel() == null)

@@ -29,6 +29,8 @@ package net.sf.jasperreports.chartthemes.simple;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRChart;
 
@@ -61,6 +63,18 @@ public class SimpleSettingsFactory
 		chartSettings.setBackgroundImage(new FileImageProvider("jasperreports.gif"));
 		chartSettings.setBackgroundImageAlignment(new Integer(Align.TOP_RIGHT));
 		chartSettings.setBackgroundImageAlpha(new Float(1f));
+		List colors =	new ArrayList(){{
+			add(new ColorProvider(new Color(250, 97, 18)));
+			add(new ColorProvider(new Color(237, 38, 42)));
+			add(new ColorProvider(new Color(0, 111, 60)));
+			add(new ColorProvider(new Color(250, 223, 18)));
+			add(new ColorProvider(new Color(47, 137, 187)));
+			add(new ColorProvider(new Color(231, 133, 35)));
+			add(new ColorProvider(new Color(229, 1, 140)));
+			add(new ColorProvider(new Color(234, 171, 53)));
+			}};
+		
+		chartSettings.setSeriesColors(colors);
 		chartSettings.getFont().setBold(Boolean.TRUE);
 		chartSettings.setBorderVisible(Boolean.TRUE);
 		chartSettings.setBorderPaint(new ColorProvider(Color.GREEN));
