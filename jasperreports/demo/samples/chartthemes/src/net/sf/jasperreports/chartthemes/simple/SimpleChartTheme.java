@@ -510,8 +510,7 @@ public class SimpleChartTheme implements ChartTheme
 //				axis.setFixedDimension(defaultFixedDimension.doubleValue());
 //			}
 			
-//			setAxisLabel(axis, labelFont, labelColor, axisSettings);
-			setAxisLabel(axis, null, labelColor, axisSettings);
+			setAxisLabel(axis, labelFont, labelColor, axisSettings);
 			setAxisTickLabels(axis, tickLabelFont, tickLabelColor, tickLabelMask, axisSettings);
 			setAxisTickMarks(axis, lineColor, axisSettings);
 			setAxisBounds(axis, axisSettings, timePeriod);
@@ -1709,15 +1708,6 @@ public class SimpleChartTheme implements ChartTheme
 				JRFontUtil.copyNonNullOwnProperties(getTitleSettings().getFont(), font);
 				JRFontUtil.copyNonNullOwnProperties(getChart().getTitleFont(), font);
 				font = new JRBaseFont(getChart(), font);
-//					new JRBaseFont(//font inheritence is too much trouble for such a small gain
-//						getChart(), 
-//						new JRBaseFont(
-//							JRFontUtil.getAttributesWithoutAwtFont(
-//								new HashMap(), 
-//								getTitleSettings().getFont() 
-//								)
-//							)
-//						);
 				title.setFont(JRFontUtil.getAwtFont(font, getLocale()));
 				
 				HorizontalAlignment hAlign = (HorizontalAlignment)getTitleSettings().getHorizontalAlignment();
@@ -1849,16 +1839,10 @@ public class SimpleChartTheme implements ChartTheme
 		LegendTitle legend = jfreeChart.getLegend();
 		if (legend != null)
 		{
-			JRFont font = new JRBaseFont(getChart(), getLegendSettings().getFont());
-//			new JRBaseFont(//font inheritence is too much trouble for such a small gain
-//				getChart(), 
-//				new JRBaseFont(
-//					JRFontUtil.getAttributesWithoutAwtFont(
-//						new HashMap(), 
-//						getTitleSettings().getFont() 
-//						)
-//					)
-//				);
+			JRBaseFont font = new JRBaseFont();
+			JRFontUtil.copyNonNullOwnProperties(getLegendSettings().getFont(), font);
+			JRFontUtil.copyNonNullOwnProperties(getChart().getLegendFont(), font);
+			font = new JRBaseFont(getChart(), font);
 			legend.setItemFont(JRFontUtil.getAwtFont(font, getLocale()));
 
 			Paint forePaint = getChart().getOwnLegendColor();
