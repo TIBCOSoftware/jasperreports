@@ -52,9 +52,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fonts.FontBundle;
 import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -71,8 +72,7 @@ import org.xml.sax.SAXParseException;
  */
 public class JRStyledTextParser implements ErrorHandler
 {
-    //don't use log because it will be required in applet jar
-	//private static final Log log = LogFactory.getLog(JRStyledTextParser.class);
+	private static final Log log = LogFactory.getLog(JRStyledTextParser.class);
 
 	private static final Set AVAILABLE_FONT_FACE_NAMES = new HashSet();
 	static
@@ -475,7 +475,7 @@ public class JRStyledTextParser implements ErrorHandler
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_forecolor) != null)
 				{
 					Color color = 
-						JRXmlConstants.getColor(
+						JRColorUtil.getColor(
 							nodeAttrs.getNamedItem(ATTRIBUTE_forecolor).getNodeValue(),
 							Color.black
 							);
@@ -488,7 +488,7 @@ public class JRStyledTextParser implements ErrorHandler
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_backcolor) != null)
 				{
 					Color color = 
-						JRXmlConstants.getColor(
+						JRColorUtil.getColor(
 							nodeAttrs.getNamedItem(ATTRIBUTE_backcolor).getNodeValue(),
 							Color.black
 							);
@@ -576,7 +576,7 @@ public class JRStyledTextParser implements ErrorHandler
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_color) != null)
 				{
 					Color color = 
-						JRXmlConstants.getColor(
+						JRColorUtil.getColor(
 							nodeAttrs.getNamedItem(ATTRIBUTE_color).getNodeValue(),
 							Color.black
 							);
@@ -846,18 +846,18 @@ public class JRStyledTextParser implements ErrorHandler
 	}
 
     public void error(SAXParseException e) {
-//    	if(log.isErrorEnabled())
-//    		log.error("Error parsing styled text.", e);
+    	if(log.isErrorEnabled())
+    		log.error("Error parsing styled text.", e);
     }
 
     public void fatalError(SAXParseException e) {
-//    	if(log.isFatalEnabled())
-//    		log.fatal("Error parsing styled text.", e);
+    	if(log.isFatalEnabled())
+    		log.fatal("Error parsing styled text.", e);
     }
 
     public void warning(SAXParseException e) {
-//    	if(log.isWarnEnabled())
-//    		log.warn("Error parsing styled text.", e);
+    	if(log.isWarnEnabled())
+    		log.warn("Error parsing styled text.", e);
     }
 
 }

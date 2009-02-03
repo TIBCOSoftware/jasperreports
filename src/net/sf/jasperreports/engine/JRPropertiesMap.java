@@ -40,6 +40,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Properties map of an JR element.
  * <p/>
@@ -53,8 +56,7 @@ public class JRPropertiesMap implements Serializable, Cloneable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	//avoid dependency to logging in applet viewer
-	//private static final Log log = LogFactory.getLog(JRPropertiesMap.class);
+	private static final Log log = LogFactory.getLog(JRPropertiesMap.class);
 	
 	private Map propertiesMap;
 	private List propertiesList;
@@ -396,7 +398,8 @@ public class JRPropertiesMap implements Serializable, Cloneable
 				}
 				catch (IOException e)
 				{
-					//log.warn("Error closing stream for " + location, e);
+					if (log.isWarnEnabled())
+						log.warn("Error closing stream for " + location, e);
 				}
 			}
 		}
