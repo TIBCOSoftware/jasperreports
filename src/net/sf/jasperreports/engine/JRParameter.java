@@ -45,6 +45,12 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 
 
 	/**
+	 * A <tt>net.sf.jasperreports.engine.JasperReport</tt> instance representing the current report template.
+	 */
+	public static final String JASPER_REPORT = "JASPER_REPORT";
+
+
+	/**
 	 * A <tt>java.sql.Connection</tt> needed to run the default report query.
 	 */
 	public static final String REPORT_CONNECTION = "REPORT_CONNECTION";

@@ -540,6 +540,8 @@ public class JRFillDataset implements JRDataset
 	{
 		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
 		
+		parameterValues.put(JRParameter.JASPER_REPORT, filler.getJasperReport());
+		
 		reportMaxCount = (Integer) parameterValues.get(JRParameter.REPORT_MAX_COUNT);
 
 		locale = (Locale) parameterValues.get(JRParameter.REPORT_LOCALE);
