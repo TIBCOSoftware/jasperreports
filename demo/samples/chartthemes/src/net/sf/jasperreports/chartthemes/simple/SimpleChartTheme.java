@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.chartthemes.simple;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Paint;
@@ -77,6 +78,8 @@ import net.sf.jasperreports.engine.util.JRFontUtil;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.Axis;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.DateTickUnit;
 import org.jfree.chart.axis.NumberAxis;
@@ -95,6 +98,7 @@ import org.jfree.chart.plot.MeterPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.ThermometerPlot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer3D;
@@ -119,9 +123,11 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
+import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
+import org.jfree.ui.StandardGradientPaintTransformer;
 import org.jfree.ui.VerticalAlignment;
 
 
@@ -430,13 +436,18 @@ public class SimpleChartTheme implements ChartTheme
 		}
 		
 		setPlotBackground(plot, jrPlot);
+		setPlotDrawingDefaults(plot, jrPlot);
 		
 		if (plot instanceof CategoryPlot)
 		{
 			handleCategoryPlotSettings((CategoryPlot)plot, jrPlot);
 		}
 
-		setPlotDrawingDefaults(plot, jrPlot);
+		if (plot instanceof XYPlot)
+		{
+			handleXYPlotSettings((XYPlot)plot, jrPlot);
+		}
+
 	}
 
 	/**
@@ -1673,17 +1684,18 @@ public class SimpleChartTheme implements ChartTheme
 	
 	protected void setChartBackgroundImage(JFreeChart jfreeChart)
 	{
-		Image backgroundImage = getChartSettings().getBackgroundImage() == null ? null : getChartSettings().getBackgroundImage().getImage();
+		ChartSettings chartSettings = getChartSettings();
+		Image backgroundImage = chartSettings.getBackgroundImage() == null ? null : chartSettings.getBackgroundImage().getImage();
 		if(backgroundImage != null)
 		{
 			jfreeChart.setBackgroundImage(backgroundImage);
 
-			Integer backgroundImageAlignment = getChartSettings().getBackgroundImageAlignment();
+			Integer backgroundImageAlignment = chartSettings.getBackgroundImageAlignment();
 			if(backgroundImageAlignment != null)
 			{
 				jfreeChart.setBackgroundImageAlignment(backgroundImageAlignment.intValue());
 			}
-			Float backgroundImageAlpha = getChartSettings().getBackgroundImageAlpha();
+			Float backgroundImageAlpha = chartSettings.getBackgroundImageAlpha();
 //			if(getChart().getOwnMode() != null && getChart().getOwnMode().byteValue() == JRElement.MODE_TRANSPARENT)
 //			{
 //				backgroundImageAlpha = new Float(0);
@@ -1697,7 +1709,8 @@ public class SimpleChartTheme implements ChartTheme
 
 	protected void setChartTitle(JFreeChart jfreeChart)
 	{
-		Boolean showTitle = getTitleSettings().getShowTitle();
+		TitleSettings titleSettings =  getTitleSettings();
+		Boolean showTitle = titleSettings.getShowTitle();
 		if(showTitle != null && showTitle.booleanValue())
 		{
 			TextTitle title = jfreeChart.getTitle();
@@ -1705,27 +1718,27 @@ public class SimpleChartTheme implements ChartTheme
 			if(title != null)
 			{
 				JRBaseFont font = new JRBaseFont();
-				JRFontUtil.copyNonNullOwnProperties(getTitleSettings().getFont(), font);
+				JRFontUtil.copyNonNullOwnProperties(titleSettings.getFont(), font);
 				JRFontUtil.copyNonNullOwnProperties(getChart().getTitleFont(), font);
 				font = new JRBaseFont(getChart(), font);
 				title.setFont(JRFontUtil.getAwtFont(font, getLocale()));
 				
-				HorizontalAlignment hAlign = (HorizontalAlignment)getTitleSettings().getHorizontalAlignment();
+				HorizontalAlignment hAlign = (HorizontalAlignment)titleSettings.getHorizontalAlignment();
 				if(hAlign != null)
 					title.setHorizontalAlignment(hAlign);
 				
-				VerticalAlignment vAlign = (VerticalAlignment)getTitleSettings().getVerticalAlignment();
+				VerticalAlignment vAlign = (VerticalAlignment)titleSettings.getVerticalAlignment();
 				if(vAlign != null)
 					title.setVerticalAlignment(vAlign);
 				
-				RectangleInsets padding = getTitleSettings().getPadding();
+				RectangleInsets padding = titleSettings.getPadding();
 				if(padding != null)
 					title.setPadding(padding);
 				
 				Paint forePaint = getChart().getOwnTitleColor();
-				if (forePaint == null && getTitleSettings().getForegroundPaint() != null)
+				if (forePaint == null && titleSettings.getForegroundPaint() != null)
 				{
-					forePaint = getTitleSettings().getForegroundPaint().getPaint();
+					forePaint = titleSettings.getForegroundPaint().getPaint();
 				}
 				if (forePaint == null)
 				{
@@ -1734,7 +1747,7 @@ public class SimpleChartTheme implements ChartTheme
 				if (forePaint != null)
 					title.setPaint(forePaint);
 	
-				Paint backPaint = getTitleSettings().getBackgroundPaint() != null ? getTitleSettings().getBackgroundPaint().getPaint() : null;
+				Paint backPaint = titleSettings.getBackgroundPaint() != null ? titleSettings.getBackgroundPaint().getPaint() : null;
 				if(backPaint != null)
 					title.setBackgroundPaint(backPaint);
 				
@@ -1742,7 +1755,7 @@ public class SimpleChartTheme implements ChartTheme
 					getEdge(
 						getChart().getTitlePositionByte(), 
 						getEdge(
-							getTitleSettings().getPosition(), 
+							titleSettings.getPosition(), 
 							RectangleEdge.TOP
 							)
 						)
@@ -1839,16 +1852,17 @@ public class SimpleChartTheme implements ChartTheme
 		LegendTitle legend = jfreeChart.getLegend();
 		if (legend != null)
 		{
+			LegendSettings legendSettings = getLegendSettings();
 			JRBaseFont font = new JRBaseFont();
-			JRFontUtil.copyNonNullOwnProperties(getLegendSettings().getFont(), font);
+			JRFontUtil.copyNonNullOwnProperties(legendSettings.getFont(), font);
 			JRFontUtil.copyNonNullOwnProperties(getChart().getLegendFont(), font);
 			font = new JRBaseFont(getChart(), font);
 			legend.setItemFont(JRFontUtil.getAwtFont(font, getLocale()));
 
 			Paint forePaint = getChart().getOwnLegendColor();
-			if (forePaint == null && getLegendSettings().getForegroundPaint() != null)
+			if (forePaint == null && legendSettings.getForegroundPaint() != null)
 			{
-				forePaint = getLegendSettings().getForegroundPaint().getPaint();
+				forePaint = legendSettings.getForegroundPaint().getPaint();
 			}
 			if (forePaint == null)
 			{
@@ -1858,9 +1872,9 @@ public class SimpleChartTheme implements ChartTheme
 				legend.setItemPaint(forePaint);
 
 			Paint backPaint = getChart().getOwnLegendBackgroundColor();
-			if (backPaint == null && getLegendSettings().getBackgroundPaint() != null)
+			if (backPaint == null && legendSettings.getBackgroundPaint() != null)
 			{
-				backPaint = getLegendSettings().getBackgroundPaint().getPaint();
+				backPaint = legendSettings.getBackgroundPaint().getPaint();
 			}
 			if (backPaint == null)
 			{
@@ -1869,19 +1883,19 @@ public class SimpleChartTheme implements ChartTheme
 			if (backPaint != null)
 				legend.setBackgroundPaint(backPaint);
 
-			BlockFrame blockFrame = getLegendSettings().getBlockFrame();
+			BlockFrame blockFrame = legendSettings.getBlockFrame();
 			if(blockFrame != null)
 				legend.setFrame(blockFrame);
 			
-			HorizontalAlignment hAlign = getLegendSettings().getHorizontalAlignment();
+			HorizontalAlignment hAlign = legendSettings.getHorizontalAlignment();
 			if(hAlign != null)
 				legend.setHorizontalAlignment(hAlign);
 			
-			VerticalAlignment vAlign = getLegendSettings().getVerticalAlignment();
+			VerticalAlignment vAlign = legendSettings.getVerticalAlignment();
 			if(vAlign != null)
 				legend.setVerticalAlignment(vAlign);
 			
-			RectangleInsets padding = getLegendSettings().getPadding();
+			RectangleInsets padding = legendSettings.getPadding();
 			if(padding != null)
 				legend.setPadding(padding);
 
@@ -1889,7 +1903,7 @@ public class SimpleChartTheme implements ChartTheme
 				getEdge(
 					getChart().getLegendPositionByte(), 
 					getEdge(
-						getLegendSettings().getPosition(), 
+						legendSettings.getPosition(), 
 						RectangleEdge.BOTTOM
 						)
 					)
@@ -1899,6 +1913,7 @@ public class SimpleChartTheme implements ChartTheme
 	
 	protected void setChartBorder(JFreeChart jfreeChart)
 	{
+		ChartSettings chartSettings = getChartSettings();
 		JRLineBox lineBox = getChart().getLineBox();
 		if(
 			lineBox.getLeftPen().getLineWidth().floatValue() == 0
@@ -1907,17 +1922,17 @@ public class SimpleChartTheme implements ChartTheme
 			&& lineBox.getTopPen().getLineWidth().floatValue() == 0
 			)
 		{
-			boolean isVisible = getChartSettings().getBorderVisible() == null 
+			boolean isVisible = chartSettings.getBorderVisible() == null 
 				? false 
-				: getChartSettings().getBorderVisible().booleanValue();
+				: chartSettings.getBorderVisible().booleanValue();
 			if (isVisible)
 			{
-				Stroke stroke = getChartSettings().getBorderStroke();
+				Stroke stroke = chartSettings.getBorderStroke();
 				if(stroke != null)
 					jfreeChart.setBorderStroke(stroke);
-				Paint paint = getChartSettings().getBorderPaint() == null
+				Paint paint = chartSettings.getBorderPaint() == null
 						? null
-						: getChartSettings().getBorderPaint().getPaint();
+						: chartSettings.getBorderPaint().getPaint();
 				if(paint != null)
 					jfreeChart.setBorderPaint(paint);
 			}
@@ -1928,10 +1943,11 @@ public class SimpleChartTheme implements ChartTheme
 
 	protected void setPlotBackground(Plot plot, JRChartPlot jrPlot)
 	{
+		PlotSettings plotSettings = getPlotSettings();
 		Paint backgroundPaint = jrPlot.getOwnBackcolor();
-		if(backgroundPaint == null && getPlotSettings().getBackgroundPaint() != null)
+		if(backgroundPaint == null && plotSettings.getBackgroundPaint() != null)
 		{
-			backgroundPaint = getPlotSettings().getBackgroundPaint().getPaint();
+			backgroundPaint = plotSettings.getBackgroundPaint().getPaint();
 		}
 		if(backgroundPaint != null)
 		{
@@ -1941,7 +1957,7 @@ public class SimpleChartTheme implements ChartTheme
 		Float backgroundAlpha = jrPlot.getBackgroundAlphaFloat();
 		if (backgroundAlpha == null)
 		{
-			backgroundAlpha = getPlotSettings().getBackgroundAlpha();
+			backgroundAlpha = plotSettings.getBackgroundAlpha();
 		}
 		if(backgroundAlpha != null)
 			plot.setBackgroundAlpha(backgroundAlpha.floatValue());
@@ -1949,21 +1965,21 @@ public class SimpleChartTheme implements ChartTheme
 		Float foregroundAlpha = jrPlot.getForegroundAlphaFloat();
 		if (foregroundAlpha == null)
 		{
-			foregroundAlpha = getPlotSettings().getForegroundAlpha();
+			foregroundAlpha = plotSettings.getForegroundAlpha();
 		}
 		if(foregroundAlpha != null)
 			plot.setForegroundAlpha(foregroundAlpha.floatValue());
 		
-		Image backgroundImage = getPlotSettings().getBackgroundImage() == null ? null : getPlotSettings().getBackgroundImage().getImage();
+		Image backgroundImage = plotSettings.getBackgroundImage() == null ? null : plotSettings.getBackgroundImage().getImage();
 		if(backgroundImage != null)
 		{
 			plot.setBackgroundImage(backgroundImage);
-			Integer backgroundImageAlignment = getPlotSettings().getBackgroundImageAlignment();
+			Integer backgroundImageAlignment = plotSettings.getBackgroundImageAlignment();
 			if(backgroundImageAlignment != null)
 			{
 				plot.setBackgroundImageAlignment(backgroundImageAlignment.intValue());
 			}
-			Float backgroundImageAlpha = getPlotSettings().getBackgroundImageAlpha();
+			Float backgroundImageAlpha = plotSettings.getBackgroundImageAlpha();
 			if(backgroundImageAlpha != null)
 			{
 				plot.setBackgroundImageAlpha(backgroundImageAlpha.floatValue());
@@ -1973,114 +1989,105 @@ public class SimpleChartTheme implements ChartTheme
 	
 	protected void handleCategoryPlotSettings(CategoryPlot p, JRChartPlot jrPlot)
 	{
-//		Double defaultPlotLabelRotation = (Double)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_LABEL_ROTATION);
-//		PlotOrientation defaultPlotOrientation = (PlotOrientation)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_ORIENTATION);
-//		// Handle rotation of the category labels.
-//		CategoryAxis axis = p.getDomainAxis();
-//		boolean hasRotation = jrPlot.getLabelRotationDouble() != null || defaultPlotLabelRotation != null;
-//		if(hasRotation)
-//		{
-//			double labelRotation = jrPlot.getLabelRotationDouble() != null ? 
-//					jrPlot.getLabelRotationDouble().doubleValue() :
-//					defaultPlotLabelRotation.doubleValue();
-//			
-//			if (labelRotation == 90)
-//			{
-//				axis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
-//			}
-//			else if (labelRotation == -90) {
-//				axis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
-//			}
-//			else if (labelRotation < 0)
-//			{
-//				axis.setCategoryLabelPositions(
-//						CategoryLabelPositions.createUpRotationLabelPositions( (-labelRotation / 180.0) * Math.PI));
-//			}
-//			else if (labelRotation > 0)
-//			{
-//				axis.setCategoryLabelPositions(
-//						CategoryLabelPositions.createDownRotationLabelPositions((labelRotation / 180.0) * Math.PI));
-//			}
-//		}
-//		
-//		if(defaultPlotOrientation != null)
-//		{
-//			p.setOrientation(defaultPlotOrientation);
-//		}
+		PlotSettings plotSettings = getPlotSettings();
+		Double themeLabelRotation = plotSettings.getLabelRotation();
+		// Handle rotation of the category labels.
+		CategoryAxis axis = p.getDomainAxis();
+		boolean hasRotation = jrPlot.getLabelRotationDouble() != null || themeLabelRotation != null;
+		if(hasRotation)
+		{
+			double labelRotation = jrPlot.getLabelRotationDouble() != null  
+					? jrPlot.getLabelRotationDouble().doubleValue() 
+					: themeLabelRotation.doubleValue();
+			
+			if (labelRotation == 90)
+			{
+				axis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			}
+			else if (labelRotation == -90) {
+				axis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
+			}
+			else if (labelRotation < 0)
+			{
+				axis.setCategoryLabelPositions(
+						CategoryLabelPositions.createUpRotationLabelPositions( (-labelRotation / 180.0) * Math.PI));
+			}
+			else if (labelRotation > 0)
+			{
+				axis.setCategoryLabelPositions(
+						CategoryLabelPositions.createDownRotationLabelPositions((labelRotation / 180.0) * Math.PI));
+			}
+		}
+		PlotOrientation plotOrientation = plotSettings.getOrientation();
+		if(plotOrientation != null)
+		{
+			p.setOrientation(plotOrientation);
+		}
+		
+		CategoryItemRenderer categoryRenderer = p.getRenderer();
+		CategoryDataset categoryDataset = p.getDataset();
+		Paint[] paintSequence = getPaintSequence(plotSettings, jrPlot);	
+		Paint[] outlinePaintSequence = getOutlinePaintSequence(plotSettings);	
+		Stroke[] strokeSequence = getStrokeSequence(plotSettings);
+		Stroke[] outlineStrokeSequence = getOutlineStrokeSequence(plotSettings);
+		if(outlinePaintSequence != null)
+		{
+			for(int i = 0; i < categoryDataset.getRowCount(); i++)
+			{
+				categoryRenderer.setSeriesPaint(i, paintSequence[i]);
+				categoryRenderer.setSeriesStroke(i, strokeSequence[i]);
+				categoryRenderer.setSeriesOutlinePaint(i, outlinePaintSequence[i]);
+				categoryRenderer.setSeriesOutlineStroke(i, outlineStrokeSequence[i]);
+			}
+		}
+		
+//		p.setRangeGridlinePaint(ChartThemesConstants.GRAY_PAINT_134);
+//		p.setRangeGridlineStroke(new BasicStroke(1f));
+//		p.setDomainGridlinesVisible(false);
+		
+	}
+
+	protected void handleXYPlotSettings(XYPlot p, JRChartPlot jrPlot)
+	{
+		PlotSettings plotSettings = getPlotSettings();
+		Paint[] paintSequence = getPaintSequence(plotSettings, jrPlot);	
+		Paint[] outlinePaintSequence = getOutlinePaintSequence(plotSettings);	
+		Stroke[] strokeSequence = getStrokeSequence(plotSettings);
+		Stroke[] outlineStrokeSequence = getOutlineStrokeSequence(plotSettings);
+		XYDataset xyDataset = p.getDataset();
+		XYItemRenderer xyItemRenderer = p.getRenderer();
+		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+		{
+			xyItemRenderer.setSeriesPaint(i, paintSequence[i]);
+			xyItemRenderer.setSeriesStroke(i, strokeSequence[i]);
+			xyItemRenderer.setSeriesOutlinePaint(i, outlinePaintSequence[i]);
+			xyItemRenderer.setSeriesOutlineStroke(i, outlineStrokeSequence[i]);
+		}
+//		p.setRangeGridlineStroke(new BasicStroke(1f));
+//		p.setDomainGridlinesVisible(false);
+		
+//		p.setRangeZeroBaselineVisible(true);
+		
 	}
 
 	protected void setPlotDrawingDefaults(Plot p, JRChartPlot jrPlot)
 	{
+		PlotSettings plotSettings = getPlotSettings();
+		Paint[] paintSequence = getPaintSequence(plotSettings, jrPlot);	
+		Paint[] outlinePaintSequence = getOutlinePaintSequence(plotSettings);	
+		Stroke[] strokeSequence = getStrokeSequence(plotSettings);
+		Stroke[] outlineStrokeSequence = getOutlineStrokeSequence(plotSettings);
 			
-//		Paint[] defaultPlotOutlinePaintSequence = 
-//			getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_PAINT_SEQUENCE) != null ?
-//			(Paint[])getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_PAINT_SEQUENCE) :
-//			DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE;
-//			
-//		Stroke[] defaultPlotStrokeSequence = 
-//			getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_STROKE_SEQUENCE) != null ?
-//			(Stroke[])getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_STROKE_SEQUENCE) :
-//			DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE;
-//			
-//		Stroke[] defaultPlotOutlineStrokeSequence = 
-//			getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_STROKE_SEQUENCE) != null ?
-//			(Stroke[])getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_STROKE_SEQUENCE) :
-//			DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE;
-//			
 //		Shape[] defaultPlotShapeSequence = 
 //			getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_SHAPE_SEQUENCE) != null ?
 //			(Shape[])getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_SHAPE_SEQUENCE) :
 //			DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE;
-		// Set color series
-		Paint[] colors = null;
-		SortedSet seriesColors = jrPlot.getSeriesColors();
-		Paint[] colorSequence = null;
-		List themeSeriesColorsProvider = getChartSettings().getSeriesColors();
-		if (seriesColors != null && seriesColors.size() > 0)
-		{
-			int seriesColorsSize = seriesColors.size();
-			
-			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + seriesColorsSize];
 
-			JRSeriesColor[] jrColorSequence = new JRSeriesColor[seriesColorsSize];
-			seriesColors.toArray(jrColorSequence);
-			colorSequence = new Paint[seriesColorsSize];
-			
-			for (int i = 0; i < seriesColorsSize; i++)
-			{
-				colorSequence[i] = jrColorSequence[i].getColor();
-			}
-			populateSeriesColors(colors, colorSequence);
-		}
-		else if(themeSeriesColorsProvider != null && !themeSeriesColorsProvider.isEmpty())
-		{
-			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + themeSeriesColorsProvider.size()];
-			colorSequence = new Paint[themeSeriesColorsProvider.size()];
-			List themeSeriesColors = new ArrayList();
-			for(int i=0; i< themeSeriesColorsProvider.size(); i++)
-			{
-				themeSeriesColors.add(((PaintProvider)themeSeriesColorsProvider.get(i)).getPaint());
-			}
-			themeSeriesColors.toArray(colorSequence);
-			populateSeriesColors(colors, colorSequence);
-		}
-		else
-		{
-			colors = DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE;
-		}
-//		p.setDrawingSupplier(new DefaultDrawingSupplier(
-//				colors,
-//				defaultPlotOutlinePaintSequence,
-//				defaultPlotStrokeSequence,
-//				defaultPlotOutlineStrokeSequence,
-//				defaultPlotShapeSequence
-//				)
-//			);
 		p.setDrawingSupplier(new DefaultDrawingSupplier(
-				colors,
-				DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
-				DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
-				DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
+				paintSequence,
+				outlinePaintSequence,
+				strokeSequence,
+				outlineStrokeSequence,
 				DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE
 				)
 			);
@@ -2362,17 +2369,108 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected boolean isShowLegend()
 	{
-		Boolean showLegend = getChart().getShowLegend();
-		if (showLegend == null)
-		{
-			showLegend = getLegendSettings().getShowLegend();
-		}
-		if (showLegend == null)
-		{
-			return false;
-		}
+		Boolean showLegend = getChart().getShowLegend() != null
+			? getChart().getShowLegend()
+			: getLegendSettings().getShowLegend() != null
+			? getLegendSettings().getShowLegend()
+			: Boolean.FALSE;
 
 		return showLegend.booleanValue();
 	}
+
+	protected Paint[] getPaintSequence(PlotSettings plotSettings, JRChartPlot jrPlot)
+	{
+		Paint[] colors = null;
+		SortedSet seriesColors = jrPlot.getSeriesColors();
+		Paint[] colorSequence = null;
+		
+		//The series gradient paint setting is considered first
+		List themeSeriesPaintProvider = getChartThemeSettings().getPlotSettings().getSeriesGradientPaintSequence() != null 
+				? getChartThemeSettings().getPlotSettings().getSeriesGradientPaintSequence()
+				: getChartThemeSettings().getPlotSettings().getSeriesColorSequence();
+				
+		if (seriesColors != null && seriesColors.size() > 0)
+		{
+			int seriesColorsSize = seriesColors.size();
+			
+			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + seriesColorsSize];
+
+			JRSeriesColor[] jrColorSequence = new JRSeriesColor[seriesColorsSize];
+			seriesColors.toArray(jrColorSequence);
+			colorSequence = new Paint[seriesColorsSize];
+			
+			for (int i = 0; i < seriesColorsSize; i++)
+			{
+				colorSequence[i] = jrColorSequence[i].getColor();
+			}
+			populateSeriesColors(colors, colorSequence);
+		}
+		else if(themeSeriesPaintProvider != null && !themeSeriesPaintProvider.isEmpty())
+		{
+			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + themeSeriesPaintProvider.size()];
+			colorSequence = new Paint[themeSeriesPaintProvider.size()];
+			List themeSeriesColors = new ArrayList();
+			for(int i=0; i< themeSeriesPaintProvider.size(); i++)
+			{
+				themeSeriesColors.add(((PaintProvider)themeSeriesPaintProvider.get(i)).getPaint());
+			}
+			themeSeriesColors.toArray(colorSequence);
+			populateSeriesColors(colors, colorSequence);
+		}
+		else
+		{
+			colors = DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE;
+		}
+		return colors;
+	}
 	
+	protected Paint[] getOutlinePaintSequence(PlotSettings plotSettings)
+	{
+		List outlinePaintSequenceProvider = plotSettings.getSeriesOutlinePaintSequence();
+		Paint[] outlinePaintSequence = null;
+		if(outlinePaintSequenceProvider != null && !outlinePaintSequenceProvider.isEmpty())
+		{
+			outlinePaintSequence = new Paint[outlinePaintSequenceProvider.size()];
+			for (int i=0; i< outlinePaintSequenceProvider.size(); i++)
+			{
+				outlinePaintSequence[i] = ((PaintProvider)outlinePaintSequenceProvider.get(i)).getPaint();
+			}
+		}
+		else
+		{
+			outlinePaintSequence = DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE;
+		}
+		return outlinePaintSequence;
+	}
+	
+	protected Stroke[] getStrokeSequence(PlotSettings plotSettings)
+	{
+		List strokeSequenceList = plotSettings.getSeriesStrokeSequence();
+		Stroke[] strokeSequence = null;
+		if(strokeSequenceList != null && !strokeSequenceList.isEmpty())
+		{
+			strokeSequence = (Stroke[])strokeSequenceList.toArray(new Stroke[strokeSequenceList.size()]);
+		}
+		else
+		{
+			strokeSequence = DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE;
+		}
+		return strokeSequence;
+	}
+	
+	protected Stroke[] getOutlineStrokeSequence(PlotSettings plotSettings)
+	{
+		List outlineStrokeSequenceList = getChartThemeSettings().getPlotSettings().getSeriesOutlineStrokeSequence();
+		Stroke[] outlineStrokeSequence = null;
+		if(outlineStrokeSequenceList != null && !outlineStrokeSequenceList.isEmpty())
+		{
+			outlineStrokeSequence = (Stroke[])outlineStrokeSequenceList.toArray(new Stroke[outlineStrokeSequenceList.size()]);
+		}
+		else
+		{
+			outlineStrokeSequence = DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE;
+		}
+		return outlineStrokeSequence;
+	}
+
 }

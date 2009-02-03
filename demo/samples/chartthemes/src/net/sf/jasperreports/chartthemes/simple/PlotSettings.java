@@ -29,6 +29,7 @@ package net.sf.jasperreports.chartthemes.simple;
 
 import java.awt.Stroke;
 import java.io.Serializable;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -61,10 +62,12 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_outlineVisible = "outlineVisible";
 	public static final String PROPERTY_outlinePaint = "outlinePaint";
 	public static final String PROPERTY_outlineStroke = "outlineStroke";
-//	public static final String PLOT_OUTLINE_PAINT_SEQUENCE = "plotOutlinePaintSequence";
-//	public static final String PLOT_STROKE_SEQUENCE = "plotStrokeSequence";
-//	public static final String PLOT_OUTLINE_STROKE_SEQUENCE = "plotOutlineStrokeSequence";
-//	public static final String PLOT_SHAPE_SEQUENCE = "plotShapeSequence";
+	public static final String PROPERTY_seriesColorSequence = "seriesColorSequence";
+	public static final String PROPERTY_seriesGradientPaintSequence = "seriesGradientPaintSequence";
+	public static final String PROPERTY_seriesOutlinePaintSequence = "seriesOutlinePaintSequence";
+	public static final String PROPERTY_seriesStrokeSequence = "seriesStrokeSequence";
+	public static final String PROPERTY_seriesOutlineStrokeSequence = "seriesOutlineStrokeSequence";
+//	public static final String PROPERTY_shapeSequence = "shapeSequence";
 
 	/**
 	 *
@@ -81,6 +84,11 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	private Boolean outlineVisible = null;
 	private PaintProvider outlinePaint = null;
 	private Stroke outlineStroke = null;
+	private List seriesColorSequence = null;
+	private List seriesGradientPaintSequence = null;
+	private List seriesOutlinePaintSequence = null;
+	private List seriesStrokeSequence = null;
+	private List seriesOutlineStrokeSequence = null;
 	
 	/**
 	 * @return the padding
@@ -296,5 +304,95 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 		this.orientation = orientation;
 		getEventSupport().firePropertyChange(PROPERTY_orientation, old, getOrientation());
 	}
+
+	/**
+     * @return the seriesColorSequence
+     */
+    public List getSeriesColorSequence()
+    {
+    	return seriesColorSequence;
+    }
+
+	/**
+     * @param seriesColorSequence the seriesColorSequence to set
+     */
+    public void setSeriesColorSequence(List seriesColorSequence)
+    {
+    	List old = getSeriesColorSequence();
+    	this.seriesColorSequence = seriesColorSequence;
+		getEventSupport().firePropertyChange(PROPERTY_seriesColorSequence, old, getSeriesColorSequence());
+    }
+
+	/**
+     * @return the seriesGradientPaintSequence
+     */
+    public List getSeriesGradientPaintSequence()
+    {
+    	return seriesGradientPaintSequence;
+    }
+
+	/**
+     * @param seriesGradientPaintSequence the seriesGradientPaintSequence to set
+     */
+    public void setSeriesGradientPaintSequence(List seriesGradientPaintSequence)
+    {
+    	List old = getSeriesGradientPaintSequence();
+    	this.seriesGradientPaintSequence = seriesGradientPaintSequence;
+		getEventSupport().firePropertyChange(PROPERTY_seriesGradientPaintSequence, old, getSeriesGradientPaintSequence());
+    }
+
+	/**
+     * @return the seriesOutlinePaintSequence
+     */
+    public List getSeriesOutlinePaintSequence()
+    {
+    	return seriesOutlinePaintSequence;
+    }
+
+	/**
+     * @param seriesOutlinePaintSequence the seriesOutlinePaintSequence to set
+     */
+    public void setSeriesOutlinePaintSequence(List seriesOutlinePaintSequence)
+    {
+    	List old = getSeriesOutlinePaintSequence();
+    	this.seriesOutlinePaintSequence = seriesOutlinePaintSequence;
+		getEventSupport().firePropertyChange(PROPERTY_seriesOutlinePaintSequence, old, getSeriesOutlinePaintSequence());
+    }
+
+	/**
+     * @return the seriesStrokeSequence
+     */
+    public List getSeriesStrokeSequence()
+    {
+    	return seriesStrokeSequence;
+    }
+
+	/**
+     * @param seriesStrokeSequence the seriesStrokeSequence to set
+     */
+    public void setSeriesStrokeSequence(List seriesStrokeSequence)
+    {
+    	List old = getSeriesStrokeSequence();
+    	this.seriesStrokeSequence = seriesStrokeSequence;
+		getEventSupport().firePropertyChange(PROPERTY_seriesStrokeSequence, old, getSeriesStrokeSequence());
+    }
+
+	/**
+     * @return the seriesOutlineStrokeSequence
+     */
+    public List getSeriesOutlineStrokeSequence()
+    {
+    	return seriesOutlineStrokeSequence;
+    }
+
+	/**
+     * @param seriesOutlineStrokeSequence the seriesOutlineStrokeSequence to set
+     */
+    public void setSeriesOutlineStrokeSequence(List seriesOutlineStrokeSequence)
+    {
+    	List old = getSeriesOutlineStrokeSequence();
+    	this.seriesOutlineStrokeSequence = seriesOutlineStrokeSequence;
+		getEventSupport().firePropertyChange(PROPERTY_seriesOutlineStrokeSequence, old, getSeriesOutlineStrokeSequence());
+    }
 
 }
