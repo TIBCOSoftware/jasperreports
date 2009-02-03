@@ -50,31 +50,84 @@ import org.jfree.util.UnitType;
 public class SimpleSettingsFactory
 {
 
+	public static final Color COLOR_0 = new Color(250, 97, 18);
+	public static final Color COLOR_1 = new Color(237, 38, 42);
+	public static final Color COLOR_2 = new Color(0, 111, 60);
+	public static final Color COLOR_3 = new Color(250, 223, 18);
+	public static final Color COLOR_4 = new Color(47, 137, 187);
+	public static final Color COLOR_5 = new Color(231, 133, 35);
+	public static final Color COLOR_6 = new Color(229, 1, 140);
+	public static final Color COLOR_7 = new Color(234, 171, 53);
 
+	public static final List COLORS =	new ArrayList(){{
+		add(new ColorProvider(COLOR_0));
+		add(new ColorProvider(COLOR_1));
+		add(new ColorProvider(COLOR_2));
+		add(new ColorProvider(COLOR_3));
+		add(new ColorProvider(COLOR_4));
+		add(new ColorProvider(COLOR_5));
+		add(new ColorProvider(COLOR_6));
+		add(new ColorProvider(COLOR_7));
+		}};
+		
+		public static final List COLORS_DARKER =	new ArrayList(){{
+			add(new ColorProvider(COLOR_0.darker()));
+			add(new ColorProvider(COLOR_1.darker()));
+			add(new ColorProvider(COLOR_2.darker()));
+			add(new ColorProvider(COLOR_3.darker()));
+			add(new ColorProvider(COLOR_4.darker()));
+			add(new ColorProvider(COLOR_5.darker()));
+			add(new ColorProvider(COLOR_6.darker()));
+			add(new ColorProvider(COLOR_7.darker()));
+			}};
+		
+	public static final List GRADIENT_PAINTS = new ArrayList(){{
+		add(new GradientPaintProvider(0, 0, COLOR_0, 0, 0, COLOR_0.darker()));
+		add(new GradientPaintProvider(0, 0, COLOR_1, 0, 0, COLOR_1.darker()));
+		add(new GradientPaintProvider(0, 0, COLOR_2, 0, 0, COLOR_2.darker()));
+		add(new GradientPaintProvider(0, 0, COLOR_3, 0, 0, COLOR_3.darker()));
+		add(new GradientPaintProvider(0, 0, COLOR_4, 0, 0, COLOR_4.darker()));
+		add(new GradientPaintProvider(0, 0, COLOR_5, 0, 0, COLOR_5.darker()));
+		add(new GradientPaintProvider(0, 0, COLOR_6, 0, 0, COLOR_6.darker()));
+		add(new GradientPaintProvider(0, 0, COLOR_7, 0, 0, COLOR_7.darker()));
+    }};
+
+	public static final List STROKES =	new ArrayList(){{
+		add(new BasicStroke(2f));
+		add(new BasicStroke(2f));
+		add(new BasicStroke(2f));
+		add(new BasicStroke(2f));
+		add(new BasicStroke(2f));
+		add(new BasicStroke(2f));
+		add(new BasicStroke(2f));
+		add(new BasicStroke(2f));
+		}};
+	
+	public static final List OUTLINE_STROKES =	new ArrayList(){{
+		add(new BasicStroke(3f));
+		add(new BasicStroke(3f));
+		add(new BasicStroke(3f));
+		add(new BasicStroke(3f));
+		add(new BasicStroke(3f));
+		add(new BasicStroke(3f));
+		add(new BasicStroke(3f));
+		add(new BasicStroke(3f));
+		}};
+	
+    
 	/**
 	 *
 	 */
 	public static final ChartThemeSettings createChartThemeSettings()
 	{
 		ChartThemeSettings settings = new ChartThemeSettings();
+		
 
 		ChartSettings chartSettings = settings.getChartSettings();
 		chartSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		chartSettings.setBackgroundImage(new FileImageProvider("jasperreports.gif"));
 		chartSettings.setBackgroundImageAlignment(new Integer(Align.TOP_RIGHT));
 		chartSettings.setBackgroundImageAlpha(new Float(1f));
-		List colors =	new ArrayList(){{
-			add(new ColorProvider(new Color(250, 97, 18)));
-			add(new ColorProvider(new Color(237, 38, 42)));
-			add(new ColorProvider(new Color(0, 111, 60)));
-			add(new ColorProvider(new Color(250, 223, 18)));
-			add(new ColorProvider(new Color(47, 137, 187)));
-			add(new ColorProvider(new Color(231, 133, 35)));
-			add(new ColorProvider(new Color(229, 1, 140)));
-			add(new ColorProvider(new Color(234, 171, 53)));
-			}};
-		
-		chartSettings.setSeriesColors(colors);
 		chartSettings.getFont().setBold(Boolean.TRUE);
 		chartSettings.setBorderVisible(Boolean.TRUE);
 		chartSettings.setBorderPaint(new ColorProvider(Color.GREEN));
@@ -115,10 +168,10 @@ public class SimpleSettingsFactory
 		legendSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 		
 		PlotSettings plotSettings = settings.getPlotSettings();
-		plotSettings.setOrientation(PlotOrientation.HORIZONTAL);
-		plotSettings.setForegroundAlpha(new Float(0.5f));
+		plotSettings.setOrientation(PlotOrientation.VERTICAL);
+//		plotSettings.setForegroundAlpha(new Float(0.5f));
 		plotSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
-		plotSettings.setBackgroundAlpha(new Float(0.5f));
+//		plotSettings.setBackgroundAlpha(new Float(0.5f));
 		plotSettings.setBackgroundImage(new FileImageProvider("jasperreports.gif"));
 		plotSettings.setBackgroundImageAlpha(new Float(0.5f));
 		plotSettings.setBackgroundImageAlignment(new Integer(Align.NORTH_WEST));
@@ -127,6 +180,11 @@ public class SimpleSettingsFactory
 		plotSettings.setOutlineVisible(Boolean.TRUE);
 		plotSettings.setOutlinePaint(new ColorProvider(Color.red));
 		plotSettings.setOutlineStroke(new BasicStroke(1f));
+		plotSettings.setSeriesColorSequence(COLORS);
+//		plotSettings.setSeriesGradientPaintSequence(GRADIENT_PAINTS);
+		plotSettings.setSeriesOutlinePaintSequence(COLORS_DARKER);
+		plotSettings.setSeriesStrokeSequence(STROKES);
+		plotSettings.setSeriesOutlineStrokeSequence(OUTLINE_STROKES);
 		
 		AxisSettings domainAxisSettings = settings.getDomainAxisSettings();
 		domainAxisSettings.setVisible(Boolean.TRUE);
