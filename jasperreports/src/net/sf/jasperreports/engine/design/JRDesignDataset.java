@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBaseDataset;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.FileResolver;
@@ -145,6 +146,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	private static final Object[] BUILT_IN_PARAMETERS = new Object[] { 
 		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class, 
+		JRParameter.JASPER_REPORT, JasperReport.class, 
 		JRParameter.REPORT_CONNECTION, Connection.class,
 		JRParameter.REPORT_MAX_COUNT, Integer.class, 
 		JRParameter.REPORT_DATA_SOURCE, JRDataSource.class, 
