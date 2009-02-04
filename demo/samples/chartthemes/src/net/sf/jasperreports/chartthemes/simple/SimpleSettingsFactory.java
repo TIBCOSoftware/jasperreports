@@ -149,11 +149,11 @@ public class SimpleSettingsFactory
 		TitleSettings subtitleSettings = settings.getSubtitleSettings();
 		subtitleSettings.setShowTitle(Boolean.TRUE);
 		subtitleSettings.setPosition(new Byte(JRChart.EDGE_TOP));
-		subtitleSettings.setForegroundPaint(new ColorProvider(Color.black));
+		subtitleSettings.setForegroundPaint(new ColorProvider(Color.red));
 		subtitleSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
 		subtitleSettings.getFont().setBold(Boolean.TRUE);
-		subtitleSettings.setHorizontalAlignment(HorizontalAlignment.CENTER);
-		subtitleSettings.setVerticalAlignment(VerticalAlignment.TOP);
+		subtitleSettings.setHorizontalAlignment(HorizontalAlignment.LEFT);
+		subtitleSettings.setVerticalAlignment(VerticalAlignment.CENTER);
 		subtitleSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 
 		LegendSettings legendSettings = settings.getLegendSettings();
