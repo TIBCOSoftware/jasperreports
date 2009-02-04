@@ -185,6 +185,12 @@ public class SimpleSettingsFactory
 		plotSettings.setSeriesOutlinePaintSequence(COLORS_DARKER);
 		plotSettings.setSeriesStrokeSequence(STROKES);
 		plotSettings.setSeriesOutlineStrokeSequence(OUTLINE_STROKES);
+		plotSettings.setDomainGridlineVisible(Boolean.TRUE);
+		plotSettings.setDomainGridlinePaint(new ColorProvider(Color.DARK_GRAY));
+		plotSettings.setDomainGridlineStroke(new BasicStroke(0.5f));
+		plotSettings.setRangeGridlineVisible(Boolean.TRUE);
+		plotSettings.setRangeGridlinePaint(new ColorProvider(Color.BLACK));
+		plotSettings.setRangeGridlineStroke(new BasicStroke(0.5f));
 		
 		AxisSettings domainAxisSettings = settings.getDomainAxisSettings();
 		domainAxisSettings.setVisible(Boolean.TRUE);

@@ -173,6 +173,24 @@
 		<field name="seriesOutlineStrokeSequence" type="java.awt.Stroke" collection="arraylist">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
+		<field name="domainGridlineVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="domainGridlinePaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="domainGridlineStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="rangeGridlineVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="rangeGridlinePaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="rangeGridlineStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
 	</class>
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.AxisSettings" >
