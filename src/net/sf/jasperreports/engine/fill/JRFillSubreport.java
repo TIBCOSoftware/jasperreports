@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
@@ -462,6 +463,16 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			parameterValues.remove(JRParameter.REPORT_MAX_COUNT);
 			parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
 			parameterValues.remove(JRParameter.REPORT_SCRIPTLET);
+			// should we give access to scriplet extensions so that they can remove their parameters here?
+			// yes, but then you should also give them access to create built-in parameters... too much trouble.
+			JRScriptlet[] scriptlets = filler.getJasperReport().getScriptlets();
+			if (scriptlets != null)
+			{
+				for(int i = 0; i < scriptlets.length; i++)
+				{
+					parameterValues.remove(scriptlets[i].getName() + "_SCRIPTLET");
+				}
+			}
 			parameterValues.remove(JRParameter.REPORT_VIRTUALIZER);
 			//parameterValues.remove(JRParameter.REPORT_CLASS_LOADER);
 			parameterValues.remove(JRParameter.IS_IGNORE_PAGINATION);

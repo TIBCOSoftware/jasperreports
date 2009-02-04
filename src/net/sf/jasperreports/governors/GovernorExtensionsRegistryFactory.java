@@ -25,42 +25,31 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.extensions;
+package net.sf.jasperreports.governors;
 
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.jasperreports.charts.ChartThemeBundle;
 import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.fill.DefaultChartTheme;
-import net.sf.jasperreports.engine.query.DefaultQueryExecuterFactoryBundle;
-import net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle;
-import net.sf.jasperreports.engine.scriptlets.DefaultScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
+import net.sf.jasperreports.extensions.ExtensionsRegistry;
+import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRFillChart.java 2278 2008-08-14 16:14:54Z teodord $
  */
-public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public class GovernorExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-	private static final ExtensionsRegistry defaultExtensionsRegistry = 
+	private static final ExtensionsRegistry governorExtensionsRegistry = 
 		new ExtensionsRegistry()
 		{
 			public List getExtensions(Class extensionType) 
 			{
-				if (QueryExecuterFactoryBundle.class.equals(extensionType))
+				if (ScriptletFactory.class.equals(extensionType))
 				{
-					return Collections.singletonList(DefaultQueryExecuterFactoryBundle.getInstance());
-				}
-				else if (ScriptletFactory.class.equals(extensionType))
-				{
-					return Collections.singletonList(DefaultScriptletFactory.getInstance());
-				}
-				else if (ChartThemeBundle.class.equals(extensionType))
-				{
-					return Collections.singletonList(DefaultChartTheme.BUNDLE);
+					return Collections.singletonList(GovernorFactory.getInstance());
 				}
 				return null;
 			}
@@ -68,6 +57,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 	
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
-		return defaultExtensionsRegistry;
+		return governorExtensionsRegistry;
 	}
 }

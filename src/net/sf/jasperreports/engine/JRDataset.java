@@ -79,6 +79,14 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable
 
 	
 	/**
+	 * Returns the dataset's scriptlets.
+	 * 
+	 * @return the dataset's scriptlets
+	 */
+	public JRScriptlet[] getScriptlets();
+
+	
+	/**
 	 * Returns the dataset's parameters.
 	 * 
 	 * @return the dataset's parameters

@@ -269,6 +269,11 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	/**
 	 *
 	 */
+	public JRScriptlet[] getScriptlets();
+
+	/**
+	 *
+	 */
 	public JRParameter[] getParameters();
 
 	/**

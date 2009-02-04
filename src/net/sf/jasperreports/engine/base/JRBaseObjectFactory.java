@@ -137,6 +137,7 @@ import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
@@ -292,6 +293,26 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseFont;
+	}
+
+
+	/**
+	 *
+	 */
+	protected JRBaseScriptlet getScriptlet(JRScriptlet scriptlet)
+	{
+		JRBaseScriptlet baseScriptlet = null;
+
+		if (scriptlet != null)
+		{
+			baseScriptlet = (JRBaseScriptlet)get(scriptlet);
+			if (baseScriptlet == null)
+			{
+				baseScriptlet = new JRBaseScriptlet(scriptlet, this);
+			}
+		}
+
+		return baseScriptlet;
 	}
 
 
