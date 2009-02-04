@@ -385,21 +385,22 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot) throws JRException
 	{	
+		ChartSettings chartSettings = getChartSettings();
 		setChartBackground(jfreeChart);
 		setChartTitle(jfreeChart);
 		setChartSubtitles(jfreeChart);
 		setChartLegend(jfreeChart);
 		setChartBorder(jfreeChart);
 		
-		Boolean chartAntiAlias = getChartSettings().getAntiAlias();
+		Boolean chartAntiAlias = chartSettings.getAntiAlias();
 		if(chartAntiAlias != null)
 			jfreeChart.setAntiAlias(chartAntiAlias.booleanValue());
 		
-		Boolean textAntiAlias = getChartSettings().getTextAntiAlias();
+		Boolean textAntiAlias = chartSettings.getTextAntiAlias();
 		if(textAntiAlias != null)
 			jfreeChart.setTextAntiAlias(textAntiAlias.booleanValue());
 		
-		RectangleInsets padding = getChartSettings().getPadding();
+		RectangleInsets padding = chartSettings.getPadding();
 		if(padding != null)
 		{
 			jfreeChart.setPadding(padding);//FIXMETHEME consider using linebox
@@ -1717,24 +1718,6 @@ public class SimpleChartTheme implements ChartTheme
 					
 			if(title != null)
 			{
-				JRBaseFont font = new JRBaseFont();
-				JRFontUtil.copyNonNullOwnProperties(titleSettings.getFont(), font);
-				JRFontUtil.copyNonNullOwnProperties(getChart().getTitleFont(), font);
-				font = new JRBaseFont(getChart(), font);
-				title.setFont(JRFontUtil.getAwtFont(font, getLocale()));
-				
-				HorizontalAlignment hAlign = (HorizontalAlignment)titleSettings.getHorizontalAlignment();
-				if(hAlign != null)
-					title.setHorizontalAlignment(hAlign);
-				
-				VerticalAlignment vAlign = (VerticalAlignment)titleSettings.getVerticalAlignment();
-				if(vAlign != null)
-					title.setVerticalAlignment(vAlign);
-				
-				RectangleInsets padding = titleSettings.getPadding();
-				if(padding != null)
-					title.setPadding(padding);
-				
 				Paint forePaint = getChart().getOwnTitleColor();
 				if (forePaint == null && titleSettings.getForegroundPaint() != null)
 				{
@@ -1744,22 +1727,15 @@ public class SimpleChartTheme implements ChartTheme
 				{
 					forePaint = getChart().getTitleColor();
 				}
-				if (forePaint != null)
-					title.setPaint(forePaint);
-	
-				Paint backPaint = titleSettings.getBackgroundPaint() != null ? titleSettings.getBackgroundPaint().getPaint() : null;
-				if(backPaint != null)
-					title.setBackgroundPaint(backPaint);
-				
-				title.setPosition(
-					getEdge(
+				RectangleEdge titleEdge = getEdge(
 						getChart().getTitlePositionByte(), 
 						getEdge(
 							titleSettings.getPosition(), 
 							RectangleEdge.TOP
 							)
-						)
-					);
+						);
+				
+				handleTitleSettings(title, titleSettings, getChart().getTitleFont(), forePaint, titleEdge);
 			}
 		}
 		else
@@ -1769,81 +1745,29 @@ public class SimpleChartTheme implements ChartTheme
 	}
 
 	protected void setChartSubtitles(JFreeChart jfreeChart) throws JRException
-	{			
-//		Boolean subtitleVisibility = (Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_VISIBLE);
-//
-//		if(subtitleVisibility != null && subtitleVisibility.booleanValue())
-//		{
-//			String subtitleText = (String)evaluateExpression(getChart().getSubtitleExpression());
-//			if (subtitleText != null)
-//			{
-//				TextTitle subtitle = new TextTitle(subtitleText);
-//				
-//				Font subtitleFont = subtitle.getFont();
-//				int defaultSubtitleBaseFontBoldStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_BASEFONT_BOLD_STYLE) != null ?
-//						((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_BASEFONT_BOLD_STYLE)).intValue() :
-//						Font.PLAIN;
-//				int defaultSubtitleBaseFontItalicStyle = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_BASEFONT_BOLD_STYLE) != null ?
-//						((Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_BASEFONT_BOLD_STYLE)).intValue() :
-//						Font.PLAIN;
-//				
-//				subtitleFont = subtitleFont.deriveFont(ChartThemesUtilities.getAwtFontStyle(getChart().getSubtitleFont(), defaultSubtitleBaseFontBoldStyle, defaultSubtitleBaseFontItalicStyle));
-//	
-//				Float defaultSubtitleBaseFontSize = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_BASEFONT_SIZE) != null ?
-//						((Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_BASEFONT_SIZE)) :
-//						baseFontSize;
-//				
-//				if(getChart().getSubtitleFont().getOwnFontSize() == null && defaultSubtitleBaseFontSize != null)
-//				{
-//					subtitleFont = subtitleFont.deriveFont(defaultSubtitleBaseFontSize.floatValue());
-//				}
-//	
-//				subtitle.setFont(subtitleFont);
-//				
-//				HorizontalAlignment defaultSubtitleHAlignment = (HorizontalAlignment)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_HORIZONTAL_ALIGNMENT);
-//				if(defaultSubtitleHAlignment != null)
-//					subtitle.setHorizontalAlignment(defaultSubtitleHAlignment);
-//
-//				VerticalAlignment defaultSubtitleVAlignment = (VerticalAlignment)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_VERTICAL_ALIGNMENT);
-//				if(defaultSubtitleVAlignment != null)
-//					subtitle.setVerticalAlignment(defaultSubtitleVAlignment);
-//				
-//				RectangleInsets defaultSubtitlePadding = (RectangleInsets)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_PADDING);
-//				RectangleInsets subtitlePadding = subtitle.getPadding() != null ? subtitle.getPadding() : defaultSubtitlePadding;
-//				if(subtitlePadding != null)
-//					subtitle.setPadding(subtitlePadding);
-//
-//				Color subtitleForecolor = getChart().getOwnSubtitleColor() != null ? 
-//						getChart().getOwnSubtitleColor() :
-//						(getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_FORECOLOR) != null ? 
-//								(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_FORECOLOR) :
-//								getChart().getSubtitleColor());
-//				if(subtitleForecolor != null)
-//					subtitle.setPaint(subtitleForecolor);
-//	
-//				Color subtitleBackcolor = getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_BACKCOLOR) != null ? 
-//						(Color)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_BACKCOLOR) :
-//						null;
-//				if(subtitleBackcolor != null)
-//					subtitle.setBackgroundPaint(subtitleBackcolor);
-//	
-//				RectangleEdge defaultSubtitlePosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SUBTITLE_POSITION);
-//				//Subtitle has not its own position set, and by default this will be set the same as title position
-//				RectangleEdge subtitleEdge = null;
-//				if(defaultSubtitlePosition == null)
-//				{	
-//					subtitleEdge = jfreeChart.getTitle().getPosition();
-//				}
-//				else
-//				{
-//					subtitleEdge = getEdge(null, defaultSubtitlePosition);
-//				}
-//				if(subtitleEdge != null)
-//					subtitle.setPosition(subtitleEdge);
-//				
-//				jfreeChart.addSubtitle(subtitle);
-//			}
-//		}
+	{	
+		TitleSettings subtitleSettings = getSubtitleSettings();
+		
+		Boolean subtitleVisibility = subtitleSettings.getShowTitle();
+
+		if(subtitleVisibility != null && subtitleVisibility.booleanValue())
+		{
+			String subtitleText = (String)evaluateExpression(getChart().getSubtitleExpression());
+			if (subtitleText != null)
+			{
+				TextTitle subtitle = new TextTitle(subtitleText);
+				Paint subtitleForecolor = getChart().getOwnSubtitleColor() != null  
+					? getChart().getOwnSubtitleColor() 
+					: subtitleSettings.getForegroundPaint() != null  
+					? subtitleSettings.getForegroundPaint().getPaint()
+					: getChart().getSubtitleColor();
+				//Subtitle has not its own position set, and by default this will be set the same as title position
+				RectangleEdge subtitleEdge = getEdge(subtitleSettings.getPosition(), jfreeChart.getTitle().getPosition());
+				handleTitleSettings(subtitle, subtitleSettings, getChart().getSubtitleFont(), subtitleForecolor, subtitleEdge);
+	
+				jfreeChart.addSubtitle(subtitle);
+			}
+		}
 	}
 	
 	protected void setChartLegend(JFreeChart jfreeChart)
@@ -2041,10 +1965,35 @@ public class SimpleChartTheme implements ChartTheme
 			}
 		}
 		
-//		p.setRangeGridlinePaint(ChartThemesConstants.GRAY_PAINT_134);
-//		p.setRangeGridlineStroke(new BasicStroke(1f));
-//		p.setDomainGridlinesVisible(false);
-		
+		Boolean domainGridlineVisible = plotSettings.getDomainGridlineVisible();
+		if(domainGridlineVisible != null && domainGridlineVisible.booleanValue())
+		{
+			PaintProvider domainGridlinePaint = plotSettings.getDomainGridlinePaint();
+			if(domainGridlinePaint != null)
+			{
+				p.setDomainGridlinePaint(domainGridlinePaint.getPaint());
+			}
+			Stroke domainGridlineStroke = plotSettings.getDomainGridlineStroke();
+			if(domainGridlineStroke != null)
+			{
+				p.setDomainGridlineStroke(domainGridlineStroke);
+			}
+			
+		}
+		Boolean rangeGridlineVisible = plotSettings.getRangeGridlineVisible();
+		if(rangeGridlineVisible != null && rangeGridlineVisible.booleanValue())
+		{
+			PaintProvider rangeGridlinePaint = plotSettings.getRangeGridlinePaint();
+			if(rangeGridlinePaint != null)
+			{
+				p.setRangeGridlinePaint(rangeGridlinePaint.getPaint());
+			}
+			Stroke rangeGridlineStroke = plotSettings.getRangeGridlineStroke();
+			if(rangeGridlineStroke != null)
+			{
+				p.setRangeGridlineStroke(rangeGridlineStroke);
+			}
+		}
 	}
 
 	protected void handleXYPlotSettings(XYPlot p, JRChartPlot jrPlot)
@@ -2063,8 +2012,36 @@ public class SimpleChartTheme implements ChartTheme
 			xyItemRenderer.setSeriesOutlinePaint(i, outlinePaintSequence[i]);
 			xyItemRenderer.setSeriesOutlineStroke(i, outlineStrokeSequence[i]);
 		}
-//		p.setRangeGridlineStroke(new BasicStroke(1f));
-//		p.setDomainGridlinesVisible(false);
+		
+		Boolean domainGridlineVisible = plotSettings.getDomainGridlineVisible();
+		if(domainGridlineVisible != null && domainGridlineVisible.booleanValue())
+		{
+			PaintProvider domainGridlinePaint = plotSettings.getDomainGridlinePaint();
+			if(domainGridlinePaint != null)
+			{
+				p.setDomainGridlinePaint(domainGridlinePaint.getPaint());
+			}
+			Stroke domainGridlineStroke = plotSettings.getDomainGridlineStroke();
+			if(domainGridlineStroke != null)
+			{
+				p.setDomainGridlineStroke(domainGridlineStroke);
+			}
+			
+		}
+		Boolean rangeGridlineVisible = plotSettings.getRangeGridlineVisible();
+		if(rangeGridlineVisible != null && rangeGridlineVisible.booleanValue())
+		{
+			PaintProvider rangeGridlinePaint = plotSettings.getRangeGridlinePaint();
+			if(rangeGridlinePaint != null)
+			{
+				p.setRangeGridlinePaint(rangeGridlinePaint.getPaint());
+			}
+			Stroke rangeGridlineStroke = plotSettings.getRangeGridlineStroke();
+			if(rangeGridlineStroke != null)
+			{
+				p.setRangeGridlineStroke(rangeGridlineStroke);
+			}
+		}
 		
 //		p.setRangeZeroBaselineVisible(true);
 		
@@ -2471,6 +2448,41 @@ public class SimpleChartTheme implements ChartTheme
 			outlineStrokeSequence = DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE;
 		}
 		return outlineStrokeSequence;
+	}
+
+	protected void handleTitleSettings(
+			TextTitle title, 
+			TitleSettings titleSettings, 
+			JRFont titleFont,
+			Paint titleForegroundPaint,
+			RectangleEdge titleEdge)
+	{
+		JRBaseFont font = new JRBaseFont();
+		JRFontUtil.copyNonNullOwnProperties(titleSettings.getFont(), font);
+		JRFontUtil.copyNonNullOwnProperties(titleFont, font);
+		font = new JRBaseFont(getChart(), font);
+		title.setFont(JRFontUtil.getAwtFont(font, getLocale()));
+		
+		HorizontalAlignment hAlign = (HorizontalAlignment)titleSettings.getHorizontalAlignment();
+		if(hAlign != null)
+			title.setHorizontalAlignment(hAlign);
+		
+		VerticalAlignment vAlign = (VerticalAlignment)titleSettings.getVerticalAlignment();
+		if(vAlign != null)
+			title.setVerticalAlignment(vAlign);
+		
+		RectangleInsets padding = titleSettings.getPadding();
+		if(padding != null)
+			title.setPadding(padding);
+		
+		if (titleForegroundPaint != null)
+			title.setPaint(titleForegroundPaint);
+
+		Paint backPaint = titleSettings.getBackgroundPaint() != null ? titleSettings.getBackgroundPaint().getPaint() : null;
+		if(backPaint != null)
+			title.setBackgroundPaint(backPaint);
+		if(titleEdge != null)
+			title.setPosition(titleEdge);
 	}
 
 }

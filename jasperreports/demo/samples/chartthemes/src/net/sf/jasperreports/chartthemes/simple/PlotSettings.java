@@ -68,6 +68,12 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_seriesStrokeSequence = "seriesStrokeSequence";
 	public static final String PROPERTY_seriesOutlineStrokeSequence = "seriesOutlineStrokeSequence";
 //	public static final String PROPERTY_shapeSequence = "shapeSequence";
+	public static final String PROPERTY_domainGridlineVisible = "domainGridlineVisible";
+	public static final String PROPERTY_domainGridlinePaint = "domainGridlinePaint";
+	public static final String PROPERTY_domainGridlineStroke = "domainGridlineStroke";
+	public static final String PROPERTY_rangeGridlineVisible = "rangeGridlineVisible";
+	public static final String PROPERTY_rangeGridlinePaint = "rangeGridlinePaint";
+	public static final String PROPERTY_rangeGridlineStroke = "rangeGridlineStroke";
 
 	/**
 	 *
@@ -89,6 +95,12 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	private List seriesOutlinePaintSequence = null;
 	private List seriesStrokeSequence = null;
 	private List seriesOutlineStrokeSequence = null;
+	private Boolean domainGridlineVisible = null;
+	private PaintProvider domainGridlinePaint = null;
+	private Stroke domainGridlineStroke = null;
+	private Boolean rangeGridlineVisible = null;
+	private PaintProvider rangeGridlinePaint = null;
+	private Stroke rangeGridlineStroke = null;
 	
 	/**
 	 * @return the padding
@@ -393,6 +405,114 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
     	List old = getSeriesOutlineStrokeSequence();
     	this.seriesOutlineStrokeSequence = seriesOutlineStrokeSequence;
 		getEventSupport().firePropertyChange(PROPERTY_seriesOutlineStrokeSequence, old, getSeriesOutlineStrokeSequence());
+    }
+
+	/**
+     * @return the domainGridlineVisible
+     */
+    public Boolean getDomainGridlineVisible()
+    {
+    	return domainGridlineVisible;
+    }
+
+	/**
+     * @param domainGridlineVisible the domainGridlineVisible to set
+     */
+    public void setDomainGridlineVisible(Boolean domainGridlineVisible)
+    {
+    	Boolean old = getDomainGridlineVisible();
+    	this.domainGridlineVisible = domainGridlineVisible;
+		getEventSupport().firePropertyChange(PROPERTY_domainGridlineVisible, old, getDomainGridlineVisible());
+    }
+
+	/**
+     * @return the domainGridlinePaint
+     */
+    public PaintProvider getDomainGridlinePaint()
+    {
+    	return domainGridlinePaint;
+    }
+
+	/**
+     * @param domainGridlinePaint the domainGridlinePaint to set
+     */
+    public void setDomainGridlinePaint(PaintProvider domainGridlinePaint)
+    {
+    	PaintProvider old = getDomainGridlinePaint();
+    	this.domainGridlinePaint = domainGridlinePaint;
+		getEventSupport().firePropertyChange(PROPERTY_domainGridlinePaint, old, getDomainGridlinePaint());
+    }
+
+	/**
+     * @return the domainGridlineStroke
+     */
+    public Stroke getDomainGridlineStroke()
+    {
+    	return domainGridlineStroke;
+    }
+
+	/**
+     * @param domainGridlineStroke the domainGridlineStroke to set
+     */
+    public void setDomainGridlineStroke(Stroke domainGridlineStroke)
+    {
+    	Stroke old = getDomainGridlineStroke();
+    	this.domainGridlineStroke = domainGridlineStroke;
+		getEventSupport().firePropertyChange(PROPERTY_domainGridlineStroke, old, getDomainGridlineStroke());
+    }
+
+	/**
+     * @return the rangeGridlineVisible
+     */
+    public Boolean getRangeGridlineVisible()
+    {
+    	return rangeGridlineVisible;
+    }
+
+	/**
+     * @param rangeGridlineVisible the rangeGridlineVisible to set
+     */
+    public void setRangeGridlineVisible(Boolean rangeGridlineVisible)
+    {
+    	Boolean old = getRangeGridlineVisible();
+    	this.rangeGridlineVisible = rangeGridlineVisible;
+		getEventSupport().firePropertyChange(PROPERTY_rangeGridlineVisible, old, getRangeGridlineVisible());
+    }
+
+	/**
+     * @return the rangeGridlinePaint
+     */
+    public PaintProvider getRangeGridlinePaint()
+    {
+    	return rangeGridlinePaint;
+    }
+
+	/**
+     * @param rangeGridlinePaint the rangeGridlinePaint to set
+     */
+    public void setRangeGridlinePaint(PaintProvider rangeGridlinePaint)
+    {
+    	PaintProvider old = getRangeGridlinePaint();
+    	this.rangeGridlinePaint = rangeGridlinePaint;
+		getEventSupport().firePropertyChange(PROPERTY_rangeGridlinePaint, old, getRangeGridlinePaint());
+    }
+
+	/**
+     * @return the rangeGridlineStroke
+     */
+    public Stroke getRangeGridlineStroke()
+    {
+    	return rangeGridlineStroke;
+    }
+
+	/**
+     * @param rangeGridlineStroke the rangeGridlineStroke to set
+     */
+    public void setRangeGridlineStroke(Stroke rangeGridlineStroke)
+    {
+    	Stroke old = getRangeGridlineStroke();
+    	this.rangeGridlineStroke = rangeGridlineStroke;
+		getEventSupport().firePropertyChange(PROPERTY_rangeGridlineStroke, old, getRangeGridlineStroke());
     }
 
 }
