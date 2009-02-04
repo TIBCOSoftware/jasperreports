@@ -71,6 +71,12 @@ public class GovernorFactory implements ScriptletFactory
 			scriptlets.add(new MaxPagesGovernor(maxPages));
 		}
 		
+		long timeout = JRProperties.getLongProperty(context.getJasperReport(), TimeoutGovernor.PROPERTY_TIMEOUT, 0);
+		if (timeout > 0)
+		{
+			scriptlets.add(new TimeoutGovernor(timeout));
+		}
+		
 		return scriptlets;
 	}
 	

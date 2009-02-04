@@ -765,6 +765,22 @@ public class JRProperties
 		return value == null ? defaultValue : asLong(value);
 	}
 	
+	/**
+	 * Returns the value of a property as a long, looking first in the supplied properties holder
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @return the property value
+	 */
+	public static long getLongProperty (JRPropertiesHolder propertiesHolder, String key, int defaultValue)
+	{
+		String value = getProperty(propertiesHolder, key);
+		
+		return value == null ? defaultValue : asLong(value);
+	}
+
 	protected static JRPropertiesMap getOwnProperties(JRPropertiesHolder propertiesHolder)
 	{
 		return propertiesHolder.hasProperties() ? propertiesHolder.getPropertiesMap() : null;
