@@ -199,23 +199,23 @@ public class JRFillDatasetRun implements JRDatasetRun
 	{
 		dataset.calculator.estimateGroupRuptures();
 
-		dataset.scriptlet.callBeforeGroupInit();
+		dataset.delegateScriptlet.callBeforeGroupInit();
 		dataset.calculator.initializeVariables(JRVariable.RESET_TYPE_GROUP);
-		dataset.scriptlet.callAfterGroupInit();
+		dataset.delegateScriptlet.callAfterGroupInit();
 	}
 
 	protected void init() throws JRScriptletException, JRException
 	{
-		dataset.scriptlet.callBeforeReportInit();
+		dataset.delegateScriptlet.callBeforeReportInit();
 		dataset.calculator.initializeVariables(JRVariable.RESET_TYPE_REPORT);
-		dataset.scriptlet.callAfterReportInit();
+		dataset.delegateScriptlet.callAfterReportInit();
 	}
 
 	protected void detail() throws JRScriptletException, JRException
 	{
-		dataset.scriptlet.callBeforeDetailEval();
+		dataset.delegateScriptlet.callBeforeDetailEval();
 		dataset.calculator.calculateVariables();
-		dataset.scriptlet.callAfterDetailEval();
+		dataset.delegateScriptlet.callAfterDetailEval();
 	}
 
 	public String getDatasetName()

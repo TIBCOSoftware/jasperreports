@@ -134,6 +134,7 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreportParameter;
@@ -233,6 +234,11 @@ public class JRXmlDigesterFactory
 		digester.addCallMethod("jasperReport/style/conditionalStyle/conditionExpression", "setText", 0);
 		digester.addFactoryCreate("jasperReport/style/conditionalStyle/style", JRConditionalStyleFillerFactory.class.getName());
 		digester.addFactoryCreate("*/style/pen", JRPenFactory.Style.class.getName());
+
+		/*   */
+		digester.addFactoryCreate("*/scriptlet", JRScriptletFactory.class.getName());
+		digester.addSetNext("*/scriptlet", "addScriptlet", JRScriptlet.class.getName());
+		digester.addCallMethod("*/scriptlet/scriptletDescription", "setDescription", 0);
 
 		/*   */
 		digester.addFactoryCreate("*/parameter", JRParameterFactory.class.getName());

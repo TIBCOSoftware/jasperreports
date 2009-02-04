@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
+import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
@@ -501,6 +502,14 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	public JRStyle[] getStyles()
 	{
 		return styles;
+	}
+
+	/**
+	 * Gets an array of report scriptlets (excluding the scriptletClass one).
+	 */
+	public JRScriptlet[] getScriptlets()
+	{
+		return mainDataset.getScriptlets();
 	}
 
 	/**

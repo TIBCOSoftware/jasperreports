@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -59,6 +60,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	protected final boolean isMain;
 	protected String name = null;
 	protected String scriptletClass = null;
+	protected JRScriptlet[] scriptlets = null;
 	protected JRParameter[] parameters = null;
 	protected JRQuery query = null;
 	protected JRField[] fields = null;
@@ -92,6 +94,17 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		query = factory.getQuery(dataset.getQuery());
 
 		isMain = dataset.isMainDataset();
+		
+		/*   */
+		JRScriptlet[] jrScriptlets = dataset.getScriptlets();
+		if (jrScriptlets != null && jrScriptlets.length > 0)
+		{
+			scriptlets = new JRScriptlet[jrScriptlets.length];
+			for(int i = 0; i < scriptlets.length; i++)
+			{
+				scriptlets[i] = factory.getScriptlet(jrScriptlets[i]);
+			}
+		}
 		
 		/*   */
 		JRParameter[] jrParameters = dataset.getParameters();
@@ -174,6 +187,14 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	public JRQuery getQuery()
 	{
 		return query;
+	}
+
+	/**
+	 *
+	 */
+	public JRScriptlet[] getScriptlets()
+	{
+		return scriptlets;
 	}
 
 	/**

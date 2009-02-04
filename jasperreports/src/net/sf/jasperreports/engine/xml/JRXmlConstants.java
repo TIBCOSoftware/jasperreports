@@ -1788,6 +1788,12 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_direction = "direction";
 
 	/**
+	 * JRScriptletFactory associated constants
+	 */
+	public static final String ELEMENT_scriptlet = "scriptlet";
+	public static final String ELEMENT_scriptletDescription = "scriptletDescription";
+
+	/**
 	 * JRParameterFactory associated constants
 	 */
 	public static final String ELEMENT_parameter = "parameter";

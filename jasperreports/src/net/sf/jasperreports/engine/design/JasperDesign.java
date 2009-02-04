@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
+import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
@@ -750,6 +751,51 @@ public class JasperDesign extends JRBaseReport
 		}
 
 		return style;
+	}
+
+
+	/**
+	 * Gets a list of report scriptlets (excluding the one specified by scriptletClass).
+	 */
+	public List getScriptletsList()
+	{
+		return mainDesignDataset.getScriptletsList();
+	}
+
+
+	/**
+	 * Gets a map of report scriptlets (excluding the one specified by scriptletClass).
+	 */
+	public Map getScriptletsMap()
+	{
+		return mainDesignDataset.getScriptletsMap();
+	}
+
+
+	/**
+	 * Adds a report scriplet.
+	 */
+	public void addScriptlet(JRScriptlet scriptlet) throws JRException
+	{
+		mainDesignDataset.addScriptlet(scriptlet);
+	}
+
+
+	/**
+	 * Removes a report scriptlet, based on its name.
+	 */
+	public JRScriptlet removeScriptlet(String scriptletName)
+	{
+		return mainDesignDataset.removeScriptlet(scriptletName);
+	}
+
+
+	/**
+	 * Removes a report scriptlet.
+	 */
+	public JRScriptlet removeScriptlet(JRScriptlet scriptlet)
+	{
+		return mainDesignDataset.removeScriptlet(scriptlet);
 	}
 
 

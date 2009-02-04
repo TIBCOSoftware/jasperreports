@@ -55,6 +55,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
@@ -83,6 +84,8 @@ public class JRDesignDataset extends JRBaseDataset
 	
 	public static final String PROPERTY_NAME = "name";
 	
+	public static final String PROPERTY_SCRIPTLETS = "scriptlets";
+	
 	public static final String PROPERTY_PARAMETERS = "parameters";
 	
 	public static final String PROPERTY_QUERY = "query";
@@ -94,6 +97,12 @@ public class JRDesignDataset extends JRBaseDataset
 	public static final String PROPERTY_SORT_FIELDS = "sortFields";
 	
 	public static final String PROPERTY_VARIABLES = "variables";
+
+	/**
+	 * Scriptlets mapped by name.
+	 */
+	protected Map scriptletsMap = new HashMap();
+	protected List scriptletsList = new ArrayList();
 
 	/**
 	 * Parameters mapped by name.
@@ -337,6 +346,102 @@ public class JRDesignDataset extends JRBaseDataset
 	}
 
 	
+	
+	public JRScriptlet[] getScriptlets()
+	{
+		JRScriptlet[] scriptletsArray = new JRScriptlet[scriptletsList.size()];
+
+		scriptletsList.toArray(scriptletsArray);
+
+		return scriptletsArray;
+	}
+
+	
+	/**
+	 * Returns the list of scriptlets, excluding the scriptletClass one.
+	 * 
+	 * @return list of {@link JRScriptlet JRScriptlet} objects
+	 */
+	public List getScriptletsList()
+	{
+		return scriptletsList;
+	}
+
+	
+	/**
+	 * Returns the map of scriptlets, excluding the scriptletClass one, indexed by name.
+	 * 
+	 * @return {@link JRScriptlet JRScriptlet} objects indexed by name
+	 */
+	public Map getScriptletsMap()
+	{
+		return scriptletsMap;
+	}
+
+	
+	/**
+	 * Adds a scriptlet to the dataset.
+	 * @param scriptlet the scriptlet to add
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.JRDataset#getScriptlets()
+	 */
+	public void addScriptlet(JRScriptlet scriptlet) throws JRException
+	{
+		if (scriptletsMap.containsKey(scriptlet.getName()))
+		{
+			throw new JRException("Duplicate declaration of scriptlet : " + scriptlet.getName());
+		}
+
+		JRDesignParameter scriptletParameter = new JRDesignParameter();
+		scriptletParameter.setName(scriptlet.getName() + "_SCRIPTLET");
+		scriptletParameter.setValueClassName(scriptlet.getValueClassName());
+		scriptletParameter.setSystemDefined(true);
+		scriptletParameter.setForPrompting(false);
+
+		addParameter(scriptletParameter);
+
+		scriptletsList.add(scriptlet);
+		scriptletsMap.put(scriptlet.getName(), scriptlet);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_SCRIPTLETS, scriptlet, scriptletsList.size() - 1);
+	}
+
+	
+	/**
+	 * Removes a scriptlet from the dataset.
+	 * 
+	 * @param scripletName the scriptlet name
+	 * @return the removed scriptlet, or <code>null</code> if the scriptlet was not found
+	 */
+	public JRScriptlet removeScriptlet(String scriptletName)
+	{
+		return removeScriptlet((JRScriptlet) scriptletsMap.get(scriptletName));
+	}
+
+	
+	/**
+	 * Removes a scriptlet from the dataset.
+	 * 
+	 * @param scriptlet the scriptlet to be removed
+	 * @return the scriptlet to be removed
+	 */
+	public JRScriptlet removeScriptlet(JRScriptlet scriptlet)
+	{
+		if (scriptlet != null)
+		{
+			removeParameter(scriptlet.getName() + "_SCRIPTLET");
+			int idx = parametersList.indexOf(scriptlet);
+			if (idx >= 0)
+			{
+				scriptletsList.remove(idx);
+				scriptletsMap.remove(scriptlet.getName());
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_SCRIPTLETS, scriptlet, idx);
+			}
+		}
+
+		return scriptlet;
+	}
+
 	
 	public JRParameter[] getParameters()
 	{

@@ -31,6 +31,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -51,6 +52,7 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -59,9 +61,11 @@ import net.sf.jasperreports.engine.data.JRSortableDataSource;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
-import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
+import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
+import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -99,7 +103,7 @@ public class JRFillDataset implements JRDataset
 	private boolean useConnectionParamValue = false;
 	
 	/**
-	 * The dataset parameter.
+	 * The dataset parameters.
 	 */
 	protected JRFillParameter[] parameters = null;
 
@@ -195,9 +199,14 @@ public class JRFillDataset implements JRDataset
 	protected JRCalculator calculator = null;
 
 	/**
-	 * The scriptlet used by the dataset.
+	 * The scriptlets used by the dataset.
 	 */
-	protected JRAbstractScriptlet scriptlet = null;
+	protected List scriptlets = null;
+
+	/**
+	 *
+	 */
+	protected JRAbstractScriptlet delegateScriptlet = new JRFillDatasetScriptlet(this);
 
 	/**
 	 * The value of the {@link JRParameter#REPORT_MAX_COUNT max count} parameter.
@@ -438,37 +447,34 @@ public class JRFillDataset implements JRDataset
 	
 	
 	/**
-	 * Creates the scriptlet.
+	 * Creates the scriptlets.
 	 * 
-	 * @return the scriptlet
+	 * @return the scriptlets list
 	 * @throws JRException
 	 */
-	protected JRAbstractScriptlet createScriptlet() throws JRException
+	protected List createScriptlets(Map parameterValues) throws JRException
 	{
-		JRAbstractScriptlet tmpScriptlet = null;
-
-		if (scriptletClassName != null)
+		ScriptletFactoryContext context = new ScriptletFactoryContext(filler.jasperReport, parameterValues);
+		
+		scriptlets = new ArrayList();
+		
+		List factories = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ScriptletFactory.class);
+		for (Iterator it = factories.iterator(); it.hasNext();)
 		{
-			try
+			ScriptletFactory factory = (ScriptletFactory)it.next();
+			List tmpScriptlets = factory.getScriplets(context);
+			if (tmpScriptlets != null)
 			{
-				Class scriptletClass = JRClassLoader.loadClassForName(scriptletClassName);	
-				tmpScriptlet = (JRAbstractScriptlet) scriptletClass.newInstance();
-			}
-			catch (ClassNotFoundException e)
-			{
-				throw new JRException("Error loading scriptlet class : " + scriptletClassName, e);
-			}
-			catch (Exception e)
-			{
-				throw new JRException("Error creating scriptlet class instance : " + scriptletClassName, e);
+				scriptlets.addAll(tmpScriptlets);
 			}
 		}
-		else
+		
+		if (scriptlets.size() == 0)
 		{
-			tmpScriptlet = new JRDefaultScriptlet();
+			scriptlets.add(0, new JRDefaultScriptlet());
 		}
 
-		return tmpScriptlet;
+		return scriptlets;
 	}
 
 
@@ -568,14 +574,9 @@ public class JRFillDataset implements JRDataset
 			parameterValues.put(JRParameter.REPORT_TIME_ZONE, timeZone);
 		}
 		
-		scriptlet = (JRAbstractScriptlet) parameterValues.get(JRParameter.REPORT_SCRIPTLET);
-		if (scriptlet == null)
-		{
-			scriptlet = createScriptlet();
-			parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
-		}
-		scriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);
-		
+		scriptlets = createScriptlets(parameterValues);
+		delegateScriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);//FIXMESCRIPTLET use some context
+
 		setFillParameterValues(parameterValues);
 	}
 	
@@ -1104,6 +1105,11 @@ public class JRFillDataset implements JRDataset
 	public String getScriptletClass()
 	{
 		return parent.getScriptletClass();
+	}
+
+	public JRScriptlet[] getScriptlets()
+	{
+		return parent.getScriptlets();
 	}
 
 	public JRParameter[] getParameters()

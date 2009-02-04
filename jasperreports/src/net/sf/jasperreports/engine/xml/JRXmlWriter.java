@@ -138,6 +138,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
@@ -500,6 +501,23 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfFontName, font.getOwnPdfFontName());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfEncoding, font.getOwnPdfEncoding());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPdfEmbedded, font.isOwnPdfEmbedded());
+		writer.closeElement();
+	}
+
+
+	/**
+	 *
+	 */
+	private void writeScriptlet(JRScriptlet scriptlet) throws IOException
+	{
+		writer.startElement(JRXmlConstants.ELEMENT_scriptlet);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, scriptlet.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, scriptlet.getValueClassName());
+
+		writeProperties(scriptlet);
+
+		writer.writeCDATAElement(JRXmlConstants.ELEMENT_scriptletDescription, scriptlet.getDescription());
+
 		writer.closeElement();
 	}
 
@@ -2514,6 +2532,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	protected void writeDatasetContents(JRDataset dataset) throws IOException
 	{
+		/*   */
+		JRScriptlet[] scriptlets = dataset.getScriptlets();
+		if (scriptlets != null && scriptlets.length > 0)
+		{
+			for(int i = 0; i < scriptlets.length; i++)
+			{
+				writeScriptlet(scriptlets[i]);
+			}
+		}
+
 		/*   */
 		JRParameter[] parameters = dataset.getParameters();
 		if (parameters != null && parameters.length > 0)

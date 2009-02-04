@@ -15,6 +15,7 @@
     <element ref="jr:reportFont" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:style" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:subDataset" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:scriptlet" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:parameter" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:queryString" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:field" minOccurs="0" maxOccurs="unbounded"/>
@@ -477,6 +478,7 @@
   <complexType>
    <sequence>
     <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:scriptlet" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:parameter" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:queryString" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:field" minOccurs="0" maxOccurs="unbounded"/>
@@ -498,6 +500,22 @@
      </restriction>
     </simpleType>
    </attribute>
+  </complexType>
+ </element>
+
+ <element name="scriptlet">
+  <complexType>
+   <sequence>
+    <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:scriptletDescription" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="class" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="scriptletDescription">
+  <complexType mixed="true">
   </complexType>
  </element>
 

@@ -1211,7 +1211,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		mainDataset.setParameterValues(parameterValues);
 		mainDataset.initDatasource();
 
-		this.scriptlet = mainDataset.scriptlet;
+		this.scriptlet = mainDataset.delegateScriptlet;
 
 		if (!isSubreport())
 		{
