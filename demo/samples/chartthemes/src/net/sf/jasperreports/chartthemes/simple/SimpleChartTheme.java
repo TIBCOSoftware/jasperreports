@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.chartthemes.simple;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Paint;
@@ -123,11 +122,9 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
-import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.StandardGradientPaintTransformer;
 import org.jfree.ui.VerticalAlignment;
 
 
@@ -1949,18 +1946,35 @@ public class SimpleChartTheme implements ChartTheme
 		}
 		
 		CategoryItemRenderer categoryRenderer = p.getRenderer();
-		CategoryDataset categoryDataset = p.getDataset();
 		Paint[] paintSequence = getPaintSequence(plotSettings, jrPlot);	
-		Paint[] outlinePaintSequence = getOutlinePaintSequence(plotSettings);	
-		Stroke[] strokeSequence = getStrokeSequence(plotSettings);
-		Stroke[] outlineStrokeSequence = getOutlineStrokeSequence(plotSettings);
-		if(outlinePaintSequence != null)
+		if(paintSequence != null)
 		{
-			for(int i = 0; i < categoryDataset.getRowCount(); i++)
+			for(int i = 0; i < paintSequence.length; i++)
 			{
 				categoryRenderer.setSeriesPaint(i, paintSequence[i]);
-				categoryRenderer.setSeriesStroke(i, strokeSequence[i]);
+			}
+		}
+		Paint[] outlinePaintSequence = getOutlinePaintSequence(plotSettings);	
+		if(outlinePaintSequence != null)
+		{
+			for(int i = 0; i < outlinePaintSequence.length; i++)
+			{
 				categoryRenderer.setSeriesOutlinePaint(i, outlinePaintSequence[i]);
+			}
+		}
+		Stroke[] strokeSequence = getStrokeSequence(plotSettings);
+		if(strokeSequence != null)
+		{
+			for(int i = 0; i < strokeSequence.length; i++)
+			{
+				categoryRenderer.setSeriesStroke(i, strokeSequence[i]);
+			}
+		}
+		Stroke[] outlineStrokeSequence = getOutlineStrokeSequence(plotSettings);
+		if(outlineStrokeSequence != null)
+		{
+			for(int i = 0; i < outlineStrokeSequence.length; i++)
+			{
 				categoryRenderer.setSeriesOutlineStroke(i, outlineStrokeSequence[i]);
 			}
 		}
@@ -1999,18 +2013,38 @@ public class SimpleChartTheme implements ChartTheme
 	protected void handleXYPlotSettings(XYPlot p, JRChartPlot jrPlot)
 	{
 		PlotSettings plotSettings = getPlotSettings();
-		Paint[] paintSequence = getPaintSequence(plotSettings, jrPlot);	
-		Paint[] outlinePaintSequence = getOutlinePaintSequence(plotSettings);	
-		Stroke[] strokeSequence = getStrokeSequence(plotSettings);
-		Stroke[] outlineStrokeSequence = getOutlineStrokeSequence(plotSettings);
-		XYDataset xyDataset = p.getDataset();
 		XYItemRenderer xyItemRenderer = p.getRenderer();
-		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+		Paint[] paintSequence = getPaintSequence(plotSettings, jrPlot);	
+		if (paintSequence != null)
 		{
-			xyItemRenderer.setSeriesPaint(i, paintSequence[i]);
-			xyItemRenderer.setSeriesStroke(i, strokeSequence[i]);
-			xyItemRenderer.setSeriesOutlinePaint(i, outlinePaintSequence[i]);
-			xyItemRenderer.setSeriesOutlineStroke(i, outlineStrokeSequence[i]);
+			for(int i = 0; i < paintSequence.length; i++)
+			{
+				xyItemRenderer.setSeriesPaint(i, paintSequence[i]);
+			}
+		}
+		Paint[] outlinePaintSequence = getOutlinePaintSequence(plotSettings);	
+		if (outlinePaintSequence != null)
+		{
+			for(int i = 0; i < outlinePaintSequence.length; i++)
+			{
+				xyItemRenderer.setSeriesOutlinePaint(i, outlinePaintSequence[i]);
+			}
+		}
+		Stroke[] strokeSequence = getStrokeSequence(plotSettings);
+		if (strokeSequence != null)
+		{
+			for(int i = 0; i < strokeSequence.length; i++)
+			{
+				xyItemRenderer.setSeriesStroke(i, strokeSequence[i]);
+			}
+		}
+		Stroke[] outlineStrokeSequence = getOutlineStrokeSequence(plotSettings);
+		if (outlineStrokeSequence != null)
+		{
+			for(int i = 0; i < outlineStrokeSequence.length; i++)
+			{
+				xyItemRenderer.setSeriesOutlineStroke(i, outlineStrokeSequence[i]);
+			}
 		}
 		
 		Boolean domainGridlineVisible = plotSettings.getDomainGridlineVisible();
