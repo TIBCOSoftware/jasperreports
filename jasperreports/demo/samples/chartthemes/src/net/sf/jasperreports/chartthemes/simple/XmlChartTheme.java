@@ -30,6 +30,9 @@ package net.sf.jasperreports.chartthemes.simple;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -102,21 +105,52 @@ public class XmlChartTheme extends SimpleChartTheme
 	 */
 	public static ChartThemeSettings loadSettings(String file)
 	{
+		InputStream is = null; 
+		
+		try
+		{
+			is = JRLoader.getLocationInputStream(file);
+			return loadSettings(is);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			if (is != null)
+			{
+				try
+				{
+					is.close();
+				}
+				catch(IOException e)
+				{
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static ChartThemeSettings loadSettings(InputStream is)
+	{
 		ChartThemeSettings settings = null;
 		
 		try
 		{
 			Mapping mapping = new Mapping();
 			mapping.loadMapping(
-				new InputSource(JRLoader.getLocationInputStream(MAPPING_FILE))
+				new InputSource(JRLoader.getLocationInputStream(MAPPING_FILE))//FIXMETHEME close streams
 				);
 			
 			Unmarshaller unmarshaller = new Unmarshaller(mapping);
 			settings = 
 				(ChartThemeSettings)unmarshaller.unmarshal(
-					new InputSource(JRLoader.getLocationInputStream(file)
-					)
-				);//FIXMETHEME close streams
+					new InputSource(is)
+				);
 		}
 		catch (MappingException e)
 		{
@@ -142,20 +176,19 @@ public class XmlChartTheme extends SimpleChartTheme
 	/**
 	 *
 	 */
-	public static void saveSettings(ChartThemeSettings settings, File file)
+	public static void saveSettings(ChartThemeSettings settings, Writer writer)
 	{
 		try
 		{
-			FileWriter writer = new FileWriter(file);
 			Marshaller marshaller = new Marshaller(writer);
 
 			Mapping mapping = new Mapping();
 			mapping.loadMapping(
-				new InputSource(JRLoader.getLocationInputStream(MAPPING_FILE))
+				new InputSource(JRLoader.getLocationInputStream(MAPPING_FILE))//FIXMETHEME close streams
 				);
 			marshaller.setMapping(mapping);
 
-			marshaller.marshal(settings);//FIXMETHEME close streams
+			marshaller.marshal(settings);
 		}
 		catch (IOException e)
 		{
@@ -179,4 +212,62 @@ public class XmlChartTheme extends SimpleChartTheme
 		}
 	}
 	
+
+	/**
+	 *
+	 */
+	public static void saveSettings(ChartThemeSettings settings, File file)
+	{
+		Writer writer = null;
+		
+		try
+		{
+			writer = new FileWriter(file);
+			saveSettings(settings, writer);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			if (writer != null)
+			{
+				try
+				{
+					writer.close();
+				}
+				catch(IOException e)
+				{
+				}
+			}
+		}
+	}
+	
+
+	/**
+	 *
+	 */
+	public static String saveSettings(ChartThemeSettings settings)
+	{
+		StringWriter writer = new StringWriter();
+		
+		try
+		{
+			saveSettings(settings, writer);
+		}
+		finally
+		{
+			try
+			{
+				writer.close();
+			}
+			catch(IOException e)
+			{
+			}
+		}
+		
+		return writer.toString();
+	}
+
 }
