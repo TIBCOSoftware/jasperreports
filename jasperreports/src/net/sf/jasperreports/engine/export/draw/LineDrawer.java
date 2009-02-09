@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
 /**
@@ -61,7 +62,7 @@ public class LineDrawer extends ElementDrawer
 		
 		grx.setColor(line.getLinePen().getLineColor());
 		
-		Stroke stroke = getStroke(line.getLinePen(), BasicStroke.CAP_BUTT);
+		Stroke stroke = JRPenUtil.getStroke(line.getLinePen(), BasicStroke.CAP_BUTT);
 
 		if (stroke != null)
 		{
