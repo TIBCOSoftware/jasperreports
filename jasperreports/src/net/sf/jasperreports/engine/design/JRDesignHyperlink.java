@@ -61,6 +61,8 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	
 	public static final String PROPERTY_HYPERLINK_TARGET = "hyperlinkTarget";
 	
+	public static final String PROPERTY_LINK_TARGET = "linkTarget";
+	
 	public static final String PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION = "hyperlinkTooltipExpression";
 	
 	public static final String PROPERTY_LINK_TYPE = "linkType";
@@ -99,9 +101,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
-		byte old = this.hyperlinkTarget;
-		this.hyperlinkTarget = hyperlinkTarget;
-		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TARGET, old, this.hyperlinkTarget);
+		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
 
 
@@ -181,6 +181,22 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 		Object old = this.linkType;
 		this.linkType = type;
 		getEventSupport().firePropertyChange(PROPERTY_LINK_TYPE, old, this.linkType);
+	}
+
+	/**
+	 * Sets the hyperlink target name.
+	 * <p>
+	 * The target name can be one of the built-in names
+	 * (Self, Blank, Top, Parent),
+	 * or can be an arbitrary name.
+	 * </p>
+	 * @param target the hyperlink target name
+	 */
+	public void setLinkTarget(String target)
+	{
+		Object old = this.linkTarget;
+		this.linkTarget = target;
+		getEventSupport().firePropertyChange(PROPERTY_LINK_TARGET, old, this.linkTarget);
 	}
 
 

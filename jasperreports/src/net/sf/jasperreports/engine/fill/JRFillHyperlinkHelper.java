@@ -111,6 +111,7 @@ public class JRFillHyperlinkHelper
 		JRBasePrintHyperlink printHyperlink = new JRBasePrintHyperlink();
 		printHyperlink.setLinkType(hyperlink.getLinkType());
 		printHyperlink.setHyperlinkTarget(hyperlink.getHyperlinkTarget());
+		printHyperlink.setLinkTarget(hyperlink.getLinkTarget());
 		printHyperlink.setHyperlinkReference((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkReferenceExpression(), evaluationType));
 		printHyperlink.setHyperlinkAnchor((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkAnchorExpression(), evaluationType));
 		printHyperlink.setHyperlinkPage((Integer) expressionEvaluator.evaluate(hyperlink.getHyperlinkPageExpression(), evaluationType));

@@ -121,7 +121,7 @@
 	isLazy (true | false) "false"
 	onErrorType (Error | Blank | Icon) "Error"
 	hyperlinkType CDATA "None"
-	hyperlinkTarget (Self | Blank | Parent | Top) "Self"
+	hyperlinkTarget CDATA "Self"
 	anchorName CDATA #IMPLIED
 	hyperlinkReference CDATA #IMPLIED
 	hyperlinkAnchor CDATA #IMPLIED
@@ -188,7 +188,7 @@
 	lineSpacingFactor NMTOKEN "0"
 	leadingOffset NMTOKEN "0"
 	hyperlinkType CDATA "None"
-	hyperlinkTarget (Self | Blank | Parent | Top) "Self"
+	hyperlinkTarget CDATA "Self"
 	anchorName CDATA #IMPLIED
 	hyperlinkReference CDATA #IMPLIED
 	hyperlinkAnchor CDATA #IMPLIED

@@ -79,6 +79,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	protected String linkTarget;
 	protected String hyperlinkReference = null;
 	protected String hyperlinkAnchor = null;
 	protected Integer hyperlinkPage = null;
@@ -348,7 +349,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return hyperlinkTarget;
+		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
 	}
 		
 	/**
@@ -356,7 +357,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
-		this.hyperlinkTarget = hyperlinkTarget;
+		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
 
 	/**
@@ -909,6 +910,17 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		this.linkType = linkType;
 	}
 	
+	public String getLinkTarget()
+	{
+		return linkTarget;
+	}
+
+	
+	public void setLinkTarget(String linkTarget)
+	{
+		this.linkTarget = linkTarget;
+	}
+	
 	
 	protected void normalizeLinkType()
 	{
@@ -917,6 +929,15 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
 		}
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	}
+
+	protected void normalizeLinkTarget()
+	{
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+		}
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
 	}
 
 	
@@ -994,5 +1015,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		}
 
 		normalizeLinkType();
+		normalizeLinkTarget();
 	}
 }

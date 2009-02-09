@@ -52,10 +52,11 @@ public class JRHyperlinkFactory extends JRBaseFactory
 			link.setLinkType(hyperlinkType);
 		}
 
-		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
+//		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
+		String hyperlinkTarget = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget);
 		if (hyperlinkTarget != null)
 		{
-			link.setHyperlinkTarget(hyperlinkTarget.byteValue());
+			link.setLinkTarget(hyperlinkTarget);
 		}
 
 		return link;

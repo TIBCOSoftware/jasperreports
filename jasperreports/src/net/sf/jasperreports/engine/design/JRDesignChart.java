@@ -137,6 +137,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	protected String linkTarget;
 	protected Color titleColor = null;
 	protected Color subtitleColor = null;
 	protected Color legendColor = null;
@@ -582,7 +583,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return hyperlinkTarget;
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	/**
@@ -590,9 +591,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
-		byte old = this.hyperlinkTarget;
-		this.hyperlinkTarget = hyperlinkTarget;
-		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_HYPERLINK_TARGET, old, this.hyperlinkTarget);
+		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
 		
 	/**
@@ -1370,7 +1369,6 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		return linkType;
 	}
 
-
 	/**
 	 * Sets the hyperlink type.
 	 * <p>
@@ -1385,6 +1383,28 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		Object old = this.linkType;
 		this.linkType = type;
 		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_LINK_TYPE, old, this.linkType);
+	}
+
+	public String getLinkTarget()
+	{
+		return linkTarget;
+	}
+
+
+	/**
+	 * Sets the hyperlink target.
+	 * <p>
+	 * The target can be one of the built-in target names
+	 * (Self, Blank, Top, Parent),
+	 * or can be an arbitrary target name.
+	 * </p>
+	 * @param type the hyperlink target
+	 */
+	public void setLinkTarget(String target)
+	{
+		Object old = this.linkTarget;
+		this.linkTarget = target;
+		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_LINK_TARGET, old, this.linkTarget);
 	}
 
 
@@ -1478,7 +1498,15 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	}
 
-	
+	protected void normalizeLinkTarget()
+	{
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+		}
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+	}
+
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;
@@ -1633,6 +1661,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		}
 
 		normalizeLinkType();
+		normalizeLinkTarget();
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			showLegend = Boolean.valueOf(isShowLegend);

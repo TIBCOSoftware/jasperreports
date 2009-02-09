@@ -88,6 +88,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	protected String linkTarget;
 	private JRHyperlinkParameter[] hyperlinkParameters;
 
 	/**
@@ -142,6 +143,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		evaluationTime = image.getEvaluationTime();
 		linkType = image.getLinkType();
 		hyperlinkTarget = image.getHyperlinkTarget();
+		linkTarget = image.getLinkTarget();
 		hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(image, factory);
 
 		lineBox = image.getLineBox().clone(this);
@@ -373,7 +375,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return hyperlinkTarget;
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	/**
@@ -902,6 +904,11 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		return linkType;
 	}
 
+	public String getLinkTarget()
+	{
+		return linkTarget;
+	}
+
 
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
@@ -918,7 +925,15 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	}
 
-	
+	protected void normalizeLinkTarget()
+	{
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+		}
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+	}
+
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;
@@ -1034,5 +1049,6 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		}
 
 		normalizeLinkType();
+		normalizeLinkTarget();
 	}
 }

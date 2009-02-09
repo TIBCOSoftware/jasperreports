@@ -157,4 +157,28 @@ public interface JRPrintHyperlink
 	 * @param tooltip the tooltip
 	 */
 	public void setHyperlinkTooltip(String tooltip);
+	
+	/**
+	 * Returns the hyperlink target name.
+	 * <p>
+	 * The target name can be one of the built-in names
+	 * (Self, Blank, Top, Parent),
+	 * or can be an arbitrary name.
+	 * </p>
+	 * @return the hyperlink type
+	 */
+	public String getLinkTarget();
+
+
+	/**
+	 * Sets the hyperlink target name.
+	 * <p>
+	 * The target name can be one of the built-in names
+	 * (Self, Blank, Top, Parent),
+	 * or can be an arbitrary name.
+	 * </p>
+	 * @param target the hyperlink target name
+	 */
+	public void setLinkTarget(String linkTarget);
+	
 }

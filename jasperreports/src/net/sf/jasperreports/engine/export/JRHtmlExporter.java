@@ -1340,9 +1340,17 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 				break;
 			}
 			case JRHyperlink.HYPERLINK_TARGET_SELF :
+			{
+				target = "_self";
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TARGET_CUSTOM :
+			{
+				target = link.getLinkTarget();
+				break;
+			}
 			default :
 			{
-				break;
 			}
 		}
 		return target;

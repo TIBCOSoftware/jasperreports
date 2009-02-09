@@ -50,6 +50,7 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	
 	private String linkType;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private String linkTarget;
 	private String hyperlinkReference;
 	private String hyperlinkAnchor;
 	private Integer hyperlinkPage;
@@ -86,7 +87,7 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 
 	public byte getHyperlinkTarget()
 	{
-		return hyperlinkTarget;
+		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
 	}
 
 	public byte getHyperlinkType()
@@ -97,6 +98,11 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	public String getLinkType()
 	{
 		return linkType;
+	}
+
+	public String getLinkTarget()
+	{
+		return linkTarget;
 	}
 
 	public void setHyperlinkAnchor(String hyperlinkAnchor)
@@ -122,6 +128,11 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
 		this.hyperlinkTarget = hyperlinkTarget;
+	}
+
+	public void setLinkTarget(String linkTarget)
+	{
+		this.linkTarget = linkTarget;
 	}
 
 	public void setHyperlinkType(byte hyperlinkType)

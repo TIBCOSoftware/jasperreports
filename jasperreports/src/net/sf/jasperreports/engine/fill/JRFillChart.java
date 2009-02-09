@@ -1851,6 +1851,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return ((JRChart) parent).getLinkType();
 	}
 
+	public String getLinkTarget()
+	{
+		return ((JRChart) parent).getLinkTarget();
+	}
+
 
 	public JRExpression getHyperlinkTooltipExpression()
 	{

@@ -93,11 +93,13 @@ public class JRTextFieldFactory extends JRBaseFactory
 			textField.setLinkType(hyperlinkType);
 		}
 
-		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
+//		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
+		String hyperlinkTarget = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget);
 		if (hyperlinkTarget != null)
 		{
-			textField.setHyperlinkTarget(hyperlinkTarget.byteValue());
+			textField.setLinkTarget(hyperlinkTarget);
 		}
+
 		
 		String bookmarkLevelAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_bookmarkLevel);
 		if (bookmarkLevelAttr != null)

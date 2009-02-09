@@ -830,6 +830,15 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	{
 	}
 
+	public String getLinkTarget()
+	{
+		return ((JRTemplateImage) this.template).getLinkTarget();
+	}
+
+	public void setLinkTarget(String target)
+	{
+	}
+
 	
 	public String getHyperlinkTooltip()
 	{

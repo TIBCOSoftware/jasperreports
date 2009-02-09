@@ -185,6 +185,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	public String getLinkTarget()
+	{
+		return ((JRTextField)parent).getLinkTarget();
+	}
+		
+	/**
+	 *
+	 */
 	public JRGroup getEvaluationGroup()
 	{
 		return evaluationGroup;

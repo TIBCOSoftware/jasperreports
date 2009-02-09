@@ -124,6 +124,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	protected String linkTarget;
 	private JRHyperlinkParameter[] hyperlinkParameters;
 	
 	protected Color titleColor = null;
@@ -281,6 +282,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		evaluationTime = chart.getEvaluationTime();
 		linkType = chart.getLinkType();
 		hyperlinkTarget = chart.getHyperlinkTarget();
+		linkTarget = chart.getLinkTarget();
 		titlePositionByte = chart.getTitlePositionByte();
 		titleColor = chart.getOwnTitleColor();
 		subtitleColor = chart.getOwnSubtitleColor();
@@ -561,7 +563,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return hyperlinkTarget;
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	/**
@@ -1148,6 +1150,11 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	{
 		return linkType;
 	}
+	
+	public String getLinkTarget()
+	{
+		return linkTarget;
+	}
 
 
 	public JRHyperlinkParameter[] getHyperlinkParameters()
@@ -1163,6 +1170,15 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
 		}
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	}
+
+	protected void normalizeLinkTarget()
+	{
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+		}
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
 	}
 
 	
@@ -1306,6 +1322,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		}
 
 		normalizeLinkType();
+		normalizeLinkTarget();
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			showLegend = Boolean.valueOf(isShowLegend);

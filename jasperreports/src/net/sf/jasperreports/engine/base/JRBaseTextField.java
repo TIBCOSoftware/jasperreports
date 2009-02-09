@@ -70,6 +70,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	protected String linkTarget;
 	private JRHyperlinkParameter[] hyperlinkParameters;
 
 	/**
@@ -102,6 +103,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		isBlankWhenNull = textField.isOwnBlankWhenNull();
 		linkType = textField.getLinkType();
 		hyperlinkTarget = textField.getHyperlinkTarget();
+		linkTarget = textField.getLinkTarget();
 		hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(textField, factory);
 
 		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
@@ -211,7 +213,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return this.hyperlinkTarget;
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	/**
@@ -290,6 +292,11 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		return linkType;
 	}
 
+	public String getLinkTarget()
+	{
+		return linkTarget;
+	}
+
 
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
@@ -301,6 +308,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	{
 		in.defaultReadObject();
 		normalizeLinkType();
+		normalizeLinkTarget();
 	}
 
 
@@ -313,7 +321,15 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	}
 
-	
+	protected void normalizeLinkTarget()
+	{
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+		}
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+	}
+
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;

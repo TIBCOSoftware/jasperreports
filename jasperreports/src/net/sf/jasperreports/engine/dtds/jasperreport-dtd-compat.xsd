@@ -1081,16 +1081,7 @@
    </xsd:attribute>
    <xsd:attribute name="evaluationGroup" type="xsd:string" use="optional"/>
    <xsd:attribute name="hyperlinkType" type="xsd:string" use="optional" default="None"/>
-   <xsd:attribute name="hyperlinkTarget" use="optional" default="Self">
-    <xsd:simpleType>
-     <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="Self"/>
-      <xsd:enumeration value="Blank"/>
-      <xsd:enumeration value="Parent"/>
-      <xsd:enumeration value="Top"/>
-     </xsd:restriction>
-    </xsd:simpleType>
-   </xsd:attribute>
+   <xsd:attribute name="hyperlinkTarget" type="xsd:string" use="optional" default="Self"/>
    <xsd:attribute name="bookmarkLevel" type="xsd:NMTOKEN" use="optional" default="0"/>
   </xsd:complexType>
  </xsd:element>
@@ -1469,16 +1460,7 @@
     </xsd:simpleType>
    </xsd:attribute>
    <xsd:attribute name="hyperlinkType" type="xsd:string" use="optional" default="None"/>
-   <xsd:attribute name="hyperlinkTarget" use="optional" default="Self">
-    <xsd:simpleType>
-     <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="Self"/>
-      <xsd:enumeration value="Blank"/>
-      <xsd:enumeration value="Parent"/>
-      <xsd:enumeration value="Top"/>
-     </xsd:restriction>
-    </xsd:simpleType>
-   </xsd:attribute>
+   <xsd:attribute name="hyperlinkTarget" type="xsd:string" use="optional" default="Self"/>
    <xsd:attribute name="bookmarkLevel" type="xsd:NMTOKEN" use="optional" default="0"/>
   </xsd:complexType>
  </xsd:element>
@@ -1677,16 +1659,7 @@
    </xsd:attribute>
    <xsd:attribute name="evaluationGroup" type="xsd:string" use="optional"/>
    <xsd:attribute name="hyperlinkType" type="xsd:string" use="optional" default="None"/>
-   <xsd:attribute name="hyperlinkTarget" use="optional" default="Self">
-    <xsd:simpleType>
-     <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="Self"/>
-      <xsd:enumeration value="Blank"/>
-      <xsd:enumeration value="Parent"/>
-      <xsd:enumeration value="Top"/>
-     </xsd:restriction>
-    </xsd:simpleType>
-   </xsd:attribute>
+   <xsd:attribute name="hyperlinkTarget" type="xsd:string" use="optional" default="Self"/>
    <xsd:attribute name="bookmarkLevel" type="xsd:NMTOKEN" use="optional" default="0"/>
    <xsd:attribute name="customizerClass" type="xsd:string" use="optional"/>
    <xsd:attribute name="renderType" type="xsd:string" use="optional"/>
@@ -1800,16 +1773,7 @@
     <xsd:element ref="hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
    </xsd:sequence>
    <xsd:attribute name="hyperlinkType" type="xsd:string" use="optional" default="None"/>
-   <xsd:attribute name="hyperlinkTarget" use="optional" default="Self">
-    <xsd:simpleType>
-     <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="Self"/>
-      <xsd:enumeration value="Blank"/>
-      <xsd:enumeration value="Parent"/>
-      <xsd:enumeration value="Top"/>
-     </xsd:restriction>
-    </xsd:simpleType>
-   </xsd:attribute>
+   <xsd:attribute name="hyperlinkTarget" type="xsd:string" use="optional" default="Self"/>
   </xsd:complexType>
  </xsd:element>
 
@@ -2000,16 +1964,7 @@
     <xsd:element ref="hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
    </xsd:sequence>
    <xsd:attribute name="hyperlinkType" type="xsd:string" use="optional" default="None"/>
-   <xsd:attribute name="hyperlinkTarget" use="optional" default="Self">
-    <xsd:simpleType>
-     <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="Self"/>
-      <xsd:enumeration value="Blank"/>
-      <xsd:enumeration value="Parent"/>
-      <xsd:enumeration value="Top"/>
-     </xsd:restriction>
-    </xsd:simpleType>
-   </xsd:attribute>
+   <xsd:attribute name="hyperlinkTarget" type="xsd:string" use="optional" default="Self"/>
   </xsd:complexType>
  </xsd:element>
 
