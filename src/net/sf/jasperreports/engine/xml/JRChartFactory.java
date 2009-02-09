@@ -84,10 +84,11 @@ public class JRChartFactory extends JRBaseFactory
 			chart.setLinkType(hyperlinkType);
 		}
 
-		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
+//		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
+		String hyperlinkTarget = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget);
 		if (hyperlinkTarget != null)
 		{
-			chart.setHyperlinkTarget(hyperlinkTarget.byteValue());
+			chart.setLinkTarget(hyperlinkTarget);
 		}
 
 		String bookmarkLevelAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_bookmarkLevel);

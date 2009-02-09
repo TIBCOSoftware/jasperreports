@@ -98,6 +98,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	protected String linkTarget;
 	private List hyperlinkParameters;
 
 	/**
@@ -307,7 +308,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return hyperlinkTarget;
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	/**
@@ -440,9 +441,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
-		byte old = this.hyperlinkTarget;
-		this.hyperlinkTarget = hyperlinkTarget;
-		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_HYPERLINK_TARGET, old, this.hyperlinkTarget);
+		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
 		
 	/**
@@ -995,6 +994,11 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		return linkType;
 	}
 
+	public String getLinkTarget()
+	{
+		return linkTarget;
+	}
+
 
 	/**
 	 * Sets the hyperlink type.
@@ -1012,6 +1016,21 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_LINK_TYPE, old, this.linkType);
 	}
 
+	/**
+	 * Sets the hyperlink target name.
+	 * <p>
+	 * The target name can be one of the built-in names
+	 * (Self, Blank, Top, Parent),
+	 * or can be an arbitrary name.
+	 * </p>
+	 * @param target the hyperlink target name
+	 */
+	public void setLinkTarget(String target)
+	{
+		Object old = this.linkTarget;
+		this.linkTarget = target;
+		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_LINK_TARGET, old, this.linkTarget);
+	}
 
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
@@ -1103,7 +1122,15 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	}
 
-	
+	protected void normalizeLinkTarget()
+	{
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+		}
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+	}
+
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;
@@ -1232,5 +1259,6 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		}
 
 		normalizeLinkType();
+		normalizeLinkTarget();
 	}
 }

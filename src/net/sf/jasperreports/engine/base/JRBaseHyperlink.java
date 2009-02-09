@@ -49,6 +49,7 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 	
 	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	protected String linkTarget;
 	protected JRExpression hyperlinkReferenceExpression;
 	protected JRExpression hyperlinkAnchorExpression;
 	protected JRExpression hyperlinkPageExpression;
@@ -70,6 +71,7 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 		
 		linkType = link.getLinkType();
 		hyperlinkTarget = link.getHyperlinkTarget();
+		linkTarget = link.getLinkTarget();
 		hyperlinkReferenceExpression = factory.getExpression(link.getHyperlinkReferenceExpression());
 		hyperlinkAnchorExpression = factory.getExpression(link.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(link.getHyperlinkPageExpression());
@@ -115,7 +117,7 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 
 	public byte getHyperlinkTarget()
 	{
-		return hyperlinkTarget;
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 
 	public byte getHyperlinkType()
@@ -126,6 +128,11 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 	public String getLinkType()
 	{
 		return linkType;
+	}
+	
+	public String getLinkTarget()
+	{
+		return linkTarget;
 	}
 	
 	public JRExpression getHyperlinkTooltipExpression()

@@ -1092,16 +1092,7 @@
    <attribute name="evaluationTime" use="optional" default="Now" type="jr:complexEvaluationTime"/>
    <attribute name="evaluationGroup" type="string" use="optional"/>
    <attribute name="hyperlinkType" type="string" use="optional" default="None"/>
-   <attribute name="hyperlinkTarget" use="optional" default="Self">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Self"/>
-      <enumeration value="Blank"/>
-      <enumeration value="Parent"/>
-      <enumeration value="Top"/>
-     </restriction>
-    </simpleType>
-   </attribute>
+   <attribute name="hyperlinkTarget" type="string" use="optional" default="Self"/>
    <attribute name="bookmarkLevel" type="NMTOKEN" use="optional" default="0"/>
   </complexType>
  </element>
@@ -1468,16 +1459,7 @@
     </simpleType>
    </attribute>
    <attribute name="hyperlinkType" type="string" use="optional" default="None"/>
-   <attribute name="hyperlinkTarget" use="optional" default="Self">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Self"/>
-      <enumeration value="Blank"/>
-      <enumeration value="Parent"/>
-      <enumeration value="Top"/>
-     </restriction>
-    </simpleType>
-   </attribute>
+   <attribute name="hyperlinkTarget" type="string" use="optional" default="Self"/>
    <attribute name="bookmarkLevel" type="NMTOKEN" use="optional" default="0"/>
   </complexType>
  </element>
@@ -1667,16 +1649,7 @@
    <attribute name="evaluationTime" use="optional" default="Now" type="jr:basicEvaluationTime"/>
    <attribute name="evaluationGroup" type="string" use="optional"/>
    <attribute name="hyperlinkType" type="string" use="optional" default="None"/>
-   <attribute name="hyperlinkTarget" use="optional" default="Self">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Self"/>
-      <enumeration value="Blank"/>
-      <enumeration value="Parent"/>
-      <enumeration value="Top"/>
-     </restriction>
-    </simpleType>
-   </attribute>
+   <attribute name="hyperlinkTarget" type="string" use="optional" default="Self"/>
    <attribute name="bookmarkLevel" type="NMTOKEN" use="optional" default="0"/>
    <attribute name="customizerClass" type="string" use="optional"/>
    <attribute name="renderType" type="string" use="optional"/>
@@ -1791,16 +1764,7 @@
     <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
    <attribute name="hyperlinkType" type="string" use="optional" default="None"/>
-   <attribute name="hyperlinkTarget" use="optional" default="Self">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Self"/>
-      <enumeration value="Blank"/>
-      <enumeration value="Parent"/>
-      <enumeration value="Top"/>
-     </restriction>
-    </simpleType>
-   </attribute>
+   <attribute name="hyperlinkTarget" type="string" use="optional" default="Self"/>
   </complexType>
  </element>
 
@@ -1995,16 +1959,7 @@
     <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
    <attribute name="hyperlinkType" type="string" use="optional" default="None"/>
-   <attribute name="hyperlinkTarget" use="optional" default="Self">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Self"/>
-      <enumeration value="Blank"/>
-      <enumeration value="Parent"/>
-      <enumeration value="Top"/>
-     </restriction>
-    </simpleType>
-   </attribute>
+   <attribute name="hyperlinkTarget" type="string" use="optional" default="Self"/>
   </complexType>
  </element>
 

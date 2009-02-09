@@ -82,6 +82,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private String linkType;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private String linkTarget;
 
 	/**
 	 *
@@ -157,6 +158,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 
 		setLinkType(textField.getLinkType());
 		hyperlinkTarget = textField.getHyperlinkTarget();
+		setLinkTarget(textField.getLinkTarget());
 	}
 
 	/**
@@ -482,11 +484,19 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 *
+	 * Retrieves the hyperlink target name for the element.
+	 * <p>
+	 * The actual hyperlink target name is determined by {@link #getLinkTarget() getLinkTarget()}.
+	 * This method is used to determine whether the hyperlink target name is one of the
+	 * built-in names or a custom one. 
+	 * When hyperlink target has a custom name, {@link JRHyperlink#HYPERLINK_TARGET_CUSTOM HYPERLINK_TARGET_CUSTOM} is returned.
+	 * </p>
+	 * @return one of the hyperlink target name constants
+	 * @see #getLinkTarget()
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return hyperlinkTarget;
+		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
 	}
 	
 	/**
@@ -925,6 +935,30 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		this.linkType = linkType;
 	}
 	
+	/**
+	 *
+	 */
+	protected void setLinkTarget(String linkTarget)
+	{
+		this.linkTarget = linkTarget;
+	}
+
+	
+	/**
+	 * Returns the hyperlink target name.
+	 * <p>
+	 * The target name can be one of the built-in names
+	 * (Self, Blank, Top, Parent),
+	 * or can be an arbitrary name.
+	 * </p>
+	 * @return the hyperlink type
+	 */
+	public String getLinkTarget()
+	{
+		return linkTarget;
+	}
+
+
 	
 	protected void normalizeLinkType()
 	{
@@ -933,6 +967,15 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
 		}
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	}
+
+	protected void normalizeLinkTarget()
+	{
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+		}
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
 	}
 
 	/**
@@ -1454,5 +1497,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		}
 
 		normalizeLinkType();
+		normalizeLinkTarget();
 	}
 }

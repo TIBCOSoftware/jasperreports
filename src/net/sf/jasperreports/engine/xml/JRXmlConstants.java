@@ -759,6 +759,9 @@ public class JRXmlConstants
 
 	private static Map hyperlinkTargetMap = null;
 
+	/**
+	 * @deprecated {@link JRHyperlinkHelper JRHyperlinkHelper} should be used instead.
+	 */
 	public static Map getHyperlinkTargetMap()
 	{
 		if (hyperlinkTargetMap == null)

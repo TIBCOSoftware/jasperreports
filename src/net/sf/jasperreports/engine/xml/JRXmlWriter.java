@@ -836,7 +836,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, image.getLinkType());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, image.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, image.getLinkTarget());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(image);
@@ -952,7 +952,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBlankWhenNull, textField.isOwnBlankWhenNull());
 
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, textField.getLinkType());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, textField.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, textField.getLinkTarget());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(textField);
@@ -1052,7 +1052,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, chart.getLinkType());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, chart.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, chart.getLinkTarget());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_customizerClass, chart.getCustomizerClass());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_renderType, chart.getRenderType());
@@ -2687,7 +2687,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.startElement(tagName);
 
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, hyperlink.getLinkType());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, hyperlink.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, hyperlink.getLinkTarget());
 
 			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, hyperlink.getHyperlinkReferenceExpression(), false);
 			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, hyperlink.getHyperlinkAnchorExpression(), false);

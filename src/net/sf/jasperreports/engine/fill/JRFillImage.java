@@ -751,6 +751,14 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
+	public String getLinkTarget()
+	{
+		return ((JRImage)this.parent).getLinkTarget();
+	}
+		
+	/**
+	 *
+	 */
 	public JRExpression getExpression()
 	{
 		return ((JRImage)this.parent).getExpression();

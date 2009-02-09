@@ -69,11 +69,33 @@ public class JRHyperlinkHelper
 	 */
 	public static final String HYPERLINK_TYPE_REMOTE_PAGE = "RemotePage";
 	
+	/**
+	 * "Self" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_SELF JRHyperlink.HYPERLINK_TARGET_SELF}.
+	 */
+	public static final String HYPERLINK_TARGET_SELF = "Self";
+
+	/**
+	 * "Blank" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_BLANK JRHyperlink.HYPERLINK_TARGET_BLANK}.
+	 */
+	public static final String HYPERLINK_TARGET_BLANK = "Blank";
+
+	/**
+	 * "Parent" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_PARENT JRHyperlink.HYPERLINK_TARGET_PARENT}.
+	 */
+	public static final String HYPERLINK_TARGET_PARENT = "Parent";
+
+	/**
+	 * "Top" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_TOP JRHyperlink.HYPERLINK_TARGET_TOP}.
+	 */
+	public static final String HYPERLINK_TARGET_TOP = "Top";
+	
 	private static final Map builtinTypes;
+	private static final Map builtinTargets;
 	
 	static
 	{
 		builtinTypes = createBuiltinTypes();
+		builtinTargets = createBuiltinTargets();
 	}
 
 	private static Map createBuiltinTypes()
@@ -86,6 +108,16 @@ public class JRHyperlinkHelper
 		types.put(HYPERLINK_TYPE_REMOTE_ANCHOR, new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR));
 		types.put(HYPERLINK_TYPE_REMOTE_PAGE, new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE));
 		return types;
+	}
+	
+	private static Map createBuiltinTargets()
+	{
+		Map targets = new HashMap();
+		targets.put(HYPERLINK_TARGET_BLANK, new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK));
+		targets.put(HYPERLINK_TARGET_PARENT, new Byte(JRHyperlink.HYPERLINK_TARGET_PARENT));
+		targets.put(HYPERLINK_TARGET_SELF, new Byte(JRHyperlink.HYPERLINK_TARGET_SELF));
+		targets.put(HYPERLINK_TARGET_TOP, new Byte(JRHyperlink.HYPERLINK_TARGET_TOP));
+		return targets;
 	}
 	
 	
@@ -131,6 +163,48 @@ public class JRHyperlinkHelper
 		return type;
 	}
 	
+	/**
+	 * Returns the built-in hyperlink target, or {@link JRHyperlink#HYPERLINK_TARGET_CUSTOM JRHyperlink.HYPERLINK_TARGET_CUSTOM}
+	 * if the target name is not a built-in one.
+	 * 
+	 * @param hyperlink the hyperlink object
+	 * @return the hyperlink target
+	 */
+	public static byte getHyperlinkTarget(JRHyperlink hyperlink)
+	{
+		return getHyperlinkTarget(hyperlink.getLinkTarget());
+	}
+	
+
+	/**
+	 * Returns the built-in hyperlink target, or {@link JRHyperlink#HYPERLINK_TARGET_CUSTOM JRHyperlink.HYPERLINK_TARGET_CUSTOM}
+	 * if the target name is not a built-in one.
+	 * 
+	 * @param hyperlink the hyperlink object
+	 * @return the hyperlink target
+	 */
+	public static byte getHyperlinkTarget(String linkTarget)
+	{
+		byte target;
+		if (linkTarget == null)
+		{
+			target = JRHyperlink.HYPERLINK_TARGET_NULL;
+		}
+		else
+		{
+			Byte builtinTarget = (Byte) builtinTargets.get(linkTarget);
+			if (builtinTarget == null)
+			{
+				target = JRHyperlink.HYPERLINK_TARGET_CUSTOM;
+			}
+			else
+			{
+				target = builtinTarget.byteValue();
+			}
+		}
+		return target;
+	}
+	
 	
 	/**
 	 * Returns the link type associated with a built-in type.
@@ -168,6 +242,40 @@ public class JRHyperlinkHelper
 				throw new JRRuntimeException("Unknown hyperlink type " + hyperlinkType);
 		}
 		return type;
+	}
+
+	/**
+	 * Returns the link target associated with a built-in target.
+	 * 
+	 * @param hyperlinkType the built-in type
+	 * @return the String link type
+	 */
+	public static String getLinkTarget(byte hyperlinkTarget)
+	{
+		String target;
+		switch (hyperlinkTarget)
+		{
+			case JRHyperlink.HYPERLINK_TARGET_NULL:
+				target = null;
+				break;
+			case JRHyperlink.HYPERLINK_TARGET_BLANK:
+				target = HYPERLINK_TARGET_BLANK;
+				break;
+			case JRHyperlink.HYPERLINK_TARGET_PARENT:
+				target = HYPERLINK_TARGET_PARENT;
+				break;
+			case JRHyperlink.HYPERLINK_TARGET_SELF:
+				target = HYPERLINK_TARGET_SELF;
+				break;
+			case JRHyperlink.HYPERLINK_TARGET_TOP:
+				target = HYPERLINK_TARGET_TOP;
+				break;
+			case JRHyperlink.HYPERLINK_TARGET_CUSTOM:
+				throw new JRRuntimeException("Custom hyperlink targets cannot be specified using the byte constant");
+			default:
+				throw new JRRuntimeException("Unknown hyperlink target " + hyperlinkTarget);
+		}
+		return target;
 	}
 
 	

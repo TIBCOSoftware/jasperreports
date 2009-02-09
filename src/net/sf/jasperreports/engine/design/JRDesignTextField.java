@@ -89,6 +89,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	protected String linkTarget;
 	private List hyperlinkParameters;
 
 	/**
@@ -188,7 +189,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return this.hyperlinkTarget;
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	/**
@@ -303,9 +304,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
-		byte old = this.hyperlinkTarget;
-		this.hyperlinkTarget = hyperlinkTarget;
-		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_HYPERLINK_TARGET, old, this.hyperlinkTarget);
+		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
 		
 	/**
@@ -427,6 +426,28 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_LINK_TYPE, old, this.linkType);
 	}
 
+	public String getLinkTarget()
+	{
+		return linkTarget;
+	}
+
+
+	/**
+	 * Sets the hyperlink target name.
+	 * <p>
+	 * The target name can be one of the built-in names
+	 * (Self, Blank, Top, Parent),
+	 * or can be an arbitrary name.
+	 * </p>
+	 * @param target the hyperlink target name
+	 */
+	public void setLinkTarget(String target)
+	{
+		Object old = this.linkTarget;
+		this.linkTarget = target;
+		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_LINK_TARGET, old, this.linkTarget);
+	}
+
 
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
@@ -513,8 +534,17 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	{
 		in.defaultReadObject();
 		normalizeLinkType();
+		normalizeLinkTarget();
 	}
 
+	protected void normalizeLinkTarget()
+	{
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+		}
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+	}
 
 	protected void normalizeLinkType()
 	{

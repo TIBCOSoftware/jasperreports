@@ -119,7 +119,19 @@ public interface JRHyperlink extends JRCloneable
 	 */
 	public static final byte HYPERLINK_TARGET_TOP = 4;
 
+	/**
+	 * No target name is set.
+	 */
+	public static final byte HYPERLINK_TARGET_NULL = 0;
 
+	/**
+	 * Custom hyperlink target name.
+	 * <p>
+	 * The specific target name is determined by {@link #getLinkTarget() getLinkTarget()}.
+	 * </p>
+	 */
+	public static final byte HYPERLINK_TARGET_CUSTOM = 5;
+	
 	/**
 	 * Retrieves the hyperlink type for the element.
 	 * <p>
@@ -136,7 +148,14 @@ public interface JRHyperlink extends JRCloneable
 
 	/**
 	 * Retrieves the hyperlink target for the element.
+	 * <p>
+	 * The actual hyperlink target is determined by {@link #getLinkTarget() getLinkTarget()}.
+	 * This method can is used to determine whether the hyperlink target is one of the
+	 * built-in target names or a custom one. 
+	 * When hyperlink has a custom target name, {@link #HYPERLINK_TARGET_CUSTOM HYPERLINK_TYPE_CUSTOM} is returned.
+	 * </p>
 	 * @return one of the hyperlink target constants
+	 * @see #getLinkTarget()
 	 */
 	public byte getHyperlinkTarget();
 
@@ -171,6 +190,17 @@ public interface JRHyperlink extends JRCloneable
 	 * @return the hyperlink type
 	 */
 	public String getLinkType();
+	
+	/**
+	 * Returns the hyperlink target name.
+	 * <p>
+	 * The type can be one of the built-in names
+	 * (Self, Blank, Top, Parent),
+	 * or can be an arbitrary name.
+	 * </p>
+	 * @return the hyperlink target name
+	 */
+	public String getLinkTarget();
 	
 	
 	/**

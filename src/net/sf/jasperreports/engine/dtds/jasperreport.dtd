@@ -255,7 +255,7 @@
 	evaluationTime (Now | Report | Page | Column | Group | Band | Auto) "Now"
 	evaluationGroup CDATA #IMPLIED
 	hyperlinkType CDATA "None"
-	hyperlinkTarget (Self | Blank | Parent | Top) "Self"
+	hyperlinkTarget CDATA "Self"
 	bookmarkLevel NMTOKEN "0"
 >
 <!ELEMENT imageExpression (#PCDATA)>
@@ -359,7 +359,7 @@
 	pattern CDATA #IMPLIED
 	isBlankWhenNull (true | false) #IMPLIED
 	hyperlinkType CDATA "None"
-	hyperlinkTarget (Self | Blank | Parent | Top) "Self"
+	hyperlinkTarget CDATA "Self"
 	bookmarkLevel NMTOKEN "0"
 >
 <!ELEMENT textFieldExpression (#PCDATA)>
@@ -401,7 +401,7 @@
 	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
 	evaluationGroup CDATA #IMPLIED
 	hyperlinkType CDATA "None"
-	hyperlinkTarget (Self | Blank | Parent | Top) "Self"
+	hyperlinkTarget CDATA "Self"
 	bookmarkLevel NMTOKEN "0"
 	customizerClass CDATA #IMPLIED
 	renderType CDATA #IMPLIED
@@ -433,7 +433,7 @@
 <!ELEMENT sectionHyperlink (hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
 <!ATTLIST sectionHyperlink
 	hyperlinkType CDATA "None"
-	hyperlinkTarget (Self | Blank | Parent | Top) "Self"
+	hyperlinkTarget CDATA "Self"
 >
 
 <!ELEMENT piePlot (plot)>
@@ -494,7 +494,7 @@
 <!ELEMENT itemHyperlink (hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
 <!ATTLIST itemHyperlink
 	hyperlinkType CDATA "None"
-	hyperlinkTarget (Self | Blank | Parent | Top) "Self"
+	hyperlinkTarget CDATA "Self"
 >
 
 <!ELEMENT barPlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>

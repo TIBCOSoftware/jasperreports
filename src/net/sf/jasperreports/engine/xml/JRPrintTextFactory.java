@@ -118,11 +118,13 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setLinkType(hyperlinkType);
 		}
 
-		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
+//		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
+		String hyperlinkTarget = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget);
 		if (hyperlinkTarget != null)
 		{
-			text.setHyperlinkTarget(hyperlinkTarget.byteValue());
+			text.setLinkTarget(hyperlinkTarget);
 		}
+
 
 		text.setAnchorName(atts.getValue(JRXmlConstants.ATTRIBUTE_anchorName));
 		text.setHyperlinkReference(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkReference));

@@ -81,6 +81,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private String linkType;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private String linkTarget;
 
 	/**
 	 *
@@ -141,6 +142,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		setOnErrorType(image.getOnErrorType());
 		setLinkType(image.getLinkType());
 		setHyperlinkTarget(image.getHyperlinkTarget());
+		setLinkTarget(image.getLinkTarget());
 	}
 
 	/**
@@ -159,6 +161,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 
 		setLinkType(chart.getLinkType());
 		setHyperlinkTarget(chart.getHyperlinkTarget());
+		setLinkTarget(chart.getLinkTarget());
 	}
 
 	
@@ -382,7 +385,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return hyperlinkTarget;
+		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
 	}
 		
 	/**
@@ -390,10 +393,38 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	 */
 	protected void setHyperlinkTarget(byte hyperlinkTarget)
 	{
-		this.hyperlinkTarget = hyperlinkTarget;
+		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
 
 	
+	/**
+	 * Returns the hyperlink target name.
+	 * <p>
+	 * The target name can be one of the built-in names
+	 * (Self, Blank, Top, Parent),
+	 * or can be an arbitrary name.
+	 * </p>
+	 * @return the hyperlink type
+	 */
+	public String getLinkTarget()
+	{
+		return linkTarget;
+	}
+
+
+	/**
+	 * Sets the hyperlink target name.
+	 * <p>
+	 * The target name can be one of the built-in names
+	 * (Self, Blank, Top, Parent),
+	 * or can be an arbitrary name.
+	 * </p>
+	 * @param target the hyperlink target name
+	 */
+	public void setLinkTarget(String linkTarget)
+	{
+		this.linkTarget = linkTarget;
+	}
 	/**
 	 * Returns the hyperlink type.
 	 * <p>
@@ -431,6 +462,15 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
 		}
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	}
+
+	protected void normalizeLinkTarget()
+	{
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+		}
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
 	}
 
 
@@ -946,5 +986,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		}
 
 		normalizeLinkType();
+		normalizeLinkTarget();
 	}
 }
