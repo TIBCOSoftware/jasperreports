@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
+import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
 
@@ -130,7 +131,7 @@ public abstract class ElementDrawer
 		int offsetY
 		)
 	{
-		Stroke topStroke = getStroke(topPen, BasicStroke.CAP_BUTT);
+		Stroke topStroke = JRPenUtil.getStroke(topPen, BasicStroke.CAP_BUTT);
 		int width = element.getWidth();
 		float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
 		float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
@@ -220,7 +221,7 @@ public abstract class ElementDrawer
 		int offsetY
 		)
 	{
-		Stroke leftStroke = getStroke(leftPen, BasicStroke.CAP_BUTT);
+		Stroke leftStroke = JRPenUtil.getStroke(leftPen, BasicStroke.CAP_BUTT);
 		int height = element.getHeight();
 		float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
 		float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
@@ -310,7 +311,7 @@ public abstract class ElementDrawer
 		int offsetY
 		)
 	{
-		Stroke bottomStroke = getStroke(bottomPen, BasicStroke.CAP_BUTT);
+		Stroke bottomStroke = JRPenUtil.getStroke(bottomPen, BasicStroke.CAP_BUTT);
 		int width = element.getWidth();
 		int height = element.getHeight();
 		float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
@@ -401,7 +402,7 @@ public abstract class ElementDrawer
 		int offsetY
 		)
 	{
-		Stroke rightStroke = getStroke(rightPen, BasicStroke.CAP_BUTT);
+		Stroke rightStroke = JRPenUtil.getStroke(rightPen, BasicStroke.CAP_BUTT);
 		int height = element.getHeight();
 		int width = element.getWidth();
 		float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
@@ -479,102 +480,11 @@ public abstract class ElementDrawer
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link JRPenUtil#getStroke(JRPen, int)}
 	 */
 	protected static Stroke getStroke(JRPen pen, int lineCap)
 	{
-		float lineWidth = pen.getLineWidth().floatValue();
-		
-		if (lineWidth > 0f)
-		{
-			byte lineStyle = pen.getLineStyle().byteValue();
-			
-			switch (lineStyle)
-			{
-				case JRPen.LINE_STYLE_DOUBLE :
-				{
-					return 
-						new BasicStroke(
-							lineWidth / 3,
-							lineCap,
-							BasicStroke.JOIN_MITER
-							);
-				}
-				case JRPen.LINE_STYLE_DOTTED :
-				{
-					switch (lineCap)
-					{
-						case BasicStroke.CAP_SQUARE :
-						{
-							return
-								new BasicStroke(
-									lineWidth,
-									lineCap,
-									BasicStroke.JOIN_MITER,
-									10f,
-									new float[]{0, 2 * lineWidth},
-									0f
-									);
-						}
-						case BasicStroke.CAP_BUTT :
-						{
-							return
-								new BasicStroke(
-									lineWidth,
-									lineCap,
-									BasicStroke.JOIN_MITER,
-									10f,
-									new float[]{lineWidth, lineWidth},
-									0f
-									);
-						}
-					}
-				}
-				case JRPen.LINE_STYLE_DASHED :
-				{
-					switch (lineCap)
-					{
-						case BasicStroke.CAP_SQUARE :
-						{
-							return
-								new BasicStroke(
-									lineWidth,
-									lineCap,
-									BasicStroke.JOIN_MITER,
-									10f,
-									new float[]{4 * lineWidth, 4 * lineWidth},
-									0f
-									);
-						}
-						case BasicStroke.CAP_BUTT :
-						{
-							return
-								new BasicStroke(
-									lineWidth,
-									lineCap,
-									BasicStroke.JOIN_MITER,
-									10f,
-									new float[]{5 * lineWidth, 3 * lineWidth},
-									0f
-									);
-						}
-					}
-				}
-				case JRPen.LINE_STYLE_SOLID :
-				default :
-				{
-					return 
-						new BasicStroke(
-							lineWidth,
-							lineCap,
-							BasicStroke.JOIN_MITER
-							);
-				}
-			}
-		}
-		
-		return null;
+		return JRPenUtil.getStroke(pen, lineCap);
 	}
-
 	
 }

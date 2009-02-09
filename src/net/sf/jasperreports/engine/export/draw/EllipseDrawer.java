@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
+import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
 /**
@@ -77,7 +78,7 @@ public class EllipseDrawer extends ElementDrawer
 
 		grx.setColor(ellipse.getLinePen().getLineColor());
 
-		Stroke stroke = getStroke(ellipse.getLinePen(), BasicStroke.CAP_SQUARE);
+		Stroke stroke = JRPenUtil.getStroke(ellipse.getLinePen(), BasicStroke.CAP_SQUARE);
 
 		if (stroke != null)
 		{

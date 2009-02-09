@@ -49,7 +49,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-//	FIXMETHEME complete props
+
 	public static final String PROPERTY_orientation = "orientation";
 	public static final String PROPERTY_foregroundAlpha = "foregroundAlpha";
 	public static final String PROPERTY_backgroundPaint = "backgroundPaint";
@@ -67,7 +67,6 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_seriesOutlinePaintSequence = "seriesOutlinePaintSequence";
 	public static final String PROPERTY_seriesStrokeSequence = "seriesStrokeSequence";
 	public static final String PROPERTY_seriesOutlineStrokeSequence = "seriesOutlineStrokeSequence";
-//	public static final String PROPERTY_shapeSequence = "shapeSequence";
 	public static final String PROPERTY_domainGridlineVisible = "domainGridlineVisible";
 	public static final String PROPERTY_domainGridlinePaint = "domainGridlinePaint";
 	public static final String PROPERTY_domainGridlineStroke = "domainGridlineStroke";

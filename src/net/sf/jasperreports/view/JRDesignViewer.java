@@ -139,7 +139,7 @@ public class JRDesignViewer extends JRViewer
 
 	/**
 	*/
-	protected void loadReport(JRReport rep) throws JRException
+	public void loadReport(JRReport rep) throws JRException
 	{
 		setReport(rep);
 		this.type = TYPE_OBJECT;
