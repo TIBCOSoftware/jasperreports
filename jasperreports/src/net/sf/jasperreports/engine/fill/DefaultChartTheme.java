@@ -283,7 +283,7 @@ public class DefaultChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot) throws JRException
+	protected void configureChart(JFreeChart jfreeChart) throws JRException
 	{
 		if (getChart().getMode() == JRElement.MODE_OPAQUE)
 		{
@@ -336,35 +336,35 @@ public class DefaultChartTheme implements ChartTheme
 			legend.setPosition(getEdge(getChart().getLegendPositionByte(), RectangleEdge.BOTTOM));
 		}
 		
-		configurePlot(jfreeChart.getPlot(), jrPlot);
+		configurePlot(jfreeChart.getPlot());
 	}
 
 
 	/**
 	 *
 	 */
-	protected void configurePlot(Plot p, JRChartPlot jrPlot)
+	protected void configurePlot(Plot plot)
 	{
-		p.setOutlinePaint(TRANSPARENT_PAINT);
+		plot.setOutlinePaint(TRANSPARENT_PAINT);
 
 		if (getPlot().getOwnBackcolor() == null)// in a way, plot backcolor inheritence from chart is useless
 		{
-			p.setBackgroundPaint(TRANSPARENT_PAINT);
+			plot.setBackgroundPaint(TRANSPARENT_PAINT);
 		}
 		else
 		{
-			p.setBackgroundPaint(getPlot().getBackcolor());
+			plot.setBackgroundPaint(getPlot().getBackcolor());
 		}
 
 		float backgroundAlpha = getPlot().getBackgroundAlphaFloat() == null ? 1f : getPlot().getBackgroundAlphaFloat().floatValue();
 		float foregroundAlpha = getPlot().getForegroundAlphaFloat() == null ? 1f : getPlot().getForegroundAlphaFloat().floatValue();
-		p.setBackgroundAlpha(backgroundAlpha);
-		p.setForegroundAlpha(foregroundAlpha);
+		plot.setBackgroundAlpha(backgroundAlpha);
+		plot.setForegroundAlpha(foregroundAlpha);
 
-		if (p instanceof CategoryPlot)
+		if (plot instanceof CategoryPlot)
 		{
 			// Handle rotation of the category labels.
-			CategoryAxis axis = ((CategoryPlot)p).getDomainAxis();
+			CategoryAxis axis = ((CategoryPlot)plot).getDomainAxis();
 			double labelRotation = getPlot().getLabelRotationDouble() == null ? 0d : getPlot().getLabelRotationDouble().doubleValue();
 			if (labelRotation == 90)
 			{
@@ -401,7 +401,7 @@ public class DefaultChartTheme implements ChartTheme
 					colors[i + 1] = DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE[i];
 				}
 
-				p.setDrawingSupplier(new DefaultDrawingSupplier(colors,
+				plot.setDrawingSupplier(new DefaultDrawingSupplier(colors,
 						DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
 						DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
 						DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
@@ -419,7 +419,7 @@ public class DefaultChartTheme implements ChartTheme
 					colors[i] = colorSequence[i].getColor();
 				}
 
-				p.setDrawingSupplier(new DefaultDrawingSupplier(colors,
+				plot.setDrawingSupplier(new DefaultDrawingSupplier(colors,
 											DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
 											DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
 											DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
@@ -516,7 +516,7 @@ public class DefaultChartTheme implements ChartTheme
 				true,
 				false);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 		JRAreaPlot areaPlot = (JRAreaPlot)getPlot();
 		// Handle the axis formating for the category axis
 		configureAxis(((CategoryPlot)jfreeChart.getPlot()).getDomainAxis(), areaPlot.getCategoryAxisLabelFont(),
@@ -546,7 +546,7 @@ public class DefaultChartTheme implements ChartTheme
 					true,
 					false );
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		JRBar3DPlot bar3DPlot = (JRBar3DPlot)getPlot();
@@ -595,7 +595,7 @@ public class DefaultChartTheme implements ChartTheme
 				false
 				);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		//plot.setNoDataMessage("No data to display");
@@ -641,7 +641,7 @@ public class DefaultChartTheme implements ChartTheme
 				 true,
 				 false);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		JRBubblePlot bubblePlot = (JRBubblePlot)getPlot();
@@ -681,7 +681,7 @@ public class DefaultChartTheme implements ChartTheme
 				isShowLegend()
 				);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		JRCandlestickPlot candlestickPlot = (JRCandlestickPlot)getPlot();
@@ -721,7 +721,7 @@ public class DefaultChartTheme implements ChartTheme
 				isShowLegend()
 				);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		JRHighLowPlot highLowPlot = (JRHighLowPlot)getPlot();
@@ -750,7 +750,7 @@ public class DefaultChartTheme implements ChartTheme
 
 	protected JFreeChart createLineChart() throws JRException 
 	{
-		JFreeChart chart = ChartFactory.createLineChart(
+		JFreeChart jfreeChart = ChartFactory.createLineChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
 				(String)evaluateExpression( ((JRLinePlot)getPlot()).getCategoryAxisLabelExpression()),
 				(String)evaluateExpression(((JRLinePlot)getPlot()).getValueAxisLabelExpression()),
@@ -760,9 +760,9 @@ public class DefaultChartTheme implements ChartTheme
 				true,
 				false);
 
-		configureChart(chart, getPlot());
+		configureChart(jfreeChart);
 
-		CategoryPlot categoryPlot = (CategoryPlot)chart.getPlot();
+		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		JRLinePlot linePlot = (JRLinePlot)getPlot();
 
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
@@ -786,7 +786,7 @@ public class DefaultChartTheme implements ChartTheme
 				linePlot.getValueAxisTickLabelColor(), linePlot.getValueAxisTickLabelMask(),
 				linePlot.getValueAxisLineColor());
 
-		return chart;
+		return jfreeChart;
 	}
 
 
@@ -804,7 +804,7 @@ public class DefaultChartTheme implements ChartTheme
 				false
 				);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
 		//plot.setStartAngle(290);
@@ -860,7 +860,7 @@ public class DefaultChartTheme implements ChartTheme
 				false
 				);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 		PiePlot piePlot = (PiePlot)jfreeChart.getPlot();
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
@@ -911,7 +911,7 @@ public class DefaultChartTheme implements ChartTheme
 				true,
 				false);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 		XYLineAndShapeRenderer plotRenderer = (XYLineAndShapeRenderer) ((XYPlot)jfreeChart.getPlot()).getRenderer();
 
 		JRScatterPlot scatterPlot = (JRScatterPlot) getPlot();
@@ -954,7 +954,7 @@ public class DefaultChartTheme implements ChartTheme
 				false
 				);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		JRBar3DPlot bar3DPlot = (JRBar3DPlot)getPlot();
@@ -1003,7 +1003,7 @@ public class DefaultChartTheme implements ChartTheme
 				false
 				);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		JRBarPlot barPlot = (JRBarPlot)getPlot();
@@ -1053,7 +1053,7 @@ public class DefaultChartTheme implements ChartTheme
 				false
 				);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 		JRAreaPlot areaPlot = (JRAreaPlot)getPlot();
 
 		// Handle the axis formating for the catagory axis
@@ -1087,7 +1087,7 @@ public class DefaultChartTheme implements ChartTheme
 				false
 				);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 		JRAreaPlot areaPlot = (JRAreaPlot)getPlot();
 
 		// Handle the axis formating for the catagory axis
@@ -1131,7 +1131,7 @@ public class DefaultChartTheme implements ChartTheme
 				false
 				);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		//plot.setNoDataMessage("No data to display");
@@ -1188,7 +1188,7 @@ public class DefaultChartTheme implements ChartTheme
 				true,
 				false);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), linePlot.getCategoryAxisLabelFont(),
@@ -1225,7 +1225,7 @@ public class DefaultChartTheme implements ChartTheme
 				true,
 				false );
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		JRTimeSeriesPlot timeSeriesPlot = (JRTimeSeriesPlot)getPlot();
@@ -1271,7 +1271,7 @@ public class DefaultChartTheme implements ChartTheme
 				false
 				);
 
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 		
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		//plot.setNoDataMessage("No data to display");
@@ -1448,7 +1448,7 @@ public class DefaultChartTheme implements ChartTheme
 				);
 
 		// Set all the generic options
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 
 		return jfreeChart;
 	}
@@ -1545,7 +1545,7 @@ public class DefaultChartTheme implements ChartTheme
 		JFreeChart jfreeChart = new JFreeChart(chartPlot);
 
 		// Set the generic options
-		configureChart(jfreeChart, getPlot());
+		configureChart(jfreeChart);
 		
 		return jfreeChart;
 	}

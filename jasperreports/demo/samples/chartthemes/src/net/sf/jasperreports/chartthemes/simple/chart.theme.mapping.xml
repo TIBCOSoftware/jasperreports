@@ -316,19 +316,7 @@
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.GradientPaintProvider">
 		<map-to xml="gradient-paint"/>
-		<field name="x1" type="integer">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="y1" type="integer">
-			<bind-xml node="attribute"/>
-		</field>
 		<field name="color1" type="java.awt.Color" handler="net.sf.jasperreports.chartthemes.simple.handlers.ColorFieldHandler">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="x2" type="integer">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="y2" type="integer">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="color2" type="java.awt.Color" handler="net.sf.jasperreports.chartthemes.simple.handlers.ColorFieldHandler">

@@ -48,11 +48,7 @@ public class GradientPaintProvider implements PaintProvider
 	/**
 	 *
 	 */
-	private int x1 = 0;
-	private int y1 = 0;
 	private Color color1 = null;
-	private int x2 = 0;
-	private int y2 = 0;
 	private Color color2 = null;
 
 	
@@ -67,13 +63,9 @@ public class GradientPaintProvider implements PaintProvider
 	/**
 	 *
 	 */
-	public GradientPaintProvider(int x1, int y1, Color color1, int x2, int y2, Color color2)
+	public GradientPaintProvider(Color color1, Color color2)
 	{
-		this.x1 = x1;
-		this.y1 = y1;
 		this.color1 = color1;
-		this.x2 = x2;
-		this.y2 = y2;
 		this.color2 = color2;
 	}
 	
@@ -83,27 +75,7 @@ public class GradientPaintProvider implements PaintProvider
 	 */
 	public Paint getPaint()
 	{
-		return new GradientPaint(x1, y1, color1, x2, y2, color2);
-	}
-
-
-	public int getX1() {
-		return x1;
-	}
-
-
-	public void setX1(int x1) {
-		this.x1 = x1;
-	}
-
-
-	public int getY1() {
-		return y1;
-	}
-
-
-	public void setY1(int y1) {
-		this.y1 = y1;
+		return new GradientPaint(0, 0, color1, 0, 0, color2);
 	}
 
 
@@ -114,26 +86,6 @@ public class GradientPaintProvider implements PaintProvider
 
 	public void setColor1(Color color1) {
 		this.color1 = color1;
-	}
-
-
-	public int getX2() {
-		return x2;
-	}
-
-
-	public void setX2(int x2) {
-		this.x2 = x2;
-	}
-
-
-	public int getY2() {
-		return y2;
-	}
-
-
-	public void setY2(int y2) {
-		this.y2 = y2;
 	}
 
 
