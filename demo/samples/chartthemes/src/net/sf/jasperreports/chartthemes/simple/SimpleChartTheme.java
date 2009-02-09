@@ -28,6 +28,7 @@
 package net.sf.jasperreports.chartthemes.simple;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Image;
 import java.awt.Paint;
 import java.awt.Stroke;
@@ -1674,6 +1675,11 @@ public class SimpleChartTheme implements ChartTheme
 		
 		if (backgroundPaint != null)
 		{
+			GradientPaint gp = backgroundPaint instanceof GradientPaint ? (GradientPaint)backgroundPaint : null;
+			if (gp != null)
+			{
+				backgroundPaint = new GradientPaint(0f, 0f, gp.getColor1(), 0f, getChart().getHeight() * 0.7f, gp.getColor2(), false);
+			}
 			jfreeChart.setBackgroundPaint(backgroundPaint);
 		}
 
@@ -1870,10 +1876,11 @@ public class SimpleChartTheme implements ChartTheme
 		{
 			backgroundPaint = plotSettings.getBackgroundPaint().getPaint();
 		}
-		if(backgroundPaint != null)
+		if(backgroundPaint == null)
 		{
-			plot.setBackgroundPaint(backgroundPaint);
+			backgroundPaint = ChartThemesConstants.TRANSPARENT_PAINT;
 		}
+		plot.setBackgroundPaint(backgroundPaint);
 		
 		Float backgroundAlpha = jrPlot.getBackgroundAlphaFloat();
 		if (backgroundAlpha == null)

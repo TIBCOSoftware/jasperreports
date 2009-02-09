@@ -70,26 +70,26 @@ public class SimpleSettingsFactory
 		add(new ColorProvider(COLOR_7));
 		}};
 		
-		public static final List COLORS_DARKER =	new ArrayList(){{
-			add(new ColorProvider(COLOR_0.darker()));
-			add(new ColorProvider(COLOR_1.darker()));
-			add(new ColorProvider(COLOR_2.darker()));
-			add(new ColorProvider(COLOR_3.darker()));
-			add(new ColorProvider(COLOR_4.darker()));
-			add(new ColorProvider(COLOR_5.darker()));
-			add(new ColorProvider(COLOR_6.darker()));
-			add(new ColorProvider(COLOR_7.darker()));
-			}};
+	public static final List COLORS_DARKER =	new ArrayList(){{
+		add(new ColorProvider(COLOR_0.darker()));
+		add(new ColorProvider(COLOR_1.darker()));
+		add(new ColorProvider(COLOR_2.darker()));
+		add(new ColorProvider(COLOR_3.darker()));
+		add(new ColorProvider(COLOR_4.darker()));
+		add(new ColorProvider(COLOR_5.darker()));
+		add(new ColorProvider(COLOR_6.darker()));
+		add(new ColorProvider(COLOR_7.darker()));
+		}};
 		
 	public static final List GRADIENT_PAINTS = new ArrayList(){{
-		add(new GradientPaintProvider(0, 0, COLOR_0, 0, 0, COLOR_0.darker()));
-		add(new GradientPaintProvider(0, 0, COLOR_1, 0, 0, COLOR_1.darker()));
-		add(new GradientPaintProvider(0, 0, COLOR_2, 0, 0, COLOR_2.darker()));
-		add(new GradientPaintProvider(0, 0, COLOR_3, 0, 0, COLOR_3.darker()));
-		add(new GradientPaintProvider(0, 0, COLOR_4, 0, 0, COLOR_4.darker()));
-		add(new GradientPaintProvider(0, 0, COLOR_5, 0, 0, COLOR_5.darker()));
-		add(new GradientPaintProvider(0, 0, COLOR_6, 0, 0, COLOR_6.darker()));
-		add(new GradientPaintProvider(0, 0, COLOR_7, 0, 0, COLOR_7.darker()));
+		add(new GradientPaintProvider(COLOR_0, COLOR_0.darker()));
+		add(new GradientPaintProvider(COLOR_1, COLOR_1.darker()));
+		add(new GradientPaintProvider(COLOR_2, COLOR_2.darker()));
+		add(new GradientPaintProvider(COLOR_3, COLOR_3.darker()));
+		add(new GradientPaintProvider(COLOR_4, COLOR_4.darker()));
+		add(new GradientPaintProvider(COLOR_5, COLOR_5.darker()));
+		add(new GradientPaintProvider(COLOR_6, COLOR_6.darker()));
+		add(new GradientPaintProvider(COLOR_7, COLOR_7.darker()));
     }};
 
 	public static final List STROKES =	new ArrayList(){{
@@ -124,7 +124,7 @@ public class SimpleSettingsFactory
 		
 
 		ChartSettings chartSettings = settings.getChartSettings();
-		chartSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
+		chartSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 		chartSettings.setBackgroundImage(new FileImageProvider("jasperreports.gif"));
 		chartSettings.setBackgroundImageAlignment(new Integer(Align.TOP_RIGHT));
 		chartSettings.setBackgroundImageAlpha(new Float(1f));
@@ -140,7 +140,7 @@ public class SimpleSettingsFactory
 		titleSettings.setShowTitle(Boolean.TRUE);
 		titleSettings.setPosition(new Byte(JRChart.EDGE_TOP));
 		titleSettings.setForegroundPaint(new ColorProvider(Color.black));
-		titleSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
+		titleSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 		titleSettings.getFont().setBold(Boolean.TRUE);
 		titleSettings.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		titleSettings.setVerticalAlignment(VerticalAlignment.TOP);
@@ -150,7 +150,7 @@ public class SimpleSettingsFactory
 		subtitleSettings.setShowTitle(Boolean.TRUE);
 		subtitleSettings.setPosition(new Byte(JRChart.EDGE_TOP));
 		subtitleSettings.setForegroundPaint(new ColorProvider(Color.red));
-		subtitleSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
+		subtitleSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 		subtitleSettings.getFont().setBold(Boolean.TRUE);
 		subtitleSettings.setHorizontalAlignment(HorizontalAlignment.LEFT);
 		subtitleSettings.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -160,7 +160,7 @@ public class SimpleSettingsFactory
 		legendSettings.setShowLegend(Boolean.TRUE);
 		legendSettings.setPosition(new Byte(JRChart.EDGE_BOTTOM));
 		legendSettings.setForegroundPaint(new ColorProvider(Color.black));
-		legendSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
+		legendSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 		legendSettings.getFont().setBold(Boolean.TRUE);
 		legendSettings.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		legendSettings.setVerticalAlignment(VerticalAlignment.BOTTOM);
@@ -170,7 +170,7 @@ public class SimpleSettingsFactory
 		PlotSettings plotSettings = settings.getPlotSettings();
 		plotSettings.setOrientation(PlotOrientation.VERTICAL);
 //		plotSettings.setForegroundAlpha(new Float(0.5f));
-		plotSettings.setBackgroundPaint(new GradientPaintProvider(10, 20, Color.green, 30, 40, Color.blue));
+		plotSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 //		plotSettings.setBackgroundAlpha(new Float(0.5f));
 		plotSettings.setBackgroundImage(new FileImageProvider("jasperreports.gif"));
 		plotSettings.setBackgroundImageAlpha(new Float(0.5f));

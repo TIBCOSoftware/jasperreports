@@ -29,11 +29,16 @@ package net.sf.jasperreports.engine.util;
 
 import java.awt.Font;
 import java.awt.font.TextAttribute;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -199,6 +204,28 @@ public class JRFontUtil
 		}
 		//throw new JRRuntimeException("Font family/face named '" + name + "' not found.");
 		return null;
+	}
+
+
+	/**
+	 * Returns the font family names available through extensions, in alphabetical order.
+	 */
+	public static Collection getFontFamilyNames()
+	{
+		TreeSet familyNames = new TreeSet();//FIXMEFONT use collator for order?
+		//FIXMEFONT do some cache
+		List bundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontBundle.class);
+		for (Iterator itb = bundles.iterator(); itb.hasNext();)
+		{
+			FontBundle bundle = (FontBundle)itb.next();
+			List families = bundle.getFontFamilies();
+			for (Iterator itf = families.iterator(); itf.hasNext();)
+			{
+				FontFamily family = (FontFamily)itf.next();
+				familyNames.add(family.getName());
+			}
+		}
+		return familyNames;
 	}
 
 
