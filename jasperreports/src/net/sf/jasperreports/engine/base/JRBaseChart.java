@@ -121,9 +121,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	protected Boolean showLegend = null;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
-	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	protected String linkTarget;
 	private JRHyperlinkParameter[] hyperlinkParameters;
 	
@@ -281,7 +279,6 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		showLegend = chart.getShowLegend();
 		evaluationTime = chart.getEvaluationTime();
 		linkType = chart.getLinkType();
-		hyperlinkTarget = chart.getHyperlinkTarget();
 		linkTarget = chart.getLinkTarget();
 		titlePositionByte = chart.getTitlePositionByte();
 		titleColor = chart.getOwnTitleColor();
@@ -1178,7 +1175,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
 		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	}
 
 	
@@ -1275,9 +1272,11 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
-	protected boolean isShowLegend = false;
-	protected byte legendPosition = JRChart.EDGE_BOTTOM;
-	protected byte titlePosition = JRChart.EDGE_TOP;
+	private boolean isShowLegend = false;
+	private byte legendPosition = JRChart.EDGE_BOTTOM;
+	private byte titlePosition = JRChart.EDGE_TOP;
+	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1323,6 +1322,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 
 		normalizeLinkType();
 		normalizeLinkTarget();
+		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			showLegend = Boolean.valueOf(isShowLegend);

@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -49,7 +51,6 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private String linkType;
-	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	private String linkTarget;
 	private String hyperlinkReference;
 	private String hyperlinkAnchor;
@@ -127,7 +128,7 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
-		this.hyperlinkTarget = hyperlinkTarget;
+		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
 
 	public void setLinkTarget(String linkTarget)
@@ -174,4 +175,21 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 		this.hyperlinkTooltip = hyperlinkTooltip;
 	}
 
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+		}
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	}
+	
 }

@@ -125,6 +125,7 @@ import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
@@ -835,8 +836,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, image.getEvaluationGroup().getName());
 		}
 
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, image.getLinkType());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, image.getLinkTarget());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, image.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, image.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(image);
@@ -951,8 +952,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pattern, textField.getOwnPattern());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBlankWhenNull, textField.isOwnBlankWhenNull());
 
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, textField.getLinkType());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, textField.getLinkTarget());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, textField.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, textField.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(textField);
@@ -1051,12 +1052,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, chart.getEvaluationGroup().getName());
 		}
 
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, chart.getLinkType());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, chart.getLinkTarget());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, chart.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, chart.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_customizerClass, chart.getCustomizerClass());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_renderType, chart.getRenderType());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_theme, chart.getTheme());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_renderType, chart.getRenderType());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_theme, chart.getTheme());
 
 		writeReportElement(chart);
 		writeBox(chart.getLineBox());
@@ -2686,8 +2687,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			writer.startElement(tagName);
 
-			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, hyperlink.getLinkType());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, hyperlink.getLinkTarget());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, hyperlink.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, hyperlink.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
 
 			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, hyperlink.getHyperlinkReferenceExpression(), false);
 			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, hyperlink.getHyperlinkAnchorExpression(), false);

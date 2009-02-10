@@ -67,9 +67,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected String pattern;
 	protected Boolean isBlankWhenNull = null;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
-	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	protected String linkTarget;
 	private JRHyperlinkParameter[] hyperlinkParameters;
 
@@ -102,7 +100,6 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		pattern = textField.getOwnPattern();
 		isBlankWhenNull = textField.isOwnBlankWhenNull();
 		linkType = textField.getLinkType();
-		hyperlinkTarget = textField.getHyperlinkTarget();
 		linkTarget = textField.getLinkTarget();
 		hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(textField, factory);
 
@@ -303,14 +300,6 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		return hyperlinkParameters;
 	}
 	
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		normalizeLinkType();
-		normalizeLinkTarget();
-	}
-
 
 	protected void normalizeLinkType()
 	{
@@ -327,7 +316,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
 		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	}
 
 	public JRExpression getHyperlinkTooltipExpression()
@@ -377,5 +366,18 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		}
 
 		return clone;
+	}
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		normalizeLinkType();
+		normalizeLinkTarget();
 	}
 }

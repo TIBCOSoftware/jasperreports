@@ -120,11 +120,6 @@ public interface JRHyperlink extends JRCloneable
 	public static final byte HYPERLINK_TARGET_TOP = 4;
 
 	/**
-	 * No target name is set.
-	 */
-	public static final byte HYPERLINK_TARGET_NULL = 0;
-
-	/**
 	 * Custom hyperlink target name.
 	 * <p>
 	 * The specific target name is determined by {@link #getLinkTarget() getLinkTarget()}.

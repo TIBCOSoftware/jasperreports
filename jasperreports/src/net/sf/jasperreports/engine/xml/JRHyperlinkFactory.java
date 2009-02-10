@@ -46,18 +46,8 @@ public class JRHyperlinkFactory extends JRBaseFactory
 	{
 		JRDesignHyperlink link = new JRDesignHyperlink();
 
-		String hyperlinkType = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType);
-		if (hyperlinkType != null)
-		{
-			link.setLinkType(hyperlinkType);
-		}
-
-//		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
-		String hyperlinkTarget = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget);
-		if (hyperlinkTarget != null)
-		{
-			link.setLinkTarget(hyperlinkTarget);
-		}
+		link.setLinkType(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType));
+		link.setLinkTarget(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
 
 		return link;
 	}

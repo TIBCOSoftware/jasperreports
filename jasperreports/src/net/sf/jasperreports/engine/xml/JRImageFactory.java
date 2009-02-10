@@ -109,19 +109,8 @@ public class JRImageFactory extends JRBaseFactory
 			}
 		}
 
-		String hyperlinkType = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType);
-		if (hyperlinkType != null)
-		{
-			image.setLinkType(hyperlinkType);
-		}
-
-//		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
-		String hyperlinkTarget = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget);
-		if (hyperlinkTarget != null)
-		{
-			image.setLinkTarget(hyperlinkTarget);
-		}
-
+		image.setLinkType(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType));
+		image.setLinkTarget(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
 		
 		String bookmarkLevelAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_bookmarkLevel);
 		if (bookmarkLevelAttr != null)

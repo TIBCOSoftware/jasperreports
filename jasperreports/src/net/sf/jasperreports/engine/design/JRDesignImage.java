@@ -95,9 +95,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	protected boolean isLazy = false;
 	protected byte onErrorType = ON_ERROR_TYPE_ERROR;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
-	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	protected String linkTarget;
 	private List hyperlinkParameters;
 
@@ -1128,7 +1126,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
 		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	}
 
 	public JRExpression getHyperlinkTooltipExpression()
@@ -1215,6 +1213,8 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
+	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

@@ -78,9 +78,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	private Byte verticalAlignment = null;
 	protected boolean isLazy = false;
 	private byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
-	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private String linkType;
-	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	private String linkTarget;
 
 	/**
@@ -141,7 +139,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		setLazy(image.isLazy());
 		setOnErrorType(image.getOnErrorType());
 		setLinkType(image.getLinkType());
-		setHyperlinkTarget(image.getHyperlinkTarget());
 		setLinkTarget(image.getLinkTarget());
 	}
 
@@ -160,7 +157,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		copyLineBox(chart.getLineBox());
 
 		setLinkType(chart.getLinkType());
-		setHyperlinkTarget(chart.getHyperlinkTarget());
 		setLinkTarget(chart.getLinkTarget());
 	}
 
@@ -470,7 +466,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
 		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	}
 
 
@@ -942,6 +938,8 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
+	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

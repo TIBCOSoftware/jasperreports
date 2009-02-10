@@ -112,20 +112,8 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setLeadingOffset(Float.parseFloat(leadingOffset));
 		}
 
-		String hyperlinkType = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType);
-		if (hyperlinkType != null)
-		{
-			text.setLinkType(hyperlinkType);
-		}
-
-//		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
-		String hyperlinkTarget = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget);
-		if (hyperlinkTarget != null)
-		{
-			text.setLinkTarget(hyperlinkTarget);
-		}
-
-
+		text.setLinkType(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType));
+		text.setLinkTarget(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
 		text.setAnchorName(atts.getValue(JRXmlConstants.ATTRIBUTE_anchorName));
 		text.setHyperlinkReference(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkReference));
 		text.setHyperlinkAnchor(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkAnchor));
