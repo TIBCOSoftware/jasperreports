@@ -17,7 +17,7 @@ can be deployed as extensions;
 - multiple scriptlet instances allowed per report execution;
 
 - support for report governors to prevent infinite loops caused by
-invalid report templates execution;
+invalid report templates;
 
 - simple report governor implementations based on maximum 
 number of pages and timeout;
