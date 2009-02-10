@@ -16,6 +16,7 @@
 		<ant dir="batchexport" target="test" />
 		<ant dir="beanshell" target="test" />
 		<ant dir="charts" target="test" />
+		<ant dir="chartthemes" target="test" />
 		<ant dir="crosstabs" target="test" />
 		<ant dir="csvdatasource" target="test" />
 		<ant dir="datasource" target="test" />
@@ -70,6 +71,7 @@
 		<ant dir="batchexport" target="clean" />
 		<ant dir="beanshell" target="clean" />
 		<ant dir="charts" target="clean" />
+		<ant dir="chartthemes" target="clean" />
 		<ant dir="crosstabs" target="clean" />
 		<ant dir="csvdatasource" target="clean" />
 		<ant dir="datasource" target="clean" />
