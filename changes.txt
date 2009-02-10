@@ -5,7 +5,7 @@ JasperReports Change Log
 JasperReports 3.1.4 (2009-02-10)
 -----------------------------------
 
-- allow any value as hyperlink target to support open hypelinks 
+- allow any value as hyperlink target to support open hyperlinks 
 into named frames; 
 
 - custom hyperlink targets can be generated at runtime using 
@@ -14,7 +14,7 @@ hyperlink target producers;
 - custom hyperlink producers and hyperlink target producers 
 can be deployed as extensions;
 
-- multiple scriplet instances allowed per report execution;
+- multiple scriptlet instances allowed per report execution;
 
 - support for report governors to prevent infinite loops caused by
 invalid report templates execution;
