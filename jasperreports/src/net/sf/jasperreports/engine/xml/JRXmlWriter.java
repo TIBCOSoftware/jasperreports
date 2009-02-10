@@ -531,6 +531,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(JRXmlConstants.ELEMENT_parameter);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, parameter.getName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, parameter.getValueClassName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_nestedType, parameter.getNestedTypeName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isForPrompting, parameter.isForPrompting(), true);
 
 		writeProperties(parameter);

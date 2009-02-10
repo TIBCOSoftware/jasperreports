@@ -105,6 +105,16 @@ public class JRFillParameter implements JRValueParameter
 	{
 		return parent.getValueClassName();
 	}
+
+	public Class getNestedType()
+	{
+		return parent.getNestedType();
+	}
+
+	public String getNestedTypeName()
+	{
+		return parent.getNestedTypeName();
+	}
 	
 	/**
 	 *

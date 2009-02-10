@@ -189,6 +189,32 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 *
 	 */
 	public JRExpression getDefaultValueExpression();
+	
+	/**
+	 * Returns the parameter nested value type.
+	 * 
+	 * <p>
+	 * The parameter nested value type is used when the parameter value class
+	 * is not sufficient in determining the expected type of the parameter values.
+	 * The most common such scenario is when the parameter value class is
+	 * {@link java.util.Collection} or a derived class, in which case the nested
+	 * type specifies the type of values which are to be placed inside the collection.
+	 * 
+	 * @return the nested value type for this parameter, 
+	 * or <code>null</code> if none set
+	 * 
+	 * @see #getValueClass()
+	 */
+	public Class getNestedType();
 
+	/**
+	 * Returns the name of the parameter nested value type.
+	 * 
+	 * @return the name of the nested value type for this parameter,
+	 * or <code>null</code> if none set
+	 * 
+	 * @see #getNestedType()
+	 */
+	public String getNestedTypeName();
 
 }

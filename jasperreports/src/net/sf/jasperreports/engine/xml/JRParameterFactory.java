@@ -59,6 +59,12 @@ public class JRParameterFactory extends JRBaseFactory
 		{
 			parameter.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
 		}
+		
+		String nestedType = atts.getValue(JRXmlConstants.ATTRIBUTE_nestedType);
+		if (nestedType != null)
+		{
+			parameter.setNestedTypeName(nestedType);
+		}
 
 		String isForPrompting = atts.getValue(JRXmlConstants.ATTRIBUTE_isForPrompting);
 		if (isForPrompting != null && isForPrompting.length() > 0)

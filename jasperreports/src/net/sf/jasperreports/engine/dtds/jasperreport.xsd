@@ -528,6 +528,7 @@
    </sequence>
    <attribute name="name" type="string" use="required"/>
    <attribute name="class" type="string" use="optional" default="java.lang.String"/>
+   <attribute name="nestedType" type="string" use="optional"/>
    <attribute name="isForPrompting" use="optional" default="true">
     <simpleType>
      <restriction base="string">

@@ -1702,6 +1702,8 @@ public class JRXmlConstants
 
 	public static final String ATTRIBUTE_class = "class";
 
+	public static final String ATTRIBUTE_nestedType = "nestedType";
+
 	/**
 	 * JRFieldFactory associated constants
 	 */
