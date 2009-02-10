@@ -100,7 +100,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	/**
 	 * Constructs a new thermometer plot that is a copy of an existing one.
 	 *
-	 * @param thermoPlot the plot to copy
+	 * @param plot the plot to copy
 	 * @param chart the parent chart
 	 */
 	public JRBaseThermometerPlot(JRChartPlot plot, JRChart chart)

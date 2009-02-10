@@ -667,8 +667,6 @@ public class DefaultChartTheme implements ChartTheme
 
 	/**
 	 *
-	 * @param evaluation
-	 * @throws net.sf.jasperreports.engine.JRException
 	 */
 	protected JFreeChart createCandlestickChart() throws JRException
 	{
@@ -707,8 +705,6 @@ public class DefaultChartTheme implements ChartTheme
 
 	/**
 	 *
-	 * @param evaluation
-	 * @throws JRException
 	 */
 	protected JFreeChart createHighLowChart() throws JRException
 	{
@@ -1312,7 +1308,6 @@ public class DefaultChartTheme implements ChartTheme
 	 * Converts a JasperReport data range into one understood by JFreeChart.
 	 *
 	 * @param dataRange the JasperReport version of the range
-	 * @param evaluation current expression evaluation phase
 	 * @return the JFreeChart version of the range
 	 * @throws JRException thrown when the low value of the range is greater than the
 	 * 						high value
@@ -1332,7 +1327,6 @@ public class DefaultChartTheme implements ChartTheme
 	 * Converts a JasperReports meter interval to one that JFreeChart understands.
 	 *
 	 * @param interval the JasperReports definition of an interval
-	 * @param evaluation current evaluation time
 	 * @return the JFreeChart version of the same interval
 	 * @throws JRException thrown when the interval contains an invalid range
 	 */
@@ -1354,11 +1348,8 @@ public class DefaultChartTheme implements ChartTheme
 	}
 
 	/**
-	 * Build and configure a meter chart.
 	 *
-	 * @param evaluation current expression evaluation phase
-	 * @throws JRException
-	*/
+	 */
 	protected JFreeChart createMeterChart() throws JRException 
 	{
 		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
@@ -1457,9 +1448,6 @@ public class DefaultChartTheme implements ChartTheme
 	 * Build and run a thermometer chart.  JFreeChart thermometer charts have some
 	 * limitations.  They always have a maximum of three ranges, and the colors of those
 	 * ranges seems to be fixed.
-	 *
-	 * @param evaluation current expression evaluation phase
-	 * @throws JRException
 	 */
 	protected JFreeChart createThermometerChart() throws JRException 
 	{

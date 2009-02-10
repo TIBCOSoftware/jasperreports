@@ -1396,7 +1396,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 * (Self, Blank, Top, Parent),
 	 * or can be an arbitrary target name.
 	 * </p>
-	 * @param type the hyperlink target
+	 * @param target the hyperlink target
 	 */
 	public void setLinkTarget(String target)
 	{

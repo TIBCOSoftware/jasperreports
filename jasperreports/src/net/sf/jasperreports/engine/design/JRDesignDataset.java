@@ -410,7 +410,7 @@ public class JRDesignDataset extends JRBaseDataset
 	/**
 	 * Removes a scriptlet from the dataset.
 	 * 
-	 * @param scripletName the scriptlet name
+	 * @param scriptletName the scriptlet name
 	 * @return the removed scriptlet, or <code>null</code> if the scriptlet was not found
 	 */
 	public JRScriptlet removeScriptlet(String scriptletName)
