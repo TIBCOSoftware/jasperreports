@@ -177,7 +177,7 @@ public interface JRPrintHyperlink
 	 * (Self, Blank, Top, Parent),
 	 * or can be an arbitrary name.
 	 * </p>
-	 * @param target the hyperlink target name
+	 * @param linkTarget the hyperlink target name
 	 */
 	public void setLinkTarget(String linkTarget);
 	

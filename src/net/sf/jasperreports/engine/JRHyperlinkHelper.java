@@ -180,7 +180,7 @@ public class JRHyperlinkHelper
 	 * Returns the built-in hyperlink target, or {@link JRHyperlink#HYPERLINK_TARGET_CUSTOM JRHyperlink.HYPERLINK_TARGET_CUSTOM}
 	 * if the target name is not a built-in one.
 	 * 
-	 * @param hyperlink the hyperlink object
+	 * @param linkTarget the link target type
 	 * @return the hyperlink target
 	 */
 	public static byte getHyperlinkTarget(String linkTarget)
@@ -247,8 +247,8 @@ public class JRHyperlinkHelper
 	/**
 	 * Returns the link target associated with a built-in target.
 	 * 
-	 * @param hyperlinkType the built-in type
-	 * @return the String link type
+	 * @param hyperlinkTarget the built-in target type
+	 * @return the String link target
 	 */
 	public static String getLinkTarget(byte hyperlinkTarget)
 	{

@@ -121,7 +121,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	/**
 	 * Constructs a copy of an existing meter.
 	 *
-	 * @param meterPlot the meter to copy
+	 * @param plot the plot to copy
 	 */
 	public JRBaseMeterPlot(JRChartPlot plot, JRChart chart)
 	{
