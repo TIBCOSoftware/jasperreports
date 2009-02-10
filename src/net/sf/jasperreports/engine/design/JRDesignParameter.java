@@ -52,6 +52,8 @@ public class JRDesignParameter extends JRBaseParameter
 	public static final String PROPERTY_SYSTEM_DEFINED = "systemDefined";
 	
 	public static final String PROPERTY_VALUE_CLASS_NAME = "valueClassName";
+	
+	public static final String PROPERTY_NESTED_TYPE_NAME = "nestedTypeName";
 
 
 	/**
@@ -84,6 +86,31 @@ public class JRDesignParameter extends JRBaseParameter
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS_NAME, old, this.valueClassName);
 	}
 
+	/**
+	 * Sets the parameter nested value type.
+	 * 
+	 * @param type the nester value type
+	 * @see #getNestedType()
+	 */
+	public void setNestedType(Class type)
+	{
+		setNestedTypeName(type == null ? null : type.getName());
+	}
+	
+	/**
+	 * Sets the parameter nested value type.
+	 * 
+	 * @param typeName the name of the nested value type
+	 * @see #getNestedType()
+	 */
+	public void setNestedTypeName(String typeName)
+	{
+		Object old = this.nestedTypeName;
+		nestedTypeName = typeName;
+		nestedType = null;
+		getEventSupport().firePropertyChange(PROPERTY_NESTED_TYPE_NAME, old, this.nestedTypeName);
+	}
+	
 	/**
 	 *
 	 */

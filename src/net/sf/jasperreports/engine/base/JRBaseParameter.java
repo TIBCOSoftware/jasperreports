@@ -62,10 +62,12 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	protected String description = null;
 	protected String valueClassName = java.lang.String.class.getName();
 	protected String valueClassRealName = null;
+	protected String nestedTypeName;
 	protected boolean isSystemDefined = false;
 	protected boolean isForPrompting = true;
 
 	protected transient Class valueClass = null;
+	protected transient Class nestedType;
 
 	/**
 	 *
@@ -94,6 +96,7 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 		name = parameter.getName();
 		description = parameter.getDescription();
 		valueClassName = parameter.getValueClassName();
+		nestedTypeName = parameter.getNestedTypeName();
 		isSystemDefined = parameter.isSystemDefined();
 		isForPrompting = parameter.isForPrompting();
 
@@ -172,6 +175,29 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 		}
 		
 		return valueClassRealName;
+	}
+
+	public Class getNestedType()
+	{
+		if (nestedTypeName != null && nestedType == null)
+		{
+			try
+			{
+				nestedType = JRClassLoader.loadClassForName(nestedTypeName);
+			}
+			catch(ClassNotFoundException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		
+		return nestedType;
+	}
+
+
+	public String getNestedTypeName()
+	{
+		return nestedTypeName;
 	}
 
 	/**
