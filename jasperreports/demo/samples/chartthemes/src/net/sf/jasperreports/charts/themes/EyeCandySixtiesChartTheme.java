@@ -46,6 +46,7 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
+import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
@@ -54,12 +55,14 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.DateTickUnit;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.ValueAxis;
@@ -100,6 +103,7 @@ import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.general.ValueDataset;
+import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
@@ -169,6 +173,11 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			categoryPlot.setRangeGridlineStroke(new BasicStroke(1f));
 			categoryPlot.setDomainGridlinesVisible(false);
 			categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+			
+			calculateTickUnits(categoryPlot.getDomainAxis());
+			calculateTickUnits(categoryPlot.getRangeAxis());
+
+			
 		}
 		else if(plot instanceof XYPlot)
 		{
@@ -184,7 +193,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			xyPlot.setDomainGridlinesVisible(false);
 			
 			xyPlot.setRangeZeroBaselineVisible(true);
-
+			
+			calculateTickUnits(xyPlot.getDomainAxis());
+			calculateTickUnits(xyPlot.getRangeAxis());
 		}
 	}
 
@@ -192,7 +203,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	{
 		JFreeChart jfreeChart = super.createAreaChart();
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		calculateTickUnits(categoryPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -200,7 +210,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	{
 		JFreeChart jfreeChart = super.createStackedAreaChart();
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		calculateTickUnits(categoryPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -211,16 +220,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		SquareXYAreaRenderer squareXyAreaRenderer = new SquareXYAreaRenderer((XYAreaRenderer)xyPlot.getRenderer());
 		xyPlot.setRenderer(squareXyAreaRenderer);
-
-//		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
-//		{
-//			//xyAreaRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
-//			//xyAreaRenderer.setSeriesPaint(i, gp[i]);
-//			xyAreaRenderer.setSeriesShape(i, new Rectangle2D.Double(-3, -3, 6, 6));
-//		}
-
-		calculateTickUnits(xyPlot.getDomainAxis());
-		calculateTickUnits(xyPlot.getRangeAxis());
 
 		return jfreeChart;
 	}
@@ -340,7 +339,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		{
 			barRenderer.setSeriesPaint(i, (Paint)ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
 		}
-		calculateTickUnits(categoryPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -364,7 +362,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		{
 			barRenderer.setSeriesPaint(i, (Paint)ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
 		}
-		calculateTickUnits(categoryPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -388,7 +385,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		{
 			barRenderer3D.setSeriesPaint(i, (Paint)ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
 		}
-		calculateTickUnits(categoryPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -402,7 +398,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 
 		//CategoryDataset categoryDataset = categoryPlot.getDataset();
 		barRenderer3D.setItemMargin(0);
-		calculateTickUnits(categoryPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -424,8 +419,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			bubbleRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 			bubbleRenderer.setSeriesPaint(i, (Paint)ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
 		}
-		calculateTickUnits(xyPlot.getDomainAxis());
-		calculateTickUnits(xyPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -447,8 +440,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		{
 			renderer.setSeriesPaint(i, (Paint)ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
 		}
-		calculateTickUnits(xyPlot.getDomainAxis());
-		calculateTickUnits(xyPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -457,8 +448,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		JFreeChart jfreeChart = super.createHighLowChart();
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		//xyPlot.setRangeTickBandPaint(new Color(231, 243, 255));
-		calculateTickUnits(xyPlot.getDomainAxis());
-		calculateTickUnits(xyPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -488,8 +477,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			//lineRenderer.setSeriesShape(i, new Ellipse2D.Double(-3, -3, 6, 6));
 		}
 
-		calculateTickUnits(xyPlot.getDomainAxis());
-		calculateTickUnits(xyPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -520,9 +507,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		line3DRenderer.setWallPaint(ChartThemesConstants.GRAY_PAINT_134);
 
 		xyPlot.setRenderer(line3DRenderer);
-		calculateTickUnits(xyPlot.getDomainAxis());
-		calculateTickUnits(xyPlot.getRangeAxis());
-
 		return jfreeChart;
 	}
 
@@ -545,7 +529,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			//line3DRenderer.setSeriesLinesVisible(i,lineRenderer.getSeriesVisible(i));
 		}
 //		configureChart(jfreeChart, getPlot());
-		calculateTickUnits(categoryPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -1082,8 +1065,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			renderer.setSeriesFillPaint(i, (Paint)ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS.get(i));
 			renderer.setSeriesPaint(i, Color.DARK_GRAY);
 		}
-		calculateTickUnits(xyPlot.getDomainAxis());
-		calculateTickUnits(xyPlot.getRangeAxis());
 		return jfreeChart;
 	}
 
@@ -1094,30 +1075,36 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			NumberAxis numberAxis = (NumberAxis)axis;
 			int maxNumberOfTicks = 5;
 			int axisRange = (int)numberAxis.getRange().getLength();
-			int newTickUnitSize = axisRange/maxNumberOfTicks;
-			int tickUnitSize = newTickUnitSize;
-
-			//preferably multiple of 5 values should be used as tick units lengths:
-			int i = 1;
-			while(tickUnitSize > 9)
+			if(axisRange > 0)
 			{
-				tickUnitSize /= 10;
-				i *= 10;
-			}
-			tickUnitSize *= i;
-			newTickUnitSize = tickUnitSize + i/2;
-
-			if(newTickUnitSize != 0 && axisRange/newTickUnitSize > maxNumberOfTicks)
-			{
-				newTickUnitSize += i/2;
-			}
-			if(numberAxis.getNumberFormatOverride() != null)
-			{
-				numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize, numberAxis.getNumberFormatOverride()));
-			}
-			else
-			{
-				numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize));
+				int newTickUnitSize = axisRange/maxNumberOfTicks;
+				if(newTickUnitSize > numberAxis.getTickUnit().getSize())
+				{
+					int tickUnitSize = newTickUnitSize;
+		
+					//preferably multiple of 5 values should be used as tick units lengths:
+					int i = 1;
+					while(tickUnitSize > 9)
+					{
+						tickUnitSize /= 10;
+						i *= 10;
+					}
+					tickUnitSize *= i;
+					newTickUnitSize = tickUnitSize + i/2;
+		
+					if(newTickUnitSize > 0 && axisRange/newTickUnitSize > maxNumberOfTicks)
+					{
+						newTickUnitSize += i/2;
+					}
+					if(numberAxis.getNumberFormatOverride() != null)
+					{
+						numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize, numberAxis.getNumberFormatOverride()));
+					}
+					else
+					{
+						numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize));
+					}
+				}
 			}
 		}
 	}
