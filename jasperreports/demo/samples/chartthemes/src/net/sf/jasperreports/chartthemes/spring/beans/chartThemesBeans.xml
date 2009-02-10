@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="themeBundle" class="net.sf.jasperreports.charts.themes.ChartThemeMapBundle">
+	<bean id="themeBundle" class="net.sf.jasperreports.chartthemes.ChartThemeMapBundle">
 		<property name="themes">
 			<map>
 				<entry key="generic">
@@ -23,7 +23,7 @@
 		</property>
 	</bean>
 
-	<bean id="genericChartTheme" class="net.sf.jasperreports.charts.themes.GenericChartTheme">
+	<bean id="genericChartTheme" class="net.sf.jasperreports.chartthemes.spring.GenericChartTheme">
 		<property name="defaultChartPropertiesMap">
 			<map>
 		   	    <entry key-ref="titleVisible" value-ref="isTrue"/>

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.sf.jasperreports.charts.themes;
+package net.sf.jasperreports.chartthemes.spring;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
