@@ -5,17 +5,30 @@ JasperReports Change Log
 JasperReports 3.1.4 (2009-02-10)
 -----------------------------------
 
-- frame name as hyperlink target with support for target producers;
+- allow any value as hyperlink target to support open hypelinks 
+into named frames; 
 
-- hyperlink producers and target producers available as extensions;
+- custom hyperlink targets can be generated at runtime using 
+hyperlink target producers;
 
-- multiple scriplets per report;
+- custom hyperlink producers and hyperlink target producers 
+can be deployed as extensions;
 
-- report governors for max pages and timeout;
+- multiple scriplet instances allowed per report execution;
 
-- new JASPER_REPORT built-in parameter;
+- support for report governors to prevent infinite loops caused by
+invalid report templates execution;
+
+- simple report governor implementations based on maximum 
+number of pages and timeout;
+
+- new JASPER_REPORT built-in parameter to give access to the report 
+template object in report expressions and scriptlets;
 
 - chart element live preview in design mode;
+
+- improved XML-based chart theme model to support the creation of
+a visual chart theme designer;
 
 - minor bug fixes and improvements;
 
