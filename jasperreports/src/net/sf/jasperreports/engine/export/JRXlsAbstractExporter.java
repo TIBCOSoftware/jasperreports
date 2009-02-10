@@ -111,8 +111,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected int maxRowsPerSheet;
 
-	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
-
 	protected String[] sheetNames = null;
 
 
@@ -148,15 +146,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected JRFont getDefaultFont()
 	{
 		return defaultFont;
-	}
-
-
-	/**
-	 *
-	 */
-	protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
-	{
-		return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
 	}
 
 
@@ -326,7 +315,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 
-		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
+		setHyperlinkProducerFactory();
 
 		maxRowsPerSheet = 
 			getIntegerParameter(

@@ -154,7 +154,6 @@ public class JRXmlssExporter extends JRAbstractExporter
 
 	private XmlssStyleCache styleCache = null;
 
-	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 	protected ExporterNature nature = null;
 
 	protected File destFile = null;
@@ -351,11 +350,6 @@ public class JRXmlssExporter extends JRAbstractExporter
 			throw new JRException("Error while exporting report to buffer", e);
 		}
 		return buffer.getBuffer();
-	}
-
-	protected void setHyperlinkProducerFactory()
-	{
-		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}
 
 
@@ -1060,12 +1054,6 @@ public class JRXmlssExporter extends JRAbstractExporter
 		}
 
 		return href;
-	}
-
-
-	protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
-	{
-		return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
 	}
 
 
