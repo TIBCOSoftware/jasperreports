@@ -75,6 +75,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.CutsInfo;
+import net.sf.jasperreports.engine.export.DefaultHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
@@ -161,7 +162,6 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 
 	private StyleCache styleCache = null;
 
-	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 	protected ExporterNature nature = null;
 	protected String exporterPropertiesPrefix;
 
@@ -273,12 +273,6 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		{
 			resetExportContext();
 		}
-	}
-
-
-	protected void setHyperlinkProducerFactory()
-	{
-		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}
 
 
@@ -1279,12 +1273,6 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		}
 
 		return href;
-	}
-
-
-	protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
-	{
-		return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
 	}
 
 

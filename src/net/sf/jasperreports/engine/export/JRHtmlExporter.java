@@ -192,7 +192,6 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 	private LinkedList backcolorStack;
 	private Color backcolor;
 
-	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
 
 	
@@ -586,12 +585,6 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 	}
 
 
-	protected void setHyperlinkProducerFactory()
-	{
-		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
-	}
-	
-	
 	protected void setDeepGrid()
 	{
 		boolean nestedTables;
@@ -1450,12 +1443,6 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 		}
 		
 		return href;
-	}
-
-
-	protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
-	{
-		return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
 	}
 
 

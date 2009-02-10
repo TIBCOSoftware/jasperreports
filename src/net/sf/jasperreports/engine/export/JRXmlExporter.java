@@ -137,8 +137,6 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected File destFile = null;
 	protected File imagesDir = null;
 
-	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
-	
 	/**
 	 * 
 	 */
@@ -259,7 +257,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void setHyperlinkProducerFactory()
+	protected void setHyperlinkProducerFactory()//FIXMETARGET check if we really need to override this
 	{
 		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}

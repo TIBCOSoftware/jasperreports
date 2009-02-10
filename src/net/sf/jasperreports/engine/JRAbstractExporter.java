@@ -45,10 +45,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.export.DefaultHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterFilterFactory;
 import net.sf.jasperreports.engine.export.ExporterFilterFactoryUtil;
 import net.sf.jasperreports.engine.export.JRExporterContext;
+import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
+import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -388,6 +391,10 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected Map dateFormatCache = new HashMap();
 	protected Map numberFormatCache = new HashMap();
 
+	/**
+	 *
+	 */
+	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 	
 	/**
 	 *
@@ -1152,5 +1159,27 @@ public abstract class JRAbstractExporter implements JRExporter
 			}
 		};
 		return defaultFactory.getFilter(context);
+	}
+
+	protected void setHyperlinkProducerFactory()
+	{
+		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
+		if (hyperlinkProducerFactory == null)
+		{
+			hyperlinkProducerFactory = new DefaultHyperlinkProducerFactory();//FIXME use singleton cache? for target producer too;
+		}
+	}
+	
+	protected JRHyperlinkProducer getHyperlinkProducer(JRPrintHyperlink link)
+	{
+		return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkProducer(JRPrintHyperlink)}.
+	 */
+	protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
+	{
+		return getHyperlinkProducer(link);
 	}
 }

@@ -62,6 +62,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.DefaultHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZip;
@@ -126,8 +127,6 @@ public class JROdtFrameExporter extends JRAbstractExporter
 	private Color backcolor;
 	
 	private StyleCache styleCache = null;
-
-	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 
 
 	public JROdtFrameExporter()
@@ -231,12 +230,6 @@ public class JROdtFrameExporter extends JRAbstractExporter
 		{
 			resetExportContext();
 		}
-	}
-
-
-	protected void setHyperlinkProducerFactory()
-	{
-		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}
 
 

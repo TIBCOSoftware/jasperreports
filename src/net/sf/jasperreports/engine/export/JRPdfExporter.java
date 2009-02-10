@@ -193,7 +193,6 @@ public class JRPdfExporter extends JRAbstractExporter
 	private Map fontMap = null;
 
 	private SplitCharacter splitCharacter;
-	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 	
 	/**
 	 *
@@ -403,12 +402,6 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			splitCharacter = new BreakIteratorSplitCharacter();
 		}
-	}
-
-
-	protected void setHyperlinkProducerFactory()
-	{
-		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}
 
 
