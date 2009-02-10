@@ -74,6 +74,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
@@ -332,7 +333,6 @@ public class GenericChartTheme implements ChartTheme
 		Paint defaultPlotOutlinePaint = (Paint)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_PAINT);
 		Stroke defaultPlotOutlineStroke = (Stroke)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_STROKE);
 		Boolean defaultPlotOutlineVisible = (Boolean)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_OUTLINE_VISIBLE);
-
 		if(defaultPlotInsets != null) 
 			p.setInsets(defaultPlotInsets);
 
@@ -378,36 +378,6 @@ public class GenericChartTheme implements ChartTheme
 	 * 						<code>java.text.SimpleDateFormat</code> mask.
 	 * @param lineColor color to use when drawing the axis line and any tick marks
 	 * @param isRangeAxis used to distinguish between range and domain axis type
-	 */
-	protected void configureAxis(
-			Axis axis,
-			JRFont labelFont,
-			Color labelColor,
-			JRFont tickLabelFont,
-			Color tickLabelColor,
-			String tickLabelMask,
-			Paint lineColor,
-			boolean isRangeAxis
-			) throws JRException
-	{
-		configureAxis(axis, labelFont, labelColor, tickLabelFont, tickLabelColor, tickLabelMask, lineColor, isRangeAxis, DateTickUnit.YEAR);
-	}
-
-	/**
-	 * Sets all the axis formatting options.  This includes the colors and fonts to use on
-	 * the axis as well as the color to use when drawing the axis line.
-	 *
-	 * @param axis the axis to format
-	 * @param labelFont the font to use for the axis label
-	 * @param labelColor the color of the axis label
-	 * @param tickLabelFont the font to use for each tick mark value label
-	 * @param tickLabelColor the color of each tick mark value label
-	 * @param tickLabelMask formatting mask for the label.  If the axis is a NumberAxis then
-	 * 					    the mask should be <code>java.text.DecimalFormat</code> mask, and
-	 * 						if it is a DateAxis then the mask should be a
-	 * 						<code>java.text.SimpleDateFormat</code> mask.
-	 * @param lineColor color to use when drawing the axis line and any tick marks
-	 * @param isRangeAxis used to distinguish between range and domain axis type
 	 * @param timeUnit time unit used to create a DateAxis
 	 */
 	protected void configureAxis(
@@ -418,8 +388,7 @@ public class GenericChartTheme implements ChartTheme
 			Color tickLabelColor,
 			String tickLabelMask,
 			Paint lineColor,
-			boolean isRangeAxis,
-			int timePeriod
+			boolean isRangeAxis
 			) throws JRException
 	{
 		Boolean axisVisible = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_VISIBLE);
@@ -437,7 +406,10 @@ public class GenericChartTheme implements ChartTheme
 			setAxisLabel(axis, labelFont, labelColor);
 			setAxisTickLabels(axis, tickLabelFont, tickLabelColor, tickLabelMask);
 			setAxisTickMarks(axis, lineColor);
-			setAxisBounds(axis, isRangeAxis, timePeriod);
+			String timePeriodUnit = isRangeAxis 
+				? (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_TIME_PERIOD_UNIT)
+				: (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_TIME_PERIOD_UNIT);
+			setAxisBounds(axis, isRangeAxis, timePeriodUnit);
 			
 		}
 		else
@@ -1106,13 +1078,13 @@ public class GenericChartTheme implements ChartTheme
 		configureAxis(xyPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
-				barPlot.getOwnCategoryAxisLineColor(), false, DateTickUnit.DAY);
+				barPlot.getOwnCategoryAxisLineColor(), false);
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
 				barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
-				barPlot.getOwnValueAxisLineColor(), true, DateTickUnit.DAY);
+				barPlot.getOwnValueAxisLineColor(), true);
 
 		return jfreeChart;
 	}
@@ -1186,13 +1158,13 @@ public class GenericChartTheme implements ChartTheme
 		configureAxis(xyPlot.getDomainAxis(), timeSeriesPlot.getTimeAxisLabelFont(),
 				timeSeriesPlot.getTimeAxisLabelColor(), timeSeriesPlot.getTimeAxisTickLabelFont(),
 				timeSeriesPlot.getTimeAxisTickLabelColor(), timeSeriesPlot.getTimeAxisTickLabelMask(),
-				timeSeriesPlot.getOwnTimeAxisLineColor(), false, DateTickUnit.DAY);
+				timeSeriesPlot.getOwnTimeAxisLineColor(), false);
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), timeSeriesPlot.getValueAxisLabelFont(),
 				timeSeriesPlot.getValueAxisLabelColor(), timeSeriesPlot.getValueAxisTickLabelFont(),
 				timeSeriesPlot.getValueAxisTickLabelColor(), timeSeriesPlot.getValueAxisTickLabelMask(),
-				timeSeriesPlot.getOwnValueAxisLineColor(), true, DateTickUnit.DAY);
+				timeSeriesPlot.getOwnValueAxisLineColor(), true);
 
 		return jfreeChart;
 	}
@@ -2122,7 +2094,7 @@ public class GenericChartTheme implements ChartTheme
 						themeTickLabelFont = themeTickLabelFont.deriveFont(defaultTickLabelBaseFontSize.floatValue());
 					}
 				}
-				axis.setLabelFont(themeTickLabelFont);
+				axis.setTickLabelFont(themeTickLabelFont);
 			}
 			RectangleInsets defaultTickLabelInsets = (RectangleInsets)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_INSETS);
 			if(defaultTickLabelInsets != null)
@@ -2196,14 +2168,14 @@ public class GenericChartTheme implements ChartTheme
 		}
 	}
 	
-	protected void setAxisBounds(Axis axis, boolean isRangeAxis, int timeUnit) throws JRException
+	protected void setAxisBounds(Axis axis, boolean isRangeAxis, String timeUnit) throws JRException
 	{
 		if (axis instanceof ValueAxis)
 		{
 			String axisMinValue = null;
 			String axisMaxValue = null;
 			int tickCount = -1;
-			
+			String tickInterval = null;
 			
 			if(getChart().hasProperties())
 			{
@@ -2213,12 +2185,15 @@ public class GenericChartTheme implements ChartTheme
 					axisMinValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.minvalue");
 					axisMaxValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.maxvalue");
 					tickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.tickcount");
+					tickInterval = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.tick.interval");
+					
 				}
 				else
 				{
 					axisMinValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.minvalue");
 					axisMaxValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.maxvalue");
 					tickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.tickcount");
+					tickInterval = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.tick.interval");
 				}
 				if(tickCountProperty != null)
 				{
@@ -2233,12 +2208,14 @@ public class GenericChartTheme implements ChartTheme
 					axisMinValue = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_MIN_VALUE);
 					axisMaxValue = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_MAX_VALUE);
 					tickCountInteger = (Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_TICK_COUNT);
+					tickInterval = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_TICK_INTERVAL);
 				}
 				else
 				{
 					axisMinValue = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_MIN_VALUE);
 					axisMaxValue = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_MAX_VALUE);
 					tickCountInteger = (Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_TICK_COUNT);
+					tickInterval = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_TICK_INTERVAL);
 				}
 				if(tickCountInteger != null)
 				{
@@ -2290,13 +2267,20 @@ public class GenericChartTheme implements ChartTheme
 				}
 			}
 			
-			calculateTickUnits(axis, tickCount, timeUnit);
+			calculateTickUnits(axis, tickCount, tickInterval, timeUnit);
 		}
 	}
 
-	protected void calculateTickUnits(Axis axis, int tickCount, int timePeriod)
+	/**
+	 * For a given axis, adjust the tick unit size, in order to 
+	 * have a customizable number of ticks on that axis
+	 * @param axis the axis 
+	 * @param tickCount the user defined number of ticks for the axis
+	 * @param timePeriodUnit the time period used as measure unit on an <code>org.jfree.chart.axis.NumberAxis</code>
+	 */
+	protected void calculateTickUnits(Axis axis, int tickCount, String tickInterval, String timePeriodUnit)
 	{
-		if(tickCount < 0)
+		if((tickInterval == null || tickInterval.length() == 0) && tickCount < 0)
 			return;
 		if(axis instanceof NumberAxis)
 		{
@@ -2304,25 +2288,39 @@ public class GenericChartTheme implements ChartTheme
 			int axisRange = (int)numberAxis.getRange().getLength();
 			if(numberAxis.getNumberFormatOverride() != null)
 			{
-				numberAxis.setTickUnit(new NumberTickUnit(axisRange/tickCount, numberAxis.getNumberFormatOverride()));
+				if(tickInterval != null && tickInterval.length() > 0)
+					numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue(), numberAxis.getNumberFormatOverride()));
+				else
+					numberAxis.setTickUnit(new NumberTickUnit(axisRange/tickCount, numberAxis.getNumberFormatOverride()));
 			}
 			else
 			{
-				numberAxis.setTickUnit(new NumberTickUnit(axisRange/tickCount));
+				if(tickInterval != null && tickInterval.length() > 0)
+					numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue()));
+				else
+					numberAxis.setTickUnit(new NumberTickUnit(axisRange/tickCount));
 			}
 		}
 		else if(axis instanceof DateAxis)
 		{
-//			DateAxis dateAxis = (DateAxis)axis;
-//			int axisRange = (int)dateAxis.getRange().getLength();
-//			if(dateAxis.getDateFormatOverride() != null)
-//			{
-//				dateAxis.setTickUnit(new DateTickUnit(timePeriod, axisRange/tickCount, dateAxis.getDateFormatOverride()));
-//			}
-//			else
-//			{
-//				dateAxis.setTickUnit(new DateTickUnit(timePeriod, axisRange/tickCount));
-//			}
+			DateAxis dateAxis = (DateAxis)axis;
+			int axisRange = (int)dateAxis.getRange().getLength();
+			int timeUnit = getTimePeriodUnit(timePeriodUnit);
+			
+			if(dateAxis.getDateFormatOverride() != null)
+			{
+				if(tickInterval != null && tickInterval.length() > 0)
+					dateAxis.setTickUnit(new DateTickUnit(timeUnit, Integer.valueOf(tickInterval).intValue(), dateAxis.getDateFormatOverride()));
+				else
+					dateAxis.setTickUnit(new DateTickUnit(timeUnit, axisRange/tickCount, dateAxis.getDateFormatOverride()));
+			}
+			else
+			{
+				if(tickInterval != null && tickInterval.length() > 0)
+					dateAxis.setTickUnit(new DateTickUnit(timeUnit, Integer.valueOf(tickInterval).intValue()));
+				else
+					dateAxis.setTickUnit(new DateTickUnit(timeUnit, axisRange/tickCount));
+			}
 		}
 	}
 	
@@ -2336,6 +2334,28 @@ public class GenericChartTheme implements ChartTheme
 				(Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_VISIBLE);
 
 		return legendVisibility != null ? legendVisibility.booleanValue() : false;
+	}
+
+	/**
+	 * Specifies whether a chart legend should be visible or no by default.
+	 */
+	protected int getTimePeriodUnit(String timePeriodUnit)
+	{
+		if (timePeriodUnit == null)
+			return DateTickUnit.DAY;
+		return timePeriodUnit.equals("Year")
+			? DateTickUnit.YEAR
+			: timePeriodUnit.equals("Month")
+			? DateTickUnit.MONTH
+			: timePeriodUnit.equals("Hour")
+			? DateTickUnit.HOUR
+			: timePeriodUnit.equals("Minute")
+			? DateTickUnit.MINUTE
+			: timePeriodUnit.equals("Second")
+			? DateTickUnit.SECOND
+			: timePeriodUnit.equals("Millisecond")
+			? DateTickUnit.MILLISECOND
+			: DateTickUnit.DAY;
 	}
 
     public Object getDefaultValue(Map map, Object key)

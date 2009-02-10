@@ -40,6 +40,12 @@
 			    <entry key-ref="axisLineStroke" value-ref="onePointStroke"/>
 			    <entry key-ref="axisLabelFontBoldStyle" value-ref="fontBoldStyle"/>
 			    <entry key-ref="axisTickLabelFontBoldStyle" value-ref="fontPlainStyle"/>
+		   	    <entry key-ref="domainAxisTickCount">
+		   	    	<value type="java.lang.Integer">5</value>
+		   	    </entry>
+		   	    <entry key-ref="rangeAxisTickCount">
+		   	    	<value type="java.lang.Integer">5</value>
+		   	    </entry>
 			</map>		
 		</property>
 	</bean>

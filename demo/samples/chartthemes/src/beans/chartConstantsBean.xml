@@ -207,9 +207,13 @@
 	<util:constant id="rangeAxisMinValue" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.RANGE_AXIS_MIN_VALUE"/>
 	<util:constant id="rangeAxisMaxValue" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.RANGE_AXIS_MAX_VALUE"/>
 	<util:constant id="rangeAxisTickCount" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.RANGE_AXIS_TICK_COUNT"/>
+	<util:constant id="rangeAxisTickInterval" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.RANGE_AXIS_TICK_INTERVAL"/>
+	<util:constant id="rangeAxisTimePeriodUnit" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.RANGE_AXIS_TIME_PERIOD_UNIT"/>
 	<util:constant id="domainAxisMinValue" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DOMAIN_AXIS_MIN_VALUE"/>
 	<util:constant id="domainAxisMaxValue" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DOMAIN_AXIS_MAX_VALUE"/>
 	<util:constant id="domainAxisTickCount" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DOMAIN_AXIS_TICK_COUNT"/>
+	<util:constant id="domainAxisTickInterval" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DOMAIN_AXIS_TICK_INTERVAL"/>
+	<util:constant id="domainAxisTimePeriodUnit" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.DOMAIN_AXIS_TIME_PERIOD_UNIT"/>
 
 	<!-- chart type names -->
 	<util:constant id="areaType" static-field="net.sf.jasperreports.charts.themes.ChartThemesConstants.AREA_TYPE"/>
