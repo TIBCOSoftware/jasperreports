@@ -201,6 +201,7 @@
 				<include name="**/net/sf/jasperreports/engine/design/JRDesignReportFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/design/events/*.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/DefaultExporterFilterFactory.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/DefaultHyperlinkProducerFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/ElementKeyExporterFilterFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/ExporterFilter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/ExporterFilterFactory.class"/>
@@ -210,6 +211,8 @@
 				<include name="**/net/sf/jasperreports/engine/export/JRExporterContext.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporterParameter.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/JRHyperlinkProducer.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/JRHyperlinkProducerFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JROriginExporterFilter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JROriginExporterFilterFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRPrintServiceExporter.class"/>
@@ -248,6 +251,7 @@
 				<include name="**/net/sf/jasperreports/engine/util/JRJdk14ImageEncoder.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRJdk14ImageReader.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRLoader.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRPenUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRProperties*.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRSaver.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRStringUtil.class"/>
