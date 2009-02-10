@@ -1065,7 +1065,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		// write title
 		writer.startElement(JRXmlConstants.ELEMENT_chartTitle);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getTitlePositionByte());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getTitlePositionByte(), JRXmlConstants.getChartEdgeMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, chart.getOwnTitleColor());
 		writeFont(chart.getTitleFont());
 		if (chart.getTitleExpression() != null)
@@ -1090,7 +1090,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_textColor, chart.getOwnLegendColor());
 		if (chart.getOwnLegendBackgroundColor() != null)
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundColor, chart.getOwnLegendBackgroundColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getLegendPositionByte());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getLegendPositionByte(), JRXmlConstants.getChartEdgeMap());
 		writeFont(chart.getLegendFont());
 		writer.closeElement();
 
@@ -1504,7 +1504,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeChartAxis(JRChartAxis chartAxis) throws IOException
 	{
 		writer.startElement(JRChartAxisFactory.ELEMENT_axis);
-		writer.addAttribute(JRChartAxisFactory.ATTRIBUTE_position, chartAxis.getPositionByte());
+		writer.addAttribute(JRChartAxisFactory.ATTRIBUTE_position, chartAxis.getPositionByte(), JRXmlConstants.getAxisPositionMap());
 
 		// Let the nested chart describe itself
 		writeChartTag(chartAxis.getChart());
@@ -1651,7 +1651,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeBubblePlot(JRBubblePlot plot) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_bubblePlot);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleType, plot.getScaleTypeInteger());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleType, plot.getScaleTypeInteger(), JRXmlConstants.getScaleTypeMap());
 		writePlot(plot);
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_xAxisLabelExpression, plot.getXAxisLabelExpression(), false);
@@ -2071,7 +2071,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		// write plot
 		JRMeterPlot plot = (JRMeterPlot) chart.getPlot();
 		writer.startElement(JRMeterPlotFactory.ELEMENT_meterPlot);
-		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_shape, plot.getShapeByte());
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_shape, plot.getShapeByte(), JRXmlConstants.getMeterShapeMap());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_angle, plot.getMeterAngleInteger());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_units, plot.getUnits());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickInterval, plot.getTickIntervalDouble());
@@ -2117,7 +2117,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writer.startElement(JRThermometerPlotFactory.ELEMENT_thermometerPlot, getNamespace());
 
-		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_valueLocation, plot.getValueLocationByte());
+		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_valueLocation, plot.getValueLocationByte(), JRXmlConstants.getThermometerValueLocationMap());
 		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_showValueLines, plot.isShowValueLines(), false);
 		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_mercuryColor, plot.getMercuryColor());
 
