@@ -76,6 +76,7 @@ import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintImageArea;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
@@ -192,6 +193,8 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 	private Color backcolor;
 
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
+	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
+
 	
 	protected boolean deepGrid;
 	
@@ -1322,37 +1325,60 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 	protected String getHyperlinkTarget(JRPrintHyperlink link)
 	{
 		String target = null;
-		switch(link.getHyperlinkTarget())
+		JRHyperlinkTargetProducer producer = targetProducerFactory.getHyperlinkTargetProducer(link.getLinkTarget());		
+		if (producer == null)
 		{
-			case JRHyperlink.HYPERLINK_TARGET_BLANK :
+			switch(link.getHyperlinkTarget())
 			{
-				target = "_blank";
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TARGET_PARENT :
-			{
-				target = "_parent";
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TARGET_TOP :
-			{
-				target = "_top";
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TARGET_SELF :
-			{
-				target = "_self";
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TARGET_CUSTOM :
-			{
-				target = link.getLinkTarget();
-				break;
-			}
-			default :
-			{
+				case JRHyperlink.HYPERLINK_TARGET_BLANK :
+				{
+					target = "_blank";
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TARGET_PARENT :
+				{
+					target = "_parent";
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TARGET_TOP :
+				{
+					target = "_top";
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TARGET_CUSTOM :
+				{
+					boolean paramFound = false;
+					List parameters = link.getHyperlinkParameters() == null ? null : link.getHyperlinkParameters().getParameters();
+					if (parameters != null)
+					{
+						for(Iterator it = parameters.iterator(); it.hasNext();)
+						{
+							JRPrintHyperlinkParameter parameter = (JRPrintHyperlinkParameter)it.next();
+							if (link.getLinkTarget().equals(parameter.getName()))
+							{
+								target = parameter.getValue() == null ? null : parameter.getValue().toString();
+								paramFound = true;
+								break;
+							}
+						}
+					}
+					if (!paramFound)
+					{
+						target = link.getLinkTarget();
+					}
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TARGET_SELF :
+				default :
+				{
+				}
 			}
 		}
+		else
+		{
+			target = producer.getHyperlinkTarget(link);
+		}
+
 		return target;
 	}
 

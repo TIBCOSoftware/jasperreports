@@ -188,7 +188,7 @@ public class JRHyperlinkHelper
 		byte target;
 		if (linkTarget == null)
 		{
-			target = JRHyperlink.HYPERLINK_TARGET_NULL;
+			target = JRHyperlink.HYPERLINK_TARGET_SELF;
 		}
 		else
 		{
@@ -255,7 +255,7 @@ public class JRHyperlinkHelper
 		String target;
 		switch (hyperlinkTarget)
 		{
-			case JRHyperlink.HYPERLINK_TARGET_NULL:
+			case JRHyperlink.HYPERLINK_TARGET_SELF:
 				target = null;
 				break;
 			case JRHyperlink.HYPERLINK_TARGET_BLANK:
@@ -263,9 +263,6 @@ public class JRHyperlinkHelper
 				break;
 			case JRHyperlink.HYPERLINK_TARGET_PARENT:
 				target = HYPERLINK_TARGET_PARENT;
-				break;
-			case JRHyperlink.HYPERLINK_TARGET_SELF:
-				target = HYPERLINK_TARGET_SELF;
 				break;
 			case JRHyperlink.HYPERLINK_TARGET_TOP:
 				target = HYPERLINK_TARGET_TOP;

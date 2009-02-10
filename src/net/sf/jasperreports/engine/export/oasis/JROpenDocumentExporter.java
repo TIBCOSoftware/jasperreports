@@ -1163,7 +1163,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			tempBodyWriter.write("\"");
 
 
-			String target = getHyperlinkTarget(link);
+			String target = getHyperlinkTarget(link);//FIXMETARGET
 			if (target != null)
 			{
 				tempBodyWriter.write(" office:target-frame-name=\"");

@@ -120,8 +120,8 @@
 	vAlign (Top | Middle | Bottom) #IMPLIED
 	isLazy (true | false) "false"
 	onErrorType (Error | Blank | Icon) "Error"
-	hyperlinkType CDATA "None"
-	hyperlinkTarget CDATA "Self"
+	hyperlinkType CDATA #IMPLIED
+	hyperlinkTarget CDATA #IMPLIED
 	anchorName CDATA #IMPLIED
 	hyperlinkReference CDATA #IMPLIED
 	hyperlinkAnchor CDATA #IMPLIED
@@ -187,8 +187,8 @@
 	markup CDATA #IMPLIED
 	lineSpacingFactor NMTOKEN "0"
 	leadingOffset NMTOKEN "0"
-	hyperlinkType CDATA "None"
-	hyperlinkTarget CDATA "Self"
+	hyperlinkType CDATA #IMPLIED
+	hyperlinkTarget CDATA #IMPLIED
 	anchorName CDATA #IMPLIED
 	hyperlinkReference CDATA #IMPLIED
 	hyperlinkAnchor CDATA #IMPLIED

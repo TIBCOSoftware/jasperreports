@@ -48,8 +48,6 @@ import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.base.JRBaseTextField;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
-//import java.text.Format;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -86,9 +84,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected String pattern = null;
 	protected Boolean isBlankWhenNull = null;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
-	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	protected String linkTarget;
 	private List hyperlinkParameters;
 
@@ -530,20 +526,13 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 	
 	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		normalizeLinkType();
-		normalizeLinkTarget();
-	}
-
 	protected void normalizeLinkTarget()
 	{
 		if (linkTarget == null)
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
 		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	}
 
 	protected void normalizeLinkType()
@@ -619,4 +608,17 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		return clone;
 	}
 	
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		normalizeLinkType();
+		normalizeLinkTarget();
+	}
+
 }

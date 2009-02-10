@@ -76,9 +76,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
 	protected JRLineBox lineBox = null;
 	protected String anchorName = null;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	private String linkType;
-	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	protected String linkType;
 	protected String linkTarget;
 	protected String hyperlinkReference = null;
 	protected String hyperlinkAnchor = null;
@@ -937,7 +935,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
 		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	}
 
 	
@@ -971,6 +969,8 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
+	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

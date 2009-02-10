@@ -84,9 +84,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected Byte lineSpacing = null;
 	protected String markup = null;
 	protected String anchorName = null;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	private String linkType;
-	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	protected String linkType;
 	protected String linkTarget;
 	protected String hyperlinkReference = null;
 	protected String hyperlinkAnchor = null;
@@ -1569,7 +1567,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
 		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	}
 
 	public String getHyperlinkTooltip()
@@ -1612,6 +1610,8 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
 	private Boolean isStyledText = null;
+	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

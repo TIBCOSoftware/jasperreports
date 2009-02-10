@@ -79,9 +79,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private Byte rotation = null;
 	private Byte lineSpacing = null;
 	private String markup = null;
-	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private String linkType;
-	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	private String linkTarget;
 
 	/**
@@ -157,7 +155,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		setTextElement(textField);
 
 		setLinkType(textField.getLinkType());
-		hyperlinkTarget = textField.getHyperlinkTarget();
 		setLinkTarget(textField.getLinkTarget());
 	}
 
@@ -499,22 +496,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
 	}
 	
-	/**
-	 * Sets the hyperlink target type for this text.
-	 * 
-	 * @param hyperlinkTarget one of
-	 * 	<ul>
-	 * 		<li>{@link JRHyperlink#HYPERLINK_TARGET_SELF}</li>
-	 * 		<li>{@link JRHyperlink#HYPERLINK_TARGET_BLANK}</li>
-	 * 		<li>{@link JRHyperlink#HYPERLINK_TARGET_PARENT}</li>
-	 * 		<li>{@link JRHyperlink#HYPERLINK_TARGET_TOP}</li>
-	 * 	</ul>
-	 */
-	public void setHyperlinkTarget(byte hyperlinkTarget)
-	{
-		this.hyperlinkTarget = hyperlinkTarget;
-	}
-
 	/**
 	 *
 	 */
@@ -975,7 +956,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
 		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	}
 
 	/**
@@ -1447,6 +1428,8 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
 	private Boolean isStyledText = null;
+	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

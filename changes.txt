@@ -2,8 +2,10 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.1.4 (2009-02-xx)
+JasperReports 3.1.4 (2009-02-10)
 -----------------------------------
+
+- frame name as hyperlink target with support for target producers;
 
 - multiple scriplets per report;
 

@@ -725,7 +725,7 @@ public class JRXmlConstants
 
 
 	/**
-	 * @deprecated {@link JRHyperlinkHelper JRHyperlinkHelper} should be used instead.
+	 * @deprecated Replaced by {@link JRHyperlinkHelper#getHyperlinkType(String)}.
 	 */
 	public static Map getHyperlinkTypeMap()
 	{
@@ -760,7 +760,7 @@ public class JRXmlConstants
 	private static Map hyperlinkTargetMap = null;
 
 	/**
-	 * @deprecated {@link JRHyperlinkHelper JRHyperlinkHelper} should be used instead.
+	 * @deprecated Replaced by {@link JRHyperlinkHelper#getHyperlinkTarget(String)}.
 	 */
 	public static Map getHyperlinkTargetMap()
 	{

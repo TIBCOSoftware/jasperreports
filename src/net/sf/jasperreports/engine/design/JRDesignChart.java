@@ -134,9 +134,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	protected Boolean showLegend = null;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
-	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	protected String linkTarget;
 	protected Color titleColor = null;
 	protected Color subtitleColor = null;
@@ -1504,7 +1502,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
 		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_NULL;
+		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	}
 
 	public JRExpression getHyperlinkTooltipExpression()
@@ -1614,9 +1612,11 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
-	protected boolean isShowLegend = false;
-	protected byte titlePosition = JRChart.EDGE_TOP;
-	protected byte legendPosition = JRChart.EDGE_BOTTOM;
+	private boolean isShowLegend = false;
+	private byte titlePosition = JRChart.EDGE_TOP;
+	private byte legendPosition = JRChart.EDGE_BOTTOM;
+	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1662,6 +1662,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 
 		normalizeLinkType();
 		normalizeLinkTarget();
+		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			showLegend = Boolean.valueOf(isShowLegend);
