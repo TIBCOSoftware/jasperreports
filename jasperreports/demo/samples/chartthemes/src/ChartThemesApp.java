@@ -100,9 +100,9 @@ public class ChartThemesApp
 			
 			if (TASK_THEMES.equals(taskName))
 			{
-				XmlChartTheme.saveSettings(SimpleSettingsFactory.createChartThemeSettings(), new File(".\\src\\simple.jrctx"));
-				XmlChartTheme.saveSettings(EyeCandySixtiesSettingsFactory.createChartThemeSettings(), new File(".\\src\\eye.candy.sixties.jrctx"));
-				XmlChartTheme.saveSettings(AegeanSettingsFactory.createChartThemeSettings(), new File(".\\src\\aegean.jrctx"));
+				XmlChartTheme.saveSettings(SimpleSettingsFactory.createChartThemeSettings(), new File(".\\src\\net\\sf\\jasperreports\\chartthemes\\simple\\simple.jrctx"));
+				XmlChartTheme.saveSettings(EyeCandySixtiesSettingsFactory.createChartThemeSettings(), new File(".\\src\\net\\sf\\jasperreports\\chartthemes\\simple\\eye.candy.sixties.jrctx"));
+				XmlChartTheme.saveSettings(AegeanSettingsFactory.createChartThemeSettings(), new File(".\\src\\net\\sf\\jasperreports\\chartthemes\\simple\\aegean.jrctx"));
 				System.err.println("Theme saving time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_FILL.equals(taskName))

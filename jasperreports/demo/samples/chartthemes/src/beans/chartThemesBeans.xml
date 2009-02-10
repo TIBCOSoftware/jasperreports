@@ -19,15 +19,8 @@
 				<entry key="aegean">
 					<ref bean="aegeanChartTheme"/>
 				</entry>
-				<entry key="simple">
-					<ref bean="simpleChartTheme"/>
-				</entry>
 			</map>
 		</property>
-	</bean>
-
-	<bean id="simpleChartTheme" class="net.sf.jasperreports.chartthemes.simple.XmlChartTheme">
-		<property name="file" value="simple.jrctx"/>
 	</bean>
 
 	<bean id="genericChartTheme" class="net.sf.jasperreports.charts.themes.GenericChartTheme">
