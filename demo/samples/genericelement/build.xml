@@ -1,0 +1,132 @@
+<project name="barbecue" default="javac" basedir=".">
+
+	<description>Shows how generic elements embedded in reports can be managed at export time by custom handlers.</description>
+
+	<property name="class.name" value="GenericElementApp" />
+	<property name="base.file.name" value="GenericElementReport"/>
+	<property name="file.name" value="${basedir}/build/${base.file.name}" />
+	<property name="classes.dir" value="../../../build/classes" />
+	<property name="lib.dir" value="../../../lib" />
+	<property name="fonts.dir" value="../../fonts" />
+	
+	<path id="classpath">
+		<pathelement location="./build/classes"/>
+		<pathelement location="./build/handler"/>
+		<pathelement location="${classes.dir}" />
+		<pathelement location="${fonts.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<mkdir dir="./build/classes"/> 
+		<javac srcdir="." destdir="./build/classes" debug="true" optimize="false" deprecation="false">
+			<classpath refid="classpath"/>
+			<include name="${class.name}.java"/>
+		</javac>
+		<mkdir dir="./build/handler"/> 
+		<javac srcdir="./src" destdir="./build/handler" debug="true" optimize="false" deprecation="false">
+			<classpath refid="classpath"/>
+		</javac>
+		<copy todir="./build/handler">
+			<fileset dir="./src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+		<mkdir dir="./build"/> 
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+			<classpath refid="classpath"/>
+		</taskdef>
+		<jrc destdir="./build">
+			<src>
+				<fileset dir=".">
+					<include name="*.jrxml"/>
+				</fileset>
+			</src>
+			<classpath refid="classpath"/>
+		</jrc> 
+	</target>
+
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="fill"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="xml"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="xmlEmbed"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="html"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="run" description="Generates an HTML file by filling the .jasper report design. No intermediate .jrprint file is produced.">
+		<java classname="${class.name}">
+			<arg value="run"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="./${base.file.name}.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<delete dir="./build" />
+	</target>
+
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Generic Element Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<antcall target="fill" />
+		<antcall target="xmlEmbed" />
+		<antcall target="xml" />
+		<antcall target="html" />
+	</target>
+	
+</project>

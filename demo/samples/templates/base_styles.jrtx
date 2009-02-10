@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE jasperTemplate
+  PUBLIC "-//JasperReports//DTD Template//EN"
+  "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd">
+
+<jasperTemplate>
+
+	<style name="Base" isDefault="true" hAlign="Center" vAlign="Middle"
+			fontSize="10" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false">
+		<box padding="4">
+			<pen lineWidth="0.5"/>
+		</box>
+	</style>
+		
+	<style name="Emphasis" style="Base" 
+		isItalic="true" pdfFontName="Helvetica-Oblique"/>
+		
+	<style name="Strong" style="Base" 
+		fontSize="12"
+		isBold="true" pdfFontName="Helvetica-Bold" />
+		
+	<style name="Very Strong" style="Strong" 
+		mode="Opaque" backcolor="lightGray"/>
+	
+</jasperTemplate>
