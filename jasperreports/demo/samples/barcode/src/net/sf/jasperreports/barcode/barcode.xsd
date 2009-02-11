@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://jasperreports.sourceforge.net/jasperreports/barcode"
+  xmlns:bc="http://jasperreports.sourceforge.net/jasperreports/barcode"
+  xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
+
+	<import namespace="http://jasperreports.sourceforge.net/jasperreports"/>
+
+	<element name="barcode" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element ref="bc:codeExpression"/>
+					</sequence>
+					<attribute name="type" use="required">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="UPCA"/>
+								<enumeration value="Code128"/>
+								<enumeration value="Codabar"/>
+								<enumeration value="Std2of5"/>
+								<enumeration value="Int2of5"/>
+								<enumeration value="EAN13"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="drawText" use="optional" default="true" type="boolean"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<element name="codeExpression">
+		<complexType mixed="true"/>
+	</element>
+
+</schema>

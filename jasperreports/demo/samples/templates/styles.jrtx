@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE jasperTemplate
+  PUBLIC "-//JasperReports//DTD Template//EN"
+  "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd">
+
+<jasperTemplate>
+
+	<template><![CDATA[base_styles.jrtx]]></template>
+	
+	<!-- Override the default font from base_styles.xml -->
+	<style name="Regular" style="Base" isDefault="true" 
+		fontSize="12"/>
+	
+	<style name="Special Emphasis" style="Emphasis"
+		fontSize="12" forecolor="red"/>
+	
+	<!--
+		Override the Strong style from base_styles.xml.
+		Note that the Very Strong style from base_styles.xml will still inherit the original Strong style.
+	-->
+	<style name="Strong" style="Base"
+		isUnderline="true" fontSize="14"/>
+
+	<style name="Serif" style="Base"
+		fontSize="12"
+		fontName="DejaVu Serif"/>
+	
+	<style name="Serif Note" style="Serif"
+		isUnderline="true"/>
+	
+</jasperTemplate>

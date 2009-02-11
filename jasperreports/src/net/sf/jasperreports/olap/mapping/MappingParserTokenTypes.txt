@@ -1,0 +1,26 @@
+// $ANTLR 2.7.5 (20050128): mapping.g -> MappingParserTokenTypes.txt$
+MappingParser    // output token vocab name
+LITERAL_Axis="Axis"=4
+LPAREN=5
+RPAREN=6
+LITERAL_Columns="Columns"=7
+LITERAL_Rows="Rows"=8
+LITERAL_Pages="Pages"=9
+LITERAL_Chapters="Chapters"=10
+LITERAL_Sections="Sections"=11
+LITERAL_Data="Data"=12
+LITERAL_FormattedData="FormattedData"=13
+COMMA=14
+QMARK=15
+POINT=16
+INT=17
+MONDRNAME=18
+MONDRIDX=19
+NAME=20
+PLUS=21
+MINUS=22
+STAR=23
+WS=24
+MONDRCH=25
+DIGIT=26
+LETTER=27

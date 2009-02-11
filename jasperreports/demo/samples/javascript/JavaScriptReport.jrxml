@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="JavaScriptReport" language="javascript" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+	<parameter name="A" class="java.lang.Double">
+		<defaultValueExpression><![CDATA[3]]></defaultValueExpression>
+	</parameter>
+	<parameter name="B" class="java.lang.Double">
+		<defaultValueExpression><![CDATA[5]]></defaultValueExpression>
+	</parameter>
+	<title>
+		<band height="742">
+			<line>
+				<reportElement x="0" y="0" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="10" width="515" height="30"/>
+				<textElement textAlignment="Center">
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[JavaScript Sample]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="150" width="259" height="35"/>
+				<textElement textAlignment="Right">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[A =]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="280" y="150" width="200" height="35"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{A}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="190" width="259" height="35"/>
+				<textElement textAlignment="Right">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[B =]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="280" y="190" width="200" height="35"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{B}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="240" width="259" height="35"/>
+				<textElement textAlignment="Right">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[A + B =]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="280" y="240" width="200" height="35" forecolor="#8000"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{A} + $P{B}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

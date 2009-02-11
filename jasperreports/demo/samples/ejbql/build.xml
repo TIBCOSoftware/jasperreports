@@ -1,0 +1,207 @@
+<project name="ejbql" default="javac" basedir=".">
+
+	<description>Shows how EJBQL could be used in reports.</description>
+
+	<property name="class.name" value="EjbqlApp" />
+	<property name="file.name" value="JRMDbReport" />
+	<property name="classes.dir" value="../../../build/classes" />
+	<property name="lib.dir" value="../../../lib" />
+	<property name="fonts.dir" value="../../fonts" />
+	<property name="build.dir" value="build"/>
+	
+	<path id="classpath">
+		<pathelement location="${build.dir}/classes"/>
+		<pathelement location="${classes.dir}" />
+		<pathelement location="${fonts.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="lib">
+			<include name="toplink-essentials.jar"/>
+		</fileset>
+	</path>
+
+	<condition property="using.jdk.1.5">
+		<or>
+		<equals arg1="${ant.java.version}" arg2="1.5"/>
+		<equals arg1="${ant.java.version}" arg2="1.6"/>
+		</or>
+	</condition>
+
+	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application.">
+		<mkdir dir="${build.dir}/classes"/>
+		<javac srcdir="./" destdir="${build.dir}/classes" debug="true" optimize="false" deprecation="false">
+			<classpath refid="classpath"/>
+		</javac>
+		<copy todir="${build.dir}/classes">
+			<fileset dir=".">
+				<include name="META-INF/*"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}" file="db.script"/>
+	</target>
+
+	<target name="compile" if="using.jdk.1.5" description="Compiles the XML report design and produces the .jasper file.">
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+			<classpath refid="classpath"/>
+		</taskdef>
+		<jrc destdir="${build.dir}">
+			<src>
+				<fileset dir="./">
+					<include name="**/*.jrxml"/>
+				</fileset>
+			</src>
+			<classpath refid="classpath"/>
+		</jrc> 
+	</target>
+
+	<target name="fill" if="using.jdk.1.5" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<jvmarg value="-javaagent:../lib/toplink-essentials-agent.jar"/>
+			<arg value="fill"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="view" if="using.jdk.1.5" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="${build.dir}">
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewXML" if="using.jdk.1.5" description="Launches the report viewer to preview the generated report stored in an XML file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="${build.dir}">
+			<arg value="${file.name}.jrpxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="print" if="using.jdk.1.5" description="Sends the report in the .jrprint file to the printer.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="print"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="pdf" if="using.jdk.1.5" description="Generates a PDF version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="pdf"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="xml" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="xml"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="xmlEmbed" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="xmlEmbed"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="html" if="using.jdk.1.5" description="Generates an HTML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="html"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="rtf" if="using.jdk.1.5" description="Generates an RTF version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="rtf"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="xls" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="xls"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="jxl" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="jxl"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="csv" if="using.jdk.1.5" description="Generates a CSV version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="csv"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="odt" if="using.jdk.1.5" description="Generates an ODT version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="odt"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="run" if="using.jdk.1.5" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<jvmarg value="-javaagent:../lib/toplink-essentials-agent.jar"/>
+			<arg value="run"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${file.name}.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign" if="using.jdk.1.5" description="Launches the design viewer to preview the compiled report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<delete dir="${build.dir}" />
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" EJBQL Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<antcall target="fill" />
+		<antcall target="pdf" />
+		<antcall target="xmlEmbed" />
+		<antcall target="xml" />
+		<antcall target="html" />
+		<antcall target="rtf" />
+		<antcall target="xls" />
+		<antcall target="jxl" />
+		<antcall target="csv" />
+		<antcall target="odt" />
+	</target>
+
+</project>
