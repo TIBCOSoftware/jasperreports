@@ -122,13 +122,11 @@ public class SimpleSettingsFactory
 	{
 		ChartThemeSettings settings = new ChartThemeSettings();
 		
-
 		ChartSettings chartSettings = settings.getChartSettings();
 		chartSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 		chartSettings.setBackgroundImage(new FileImageProvider("net/sf/jasperreports/chartthemes/simple/jasperreports.gif"));
 		chartSettings.setBackgroundImageAlignment(new Integer(Align.TOP_RIGHT));
 		chartSettings.setBackgroundImageAlpha(new Float(1f));
-		chartSettings.getFont().setBold(Boolean.TRUE);
 		chartSettings.setBorderVisible(Boolean.TRUE);
 		chartSettings.setBorderPaint(new ColorProvider(Color.GREEN));
 		chartSettings.setBorderStroke(new BasicStroke(1f));
@@ -142,6 +140,7 @@ public class SimpleSettingsFactory
 		titleSettings.setForegroundPaint(new ColorProvider(Color.black));
 		titleSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 		titleSettings.getFont().setBold(Boolean.TRUE);
+		titleSettings.getFont().setFontSize(22);
 		titleSettings.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		titleSettings.setVerticalAlignment(VerticalAlignment.TOP);
 		titleSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
