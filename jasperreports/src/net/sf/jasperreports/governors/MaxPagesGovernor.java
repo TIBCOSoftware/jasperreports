@@ -73,7 +73,7 @@ public class MaxPagesGovernor extends JRDefaultScriptlet
 		{
 			throw 
 				new MaxPagesGovernorException(
-					((JasperReport)getParameterValue(JRParameter.JASPER_REPORT)).getName(),
+					((JasperReport)getParameterValue(JRParameter.JASPER_REPORT, false)).getName(),
 					maxPages
 					);
 		}

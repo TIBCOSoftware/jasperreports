@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.scriptlets;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReport;
 
 
@@ -48,9 +49,9 @@ public class ScriptletFactoryContext
 	/**
 	 *
 	 */
-	public ScriptletFactoryContext(JasperReport jasperReport, Map parameterValues)
+	public ScriptletFactoryContext(Map parameterValues)
 	{
-		this.jasperReport = jasperReport;
+		this.jasperReport = (JasperReport)parameterValues.get(JRParameter.JASPER_REPORT);
 		this.parameterValues = parameterValues;
 	}
 	

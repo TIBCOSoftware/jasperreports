@@ -430,7 +430,7 @@ public class JRDesignDataset extends JRBaseDataset
 		if (scriptlet != null)
 		{
 			removeParameter(scriptlet.getName() + "_SCRIPTLET");
-			int idx = parametersList.indexOf(scriptlet);
+			int idx = scriptletsList.indexOf(scriptlet);
 			if (idx >= 0)
 			{
 				scriptletsList.remove(idx);

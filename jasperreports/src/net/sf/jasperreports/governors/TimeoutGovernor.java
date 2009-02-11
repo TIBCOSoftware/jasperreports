@@ -81,7 +81,7 @@ public class TimeoutGovernor extends JRDefaultScriptlet
 		{
 			throw 
 				new TimeoutGovernorException(
-					((JasperReport)getParameterValue(JRParameter.JASPER_REPORT)).getName(),
+					((JasperReport)getParameterValue(JRParameter.JASPER_REPORT, false)).getName(),
 					timeout
 					);
 		}

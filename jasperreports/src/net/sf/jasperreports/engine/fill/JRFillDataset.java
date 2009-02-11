@@ -218,7 +218,7 @@ public class JRFillDataset implements JRDataset
 	
 	/**
 	 * Creates a fill dataset object.
-	 * @param filler the filelr
+	 * @param filler the filler
 	 * @param dataset the template dataset
 	 * @param factory the fill object factory
 	 */
@@ -454,7 +454,7 @@ public class JRFillDataset implements JRDataset
 	 */
 	protected List createScriptlets(Map parameterValues) throws JRException
 	{
-		ScriptletFactoryContext context = new ScriptletFactoryContext(filler.jasperReport, parameterValues);
+		ScriptletFactoryContext context = new ScriptletFactoryContext(parameterValues);
 		
 		scriptlets = new ArrayList();
 		
@@ -546,7 +546,12 @@ public class JRFillDataset implements JRDataset
 	{
 		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
 		
-		parameterValues.put(JRParameter.JASPER_REPORT, filler.getJasperReport());
+		if (filler != null)
+		{
+			// the only case when this filler is null is when called from JRParameterDefaultValuesEvaluator
+			// and that utility method already sets the report object in the map
+			parameterValues.put(JRParameter.JASPER_REPORT, filler.getJasperReport());
+		}
 		
 		reportMaxCount = (Integer) parameterValues.get(JRParameter.REPORT_MAX_COUNT);
 
