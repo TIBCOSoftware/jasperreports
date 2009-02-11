@@ -271,10 +271,28 @@
 		<field name="fontName" type="java.lang.String" get-method="getOwnFontName" set-method="setFontName">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="fontSize" type="java.lang.Integer" get-method="getOwnFontSize" set-method="setFontSize">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="bold" type="java.lang.Boolean" get-method="isOwnBold" set-method="setBold">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="italic" type="java.lang.Boolean" get-method="isOwnItalic" set-method="setItalic">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="underline" type="java.lang.Boolean" get-method="isOwnUnderline" set-method="setUnderline">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="strikeThrough" type="java.lang.Boolean" get-method="isOwnStrikeThrough" set-method="setStrikeThrough">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="pdfFontName" type="java.lang.String" get-method="getOwnPdfFontName" set-method="setPdfFontName">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="pdfEncoding" type="java.lang.String" get-method="getOwnPdfEncoding" set-method="setPdfEncoding">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="pdfEmbedded" type="java.lang.Boolean" get-method="isOwnPdfEmbedded" set-method="setPdfEmbedded">
 			<bind-xml node="attribute"/>
 		</field>
 	</class>
