@@ -2,6 +2,15 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 3.1.5 (2009-02-xx)
+-----------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 3.1.4 (2009-02-10)
 -----------------------------------
 
