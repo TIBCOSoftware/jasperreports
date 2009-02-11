@@ -59,6 +59,8 @@ public class JRParameterDefaultValuesEvaluator
 	{
 		Map valuesMap = initialParameters == null ? new HashMap() : new HashMap(initialParameters);
 		
+		valuesMap.put(JRParameter.JASPER_REPORT, report);
+		
 		ObjectFactory factory = new ObjectFactory();
 		JRDataset reportDataset = report.getMainDataset();
 		JRFillDataset fillDataset = factory.getDataset(reportDataset);

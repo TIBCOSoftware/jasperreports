@@ -85,10 +85,23 @@ public abstract class JRAbstractScriptlet
 	 */
 	public Object getParameterValue(String parameterName) throws JRScriptletException
 	{
+		return getParameterValue(parameterName, true);
+	}
+
+
+	/**
+	 *
+	 */
+	public Object getParameterValue(String parameterName, boolean mustBeDeclared) throws JRScriptletException
+	{
 		JRFillParameter parameter = (JRFillParameter)this.parametersMap.get(parameterName);
 		if (parameter == null)
 		{
-			throw new JRScriptletException("Parameter not found : " + parameterName);
+			if (mustBeDeclared)
+			{
+				throw new JRScriptletException("Parameter not found : " + parameterName);
+			}
+			return ((Map)((JRFillParameter)this.parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP)).getValue()).get(parameterName);
 		}
 		return parameter.getValue();
 	}

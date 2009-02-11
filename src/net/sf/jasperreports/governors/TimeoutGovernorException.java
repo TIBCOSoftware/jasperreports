@@ -46,7 +46,7 @@ public class TimeoutGovernorException extends GovernorException
 	 */
 	public TimeoutGovernorException(String reportName, long timeout)
 	{
-		super("Report '" + reportName + "' exceeded the timeout limit of " + timeout + " millisecons.");
+		super("Report '" + reportName + "' exceeded the timeout limit of " + timeout + " milliseconds.");
 
 		this.timeout = timeout;
 	}
