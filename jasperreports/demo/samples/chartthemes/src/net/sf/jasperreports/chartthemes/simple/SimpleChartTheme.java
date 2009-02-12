@@ -2185,7 +2185,7 @@ public class SimpleChartTheme implements ChartTheme
 			RectangleInsets tickLabelInsets = axisSettings.getTickLabelInsets();
 			if(tickLabelInsets != null)
 			{
-				axis.setLabelInsets(tickLabelInsets);
+				axis.setTickLabelInsets(tickLabelInsets);
 			}
 			
 			Paint tickLabelPaint = tickLabelColor != null 
@@ -2196,7 +2196,7 @@ public class SimpleChartTheme implements ChartTheme
 				
 			if (tickLabelPaint != null)
 			{
-				axis.setLabelPaint(tickLabelPaint);
+				axis.setTickLabelPaint(tickLabelPaint);
 			}
 			
 			if (tickLabelMask != null)
