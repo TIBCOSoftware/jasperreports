@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
@@ -101,12 +102,14 @@ import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.ThermometerPlot;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.category.StackedBarRenderer3D;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.jfree.chart.renderer.xy.HighLowRenderer;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
@@ -615,6 +618,7 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected JFreeChart createBarChart() throws JRException
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createBarChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -653,9 +657,10 @@ public class SimpleChartTheme implements ChartTheme
 				barPlot.getOwnValueAxisLineColor(), getRangeAxisSettings());
 
 
-		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+		BarRenderer categoryRenderer = (BarRenderer)categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
 		categoryRenderer.setBaseItemLabelsVisible( barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue());
+		categoryRenderer.setShadowVisible(false);
 		
 		return jfreeChart;
 	}
@@ -1048,9 +1053,10 @@ public class SimpleChartTheme implements ChartTheme
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(isShowTickMarks);
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(isShowTickLabels);
 
-		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+		BarRenderer categoryRenderer = (BarRenderer)categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
 		categoryRenderer.setBaseItemLabelsVisible(isShowLabels);
+		categoryRenderer.setShadowVisible(false);
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
@@ -1180,8 +1186,9 @@ public class SimpleChartTheme implements ChartTheme
 //				);
 
 
-		XYItemRenderer itemRenderer = xyPlot.getRenderer();
+		XYBarRenderer itemRenderer = (XYBarRenderer)xyPlot.getRenderer();
 		itemRenderer.setBaseItemLabelGenerator((XYItemLabelGenerator)getLabelGenerator());
+		itemRenderer.setShadowVisible(true);
 
 		JRBarPlot barPlot = (JRBarPlot)getPlot();
 		boolean isShowLabels = barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue();
@@ -1311,6 +1318,7 @@ public class SimpleChartTheme implements ChartTheme
 		boolean isShowTickLabels = barPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels().booleanValue();
 		boolean isShowLabels = barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue();
 		
+		//FIXMETHEME these are useless if the theme settings apply after regardless of these; check all
 		categoryPlot.getDomainAxis().setTickMarksVisible(isShowTickMarks);
 		categoryPlot.getDomainAxis().setTickLabelsVisible(isShowTickLabels);
 		// Handle the axis formating for the catagory axis
@@ -1330,9 +1338,10 @@ public class SimpleChartTheme implements ChartTheme
 			barPlot.getOwnValueAxisLineColor(), getRangeAxisSettings()
 			);
 
-		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+		BarRenderer categoryRenderer = (BarRenderer)categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
 		categoryRenderer.setBaseItemLabelsVisible(isShowLabels);
+		categoryRenderer.setShadowVisible(false);
 
 		return jfreeChart;
 	}
@@ -2173,8 +2182,11 @@ public class SimpleChartTheme implements ChartTheme
 
 	protected void setAxisTickLabels(Axis axis, JRFont tickLabelFont, Paint tickLabelColor, String tickLabelMask, AxisSettings axisSettings)
 	{
-		Boolean axisTickLabelsVisible = axisSettings.getTickLabelsVisible();
-		if(axisTickLabelsVisible == null || axisTickLabelsVisible.booleanValue())
+		boolean axisTickLabelsVisible = axisSettings.getTickLabelsVisible() == null || axisSettings.getTickLabelsVisible().booleanValue();//FIXMETHEME axis visibility should be dealt with above;
+		
+		axis.setTickLabelsVisible(axisTickLabelsVisible);
+
+		if(axisTickLabelsVisible)
 		{
 			JRBaseFont font = new JRBaseFont();
 			JRFontUtil.copyNonNullOwnProperties(axisSettings.getTickLabelFont(), font);
