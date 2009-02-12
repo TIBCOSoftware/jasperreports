@@ -72,6 +72,7 @@ import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.CategoryAxis;
@@ -92,14 +93,16 @@ import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.ThermometerPlot;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BarRenderer3D;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.GanttRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.renderer.category.StackedBarRenderer;
 import org.jfree.chart.renderer.category.StackedBarRenderer3D;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.jfree.chart.renderer.xy.HighLowRenderer;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
@@ -505,6 +508,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected JFreeChart createAreaChart() throws JRException 
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart = 
 			ChartFactory.createAreaChart( 
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -535,6 +539,7 @@ public class DefaultChartTheme implements ChartTheme
 
 	protected JFreeChart createBar3DChart() throws JRException 
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createBarChart3D(
 					(String)evaluateExpression(getChart().getTitleExpression()),
@@ -583,6 +588,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected JFreeChart createBarChart() throws JRException
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createBarChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -621,9 +627,10 @@ public class DefaultChartTheme implements ChartTheme
 				barPlot.getValueAxisLineColor());
 
 
-		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+		BarRenderer categoryRenderer = (BarRenderer)categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
 		categoryRenderer.setBaseItemLabelsVisible( barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue());
+		categoryRenderer.setShadowVisible(false);
 		
 		return jfreeChart;
 	}
@@ -631,6 +638,7 @@ public class DefaultChartTheme implements ChartTheme
 
 	protected JFreeChart createBubbleChart() throws JRException 
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart = ChartFactory.createBubbleChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
 				(String)evaluateExpression(((JRBubblePlot)getPlot()).getXAxisLabelExpression()),
@@ -670,6 +678,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected JFreeChart createCandlestickChart() throws JRException
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createCandlestickChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -708,6 +717,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected JFreeChart createHighLowChart() throws JRException
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createHighLowChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -746,6 +756,7 @@ public class DefaultChartTheme implements ChartTheme
 
 	protected JFreeChart createLineChart() throws JRException 
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart = ChartFactory.createLineChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
 				(String)evaluateExpression( ((JRLinePlot)getPlot()).getCategoryAxisLabelExpression()),
@@ -791,6 +802,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected JFreeChart createPie3DChart() throws JRException
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createPieChart3D(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -847,6 +859,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected JFreeChart createPieChart() throws JRException
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createPieChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -897,6 +910,7 @@ public class DefaultChartTheme implements ChartTheme
 
 	protected JFreeChart createScatterChart() throws JRException 
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart = ChartFactory.createScatterPlot(
 				(String)evaluateExpression(getChart().getTitleExpression()),
 				(String)evaluateExpression(((JRScatterPlot)getPlot()).getXAxisLabelExpression()),
@@ -938,6 +952,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected JFreeChart createStackedBar3DChart() throws JRException
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createStackedBarChart3D(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -987,6 +1002,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected JFreeChart createStackedBarChart() throws JRException
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createStackedBarChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -1013,9 +1029,10 @@ public class DefaultChartTheme implements ChartTheme
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(isShowTickMarks);
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(isShowTickLabels);
 
-		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+		StackedBarRenderer categoryRenderer = (StackedBarRenderer)categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
 		categoryRenderer.setBaseItemLabelsVisible(isShowLabels);
+		categoryRenderer.setShadowVisible(false);
 
 		// Handle the axis formating for the catagory axis
 		configureAxis(categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
@@ -1037,6 +1054,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected JFreeChart createStackedAreaChart() throws JRException
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createStackedAreaChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -1071,6 +1089,7 @@ public class DefaultChartTheme implements ChartTheme
 
 	protected JFreeChart createXyAreaChart() throws JRException 
 	{
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart = 
 			ChartFactory.createXYAreaChart(
 				(String)evaluateExpression(getChart().getTitleExpression() ),
@@ -1114,6 +1133,7 @@ public class DefaultChartTheme implements ChartTheme
 			isDate = false;
 		}
 
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createXYBarChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -1145,8 +1165,10 @@ public class DefaultChartTheme implements ChartTheme
 //				);
 
 
-		XYItemRenderer itemRenderer = xyPlot.getRenderer();
+		XYBarRenderer itemRenderer = (XYBarRenderer)xyPlot.getRenderer();
 		itemRenderer.setBaseItemLabelGenerator((XYItemLabelGenerator)getLabelGenerator() );
+		itemRenderer.setShadowVisible(false);
+		
 
 		JRBarPlot barPlot = (JRBarPlot)getPlot();
 		boolean isShowLabels = barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue();
@@ -1173,6 +1195,7 @@ public class DefaultChartTheme implements ChartTheme
 	{
 		JRLinePlot linePlot = (JRLinePlot) getPlot();
 
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart = 
 			ChartFactory.createXYLineChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -1212,6 +1235,7 @@ public class DefaultChartTheme implements ChartTheme
 		String timeAxisLabel = (String)evaluateExpression(((JRTimeSeriesPlot)getPlot()).getTimeAxisLabelExpression());
 		String valueAxisLabel = (String)evaluateExpression(((JRTimeSeriesPlot)getPlot()).getValueAxisLabelExpression());
 
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart = ChartFactory.createTimeSeriesChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
 				timeAxisLabel,
@@ -1256,6 +1280,7 @@ public class DefaultChartTheme implements ChartTheme
 	{
 		//FIXMECHART legend/tooltip/url should come from plot?
 		
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		JFreeChart jfreeChart =
 			ChartFactory.createGanttChart(
 				(String)evaluateExpression(getChart().getTitleExpression()),
@@ -1296,9 +1321,10 @@ public class DefaultChartTheme implements ChartTheme
 			barPlot.getValueAxisLineColor()
 			);
 
-		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+		GanttRenderer categoryRenderer = (GanttRenderer)categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
 		categoryRenderer.setBaseItemLabelsVisible(isShowLabels);
+		categoryRenderer.setShadowVisible(false);
 
 		return jfreeChart;
 	}
