@@ -417,7 +417,7 @@ public class SimpleChartTheme implements ChartTheme
 			plot.setInsets(padding);
 
 		Boolean plotOutlineVisible = getPlotSettings().getOutlineVisible();
-		if(plotOutlineVisible != null && plotOutlineVisible.booleanValue()) 
+		if(plotOutlineVisible == null || plotOutlineVisible.booleanValue()) 
 		{
 			Paint outlinePaint = getPlotSettings().getOutlinePaint() == null ? null : getPlotSettings().getOutlinePaint().getPaint();
 			if(outlinePaint != null)
@@ -510,7 +510,7 @@ public class SimpleChartTheme implements ChartTheme
 	{
 		Boolean axisVisible = axisSettings.getVisible();
 		
-		if(axisVisible != null && axisVisible.booleanValue())
+		if(axisVisible == null || axisVisible.booleanValue())
 		{
 			setAxisLine(axis, lineColor, axisSettings);
 
@@ -1715,7 +1715,7 @@ public class SimpleChartTheme implements ChartTheme
 	{
 		TitleSettings titleSettings =  getTitleSettings();
 		Boolean showTitle = titleSettings.getShowTitle();
-		if(showTitle != null && showTitle.booleanValue())
+		if(showTitle == null || showTitle.booleanValue())
 		{
 			TextTitle title = jfreeChart.getTitle();
 					
@@ -1753,7 +1753,7 @@ public class SimpleChartTheme implements ChartTheme
 		
 		Boolean subtitleVisibility = subtitleSettings.getShowTitle();
 
-		if(subtitleVisibility != null && subtitleVisibility.booleanValue())
+		if(subtitleVisibility == null || subtitleVisibility.booleanValue())
 		{
 			String subtitleText = (String)evaluateExpression(getChart().getSubtitleExpression());
 			if (subtitleText != null)
@@ -1850,7 +1850,7 @@ public class SimpleChartTheme implements ChartTheme
 			)
 		{
 			boolean isVisible = chartSettings.getBorderVisible() == null 
-				? false 
+				? true 
 				: chartSettings.getBorderVisible().booleanValue();
 			if (isVisible)
 			{
@@ -1987,7 +1987,7 @@ public class SimpleChartTheme implements ChartTheme
 		}
 		
 		Boolean domainGridlineVisible = plotSettings.getDomainGridlineVisible();
-		if(domainGridlineVisible != null && domainGridlineVisible.booleanValue())
+		if(domainGridlineVisible == null || domainGridlineVisible.booleanValue())
 		{
 			PaintProvider domainGridlinePaint = plotSettings.getDomainGridlinePaint();
 			if(domainGridlinePaint != null)
@@ -2002,7 +2002,7 @@ public class SimpleChartTheme implements ChartTheme
 			
 		}
 		Boolean rangeGridlineVisible = plotSettings.getRangeGridlineVisible();
-		if(rangeGridlineVisible != null && rangeGridlineVisible.booleanValue())
+		if(rangeGridlineVisible == null || rangeGridlineVisible.booleanValue())
 		{
 			PaintProvider rangeGridlinePaint = plotSettings.getRangeGridlinePaint();
 			if(rangeGridlinePaint != null)
@@ -2055,7 +2055,7 @@ public class SimpleChartTheme implements ChartTheme
 		}
 		
 		Boolean domainGridlineVisible = plotSettings.getDomainGridlineVisible();
-		if(domainGridlineVisible != null && domainGridlineVisible.booleanValue())
+		if(domainGridlineVisible == null || domainGridlineVisible.booleanValue())
 		{
 			PaintProvider domainGridlinePaint = plotSettings.getDomainGridlinePaint();
 			if(domainGridlinePaint != null)
@@ -2070,7 +2070,7 @@ public class SimpleChartTheme implements ChartTheme
 			
 		}
 		Boolean rangeGridlineVisible = plotSettings.getRangeGridlineVisible();
-		if(rangeGridlineVisible != null && rangeGridlineVisible.booleanValue())
+		if(rangeGridlineVisible == null || rangeGridlineVisible.booleanValue())
 		{
 			PaintProvider rangeGridlinePaint = plotSettings.getRangeGridlinePaint();
 			if(rangeGridlinePaint != null)
@@ -2114,7 +2114,7 @@ public class SimpleChartTheme implements ChartTheme
 	protected void setAxisLine(Axis axis, Paint lineColor, AxisSettings axisSettings)
 	{
 		Boolean axisLineVisible = axisSettings.getLineVisible();
-		if(axisLineVisible != null && axisLineVisible.booleanValue())
+		if(axisLineVisible == null || axisLineVisible.booleanValue())
 		{
 			Paint linePaint = lineColor;
 			if (linePaint == null && axisSettings.getLinePaint() != null)
@@ -2129,13 +2129,17 @@ public class SimpleChartTheme implements ChartTheme
 			if(axisLineStroke != null)
 				axis.setAxisLineStroke(axisLineStroke);
 		}
+		else
+		{
+			axis.setAxisLineVisible(false);
+		}
 	}
 	
 	protected void setAxisLabel(Axis axis, JRFont labelFont, Paint labelColor, AxisSettings axisSettings)
 	{
 		Boolean axisLabelVisible = axisSettings.getLabelVisible();
 		
-		if(axisLabelVisible != null && axisLabelVisible.booleanValue())
+		if(axisLabelVisible == null || axisLabelVisible.booleanValue())
 		{
 			if(axis.getLabel() == null)
 				axis.setLabel(axisSettings.getLabel());
@@ -2170,7 +2174,7 @@ public class SimpleChartTheme implements ChartTheme
 	protected void setAxisTickLabels(Axis axis, JRFont tickLabelFont, Paint tickLabelColor, String tickLabelMask, AxisSettings axisSettings)
 	{
 		Boolean axisTickLabelsVisible = axisSettings.getTickLabelsVisible();
-		if(axisTickLabelsVisible != null && axisTickLabelsVisible.booleanValue())
+		if(axisTickLabelsVisible == null || axisTickLabelsVisible.booleanValue())
 		{
 			JRBaseFont font = new JRBaseFont();
 			JRFontUtil.copyNonNullOwnProperties(axisSettings.getTickLabelFont(), font);
@@ -2230,8 +2234,11 @@ public class SimpleChartTheme implements ChartTheme
 	
 	protected void setAxisTickMarks(Axis axis, Paint lineColor, AxisSettings axisSettings)
 	{
-		Boolean axisTickMarksVisible = axisSettings.getTickMarksVisible();
-		if(axisTickMarksVisible != null && axisTickMarksVisible.booleanValue())
+		boolean axisTickMarksVisible = axisSettings.getTickMarksVisible() == null || axisSettings.getTickMarksVisible().booleanValue();
+		
+		axis.setTickMarksVisible(axisTickMarksVisible);
+		
+		if(axisTickMarksVisible)
 		{
 			Float axisTickMarksInsideLength = axisSettings.getTickMarksInsideLength();
 			if(axisTickMarksInsideLength != null)
@@ -2247,11 +2254,11 @@ public class SimpleChartTheme implements ChartTheme
 			
 			if (tickMarkPaint != null)
 			{
-				axis.setAxisLinePaint(tickMarkPaint);
+				axis.setTickMarkPaint(tickMarkPaint);
 			}
 			Stroke tickMarkStroke = axisSettings.getTickMarksStroke();
 			if(tickMarkStroke != null)
-				axis.setAxisLineStroke(tickMarkStroke);
+				axis.setTickMarkStroke(tickMarkStroke);
 		}
 	}
 	
@@ -2387,11 +2394,12 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected boolean isShowLegend()
 	{
-		Boolean showLegend = getChart().getShowLegend() != null
-			? getChart().getShowLegend()
-			: getLegendSettings().getShowLegend() != null
-			? getLegendSettings().getShowLegend()
-			: Boolean.FALSE;
+		Boolean showLegend = 
+			getChart().getShowLegend() != null
+				? getChart().getShowLegend()
+				: getLegendSettings().getShowLegend() == null
+					? Boolean.TRUE
+					: getLegendSettings().getShowLegend();
 
 		return showLegend.booleanValue();
 	}
