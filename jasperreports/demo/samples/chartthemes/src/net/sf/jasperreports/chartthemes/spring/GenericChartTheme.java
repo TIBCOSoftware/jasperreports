@@ -2098,14 +2098,14 @@ public class GenericChartTheme implements ChartTheme
 			RectangleInsets defaultTickLabelInsets = (RectangleInsets)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_INSETS);
 			if(defaultTickLabelInsets != null)
 			{
-				axis.setLabelInsets(defaultTickLabelInsets);
+				axis.setTickLabelInsets(defaultTickLabelInsets);
 			}
 			Paint tickLabelPaint = tickLabelColor != null ? 
 					tickLabelColor :
 					(Paint)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_LABEL_PAINT);	
 			if (tickLabelPaint != null)
 			{
-				axis.setLabelPaint(tickLabelPaint);
+				axis.setTickLabelPaint(tickLabelPaint);
 			}
 			if (tickLabelMask != null)
 			{
@@ -2159,11 +2159,11 @@ public class GenericChartTheme implements ChartTheme
 			
 			if (tickMarkPaint != null)
 			{
-				axis.setAxisLinePaint(tickMarkPaint);
+				axis.setTickMarkPaint(tickMarkPaint);
 			}
 			Stroke defaultTickMarkStroke = (Stroke)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_TICK_MARKS_STROKE);
 			if(defaultTickMarkStroke != null)
-				axis.setAxisLineStroke(defaultTickMarkStroke);
+				axis.setTickMarkStroke(defaultTickMarkStroke);
 		}
 	}
 	
@@ -2336,7 +2336,12 @@ public class GenericChartTheme implements ChartTheme
 	}
 
 	/**
-	 * Specifies whether a chart legend should be visible or no by default.
+	 * Returns the specific org.jfree.chart.axis.DateTickUnit time unit constant
+	 * related to the String value passed as argument
+	 * 
+	 * @param timePeriodUnit - a String represented by one of the following
+	 * accepted values: ["Year", "Month", "Day", "Hour", "Minute", "Second", "Millisecond"]
+	 * @return the specific org.jfree.chart.axis.DateTickUnit time unit constant
 	 */
 	protected int getTimePeriodUnit(String timePeriodUnit)
 	{
