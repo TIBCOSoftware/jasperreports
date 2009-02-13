@@ -1065,13 +1065,9 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 		writer.write(fontFamily);
 		writer.write("; ");
 
-		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
-		if (!Color.black.equals(forecolor))
-		{
-			writer.write("color: #");
-			writer.write(JRColorUtil.getColorHexa(forecolor));
-			writer.write("; ");
-		}
+		writer.write("color: #");
+		writer.write(JRColorUtil.getColorHexa((Color)attributes.get(TextAttribute.FOREGROUND)));
+		writer.write("; ");
 
 		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
 		if (runBackcolor != null)
