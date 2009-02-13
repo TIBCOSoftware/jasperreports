@@ -65,16 +65,24 @@ public class GovernorFactory implements ScriptletFactory
 	{
 		List scriptlets = new ArrayList();
 
-		int maxPages = JRProperties.getIntegerProperty(context.getJasperReport(), MaxPagesGovernor.PROPERTY_MAX_PAGES, 0);
-		if (maxPages > 0)
+		boolean maxPagesEnabled = JRProperties.getBooleanProperty(context.getJasperReport(), MaxPagesGovernor.PROPERTY_MAX_PAGES_ENABLED, true);
+		if (maxPagesEnabled)
 		{
-			scriptlets.add(new MaxPagesGovernor(maxPages));
+			int maxPages = JRProperties.getIntegerProperty(context.getJasperReport(), MaxPagesGovernor.PROPERTY_MAX_PAGES, 0);
+			if (maxPages > 0)
+			{
+				scriptlets.add(new MaxPagesGovernor(maxPages));
+			}
 		}
 		
-		long timeout = JRProperties.getLongProperty(context.getJasperReport(), TimeoutGovernor.PROPERTY_TIMEOUT, 0);
-		if (timeout > 0)
+		boolean timeoutEnabled = JRProperties.getBooleanProperty(context.getJasperReport(), TimeoutGovernor.PROPERTY_TIMEOUT_ENABLED, true);
+		if (timeoutEnabled)
 		{
-			scriptlets.add(new TimeoutGovernor(timeout));
+			long timeout = JRProperties.getLongProperty(context.getJasperReport(), TimeoutGovernor.PROPERTY_TIMEOUT, 0);
+			if (timeout > 0)
+			{
+				scriptlets.add(new TimeoutGovernor(timeout));
+			}
 		}
 		
 		return scriptlets;

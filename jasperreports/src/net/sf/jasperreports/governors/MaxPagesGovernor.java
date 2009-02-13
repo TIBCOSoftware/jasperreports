@@ -44,6 +44,7 @@ public class MaxPagesGovernor extends JRDefaultScriptlet
 	/**
 	 *
 	 */
+	public static final String PROPERTY_MAX_PAGES_ENABLED = JRProperties.PROPERTY_PREFIX + "governor.max.pages.enabled";
 	public static final String PROPERTY_MAX_PAGES = JRProperties.PROPERTY_PREFIX + "governor.max.pages";
 
 	/**
