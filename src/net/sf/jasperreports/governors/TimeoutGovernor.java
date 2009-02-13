@@ -44,6 +44,7 @@ public class TimeoutGovernor extends JRDefaultScriptlet
 	/**
 	 *
 	 */
+	public static final String PROPERTY_TIMEOUT_ENABLED = JRProperties.PROPERTY_PREFIX + "governor.timeout.enabled";
 	public static final String PROPERTY_TIMEOUT = JRProperties.PROPERTY_PREFIX + "governor.timeout";
 
 	/**
