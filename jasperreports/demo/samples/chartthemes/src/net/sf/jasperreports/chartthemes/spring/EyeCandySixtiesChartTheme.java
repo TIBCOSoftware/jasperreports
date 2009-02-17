@@ -577,10 +577,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		{
 			barRenderer.setSeriesItemLabelFont(i, categoryPlot.getDomainAxis().getTickLabelFont());
 			barRenderer.setSeriesItemLabelsVisible(i, true);
-//			barRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
-//			CategoryMarker categoryMarker = new CategoryMarker(categoryDataset.getColumnKey(i),MARKER_COLOR, new BasicStroke(1f));
-//			categoryMarker.setAlpha(0.5f);
-//			categoryPlot.addDomainMarker(categoryMarker, Layer.BACKGROUND);
 		}
 		categoryPlot.setOutlinePaint(Color.DARK_GRAY);
 		categoryPlot.setOutlineStroke(new BasicStroke(1.5f));

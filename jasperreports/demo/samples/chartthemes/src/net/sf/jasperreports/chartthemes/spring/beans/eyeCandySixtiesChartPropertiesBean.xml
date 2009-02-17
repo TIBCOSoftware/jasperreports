@@ -18,12 +18,10 @@
 			    <entry key-ref="chartBorderStroke" value-ref="threePointStroke"/>
 			    <entry key-ref="chartBorderVisible" value-ref="isTrue"/>
 		   	    <entry key-ref="baseFontSize">
-		   	    	<value type="java.lang.Float">8f</value>
+		   	    	<value type="java.lang.Integer">8</value>
 		   	    </entry>
-		   	    <entry key-ref="titleBaseFontBoldStyle" value-ref="fontBoldStyle"/>
-		   	    <entry key-ref="titleBaseFontSize">
-		   	    	<value type="java.lang.Float">18f</value>
-		   	    </entry>
+		   	    <entry key-ref="titleFont" value-ref="eyeCandySixtiesTitleFont"/>
+		   	    <entry key-ref="subtitleFont" value-ref="eyeCandySixtiesSubtitleFont"/>
 		   	    <entry key-ref="subtitlePosition" value-ref="rectangleEdgeBottom"/>
 		   	    <entry key-ref="subtitleHorizontalAlignment" value-ref="leftHorizontalAlignment"/>
 		   	    <entry key-ref="legendPosition" value-ref="rectangleEdgeRight"/>
@@ -38,8 +36,8 @@
 			<map merge="true">
 			    <entry key-ref="axisLinePaint" value-ref="grayPaint134"/>
 			    <entry key-ref="axisLineStroke" value-ref="onePointStroke"/>
-			    <entry key-ref="axisLabelFontBoldStyle" value-ref="fontBoldStyle"/>
-			    <entry key-ref="axisTickLabelFontBoldStyle" value-ref="fontPlainStyle"/>
+			    <entry key-ref="axisLabelFont" value-ref="eyeCandySixtiesAxisLabelFont"/>
+			    <entry key-ref="axisTickLabelFont" value-ref="eyeCandySixtiesAxisTickLabelFont"/>
 		   	    <entry key-ref="domainAxisTickCount">
 		   	    	<value type="java.lang.Integer">5</value>
 		   	    </entry>
@@ -70,6 +68,32 @@
 		<constructor-arg index="0" type="int" value="27"/>
 		<constructor-arg index="1" type="int" value="80"/>
 		<constructor-arg index="2" type="int" value="108"/>
+	</bean>
+
+	<bean id="eyeCandySixtiesTitleFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">18</value>
+		</property>
+		<property name="bold" ref="isTrue"/>
+	</bean>
+
+	<bean id="eyeCandySixtiesSubtitleFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">8</value>
+		</property>
+	</bean>
+
+	<bean id="eyeCandySixtiesAxisLabelFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">8</value>
+		</property>
+		<property name="bold" ref="isTrue"/>
+	</bean>
+
+	<bean id="eyeCandySixtiesAxisTickLabelFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">8</value>
+		</property>
 	</bean>
 
 	<import resource="chartConstantsBean.xml"/>

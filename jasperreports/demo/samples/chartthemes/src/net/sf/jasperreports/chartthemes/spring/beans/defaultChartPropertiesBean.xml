@@ -19,22 +19,16 @@
 		   	    <entry key-ref="legendVisible" value-ref="isTrue"/>
 			    
 		   	    <entry key-ref="titlePosition" value-ref="rectangleEdgeTop"/>
-		   	    <entry key-ref="titleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
-		   	    <entry key-ref="titleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
 		   	    <entry key-ref="titleForecolor" value-ref="blackColor"/>
 		   	    <entry key-ref="titleBackcolor" value-ref="transparentPaint"/>
 		   	    <entry key-ref="titleHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
 				
 		   	    <entry key-ref="subtitlePosition" value-ref="rectangleEdgeTop"/>
-		   	    <entry key-ref="subtitleBaseFontBoldStyle" value-ref="fontPlainStyle"/>
-		   	    <entry key-ref="subtitleBaseFontItalicStyle" value-ref="fontPlainStyle"/>
 		   	    <entry key-ref="subtitleForecolor" value-ref="blackColor"/>
 		   	    <entry key-ref="subtitleBackcolor" value-ref="transparentPaint"/>
 		   	    <entry key-ref="subtitleHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
 		   	    
 		   	    <entry key-ref="legendPosition" value-ref="rectangleEdgeBottom"/>
-		   	    <entry key-ref="legendBaseFontBoldStyle" value-ref="fontPlainStyle"/>
-		   	    <entry key-ref="legendBaseFontItalicStyle" value-ref="fontPlainStyle"/>
 		   	    <entry key-ref="legendForecolor" value-ref="blackColor"/>
 		   	    <entry key-ref="legendBackcolor" value-ref="transparentPaint"/>
 		   	    <entry key-ref="legendHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
