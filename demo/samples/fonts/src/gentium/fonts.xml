@@ -5,14 +5,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="fontBundle" class="net.sf.jasperreports.engine.fonts.SimpleFontBundle">
-		<property name="fontFamilies">
-			<list>
-				<ref bean="gentiumFamily"/>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="gentiumFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
 		<property name="name" value="Gentium"/>
 		<property name="normal" value="gentium/GenR102.TTF"/>

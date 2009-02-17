@@ -28,8 +28,8 @@
 package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.util.JRMeterInterval;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -60,13 +60,13 @@ public class JRMeterIntervalFactory extends JRBaseFactory
 		value = atts.getValue(ATTRIBUTE_color);
 		if (value != null && value.length() > 0)
 		{
-			interval.setBackgroundColor(JRXmlConstants.getColor(value, null));
+			interval.setBackgroundColor(JRColorUtil.getColor(value, null));
 		}
 
 		value = atts.getValue(ATTRIBUTE_alpha);
 		if (value != null && value.length() > 0)
 		{
-			interval.setAlpha(Double.valueOf(value).doubleValue());
+			interval.setAlpha(Double.valueOf(value));
 		}
 
 		return interval;

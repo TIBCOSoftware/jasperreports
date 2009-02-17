@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.xml.sax.Attributes;
 
@@ -92,13 +93,13 @@ public class JRPrintElementFactory extends JRBaseFactory
 		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);
 		if (forecolor != null && forecolor.length() > 0)
 		{
-			element.setForecolor(JRXmlConstants.getColor(forecolor, null));
+			element.setForecolor(JRColorUtil.getColor(forecolor, null));
 		}
 
 		String backcolor = atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor);
 		if (backcolor != null && backcolor.length() > 0)
 		{
-			element.setBackcolor(JRXmlConstants.getColor(backcolor, null));
+			element.setBackcolor(JRColorUtil.getColor(backcolor, null));
 		}
 
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_style) != null)

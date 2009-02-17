@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.xml.sax.Attributes;
 
@@ -135,13 +136,13 @@ public class JRElementFactory extends JRBaseFactory
 		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);
 		if (forecolor != null && forecolor.length() > 0)
 		{
-			element.setForecolor(JRXmlConstants.getColor(forecolor, null));
+			element.setForecolor(JRColorUtil.getColor(forecolor, null));
 		}
 
 		String backcolor = atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor);
 		if (backcolor != null && backcolor.length() > 0)
 		{
-			element.setBackcolor(JRXmlConstants.getColor(backcolor, null));
+			element.setBackcolor(JRColorUtil.getColor(backcolor, null));
 		}
 		
 		String styleName = atts.getValue(JRXmlConstants.ATTRIBUTE_style);

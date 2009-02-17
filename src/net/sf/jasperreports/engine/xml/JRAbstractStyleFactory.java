@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.xml;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.design.JRDesignStyle;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
 import org.apache.commons.logging.Log;
@@ -75,10 +76,10 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 		}
 
 		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);
-		style.setForecolor(JRXmlConstants.getColor(forecolor, null));
+		style.setForecolor(JRColorUtil.getColor(forecolor, null));
 
 		String backcolor = atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor);
-		style.setBackcolor(JRXmlConstants.getColor(backcolor, null));
+		style.setBackcolor(JRColorUtil.getColor(backcolor, null));
 
 
 
@@ -136,7 +137,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getPen());
 		}
 
-		Color borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_borderColor), null);
+		Color borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_borderColor), null);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -163,7 +164,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getTopPen());
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -190,7 +191,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getLeftPen());
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -217,7 +218,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getBottomPen());
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -244,7 +245,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getRightPen());
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())

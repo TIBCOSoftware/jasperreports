@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.xml;
 import net.sf.jasperreports.charts.design.JRDesignThermometerPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
@@ -82,7 +83,7 @@ public class JRThermometerPlotFactory extends JRBaseFactory
 		String mercuryColor = atts.getValue(ATTRIBUTE_mercuryColor);
 		if (mercuryColor != null && mercuryColor.length() > 0)
 		{
-			thermometerPlot.setMercuryColor(JRXmlConstants.getColor(mercuryColor, null));
+			thermometerPlot.setMercuryColor(JRColorUtil.getColor(mercuryColor, null));
 		}
 
 		return thermometerPlot;

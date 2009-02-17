@@ -31,6 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.xml.sax.Attributes;
@@ -50,7 +51,7 @@ public class JRChartPlotFactory extends JRBaseFactory
 	{
 		JRChartPlot plot = (JRChartPlot) digester.peek();
 
-		Color color = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor), Color.black);
+		Color color = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor), Color.black);
 		if (color != null)
 		{
 			plot.setBackcolor(color);
@@ -88,7 +89,7 @@ public class JRChartPlotFactory extends JRBaseFactory
 
 			String colorName = atts.getValue(JRXmlConstants.ATTRIBUTE_color);
 			if (colorName != null && colorName.length() > 0)
-				color = JRXmlConstants.getColor(colorName, null);
+				color = JRColorUtil.getColor(colorName, null);
 			
 			return new JRBaseChartPlot.JRBaseSeriesColor(seriesIndex, color);
 		}
