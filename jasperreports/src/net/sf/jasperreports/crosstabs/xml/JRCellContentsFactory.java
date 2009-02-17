@@ -32,6 +32,7 @@ import java.util.Map;
 import net.sf.jasperreports.crosstabs.design.JRDesignCellContents;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
@@ -57,7 +58,7 @@ public class JRCellContentsFactory extends JRBaseFactory
 		String backcolor = attributes.getValue(ATTRIBUTE_backcolor);
 		if (backcolor != null && backcolor.length() > 0)
 		{
-			cell.setBackcolor(JRXmlConstants.getColor(backcolor, null));
+			cell.setBackcolor(JRColorUtil.getColor(backcolor, null));
 		}
 		
 		String modeAtt = attributes.getValue(ATTRIBUTE_mode);

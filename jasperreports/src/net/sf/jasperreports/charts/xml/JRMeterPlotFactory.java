@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.xml;
 import net.sf.jasperreports.charts.design.JRDesignMeterPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
@@ -92,19 +93,19 @@ public class JRMeterPlotFactory extends JRBaseFactory
 		String meterColor = atts.getValue(ATTRIBUTE_meterColor);
 		if (meterColor != null && meterColor.length() > 0)
 		{
-			meterPlot.setMeterBackgroundColor(JRXmlConstants.getColor(meterColor, null));
+			meterPlot.setMeterBackgroundColor(JRColorUtil.getColor(meterColor, null));
 		}
 
 		String needleColor = atts.getValue(ATTRIBUTE_needleColor);
 		if (needleColor != null && needleColor.length() > 0)
 		{
-			meterPlot.setNeedleColor(JRXmlConstants.getColor(needleColor, null));
+			meterPlot.setNeedleColor(JRColorUtil.getColor(needleColor, null));
 		}
 
 		String tickColor = atts.getValue(ATTRIBUTE_tickColor);
 		if (tickColor != null && tickColor.length() > 0)
 		{
-			meterPlot.setTickColor(JRXmlConstants.getColor(tickColor, null));
+			meterPlot.setTickColor(JRColorUtil.getColor(tickColor, null));
 		}
 
 		return meterPlot;

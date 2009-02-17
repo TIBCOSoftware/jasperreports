@@ -5,15 +5,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="fontBundle" class="net.sf.jasperreports.engine.fonts.SimpleFontBundle">
-		<property name="fontFamilies">
-			<list>
-				<ref bean="dejaVuSansFamily"/>
-				<ref bean="dejaVuSerifFamily"/>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="dejaVuSansFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
 		<property name="name" value="DejaVu Sans"/>
 		<property name="normal" value="DejaVuSans.ttf"/>

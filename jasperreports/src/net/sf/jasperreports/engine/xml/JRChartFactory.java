@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.xml.sax.Attributes;
 
@@ -113,7 +114,7 @@ public class JRChartFactory extends JRBaseFactory
 				chart.setTitlePosition(((Byte)JRXmlConstants.getChartEdgeMap().get(position)));
 
 
-			Color color = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_color), Color.black);
+			Color color = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_color), Color.black);
 			if (color != null)
 			{
 				chart.setTitleColor(color);
@@ -133,7 +134,7 @@ public class JRChartFactory extends JRBaseFactory
 		{
 			JRDesignChart chart = (JRDesignChart) digester.peek();
 
-			Color color = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_color), Color.black);
+			Color color = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_color), Color.black);
 			if (color != null)
 			{
 				chart.setSubtitleColor(color);
@@ -163,7 +164,7 @@ public class JRChartFactory extends JRBaseFactory
 			String attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_textColor);
 			if (attrValue != null && attrValue.length() > 0)
 			{
-				Color color = JRXmlConstants.getColor(attrValue, null);
+				Color color = JRColorUtil.getColor(attrValue, null);
 				chart.setLegendColor(color);
 			}
 
@@ -171,7 +172,7 @@ public class JRChartFactory extends JRBaseFactory
 			attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_backgroundColor);
 			if (attrValue != null && attrValue.length() > 0)
 			{
-				Color color = JRXmlConstants.getColor(attrValue, null);
+				Color color = JRColorUtil.getColor(attrValue, null);
 				chart.setLegendBackgroundColor(color);
 			}
 
@@ -205,7 +206,7 @@ public class JRChartFactory extends JRBaseFactory
 			String attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_labelColor);
 			if (attrValue != null && attrValue.length() > 0)
 			{
-				Color color = JRXmlConstants.getColor(attrValue, null);
+				Color color = JRColorUtil.getColor(attrValue, null);
 				axisLabel.setLabelColor(color);
 			}
 
@@ -213,7 +214,7 @@ public class JRChartFactory extends JRBaseFactory
 			attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_tickLabelColor);
 			if (attrValue != null && attrValue.length() > 0)
 			{
-				Color color = JRXmlConstants.getColor(attrValue, null);
+				Color color = JRColorUtil.getColor(attrValue, null);
 				axisLabel.setTickLabelColor(color);
 			}
 
@@ -228,7 +229,7 @@ public class JRChartFactory extends JRBaseFactory
 			attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_axisLineColor);
 			if (attrValue != null && attrValue.length() > 0)
 			{
-				Color color = JRXmlConstants.getColor(attrValue, null);
+				Color color = JRColorUtil.getColor(attrValue, null);
 				axisLabel.setLineColor(color);
 			}
 

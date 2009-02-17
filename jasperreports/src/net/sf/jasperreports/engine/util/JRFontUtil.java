@@ -30,19 +30,15 @@ package net.sf.jasperreports.engine.util;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.fonts.FontBundle;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
@@ -165,40 +161,35 @@ public class JRFontUtil
 	public static FontInfo getFontInfo(String name, Locale locale)
 	{
 		//FIXMEFONT do some cache
-		List bundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontBundle.class);
-		for (Iterator itb = bundles.iterator(); itb.hasNext();)
+		List families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+		for (Iterator itf = families.iterator(); itf.hasNext();)
 		{
-			FontBundle bundle = (FontBundle)itb.next();
-			List families = bundle.getFontFamilies();
-			for (Iterator itf = families.iterator(); itf.hasNext();)
+			FontFamily family = (FontFamily)itf.next();
+			if (locale == null || family.supportsLocale(locale))
 			{
-				FontFamily family = (FontFamily)itf.next();
-				if (locale == null || family.supportsLocale(locale))
+				if (name.equals(family.getName()))
 				{
-					if (name.equals(family.getName()))
-					{
-						return new FontInfo(family, null, Font.PLAIN);
-					}
-					FontFace face = family.getNormalFace();
-					if (face != null && name.equals(face.getName()))
-					{
-						return new FontInfo(family, face, Font.PLAIN);
-					}
-					face = family.getBoldFace();
-					if (face != null && name.equals(face.getName()))
-					{
-						return new FontInfo(family, face, Font.BOLD);
-					}
-					face = family.getItalicFace();
-					if (face != null && name.equals(face.getName()))
-					{
-						return new FontInfo(family, face, Font.ITALIC);
-					}
-					face = family.getBoldItalicFace();
-					if (face != null && name.equals(face.getName()))
-					{
-						return new FontInfo(family, face, Font.BOLD | Font.ITALIC);
-					}
+					return new FontInfo(family, null, Font.PLAIN);
+				}
+				FontFace face = family.getNormalFace();
+				if (face != null && name.equals(face.getName()))
+				{
+					return new FontInfo(family, face, Font.PLAIN);
+				}
+				face = family.getBoldFace();
+				if (face != null && name.equals(face.getName()))
+				{
+					return new FontInfo(family, face, Font.BOLD);
+				}
+				face = family.getItalicFace();
+				if (face != null && name.equals(face.getName()))
+				{
+					return new FontInfo(family, face, Font.ITALIC);
+				}
+				face = family.getBoldItalicFace();
+				if (face != null && name.equals(face.getName()))
+				{
+					return new FontInfo(family, face, Font.BOLD | Font.ITALIC);
 				}
 			}
 		}
@@ -214,16 +205,11 @@ public class JRFontUtil
 	{
 		TreeSet familyNames = new TreeSet();//FIXMEFONT use collator for order?
 		//FIXMEFONT do some cache
-		List bundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontBundle.class);
-		for (Iterator itb = bundles.iterator(); itb.hasNext();)
+		List families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+		for (Iterator itf = families.iterator(); itf.hasNext();)
 		{
-			FontBundle bundle = (FontBundle)itb.next();
-			List families = bundle.getFontFamilies();
-			for (Iterator itf = families.iterator(); itf.hasNext();)
-			{
-				FontFamily family = (FontFamily)itf.next();
-				familyNames.add(family.getName());
-			}
+			FontFamily family = (FontFamily)itf.next();
+			familyNames.add(family.getName());
 		}
 		return familyNames;
 	}

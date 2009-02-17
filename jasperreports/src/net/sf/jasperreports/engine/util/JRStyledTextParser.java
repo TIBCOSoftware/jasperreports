@@ -50,7 +50,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.fonts.FontBundle;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
@@ -78,16 +77,11 @@ public class JRStyledTextParser implements ErrorHandler
 	static
 	{
 		//FIXMEFONT do some cache
-		List bundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontBundle.class);
-		for (Iterator itb = bundles.iterator(); itb.hasNext();)
+		List families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+		for (Iterator itf = families.iterator(); itf.hasNext();)
 		{
-			FontBundle bundle = (FontBundle)itb.next();
-			List families = bundle.getFontFamilies();
-			for (Iterator itf = families.iterator(); itf.hasNext();)
-			{
-				FontFamily family = (FontFamily)itf.next();
-				AVAILABLE_FONT_FACE_NAMES.add(family.getName());
-			}
+			FontFamily family = (FontFamily)itf.next();
+			AVAILABLE_FONT_FACE_NAMES.add(family.getName());
 		}
 			
 		AVAILABLE_FONT_FACE_NAMES.addAll(

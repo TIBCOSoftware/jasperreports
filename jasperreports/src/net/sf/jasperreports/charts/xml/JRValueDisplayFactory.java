@@ -29,8 +29,8 @@ package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.design.JRDesignValueDisplay;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -54,7 +54,7 @@ public class JRValueDisplayFactory extends JRBaseFactory
 		String color = atts.getValue(ATTRIBUTE_color);
 		if (color != null && color.length() > 0)
 		{
-			valueDisplay.setColor(JRXmlConstants.getColor(color, null));
+			valueDisplay.setColor(JRColorUtil.getColor(color, null));
 		}
 
 		String mask = atts.getValue(ATTRIBUTE_mask);

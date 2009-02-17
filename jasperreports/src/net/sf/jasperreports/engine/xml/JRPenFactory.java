@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.xml.sax.Attributes;
 
@@ -70,7 +71,7 @@ public class JRPenFactory extends JRBaseFactory
 		String lineColor = atts.getValue(JRXmlConstants.ATTRIBUTE_lineColor);
 		if (lineColor != null && lineColor.length() > 0)
 		{
-			pen.setLineColor(JRXmlConstants.getColor(lineColor, null));
+			pen.setLineColor(JRColorUtil.getColor(lineColor, null));
 		}
 	}
 	

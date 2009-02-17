@@ -31,6 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
 import org.apache.commons.logging.Log;
@@ -69,7 +70,7 @@ public class JRBoxFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, box.getPen());
 		}
 
-		Color borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_borderColor), null);
+		Color borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_borderColor), null);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -93,7 +94,7 @@ public class JRBoxFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, box.getTopPen());
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -117,7 +118,7 @@ public class JRBoxFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, box.getLeftPen());
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -141,7 +142,7 @@ public class JRBoxFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, box.getBottomPen());
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -165,7 +166,7 @@ public class JRBoxFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, box.getRightPen());
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
