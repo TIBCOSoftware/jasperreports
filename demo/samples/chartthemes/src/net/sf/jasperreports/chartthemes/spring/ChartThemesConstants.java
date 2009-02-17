@@ -72,11 +72,9 @@ public interface ChartThemesConstants
     // generic chart title  properties names
 	public static final String TITLE_VISIBLE = "titleVisible";
 	public static final String TITLE_POSITION = "titlePosition";
-	public static final String TITLE_BASEFONT_BOLD_STYLE = "titleBaseFontBoldStyle";
-	public static final String TITLE_BASEFONT_ITALIC_STYLE = "titleBaseFontItalicStyle";
+	public static final String TITLE_FONT = "titleFont";
 	public static final String TITLE_FORECOLOR = "titleForecolor";
 	public static final String TITLE_BACKCOLOR = "titleBackcolor";
-	public static final String TITLE_BASEFONT_SIZE = "titleBaseFontSize";
 	public static final String TITLE_HORIZONTAL_ALIGNMENT = "titleHorizontalAlignment";
 	public static final String TITLE_VERTICAL_ALIGNMENT = "titleVerticalAlignment";
 	public static final String TITLE_HEIGHT = "titleHeight";
@@ -95,11 +93,9 @@ public interface ChartThemesConstants
     // generic chart subtitle  properties names
 	public static final String SUBTITLE_VISIBLE = "subtitleVisible";
 	public static final String SUBTITLE_POSITION = "subtitlePosition";
-	public static final String SUBTITLE_BASEFONT_BOLD_STYLE = "subtitleBaseFontBoldStyle";
-	public static final String SUBTITLE_BASEFONT_ITALIC_STYLE = "subtitleBaseFontItalicStyle";
+	public static final String SUBTITLE_FONT = "subtitleFont";
 	public static final String SUBTITLE_FORECOLOR = "subtitleForecolor";
 	public static final String SUBTITLE_BACKCOLOR = "subtitleBackcolor";
-	public static final String SUBTITLE_BASEFONT_SIZE = "subtitleBaseFontSize";
 	public static final String SUBTITLE_HORIZONTAL_ALIGNMENT = "subtitleHorizontalAlignment";
 	public static final String SUBTITLE_VERTICAL_ALIGNMENT = "subtitleVerticalAlignment";
 	public static final String SUBTITLE_HEIGHT = "subtitleHeight";
@@ -118,11 +114,9 @@ public interface ChartThemesConstants
     // generic chart legend  properties names
 	public static final String LEGEND_VISIBLE = "legendVisible";
 	public static final String LEGEND_POSITION = "legendPosition";
-	public static final String LEGEND_BASEFONT_BOLD_STYLE = "legendBaseFontBoldStyle";
-	public static final String LEGEND_BASEFONT_ITALIC_STYLE = "legendBaseFontItalicStyle";
+	public static final String LEGEND_FONT = "legendFont";
 	public static final String LEGEND_FORECOLOR = "legendForecolor";
 	public static final String LEGEND_BACKCOLOR = "legendBackcolor";
-	public static final String LEGEND_BASEFONT_SIZE = "legendBaseFontSize";
 	public static final String LEGEND_HORIZONTAL_ALIGNMENT = "legendHorizontalAlignment";
 	public static final String LEGEND_FRAME = "legendFrame";
 	public static final String LEGEND_VERTICAL_ALIGNMENT = "legendVerticalAlignment";
@@ -166,16 +160,10 @@ public interface ChartThemesConstants
 	public static final String AXIS_LABEL_ANGLE = "axisLabelAngle";
 	public static final String AXIS_LABEL_PAINT = "axisLabelPaint";
 	public static final String AXIS_LABEL_FONT = "axisLabelFont";
-	public static final String AXIS_LABEL_FONT_SIZE = "axisLabelFontSize";
-	public static final String AXIS_LABEL_FONT_BOLD_STYLE = "axisLabelFontBoldStyle";
-	public static final String AXIS_LABEL_FONT_ITALIC_STYLE = "axisLabelFontItalicStyle";
 	public static final String AXIS_LABEL_INSETS = "axisLabelInsets";
 	public static final String AXIS_LABEL_VISIBLE = "axisLabelVisible";
 	public static final String AXIS_TICK_LABEL_PAINT = "axisTickLabelPaint";
 	public static final String AXIS_TICK_LABEL_FONT = "axisTickLabelFont";
-	public static final String AXIS_TICK_LABEL_FONT_SIZE = "axisTickLabelFontSize";
-	public static final String AXIS_TICK_LABEL_FONT_BOLD_STYLE = "axisTickLabelFontBoldStyle";
-	public static final String AXIS_TICK_LABEL_FONT_ITALIC_STYLE = "axisTickLabelFontItalicStyle";
 	public static final String AXIS_TICK_LABEL_INSETS = "axisTickLabelInsets";
 	public static final String AXIS_TICK_LABELS_VISIBLE = "axisTickLabelsVisible";
 	public static final String AXIS_TICK_MARKS_INSIDE_LENGTH = "axisTickMarksInsideLength";

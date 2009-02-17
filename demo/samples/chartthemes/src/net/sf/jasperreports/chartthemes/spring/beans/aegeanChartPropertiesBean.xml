@@ -16,12 +16,10 @@
 			    <entry key-ref="chartBorderStroke" value-ref="onePointStroke"/>
 			    <entry key-ref="chartBorderVisible" value-ref="isTrue"/>
 		   	    <entry key-ref="baseFontSize">
-		   	    	<value type="java.lang.Float">8f</value>
+		   	    	<value type="java.lang.Integer">8</value>
 		   	    </entry>
-		   	    <entry key-ref="titleBaseFontBoldStyle" value-ref="fontBoldStyle"/>
-		   	    <entry key-ref="titleBaseFontSize">
-		   	    	<value type="java.lang.Float">18f</value>
-		   	    </entry>
+		   	    <entry key-ref="titleFont" value-ref="aegeanTitleFont"/>
+		   	    <entry key-ref="subtitleFont" value-ref="aegeanSubtitleFont"/>
 		   	    <entry key-ref="subtitlePosition" value-ref="rectangleEdgeBottom"/>
 		   	    <entry key-ref="subtitleHorizontalAlignment" value-ref="leftHorizontalAlignment"/>
 		   	    <entry key-ref="legendPosition" value-ref="rectangleEdgeRight"/>
@@ -36,15 +34,8 @@
 			<map merge="true">
 			    <entry key-ref="axisLinePaint" value-ref="grayPaint134"/>
 			    <entry key-ref="axisLineStroke" value-ref="onePointStroke"/>
-			    <entry key-ref="axisLabelFontBoldStyle" value-ref="fontBoldStyle"/>
-			    <entry key-ref="axisTickLabelFontBoldStyle" value-ref="fontPlainStyle"/>
-			    <!-- entry key-ref="rangeAxisTickCount">
-			    	<value type="java.lang.Integer">5</value>
-			    </entry>
-			    <entry key-ref="domainAxisTickCount">
-			    	<value type="java.lang.Integer">4</value>
-			    </entry-->
-			    
+			    <entry key-ref="axisLabelFont" value-ref="aegeanAxisLabelFont"/>
+			    <entry key-ref="axisTickLabelFont" value-ref="aegeanAxisTickLabelFont"/>
 			</map>		
 		</property>
 		
@@ -113,6 +104,32 @@
 		<constructor-arg index="0" type="int" value="134"/>
 		<constructor-arg index="1" type="int" value="134"/>
 		<constructor-arg index="2" type="int" value="134"/>
+	</bean>
+
+	<bean id="aegeanTitleFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">18</value>
+		</property>
+		<property name="bold" ref="isTrue"/>
+	</bean>
+
+	<bean id="aegeanSubtitleFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">8</value>
+		</property>
+	</bean>
+
+	<bean id="aegeanAxisLabelFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">8</value>
+		</property>
+		<property name="bold" ref="isTrue"/>
+	</bean>
+
+	<bean id="aegeanAxisTickLabelFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">8</value>
+		</property>
 	</bean>
 
 	<import resource="chartConstantsBean.xml"/>
