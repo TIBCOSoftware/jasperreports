@@ -700,7 +700,7 @@ public class AegeanChartTheme extends GenericChartTheme
 								: interval.getBackgroundColor(),
 							15f
 							);
-				dialRange.setInnerRadius(0.4);
+				dialRange.setInnerRadius(0.5);
 				dialRange.setOuterRadius(0.5);
 				dialPlot.addLayer(dialRange);
 			}
@@ -800,63 +800,6 @@ public class AegeanChartTheme extends GenericChartTheme
 			renderer.setSeriesPaint(i, Color.DARK_GRAY);
 		}
 		return jfreeChart;
-	}
-	
-	protected void calculateTickUnits(Axis axis, int tickCount, String tickInterval, String timePeriodUnit)
-	{
-		if((tickInterval == null || tickInterval.length() == 0) && tickCount <= 0)
-			return;
-		
-		if(axis instanceof NumberAxis)
-		{
-			NumberAxis numberAxis = (NumberAxis)axis;
-			int axisRange = (int)numberAxis.getRange().getLength();
-			if(axisRange > 0)
-			{
-				if(tickInterval != null && tickInterval.length() > 0)
-				{
-					if(numberAxis.getNumberFormatOverride() != null)
-					{
-						numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue(), numberAxis.getNumberFormatOverride()));
-					}
-					else
-					{
-						numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue()));
-					}
-				}
-				else
-				{
-					int newTickUnitSize = axisRange/tickCount;
-					if(newTickUnitSize > numberAxis.getTickUnit().getSize())
-					{
-						int tickUnitSize = newTickUnitSize;
-			
-						//preferably multiple of 5 values should be used as tick units lengths:
-						int i = 1;
-						while(tickUnitSize > 9)
-						{
-							tickUnitSize /= 10;
-							i *= 10;
-						}
-						tickUnitSize *= i;
-						newTickUnitSize = tickUnitSize + i/2;
-			
-						if(newTickUnitSize > 0 && axisRange/newTickUnitSize > tickCount)
-						{
-							newTickUnitSize += i/2;
-						}
-						if(numberAxis.getNumberFormatOverride() != null)
-						{
-							numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize, numberAxis.getNumberFormatOverride()));
-						}
-						else
-						{
-							numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize));
-						}
-					}
-				}
-			}
-		}
 	}
 	
 }

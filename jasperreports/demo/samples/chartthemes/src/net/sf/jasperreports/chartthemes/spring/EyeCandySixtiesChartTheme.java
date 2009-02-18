@@ -211,8 +211,8 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			categoryPlot.setDomainGridlinesVisible(false);
 			categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 			
-			calculateTickUnits(categoryPlot.getDomainAxis(), domainTickCount, domainTickInterval, domainTimePeriodUnit);
-			calculateTickUnits(categoryPlot.getRangeAxis(), rangeTickCount, rangeTickInterval, rangeTimePeriodUnit);
+//			calculateTickUnits(categoryPlot.getDomainAxis(), domainTickCount, domainTickInterval, domainTimePeriodUnit);
+//			calculateTickUnits(categoryPlot.getRangeAxis(), rangeTickCount, rangeTickInterval, rangeTimePeriodUnit);
 		}
 		else if(plot instanceof XYPlot)
 		{
@@ -229,8 +229,8 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			
 			xyPlot.setRangeZeroBaselineVisible(true);
 
-			calculateTickUnits(xyPlot.getDomainAxis(), domainTickCount, domainTickInterval, domainTimePeriodUnit);
-			calculateTickUnits(xyPlot.getRangeAxis(), rangeTickCount, rangeTickInterval, rangeTimePeriodUnit);
+//			calculateTickUnits(xyPlot.getDomainAxis(), domainTickCount, domainTickInterval, domainTimePeriodUnit);
+//			calculateTickUnits(xyPlot.getRangeAxis(), rangeTickCount, rangeTickInterval, rangeTimePeriodUnit);
 		}
 	}
 
@@ -1083,63 +1083,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
-	protected void calculateTickUnits(Axis axis, int tickCount, String tickInterval, String timePeriodUnit)
-	{
-		if((tickInterval == null || tickInterval.length() == 0) && tickCount <= 0)
-			return;
-		
-		if(axis instanceof NumberAxis)
-		{
-			NumberAxis numberAxis = (NumberAxis)axis;
-//			int maxNumberOfTicks = 5;
-			int axisRange = (int)numberAxis.getRange().getLength();
-			if(axisRange > 0)
-			{
-				if(tickInterval != null && tickInterval.length() > 0)
-				{
-					if(numberAxis.getNumberFormatOverride() != null)
-					{
-						numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue(), numberAxis.getNumberFormatOverride()));
-					}
-					else
-					{
-						numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue()));
-					}
-				}
-				else
-				{
-					int newTickUnitSize = axisRange/tickCount;
-					if(newTickUnitSize > numberAxis.getTickUnit().getSize())
-					{
-						int tickUnitSize = newTickUnitSize;
-			
-						//preferably multiple of 5 values should be used as tick units lengths:
-						int i = 1;
-						while(tickUnitSize > 9)
-						{
-							tickUnitSize /= 10;
-							i *= 10;
-						}
-						tickUnitSize *= i;
-						newTickUnitSize = tickUnitSize + i/2;
-			
-						if(newTickUnitSize > 0 && axisRange/newTickUnitSize > tickCount)
-						{
-							newTickUnitSize += i/2;
-						}
-						if(numberAxis.getNumberFormatOverride() != null)
-						{
-							numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize, numberAxis.getNumberFormatOverride()));
-						}
-						else
-						{
-							numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize));
-						}
-					}
-				}
-			}
-		}
-	}
 }
 
 class SquareXYAreaRenderer extends XYAreaRenderer

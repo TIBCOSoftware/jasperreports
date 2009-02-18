@@ -2209,46 +2209,96 @@ public class GenericChartTheme implements ChartTheme
 	{
 		if((tickInterval == null || tickInterval.length() == 0) && tickCount <= 0)
 			return;
+//		if(axis instanceof NumberAxis)
+//		{
+//			NumberAxis numberAxis = (NumberAxis)axis;
+//			int axisRange = (int)numberAxis.getRange().getLength();
+//			if(numberAxis.getNumberFormatOverride() != null)
+//			{
+//				if(tickInterval != null && tickInterval.length() > 0)
+//					numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue(), numberAxis.getNumberFormatOverride()));
+//				else
+//					numberAxis.setTickUnit(new NumberTickUnit( axisRange/tickCount, numberAxis.getNumberFormatOverride()));
+//			}
+//			else
+//			{
+//				if(tickInterval != null && tickInterval.length() > 0)
+//					numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue()));
+//				else
+//					numberAxis.setTickUnit(new NumberTickUnit(axisRange/tickCount));
+//			}
+//		}
 		if(axis instanceof NumberAxis)
 		{
 			NumberAxis numberAxis = (NumberAxis)axis;
 			int axisRange = (int)numberAxis.getRange().getLength();
-			if(numberAxis.getNumberFormatOverride() != null)
+			if(axisRange > 0)
 			{
 				if(tickInterval != null && tickInterval.length() > 0)
-					numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue(), numberAxis.getNumberFormatOverride()));
+				{
+					if(numberAxis.getNumberFormatOverride() != null)
+					{
+						numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue(), numberAxis.getNumberFormatOverride()));
+					}
+					else
+					{
+						numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue()));
+					}
+				}
 				else
-					numberAxis.setTickUnit(new NumberTickUnit( axisRange/tickCount, numberAxis.getNumberFormatOverride()));
-			}
-			else
-			{
-				if(tickInterval != null && tickInterval.length() > 0)
-					numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue()));
-				else
-					numberAxis.setTickUnit(new NumberTickUnit(axisRange/tickCount));
-			}
-		}
-		else if(axis instanceof DateAxis)
-		{
-			DateAxis dateAxis = (DateAxis)axis;
-			int axisRange = (int)dateAxis.getRange().getLength();
-			int timeUnit = getTimePeriodUnit(timePeriodUnit);
+				{
+					int newTickUnitSize = axisRange/tickCount;
+					if(newTickUnitSize > numberAxis.getTickUnit().getSize())
+					{
+						int tickUnitSize = newTickUnitSize;
 			
-			if(dateAxis.getDateFormatOverride() != null)
-			{
-				if(tickInterval != null && tickInterval.length() > 0)
-					dateAxis.setTickUnit(new DateTickUnit(timeUnit, Integer.valueOf(tickInterval).intValue(), dateAxis.getDateFormatOverride()));
-				else
-					dateAxis.setTickUnit(new DateTickUnit(timeUnit, axisRange/tickCount, dateAxis.getDateFormatOverride()));
-			}
-			else
-			{
-				if(tickInterval != null && tickInterval.length() > 0)
-					dateAxis.setTickUnit(new DateTickUnit(timeUnit, Integer.valueOf(tickInterval).intValue()));
-				else
-					dateAxis.setTickUnit(new DateTickUnit(timeUnit, axisRange/tickCount));
+						//preferably multiple of 5 values should be used as tick units lengths:
+						int i = 1;
+						while(tickUnitSize > 9)
+						{
+							tickUnitSize /= 10;
+							i *= 10;
+						}
+						tickUnitSize *= i;
+						newTickUnitSize = tickUnitSize + i/2;
+			
+						if(newTickUnitSize > 0 && axisRange/newTickUnitSize > tickCount)
+						{
+							newTickUnitSize += i/2;
+						}
+						if(numberAxis.getNumberFormatOverride() != null)
+						{
+							numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize, numberAxis.getNumberFormatOverride()));
+						}
+						else
+						{
+							numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize));
+						}
+					}
+				}
 			}
 		}
+//		else if(axis instanceof DateAxis)
+//		{
+//			DateAxis dateAxis = (DateAxis)axis;
+//			int axisRange = (int)dateAxis.getRange().getLength();
+//			int timeUnit = getTimePeriodUnit(timePeriodUnit);
+//			
+//			if(dateAxis.getDateFormatOverride() != null)
+//			{
+//				if(tickInterval != null && tickInterval.length() > 0)
+//					dateAxis.setTickUnit(new DateTickUnit(timeUnit, Integer.valueOf(tickInterval).intValue(), dateAxis.getDateFormatOverride()));
+//				else
+//					dateAxis.setTickUnit(new DateTickUnit(timeUnit, axisRange/tickCount, dateAxis.getDateFormatOverride()));
+//			}
+//			else
+//			{
+//				if(tickInterval != null && tickInterval.length() > 0)
+//					dateAxis.setTickUnit(new DateTickUnit(timeUnit, Integer.valueOf(tickInterval).intValue()));
+//				else
+//					dateAxis.setTickUnit(new DateTickUnit(timeUnit, axisRange/tickCount));
+//			}
+//		}
 	}
 	
 	/**
