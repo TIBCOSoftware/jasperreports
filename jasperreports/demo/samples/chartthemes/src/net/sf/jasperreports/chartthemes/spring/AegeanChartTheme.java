@@ -48,8 +48,13 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.axis.DateTickUnit;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
@@ -181,8 +186,8 @@ public class AegeanChartTheme extends GenericChartTheme
 		PieDataset pieDataset = piePlot.getDataset();
 		for(int i = 0; i < pieDataset.getItemCount(); i++)
 		{
-//			piePlot.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
-			piePlot.setSectionOutlinePaint(pieDataset.getKey(i), Color.BLACK);
+			piePlot.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
+			
 			//makes pie colors darker
 			//piePlot.setSectionPaint(pieDataset.getKey(i), GRADIENT_PAINTS[i]);
 		}
@@ -192,7 +197,7 @@ public class AegeanChartTheme extends GenericChartTheme
 			&& ((JRPiePlot)getPlot()).getLabelFormat() == null
 			)
 		{
-			piePlot.setLabelGenerator(null);
+			piePlot.setLabelGenerator(new StandardPieSectionLabelGenerator("{1}", getLocale()));
 		}
 
 		if (((JRPiePlot)getPlot()).getLegendLabelFormat() == null)
@@ -671,6 +676,11 @@ public class AegeanChartTheme extends GenericChartTheme
 		if (intervals != null && intervals.size() > 0)
 		{
 			int size = Math.min(3, intervals.size());
+			
+			int colorStep = 0;
+			if(size > 3)
+				colorStep = 255 / (size - 3);
+			
 			for(int i = 0; i < size; i++)
 			{
 				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
@@ -678,44 +688,23 @@ public class AegeanChartTheme extends GenericChartTheme
 				double intervalLowerBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getLowerBound(), dialUnitScale);
 				double intervalUpperBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getUpperBound(), dialUnitScale);
 
-				ScaledDialRange dialRange =
-					new ScaledDialRange(
-						intervalLowerBound,
-						intervalUpperBound,
-						interval.getBackgroundColor() == null
-							? (Color)ChartThemesConstants.AEGEAN_INTERVAL_COLORS.get(i)
-							: interval.getBackgroundColor(),
-						15f
-						);
-				dialRange.setInnerRadius(0.5);
-				dialRange.setOuterRadius(0.5);
-				dialPlot.addLayer(dialRange);
-			}
-			
-			if(intervals.size() > 3)
-			{
-				int colorStep = 255 / (intervals.size() - 3);
-				for(int i = 3; i < intervals.size(); i++)
-				{
-					JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
-					Range intervalRange = convertRange(interval.getDataRange());
-					double intervalLowerBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getLowerBound(), dialUnitScale);
-					double intervalUpperBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getUpperBound(), dialUnitScale);
-	
+				Color color = i < 3 
+					? (Color)ChartThemesConstants.AEGEAN_INTERVAL_COLORS.get(i)
+					: new Color(255 - colorStep * (i - 3), 0 + colorStep * (i - 3), 0);
 					ScaledDialRange dialRange =
 						new ScaledDialRange(
 							intervalLowerBound,
 							intervalUpperBound,
 							interval.getBackgroundColor() == null
-								? new Color(255 - colorStep * (i - 3), 0 + colorStep * (i - 3), 0)
+								? color
 								: interval.getBackgroundColor(),
 							15f
 							);
-					dialRange.setInnerRadius(0.5);
-					dialRange.setOuterRadius(0.5);
-					dialPlot.addLayer(dialRange);
-				}
+				dialRange.setInnerRadius(0.4);
+				dialRange.setOuterRadius(0.5);
+				dialPlot.addLayer(dialRange);
 			}
+			
 		}
 
        String displayVisibility = display != null && getChart().hasProperties() ? 
@@ -812,4 +801,62 @@ public class AegeanChartTheme extends GenericChartTheme
 		}
 		return jfreeChart;
 	}
+	
+	protected void calculateTickUnits(Axis axis, int tickCount, String tickInterval, String timePeriodUnit)
+	{
+		if((tickInterval == null || tickInterval.length() == 0) && tickCount <= 0)
+			return;
+		
+		if(axis instanceof NumberAxis)
+		{
+			NumberAxis numberAxis = (NumberAxis)axis;
+			int axisRange = (int)numberAxis.getRange().getLength();
+			if(axisRange > 0)
+			{
+				if(tickInterval != null && tickInterval.length() > 0)
+				{
+					if(numberAxis.getNumberFormatOverride() != null)
+					{
+						numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue(), numberAxis.getNumberFormatOverride()));
+					}
+					else
+					{
+						numberAxis.setTickUnit(new NumberTickUnit(Double.valueOf(tickInterval).doubleValue()));
+					}
+				}
+				else
+				{
+					int newTickUnitSize = axisRange/tickCount;
+					if(newTickUnitSize > numberAxis.getTickUnit().getSize())
+					{
+						int tickUnitSize = newTickUnitSize;
+			
+						//preferably multiple of 5 values should be used as tick units lengths:
+						int i = 1;
+						while(tickUnitSize > 9)
+						{
+							tickUnitSize /= 10;
+							i *= 10;
+						}
+						tickUnitSize *= i;
+						newTickUnitSize = tickUnitSize + i/2;
+			
+						if(newTickUnitSize > 0 && axisRange/newTickUnitSize > tickCount)
+						{
+							newTickUnitSize += i/2;
+						}
+						if(numberAxis.getNumberFormatOverride() != null)
+						{
+							numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize, numberAxis.getNumberFormatOverride()));
+						}
+						else
+						{
+							numberAxis.setTickUnit(new NumberTickUnit(newTickUnitSize));
+						}
+					}
+				}
+			}
+		}
+	}
+	
 }
