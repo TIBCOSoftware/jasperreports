@@ -16,12 +16,13 @@
 			    <entry key-ref="chartBorderStroke" value-ref="onePointStroke"/>
 			    <entry key-ref="chartBorderVisible" value-ref="isTrue"/>
 		   	    <entry key-ref="baseFontSize">
-		   	    	<value type="java.lang.Integer">8</value>
+		   	    	<value type="java.lang.Integer">9</value>
 		   	    </entry>
 		   	    <entry key-ref="titleFont" value-ref="aegeanTitleFont"/>
 		   	    <entry key-ref="subtitleFont" value-ref="aegeanSubtitleFont"/>
 		   	    <entry key-ref="subtitlePosition" value-ref="rectangleEdgeBottom"/>
 		   	    <entry key-ref="subtitleHorizontalAlignment" value-ref="leftHorizontalAlignment"/>
+		   	    <entry key-ref="legendFont" value-ref="aegeanSubtitleFont"/>
 		   	    <entry key-ref="legendPosition" value-ref="rectangleEdgeRight"/>
 		   	    <entry key-ref="legendHorizontalAlignment" value-ref="rightHorizontalAlignment"/>
 		   	    <entry key-ref="legendFrame" value-ref="blockBorderNone"/>
@@ -36,6 +37,13 @@
 			    <entry key-ref="axisLineStroke" value-ref="onePointStroke"/>
 			    <entry key-ref="axisLabelFont" value-ref="aegeanAxisLabelFont"/>
 			    <entry key-ref="axisTickLabelFont" value-ref="aegeanAxisTickLabelFont"/>
+		   	    <entry key-ref="domainAxisTickCount">
+		   	    	<value type="java.lang.Integer">5</value>
+		   	    </entry>
+		   	    <entry key-ref="rangeAxisTickCount">
+		   	    	<value type="java.lang.Integer">5</value>
+		   	    </entry>
+			    
 			</map>		
 		</property>
 		
@@ -115,20 +123,20 @@
 
 	<bean id="aegeanSubtitleFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
 		<property name="fontSize">
-			<value type="java.lang.Integer">8</value>
+			<value type="java.lang.Integer">9</value>
 		</property>
 	</bean>
 
 	<bean id="aegeanAxisLabelFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
 		<property name="fontSize">
-			<value type="java.lang.Integer">8</value>
+			<value type="java.lang.Integer">9</value>
 		</property>
 		<property name="bold" ref="isTrue"/>
 	</bean>
 
 	<bean id="aegeanAxisTickLabelFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
 		<property name="fontSize">
-			<value type="java.lang.Integer">8</value>
+			<value type="java.lang.Integer">9</value>
 		</property>
 	</bean>
 
