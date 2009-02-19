@@ -60,28 +60,28 @@
 		<ref local="aegeanSeriesColor7"/>
 	</util:list>
 
-	<bean id="aegeanSeriesColor0" class="java.awt.Color">
-		<constructor-arg index="0" type="int" value="156"/>
-		<constructor-arg index="1" type="int" value="181"/>
-		<constructor-arg index="2" type="int" value="218"/>
-	</bean>
-
-	<bean id="aegeanSeriesColor1" class="java.awt.Color">
+	<bean id="aegeanSeriesColor0" class="java.awt.Color"> 
 		<constructor-arg index="0" type="int" value="46"/>
 		<constructor-arg index="1" type="int" value="49"/>
 		<constructor-arg index="2" type="int" value="146"/>
 	</bean>
 
-	<bean id="aegeanSeriesColor2" class="java.awt.Color">
-		<constructor-arg index="0" type="int" value="22"/>
-		<constructor-arg index="1" type="int" value="161"/>
-		<constructor-arg index="2" type="int" value="197"/>
+	<bean id="aegeanSeriesColor1" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="63"/>
+		<constructor-arg index="1" type="int" value="134"/>
+		<constructor-arg index="2" type="int" value="218"/>
 	</bean>
 
-	<bean id="aegeanSeriesColor3" class="java.awt.Color">
+	<bean id="aegeanSeriesColor2" class="java.awt.Color">
 		<constructor-arg index="0" type="int" value="170"/>
 		<constructor-arg index="1" type="int" value="185"/>
 		<constructor-arg index="2" type="int" value="51"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor3" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="22"/>
+		<constructor-arg index="1" type="int" value="161"/>
+		<constructor-arg index="2" type="int" value="197"/>
 	</bean>
 
 	<bean id="aegeanSeriesColor4" class="java.awt.Color">
@@ -91,9 +91,9 @@
 	</bean>
 
 	<bean id="aegeanSeriesColor5" class="java.awt.Color">
-		<constructor-arg index="0" type="int" value="193"/>
-		<constructor-arg index="1" type="int" value="118"/>
-		<constructor-arg index="2" type="int" value="100"/>
+		<constructor-arg index="0" type="int" value="172"/>
+		<constructor-arg index="1" type="int" value="72"/>
+		<constructor-arg index="2" type="int" value="48"/>
 	</bean>
 
 	<bean id="aegeanSeriesColor6" class="java.awt.Color">
@@ -103,9 +103,9 @@
 	</bean>
 
 	<bean id="aegeanSeriesColor7" class="java.awt.Color">
-		<constructor-arg index="0" type="int" value="172"/>
-		<constructor-arg index="1" type="int" value="72"/>
-		<constructor-arg index="2" type="int" value="48"/>
+		<constructor-arg index="0" type="int" value="193"/>
+		<constructor-arg index="1" type="int" value="118"/>
+		<constructor-arg index="2" type="int" value="100"/>
 	</bean>
 
 	<bean id="aegeanChartBorderPaint" class="java.awt.Color">
