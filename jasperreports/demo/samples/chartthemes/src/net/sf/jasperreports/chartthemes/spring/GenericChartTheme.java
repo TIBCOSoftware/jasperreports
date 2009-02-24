@@ -1351,8 +1351,10 @@ public class GenericChartTheme implements ChartTheme
 		Font themeTickLabelFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_TICK_LABEL_FONT), tickLabelFont, defaultBaseFontSize);
 		chartPlot.setTickLabelFont(themeTickLabelFont);
 		
-		// Set how the value is displayed.
 		JRValueDisplay display = jrPlot.getValueDisplay();
+		JRFont displayFont = display.getFont();
+		Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
+		// Set how the value is displayed.
 		if (display != null)
 		{
 			if (display.getColor() != null)
@@ -1366,7 +1368,7 @@ public class GenericChartTheme implements ChartTheme
 			}
 			if (display.getFont() != null)
 			{
-//				chartPlot.setValueFont(JRFontUtil.getAwtFont(display.getFont()));
+				chartPlot.setValueFont(themeDisplayFont);
 			}
 
 		}
