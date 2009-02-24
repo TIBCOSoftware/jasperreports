@@ -33,6 +33,12 @@
 		   	    </entry>
 			</map>
 		</property>
+		<property name="defaultPlotPropertiesMap">
+			<map merge="true">
+			    <entry key-ref="plotTickLabelFont" value-ref="eyeCandySixtiesPlotTickLabelFont"/>
+			    <entry key-ref="plotDisplayFont" value-ref="eyeCandySixtiesPlotDisplayFont"/>
+			</map>		
+		</property>
 		<property name="defaultAxisPropertiesMap">
 			<map merge="true">
 			    <entry key-ref="axisLinePaint" value-ref="grayPaint134"/>
@@ -95,6 +101,20 @@
 		<property name="fontSize">
 			<value type="java.lang.Integer">9</value>
 		</property>
+	</bean>
+
+	<bean id="eyeCandySixtiesPlotTickLabelFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">16</value>
+		</property>
+		<property name="bold" ref="isTrue"/>
+	</bean>
+
+	<bean id="eyeCandySixtiesPlotDisplayFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">10</value>
+		</property>
+		<property name="bold" ref="isTrue"/>
 	</bean>
 
 	<import resource="chartConstantsBean.xml"/>

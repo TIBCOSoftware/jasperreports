@@ -149,6 +149,7 @@ public interface ChartThemesConstants
 	public static final String PLOT_OUTLINE_STROKE = "plotOutlineStroke";
 	public static final String PLOT_OUTLINE_VISIBLE = "plotOutlineVisible";
 	public static final String PLOT_TICK_LABEL_FONT = "plotTickLabelFont";
+	public static final String PLOT_DISPLAY_FONT = "plotDisplayFont";
 	
 	// generic axis  properties names
 	public static final String AXIS_VISIBLE = "axisVisible";

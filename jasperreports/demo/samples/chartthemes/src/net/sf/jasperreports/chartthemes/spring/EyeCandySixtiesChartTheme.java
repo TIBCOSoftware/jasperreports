@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
@@ -1015,6 +1016,8 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 
 		if(label != null)
 		{
+			JRFont displayFont = jrPlot.getValueDisplay().getFont();
+			Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
 			if(dialUnitScale < 0)
 				label = new MessageFormat(label).format(new Object[]{String.valueOf(Math.pow(10, dialUnitScale))});
 			else if(dialUnitScale < 3)
@@ -1026,7 +1029,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			for(int i = 0; i < textLines.length; i++)
 			{
 				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
-//				dialAnnotation.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(Font.BOLD));
+				dialAnnotation.setFont(themeDisplayFont);
 				dialAnnotation.setPaint(Color.WHITE);
 				dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
 				dialAnnotation.setAnchor(TextAnchor.CENTER);

@@ -744,11 +744,14 @@ public class AegeanChartTheme extends GenericChartTheme
 			else
 				label = new MessageFormat(label).format(new Object[]{String.valueOf((int)Math.pow(10, dialUnitScale-2))});
 
+			JRFont displayFont = jrPlot.getValueDisplay().getFont();
+			Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
+			
 			String[] textLines = label.split("\\n");
 			for(int i = 0; i < textLines.length; i++)
 			{
 				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
-//				dialAnnotation.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(Font.BOLD));
+				dialAnnotation.setFont(themeDisplayFont);
 				dialAnnotation.setPaint(Color.BLACK);
 				dialAnnotation.setRadius(Math.sin(Math.PI/6.0) + i/10.0);
 				dialAnnotation.setAnchor(TextAnchor.CENTER);

@@ -1468,6 +1468,11 @@ public class SimpleChartTheme implements ChartTheme
 		font = new JRBaseFont(getChart(), font);
 		chartPlot.setTickLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
 
+		font = new JRBaseFont();
+		JRFontUtil.copyNonNullOwnProperties(getPlotSettings().getTickLabelFont(), font);
+		JRFontUtil.copyNonNullOwnProperties(jrPlot.getTickLabelFont(), font);
+		font = new JRBaseFont(getChart(), font);
+		
 		// Set how the value is displayed.
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		if (display != null)
@@ -1483,7 +1488,7 @@ public class SimpleChartTheme implements ChartTheme
 			}
 			if (display.getFont() != null)
 			{
-//				chartPlot.setValueFont(JRFontUtil.getAwtFont(display.getFont()));
+				chartPlot.setValueFont(JRFontUtil.getAwtFont(font, getLocale()));
 			}
 
 		}

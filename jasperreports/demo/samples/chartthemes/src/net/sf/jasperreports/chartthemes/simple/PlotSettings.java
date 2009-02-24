@@ -76,6 +76,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_rangeGridlinePaint = "rangeGridlinePaint";
 	public static final String PROPERTY_rangeGridlineStroke = "rangeGridlineStroke";
 	public static final String PROPERTY_tickLabelFont = "tickLabelFont";
+	public static final String PROPERTY_displayFont = "displayFont";
 
 	/**
 	 *
@@ -103,7 +104,8 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	private Boolean rangeGridlineVisible = null;
 	private PaintProvider rangeGridlinePaint = null;
 	private Stroke rangeGridlineStroke = null;
-	private JRFont tickLabelFont =  = new JRBaseFont();
+	private JRFont tickLabelFont = new JRBaseFont();
+	private JRFont displayFont = new JRBaseFont();
 	
 	/**
 	 * @return the padding
@@ -534,6 +536,24 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
     	JRFont old = getTickLabelFont();
 		this.tickLabelFont = tickLabelFont;
 		getEventSupport().firePropertyChange(PROPERTY_tickLabelFont, old, getTickLabelFont());
+    }
+
+	/**
+     * @return the displayFont
+     */
+    public JRFont getDisplayFont()
+    {
+    	return tickLabelFont;
+    }
+
+	/**
+     * @param displayFont the displayFont to set
+     */
+    public void setDisplayFont(JRFont displayFont)
+    {
+    	JRFont old = getDisplayFont();
+		this.displayFont = displayFont;
+		getEventSupport().firePropertyChange(PROPERTY_displayFont, old, getDisplayFont());
     }
 
     

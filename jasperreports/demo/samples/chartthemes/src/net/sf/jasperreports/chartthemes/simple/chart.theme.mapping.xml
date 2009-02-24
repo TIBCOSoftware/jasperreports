@@ -194,6 +194,9 @@
 		<field name="tickLabelFont" type="net.sf.jasperreports.engine.JRFont">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
+		<field name="displayFont" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
 	</class>
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.AxisSettings" >

@@ -193,6 +193,9 @@ public class SimpleSettingsFactory
 		plotSettings.getTickLabelFont().setFontName("Courier");
 		plotSettings.getTickLabelFont().setBold(Boolean.TRUE);
 		plotSettings.getTickLabelFont().setFontSize(10);
+		plotSettings.getDisplayFont().setFontName("Arial");
+		plotSettings.getDisplayFont().setBold(Boolean.TRUE);
+		plotSettings.getDisplayFont().setFontSize(12);
 		
 		AxisSettings domainAxisSettings = settings.getDomainAxisSettings();
 		domainAxisSettings.setVisible(Boolean.TRUE);
