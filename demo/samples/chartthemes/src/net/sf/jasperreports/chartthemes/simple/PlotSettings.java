@@ -32,6 +32,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
@@ -73,6 +75,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_rangeGridlineVisible = "rangeGridlineVisible";
 	public static final String PROPERTY_rangeGridlinePaint = "rangeGridlinePaint";
 	public static final String PROPERTY_rangeGridlineStroke = "rangeGridlineStroke";
+	public static final String PROPERTY_tickLabelFont = "tickLabelFont";
 
 	/**
 	 *
@@ -100,6 +103,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	private Boolean rangeGridlineVisible = null;
 	private PaintProvider rangeGridlinePaint = null;
 	private Stroke rangeGridlineStroke = null;
+	private JRFont tickLabelFont =  = new JRBaseFont();
 	
 	/**
 	 * @return the padding
@@ -514,4 +518,23 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 		getEventSupport().firePropertyChange(PROPERTY_rangeGridlineStroke, old, getRangeGridlineStroke());
     }
 
+	/**
+     * @return the tickLabelFont
+     */
+    public JRFont getTickLabelFont()
+    {
+    	return tickLabelFont;
+    }
+
+	/**
+     * @param tickLabelFont the tickLabelFont to set
+     */
+    public void setTickLabelFont(JRFont tickLabelFont)
+    {
+    	JRFont old = getTickLabelFont();
+		this.tickLabelFont = tickLabelFont;
+		getEventSupport().firePropertyChange(PROPERTY_tickLabelFont, old, getTickLabelFont());
+    }
+
+    
 }

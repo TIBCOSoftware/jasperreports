@@ -907,7 +907,10 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 				);
 		scale.setTickRadius(0.9);
 		scale.setTickLabelOffset(0.16);
-//		scale.setTickLabelFont(JRFontUtil.getAwtFont(jrFont).deriveFont(8f).deriveFont(Font.BOLD));
+		JRFont tickLabelFont = jrPlot.getTickLabelFont();
+		Integer defaultBaseFontSize = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BASEFONT_SIZE);
+		Font themeTickLabelFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_TICK_LABEL_FONT), tickLabelFont, defaultBaseFontSize);
+		scale.setTickLabelFont(themeTickLabelFont);
 		scale.setMajorTickStroke(new BasicStroke(1f));
 		scale.setMinorTickStroke(new BasicStroke(0.3f));
 		scale.setMajorTickPaint(Color.WHITE);

@@ -190,6 +190,9 @@ public class SimpleSettingsFactory
 		plotSettings.setRangeGridlineVisible(Boolean.TRUE);
 		plotSettings.setRangeGridlinePaint(new ColorProvider(Color.BLACK));
 		plotSettings.setRangeGridlineStroke(new BasicStroke(0.5f));
+		plotSettings.getTickLabelFont().setFontName("Courier");
+		plotSettings.getTickLabelFont().setBold(Boolean.TRUE);
+		plotSettings.getTickLabelFont().setFontSize(10);
 		
 		AxisSettings domainAxisSettings = settings.getDomainAxisSettings();
 		domainAxisSettings.setVisible(Boolean.TRUE);

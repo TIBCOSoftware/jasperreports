@@ -2078,7 +2078,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_meterColor, plot.getMeterBackgroundColor());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_needleColor, plot.getNeedleColor());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickColor, plot.getTickColor());
-
+		if (plot.getTickLabelFont() != null)
+		{
+			writer.startElement(JRXmlConstants.ELEMENT_tickLabelFont);
+			writeFont(plot.getTickLabelFont());
+			writer.closeElement();
+		}
+		
 		writePlot(chart.getPlot());
 		writeValueDisplay(plot.getValueDisplay());
 		writeDataRange(plot.getDataRange());

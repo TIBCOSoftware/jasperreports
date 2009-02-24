@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.fill;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -153,4 +154,9 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	{
 		return ((JRMeterPlot)parent).getTickColor();
 	}
+
+	public JRFont getTickLabelFont()
+    {
+		return ((JRMeterPlot)parent).getTickLabelFont();
+    }
 }

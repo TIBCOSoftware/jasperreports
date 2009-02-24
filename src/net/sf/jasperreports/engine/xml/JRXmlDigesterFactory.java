@@ -901,6 +901,8 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/meterChart", JRMeterChartFactory.class.getName());
 		digester.addSetNext("*/meterChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/meterChart/meterPlot", JRMeterPlotFactory.class.getName());
+		digester.addFactoryCreate("*/meterPlot/tickLabelFont/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/meterPlot/tickLabelFont/font", "setTickLabelFont", JRFont.class.getName());
 
 		digester.addFactoryCreate("*/meterPlot/lowExpression", JRExpressionFactory.NumberExpressionFactory.class);
 		digester.addSetNext("*/meterPlot/lowExpression", "setLowExpression", JRDesignExpression.class.getName());
