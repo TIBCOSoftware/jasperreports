@@ -171,6 +171,8 @@
 	<util:constant id="plotOutlinePaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_OUTLINE_PAINT"/>
 	<util:constant id="plotOutlineStroke" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_OUTLINE_STROKE"/>
 	<util:constant id="plotOutlineVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_OUTLINE_VISIBLE"/>
+	<util:constant id="plotTickLabelFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_TICK_LABEL_FONT"/>
+	<util:constant id="plotDisplayFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_DISPLAY_FONT"/>
 	
 	<!-- axis property names -->
 	
