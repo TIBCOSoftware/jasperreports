@@ -42,7 +42,9 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -116,6 +118,10 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 */
 	protected Color tickColor = null;
 
+	/**
+	 * The font to use when writing tick labels.
+	 */
+	protected JRFont tickLabelFont = null;
 
 
 	/**
@@ -131,10 +137,12 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		if (meterPlot == null)
 		{
 			valueDisplay = new JRBaseValueDisplay(null, chart);
+			tickLabelFont = new JRBaseFont(chart, null);
 		}
 		else
 		{
 			valueDisplay = new JRBaseValueDisplay(meterPlot.getValueDisplay(), chart);
+			tickLabelFont = new JRBaseFont(plot.getChart(), ((JRMeterPlot)plot).getTickLabelFont());
 		}
 	}
 
@@ -171,9 +179,8 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		meterBackgroundColor = meterPlot.getMeterBackgroundColor();
 		needleColor = meterPlot.getNeedleColor();
 		tickColor = meterPlot.getTickColor();
+		tickLabelFont = meterPlot.getTickLabelFont();
 	}
-
-
 
 	/**
 	 *
@@ -279,6 +286,14 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	}
 
 	/**
+	 *
+	 */
+	public JRFont getTickLabelFont()
+    {
+	    return tickLabelFont;
+    }
+	
+	/**
 	 * Adds all the expression used by this plot with the specified collector.
 	 * All collected expression that are also registered with a factory will
 	 * be included with the report is compiled.
@@ -337,5 +352,4 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 			tickIntervalDouble = new Double(tickInterval);
 		}
 	}
-	
 }

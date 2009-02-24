@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRFont;
 
 import java.awt.Color;
 import java.util.List;
@@ -159,4 +160,12 @@ public interface JRMeterPlot extends JRChartPlot
 	 * @return the color used when drawing tick marks on the meter
 	 */
 	public Color getTickColor();
+	
+	/**
+	 * Returns the font used to write tick labels on the meter.
+	 *
+	 * @return the font used to write tick labels on the meter
+	 */
+	public JRFont getTickLabelFont();
+	
 }

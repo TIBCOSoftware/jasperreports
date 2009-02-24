@@ -1346,6 +1346,11 @@ public class GenericChartTheme implements ChartTheme
 		if (color != null)
 			chartPlot.setNeedlePaint(color);
 
+		JRFont tickLabelFont = jrPlot.getTickLabelFont();
+		Integer defaultBaseFontSize = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BASEFONT_SIZE);
+		Font themeTickLabelFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_TICK_LABEL_FONT), tickLabelFont, defaultBaseFontSize);
+		chartPlot.setTickLabelFont(themeTickLabelFont);
+		
 		// Set how the value is displayed.
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		if (display != null)

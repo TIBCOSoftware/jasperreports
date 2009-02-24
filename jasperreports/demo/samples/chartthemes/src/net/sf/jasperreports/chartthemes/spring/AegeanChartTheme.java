@@ -646,7 +646,10 @@ public class AegeanChartTheme extends GenericChartTheme
 				);
 		scale.setTickRadius(0.9);
 		scale.setTickLabelOffset(0.16);
-		scale.setTickLabelFont(JRFontUtil.getAwtFont(jrFont, getLocale()).deriveFont(16f).deriveFont(Font.BOLD));
+		JRFont tickLabelFont = jrPlot.getTickLabelFont();
+		Integer defaultBaseFontSize = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BASEFONT_SIZE);
+		Font themeTickLabelFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_TICK_LABEL_FONT), tickLabelFont, defaultBaseFontSize);
+		scale.setTickLabelFont(themeTickLabelFont);
 		scale.setMajorTickStroke(new BasicStroke(1f));
 		scale.setMinorTickStroke(new BasicStroke(0.7f));
 		scale.setMajorTickPaint(Color.BLACK);
@@ -671,6 +674,7 @@ public class AegeanChartTheme extends GenericChartTheme
 			scale.setTickLabelFormatter(new DecimalFormat("#,##0.00"));
 		}
 		dialPlot.addScale(0, scale);
+		
 		
 		List intervals = jrPlot.getIntervals();
 		if (intervals != null && intervals.size() > 0)

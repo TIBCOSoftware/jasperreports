@@ -41,6 +41,8 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 
 /**
  * A meter plot that displays a single value against a range of values.  The
@@ -78,6 +80,8 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	
 	public static final String PROPERTY_INTERVALS = "intervals";
 
+	public static final String PROPERTY_TICK_LABEL_FONT = "tickLabelFont";
+	
 
 	/**
 	 * Construct a new meter plot by copying an existing one.
@@ -272,4 +276,17 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 		this.tickColor = tickColor;
 		getEventSupport().firePropertyChange(PROPERTY_TICK_COLOR, old, this.tickColor);
 	}
+	
+	/**
+	 * Sets the font to use when displaying the value.
+	 *
+	 * @param font the font to use when displaying the value
+	 */
+	public void setTickLabelFont(JRFont tickLabelFont)
+	{
+		Object old = this.tickLabelFont;
+		this.tickLabelFont = new JRBaseFont(getChart(), tickLabelFont);
+		getEventSupport().firePropertyChange(PROPERTY_TICK_LABEL_FONT, old, this.tickLabelFont);
+	}
+	
 }

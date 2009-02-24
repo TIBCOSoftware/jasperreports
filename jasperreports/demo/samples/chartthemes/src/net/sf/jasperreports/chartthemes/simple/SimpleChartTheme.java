@@ -1462,6 +1462,12 @@ public class SimpleChartTheme implements ChartTheme
 		if (color != null)
 			chartPlot.setNeedlePaint(color);
 
+		JRBaseFont font = new JRBaseFont();
+		JRFontUtil.copyNonNullOwnProperties(getPlotSettings().getTickLabelFont(), font);
+		JRFontUtil.copyNonNullOwnProperties(jrPlot.getTickLabelFont(), font);
+		font = new JRBaseFont(getChart(), font);
+		chartPlot.setTickLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
+
 		// Set how the value is displayed.
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		if (display != null)
