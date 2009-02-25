@@ -146,7 +146,7 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected ChartContext chartContext = null;
+	protected ThreadLocal threadLocalChartContext = new ThreadLocal();
 	
 
 	/**
@@ -250,9 +250,27 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
+	private ChartContext getChartContext()
+	{
+		return (ChartContext)threadLocalChartContext.get();
+	}
+	
+	
+	/**
+	 *
+	 */
+	private void setChartContext(ChartContext chartContext)
+	{
+		this.threadLocalChartContext.set(chartContext);
+	}
+	
+	
+	/**
+	 *
+	 */
 	protected JRChart getChart()
 	{
-		return chartContext.getChart();
+		return getChartContext().getChart();
 	}
 	
 	
@@ -270,7 +288,7 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected Dataset getDataset()
 	{
-		return chartContext.getDataset();
+		return getChartContext().getDataset();
 	}
 	
 	
@@ -279,7 +297,7 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected Object getLabelGenerator()
 	{
-		return chartContext.getLabelGenerator();
+		return getChartContext().getLabelGenerator();
 	}
 	
 	
@@ -288,7 +306,7 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected Locale getLocale()
 	{
-		return chartContext.getLocale();
+		return getChartContext().getLocale();
 	}
 	
 	
@@ -297,7 +315,7 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	protected final Object evaluateExpression(JRExpression expression) throws JRException
 	{
-		return chartContext.evaluateExpression(expression);
+		return getChartContext().evaluateExpression(expression);
 	}
 
 	
@@ -306,7 +324,7 @@ public class SimpleChartTheme implements ChartTheme
 	 */
 	public JFreeChart createChart(ChartContext chartContext) throws JRException
 	{
-		this.chartContext = chartContext;
+		setChartContext(chartContext);
 		
 		JFreeChart jfreeChart = null;
 		
