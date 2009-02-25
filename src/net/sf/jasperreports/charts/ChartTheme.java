@@ -41,6 +41,6 @@ public interface ChartTheme
 	/**
 	 * 
 	 */
-	public JFreeChart createChart(ChartContext charContext) throws JRException;
+	public JFreeChart createChart(ChartContext chartContext) throws JRException;
 
 }
