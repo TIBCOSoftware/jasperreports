@@ -1441,7 +1441,7 @@ public class SimpleChartTheme implements ChartTheme
 	{
 		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
 
-		// Start by creating the plot that wil hold the meter
+		// Start by creating the plot that will hold the meter
 		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset());
 
 		// Set the shape
@@ -1486,7 +1486,7 @@ public class SimpleChartTheme implements ChartTheme
 		font = new JRBaseFont(getChart(), font);
 		chartPlot.setTickLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
 
-		font = new JRBaseFont();
+		font = new JRBaseFont();//FIXME this is useless?
 		JRFontUtil.copyNonNullOwnProperties(getPlotSettings().getTickLabelFont(), font);
 		JRFontUtil.copyNonNullOwnProperties(jrPlot.getTickLabelFont(), font);
 		font = new JRBaseFont(getChart(), font);

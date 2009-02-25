@@ -142,7 +142,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		else
 		{
 			valueDisplay = new JRBaseValueDisplay(meterPlot.getValueDisplay(), chart);
-			tickLabelFont = new JRBaseFont(plot.getChart(), ((JRMeterPlot)plot).getTickLabelFont());
+			tickLabelFont = new JRBaseFont(chart, meterPlot.getTickLabelFont());
 		}
 	}
 
@@ -179,7 +179,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		meterBackgroundColor = meterPlot.getMeterBackgroundColor();
 		needleColor = meterPlot.getNeedleColor();
 		tickColor = meterPlot.getTickColor();
-		tickLabelFont = meterPlot.getTickLabelFont();
+		tickLabelFont = new JRBaseFont(this.getChart(), meterPlot.getTickLabelFont());
 	}
 
 	/**
