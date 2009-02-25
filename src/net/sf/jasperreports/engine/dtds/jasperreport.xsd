@@ -2623,8 +2623,8 @@
  <element name="meterPlot">
   <complexType>
    <sequence>
-   	<element ref="jr:tickLabelFont" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:plot"/>
+   	<element ref="jr:tickLabelFont" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueDisplay" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:dataRange"/>
     <element ref="jr:meterInterval" minOccurs="0" maxOccurs="unbounded"/>
