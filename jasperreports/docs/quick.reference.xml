@@ -3244,6 +3244,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <description>Plot options for a <a href="meterChart">meterChart</a>.</description>
   <contains>(
     <a href="plot">plot</a>,
+    <a href="tickLabelFont">tickLabelFont</a>?,
     <a href="valueDisplay">valueDisplay</a>?,
     <a href="dataRange">dataRange</a>,
     <a href="meterInterval">meterInterval</a>*
