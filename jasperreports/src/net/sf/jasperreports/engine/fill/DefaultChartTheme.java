@@ -531,7 +531,7 @@ public class DefaultChartTheme implements ChartTheme
 		// Handle the axis formating for the value axis
 		configureAxis(((CategoryPlot)jfreeChart.getPlot()).getRangeAxis(), areaPlot.getValueAxisLabelFont(),
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
-				areaPlot.getValueAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
+				areaPlot.getValueAxisTickLabelColor(), areaPlot.getValueAxisTickLabelMask(),
 				areaPlot.getValueAxisLineColor());
 		return jfreeChart;
 	}
