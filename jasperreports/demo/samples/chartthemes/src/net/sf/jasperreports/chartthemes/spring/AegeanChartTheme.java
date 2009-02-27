@@ -45,16 +45,10 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryLabelPositions;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.axis.DateTickUnit;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
