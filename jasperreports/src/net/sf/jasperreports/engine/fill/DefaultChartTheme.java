@@ -1405,6 +1405,12 @@ public class DefaultChartTheme implements ChartTheme
 		if (units != null && units.length() > 0)
 			chartPlot.setUnits(units);
 
+		// Set the font used for tick labels
+		if(jrPlot.getTickLabelFont() != null)
+		{
+			chartPlot.setTickLabelFont(JRFontUtil.getAwtFont(jrPlot.getTickLabelFont(), getLocale()));
+		}
+		
 		// Set the spacing between ticks.  I hate the name "tickSize" since to me it
 		// implies I am changing the size of the tick, not the spacing between them.
 		double tickInterval = jrPlot.getTickIntervalDouble() == null ? 10.0 : jrPlot.getTickIntervalDouble().doubleValue();
