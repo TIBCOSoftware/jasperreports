@@ -1603,14 +1603,22 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 
+		boolean firstChunk = true;
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Chunk chunk = getChunk(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit), locale);
-			setAnchor(chunk, textElement, textElement);
+			
+			if (firstChunk)
+			{
+				// only set anchor + bookmark for the first chunk in the text
+				setAnchor(chunk, textElement, textElement);
+			}
+			
 			setHyperlinkInfo(chunk, textElement);
 			phrase.add(chunk);
 
 			iterator.setIndex(runLimit);
+			firstChunk = false;
 		}
 
 		return phrase;
