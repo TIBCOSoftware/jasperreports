@@ -30,7 +30,9 @@ package net.sf.jasperreports.chartthemes.spring;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Paint;
+import java.awt.Point;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.List;
@@ -44,13 +46,14 @@ import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.DialShape;
+import org.jfree.chart.plot.MeterPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
@@ -375,111 +378,163 @@ public class AegeanChartTheme extends GenericChartTheme
 	 */
 	protected JFreeChart createMeterChart() throws JRException
 	{
-		return createDialChart();
-//		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
-//
-//		// Start by creating the plot that will hold the meter
-//		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset().getDataset());
-//
-//		// Set the shape
-//		int shape = jrPlot.getShape();
-//		if (shape == JRMeterPlot.SHAPE_CHORD)
-//			chartPlot.setDialShape(DialShape.CHORD);
-//		else if (shape == JRMeterPlot.SHAPE_CIRCLE)
-//		chartPlot.setDialShape(DialShape.CIRCLE);
-//		else
-//			chartPlot.setDialShape(DialShape.PIE);
-//
-//		// Set the meter's range
-//		chartPlot.setRange(convertRange(jrPlot.getDataRange()));
-//
-//		// Set the size of the meter
-//		chartPlot.setMeterAngle(jrPlot.getMeterAngle());
-//
-//		// Set the units - this is just a string that will be shown next to the
-//		// value
-//		String units = jrPlot.getUnits();
-//		if (units != null && units.length() > 0)
-//			chartPlot.setUnits(units);
-//
-//		// Set the spacing between ticks.  I hate the name "tickSize" since to me it
-//		// implies I am changing the size of the tick, not the spacing between them.
-//		chartPlot.setTickSize(jrPlot.getTickInterval());
-//
-//		JRValueDisplay display = jrPlot.getValueDisplay();
-//		JRFont jrFont = display.getFont();
-//
-//		if (jrFont != null)
-//		{
-//			chartPlot.setTickLabelFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(Font.BOLD));
-//		}
-//
-//
-//		// Set all the colors we support
-//		//Color color = jrPlot.getMeterBackgroundColor();
-//		//if (color != null)
-//
-//		chartPlot.setDialBackgroundPaint(GRIDLINE_COLOR);
-//
-//		//chartPlot.setForegroundAlpha(1f);
-//		chartPlot.setNeedlePaint(Color.DARK_GRAY);
-//
-//		// Set how the value is displayed.
-//		if (display != null)
-//		{
-//			if (display.getColor() != null)
-//			{
-//				chartPlot.setValuePaint(display.getColor());
-//			}
-//
-//			if (display.getMask() != null)
-//			{
-//				chartPlot.setTickLabelFormat(new DecimalFormat(display.getMask()));
-//			}
-//
-//			if (jrFont != null)
-//			{
-//				Font font = new Font(JRFontUtil.getAttributes(jrFont));
-//				if(jrFont.isOwnBold() == null)
-//				{
-//					font = font.deriveFont(Font.BOLD);
-//				}
-//				chartPlot.setValueFont(font);
-//			}
-//
-//		}
-//
-//		chartPlot.setTickPaint(Color.BLACK);
-//
-//		// Now define all of the intervals, setting their range and color
-//		List intervals = jrPlot.getIntervals();
-//		if (intervals != null)
-//		{
-//			Iterator iter = intervals.iterator();
-//			int i = 0;
-//			while (iter.hasNext())
-//			{
-//				JRMeterInterval interval = (JRMeterInterval)iter.next();
-//				interval.setBackgroundColor(COLORS[i]);
-//				i++;
-//				interval.setAlpha(1f);
-//				chartPlot.addInterval(convertInterval(interval));
-//			}
-//		}
-//
-//		// Actually create the chart around the plot
-//		JFreeChart jfreeChart =
-//			new JFreeChart(
-//				(String)evaluateExpression(getChart().getTitleExpression()),
-//				null,
-//				chartPlot,
-//				getChart().isShowLegend()
-//				);
-//
-//		// Set all the generic options
-//		configureChart(jfreeChart, getPlot());
-//
-//		return jfreeChart;
+		// Start by creating the plot that will hold the meter
+		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset());
+		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
+
+		// Set the shape
+		byte shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_CIRCLE : jrPlot.getShapeByte().byteValue();
+		
+		switch(shape)
+		{
+			case JRMeterPlot.SHAPE_CHORD:
+				chartPlot.setDialShape(DialShape.CHORD);
+				break;
+			case JRMeterPlot.SHAPE_PIE:
+				chartPlot.setDialShape(DialShape.PIE);
+				break;
+			case JRMeterPlot.SHAPE_CIRCLE:
+			default:
+				return createDialChart();
+		}
+
+		chartPlot.setDialOutlinePaint(Color.BLACK);
+		int meterAngle = jrPlot.getMeterAngleInteger() == null ? 180 : jrPlot.getMeterAngleInteger().intValue();
+		// Set the size of the meter
+		chartPlot.setMeterAngle(meterAngle);
+
+		// Set the spacing between ticks.  I hate the name "tickSize" since to me it
+		// implies I am changing the size of the tick, not the spacing between them.
+		double tickInterval = jrPlot.getTickIntervalDouble() == null ? 10.0 : jrPlot.getTickIntervalDouble().doubleValue();
+		chartPlot.setTickSize(tickInterval);
+		
+		JRFont tickLabelFont = jrPlot.getTickLabelFont();
+		Integer defaultBaseFontSize = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BASEFONT_SIZE);
+		Font themeTickLabelFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_TICK_LABEL_FONT), tickLabelFont, defaultBaseFontSize);
+		chartPlot.setTickLabelFont(themeTickLabelFont);
+		
+		Color tickColor = jrPlot.getTickColor() == null ? Color.BLACK : jrPlot.getTickColor();
+		chartPlot.setTickPaint(tickColor);
+		
+		Range range = convertRange(jrPlot.getDataRange());
+		// Set the meter's range
+		chartPlot.setRange(range);
+		double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
+		int dialUnitScale = ChartThemesUtilities.getScale(bound);
+		if((range.getLowerBound() == (int)range.getLowerBound() &&
+				range.getUpperBound() == (int)range.getUpperBound() &&
+				tickInterval == (int)tickInterval) ||
+				dialUnitScale > 1
+				)
+		{
+			chartPlot.setTickLabelFormat(new DecimalFormat("#,##0"));
+		}
+		else if(dialUnitScale == 1)
+		{
+			chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.0"));
+		}
+		else if(dialUnitScale <= 0)
+		{
+			chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.00"));
+		}
+		chartPlot.setTickLabelsVisible(true);
+
+		// Set all the colors we support
+		Paint backgroundPaint = jrPlot.getOwnBackcolor() == null ? ChartThemesConstants.TRANSPARENT_PAINT : jrPlot.getOwnBackcolor();
+		chartPlot.setBackgroundPaint(backgroundPaint);
+
+		GradientPaint gp =
+			new GradientPaint(
+				new Point(), Color.LIGHT_GRAY,
+				new Point(), Color.BLACK,
+				false
+				);
+		
+		if(jrPlot.getMeterBackgroundColor() != null)
+		{
+			chartPlot.setDialBackgroundPaint(jrPlot.getMeterBackgroundColor());
+		}
+		else
+		{
+			chartPlot.setDialBackgroundPaint(gp);
+		}
+		//chartPlot.setForegroundAlpha(1f);
+		Paint needlePaint = jrPlot.getNeedleColor() == null ? new Color(191, 48, 0) : jrPlot.getNeedleColor();
+		chartPlot.setNeedlePaint(needlePaint);
+
+		JRValueDisplay display = jrPlot.getValueDisplay();
+		Color valueColor = display.getColor() == null ? Color.BLACK : display.getColor();
+		chartPlot.setValuePaint(valueColor);
+		String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
+		if(pattern != null)
+			chartPlot.setTickLabelFormat( new DecimalFormat(pattern));
+		JRFont displayFont = jrPlot.getValueDisplay().getFont();
+		Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
+
+		if (themeDisplayFont != null)
+		{
+			chartPlot.setValueFont(themeDisplayFont);
+		}
+		
+		String label = getChart().hasProperties() ?
+				getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
+		
+		if(label != null)
+		{
+			if(dialUnitScale < 0)
+				label = new MessageFormat(label).format(new Object[]{String.valueOf(Math.pow(10, dialUnitScale))});
+			else if(dialUnitScale < 3)
+				label = new MessageFormat(label).format(new Object[]{"1"});
+			else
+				label = new MessageFormat(label).format(new Object[]{String.valueOf((int)Math.pow(10, dialUnitScale-2))});
+		
+		}
+		
+		// Set the units - this is just a string that will be shown next to the
+		// value
+		String units = jrPlot.getUnits() == null ? label : jrPlot.getUnits();
+		if (units != null && units.length() > 0)
+			chartPlot.setUnits(units);
+
+		chartPlot.setTickPaint(Color.BLACK);
+
+		// Now define all of the intervals, setting their range and color
+		List intervals = jrPlot.getIntervals();
+		if (intervals != null  && intervals.size() > 0)
+		{
+			int size = Math.min(3, intervals.size());
+			
+			int colorStep = 0;
+			if(size > 3)
+				colorStep = 255 / (size - 3);
+			
+			for(int i = 0; i < size; i++)
+			{
+				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
+				Color color = i < 3 
+					? (Color)ChartThemesConstants.AEGEAN_INTERVAL_COLORS.get(i)
+					: new Color(255 - colorStep * (i - 3), 0 + colorStep * (i - 3), 0);
+				
+				interval.setBackgroundColor(color);
+				interval.setAlpha(new Double(1.0));
+				chartPlot.addInterval(convertInterval(interval));
+			}
+		}
+
+		// Actually create the chart around the plot
+		JFreeChart jfreeChart =
+			new JFreeChart(
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				null,
+				chartPlot,
+				getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
+				);
+
+		// Set all the generic options
+		configureChart(jfreeChart, getPlot());
+
+		return jfreeChart;
+		
 	}
 
 	/**
@@ -617,10 +672,6 @@ public class AegeanChartTheme extends GenericChartTheme
 
 		DialBackground db = new DialBackground(ChartThemesConstants.TRANSPARENT_PAINT);
 		dialPlot.setBackground(db);
-		JRValueDisplay display = jrPlot.getValueDisplay();
-		JRFont jrFont = display != null  && display.getFont() != null ?
-				display.getFont() :
-				new JRBaseFont(getChart(), getChart().getLegendFont());
 
 		Range range = convertRange(jrPlot.getDataRange());
 		double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
@@ -704,13 +755,14 @@ public class AegeanChartTheme extends GenericChartTheme
 			}
 			
 		}
+		JRValueDisplay display = jrPlot.getValueDisplay();
 
-       String displayVisibility = display != null && getChart().hasProperties() ? 
-       		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
+		String displayVisibility = display != null && getChart().hasProperties() ? 
+				getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
        
-       if(Boolean.valueOf(displayVisibility).booleanValue())
-       {
-       	ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
+		if(Boolean.valueOf(displayVisibility).booleanValue())
+		{
+			ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
 	        dvi.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 //	        dvi.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
 	        dvi.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
@@ -724,7 +776,7 @@ public class AegeanChartTheme extends GenericChartTheme
 	        dvi.setTextAnchor(TextAnchor.CENTER);
 	        //dvi.setTemplateValue(Double.valueOf(getDialTickValue(dialPlot.getValue(0),dialUnitScale)));
 	        dialPlot.addLayer(dvi);
-       }
+		}
 		
 		String label = getChart().hasProperties() ?
 				getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;

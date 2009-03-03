@@ -2629,7 +2629,7 @@
     <element ref="jr:dataRange"/>
     <element ref="jr:meterInterval" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
-   <attribute name="shape" use="optional" default="pie">
+   <attribute name="shape" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="chord"/>

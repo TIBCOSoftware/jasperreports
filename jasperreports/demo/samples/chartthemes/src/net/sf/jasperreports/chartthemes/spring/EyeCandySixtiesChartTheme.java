@@ -34,6 +34,7 @@ import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Point;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
@@ -52,7 +53,6 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
@@ -65,6 +65,8 @@ import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.CrosshairState;
+import org.jfree.chart.plot.DialShape;
+import org.jfree.chart.plot.MeterPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
@@ -152,46 +154,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	protected void configurePlot(Plot plot, JRChartPlot jrPlot)
 	{
 		super.configurePlot(plot, jrPlot);
-		int domainTickCount = -1;
-		String domainTickInterval = null;
-		int rangeTickCount = -1;
-		String rangeTickInterval = null;
-		
-		if(getChart().hasProperties())
-		{
-			String rangeTickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.tickcount");
-			rangeTickInterval = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.tick.interval");
-			String domainTickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.tickcount");
-			domainTickInterval = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.tick.interval");
-			if(domainTickCountProperty != null)
-			{
-				domainTickCount = Integer.valueOf(domainTickCountProperty).intValue();
-			}
-			if(rangeTickCountProperty != null)
-			{
-				rangeTickCount = Integer.valueOf(rangeTickCountProperty).intValue();
-			}
-			
-		}
-		else
-		{
-			Integer rangeTickCountInteger = (Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_TICK_COUNT);
-			rangeTickInterval = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_TICK_INTERVAL);
-			Integer domainTickCountInteger = (Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_TICK_COUNT);
-			domainTickInterval = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_TICK_INTERVAL);
-			if(domainTickCountInteger != null)
-			{
-				domainTickCount = domainTickCountInteger.intValue();
-			}
-			if(rangeTickCountInteger != null)
-			{
-				rangeTickCount = rangeTickCountInteger.intValue();
-			}
-		}
-
-		String domainTimePeriodUnit = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_TIME_PERIOD_UNIT);
-		String rangeTimePeriodUnit = (String)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_TIME_PERIOD_UNIT);
-
 		if(plot instanceof CategoryPlot)
 		{
 			CategoryPlot categoryPlot = (CategoryPlot)plot;
@@ -206,8 +168,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			categoryPlot.setDomainGridlinesVisible(false);
 			categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 			
-//			calculateTickUnits(categoryPlot.getDomainAxis(), domainTickCount, domainTickInterval, domainTimePeriodUnit);
-//			calculateTickUnits(categoryPlot.getRangeAxis(), rangeTickCount, rangeTickInterval, rangeTimePeriodUnit);
 		}
 		else if(plot instanceof XYPlot)
 		{
@@ -224,23 +184,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			
 			xyPlot.setRangeZeroBaselineVisible(true);
 
-//			calculateTickUnits(xyPlot.getDomainAxis(), domainTickCount, domainTickInterval, domainTimePeriodUnit);
-//			calculateTickUnits(xyPlot.getRangeAxis(), rangeTickCount, rangeTickInterval, rangeTimePeriodUnit);
 		}
-	}
-
-	protected JFreeChart createAreaChart() throws JRException
-	{
-		JFreeChart jfreeChart = super.createAreaChart();
-		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		return jfreeChart;
-	}
-
-	protected JFreeChart createStackedAreaChart() throws JRException
-	{
-		JFreeChart jfreeChart = super.createStackedAreaChart();
-		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		return jfreeChart;
 	}
 
 	protected JFreeChart createXyAreaChart() throws JRException
@@ -473,14 +417,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
-	protected JFreeChart createHighLowChart() throws JRException
-	{
-		JFreeChart jfreeChart = super.createHighLowChart();
-		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
-		//xyPlot.setRangeTickBandPaint(new Color(231, 243, 255));
-		return jfreeChart;
-	}
-
 	protected JFreeChart createScatterChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createScatterChart();
@@ -524,11 +460,11 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		line3DRenderer.setBaseStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		line3DRenderer.setBaseLinesVisible(lineRenderer.getBaseLinesVisible());
 		line3DRenderer.setBaseShapesVisible(lineRenderer.getBaseShapesVisible());
-
+		Stroke stroke = new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 		XYDataset xyDataset = xyPlot.getDataset();
 		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
 		{
-			line3DRenderer.setSeriesStroke(i, new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+			line3DRenderer.setSeriesStroke(i, stroke);
 			line3DRenderer.setSeriesLinesVisible(i, lineRenderer.getBaseLinesVisible());
 			line3DRenderer.setSeriesShapesVisible(i, lineRenderer.getBaseShapesVisible());
 		}
@@ -549,6 +485,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
 		lineRenderer.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		Stroke stroke = new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
 		for(int i = 0; i < lineRenderer.getRowCount(); i++)
 		{
@@ -556,6 +493,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			lineRenderer.setSeriesFillPaint(i, (Paint)ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
 			lineRenderer.setSeriesPaint(i, (Paint)ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
 			lineRenderer.setSeriesShapesVisible(i,true);
+			//it isn't applied at the moment
+			//lineRenderer.setSeriesStroke(i,stroke);
+			
 			//line3DRenderer.setSeriesLinesVisible(i,lineRenderer.getSeriesVisible(i));
 		}
 //		configureChart(jfreeChart, getPlot());
@@ -623,111 +563,164 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	 */
 	protected JFreeChart createMeterChart() throws JRException
 	{
-		return createDialChart();
-//		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
-//
-//		// Start by creating the plot that will hold the meter
-//		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset().getDataset());
-//
-//		// Set the shape
-//		int shape = jrPlot.getShape();
-//		if (shape == JRMeterPlot.SHAPE_CHORD)
-//			chartPlot.setDialShape(DialShape.CHORD);
-//		else if (shape == JRMeterPlot.SHAPE_CIRCLE)
-//		chartPlot.setDialShape(DialShape.CIRCLE);
-//		else
-//			chartPlot.setDialShape(DialShape.PIE);
-//
-//		// Set the meter's range
-//		chartPlot.setRange(convertRange(jrPlot.getDataRange()));
-//
-//		// Set the size of the meter
-//		chartPlot.setMeterAngle(jrPlot.getMeterAngle());
-//
-//		// Set the units - this is just a string that will be shown next to the
-//		// value
-//		String units = jrPlot.getUnits();
-//		if (units != null && units.length() > 0)
-//			chartPlot.setUnits(units);
-//
-//		// Set the spacing between ticks.  I hate the name "tickSize" since to me it
-//		// implies I am changing the size of the tick, not the spacing between them.
-//		chartPlot.setTickSize(jrPlot.getTickInterval());
-//
-//		JRValueDisplay display = jrPlot.getValueDisplay();
-//		JRFont jrFont = display.getFont();
-//
-//		if (jrFont != null)
-//		{
-//			chartPlot.setTickLabelFont(new Font(JRFontUtil.getAttributes(jrFont)).deriveFont(Font.BOLD));
-//		}
-//
-//
-//		// Set all the colors we support
-//		//Color color = jrPlot.getMeterBackgroundColor();
-//		//if (color != null)
-//
-//		chartPlot.setDialBackgroundPaint(GRIDLINE_COLOR);
-//
-//		//chartPlot.setForegroundAlpha(1f);
-//		chartPlot.setNeedlePaint(Color.DARK_GRAY);
-//
-//		// Set how the value is displayed.
-//		if (display != null)
-//		{
-//			if (display.getColor() != null)
-//			{
-//				chartPlot.setValuePaint(display.getColor());
-//			}
-//
-//			if (display.getMask() != null)
-//			{
-//				chartPlot.setTickLabelFormat(new DecimalFormat(display.getMask()));
-//			}
-//
-//			if (jrFont != null)
-//			{
-//				Font font = new Font(JRFontUtil.getAttributes(jrFont));
-//				if(jrFont.isOwnBold() == null)
-//				{
-//					font = font.deriveFont(Font.BOLD);
-//				}
-//				chartPlot.setValueFont(font);
-//			}
-//
-//		}
-//
-//		chartPlot.setTickPaint(Color.BLACK);
-//
-//		// Now define all of the intervals, setting their range and color
-//		List intervals = jrPlot.getIntervals();
-//		if (intervals != null)
-//		{
-//			Iterator iter = intervals.iterator();
-//			int i = 0;
-//			while (iter.hasNext())
-//			{
-//				JRMeterInterval interval = (JRMeterInterval)iter.next();
-//				interval.setBackgroundColor(COLORS[i]);
-//				i++;
-//				interval.setAlpha(1f);
-//				chartPlot.addInterval(convertInterval(interval));
-//			}
-//		}
-//
-//		// Actually create the chart around the plot
-//		JFreeChart jfreeChart =
-//			new JFreeChart(
-//				(String)evaluateExpression(getChart().getTitleExpression()),
-//				null,
-//				chartPlot,
-//				getChart().isShowLegend()
-//				);
-//
-//		// Set all the generic options
-//		configureChart(jfreeChart, getPlot());
-//
-//		return jfreeChart;
+		// Start by creating the plot that will hold the meter
+		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset());
+		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
+
+		// Set the shape
+		byte shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_CIRCLE : jrPlot.getShapeByte().byteValue();
+		
+		switch(shape)
+		{
+			case JRMeterPlot.SHAPE_CHORD:
+				chartPlot.setDialShape(DialShape.CHORD);
+				break;
+			case JRMeterPlot.SHAPE_PIE:
+				chartPlot.setDialShape(DialShape.PIE);
+				break;
+			case JRMeterPlot.SHAPE_CIRCLE:
+			default:
+				return createDialChart();
+		}
+
+
+		chartPlot.setDialOutlinePaint(Color.BLACK);
+		int meterAngle = jrPlot.getMeterAngleInteger() == null ? 180 : jrPlot.getMeterAngleInteger().intValue();
+		// Set the size of the meter
+		chartPlot.setMeterAngle(meterAngle);
+
+		// Set the spacing between ticks.  I hate the name "tickSize" since to me it
+		// implies I am changing the size of the tick, not the spacing between them.
+		double tickInterval = jrPlot.getTickIntervalDouble() == null ? 10.0 : jrPlot.getTickIntervalDouble().doubleValue();
+		chartPlot.setTickSize(tickInterval);
+		
+		JRFont tickLabelFont = jrPlot.getTickLabelFont();
+		Integer defaultBaseFontSize = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BASEFONT_SIZE);
+		Font themeTickLabelFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_TICK_LABEL_FONT), tickLabelFont, defaultBaseFontSize);
+		chartPlot.setTickLabelFont(themeTickLabelFont);
+		
+		Color tickColor = jrPlot.getTickColor() == null ? Color.BLACK : jrPlot.getTickColor();
+		chartPlot.setTickPaint(tickColor);
+		
+		Range range = convertRange(jrPlot.getDataRange());
+		// Set the meter's range
+		chartPlot.setRange(range);
+		double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
+		int dialUnitScale = ChartThemesUtilities.getScale(bound);
+		if((range.getLowerBound() == (int)range.getLowerBound() &&
+				range.getUpperBound() == (int)range.getUpperBound() &&
+				tickInterval == (int)tickInterval) ||
+				dialUnitScale > 1
+				)
+		{
+			chartPlot.setTickLabelFormat(new DecimalFormat("#,##0"));
+		}
+		else if(dialUnitScale == 1)
+		{
+			chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.0"));
+		}
+		else if(dialUnitScale <= 0)
+		{
+			chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.00"));
+		}
+		chartPlot.setTickLabelsVisible(true);
+
+		// Set all the colors we support
+		Paint backgroundPaint = jrPlot.getOwnBackcolor() == null ? ChartThemesConstants.TRANSPARENT_PAINT : jrPlot.getOwnBackcolor();
+		chartPlot.setBackgroundPaint(backgroundPaint);
+
+		GradientPaint gp =
+			new GradientPaint(
+				new Point(), Color.LIGHT_GRAY,
+				new Point(), Color.BLACK,
+				false
+				);
+		
+		if(jrPlot.getMeterBackgroundColor() != null)
+		{
+			chartPlot.setDialBackgroundPaint(jrPlot.getMeterBackgroundColor());
+		}
+		else
+		{
+			chartPlot.setDialBackgroundPaint(gp);
+		}
+		//chartPlot.setForegroundAlpha(1f);
+		Paint needlePaint = jrPlot.getNeedleColor() == null ? new Color(191, 48, 0) : jrPlot.getNeedleColor();
+		chartPlot.setNeedlePaint(needlePaint);
+
+		JRValueDisplay display = jrPlot.getValueDisplay();
+		Color valueColor = display.getColor() == null ? Color.BLACK : display.getColor();
+		chartPlot.setValuePaint(valueColor);
+		String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
+		if(pattern != null)
+			chartPlot.setTickLabelFormat( new DecimalFormat(pattern));
+		JRFont displayFont = jrPlot.getValueDisplay().getFont();
+		Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
+
+		if (themeDisplayFont != null)
+		{
+			chartPlot.setValueFont(themeDisplayFont);
+		}
+		
+		String label = getChart().hasProperties() ?
+				getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
+		
+		if(label != null)
+		{
+			if(dialUnitScale < 0)
+				label = new MessageFormat(label).format(new Object[]{String.valueOf(Math.pow(10, dialUnitScale))});
+			else if(dialUnitScale < 3)
+				label = new MessageFormat(label).format(new Object[]{"1"});
+			else
+				label = new MessageFormat(label).format(new Object[]{String.valueOf((int)Math.pow(10, dialUnitScale-2))});
+		
+		}
+		
+		// Set the units - this is just a string that will be shown next to the
+		// value
+		String units = jrPlot.getUnits() == null ? label : jrPlot.getUnits();
+		if (units != null && units.length() > 0)
+			chartPlot.setUnits(units);
+
+		chartPlot.setTickPaint(Color.BLACK);
+
+		// Now define all of the intervals, setting their range and color
+		List intervals = jrPlot.getIntervals();
+		if (intervals != null  && intervals.size() > 0)
+		{
+			int size = Math.min(3, intervals.size());
+			
+			int colorStep = 0;
+			if(size > 3)
+				colorStep = 255 / (size - 3);
+			
+			for(int i = 0; i < size; i++)
+			{
+				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
+				Color color = i < 3 
+					? (Color)ChartThemesConstants.AEGEAN_INTERVAL_COLORS.get(i)
+					: new Color(255 - colorStep * (i - 3), 0 + colorStep * (i - 3), 0);
+				
+				interval.setBackgroundColor(color);
+				interval.setAlpha(new Double(1.0));
+				chartPlot.addInterval(convertInterval(interval));
+			}
+		}
+
+		// Actually create the chart around the plot
+		JFreeChart jfreeChart =
+			new JFreeChart(
+				(String)evaluateExpression(getChart().getTitleExpression()),
+				null,
+				chartPlot,
+				getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
+				);
+
+		// Set all the generic options
+		configureChart(jfreeChart, getPlot());
+
+		return jfreeChart;
+		
 	}
 
 	/**
@@ -879,11 +872,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		db.setGradientPaintTransformer(new StandardGradientPaintTransformer(
 				GradientPaintTransformType.VERTICAL));
 		dialPlot.setBackground(db);
-		JRValueDisplay display = jrPlot.getValueDisplay();
-		JRFont jrFont = display != null  && display.getFont() != null ?
-				display.getFont() :
-				new JRBaseFont(getChart(), null);
-
 		Range range = convertRange(jrPlot.getDataRange());
 		double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
 		int dialUnitScale = ChartThemesUtilities.getScale(bound);
@@ -966,27 +954,10 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			}
 		}
 
+		JRValueDisplay display = jrPlot.getValueDisplay();
         String displayVisibility = display != null && getChart().hasProperties() ? 
         		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
         
-        if(Boolean.valueOf(displayVisibility).booleanValue())
-        {
-        	ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
-	        dvi.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-//	        dvi.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
-	        dvi.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
-	        dvi.setPaint(Color.WHITE);
-	        
-	        String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
-	        if(pattern != null)
-	        	dvi.setNumberFormat( new DecimalFormat(pattern));
-	        dvi.setRadius(0.15);
-	        dvi.setValueAnchor(RectangleAnchor.CENTER);
-	        dvi.setTextAnchor(TextAnchor.CENTER);
-	        //dvi.setTemplateValue(Double.valueOf(getDialTickValue(dialPlot.getValue(0),dialUnitScale)));
-	        dialPlot.addLayer(dvi);
-        }
-		
 		if(Boolean.parseBoolean(displayVisibility))
 		{
 			ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
@@ -1003,34 +974,33 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			dvi.setTextAnchor(TextAnchor.CENTER);
 			//dvi.setTemplateValue(Double.valueOf(getDialTickValue(dialPlot.getValue(0),dialUnitScale)));
 			dialPlot.addLayer(dvi);
-		}
 
-		String label = getChart().hasProperties() ?
-				getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
-
-		if(label != null)
-		{
-			JRFont displayFont = jrPlot.getValueDisplay().getFont();
-			Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
-			if(dialUnitScale < 0)
-				label = new MessageFormat(label).format(new Object[]{String.valueOf(Math.pow(10, dialUnitScale))});
-			else if(dialUnitScale < 3)
-				label = new MessageFormat(label).format(new Object[]{"1"});
-			else
-				label = new MessageFormat(label).format(new Object[]{String.valueOf((int)Math.pow(10, dialUnitScale-2))});
-
-			String[] textLines = label.split("\\n");
-			for(int i = 0; i < textLines.length; i++)
+			String label = getChart().hasProperties() ?
+					getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
+			
+			if(label != null)
 			{
-				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
-				dialAnnotation.setFont(themeDisplayFont);
-				dialAnnotation.setPaint(Color.WHITE);
-				dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
-				dialAnnotation.setAnchor(TextAnchor.CENTER);
-				dialPlot.addLayer(dialAnnotation);
+				JRFont displayFont = jrPlot.getValueDisplay().getFont();
+				Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
+				if(dialUnitScale < 0)
+					label = new MessageFormat(label).format(new Object[]{String.valueOf(Math.pow(10, dialUnitScale))});
+				else if(dialUnitScale < 3)
+					label = new MessageFormat(label).format(new Object[]{"1"});
+				else
+					label = new MessageFormat(label).format(new Object[]{String.valueOf((int)Math.pow(10, dialUnitScale-2))});
+			
+				String[] textLines = label.split("\\n");
+				for(int i = 0; i < textLines.length; i++)
+				{
+					DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
+					dialAnnotation.setFont(themeDisplayFont);
+					dialAnnotation.setPaint(Color.WHITE);
+					dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
+					dialAnnotation.setAnchor(TextAnchor.CENTER);
+					dialPlot.addLayer(dialAnnotation);
+				}
 			}
 		}
-
 
 		//DialPointer needle = new DialPointer.Pointer();
 		Paint paint = new Color(191, 48, 0);
