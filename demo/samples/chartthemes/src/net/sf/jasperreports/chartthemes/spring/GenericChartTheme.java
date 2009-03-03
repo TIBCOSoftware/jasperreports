@@ -1323,19 +1323,25 @@ public class GenericChartTheme implements ChartTheme
 	*/
 	protected JFreeChart createMeterChart() throws JRException 
 	{
+		// Start by creating the plot that will hold the meter
+		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset());
 		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
 
-		// Start by creating the plot that wil hold the meter
-		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset());
-
 		// Set the shape
-		int shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_PIE : jrPlot.getShapeByte().intValue();
-		if (shape == JRMeterPlot.SHAPE_CHORD)
-			chartPlot.setDialShape(DialShape.CHORD);
-		else if (shape == JRMeterPlot.SHAPE_CIRCLE)
-			chartPlot.setDialShape(DialShape.CIRCLE);
-		else
-			chartPlot.setDialShape(DialShape.PIE);
+		byte shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_PIE : jrPlot.getShapeByte().byteValue();
+		
+		switch(shape)
+		{
+			case JRMeterPlot.SHAPE_CHORD:
+				chartPlot.setDialShape(DialShape.CHORD);
+				break;
+			case JRMeterPlot.SHAPE_CIRCLE:
+				chartPlot.setDialShape(DialShape.CIRCLE);
+				break;
+			case JRMeterPlot.SHAPE_PIE:
+			default:
+				chartPlot.setDialShape(DialShape.PIE);
+		}
 
 		// Set the meter's range
 		chartPlot.setRange(convertRange(jrPlot.getDataRange()));

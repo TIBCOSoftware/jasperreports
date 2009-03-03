@@ -63,12 +63,12 @@ public class JRMeterPlotFactory extends JRBaseFactory
 
 		String shapeAttr = atts.getValue(ATTRIBUTE_shape);
 		Byte shape = (Byte)JRXmlConstants.getMeterShapeMap().get(shapeAttr);
-		if (shape == null)
+		if (shape != null)
 		{
-			throw new JRException("Invalid meter shape: " + shapeAttr);
-		}
-		else
-		{
+//			throw new JRException("Invalid meter shape: " + shapeAttr);
+//		}
+//		else
+//		{
 			meterPlot.setShape(shape);
 		}
 
