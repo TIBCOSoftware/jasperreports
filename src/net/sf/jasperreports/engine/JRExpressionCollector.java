@@ -703,8 +703,11 @@ public class JRExpressionCollector
 		collector.addExpression(pieDataset.getKeyExpression());
 		collector.addExpression(pieDataset.getValueExpression());
 		collector.addExpression(pieDataset.getLabelExpression());
+		collector.addExpression(pieDataset.getOtherKeyExpression());
+		collector.addExpression(pieDataset.getOtherLabelExpression());
 
 		collector.collectHyperlink(pieDataset.getSectionHyperlink());
+		collector.collectHyperlink(pieDataset.getOtherSectionHyperlink());
 	}
 
 	/**

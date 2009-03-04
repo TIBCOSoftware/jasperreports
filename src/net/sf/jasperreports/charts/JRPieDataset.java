@@ -42,6 +42,26 @@ public interface JRPieDataset extends JRChartDataset
 	/**
 	 * 
 	 */
+	public Float getMinPercentage();
+
+	/**
+	 * 
+	 */
+	public void setMinPercentage(Float minPercentage);
+
+	/**
+	 * 
+	 */
+	public Integer getMaxCount();
+
+	/**
+	 * 
+	 */
+	public void setMaxCount(Integer maxCount);
+
+	/**
+	 * 
+	 */
 	public JRExpression getKeyExpression();
 
 	/**
@@ -53,6 +73,15 @@ public interface JRPieDataset extends JRChartDataset
 	 * 
 	 */
 	public JRExpression getLabelExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getOtherKeyExpression();
+	/**
+	 * 
+	 */
+	public JRExpression getOtherLabelExpression();
 	
 	
 	/**
@@ -64,5 +93,13 @@ public interface JRPieDataset extends JRChartDataset
 	 * @return hyperlink specification for chart sections
 	 */
 	public JRHyperlink getSectionHyperlink();
+	
+	
+	/**
+	 * Returns the hyperlink specification for the special Other chart section, if present.
+	 * 
+	 * @return hyperlink specification for the Other chart section
+	 */
+	public JRHyperlink getOtherSectionHyperlink();
 
 }

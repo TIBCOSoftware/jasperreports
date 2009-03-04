@@ -1403,6 +1403,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, dataset.getValueExpression(), false);
 		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, dataset.getLabelExpression(), false);
 		writeHyperlink(JRXmlConstants.ELEMENT_sectionHyperlink, dataset.getSectionHyperlink());
+		writer.writeExpression(JRXmlConstants.ELEMENT_otherKeyExpression, dataset.getOtherKeyExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_otherLabelExpression, dataset.getOtherLabelExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_otherSectionHyperlink, dataset.getOtherSectionHyperlink());
 
 		writer.closeElement();
 	}

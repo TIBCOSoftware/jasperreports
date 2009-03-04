@@ -2588,6 +2588,7 @@ public class JRVerifier
 	{
 		verifyElementDataset(dataset);
 		verifyHyperlink(dataset.getSectionHyperlink());
+		verifyHyperlink(dataset.getOtherSectionHyperlink());
 	}
 
 

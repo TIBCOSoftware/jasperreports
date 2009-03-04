@@ -1736,7 +1736,12 @@
     <element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:labelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:sectionHyperlink" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:otherKeyExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:otherLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:otherSectionHyperlink" minOccurs="0" maxOccurs="1"/>
    </sequence>
+   <attribute name="minPercentage" type="NMTOKEN" use="optional"/>
+   <attribute name="maxCount" type="NMTOKEN" use="optional"/>
   </complexType>
  </element>
 
@@ -1755,7 +1760,31 @@
   </complexType>
  </element>
 
+ <element name="otherKeyExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="otherLabelExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
  <element name="sectionHyperlink">
+  <complexType>
+   <sequence>
+    <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="hyperlinkType" type="string" use="optional"/>
+   <attribute name="hyperlinkTarget" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="otherSectionHyperlink"><!-- FIXME extend some common type -->
   <complexType>
    <sequence>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>

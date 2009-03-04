@@ -51,18 +51,27 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_MIN_PERCENTAGE = "minPercentage";
+	public static final String PROPERTY_MAX_COUNT = "maxCount";
 	public static final String PROPERTY_KEY_EXPRESSION = "keyExpression";
-	
-	public static final String PROPERTY_LABEL_EXPRESSION = "labelExpression";
-	
-	public static final String PROPERTY_SECTION_HYPERLINK = "sectionHyperlink";
-	
 	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
+	public static final String PROPERTY_LABEL_EXPRESSION = "labelExpression";
+	public static final String PROPERTY_SECTION_HYPERLINK = "sectionHyperlink";
+	public static final String PROPERTY_OTHER_KEY_EXPRESSION = "otherKeyExpression";
+	public static final String PROPERTY_OTHER_LABEL_EXPRESSION = "otherLabelExpression";
+	public static final String PROPERTY_OTHER_SECTION_HYPERLINK = "otherSectionHyperlink";
 
+	private Float minPercentage = null;
+	private Integer maxCount = null;
+	
 	protected JRExpression keyExpression = null;
 	protected JRExpression valueExpression = null;
 	protected JRExpression labelExpression = null;
-	private JRHyperlink sectionHyperlink;
+	private JRHyperlink sectionHyperlink = null;
+
+	protected JRExpression otherKeyExpression = null;
+	protected JRExpression otherLabelExpression = null;
+	private JRHyperlink otherSectionHyperlink = null;
 
 
 	/**
@@ -73,6 +82,42 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		super(dataset);
 	}
 
+
+	/**
+	 *
+	 */
+	public Float getMinPercentage()
+	{
+		return minPercentage;
+	}
+	
+	/**
+	 *
+	 */
+	public void setMinPercentage(Float minPercentage)
+	{
+		Object old = this.minPercentage;
+		this.minPercentage = minPercentage;
+		getEventSupport().firePropertyChange(PROPERTY_MIN_PERCENTAGE, old, this.minPercentage);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getMaxCount()
+	{
+		return maxCount;
+	}
+	
+	/**
+	 *
+	 */
+	public void setMaxCount(Integer maxCount)
+	{
+		Object old = this.maxCount;
+		this.maxCount = maxCount;
+		getEventSupport().firePropertyChange(PROPERTY_MAX_COUNT, old, this.maxCount);
+	}
 
 	/**
 	 *
@@ -128,6 +173,42 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		getEventSupport().firePropertyChange(PROPERTY_LABEL_EXPRESSION, old, this.labelExpression);
 	}
 
+	/**
+	 *
+	 */
+	public JRExpression getOtherKeyExpression()
+	{
+		return otherKeyExpression;
+	}
+		
+	/**
+	 *
+	 */
+	public void setOtherKeyExpression(JRExpression otherKeyExpression)
+	{
+		Object old = this.otherKeyExpression;
+		this.otherKeyExpression = otherKeyExpression;
+		getEventSupport().firePropertyChange(PROPERTY_OTHER_KEY_EXPRESSION, old, this.otherKeyExpression);
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getOtherLabelExpression()
+	{
+		return otherLabelExpression;
+	}
+		
+	/**
+	 *
+	 */
+	public void setOtherLabelExpression(JRExpression otherLabelExpression)
+	{
+		Object old = this.otherLabelExpression;
+		this.otherLabelExpression = otherLabelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_OTHER_LABEL_EXPRESSION, old, this.otherLabelExpression);
+	}
+
 
 	/** 
 	 * 
@@ -164,6 +245,23 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		this.sectionHyperlink = sectionHyperlink;
 		getEventSupport().firePropertyChange(PROPERTY_SECTION_HYPERLINK, old, this.sectionHyperlink);
 	}
+	
+	
+	public JRHyperlink getOtherSectionHyperlink()
+	{
+		return otherSectionHyperlink;
+	}
+
+
+	/**
+	 * 
+	 */
+	public void setOtherSectionHyperlink(JRHyperlink otherSectionHyperlink)
+	{
+		Object old = this.otherSectionHyperlink;
+		this.otherSectionHyperlink = otherSectionHyperlink;
+		getEventSupport().firePropertyChange(PROPERTY_OTHER_SECTION_HYPERLINK, old, this.otherSectionHyperlink);
+	}
 
 
 	public void validate(JRVerifier verifier)
@@ -191,9 +289,21 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		{
 			clone.labelExpression = (JRExpression)labelExpression.clone();
 		}
+		if (otherKeyExpression != null)
+		{
+			clone.otherKeyExpression = (JRExpression)otherKeyExpression.clone();
+		}
+		if (otherLabelExpression != null)
+		{
+			clone.otherLabelExpression = (JRExpression)otherLabelExpression.clone();
+		}
 		if (sectionHyperlink != null)
 		{
 			clone.sectionHyperlink = (JRHyperlink)sectionHyperlink.clone();
+		}
+		if (otherSectionHyperlink != null)
+		{
+			clone.otherSectionHyperlink = (JRHyperlink)otherSectionHyperlink.clone();
 		}
 		
 		return clone;

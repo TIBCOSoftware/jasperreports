@@ -27,7 +27,10 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import net.sf.jasperreports.charts.JRPieDataset;
@@ -61,15 +64,18 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	/**
 	 *
 	 */
-	private DefaultPieDataset dataset = new DefaultPieDataset();
+	private Map values = null;
 	private Map labels = null;
 	
 	private Comparable key = null;
 	private Number value = null;
 	private String label = null;
+	private Comparable otherKey = null;
+	private String otherLabel = null;
 	
 	private Map sectionHyperlinks;
 	private JRPrintHyperlink sectionHyperlink;
+	private JRPrintHyperlink otherSectionHyperlink;
 	
 	
 	/**
@@ -83,6 +89,36 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		super(pieDataset, factory);
 	}
 
+
+	/**
+	 *
+	 */
+	public Float getMinPercentage()
+	{
+		return ((JRPieDataset)parent).getMinPercentage();
+	}
+
+	/**
+	 *
+	 */
+	public void setMinPercentage(Float minPercentage)
+	{	
+	}
+
+	/**
+	 *
+	 */
+	public Integer getMaxCount()
+	{
+		return ((JRPieDataset)parent).getMaxCount();
+	}
+
+	/**
+	 *
+	 */
+	public void setMaxCount(Integer maxCount)
+	{	
+	}
 
 	/**
 	 *
@@ -108,13 +144,29 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		return ((JRPieDataset)parent).getLabelExpression();
 	}
 	
+	/**
+	 *
+	 */
+	public JRExpression getOtherKeyExpression()
+	{
+		return ((JRPieDataset)parent).getOtherKeyExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getOtherLabelExpression()
+	{
+		return ((JRPieDataset)parent).getOtherLabelExpression();
+	}
+	
 	
 	/**
 	 *
 	 */
 	protected void customInitialize()
 	{
-		dataset = new DefaultPieDataset();
+		values = new HashMap();
 		labels = new HashMap();
 		sectionHyperlinks = new HashMap();
 	}
@@ -127,10 +179,17 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		key = (Comparable)calculator.evaluate(getKeyExpression()); 
 		value = (Number)calculator.evaluate(getValueExpression());
 		label = (String)calculator.evaluate(getLabelExpression());
+		otherKey = (String)calculator.evaluate(getOtherKeyExpression());
+		otherLabel = (String)calculator.evaluate(getOtherLabelExpression());
 		
-		if (hasSectionHyperlinks())
+		if (!JRHyperlinkHelper.isEmpty(getSectionHyperlink()))
 		{
 			evaluateSectionHyperlink(calculator);
+		}		
+
+		if (!JRHyperlinkHelper.isEmpty(getOtherSectionHyperlink()))
+		{
+			evaluateOtherSectionHyperlink(calculator);
 		}		
 	}
 
@@ -151,15 +210,31 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		}
 	}
 
+	protected void evaluateOtherSectionHyperlink(JRCalculator calculator) throws JRExpressionEvalException
+	{
+		try
+		{
+			otherSectionHyperlink = JRFillHyperlinkHelper.evaluateHyperlink(getOtherSectionHyperlink(), calculator, JRExpression.EVALUATION_DEFAULT);
+		}
+		catch (JRExpressionEvalException e)
+		{
+			throw e;
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
 	/**
 	 *
 	 */
 	protected void customIncrement()
 	{
-		dataset.setValue(key, value);
-		labels.put( key, label );
+		values.put(key, value);
+		labels.put(key, label);
 		
-		if (hasSectionHyperlinks())
+		if (!JRHyperlinkHelper.isEmpty(getSectionHyperlink()))
 		{
 			sectionHyperlinks.put(key, sectionHyperlink);
 		}		
@@ -170,6 +245,69 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	 */
 	public Dataset getCustomDataset()
 	{
+		double total = 0;
+		ArrayList sortedValues = new ArrayList();
+		for(Iterator it = values.values().iterator(); it.hasNext();)
+		{
+			Number value = (Number)it.next();
+			total += value.doubleValue();
+			sortedValues.add(value);
+		}
+		Collections.sort(sortedValues);
+		
+		Number minValue = null;
+		if (getMinPercentage() != null && getMinPercentage().intValue() >= 0 && getMinPercentage().intValue() <= 100)
+		{
+			minValue = new Double((getMinPercentage().floatValue() * total) / 100);
+		}
+		if (getMaxCount() != null && getMaxCount().intValue() >= 0 && getMaxCount().intValue() <= values.size())
+		{
+			Number minValue2 = (Number)sortedValues.get(sortedValues.size() - getMaxCount().intValue());
+			minValue = minValue != null && minValue.doubleValue() > minValue2.doubleValue() ? minValue : minValue2;  
+		}
+		
+		int otherCount = 0;
+		Comparable lastOtherKey = null;
+		Number lastOtherValue = null;
+		double otherTotal = 0;
+		
+		DefaultPieDataset dataset = new DefaultPieDataset();
+		for(Iterator it = values.keySet().iterator(); it.hasNext();)
+		{
+			Comparable key = (Comparable)it.next();
+			Number value = (Number)values.get(key);
+			
+			if (
+				minValue == null
+				|| value.doubleValue() >= minValue.doubleValue() 
+				)
+			{
+				dataset.setValue(key, value);
+			}
+			else
+			{
+				otherCount++;
+				lastOtherKey = key;
+				lastOtherValue = value;
+				otherTotal += value.doubleValue();
+			}
+		}
+		if (otherCount == 1)
+		{
+			dataset.setValue(lastOtherKey, lastOtherValue);
+		}
+		else if (otherCount > 1)
+		{
+			otherKey = otherKey == null ? "Other" : otherKey;
+			dataset.setValue(otherKey, new Double(otherTotal));
+			labels.put(otherKey, otherLabel);
+
+			if (!JRHyperlinkHelper.isEmpty(getOtherSectionHyperlink()))
+			{
+				sectionHyperlinks.put(otherKey, otherSectionHyperlink);
+			}		
+		}
+		
 		return dataset;
 	}
 
@@ -201,10 +339,11 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	}
 
 	
-	public boolean hasSectionHyperlinks()
+	public JRHyperlink getOtherSectionHyperlink()
 	{
-		return !JRHyperlinkHelper.isEmpty(getSectionHyperlink()); 
+		return ((JRPieDataset) parent).getOtherSectionHyperlink();
 	}
+
 	
 	public Map getSectionHyperlinks()
 	{

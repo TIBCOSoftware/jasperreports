@@ -1652,6 +1652,8 @@ public class JRXmlConstants
 	public static final String ELEMENT_keyExpression = "keyExpression";
 	public static final String ELEMENT_valueExpression = "valueExpression";
 	public static final String ELEMENT_labelExpression = "labelExpression";
+	public static final String ELEMENT_otherKeyExpression = "otherKeyExpression";
+	public static final String ELEMENT_otherLabelExpression = "otherLabelExpression";
 	public static final String ELEMENT_seriesExpression = "seriesExpression";
 	public static final String ELEMENT_categoryExpression = "categoryExpression";
 	public static final String ELEMENT_xValueExpression = "xValueExpression";
@@ -1752,6 +1754,7 @@ public class JRXmlConstants
 	 */
 	public static final String ELEMENT_hyperlinkTooltipExpression = "hyperlinkTooltipExpression";
 	public static final String ELEMENT_sectionHyperlink = "sectionHyperlink";
+	public static final String ELEMENT_otherSectionHyperlink = "otherSectionHyperlink";
 	public static final String ELEMENT_itemHyperlink = "itemHyperlink";
 	public static final String ELEMENT_anchorNameExpression = "anchorNameExpression";
 	public static final String ELEMENT_hyperlinkReferenceExpression = "hyperlinkReferenceExpression";
