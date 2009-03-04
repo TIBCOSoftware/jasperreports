@@ -193,7 +193,7 @@ public class ConvertChartContext implements ChartContext
 	        dataset.setValue("First", new Double(43.2));
 	        dataset.setValue("Second", new Double(10.0));
 	        dataset.setValue("Third", new Double(17.5));
-	        dataset.setValue("Forth", new Double(32.5));
+	        dataset.setValue("Fourth", new Double(32.5));
 	        dataset.setValue("Fifth", null);  //new Double(1.0));
 	        
 	        samplePieDataset = dataset;
