@@ -36,13 +36,15 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
+public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset, JRChangeEventsSupport
 {
 
 
@@ -51,10 +53,19 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_MIN_PERCENTAGE = "minPercentage";
+	public static final String PROPERTY_MAX_COUNT = "maxCount";
+
+	private Float minPercentage = null;
+	private Integer maxCount = null;
+	
 	protected JRExpression keyExpression = null;
 	protected JRExpression valueExpression = null;
 	protected JRExpression labelExpression = null;
-	private JRHyperlink sectionHyperlink;
+	private JRHyperlink sectionHyperlink = null;
+	protected JRExpression otherKeyExpression = null;
+	protected JRExpression otherLabelExpression = null;
+	private JRHyperlink otherSectionHyperlink = null;
 
 	
 	/**
@@ -73,13 +84,55 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	{
 		super(dataset, factory);
 
+		minPercentage = dataset.getMinPercentage();
+		maxCount = dataset.getMaxCount();
+		
 		keyExpression = factory.getExpression(dataset.getKeyExpression());
 		valueExpression = factory.getExpression(dataset.getValueExpression());
 		labelExpression = factory.getExpression(dataset.getLabelExpression());
 		sectionHyperlink = factory.getHyperlink(dataset.getSectionHyperlink());
+		otherKeyExpression = factory.getExpression(dataset.getOtherKeyExpression());
+		otherLabelExpression = factory.getExpression(dataset.getOtherLabelExpression());
+		otherSectionHyperlink = factory.getHyperlink(dataset.getOtherSectionHyperlink());
 	}
 
 	
+	/**
+	 *
+	 */
+	public Float getMinPercentage()
+	{
+		return minPercentage;
+	}
+	
+	/**
+	 *
+	 */
+	public void setMinPercentage(Float minPercentage)
+	{
+		Object old = this.minPercentage;
+		this.minPercentage = minPercentage;
+		getEventSupport().firePropertyChange(PROPERTY_MIN_PERCENTAGE, old, this.minPercentage);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getMaxCount()
+	{
+		return maxCount;
+	}
+	
+	/**
+	 *
+	 */
+	public void setMaxCount(Integer maxCount)
+	{
+		Object old = this.maxCount;
+		this.maxCount = maxCount;
+		getEventSupport().firePropertyChange(PROPERTY_MAX_COUNT, old, this.maxCount);
+	}
+
 	/**
 	 *
 	 */
@@ -105,6 +158,24 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	}
 
 
+	/**
+	 *
+	 */
+	public JRExpression getOtherKeyExpression()
+	{
+		return otherKeyExpression;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRExpression getOtherLabelExpression()
+	{
+		return otherLabelExpression;
+	}
+
+
 	/** 
 	 * 
 	 */
@@ -125,6 +196,12 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	public JRHyperlink getSectionHyperlink()
 	{
 		return sectionHyperlink;
+	}
+
+
+	public JRHyperlink getOtherSectionHyperlink()
+	{
+		return otherSectionHyperlink;
 	}
 
 
@@ -152,12 +229,39 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 		{
 			clone.labelExpression = (JRExpression)labelExpression.clone();
 		}
+		if (otherKeyExpression != null)
+		{
+			clone.otherKeyExpression = (JRExpression)otherKeyExpression.clone();
+		}
+		if (otherLabelExpression != null)
+		{
+			clone.otherLabelExpression = (JRExpression)otherLabelExpression.clone();
+		}
 		if (sectionHyperlink != null)
 		{
 			clone.sectionHyperlink = (JRHyperlink)sectionHyperlink.clone();
 		}
+		if (otherSectionHyperlink != null)
+		{
+			clone.otherSectionHyperlink = (JRHyperlink)otherSectionHyperlink.clone();
+		}
 		
 		return clone;
+	}
+
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 
 }

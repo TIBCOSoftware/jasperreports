@@ -40,14 +40,30 @@ import org.xml.sax.Attributes;
  */
 public class JRPieDatasetFactory extends JRBaseFactory
 {
+	private static final String ATTRIBUTE_minPercentage = "minPercentage";
+	private static final String ATTRIBUTE_maxCount = "maxCount";
 	
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
+	public Object createObject(Attributes attrs)
 	{
 		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignPieDataset) chart.getDataset();
+		JRDesignPieDataset dataset = (JRDesignPieDataset)chart.getDataset();
+
+		String minPercentage = attrs.getValue(ATTRIBUTE_minPercentage);
+		if(minPercentage != null && minPercentage.length() > 0)
+		{
+			dataset.setMinPercentage(new Float(minPercentage));
+		}
+		
+		String maxCount = attrs.getValue(ATTRIBUTE_maxCount);
+		if(maxCount != null && maxCount.length() > 0)
+		{
+			dataset.setMaxCount(new Integer(maxCount));
+		}
+		
+		return dataset;
 	}
 
 }
