@@ -53,6 +53,7 @@ import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRPieSeries;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
@@ -83,6 +84,7 @@ import net.sf.jasperreports.charts.fill.JRFillMultiAxisPlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
+import net.sf.jasperreports.charts.fill.JRFillPieSeries;
 import net.sf.jasperreports.charts.fill.JRFillScatterPlot;
 import net.sf.jasperreports.charts.fill.JRFillThermometerPlot;
 import net.sf.jasperreports.charts.fill.JRFillTimePeriodDataset;
@@ -887,6 +889,26 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return fillGanttDataset;
 	}
 	
+	/**
+	 *
+	 */
+	public JRPieSeries getPieSeries(JRPieSeries pieSeries)
+	{
+		JRFillPieSeries fillPieSeries = null;
+
+		if (pieSeries != null)
+		{
+			fillPieSeries = (JRFillPieSeries)get(pieSeries);
+			if (fillPieSeries == null)
+			{
+				fillPieSeries = new JRFillPieSeries(pieSeries, this);
+			}
+		}
+
+		return fillPieSeries;
+	}
+
+
 	/**
 	 *
 	 */

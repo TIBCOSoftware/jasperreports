@@ -42,6 +42,7 @@ import net.sf.jasperreports.charts.JRGanttDataset;
 import net.sf.jasperreports.charts.JRGanttSeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRPieSeries;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.JRTimeSeries;
@@ -2587,8 +2588,23 @@ public class JRVerifier
 	public void verify(JRPieDataset dataset)
 	{
 		verifyElementDataset(dataset);
-		verifyHyperlink(dataset.getSectionHyperlink());
+		
+		JRPieSeries[] series = dataset.getSeries();
+		if (series != null)
+		{
+			for (int i = 0; i < series.length; i++)
+			{
+				verify(series[i]);
+			}
+		}
+
 		verifyHyperlink(dataset.getOtherSectionHyperlink());
+	}
+
+	
+	protected void verify(JRPieSeries series)
+	{
+		verifyHyperlink(series.getSectionHyperlink());
 	}
 
 

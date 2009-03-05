@@ -1732,6 +1732,7 @@
   <complexType>
    <sequence>
     <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:pieSeries" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:keyExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:labelExpression" minOccurs="0" maxOccurs="1"/>
@@ -1742,6 +1743,17 @@
    </sequence>
    <attribute name="minPercentage" type="NMTOKEN" use="optional"/>
    <attribute name="maxCount" type="NMTOKEN" use="optional"/>
+  </complexType>
+ </element>
+
+ <element name="pieSeries">
+  <complexType>
+   <sequence>
+    <element ref="jr:keyExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:labelExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:sectionHyperlink" minOccurs="0" maxOccurs="1"/>
+   </sequence>
   </complexType>
  </element>
 

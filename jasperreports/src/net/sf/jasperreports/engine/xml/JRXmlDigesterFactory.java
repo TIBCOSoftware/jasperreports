@@ -37,6 +37,7 @@ import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
 import net.sf.jasperreports.charts.design.JRDesignDataRange;
 import net.sf.jasperreports.charts.design.JRDesignGanttSeries;
+import net.sf.jasperreports.charts.design.JRDesignPieSeries;
 import net.sf.jasperreports.charts.design.JRDesignTimePeriodSeries;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
 import net.sf.jasperreports.charts.design.JRDesignValueDisplay;
@@ -76,6 +77,7 @@ import net.sf.jasperreports.charts.xml.JRPie3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRPieChartFactory;
 import net.sf.jasperreports.charts.xml.JRPieDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRPiePlotFactory;
+import net.sf.jasperreports.charts.xml.JRPieSeriesFactory;
 import net.sf.jasperreports.charts.xml.JRScatterChartFactory;
 import net.sf.jasperreports.charts.xml.JRScatterPlotFactory;
 import net.sf.jasperreports.charts.xml.JRStackedAreaChartFactory;
@@ -590,6 +592,21 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/pieChart/piePlot", JRPiePlotFactory.class.getName());
 
 		digester.addFactoryCreate("*/pieDataset", JRPieDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/pieDataset/pieSeries", JRPieSeriesFactory.class.getName());
+		digester.addSetNext("*/pieDataset/pieSeries", "addPieSeries", JRDesignPieSeries.class.getName());
+
+		digester.addFactoryCreate("*/pieSeries/keyExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addSetNext("*/pieSeries/keyExpression", "setKeyExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/pieSeries/keyExpression", "setText", 0);
+		digester.addFactoryCreate("*/pieSeries/labelExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addSetNext("*/pieSeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/pieSeries/labelExpression", "setText", 0);
+		digester.addFactoryCreate("*/pieSeries/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addSetNext("*/pieSeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/pieSeries/valueExpression", "setText", 0);
+		digester.addFactoryCreate("*/pieSeries/sectionHyperlink", JRHyperlinkFactory.class);
+		digester.addSetNext("*/pieSeries/sectionHyperlink", "setSectionHyperlink", JRHyperlink.class.getName());
+
 		digester.addFactoryCreate("*/pieDataset/keyExpression", JRExpressionFactory.ComparableExpressionFactory.class);
 		digester.addSetNext("*/pieDataset/keyExpression", "setKeyExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/keyExpression", "setText", 0);
@@ -599,19 +616,17 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/pieDataset/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
 		digester.addSetNext("*/pieDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/valueExpression", "setText", 0);
+		digester.addFactoryCreate("*/pieDataset/sectionHyperlink", JRHyperlinkFactory.class);
+		digester.addSetNext("*/pieDataset/sectionHyperlink", "setSectionHyperlink", JRHyperlink.class.getName());
+
 		digester.addFactoryCreate("*/pieDataset/otherKeyExpression", JRExpressionFactory.ComparableExpressionFactory.class);
 		digester.addSetNext("*/pieDataset/otherKeyExpression", "setOtherKeyExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/otherKeyExpression", "setText", 0);
 		digester.addFactoryCreate("*/pieDataset/otherLabelExpression", JRExpressionFactory.StringExpressionFactory.class);
 		digester.addSetNext("*/pieDataset/otherLabelExpression", "setOtherLabelExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/otherLabelExpression", "setText", 0);
-
-		String sectionHyperlinkPattern = "*/pieDataset/" + JRXmlConstants.ELEMENT_sectionHyperlink;
-		digester.addFactoryCreate(sectionHyperlinkPattern, JRHyperlinkFactory.class);
-		digester.addSetNext(sectionHyperlinkPattern, "setSectionHyperlink", JRHyperlink.class.getName());
-		String otherSectionHyperlinkPattern = "*/pieDataset/" + JRXmlConstants.ELEMENT_otherSectionHyperlink;
-		digester.addFactoryCreate(otherSectionHyperlinkPattern, JRHyperlinkFactory.class);
-		digester.addSetNext(otherSectionHyperlinkPattern, "setOtherSectionHyperlink", JRHyperlink.class.getName());
+		digester.addFactoryCreate("*/pieDataset/otherSectionHyperlink", JRHyperlinkFactory.class);
+		digester.addSetNext("*/pieDataset/otherSectionHyperlink", "setOtherSectionHyperlink", JRHyperlink.class.getName());
 
 		// pie 3D charts
 		digester.addFactoryCreate("*/pie3DChart", JRPie3DChartFactory.class.getName());

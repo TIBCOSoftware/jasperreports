@@ -27,7 +27,13 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRPieSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -53,6 +59,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	
 	public static final String PROPERTY_MIN_PERCENTAGE = "minPercentage";
 	public static final String PROPERTY_MAX_COUNT = "maxCount";
+	public static final String PROPERTY_PIE_SERIES = "pieSeries";
 	public static final String PROPERTY_KEY_EXPRESSION = "keyExpression";
 	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
 	public static final String PROPERTY_LABEL_EXPRESSION = "labelExpression";
@@ -64,10 +71,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	private Float minPercentage = null;
 	private Integer maxCount = null;
 	
-	protected JRExpression keyExpression = null;
-	protected JRExpression valueExpression = null;
-	protected JRExpression labelExpression = null;
-	private JRHyperlink sectionHyperlink = null;
+	private List pieSeriesList = new ArrayList();
 
 	protected JRExpression otherKeyExpression = null;
 	protected JRExpression otherLabelExpression = null;
@@ -122,57 +126,138 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	/**
 	 *
 	 */
+	public JRPieSeries[] getSeries()
+	{
+		JRPieSeries[] pieSeriesArray = new JRPieSeries[pieSeriesList.size()];
+		
+		pieSeriesList.toArray(pieSeriesArray);
+
+		return pieSeriesArray;
+	}
+	
+
+	/**
+	 * 
+	 */
+	public List getSeriesList()
+	{
+		return pieSeriesList;
+	}
+
+	
+	/**
+	 *
+	 */
+	public void addPieSeries(JRPieSeries pieSeries)
+	{
+		pieSeriesList.add(pieSeries);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PIE_SERIES, 
+				pieSeries, pieSeriesList.size() - 1);
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRPieSeries removePieSeries(JRPieSeries pieSeries)
+	{
+		if (pieSeries != null)
+		{
+			int idx = pieSeriesList.indexOf(pieSeries);
+			if (idx >= 0)
+			{
+				pieSeriesList.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PIE_SERIES, 
+						pieSeries, idx);
+			}
+		}
+		
+		return pieSeries;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
 	public JRExpression getKeyExpression()
 	{
-		return keyExpression;
+		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getKeyExpression() : null;
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getSeries()}.
 	 */
 	public void setKeyExpression(JRExpression keyExpression)
 	{
-		Object old = this.keyExpression;
-		this.keyExpression = keyExpression;
-		getEventSupport().firePropertyChange(PROPERTY_KEY_EXPRESSION, old, this.keyExpression);
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setKeyExpression(keyExpression);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getSeries()}.
 	 */
 	public JRExpression getValueExpression()
 	{
-		return valueExpression;
+		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getValueExpression() : null;
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getSeries()}.
 	 */
 	public void setValueExpression(JRExpression valueExpression)
 	{
-		Object old = this.valueExpression;
-		this.valueExpression = valueExpression;
-		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setValueExpression(valueExpression);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getSeries()}.
 	 */
 	public JRExpression getLabelExpression()
 	{
-		return labelExpression;
+		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getLabelExpression() : null;
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getSeries()}.
 	 */
 	public void setLabelExpression(JRExpression labelExpression)
 	{
-		Object old = this.labelExpression;
-		this.labelExpression = labelExpression;
-		getEventSupport().firePropertyChange(PROPERTY_LABEL_EXPRESSION, old, this.labelExpression);
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setLabelExpression(labelExpression);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public JRHyperlink getSectionHyperlink()
+	{
+		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getSectionHyperlink() : null;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public void setSectionHyperlink(JRHyperlink sectionHyperlink)
+	{
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setSectionHyperlink(sectionHyperlink);
+	}
+	
+	
 	/**
 	 *
 	 */
@@ -209,6 +294,24 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		getEventSupport().firePropertyChange(PROPERTY_OTHER_LABEL_EXPRESSION, old, this.otherLabelExpression);
 	}
 
+	/**
+	 * 
+	 */
+	public JRHyperlink getOtherSectionHyperlink()
+	{
+		return otherSectionHyperlink;
+	}
+
+	/**
+	 * 
+	 */
+	public void setOtherSectionHyperlink(JRHyperlink otherSectionHyperlink)
+	{
+		Object old = this.otherSectionHyperlink;
+		this.otherSectionHyperlink = otherSectionHyperlink;
+		getEventSupport().firePropertyChange(PROPERTY_OTHER_SECTION_HYPERLINK, old, this.otherSectionHyperlink);
+	}
+
 
 	/** 
 	 * 
@@ -227,43 +330,6 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	}
 
 	
-	public JRHyperlink getSectionHyperlink()
-	{
-		return sectionHyperlink;
-	}
-
-
-	/**
-	 * Sets the hyperlink specification for chart sections.
-	 * 
-	 * @param sectionHyperlink the hyperlink specification
-	 * @see #getSectionHyperlink()
-	 */
-	public void setSectionHyperlink(JRHyperlink sectionHyperlink)
-	{
-		Object old = this.sectionHyperlink;
-		this.sectionHyperlink = sectionHyperlink;
-		getEventSupport().firePropertyChange(PROPERTY_SECTION_HYPERLINK, old, this.sectionHyperlink);
-	}
-	
-	
-	public JRHyperlink getOtherSectionHyperlink()
-	{
-		return otherSectionHyperlink;
-	}
-
-
-	/**
-	 * 
-	 */
-	public void setOtherSectionHyperlink(JRHyperlink otherSectionHyperlink)
-	{
-		Object old = this.otherSectionHyperlink;
-		this.otherSectionHyperlink = otherSectionHyperlink;
-		getEventSupport().firePropertyChange(PROPERTY_OTHER_SECTION_HYPERLINK, old, this.otherSectionHyperlink);
-	}
-
-
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
@@ -277,18 +343,15 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	{
 		JRDesignPieDataset clone = (JRDesignPieDataset)super.clone();
 		
-		if (keyExpression != null)
+		if (pieSeriesList != null)
 		{
-			clone.keyExpression = (JRExpression)keyExpression.clone();
+			clone.pieSeriesList = new ArrayList(pieSeriesList.size());
+			for(int i = 0; i < pieSeriesList.size(); i++)
+			{
+				clone.pieSeriesList.add(((JRPieSeries)pieSeriesList.get(i)).clone());
+			}
 		}
-		if (valueExpression != null)
-		{
-			clone.valueExpression = (JRExpression)valueExpression.clone();
-		}
-		if (labelExpression != null)
-		{
-			clone.labelExpression = (JRExpression)labelExpression.clone();
-		}
+		
 		if (otherKeyExpression != null)
 		{
 			clone.otherKeyExpression = (JRExpression)otherKeyExpression.clone();
@@ -297,10 +360,6 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		{
 			clone.otherLabelExpression = (JRExpression)otherLabelExpression.clone();
 		}
-		if (sectionHyperlink != null)
-		{
-			clone.sectionHyperlink = (JRHyperlink)sectionHyperlink.clone();
-		}
 		if (otherSectionHyperlink != null)
 		{
 			clone.otherSectionHyperlink = (JRHyperlink)otherSectionHyperlink.clone();
@@ -308,4 +367,35 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		
 		return clone;
 	}
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private JRExpression keyExpression = null;
+	private JRExpression valueExpression = null;
+	private JRExpression labelExpression = null;
+	private JRHyperlink sectionHyperlink = null;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (pieSeriesList == null)
+		{
+			pieSeriesList = new ArrayList();
+			
+			JRDesignPieSeries ps = new JRDesignPieSeries();
+			ps.setKeyExpression(keyExpression);
+			ps.setValueExpression(valueExpression);
+			ps.setLabelExpression(labelExpression);
+			ps.setSectionHyperlink(sectionHyperlink);
+			pieSeriesList.add(ps);
+
+			keyExpression = null;
+			valueExpression = null;
+			labelExpression = null;
+			sectionHyperlink = null;
+		}
+	}
+
 }

@@ -27,7 +27,12 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRPieSeries;
+import net.sf.jasperreports.charts.design.JRDesignPieSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -46,8 +51,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  */
 public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset, JRChangeEventsSupport
 {
-
-
 	/**
 	 *
 	 */
@@ -59,10 +62,8 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	private Float minPercentage = null;
 	private Integer maxCount = null;
 	
-	protected JRExpression keyExpression = null;
-	protected JRExpression valueExpression = null;
-	protected JRExpression labelExpression = null;
-	private JRHyperlink sectionHyperlink = null;
+	protected JRPieSeries[] pieSeries = null;
+
 	protected JRExpression otherKeyExpression = null;
 	protected JRExpression otherLabelExpression = null;
 	private JRHyperlink otherSectionHyperlink = null;
@@ -87,10 +88,17 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 		minPercentage = dataset.getMinPercentage();
 		maxCount = dataset.getMaxCount();
 		
-		keyExpression = factory.getExpression(dataset.getKeyExpression());
-		valueExpression = factory.getExpression(dataset.getValueExpression());
-		labelExpression = factory.getExpression(dataset.getLabelExpression());
-		sectionHyperlink = factory.getHyperlink(dataset.getSectionHyperlink());
+		/*   */
+		JRPieSeries[] srcPieSeries = dataset.getSeries();
+		if (srcPieSeries != null && srcPieSeries.length > 0)
+		{
+			pieSeries = new JRPieSeries[srcPieSeries.length];
+			for(int i = 0; i < pieSeries.length; i++)
+			{
+				pieSeries[i] = factory.getPieSeries(srcPieSeries[i]);
+			}
+		}
+
 		otherKeyExpression = factory.getExpression(dataset.getOtherKeyExpression());
 		otherLabelExpression = factory.getExpression(dataset.getOtherLabelExpression());
 		otherSectionHyperlink = factory.getHyperlink(dataset.getOtherSectionHyperlink());
@@ -136,25 +144,41 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	/**
 	 *
 	 */
+	public JRPieSeries[] getSeries()
+	{
+		return pieSeries;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
 	public JRExpression getKeyExpression()
 	{
-		return keyExpression;
+		return pieSeries != null && pieSeries.length > 0 ? pieSeries[0].getKeyExpression() : null;
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getSeries()}.
 	 */
 	public JRExpression getValueExpression()
 	{
-		return valueExpression;
+		return pieSeries != null && pieSeries.length > 0 ? pieSeries[0].getValueExpression() : null;
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getSeries()}.
 	 */
 	public JRExpression getLabelExpression()
 	{
-		return labelExpression;
+		return pieSeries != null && pieSeries.length > 0 ? pieSeries[0].getLabelExpression() : null;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public JRHyperlink getSectionHyperlink()
+	{
+		return pieSeries != null && pieSeries.length > 0 ? pieSeries[0].getSectionHyperlink() : null;
 	}
 
 
@@ -179,6 +203,15 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	/** 
 	 * 
 	 */
+	public JRHyperlink getOtherSectionHyperlink()
+	{
+		return otherSectionHyperlink;
+	}
+
+
+	/** 
+	 * 
+	 */
 	public byte getDatasetType() {
 		return JRChartDataset.PIE_DATASET;
 	}
@@ -193,18 +226,9 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	}
 
 
-	public JRHyperlink getSectionHyperlink()
-	{
-		return sectionHyperlink;
-	}
-
-
-	public JRHyperlink getOtherSectionHyperlink()
-	{
-		return otherSectionHyperlink;
-	}
-
-
+	/**
+	 *
+	 */
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
@@ -217,18 +241,15 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	{
 		JRBasePieDataset clone = (JRBasePieDataset)super.clone();
 		
-		if (keyExpression != null)
+		if (pieSeries != null)
 		{
-			clone.keyExpression = (JRExpression)keyExpression.clone();
+			clone.pieSeries = new JRPieSeries[pieSeries.length];
+			for(int i = 0; i < pieSeries.length; i++)
+			{
+				pieSeries[i] = (JRPieSeries)pieSeries[i].clone();
+			}
 		}
-		if (valueExpression != null)
-		{
-			clone.valueExpression = (JRExpression)valueExpression.clone();
-		}
-		if (labelExpression != null)
-		{
-			clone.labelExpression = (JRExpression)labelExpression.clone();
-		}
+		
 		if (otherKeyExpression != null)
 		{
 			clone.otherKeyExpression = (JRExpression)otherKeyExpression.clone();
@@ -236,10 +257,6 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 		if (otherLabelExpression != null)
 		{
 			clone.otherLabelExpression = (JRExpression)otherLabelExpression.clone();
-		}
-		if (sectionHyperlink != null)
-		{
-			clone.sectionHyperlink = (JRHyperlink)sectionHyperlink.clone();
 		}
 		if (otherSectionHyperlink != null)
 		{
@@ -262,6 +279,36 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 		}
 		
 		return eventSupport;
+	}
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private JRExpression keyExpression = null;
+	private JRExpression valueExpression = null;
+	private JRExpression labelExpression = null;
+	private JRHyperlink sectionHyperlink = null;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (pieSeries == null)
+		{
+			pieSeries = new JRPieSeries[1];
+
+			JRDesignPieSeries ps = new JRDesignPieSeries();
+			ps.setKeyExpression(keyExpression);
+			ps.setValueExpression(valueExpression);
+			ps.setLabelExpression(labelExpression);
+			ps.setSectionHyperlink(sectionHyperlink);
+			pieSeries[0] = ps;
+
+			keyExpression = null;
+			valueExpression = null;
+			labelExpression = null;
+			sectionHyperlink = null;
+		}
 	}
 
 }

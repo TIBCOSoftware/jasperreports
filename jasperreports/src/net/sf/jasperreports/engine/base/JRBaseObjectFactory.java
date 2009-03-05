@@ -45,6 +45,7 @@ import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRPieSeries;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
@@ -75,6 +76,7 @@ import net.sf.jasperreports.charts.base.JRBaseMultiAxisPlot;
 import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
 import net.sf.jasperreports.charts.base.JRBasePieDataset;
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
+import net.sf.jasperreports.charts.base.JRBasePieSeries;
 import net.sf.jasperreports.charts.base.JRBaseScatterPlot;
 import net.sf.jasperreports.charts.base.JRBaseThermometerPlot;
 import net.sf.jasperreports.charts.base.JRBaseTimePeriodDataset;
@@ -876,6 +878,28 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		
 		return baseGanttDataset;
 	}
+
+	
+	/**
+	 *
+	 */
+	public JRPieSeries getPieSeries(JRPieSeries pieSeries)
+	{
+		JRBasePieSeries basePieSeries = null;
+
+		if (pieSeries != null)
+		{
+			basePieSeries = (JRBasePieSeries)get(pieSeries);
+			if (basePieSeries == null)
+			{
+				basePieSeries = new JRBasePieSeries(pieSeries, this);
+			}
+		}
+
+		return basePieSeries;
+	}
+	
+	
 	/**
 	 *
 	 */
