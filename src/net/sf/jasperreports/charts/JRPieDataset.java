@@ -62,17 +62,27 @@ public interface JRPieDataset extends JRChartDataset
 	/**
 	 * 
 	 */
+	public JRPieSeries[] getSeries();
+
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
 	public JRExpression getKeyExpression();
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getSeries()}.
 	 */
 	public JRExpression getValueExpression();
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getSeries()}.
 	 */
 	public JRExpression getLabelExpression();
+
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public JRHyperlink getSectionHyperlink();
 
 	/**
 	 * 
@@ -82,18 +92,6 @@ public interface JRPieDataset extends JRChartDataset
 	 * 
 	 */
 	public JRExpression getOtherLabelExpression();
-	
-	
-	/**
-	 * Returns the hyperlink specification for chart sections.
-	 * <p>
-	 * The hyperlink will be evaluated for every chart section and an image map will be created for the chart.
-	 * </p>
-	 * 
-	 * @return hyperlink specification for chart sections
-	 */
-	public JRHyperlink getSectionHyperlink();
-	
 	
 	/**
 	 * Returns the hyperlink specification for the special Other chart section, if present.

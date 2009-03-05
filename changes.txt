@@ -2,8 +2,10 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.1.5 (2009-02-xx)
+JasperReports 3.1.5 (2009-03-xx)
 -----------------------------------
+
+- multiple series in pie charts;
 
 - minor bug fixes and improvements;
 

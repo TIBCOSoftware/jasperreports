@@ -61,6 +61,7 @@ import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRPieSeries;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
@@ -1248,6 +1249,21 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	/**
 	 *
 	 */
+	private void writePieSeries(JRPieSeries pieSeries) throws IOException
+	{
+		writer.startElement(JRXmlConstants.ELEMENT_pieSeries);
+
+		writer.writeExpression(JRXmlConstants.ELEMENT_keyExpression, pieSeries.getKeyExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, pieSeries.getValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, pieSeries.getLabelExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_sectionHyperlink, pieSeries.getSectionHyperlink());
+
+		writer.closeElement();
+	}
+
+	/**
+	 *
+	 */
 	private void writeCategorySeries(JRCategorySeries categorySeries) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_categorySeries);
@@ -1399,10 +1415,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writeElementDataset(dataset);
 
-		writer.writeExpression(JRXmlConstants.ELEMENT_keyExpression, dataset.getKeyExpression(), false);
-		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, dataset.getValueExpression(), false);
-		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, dataset.getLabelExpression(), false);
-		writeHyperlink(JRXmlConstants.ELEMENT_sectionHyperlink, dataset.getSectionHyperlink());
+		/*   */
+		JRPieSeries[] pieSeries = dataset.getSeries();
+		if (pieSeries != null && pieSeries.length > 0)
+		{
+			for(int i = 0; i < pieSeries.length; i++)
+			{
+				writePieSeries(pieSeries[i]);
+			}
+		}
+
 		writer.writeExpression(JRXmlConstants.ELEMENT_otherKeyExpression, dataset.getOtherKeyExpression(), false);
 		writer.writeExpression(JRXmlConstants.ELEMENT_otherLabelExpression, dataset.getOtherLabelExpression(), false);
 		writeHyperlink(JRXmlConstants.ELEMENT_otherSectionHyperlink, dataset.getOtherSectionHyperlink());

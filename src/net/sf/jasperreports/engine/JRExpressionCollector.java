@@ -52,6 +52,7 @@ import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRPieSeries;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
@@ -699,14 +700,19 @@ public class JRExpressionCollector
 	{
 		collect((JRElementDataset) pieDataset);
 
+		JRPieSeries[] pieSeries = pieDataset.getSeries();
+		if (pieSeries != null && pieSeries.length > 0)
+		{
+			JRExpressionCollector collector = getCollector(pieDataset);
+			for(int j = 0; j < pieSeries.length; j++)
+			{
+				collector.collect(pieSeries[j]);
+			}
+		}
+
 		JRExpressionCollector collector = getCollector(pieDataset);
-		collector.addExpression(pieDataset.getKeyExpression());
-		collector.addExpression(pieDataset.getValueExpression());
-		collector.addExpression(pieDataset.getLabelExpression());
 		collector.addExpression(pieDataset.getOtherKeyExpression());
 		collector.addExpression(pieDataset.getOtherLabelExpression());
-
-		collector.collectHyperlink(pieDataset.getSectionHyperlink());
 		collector.collectHyperlink(pieDataset.getOtherSectionHyperlink());
 	}
 
@@ -815,6 +821,18 @@ public class JRExpressionCollector
 		addExpression(xySeries.getLabelExpression());
 
 		collectHyperlink(xySeries.getItemHyperlink());
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRPieSeries pieSeries)
+	{
+		addExpression(pieSeries.getKeyExpression());
+		addExpression(pieSeries.getValueExpression());
+		addExpression(pieSeries.getLabelExpression());
+
+		collectHyperlink(pieSeries.getSectionHyperlink());
 	}
 
 	/**
