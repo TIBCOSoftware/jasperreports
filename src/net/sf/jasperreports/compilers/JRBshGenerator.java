@@ -256,7 +256,7 @@ public class JRBshGenerator
 				sb.append("        super.parameter_");
 				sb.append(JRStringUtil.getLiteral(parameterName));
 				sb.append(" = (JRFillParameter)parsm.get(\"");
-				sb.append(parameterName);
+				sb.append(JRStringUtil.escapeJavaStringLiteral(parameterName));
 				sb.append("\");\n");
 			}
 		}
@@ -275,7 +275,7 @@ public class JRBshGenerator
 				sb.append("        super.field_");
 				sb.append(JRStringUtil.getLiteral(fieldName));
 				sb.append(" = (JRFillField)fldsm.get(\"");
-				sb.append(fieldName);
+				sb.append(JRStringUtil.escapeJavaStringLiteral(fieldName));
 				sb.append("\");\n");
 			}
 		}
@@ -293,7 +293,7 @@ public class JRBshGenerator
 				sb.append("        super.variable_");
 				sb.append(JRStringUtil.getLiteral(variableName));
 				sb.append(" = (JRFillVariable)varsm.get(\"");
-				sb.append(variableName);
+				sb.append(JRStringUtil.escapeJavaStringLiteral(variableName));
 				sb.append("\");\n");
 			}
 		}

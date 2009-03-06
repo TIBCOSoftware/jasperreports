@@ -347,4 +347,27 @@ public class JRStringUtil
 	}
 
 	
+	/**
+	 * Escapes a text so that it can be used as a Java String literal.
+	 * 
+	 * @param text the text
+	 * @return the text with escaped quotes and backslashes
+	 */
+	public static String escapeJavaStringLiteral(String text)
+	{
+		if (text == null)
+		{
+			return text;
+		}
+		
+		// escape backslashes
+		text = text.replace("\\", "\\\\");
+		
+		// escape quotes
+		text = text.replace("\"", "\\\"");
+		
+		// FIXME new lines?
+		return text;
+	}
+	
 }
