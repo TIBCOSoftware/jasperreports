@@ -65,6 +65,12 @@ public interface JRMeterPlot extends JRChartPlot
 	public static final byte SHAPE_PIE = 2;
 
 	/**
+	 * The portion of the circle described by the Meter that is not occupied by the
+	 * Meter is drawn as a circle, and handled with specific dial objects.
+	 */
+	public static final byte SHAPE_DIAL = 3;
+
+	/**
 	 * Returns the range of values that the Meter can display.
 	 *
 	 * @return the range of values that the Meter can display

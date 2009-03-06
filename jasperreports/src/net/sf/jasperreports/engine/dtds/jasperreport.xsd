@@ -2676,6 +2676,7 @@
       <enumeration value="chord"/>
       <enumeration value="circle"/>
       <enumeration value="pie"/>
+      <enumeration value="dial"/>
      </restriction>
     </simpleType>
    </attribute>

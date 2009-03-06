@@ -383,7 +383,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
 
 		// Set the shape
-		byte shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_CIRCLE : jrPlot.getShapeByte().byteValue();
+		byte shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_DIAL : jrPlot.getShapeByte().byteValue();
 		
 		switch(shape)
 		{
@@ -394,6 +394,9 @@ public class AegeanChartTheme extends GenericChartTheme
 				chartPlot.setDialShape(DialShape.PIE);
 				break;
 			case JRMeterPlot.SHAPE_CIRCLE:
+				chartPlot.setDialShape(DialShape.CIRCLE);
+				break;
+			case JRMeterPlot.SHAPE_DIAL:
 			default:
 				return createDialChart();
 		}
