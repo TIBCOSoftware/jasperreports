@@ -330,7 +330,7 @@ public class JRGroovyGenerator
 			sb.append("        parameter_");
 			sb.append(JRStringUtil.getLiteral(parameterName));
 			sb.append(" = (JRFillParameter)pm.get(\"");
-			sb.append(parameterName);
+			sb.append(JRStringUtil.escapeJavaStringLiteral(parameterName));
 			sb.append("\");\n");
 		}
 		if(it.hasNext())
@@ -371,7 +371,7 @@ public class JRGroovyGenerator
 			sb.append("        field_");
 			sb.append(JRStringUtil.getLiteral(fieldName));
 			sb.append(" = (JRFillField)fm.get(\"");
-			sb.append(fieldName);
+			sb.append(JRStringUtil.escapeJavaStringLiteral(fieldName));
 			sb.append("\");\n");
 		}
 		if(it.hasNext())
@@ -412,7 +412,7 @@ public class JRGroovyGenerator
 			sb.append("        variable_");
 			sb.append(JRStringUtil.getLiteral(variableName));
 			sb.append(" = (JRFillVariable)vm.get(\"");
-			sb.append(variableName);
+			sb.append(JRStringUtil.escapeJavaStringLiteral(variableName));
 			sb.append("\");\n");
 		}
 		if(it.hasNext())
