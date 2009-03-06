@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
 import java.text.DateFormat;
@@ -93,6 +94,15 @@ import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.ThermometerPlot;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.plot.dial.DialBackground;
+import org.jfree.chart.plot.dial.DialCap;
+import org.jfree.chart.plot.dial.DialPlot;
+import org.jfree.chart.plot.dial.DialPointer;
+import org.jfree.chart.plot.dial.DialTextAnnotation;
+import org.jfree.chart.plot.dial.DialValueIndicator;
+import org.jfree.chart.plot.dial.StandardDialFrame;
+import org.jfree.chart.plot.dial.StandardDialRange;
+import org.jfree.chart.plot.dial.StandardDialScale;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.GanttRenderer;
@@ -117,7 +127,9 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
+import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
+import org.jfree.ui.TextAnchor;
 
 
 /**
@@ -1389,6 +1401,8 @@ public class DefaultChartTheme implements ChartTheme
 			chartPlot.setDialShape(DialShape.CHORD);
 		else if (shape == JRMeterPlot.SHAPE_CIRCLE)
 			chartPlot.setDialShape(DialShape.CIRCLE);
+		else if (shape == JRMeterPlot.SHAPE_DIAL)
+			return createDialChart();
 		else
 			chartPlot.setDialShape(DialShape.PIE);
 
@@ -1570,6 +1584,143 @@ public class DefaultChartTheme implements ChartTheme
 		return jfreeChart;
 	}
 
+	/**
+	 *
+	 */
+	protected JFreeChart createDialChart() throws JRException
+	{
+
+		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
+
+		// get data for diagrams
+		DialPlot dialPlot = new DialPlot();
+		dialPlot.setDataset((ValueDataset)getDataset());
+		StandardDialFrame dialFrame = new StandardDialFrame();
+		dialPlot.setDialFrame(dialFrame);
+
+		DialBackground db = new DialBackground(jrPlot.getBackcolor());
+		dialPlot.setBackground(db);
+		Range range = convertRange(jrPlot.getDataRange());
+		StandardDialScale scale =
+			new StandardDialScale(
+				range.getLowerBound(),
+				range.getUpperBound(),
+				225,
+				-270,
+				(range.getUpperBound() - range.getLowerBound())/6,
+				15
+				);
+		scale.setTickRadius(0.9);
+		scale.setTickLabelOffset(0.16);
+		if(jrPlot.getTickLabelFont() != null)
+			scale.setTickLabelFont(JRFontUtil.getAwtFont(jrPlot.getTickLabelFont(), getLocale()));
+		scale.setMajorTickStroke(new BasicStroke(1f));
+		scale.setMinorTickStroke(new BasicStroke(0.3f));
+		scale.setMajorTickPaint(jrPlot.getTickColor());
+		scale.setMinorTickPaint(jrPlot.getTickColor());
+
+		scale.setTickLabelsVisible(true);
+		scale.setFirstTickLabelVisible(true);
+
+		dialPlot.addScale(0, scale);
+		List intervals = jrPlot.getIntervals();
+		if (intervals != null && intervals.size() > 0)
+		{
+			int size = Math.min(3, intervals.size());
+			int colorStep = 0;
+			if(size > 0)
+				colorStep = 255 / size;
+			
+			for(int i = 0; i < size; i++)
+			{
+				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
+				Range intervalRange = convertRange(interval.getDataRange());
+
+				Color color = new Color(255 - colorStep * i, 0 + colorStep * i, 0);
+				
+				StandardDialRange dialRange =
+					new StandardDialRange(
+						intervalRange.getLowerBound(),
+						intervalRange.getUpperBound(),
+						interval.getBackgroundColor() == null
+							? color
+							: interval.getBackgroundColor()
+						);
+				dialRange.setInnerRadius(0.41);
+				dialRange.setOuterRadius(0.41);
+				dialPlot.addLayer(dialRange);
+			}
+		}
+
+		JRValueDisplay display = jrPlot.getValueDisplay();
+		String displayVisibility = display != null && getChart().hasProperties() ? 
+     		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
+     
+		if(Boolean.parseBoolean(displayVisibility))
+		{
+			DialValueIndicator dvi = new DialValueIndicator(0);
+			dvi.setBackgroundPaint(TRANSPARENT_PAINT);
+//			dvi.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
+			dvi.setOutlinePaint(TRANSPARENT_PAINT);
+			dvi.setPaint(Color.WHITE);
+
+			String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
+			if(pattern != null)
+				dvi.setNumberFormat( new DecimalFormat(pattern));
+			dvi.setRadius(0.15);
+			dvi.setValueAnchor(RectangleAnchor.CENTER);
+			dvi.setTextAnchor(TextAnchor.CENTER);
+			//dvi.setTemplateValue(Double.valueOf(getDialTickValue(dialPlot.getValue(0),dialUnitScale)));
+			dialPlot.addLayer(dvi);
+
+			String label = getChart().hasProperties() ?
+					getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
+			
+			if(label != null)
+			{
+				JRFont displayFont = jrPlot.getValueDisplay().getFont();
+				
+				String[] textLines = label.split("\\n");
+				for(int i = 0; i < textLines.length; i++)
+				{
+					DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
+					if(displayFont != null)
+						dialAnnotation.setFont(JRFontUtil.getAwtFont(displayFont, getLocale()));
+					dialAnnotation.setPaint(jrPlot.getValueDisplay().getColor());
+					dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
+					dialAnnotation.setAnchor(TextAnchor.CENTER);
+					dialPlot.addLayer(dialAnnotation);
+				}
+			}
+		}
+
+		DialPointer needle = new DialPointer.Pointer();
+
+		needle.setVisible(true);
+		needle.setRadius(0.91);
+		dialPlot.addLayer(needle);
+
+		DialCap cap = new DialCap();
+		cap.setRadius(0.05);
+		cap.setFillPaint(Color.DARK_GRAY);
+		cap.setOutlinePaint(Color.GRAY);
+		cap.setOutlineStroke(new BasicStroke(0.5f));
+		dialPlot.setCap(cap);
+
+		JFreeChart jfreeChart =
+		new JFreeChart(
+			(String)evaluateExpression(getChart().getTitleExpression()),
+			null,
+			dialPlot,
+			getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
+			);
+
+		// Set all the generic options
+		configureChart(jfreeChart);
+
+		return jfreeChart;
+
+	}
 	/**
 	 * Specifies the axis location.
 	 * It has to be overriden for child themes with another default axis location

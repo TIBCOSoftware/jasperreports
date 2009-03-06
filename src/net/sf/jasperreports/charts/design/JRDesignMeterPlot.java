@@ -138,7 +138,7 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setShape(Byte shape) throws JRException
 	{
-		if (shape != null && (shape.byteValue() < 0 || shape.byteValue() > JRMeterPlot.SHAPE_PIE))
+		if (shape != null && (shape.byteValue() < 0 || shape.byteValue() > JRMeterPlot.SHAPE_DIAL))
 		{
 			throw new JRException("Unknown shape for MeterPlot");
 		}

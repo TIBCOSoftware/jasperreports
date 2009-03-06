@@ -995,6 +995,7 @@ public class JRXmlConstants
 	private static final String METER_SHAPE_CHORD = "chord";
 	private static final String METER_SHAPE_CIRCLE = "circle";
 	private static final String METER_SHAPE_PIE = "pie";
+	private static final String METER_SHAPE_DIAL = "dial";
 
 	private static Map meterShapeMap = null;
 
@@ -1006,9 +1007,11 @@ public class JRXmlConstants
 			meterShapeMap.put(METER_SHAPE_CHORD, new Byte(JRMeterPlot.SHAPE_CHORD));
 			meterShapeMap.put(METER_SHAPE_CIRCLE, new Byte(JRMeterPlot.SHAPE_CIRCLE));
 			meterShapeMap.put(METER_SHAPE_PIE, new Byte(JRMeterPlot.SHAPE_PIE));
+			meterShapeMap.put(METER_SHAPE_DIAL, new Byte(JRMeterPlot.SHAPE_DIAL));
 			meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_CHORD), METER_SHAPE_CHORD);
 			meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_CIRCLE), METER_SHAPE_CIRCLE);
 			meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_PIE), METER_SHAPE_PIE);
+			meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_DIAL), METER_SHAPE_DIAL);
 		}
 
 		return meterShapeMap;
