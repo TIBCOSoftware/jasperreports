@@ -66,5 +66,15 @@ public interface JRBubblePlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat
 	 * 
 	 */
 	public void setScaleType(Integer scaleType);
-	
+
+	/**
+	 * 
+	 */
+	public JRExpression getXAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getXAxisMaxValueExpression();
+
 }

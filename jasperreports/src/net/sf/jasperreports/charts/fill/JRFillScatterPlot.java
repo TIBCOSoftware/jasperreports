@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.fill;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -304,4 +305,20 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	public void setShowLines( Boolean value ){
 	}
 	
+	/**
+	 *
+	 */
+	public JRExpression getXAxisMinValueExpression()
+	{
+		return ((JRScatterPlot)parent).getXAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getXAxisMaxValueExpression()
+	{
+		return ((JRScatterPlot)parent).getXAxisMaxValueExpression();
+	}
+
 }

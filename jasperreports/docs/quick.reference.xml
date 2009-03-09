@@ -39,7 +39,7 @@
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
     <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
-    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMaxValueExpression</a>?,
   )</contains>
   <attributes>
   </attributes>
@@ -234,7 +234,7 @@
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
     <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
-    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMaxValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -287,7 +287,7 @@
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
     <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
-    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMaxValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -486,6 +486,8 @@
     <a href="xAxisFormat">xAxisFormat</a>?,
     <a href="yAxisLabelExpression">yAxisLabelExpression</a>?,
     <a href="yAxisFormat">yAxisFormat</a>?
+    <a href="xAxisMinValueExpression">xAxisMinValueExpression</a>?,
+    <a href="xAxisMaxValueExpression">xAxisMaxValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -578,7 +580,7 @@
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
     <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
-    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMaxValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -2084,7 +2086,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
     <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
-    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMaxValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -3005,7 +3007,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
     <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
-    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMaxValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -3287,6 +3289,10 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
         <value>
           <name>pie</name>
           <description>The unused portion of the circle that describes the meter is not shaded at all.</description>
+        </value>
+        <value>
+          <name>dial</name>
+          <description>The unused portion of the circle that describes the meter is shaded with the background color and handled with specific dial objects.</description>
         </value>
       </values>
       <default>pie</default>
@@ -4259,6 +4265,8 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="xAxisFormat">xAxisFormat</a>?,
     <a href="yAxisLabelExpression">yAxisLabelExpression</a>?,
     <a href="yAxisFormat">yAxisFormat</a>?
+    <a href="xAxisMinValueExpression">xAxisMinValueExpression</a>?,
+    <a href="xAxisMaxValueExpression">xAxisMaxValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -5479,7 +5487,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
     <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
-    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMaxValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>

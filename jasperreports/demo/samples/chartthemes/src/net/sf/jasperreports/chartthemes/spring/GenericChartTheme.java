@@ -618,7 +618,9 @@ public class GenericChartTheme implements ChartTheme
 		configureAxis(xyPlot.getDomainAxis(), bubblePlot.getXAxisLabelFont(),
 				bubblePlot.getXAxisLabelColor(), bubblePlot.getXAxisTickLabelFont(),
 				bubblePlot.getXAxisTickLabelColor(), bubblePlot.getXAxisTickLabelMask(),
-				bubblePlot.getOwnXAxisLineColor(), false, null, null);
+				bubblePlot.getOwnXAxisLineColor(), false,
+				(Comparable)evaluateExpression(bubblePlot.getXAxisMinValueExpression()), 
+				(Comparable)evaluateExpression(bubblePlot.getXAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), bubblePlot.getYAxisLabelFont(),
@@ -903,7 +905,9 @@ public class GenericChartTheme implements ChartTheme
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), scatterPlot.getXAxisLabelFont(),
 				scatterPlot.getXAxisLabelColor(), scatterPlot.getXAxisTickLabelFont(),
 				scatterPlot.getXAxisTickLabelColor(), scatterPlot.getXAxisTickLabelMask(),
-				scatterPlot.getOwnXAxisLineColor(), false, null, null);
+				scatterPlot.getOwnXAxisLineColor(), false,
+				(Comparable)evaluateExpression(scatterPlot.getXAxisMinValueExpression()), 
+				(Comparable)evaluateExpression(scatterPlot.getXAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), scatterPlot.getYAxisLabelFont(),
@@ -2313,8 +2317,6 @@ public class GenericChartTheme implements ChartTheme
 	
 	protected void setAxisBounds(Axis axis, boolean isRangeAxis, String timeUnit, Comparable minValue, Comparable maxValue) throws JRException
 	{
-		System.out.println("minValue = "+ minValue);
-		System.out.println("maxValue = "+ maxValue);
 		if (axis instanceof ValueAxis)
 		{
 			String axisMinValue = null;

@@ -71,6 +71,8 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	protected String yAxisTickLabelMask = null;
 	protected Color yAxisLineColor = null;
 	
+	protected JRExpression xAxisMinValueExpression = null;
+	protected JRExpression xAxisMaxValueExpression = null;
 	protected Integer scaleTypeInteger = null;
 	
 	
@@ -123,6 +125,9 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		yAxisTickLabelColor = bubblePlot.getOwnYAxisTickLabelColor();
 		yAxisTickLabelMask = bubblePlot.getYAxisTickLabelMask();
 		yAxisLineColor = bubblePlot.getOwnYAxisLineColor();
+		
+		xAxisMinValueExpression = factory.getExpression( bubblePlot.getXAxisMinValueExpression() );
+		xAxisMaxValueExpression = factory.getExpression( bubblePlot.getXAxisMaxValueExpression() );
 	}
 	
 	/**
@@ -298,6 +303,20 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	}
 	
 	/**
+	 * 
+	 */
+	public JRExpression getXAxisMinValueExpression(){
+		return xAxisMinValueExpression;
+	}
+
+	/**
+	 * 
+	 */
+	public JRExpression getXAxisMaxValueExpression(){
+		return xAxisMaxValueExpression;
+	}
+
+	/**
 	 * @deprecated Replaced by {@link #setScaleType(Integer)}
 	 */
 	public void setScaleType( int scaleType ){
@@ -334,6 +353,14 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		if (yAxisLabelExpression != null)
 		{
 			clone.yAxisLabelExpression = (JRExpression)yAxisLabelExpression.clone();
+		}
+		if (xAxisMinValueExpression != null)
+		{
+			clone.xAxisMinValueExpression = (JRExpression)xAxisMinValueExpression.clone();
+		}
+		if (xAxisMaxValueExpression != null)
+		{
+			clone.xAxisMaxValueExpression = (JRExpression)xAxisMaxValueExpression.clone();
 		}
 		return clone;
 	}

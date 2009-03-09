@@ -1689,6 +1689,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeAxisFormat(JRXmlConstants.ELEMENT_yAxisFormat, plot.getYAxisLabelFont(), plot.getOwnYAxisLabelColor(),
 				plot.getYAxisTickLabelFont(), plot.getOwnYAxisTickLabelColor(),
 				plot.getYAxisTickLabelMask(), plot.getOwnYAxisLineColor());
+		writer.writeExpression(JRXmlConstants.ELEMENT_xAxisMinValueExpression, plot.getXAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_xAxisMaxValueExpression, plot.getXAxisMaxValueExpression(), false);
 
 		writer.closeElement();
 	}
@@ -2019,6 +2021,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeAxisFormat(JRXmlConstants.ELEMENT_yAxisFormat, plot.getYAxisLabelFont(), plot.getOwnYAxisLabelColor(),
 				plot.getYAxisTickLabelFont(), plot.getOwnYAxisTickLabelColor(),
 				plot.getYAxisTickLabelMask(), plot.getOwnYAxisLineColor());
+		writer.writeExpression(JRXmlConstants.ELEMENT_xAxisMinValueExpression, plot.getXAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_xAxisMaxValueExpression, plot.getXAxisMaxValueExpression(), false);
 
 		writer.closeElement();
 	}
