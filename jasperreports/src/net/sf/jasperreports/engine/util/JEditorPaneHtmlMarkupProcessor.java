@@ -94,6 +94,9 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		String chunk = null;
 		Element element = null;
 		boolean bodyOccurred = false;
+		boolean isOrderedList = false;
+		int orderedListIndex = 0;
+		String orderedListSpaces = null;
 		
 		JRStyledText styledText = new JRStyledText();
 		styledText.setGlobalAttributes(new HashMap());
@@ -115,7 +118,6 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 
 			Object elementName = attrs.getAttribute(AbstractDocument.ElementNameAttribute);
 			Object object = (elementName != null) ? null : attrs.getAttribute(StyleConstants.NameAttribute);
-			
 			if (object instanceof HTML.Tag) 
 			{
 				HTML.Tag htmlTag = (HTML.Tag) object;
@@ -128,9 +130,52 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				{
 					chunk = "\n";
 				}
+				else if(htmlTag == Tag.OL)
+				{
+					isOrderedList = true;
+					orderedListIndex = 0;
+					orderedListSpaces = "  "; 
+					
+					int j = i;
+					int liCount = 0;
+					
+					boolean isLiElement = false;
+					do
+					{
+						Element liElement = (Element)elements.get(++j);
+						AttributeSet liAttrs = liElement.getAttributes();
+						Object liElementName = liAttrs.getAttribute(AbstractDocument.ElementNameAttribute);
+						Object liObject = (liElementName != null) ? null : liAttrs.getAttribute(StyleConstants.NameAttribute);
+						if (liObject instanceof HTML.Tag && (HTML.Tag)liObject == Tag.LI) 
+						{
+							liCount++;
+							isLiElement = true;
+						}
+						else
+						{
+							isLiElement = false;
+						}
+					}while(isLiElement);
+					
+					chunk = "\n";
+				}
+				else if(htmlTag == Tag.UL)
+				{
+					isOrderedList = false;
+					chunk = "\n";
+				}
 				else if(htmlTag == Tag.LI)
 				{
-					chunk = " \u2022 ";
+					if(isOrderedList)
+					{
+						String index = String.valueOf(++orderedListIndex);
+						index = orderedListSpaces + index;
+						chunk = index + ".  ";
+					} 
+					else
+					{
+						chunk = " \u2022 ";
+					}
 					crtOffset += chunk.length();
 				}
 				else if (element instanceof LeafElement)
@@ -153,7 +198,6 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 			styledText.append(chunk);
 			styledText.addRun(new JRStyledText.Run(getAttributes(element.getAttributes()), startOffset + crtOffset, endOffset + crtOffset));
 		}
-		
 		return JRStyledTextParser.getInstance().write(styledText);
 	}
 	
