@@ -200,6 +200,22 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	/**
 	 *
 	 */
+	public JRExpression getDomainAxisMinValueExpression()
+	{
+		return ((JRLinePlot)parent).getDomainAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getDomainAxisMaxValueExpression()
+	{
+		return ((JRLinePlot)parent).getDomainAxisMaxValueExpression();
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getRangeAxisMinValueExpression()
 	{
 		return ((JRLinePlot)parent).getRangeAxisMinValueExpression();

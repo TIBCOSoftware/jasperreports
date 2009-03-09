@@ -50,6 +50,16 @@ public interface JRTimeSeriesPlot extends JRChartPlot, JRTimeAxisFormat, JRValue
 	/**
 	 * 
 	 */
+	public JRExpression getDomainAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getDomainAxisMaxValueExpression();
+
+	/**
+	 * 
+	 */
 	public JRExpression getRangeAxisMinValueExpression();
 
 	/**

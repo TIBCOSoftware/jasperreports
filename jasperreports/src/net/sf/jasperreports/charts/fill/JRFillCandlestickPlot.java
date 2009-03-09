@@ -204,6 +204,22 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	/**
 	 *
 	 */
+	public JRExpression getDomainAxisMinValueExpression()
+	{
+		return ((JRCandlestickPlot)parent).getDomainAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getDomainAxisMaxValueExpression()
+	{
+		return ((JRCandlestickPlot)parent).getDomainAxisMaxValueExpression();
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getRangeAxisMinValueExpression()
 	{
 		return ((JRCandlestickPlot)parent).getRangeAxisMinValueExpression();

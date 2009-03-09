@@ -60,6 +60,8 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	protected JRExpression valueAxisLabelExpression = null;
 	protected JRExpression rangeAxisMinValueExpression = null;
 	protected JRExpression rangeAxisMaxValueExpression = null;
+	protected JRExpression domainAxisMinValueExpression = null;
+	protected JRExpression domainAxisMaxValueExpression = null;
 	protected JRFont valueAxisLabelFont = null;
 	protected Color valueAxisLabelColor = null;
 	protected JRFont valueAxisTickLabelFont = null;
@@ -109,6 +111,8 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 		categoryAxisLineColor = areaPlot.getOwnCategoryAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( areaPlot.getValueAxisLabelExpression() );
+		domainAxisMinValueExpression = factory.getExpression( areaPlot.getDomainAxisMinValueExpression() );
+		domainAxisMaxValueExpression = factory.getExpression( areaPlot.getDomainAxisMaxValueExpression() );
 		rangeAxisMinValueExpression = factory.getExpression( areaPlot.getRangeAxisMinValueExpression() );
 		rangeAxisMaxValueExpression = factory.getExpression( areaPlot.getRangeAxisMaxValueExpression() );
 		valueAxisLabelFont = new JRBaseFont(areaPlot.getChart(), areaPlot.getValueAxisLabelFont());
@@ -203,6 +207,20 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	 */
 	public JRExpression getValueAxisLabelExpression(){
 		return valueAxisLabelExpression;
+	}
+
+	/**
+	 * 
+	 */
+	public JRExpression getDomainAxisMinValueExpression(){
+		return domainAxisMinValueExpression;
+	}
+
+	/**
+	 * 
+	 */
+	public JRExpression getDomainAxisMaxValueExpression(){
+		return domainAxisMaxValueExpression;
 	}
 
 	/**
@@ -312,6 +330,14 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 		if (valueAxisLabelExpression != null)
 		{
 			clone.valueAxisLabelExpression = (JRExpression)valueAxisLabelExpression.clone();
+		}
+		if (domainAxisMinValueExpression != null)
+		{
+			clone.domainAxisMinValueExpression = (JRExpression)domainAxisMinValueExpression.clone();
+		}
+		if (domainAxisMaxValueExpression != null)
+		{
+			clone.domainAxisMaxValueExpression = (JRExpression)domainAxisMaxValueExpression.clone();
 		}
 		if (rangeAxisMinValueExpression != null)
 		{

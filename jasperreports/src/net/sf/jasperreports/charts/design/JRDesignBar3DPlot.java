@@ -64,6 +64,10 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	
 	public static final String PROPERTY_VALUE_AXIS_LABEL_EXPRESSION = "valueAxisLabelExpression";
 	
+	public static final String PROPERTY_DOMAIN_AXIS_MINVALUE_EXPRESSION = "domainAxisMinValueExpression";
+	
+	public static final String PROPERTY_DOMAIN_AXIS_MAXVALUE_EXPRESSION = "domainAxisMaxValueExpression";
+	
 	public static final String PROPERTY_RANGE_AXIS_MINVALUE_EXPRESSION = "rangeAxisMinValueExpression";
 	
 	public static final String PROPERTY_RANGE_AXIS_MAXVALUE_EXPRESSION = "rangeAxisMaxValueExpression";
@@ -162,6 +166,26 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 		Object old = this.valueAxisLabelExpression;
 		this.valueAxisLabelExpression = valueAxisLabelExpression;
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LABEL_EXPRESSION, old, this.valueAxisLabelExpression);
+	}
+
+	/**
+	 *
+	 */
+	public void setDomainAxisMinValueExpression(JRExpression domainAxisMinValueExpression)
+	{
+		Object old = this.domainAxisMinValueExpression;
+		this.domainAxisMinValueExpression = domainAxisMinValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_DOMAIN_AXIS_MINVALUE_EXPRESSION, old, this.domainAxisMinValueExpression);
+	}
+
+	/**
+	 *
+	 */
+	public void setDomainAxisMaxValueExpression(JRExpression domainAxisMaxValueExpression)
+	{
+		Object old = this.domainAxisMaxValueExpression;
+		this.domainAxisMaxValueExpression = domainAxisMaxValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_DOMAIN_AXIS_MAXVALUE_EXPRESSION, old, this.domainAxisMaxValueExpression);
 	}
 
 	/**

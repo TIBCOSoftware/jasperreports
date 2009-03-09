@@ -58,6 +58,16 @@ public interface JRBar3DPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueA
 	public JRExpression getRangeAxisMaxValueExpression();
 
 	/**
+	 * 
+	 */
+	public JRExpression getDomainAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getDomainAxisMaxValueExpression();
+
+	/**
 	 * @deprecated Replaced by {@link #getXOffsetDouble()}
 	 */
 	public double getXOffset();

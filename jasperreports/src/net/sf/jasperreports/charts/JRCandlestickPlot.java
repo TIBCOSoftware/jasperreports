@@ -51,6 +51,16 @@ public interface JRCandlestickPlot extends JRChartPlot, JRTimeAxisFormat, JRValu
 	/**
 	 * 
 	 */
+	public JRExpression getDomainAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getDomainAxisMaxValueExpression();
+
+	/**
+	 * 
+	 */
 	public JRExpression getRangeAxisMinValueExpression();
 
 	/**

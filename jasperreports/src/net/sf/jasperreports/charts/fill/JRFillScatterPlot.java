@@ -321,4 +321,20 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 		return ((JRScatterPlot)parent).getXAxisMaxValueExpression();
 	}
 
+	/**
+	 *
+	 */
+	public JRExpression getYAxisMinValueExpression()
+	{
+		return ((JRScatterPlot)parent).getYAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getYAxisMaxValueExpression()
+	{
+		return ((JRScatterPlot)parent).getYAxisMaxValueExpression();
+	}
+
 }

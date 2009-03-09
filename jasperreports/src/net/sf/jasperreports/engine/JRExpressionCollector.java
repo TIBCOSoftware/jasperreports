@@ -871,6 +871,8 @@ public class JRExpressionCollector
 	{
 		addExpression(barPlot.getCategoryAxisLabelExpression());
 		addExpression(barPlot.getValueAxisLabelExpression());
+		addExpression(barPlot.getDomainAxisMinValueExpression());
+		addExpression(barPlot.getDomainAxisMaxValueExpression());
 		addExpression(barPlot.getRangeAxisMinValueExpression());
 		addExpression(barPlot.getRangeAxisMaxValueExpression());
 	}
@@ -892,6 +894,8 @@ public class JRExpressionCollector
 	public void collect( JRLinePlot linePlot ){
 		addExpression( linePlot.getCategoryAxisLabelExpression() );
 		addExpression( linePlot.getValueAxisLabelExpression() );
+		addExpression(linePlot.getDomainAxisMinValueExpression());
+		addExpression(linePlot.getDomainAxisMaxValueExpression());
 		addExpression(linePlot.getRangeAxisMinValueExpression());
 		addExpression(linePlot.getRangeAxisMaxValueExpression());
 	}
@@ -902,6 +906,8 @@ public class JRExpressionCollector
 	public void collect( JRTimeSeriesPlot timeSeriesPlot ){
 		addExpression( timeSeriesPlot.getTimeAxisLabelExpression() );
 		addExpression( timeSeriesPlot.getValueAxisLabelExpression() );
+		addExpression(timeSeriesPlot.getDomainAxisMinValueExpression());
+		addExpression(timeSeriesPlot.getDomainAxisMaxValueExpression());
 		addExpression(timeSeriesPlot.getRangeAxisMinValueExpression());
 		addExpression(timeSeriesPlot.getRangeAxisMaxValueExpression());
 	}
@@ -914,6 +920,8 @@ public class JRExpressionCollector
 		addExpression( scatterPlot.getYAxisLabelExpression() );
 		addExpression(scatterPlot.getXAxisMinValueExpression());
 		addExpression(scatterPlot.getXAxisMaxValueExpression());
+		addExpression(scatterPlot.getYAxisMinValueExpression());
+		addExpression(scatterPlot.getYAxisMaxValueExpression());
 	}
 
 	/**
@@ -922,6 +930,8 @@ public class JRExpressionCollector
 	public void collect( JRAreaPlot areaPlot ){
 		addExpression( areaPlot.getCategoryAxisLabelExpression() );
 		addExpression( areaPlot.getValueAxisLabelExpression() );
+		addExpression(areaPlot.getDomainAxisMinValueExpression());
+		addExpression(areaPlot.getDomainAxisMaxValueExpression());
 		addExpression(areaPlot.getRangeAxisMinValueExpression());
 		addExpression(areaPlot.getRangeAxisMaxValueExpression());
 	}
@@ -988,6 +998,8 @@ public class JRExpressionCollector
 		addExpression(bubblePlot.getYAxisLabelExpression());
 		addExpression(bubblePlot.getXAxisMinValueExpression());
 		addExpression(bubblePlot.getXAxisMaxValueExpression());
+		addExpression(bubblePlot.getYAxisMinValueExpression());
+		addExpression(bubblePlot.getYAxisMaxValueExpression());
 	}
 
 	/**
@@ -997,6 +1009,8 @@ public class JRExpressionCollector
 	{
 		addExpression(highLowPlot.getTimeAxisLabelExpression());
 		addExpression(highLowPlot.getValueAxisLabelExpression());
+		addExpression(highLowPlot.getDomainAxisMinValueExpression());
+		addExpression(highLowPlot.getDomainAxisMaxValueExpression());
 		addExpression(highLowPlot.getRangeAxisMinValueExpression());
 		addExpression(highLowPlot.getRangeAxisMaxValueExpression());
 	}
@@ -1069,6 +1083,8 @@ public class JRExpressionCollector
 	{
 		addExpression(candlestickPlot.getTimeAxisLabelExpression());
 		addExpression(candlestickPlot.getValueAxisLabelExpression());
+		addExpression(candlestickPlot.getDomainAxisMinValueExpression());
+		addExpression(candlestickPlot.getDomainAxisMaxValueExpression());
 		addExpression(candlestickPlot.getRangeAxisMinValueExpression());
 		addExpression(candlestickPlot.getRangeAxisMaxValueExpression());
 	}

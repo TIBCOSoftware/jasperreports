@@ -199,6 +199,22 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	/**
 	 *
 	 */
+	public JRExpression getDomainAxisMinValueExpression()
+	{
+		return ((JRTimeSeriesPlot)parent).getDomainAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getDomainAxisMaxValueExpression()
+	{
+		return ((JRTimeSeriesPlot)parent).getDomainAxisMaxValueExpression();
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getRangeAxisMinValueExpression()
 	{
 		return ((JRTimeSeriesPlot)parent).getRangeAxisMinValueExpression();

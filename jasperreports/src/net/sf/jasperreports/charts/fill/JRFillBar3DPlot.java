@@ -199,6 +199,22 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	/**
 	 *
 	 */
+	public JRExpression getDomainAxisMinValueExpression()
+	{
+		return ((JRBar3DPlot)parent).getDomainAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getDomainAxisMaxValueExpression()
+	{
+		return ((JRBar3DPlot)parent).getDomainAxisMaxValueExpression();
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getRangeAxisMinValueExpression()
 	{
 		return ((JRBar3DPlot)parent).getRangeAxisMinValueExpression();

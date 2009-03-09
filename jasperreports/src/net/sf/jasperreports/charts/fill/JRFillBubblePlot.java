@@ -282,4 +282,20 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 		return ((JRBubblePlot)parent).getXAxisMaxValueExpression();
 	}
 
+	/**
+	 *
+	 */
+	public JRExpression getYAxisMinValueExpression()
+	{
+		return ((JRBubblePlot)parent).getYAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getYAxisMaxValueExpression()
+	{
+		return ((JRBubblePlot)parent).getYAxisMaxValueExpression();
+	}
+
 }

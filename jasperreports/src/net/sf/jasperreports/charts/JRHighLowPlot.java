@@ -51,6 +51,16 @@ public interface JRHighLowPlot extends JRChartPlot, JRTimeAxisFormat, JRValueAxi
 	/**
 	 * 
 	 */
+	public JRExpression getDomainAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getDomainAxisMaxValueExpression();
+
+	/**
+	 * 
+	 */
 	public JRExpression getRangeAxisMinValueExpression();
 
 	/**

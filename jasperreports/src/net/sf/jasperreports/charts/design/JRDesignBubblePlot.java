@@ -78,6 +78,10 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	
 	public static final String PROPERTY_X_AXIS_MAXVALUE_EXPRESSION = "xAxisMaxValueExpression";
 	
+	public static final String PROPERTY_Y_AXIS_MINVALUE_EXPRESSION = "yAxisMinValueExpression";
+	
+	public static final String PROPERTY_Y_AXIS_MAXVALUE_EXPRESSION = "yAxisMaxValueExpression";
+	
 
 	public JRDesignBubblePlot(JRChartPlot bubblePlot, JRChart chart)
 	{
@@ -267,6 +271,26 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 		Object old = this.xAxisMaxValueExpression;
 		this.xAxisMaxValueExpression = xAxisMaxValueExpression;
 		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_MAXVALUE_EXPRESSION, old, this.xAxisMaxValueExpression);
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisMinValueExpression(JRExpression yAxisMinValueExpression)
+	{
+		Object old = this.yAxisMinValueExpression;
+		this.yAxisMinValueExpression = yAxisMinValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_MINVALUE_EXPRESSION, old, this.yAxisMinValueExpression);
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisMaxValueExpression(JRExpression yAxisMaxValueExpression)
+	{
+		Object old = this.yAxisMaxValueExpression;
+		this.yAxisMaxValueExpression = yAxisMaxValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_MAXVALUE_EXPRESSION, old, this.yAxisMaxValueExpression);
 	}
 
 }

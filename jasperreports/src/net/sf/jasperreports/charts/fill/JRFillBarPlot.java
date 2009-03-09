@@ -206,6 +206,22 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	/**
 	 *
 	 */
+	public JRExpression getDomainAxisMinValueExpression()
+	{
+		return ((JRBarPlot)parent).getDomainAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getDomainAxisMaxValueExpression()
+	{
+		return ((JRBarPlot)parent).getDomainAxisMaxValueExpression();
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getRangeAxisMinValueExpression()
 	{
 		return ((JRBarPlot)parent).getRangeAxisMinValueExpression();

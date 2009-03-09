@@ -97,4 +97,14 @@ public interface JRScatterPlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat
 	 */
 	public JRExpression getXAxisMaxValueExpression();
 
+	/**
+	 * 
+	 */
+	public JRExpression getYAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getYAxisMaxValueExpression();
+
 }

@@ -51,6 +51,16 @@ public interface JRBarPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAxi
 	/**
 	 * 
 	 */
+	public JRExpression getDomainAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getDomainAxisMaxValueExpression();
+
+	/**
+	 * 
+	 */
 	public JRExpression getRangeAxisMinValueExpression();
 
 	/**

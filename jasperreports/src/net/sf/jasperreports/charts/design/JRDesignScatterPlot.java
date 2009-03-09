@@ -78,6 +78,10 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	
 	public static final String PROPERTY_X_AXIS_MAXVALUE_EXPRESSION = "xAxisMaxValueExpression";
 	
+	public static final String PROPERTY_Y_AXIS_MINVALUE_EXPRESSION = "yAxisMinValueExpression";
+	
+	public static final String PROPERTY_Y_AXIS_MAXVALUE_EXPRESSION = "yAxisMaxValueExpression";
+	
 
 	public JRDesignScatterPlot(JRChartPlot scattedPlot, JRChart chart)
 	{
@@ -248,6 +252,27 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 		setYAxisTickLabelMask(axisFormat.getTickLabelMask());
 		setYAxisLineColor(axisFormat.getLineColor());
 	}
+
+	/**
+	 *
+	 */
+	public void setYAxisMinValueExpression(JRExpression yAxisMinValueExpression)
+	{
+		Object old = this.yAxisMinValueExpression;
+		this.yAxisMinValueExpression = yAxisMinValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_MINVALUE_EXPRESSION, old, this.yAxisMinValueExpression);
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisMaxValueExpression(JRExpression yAxisMaxValueExpression)
+	{
+		Object old = this.yAxisMaxValueExpression;
+		this.yAxisMaxValueExpression = yAxisMaxValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_MAXVALUE_EXPRESSION, old, this.yAxisMaxValueExpression);
+	}
+
 	/**
 	 *
 	 */
