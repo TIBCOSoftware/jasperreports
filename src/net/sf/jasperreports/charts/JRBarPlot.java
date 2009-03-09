@@ -49,6 +49,16 @@ public interface JRBarPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAxi
 	public JRExpression getValueAxisLabelExpression();
 
 	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMaxValueExpression();
+
+	/**
 	 * @deprecated Replaced by {@link #getShowTickMarks()}  
 	 */
 	public boolean isShowTickMarks();

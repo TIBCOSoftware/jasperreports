@@ -48,6 +48,16 @@ public interface JRLinePlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAx
 	public JRExpression getValueAxisLabelExpression();
 
 	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMaxValueExpression();
+
+	/**
 	 * @deprecated Replaced by {@link #getShowLines()}
 	 */
 	public boolean isShowLines();

@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.fill;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -193,6 +194,22 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	public JRExpression getValueAxisLabelExpression()
 	{
 		return ((JRTimeSeriesPlot)parent).getValueAxisLabelExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getRangeAxisMinValueExpression()
+	{
+		return ((JRTimeSeriesPlot)parent).getRangeAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getRangeAxisMaxValueExpression()
+	{
+		return ((JRTimeSeriesPlot)parent).getRangeAxisMaxValueExpression();
 	}
 
 	/**

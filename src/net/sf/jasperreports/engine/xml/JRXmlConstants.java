@@ -1535,6 +1535,8 @@ public class JRXmlConstants
 	public static final String ELEMENT_highExpression = "highExpression";
 	public static final String ELEMENT_categoryAxisLabelExpression = "categoryAxisLabelExpression";
 	public static final String ELEMENT_valueAxisLabelExpression = "valueAxisLabelExpression";
+	public static final String ELEMENT_rangeAxisMinValueExpression = "rangeAxisMinValueExpression";
+	public static final String ELEMENT_rangeAxisMaxValueExpression = "rangeAxisMaxValueExpression";
 	public static final String ELEMENT_xAxisLabelExpression = "xAxisLabelExpression";
 	public static final String ELEMENT_yAxisLabelExpression = "yAxisLabelExpression";
 	public static final String ELEMENT_timeAxisLabelExpression = "timeAxisLabelExpression";

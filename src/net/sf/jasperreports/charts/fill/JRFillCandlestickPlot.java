@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.fill;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -198,6 +199,22 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	public JRExpression getValueAxisLabelExpression()
 	{
 		return ((JRCandlestickPlot)parent).getValueAxisLabelExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getRangeAxisMinValueExpression()
+	{
+		return ((JRCandlestickPlot)parent).getRangeAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getRangeAxisMaxValueExpression()
+	{
+		return ((JRCandlestickPlot)parent).getRangeAxisMaxValueExpression();
 	}
 
 	/**

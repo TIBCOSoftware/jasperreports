@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.fill;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -193,6 +194,22 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	public JRExpression getValueAxisLabelExpression()
 	{
 		return ((JRBar3DPlot)parent).getValueAxisLabelExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getRangeAxisMinValueExpression()
+	{
+		return ((JRBar3DPlot)parent).getRangeAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getRangeAxisMaxValueExpression()
+	{
+		return ((JRBar3DPlot)parent).getRangeAxisMaxValueExpression();
 	}
 
 	/**

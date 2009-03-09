@@ -64,6 +64,10 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	
 	public static final String PROPERTY_VALUE_AXIS_LABEL_EXPRESSION = "valueAxisLabelExpression";
 	
+	public static final String PROPERTY_RANGE_AXIS_MINVALUE_EXPRESSION = "rangeAxisMinValueExpression";
+	
+	public static final String PROPERTY_RANGE_AXIS_MAXVALUE_EXPRESSION = "rangeAxisMaxValueExpression";
+	
 	public static final String PROPERTY_VALUE_AXIS_LABEL_FONT = "valueAxisLabelFont";
 	
 	public static final String PROPERTY_VALUE_AXIS_LINE_COLOR = "valueAxisLineColor";
@@ -160,6 +164,27 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LABEL_EXPRESSION, old, this.valueAxisLabelExpression);
 	}
 
+	/**
+	 *
+	 */
+	public void setRangeAxisMinValueExpression(JRExpression rangeAxisMinValueExpression)
+	{
+		Object old = this.rangeAxisMinValueExpression;
+		this.rangeAxisMinValueExpression = rangeAxisMinValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_RANGE_AXIS_MINVALUE_EXPRESSION, old, this.rangeAxisMinValueExpression);
+	}
+
+	/**
+	 *
+	 */
+	public void setRangeAxisMaxValueExpression(JRExpression rangeAxisMaxValueExpression)
+	{
+		Object old = this.rangeAxisMaxValueExpression;
+		this.rangeAxisMaxValueExpression = rangeAxisMaxValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_RANGE_AXIS_MAXVALUE_EXPRESSION, old, this.rangeAxisMaxValueExpression);
+	}
+
+	
 	/**
 	 *
 	 */

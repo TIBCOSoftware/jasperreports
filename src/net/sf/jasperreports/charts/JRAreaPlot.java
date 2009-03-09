@@ -47,4 +47,14 @@ public interface JRAreaPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAx
 	 */
 	public JRExpression getValueAxisLabelExpression();
 
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMaxValueExpression();
+
 }

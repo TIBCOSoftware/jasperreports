@@ -871,6 +871,8 @@ public class JRExpressionCollector
 	{
 		addExpression(barPlot.getCategoryAxisLabelExpression());
 		addExpression(barPlot.getValueAxisLabelExpression());
+		addExpression(barPlot.getRangeAxisMinValueExpression());
+		addExpression(barPlot.getRangeAxisMaxValueExpression());
 	}
 
 	/**
@@ -880,6 +882,8 @@ public class JRExpressionCollector
 	{
 		addExpression(barPlot.getCategoryAxisLabelExpression());
 		addExpression(barPlot.getValueAxisLabelExpression());
+		addExpression(barPlot.getRangeAxisMinValueExpression());
+		addExpression(barPlot.getRangeAxisMaxValueExpression());
 	}
 
 	/**
@@ -888,6 +892,8 @@ public class JRExpressionCollector
 	public void collect( JRLinePlot linePlot ){
 		addExpression( linePlot.getCategoryAxisLabelExpression() );
 		addExpression( linePlot.getValueAxisLabelExpression() );
+		addExpression(linePlot.getRangeAxisMinValueExpression());
+		addExpression(linePlot.getRangeAxisMaxValueExpression());
 	}
 
 	/**
@@ -896,6 +902,8 @@ public class JRExpressionCollector
 	public void collect( JRTimeSeriesPlot timeSeriesPlot ){
 		addExpression( timeSeriesPlot.getTimeAxisLabelExpression() );
 		addExpression( timeSeriesPlot.getValueAxisLabelExpression() );
+		addExpression(timeSeriesPlot.getRangeAxisMinValueExpression());
+		addExpression(timeSeriesPlot.getRangeAxisMaxValueExpression());
 	}
 
 	/**
@@ -912,6 +920,8 @@ public class JRExpressionCollector
 	public void collect( JRAreaPlot areaPlot ){
 		addExpression( areaPlot.getCategoryAxisLabelExpression() );
 		addExpression( areaPlot.getValueAxisLabelExpression() );
+		addExpression(areaPlot.getRangeAxisMinValueExpression());
+		addExpression(areaPlot.getRangeAxisMaxValueExpression());
 	}
 
 	/**
@@ -984,6 +994,8 @@ public class JRExpressionCollector
 	{
 		addExpression(highLowPlot.getTimeAxisLabelExpression());
 		addExpression(highLowPlot.getValueAxisLabelExpression());
+		addExpression(highLowPlot.getRangeAxisMinValueExpression());
+		addExpression(highLowPlot.getRangeAxisMaxValueExpression());
 	}
 
 	/**
@@ -1054,6 +1066,8 @@ public class JRExpressionCollector
 	{
 		addExpression(candlestickPlot.getTimeAxisLabelExpression());
 		addExpression(candlestickPlot.getValueAxisLabelExpression());
+		addExpression(candlestickPlot.getRangeAxisMinValueExpression());
+		addExpression(candlestickPlot.getRangeAxisMaxValueExpression());
 	}
 
 
