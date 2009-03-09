@@ -918,10 +918,10 @@ public class JRExpressionCollector
 	public void collect( JRScatterPlot scatterPlot ){
 		addExpression( scatterPlot.getXAxisLabelExpression() );
 		addExpression( scatterPlot.getYAxisLabelExpression() );
-		addExpression(scatterPlot.getXAxisMinValueExpression());
-		addExpression(scatterPlot.getXAxisMaxValueExpression());
-		addExpression(scatterPlot.getYAxisMinValueExpression());
-		addExpression(scatterPlot.getYAxisMaxValueExpression());
+		addExpression(scatterPlot.getDomainAxisMinValueExpression());
+		addExpression(scatterPlot.getDomainAxisMaxValueExpression());
+		addExpression(scatterPlot.getRangeAxisMinValueExpression());
+		addExpression(scatterPlot.getRangeAxisMaxValueExpression());
 	}
 
 	/**
@@ -996,10 +996,10 @@ public class JRExpressionCollector
 	public void collect(JRBubblePlot bubblePlot) {
 		addExpression(bubblePlot.getXAxisLabelExpression());
 		addExpression(bubblePlot.getYAxisLabelExpression());
-		addExpression(bubblePlot.getXAxisMinValueExpression());
-		addExpression(bubblePlot.getXAxisMaxValueExpression());
-		addExpression(bubblePlot.getYAxisMinValueExpression());
-		addExpression(bubblePlot.getYAxisMaxValueExpression());
+		addExpression(bubblePlot.getDomainAxisMinValueExpression());
+		addExpression(bubblePlot.getDomainAxisMaxValueExpression());
+		addExpression(bubblePlot.getRangeAxisMinValueExpression());
+		addExpression(bubblePlot.getRangeAxisMaxValueExpression());
 	}
 
 	/**

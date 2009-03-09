@@ -74,13 +74,13 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	
 	public static final String PROPERTY_Y_AXIS_TICK_LABEL_MASK = "yAxisTickLabelMask";
 
-	public static final String PROPERTY_X_AXIS_MINVALUE_EXPRESSION = "xAxisMinValueExpression";
+	public static final String PROPERTY_DOMAIN_AXIS_MINVALUE_EXPRESSION = "domainAxisMinValueExpression";
 	
-	public static final String PROPERTY_X_AXIS_MAXVALUE_EXPRESSION = "xAxisMaxValueExpression";
+	public static final String PROPERTY_DOMAIN_AXIS_MAXVALUE_EXPRESSION = "domainAxisMaxValueExpression";
 	
-	public static final String PROPERTY_Y_AXIS_MINVALUE_EXPRESSION = "yAxisMinValueExpression";
+	public static final String PROPERTY_RANGE_AXIS_MINVALUE_EXPRESSION = "rangeAxisMinValueExpression";
 	
-	public static final String PROPERTY_Y_AXIS_MAXVALUE_EXPRESSION = "yAxisMaxValueExpression";
+	public static final String PROPERTY_RANGE_AXIS_MAXVALUE_EXPRESSION = "rangeAxisMaxValueExpression";
 	
 
 	public JRDesignScatterPlot(JRChartPlot scattedPlot, JRChart chart)
@@ -256,41 +256,41 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	/**
 	 *
 	 */
-	public void setYAxisMinValueExpression(JRExpression yAxisMinValueExpression)
+	public void setRangeAxisMinValueExpression(JRExpression rangeAxisMinValueExpression)
 	{
-		Object old = this.yAxisMinValueExpression;
-		this.yAxisMinValueExpression = yAxisMinValueExpression;
-		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_MINVALUE_EXPRESSION, old, this.yAxisMinValueExpression);
+		Object old = this.rangeAxisMinValueExpression;
+		this.rangeAxisMinValueExpression = rangeAxisMinValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_RANGE_AXIS_MINVALUE_EXPRESSION, old, this.rangeAxisMinValueExpression);
 	}
 
 	/**
 	 *
 	 */
-	public void setYAxisMaxValueExpression(JRExpression yAxisMaxValueExpression)
+	public void setRangeAxisMaxValueExpression(JRExpression rangeAxisMaxValueExpression)
 	{
-		Object old = this.yAxisMaxValueExpression;
-		this.yAxisMaxValueExpression = yAxisMaxValueExpression;
-		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_MAXVALUE_EXPRESSION, old, this.yAxisMaxValueExpression);
+		Object old = this.rangeAxisMaxValueExpression;
+		this.rangeAxisMaxValueExpression = rangeAxisMaxValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_RANGE_AXIS_MAXVALUE_EXPRESSION, old, this.rangeAxisMaxValueExpression);
 	}
 
 	/**
 	 *
 	 */
-	public void setXAxisMinValueExpression(JRExpression xAxisMinValueExpression)
+	public void setDomainAxisMinValueExpression(JRExpression domainAxisMinValueExpression)
 	{
-		Object old = this.xAxisMinValueExpression;
-		this.xAxisMinValueExpression = xAxisMinValueExpression;
-		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_MINVALUE_EXPRESSION, old, this.xAxisMinValueExpression);
+		Object old = this.domainAxisMinValueExpression;
+		this.domainAxisMinValueExpression = domainAxisMinValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_DOMAIN_AXIS_MINVALUE_EXPRESSION, old, this.domainAxisMinValueExpression);
 	}
 
 	/**
 	 *
 	 */
-	public void setXAxisMaxValueExpression(JRExpression xAxisMaxValueExpression)
+	public void setDomainAxisMaxValueExpression(JRExpression domainAxisMaxValueExpression)
 	{
-		Object old = this.xAxisMaxValueExpression;
-		this.xAxisMaxValueExpression = xAxisMaxValueExpression;
-		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_MAXVALUE_EXPRESSION, old, this.xAxisMaxValueExpression);
+		Object old = this.domainAxisMaxValueExpression;
+		this.domainAxisMaxValueExpression = domainAxisMaxValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_DOMAIN_AXIS_MAXVALUE_EXPRESSION, old, this.domainAxisMaxValueExpression);
 	}
 
 }

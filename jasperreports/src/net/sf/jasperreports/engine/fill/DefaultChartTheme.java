@@ -720,16 +720,16 @@ public class DefaultChartTheme implements ChartTheme
 				bubblePlot.getXAxisLabelColor(), bubblePlot.getXAxisTickLabelFont(),
 				bubblePlot.getXAxisTickLabelColor(), bubblePlot.getXAxisTickLabelMask(),
 				bubblePlot.getXAxisLineColor(),
-				(Comparable)evaluateExpression(bubblePlot.getXAxisMinValueExpression()),
-				(Comparable)evaluateExpression(bubblePlot.getXAxisMinValueExpression()));
+				(Comparable)evaluateExpression(bubblePlot.getDomainAxisMinValueExpression()),
+				(Comparable)evaluateExpression(bubblePlot.getDomainAxisMinValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), bubblePlot.getYAxisLabelFont(),
 				bubblePlot.getYAxisLabelColor(), bubblePlot.getYAxisTickLabelFont(),
 				bubblePlot.getYAxisTickLabelColor(), bubblePlot.getYAxisTickLabelMask(),
 				bubblePlot.getYAxisLineColor(),
-				(Comparable)evaluateExpression(bubblePlot.getYAxisMinValueExpression()),
-				(Comparable)evaluateExpression(bubblePlot.getYAxisMinValueExpression()));
+				(Comparable)evaluateExpression(bubblePlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(bubblePlot.getRangeAxisMinValueExpression()));
 
 		return jfreeChart;
 	}
@@ -1010,16 +1010,16 @@ public class DefaultChartTheme implements ChartTheme
 				scatterPlot.getXAxisLabelColor(), scatterPlot.getXAxisTickLabelFont(),
 				scatterPlot.getXAxisTickLabelColor(), scatterPlot.getXAxisTickLabelMask(),
 				scatterPlot.getXAxisLineColor(),
-				(Comparable)evaluateExpression(scatterPlot.getXAxisMinValueExpression()),
-				(Comparable)evaluateExpression(scatterPlot.getXAxisMinValueExpression()));
+				(Comparable)evaluateExpression(scatterPlot.getDomainAxisMinValueExpression()),
+				(Comparable)evaluateExpression(scatterPlot.getDomainAxisMinValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), scatterPlot.getYAxisLabelFont(),
 				scatterPlot.getYAxisLabelColor(), scatterPlot.getYAxisTickLabelFont(),
 				scatterPlot.getYAxisTickLabelColor(), scatterPlot.getYAxisTickLabelMask(),
 				scatterPlot.getYAxisLineColor(), 
-				(Comparable)evaluateExpression(scatterPlot.getYAxisMinValueExpression()),
-				(Comparable)evaluateExpression(scatterPlot.getYAxisMinValueExpression()));
+				(Comparable)evaluateExpression(scatterPlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(scatterPlot.getRangeAxisMinValueExpression()));
 
 		return jfreeChart;
 	}

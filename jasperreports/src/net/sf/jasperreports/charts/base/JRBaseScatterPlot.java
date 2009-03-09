@@ -71,10 +71,10 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	protected String yAxisTickLabelMask = null;
 	protected Color yAxisLineColor = null;
 	
-	protected JRExpression xAxisMinValueExpression = null;
-	protected JRExpression xAxisMaxValueExpression = null;
-	protected JRExpression yAxisMinValueExpression = null;
-	protected JRExpression yAxisMaxValueExpression = null;
+	protected JRExpression domainAxisMinValueExpression = null;
+	protected JRExpression domainAxisMaxValueExpression = null;
+	protected JRExpression rangeAxisMinValueExpression = null;
+	protected JRExpression rangeAxisMaxValueExpression = null;
 	
 	Boolean showShapes = null;
 	Boolean showLines = null;
@@ -130,10 +130,10 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		yAxisTickLabelMask = scatterPlot.getYAxisTickLabelMask();
 		yAxisLineColor = scatterPlot.getOwnYAxisLineColor();
 		
-		xAxisMinValueExpression = factory.getExpression( scatterPlot.getXAxisMinValueExpression() );
-		xAxisMaxValueExpression = factory.getExpression( scatterPlot.getXAxisMaxValueExpression() );
-		yAxisMinValueExpression = factory.getExpression( scatterPlot.getYAxisMinValueExpression() );
-		yAxisMaxValueExpression = factory.getExpression( scatterPlot.getYAxisMaxValueExpression() );
+		domainAxisMinValueExpression = factory.getExpression( scatterPlot.getDomainAxisMinValueExpression() );
+		domainAxisMaxValueExpression = factory.getExpression( scatterPlot.getDomainAxisMaxValueExpression() );
+		rangeAxisMinValueExpression = factory.getExpression( scatterPlot.getRangeAxisMinValueExpression() );
+		rangeAxisMaxValueExpression = factory.getExpression( scatterPlot.getRangeAxisMaxValueExpression() );
 	}
 	
 	/**
@@ -332,29 +332,29 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	/**
 	 * 
 	 */
-	public JRExpression getXAxisMinValueExpression(){
-		return xAxisMinValueExpression;
+	public JRExpression getDomainAxisMinValueExpression(){
+		return domainAxisMinValueExpression;
 	}
 
 	/**
 	 * 
 	 */
-	public JRExpression getXAxisMaxValueExpression(){
-		return xAxisMaxValueExpression;
+	public JRExpression getDomainAxisMaxValueExpression(){
+		return domainAxisMaxValueExpression;
 	}
 
 	/**
 	 * 
 	 */
-	public JRExpression getYAxisMinValueExpression(){
-		return yAxisMinValueExpression;
+	public JRExpression getRangeAxisMinValueExpression(){
+		return rangeAxisMinValueExpression;
 	}
 
 	/**
 	 * 
 	 */
-	public JRExpression getYAxisMaxValueExpression(){
-		return yAxisMaxValueExpression;
+	public JRExpression getRangeAxisMaxValueExpression(){
+		return rangeAxisMaxValueExpression;
 	}
 
 	/**
@@ -404,21 +404,21 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		{
 			clone.yAxisLabelExpression = (JRExpression)yAxisLabelExpression.clone();
 		}
-		if (xAxisMinValueExpression != null)
+		if (domainAxisMinValueExpression != null)
 		{
-			clone.xAxisMinValueExpression = (JRExpression)xAxisMinValueExpression.clone();
+			clone.domainAxisMinValueExpression = (JRExpression)domainAxisMinValueExpression.clone();
 		}
-		if (xAxisMaxValueExpression != null)
+		if (domainAxisMaxValueExpression != null)
 		{
-			clone.xAxisMaxValueExpression = (JRExpression)xAxisMaxValueExpression.clone();
+			clone.domainAxisMaxValueExpression = (JRExpression)domainAxisMaxValueExpression.clone();
 		}
-		if (yAxisMinValueExpression != null)
+		if (rangeAxisMinValueExpression != null)
 		{
-			clone.yAxisMinValueExpression = (JRExpression)yAxisMinValueExpression.clone();
+			clone.rangeAxisMinValueExpression = (JRExpression)rangeAxisMinValueExpression.clone();
 		}
-		if (yAxisMaxValueExpression != null)
+		if (rangeAxisMaxValueExpression != null)
 		{
-			clone.yAxisMaxValueExpression = (JRExpression)yAxisMaxValueExpression.clone();
+			clone.rangeAxisMaxValueExpression = (JRExpression)rangeAxisMaxValueExpression.clone();
 		}
 		return clone;
 	}

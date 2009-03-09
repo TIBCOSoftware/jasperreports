@@ -308,33 +308,33 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	/**
 	 *
 	 */
-	public JRExpression getXAxisMinValueExpression()
+	public JRExpression getDomainAxisMinValueExpression()
 	{
-		return ((JRScatterPlot)parent).getXAxisMinValueExpression();
+		return ((JRScatterPlot)parent).getDomainAxisMinValueExpression();
 	}
 
 	/**
 	 *
 	 */
-	public JRExpression getXAxisMaxValueExpression()
+	public JRExpression getDomainAxisMaxValueExpression()
 	{
-		return ((JRScatterPlot)parent).getXAxisMaxValueExpression();
+		return ((JRScatterPlot)parent).getDomainAxisMaxValueExpression();
 	}
 
 	/**
 	 *
 	 */
-	public JRExpression getYAxisMinValueExpression()
+	public JRExpression getRangeAxisMinValueExpression()
 	{
-		return ((JRScatterPlot)parent).getYAxisMinValueExpression();
+		return ((JRScatterPlot)parent).getRangeAxisMinValueExpression();
 	}
 
 	/**
 	 *
 	 */
-	public JRExpression getYAxisMaxValueExpression()
+	public JRExpression getRangeAxisMaxValueExpression()
 	{
-		return ((JRScatterPlot)parent).getYAxisMaxValueExpression();
+		return ((JRScatterPlot)parent).getRangeAxisMaxValueExpression();
 	}
 
 }

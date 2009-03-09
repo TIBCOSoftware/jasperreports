@@ -890,21 +890,21 @@ public class JRXmlDigesterFactory
 		digester.addSetNext( "*/scatterPlot/yAxisLabelExpression", "setYAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/scatterPlot/yAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/scatterPlot/xAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
-		digester.addSetNext( "*/scatterPlot/xAxisMinValueExpression", "setXAxisMinValueExpression", JRDesignExpression.class.getName() );
-		digester.addCallMethod( "*/scatterPlot/xAxisMinValueExpression", "setText", 0 );
+		digester.addFactoryCreate( "*/scatterPlot/domainAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/scatterPlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/scatterPlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/scatterPlot/xAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
-		digester.addSetNext( "*/scatterPlot/xAxisMaxValueExpression", "setXAxisMaxValueExpression", JRDesignExpression.class.getName() );
-		digester.addCallMethod( "*/scatterPlot/xAxisMaxValueExpression", "setText", 0 );
+		digester.addFactoryCreate( "*/scatterPlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/scatterPlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/scatterPlot/domainAxisMaxValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/scatterPlot/yAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
-		digester.addSetNext( "*/scatterPlot/yAxisMinValueExpression", "setYAxisMinValueExpression", JRDesignExpression.class.getName() );
-		digester.addCallMethod( "*/scatterPlot/yAxisMinValueExpression", "setText", 0 );
+		digester.addFactoryCreate( "*/scatterPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/scatterPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/scatterPlot/rangeAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/scatterPlot/yAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
-		digester.addSetNext( "*/scatterPlot/yAxisMaxValueExpression", "setYAxisMaxValueExpression", JRDesignExpression.class.getName() );
-		digester.addCallMethod( "*/scatterPlot/yAxisMaxValueExpression", "setText", 0 );
+		digester.addFactoryCreate( "*/scatterPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/scatterPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/scatterPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
 		digester.addFactoryCreate("*/xyDataset", JRXyDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/xyDataset/xySeries", JRXySeriesFactory.class.getName());
@@ -941,21 +941,21 @@ public class JRXmlDigesterFactory
 		digester.addSetNext( "*/bubblePlot/yAxisLabelExpression", "setYAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bubblePlot/yAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bubblePlot/xAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
-		digester.addSetNext( "*/bubblePlot/xAxisMinValueExpression", "setXAxisMinValueExpression", JRDesignExpression.class.getName() );
-		digester.addCallMethod( "*/bubblePlot/xAxisMinValueExpression", "setText", 0 );
+		digester.addFactoryCreate( "*/bubblePlot/domainAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/bubblePlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/bubblePlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bubblePlot/xAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
-		digester.addSetNext( "*/bubblePlot/xAxisMaxValueExpression", "setXAxisMaxValueExpression", JRDesignExpression.class.getName() );
-		digester.addCallMethod( "*/bubblePlot/xAxisMaxValueExpression", "setText", 0 );
+		digester.addFactoryCreate( "*/bubblePlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/bubblePlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/bubblePlot/domainAxisMaxValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bubblePlot/yAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
-		digester.addSetNext( "*/bubblePlot/yAxisMinValueExpression", "setYAxisMinValueExpression", JRDesignExpression.class.getName() );
-		digester.addCallMethod( "*/bubblePlot/yAxisMinValueExpression", "setText", 0 );
+		digester.addFactoryCreate( "*/bubblePlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/bubblePlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/bubblePlot/rangeAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bubblePlot/yAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
-		digester.addSetNext( "*/bubblePlot/yAxisMaxValueExpression", "setYAxisMaxValueExpression", JRDesignExpression.class.getName() );
-		digester.addCallMethod( "*/bubblePlot/yAxisMaxValueExpression", "setText", 0 );
+		digester.addFactoryCreate( "*/bubblePlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/bubblePlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/bubblePlot/rangeAxisMaxValueExpression", "setText", 0 );
 
 		// high-low charts
 		digester.addFactoryCreate("*/highLowChart", JRHighLowChartFactory.class.getName());
