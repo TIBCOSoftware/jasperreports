@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.fill;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -265,4 +266,20 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	public void setScaleType( Integer scaleType ){
 	}
 	
+	/**
+	 *
+	 */
+	public JRExpression getXAxisMinValueExpression()
+	{
+		return ((JRBubblePlot)parent).getXAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getXAxisMaxValueExpression()
+	{
+		return ((JRBubblePlot)parent).getXAxisMaxValueExpression();
+	}
+
 }

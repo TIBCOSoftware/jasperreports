@@ -71,6 +71,9 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	protected String yAxisTickLabelMask = null;
 	protected Color yAxisLineColor = null;
 	
+	protected JRExpression xAxisMinValueExpression = null;
+	protected JRExpression xAxisMaxValueExpression = null;
+	
 	Boolean showShapes = null;
 	Boolean showLines = null;
 	
@@ -124,6 +127,9 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		yAxisTickLabelColor = scattedPlot.getOwnYAxisTickLabelColor();
 		yAxisTickLabelMask = scattedPlot.getYAxisTickLabelMask();
 		yAxisLineColor = scattedPlot.getOwnYAxisLineColor();
+		
+		xAxisMinValueExpression = factory.getExpression( scattedPlot.getXAxisMinValueExpression() );
+		xAxisMaxValueExpression = factory.getExpression( scattedPlot.getXAxisMaxValueExpression() );
 	}
 	
 	/**
@@ -322,6 +328,20 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	/**
 	 * 
 	 */
+	public JRExpression getXAxisMinValueExpression(){
+		return xAxisMinValueExpression;
+	}
+
+	/**
+	 * 
+	 */
+	public JRExpression getXAxisMaxValueExpression(){
+		return xAxisMaxValueExpression;
+	}
+
+	/**
+	 * 
+	 */
 	public void setShowShapes( Boolean value ){
 		Boolean old = this.showShapes;
 		this.showShapes = value;
@@ -365,6 +385,14 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		if (yAxisLabelExpression != null)
 		{
 			clone.yAxisLabelExpression = (JRExpression)yAxisLabelExpression.clone();
+		}
+		if (xAxisMinValueExpression != null)
+		{
+			clone.xAxisMinValueExpression = (JRExpression)xAxisMinValueExpression.clone();
+		}
+		if (xAxisMaxValueExpression != null)
+		{
+			clone.xAxisMaxValueExpression = (JRExpression)xAxisMaxValueExpression.clone();
 		}
 		return clone;
 	}

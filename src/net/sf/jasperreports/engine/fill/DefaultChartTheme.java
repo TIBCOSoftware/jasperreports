@@ -547,8 +547,8 @@ public class DefaultChartTheme implements ChartTheme
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getValueAxisTickLabelMask(),
 				areaPlot.getValueAxisLineColor(), 
-				(Comparable)evaluateExpression(((JRAreaPlot)getPlot()).getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(((JRAreaPlot)getPlot()).getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(areaPlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(areaPlot.getRangeAxisMaxValueExpression()));
 		return jfreeChart;
 	}
 
@@ -594,8 +594,8 @@ public class DefaultChartTheme implements ChartTheme
 				bar3DPlot.getValueAxisLabelColor(), bar3DPlot.getValueAxisTickLabelFont(),
 				bar3DPlot.getValueAxisTickLabelColor(), bar3DPlot.getValueAxisTickLabelMask(),
 				bar3DPlot.getValueAxisLineColor(),
-				(Comparable)evaluateExpression(((JRBar3DPlot)getPlot()).getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(((JRBar3DPlot)getPlot()).getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(bar3DPlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(bar3DPlot.getRangeAxisMaxValueExpression()));
 				
 		return jfreeChart;
 	}
@@ -643,8 +643,8 @@ public class DefaultChartTheme implements ChartTheme
 				barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
 				barPlot.getValueAxisLineColor(),
-				(Comparable)evaluateExpression(((JRBarPlot)getPlot()).getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(((JRBarPlot)getPlot()).getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
 
 		BarRenderer categoryRenderer = (BarRenderer)categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
@@ -680,7 +680,9 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(xyPlot.getDomainAxis(), bubblePlot.getXAxisLabelFont(),
 				bubblePlot.getXAxisLabelColor(), bubblePlot.getXAxisTickLabelFont(),
 				bubblePlot.getXAxisTickLabelColor(), bubblePlot.getXAxisTickLabelMask(),
-				bubblePlot.getXAxisLineColor(), null, null);
+				bubblePlot.getXAxisLineColor(),
+				(Comparable)evaluateExpression(bubblePlot.getXAxisMinValueExpression()),
+				(Comparable)evaluateExpression(bubblePlot.getXAxisMinValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), bubblePlot.getYAxisLabelFont(),
@@ -726,8 +728,8 @@ public class DefaultChartTheme implements ChartTheme
 				candlestickPlot.getValueAxisLabelColor(), candlestickPlot.getValueAxisTickLabelFont(),
 				candlestickPlot.getValueAxisTickLabelColor(), candlestickPlot.getValueAxisTickLabelMask(),
 				candlestickPlot.getValueAxisLineColor(),
-				(Comparable)evaluateExpression(((JRCandlestickPlot)getPlot()).getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(((JRCandlestickPlot)getPlot()).getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(candlestickPlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(candlestickPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -770,8 +772,8 @@ public class DefaultChartTheme implements ChartTheme
 				highLowPlot.getValueAxisLabelColor(), highLowPlot.getValueAxisTickLabelFont(),
 				highLowPlot.getValueAxisTickLabelColor(), highLowPlot.getValueAxisTickLabelMask(),
 				highLowPlot.getValueAxisLineColor(),
-				(Comparable)evaluateExpression(((JRHighLowPlot)getPlot()).getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(((JRHighLowPlot)getPlot()).getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(highLowPlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(highLowPlot.getRangeAxisMaxValueExpression()));
 		
 		return jfreeChart;
 	}
@@ -815,8 +817,8 @@ public class DefaultChartTheme implements ChartTheme
 				linePlot.getValueAxisLabelColor(), linePlot.getValueAxisTickLabelFont(),
 				linePlot.getValueAxisTickLabelColor(), linePlot.getValueAxisTickLabelMask(),
 				linePlot.getValueAxisLineColor(),
-				(Comparable)evaluateExpression(((JRLinePlot)getPlot()).getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(((JRLinePlot)getPlot()).getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(linePlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(linePlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -960,7 +962,9 @@ public class DefaultChartTheme implements ChartTheme
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), scatterPlot.getXAxisLabelFont(),
 				scatterPlot.getXAxisLabelColor(), scatterPlot.getXAxisTickLabelFont(),
 				scatterPlot.getXAxisTickLabelColor(), scatterPlot.getXAxisTickLabelMask(),
-				scatterPlot.getXAxisLineColor(), null, null);
+				scatterPlot.getXAxisLineColor(),
+				(Comparable)evaluateExpression(scatterPlot.getXAxisMinValueExpression()),
+				(Comparable)evaluateExpression(scatterPlot.getXAxisMinValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), scatterPlot.getYAxisLabelFont(),
@@ -1017,8 +1021,8 @@ public class DefaultChartTheme implements ChartTheme
 				bar3DPlot.getValueAxisLabelColor(), bar3DPlot.getValueAxisTickLabelFont(),
 				bar3DPlot.getValueAxisTickLabelColor(), bar3DPlot.getValueAxisTickLabelMask(),
 				bar3DPlot.getValueAxisLineColor(),
-				(Comparable)evaluateExpression(((JRBar3DPlot)getPlot()).getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(((JRBar3DPlot)getPlot()).getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(bar3DPlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(bar3DPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -1072,8 +1076,8 @@ public class DefaultChartTheme implements ChartTheme
 				barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
 				barPlot.getValueAxisLineColor(),
-				(Comparable)evaluateExpression(((JRBarPlot)getPlot()).getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(((JRBarPlot)getPlot()).getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -1110,8 +1114,8 @@ public class DefaultChartTheme implements ChartTheme
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getValueAxisTickLabelMask(),
 				areaPlot.getValueAxisLineColor(),
-				(Comparable)evaluateExpression(((JRAreaPlot)getPlot()).getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(((JRAreaPlot)getPlot()).getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(areaPlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(areaPlot.getRangeAxisMaxValueExpression()));
 
 		((CategoryPlot)jfreeChart.getPlot()).getDomainAxis().setCategoryMargin(0);
 		
@@ -1147,8 +1151,8 @@ public class DefaultChartTheme implements ChartTheme
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getValueAxisTickLabelMask(),
 				areaPlot.getValueAxisLineColor(),
-				(Comparable)evaluateExpression(((JRAreaPlot)getPlot()).getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(((JRAreaPlot)getPlot()).getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(areaPlot.getRangeAxisMinValueExpression()),
+				(Comparable)evaluateExpression(areaPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -1220,7 +1224,7 @@ public class DefaultChartTheme implements ChartTheme
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
 				barPlot.getValueAxisLineColor(),
 				(Comparable)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(barPlot.getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -1256,7 +1260,7 @@ public class DefaultChartTheme implements ChartTheme
 				linePlot.getValueAxisTickLabelColor(), linePlot.getValueAxisTickLabelMask(),
 				linePlot.getValueAxisLineColor(),
 				(Comparable)evaluateExpression(linePlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(linePlot.getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(linePlot.getRangeAxisMaxValueExpression()));
 
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer) jfreeChart.getXYPlot().getRenderer();
 		boolean isShowShapes = linePlot.getShowShapes() == null ? true : linePlot.getShowShapes().booleanValue();
@@ -1306,7 +1310,7 @@ public class DefaultChartTheme implements ChartTheme
 				timeSeriesPlot.getValueAxisTickLabelColor(), timeSeriesPlot.getValueAxisTickLabelMask(),
 				timeSeriesPlot.getValueAxisLineColor(),
 				(Comparable)evaluateExpression(timeSeriesPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(timeSeriesPlot.getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(timeSeriesPlot.getRangeAxisMaxValueExpression()));
 		return jfreeChart;
 	}
 
@@ -1358,7 +1362,7 @@ public class DefaultChartTheme implements ChartTheme
 			barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(),
 			barPlot.getValueAxisLineColor(),
 			(Comparable)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
-			(Comparable)evaluateExpression(barPlot.getRangeAxisMinValueExpression()));
+			(Comparable)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
 
 		GanttRenderer categoryRenderer = (GanttRenderer)categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());

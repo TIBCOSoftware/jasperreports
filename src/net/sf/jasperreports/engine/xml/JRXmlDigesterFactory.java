@@ -850,6 +850,13 @@ public class JRXmlDigesterFactory
 		digester.addSetNext( "*/scatterPlot/yAxisLabelExpression", "setYAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/scatterPlot/yAxisLabelExpression", "setText", 0 );
 
+		digester.addFactoryCreate( "*/scatterPlot/xAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/scatterPlot/xAxisMinValueExpression", "setXAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/scatterPlot/xAxisMinValueExpression", "setText", 0 );
+
+		digester.addFactoryCreate( "*/scatterPlot/xAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/scatterPlot/xAxisMaxValueExpression", "setXAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/scatterPlot/xAxisMaxValueExpression", "setText", 0 );
 
 		digester.addFactoryCreate("*/xyDataset", JRXyDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/xyDataset/xySeries", JRXySeriesFactory.class.getName());
@@ -886,6 +893,13 @@ public class JRXmlDigesterFactory
 		digester.addSetNext( "*/bubblePlot/yAxisLabelExpression", "setYAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bubblePlot/yAxisLabelExpression", "setText", 0 );
 
+		digester.addFactoryCreate( "*/bubblePlot/xAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/bubblePlot/xAxisMinValueExpression", "setXAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/bubblePlot/xAxisMinValueExpression", "setText", 0 );
+
+		digester.addFactoryCreate( "*/bubblePlot/xAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/bubblePlot/xAxisMaxValueExpression", "setXAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/bubblePlot/xAxisMaxValueExpression", "setText", 0 );
 
 		// high-low charts
 		digester.addFactoryCreate("*/highLowChart", JRHighLowChartFactory.class.getName());

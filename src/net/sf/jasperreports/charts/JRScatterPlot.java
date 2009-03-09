@@ -87,4 +87,14 @@ public interface JRScatterPlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat
 	 */
 	public void setShowShapes(Boolean isShowShapes);
 	
+	/**
+	 * 
+	 */
+	public JRExpression getXAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getXAxisMaxValueExpression();
+
 }

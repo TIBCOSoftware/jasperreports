@@ -912,6 +912,8 @@ public class JRExpressionCollector
 	public void collect( JRScatterPlot scatterPlot ){
 		addExpression( scatterPlot.getXAxisLabelExpression() );
 		addExpression( scatterPlot.getYAxisLabelExpression() );
+		addExpression(scatterPlot.getXAxisMinValueExpression());
+		addExpression(scatterPlot.getXAxisMaxValueExpression());
 	}
 
 	/**
@@ -984,7 +986,8 @@ public class JRExpressionCollector
 	public void collect(JRBubblePlot bubblePlot) {
 		addExpression(bubblePlot.getXAxisLabelExpression());
 		addExpression(bubblePlot.getYAxisLabelExpression());
-
+		addExpression(bubblePlot.getXAxisMinValueExpression());
+		addExpression(bubblePlot.getXAxisMaxValueExpression());
 	}
 
 	/**
