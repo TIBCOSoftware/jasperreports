@@ -73,6 +73,8 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	
 	protected JRExpression xAxisMinValueExpression = null;
 	protected JRExpression xAxisMaxValueExpression = null;
+	protected JRExpression yAxisMinValueExpression = null;
+	protected JRExpression yAxisMaxValueExpression = null;
 	
 	Boolean showShapes = null;
 	Boolean showLines = null;
@@ -85,8 +87,8 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	{
 		super(plot, chart);
 		
-		JRScatterPlot scattedPlot = plot instanceof JRScatterPlot ? (JRScatterPlot)plot : null;
-		if (scattedPlot == null)
+		JRScatterPlot scatterPlot = plot instanceof JRScatterPlot ? (JRScatterPlot)plot : null;
+		if (scatterPlot == null)
 		{
 			xAxisLabelFont = new JRBaseFont(chart, null);
 			xAxisTickLabelFont = new JRBaseFont(chart, null);
@@ -95,41 +97,43 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		}
 		else
 		{
-			xAxisLabelFont = new JRBaseFont(chart, scattedPlot.getXAxisLabelFont());
-			xAxisTickLabelFont = new JRBaseFont(chart, scattedPlot.getXAxisTickLabelFont());
-			yAxisLabelFont = new JRBaseFont(chart, scattedPlot.getYAxisLabelFont());
-			yAxisTickLabelFont = new JRBaseFont(chart, scattedPlot.getYAxisTickLabelFont());
+			xAxisLabelFont = new JRBaseFont(chart, scatterPlot.getXAxisLabelFont());
+			xAxisTickLabelFont = new JRBaseFont(chart, scatterPlot.getXAxisTickLabelFont());
+			yAxisLabelFont = new JRBaseFont(chart, scatterPlot.getYAxisLabelFont());
+			yAxisTickLabelFont = new JRBaseFont(chart, scatterPlot.getYAxisTickLabelFont());
 		}
 	}
 
 	/**
 	 * 
 	 */
-	public JRBaseScatterPlot(JRScatterPlot scattedPlot, JRBaseObjectFactory factory )
+	public JRBaseScatterPlot(JRScatterPlot scatterPlot, JRBaseObjectFactory factory )
 	{
-		super(scattedPlot, factory );
+		super(scatterPlot, factory );
 		
-		showShapes = scattedPlot.getShowShapes();
-		showLines = scattedPlot.getShowLines();
+		showShapes = scatterPlot.getShowShapes();
+		showLines = scatterPlot.getShowLines();
 		
-		xAxisLabelExpression = factory.getExpression( scattedPlot.getXAxisLabelExpression() );
-		xAxisLabelFont = new JRBaseFont(scattedPlot.getChart(), scattedPlot.getXAxisLabelFont());
-		xAxisLabelColor = scattedPlot.getOwnXAxisLabelColor();
-		xAxisTickLabelFont = new JRBaseFont(scattedPlot.getChart(), scattedPlot.getXAxisTickLabelFont());
-		xAxisTickLabelColor = scattedPlot.getOwnXAxisTickLabelColor();
-		xAxisTickLabelMask = scattedPlot.getXAxisTickLabelMask();
-		xAxisLineColor = scattedPlot.getOwnXAxisLineColor();
+		xAxisLabelExpression = factory.getExpression( scatterPlot.getXAxisLabelExpression() );
+		xAxisLabelFont = new JRBaseFont(scatterPlot.getChart(), scatterPlot.getXAxisLabelFont());
+		xAxisLabelColor = scatterPlot.getOwnXAxisLabelColor();
+		xAxisTickLabelFont = new JRBaseFont(scatterPlot.getChart(), scatterPlot.getXAxisTickLabelFont());
+		xAxisTickLabelColor = scatterPlot.getOwnXAxisTickLabelColor();
+		xAxisTickLabelMask = scatterPlot.getXAxisTickLabelMask();
+		xAxisLineColor = scatterPlot.getOwnXAxisLineColor();
 		
-		yAxisLabelExpression = factory.getExpression( scattedPlot.getYAxisLabelExpression() );
-		yAxisLabelFont = new JRBaseFont(scattedPlot.getChart(), scattedPlot.getYAxisLabelFont());
-		yAxisLabelColor = scattedPlot.getOwnYAxisLabelColor();
-		yAxisTickLabelFont = new JRBaseFont(scattedPlot.getChart(), scattedPlot.getYAxisTickLabelFont());
-		yAxisTickLabelColor = scattedPlot.getOwnYAxisTickLabelColor();
-		yAxisTickLabelMask = scattedPlot.getYAxisTickLabelMask();
-		yAxisLineColor = scattedPlot.getOwnYAxisLineColor();
+		yAxisLabelExpression = factory.getExpression( scatterPlot.getYAxisLabelExpression() );
+		yAxisLabelFont = new JRBaseFont(scatterPlot.getChart(), scatterPlot.getYAxisLabelFont());
+		yAxisLabelColor = scatterPlot.getOwnYAxisLabelColor();
+		yAxisTickLabelFont = new JRBaseFont(scatterPlot.getChart(), scatterPlot.getYAxisTickLabelFont());
+		yAxisTickLabelColor = scatterPlot.getOwnYAxisTickLabelColor();
+		yAxisTickLabelMask = scatterPlot.getYAxisTickLabelMask();
+		yAxisLineColor = scatterPlot.getOwnYAxisLineColor();
 		
-		xAxisMinValueExpression = factory.getExpression( scattedPlot.getXAxisMinValueExpression() );
-		xAxisMaxValueExpression = factory.getExpression( scattedPlot.getXAxisMaxValueExpression() );
+		xAxisMinValueExpression = factory.getExpression( scatterPlot.getXAxisMinValueExpression() );
+		xAxisMaxValueExpression = factory.getExpression( scatterPlot.getXAxisMaxValueExpression() );
+		yAxisMinValueExpression = factory.getExpression( scatterPlot.getYAxisMinValueExpression() );
+		yAxisMaxValueExpression = factory.getExpression( scatterPlot.getYAxisMaxValueExpression() );
 	}
 	
 	/**
@@ -342,6 +346,20 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	/**
 	 * 
 	 */
+	public JRExpression getYAxisMinValueExpression(){
+		return yAxisMinValueExpression;
+	}
+
+	/**
+	 * 
+	 */
+	public JRExpression getYAxisMaxValueExpression(){
+		return yAxisMaxValueExpression;
+	}
+
+	/**
+	 * 
+	 */
 	public void setShowShapes( Boolean value ){
 		Boolean old = this.showShapes;
 		this.showShapes = value;
@@ -393,6 +411,14 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		if (xAxisMaxValueExpression != null)
 		{
 			clone.xAxisMaxValueExpression = (JRExpression)xAxisMaxValueExpression.clone();
+		}
+		if (yAxisMinValueExpression != null)
+		{
+			clone.yAxisMinValueExpression = (JRExpression)yAxisMinValueExpression.clone();
+		}
+		if (yAxisMaxValueExpression != null)
+		{
+			clone.yAxisMaxValueExpression = (JRExpression)yAxisMaxValueExpression.clone();
 		}
 		return clone;
 	}
