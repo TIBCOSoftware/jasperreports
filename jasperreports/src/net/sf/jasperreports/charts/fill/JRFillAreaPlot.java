@@ -199,6 +199,22 @@ public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot
 	/**
 	 *
 	 */
+	public JRExpression getRangeAxisMinValueExpression()
+	{
+		return ((JRAreaPlot)parent).getRangeAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getRangeAxisMaxValueExpression()
+	{
+		return ((JRAreaPlot)parent).getRangeAxisMaxValueExpression();
+	}
+
+	/**
+	 *
+	 */
 	public JRFont getValueAxisLabelFont()
 	{
 		return valueAxisLabelFont;

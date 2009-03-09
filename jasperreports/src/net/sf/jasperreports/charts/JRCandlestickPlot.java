@@ -49,6 +49,16 @@ public interface JRCandlestickPlot extends JRChartPlot, JRTimeAxisFormat, JRValu
 	public JRExpression getValueAxisLabelExpression();
 
 	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMaxValueExpression();
+
+	/**
 	 * @deprecated Replaced by {@link #getShowVolume()}
 	 */
 	public boolean isShowVolume();

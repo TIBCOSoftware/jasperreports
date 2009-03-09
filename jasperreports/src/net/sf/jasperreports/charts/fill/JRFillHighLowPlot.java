@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.fill;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -198,6 +199,22 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	public JRExpression getValueAxisLabelExpression()
 	{
 		return ((JRHighLowPlot)parent).getValueAxisLabelExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getRangeAxisMinValueExpression()
+	{
+		return ((JRHighLowPlot)parent).getRangeAxisMinValueExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getRangeAxisMaxValueExpression()
+	{
+		return ((JRHighLowPlot)parent).getRangeAxisMaxValueExpression();
 	}
 
 	/**

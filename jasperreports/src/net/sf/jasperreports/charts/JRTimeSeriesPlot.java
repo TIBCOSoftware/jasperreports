@@ -48,6 +48,16 @@ public interface JRTimeSeriesPlot extends JRChartPlot, JRTimeAxisFormat, JRValue
 	public JRExpression getValueAxisLabelExpression();
 
 	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMaxValueExpression();
+
+	/**
 	 * @deprecated Replaced by {@link #getShowLines()}
 	 */
 	public boolean isShowLines();

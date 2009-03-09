@@ -2013,6 +2013,8 @@
     <element ref="jr:categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="isShowLabels" use="optional">
     <simpleType>
@@ -2047,6 +2049,16 @@
  </element>
 
  <element name="valueAxisLabelExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="rangeAxisMinValueExpression">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="rangeAxisMaxValueExpression">
   <complexType mixed="true">
   </complexType>
  </element>
@@ -2114,6 +2126,8 @@
     <element ref="jr:categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="isShowLabels" use="optional">
     <simpleType>
@@ -2222,6 +2236,8 @@
     <element ref="jr:categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="isShowLines" use="optional">
     <simpleType>
@@ -2301,6 +2317,8 @@
     <element ref="jr:categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
   </complexType>
  </element>
@@ -2495,6 +2513,8 @@
     <element ref="jr:timeAxisFormat" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="isShowLines" use="optional">
     <simpleType>
@@ -2562,6 +2582,8 @@
     <element ref="jr:timeAxisFormat" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="isShowCloseTicks" use="optional">
     <simpleType>
@@ -2630,6 +2652,8 @@
     <element ref="jr:timeAxisFormat" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="isShowVolume" use="optional">
     <simpleType>

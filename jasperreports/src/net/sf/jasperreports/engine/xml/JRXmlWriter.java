@@ -1664,6 +1664,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();
@@ -1711,6 +1713,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 		writer.closeElement();
 	}
@@ -1732,6 +1736,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();
@@ -1758,6 +1764,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();
@@ -1900,6 +1908,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();
@@ -1943,6 +1953,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();
@@ -1965,6 +1977,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();

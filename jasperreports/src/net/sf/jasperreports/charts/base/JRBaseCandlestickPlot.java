@@ -66,6 +66,8 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	protected Color timeAxisLineColor = null;
 
 	protected JRExpression valueAxisLabelExpression = null;
+	protected JRExpression rangeAxisMinValueExpression = null;
+	protected JRExpression rangeAxisMaxValueExpression = null;
 	protected JRFont valueAxisLabelFont = null;
 	protected Color valueAxisLabelColor = null;
 	protected JRFont valueAxisTickLabelFont = null;
@@ -117,7 +119,9 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		timeAxisTickLabelMask = candlestickPlot.getTimeAxisTickLabelMask();
 		timeAxisLineColor = candlestickPlot.getOwnTimeAxisLineColor();
 		
-		valueAxisLabelExpression = factory.getExpression(candlestickPlot.getValueAxisLabelExpression() );
+		valueAxisLabelExpression = factory.getExpression( candlestickPlot.getValueAxisLabelExpression() );
+		rangeAxisMinValueExpression = factory.getExpression( candlestickPlot.getRangeAxisMinValueExpression() );
+		rangeAxisMaxValueExpression = factory.getExpression( candlestickPlot.getRangeAxisMaxValueExpression() );
 		valueAxisLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = candlestickPlot.getOwnValueAxisLabelColor();
 		valueAxisTickLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getValueAxisTickLabelFont());
@@ -211,6 +215,20 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	 */
 	public JRExpression getValueAxisLabelExpression(){
 		return valueAxisLabelExpression;
+	}
+
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMinValueExpression(){
+		return rangeAxisMinValueExpression;
+	}
+
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMaxValueExpression(){
+		return rangeAxisMaxValueExpression;
 	}
 
 	/**
@@ -341,6 +359,14 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		if (valueAxisLabelExpression != null)
 		{
 			clone.valueAxisLabelExpression = (JRExpression)valueAxisLabelExpression.clone();
+		}
+		if (rangeAxisMinValueExpression != null)
+		{
+			clone.rangeAxisMinValueExpression = (JRExpression)rangeAxisMinValueExpression.clone();
+		}
+		if (rangeAxisMaxValueExpression != null)
+		{
+			clone.rangeAxisMaxValueExpression = (JRExpression)rangeAxisMaxValueExpression.clone();
 		}
 		return clone;
 	}

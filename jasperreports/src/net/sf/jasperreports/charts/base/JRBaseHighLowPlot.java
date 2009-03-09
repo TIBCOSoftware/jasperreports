@@ -69,6 +69,8 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	protected Color timeAxisLineColor = null;
 
 	protected JRExpression valueAxisLabelExpression = null;
+	protected JRExpression rangeAxisMinValueExpression = null;
+	protected JRExpression rangeAxisMaxValueExpression = null;
 	protected JRFont valueAxisLabelFont = null;
 	protected Color valueAxisLabelColor = null;
 	protected JRFont valueAxisTickLabelFont = null;
@@ -124,6 +126,8 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		timeAxisLineColor = highLowPlot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( highLowPlot.getValueAxisLabelExpression() );
+		rangeAxisMinValueExpression = factory.getExpression( highLowPlot.getRangeAxisMinValueExpression() );
+		rangeAxisMaxValueExpression = factory.getExpression( highLowPlot.getRangeAxisMaxValueExpression() );
 		valueAxisLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = highLowPlot.getOwnValueAxisLabelColor();
 		valueAxisTickLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getValueAxisTickLabelFont());
@@ -219,6 +223,19 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		return valueAxisLabelExpression;
 	}
 
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMinValueExpression(){
+		return rangeAxisMinValueExpression;
+	}
+
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMaxValueExpression(){
+		return rangeAxisMaxValueExpression;
+	}
 	/**
 	 * 
 	 */
@@ -381,6 +398,14 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		if (valueAxisLabelExpression != null)
 		{
 			clone.valueAxisLabelExpression = (JRExpression)valueAxisLabelExpression.clone();
+		}
+		if (rangeAxisMinValueExpression != null)
+		{
+			clone.rangeAxisMinValueExpression = (JRExpression)rangeAxisMinValueExpression.clone();
+		}
+		if (rangeAxisMaxValueExpression != null)
+		{
+			clone.rangeAxisMaxValueExpression = (JRExpression)rangeAxisMaxValueExpression.clone();
 		}
 		return clone;
 	}

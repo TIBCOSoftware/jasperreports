@@ -38,6 +38,8 @@
     <a href="categoryAxisFormat">categoryAxisFormat</a>?,
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
+    <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
   )</contains>
   <attributes>
   </attributes>
@@ -231,6 +233,8 @@
     <a href="categoryAxisFormat">categoryAxisFormat</a>?,
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
+    <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -282,6 +286,8 @@
     <a href="categoryAxisFormat">categoryAxisFormat</a>?,
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
+    <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -571,6 +577,8 @@
     <a href="timeAxisFormat">timeAxisFormat</a>?,
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
+    <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -2075,6 +2083,8 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <a href="timeAxisFormat">timeAxisFormat</a>?,
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
+    <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -2994,6 +3004,8 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="categoryAxisFormat">categoryAxisFormat</a>?,
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
+    <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -5466,6 +5478,8 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="timeAxisFormat">timeAxisFormat</a>?,
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
     <a href="valueAxisFormat">valueAxisFormat</a>?
+    <a href="rangeAxisMinValueExpression">rangeAxisMinValueExpression</a>?,
+    <a href="rangeAxisMaxValueExpression">rangeAxisMinValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -5583,6 +5597,28 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 <element>
   <name>valueAxisLabelExpression</name>
   <description>Defines the expression for the value axis of the chart</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+<!-- rangeAxisMinValueExpression -->
+<element>
+  <name>rangeAxisMinValueExpression</name>
+  <description>Defines the expression for the minimum value represented on the axis</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+<!-- rangeAxisMaxValueExpression -->
+<element>
+  <name>rangeAxisMaxValueExpression</name>
+  <description>Defines the expression for the maximum value represented on the axis</description>
   <contains>(
     #PCDATA
   )</contains>

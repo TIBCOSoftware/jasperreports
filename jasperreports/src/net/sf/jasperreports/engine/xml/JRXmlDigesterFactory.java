@@ -646,6 +646,13 @@ public class JRXmlDigesterFactory
 		digester.addSetNext( "*/barPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/barPlot/valueAxisLabelExpression", "setText", 0 );
 
+		digester.addFactoryCreate( "*/barPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/barPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/barPlot/rangeAxisMinValueExpression", "setText", 0 );
+
+		digester.addFactoryCreate( "*/barPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/barPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/barPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
 
 		// area charts
@@ -665,6 +672,14 @@ public class JRXmlDigesterFactory
 		digester.addSetNext( "*/areaPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/areaPlot/valueAxisLabelExpression", "setText", 0 );
 
+		digester.addFactoryCreate( "*/areaPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/areaPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/areaPlot/rangeAxisMinValueExpression", "setText", 0 );
+
+		digester.addFactoryCreate( "*/areaPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/areaPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/areaPlot/rangeAxisMaxValueExpression", "setText", 0 );
+
 		// bar3d charts
 		digester.addFactoryCreate( "*/bar3DChart", JRBar3DChartFactory.class.getName() );
 		digester.addSetNext( "*/bar3DChart", "addElement", JRDesignElement.class.getName() );
@@ -677,6 +692,14 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate( "*/bar3DPlot/valueAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
 		digester.addSetNext( "*/bar3DPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bar3DPlot/valueAxisLabelExpression", "setText", 0 );
+
+		digester.addFactoryCreate( "*/bar3DPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/bar3DPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/bar3DPlot/rangeAxisMinValueExpression", "setText", 0 );
+
+		digester.addFactoryCreate( "*/bar3DPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/bar3DPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/bar3DPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
 		digester.addFactoryCreate("*/categoryDataset", JRCategoryDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/categoryDataset/categorySeries", JRCategorySeriesFactory.class.getName());
@@ -753,6 +776,14 @@ public class JRXmlDigesterFactory
 		digester.addSetNext( "*/timeSeriesPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod(  "*/timeSeriesPlot/valueAxisLabelExpression", "setText", 0 );
 
+		digester.addFactoryCreate( "*/timeSeriesPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/timeSeriesPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/timeSeriesPlot/rangeAxisMinValueExpression", "setText", 0 );
+
+		digester.addFactoryCreate( "*/timeSeriesPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/timeSeriesPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/timeSeriesPlot/rangeAxisMaxValueExpression", "setText", 0 );
+
 		// XY bar charts
 		digester.addFactoryCreate("*/xyBarChart", JRXyBarChartFactory.class.getName());
 		digester.addSetNext("*/xyBarChart", "addElement", JRDesignElement.class.getName());
@@ -795,6 +826,13 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/linePlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod(  "*/linePlot/valueAxisLabelExpression", "setText", 0 );
 
+		digester.addFactoryCreate( "*/linePlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/linePlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/linePlot/rangeAxisMinValueExpression", "setText", 0 );
+
+		digester.addFactoryCreate( "*/linePlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/linePlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/linePlot/rangeAxisMaxValueExpression", "setText", 0 );
 
 		digester.addFactoryCreate( "*/xyLineChart", JRXyLineChartFactory.class.getName() );
 		digester.addSetNext( "*/xyLineChart", "addElement", JRDesignElement.class.getName() );
@@ -862,6 +900,13 @@ public class JRXmlDigesterFactory
 		digester.addSetNext( "*/highLowPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/highLowPlot/valueAxisLabelExpression", "setText", 0 );
 
+		digester.addFactoryCreate( "*/highLowPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/highLowPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/highLowPlot/rangeAxisMinValueExpression", "setText", 0 );
+
+		digester.addFactoryCreate( "*/highLowPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/highLowPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/highLowPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
 		digester.addFactoryCreate("*/highLowDataset", JRHighLowDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/highLowDataset/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class);
@@ -898,6 +943,14 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate( "*/candlestickPlot/valueAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
 		digester.addSetNext( "*/candlestickPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/candlestickPlot/valueAxisLabelExpression", "setText", 0 );
+
+		digester.addFactoryCreate( "*/candlestickPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/candlestickPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/candlestickPlot/rangeAxisMinValueExpression", "setText", 0 );
+
+		digester.addFactoryCreate( "*/candlestickPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addSetNext( "*/candlestickPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/candlestickPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
 		// value datasets
 		digester.addFactoryCreate("*/valueDataset", JRValueDatasetFactory.class.getName());
