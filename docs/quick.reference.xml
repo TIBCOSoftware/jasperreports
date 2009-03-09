@@ -486,8 +486,8 @@
     <a href="xAxisFormat">xAxisFormat</a>?,
     <a href="yAxisLabelExpression">yAxisLabelExpression</a>?,
     <a href="yAxisFormat">yAxisFormat</a>?
-    <a href="xAxisMinValueExpression">xAxisMinValueExpression</a>?,
-    <a href="xAxisMaxValueExpression">xAxisMaxValueExpression</a>?,
+    <a href="domainAxisMinValueExpression">domainAxisMinValueExpression</a>?,
+    <a href="domainAxisMaxValueExpression">domainAxisMaxValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>
@@ -4265,8 +4265,8 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="xAxisFormat">xAxisFormat</a>?,
     <a href="yAxisLabelExpression">yAxisLabelExpression</a>?,
     <a href="yAxisFormat">yAxisFormat</a>?
-    <a href="xAxisMinValueExpression">xAxisMinValueExpression</a>?,
-    <a href="xAxisMaxValueExpression">xAxisMaxValueExpression</a>?,
+    <a href="domainAxisMinValueExpression">domainAxisMinValueExpression</a>?,
+    <a href="domainAxisMaxValueExpression">domainAxisMaxValueExpression</a>?,
   )</contains>
   <attributes>
     <attribute>

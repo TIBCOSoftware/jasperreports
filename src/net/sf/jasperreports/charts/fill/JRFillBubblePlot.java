@@ -269,33 +269,33 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	/**
 	 *
 	 */
-	public JRExpression getXAxisMinValueExpression()
+	public JRExpression getDomainAxisMinValueExpression()
 	{
-		return ((JRBubblePlot)parent).getXAxisMinValueExpression();
+		return ((JRBubblePlot)parent).getDomainAxisMinValueExpression();
 	}
 
 	/**
 	 *
 	 */
-	public JRExpression getXAxisMaxValueExpression()
+	public JRExpression getDomainAxisMaxValueExpression()
 	{
-		return ((JRBubblePlot)parent).getXAxisMaxValueExpression();
+		return ((JRBubblePlot)parent).getDomainAxisMaxValueExpression();
 	}
 
 	/**
 	 *
 	 */
-	public JRExpression getYAxisMinValueExpression()
+	public JRExpression getRangeAxisMinValueExpression()
 	{
-		return ((JRBubblePlot)parent).getYAxisMinValueExpression();
+		return ((JRBubblePlot)parent).getRangeAxisMinValueExpression();
 	}
 
 	/**
 	 *
 	 */
-	public JRExpression getYAxisMaxValueExpression()
+	public JRExpression getRangeAxisMaxValueExpression()
 	{
-		return ((JRBubblePlot)parent).getYAxisMaxValueExpression();
+		return ((JRBubblePlot)parent).getRangeAxisMaxValueExpression();
 	}
 
 }

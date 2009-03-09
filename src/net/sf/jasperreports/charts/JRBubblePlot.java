@@ -70,21 +70,21 @@ public interface JRBubblePlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat
 	/**
 	 * 
 	 */
-	public JRExpression getXAxisMinValueExpression();
+	public JRExpression getDomainAxisMinValueExpression();
 
 	/**
 	 * 
 	 */
-	public JRExpression getXAxisMaxValueExpression();
+	public JRExpression getDomainAxisMaxValueExpression();
 
 	/**
 	 * 
 	 */
-	public JRExpression getYAxisMinValueExpression();
+	public JRExpression getRangeAxisMinValueExpression();
 
 	/**
 	 * 
 	 */
-	public JRExpression getYAxisMaxValueExpression();
+	public JRExpression getRangeAxisMaxValueExpression();
 
 }

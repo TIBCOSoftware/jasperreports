@@ -1541,10 +1541,6 @@ public class JRXmlConstants
 	public static final String ELEMENT_rangeAxisMaxValueExpression = "rangeAxisMaxValueExpression";
 	public static final String ELEMENT_xAxisLabelExpression = "xAxisLabelExpression";
 	public static final String ELEMENT_yAxisLabelExpression = "yAxisLabelExpression";
-	public static final String ELEMENT_xAxisMinValueExpression = "xAxisMinValueExpression";
-	public static final String ELEMENT_xAxisMaxValueExpression = "xAxisMaxValueExpression";
-	public static final String ELEMENT_yAxisMinValueExpression = "yAxisMinValueExpression";
-	public static final String ELEMENT_yAxisMaxValueExpression = "yAxisMaxValueExpression";
 	public static final String ELEMENT_timeAxisLabelExpression = "timeAxisLabelExpression";
 	public static final String ELEMENT_taskExpression = "taskExpression";
 	public static final String ELEMENT_subtaskExpression = "subtaskExpression";

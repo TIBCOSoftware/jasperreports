@@ -2075,26 +2075,6 @@
   </complexType>
  </element>
 
- <element name="xAxisMinValueExpression">
-  <complexType mixed="true">
-  </complexType>
- </element>
-
- <element name="xAxisMaxValueExpression">
-  <complexType mixed="true">
-  </complexType>
- </element>
-
- <element name="yAxisMinValueExpression">
-  <complexType mixed="true">
-  </complexType>
- </element>
-
- <element name="yAxisMaxValueExpression">
-  <complexType mixed="true">
-  </complexType>
- </element>
-
  <element name="categoryAxisFormat">
   <complexType>
    <sequence>
@@ -2389,10 +2369,10 @@
     <element ref="jr:xAxisFormat" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:yAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:yAxisFormat" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:xAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:xAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:yAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:yAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:domainAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:domainAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="isShowLines" use="optional">
     <simpleType>
@@ -2478,10 +2458,10 @@
     <element ref="jr:xAxisFormat" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:yAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:yAxisFormat" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:xAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:xAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:yAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:yAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:domainAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:domainAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="scaleType" use="optional">
     <simpleType>
