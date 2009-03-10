@@ -352,18 +352,17 @@ public class JRGridLayout
 				}
 
 				yCuts.addYCuts(element, elementOffsetY);
-			}
-
-			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
-
-			if (nature.isDeep() && frame != null)
-			{
-				createCuts(
-					wrapper.getWrappers(),
-					element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(),
-					element.getY() + elementOffsetY + frame.getLineBox().getTopPadding().intValue(),
-					createXCuts
-					);
+				
+				if (nature.isDeep() && element instanceof JRPrintFrame)
+				{
+					JRPrintFrame frame = (JRPrintFrame) element;
+					createCuts(
+						wrapper.getWrappers(),
+						element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(),
+						element.getY() + elementOffsetY + frame.getLineBox().getTopPadding().intValue(),
+						createXCuts
+						);
+				}
 			}
 		}
 	}
@@ -411,11 +410,7 @@ public class JRGridLayout
 			ElementWrapper wrapper = wrappers[elementIndex];
 			JRPrintElement element = wrapper.getElement();
 
-			boolean toExport = nature.isToExport(element);
-			//JRPrintFrame frame = deep && element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
-			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
-
-			if (toExport || frame != null)
+			if (nature.isToExport(element))
 			{
 				int x = element.getX() + elementOffsetX;
 				int y = element.getY() + elementOffsetY;
@@ -425,28 +420,24 @@ public class JRGridLayout
 				int col2 = xCuts.indexOfCut(x + element.getWidth());
 				int row2 = yCuts.indexOfCut(y + element.getHeight());
 
-				if (!(toExport && isOverlap(row1, col1, row2, col2)))
+				if (!isOverlap(row1, col1, row2, col2))
 				{
-					if (nature.isDeep() && frame != null)
+					if (nature.isDeep() && element instanceof JRPrintFrame)
 					{
+						JRPrintFrame frame = (JRPrintFrame) element;
+						
 						setGridElements(
 							wrapper.getWrappers(),
 							x + frame.getLineBox().getLeftPadding().intValue(),
 							y + frame.getLineBox().getTopPadding().intValue(),
 							row1, col1, row2, col2
 							);
+						
+						setFrameCellsStyle(frame, row1, col1, row2, col2);
 					}
-
-					if (toExport)
+					else
 					{
-						if (nature.isDeep() && frame != null)
-						{
-							setFrameCellsStyle(frame, row1, col1, row2, col2);
-						}
-						else
-						{
-							setGridElement(wrapper, row1, col1, row2, col2);
-						}
+						setGridElement(wrapper, row1, col1, row2, col2);
 					}
 				}
 			}
@@ -886,17 +877,17 @@ public class JRGridLayout
 			if (nature.isToExport(element))
 			{
 				xCuts.addXCuts(element, elementOffsetX);
-			}
-
-			if (element instanceof JRPrintFrame)
-			{
-				JRPrintFrame frame = (JRPrintFrame) element;
-				addXCuts(
-					nature,
-					frame.getElements(),
-					element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(),
-					xCuts
-					);
+				
+				if (element instanceof JRPrintFrame)
+				{
+					JRPrintFrame frame = (JRPrintFrame) element;
+					addXCuts(
+						nature,
+						frame.getElements(),
+						element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(),
+						xCuts
+						);
+				}
 			}
 		}
 	}
