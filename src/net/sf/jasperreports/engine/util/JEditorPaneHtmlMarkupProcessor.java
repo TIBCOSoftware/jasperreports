@@ -94,10 +94,12 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		String chunk = null;
 		Element element = null;
 		boolean bodyOccurred = false;
-		boolean isOrderedList = false;
-		int orderedListIndex = 0;
-		String orderedListSpaces = null;
-		
+		int[] orderedListIndex = new int[elements.size()];
+		String[] whitespace = new String[elements.size()];
+		for(int i = 0; i < elements.size(); i++)
+		{
+			whitespace[i] = "";
+		}
 		JRStyledText styledText = new JRStyledText();
 		styledText.setGlobalAttributes(new HashMap());
 		
@@ -113,13 +115,13 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 			element = (Element)elements.get(i);
 			startOffset = element.getStartOffset();
 			endOffset = element.getEndOffset();
-
 			AttributeSet attrs = element.getAttributes();
 
 			Object elementName = attrs.getAttribute(AbstractDocument.ElementNameAttribute);
 			Object object = (elementName != null) ? null : attrs.getAttribute(StyleConstants.NameAttribute);
 			if (object instanceof HTML.Tag) 
 			{
+				
 				HTML.Tag htmlTag = (HTML.Tag) object;
 				if(htmlTag == Tag.BODY)
 				{
@@ -132,49 +134,51 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				}
 				else if(htmlTag == Tag.OL)
 				{
-					isOrderedList = true;
-					orderedListIndex = 0;
-					orderedListSpaces = "  "; 
-					
-					int j = i;
-					int liCount = 0;
-					
-					boolean isLiElement = false;
-					do
+					orderedListIndex[i] = 0;
+					String parentName = element.getParentElement().getName().toLowerCase();
+					whitespace[i] = whitespace[elements.indexOf(element.getParentElement())] + "  ";
+					if(parentName.equals("li"))
 					{
-						Element liElement = (Element)elements.get(++j);
-						AttributeSet liAttrs = liElement.getAttributes();
-						Object liElementName = liAttrs.getAttribute(AbstractDocument.ElementNameAttribute);
-						Object liObject = (liElementName != null) ? null : liAttrs.getAttribute(StyleConstants.NameAttribute);
-						if (liObject instanceof HTML.Tag && (HTML.Tag)liObject == Tag.LI) 
-						{
-							liCount++;
-							isLiElement = true;
-						}
-						else
-						{
-							isLiElement = false;
-						}
-					}while(isLiElement);
-					
-					chunk = "\n";
+						chunk = "";
+					}
+					else
+					{
+						chunk = "\n";
+					}
 				}
 				else if(htmlTag == Tag.UL)
 				{
-					isOrderedList = false;
-					chunk = "\n";
+					whitespace[i] = whitespace[elements.indexOf(element.getParentElement())] + "  ";
+
+					String parentName = element.getParentElement().getName().toLowerCase();
+					if(parentName.equals("li"))
+					{
+						chunk = "";
+					}
+					else
+					{
+						chunk = "\n";
+					}
+					
 				}
 				else if(htmlTag == Tag.LI)
 				{
-					if(isOrderedList)
+					
+					whitespace[i] = whitespace[elements.indexOf(element.getParentElement())];
+					if(element.getElement(0) != null && 
+							(element.getElement(0).getName().toLowerCase().equals("ol") || element.getElement(0).getName().toLowerCase().equals("ul"))
+							)
 					{
-						String index = String.valueOf(++orderedListIndex);
-						index = orderedListSpaces + index;
-						chunk = index + ".  ";
+						chunk = "";
+					}
+					else if(element.getParentElement().getName().equals("ol"))
+					{
+						int index = elements.indexOf(element.getParentElement());
+						chunk = whitespace[index] + String.valueOf(++orderedListIndex[index]) + ".  ";
 					} 
 					else
 					{
-						chunk = " \u2022 ";
+						chunk = whitespace[elements.indexOf(element.getParentElement())] + "\u2022  ";
 					}
 					crtOffset += chunk.length();
 				}
