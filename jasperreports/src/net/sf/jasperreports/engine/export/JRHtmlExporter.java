@@ -328,6 +328,11 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 						{
 							return "<img alt=\"\" src=\"" + value + "px\" border=\"0\"/>";
 						}
+						
+						public String getReportTableStyle()
+						{
+							return null;
+						}
 					};
 
 				loadPxImage();
@@ -344,6 +349,12 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 						public String getStringForEmptyTD(Object value)
 						{
 							return "";
+						}
+						
+						public String getReportTableStyle()
+						{
+							// required for lines and rectangles, but doesn't work in IE
+							return "empty-cells: show";
 						}
 					};
 			}
@@ -748,7 +759,14 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
-		writer.write("<table style=\"width: " + gridLayout.getWidth() + sizeUnit + "\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"");
+		String tableStyle = "width: " + gridLayout.getWidth() + sizeUnit;
+		String additionalTableStyle = emptyCellStringProvider.getReportTableStyle();
+		if (additionalTableStyle != null)
+		{
+			tableStyle += "; " + additionalTableStyle;
+		}
+		
+		writer.write("<table style=\"" + tableStyle + "\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"");
 		if (whitePageBackground)
 		{
 			writer.write(" bgcolor=\"white\"");
@@ -1929,6 +1947,7 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 		 */
 		public String getStringForEmptyTD(Object value);
 
+		public String getReportTableStyle();
 	}
 
 
