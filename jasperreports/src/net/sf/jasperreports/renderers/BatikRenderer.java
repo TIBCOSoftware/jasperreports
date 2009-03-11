@@ -255,12 +255,14 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	 * @throws JRException
 	 * @see JRLoader#loadBytesFromLocation(String, ClassLoader, URLStreamHandlerFactory, FileResolver)
 	 */
-	public static BatikRenderer getInstanceFromLocation(String location,
-			ClassLoader classLoader,
-			URLStreamHandlerFactory urlHandlerFactory,
-			FileResolver fileResolver) throws JRException
+	public static BatikRenderer getInstanceFromLocation(
+		String location,
+		ClassLoader classLoader,
+		URLStreamHandlerFactory urlHandlerFactory,
+		FileResolver fileResolver
+		) throws JRException
 	{
-		byte[] data = JRLoader.loadBytesFromLocation(location);
+		byte[] data = JRLoader.loadBytesFromLocation(location, classLoader, urlHandlerFactory, fileResolver);
 		return new BatikRenderer(data, null);
 	}
 

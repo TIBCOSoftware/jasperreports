@@ -35,12 +35,17 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
 public class JasperDesignViewer extends javax.swing.JFrame 
 {
+	private static final Log log = LogFactory.getLog(JasperDesignViewer.class);
+
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	/** Creates new form JasperDesignViewer */
@@ -159,7 +164,9 @@ public class JasperDesignViewer extends javax.swing.JFrame
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			if (log.isErrorEnabled())
+				log.error("Error viewing report design.", e);
+
 			System.exit(1);
 		}
 	}

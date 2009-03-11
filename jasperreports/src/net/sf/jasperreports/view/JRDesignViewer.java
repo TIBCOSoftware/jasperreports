@@ -28,7 +28,9 @@
 
 package net.sf.jasperreports.view;
 
+import java.io.File;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
@@ -39,7 +41,11 @@ import net.sf.jasperreports.engine.convert.ReportConverter;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -48,6 +54,8 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
  */
 public class JRDesignViewer extends JRViewer
 {
+	private static final Log log = LogFactory.getLog(JRDesignViewer.class);
+
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	/** Creates new form JRDesignViewer */
@@ -93,8 +101,10 @@ public class JRDesignViewer extends JRViewer
 			}
 			catch (JRException e)
 			{
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, "Error loading report design. See console for details.");
+				if (log.isErrorEnabled())
+					log.error("Reload error.", e);
+
+				JOptionPane.showMessageDialog(this, "Error loading report design. See the log for more details.");
 			}
 		}
 	}
@@ -116,6 +126,8 @@ public class JRDesignViewer extends JRViewer
 		this.type = TYPE_FILE_NAME;
 		this.isXML = isXmlReport;
 		this.reportFileName = fileName;
+		this.fileResolver = new SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
+		
 	}
 
 
