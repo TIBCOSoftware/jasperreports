@@ -190,11 +190,11 @@ public class ConvertChartContext implements ChartContext
 		if (samplePieDataset == null)
 		{
 	        DefaultPieDataset dataset = new DefaultPieDataset();
-	        dataset.setValue("First", new Double(43.2));
-	        dataset.setValue("Second", new Double(10.0));
-	        dataset.setValue("Third", new Double(17.5));
-	        dataset.setValue("Fourth", new Double(32.5));
-	        dataset.setValue("Fifth", null);  //new Double(1.0));
+	        dataset.setValue("First", new Double(45));
+	        dataset.setValue("Second", new Double(10));
+	        dataset.setValue("Third", new Double(15));
+	        dataset.setValue("Fourth", new Double(25));
+	        dataset.setValue("Fifth", new Double(5));
 	        
 	        samplePieDataset = dataset;
 		}
