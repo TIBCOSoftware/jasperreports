@@ -39,12 +39,17 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
 public class JRViewerController
 {
+	private static final Log log = LogFactory.getLog(JRViewerController.class);
+
 	protected static final int TYPE_FILE_NAME = 1;
 	protected static final int TYPE_INPUT_STREAM = 2;
 	protected static final int TYPE_OBJECT = 3;
@@ -165,7 +170,8 @@ public class JRViewerController
 			}
 			catch (JRException e)
 			{
-				e.printStackTrace();
+				if (log.isDebugEnabled())
+					log.debug("Reload failed.", e);
 
 				jasperPrint = null;
 				setPageIndex(0);

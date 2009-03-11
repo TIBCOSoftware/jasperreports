@@ -35,8 +35,6 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import java.awt.Image;
-
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImage;
@@ -47,7 +45,9 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRLoader;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -56,6 +56,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 public class ImageConverter extends ElementConverter
 {
+	private static final Log log = LogFactory.getLog(ImageConverter.class);
 
 	/**
 	 *
@@ -94,7 +95,7 @@ public class ImageConverter extends ElementConverter
 		printImage.setHorizontalAlignment(image.getOwnHorizontalAlignment());
 		printImage.setLazy(image.isLazy());
 		printImage.setLinkType(image.getLinkType());
-		printImage.setOnErrorType(image.getOnErrorType());
+		printImage.setOnErrorType(JRImage.ON_ERROR_TYPE_ICON);
 		printImage.setVerticalAlignment(image.getOwnVerticalAlignment());
 		printImage.setRenderer(getRenderer(image, printImage));
 		printImage.setScaleImage(image.getOwnScaleImage());
@@ -112,6 +113,8 @@ public class ImageConverter extends ElementConverter
 		{
 			try
 			{
+				return JRImageRenderer.getInstance(location);
+				/*
 				byte[] imageData = JRLoader.loadBytesFromLocation(location); 
 				Image awtImage = JRImageLoader.loadImage(imageData);
 				if (awtImage == null)
@@ -124,10 +127,12 @@ public class ImageConverter extends ElementConverter
 							);
 				}
 				return JRImageRenderer.getInstance(imageData);
+				*/
 			}
 			catch (JRException e)
 			{
-				e.printStackTrace();
+				if (log.isDebugEnabled())
+					log.debug("Creating location renderer for converted image failed.", e);
 			}
 		}
 		
@@ -142,7 +147,8 @@ public class ImageConverter extends ElementConverter
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();//FIXMECONVERT use logging
+			if (log.isDebugEnabled())
+				log.debug("Creating icon renderer for converted image failed.", e);
 		}
 		
 		return null;

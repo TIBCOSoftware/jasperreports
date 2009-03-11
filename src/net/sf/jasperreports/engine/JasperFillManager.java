@@ -31,11 +31,14 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.fill.JRFiller;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
+import net.sf.jasperreports.engine.util.SimpleFileResolver;
 
 
 /**
@@ -91,6 +94,8 @@ public class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
+		setFileResolver(sourceFile, parameters);
+
 		fillReportToFile(jasperReport, destFileName, parameters, connection);
 		
 		return destFileName;
@@ -120,6 +125,8 @@ public class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
+		setFileResolver(sourceFile, parameters);
+
 		fillReportToFile(jasperReport, destFileName, parameters);
 		
 		return destFileName;
@@ -142,7 +149,11 @@ public class JasperFillManager
 		Connection connection
 		) throws JRException
 	{
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFileName);
+		File sourceFile = new File(sourceFileName);
+
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		setFileResolver(sourceFile, parameters);
 
 		fillReportToFile(jasperReport, destFileName, parameters, connection);
 	}
@@ -163,7 +174,11 @@ public class JasperFillManager
 		Map parameters
 		) throws JRException
 	{
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFileName);
+		File sourceFile = new File(sourceFileName);
+
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		setFileResolver(sourceFile, parameters);
 
 		fillReportToFile(jasperReport, destFileName, parameters);
 	}
@@ -231,6 +246,8 @@ public class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
+		setFileResolver(sourceFile, parameters);
+
 		return fillReport(jasperReport, parameters, connection);
 	}
 
@@ -252,6 +269,8 @@ public class JasperFillManager
 		File sourceFile = new File(sourceFileName);
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+		
+		setFileResolver(sourceFile, parameters);
 
 		return fillReport(jasperReport, parameters);
 	}
@@ -445,6 +464,8 @@ public class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
+		setFileResolver(sourceFile, parameters);
+
 		fillReportToFile(jasperReport, destFileName, parameters, dataSource);
 		
 		return destFileName;
@@ -467,7 +488,11 @@ public class JasperFillManager
 		JRDataSource dataSource
 		) throws JRException
 	{
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFileName);
+		File sourceFile = new File(sourceFileName);
+
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		setFileResolver(sourceFile, parameters);
 
 		fillReportToFile(jasperReport, destFileName, parameters, dataSource);
 	}
@@ -513,6 +538,8 @@ public class JasperFillManager
 		File sourceFile = new File(sourceFileName);
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		setFileResolver(sourceFile, parameters);
 
 		return fillReport(jasperReport, parameters, dataSource);
 	}
@@ -601,5 +628,28 @@ public class JasperFillManager
 		return JRFiller.fillReport(jasperReport, parameters, dataSource);
 	}
 
+
+	/**
+	 * 
+	 */
+	private static Map setFileResolver(File file, Map parameters)
+	{
+		if (parameters == null)
+		{
+			parameters = new HashMap();
+		}
+
+		if (!parameters.containsKey(JRParameter.REPORT_FILE_RESOLVER))
+		{
+			parameters.put(
+				JRParameter.REPORT_FILE_RESOLVER, 
+				new SimpleFileResolver(
+					Arrays.asList(new File[]{file.getParentFile(), new File(".")})
+					)
+				);
+		}
+		
+		return parameters;
+	}
 
 }

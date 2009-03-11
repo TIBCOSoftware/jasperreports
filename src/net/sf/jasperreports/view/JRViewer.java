@@ -97,11 +97,16 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
+import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 import net.sf.jasperreports.view.save.JRPrintSaveContributor;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -110,6 +115,8 @@ import net.sf.jasperreports.view.save.JRPrintSaveContributor;
  */
 public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 {
+	private static final Log log = LogFactory.getLog(JRViewer.class);
+
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
@@ -145,6 +152,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected int type = TYPE_FILE_NAME;
 	protected boolean isXML = false;
 	protected String reportFileName = null;
+	protected FileResolver fileResolver = null;
 	JasperPrint jasperPrint = null;
 	private int pageIndex = 0;
 	private boolean pageError;
@@ -1129,7 +1137,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 			catch (JRException e)
 			{
-				e.printStackTrace();
+				if (log.isErrorEnabled())
+					log.error("Save error.", e);
+
 				JOptionPane.showMessageDialog(this, getBundleString("error.saving"));
 			}
 		}
@@ -1202,7 +1212,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						}
 						catch (Exception ex)
 						{
-							ex.printStackTrace();
+							if (log.isErrorEnabled())
+								log.error("Print error.", ex);
+
 							JOptionPane.showMessageDialog(JRViewer.this, getBundleString("error.printing"));
 						}
 						finally
@@ -1257,7 +1269,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 			catch (JRException e)
 			{
-				e.printStackTrace();
+				if (log.isErrorEnabled())
+					log.error("Reload error.", e);
 
 				jasperPrint = null;
 				setPageIndex(0);
@@ -1357,7 +1370,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 		catch(JRException e)
 		{
-			e.printStackTrace();
+			if (log.isErrorEnabled())
+				log.error("Hyperlink click error.", e);
+
 			JOptionPane.showMessageDialog(this, getBundleString("error.hyperlink"));
 		}
 	}
@@ -1428,6 +1443,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		type = TYPE_FILE_NAME;
 		this.isXML = isXmlReport;
 		reportFileName = fileName;
+		fileResolver = new SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
 		btnReload.setEnabled(true);
 		setPageIndex(0);
 	}
@@ -1559,8 +1575,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 			catch (Exception e)
 			{
+				if (log.isErrorEnabled())
+					log.error("Print page to image error.", e);
+
 				pageError = true;
-				e.printStackTrace();
 
 				image = getPageErrorImage();
 				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.displaying"));
@@ -1999,12 +2017,18 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, new Float(realZoom));
 			exporter.setParameter(JRExporterParameter.OFFSET_X, new Integer(1)); //lblPage border
 			exporter.setParameter(JRExporterParameter.OFFSET_Y, new Integer(1));
+			if (type == TYPE_FILE_NAME)
+			{
+				exporter.setParameter(JRExporterParameter.FILE_RESOLVER, fileResolver);
+			}
 			exporter.exportReport();
 		}
 		catch(Exception e)
 		{
+			if (log.isErrorEnabled())
+				log.error("Page paint error.", e);
+
 			pageError = true;
-			e.printStackTrace();
 			
 			paintPageError(grx);
 			SwingUtilities.invokeLater(new Runnable()

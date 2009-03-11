@@ -42,6 +42,9 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -49,6 +52,8 @@ import net.sf.jasperreports.engine.JasperPrint;
  */
 public class JasperViewer extends javax.swing.JFrame 
 {
+	private static final Log log = LogFactory.getLog(JasperViewer.class);
+
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
@@ -313,7 +318,9 @@ public class JasperViewer extends javax.swing.JFrame
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			if (log.isErrorEnabled())
+				log.error("Error viewing report.", e);
+
 			System.exit(1);
 		}
 	}

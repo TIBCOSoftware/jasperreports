@@ -45,6 +45,9 @@ import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -52,7 +55,7 @@ import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
  */
 public class JRPrinterAWT implements Printable
 {
-
+	private static final Log log = LogFactory.getLog(JRPrinterAWT.class);
 
 	/**
 	 *
@@ -229,7 +232,9 @@ public class JRPrinterAWT implements Printable
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			if (log.isDebugEnabled())
+				log.debug("Print failed.", e);
+
 			throw new PrinterException(e.getMessage());
 		}
 

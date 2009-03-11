@@ -80,12 +80,16 @@ import net.sf.jasperreports.engine.print.JRPrinterAWT;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.view.JRHyperlinkListener;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
 public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRViewerListener
 {
+	private static final Log log = LogFactory.getLog(JRViewerPanel.class);
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -488,8 +492,10 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		}
 		catch(Exception e)
 		{
+			if (log.isErrorEnabled())
+				log.error("Page paint error.", e);
+
 			pageError = true;
-			e.printStackTrace();
 			
 			paintPageError(grx);
 			SwingUtilities.invokeLater(new Runnable()
@@ -729,8 +735,10 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			}
 			catch (Exception e)
 			{
+				if (log.isErrorEnabled())
+					log.error("Print page to image error.", e);
+
 				pageError = true;
-				e.printStackTrace();
 
 				image = getPageErrorImage();
 				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.displaying"));
@@ -1059,7 +1067,9 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		}
 		catch(JRException e)
 		{
-			e.printStackTrace();
+			if (log.isErrorEnabled())
+				log.error("Hyperlink click error.", e);
+
 			JOptionPane.showMessageDialog(this, viewerContext.getBundleString("error.hyperlink"));
 		}
 	}

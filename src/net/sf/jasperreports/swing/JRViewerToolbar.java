@@ -51,12 +51,16 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.view.JRSaveContributor;
 import net.sf.jasperreports.view.save.JRPrintSaveContributor;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
 public class JRViewerToolbar extends JPanel implements JRViewerListener
 {
+	private static final Log log = LogFactory.getLog(JRViewerToolbar.class);
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -408,7 +412,9 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 			}
 			catch (JRException e)
 			{
-				e.printStackTrace();
+				if (log.isErrorEnabled())
+					log.error("Save error.", e);
+
 				JOptionPane.showMessageDialog(this, viewerContext.getBundleString("error.saving"));
 			}
 		}
@@ -431,7 +437,9 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 						}
 						catch (Exception ex)
 						{
-							ex.printStackTrace();
+							if (log.isErrorEnabled())
+								log.error("Print error.", ex);
+
 							JOptionPane.showMessageDialog(JRViewerToolbar.this, 
 									viewerContext.getBundleString("error.printing"));
 						}
