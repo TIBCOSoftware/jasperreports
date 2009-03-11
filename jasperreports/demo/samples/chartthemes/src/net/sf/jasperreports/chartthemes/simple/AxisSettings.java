@@ -72,7 +72,7 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_tickMarksPaint = "tickMarksPaint";
 	public static final String PROPERTY_tickMarksStroke = "tickMarksStroke";
 	public static final String PROPERTY_tickMarksVisible = "tickMarksVisible";
-	public static final String PROPERTY_minValue = "minValue";
+	public static final String PROPERTY_minValue = "minValue";//FIXMECHART this should be in chart
 	public static final String PROPERTY_maxValue = "maxValue";
 	public static final String PROPERTY_tickCount = "tickCount";
 

@@ -1619,7 +1619,7 @@ public class SimpleChartTheme implements ChartTheme
 				chartPlot.setTickLabelFormat(new DecimalFormat(display.getMask()));
 			}
 			
-			font = new JRBaseFont();//FIXME this is useless?
+			font = new JRBaseFont();
 			JRFontUtil.copyNonNullOwnProperties(getPlotSettings().getDisplayFont(), font);
 			JRFontUtil.copyNonNullOwnProperties(jrPlot.getValueDisplay().getFont(), font);
 			font = new JRBaseFont(getChart(), font);
