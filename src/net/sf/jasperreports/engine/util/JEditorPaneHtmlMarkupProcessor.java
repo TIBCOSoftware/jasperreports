@@ -95,10 +95,11 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		Element element = null;
 		boolean bodyOccurred = false;
 		int[] orderedListIndex = new int[elements.size()];
-		String[] whitespace = new String[elements.size()];
+		String whitespace = "    ";
+		String[] whitespaces = new String[elements.size()];
 		for(int i = 0; i < elements.size(); i++)
 		{
-			whitespace[i] = "";
+			whitespaces[i] = "";
 		}
 		JRStyledText styledText = new JRStyledText();
 		styledText.setGlobalAttributes(new HashMap());
@@ -136,7 +137,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				{
 					orderedListIndex[i] = 0;
 					String parentName = element.getParentElement().getName().toLowerCase();
-					whitespace[i] = whitespace[elements.indexOf(element.getParentElement())] + "  ";
+					whitespaces[i] = whitespaces[elements.indexOf(element.getParentElement())] + whitespace;
 					if(parentName.equals("li"))
 					{
 						chunk = "";
@@ -148,7 +149,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				}
 				else if(htmlTag == Tag.UL)
 				{
-					whitespace[i] = whitespace[elements.indexOf(element.getParentElement())] + "  ";
+					whitespaces[i] = whitespaces[elements.indexOf(element.getParentElement())] + whitespace;
 
 					String parentName = element.getParentElement().getName().toLowerCase();
 					if(parentName.equals("li"))
@@ -164,7 +165,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				else if(htmlTag == Tag.LI)
 				{
 					
-					whitespace[i] = whitespace[elements.indexOf(element.getParentElement())];
+					whitespaces[i] = whitespaces[elements.indexOf(element.getParentElement())];
 					if(element.getElement(0) != null && 
 							(element.getElement(0).getName().toLowerCase().equals("ol") || element.getElement(0).getName().toLowerCase().equals("ul"))
 							)
@@ -174,11 +175,11 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					else if(element.getParentElement().getName().equals("ol"))
 					{
 						int index = elements.indexOf(element.getParentElement());
-						chunk = whitespace[index] + String.valueOf(++orderedListIndex[index]) + ".  ";
+						chunk = whitespaces[index] + String.valueOf(++orderedListIndex[index]) + ".  ";
 					} 
 					else
 					{
-						chunk = whitespace[elements.indexOf(element.getParentElement())] + "\u2022  ";
+						chunk = whitespaces[elements.indexOf(element.getParentElement())] + "\u2022  ";
 					}
 					crtOffset += chunk.length();
 				}
