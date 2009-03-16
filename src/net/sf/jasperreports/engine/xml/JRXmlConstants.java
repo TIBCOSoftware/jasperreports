@@ -1795,6 +1795,8 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_isUsingCache = "isUsingCache";
 	public static final String ATTRIBUTE_isLazy = "isLazy";
 	public static final String ATTRIBUTE_onErrorType = "onErrorType";
+	
+	public static final String ATTRIBUTE_runToBottom = "runToBottom";
 
 	/**
 	 * JRLineFactory associated constants

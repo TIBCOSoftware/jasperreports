@@ -76,6 +76,8 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 */
 	protected Boolean isUsingCache = null;
 
+	private Boolean runToBottom;
+
 	/**
 	 *
 	 */
@@ -354,6 +356,21 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		getEventSupport().firePropertyChange(JRBaseSubreport.PROPERTY_USING_CACHE, old, this.isUsingCache);
 	}
 
+	
+	public Boolean isRunToBottom()
+	{
+		return runToBottom;
+	}
+
+	
+	public void setRunToBottom(Boolean runToBottom)
+	{
+		Object old = this.runToBottom;
+		this.runToBottom = runToBottom;
+		getEventSupport().firePropertyChange(JRBaseSubreport.PROPERTY_RUN_TO_BOTTOM, old, this.runToBottom);
+	}
+
+	
 	/**
 	 * 
 	 */

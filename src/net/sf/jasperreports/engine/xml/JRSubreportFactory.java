@@ -54,6 +54,12 @@ public class JRSubreportFactory extends JRBaseFactory
 		{
 			subreport.setUsingCache(Boolean.valueOf(isUsingCache));
 		}
+		
+		String runToBottomAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_runToBottom);
+		if (runToBottomAttr != null)
+		{
+			subreport.setRunToBottom(Boolean.valueOf(runToBottomAttr));
+		}
 
 		return subreport;
 	}

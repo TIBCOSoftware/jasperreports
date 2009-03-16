@@ -51,11 +51,15 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_USING_CACHE = "usingCache";
+	
+	public static final String PROPERTY_RUN_TO_BOTTOM = "runToBottom";
 
 	/**
 	 *
 	 */
 	protected Boolean isUsingCache = null;
+
+	private Boolean runToBottom;
 
 	/**
 	 *
@@ -89,6 +93,8 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 		super(subreport, factory);
 		
 		isUsingCache = subreport.isOwnUsingCache();
+		
+		runToBottom = subreport.isRunToBottom();
 
 		parametersMapExpression = factory.getExpression(subreport.getParametersMapExpression());
 
@@ -230,6 +236,20 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 		Object old = this.isUsingCache;
 		this.isUsingCache = isUsingCache;
 		getEventSupport().firePropertyChange(PROPERTY_USING_CACHE, old, this.isUsingCache);
+	}
+
+	
+	public Boolean isRunToBottom()
+	{
+		return runToBottom;
+	}
+
+
+	public void setRunToBottom(Boolean runToBottom)
+	{
+		Object old = this.runToBottom;
+		this.runToBottom = runToBottom;
+		getEventSupport().firePropertyChange(PROPERTY_RUN_TO_BOTTOM, old, this.runToBottom);
 	}
 
 

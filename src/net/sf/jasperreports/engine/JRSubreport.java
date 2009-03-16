@@ -109,4 +109,34 @@ public interface JRSubreport extends JRElement
 	 * The cache is turned on by default only for subreports that have <tt>java.lang.String</tt> objects in their expressions.
 	 */
 	public void setUsingCache(Boolean isUsingCache);
+	
+	/**
+	 * Specifies whether the subreport element will consume the entire vertical
+	 * space available on the report page.
+	 * 
+	 * @return whether the subreport element will consume the entire space down to 
+	 * the bottom of the page
+	 * @see #setRunToBottom(Boolean) 
+	 */
+	public Boolean isRunToBottom();
+
+	/**
+	 * Sets the flag that Specifies whether the subreport element will consume the
+	 * entire vertical space available on the report page.
+	 * 
+	 * <p>
+	 * This flag should be set to <code>true</code> if the subreport needs to always
+	 * print its column and page footers at the bottom of the report page, even when
+	 * the subreport data does not stretch to the bottom.
+	 * 
+	 * <p>
+	 * Note that when {@link JRReport#isFloatColumnFooter() isFloatColumnFooter}
+	 * is set for the subreport, the column footers will not be printed at the bottom
+	 * of the page even if this flag is set.
+	 * 
+	 * @param runToBottom whether the subreport element will consume the entire
+	 * space down to the bottom of the page
+	 */
+	public void setRunToBottom(Boolean runToBottom);
+	
 }

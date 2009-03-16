@@ -169,6 +169,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 *
 	 */
 	protected JRBaseFiller parentFiller = null;
+	protected JRFillSubreport parentElement;
 
 	private final JRFillObjectFactory factory;
 
@@ -350,7 +351,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
-	protected JRBaseFiller(JasperReport jasperReport, JREvaluator initEvaluator, JRBaseFiller parentFiller) throws JRException
+	protected JRBaseFiller(JasperReport jasperReport, JREvaluator initEvaluator, JRFillSubreport parentElement) throws JRException
 	{
 		this.fillerId = Integer.toString(System.identityHashCode(this));
 
@@ -364,7 +365,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		this.jasperReport = jasperReport;
 
 		/*   */
-		this.parentFiller = parentFiller;
+		this.parentElement = parentElement;
+		if (parentElement != null)
+		{
+			this.parentFiller = parentElement.filler;
+		}
 
 		if (parentFiller == null)
 		{
@@ -733,6 +738,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return (parentFiller != null);
 	}
 
+	protected boolean isSubreportRunToBottom()
+	{
+		return parentElement != null && parentElement.isRunToBottom() != null
+				&& parentElement.isRunToBottom().booleanValue();
+	}
+	
 	/**
 	 *
 	 */

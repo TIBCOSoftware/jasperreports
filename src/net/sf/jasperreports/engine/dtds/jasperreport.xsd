@@ -1510,6 +1510,14 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="runToBottom" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 
