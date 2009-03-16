@@ -61,6 +61,8 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
+import net.sf.jasperreports.engine.design.JRValidationException;
+import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
@@ -359,7 +361,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				/*   */
 				initSubreportFiller(evaluator);
 				
-				checkReturnValues();
+				validateReport();
 				
 				saveReturnVariables();
 			}
@@ -902,6 +904,63 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 	}
 
+	protected void validateReport() throws JRException
+	{
+		if (!checkedReports.contains(jasperReport))
+		{
+			verifyBandHeights();
+			checkReturnValues();
+			
+			if (isUsingCache())
+			{
+				checkedReports.add(jasperReport);
+			}
+		}
+	}
+	
+	protected void verifyBandHeights() throws JRException
+	{
+		if (!filler.fillContext.isIgnorePagination())
+		{
+			int pageHeight;
+			int topMargin = jasperReport.getTopMargin();
+			int bottomMargin = jasperReport.getBottomMargin();
+			
+			JRBaseFiller parentFiller = filler;
+			do
+			{
+				// set every time, so at the end it will be the master page height
+				pageHeight = parentFiller.jasperReport.getPageHeight();
+				
+				// sum parent page margins
+				topMargin += parentFiller.jasperReport.getTopMargin();
+				bottomMargin += parentFiller.jasperReport.getBottomMargin();
+				
+				parentFiller = parentFiller.parentFiller;
+			}
+			while (parentFiller != null);
+			
+			List brokenRules = new ArrayList();
+			JRVerifier.verifyBandHeights(brokenRules, 
+					jasperReport, pageHeight, topMargin, bottomMargin);
+			
+			if (!brokenRules.isEmpty())
+			{
+				throw new JRValidationException("Band height validation for subreport \""
+						+ jasperReport.getName() + "\" failed in the current page context "
+						+ "(height = " + pageHeight + ", top margin = " + topMargin
+						+ ", bottom margin = " + bottomMargin + ") : ",
+						brokenRules);
+			}
+			else if (log.isDebugEnabled())
+			{
+				log.debug("Band height validation for subreport \""
+						+ jasperReport.getName() + "\" succeeded in the current page context "
+						+ "(height = " + pageHeight + ", top margin = " + topMargin
+						+ ", bottom margin = " + bottomMargin + ")");
+			}
+		}
+	}
 
 	/**
 	 * Verifies the list of copied values against the subreport.
@@ -910,7 +969,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 */
 	private void checkReturnValues() throws JRException
 	{
-		if (returnValues != null && returnValues.length > 0 && !checkedReports.contains(jasperReport))
+		if (returnValues != null && returnValues.length > 0)
 		{
 			for (int i = 0; i < returnValues.length; i++)
 			{
@@ -942,9 +1001,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 							subreportVariableName);
 				}
 			}
-			
-			if (isUsingCache())
-				checkedReports.add(jasperReport);
 		}
 	}
 	
