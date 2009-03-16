@@ -85,7 +85,18 @@ public class JRValidationException extends JRException
 	 */
 	public JRValidationException(Collection faults)
 	{
-		super(appendMessages(faults));
+		this(null, faults);
+	}
+	
+	/**
+	 * Create a validation exception.
+	 * 
+	 * @param message the message to be used as header for the exception message
+	 * @param faults a list of {@link JRValidationFault validation faults}
+	 */
+	public JRValidationException(String message, Collection faults)
+	{
+		super(appendMessages(message, faults));
 		
 		this.faults = faults;
 	}
@@ -100,10 +111,15 @@ public class JRValidationException extends JRException
 		return faults;
 	}
 	
-	protected static String appendMessages(Collection faults)
+	protected static String appendMessages(String header, Collection faults)
 	{
+		if (header == null)
+		{
+			header = "Report design not valid : ";
+		}
+
 		StringBuffer sbuffer = new StringBuffer();
-		sbuffer.append("Report design not valid : ");
+		sbuffer.append(header);
 		int i = 1;
 		for(Iterator it = faults.iterator(); it.hasNext(); i++)
 		{

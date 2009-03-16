@@ -94,6 +94,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -188,6 +189,12 @@ public class JRVerifier
 	 * if not available
 	 */
 	public void addBrokenRule(String message, Object source)
+	{
+		addBrokenRule(brokenRules, message, source);
+	}
+
+	protected static void addBrokenRule(Collection brokenRules, 
+			String message, Object source)
 	{
 		JRValidationFault fault = new JRValidationFault();
 		fault.setMessage(message);
@@ -343,106 +350,141 @@ public class JRVerifier
 			addBrokenRule("The columns and the margins do not fit the page width.", jasperDesign);
 		}
 
+		verifyBandHeights(brokenRules, jasperDesign,
+				jasperDesign.getPageHeight(), 
+				jasperDesign.getTopMargin(), jasperDesign.getBottomMargin());
+
+		verifyFormatFactoryClass();
+	}
+
+
+	/**
+	 * Validates that the report band heights fit on a page of certain size.
+	 * 
+	 * @param brokenRules the list of rules to which
+	 * the validation failures are to be added
+	 * @param report the report whose bands are to be validated
+	 * @param pageHeight the height of the page
+	 * @param topMargin the page top margin
+	 * @param bottomMargin the page bottom margin
+	 */
+	public static void verifyBandHeights(Collection brokenRules, JRReport report,
+			int pageHeight, int topMargin, int bottomMargin)
+	{
 		if (
-			jasperDesign.getTopMargin() +
-			(jasperDesign.getBackground() != null ? jasperDesign.getBackground().getHeight() : 0) +
-			jasperDesign.getBottomMargin() >
-			jasperDesign.getPageHeight()
+			topMargin +
+			(report.getBackground() != null ? report.getBackground().getHeight() : 0) +
+			bottomMargin >
+			pageHeight
 			)
 		{
-			addBrokenRule("The background section and the margins do not fit the page height.", jasperDesign);
+			addBrokenRule(brokenRules, 
+					"The background section and the margins do not fit the page height.", 
+					report);
 		}
 
-		if (jasperDesign.isTitleNewPage())
+		if (report.isTitleNewPage())
 		{
 			if (
-				jasperDesign.getTopMargin() +
-				(jasperDesign.getTitle() != null ? jasperDesign.getTitle().getHeight() : 0) +
-				jasperDesign.getBottomMargin() >
-				jasperDesign.getPageHeight()
+				topMargin +
+				(report.getTitle() != null ? report.getTitle().getHeight() : 0) +
+				bottomMargin >
+				pageHeight
 				)
 			{
-				addBrokenRule("The title section and the margins do not fit the page height.", jasperDesign);
+				addBrokenRule(brokenRules, 
+						"The title section and the margins do not fit the page height.", 
+						report);
 			}
 		}
 		else
 		{
 			if (
-				jasperDesign.getTopMargin() +
-				(jasperDesign.getTitle() != null ? jasperDesign.getTitle().getHeight() : 0) +
-				(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
-				(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
-				(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
-				(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
-				jasperDesign.getBottomMargin() >
-				jasperDesign.getPageHeight()
+				topMargin +
+				(report.getTitle() != null ? report.getTitle().getHeight() : 0) +
+				(report.getPageHeader() != null ? report.getPageHeader().getHeight() : 0) +
+				(report.getColumnHeader() != null ? report.getColumnHeader().getHeight() : 0) +
+				(report.getColumnFooter() != null ? report.getColumnFooter().getHeight() : 0) +
+				(report.getPageFooter() != null ? report.getPageFooter().getHeight() : 0) +
+				bottomMargin >
+				pageHeight
 				)
 			{
-				addBrokenRule("The title section, the page and column headers and footers and the margins do not fit the page height.", jasperDesign);
+				addBrokenRule(brokenRules, 
+						"The title section, the page and column headers and footers and the margins do not fit the page height.", 
+						report);
 			}
 		}
 
 		if (
-			jasperDesign.getTopMargin() +
-			(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
-			(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
-			(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
-			(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
-			jasperDesign.getBottomMargin() >
-			jasperDesign.getPageHeight()
+			topMargin +
+			(report.getPageHeader() != null ? report.getPageHeader().getHeight() : 0) +
+			(report.getColumnHeader() != null ? report.getColumnHeader().getHeight() : 0) +
+			(report.getColumnFooter() != null ? report.getColumnFooter().getHeight() : 0) +
+			(report.getPageFooter() != null ? report.getPageFooter().getHeight() : 0) +
+			bottomMargin >
+			pageHeight
 			)
 		{
-			addBrokenRule("The page and column headers and footers and the margins do not fit the page height.", jasperDesign);
+			addBrokenRule(brokenRules, 
+					"The page and column headers and footers and the margins do not fit the page height.", 
+					report);
 		}
 
 		if (
-			jasperDesign.getTopMargin() +
-			(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
-			(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
-			(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
-			(jasperDesign.getLastPageFooter() != null ? jasperDesign.getLastPageFooter().getHeight() : 0) +
-			jasperDesign.getBottomMargin() >
-			jasperDesign.getPageHeight()
+			topMargin +
+			(report.getPageHeader() != null ? report.getPageHeader().getHeight() : 0) +
+			(report.getColumnHeader() != null ? report.getColumnHeader().getHeight() : 0) +
+			(report.getColumnFooter() != null ? report.getColumnFooter().getHeight() : 0) +
+			(report.getLastPageFooter() != null ? report.getLastPageFooter().getHeight() : 0) +
+			bottomMargin >
+			pageHeight
 			)
 		{
-			addBrokenRule("The page and column headers and footers and the margins do not fit the last page height.", jasperDesign);
+			addBrokenRule(brokenRules,
+					"The page and column headers and footers and the margins do not fit the last page height.", 
+					report);
 		}
 
 		if (
-			jasperDesign.getTopMargin() +
-			(jasperDesign.getSummary() != null ? jasperDesign.getSummary().getHeight() : 0) +
-			jasperDesign.getBottomMargin() >
-			jasperDesign.getPageHeight()
+			topMargin +
+			(report.getSummary() != null ? report.getSummary().getHeight() : 0) +
+			bottomMargin >
+			pageHeight
 			)
 		{
-			addBrokenRule("The summary section and the margins do not fit the page height.", jasperDesign);
+			addBrokenRule(brokenRules,
+					"The summary section and the margins do not fit the page height.", 
+					report);
 		}
 
 		if (
-			jasperDesign.getTopMargin() +
-			(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
-			(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
-			(jasperDesign.getDetail() != null ? jasperDesign.getDetail().getHeight() : 0) +
-			(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
-			(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
-			jasperDesign.getBottomMargin() >
-			jasperDesign.getPageHeight()
+			topMargin +
+			(report.getPageHeader() != null ? report.getPageHeader().getHeight() : 0) +
+			(report.getColumnHeader() != null ? report.getColumnHeader().getHeight() : 0) +
+			(report.getDetail() != null ? report.getDetail().getHeight() : 0) +
+			(report.getColumnFooter() != null ? report.getColumnFooter().getHeight() : 0) +
+			(report.getPageFooter() != null ? report.getPageFooter().getHeight() : 0) +
+			bottomMargin >
+			pageHeight
 			)
 		{
-			addBrokenRule("The detail section, the page and column headers and footers and the margins do not fit the page height.", jasperDesign);
+			addBrokenRule(brokenRules,
+					"The detail section, the page and column headers and footers and the margins do not fit the page height.", 
+					report);
 		}
 
 		if (
-				jasperDesign.getTopMargin() +
-				(jasperDesign.getNoData() != null ? jasperDesign.getNoData().getHeight() : 0) +
-				jasperDesign.getBottomMargin() >
-				jasperDesign.getPageHeight()
+				topMargin +
+				(report.getNoData() != null ? report.getNoData().getHeight() : 0) +
+				bottomMargin >
+				pageHeight
 				)
 		{
-			addBrokenRule("The noData section and the margins do not fit the page height.", jasperDesign);
+			addBrokenRule(brokenRules,
+					"The noData section and the margins do not fit the page height.", 
+					report);
 		}
-
-		verifyFormatFactoryClass();
 	}
 
 
