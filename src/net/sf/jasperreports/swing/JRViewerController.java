@@ -27,8 +27,10 @@
  */
 package net.sf.jasperreports.swing;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -36,7 +38,9 @@ import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 
 import org.apache.commons.logging.Log;
@@ -61,6 +65,7 @@ public class JRViewerController
 	protected int type = TYPE_FILE_NAME;
 	protected boolean isXML = false;
 	protected String reportFileName = null;
+	protected FileResolver fileResolver = null;
 	protected boolean reloadSupported;
 	
 	private JasperPrint jasperPrint = null;
@@ -127,6 +132,7 @@ public class JRViewerController
 		type = TYPE_FILE_NAME;
 		this.isXML = isXmlReport;
 		reportFileName = fileName;
+		fileResolver = new SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
 		reloadSupported = true;
 		fireListeners(JRViewerEvent.EVENT_REPORT_LOADED);
 		setPageIndex(0);
@@ -250,6 +256,11 @@ public class JRViewerController
 	public String getBundleString(String key)
 	{
 		return resourceBundle.getString(key);
+	}
+
+	public FileResolver getFileResolver()
+	{
+		return type == TYPE_FILE_NAME ? fileResolver : null;
 	}
 
 	public JasperPrint getJasperPrint()
