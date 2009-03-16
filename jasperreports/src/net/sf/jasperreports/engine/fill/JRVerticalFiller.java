@@ -62,9 +62,9 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected JRVerticalFiller(JasperReport jasperReport, JRBaseFiller parentFiller) throws JRException
+	protected JRVerticalFiller(JasperReport jasperReport, JRFillSubreport parentElement) throws JRException
 	{
-		super(jasperReport, null, parentFiller);
+		super(jasperReport, null, parentElement);
 
 		setPageHeight(pageHeight);
 	}
@@ -72,9 +72,9 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected JRVerticalFiller(JasperReport jasperReport, JREvaluator evaluator, JRBaseFiller parentFiller) throws JRException
+	protected JRVerticalFiller(JasperReport jasperReport, JREvaluator evaluator, JRFillSubreport parentElement) throws JRException
 	{
-		super(jasperReport, evaluator, parentFiller);
+		super(jasperReport, evaluator, parentElement);
 
 		setPageHeight(pageHeight);
 	}
@@ -780,7 +780,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 		*/
 
-		if (isSubreport() && columnIndex == 0)
+		if (isSubreport() && !isSubreportRunToBottom() && columnIndex == 0)
 		{
 			columnFooterOffsetY = offsetY;
 		}
@@ -819,7 +819,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		offsetX = leftMargin;
 
-		if (!isSubreport() && !fillContext.isIgnorePagination())
+		if ((!isSubreport() || isSubreportRunToBottom()) && !fillContext.isIgnorePagination())
 		{
 			offsetY = pageHeight - crtPageFooter.getHeight() - bottomMargin;
 		}

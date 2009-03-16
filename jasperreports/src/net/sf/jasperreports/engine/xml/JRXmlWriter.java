@@ -982,6 +982,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_subreport, getNamespace());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUsingCache, subreport.isOwnUsingCache());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_runToBottom, subreport.isRunToBottom());
 
 		writeReportElement(subreport);
 

@@ -167,6 +167,16 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	public void setUsingCache(boolean isUsingCache)
 	{
 	}
+
+	public Boolean isRunToBottom()
+	{
+		return ((JRSubreport) parent).isRunToBottom();
+	}
+
+	public void setRunToBottom(Boolean runToBottom)
+	{
+		throw new UnsupportedOperationException();
+	}
 		
 	/**
 	 *
@@ -380,12 +390,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		{
 			case JRReport.PRINT_ORDER_HORIZONTAL :
 			{
-				subreportFiller = new JRHorizontalFiller(jasperReport, evaluator, filler);
+				subreportFiller = new JRHorizontalFiller(jasperReport, evaluator, this);
 				break;
 			}
 			case JRReport.PRINT_ORDER_VERTICAL :
 			{
-				subreportFiller = new JRVerticalFiller(jasperReport, evaluator, filler);
+				subreportFiller = new JRVerticalFiller(jasperReport, evaluator, this);
 				break;
 			}
 			default :
