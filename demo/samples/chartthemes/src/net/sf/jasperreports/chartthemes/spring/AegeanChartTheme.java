@@ -46,6 +46,7 @@ import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAnchor;
@@ -480,7 +481,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		}
 		
 		String label = getChart().hasProperties() ?
-				getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
+				getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
 		
 		if(label != null)
 		{
@@ -761,7 +762,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		JRValueDisplay display = jrPlot.getValueDisplay();
 
 		String displayVisibility = display != null && getChart().hasProperties() ? 
-				getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
+				getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
        
 		if(Boolean.valueOf(displayVisibility).booleanValue())
 		{
@@ -782,7 +783,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		}
 		
 		String label = getChart().hasProperties() ?
-				getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
+				getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
 
 		if(label != null)
 		{

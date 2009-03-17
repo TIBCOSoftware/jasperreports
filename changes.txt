@@ -5,6 +5,8 @@ JasperReports Change Log
 JasperReports 3.1.5 (2009-03-xx)
 -----------------------------------
 
+- min max for chart axis;
+
 - multiple series in pie charts;
 
 - new props to limit pie charts;

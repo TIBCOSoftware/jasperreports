@@ -37,7 +37,6 @@ import java.awt.Stroke;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,6 +75,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
@@ -640,7 +640,7 @@ public class SimpleChartTheme implements ChartTheme
 
 		categoryPlot.setRenderer(barRenderer3D);
 		
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(categoryPlot.getDomainAxis(), bar3DPlot.getCategoryAxisLabelFont(),
 				bar3DPlot.getCategoryAxisLabelColor(), bar3DPlot.getCategoryAxisTickLabelFont(),
 				bar3DPlot.getCategoryAxisTickLabelColor(), bar3DPlot.getCategoryAxisTickLabelMask(),
@@ -691,7 +691,7 @@ public class SimpleChartTheme implements ChartTheme
 
 		categoryPlot.getDomainAxis().setTickMarksVisible(isShowTickMarks);
 		categoryPlot.getDomainAxis().setTickLabelsVisible(isShowTickLabels);
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
@@ -743,7 +743,7 @@ public class SimpleChartTheme implements ChartTheme
 		XYBubbleRenderer bubbleRenderer = new XYBubbleRenderer( scaleType );
 		xyPlot.setRenderer( bubbleRenderer );
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(xyPlot.getDomainAxis(), bubblePlot.getXAxisLabelFont(),
 				bubblePlot.getXAxisLabelColor(), bubblePlot.getXAxisTickLabelFont(),
 				bubblePlot.getXAxisTickLabelColor(), bubblePlot.getXAxisTickLabelMask(),
@@ -790,7 +790,7 @@ public class SimpleChartTheme implements ChartTheme
 		boolean isShowVolume = candlestickPlot.getShowVolume() == null ? true : candlestickPlot.getShowVolume().booleanValue();
 		candlestickRenderer.setDrawVolume(isShowVolume);
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(xyPlot.getDomainAxis(), candlestickPlot.getTimeAxisLabelFont(),
 				candlestickPlot.getTimeAxisLabelColor(), candlestickPlot.getTimeAxisTickLabelFont(),
 				candlestickPlot.getTimeAxisTickLabelColor(), candlestickPlot.getTimeAxisTickLabelMask(),
@@ -890,7 +890,7 @@ public class SimpleChartTheme implements ChartTheme
 		
 		//FIXME labels?
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(categoryPlot.getDomainAxis(), linePlot.getCategoryAxisLabelFont(),
 				linePlot.getCategoryAxisLabelColor(), linePlot.getCategoryAxisTickLabelFont(),
 				linePlot.getCategoryAxisTickLabelColor(), linePlot.getCategoryAxisTickLabelMask(),
@@ -1048,7 +1048,7 @@ public class SimpleChartTheme implements ChartTheme
 		plotRenderer.setBaseLinesVisible(isShowLines);
 		plotRenderer.setBaseShapesVisible(isShowShapes);
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), scatterPlot.getXAxisLabelFont(),
 				scatterPlot.getXAxisLabelColor(), scatterPlot.getXAxisTickLabelFont(),
 				scatterPlot.getXAxisTickLabelColor(), scatterPlot.getXAxisTickLabelMask(),
@@ -1103,7 +1103,7 @@ public class SimpleChartTheme implements ChartTheme
 
 		categoryPlot.setRenderer(stackedBarRenderer3D);
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(categoryPlot.getDomainAxis(), bar3DPlot.getCategoryAxisLabelFont(),
 				bar3DPlot.getCategoryAxisLabelColor(), bar3DPlot.getCategoryAxisTickLabelFont(),
 				bar3DPlot.getCategoryAxisTickLabelColor(), bar3DPlot.getCategoryAxisTickLabelMask(),
@@ -1163,7 +1163,7 @@ public class SimpleChartTheme implements ChartTheme
 		categoryRenderer.setBaseItemLabelsVisible(isShowLabels);
 		categoryRenderer.setShadowVisible(false);
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
@@ -1205,7 +1205,7 @@ public class SimpleChartTheme implements ChartTheme
 		configureChart(jfreeChart, getPlot());
 		JRAreaPlot areaPlot = (JRAreaPlot)getPlot();
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(((CategoryPlot)jfreeChart.getPlot()).getDomainAxis(), areaPlot.getCategoryAxisLabelFont(),
 				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
 				areaPlot.getCategoryAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
@@ -1247,7 +1247,7 @@ public class SimpleChartTheme implements ChartTheme
 		configureChart(jfreeChart, getPlot());
 		JRAreaPlot areaPlot = (JRAreaPlot)getPlot();
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), areaPlot.getCategoryAxisLabelFont(),
 				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
 				areaPlot.getCategoryAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
@@ -1322,7 +1322,7 @@ public class SimpleChartTheme implements ChartTheme
 		
 		itemRenderer.setBaseItemLabelsVisible( isShowLabels );
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(xyPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
@@ -1363,7 +1363,7 @@ public class SimpleChartTheme implements ChartTheme
 
 		configureChart(jfreeChart, getPlot());
 
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(jfreeChart.getXYPlot().getDomainAxis(), linePlot.getCategoryAxisLabelFont(),
 				linePlot.getCategoryAxisLabelColor(), linePlot.getCategoryAxisTickLabelFont(),
 				linePlot.getCategoryAxisTickLabelColor(), linePlot.getCategoryAxisTickLabelMask(),
@@ -1419,7 +1419,7 @@ public class SimpleChartTheme implements ChartTheme
 		lineRenderer.setBaseLinesVisible(isShowLines);
 		lineRenderer.setBaseShapesVisible(isShowShapes);
 		
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(xyPlot.getDomainAxis(), timeSeriesPlot.getTimeAxisLabelFont(),
 				timeSeriesPlot.getTimeAxisLabelColor(), timeSeriesPlot.getTimeAxisTickLabelFont(),
 				timeSeriesPlot.getTimeAxisTickLabelColor(), timeSeriesPlot.getTimeAxisTickLabelMask(),
@@ -1472,7 +1472,7 @@ public class SimpleChartTheme implements ChartTheme
 		//FIXMETHEME these are useless if the theme settings apply after regardless of these; check all
 		categoryPlot.getDomainAxis().setTickMarksVisible(isShowTickMarks);
 		categoryPlot.getDomainAxis().setTickLabelsVisible(isShowTickLabels);
-		// Handle the axis formating for the catagory axis
+		// Handle the axis formating for the category axis
 		configureAxis(
 			categoryPlot.getDomainAxis(), barPlot.getCategoryAxisLabelFont(),
 			barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
@@ -1773,7 +1773,7 @@ public class SimpleChartTheme implements ChartTheme
 		DialBackground db = new DialBackground(jrPlot.getBackcolor());
 		dialPlot.setBackground(db);
 		Range range = convertRange(jrPlot.getDataRange());
-		double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
+		//double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
 
 		StandardDialScale scale =
 			new StandardDialScale(
@@ -1831,7 +1831,7 @@ public class SimpleChartTheme implements ChartTheme
 
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		String displayVisibility = display != null && getChart().hasProperties() ? 
-      		getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.value.display.visible") : "false";
+      		getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
       
 		if(Boolean.parseBoolean(displayVisibility))
 		{
@@ -1851,7 +1851,7 @@ public class SimpleChartTheme implements ChartTheme
 			dialPlot.addLayer(dvi);
 
 			String label = getChart().hasProperties() ?
-					getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.dial.label") : null;
+					getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
 			
 			if(label != null)
 			{
@@ -2586,47 +2586,10 @@ public class SimpleChartTheme implements ChartTheme
 		}
 	}
 	
-	protected void setAxisBounds(Axis axis, AxisSettings axisSettings, int timeUnit, Comparable minValue, Comparable maxValue) throws JRException
+	protected void setAxisBounds(Axis axis, AxisSettings axisSettings, int timePeriodUnit, Comparable minValue, Comparable maxValue) throws JRException
 	{
 		if (axis instanceof ValueAxis)
 		{
-			String axisMinValue = null;
-			String axisMaxValue = null;
-			int tickCount = -1;
-			
-			
-			if(getChart().hasProperties())
-			{
-				String tickCountProperty = null;
-				if(axisSettings == getChartThemeSettings().getRangeAxisSettings())
-				{
-					axisMinValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.minvalue");
-					axisMaxValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.maxvalue");
-					tickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.range.axis.tickcount");
-				}
-				else
-				{
-					axisMinValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.minvalue");
-					axisMaxValue = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.maxvalue");
-					tickCountProperty = getChart().getPropertiesMap().getProperty("net.sf.jasperreports.chart.domain.axis.tickcount");
-				}
-				if(tickCountProperty != null)
-				{
-					tickCount = Integer.valueOf(tickCountProperty).intValue();
-				}
-			}
-			else
-			{
-				Integer tickCountInteger = null;
-				axisMinValue = String.valueOf(axisSettings.getMinValue());
-				axisMaxValue = String.valueOf(axisSettings.getMaxValue());
-				tickCountInteger = axisSettings.getTickCount();
-				if(tickCountInteger != null)
-				{
-					tickCount = tickCountInteger.intValue();
-				}
-			}
-			
 			if(axis instanceof DateAxis)
 			{
 				DateAxis dateAxis = (DateAxis)axis;
@@ -2634,72 +2597,107 @@ public class SimpleChartTheme implements ChartTheme
 
 				if(df != null)
 				{
-					if(axisMinValue != null)
+					if(minValue != null)
 					{
-						try
-                        {
-	                        dateAxis.setMinimumDate(minValue != null ? (Date)minValue : df.parse(axisMinValue));
-                        }
-                        catch (ParseException e)
-                        {
-	                        throw new JRException(e);
-                        }
+                        dateAxis.setMinimumDate((Date)minValue);
 					}
-					if(axisMaxValue != null)
+					if(maxValue != null)
 					{
-						try
-                        {
-	                        dateAxis.setMaximumDate(maxValue != null ? (Date)maxValue : df.parse(axisMaxValue));
-                        }
-                        catch (ParseException e)
-                        {
-	                        throw new JRException(e);
-                        }
+                        dateAxis.setMaximumDate((Date)maxValue);
 					}
 				}
 			}
 			else
 			{
-				if(axisMinValue != null && !axisMinValue.equals("null"))
+				if(minValue != null)
 				{
-					((ValueAxis)axis).setLowerBound(minValue != null ? ((Double)minValue).doubleValue() : Double.valueOf(axisMinValue).doubleValue());
+					((ValueAxis)axis).setLowerBound(((Number)minValue).doubleValue());
 				}
-				if(axisMaxValue != null && !axisMaxValue.equals("null"))
+				if(maxValue != null)
 				{
-					((ValueAxis)axis).setUpperBound(maxValue != null ? ((Double)maxValue).doubleValue() : Double.valueOf(axisMaxValue).doubleValue());
+					((ValueAxis)axis).setUpperBound(((Number)maxValue).doubleValue());
 				}
 			}
 			
-			calculateTickUnits(axis, tickCount, timeUnit);
+			calculateTickUnits(axis, axisSettings, timePeriodUnit);
 		}
 	}
 
 	/**
 	 * For a given axis, adjust the tick unit size, in order to 
 	 * have a customizable number of ticks on that axis
-	 * @param axis the axis 
-	 * @param tickCount the user defined number of ticks for the axis
-	 * @param timePeriodUnit the time period used as measure unit on a org.jfree.chart.axis.NumberAxis
 	 */
-	protected void calculateTickUnits(Axis axis, int tickCount, int timePeriodUnit)
+	protected void calculateTickUnits(Axis axis, AxisSettings axisSettings, int timePeriodUnit)
 	{
-		if(tickCount < 0)
+		Integer tickCount = null;
+		Number tickInterval = null;
+		
+		if(getChart().hasProperties())
+		{
+			String tickCountProperty = null;
+			String tickIntervalProperty = null;
+			if(axisSettings == getChartThemeSettings().getRangeAxisSettings())
+			{
+				tickCountProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_RANGE_AXIS_TICK_COUNT);
+				tickIntervalProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_RANGE_AXIS_TICK_INTERVAL);
+			}
+			else
+			{
+				tickCountProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DOMAIN_AXIS_TICK_COUNT);
+				tickIntervalProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DOMAIN_AXIS_TICK_INTERVAL);
+			}
+			if(tickCountProperty != null && tickCountProperty.trim().length() > 0)
+			{
+				tickCount = Integer.valueOf(tickCountProperty);
+			}
+			if(tickIntervalProperty != null && tickIntervalProperty.trim().length() > 0)
+			{
+				tickInterval = Double.valueOf(tickIntervalProperty);
+			}
+		}
+		else
+		{
+			tickCount = axisSettings.getTickCount();
+			tickInterval = axisSettings.getTickInterval();
+		}
+		
+		if(tickInterval == null && tickCount == null)
+		{
 			return;
+		}
+		
 		if(axis instanceof NumberAxis)
 		{
 			NumberAxis numberAxis = (NumberAxis)axis;
 			int axisRange = (int)numberAxis.getRange().getLength();
-			if(numberAxis.getNumberFormatOverride() != null)
+			if(axisRange > 0)
 			{
-				numberAxis.setTickUnit(new NumberTickUnit(axisRange/tickCount, numberAxis.getNumberFormatOverride()));
-			}
-			else
-			{
-				numberAxis.setTickUnit(new NumberTickUnit(axisRange/tickCount));
+				if(tickInterval != null)
+				{
+					if(numberAxis.getNumberFormatOverride() != null)
+					{
+						numberAxis.setTickUnit(new NumberTickUnit(tickInterval.doubleValue(), numberAxis.getNumberFormatOverride()));
+					}
+					else
+					{
+						numberAxis.setTickUnit(new NumberTickUnit(tickInterval.doubleValue()));
+					}
+				}
+				else if (tickCount != null)
+				{
+					if(numberAxis.getNumberFormatOverride() != null)
+					{
+						numberAxis.setTickUnit(new NumberTickUnit(axisRange / tickCount.intValue(), numberAxis.getNumberFormatOverride()));
+					}
+					else
+					{
+						numberAxis.setTickUnit(new NumberTickUnit(axisRange / tickCount.intValue()));
+					}
+				}
 			}
 		}
-		else if(axis instanceof DateAxis)
-		{
+//		else if(axis instanceof DateAxis)
+//		{
 //			DateAxis dateAxis = (DateAxis)axis;
 //			int axisRange = (int)dateAxis.getRange().getLength();
 //			if(dateAxis.getDateFormatOverride() != null)
@@ -2710,7 +2708,7 @@ public class SimpleChartTheme implements ChartTheme
 //			{
 //				dateAxis.setTickUnit(new DateTickUnit(timePeriodUnit, axisRange/tickCount));
 //			}
-		}
+//		}
 	}
 	
 	/**

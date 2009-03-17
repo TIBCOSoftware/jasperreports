@@ -139,11 +139,15 @@ public class XmlChartTheme extends SimpleChartTheme
 	{
 		ChartThemeSettings settings = null;
 		
+		InputStream mis = null;
+		
 		try
 		{
+			mis = JRLoader.getLocationInputStream(MAPPING_FILE);
+
 			Mapping mapping = new Mapping();
 			mapping.loadMapping(
-				new InputSource(JRLoader.getLocationInputStream(MAPPING_FILE))//FIXMETHEME close streams
+				new InputSource(mis)
 				);
 			
 			Unmarshaller unmarshaller = new Unmarshaller(mapping);
@@ -168,6 +172,19 @@ public class XmlChartTheme extends SimpleChartTheme
 		{
 			throw new JRRuntimeException(e);
 		}
+		finally
+		{
+			if (mis != null)
+			{
+				try
+				{
+					mis.close();
+				}
+				catch(IOException e)
+				{
+				}
+			}
+		}
 		
 		return settings;
 	}
@@ -178,13 +195,17 @@ public class XmlChartTheme extends SimpleChartTheme
 	 */
 	public static void saveSettings(ChartThemeSettings settings, Writer writer)
 	{
+		InputStream mis = null;
+		
 		try
 		{
+			mis = JRLoader.getLocationInputStream(MAPPING_FILE);
+
 			Marshaller marshaller = new Marshaller(writer);
 
 			Mapping mapping = new Mapping();
 			mapping.loadMapping(
-				new InputSource(JRLoader.getLocationInputStream(MAPPING_FILE))//FIXMETHEME close streams
+				new InputSource(mis)
 				);
 			marshaller.setMapping(mapping);
 
@@ -209,6 +230,19 @@ public class XmlChartTheme extends SimpleChartTheme
 		catch (JRException e)
 		{
 			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			if (mis != null)
+			{
+				try
+				{
+					mis.close();
+				}
+				catch(IOException e)
+				{
+				}
+			}
 		}
 	}
 	

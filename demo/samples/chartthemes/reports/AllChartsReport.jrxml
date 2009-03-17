@@ -163,8 +163,6 @@
 				<barChart>
 					<chart evaluationTime="Report" hyperlinkType="None">
 						<reportElement x="0" y="0" width="555" height="300">
-							<!-- property name="net.sf.jasperreports.chart.range.axis.minvalue" value="0"/>
-							<property name="net.sf.jasperreports.chart.range.axis.maxvalue" value="250000"/-->
 						</reportElement>
 						<chartTitle>
 							<titleExpression><![CDATA["Bar Chart"]]></titleExpression>
@@ -499,10 +497,6 @@
 				<xyLineChart>
 					<chart evaluationTime="Report" hyperlinkType="None">
 						<reportElement x="0" y="0" width="555" height="300">
-							<property name="net.sf.jasperreports.chart.domain.axis.minvalue" value="0"/>
-							<property name="net.sf.jasperreports.chart.domain.axis.maxvalue" value="90"/>
-							<property name="net.sf.jasperreports.chart.range.axis.minvalue" value="0"/>
-							<property name="net.sf.jasperreports.chart.range.axis.maxvalue" value="400000"/>
 						</reportElement>
 						<chartTitle>
 							<titleExpression><![CDATA["XY Line Chart"]]></titleExpression>
