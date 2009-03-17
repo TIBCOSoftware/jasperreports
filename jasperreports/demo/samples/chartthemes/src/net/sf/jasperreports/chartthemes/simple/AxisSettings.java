@@ -72,9 +72,8 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_tickMarksPaint = "tickMarksPaint";
 	public static final String PROPERTY_tickMarksStroke = "tickMarksStroke";
 	public static final String PROPERTY_tickMarksVisible = "tickMarksVisible";
-	public static final String PROPERTY_minValue = "minValue";//FIXMECHART this should be in chart
-	public static final String PROPERTY_maxValue = "maxValue";
 	public static final String PROPERTY_tickCount = "tickCount";
+	public static final String PROPERTY_tickInterval = "tickInterval";
 
 	/**
 	 *
@@ -99,9 +98,8 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	private PaintProvider tickMarksPaint = null;
 	private Stroke tickMarksStroke = null;
 	private Boolean tickMarksVisible = null;
-	private Double minValue = null;
-	private Double maxValue = null;
 	private Integer tickCount = null;
+	private Number tickInterval = null;
 	
 	/**
 	 *
@@ -449,42 +447,6 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
     }
 
 	/**
-     * @return the minValue
-     */
-    public Double getMinValue()
-    {
-    	return minValue;
-    }
-
-	/**
-     * @param minValue the minValue to set
-     */
-    public void setMinValue(Double minValue)
-    {
-    	Double old = getMinValue();
-		this.minValue = minValue;
-		getEventSupport().firePropertyChange(PROPERTY_minValue, old, getMinValue());
-    }
-
-	/**
-     * @return the maxValue
-     */
-    public Double getMaxValue()
-    {
-    	return maxValue;
-    }
-
-	/**
-     * @param maxValue the maxValue to set
-     */
-    public void setMaxValue(Double maxValue)
-    {
-    	Double old = getMaxValue();
-		this.maxValue = maxValue;
-		getEventSupport().firePropertyChange(PROPERTY_maxValue, old, getMaxValue());
-    }
-
-	/**
      * @return the tickCount
      */
     public Integer getTickCount()
@@ -500,6 +462,24 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
     	Integer old = getTickCount();
 		this.tickCount = tickCount;
 		getEventSupport().firePropertyChange(PROPERTY_tickCount, old, getTickCount());
+    }
+
+	/**
+     * @return the tickInterval
+     */
+    public Number getTickInterval()
+    {
+    	return tickInterval;
+    }
+
+	/**
+     * @param tickInterval the tickInterval to set
+     */
+    public void setTickInterval(Number tickInterval)
+    {
+    	Number old = getTickInterval();
+		this.tickInterval = tickInterval;
+		getEventSupport().firePropertyChange(PROPERTY_tickInterval, old, getTickInterval());
     }
 
 	/**

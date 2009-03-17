@@ -28,8 +28,6 @@
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -255,25 +253,9 @@ public class ChartThemesApp
 	 */
 	private static void usage()
 	{
-		System.out.println( "ChartsApp usage:" );
-		System.out.println( "\tjava ChartsApp task" );
-		System.out.println( "\tTasks : themes | fill | pdf | html" );//FIXMETHEME
-	}
-
-
-	/**
-	 *
-	 */
-	private static final Date truncateToMonth(Date date)
-	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH);
-		calendar.clear();
-		calendar.set(Calendar.YEAR, year);
-		calendar.set(Calendar.MONTH, month);
-		return calendar.getTime();
+		System.out.println( "ChartThemesApp usage:" );
+		System.out.println( "\tjava ChartThemesApp task file" );
+		System.out.println( "\tTasks : themes | fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | run" );
 	}
 
 

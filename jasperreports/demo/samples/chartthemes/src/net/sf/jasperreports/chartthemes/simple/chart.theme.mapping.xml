@@ -261,13 +261,10 @@
 		<field name="tickMarksVisible" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="minValue" type="java.lang.Double">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="maxValue" type="java.lang.Double">
-			<bind-xml node="attribute"/>
-		</field>
 		<field name="tickCount" type="java.lang.Integer">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickInterval" type="java.lang.Number">
 			<bind-xml node="attribute"/>
 		</field>
 	</class>

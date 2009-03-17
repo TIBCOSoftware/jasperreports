@@ -88,7 +88,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	 */
 	public void clearAxes()
 	{
-		//FIXME event?
+		//FIXMECHART event?
 		axes.clear();
 		chart.setDataset(null);
 	}
