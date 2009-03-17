@@ -47,11 +47,11 @@ import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.design.JRDesignBand;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignField;
+import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignLine;
 import net.sf.jasperreports.engine.design.JRDesignParameter;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
-import net.sf.jasperreports.engine.design.JRDesignRectangle;
 import net.sf.jasperreports.engine.design.JRDesignStaticText;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
@@ -419,14 +419,6 @@ public class NoXmlDesignApp
 
 		JRDesignBand band = new JRDesignBand();
 		band.setHeight(20);
-		JRDesignRectangle rectangle = new JRDesignRectangle();
-		rectangle.setX(0);
-		rectangle.setY(4);
-		rectangle.setWidth(515);
-		rectangle.setHeight(15);
-		rectangle.setForecolor(new Color(0xC0, 0xC0, 0xC0));
-		rectangle.setBackcolor(new Color(0xC0, 0xC0, 0xC0));
-		band.addElement(rectangle);
 		JRDesignTextField textField = new JRDesignTextField();
 		textField.setX(0);
 		textField.setY(4);
@@ -510,17 +502,18 @@ public class NoXmlDesignApp
 		//Page header
 		band = new JRDesignBand();
 		band.setHeight(20);
-		rectangle = new JRDesignRectangle();//FIXME use frames
-		rectangle.setX(0);
-		rectangle.setY(5);
-		rectangle.setWidth(515);
-		rectangle.setHeight(15);
-		rectangle.setForecolor(new Color(0x33, 0x33, 0x33));
-		rectangle.setBackcolor(new Color(0x33, 0x33, 0x33));
-		band.addElement(rectangle);
+		JRDesignFrame frame = new JRDesignFrame();
+		frame.setX(0);
+		frame.setY(5);
+		frame.setWidth(515);
+		frame.setHeight(15);
+		frame.setForecolor(new Color(0x33, 0x33, 0x33));
+		frame.setBackcolor(new Color(0x33, 0x33, 0x33));
+		frame.setMode(JRElement.MODE_OPAQUE);
+		band.addElement(frame);
 		staticText = new JRDesignStaticText();
 		staticText.setX(0);
-		staticText.setY(5);
+		staticText.setY(0);
 		staticText.setWidth(55);
 		staticText.setHeight(15);
 		staticText.setForecolor(Color.white);
@@ -529,10 +522,10 @@ public class NoXmlDesignApp
 		staticText.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_CENTER);
 		staticText.setStyle(boldStyle);
 		staticText.setText("ID");
-		band.addElement(staticText);
+		frame.addElement(staticText);
 		staticText = new JRDesignStaticText();
 		staticText.setX(55);
-		staticText.setY(5);
+		staticText.setY(0);
 		staticText.setWidth(205);
 		staticText.setHeight(15);
 		staticText.setForecolor(Color.white);
@@ -540,10 +533,10 @@ public class NoXmlDesignApp
 		staticText.setMode(JRElement.MODE_OPAQUE);
 		staticText.setStyle(boldStyle);
 		staticText.setText("Name");
-		band.addElement(staticText);
+		frame.addElement(staticText);
 		staticText = new JRDesignStaticText();
 		staticText.setX(260);
-		staticText.setY(5);
+		staticText.setY(0);
 		staticText.setWidth(255);
 		staticText.setHeight(15);
 		staticText.setForecolor(Color.white);
@@ -551,7 +544,7 @@ public class NoXmlDesignApp
 		staticText.setMode(JRElement.MODE_OPAQUE);
 		staticText.setStyle(boldStyle);
 		staticText.setText("Street");
-		band.addElement(staticText);
+		frame.addElement(staticText);
 		jasperDesign.setPageHeader(band);
 
 		//Column header
