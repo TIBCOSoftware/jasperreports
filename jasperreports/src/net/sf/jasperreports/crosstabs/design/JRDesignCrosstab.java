@@ -1559,7 +1559,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		}
 		
 		// clone not preprocessed
-		crossCells = null;
+		clone.crossCells = null;
 		
 		if (whenNoDataCell != null)
 		{
