@@ -25,53 +25,29 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.crosstabs;
+package net.sf.jasperreports.engine.util;
 
 import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.JRExpression;
 
 /**
- * Crosstab groups bucketing information interface.
- * <p>
- * The bucketing informartion consists of the grouping expression
- * and sorting information.
- * The buckets can be sorted according to the natural sorting (if the values
- * implement {@link java.lang.Comparable Comparable}) or using a comparator.
+ * Cloning related utility methods.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRCrosstabBucket extends JRCloneable
+public class JRCloneUtils
 {
+
 	/**
-	 * Returns the bucket sorting type.
-	 * <p>
-	 * The possible values are:
-	 * <ul>
-	 * 	<li>{@link net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition#ORDER_ASCENDING Bucket.ORDER_ASCENDING}</li>
-	 * 	<li>{@link net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition#ORDER_DESCENDING Bucket.ORDER_DESCENDING}</li>
-	 * </ul>
+	 * Clones an object after checking whether the argument is null.
 	 * 
-	 * @return the bucket sorting type
+	 * @param original the object to be cloned
+	 * @return a clone of the argument, or <code>null</code> if the argument was
+	 * <code>null</code>
 	 */
-	public byte getOrder();
+	public static Object nullSafeClone(JRCloneable original)
+	{
+		return original == null ? null : original.clone();
+	}
 	
-	
-	/**
-	 * Returns the grouping expression.
-	 * 
-	 * @return the grouping expression
-	 */
-	public JRExpression getExpression();
-	
-	
-	/**
-	 * Returns the comparator expression.
-	 * <p>
-	 * The result of this expression is used to sort the buckets, in ascending or
-	 * descending order (given by {@link #getOrder() getOrder()}.
-	 * 
-	 * @return the comparator expression
-	 */
-	public JRExpression getComparatorExpression();
 }

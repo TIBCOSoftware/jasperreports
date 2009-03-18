@@ -33,8 +33,10 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
 import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Base read-only implementation for crosstab row and column groups.
@@ -44,6 +46,9 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializable
 {
+	
+	//FIXME no serial UID
+	
 	protected String name;
 	protected byte totalPosition = BucketDefinition.TOTAL_POSITION_NONE;
 	protected JRCrosstabBucket bucket;
@@ -111,6 +116,19 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 	 */
 	public Object clone() 
 	{
-		return null;//FIXMECLONE: implement this
+		try
+		{
+			JRBaseCrosstabGroup clone = (JRBaseCrosstabGroup) super.clone();
+			clone.bucket = (JRCrosstabBucket) JRCloneUtils.nullSafeClone(bucket);
+			clone.header = (JRCellContents) JRCloneUtils.nullSafeClone(header);
+			clone.totalHeader = (JRCellContents) JRCloneUtils.nullSafeClone(totalHeader);
+			clone.variable = (JRVariable) JRCloneUtils.nullSafeClone(variable);
+			return clone;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			// never
+			throw new JRRuntimeException(e);
+		}
 	}
 }

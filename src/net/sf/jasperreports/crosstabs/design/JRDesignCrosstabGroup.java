@@ -178,9 +178,19 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 	 */
 	public Object clone() 
 	{
-		return null;//FIXMECLONE: implement this
+		JRDesignCrosstabGroup clone = (JRDesignCrosstabGroup) super.clone();
+		// always the same instance
+		clone.designVariable = (JRDesignVariable) clone.variable;
+		return clone;
 	}
 
+	public JRDesignCrosstabGroup clone(JRDesignCrosstab parent)
+	{
+		JRDesignCrosstabGroup clone = (JRDesignCrosstabGroup) clone();
+		clone.setParent(parent);
+		return clone;
+	}
+	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

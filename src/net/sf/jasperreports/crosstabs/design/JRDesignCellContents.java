@@ -248,7 +248,9 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	 */
 	public Object clone() 
 	{
-		return null;//FIXMECLONE: implement this");
+		JRDesignCellContents clone = (JRDesignCellContents) super.clone();
+		clone.lineBox = lineBox == null ? null : (JRLineBox) lineBox.clone(clone);
+		return clone;
 	}
 
 	
