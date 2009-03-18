@@ -106,7 +106,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	/**
 	 * 
 	 */
-	public Object clone(JRChart parentChart) 
+	public Object clone() 
 	{
 		JRBaseChartAxis clone = null;
 
@@ -118,8 +118,6 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 		{
 			throw new JRRuntimeException(e);
 		}
-		
-		clone.chart = parentChart;
 		
 		return clone;
 	}

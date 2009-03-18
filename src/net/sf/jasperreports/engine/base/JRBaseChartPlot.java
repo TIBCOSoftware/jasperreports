@@ -377,7 +377,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	/**
 	 *
 	 */
-	public Object clone(JRChart parentChart) 
+	public Object clone() 
 	{
 		JRBaseChartPlot clone = null;
 
@@ -390,8 +390,6 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 			throw new JRRuntimeException(e);
 		}
 		
-		clone.chart = parentChart;
-		
 		if (seriesColors != null)
 		{
 			clone.seriesColors = new TreeSet();
@@ -400,6 +398,19 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 				clone.seriesColors.add(((JRChartPlot.JRSeriesColor)it.next()).clone());
 			}
 		}
+		
+		return clone;
+	}
+
+
+	/**
+	 *
+	 */
+	public Object clone(JRChart parentChart) 
+	{
+		JRBaseChartPlot clone = (JRBaseChartPlot)this.clone();
+		
+		clone.chart = parentChart;
 		
 		return clone;
 	}

@@ -245,6 +245,13 @@ public class JRFillChartPlot implements JRChartPlot
 	{
 	}
 
+	/**
+	 *
+	 */
+	public Object clone() 
+	{
+		return null;
+	}
 	
 	/**
 	 *
