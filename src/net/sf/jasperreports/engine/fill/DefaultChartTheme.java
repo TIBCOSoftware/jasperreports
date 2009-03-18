@@ -1788,7 +1788,7 @@ public class DefaultChartTheme implements ChartTheme
 			(String)evaluateExpression(getChart().getTitleExpression()),
 			null,
 			dialPlot,
-			getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
+			isShowLegend()
 			);
 
 		// Set all the generic options

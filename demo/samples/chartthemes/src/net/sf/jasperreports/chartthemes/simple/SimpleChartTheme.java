@@ -1892,7 +1892,7 @@ public class SimpleChartTheme implements ChartTheme
 			(String)evaluateExpression(getChart().getTitleExpression()),
 			null,
 			dialPlot,
-			getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
+			isShowLegend()
 			);
 
 		// Set all the generic options
@@ -2717,11 +2717,11 @@ public class SimpleChartTheme implements ChartTheme
 	protected boolean isShowLegend()
 	{
 		Boolean showLegend = 
-			getChart().getShowLegend() != null
-				? getChart().getShowLegend()
-				: getLegendSettings().getShowLegend() == null
+			getChart().getShowLegend() == null
+				? getLegendSettings().getShowLegend() == null
 					? Boolean.TRUE
-					: getLegendSettings().getShowLegend();
+					: getLegendSettings().getShowLegend()
+				:getChart().getShowLegend();
 
 		return showLegend.booleanValue();
 	}

@@ -1736,7 +1736,7 @@ public class GenericChartTheme implements ChartTheme
 			(String)evaluateExpression(getChart().getTitleExpression()),
 			null,
 			dialPlot,
-			getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
+			isShowLegend()
 			);
 
 		// Set all the generic options
@@ -2530,11 +2530,12 @@ public class GenericChartTheme implements ChartTheme
 	 */
 	protected boolean isShowLegend()
 	{
-		Boolean legendVisibility = getChart().getShowLegend() != null ?
-				getChart().getShowLegend() :
-				(Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_VISIBLE);
+		Boolean legendVisibility = 
+			getChart().getShowLegend() == null 
+				?(Boolean)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_VISIBLE)
+				: getChart().getShowLegend();
 
-		return legendVisibility != null ? legendVisibility.booleanValue() : false;
+		return legendVisibility == null ? false : legendVisibility.booleanValue();
 	}
 
 	/**
