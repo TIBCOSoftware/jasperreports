@@ -1521,4 +1521,32 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 			isStyledText = null;
 		}
 	}
+	
+	public Object clone()
+	{
+		try
+		{
+			JRBaseStyle clone = (JRBaseStyle) super.clone();
+			clone.lineBox = lineBox == null ? null : lineBox.clone(clone);
+			clone.linePen = linePen == null ? null : linePen.clone(clone);
+			
+			if (conditionalStyles != null)
+			{
+				clone.conditionalStyles = new JRConditionalStyle[conditionalStyles.length];
+				for (int i = 0; i < conditionalStyles.length; i++)
+				{
+					JRConditionalStyle style = conditionalStyles[i];
+					JRConditionalStyle styleClone = (JRConditionalStyle) style.clone();
+					clone.conditionalStyles[i] = styleClone;
+				}
+			}
+			
+			return clone;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			// never
+			throw new JRRuntimeException(e);
+		}
+	}
 }
