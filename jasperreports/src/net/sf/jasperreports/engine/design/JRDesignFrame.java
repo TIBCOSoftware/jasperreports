@@ -708,7 +708,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 			}
 		}
 
-		clone.lineBox = (JRLineBox)lineBox.clone(this);
+		clone.lineBox = (JRLineBox)lineBox.clone(clone);
 
 		return clone;
 	}

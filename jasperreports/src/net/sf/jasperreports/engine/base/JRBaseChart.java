@@ -1200,7 +1200,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	{
 		JRBaseChart clone = (JRBaseChart)super.clone();
 		
-		clone.lineBox = (JRLineBox)lineBox.clone(this);
+		clone.lineBox = (JRLineBox)lineBox.clone(clone);
 
 		if (hyperlinkParameters != null)
 		{
