@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Base read-only crosstab measure implementation.
@@ -227,6 +228,17 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 	 */
 	public Object clone() 
 	{
-		return null;//FIXMECLONE: implement this");
+		try
+		{
+			JRBaseCrosstabMeasure clone = (JRBaseCrosstabMeasure) super.clone();
+			clone.expression = (JRExpression) JRCloneUtils.nullSafeClone(expression);
+			clone.variable = (JRVariable) JRCloneUtils.nullSafeClone(variable);
+			return clone;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			// never
+			throw new JRRuntimeException(e);
+		}
 	}
 }

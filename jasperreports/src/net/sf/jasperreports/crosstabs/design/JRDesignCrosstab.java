@@ -1455,17 +1455,6 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			}
 		}
 		
-		if (variablesList != null)
-		{
-			clone.variablesList = new SequencedHashMap(variablesList.size());
-			for(Iterator it = variablesList.sequence().iterator(); it.hasNext();)
-			{
-				Object key = it.next();
-				JRVariable variable = (JRVariable)variablesList.get(key);
-				clone.variablesList.put(variable.getName(), variable);
-			}
-		}
-		
 		if (parametersMapExpression != null)
 		{
 			clone.parametersMapExpression = (JRExpression)parametersMapExpression.clone();
@@ -1475,16 +1464,27 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			clone.dataset = (JRDesignCrosstabDataset)dataset.clone();
 		}
 		
+		// keep group and measure cloned variables to reuse the clone instances
+		// in the variables list
+		Map clonedVariables = new HashMap();
+		
 		if (rowGroups != null)
 		{
 			clone.rowGroups = new ArrayList(rowGroups.size());
 			clone.rowGroupsMap = new HashMap(rowGroups.size());
 			for(int i = 0; i < rowGroups.size(); i++)
 			{
-				JRCrosstabRowGroup group = 
-					(JRCrosstabRowGroup)((JRCrosstabRowGroup)rowGroups.get(i)).clone();
-				clone.rowGroups.add(group);
-				clone.rowGroupsMap.put(group.getName(), new Integer(i));
+				JRDesignCrosstabRowGroup group = 
+					(JRDesignCrosstabRowGroup) rowGroups.get(i);
+				JRDesignCrosstabRowGroup groupClone = 
+					(JRDesignCrosstabRowGroup) group.clone(clone);
+				clone.rowGroups.add(groupClone);
+				clone.rowGroupsMap.put(groupClone.getName(), new Integer(i));
+				
+				if (group.designVariable != null)
+				{
+					clonedVariables.put(group.designVariable, groupClone.designVariable);
+				}
 			}
 		}
 		
@@ -1494,10 +1494,17 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			clone.columnGroupsMap = new HashMap(columnGroups.size());
 			for(int i = 0; i < columnGroups.size(); i++)
 			{
-				JRCrosstabColumnGroup group = 
-					(JRCrosstabColumnGroup)((JRCrosstabColumnGroup)columnGroups.get(i)).clone();
-				clone.columnGroups.add(group);
-				clone.columnGroupsMap.put(group.getName(), new Integer(i));
+				JRDesignCrosstabColumnGroup group = 
+					(JRDesignCrosstabColumnGroup) columnGroups.get(i);
+				JRDesignCrosstabColumnGroup groupClone = 
+					(JRDesignCrosstabColumnGroup) group.clone(clone);
+				clone.columnGroups.add(groupClone);
+				clone.columnGroupsMap.put(groupClone.getName(), new Integer(i));
+				
+				if (group.designVariable != null)
+				{
+					clonedVariables.put(group.designVariable, groupClone.designVariable);
+				}
 			}
 		}
 		
@@ -1507,10 +1514,34 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			clone.measuresMap = new HashMap(measures.size());
 			for(int i = 0; i < measures.size(); i++)
 			{
-				JRCrosstabMeasure measure = 
-					(JRCrosstabMeasure)((JRCrosstabMeasure)measures.get(i)).clone();
-				clone.measures.add(measure);
-				clone.measuresMap.put(measure.getName(), new Integer(i));
+				JRDesignCrosstabMeasure measure = 
+					(JRDesignCrosstabMeasure) measures.get(i);
+				JRDesignCrosstabMeasure clonedMeasure = 
+					(JRDesignCrosstabMeasure) measure.clone();
+				clone.measures.add(clonedMeasure);
+				clone.measuresMap.put(clonedMeasure.getName(), new Integer(i));
+				
+				if (clonedMeasure.designVariable != null)
+				{
+					clonedVariables.put(measure.designVariable, 
+							clonedMeasure.designVariable);
+				}
+			}
+		}
+		
+		if (variablesList != null)
+		{
+			clone.variablesList = new SequencedHashMap(variablesList.size());
+			for(Iterator it = variablesList.values().iterator(); it.hasNext();)
+			{
+				JRVariable variable = (JRVariable) it.next();
+				// check whether the variable was already cloned as part of a group or measure
+				JRVariable variableClone = (JRVariable) clonedVariables.get(variable);
+				if (variableClone == null)
+				{
+					variableClone = (JRVariable) variable.clone();
+				}
+				clone.variablesList.put(variableClone.getName(), variableClone);
 			}
 		}
 		
@@ -1526,6 +1557,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				clone.cellsMap.put(new Pair(cell.getRowTotalGroup(), cell.getColumnTotalGroup()), cell);
 			}
 		}
+		
+		// clone not preprocessed
+		crossCells = null;
 		
 		if (whenNoDataCell != null)
 		{

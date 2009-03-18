@@ -33,7 +33,9 @@ import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Base read-only implementation of {@link net.sf.jasperreports.crosstabs.JRCrosstabBucket JRCrosstabBucket}.
@@ -75,5 +77,21 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 	public JRExpression getComparatorExpression()
 	{
 		return comparatorExpression;
+	}
+	
+	public Object clone()
+	{
+		try
+		{
+			JRBaseCrosstabBucket clone = (JRBaseCrosstabBucket) super.clone();
+			clone.expression = (JRExpression) JRCloneUtils.nullSafeClone(expression);
+			clone.comparatorExpression = (JRExpression) JRCloneUtils.nullSafeClone(comparatorExpression);
+			return clone;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			// never
+			throw new JRRuntimeException(e);
+		}
 	}
 }

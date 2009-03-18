@@ -62,7 +62,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 
 	public static final String PROPERTY_VALUE_EXPRESSION = "expression";
 	
-	private JRDesignVariable designVariable;
+	protected JRDesignVariable designVariable;
 	
 	
 	/**
@@ -261,7 +261,10 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 	 */
 	public Object clone() 
 	{
-		return null;//FIXMECLONE: implement this");
+		JRDesignCrosstabMeasure clone = (JRDesignCrosstabMeasure) super.clone();
+		// always the same instance
+		clone.designVariable = (JRDesignVariable) clone.variable;
+		return clone;
 	}
 
 	private transient JRPropertyChangeSupport eventSupport;

@@ -154,4 +154,11 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 			box = null;
 		}
 	}
+	
+	public Object clone() 
+	{
+		JRBaseCellContents clone = (JRBaseCellContents) super.clone();
+		clone.lineBox = lineBox == null ? null : (JRLineBox) lineBox.clone(clone);
+		return clone;
+	}
 }
