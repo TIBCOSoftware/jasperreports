@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
@@ -96,5 +97,12 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 	public JRExpression getConditionExpression()
 	{
 		return conditionExpression;
+	}
+
+	public Object clone()
+	{
+		JRBaseConditionalStyle clone = (JRBaseConditionalStyle) super.clone();
+		clone.conditionExpression = (JRExpression) JRCloneUtils.nullSafeClone(conditionExpression);
+		return clone;
 	}
 }

@@ -33,7 +33,7 @@ import java.awt.Color;
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContainer
+public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContainer, JRCloneable
 {
 	/**
 	 * Gets the style unique name.
