@@ -30,7 +30,6 @@ package net.sf.jasperreports.charts.design;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -140,7 +139,7 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 			clone.xyzSeriesList = new ArrayList(xyzSeriesList.size());
 			for(int i = 0; i < xyzSeriesList.size(); i++)
 			{
-				clone.xyzSeriesList.add(((JRXySeries)xyzSeriesList.get(i)).clone());
+				clone.xyzSeriesList.add(((JRXyzSeries)xyzSeriesList.get(i)).clone());
 			}
 		}
 

@@ -41,7 +41,7 @@ import org.jfree.chart.plot.PlotOrientation;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRChartPlot
+public interface JRChartPlot extends JRCloneable
 {
 
 

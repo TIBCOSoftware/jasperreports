@@ -28,6 +28,7 @@
 package net.sf.jasperreports.charts;
 
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRCloneable;
 
 /**
  * Describes an axis that can be added to a multiple axis chart.  The name
@@ -40,7 +41,7 @@ import net.sf.jasperreports.engine.JRChart;
  */
 
 
-public interface JRChartAxis
+public interface JRChartAxis extends JRCloneable
 {
 	/**
 	 * Position the axis to the left of a VERTICAL chart or on the top
@@ -75,10 +76,4 @@ public interface JRChartAxis
 	 * @return the chart that contains the dataset and plot for this axis
 	 */
 	public JRChart getChart();
-	
-	
-	/**
-	 * 
-	 */
-	public Object clone(JRChart parentChart);
 }
