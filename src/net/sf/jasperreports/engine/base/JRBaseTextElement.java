@@ -1172,7 +1172,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	{
 		JRBaseTextElement clone = (JRBaseTextElement)super.clone();
 		
-		clone.lineBox = (JRLineBox)lineBox.clone(this);
+		clone.lineBox = (JRLineBox)lineBox.clone(clone);
 		
 		return clone;
 	}

@@ -1182,7 +1182,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	{
 		JRDesignTextElement clone = (JRDesignTextElement)super.clone();
 		
-		clone.lineBox = (JRLineBox)lineBox.clone(this);
+		clone.lineBox = (JRLineBox)lineBox.clone(clone);
 		
 		return clone;
 	}

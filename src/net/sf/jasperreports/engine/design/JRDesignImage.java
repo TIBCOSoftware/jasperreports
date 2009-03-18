@@ -1155,7 +1155,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	{
 		JRDesignImage clone = (JRDesignImage)super.clone();
 		
-		clone.lineBox = (JRLineBox)lineBox.clone(this);
+		clone.lineBox = (JRLineBox)lineBox.clone(clone);
 
 		if (hyperlinkParameters != null)
 		{
