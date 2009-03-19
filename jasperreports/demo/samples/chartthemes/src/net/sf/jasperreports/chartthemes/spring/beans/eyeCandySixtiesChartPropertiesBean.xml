@@ -37,6 +37,9 @@
 			<map merge="true">
 			    <entry key-ref="plotTickLabelFont" value-ref="eyeCandySixtiesPlotTickLabelFont"/>
 			    <entry key-ref="plotDisplayFont" value-ref="eyeCandySixtiesPlotDisplayFont"/>
+			    <entry key-ref="plotLabelRotation">
+			    	<value type="java.lang.Double">-45</value>
+			    </entry>
 			</map>		
 		</property>
 		<property name="defaultAxisPropertiesMap">

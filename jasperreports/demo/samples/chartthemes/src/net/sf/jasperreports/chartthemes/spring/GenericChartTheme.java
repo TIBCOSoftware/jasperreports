@@ -1697,24 +1697,23 @@ public class GenericChartTheme implements ChartTheme
 			dvi.setTextAnchor(TextAnchor.CENTER);
 			//dvi.setTemplateValue(Double.valueOf(getDialTickValue(dialPlot.getValue(0),dialUnitScale)));
 			dialPlot.addLayer(dvi);
-
-			String label = getChart().hasProperties() ?
-					getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
-			
-			if(label != null)
+		}
+		String label = getChart().hasProperties() ?
+				getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
+		
+		if(label != null)
+		{
+			JRFont displayFont = jrPlot.getValueDisplay().getFont();
+			Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
+			String[] textLines = label.split("\\n");
+			for(int i = 0; i < textLines.length; i++)
 			{
-				JRFont displayFont = jrPlot.getValueDisplay().getFont();
-				Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
-				String[] textLines = label.split("\\n");
-				for(int i = 0; i < textLines.length; i++)
-				{
-					DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
-					dialAnnotation.setFont(themeDisplayFont);
-					dialAnnotation.setPaint(jrPlot.getValueDisplay().getColor());
-					dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
-					dialAnnotation.setAnchor(TextAnchor.CENTER);
-					dialPlot.addLayer(dialAnnotation);
-				}
+				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
+				dialAnnotation.setFont(themeDisplayFont);
+				dialAnnotation.setPaint(jrPlot.getValueDisplay().getColor());
+				dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
+				dialAnnotation.setAnchor(TextAnchor.CENTER);
+				dialPlot.addLayer(dialAnnotation);
 			}
 		}
 
