@@ -1849,28 +1849,27 @@ public class SimpleChartTheme implements ChartTheme
 			dvi.setTextAnchor(TextAnchor.CENTER);
 			//dvi.setTemplateValue(Double.valueOf(getDialTickValue(dialPlot.getValue(0),dialUnitScale)));
 			dialPlot.addLayer(dvi);
-
-			String label = getChart().hasProperties() ?
-					getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
+		}
+		String label = getChart().hasProperties() ?
+				getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
+		
+		if(label != null)
+		{
+			JRFont displayFont = new JRBaseFont();
+			JRFontUtil.copyNonNullOwnProperties(getPlotSettings().getDisplayFont(), displayFont);
+			JRFontUtil.copyNonNullOwnProperties(jrPlot.getValueDisplay().getFont(), displayFont);
+			displayFont = new JRBaseFont(getChart(), displayFont);
+			Font themeDisplayFont = JRFontUtil.getAwtFont(displayFont, getLocale());
 			
-			if(label != null)
+			String[] textLines = label.split("\\n");
+			for(int i = 0; i < textLines.length; i++)
 			{
-				JRFont displayFont = new JRBaseFont();
-				JRFontUtil.copyNonNullOwnProperties(getPlotSettings().getDisplayFont(), displayFont);
-				JRFontUtil.copyNonNullOwnProperties(jrPlot.getValueDisplay().getFont(), displayFont);
-				displayFont = new JRBaseFont(getChart(), displayFont);
-				Font themeDisplayFont = JRFontUtil.getAwtFont(displayFont, getLocale());
-				
-				String[] textLines = label.split("\\n");
-				for(int i = 0; i < textLines.length; i++)
-				{
-					DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
-					dialAnnotation.setFont(themeDisplayFont);
-					dialAnnotation.setPaint(jrPlot.getValueDisplay().getColor());
-					dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
-					dialAnnotation.setAnchor(TextAnchor.CENTER);
-					dialPlot.addLayer(dialAnnotation);
-				}
+				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
+				dialAnnotation.setFont(themeDisplayFont);
+				dialAnnotation.setPaint(jrPlot.getValueDisplay().getColor());
+				dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
+				dialAnnotation.setAnchor(TextAnchor.CENTER);
+				dialPlot.addLayer(dialAnnotation);
 			}
 		}
 

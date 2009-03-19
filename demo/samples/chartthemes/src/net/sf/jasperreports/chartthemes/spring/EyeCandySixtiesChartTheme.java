@@ -59,6 +59,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPosition;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.EntityCollection;
@@ -167,7 +168,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			categoryPlot.setRangeGridlinePaint(ChartThemesConstants.GRAY_PAINT_134);
 			categoryPlot.setRangeGridlineStroke(new BasicStroke(1f));
 			categoryPlot.setDomainGridlinesVisible(false);
-			categoryPlot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 			
 		}
 		else if(plot instanceof XYPlot)
@@ -961,7 +961,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		JRValueDisplay display = jrPlot.getValueDisplay();
         String displayVisibility = display != null && getChart().hasProperties() ? 
         		getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
-        
 		if(Boolean.parseBoolean(displayVisibility))
 		{
 			ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
@@ -978,31 +977,30 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			dvi.setTextAnchor(TextAnchor.CENTER);
 			//dvi.setTemplateValue(Double.valueOf(getDialTickValue(dialPlot.getValue(0),dialUnitScale)));
 			dialPlot.addLayer(dvi);
-
-			String label = getChart().hasProperties() ?
-					getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
-			
-			if(label != null)
+		}
+		String label = getChart().hasProperties() ?
+				getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
+		
+		if(label != null)
+		{
+			JRFont displayFont = jrPlot.getValueDisplay().getFont();
+			Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
+			if(dialUnitScale < 0)
+				label = new MessageFormat(label).format(new Object[]{String.valueOf(Math.pow(10, dialUnitScale))});
+			else if(dialUnitScale < 3)
+				label = new MessageFormat(label).format(new Object[]{"1"});
+			else
+				label = new MessageFormat(label).format(new Object[]{String.valueOf((int)Math.pow(10, dialUnitScale-2))});
+		
+			String[] textLines = label.split("\\n");
+			for(int i = 0; i < textLines.length; i++)
 			{
-				JRFont displayFont = jrPlot.getValueDisplay().getFont();
-				Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
-				if(dialUnitScale < 0)
-					label = new MessageFormat(label).format(new Object[]{String.valueOf(Math.pow(10, dialUnitScale))});
-				else if(dialUnitScale < 3)
-					label = new MessageFormat(label).format(new Object[]{"1"});
-				else
-					label = new MessageFormat(label).format(new Object[]{String.valueOf((int)Math.pow(10, dialUnitScale-2))});
-			
-				String[] textLines = label.split("\\n");
-				for(int i = 0; i < textLines.length; i++)
-				{
-					DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
-					dialAnnotation.setFont(themeDisplayFont);
-					dialAnnotation.setPaint(Color.WHITE);
-					dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
-					dialAnnotation.setAnchor(TextAnchor.CENTER);
-					dialPlot.addLayer(dialAnnotation);
-				}
+				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
+				dialAnnotation.setFont(themeDisplayFont);
+				dialAnnotation.setPaint(Color.WHITE);
+				dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
+				dialAnnotation.setAnchor(TextAnchor.CENTER);
+				dialPlot.addLayer(dialAnnotation);
 			}
 		}
 
