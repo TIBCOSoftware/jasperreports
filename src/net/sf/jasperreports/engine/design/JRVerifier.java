@@ -143,6 +143,12 @@ public class JRVerifier
 	 * issues are caught at report compile time.
 	 * 
 	 * <p>
+	 * Additionally, when this property is set to false <code>false</code>, the
+	 * report is verified not to have any content in the background section as
+	 * this content would likely be overlapped by other sections and would not
+	 * show in grid-based exporters.
+	 * 
+	 * <p>
 	 * By default, the property is set to <code>true</code> which means that
 	 * no element overlap checks are performed.
 	 * 
@@ -312,6 +318,11 @@ public class JRVerifier
 		/*   */
 		verifyStyles();
 
+		if (toVerifyElementOverlap())
+		{
+			verifyEmptyBackground();
+		}
+		
 		/*   */
 		verifyBand(jasperDesign.getBackground());
 		verifyBand(jasperDesign.getTitle());
@@ -325,6 +336,40 @@ public class JRVerifier
 		verifyBand(jasperDesign.getNoData());
 
 		return brokenRules;
+	}
+
+
+	protected void verifyEmptyBackground()
+	{
+		// if element overlapping checks are on, do not allow any content
+		// in the background band
+		JRBand background = jasperDesign.getBackground();
+		if (background != null 
+				&& background.getHeight() > 0)
+		{
+			JRElement[] elements = background.getElements();
+			if (elements != null && elements.length > 0)
+			{
+				boolean foundContent = false;
+				for (int i = 0; i < elements.length; i++)
+				{
+					if (elements[i].getWidth() > 0 && elements[i].getHeight() > 0)
+					{
+						foundContent = true;
+						break;
+					}
+				}
+				
+				if (foundContent)
+				{
+					addBrokenRule("Use of the background section is not recommended " +
+							"for reports that are supposed to be exported using grid exporters such as HTML and XLS " +
+							"because the background content would likely be overlapped by other sections " +
+							"resulting in it not showing up.", 
+							background);
+				}
+			}
+		}
 	}
 
 
