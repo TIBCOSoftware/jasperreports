@@ -115,6 +115,7 @@ import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
 
@@ -131,6 +132,49 @@ import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 public class JRVerifier
 {
 
+	/**
+	 * A property that determines whether elements are allowed to overlap.
+	 * 
+	 * <p>
+	 * If this value is set to <code>false</code>, the report is verified not
+	 * to contain elements that overlap.  This is useful when the report is
+	 * meant to be exported to grid-based formats such as HTML, XLS or CSV.
+	 * Setting this property to <code>false</code> ensures that element overlap
+	 * issues are caught at report compile time.
+	 * 
+	 * <p>
+	 * By default, the property is set to <code>true</code> which means that
+	 * no element overlap checks are performed.
+	 * 
+	 * <p>
+	 * The property can be set at the following levels:
+	 * <ul>
+	 * 	<li>At global level (in jasperreports.properties) to provide a default
+	 * value.</li>
+	 * 	<li>At report level, to indicate whether element overlap checks are to
+	 * be performed for the report.  If not set, the global property value is
+	 * used.</li>
+	 * 	<li>At report element level to specify that the particular element is
+	 * allowed to overlap or be overlapped by other elements, when the report
+	 * or global property determines report element overlap verification.
+	 * The element level property is only effective when set to <code>true</code>;
+	 * setting the property to <code>false</code> does not make the verifier
+	 * check for overlaps when the report is not set to be checked for element
+	 * overlaps.</li>
+	 * </ul>
+	 * 
+	 * <p>
+	 * Note that print when expressions or export filters cannot be taken into
+	 * consideration while checking for overlapping elements as this check is
+	 * performed at report compilation time.
+	 * If a report contains two elements that overlap but have print when
+	 * expressions that guarantee that only one of them will be printed,
+	 * or if export filters are in place to exclude one of the elements,
+	 * one of them should be explicitly marked to allow element overlap
+	 * when the report is configured to check for overlaps.
+	 */
+	public static final String PROPERTY_ALLOW_ELEMENT_OVERLAP = 
+		JRProperties.PROPERTY_PREFIX + "allow.element.overlap";
 
 	/**
 	 *
@@ -1142,7 +1186,93 @@ public class JRVerifier
 		}
 	}
 
+	protected boolean toVerifyElementOverlap()
+	{
+		return !JRProperties.getBooleanProperty(jasperDesign, 
+				PROPERTY_ALLOW_ELEMENT_OVERLAP, 
+				true);
+	}
 
+	protected boolean isAllowedToOverlap(JRElement element)
+	{
+		// check whether the element has been marked to allow to overwrite
+		return element.hasProperties()
+			&& JRProperties.asBoolean(element.getPropertiesMap().getProperty(
+							PROPERTY_ALLOW_ELEMENT_OVERLAP));
+	}
+	
+	protected void verifyElementOverlap(JRElement element1, JRElement element2)
+	{
+		if (element1.getWidth() <= 0 || element1.getHeight() <= 0
+				|| element2.getWidth() <= 0 || element2.getHeight() <= 0)
+		{
+			// no-space element -> no overlap
+			return;
+		}
+		
+		if ((element1.getX() < element2.getX() + element2.getWidth()
+				&& element2.getX() < element1.getX() + element1.getWidth())
+				&& (element1.getY() < element2.getY() + element2.getHeight()
+						&& element2.getY() < element1.getY() + element1.getHeight()))
+		{
+			// we have an overlap
+			StringBuffer message = new StringBuffer();
+			message.append("Element ");
+			if (element2.getKey() != null)
+			{
+				message.append("\"");
+				message.append(element2.getKey());
+				message.append("\" ");
+			}
+			message.append("at ");
+			message.append(getElementPositionText(element2));
+			message.append(" overlaps element ");
+			if (element1.getKey() != null)
+			{
+				message.append("\"");
+				message.append(element1.getKey());
+				message.append("\" ");
+			}
+			message.append("at ");
+			message.append(getElementPositionText(element1));
+			
+			// using the element on top (in z-order) as source 
+			addBrokenRule(message.toString(), element2);
+		}
+	}
+
+	protected String getElementPositionText(JRElement element)
+	{
+		return "[x = " + element.getX()
+			+ ", y = " + element.getY()
+			+ ", width = " + element.getWidth()
+			+ ", height = " + element.getHeight()
+			+ "]";
+	}
+	
+	protected void verifyElementsOverlap(JRElement[] elements)
+	{
+		if (!toVerifyElementOverlap())
+		{
+			return;
+		}
+		
+		for(int index = 1; index < elements.length; index++)
+		{
+			JRElement element = elements[index];
+			if (!isAllowedToOverlap(element))
+			{
+				for (int overlapIndex = 0; overlapIndex < index; ++overlapIndex)
+				{
+					if (!isAllowedToOverlap(elements[overlapIndex]))
+					{
+						verifyElementOverlap(elements[overlapIndex], element);
+					}
+				}
+			}
+		}
+	}
+	
 	/**
 	 *
 	 */
@@ -1209,6 +1339,8 @@ public class JRVerifier
 
 					verifyElement(element);
 				}
+				
+				verifyElementsOverlap(elements);
 			}
 		}
 	}
@@ -2316,6 +2448,8 @@ public class JRVerifier
 						addBrokenRule("Charts are not allowed inside crosstab cells.", element);
 					}
 				}
+				
+				verifyElementsOverlap(elements);
 			}
 		}
 	}
@@ -2602,6 +2736,8 @@ public class JRVerifier
 
 				verifyElement(element);
 			}
+			
+			verifyElementsOverlap(elements);
 		}
 	}
 
