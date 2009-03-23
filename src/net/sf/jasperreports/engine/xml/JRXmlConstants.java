@@ -1675,6 +1675,8 @@ public class JRXmlConstants
 	public static final String ELEMENT_closeExpression = "closeExpression";
 	public static final String ELEMENT_volumeExpression = "volumeExpression";
 
+	public static final String ATTRIBUTE_maxCount = "maxCount";
+	public static final String ATTRIBUTE_minPercentage = "minPercentage";
 	public static final String ATTRIBUTE_timePeriod = "timePeriod";
 
 	/**
