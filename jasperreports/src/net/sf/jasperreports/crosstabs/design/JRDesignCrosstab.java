@@ -1589,11 +1589,19 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
      */
     private void adjustCrosstabReference(JRDesignCrosstab clone, JRDesignCellContents contents)
     {
-       if (contents == null) return;
-       contents.setOrigin(new JRCrosstabOrigin(clone,
-               contents.getOrigin().getType(),
-               contents.getOrigin().getRowGroupName(),
-               contents.getOrigin().getColumnGroupName()));
+    	if (contents == null)
+    	{
+    		return;
+    	}
+    	
+    	contents.setOrigin(
+    		new JRCrosstabOrigin(
+    			clone,
+    			contents.getOrigin().getType(),
+    			contents.getOrigin().getRowGroupName(),
+    			contents.getOrigin().getColumnGroupName()
+    			)
+    		);
     }
 	
 	public List getRowGroupsList()
