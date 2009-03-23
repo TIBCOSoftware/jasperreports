@@ -149,7 +149,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	public static final String PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE = JRProperties.PROPERTY_PREFIX + "chart.dial.value.display.visible";
 	public static final String PROPERTY_DIAL_LABEL = JRProperties.PROPERTY_PREFIX + "chart.dial.label";
-	public static final String PROPERTY_RANGE_AXIS_TICK_COUNT = JRProperties.PROPERTY_PREFIX + "chart.range.axis.tick.count";//FIXMETHEME support these here as well
+	public static final String PROPERTY_RANGE_AXIS_TICK_COUNT = JRProperties.PROPERTY_PREFIX + "chart.range.axis.tick.count";
 	public static final String PROPERTY_RANGE_AXIS_TICK_INTERVAL = JRProperties.PROPERTY_PREFIX + "chart.range.axis.tick.interval";
 	public static final String PROPERTY_DOMAIN_AXIS_TICK_COUNT = JRProperties.PROPERTY_PREFIX + "chart.domain.axis.tick.count";
 	public static final String PROPERTY_DOMAIN_AXIS_TICK_INTERVAL = JRProperties.PROPERTY_PREFIX + "chart.domain.axis.tick.interval";
@@ -259,7 +259,14 @@ public class DefaultChartTheme implements ChartTheme
 				jfreeChart = createLineChart();
 				break;
 			case JRChart.CHART_TYPE_METER:
-				jfreeChart = createMeterChart();
+				if (new Byte(JRMeterPlot.SHAPE_DIAL).equals(((JRMeterPlot)getPlot()).getShapeByte()))
+				{
+					jfreeChart = createDialChart();
+				}
+				else
+				{
+					jfreeChart = createMeterChart();
+				}
 				break;
 			case JRChart.CHART_TYPE_MULTI_AXIS:
 				//multi-axis charts are dealt with in JRFillChart
@@ -1183,8 +1190,8 @@ public class DefaultChartTheme implements ChartTheme
 				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
 				areaPlot.getCategoryAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
 				areaPlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(areaPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(areaPlot.getRangeAxisMaxValueExpression()));
+				(Comparable)evaluateExpression(areaPlot.getDomainAxisMinValueExpression()),
+				(Comparable)evaluateExpression(areaPlot.getDomainAxisMaxValueExpression()));
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), areaPlot.getValueAxisLabelFont(),
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
@@ -1256,8 +1263,8 @@ public class DefaultChartTheme implements ChartTheme
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(),
 				barPlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
+				(Comparable)evaluateExpression(barPlot.getDomainAxisMinValueExpression()),
+				(Comparable)evaluateExpression(barPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
@@ -1294,8 +1301,8 @@ public class DefaultChartTheme implements ChartTheme
 				linePlot.getCategoryAxisLabelColor(), linePlot.getCategoryAxisTickLabelFont(),
 				linePlot.getCategoryAxisTickLabelColor(), linePlot.getCategoryAxisTickLabelMask(),
 				linePlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(linePlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(linePlot.getRangeAxisMaxValueExpression()));
+				(Comparable)evaluateExpression(linePlot.getDomainAxisMinValueExpression()),
+				(Comparable)evaluateExpression(linePlot.getDomainAxisMaxValueExpression()));
 		
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), linePlot.getValueAxisLabelFont(),
@@ -1346,8 +1353,8 @@ public class DefaultChartTheme implements ChartTheme
 				timeSeriesPlot.getTimeAxisLabelColor(), timeSeriesPlot.getTimeAxisTickLabelFont(),
 				timeSeriesPlot.getTimeAxisTickLabelColor(), timeSeriesPlot.getTimeAxisTickLabelMask(),
 				timeSeriesPlot.getTimeAxisLineColor(), false,
-				(Comparable)evaluateExpression(timeSeriesPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(timeSeriesPlot.getRangeAxisMaxValueExpression()));
+				(Comparable)evaluateExpression(timeSeriesPlot.getDomainAxisMinValueExpression()),
+				(Comparable)evaluateExpression(timeSeriesPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), timeSeriesPlot.getValueAxisLabelFont(),
@@ -1468,19 +1475,23 @@ public class DefaultChartTheme implements ChartTheme
 	{
 		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
 
-		// Start by creating the plot that wil hold the meter
+		// Start by creating the plot that will hold the meter
 		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset());
 
 		// Set the shape
 		int shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_PIE : jrPlot.getShapeByte().intValue();
-		if (shape == JRMeterPlot.SHAPE_CHORD)
-			chartPlot.setDialShape(DialShape.CHORD);
-		else if (shape == JRMeterPlot.SHAPE_CIRCLE)
-			chartPlot.setDialShape(DialShape.CIRCLE);
-		else if (shape == JRMeterPlot.SHAPE_DIAL)
-			return createDialChart();
-		else
-			chartPlot.setDialShape(DialShape.PIE);
+		switch (shape)
+		{
+			case JRMeterPlot.SHAPE_CHORD :
+				chartPlot.setDialShape(DialShape.CHORD);
+				break;
+			case JRMeterPlot.SHAPE_CIRCLE :
+				chartPlot.setDialShape(DialShape.CIRCLE);
+				break;
+			case JRMeterPlot.SHAPE_PIE :
+			default :
+				chartPlot.setDialShape(DialShape.PIE);
+		}
 
 		// Set the meter's range
 		chartPlot.setRange(convertRange(jrPlot.getDataRange()));
@@ -1821,30 +1832,24 @@ public class DefaultChartTheme implements ChartTheme
 		{
 			if(axis instanceof DateAxis)
 			{
-				DateAxis dateAxis = (DateAxis)axis;
-				DateFormat df  = dateAxis.getDateFormatOverride();
-
-				if(df != null)
+				if(axisMinValue != null)
 				{
-					if(axisMinValue != null)
-					{
-						dateAxis.setMinimumDate((Date)axisMinValue);
-					}
-					if(axisMaxValue != null)
-					{
-						dateAxis.setMaximumDate((Date)axisMaxValue);
-					}
+					((DateAxis)axis).setMinimumDate((Date)axisMinValue);
+				}
+				if(axisMaxValue != null)
+				{
+					((DateAxis)axis).setMaximumDate((Date)axisMaxValue);
 				}
 			}
 			else
 			{
 				if(axisMinValue != null)
 				{
-					((ValueAxis)axis).setLowerBound(((Double)axisMinValue).doubleValue());
+					((ValueAxis)axis).setLowerBound(((Number)axisMinValue).doubleValue());
 				}
 				if(axisMaxValue != null)
 				{
-					((ValueAxis)axis).setUpperBound(((Double)axisMaxValue).doubleValue());
+					((ValueAxis)axis).setUpperBound(((Number)axisMaxValue).doubleValue());
 				}
 			}
 			
