@@ -2351,19 +2351,13 @@ public class GenericChartTheme implements ChartTheme
 		{
 			if(axis instanceof DateAxis)
 			{
-				DateAxis dateAxis = (DateAxis)axis;
-				DateFormat df  = dateAxis.getDateFormatOverride();
-
-				if(df != null)
+				if(minValue != null)
 				{
-					if(minValue != null)
-					{
-                        dateAxis.setMinimumDate((Date)minValue);
-					}
-					if(maxValue != null)
-					{
-                        dateAxis.setMaximumDate((Date)maxValue);
-					}
+					((DateAxis)axis).setMinimumDate((Date)minValue);
+				}
+				if(maxValue != null)
+				{
+					((DateAxis)axis).setMaximumDate((Date)maxValue);
 				}
 			}
 			else
