@@ -1,4 +1,3 @@
-package net.sf.jasperreports.chartthemes.simple;
 /*
  * ============================================================================
  * GNU Lesser General Public License
@@ -26,6 +25,7 @@ package net.sf.jasperreports.chartthemes.simple;
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.chartthemes.simple;
 
 
 /**
