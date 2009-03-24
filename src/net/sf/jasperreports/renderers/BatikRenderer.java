@@ -40,7 +40,7 @@ import org.w3c.dom.svg.SVGPreserveAspectRatio;
  * SVG renderer implementation based on <a href="http://xmlgraphics.apache.org/batik/">Batik</a>.
  *
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRAbstractChartImageMapRenderer.java 1364 2006-08-31 15:13:20Z lucianc $
+ * @version $Id$
  */
 public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRenderer
 {

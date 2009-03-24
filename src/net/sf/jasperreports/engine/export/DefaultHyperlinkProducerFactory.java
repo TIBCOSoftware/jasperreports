@@ -38,7 +38,7 @@ import net.sf.jasperreports.extensions.ExtensionsEnvironment;
  * <p>
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRHyperlinkProducerMapFactory.java 1368 2006-09-01 12:01:52Z lucianc $
+ * @version $Id$
  */
 public class DefaultHyperlinkProducerFactory extends JRHyperlinkProducerFactory
 {

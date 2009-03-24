@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBaseBox.java 1924 2007-10-25 13:31:38Z lucianc $
+ * @version $Id$
  */
 public class LineBoxWrapper implements JRBox, Serializable
 {

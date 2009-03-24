@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRGraphics2DExporter.java 1811 2007-08-13 19:52:07Z teodord $
+ * @version $Id$
  */
 public class SubreportConverter extends ElementIconConverter
 {

@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRScriptletException.java 1998 2007-12-05 13:58:02Z teodord $
+ * @version $Id$
  */
 public class MaxPagesGovernorException extends GovernorException
 {

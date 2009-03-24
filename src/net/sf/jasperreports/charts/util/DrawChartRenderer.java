@@ -41,7 +41,7 @@ import org.jfree.chart.JFreeChart;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRAbstractChartImageMapRenderer.java 1364 2006-08-31 15:13:20Z lucianc $
+ * @version $Id$
  */
 public class DrawChartRenderer extends JRAbstractSvgRenderer implements JRImageMapRenderer
 {

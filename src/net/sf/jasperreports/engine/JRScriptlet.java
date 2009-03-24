@@ -31,7 +31,7 @@ package net.sf.jasperreports.engine;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRParameter.java 2576 2009-02-03 12:43:28Z teodord $
+ * @version $Id$
  */
 public interface JRScriptlet extends JRPropertiesHolder, JRCloneable
 {

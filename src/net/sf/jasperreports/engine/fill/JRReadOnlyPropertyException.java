@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRFillInterruptedException.java 1229 2006-04-19 10:27:35Z teodord $
+ * @version $Id$
  */
 public class JRReadOnlyPropertyException extends RuntimeException
 {

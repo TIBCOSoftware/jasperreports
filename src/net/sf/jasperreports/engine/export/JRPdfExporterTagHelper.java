@@ -56,7 +56,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRPdfExporter.java 2419 2008-10-21 14:09:36Z teodord $
+ * @version $Id$
  */
 public class JRPdfExporterTagHelper
 {

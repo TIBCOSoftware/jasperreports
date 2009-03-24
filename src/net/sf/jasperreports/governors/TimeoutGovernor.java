@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDefaultScriptlet.java 1229 2006-04-19 10:27:35Z teodord $
+ * @version $Id$
  */
 public class TimeoutGovernor extends JRDefaultScriptlet
 {

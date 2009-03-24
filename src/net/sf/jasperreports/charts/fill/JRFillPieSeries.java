@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRFillCategorySeries.java 1994 2007-12-05 13:48:10Z teodord $
+ * @version $Id$
  */
 public class JRFillPieSeries implements JRPieSeries
 {

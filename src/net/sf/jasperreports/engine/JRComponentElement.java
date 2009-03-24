@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.component.ComponentKey;
  * A report element that wraps an abstract component.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
+ * @version $Id$
  */
 public interface JRComponentElement extends JRElement
 {

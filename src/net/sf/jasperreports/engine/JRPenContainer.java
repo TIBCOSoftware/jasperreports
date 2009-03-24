@@ -32,7 +32,7 @@ import java.awt.Color;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRStyleContainer.java 1759 2007-06-20 16:47:34Z lucianc $
+ * @version $Id$
  */
 public interface JRPenContainer extends JRStyleContainer
 {

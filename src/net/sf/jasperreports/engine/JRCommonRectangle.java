@@ -32,7 +32,7 @@ package net.sf.jasperreports.engine;
  * An abstract representation of a graphic element representing a rectangle.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRRectangle.java 1229 2006-04-19 10:27:35Z teodord $
+ * @version $Id$
  */
 public interface JRCommonRectangle extends JRStyleContainer
 {

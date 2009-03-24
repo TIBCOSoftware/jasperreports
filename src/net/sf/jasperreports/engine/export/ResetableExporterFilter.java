@@ -36,7 +36,7 @@ package net.sf.jasperreports.engine.export;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ExporterNature.java 1711 2007-04-30 15:43:58Z lucianc $
+ * @version $Id$
  */
 public interface ResetableExporterFilter extends ExporterFilter
 {

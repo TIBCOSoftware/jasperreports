@@ -32,7 +32,7 @@ import java.io.File;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRFontUtil.java 1498 2006-11-16 12:52:01Z teodord $
+ * @version $Id$
  */
 public interface FileResolver
 {

@@ -35,7 +35,7 @@ import java.awt.Color;
  * constants and methods that apply to all report elements.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRElement.java 1959 2007-11-14 15:08:22Z lucianc $
+ * @version $Id$
  */
 public interface JRCommonElement extends JRStyleContainer
 {

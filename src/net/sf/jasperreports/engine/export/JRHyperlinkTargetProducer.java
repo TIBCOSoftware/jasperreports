@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
  * </p>
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRHyperlinkProducer.java 1355 2006-08-04 14:31:54Z lucianc $
+ * @version $Id$
  */
 public interface JRHyperlinkTargetProducer
 {

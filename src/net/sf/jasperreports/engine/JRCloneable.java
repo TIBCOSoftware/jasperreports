@@ -30,7 +30,7 @@ package net.sf.jasperreports.engine;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRExpression.java 1229 2006-04-19 10:27:35Z teodord $
+ * @version $Id$
  */
 public interface JRCloneable extends Cloneable
 {

@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * filters produced by these factories for a specific exporter context.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
+ * @version $Id$
  * @see #getFilter(JRExporterContext)
  */
 public class DefaultExporterFilterFactory implements ExporterFilterFactory

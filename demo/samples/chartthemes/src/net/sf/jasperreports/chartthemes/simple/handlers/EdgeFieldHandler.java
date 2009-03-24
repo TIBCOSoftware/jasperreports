@@ -34,7 +34,7 @@ import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: GenericChartTheme.java 2535 2009-01-16 14:06:40Z teodord $
+ * @version $Id$
  */
 public class EdgeFieldHandler extends GeneralizedFieldHandler
 {

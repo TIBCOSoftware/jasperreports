@@ -40,7 +40,7 @@ import org.jfree.data.xy.XYDataset;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRXYChartImageMapRenderer.java 1364 2006-08-31 15:13:20Z lucianc $
+ * @version $Id$
  */
 public class XYChartHyperlinkProvider implements ChartHyperlinkProvider
 {

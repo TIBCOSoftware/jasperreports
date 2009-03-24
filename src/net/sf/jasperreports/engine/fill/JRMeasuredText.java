@@ -31,7 +31,7 @@ package net.sf.jasperreports.engine.fill;
  * Text measuring information as produced by a {@link JRTextMeasurer text measurer}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
+ * @version $Id$
  * @see JRTextMeasurer#measure(net.sf.jasperreports.engine.util.JRStyledText, int, int, boolean)
  */
 public interface JRMeasuredText

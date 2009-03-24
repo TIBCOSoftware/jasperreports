@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JRStyle;
  * report component fill.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
+ * @version $Id$
  */
 public interface FillContext
 {

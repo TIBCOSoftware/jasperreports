@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRException;
  * A factory of {@link ExporterFilter} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
+ * @version $Id$
  */
 public interface ExporterFilterFactory
 {
