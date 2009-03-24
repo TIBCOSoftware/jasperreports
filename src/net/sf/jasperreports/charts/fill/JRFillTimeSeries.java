@@ -197,6 +197,6 @@ public class JRFillTimeSeries implements JRTimeSeries
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

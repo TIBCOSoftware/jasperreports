@@ -253,6 +253,6 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

@@ -194,7 +194,6 @@ public class JRFillCategorySeries implements JRCategorySeries
 	 */
 	public Object clone() 
 	{
-		//FIXMECLONE special exception to be raised for all similar clone in fill package
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

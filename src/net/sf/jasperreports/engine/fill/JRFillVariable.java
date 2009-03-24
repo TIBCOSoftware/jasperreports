@@ -400,7 +400,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

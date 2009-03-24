@@ -206,7 +206,7 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 			}
 			catch (CloneNotSupportedException e)
 			{
-				throw new InternalError();
+				throw new JRRuntimeException(e);
 			}
 		}
 	}

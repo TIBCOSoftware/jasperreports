@@ -194,6 +194,6 @@ public class JRFillXySeries implements JRXySeries
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

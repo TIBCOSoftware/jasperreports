@@ -170,6 +170,6 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

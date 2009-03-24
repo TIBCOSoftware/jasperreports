@@ -250,7 +250,7 @@ public class JRFillChartPlot implements JRChartPlot
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -258,6 +258,6 @@ public class JRFillChartPlot implements JRChartPlot
 	 */
 	public Object clone(JRChart parentChart) 
 	{
-		return null;//FIXMECLONE throw
+		throw new UnsupportedOperationException();
 	}
 }

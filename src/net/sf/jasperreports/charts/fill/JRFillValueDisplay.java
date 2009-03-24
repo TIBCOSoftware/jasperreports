@@ -99,6 +99,6 @@ public class JRFillValueDisplay implements JRValueDisplay
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

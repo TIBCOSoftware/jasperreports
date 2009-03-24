@@ -1203,6 +1203,6 @@ public class JRFillDataset implements JRDataset
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

@@ -375,6 +375,6 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	 */
 	public Object clone() 
 	{
-		return null;//FIXMECLONE: implement this");
+		throw new UnsupportedOperationException();//FIXMECLONE: implement this
 	}
 }
