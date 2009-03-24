@@ -1905,7 +1905,7 @@ public class SimpleChartTheme implements ChartTheme
 	 * Specifies the axis location.
 	 * It has to be overriden for child themes with another default axis location
 	 *
-	protected AxisLocation getChartAxisLocation(JRChartAxis chartAxis)
+	protected AxisLocation getChartAxisLocation(JRChartAxis chartAxis)//FIXMETHEME
 	{
 		if(chartAxis.getPositionByte() != null)
 		{
@@ -2461,8 +2461,8 @@ public class SimpleChartTheme implements ChartTheme
 		
 		if(axisLabelVisible == null || axisLabelVisible.booleanValue())
 		{
-			if(axis.getLabel() == null)
-				axis.setLabel(axisSettings.getLabel());
+//			if(axis.getLabel() == null)
+//				axis.setLabel(axisSettings.getLabel());
 
 			Double labelAngle = axisSettings.getLabelAngle();
 			if(labelAngle != null)
