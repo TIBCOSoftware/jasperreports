@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.1.5 (2009-03-xx)
+JasperReports 3.5.0 (2009-03-2x)
 -----------------------------------
 
 - min max for chart axis;
