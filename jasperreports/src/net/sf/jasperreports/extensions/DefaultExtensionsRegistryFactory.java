@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRFillChart.java 2278 2008-08-14 16:14:54Z teodord $
+ * @version $Id$
  */
 public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

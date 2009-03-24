@@ -37,7 +37,7 @@ import javax.swing.text.StyleConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JFreeChartRenderer.java 1364 2006-08-31 15:13:20Z lucianc $
+ * @version $Id$
  */
 public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 {

@@ -41,7 +41,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRTimeSeriesChartImageMapRenderer.java 1364 2006-08-31 15:13:20Z lucianc $
+ * @version $Id$
  */
 public class TimeSeriesChartHyperlinkProvider implements ChartHyperlinkProvider
 {

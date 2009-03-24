@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.base.JRBaseScriptlet;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDesignParameter.java 1986 2007-12-03 19:02:20Z lucianc $
+ * @version $Id$
  */
 public class JRDesignScriptlet extends JRBaseScriptlet
 {

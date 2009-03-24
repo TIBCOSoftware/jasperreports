@@ -73,7 +73,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
- * @version $Id: JRPreviewBuilder.java 1857 2007-09-14 11:15:16Z lucianc $
+ * @version $Id$
  */
 public class ReportConverter 
 {

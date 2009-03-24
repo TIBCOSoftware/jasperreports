@@ -139,7 +139,7 @@ import org.jfree.ui.TextAnchor;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @author Some enhancements by Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id: JRFillChart.java 2278 2008-08-14 16:14:54Z teodord $
+ * @version $Id$
  */
 public class DefaultChartTheme implements ChartTheme
 {

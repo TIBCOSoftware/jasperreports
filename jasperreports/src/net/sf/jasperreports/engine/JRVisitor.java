@@ -33,7 +33,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstab;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRChild.java 1229 2006-04-19 10:27:35Z teodord $
+ * @version $Id$
  */
 public interface JRVisitor
 {

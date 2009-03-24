@@ -31,7 +31,7 @@ package net.sf.jasperreports.engine;
  * Common interface of design and print text elements.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRTemplateReference.java 1759 2007-06-20 16:47:34Z lucianc $
+ * @version $Id$
  */
 public interface JRCommonText extends JRCommonElement, JRBoxContainer
 {

@@ -35,7 +35,7 @@ import java.util.List;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRFontUtil.java 1498 2006-11-16 12:52:01Z teodord $
+ * @version $Id$
  */
 public class SimpleFileResolver implements FileResolver
 {

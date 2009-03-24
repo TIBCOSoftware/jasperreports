@@ -56,7 +56,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: MarkupApp.java 1938 2007-10-31 13:19:04Z teodord $
+ * @version $Id$
  */
 public class MarkupApp
 {

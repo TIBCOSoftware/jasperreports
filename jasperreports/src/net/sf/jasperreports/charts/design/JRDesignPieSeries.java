@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDesignCategorySeries.java 1923 2007-10-25 09:44:32Z lucianc $
+ * @version $Id$
  */
 public class JRDesignPieSeries extends JRBasePieSeries implements JRChangeEventsSupport
 {

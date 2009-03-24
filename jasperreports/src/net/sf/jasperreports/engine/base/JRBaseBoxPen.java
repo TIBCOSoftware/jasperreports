@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBaseBox.java 1924 2007-10-25 13:31:38Z lucianc $
+ * @version $Id$
  */
 public class JRBaseBoxPen extends JRBasePen implements JRBoxPen
 {

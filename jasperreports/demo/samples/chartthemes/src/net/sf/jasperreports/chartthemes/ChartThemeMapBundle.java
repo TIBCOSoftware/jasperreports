@@ -7,7 +7,7 @@ import net.sf.jasperreports.charts.ChartThemeBundle;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net) 
- * @version $Id: ChartThemeMapBundle.java 2527 2009-01-14 17:59:11Z shertage $
+ * @version $Id$
  */
 
 public class ChartThemeMapBundle implements ChartThemeBundle

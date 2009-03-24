@@ -7,7 +7,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Peter Risko (peter@risko.hu)
- * @version $Id: JRDesignTimePeriodSeries.java 1923 2007-10-25 09:44:32Z lucianc $
+ * @version $Id$
  */
 public class JRGanttSeriesFactory extends JRBaseFactory {
 

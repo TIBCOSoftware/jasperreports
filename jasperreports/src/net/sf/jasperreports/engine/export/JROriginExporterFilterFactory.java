@@ -32,7 +32,7 @@ package net.sf.jasperreports.engine.export;
  * Factory of {@link JROriginExporterFilter} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
+ * @version $Id$
  * @see JROriginExporterFilter#getFilter(net.sf.jasperreports.engine.JRPropertiesMap, String)
  */
 public class JROriginExporterFilterFactory implements ExporterFilterFactory

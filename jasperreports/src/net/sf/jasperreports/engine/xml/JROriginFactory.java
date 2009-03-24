@@ -34,7 +34,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRPrintPageFactory.java 1229 2006-04-19 10:27:35Z teodord $
+ * @version $Id$
  */
 public class JROriginFactory extends JRBaseFactory
 {

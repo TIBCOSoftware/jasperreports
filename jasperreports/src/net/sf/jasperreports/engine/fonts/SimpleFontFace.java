@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRChart.java 2469 2008-11-19 15:12:30Z shertage $
+ * @version $Id$
  */
 public class SimpleFontFace implements FontFace
 {

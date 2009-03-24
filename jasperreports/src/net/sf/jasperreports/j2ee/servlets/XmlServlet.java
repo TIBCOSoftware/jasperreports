@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: RtfServlet.java 1989 2007-12-04 16:19:11Z teodord $
+ * @version $Id$
  */
 public class XmlServlet extends BaseHttpServlet
 {

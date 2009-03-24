@@ -45,7 +45,7 @@ import org.jfree.util.UnitType;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ChartThemesApp.java 2548 2009-01-27 12:44:51Z teodord $
+ * @version $Id$
  */
 public class SimpleSettingsFactory
 {

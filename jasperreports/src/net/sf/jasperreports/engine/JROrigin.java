@@ -32,7 +32,7 @@ import java.io.Serializable;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRElement.java 1229 2006-04-19 10:27:35Z teodord $
+ * @version $Id$
  */
 public class JROrigin implements JRCloneable, Serializable
 {

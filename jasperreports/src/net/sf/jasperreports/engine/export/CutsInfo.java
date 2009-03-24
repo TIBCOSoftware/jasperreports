@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
  * Utility class used by grid exporters to create a grid for page layout.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRGridLayout.java 1806 2007-08-06 12:36:33Z teodord $
+ * @version $Id$
  */
 public class CutsInfo
 {

@@ -51,7 +51,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: FontsApp.java 2451 2008-11-04 15:12:56Z teodord $
+ * @version $Id$
  */
 public class FontsApp
 {

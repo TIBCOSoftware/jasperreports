@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.util.JRStyledTextParser;
  * Selector of element-level styled text attributes for print text objects.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
+ * @version $Id$
  * @see JRPrintText#getStyledText(JRStyledTextAttributeSelector)
  * @see JRPrintText#getFullStyledText(JRStyledTextAttributeSelector)
  */

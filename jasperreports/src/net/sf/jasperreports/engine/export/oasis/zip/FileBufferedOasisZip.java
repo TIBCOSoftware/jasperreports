@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.export.ExporterNature;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: OasisZip.java 1664 2007-03-26 09:48:03Z lucianc $
+ * @version $Id$
  */
 public class FileBufferedOasisZip extends OasisZip
 {

@@ -41,7 +41,7 @@ import org.jfree.data.time.TimePeriodValuesCollection;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRTimePeriodChartImageMapRenderer.java 1364 2006-08-31 15:13:20Z lucianc $
+ * @version $Id$
  */
 public class TimePeriodChartHyperlinkProvider implements ChartHyperlinkProvider
 {

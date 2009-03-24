@@ -33,7 +33,7 @@ import org.jfree.chart.JFreeChart;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net) 
- * @version $Id: JRAreaPlot.java 1577 2007-02-09 11:25:48Z teodord $
+ * @version $Id$
  */
 public interface ChartTheme
 {

@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBaseParameter.java 2000 2007-12-05 14:07:13Z teodord $
+ * @version $Id$
  */
 public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEventsSupport
 {

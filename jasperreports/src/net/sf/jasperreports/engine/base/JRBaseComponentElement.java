@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
  * in compiled reports.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
+ * @version $Id$
  */
 public class JRBaseComponentElement extends JRBaseElement implements
 		JRComponentElement

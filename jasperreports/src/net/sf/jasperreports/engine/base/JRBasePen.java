@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * This is useful for drawing borders around text elements and images. Boxes can have borders and paddings, which can
  * have different width and colour on each side of the element.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBaseBox.java 1924 2007-10-25 13:31:38Z lucianc $
+ * @version $Id$
  */
 public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEventsSupport
 {

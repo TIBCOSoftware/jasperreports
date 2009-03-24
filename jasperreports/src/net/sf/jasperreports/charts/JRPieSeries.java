@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRCategorySeries.java 2246 2008-07-30 12:20:57Z teodord $
+ * @version $Id$
  */
 public interface JRPieSeries extends JRCloneable
 {

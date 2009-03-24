@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 1741 2007-06-08 10:53:33Z lucianc $
+ * @version $Id$
  */
 public class GovernorFactory implements ScriptletFactory
 {

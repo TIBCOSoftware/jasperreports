@@ -38,7 +38,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBoxFactory.java 1581 2007-02-12 14:19:02Z shertage $
+ * @version $Id$
  */
 public class JRPenFactory extends JRBaseFactory
 {

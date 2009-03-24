@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JExcelApiExporterNature.java 2084 2008-02-08 14:44:57Z teodord $
+ * @version $Id$
  */
 public class JRXlsAbstractExporterNature implements ExporterNature
 {
