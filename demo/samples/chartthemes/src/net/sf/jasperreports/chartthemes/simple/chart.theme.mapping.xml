@@ -216,9 +216,11 @@
 		<field name="lineVisible" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
+		<!--
 		<field name="label" type="java.lang.String">
 			<bind-xml node="attribute"/>
 		</field>
+		-->
 		<field name="labelAngle" type="java.lang.Double">
 			<bind-xml node="attribute"/>
 		</field>
