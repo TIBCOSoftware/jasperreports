@@ -148,7 +148,7 @@ public class ContentBuilder
 		writer.write(" office:version=\"");
 		writer.write(VERSION);
 		writer.write("\">\n");
-			   
+
 		writer.write(" <office:scripts/>\n");
 		
 		writer.write(" <office:font-face-decls>\n");

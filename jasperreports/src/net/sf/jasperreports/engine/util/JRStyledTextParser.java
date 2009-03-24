@@ -839,19 +839,19 @@ public class JRStyledTextParser implements ErrorHandler
 		return null;
 	}
 
-    public void error(SAXParseException e) {
-    	if(log.isErrorEnabled())
-    		log.error("Error parsing styled text.", e);
-    }
+	public void error(SAXParseException e) {
+		if(log.isErrorEnabled())
+			log.error("Error parsing styled text.", e);
+	}
 
-    public void fatalError(SAXParseException e) {
-    	if(log.isFatalEnabled())
-    		log.fatal("Error parsing styled text.", e);
-    }
+	public void fatalError(SAXParseException e) {
+		if(log.isFatalEnabled())
+			log.fatal("Error parsing styled text.", e);
+	}
 
-    public void warning(SAXParseException e) {
-    	if(log.isWarnEnabled())
-    		log.warn("Error parsing styled text.", e);
-    }
+	public void warning(SAXParseException e) {
+		if(log.isWarnEnabled())
+			log.warn("Error parsing styled text.", e);
+	}
 
 }

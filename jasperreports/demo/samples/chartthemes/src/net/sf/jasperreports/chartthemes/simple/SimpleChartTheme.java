@@ -1831,8 +1831,8 @@ public class SimpleChartTheme implements ChartTheme
 
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		String displayVisibility = display != null && getChart().hasProperties() ? 
-      		getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
-      
+			getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
+
 		if(Boolean.parseBoolean(displayVisibility))
 		{
 			DialValueIndicator dvi = new DialValueIndicator(0);

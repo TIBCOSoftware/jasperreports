@@ -289,9 +289,9 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 *
 	 */
 	public JRFont getTickLabelFont()
-    {
-	    return tickLabelFont;
-    }
+	{
+		return tickLabelFont;
+	}
 	
 	/**
 	 * Adds all the expression used by this plot with the specified collector.

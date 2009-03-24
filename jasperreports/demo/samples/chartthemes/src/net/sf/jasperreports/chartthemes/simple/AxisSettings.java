@@ -141,346 +141,346 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	}
 
 	/**
-     * @return the location
-     */
-    public AxisLocation getLocation()
-    {
-    	return location;
-    }
+	 * @return the location
+	 */
+	public AxisLocation getLocation()
+	{
+		return location;
+	}
 
 	/**
-     * @param location the location to set
-     */
-    public void setLocation(AxisLocation location)
-    {
-    	AxisLocation old = getLocation();
+	 * @param location the location to set
+	 */
+	public void setLocation(AxisLocation location)
+	{
+		AxisLocation old = getLocation();
 		this.location = location;
 		getEventSupport().firePropertyChange(PROPERTY_location, old, getLocation());
-    }
+	}
 
 	/**
-     * @return the linePaint
-     */
-    public PaintProvider getLinePaint()
-    {
-    	return linePaint;
-    }
+	 * @return the linePaint
+	 */
+	public PaintProvider getLinePaint()
+	{
+		return linePaint;
+	}
 
 	/**
-     * @param linePaint the linePaint to set
-     */
-    public void setLinePaint(PaintProvider linePaint)
-    {
-    	PaintProvider old = getLinePaint();
+	 * @param linePaint the linePaint to set
+	 */
+	public void setLinePaint(PaintProvider linePaint)
+	{
+		PaintProvider old = getLinePaint();
 		this.linePaint = linePaint;
 		getEventSupport().firePropertyChange(PROPERTY_linePaint, old, getLinePaint());
-    }
+	}
 
 	/**
-     * @return the lineVisible
-     */
-    public Boolean getLineVisible()
-    {
-    	return lineVisible;
-    }
+	 * @return the lineVisible
+	 */
+	public Boolean getLineVisible()
+	{
+		return lineVisible;
+	}
 
 	/**
-     * @param lineVisible the lineVisible to set
-     */
-    public void setLineVisible(Boolean lineVisible)
-    {
+	 * @param lineVisible the lineVisible to set
+	 */
+	public void setLineVisible(Boolean lineVisible)
+	{
 		Boolean old = getLineVisible();
 		this.lineVisible = lineVisible;
 		getEventSupport().firePropertyChange(PROPERTY_lineVisible, old, getLineVisible());
-    }
+	}
 
 //	/**
-//     * @return the label
-//     */
-//    public String getLabel()
-//    {
-//    	return label;
-//    }
+//	 * @return the label
+//	 */
+//	public String getLabel()
+//	{
+//		return label;
+//	}
 
 //	/**
-//     * @param label the label to set
-//     */
-//    public void setLabel(String label)
-//    {
-//    	String old = getLabel();
+//	 * @param label the label to set
+//	 */
+//	public void setLabel(String label)
+//	{
+//		String old = getLabel();
 //		this.label = label;
 //		getEventSupport().firePropertyChange(PROPERTY_label, old, getLabel());
-//    }
+//	}
 
 	/**
-     * @return the labelAngle
-     */
-    public Double getLabelAngle()
-    {
-    	return labelAngle;
-    }
+	 * @return the labelAngle
+	 */
+	public Double getLabelAngle()
+	{
+		return labelAngle;
+	}
 
 	/**
-     * @param labelAngle the labelAngle to set
-     */
-    public void setLabelAngle(Double labelAngle)
-    {
-    	Double old = getLabelAngle();
+	 * @param labelAngle the labelAngle to set
+	 */
+	public void setLabelAngle(Double labelAngle)
+	{
+		Double old = getLabelAngle();
 		this.labelAngle = labelAngle;
 		getEventSupport().firePropertyChange(PROPERTY_labelAngle, old, getLabelAngle());
-    }
+	}
 
 	/**
-     * @return the labelPaint
-     */
-    public PaintProvider getLabelPaint()
-    {
-    	return labelPaint;
-    }
+	 * @return the labelPaint
+	 */
+	public PaintProvider getLabelPaint()
+	{
+		return labelPaint;
+	}
 
 	/**
-     * @param labelPaint the labelPaint to set
-     */
-    public void setLabelPaint(PaintProvider labelPaint)
-    {
-    	PaintProvider old = getLabelPaint();
+	 * @param labelPaint the labelPaint to set
+	 */
+	public void setLabelPaint(PaintProvider labelPaint)
+	{
+		PaintProvider old = getLabelPaint();
 		this.labelPaint = labelPaint;
 		getEventSupport().firePropertyChange(PROPERTY_labelPaint, old, getLabelPaint());
-    }
+	}
 
 	/**
-     * @return the labelFont
-     */
-    public JRFont getLabelFont()
-    {
-    	return labelFont;
-    }
+	 * @return the labelFont
+	 */
+	public JRFont getLabelFont()
+	{
+		return labelFont;
+	}
 
 	/**
-     * @param labelFont the labelFont to set
-     */
-    public void setLabelFont(JRFont labelFont)
-    {
-    	JRFont old = getLabelFont();
+	 * @param labelFont the labelFont to set
+	 */
+	public void setLabelFont(JRFont labelFont)
+	{
+		JRFont old = getLabelFont();
 		this.labelFont = labelFont;
 		getEventSupport().firePropertyChange(PROPERTY_labelFont, old, getLabelFont());
-    }
+	}
 
 	/**
-     * @return the labelInsets
-     */
-    public RectangleInsets getLabelInsets()
-    {
-    	return labelInsets;
-    }
+	 * @return the labelInsets
+	 */
+	public RectangleInsets getLabelInsets()
+	{
+		return labelInsets;
+	}
 
 	/**
-     * @param labelInsets the labelInsets to set
-     */
-    public void setLabelInsets(RectangleInsets labelInsets)
-    {
-    	RectangleInsets old = getLabelInsets();
+	 * @param labelInsets the labelInsets to set
+	 */
+	public void setLabelInsets(RectangleInsets labelInsets)
+	{
+		RectangleInsets old = getLabelInsets();
 		this.labelInsets = labelInsets;
 		getEventSupport().firePropertyChange(PROPERTY_labelInsets, old, getLabelInsets());
-    }
+	}
 
 	/**
-     * @return the labelVisible
-     */
-    public Boolean getLabelVisible()
-    {
-    	return labelVisible;
-    }
+	 * @return the labelVisible
+	 */
+	public Boolean getLabelVisible()
+	{
+		return labelVisible;
+	}
 
 	/**
-     * @param labelVisible the labelVisible to set
-     */
-    public void setLabelVisible(Boolean labelVisible)
-    {
-    	Boolean old = getLabelVisible();
+	 * @param labelVisible the labelVisible to set
+	 */
+	public void setLabelVisible(Boolean labelVisible)
+	{
+		Boolean old = getLabelVisible();
 		this.labelVisible = labelVisible;
 		getEventSupport().firePropertyChange(PROPERTY_labelVisible, old, getLabelVisible());
-    }
+	}
 
 	/**
-     * @return the tickLabelPaint
-     */
-    public PaintProvider getTickLabelPaint()
-    {
-    	return tickLabelPaint;
-    }
+	 * @return the tickLabelPaint
+	 */
+	public PaintProvider getTickLabelPaint()
+	{
+		return tickLabelPaint;
+	}
 
 	/**
-     * @param tickLabelPaint the tickLabelPaint to set
-     */
-    public void setTickLabelPaint(PaintProvider tickLabelPaint)
-    {
-    	PaintProvider old = getTickLabelPaint();
+	 * @param tickLabelPaint the tickLabelPaint to set
+	 */
+	public void setTickLabelPaint(PaintProvider tickLabelPaint)
+	{
+		PaintProvider old = getTickLabelPaint();
 		this.tickLabelPaint = tickLabelPaint;
 		getEventSupport().firePropertyChange(PROPERTY_tickLabelPaint, old, getTickLabelPaint());
-    }
+	}
 
 	/**
-     * @return the tickLabelFont
-     */
-    public JRFont getTickLabelFont()
-    {
-    	return tickLabelFont;
-    }
+	 * @return the tickLabelFont
+	 */
+	public JRFont getTickLabelFont()
+	{
+		return tickLabelFont;
+	}
 
 	/**
-     * @param tickLabelFont the tickLabelFont to set
-     */
-    public void setTickLabelFont(JRFont tickLabelFont)
-    {
-    	JRFont old = getTickLabelFont();
+	 * @param tickLabelFont the tickLabelFont to set
+	 */
+	public void setTickLabelFont(JRFont tickLabelFont)
+	{
+		JRFont old = getTickLabelFont();
 		this.tickLabelFont = tickLabelFont;
 		getEventSupport().firePropertyChange(PROPERTY_tickLabelFont, old, getTickLabelFont());
-    }
+	}
 
 	/**
-     * @return the tickLabelInsets
-     */
-    public RectangleInsets getTickLabelInsets()
-    {
-    	return tickLabelInsets;
-    }
+	 * @return the tickLabelInsets
+	 */
+	public RectangleInsets getTickLabelInsets()
+	{
+		return tickLabelInsets;
+	}
 
 	/**
-     * @param tickLabelInsets the tickLabelInsets to set
-     */
-    public void setTickLabelInsets(RectangleInsets tickLabelInsets)
-    {
-    	RectangleInsets old = getTickLabelInsets();
+	 * @param tickLabelInsets the tickLabelInsets to set
+	 */
+	public void setTickLabelInsets(RectangleInsets tickLabelInsets)
+	{
+		RectangleInsets old = getTickLabelInsets();
 		this.tickLabelInsets = tickLabelInsets;
 		getEventSupport().firePropertyChange(PROPERTY_tickLabelInsets, old, getTickLabelInsets());
-    }
+	}
 
 	/**
-     * @return the tickLabelsVisible
-     */
-    public Boolean getTickLabelsVisible()
-    {
-    	return tickLabelsVisible;
-    }
+	 * @return the tickLabelsVisible
+	 */
+	public Boolean getTickLabelsVisible()
+	{
+		return tickLabelsVisible;
+	}
 
 	/**
-     * @param tickLabelsVisible the tickLabelsVisible to set
-     */
-    public void setTickLabelsVisible(Boolean tickLabelsVisible)
-    {
-    	Boolean old = getTickLabelsVisible();
+	 * @param tickLabelsVisible the tickLabelsVisible to set
+	 */
+	public void setTickLabelsVisible(Boolean tickLabelsVisible)
+	{
+		Boolean old = getTickLabelsVisible();
 		this.tickLabelsVisible = tickLabelsVisible;
 		getEventSupport().firePropertyChange(PROPERTY_tickLabelsVisible, old, getTickLabelsVisible());
-    }
+	}
 
 	/**
-     * @return the tickMarksInsideLength
-     */
-    public Float getTickMarksInsideLength()
-    {
-    	return tickMarksInsideLength;
-    }
+	 * @return the tickMarksInsideLength
+	 */
+	public Float getTickMarksInsideLength()
+	{
+		return tickMarksInsideLength;
+	}
 
 	/**
-     * @param tickMarksInsideLength the tickMarksInsideLength to set
-     */
-    public void setTickMarksInsideLength(Float tickMarksInsideLength)
-    {
-    	Float old = getTickMarksInsideLength();
+	 * @param tickMarksInsideLength the tickMarksInsideLength to set
+	 */
+	public void setTickMarksInsideLength(Float tickMarksInsideLength)
+	{
+		Float old = getTickMarksInsideLength();
 		this.tickMarksInsideLength = tickMarksInsideLength;
 		getEventSupport().firePropertyChange(PROPERTY_tickMarksInsideLength, old, getTickMarksInsideLength());
-    }
+	}
 
 	/**
-     * @return the tickMarksOutsideLength
-     */
-    public Float getTickMarksOutsideLength()
-    {
-    	return tickMarksOutsideLength;
-    }
+	 * @return the tickMarksOutsideLength
+	 */
+	public Float getTickMarksOutsideLength()
+	{
+		return tickMarksOutsideLength;
+	}
 
 	/**
-     * @param tickMarksOutsideLength the tickMarksOutsideLength to set
-     */
-    public void setTickMarksOutsideLength(Float tickMarksOutsideLength)
-    {
-    	Float old = getTickMarksOutsideLength();
+	 * @param tickMarksOutsideLength the tickMarksOutsideLength to set
+	 */
+	public void setTickMarksOutsideLength(Float tickMarksOutsideLength)
+	{
+		Float old = getTickMarksOutsideLength();
 		this.tickMarksOutsideLength = tickMarksOutsideLength;
 		getEventSupport().firePropertyChange(PROPERTY_tickMarksOutsideLength, old, getTickMarksOutsideLength());
-    }
+	}
 
 	/**
-     * @return the tickMarksPaint
-     */
-    public PaintProvider getTickMarksPaint()
-    {
-    	return tickMarksPaint;
-    }
+	 * @return the tickMarksPaint
+	 */
+	public PaintProvider getTickMarksPaint()
+	{
+		return tickMarksPaint;
+	}
 
 	/**
-     * @param tickMarksPaint the tickMarksPaint to set
-     */
-    public void setTickMarksPaint(PaintProvider tickMarksPaint)
-    {
-    	PaintProvider old = getTickMarksPaint();
+	 * @param tickMarksPaint the tickMarksPaint to set
+	 */
+	public void setTickMarksPaint(PaintProvider tickMarksPaint)
+	{
+		PaintProvider old = getTickMarksPaint();
 		this.tickMarksPaint = tickMarksPaint;
 		getEventSupport().firePropertyChange(PROPERTY_tickMarksPaint, old, getTickMarksPaint());
-    }
+	}
 
 	/**
-     * @return the tickMarksVisible
-     */
-    public Boolean getTickMarksVisible()
-    {
-    	return tickMarksVisible;
-    }
+	 * @return the tickMarksVisible
+	 */
+	public Boolean getTickMarksVisible()
+	{
+		return tickMarksVisible;
+	}
 
 	/**
-     * @param tickMarksVisible the tickMarksVisible to set
-     */
-    public void setTickMarksVisible(Boolean tickMarksVisible)
-    {
-    	Boolean old = getTickMarksVisible();
+	 * @param tickMarksVisible the tickMarksVisible to set
+	 */
+	public void setTickMarksVisible(Boolean tickMarksVisible)
+	{
+		Boolean old = getTickMarksVisible();
 		this.tickMarksVisible = tickMarksVisible;
 		getEventSupport().firePropertyChange(PROPERTY_tickMarksVisible, old, getTickMarksVisible());
-    }
+	}
 
 	/**
-     * @return the tickCount
-     */
-    public Integer getTickCount()
-    {
-    	return tickCount;
-    }
+	 * @return the tickCount
+	 */
+	public Integer getTickCount()
+	{
+		return tickCount;
+	}
 
 	/**
-     * @param tickCount the tickCount to set
-     */
-    public void setTickCount(Integer tickCount)
-    {
-    	Integer old = getTickCount();
+	 * @param tickCount the tickCount to set
+	 */
+	public void setTickCount(Integer tickCount)
+	{
+		Integer old = getTickCount();
 		this.tickCount = tickCount;
 		getEventSupport().firePropertyChange(PROPERTY_tickCount, old, getTickCount());
-    }
+	}
 
 	/**
-     * @return the tickInterval
-     */
-    public Number getTickInterval()
-    {
-    	return tickInterval;
-    }
+	 * @return the tickInterval
+	 */
+	public Number getTickInterval()
+	{
+		return tickInterval;
+	}
 
 	/**
-     * @param tickInterval the tickInterval to set
-     */
-    public void setTickInterval(Number tickInterval)
-    {
-    	Number old = getTickInterval();
+	 * @param tickInterval the tickInterval to set
+	 */
+	public void setTickInterval(Number tickInterval)
+	{
+		Number old = getTickInterval();
 		this.tickInterval = tickInterval;
 		getEventSupport().firePropertyChange(PROPERTY_tickInterval, old, getTickInterval());
-    }
+	}
 
 	/**
 	 * @return the lineStroke

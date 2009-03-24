@@ -108,7 +108,7 @@ public class ConvertChartContext implements ChartContext
 		switch (chart.getDataset().getDatasetType()){
 		case JRChartDataset.CATEGORY_DATASET:
 			dataset = createCategoryDataset();
-	        break;
+			break;
 		case JRChartDataset.GANTT_DATASET:
 			dataset = createGanttDataset();
 			break;
@@ -134,7 +134,7 @@ public class ConvertChartContext implements ChartContext
 			dataset = createXyzDataset();
 			break;
 		}
-        return dataset;
+		return dataset;
 	}
 
 	public Object getLabelGenerator() {
@@ -152,34 +152,34 @@ public class ConvertChartContext implements ChartContext
 		if (sampleCategoryDataset == null)
 		{
 			DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-	        dataset.addValue(1.0, "First", "One");
-	        dataset.addValue(4.0, "First", "Two");
-	        dataset.addValue(3.0, "First", "Three");
-	        dataset.addValue(5.0, "First", "Four");
-	        dataset.addValue(5.0, "First", "Five");
-	        dataset.addValue(7.0, "First", "Six");
-	        dataset.addValue(7.0, "First", "Seven");
-	        dataset.addValue(8.0, "First", "Eight");
-	        dataset.addValue(5.0, "Second", "One");
-	        dataset.addValue(7.0, "Second", "Two");
-	        dataset.addValue(6.0, "Second", "Three");
-	        dataset.addValue(8.0, "Second", "Four");
-	        dataset.addValue(4.0, "Second", "Five");
-	        dataset.addValue(4.0, "Second", "Six");
-	        dataset.addValue(2.0, "Second", "Seven");
-	        dataset.addValue(1.0, "Second", "Eight");
-	        dataset.addValue(4.0, "Third", "One");
-	        dataset.addValue(3.0, "Third", "Two");
-	        dataset.addValue(2.0, "Third", "Three");
-	        dataset.addValue(3.0, "Third", "Four");
-	        dataset.addValue(6.0, "Third", "Five");
-	        dataset.addValue(3.0, "Third", "Six");
-	        dataset.addValue(4.0, "Third", "Seven");
-	        dataset.addValue(3.0, "Third", "Eight");
-	        
-	        sampleCategoryDataset = dataset;
+			dataset.addValue(1.0, "First", "One");
+			dataset.addValue(4.0, "First", "Two");
+			dataset.addValue(3.0, "First", "Three");
+			dataset.addValue(5.0, "First", "Four");
+			dataset.addValue(5.0, "First", "Five");
+			dataset.addValue(7.0, "First", "Six");
+			dataset.addValue(7.0, "First", "Seven");
+			dataset.addValue(8.0, "First", "Eight");
+			dataset.addValue(5.0, "Second", "One");
+			dataset.addValue(7.0, "Second", "Two");
+			dataset.addValue(6.0, "Second", "Three");
+			dataset.addValue(8.0, "Second", "Four");
+			dataset.addValue(4.0, "Second", "Five");
+			dataset.addValue(4.0, "Second", "Six");
+			dataset.addValue(2.0, "Second", "Seven");
+			dataset.addValue(1.0, "Second", "Eight");
+			dataset.addValue(4.0, "Third", "One");
+			dataset.addValue(3.0, "Third", "Two");
+			dataset.addValue(2.0, "Third", "Three");
+			dataset.addValue(3.0, "Third", "Four");
+			dataset.addValue(6.0, "Third", "Five");
+			dataset.addValue(3.0, "Third", "Six");
+			dataset.addValue(4.0, "Third", "Seven");
+			dataset.addValue(3.0, "Third", "Eight");
+			
+			sampleCategoryDataset = dataset;
 		}
-        
+		
 		return sampleCategoryDataset;
 	}
 	
@@ -189,17 +189,17 @@ public class ConvertChartContext implements ChartContext
 	{
 		if (samplePieDataset == null)
 		{
-	        DefaultPieDataset dataset = new DefaultPieDataset();
-	        dataset.setValue("First", new Double(45));
-	        dataset.setValue("Second", new Double(10));
-	        dataset.setValue("Third", new Double(15));
-	        dataset.setValue("Fourth", new Double(25));
-	        dataset.setValue("Fifth", new Double(5));
-	        
-	        samplePieDataset = dataset;
+			DefaultPieDataset dataset = new DefaultPieDataset();
+			dataset.setValue("First", new Double(45));
+			dataset.setValue("Second", new Double(10));
+			dataset.setValue("Third", new Double(15));
+			dataset.setValue("Fourth", new Double(25));
+			dataset.setValue("Fifth", new Double(5));
+			
+			samplePieDataset = dataset;
 		}
 		
-        return samplePieDataset;
+		return samplePieDataset;
 	}
 	
 	private static XYSeriesCollection sampleXyDataset = null;
@@ -208,48 +208,48 @@ public class ConvertChartContext implements ChartContext
 	{
 		if (sampleXyDataset == null)
 		{
-	        XYSeriesCollection dataset = new XYSeriesCollection();
+			XYSeriesCollection dataset = new XYSeriesCollection();
 
-	        XYSeries series = new XYSeries("First");
-	        series.add(1.0, 500.2);
-	        series.add(5.0, 694.1);
-	        series.add(4.0, 100.0);
-	        series.add(12.5, 734.4);
-	        series.add(17.3, 453.2);
-	        series.add(21.2, 500.2);
-	        series.add(21.9, null);
-	        series.add(25.6, 734.4);
-	        series.add(30.0, 453.2);
-	        dataset.addSeries(series);
+			XYSeries series = new XYSeries("First");
+			series.add(1.0, 500.2);
+			series.add(5.0, 694.1);
+			series.add(4.0, 100.0);
+			series.add(12.5, 734.4);
+			series.add(17.3, 453.2);
+			series.add(21.2, 500.2);
+			series.add(21.9, null);
+			series.add(25.6, 734.4);
+			series.add(30.0, 453.2);
+			dataset.addSeries(series);
 
-	        series = new XYSeries("Second");
-	        series.add(2.0, 400.2);
-	        series.add(6.0, 594.1);
-	        series.add(5.0, 90.0);
-	        series.add(13.5, 634.4);
-	        series.add(18.3, 353.2);
-	        series.add(22.2, 400.2);
-	        series.add(22.9, null);
-	        series.add(26.6, 634.4);
-	        series.add(31.0, 353.2);
-	        dataset.addSeries(series);
+			series = new XYSeries("Second");
+			series.add(2.0, 400.2);
+			series.add(6.0, 594.1);
+			series.add(5.0, 90.0);
+			series.add(13.5, 634.4);
+			series.add(18.3, 353.2);
+			series.add(22.2, 400.2);
+			series.add(22.9, null);
+			series.add(26.6, 634.4);
+			series.add(31.0, 353.2);
+			dataset.addSeries(series);
 
-	        series = new XYSeries("Third");
-	        series.add(0.0, 600.2);
-	        series.add(4.0, 794.1);
-	        series.add(3.0, 200.0);
-	        series.add(11.5, 834.4);
-	        series.add(16.3, 553.2);
-	        series.add(20.2, 600.2);
-	        series.add(20.9, null);
-	        series.add(24.6, 834.4);
-	        series.add(29.0, 553.2);
-	        dataset.addSeries(series);
-	        
-	        sampleXyDataset = dataset;
+			series = new XYSeries("Third");
+			series.add(0.0, 600.2);
+			series.add(4.0, 794.1);
+			series.add(3.0, 200.0);
+			series.add(11.5, 834.4);
+			series.add(16.3, 553.2);
+			series.add(20.2, 600.2);
+			series.add(20.9, null);
+			series.add(24.6, 834.4);
+			series.add(29.0, 553.2);
+			dataset.addSeries(series);
+			
+			sampleXyDataset = dataset;
 		}
 
-        return sampleXyDataset;
+		return sampleXyDataset;
 	}
 	
 	private static TimeSeriesCollection sampleTimeSeriesDataset = null;
@@ -353,9 +353,9 @@ public class ConvertChartContext implements ChartContext
 	{
 		if (sampleGanttDataset == null)
 		{
-	        TaskSeriesCollection dataset = new TaskSeriesCollection();
+			TaskSeriesCollection dataset = new TaskSeriesCollection();
 
-	        TaskSeries series = new TaskSeries("Scheduled");
+			TaskSeries series = new TaskSeries("Scheduled");
 			series.add(new Task("First", new SimpleTimePeriod(date(1, Calendar.APRIL, 2008), date(5, Calendar.APRIL, 2008))));
 			series.add(new Task("Second", new SimpleTimePeriod(date(9, Calendar.APRIL, 2008), date(9, Calendar.APRIL, 2008))));
 			series.add(new Task("Third", new SimpleTimePeriod(date(10, Calendar.APRIL, 2008), date(5, Calendar.MAY, 2008))));
@@ -744,7 +744,7 @@ public class ConvertChartContext implements ChartContext
 		{
 			TimePeriodValuesCollection dataset = new TimePeriodValuesCollection();
 
-	        Day today = new Day();
+			Day today = new Day();
 			TimePeriodValues series1 = new TimePeriodValues("First");
 			TimePeriodValues series2 = new TimePeriodValues("Second");
 			

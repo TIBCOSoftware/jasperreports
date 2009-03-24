@@ -323,238 +323,238 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	}
 
 	/**
-     * @return the seriesColorSequence
-     */
-    public List getSeriesColorSequence()
-    {
-    	return seriesColorSequence;
-    }
+	 * @return the seriesColorSequence
+	 */
+	public List getSeriesColorSequence()
+	{
+		return seriesColorSequence;
+	}
 
 	/**
-     * @param seriesColorSequence the seriesColorSequence to set
-     */
-    public void setSeriesColorSequence(List seriesColorSequence)
-    {
-    	List old = getSeriesColorSequence();
-    	this.seriesColorSequence = seriesColorSequence;
+	 * @param seriesColorSequence the seriesColorSequence to set
+	 */
+	public void setSeriesColorSequence(List seriesColorSequence)
+	{
+		List old = getSeriesColorSequence();
+		this.seriesColorSequence = seriesColorSequence;
 		getEventSupport().firePropertyChange(PROPERTY_seriesColorSequence, old, getSeriesColorSequence());
-    }
+	}
 
 	/**
-     * @return the seriesGradientPaintSequence
-     */
-    public List getSeriesGradientPaintSequence()
-    {
-    	return seriesGradientPaintSequence;
-    }
+	 * @return the seriesGradientPaintSequence
+	 */
+	public List getSeriesGradientPaintSequence()
+	{
+		return seriesGradientPaintSequence;
+	}
 
 	/**
-     * @param seriesGradientPaintSequence the seriesGradientPaintSequence to set
-     */
-    public void setSeriesGradientPaintSequence(List seriesGradientPaintSequence)
-    {
-    	List old = getSeriesGradientPaintSequence();
-    	this.seriesGradientPaintSequence = seriesGradientPaintSequence;
+	 * @param seriesGradientPaintSequence the seriesGradientPaintSequence to set
+	 */
+	public void setSeriesGradientPaintSequence(List seriesGradientPaintSequence)
+	{
+		List old = getSeriesGradientPaintSequence();
+		this.seriesGradientPaintSequence = seriesGradientPaintSequence;
 		getEventSupport().firePropertyChange(PROPERTY_seriesGradientPaintSequence, old, getSeriesGradientPaintSequence());
-    }
+	}
 
 	/**
-     * @return the seriesOutlinePaintSequence
-     */
-    public List getSeriesOutlinePaintSequence()
-    {
-    	return seriesOutlinePaintSequence;
-    }
+	 * @return the seriesOutlinePaintSequence
+	 */
+	public List getSeriesOutlinePaintSequence()
+	{
+		return seriesOutlinePaintSequence;
+	}
 
 	/**
-     * @param seriesOutlinePaintSequence the seriesOutlinePaintSequence to set
-     */
-    public void setSeriesOutlinePaintSequence(List seriesOutlinePaintSequence)
-    {
-    	List old = getSeriesOutlinePaintSequence();
-    	this.seriesOutlinePaintSequence = seriesOutlinePaintSequence;
+	 * @param seriesOutlinePaintSequence the seriesOutlinePaintSequence to set
+	 */
+	public void setSeriesOutlinePaintSequence(List seriesOutlinePaintSequence)
+	{
+		List old = getSeriesOutlinePaintSequence();
+		this.seriesOutlinePaintSequence = seriesOutlinePaintSequence;
 		getEventSupport().firePropertyChange(PROPERTY_seriesOutlinePaintSequence, old, getSeriesOutlinePaintSequence());
-    }
+	}
 
 	/**
-     * @return the seriesStrokeSequence
-     */
-    public List getSeriesStrokeSequence()
-    {
-    	return seriesStrokeSequence;
-    }
+	 * @return the seriesStrokeSequence
+	 */
+	public List getSeriesStrokeSequence()
+	{
+		return seriesStrokeSequence;
+	}
 
 	/**
-     * @param seriesStrokeSequence the seriesStrokeSequence to set
-     */
-    public void setSeriesStrokeSequence(List seriesStrokeSequence)
-    {
-    	List old = getSeriesStrokeSequence();
-    	this.seriesStrokeSequence = seriesStrokeSequence;
+	 * @param seriesStrokeSequence the seriesStrokeSequence to set
+	 */
+	public void setSeriesStrokeSequence(List seriesStrokeSequence)
+	{
+		List old = getSeriesStrokeSequence();
+		this.seriesStrokeSequence = seriesStrokeSequence;
 		getEventSupport().firePropertyChange(PROPERTY_seriesStrokeSequence, old, getSeriesStrokeSequence());
-    }
+	}
 
 	/**
-     * @return the seriesOutlineStrokeSequence
-     */
-    public List getSeriesOutlineStrokeSequence()
-    {
-    	return seriesOutlineStrokeSequence;
-    }
+	 * @return the seriesOutlineStrokeSequence
+	 */
+	public List getSeriesOutlineStrokeSequence()
+	{
+		return seriesOutlineStrokeSequence;
+	}
 
 	/**
-     * @param seriesOutlineStrokeSequence the seriesOutlineStrokeSequence to set
-     */
-    public void setSeriesOutlineStrokeSequence(List seriesOutlineStrokeSequence)
-    {
-    	List old = getSeriesOutlineStrokeSequence();
-    	this.seriesOutlineStrokeSequence = seriesOutlineStrokeSequence;
+	 * @param seriesOutlineStrokeSequence the seriesOutlineStrokeSequence to set
+	 */
+	public void setSeriesOutlineStrokeSequence(List seriesOutlineStrokeSequence)
+	{
+		List old = getSeriesOutlineStrokeSequence();
+		this.seriesOutlineStrokeSequence = seriesOutlineStrokeSequence;
 		getEventSupport().firePropertyChange(PROPERTY_seriesOutlineStrokeSequence, old, getSeriesOutlineStrokeSequence());
-    }
+	}
 
 	/**
-     * @return the domainGridlineVisible
-     */
-    public Boolean getDomainGridlineVisible()
-    {
-    	return domainGridlineVisible;
-    }
+	 * @return the domainGridlineVisible
+	 */
+	public Boolean getDomainGridlineVisible()
+	{
+		return domainGridlineVisible;
+	}
 
 	/**
-     * @param domainGridlineVisible the domainGridlineVisible to set
-     */
-    public void setDomainGridlineVisible(Boolean domainGridlineVisible)
-    {
-    	Boolean old = getDomainGridlineVisible();
-    	this.domainGridlineVisible = domainGridlineVisible;
+	 * @param domainGridlineVisible the domainGridlineVisible to set
+	 */
+	public void setDomainGridlineVisible(Boolean domainGridlineVisible)
+	{
+		Boolean old = getDomainGridlineVisible();
+		this.domainGridlineVisible = domainGridlineVisible;
 		getEventSupport().firePropertyChange(PROPERTY_domainGridlineVisible, old, getDomainGridlineVisible());
-    }
+	}
 
 	/**
-     * @return the domainGridlinePaint
-     */
-    public PaintProvider getDomainGridlinePaint()
-    {
-    	return domainGridlinePaint;
-    }
+	 * @return the domainGridlinePaint
+	 */
+	public PaintProvider getDomainGridlinePaint()
+	{
+		return domainGridlinePaint;
+	}
 
 	/**
-     * @param domainGridlinePaint the domainGridlinePaint to set
-     */
-    public void setDomainGridlinePaint(PaintProvider domainGridlinePaint)
-    {
-    	PaintProvider old = getDomainGridlinePaint();
-    	this.domainGridlinePaint = domainGridlinePaint;
+	 * @param domainGridlinePaint the domainGridlinePaint to set
+	 */
+	public void setDomainGridlinePaint(PaintProvider domainGridlinePaint)
+	{
+		PaintProvider old = getDomainGridlinePaint();
+		this.domainGridlinePaint = domainGridlinePaint;
 		getEventSupport().firePropertyChange(PROPERTY_domainGridlinePaint, old, getDomainGridlinePaint());
-    }
+	}
 
 	/**
-     * @return the domainGridlineStroke
-     */
-    public Stroke getDomainGridlineStroke()
-    {
-    	return domainGridlineStroke;
-    }
+	 * @return the domainGridlineStroke
+	 */
+	public Stroke getDomainGridlineStroke()
+	{
+		return domainGridlineStroke;
+	}
 
 	/**
-     * @param domainGridlineStroke the domainGridlineStroke to set
-     */
-    public void setDomainGridlineStroke(Stroke domainGridlineStroke)
-    {
-    	Stroke old = getDomainGridlineStroke();
-    	this.domainGridlineStroke = domainGridlineStroke;
+	 * @param domainGridlineStroke the domainGridlineStroke to set
+	 */
+	public void setDomainGridlineStroke(Stroke domainGridlineStroke)
+	{
+		Stroke old = getDomainGridlineStroke();
+		this.domainGridlineStroke = domainGridlineStroke;
 		getEventSupport().firePropertyChange(PROPERTY_domainGridlineStroke, old, getDomainGridlineStroke());
-    }
+	}
 
 	/**
-     * @return the rangeGridlineVisible
-     */
-    public Boolean getRangeGridlineVisible()
-    {
-    	return rangeGridlineVisible;
-    }
+	 * @return the rangeGridlineVisible
+	 */
+	public Boolean getRangeGridlineVisible()
+	{
+		return rangeGridlineVisible;
+	}
 
 	/**
-     * @param rangeGridlineVisible the rangeGridlineVisible to set
-     */
-    public void setRangeGridlineVisible(Boolean rangeGridlineVisible)
-    {
-    	Boolean old = getRangeGridlineVisible();
-    	this.rangeGridlineVisible = rangeGridlineVisible;
+	 * @param rangeGridlineVisible the rangeGridlineVisible to set
+	 */
+	public void setRangeGridlineVisible(Boolean rangeGridlineVisible)
+	{
+		Boolean old = getRangeGridlineVisible();
+		this.rangeGridlineVisible = rangeGridlineVisible;
 		getEventSupport().firePropertyChange(PROPERTY_rangeGridlineVisible, old, getRangeGridlineVisible());
-    }
+	}
 
 	/**
-     * @return the rangeGridlinePaint
-     */
-    public PaintProvider getRangeGridlinePaint()
-    {
-    	return rangeGridlinePaint;
-    }
+	 * @return the rangeGridlinePaint
+	 */
+	public PaintProvider getRangeGridlinePaint()
+	{
+		return rangeGridlinePaint;
+	}
 
 	/**
-     * @param rangeGridlinePaint the rangeGridlinePaint to set
-     */
-    public void setRangeGridlinePaint(PaintProvider rangeGridlinePaint)
-    {
-    	PaintProvider old = getRangeGridlinePaint();
-    	this.rangeGridlinePaint = rangeGridlinePaint;
+	 * @param rangeGridlinePaint the rangeGridlinePaint to set
+	 */
+	public void setRangeGridlinePaint(PaintProvider rangeGridlinePaint)
+	{
+		PaintProvider old = getRangeGridlinePaint();
+		this.rangeGridlinePaint = rangeGridlinePaint;
 		getEventSupport().firePropertyChange(PROPERTY_rangeGridlinePaint, old, getRangeGridlinePaint());
-    }
+	}
 
 	/**
-     * @return the rangeGridlineStroke
-     */
-    public Stroke getRangeGridlineStroke()
-    {
-    	return rangeGridlineStroke;
-    }
+	 * @return the rangeGridlineStroke
+	 */
+	public Stroke getRangeGridlineStroke()
+	{
+		return rangeGridlineStroke;
+	}
 
 	/**
-     * @param rangeGridlineStroke the rangeGridlineStroke to set
-     */
-    public void setRangeGridlineStroke(Stroke rangeGridlineStroke)
-    {
-    	Stroke old = getRangeGridlineStroke();
-    	this.rangeGridlineStroke = rangeGridlineStroke;
+	 * @param rangeGridlineStroke the rangeGridlineStroke to set
+	 */
+	public void setRangeGridlineStroke(Stroke rangeGridlineStroke)
+	{
+		Stroke old = getRangeGridlineStroke();
+		this.rangeGridlineStroke = rangeGridlineStroke;
 		getEventSupport().firePropertyChange(PROPERTY_rangeGridlineStroke, old, getRangeGridlineStroke());
-    }
+	}
 
 	/**
-     * @return the tickLabelFont
-     */
-    public JRFont getTickLabelFont()
-    {
-    	return tickLabelFont;
-    }
+	 * @return the tickLabelFont
+	 */
+	public JRFont getTickLabelFont()
+	{
+		return tickLabelFont;
+	}
 
 	/**
-     * @param tickLabelFont the tickLabelFont to set
-     */
-    public void setTickLabelFont(JRFont tickLabelFont)
-    {
-    	JRFont old = getTickLabelFont();
+	 * @param tickLabelFont the tickLabelFont to set
+	 */
+	public void setTickLabelFont(JRFont tickLabelFont)
+	{
+		JRFont old = getTickLabelFont();
 		this.tickLabelFont = tickLabelFont;
 		getEventSupport().firePropertyChange(PROPERTY_tickLabelFont, old, getTickLabelFont());
-    }
+	}
 
 	/**
-     * @return the displayFont
-     */
-    public JRFont getDisplayFont()
-    {
-    	return tickLabelFont;
-    }
+	 * @return the displayFont
+	 */
+	public JRFont getDisplayFont()
+	{
+		return displayFont;
+	}
 
 	/**
-     * @param displayFont the displayFont to set
-     */
-    public void setDisplayFont(JRFont displayFont)
-    {
-    	JRFont old = getDisplayFont();
+	 * @param displayFont the displayFont to set
+	 */
+	public void setDisplayFont(JRFont displayFont)
+	{
+		JRFont old = getDisplayFont();
 		this.displayFont = displayFont;
 		getEventSupport().firePropertyChange(PROPERTY_displayFont, old, getDisplayFont());
-    }
+	}
 
-    
+	
 }

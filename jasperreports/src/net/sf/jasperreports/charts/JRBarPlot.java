@@ -74,7 +74,7 @@ public interface JRBarPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAxi
 	public boolean isShowTickMarks();
 
 	/**
-	 *   
+	 * 
 	 */
 	public Boolean getShowTickMarks();
 
