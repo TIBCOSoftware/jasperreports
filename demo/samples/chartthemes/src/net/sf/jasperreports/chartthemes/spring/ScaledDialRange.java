@@ -17,7 +17,7 @@ import org.jfree.chart.plot.dial.StandardDialRange;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @version $Id:ScaledDialRange.java 2595 2009-02-10 17:56:51Z teodord $
  */
 public class ScaledDialRange extends StandardDialRange
 {
@@ -54,83 +54,83 @@ public class ScaledDialRange extends StandardDialRange
 		this.lineWidth = lineWidth;
 	}
 
-    /**
-     * Draws the range.
-     * 
-     * @param g2  the graphics target.
-     * @param plot  the plot.
-     * @param frame  the dial's reference frame (in Java2D space).
-     * @param view  the dial's view rectangle (in Java2D space).
-     */
-    public void draw(Graphics2D g2, DialPlot plot, Rectangle2D frame, 
-            Rectangle2D view) {
-        
-        Rectangle2D arcRectInner = DialPlot.rectangleByRadius(frame, 
-                this.getInnerRadius(), this.getInnerRadius());
-        Rectangle2D arcRectOuter = DialPlot.rectangleByRadius(frame, 
-                this.getOuterRadius(), this.getOuterRadius());
-        
-        DialScale scale = plot.getScale(this.getScaleIndex());
-        if (scale == null) {
-            throw new RuntimeException("No scale for scaleIndex = " 
-                    + this.getScaleIndex());
-        }
-        double angleMin = scale.valueToAngle(this.getLowerBound());
-        double angleMax = scale.valueToAngle(this.getUpperBound());
+	/**
+	 * Draws the range.
+	 * 
+	 * @param g2  the graphics target.
+	 * @param plot  the plot.
+	 * @param frame  the dial's reference frame (in Java2D space).
+	 * @param view  the dial's view rectangle (in Java2D space).
+	 */
+	public void draw(Graphics2D g2, DialPlot plot, Rectangle2D frame, 
+			Rectangle2D view) {
+		
+		Rectangle2D arcRectInner = DialPlot.rectangleByRadius(frame, 
+				this.getInnerRadius(), this.getInnerRadius());
+		Rectangle2D arcRectOuter = DialPlot.rectangleByRadius(frame, 
+				this.getOuterRadius(), this.getOuterRadius());
+		
+		DialScale scale = plot.getScale(this.getScaleIndex());
+		if (scale == null) {
+			throw new RuntimeException("No scale for scaleIndex = " 
+					+ this.getScaleIndex());
+		}
+		double angleMin = scale.valueToAngle(this.getLowerBound());
+		double angleMax = scale.valueToAngle(this.getUpperBound());
 
-        Arc2D arcInner = new Arc2D.Double(arcRectInner, angleMin, 
-                angleMax - angleMin, Arc2D.OPEN);
-        Arc2D arcOuter = new Arc2D.Double(arcRectOuter, angleMax, 
-                angleMin - angleMax, Arc2D.OPEN);
-        
-        g2.setPaint(this.getPaint());
-        g2.setStroke(new BasicStroke(this.lineWidth));
-        g2.draw(arcInner);
-        g2.draw(arcOuter);
-    }
+		Arc2D arcInner = new Arc2D.Double(arcRectInner, angleMin, 
+				angleMax - angleMin, Arc2D.OPEN);
+		Arc2D arcOuter = new Arc2D.Double(arcRectOuter, angleMax, 
+				angleMin - angleMax, Arc2D.OPEN);
+		
+		g2.setPaint(this.getPaint());
+		g2.setStroke(new BasicStroke(this.lineWidth));
+		g2.draw(arcInner);
+		g2.draw(arcOuter);
+	}
 
-    /**
-     * Tests this instance for equality with an arbitrary object.
-     * 
-     * @param obj  the object (<code>null</code> permitted).
-     * 
-     * @return A boolean.
-     */
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj.getClass().equals(this.getClass()))) {
-            return false;
-        }
-        ScaledDialRange that = (ScaledDialRange) obj;
-        if (this.lineWidth != that.lineWidth) {
-            return false;
-        }
-        return super.equals(obj); 
-    }
+	/**
+	 * Tests this instance for equality with an arbitrary object.
+	 * 
+	 * @param obj  the object (<code>null</code> permitted).
+	 * 
+	 * @return A boolean.
+	 */
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (!(obj.getClass().equals(this.getClass()))) {
+			return false;
+		}
+		ScaledDialRange that = (ScaledDialRange) obj;
+		if (this.lineWidth != that.lineWidth) {
+			return false;
+		}
+		return super.equals(obj); 
+	}
 
-    /**
-     * Returns a hash code for this instance.
-     * 
-     * @return The hash code.
-     */
-    public int hashCode() {
-        int temp = Float.floatToIntBits(this.lineWidth);
-        return 37 * super.hashCode() + (temp ^ (temp >>> 32));        
-        
-    }
-    
-    /**
-     * Returns a clone of this instance.
-     * 
-     * @return A clone.
-     * 
-     * @throws CloneNotSupportedException if any of the attributes of this 
-     *     instance cannot be cloned.
-     */
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
+	/**
+	 * Returns a hash code for this instance.
+	 * 
+	 * @return The hash code.
+	 */
+	public int hashCode() {
+		int temp = Float.floatToIntBits(this.lineWidth);
+		return 37 * super.hashCode() + (temp ^ (temp >>> 32));		
+		
+	}
+	
+	/**
+	 * Returns a clone of this instance.
+	 * 
+	 * @return A clone.
+	 * 
+	 * @throws CloneNotSupportedException if any of the attributes of this 
+	 *     instance cannot be cloned.
+	 */
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 
 }

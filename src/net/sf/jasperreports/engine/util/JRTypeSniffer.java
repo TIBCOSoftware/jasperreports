@@ -122,7 +122,7 @@ public class JRTypeSniffer
 		}
 		
 		if((data[0] == 73 && data[1] == 73) || 
-		   (data[0] == 77 && data[1] == 77)) {
+			(data[0] == 77 && data[1] == 77)) {
 			return true;
 		}
 		

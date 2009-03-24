@@ -26,19 +26,19 @@ public class ChartThemeMapBundle implements ChartThemeBundle
 	}
 
 	/**
-     * @return the themes
-     */
-    public Map getThemes()
-    {
-    	return themes;
-    }
+	 * @return the themes
+	 */
+	public Map getThemes()
+	{
+		return themes;
+	}
 
 	/**
-     * @param themes the themes to set
-     */
-    public void setThemes(Map themes)
-    {
-    	this.themes = themes;
-    }
+	 * @param themes the themes to set
+	 */
+	public void setThemes(Map themes)
+	{
+		this.themes = themes;
+	}
 
 }

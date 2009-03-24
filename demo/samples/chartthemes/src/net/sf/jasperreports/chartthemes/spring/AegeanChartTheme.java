@@ -763,23 +763,23 @@ public class AegeanChartTheme extends GenericChartTheme
 
 		String displayVisibility = display != null && getChart().hasProperties() ? 
 				getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
-       
+
 		if(Boolean.valueOf(displayVisibility).booleanValue())
 		{
 			ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
-	        dvi.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-//	        dvi.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
-	        dvi.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
-	        dvi.setPaint(Color.WHITE);
-	        
-	        String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
-	        if(pattern != null)
-	        	dvi.setNumberFormat( new DecimalFormat(pattern));
-	        dvi.setRadius(0.15);
-	        dvi.setValueAnchor(RectangleAnchor.CENTER);
-	        dvi.setTextAnchor(TextAnchor.CENTER);
-	        //dvi.setTemplateValue(Double.valueOf(getDialTickValue(dialPlot.getValue(0),dialUnitScale)));
-	        dialPlot.addLayer(dvi);
+			dvi.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+//			dvi.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
+			dvi.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
+			dvi.setPaint(Color.WHITE);
+
+			String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
+			if(pattern != null)
+				dvi.setNumberFormat( new DecimalFormat(pattern));
+			dvi.setRadius(0.15);
+			dvi.setValueAnchor(RectangleAnchor.CENTER);
+			dvi.setTextAnchor(TextAnchor.CENTER);
+			//dvi.setTemplateValue(Double.valueOf(getDialTickValue(dialPlot.getValue(0),dialUnitScale)));
+			dialPlot.addLayer(dvi);
 		}
 		
 		String label = getChart().hasProperties() ?

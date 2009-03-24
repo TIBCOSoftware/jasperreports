@@ -156,7 +156,7 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	}
 
 	public JRFont getTickLabelFont()
-    {
+	{
 		return ((JRMeterPlot)parent).getTickLabelFont();
-    }
+	}
 }

@@ -99,7 +99,7 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	 * Returns the type of this dataset.
 	 *
 	 * @return the type of this dataset - always
-	 * 		   <code>JRChartDataset.VALUE_DATASET</code>
+	 *    <code>JRChartDataset.VALUE_DATASET</code>
 	 */
 	public byte getDatasetType() {
 		return JRChartDataset.VALUE_DATASET;

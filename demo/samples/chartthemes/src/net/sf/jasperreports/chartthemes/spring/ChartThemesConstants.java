@@ -49,9 +49,9 @@ public interface ChartThemesConstants
 			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(4), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(4)).darker()));
 			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(5), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(5)).darker()));
 			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(6), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(6)).darker()));
-    }};
+	}};
 
-    // generic chart default properties names
+	// generic chart default properties names
 	public static final String BACKGROUND_PAINT = "backgroundPaint";
 	public static final String BACKGROUND_IMAGE = "backgroundImage";
 	public static final String BACKGROUND_IMAGE_ALIGNMENT = "backgroundImageAlignment";
@@ -69,7 +69,7 @@ public interface ChartThemesConstants
 	public static final String RENDERING_HINTS = "renderingHints";
 	public static final String TITLE = "title";
 
-    // generic chart title  properties names
+	// generic chart title  properties names
 	public static final String TITLE_VISIBLE = "titleVisible";
 	public static final String TITLE_POSITION = "titlePosition";
 	public static final String TITLE_FONT = "titleFont";
@@ -90,7 +90,7 @@ public interface ChartThemesConstants
 	public static final String TITLE_URL_TEXT = "titleURLText";
 	public static final String TITLE_EXPAND_TO_FIT_SPACE = "titleExpandToFitSpace";
 	
-    // generic chart subtitle  properties names
+	// generic chart subtitle  properties names
 	public static final String SUBTITLE_VISIBLE = "subtitleVisible";
 	public static final String SUBTITLE_POSITION = "subtitlePosition";
 	public static final String SUBTITLE_FONT = "subtitleFont";
@@ -111,7 +111,7 @@ public interface ChartThemesConstants
 	public static final String SUBTITLE_URL_TEXT = "subtitleURLText";
 	public static final String SUBTITLE_EXPAND_TO_FIT_SPACE = "subtitleExpandToFitSpace";
 	
-    // generic chart legend  properties names
+	// generic chart legend  properties names
 	public static final String LEGEND_VISIBLE = "legendVisible";
 	public static final String LEGEND_POSITION = "legendPosition";
 	public static final String LEGEND_FONT = "legendFont";

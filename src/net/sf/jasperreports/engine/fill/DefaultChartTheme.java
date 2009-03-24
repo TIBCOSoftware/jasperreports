@@ -1740,9 +1740,8 @@ public class DefaultChartTheme implements ChartTheme
 		}
 
 		JRValueDisplay display = jrPlot.getValueDisplay();
-		String displayVisibility = display != null && getChart().hasProperties() ? 
-     		getChart().getPropertiesMap().getProperty(PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
-     
+		String displayVisibility = display != null && getChart().hasProperties() 
+			? getChart().getPropertiesMap().getProperty(PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
 		if(Boolean.parseBoolean(displayVisibility))
 		{
 			DialValueIndicator dvi = new DialValueIndicator(0);

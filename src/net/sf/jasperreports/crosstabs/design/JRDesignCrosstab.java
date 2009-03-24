@@ -1481,8 +1481,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				clone.rowGroups.add(groupClone);
 				clone.rowGroupsMap.put(groupClone.getName(), new Integer(i));
 
-                adjustCrosstabReference(clone, (JRDesignCellContents) groupClone.getTotalHeader());
-                adjustCrosstabReference(clone, (JRDesignCellContents) groupClone.getHeader());
+				adjustCrosstabReference(clone, (JRDesignCellContents) groupClone.getTotalHeader());
+				adjustCrosstabReference(clone, (JRDesignCellContents) groupClone.getHeader());
 				
 				if (group.designVariable != null)
 				{
@@ -1504,8 +1504,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				clone.columnGroups.add(groupClone);
 				clone.columnGroupsMap.put(groupClone.getName(), new Integer(i));
 				
-                adjustCrosstabReference(clone,(JRDesignCellContents) groupClone.getTotalHeader());
-                adjustCrosstabReference(clone,(JRDesignCellContents) groupClone.getHeader());
+				adjustCrosstabReference(clone,(JRDesignCellContents) groupClone.getTotalHeader());
+				adjustCrosstabReference(clone,(JRDesignCellContents) groupClone.getHeader());
 
 				if (group.designVariable != null)
 				{
@@ -1559,7 +1559,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			{
 				JRDesignCrosstabCell cell = 
 					(JRDesignCrosstabCell)((JRDesignCrosstabCell)cellsList.get(i)).clone();
-                adjustCrosstabReference(clone, (JRDesignCellContents) cell.getContents());
+				adjustCrosstabReference(clone, (JRDesignCellContents) cell.getContents());
 				clone.cellsList.add(cell);
 				clone.cellsMap.put(new Pair(cell.getRowTotalGroup(), cell.getColumnTotalGroup()), cell);
 			}
@@ -1571,38 +1571,38 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		if (whenNoDataCell != null)
 		{
 			clone.whenNoDataCell = (JRDesignCellContents)whenNoDataCell.clone();
-            adjustCrosstabReference(clone, clone.whenNoDataCell);
+			adjustCrosstabReference(clone, clone.whenNoDataCell);
 		}
 		if (headerCell != null)
 		{
 			clone.headerCell = (JRDesignCellContents)headerCell.clone();
-            adjustCrosstabReference(clone, clone.headerCell);
+			adjustCrosstabReference(clone, clone.headerCell);
 		}
 
 		return clone;
 	}
 
-    /**
-     * Adjust the crosstab reference inside the origin to point to this
-     * crosstab. Used in the clone method.
-     * @param contents
-     */
-    private void adjustCrosstabReference(JRDesignCrosstab clone, JRDesignCellContents contents)
-    {
-    	if (contents == null)
-    	{
-    		return;
-    	}
-    	
-    	contents.setOrigin(
-    		new JRCrosstabOrigin(
-    			clone,
-    			contents.getOrigin().getType(),
-    			contents.getOrigin().getRowGroupName(),
-    			contents.getOrigin().getColumnGroupName()
-    			)
-    		);
-    }
+	/**
+	 * Adjust the crosstab reference inside the origin to point to this
+	 * crosstab. Used in the clone method.
+	 * @param contents
+	 */
+	private void adjustCrosstabReference(JRDesignCrosstab clone, JRDesignCellContents contents)
+	{
+		if (contents == null)
+		{
+			return;
+		}
+		
+		contents.setOrigin(
+			new JRCrosstabOrigin(
+				clone,
+				contents.getOrigin().getType(),
+				contents.getOrigin().getRowGroupName(),
+				contents.getOrigin().getColumnGroupName()
+				)
+			);
+	}
 	
 	public List getRowGroupsList()
 	{

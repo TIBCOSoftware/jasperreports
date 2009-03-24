@@ -90,7 +90,7 @@ public class SimpleSettingsFactory
 		add(new GradientPaintProvider(COLOR_5, COLOR_5.darker()));
 		add(new GradientPaintProvider(COLOR_6, COLOR_6.darker()));
 		add(new GradientPaintProvider(COLOR_7, COLOR_7.darker()));
-    }};
+	}};
 
 	public static final List STROKES =	new ArrayList(){{
 		add(new BasicStroke(2f));
@@ -114,7 +114,7 @@ public class SimpleSettingsFactory
 		add(new BasicStroke(3f));
 		}};
 	
-    
+
 	/**
 	 *
 	 */

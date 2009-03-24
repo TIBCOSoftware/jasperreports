@@ -27,7 +27,7 @@ import org.jfree.io.SerialUtilities;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @version $Id:ScaledDialPointer.java 2595 2009-02-10 17:56:51Z teodord $
  */
 public class ScaledDialPointer extends Pointer
 {
@@ -166,7 +166,7 @@ public class ScaledDialPointer extends Pointer
 		g2.setPaint(this.getOutlinePaint());
 		Line2D line = new Line2D.Double(frame.getCenterX(),
 				frame.getCenterY(), pt1.getX(), pt1.getY());
-//        g2.draw(line);
+//		g2.draw(line);
 
 		line.setLine(pt2, pt3);
 		g2.draw(line);

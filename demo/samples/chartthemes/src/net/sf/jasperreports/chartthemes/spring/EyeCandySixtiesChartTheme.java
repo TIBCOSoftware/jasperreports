@@ -959,8 +959,8 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		}
 
 		JRValueDisplay display = jrPlot.getValueDisplay();
-        String displayVisibility = display != null && getChart().hasProperties() ? 
-        		getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
+		String displayVisibility = display != null && getChart().hasProperties() 
+			? getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
 		if(Boolean.parseBoolean(displayVisibility))
 		{
 			ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);

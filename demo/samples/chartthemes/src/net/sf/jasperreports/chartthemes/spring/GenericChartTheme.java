@@ -1678,9 +1678,9 @@ public class GenericChartTheme implements ChartTheme
 		}
 
 		JRValueDisplay display = jrPlot.getValueDisplay();
-		String displayVisibility = display != null && getChart().hasProperties() ? 
-       		getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
-       
+		String displayVisibility = display != null && getChart().hasProperties() 
+			? getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
+
 		if(Boolean.parseBoolean(displayVisibility))
 		{
 			DialValueIndicator dvi = new DialValueIndicator(0);
@@ -2558,14 +2558,14 @@ public class GenericChartTheme implements ChartTheme
 			: DateTickUnit.DAY;
 	}
 
-    protected Object getDefaultValue(Map map, Object key)
-    {
-    	return map == null ? null : map.get(key);
-    }
+	protected Object getDefaultValue(Map map, Object key)
+	{
+		return map == null ? null : map.get(key);
+	}
 
 
-    protected Font getFont(JRFont themeFont, JRFont ownFont, Integer baseFontSize)
-    {
+	protected Font getFont(JRFont themeFont, JRFont ownFont, Integer baseFontSize)
+	{
 		JRBaseFont font = new JRBaseFont();
 		if(themeFont != null && themeFont.getFontSize() <= 0 && baseFontSize != null && baseFontSize.intValue() >0)
 		{
@@ -2575,76 +2575,76 @@ public class GenericChartTheme implements ChartTheme
 		JRFontUtil.copyNonNullOwnProperties(ownFont, font);
 		font = new JRBaseFont(getChart(), font);
 		return JRFontUtil.getAwtFont(font, getLocale());
-    }
-    
+	}
+	
 	/**
-     * @return the defaultChartPropertiesMap
-     */
-    public Map getDefaultChartPropertiesMap()
-    {
-    	return defaultChartPropertiesMap;
-    }
-
-
-	/**
-     * @param defaultChartPropertiesMap the defaultChartPropertiesMap to set
-     */
-    public void setDefaultChartPropertiesMap(Map defaultChartPropertiesMap)
-    {
-    	this.defaultChartPropertiesMap = defaultChartPropertiesMap;
-    }
+	 * @return the defaultChartPropertiesMap
+	 */
+	public Map getDefaultChartPropertiesMap()
+	{
+		return defaultChartPropertiesMap;
+	}
 
 
 	/**
-     * @return the defaultPlotPropertiesMap
-     */
-    public Map getDefaultPlotPropertiesMap()
-    {
-    	return defaultPlotPropertiesMap;
-    }
+	 * @param defaultChartPropertiesMap the defaultChartPropertiesMap to set
+	 */
+	public void setDefaultChartPropertiesMap(Map defaultChartPropertiesMap)
+	{
+		this.defaultChartPropertiesMap = defaultChartPropertiesMap;
+	}
 
 
 	/**
-     * @param defaultPlotPropertiesMap the defaultPlotPropertiesMap to set
-     */
-    public void setDefaultPlotPropertiesMap(Map defaultPlotPropertiesMap)
-    {
-    	this.defaultPlotPropertiesMap = defaultPlotPropertiesMap;
-    }
+	 * @return the defaultPlotPropertiesMap
+	 */
+	public Map getDefaultPlotPropertiesMap()
+	{
+		return defaultPlotPropertiesMap;
+	}
 
 
 	/**
-     * @return the defaultAxisPropertiesMap
-     */
-    public Map getDefaultAxisPropertiesMap()
-    {
-    	return defaultAxisPropertiesMap;
-    }
+	 * @param defaultPlotPropertiesMap the defaultPlotPropertiesMap to set
+	 */
+	public void setDefaultPlotPropertiesMap(Map defaultPlotPropertiesMap)
+	{
+		this.defaultPlotPropertiesMap = defaultPlotPropertiesMap;
+	}
 
 
 	/**
-     * @param defaultAxisPropertiesMap the defaultAxisPropertiesMap to set
-     */
-    public void setDefaultAxisPropertiesMap(Map defaultAxisPropertiesMap)
-    {
-    	this.defaultAxisPropertiesMap = defaultAxisPropertiesMap;
-    }
+	 * @return the defaultAxisPropertiesMap
+	 */
+	public Map getDefaultAxisPropertiesMap()
+	{
+		return defaultAxisPropertiesMap;
+	}
 
 
 	/**
-     * @return the defaultChartTypePropertiesMap
-     */
-    public Map getDefaultChartTypePropertiesMap()
-    {
-    	return defaultChartTypePropertiesMap;
-    }
+	 * @param defaultAxisPropertiesMap the defaultAxisPropertiesMap to set
+	 */
+	public void setDefaultAxisPropertiesMap(Map defaultAxisPropertiesMap)
+	{
+		this.defaultAxisPropertiesMap = defaultAxisPropertiesMap;
+	}
 
 
 	/**
-     * @param defaultChartTypePropertiesMap the defaultChartTypePropertiesMap to set
-     */
-    public void setDefaultChartTypePropertiesMap(Map defaultChartTypePropertiesMap)
-    {
-    	this.defaultChartTypePropertiesMap = defaultChartTypePropertiesMap;
-    }
+	 * @return the defaultChartTypePropertiesMap
+	 */
+	public Map getDefaultChartTypePropertiesMap()
+	{
+		return defaultChartTypePropertiesMap;
+	}
+
+
+	/**
+	 * @param defaultChartTypePropertiesMap the defaultChartTypePropertiesMap to set
+	 */
+	public void setDefaultChartTypePropertiesMap(Map defaultChartTypePropertiesMap)
+	{
+		this.defaultChartTypePropertiesMap = defaultChartTypePropertiesMap;
+	}
 }

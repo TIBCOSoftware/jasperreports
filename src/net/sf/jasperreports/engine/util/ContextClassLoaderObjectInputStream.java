@@ -90,7 +90,7 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 			try
 			{
 				//attempt to load the class using the context class loader
-			    return Class.forName(name, false, contextClassLoader);
+				return Class.forName(name, false, contextClassLoader);
 			}
 			catch (ClassNotFoundException e2)
 			{

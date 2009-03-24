@@ -187,76 +187,76 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 	}
 
 	/**
-     * @return the textAntiAlias
-     */
-    public Boolean getTextAntiAlias()
-    {
-    	return textAntiAlias;
-    }
+	 * @return the textAntiAlias
+	 */
+	public Boolean getTextAntiAlias()
+	{
+		return textAntiAlias;
+	}
 
 	/**
-     * @param textAntiAlias the textAntiAlias to set
-     */
-    public void setTextAntiAlias(Boolean textAntiAlias)
-    {
-    	Boolean old = getTextAntiAlias();
+	 * @param textAntiAlias the textAntiAlias to set
+	 */
+	public void setTextAntiAlias(Boolean textAntiAlias)
+	{
+		Boolean old = getTextAntiAlias();
 		this.textAntiAlias = textAntiAlias;
 		getEventSupport().firePropertyChange(PROPERTY_textAntiAlias, old, getTextAntiAlias());
-    }
+	}
 
 	/**
-     * @return the backgroundImageAlignment
-     */
-    public Integer getBackgroundImageAlignment()
-    {
-    	return backgroundImageAlignment;
-    }
+	 * @return the backgroundImageAlignment
+	 */
+	public Integer getBackgroundImageAlignment()
+	{
+		return backgroundImageAlignment;
+	}
 
 	/**
-     * @param backgroundImageAlignment the backgroundImageAlignment to set
-     */
-    public void setBackgroundImageAlignment(Integer backgroundImageAlignment)
-    {
-    	Integer old = getBackgroundImageAlignment();
+	 * @param backgroundImageAlignment the backgroundImageAlignment to set
+	 */
+	public void setBackgroundImageAlignment(Integer backgroundImageAlignment)
+	{
+		Integer old = getBackgroundImageAlignment();
 		this.backgroundImageAlignment = backgroundImageAlignment;
 		getEventSupport().firePropertyChange(PROPERTY_backgroundImageAlignment, old, getBackgroundImageAlignment());
-    }
+	}
 
 	/**
-     * @return the backgroundImageAlpha
-     */
-    public Float getBackgroundImageAlpha()
-    {
-    	return backgroundImageAlpha;
-    }
+	 * @return the backgroundImageAlpha
+	 */
+	public Float getBackgroundImageAlpha()
+	{
+		return backgroundImageAlpha;
+	}
 
 	/**
-     * @param backgroundImageAlpha the backgroundImageAlpha to set
-     */
-    public void setBackgroundImageAlpha(Float backgroundImageAlpha)
-    {
-    	Float old = getBackgroundImageAlpha();
+	 * @param backgroundImageAlpha the backgroundImageAlpha to set
+	 */
+	public void setBackgroundImageAlpha(Float backgroundImageAlpha)
+	{
+		Float old = getBackgroundImageAlpha();
 		this.backgroundImageAlpha = backgroundImageAlpha;
 		getEventSupport().firePropertyChange(PROPERTY_backgroundImageAlpha, old, getBackgroundImageAlpha());
-    }
+	}
 
 	/**
-     * @return the borderPaint
-     */
-    public PaintProvider getBorderPaint()
-    {
-    	return borderPaint;
-    }
+	 * @return the borderPaint
+	 */
+	public PaintProvider getBorderPaint()
+	{
+		return borderPaint;
+	}
 
 	/**
-     * @param borderPaint the borderPaint to set
-     */
-    public void setBorderPaint(PaintProvider borderPaint)
-    {
+	 * @param borderPaint the borderPaint to set
+	 */
+	public void setBorderPaint(PaintProvider borderPaint)
+	{
 		PaintProvider old = getBorderPaint();
 		this.borderPaint = borderPaint;
 		getEventSupport().firePropertyChange(PROPERTY_borderPaint, old, getBorderPaint());
-    }
+	}
 
 	/**
 	 * @return the backgroundImage
@@ -291,21 +291,21 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 	}
 
 //	/**
-//     * @return the seriesColors
-//     */
-//    public List getSeriesColors()
-//    {
-//    	return seriesColors;
-//    }
+//	 * @return the seriesColors
+//	 */
+//	public List getSeriesColors()
+//	{
+//		return seriesColors;
+//	}
 //
 //	/**
-//     * @param seriesColors the seriesColors to set
-//     */
-//    public void setSeriesColors(List seriesColors)
-//    {
-//    	List old = getSeriesColors();
+//	 * @param seriesColors the seriesColors to set
+//	 */
+//	public void setSeriesColors(List seriesColors)
+//	{
+//		List old = getSeriesColors();
 //		this.seriesColors = seriesColors;
 //		getEventSupport().firePropertyChange(PROPERTY_seriesColors, old, getSeriesColors());
-//    }
+//	}
 
 }
