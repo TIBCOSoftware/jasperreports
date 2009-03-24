@@ -139,6 +139,6 @@ public class JRFillXyzSeries implements JRXyzSeries {
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

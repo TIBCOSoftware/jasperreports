@@ -253,6 +253,6 @@ public class JRFillDatasetRun implements JRDatasetRun
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

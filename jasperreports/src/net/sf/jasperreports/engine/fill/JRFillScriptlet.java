@@ -145,7 +145,7 @@ public class JRFillScriptlet implements JRScriptlet
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

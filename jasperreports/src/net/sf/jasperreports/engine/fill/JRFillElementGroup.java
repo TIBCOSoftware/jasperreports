@@ -309,7 +309,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -317,6 +317,6 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	 */
 	public Object clone(JRElementGroup parentGroup) 
 	{
-		return null;//FIXMECLONE throw
+		throw new UnsupportedOperationException();
 	}
 }

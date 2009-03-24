@@ -292,7 +292,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

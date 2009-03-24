@@ -99,6 +99,6 @@ public class JRFillChartAxis implements JRChartAxis
 	 */
 	public Object clone() 
 	{
-		return new UnsupportedOperationException();
+		throw new UnsupportedOperationException();
 	}
 }

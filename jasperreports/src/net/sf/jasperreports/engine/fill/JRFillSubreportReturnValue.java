@@ -121,6 +121,6 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

@@ -114,6 +114,6 @@ public abstract class JRFillCrosstabGroup implements JRCrosstabGroup
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

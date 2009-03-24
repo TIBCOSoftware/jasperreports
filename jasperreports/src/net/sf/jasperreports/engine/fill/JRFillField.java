@@ -221,6 +221,6 @@ public class JRFillField implements JRField
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

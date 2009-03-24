@@ -180,7 +180,7 @@ public class JRFillParameter implements JRValueParameter
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

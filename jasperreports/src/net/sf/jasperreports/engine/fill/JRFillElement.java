@@ -1256,7 +1256,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	public Object clone() 
 	{
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1264,7 +1264,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	public Object clone(JRElementGroup parentGroup) 
 	{
-		return null;//FIXMECLONE throw
+		throw new UnsupportedOperationException();
 	}
 
 	public boolean hasProperties()
