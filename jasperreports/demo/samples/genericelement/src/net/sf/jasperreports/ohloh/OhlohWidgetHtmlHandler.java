@@ -4,6 +4,10 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 
+/**
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id:ChartThemesUtilities.java 2595 2009-02-10 17:56:51Z teodord $
+ */
 public class OhlohWidgetHtmlHandler implements
 		GenericElementHtmlHandler
 {
