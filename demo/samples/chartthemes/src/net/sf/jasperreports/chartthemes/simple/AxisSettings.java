@@ -57,7 +57,7 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_lineStroke = "lineStroke";
 	public static final String PROPERTY_lineVisible = "lineVisible";
 //	public static final String PROPERTY_fixedDimension = "fixedDimension";
-	public static final String PROPERTY_label = "label";
+//	public static final String PROPERTY_label = "label";
 	public static final String PROPERTY_labelAngle = "labelAngle";
 	public static final String PROPERTY_labelPaint = "labelPaint";
 	public static final String PROPERTY_labelFont = "labelFont";
@@ -83,7 +83,7 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	private PaintProvider linePaint = null;
 	private Stroke lineStroke = null;
 	private Boolean lineVisible = null;
-	private String label = null;
+//	private String label = null;
 	private Double labelAngle = null;
 	private PaintProvider labelPaint = null;
 	private JRFont labelFont = new JRBaseFont();
@@ -194,23 +194,23 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 		getEventSupport().firePropertyChange(PROPERTY_lineVisible, old, getLineVisible());
     }
 
-	/**
-     * @return the label
-     */
-    public String getLabel()
-    {
-    	return label;
-    }
+//	/**
+//     * @return the label
+//     */
+//    public String getLabel()
+//    {
+//    	return label;
+//    }
 
-	/**
-     * @param label the label to set
-     */
-    public void setLabel(String label)
-    {
-    	String old = getLabel();
-		this.label = label;
-		getEventSupport().firePropertyChange(PROPERTY_label, old, getLabel());
-    }
+//	/**
+//     * @param label the label to set
+//     */
+//    public void setLabel(String label)
+//    {
+//    	String old = getLabel();
+//		this.label = label;
+//		getEventSupport().firePropertyChange(PROPERTY_label, old, getLabel());
+//    }
 
 	/**
      * @return the labelAngle

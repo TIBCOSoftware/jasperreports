@@ -203,7 +203,7 @@ public class SimpleSettingsFactory
 		domainAxisSettings.setLinePaint(new ColorProvider(Color.green));
 		domainAxisSettings.setLineStroke(new BasicStroke(1f));
 		domainAxisSettings.setLineVisible(Boolean.TRUE);
-		domainAxisSettings.setLabel("Domain Axis");
+//		domainAxisSettings.setLabel("Domain Axis");
 		domainAxisSettings.setLabelAngle(new Double(0.0));
 		domainAxisSettings.setLabelPaint(new ColorProvider(Color.magenta));
 		domainAxisSettings.getLabelFont().setBold(Boolean.TRUE);
@@ -233,7 +233,7 @@ public class SimpleSettingsFactory
 		rangeAxisSettings.setLinePaint(new ColorProvider(Color.yellow));
 		rangeAxisSettings.setLineStroke(new BasicStroke(1f));
 		rangeAxisSettings.setLineVisible(Boolean.TRUE);
-		rangeAxisSettings.setLabel("Range Axis");
+//		rangeAxisSettings.setLabel("Range Axis");
 		rangeAxisSettings.setLabelAngle(new Double(Math.PI/2.0));
 		rangeAxisSettings.setLabelPaint(new ColorProvider(Color.green));
 		rangeAxisSettings.getLabelFont().setBold(Boolean.TRUE);
