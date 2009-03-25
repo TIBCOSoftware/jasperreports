@@ -2,14 +2,29 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.5.0 (2009-03-2x)
+JasperReports 3.5.0 (2009-03-25)
 -----------------------------------
 
-- min max for chart axis;
+- new min/max expressions available for controlling the displayed values 
+interval for both chart axis;
 
-- multiple series in pie charts;
+- the pie dataset now supports multiple series; this is useful in cases where
+multiple categories are added to the pie dataset in one incrementation step;
 
-- new props to limit pie charts;
+- new attributes and expressions where added to the pie dataset to allow limiting
+the number of slices displayed in the pie chart by grouping smaller slices under 
+a single generic slice called "Other";
+
+- new "runToBottom" attribute available for subreport elements to specify if 
+the subreport should consume all the available space on the current page;
+
+- the "net.sf.jasperreports.allow.element.overlap" property can be used globally, 
+at report or element level to specify whether element overlapping verifications 
+are performed at report compilation time; this is useful when designing reports 
+that are to be exported using grid exporters such as HTML and XLS, 
+where overlapping elements do not show up;
+
+- support for ordered lists added in the HTML markup text processor;
 
 - minor bug fixes and improvements;
 
