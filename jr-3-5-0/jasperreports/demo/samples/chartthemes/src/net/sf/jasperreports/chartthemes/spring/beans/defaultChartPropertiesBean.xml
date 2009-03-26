@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+
+
+	<bean id="defaultChartTheme" class="net.sf.jasperreports.chartthemes.spring.GenericChartTheme">
+		<property name="defaultChartPropertiesMap">
+			<map>
+			    <entry key-ref="backgroundPaint" value-ref="transparentPaint"/>
+			    
+		   	    <entry key-ref="titleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="subtitleVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="legendVisible" value-ref="isTrue"/>
+			    
+		   	    <entry key-ref="titlePosition" value-ref="rectangleEdgeTop"/>
+		   	    <entry key-ref="titleForecolor" value-ref="blackColor"/>
+		   	    <entry key-ref="titleBackcolor" value-ref="transparentPaint"/>
+		   	    <entry key-ref="titleHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
+				
+		   	    <entry key-ref="subtitlePosition" value-ref="rectangleEdgeTop"/>
+		   	    <entry key-ref="subtitleForecolor" value-ref="blackColor"/>
+		   	    <entry key-ref="subtitleBackcolor" value-ref="transparentPaint"/>
+		   	    <entry key-ref="subtitleHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
+		   	    
+		   	    <entry key-ref="legendPosition" value-ref="rectangleEdgeBottom"/>
+		   	    <entry key-ref="legendForecolor" value-ref="blackColor"/>
+		   	    <entry key-ref="legendBackcolor" value-ref="transparentPaint"/>
+		   	    <entry key-ref="legendHorizontalAlignment" value-ref="centerHorizontalAlignment"/>
+
+			    <entry key-ref="chartBorderVisible" value-ref="isFalse"/>
+			    <entry key-ref="chartAntiAlias" value-ref="isTrue"/>
+			    <entry key-ref="unitType" value-ref="unitTypeRelative"/>
+			    
+			</map>
+		</property>
+		<property name="defaultPlotPropertiesMap">
+			<map>
+				<entry key-ref="plotOutlineVisible" value-ref="isFalse"/>
+		   	    <entry key-ref="plotBackgroundPaint" value-ref="transparentPaint"/>
+		   	    <entry key-ref="plotBackgroundAlpha">
+		   	    	<value type="java.lang.Float">1f</value>
+		   	    </entry>
+		   	    <entry key-ref="plotForegroundAlpha">
+		   	    	<value type="java.lang.Float">1f</value>
+		   	    </entry>
+			</map>
+		</property>
+		<property name="defaultAxisPropertiesMap">
+			<map>
+		   	    <entry key-ref="axisVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisLineVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisLabelVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisTickLabelsVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisTickMarksVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="axisLocation" value-ref="axisLocationTopOrLeft"/>
+		   	    <entry key-ref="rangeAxisTimePeriodUnit" value="Day"/>
+		   	    <entry key-ref="domainAxisTimePeriodUnit" value="Day"/>
+			</map>
+		</property>
+		<property name="defaultChartTypePropertiesMap">
+			<null/>
+		</property>
+	</bean>
+
+	<import resource="chartConstantsBean.xml"/>
+</beans>

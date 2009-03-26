@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="UnicodeReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<parameter name="GreekText" class="java.lang.String">
+	</parameter>
+	<parameter name="CyrillicText" class="java.lang.String">
+	</parameter>
+	<parameter name="ArabicText" class="java.lang.String">
+	</parameter>
+	<parameter name="HebrewText" class="java.lang.String">
+	</parameter>
+	<title>
+		<band height="782">
+			<textField>
+				<reportElement x="0" y="50" width="200" height="90"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="210" y="50" width="340" height="90"/>
+				<textElement/>
+				<text><![CDATA[<textField><reportElement x="0" y="50" width="200" height="90"/><textElement><font fontName="DejaVu Sans" size="14"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="150" width="200" height="90"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="210" y="150" width="340" height="90"/>
+				<textElement/>
+				<text><![CDATA[<textField><reportElement x="0" y="150" width="200" height="90"/><textElement><font fontName="DejaVu Sans" size="14" isBold="true"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="250" width="200" height="90"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="14" isItalic="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="210" y="250" width="340" height="90"/>
+				<textElement/>
+				<text><![CDATA[<textField><reportElement x="0" y="250" width="200" height="90"/><textElement><font fontName="DejaVu Sans" size="14" isItalic="true" isUnderline="true"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="350" width="200" height="90"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="14" isBold="true" isItalic="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="210" y="350" width="340" height="90"/>
+				<textElement/>
+				<text><![CDATA[<textField><reportElement x="0" y="350" width="200" height="90"/><textElement><font fontName="DejaVu Sans" size="14" isBold="true" isItalic="true" isUnderline="true"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="500" width="350" height="50"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="22"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ArabicText}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="600" width="350" height="50"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="22"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{HebrewText}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>
