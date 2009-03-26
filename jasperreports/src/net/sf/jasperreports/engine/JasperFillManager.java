@@ -94,7 +94,7 @@ public class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		setFileResolver(sourceFile, parameters);
+		parameters = setFileResolver(sourceFile, parameters);
 
 		fillReportToFile(jasperReport, destFileName, parameters, connection);
 		
@@ -125,7 +125,7 @@ public class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		setFileResolver(sourceFile, parameters);
+		parameters = setFileResolver(sourceFile, parameters);
 
 		fillReportToFile(jasperReport, destFileName, parameters);
 		
@@ -153,7 +153,7 @@ public class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		setFileResolver(sourceFile, parameters);
+		parameters = setFileResolver(sourceFile, parameters);
 
 		fillReportToFile(jasperReport, destFileName, parameters, connection);
 	}
@@ -178,7 +178,7 @@ public class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		setFileResolver(sourceFile, parameters);
+		parameters = setFileResolver(sourceFile, parameters);
 
 		fillReportToFile(jasperReport, destFileName, parameters);
 	}
@@ -246,7 +246,7 @@ public class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		setFileResolver(sourceFile, parameters);
+		parameters = setFileResolver(sourceFile, parameters);
 
 		return fillReport(jasperReport, parameters, connection);
 	}
@@ -270,7 +270,7 @@ public class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 		
-		setFileResolver(sourceFile, parameters);
+		parameters = setFileResolver(sourceFile, parameters);
 
 		return fillReport(jasperReport, parameters);
 	}
@@ -464,7 +464,7 @@ public class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		setFileResolver(sourceFile, parameters);
+		parameters = setFileResolver(sourceFile, parameters);
 
 		fillReportToFile(jasperReport, destFileName, parameters, dataSource);
 		
@@ -492,7 +492,7 @@ public class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		setFileResolver(sourceFile, parameters);
+		parameters = setFileResolver(sourceFile, parameters);
 
 		fillReportToFile(jasperReport, destFileName, parameters, dataSource);
 	}
@@ -539,7 +539,7 @@ public class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		setFileResolver(sourceFile, parameters);
+		parameters = setFileResolver(sourceFile, parameters);
 
 		return fillReport(jasperReport, parameters, dataSource);
 	}
@@ -641,11 +641,15 @@ public class JasperFillManager
 
 		if (!parameters.containsKey(JRParameter.REPORT_FILE_RESOLVER))
 		{
-			parameters.put(
-				JRParameter.REPORT_FILE_RESOLVER, 
+			SimpleFileResolver fileResolver =
 				new SimpleFileResolver(
 					Arrays.asList(new File[]{file.getParentFile(), new File(".")})
-					)
+					);
+			fileResolver.setResolveAbsolutePath(true);
+			
+			parameters.put(
+				JRParameter.REPORT_FILE_RESOLVER, 
+				fileResolver
 				);
 		}
 		
