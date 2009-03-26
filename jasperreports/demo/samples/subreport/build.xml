@@ -1,0 +1,254 @@
+<project name="subreport" default="javac" basedir=".">
+
+	<description>Shows how subreport could be used to create complex document layouts..</description>
+
+	<property name="class.name" value="SubreportApp" />
+	<property name="file.name" value="${basedir}/MasterReport" />
+	<property name="classes.dir" value="../../../build/classes" />
+	<property name="lib.dir" value="../../../lib" />
+	<property name="fonts.dir" value="../../fonts" />
+	
+	<path id="classpath">
+		<pathelement location="./" />
+		<pathelement location="${classes.dir}" />
+		<pathelement location="${fonts.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<target name="compile" description="Compiles all the XML report designs and produces the .jasper files.">
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+			<classpath refid="classpath"/>
+		</taskdef>
+		<jrc destdir="./">
+			<src>
+				<fileset dir="./">
+					<include name="**/*.jrxml"/>
+				</fileset>
+			</src>
+			<classpath refid="classpath"/>
+		</jrc> 
+	</target>
+
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="fill"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="fill-javaflow" description="Fills the subreports using JavaFlow Continuations, not threads.">
+		<ant dir="../../../" target="javaflow" />
+		<java classname="${class.name}">
+			<sysproperty key="net.sf.jasperreports.properties" value="jasperreports-javaflow.properties"/>
+			<arg value="fill"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath>
+				<pathelement location="./"/>
+				<fileset dir="../../../dist">
+					<include name="**/*-javaflow.jar"/>
+				</fileset>
+				<pathelement location="${fonts.dir}" />
+				<fileset dir="${lib.dir}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="${file.name}.jrpxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="print" description="Sends the report in the .jrprint file to the printer.">
+		<java classname="${class.name}">
+			<arg value="print"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="pdf"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="xml"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="xmlEmbed"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="html"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="rtf"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
+		<java classname="${class.name}">
+			<arg value="xls"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<java classname="${class.name}">
+			<arg value="jxl"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="csv"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="odt"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="run" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
+		<java classname="${class.name}">
+			<arg value="run"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesignXML1" description="Launches the design viewer to preview the master XML report design.">
+		<echo message="Viewing the ${file.name}.jrxml file"/>
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${file.name}.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesignXML2" description="Launches the design viewer to preview the first subreport XML design.">
+		<echo message="Viewing the AddressReport.jrxml file"/>
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="AddressReport.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesignXML3" description="Launches the design viewer to preview the second subreport XML design.">
+		<echo message="Viewing the ProductReport.jrxml file"/>
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="ProductReport.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign1" description="Launches the design viewer to preview the compiled master report design.">
+		<echo message="Viewing the ${file.name}.jasper file"/>
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign2" description="Launches the design viewer to preview the first compiled subreport design.">
+		<echo message="Viewing the AddressReport.jasper file"/>
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="AddressReport.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign3" description="Launches the design viewer to preview the second compiled subreport design.">
+		<echo message="Viewing the ProductReport.jasper file"/>
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="ProductReport.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<delete>
+			<fileset dir="." includes="**/*.class" />
+			<fileset dir="." includes="**/*.jasper" />
+			<fileset dir="." includes="**/*.jrprint" />
+			<fileset dir="." includes="**/*.jrpxml" />
+			<fileset dir="." includes="**/*.html" />
+			<fileset dir="." includes="**/*.rtf" />
+			<fileset dir="." includes="**/*.xls" />
+			<fileset dir="." includes="**/*.csv" />
+			<fileset dir="." includes="**/*.odt" />
+			<fileset dir="." includes="**/*.pdf" />
+		</delete>
+		<delete dir="${file.name}.jrpxml_files" />
+		<delete dir="${file.name}.html_files" />
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Subreport Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<antcall target="fill" />
+		<antcall target="fill-javaflow" />
+		<antcall target="pdf" />
+		<antcall target="xmlEmbed" />
+		<antcall target="xml" />
+		<antcall target="html" />
+		<antcall target="rtf" />
+		<antcall target="xls" />
+		<antcall target="jxl" />
+		<antcall target="csv" />
+		<antcall target="odt" />
+	</target>
+
+</project>
