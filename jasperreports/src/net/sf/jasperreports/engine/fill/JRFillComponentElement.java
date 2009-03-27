@@ -53,6 +53,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 {
 
 	private FillComponent fillComponent;
+	private boolean filling;
 	
 	public JRFillComponentElement(JRBaseFiller filler, JRComponentElement element,
 			JRFillObjectFactory factory)
@@ -85,6 +86,8 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		{
 			fillComponent.evaluate(evaluation);
 		}
+		
+		filling = false;
 	}
 	
 	protected boolean prepare(int availableStretchHeight, boolean isOverflow)
@@ -102,7 +105,8 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		boolean isToPrint = true;
 		boolean isReprinted = false;
 
-		if (isOverflow && isAlreadyPrinted() && !isPrintWhenDetailOverflows())
+		if (!filling 
+				&& isOverflow && isAlreadyPrinted() && !isPrintWhenDetailOverflows())
 		{
 			isToPrint = false;
 		}
@@ -114,7 +118,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 			willOverflow = true;
 		}
 
-		if (isToPrint && isOverflow && isPrintWhenDetailOverflows()
+		if (!filling && isToPrint && isOverflow && isPrintWhenDetailOverflows()
 				&& (isAlreadyPrinted() || !isPrintRepeatedValues()))
 		{
 			isReprinted = true;
@@ -127,6 +131,10 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 			isToPrint = result.isToPrint();
 			willOverflow = result.willOverflow();
 			setStretchHeight(result.getStretchHeight());
+			
+			// if the component will overflow, set the filling flag to true
+			// to know next time that the component is continuing
+			filling = willOverflow;
 		}
 		
 		setToPrint(isToPrint);
@@ -155,6 +163,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 	protected void rewind() throws JRException
 	{
 		fillComponent.rewind();
+		filling = false;
 	}
 
 	public void collectExpressions(JRExpressionCollector collector)
