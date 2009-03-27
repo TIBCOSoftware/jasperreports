@@ -65,7 +65,7 @@ public class JRViewerController
 	protected int type = TYPE_FILE_NAME;
 	protected boolean isXML = false;
 	protected String reportFileName = null;
-	protected FileResolver fileResolver = null;
+	protected SimpleFileResolver fileResolver = null;
 	protected boolean reloadSupported;
 	
 	private JasperPrint jasperPrint = null;
@@ -133,6 +133,7 @@ public class JRViewerController
 		this.isXML = isXmlReport;
 		reportFileName = fileName;
 		fileResolver = new SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
+		fileResolver.setResolveAbsolutePath(true);
 		reloadSupported = true;
 		fireListeners(JRViewerEvent.EVENT_REPORT_LOADED);
 		setPageIndex(0);

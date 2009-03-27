@@ -41,6 +41,7 @@ public class SimpleFileResolver implements FileResolver
 {
 
 	protected List folders = null;
+	private boolean isResolveAbsolutePath = false;
 	
 	/**
 	 *
@@ -62,6 +63,22 @@ public class SimpleFileResolver implements FileResolver
 	/**
 	 *
 	 */
+	public boolean isResolveAbsolutePath()
+	{
+		return isResolveAbsolutePath;
+	}
+
+	/**
+	 *
+	 */
+	public void setResolveAbsolutePath(boolean isResolveAbsolutePath)
+	{
+		this.isResolveAbsolutePath = isResolveAbsolutePath;
+	}
+
+	/**
+	 *
+	 */
 	public File resolveFile(String fileName)
 	{
 		if (fileName != null)
@@ -75,7 +92,13 @@ public class SimpleFileResolver implements FileResolver
 					return file;
 				}
 			}
+
+			if (isResolveAbsolutePath)
+			{
+				return new File(fileName);
+			}
 		}
+		
 		return null;
 	}
 	

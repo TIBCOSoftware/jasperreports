@@ -127,7 +127,7 @@ public class JRDesignViewer extends JRViewer
 		this.isXML = isXmlReport;
 		this.reportFileName = fileName;
 		this.fileResolver = new SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
-		
+		this.fileResolver.setResolveAbsolutePath(true);
 	}
 
 

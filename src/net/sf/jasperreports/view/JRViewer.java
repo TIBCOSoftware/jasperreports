@@ -97,7 +97,6 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -152,7 +151,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected int type = TYPE_FILE_NAME;
 	protected boolean isXML = false;
 	protected String reportFileName = null;
-	protected FileResolver fileResolver = null;
+	protected SimpleFileResolver fileResolver = null;
 	JasperPrint jasperPrint = null;
 	private int pageIndex = 0;
 	private boolean pageError;
@@ -1444,6 +1443,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		this.isXML = isXmlReport;
 		reportFileName = fileName;
 		fileResolver = new SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
+		fileResolver.setResolveAbsolutePath(true);
 		btnReload.setEnabled(true);
 		setPageIndex(0);
 	}
