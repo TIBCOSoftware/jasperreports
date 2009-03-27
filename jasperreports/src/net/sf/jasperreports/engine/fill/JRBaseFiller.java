@@ -1765,7 +1765,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 */
 	protected Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
 	{
-		return mainDataset.calculator.evaluate(expression, evaluation);
+		return mainDataset.evaluateExpression(expression, evaluation);
 	}
 
 
@@ -1809,7 +1809,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 *
 	 * @return the report
 	 */
-	protected JasperReport getJasperReport()
+	public JasperReport getJasperReport()
 	{
 		return jasperReport;
 	}

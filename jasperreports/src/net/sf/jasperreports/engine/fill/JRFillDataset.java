@@ -222,7 +222,7 @@ public class JRFillDataset implements JRDataset
 	 * @param dataset the template dataset
 	 * @param factory the fill object factory
 	 */
-	protected JRFillDataset(JRBaseFiller filler, JRDataset dataset, JRFillObjectFactory factory)
+	public JRFillDataset(JRBaseFiller filler, JRDataset dataset, JRFillObjectFactory factory)
 	{
 		factory.put(dataset, this);
 		
@@ -405,7 +405,7 @@ public class JRFillDataset implements JRDataset
 	 * @param jasperReport the report
 	 * @throws JRException
 	 */
-	protected void createCalculator(JasperReport jasperReport) throws JRException
+	public void createCalculator(JasperReport jasperReport) throws JRException
 	{
 		setCalculator(createCalculator(jasperReport, this));
 	}
@@ -427,7 +427,7 @@ public class JRFillDataset implements JRDataset
 	 * 
 	 * @throws JRException
 	 */
-	protected void initCalculator() throws JRException
+	public void initCalculator() throws JRException
 	{
 		calculator.init(this);
 	}
@@ -542,7 +542,7 @@ public class JRFillDataset implements JRDataset
 	 * @param parameterValues the parameter values
 	 * @throws JRException 
 	 */
-	protected void setParameterValues(Map parameterValues) throws JRException
+	public void setParameterValues(Map parameterValues) throws JRException
 	{
 		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
 		
@@ -586,7 +586,16 @@ public class JRFillDataset implements JRDataset
 	}
 	
 	
-	protected void initDatasource() throws JRException
+	/**
+	 * Initializes the data source which will be used by this dataset.
+	 * 
+	 * If the dataset includes a query, this involves invoking the appropriate
+	 * query executer to execute the query and create a data source from the
+	 * results.
+	 * 
+	 * @throws JRException
+	 */
+	public void initDatasource() throws JRException
 	{
 		queryExecuter = null;
 		
@@ -695,7 +704,7 @@ public class JRFillDataset implements JRDataset
 	 * @param parameterValues the parameter values
 	 * @param ds the data source
 	 */
-	protected void setDatasourceParameterValue(Map parameterValues, JRDataSource ds)
+	public void setDatasourceParameterValue(Map parameterValues, JRDataSource ds)
 	{
 		useDatasourceParamValue = true;
 		
@@ -712,7 +721,7 @@ public class JRFillDataset implements JRDataset
 	 * @param parameterValues the parameter values
 	 * @param conn the connection
 	 */
-	protected void setConnectionParameterValue(Map parameterValues, Connection conn)
+	public void setConnectionParameterValue(Map parameterValues, Connection conn)
 	{
 		useConnectionParamValue = true;
 		
@@ -723,7 +732,13 @@ public class JRFillDataset implements JRDataset
 	}
 	
 	
-	protected void closeDatasource()
+	/**
+	 * Closes the data source used by this dataset if this data source was
+	 * obtained via a query executer.
+	 * 
+	 * @see JRQueryExecuter#close()
+	 */
+	public void closeDatasource()
 	{
 		if (queryExecuter != null)
 		{
@@ -743,7 +758,7 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * Starts the iteration on the data source.
 	 */
-	protected void start()
+	public void start()
 	{
 		reportCount = 0;
 	}
@@ -755,7 +770,7 @@ public class JRFillDataset implements JRDataset
 	 * @return <code>true</code> if the data source was not exhausted
 	 * @throws JRException
 	 */
-	protected boolean next() throws JRException
+	public boolean next() throws JRException
 	{
 		boolean hasNext = false;
 
@@ -1204,5 +1219,17 @@ public class JRFillDataset implements JRDataset
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Evaluates an expression
+	 * @param expression the expression
+	 * @param evaluation the evaluation type
+	 * @return the evaluation result
+	 * @throws JRException
+	 */
+	public Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
+	{
+		return calculator.evaluate(expression, evaluation);
 	}
 }

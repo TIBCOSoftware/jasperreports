@@ -1139,7 +1139,7 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate(subDatasetPattern, JRDatasetFactory.class.getName());
 		digester.addSetNext(subDatasetPattern, "addDataset", JRDesignDataset.class.getName());
 
-		String datasetRunPattern = "*/dataset/" + JRXmlConstants.ELEMENT_datasetRun;
+		String datasetRunPattern = "*/" + JRXmlConstants.ELEMENT_datasetRun;
 		digester.addFactoryCreate(datasetRunPattern, JRDatasetRunFactory.class.getName());
 		digester.addSetNext(datasetRunPattern, "setDatasetRun", JRDatasetRun.class.getName());
 

@@ -2548,7 +2548,12 @@ public class JRVerifier
 	}
 
 
-	private void verifyDatasetRun(JRDatasetRun datasetRun)
+	/**
+	 * Verifies a subdataset run object.
+	 * 
+	 * @param datasetRun the subdataset run
+	 */
+	public void verifyDatasetRun(JRDatasetRun datasetRun)
 	{
 		JRDesignDataset dataset = null;
 

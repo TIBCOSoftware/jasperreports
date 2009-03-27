@@ -277,7 +277,13 @@ public class JRExpressionCollector
 	}
 
 
-	private JRExpressionCollector getDatasetCollector(String datasetName)
+	/**
+	 * Returns the expression collector for a report subdataset.
+	 * 
+	 * @param datasetName the subdataset name
+	 * @return the expression collector for the subdataset
+	 */
+	public JRExpressionCollector getDatasetCollector(String datasetName)
 	{
 		JRExpressionCollector collector = (JRExpressionCollector) datasetCollectors.get(datasetName);
 		if (collector == null)
@@ -1242,7 +1248,12 @@ public class JRExpressionCollector
 	}
 
 
-	private void collect(JRDatasetRun datasetRun)
+	/**
+	 * Collects expressions from a subdataset run object.
+	 * 
+	 * @param datasetRun the subdataset run
+	 */
+	public void collect(JRDatasetRun datasetRun)
 	{
 		if (datasetRun != null)
 		{

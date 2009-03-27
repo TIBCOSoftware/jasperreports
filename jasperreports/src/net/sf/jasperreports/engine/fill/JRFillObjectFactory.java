@@ -225,7 +225,13 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 	
-	protected JRFillExpressionEvaluator getExpressionEvaluator()
+	/**
+	 * Returns the expression evaluator which is to be used by objects
+	 * created by this factory.
+	 * 
+	 * @return the expression evaluator associated with this factory
+	 */
+	public JRFillExpressionEvaluator getExpressionEvaluator()
 	{
 		return evaluator;
 	}

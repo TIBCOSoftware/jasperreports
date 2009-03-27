@@ -658,18 +658,28 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, band.getPrintWhenExpression(), false);
 
 		/*   */
-		List children = band.getChildren();
-		if (children != null && children.size() > 0)
-		{
-			for(int i = 0; i < children.size(); i++)
-			{
-				((JRChild)children.get(i)).visit(xmlWriterVisitor);
-			}
-		}
+		writeChildElements(band);
 
 		writer.closeElement();
 	}
 
+	
+	/**
+	 * Writes the contents (child elements) of an element container.
+	 * 
+	 * @param elementContainer the element container
+	 */
+	public void writeChildElements(JRElementGroup elementContainer)
+	{
+		List children = elementContainer.getChildren();
+		if (children != null && children.size() > 0)
+		{
+			for(int i = 0; i < children.size(); i++)
+			{
+				((JRChild) children.get(i)).visit(xmlWriterVisitor);
+			}
+		}
+	}
 
 	/**
 	 *
@@ -679,14 +689,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(JRXmlConstants.ELEMENT_elementGroup, getNamespace());
 
 		/*   */
-		List children = elementGroup.getChildren();
-		if (children != null && children.size() > 0)
-		{
-			for(int i = 0; i < children.size(); i++)
-			{
-				((JRChild)children.get(i)).visit(xmlWriterVisitor);
-			}
-		}
+		writeChildElements(elementGroup);
 
 		writer.closeElement();
 	}
@@ -1940,7 +1943,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeGanttChart(JRChart chart) throws IOException
 	{
-		writer.startElement(JRXmlConstants.ELEMENT_ganttChart);
+		writer.startElement(JRXmlConstants.ELEMENT_ganttChart, getNamespace());
 		
 		writeChart(chart);
 		writeGanttDataset((JRGanttDataset) chart.getDataset());
@@ -2564,14 +2567,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 			writeBox(contents.getLineBox());
 
-			List children = contents.getChildren();
-			if (children != null)
-			{
-				for (Iterator it = children.iterator(); it.hasNext();)
-				{
-					((JRChild)it.next()).visit(xmlWriterVisitor);
-				}
-			}
+			writeChildElements(contents);
 
 			writer.closeElement();
 		}
@@ -2681,9 +2677,15 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 
-	protected void writeDatasetRun(JRDatasetRun datasetRun) throws IOException
+	/**
+	 * Outputs the XML representation of a subdataset run object.
+	 * 
+	 * @param datasetRun the subdataset run
+	 * @throws IOException
+	 */
+	public void writeDatasetRun(JRDatasetRun datasetRun) throws IOException
 	{
-		writer.startElement(JRXmlConstants.ELEMENT_datasetRun);
+		writer.startElement(JRXmlConstants.ELEMENT_datasetRun, getNamespace());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_subDataset, datasetRun.getDatasetName());
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_parametersMapExpression, datasetRun.getParametersMapExpression(), false);
@@ -2712,14 +2714,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeReportElement(frame);
 		writeBox(frame.getLineBox());
 
-		List children = frame.getChildren();
-		if (children != null)
-		{
-			for (Iterator it = children.iterator(); it.hasNext();)
-			{
-				((JRChild)it.next()).visit(xmlWriterVisitor);
-			}
-		}
+		writeChildElements(frame);
 
 		writer.closeElement();
 	}

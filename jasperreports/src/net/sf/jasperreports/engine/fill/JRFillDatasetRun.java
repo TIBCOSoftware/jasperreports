@@ -54,17 +54,17 @@ public class JRFillDatasetRun implements JRDatasetRun
 	
 	private static final Log log = LogFactory.getLog(JRFillDatasetRun.class);
 	
-	private final JRBaseFiller filler;
+	protected final JRBaseFiller filler;
 
-	private final JRFillDataset dataset;
+	protected final JRFillDataset dataset;
 
-	private JRExpression parametersMapExpression;
+	protected JRExpression parametersMapExpression;
 
-	private JRDatasetParameter[] parameters;
+	protected JRDatasetParameter[] parameters;
 
-	private JRExpression connectionExpression;
+	protected JRExpression connectionExpression;
 
-	private JRExpression dataSourceExpression;
+	protected JRExpression dataSourceExpression;
 
 	
 	/**
@@ -76,10 +76,17 @@ public class JRFillDatasetRun implements JRDatasetRun
 	 */
 	public JRFillDatasetRun(JRBaseFiller filler, JRDatasetRun datasetRun, JRFillObjectFactory factory)
 	{
+		this(filler, datasetRun, 
+				(JRFillDataset) filler.datasetMap.get(datasetRun.getDatasetName()));
+		
 		factory.put(datasetRun, this);
+	}
 
+	protected JRFillDatasetRun(JRBaseFiller filler, JRDatasetRun datasetRun, 
+			JRFillDataset dataset)
+	{
 		this.filler = filler;
-		this.dataset = (JRFillDataset) filler.datasetMap.get(datasetRun.getDatasetName());
+		this.dataset = dataset;
 
 		parametersMapExpression = datasetRun.getParametersMapExpression();
 		parameters = datasetRun.getParameters();
