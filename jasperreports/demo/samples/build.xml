@@ -36,6 +36,7 @@
 		<ant dir="jchartscomponent" target="test" />
 		<ant dir="jfreechart" target="test" />
 		<ant dir="landscape" target="test" />
+		<ant dir="list" target="test" />
 		<ant dir="markup" target="test" />
 		<ant dir="mondrian" target="test" />
 		<ant dir="nopagebreak" target="test" />
@@ -91,6 +92,7 @@
 		<ant dir="jchartscomponent" target="clean" />
 		<ant dir="jfreechart" target="clean" />
 		<ant dir="landscape" target="clean" />
+		<ant dir="list" target="clean" />
 		<ant dir="markup" target="clean" />
 		<ant dir="mondrian" target="clean" />
 		<ant dir="nopagebreak" target="clean" />
