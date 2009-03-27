@@ -300,11 +300,13 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		}
 	}
 	
-	
+
 	/**
-	 *
+	 * Indicates whether the elements in this container will overflow.
+	 * 
+	 * @return whether this container will overflow
 	 */
-	protected boolean willOverflow()
+	public boolean willOverflow()
 	{
 		return willOverflow;
 	}
@@ -555,9 +557,12 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 
 	/**
-	 *
+	 * Fills the elements from this container into a print element container.
+	 * 
+	 * @param printContainer the print element container
+	 * @throws JRException
 	 */
-	protected void fillElements(JRPrintElementContainer printContainer) throws JRException
+	public void fillElements(JRPrintElementContainer printContainer) throws JRException
 	{
 		//int maxStretch = 0;
 		//int stretch = 0;
