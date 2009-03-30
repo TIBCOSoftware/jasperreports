@@ -717,7 +717,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void addMergeRegion(JRExporterGridCell gridCell, int x, int y) throws JRException
 	{
-		if (gridCell.getColSpan() > 1 || gridCell.getRowSpan() > 1)
+		if (gridCell.getColSpan() > 1 || 
+				(gridCell.getRowSpan() > 1 && !isCollapseRowSpan))
 		{
 			try
 			{
@@ -1005,7 +1006,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						col - emptyCols,
 						row,
 						gridCell.getColSpan(),
-						gridCell.getRowSpan(),
+						gridCell.getRowSpan(),//TODO isCollapseRowSpan?
 						JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG)
 						);
 				sheet.addImage(image);

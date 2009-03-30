@@ -585,18 +585,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	}
 	protected void createMergeRegion(JRExporterGridCell gridCell, int colIndex, int rowIndex, HSSFCellStyle cellStyle)
 	{
-		if (gridCell.getColSpan() > 1 || gridCell.getRowSpan() > 1)
+		int rowSpan = isCollapseRowSpan ? 1 : gridCell.getRowSpan();
+		if (gridCell.getColSpan() > 1 || rowSpan > 1)
 		{
-			if (isCollapseRowSpan)
-			{
-				sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, colIndex, (colIndex + gridCell.getColSpan() - 1)));
-			}
-			else
-			{
-				sheet.addMergedRegion(new CellRangeAddress(rowIndex, (rowIndex + gridCell.getRowSpan() - 1), colIndex, (colIndex + gridCell.getColSpan() - 1)));
-			}
+			sheet.addMergedRegion(new CellRangeAddress(rowIndex, (rowIndex + rowSpan - 1), 
+					colIndex, (colIndex + gridCell.getColSpan() - 1)));
 
-			for(int i = 0; i < gridCell.getRowSpan(); i++)
+			for(int i = 0; i < rowSpan; i++)
 			{
 				HSSFRow spanRow = sheet.getRow(rowIndex + i);
 				if (spanRow == null)
@@ -1134,7 +1129,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 				HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, 
 						(short) colIndex, rowIndex, 
-						(short) (colIndex + gridCell.getColSpan()), rowIndex + gridCell.getRowSpan());
+						(short) (colIndex + gridCell.getColSpan()), rowIndex + gridCell.getRowSpan());//TODO isCollapseRowSpan?
 				anchor.setAnchorType(2);
 				//pngEncoder.setImage(bi);
 				//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
