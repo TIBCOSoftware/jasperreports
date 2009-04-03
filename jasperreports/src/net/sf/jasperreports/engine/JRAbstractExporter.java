@@ -100,6 +100,19 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	public static final String PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY = "default.filter.factory";
 	
+	protected abstract class BaseExporterContext implements JRExporterContext
+	{
+		public JasperPrint getExportedReport()
+		{
+			return jasperPrint;
+		}
+
+		public Map getExportParameters()
+		{
+			return parameters;
+		}
+	}
+	
 	protected static interface ParameterResolver
 	{
 		String getStringParameter(JRExporterParameter parameter, String property);
@@ -1141,21 +1154,11 @@ public abstract class JRAbstractExporter implements JRExporter
 		
 		ExporterFilterFactory defaultFactory = ExporterFilterFactoryUtil.getFilterFactory(defaultFilterClassName);
 		
-		JRExporterContext context = new JRExporterContext()
+		JRExporterContext context = new BaseExporterContext()
 		{
 			public String getExportPropertiesPrefix()
 			{
 				return exportPropertyPrefix;
-			}
-
-			public JasperPrint getExportedReport()
-			{
-				return jasperPrint;
-			}
-
-			public Map getExportParameters()
-			{
-				return parameters;
 			}
 		};
 		return defaultFactory.getFilter(context);
