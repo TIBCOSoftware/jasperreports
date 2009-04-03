@@ -43,10 +43,12 @@ import java.util.Set;
 
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRReport;
@@ -513,4 +515,17 @@ public class ReportConverter
 		}
 	}
 
+	public void copyBaseAttributes(JRElement source, JRPrintElement converted)
+	{
+		converted.setX(source.getX());
+		converted.setY(source.getY());
+		converted.setWidth(source.getWidth());			
+		converted.setHeight(source.getHeight());
+		converted.setBackcolor(source.getOwnBackcolor());
+		converted.setForecolor(source.getOwnForecolor());
+		//printElement.setKey(element.getKey());
+		converted.setMode(source.getOwnMode());
+		converted.setStyle(resolveStyle(source));
+	}
+	
 }

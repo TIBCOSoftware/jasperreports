@@ -80,6 +80,7 @@ public class FillBarcode extends BaseFillComponent
 		
 		BarbecueRenderer renderer = new BarbecueRenderer(barcode);
 		
+		//TODO cache template objects
 		JRComponentElement element = fillContext.getComponentElement();
 		JRTemplateImage templateImage = new JRTemplateImage(fillContext.getElementOrigin(), 
 				fillContext.getDefaultStyleProvider());
