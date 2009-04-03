@@ -33,6 +33,7 @@ import java.util.List;
 import net.sf.jasperreports.components.list.FillListFactory;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListComponentCompiler;
+import net.sf.jasperreports.components.list.ListDesignConverter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentManager;
@@ -80,6 +81,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		bundle.setXmlParser(parser);
 		
 		DefaultComponentManager listManager = new DefaultComponentManager();
+		listManager.setDesignConverter(new ListDesignConverter());
 		listManager.setComponentCompiler(new ListComponentCompiler());
 		listManager.setComponentXmlWriter(xmlHandler);
 		listManager.setComponentFillFactory(new FillListFactory());
