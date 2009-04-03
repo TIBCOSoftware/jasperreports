@@ -59,15 +59,7 @@ public abstract class ElementConverter
 	 */
 	protected void copyElement(ReportConverter reportConverter, JRElement element, JRPrintElement printElement)
 	{
-		printElement.setX(element.getX());
-		printElement.setY(element.getY());
-		printElement.setWidth(element.getWidth());			
-		printElement.setHeight(element.getHeight());
-		printElement.setBackcolor(element.getOwnBackcolor());
-		printElement.setForecolor(element.getOwnForecolor());
-		//printElement.setKey(element.getKey());
-		printElement.setMode(element.getOwnMode());
-		printElement.setStyle(reportConverter.resolveStyle(element));
+		reportConverter.copyBaseAttributes(element, printElement);
 	}
 
 	

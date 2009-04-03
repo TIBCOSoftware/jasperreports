@@ -36,6 +36,11 @@
 package net.sf.jasperreports.engine.convert;
 
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.component.ComponentKey;
+import net.sf.jasperreports.engine.component.ComponentManager;
+import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
@@ -45,15 +50,10 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ComponentElementConverter extends ElementIconConverter
+public class ComponentElementConverter extends ElementConverter
 {
 	
 	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();
-	
-	private ComponentElementConverter()
-	{
-		super(JRImageLoader.COMPONENT_IMAGE_RESOURCE);
-	}
 
 	/**
 	 * Returns the singleton instance of this converter.
@@ -63,6 +63,40 @@ public class ComponentElementConverter extends ElementIconConverter
 	public static ComponentElementConverter getInstance()
 	{
 		return INSTANCE;
+	}
+	
+	private final static ElementIconConverter ICON_CONVERTER = new ElementIconConverter(
+			JRImageLoader.COMPONENT_IMAGE_RESOURCE);
+	
+	private ComponentElementConverter()
+	{
+	}
+
+	public JRPrintElement convert(ReportConverter reportConverter,
+			JRElement element)
+	{
+		JRComponentElement componentElement = (JRComponentElement) element;
+		JRPrintElement converted = null;
+		ComponentKey componentKey = componentElement.getComponentKey();
+		if (componentKey != null)
+		{
+			ComponentManager manager = ComponentsEnvironment.getComponentManager(
+					componentKey);
+			if (manager != null && manager.getDesignConverter() != null)
+			{
+				// convert using the component converter
+				converted = manager.getDesignConverter().convert(reportConverter, 
+						componentElement);
+			}
+		}
+		
+		if (converted == null)
+		{
+			// fallback to the icon converter
+			converted = ICON_CONVERTER.convert(reportConverter, element);
+		}
+		
+		return converted;
 	}
 
 }

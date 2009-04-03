@@ -34,6 +34,13 @@
 	</bean>
 
 	<bean id="barcodeManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+		<property name="designConverter">
+			<bean class="net.sf.jasperreports.barcode.BarcodeDesignConverter">
+				<property name="providers">
+					<ref local="barcodeProviders"/>
+				</property>
+			</bean>
+		</property>
 		<property name="componentCompiler">
 			<bean class="net.sf.jasperreports.barcode.BarcodeCompiler">
 				<property name="providers">

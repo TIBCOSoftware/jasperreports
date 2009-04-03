@@ -39,6 +39,7 @@ public class DefaultComponentManager implements ComponentManager
 	private ComponentCompiler componentCompiler;
 	private ComponentXmlWriter componentXmlWriter;
 	private ComponentFillFactory componentFillFactory;
+	private ComponentDesignConverter componentDesignConverter;
 
 	public ComponentFillFactory getComponentFillFactory()
 	{
@@ -87,6 +88,22 @@ public class DefaultComponentManager implements ComponentManager
 	public void setComponentXmlWriter(ComponentXmlWriter componentXmlWriter)
 	{
 		this.componentXmlWriter = componentXmlWriter;
+	}
+
+	public ComponentDesignConverter getDesignConverter()
+	{
+		return componentDesignConverter;
+	}
+
+	/**
+	 * Sets the design component preview converter.
+	 * 
+	 * @param designConverter the design component preview converter
+	 */
+	public void setDesignConverter(
+			ComponentDesignConverter designConverter)
+	{
+		this.componentDesignConverter = designConverter;
 	}
 
 }

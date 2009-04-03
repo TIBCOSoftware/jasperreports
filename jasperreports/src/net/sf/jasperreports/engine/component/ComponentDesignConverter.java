@@ -27,50 +27,37 @@
  */
 package net.sf.jasperreports.engine.component;
 
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.convert.ReportConverter;
+import net.sf.jasperreports.view.JasperDesignViewer;
+
 /**
- * A component manager is the entry point through which the handlers for a
- * single component type can be accessed.
+ * Converter of design report elements into a print elements used for report
+ * design previewing.
+ * 
+ * <p>
+ * Such converters are used when a report design that contains component elements
+ * are previewed.  Each component implementation can include a converter that
+ * provides a preview representation of a component instance.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see ComponentsEnvironment#getComponentManager(ComponentKey)
- * @see ComponentsBundle#getComponentManager(String)
+ * @see JasperDesignViewer
+ * @see JRPrintElement
  */
-public interface ComponentManager
+public interface ComponentDesignConverter
 {
 
 	/**
-	 * Returns the component compiler.
+	 * Converts a component element into a print element that represents a preview
+	 * of the component.
 	 * 
-	 * @return the component compiler
+	 * @param reportConverter the report converter instance
+	 * @param element the component element
+	 * @return a print element that represents a preview of the component
 	 */
-	ComponentCompiler getComponentCompiler();
-
-	/**
-	 * Returns the component XML writer.
-	 * 
-	 * @return the component XML writer
-	 */
-	ComponentXmlWriter getComponentXmlWriter();
-	
-	/**
-	 * Returns the factory of fill component instances.
-	 * 
-	 * @return the factory of fill component instances
-	 */
-	ComponentFillFactory getComponentFillFactory();
-
-	
-	/**
-	 * Returns the design component preview converter.
-	 * 
-	 * <p>
-	 * May be <code>null</code>, in which case a static icon is used when
-	 * previewing a report that contains an instance of the component.
-	 * 
-	 * @return the design component preview converter, or <code>null</code>
-	 * if no such converter exists for the component.
-	 */
-	ComponentDesignConverter getDesignConverter();
+	JRPrintElement convert(ReportConverter reportConverter,
+			JRComponentElement element);
 	
 }
