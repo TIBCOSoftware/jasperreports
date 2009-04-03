@@ -95,7 +95,11 @@ public class SimpleFileResolver implements FileResolver
 
 			if (isResolveAbsolutePath)
 			{
-				return new File(fileName);
+				File file = new File(fileName);
+				if (file.exists() && file.isFile())
+				{
+					return file;
+				}
 			}
 		}
 		
