@@ -57,6 +57,9 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
@@ -108,6 +111,8 @@ import net.sf.jasperreports.engine.util.Pair;
  */
 public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporterContext
 {
+	
+	private static final Log log = LogFactory.getLog(JRPdfExporter.class);
 
 	private static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.html.";
 
@@ -842,7 +847,8 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 						}
 						else if (element instanceof JRGenericPrintElement)
 						{
-							exportGenericElement((JRGenericPrintElement) element, gridCell);
+							exportGenericElement((JRGenericPrintElement) element, 
+									gridCell, rowHeight);
 						}
 					}
 
@@ -2132,33 +2138,46 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 
 
 	protected void exportGenericElement(JRGenericPrintElement element,
-			JRExporterGridCell gridCell) throws IOException
+			JRExporterGridCell gridCell, int rowHeight) throws IOException
 	{
 		GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
 				GenericElementHandlerEnviroment.getHandler(
 						element.getGenericType(), HTML_EXPORTER_KEY);
-
-		writeCellTDStart(gridCell);
-
-		StringBuffer styleBuffer = new StringBuffer();
-		appendBackcolorStyle(gridCell, styleBuffer);
-		appendBorderStyle(gridCell.getBox(), styleBuffer);
-		if (styleBuffer.length() > 0)
-		{
-			writer.write(" style=\"");
-			writer.write(styleBuffer.toString());
-			writer.write("\"");
-		}
-
-		writer.write(">");
 		
-		String htmlFragment = handler.getHtmlFragment(this, element);
-		if (htmlFragment != null)
+		if (handler == null)
 		{
-			writer.write(htmlFragment);
+			if (log.isDebugEnabled())
+			{
+				log.debug("No HTML generic element handler for " 
+						+ element.getGenericType());
+			}
+			
+			writeEmptyCell(gridCell, rowHeight);
 		}
+		else
+		{
+			writeCellTDStart(gridCell);
 
-		writer.write("</td>\n");
+			StringBuffer styleBuffer = new StringBuffer();
+			appendBackcolorStyle(gridCell, styleBuffer);
+			appendBorderStyle(gridCell.getBox(), styleBuffer);
+			if (styleBuffer.length() > 0)
+			{
+				writer.write(" style=\"");
+				writer.write(styleBuffer.toString());
+				writer.write("\"");
+			}
+
+			writer.write(">");
+			
+			String htmlFragment = handler.getHtmlFragment(this, element);
+			if (htmlFragment != null)
+			{
+				writer.write(htmlFragment);
+			}
+
+			writer.write("</td>\n");
+		}
 	}
 
 	public Map getExportParameters()

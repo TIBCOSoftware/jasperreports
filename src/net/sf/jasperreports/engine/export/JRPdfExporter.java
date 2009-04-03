@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -96,6 +97,9 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -137,12 +141,22 @@ import com.lowagie.text.pdf.PdfWriter;
 public class JRPdfExporter extends JRAbstractExporter
 {
 
+	private static final Log log = LogFactory.getLog(JRPdfExporter.class);
+	
 	/**
 	 * @deprecated Replaced by {@link JRPdfExporterParameter#PROPERTY_FORCE_SVG_SHAPES}.
 	 */
 	public static final String PDF_FORCE_SVG_SHAPES = JRPdfExporterParameter.PROPERTY_FORCE_SVG_SHAPES;
 
 	public static final String PDF_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.pdf.";
+
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String PDF_EXPORTER_KEY = 
+		JRProperties.PROPERTY_PREFIX + "pdf";
+	
 	private static final String EMPTY_BOOKMARK_TITLE = "";
 
 	/**
@@ -152,6 +166,19 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	protected static boolean fontsRegistered = false;
 
+	protected class ExporterContext extends BaseExporterContext implements JRPdfExporterContext
+	{
+		public String getExportPropertiesPrefix()
+		{
+			return PDF_EXPORTER_PROPERTIES_PREFIX;
+		}
+
+		public PdfWriter getPdfWriter()
+		{
+			return pdfWriter;
+		}
+	}
+	
 	/**
 	 *
 	 */
@@ -193,6 +220,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	private Map fontMap = null;
 
 	private SplitCharacter splitCharacter;
+	
+	protected JRPdfExporterContext exporterContext = new ExporterContext();
 	
 	/**
 	 *
@@ -699,6 +728,10 @@ public class JRPdfExporter extends JRAbstractExporter
 					else if (element instanceof JRPrintFrame)
 					{
 						exportFrame((JRPrintFrame)element);
+					}
+					else if (element instanceof JRGenericPrintElement)
+					{
+						exportGenericElement((JRGenericPrintElement) element);
 					}
 
 					tagHelper.endElement(element);
@@ -2574,6 +2607,27 @@ public class JRPdfExporter extends JRAbstractExporter
 		public java.awt.Font pdfToAwt(BaseFont font, int size)
 		{
 			return null;
+		}
+	}
+
+
+	protected void exportGenericElement(JRGenericPrintElement element)
+	{
+		GenericElementPdfHandler handler = (GenericElementPdfHandler) 
+				GenericElementHandlerEnviroment.getHandler(
+						element.getGenericType(), PDF_EXPORTER_KEY);
+		
+		if (handler != null)
+		{
+			handler.exportElement(exporterContext, element);
+		}
+		else
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("No PDF generic element handler for " 
+						+ element.getGenericType());
+			}
 		}
 	}
 }
