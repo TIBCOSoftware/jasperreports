@@ -470,7 +470,7 @@ public class JRBshGenerator
 						jrParameter = (JRParameter)parametersMap.get(chunkText);
 	
 						sbuffer.append("super.evaluator.str(\"");
-						sbuffer.append(chunkText);
+						sbuffer.append(JRStringUtil.escapeJavaStringLiteral(chunkText));
 						sbuffer.append("\")");
 	
 						break;
