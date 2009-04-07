@@ -1006,7 +1006,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						col - emptyCols,
 						row,
 						gridCell.getColSpan(),
-						gridCell.getRowSpan(),//TODO isCollapseRowSpan?
+						isCollapseRowSpan ? 1 : gridCell.getRowSpan(),
 						JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG)
 						);
 				sheet.addImage(image);

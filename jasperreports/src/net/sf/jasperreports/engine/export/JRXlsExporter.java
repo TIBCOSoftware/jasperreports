@@ -1129,7 +1129,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 				HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, 
 						(short) colIndex, rowIndex, 
-						(short) (colIndex + gridCell.getColSpan()), rowIndex + gridCell.getRowSpan());//TODO isCollapseRowSpan?
+						(short) (colIndex + gridCell.getColSpan()), 
+						rowIndex + (isCollapseRowSpan ? 1 : gridCell.getRowSpan()));
 				anchor.setAnchorType(2);
 				//pngEncoder.setImage(bi);
 				//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
