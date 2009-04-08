@@ -57,9 +57,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
@@ -98,6 +95,9 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.Pair;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * Exports a JasperReports document to HTML format. It has character output type and exports the document to a
@@ -109,7 +109,7 @@ import net.sf.jasperreports.engine.util.Pair;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporterContext
+public class JRHtmlExporter extends JRAbstractExporter
 {
 	
 	private static final Log log = LogFactory.getLog(JRPdfExporter.class);
@@ -150,6 +150,14 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 	
 	public static final String IMAGE_NAME_PREFIX = "img_";
 	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
+
+	protected class ExporterContext extends BaseExporterContext implements JRHtmlExporterContext
+	{
+		public String getExportPropertiesPrefix()
+		{
+			return HTML_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
 
 	/**
 	 *
@@ -204,6 +212,7 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 	
 	protected ExporterNature nature = null;
 
+	protected JRHtmlExporterContext exporterContext = new ExporterContext();
 
 	public JRHtmlExporter()
 	{
@@ -2170,7 +2179,7 @@ public class JRHtmlExporter extends JRAbstractExporter implements JRHtmlExporter
 
 			writer.write(">");
 			
-			String htmlFragment = handler.getHtmlFragment(this, element);
+			String htmlFragment = handler.getHtmlFragment(exporterContext, element);
 			if (htmlFragment != null)
 			{
 				writer.write(htmlFragment);

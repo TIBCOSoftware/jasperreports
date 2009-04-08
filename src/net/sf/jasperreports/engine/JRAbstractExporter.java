@@ -111,6 +111,16 @@ public abstract class JRAbstractExporter implements JRExporter
 		{
 			return parameters;
 		}
+
+		public int getOffsetX()
+		{
+			return JRAbstractExporter.this.getOffsetX();
+		}
+
+		public int getOffsetY()
+		{
+			return JRAbstractExporter.this.getOffsetY();
+		}
 	}
 	
 	protected static interface ParameterResolver

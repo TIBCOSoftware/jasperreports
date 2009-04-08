@@ -65,4 +65,17 @@ public interface JRExporterContext
 	 */
 	Map getExportParameters();
 
+	/**
+	 * Returns the current X-axis offset at which elements should be exported.
+	 * 
+	 * @return the current X-axis offset
+	 */
+	int getOffsetX();
+
+	/**
+	 * Returns the current Y-axis offset at which elements should be exported.
+	 * 
+	 * @return the current Y-axis offset
+	 */
+	int getOffsetY();
 }
