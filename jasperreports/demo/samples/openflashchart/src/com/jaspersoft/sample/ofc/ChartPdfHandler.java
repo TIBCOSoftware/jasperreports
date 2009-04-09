@@ -29,6 +29,8 @@ package com.jaspersoft.sample.ofc;
 
 import java.util.HashMap;
 
+import org.apache.commons.collections.ReferenceMap;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementPdfHandler;
@@ -43,6 +45,7 @@ import com.lowagie.text.pdf.PdfFileSpecification;
 import com.lowagie.text.pdf.PdfIndirectObject;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfNameTree;
+import com.lowagie.text.pdf.PdfNumber;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -55,6 +58,9 @@ public class ChartPdfHandler implements GenericElementPdfHandler
 
 	public static final String PARAMETER_CHART_DATA = "ChartData";
 
+	private final ReferenceMap existingContexts = new ReferenceMap(ReferenceMap.WEAK, 
+			ReferenceMap.HARD);
+	
 	public boolean toExport(JRGenericPrintElement element)
 	{
 		return true;
@@ -63,13 +69,32 @@ public class ChartPdfHandler implements GenericElementPdfHandler
 	public void exportElement(JRPdfExporterContext exporterContext,
 			JRGenericPrintElement element)
 	{
-		//TODO add catalog extensions dictionary
-		
 		try
 		{
-			String chartData = (String) element.getParameterValue(PARAMETER_CHART_DATA);
-			
 			PdfWriter writer = exporterContext.getPdfWriter();
+			PdfIndirectObject swfRef;
+			boolean newContext = !existingContexts.containsKey(exporterContext);
+			if (newContext)
+			{
+				// add the Adobe 1.7 extensions catalog dictionary
+				PdfDictionary extensions = new PdfDictionary();
+				PdfDictionary adobeExtension = new PdfDictionary();
+				adobeExtension.put(new PdfName("BaseVersion"), PdfWriter.PDF_VERSION_1_7);
+				adobeExtension.put(new PdfName("ExtensionLevel"), new PdfNumber(3));
+				extensions.put(new PdfName("ADBE"), adobeExtension);
+				writer.getExtraCatalog().put(new PdfName("Extensions"), extensions);
+				
+				// add the swf file
+				byte[] swfData = readSwf();
+				PdfFileSpecification swfFile = PdfFileSpecification.fileEmbedded(writer, 
+						null, "Open Flash Chart", swfData);
+				swfRef = writer.addToBody(swfFile);
+				existingContexts.put(exporterContext, swfRef);
+			}
+			else
+			{
+				swfRef = (PdfIndirectObject) existingContexts.get(exporterContext);
+			}
 			
 			Rectangle rect = new Rectangle(element.getX() + exporterContext.getOffsetX(), 
 					exporterContext.getExportedReport().getPageHeight() - element.getY() - exporterContext.getOffsetY(), 
@@ -86,24 +111,20 @@ public class ChartPdfHandler implements GenericElementPdfHandler
 			
 			PdfDictionary content = new PdfDictionary();
 			
-			//TODO reuse the swf
 			HashMap assets = new HashMap();
-			byte[] swfData = readSwf();
-			PdfFileSpecification swfFile = PdfFileSpecification.fileEmbedded(writer, 
-					null, "Open Flash Chart", swfData);
-			PdfIndirectObject swfRef = writer.addToBody(swfFile);
 			assets.put("map.swf", swfRef.getIndirectReference());
 			PdfDictionary assetsDictionary = PdfNameTree.writeTree(assets, writer);
 			content.put(new PdfName("Assets"), assetsDictionary);
 			
 			PdfArray configurations = new PdfArray();
-			
 			PdfDictionary configuration = new PdfDictionary();
 			
 			PdfArray instances = new PdfArray();
 			PdfDictionary instance = new PdfDictionary();
 			instance.put(new PdfName("Subtype"), new PdfName("Flash"));
 			PdfDictionary params = new PdfDictionary();
+			
+			String chartData = (String) element.getParameterValue(PARAMETER_CHART_DATA);
 			String vars = "inline_data=" + chartData;
 			params.put(new PdfName("FlashVars"), new PdfString(vars));
 			instance.put(new PdfName("Params"), params);
