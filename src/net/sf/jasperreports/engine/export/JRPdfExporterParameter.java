@@ -50,6 +50,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	public static Character PDF_VERSION_1_4 = new Character('4');
 	public static Character PDF_VERSION_1_5 = new Character('5');
 	public static Character PDF_VERSION_1_6 = new Character('6');
+	public static Character PDF_VERSION_1_7 = new Character('7');
 
 
 	/**
@@ -172,7 +173,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 
 	/**
 	 * Property whose value is used as default for the {@link #PDF_VERSION PDF_VERSION} export parameter.
-	 * Possible values of the this property are 2, 3, 4, 5 and 6.
+	 * Possible values of the this property are 2, 3, 4, 5, 6 and 7.
 	 * 
 	 * @see JRProperties
 	 */
