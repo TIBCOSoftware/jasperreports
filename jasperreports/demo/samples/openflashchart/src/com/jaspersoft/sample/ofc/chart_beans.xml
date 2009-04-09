@@ -70,6 +70,9 @@
 						<entry key="net.sf.jasperreports.html">
 							<bean class="com.jaspersoft.sample.ofc.ChartHtmlHandler"/>
 						</entry>
+						<entry key="net.sf.jasperreports.pdf">
+							<bean class="com.jaspersoft.sample.ofc.ChartPdfHandler"/>
+						</entry>
 					</map>
 				</entry>
 			</map>
