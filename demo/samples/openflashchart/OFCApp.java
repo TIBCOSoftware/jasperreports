@@ -67,6 +67,7 @@ public class OFCApp
 	private static final String TASK_XML = "xml";
 	private static final String TASK_XML_EMBED = "xmlEmbed";
 	private static final String TASK_HTML = "html";
+	private static final String TASK_PDF = "pdf";
 	private static final String TASK_VIEW = "view";
 	
 	
@@ -106,6 +107,11 @@ public class OFCApp
 			{
 				JasperExportManager.exportReportToHtmlFile(fileName);
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_PDF.equals(taskName))
+			{
+				JasperExportManager.exportReportToPdfFile(fileName);
+				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_VIEW.equals(taskName))
 			{
@@ -201,7 +207,7 @@ public class OFCApp
 	{
 		System.out.println( "OFCApp usage:" );
 		System.out.println( "\tjava OFCApp task file" );
-		System.out.println( "\tTasks : fill | xml | xmlEmbed | html | view" );
+		System.out.println( "\tTasks : fill | xml | xmlEmbed | html | pdf | view" );
 	}
 
 
