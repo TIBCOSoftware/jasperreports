@@ -220,7 +220,7 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 * Is set to <code>false</code>, the frame contents will be integrated into the master/page HTML table.
 	 * This can be useful when exporting frames as nested tables causes output misalignments.
 	 * </p>
-	 * @see JRHtmlExporter#PROPERTY_FRAMES_AS_NESTED_TABLES
+	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
 	 */
 	public static final JRHtmlExporterParameter FRAMES_AS_NESTED_TABLES = new JRHtmlExporterParameter("Export frames as nested tables");
 	
