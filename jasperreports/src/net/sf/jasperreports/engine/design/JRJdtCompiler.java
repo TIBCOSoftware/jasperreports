@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +45,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
@@ -271,31 +271,36 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 					InputStream is = getResource(resourceName);
 					if (is != null) 
 					{
-						byte[] classBytes;
-						byte[] buf = new byte[8192];
-						ByteArrayOutputStream baos = new ByteArrayOutputStream(buf.length);
-						int count;
-						while ((count = is.read(buf, 0, buf.length)) > 0) 
+						try
 						{
-							baos.write(buf, 0, count);
-						}
-						baos.flush();
-						classBytes = baos.toByteArray();
-						char[] fileName = className.toCharArray();
-						ClassFileReader classFileReader = 
-							new ClassFileReader(classBytes, fileName, true);
-						
-						if (is2ArgsConstr)
-						{
-							return (NameEnvironmentAnswer) constrNameEnvAnsBin2Args.newInstance(new Object[] { classFileReader, null });
-						}
+							byte[] classBytes = JRLoader.loadBytes(is);
+							char[] fileName = className.toCharArray();
+							ClassFileReader classFileReader = 
+								new ClassFileReader(classBytes, fileName, true);
+							
+							if (is2ArgsConstr)
+							{
+								return (NameEnvironmentAnswer) constrNameEnvAnsBin2Args.newInstance(new Object[] { classFileReader, null });
+							}
 
-						return (NameEnvironmentAnswer) constrNameEnvAnsBin.newInstance(new Object[] { classFileReader });
+							return (NameEnvironmentAnswer) constrNameEnvAnsBin.newInstance(new Object[] { classFileReader });
+						}
+						finally
+						{
+							try
+							{
+								is.close();
+							}
+							catch (IOException e)
+							{
+								// ignore
+							}
+						}
 					}
 				}
-				catch (IOException exc) 
+				catch (JRException e)
 				{
-					log.error("Compilation error", exc);
+					log.error("Compilation error", e);
 				}
 				catch (org.eclipse.jdt.internal.compiler.classfmt.ClassFormatException exc) 
 				{
