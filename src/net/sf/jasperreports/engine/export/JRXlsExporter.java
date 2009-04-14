@@ -48,8 +48,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import jxl.format.PaperSize;
-
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
