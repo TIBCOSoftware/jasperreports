@@ -575,14 +575,9 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 				
 				element.setRelativeY(element.getRelativeY() - firstY);
 
-				if (element.isToPrint() 
-						&& element.getRelativeY() + element.getStretchHeight() > stretchHeight)
+				if (element.getRelativeY() + element.getStretchHeight() > stretchHeight)
 				{
-					// the element was intending to print, but got pushed out
-					// set it not to print
 					element.setToPrint(false);
-					// rewind it so that it prints after the overflow
-					element.rewind();
 				}
 				
 				element.setAlreadyPrinted(element.isToPrint() || element.isAlreadyPrinted());
