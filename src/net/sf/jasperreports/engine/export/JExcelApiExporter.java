@@ -1822,41 +1822,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return new TextAlignHolder(horizontalAlignment, verticalAlignment, rotation);
 	}
 
-
-
-	// Berechnungsvorschriften f�r die DIN Formate A, B, und C.
-	// Die Angabe der Breite/H�he erfolgt in [mm].
-
-	private final int calculateWidthForDinAN(int n)
-	{
-		return (int) (Math.pow(2.0, (-0.25 - (n / 2.0))) * 1000.0);
-	}
-
-	private final int calculateHeightForDinAN(int n)
-	{
-		return (int) (Math.pow(2.0, (0.25 - (n / 2.0))) * 1000.0);
-	}
-
-	private final int calculateWidthForDinBN(int n)
-	{
-		return (int) (Math.pow(2.0, -(n / 2.0)) * 1000.0);
-	}
-
-	private final int calculateHeightForDinBN(int n)
-	{
-		return (int) (Math.pow(2.0, (0.5 - (n / 2.0))) * 1000.0);
-	}
-
-	private final int calculateWidthForDinCN(int n)
-	{
-		return (int) (Math.pow(2.0, (-0.125 - (n / 2.0))) * 1000.0);
-	}
-
-	private final int calculateHeightForDinCN(int n)
-	{
-		return (int) (Math.pow(2.0, (0.375 - (n / 2.0))) * 1000.0);
-	}
-
 	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell, int col, int row) throws JRException
 	{
 		addMergeRegion(gridCell, col, row);

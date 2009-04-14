@@ -48,6 +48,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import jxl.format.PaperSize;
+
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
@@ -68,6 +70,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
@@ -87,6 +90,7 @@ import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
+import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -172,6 +176,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		sheet = workbook.createSheet(name);
 		patriarch = sheet.createDrawingPatriarch();
 		sheet.getPrintSetup().setLandscape(jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE);
+		short paperSize = getSuitablePaperSize(jasperPrint);
+		if(paperSize != -1)
+		{
+			sheet.getPrintSetup().setPaperSize(paperSize);
+		}
 	}
 
 	protected void closeWorkbook(OutputStream os) throws JRException
@@ -1198,6 +1207,79 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			return (String) formatPatternsMap.get(pattern);
 		}
 		return pattern;
+	}
+
+	private final short getSuitablePaperSize(JasperPrint jasP)
+	{
+
+		if (jasP == null)
+			return -1;
+
+		long width = 0;
+		long height = 0;
+		short ps = -1;
+
+		if ((jasP.getPageWidth() != 0) && (jasP.getPageHeight() != 0))
+		{
+
+			double dWidth = (jasP.getPageWidth() / 72.0);
+			double dHeight = (jasP.getPageHeight() / 72.0);
+
+			height = Math.round(dHeight * 25.4);
+			width = Math.round(dWidth * 25.4);
+
+			// Compare to ISO 216 A-Series (A3-A5). All other ISO 216 formats
+			// not supported by POI Api yet.
+			// A3 papersize also not supported by POI Api yet.
+			for (int i = 4; i < 6; i++)
+			{
+				int w = calculateWidthForDinAN(i);
+				int h = calculateHeightForDinAN(i);
+
+				if (((w == width) && (h == height)) || ((h == width) && (w == height)))
+				{
+					if (i == 4)
+						ps = HSSFPrintSetup.A4_PAPERSIZE;
+					else if (i == 5)
+						ps = HSSFPrintSetup.A5_PAPERSIZE;
+					break;
+				}
+			}
+			
+			//envelope sizes
+			if (ps == -1)
+			{
+				// ISO 269 sizes - "Envelope DL" (110 � 220 mm)
+				if (((width == 110) && (height == 220)) || ((width == 220) && (height == 110)))
+				{
+					ps = HSSFPrintSetup.ENVELOPE_DL_PAPERSIZE;
+				}
+			}
+
+			// Compare to common North American Paper Sizes (ANSI X3.151-1987).
+			if (ps == -1)
+			{
+				// ANSI X3.151-1987 - "Letter" (216 � 279 mm)
+				if (((width == 216) && (height == 279)) || ((width == 279) && (height == 216)))
+				{
+					ps = HSSFPrintSetup.LETTER_PAPERSIZE;
+				}
+				// ANSI X3.151-1987 - "Legal" (216 � 356 mm)
+				if (((width == 216) && (height == 356)) || ((width == 356) && (height == 216)))
+				{
+					ps = HSSFPrintSetup.LEGAL_PAPERSIZE;
+				}
+				// ANSI X3.151-1987 - "Executive" (190 � 254 mm)
+				else if (((width == 190) && (height == 254)) || ((width == 254) && (height == 190)))
+				{
+					ps = HSSFPrintSetup.EXECUTIVE_PAPERSIZE;
+				}
+				// ANSI X3.151-1987 - "Ledger/Tabloid" (279 � 432 mm)
+				// Not supported by POI Api yet.
+				
+			}
+		}
+		return ps;
 	}
 
 	protected static class BoxStyle

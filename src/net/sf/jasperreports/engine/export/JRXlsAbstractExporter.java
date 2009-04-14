@@ -810,6 +810,39 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		return sheetName + " " + currentIndex;
 	}
 
+	// Berechnungsvorschriften f�r die DIN Formate A, B, und C.
+	// Die Angabe der Breite/H�he erfolgt in [mm].
+
+	protected final int calculateWidthForDinAN(int n)
+	{
+		return (int) (Math.pow(2.0, (-0.25 - (n / 2.0))) * 1000.0);
+	}
+
+	protected final int calculateHeightForDinAN(int n)
+	{
+		return (int) (Math.pow(2.0, (0.25 - (n / 2.0))) * 1000.0);
+	}
+
+	protected final int calculateWidthForDinBN(int n)
+	{
+		return (int) (Math.pow(2.0, -(n / 2.0)) * 1000.0);
+	}
+
+	protected final int calculateHeightForDinBN(int n)
+	{
+		return (int) (Math.pow(2.0, (0.5 - (n / 2.0))) * 1000.0);
+	}
+
+	protected final int calculateWidthForDinCN(int n)
+	{
+		return (int) (Math.pow(2.0, (-0.125 - (n / 2.0))) * 1000.0);
+	}
+
+	protected final int calculateHeightForDinCN(int n)
+	{
+		return (int) (Math.pow(2.0, (0.375 - (n / 2.0))) * 1000.0);
+	}
+
 	protected abstract ExporterNature getNature();
 
 	protected abstract void openWorkbook(OutputStream os) throws JRException;
