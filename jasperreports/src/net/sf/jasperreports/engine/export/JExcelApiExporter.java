@@ -546,7 +546,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				}
 				if (textValue instanceof DateTextValue && ((DateTextValue)textValue).getPattern() != null)
 				{
-					baseStyle.setDisplayFormat(getNumberFormat(((DateTextValue)textValue).getPattern()));
+					baseStyle.setDisplayFormat(getDateFormat(((DateTextValue)textValue).getPattern()));
 				}
 				
 				formula = new Formula(x, y, textFormula, getLoadedCellStyle(baseStyle));
