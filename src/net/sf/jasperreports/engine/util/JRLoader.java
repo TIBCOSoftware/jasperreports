@@ -40,7 +40,9 @@ import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -581,8 +583,9 @@ public class JRLoader
 	}
 
 	/**
-	 * Scans the context classloader for all resources that have a specified
-	 * name, and returns a list of {@link URL}s for the found resources.
+	 * Scans the context classloader and the classload of this class for all 
+	 * resources that have a specified name, and returns a list of
+	 * {@link URL}s for the found resources.
 	 * 
 	 * @param resource the resource names
 	 * @return a list of {@link URL}s of resources with the specified name;
@@ -591,18 +594,24 @@ public class JRLoader
 	 */
 	public static List getResources(String resource)
 	{
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();		
-		if (classLoader == null)
-		{
-			classLoader = JRLoader.class.getClassLoader();
-		}
-		
-		List resources = new ArrayList();
+		//skip duplicated resources
+		Set resources = new LinkedHashSet();
+		collectResources(resource, JRLoader.class.getClassLoader(), 
+				resources);
+		collectResources(resource, Thread.currentThread().getContextClassLoader(), 
+				resources);
+		return new ArrayList(resources);
+	}
+
+
+	protected static void collectResources(String resourceName,
+			ClassLoader classLoader, Set resources)
+	{
 		if (classLoader != null)
 		{
 			try
 			{
-				for (Enumeration urls = classLoader.getResources(resource);
+				for (Enumeration urls = classLoader.getResources(resourceName);
 						urls.hasMoreElements();)
 				{
 					URL url = (URL) urls.nextElement();
@@ -614,7 +623,6 @@ public class JRLoader
 				throw new JRRuntimeException(e);
 			}
 		}
-		return resources;
 	}
 
 	/**
