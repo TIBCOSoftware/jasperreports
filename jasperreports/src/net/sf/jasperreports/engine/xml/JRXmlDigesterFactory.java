@@ -154,6 +154,7 @@ import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JRDesignReportTemplate;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 
@@ -195,7 +196,13 @@ public class JRXmlDigesterFactory
 	 */
 	public static void configureDigester(Digester digester) throws SAXException, ParserConfigurationException
 	{
-		digester.setUseContextClassLoader(true);
+		// set a composite classloader that includes both the JR classloader
+		// and the context classloader
+		CompositeClassloader digesterClassLoader = new CompositeClassloader(
+				JRXmlDigesterFactory.class.getClassLoader(), 
+				Thread.currentThread().getContextClassLoader());
+		digester.setClassLoader(digesterClassLoader);
+		
 		digester.setErrorHandler(new ErrorHandlerImpl());
 		
 		digester.setNamespaceAware(true);

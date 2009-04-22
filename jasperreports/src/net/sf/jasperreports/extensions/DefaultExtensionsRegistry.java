@@ -29,10 +29,8 @@ package net.sf.jasperreports.extensions;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.util.ClassUtils;
@@ -147,17 +145,10 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	protected List loadExtensionProperties()
 	{
 		List resources = JRLoader.getResources(EXTENSION_RESOURCE_NAME);
-		Set loadedResources = new HashSet();
 		List propertiesList = new ArrayList(resources.size());
 		for (Iterator it = resources.iterator(); it.hasNext();)
 		{
 			URL resource = (URL) it.next();
-			
-			//skip duplicated resources
-			if (!loadedResources.add(resource))
-			{
-				continue;
-			}
 			
 			if (log.isDebugEnabled())
 			{
