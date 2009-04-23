@@ -563,6 +563,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				sheet.addCell(formula);
 				return;
 			}
+			else
+			{
+				sheet.addCell(new Blank(x, y, getLoadedCellStyle(baseStyle)));
+			}
 		}
 		CellValue cellValue;
 		if (isDetectCellType)
