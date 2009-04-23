@@ -103,7 +103,14 @@ public class XmlssCellStyle extends XmlssBorderStyle
 		switch (element.getMode())
 		{
 			case JRElement.MODE_OPAQUE: 
-				backcolor = "#" + JRColorUtil.getColorHexa(element.getBackcolor());
+				if(element.getBackcolor() != null)
+				{
+					backcolor = "#" + JRColorUtil.getColorHexa(element.getBackcolor());
+				}
+				else if(style.getBackcolor() != null)
+				{
+					backcolor = "#" + JRColorUtil.getColorHexa(style.getBackcolor());
+				}
 				break;
 			case JRElement.MODE_TRANSPARENT:
 			default:
@@ -114,6 +121,10 @@ public class XmlssCellStyle extends XmlssBorderStyle
 		if(element.getForecolor() != null)
 		{
 			forecolor = "#" + JRColorUtil.getColorHexa(element.getForecolor());
+		}
+		else if(style.getForecolor() != null)
+		{
+			forecolor = "#" + JRColorUtil.getColorHexa(style.getForecolor());
 		}
 		
 		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotation() : JRTextElement.ROTATION_NONE;
@@ -217,11 +228,16 @@ public class XmlssCellStyle extends XmlssBorderStyle
 		styleWriter.write(" ss:FontName=\"" + excelFontName + "\"");
 		if(style != null)
 		{
-			styleWriter.write(" ss:Size=\"" + style.getFontSize() + "\"");
-			styleWriter.write(" ss:Bold=\"" + getBitValue(style.isBold().booleanValue()) + "\"");
-			styleWriter.write(" ss:Italic=\"" + getBitValue(style.isItalic().booleanValue()) + "\"");
-			styleWriter.write(" ss:StrikeThrough=\"" + getBitValue(style.isStrikeThrough().booleanValue()) + "\"");
-			styleWriter.write(" ss:Underline=\"" + getUnderlineStyle(style.isUnderline().booleanValue()) + "\"");
+			if(style.getFontSize() != null)
+				styleWriter.write(" ss:Size=\"" + style.getFontSize() + "\"");
+			if(style.isBold() != null)
+				styleWriter.write(" ss:Bold=\"" + getBitValue(style.isBold().booleanValue()) + "\"");
+			if(style.isItalic() != null)
+				styleWriter.write(" ss:Italic=\"" + getBitValue(style.isItalic().booleanValue()) + "\"");
+			if(style.isStrikeThrough() != null)
+				styleWriter.write(" ss:StrikeThrough=\"" + getBitValue(style.isStrikeThrough().booleanValue()) + "\"");
+			if(style.isUnderline() != null)
+				styleWriter.write(" ss:Underline=\"" + getUnderlineStyle(style.isUnderline().booleanValue()) + "\"");
 		}
 		else if(defaultFont != null)
 		{
