@@ -1,0 +1,31 @@
+h1 {
+font-family: Arial, Verdana, Helvetica, sans-serif;
+font-size: 32px;
+font-weight: bold;
+color: #111111
+}
+
+.enumeration {
+font-family: Times;
+font-size: 16px
+}
+
+.description {
+font-family: Courier New, Courier, serif;
+font-size: 12px
+}
+
+.bold
+{
+font-weight: bold
+}
+
+.italic
+{
+font-weight: italic
+}
+
+.normal
+{
+font-weight: normal
+}
