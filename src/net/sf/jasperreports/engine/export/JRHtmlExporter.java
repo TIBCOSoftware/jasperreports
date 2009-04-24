@@ -207,6 +207,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
 
+	protected boolean hyperlinkStarted = false;	
 	
 	protected boolean deepGrid;
 	
@@ -1098,9 +1099,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 		writer.write(fontFamily);
 		writer.write("; ");
 
-		writer.write("color: #");
-		writer.write(JRColorUtil.getColorHexa((Color)attributes.get(TextAttribute.FOREGROUND)));
-		writer.write("; ");
+		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
+		if (!hyperlinkStarted || !Color.black.equals(forecolor))
+		{
+			writer.write("color: #");
+			writer.write(JRColorUtil.getColorHexa(forecolor));
+			writer.write("; ");
+		}
 
 		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
 		if (runBackcolor != null)
@@ -1290,12 +1295,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("\"/>");
 		}
 
-		boolean startedHyperlink = startHyperlink(text);
+		startHyperlink(text);
 
 		if (textLength > 0)
 		{
 			//only use text tooltip when no hyperlink present
-			String textTooltip = startedHyperlink ? null : text.getHyperlinkTooltip();
+			String textTooltip = hyperlinkStarted ? null : text.getHyperlinkTooltip();
 			exportStyledText(styledText, textTooltip);
 		}
 		else
@@ -1303,10 +1308,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
 		}
 
-		if (startedHyperlink)
-		{
-			endHyperlink();
-		}
+		endHyperlink();
 
 		writer.write("</td>\n");
 	}
@@ -1340,7 +1342,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(">");
 		}
 		
-		return href != null;
+		hyperlinkStarted = href != null;
+		
+		return hyperlinkStarted;
 	}
 
 
@@ -1477,7 +1481,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected void endHyperlink() throws IOException
 	{
-		writer.write("</a>");
+		if (hyperlinkStarted)
+		{
+			writer.write("</a>");
+		}
+		hyperlinkStarted = false;
 	}
 
 
@@ -1647,7 +1655,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 				&& renderer instanceof JRImageMapRenderer
 				&& ((JRImageMapRenderer) renderer).hasImageAreaHyperlinks();
 
-		boolean startedHyperlink = false;
 		boolean hasHyperlinks = false;
 
 		if(renderer != null || isUsingImagesToAlign)
@@ -1655,10 +1662,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 			if (imageMapRenderer)
 			{
 				hasHyperlinks = true;
+				hyperlinkStarted = false;
 			}
 			else
 			{
-				hasHyperlinks = startedHyperlink = startHyperlink(image);
+				hasHyperlinks = startHyperlink(image);
 			}
 			
 			writer.write("<img");
@@ -1829,10 +1837,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 			
 			writer.write("/>");
-			if (startedHyperlink)
-			{
-				endHyperlink();
-			}
+
+			endHyperlink();
 			
 			if (imageMapAreas != null)
 			{
