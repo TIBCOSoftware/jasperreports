@@ -2775,7 +2775,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, hyperlink.getHyperlinkTooltipExpression(), false);
 			writeHyperlinkParameters(hyperlink.getHyperlinkParameters());
 
-			writer.closeElement();
+			writer.closeElement(true);
 		}
 	}
 
