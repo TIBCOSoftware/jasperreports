@@ -703,7 +703,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 					page = (JRPrintPage)pages.get(pageIndex);
 
-					writer.write("<a name=\"" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1) + "\"/>\n");
+					writer.write("<a name=\"" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1) + "\"></a>\n");
 
 					/*   */
 					exportPage(page);
