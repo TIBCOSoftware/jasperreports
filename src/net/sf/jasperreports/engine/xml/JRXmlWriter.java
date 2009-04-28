@@ -1424,11 +1424,23 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		/*   */
 		JRPieSeries[] pieSeries = dataset.getSeries();
-		if (pieSeries != null && pieSeries.length > 0)
+		if (pieSeries != null)
 		{
-			for(int i = 0; i < pieSeries.length; i++)
+			if (pieSeries.length > 1)
 			{
-				writePieSeries(pieSeries[i]);
+				for(int i = 0; i < pieSeries.length; i++)
+				{
+					writePieSeries(pieSeries[i]);
+				}
+			}
+			else
+			{
+				//preserve old syntax of single series pie datasets
+				JRPieSeries ps = pieSeries[0];
+				writer.writeExpression(JRXmlConstants.ELEMENT_keyExpression, ps.getKeyExpression(), false);
+				writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, ps.getValueExpression(), false);
+				writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, ps.getLabelExpression(), false);
+				writeHyperlink(JRXmlConstants.ELEMENT_sectionHyperlink, ps.getSectionHyperlink());
 			}
 		}
 
