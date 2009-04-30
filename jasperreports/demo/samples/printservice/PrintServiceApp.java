@@ -100,8 +100,9 @@ public class PrintServiceApp
 				printRequestAttributeSet.add(MediaSizeName.ISO_A4);
 
 				PrintServiceAttributeSet printServiceAttributeSet = new HashPrintServiceAttributeSet();
-				//printServiceAttributeSet.add(new PrinterName("Epson Stylus 800 ESC/P 2", null));
-				//printServiceAttributeSet.add(new PrinterName("HP LaserJet 4P", null));
+				//printServiceAttributeSet.add(new PrinterName("Epson Stylus 820 ESC/P 2", null));
+				//printServiceAttributeSet.add(new PrinterName("hp LaserJet 1320 PCL 6", null));
+				//printServiceAttributeSet.add(new PrinterName("PDFCreator", null));
 				
 				JRPrintServiceExporter exporter = new JRPrintServiceExporter();
 				
