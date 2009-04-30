@@ -1688,6 +1688,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		if (splitCharacter != null)
 		{
+			//TODO use line break offsets if available?
 			chunk.setSplitCharacter(splitCharacter);
 		}
 

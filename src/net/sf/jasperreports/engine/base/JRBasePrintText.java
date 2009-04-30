@@ -72,6 +72,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	protected String text = "";
 	protected Integer textTruncateIndex;
+	protected short[] lineBreakOffsets;
 	protected String textTruncateSuffix;
 	protected transient String truncatedText;
 	protected float lineSpacingFactor = 0;
@@ -201,6 +202,16 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	{
 		this.textTruncateSuffix = textTruncateSuffix;
 		this.truncatedText = null;
+	}
+	
+	public short[] getLineBreakOffsets()
+	{
+		return lineBreakOffsets;
+	}
+
+	public void setLineBreakOffsets(short[] lineBreakOffsets)
+	{
+		this.lineBreakOffsets = lineBreakOffsets;
 	}
 
 	public String getFullText()

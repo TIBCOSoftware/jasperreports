@@ -318,4 +318,38 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 * used to format this text's date source value
 	 */
 	public String getTimeZoneId();
+
+	
+	/**
+	 * Returns the line break offsets for the text if saved during report fill.
+	 * 
+	 * <p>
+	 * The array of offsets is incremental, each offset adds to the
+	 * previous value.  I.e. the positions at which line breaks occur
+	 * are <code>offset[0]</code>, <code>offset[0] + offset[1]</code>,
+	 * <code>offset[0] + offset[1] + offset[2]</code> and so on.
+	 * 
+	 * <p>
+	 * This array does not include positions for explicit line breaks in the
+	 * text, i.e. for line breaks that occur due to new line characters in
+	 * the text.  The array only includes line break positions within a 
+	 * paragraph in the text.
+	 * 
+	 * @return the line break offsets, or <code>null</code> if no line break
+	 * positions were saved during the fill or if the text does not contain
+	 * any line breaks
+	 * 
+	 * @see JRTextElement#PROPERTY_SAVE_LINE_BREAK_POSITIONS
+	 */
+	public short[] getLineBreakOffsets();
+
+	
+	/**
+	 * Sets the line break offsets for the text.
+	 * 
+	 * @param lineBreakOffsets the line break offsets
+	 * @see #getLineBreakOffsets()
+	 */
+	public void setLineBreakOffsets(short[] lineBreakOffsets);
+
 }

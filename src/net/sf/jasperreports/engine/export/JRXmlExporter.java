@@ -919,12 +919,35 @@ public class JRXmlExporter extends JRAbstractExporter
 		
 		xmlWriter.writeCDATAElement(JRXmlConstants.ELEMENT_textTruncateSuffix, text.getTextTruncateSuffix());
 		
+		short[] lineBreakOffsets = text.getLineBreakOffsets();
+		if (lineBreakOffsets != null)
+		{
+			StringBuffer offsetsString = formatTextLineBreakOffsets(lineBreakOffsets);
+			xmlWriter.writeCDATAElement(JRXmlConstants.ELEMENT_lineBreakOffsets, 
+					offsetsString.toString());
+		}
+		
 		if (hyperlinkProducerFactory == null)
 		{
 			exportHyperlinkParameters(text);
 		}
 
 		xmlWriter.closeElement();
+	}
+
+
+	protected StringBuffer formatTextLineBreakOffsets(short[] lineBreakOffsets)
+	{
+		StringBuffer offsetsString = new StringBuffer();
+		for (int i = 0; i < lineBreakOffsets.length; i++)
+		{
+			if (i > 0)
+			{
+				offsetsString.append(JRXmlConstants.LINE_BREAK_OFFSET_SEPARATOR);
+			}
+			offsetsString.append(lineBreakOffsets[i]);
+		}
+		return offsetsString;
 	}
 
 

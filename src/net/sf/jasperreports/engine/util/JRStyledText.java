@@ -33,6 +33,7 @@ import java.awt.geom.AffineTransform;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -40,12 +41,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRStyledText
+public class JRStyledText implements Cloneable
 {
 
 	private static final String PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED = JRProperties.PROPERTY_PREFIX + "awt.superscript.fix.enabled";
@@ -250,7 +253,7 @@ public class JRStyledText
 	/**
 	 * 
 	 */
-	public static class Run 
+	public static class Run implements Cloneable
 	{
 		/**
 		 *
@@ -268,6 +271,31 @@ public class JRStyledText
 			this.startIndex = startIndex;
 			this.endIndex = endIndex;
 		}
+
+		protected Object clone()
+		{
+			return cloneRun();
+		}
+		
+		/**
+		 * Clones this object.
+		 * 
+		 * @return a clone of this object
+		 */
+		public Run cloneRun()
+		{
+			try
+			{
+				Run clone = (Run) super.clone();
+				clone.attributes = cloneAttributesMap(attributes);
+				return clone;
+			}
+			catch (CloneNotSupportedException e)
+			{
+				// never
+				throw new JRRuntimeException(e);
+			}
+		}
 	}
 
 	public void setGlobalAttributes(Map attributes)
@@ -280,5 +308,121 @@ public class JRStyledText
 	public Map getGlobalAttributes()
 	{
 		return globalAttributes;
+	}
+	
+	protected Object clone() throws CloneNotSupportedException
+	{
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
+	
+	protected static Map cloneAttributesMap(Map attributes)
+	{
+		return attributes == null ? null : new HashMap(attributes);
+	}
+
+	
+	/**
+	 * Clones this object.
+	 * 
+	 * @return a clone of this object
+	 */
+	public JRStyledText cloneText()
+	{
+		try
+		{
+			JRStyledText clone = (JRStyledText) super.clone();
+			clone.globalAttributes = cloneAttributesMap(globalAttributes);
+			
+			clone.runs = new ArrayList(runs.size());
+			for (Iterator it = runs.iterator(); it.hasNext();)
+			{
+				Run run = (Run) it.next();
+				Run runClone = run.cloneRun();
+				clone.runs.add(runClone);
+			}
+			
+			return clone;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			// never
+			throw new JRRuntimeException(e);
+		}
+	}
+	
+	/**
+	 * Inserts a string at specified positions in the styled text.
+	 * 
+	 * <p>
+	 * The string is inserted in the style runs located at the insertion
+	 * positions.  If a style run finished right before the insertion position,
+	 * the string will be part of this run (but not of the runs that start
+	 * right after the insertion position).
+	 * 
+	 * @param str the string to insert
+	 * @param offsets the incremental offsets of the positions at which to
+	 * insert the string
+	 */
+	public void insert(String str, short[] offsets)
+	{
+		int insertLength = str.length();
+		
+		//new buffer to do the insertion
+		StringBuffer newText = new StringBuffer(
+				sbuffer.length() + insertLength * offsets.length);
+		char[] buffer = null;
+		int offset = 0;
+		for (int i = 0; i < offsets.length; i++)
+		{
+			int charCount = offsets[i];
+			int prevOffset = offset;
+			offset += offsets[i];
+			
+			//append chunk of text
+			if (buffer == null || buffer.length < charCount)
+			{
+				buffer = new char[charCount];
+			}
+			sbuffer.getChars(prevOffset, offset, buffer, 0);
+			newText.append(buffer, 0, charCount);
+			
+			//append insterted text
+			newText.append(str);
+			
+			//adjust runs
+			//TODO optimize this?
+			for (Iterator it = runs.iterator(); it.hasNext();)
+			{
+				Run run = (Run) it.next();
+				if (run.startIndex >= offset)
+				{
+					//inserted before run
+					run.startIndex += insertLength;
+					run.endIndex += insertLength;
+				}
+				else if (run.endIndex >= offset)
+				{
+					//inserted in the middle or immediately after a run
+					//the inserted text is included in the run
+					run.endIndex += insertLength;
+				}
+			}
+		}
+		
+		//append remaining text
+		int charCount = sbuffer.length() - offset;
+		if (buffer == null || buffer.length < charCount)
+		{
+			buffer = new char[charCount];
+		}
+		sbuffer.getChars(offset, sbuffer.length(), buffer, 0);
+		newText.append(buffer, 0, charCount);
+		
+		//overwrite with the inserted buffer
+		sbuffer = newText;
+		
+		attributedString = null;
+		awtAttributedString = null;
 	}
 }

@@ -1877,6 +1877,8 @@ public class JRXmlConstants
 	public static final String ELEMENT_textContent = "textContent";
 	public static final String ATTRIBUTE_truncateIndex = "truncateIndex";
 	public static final String ELEMENT_textTruncateSuffix = "textTruncateSuffix";
+	public static final String ELEMENT_lineBreakOffsets = "lineBreakOffsets";
+	public static final String LINE_BREAK_OFFSET_SEPARATOR = ",";
 
 	/**
 	 * JRSubreportExpressionFactory associated constants

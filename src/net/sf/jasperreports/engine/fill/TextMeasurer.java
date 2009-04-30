@@ -35,6 +35,7 @@ import java.text.AttributedString;
 import java.text.BreakIterator;
 import java.text.CharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -48,6 +49,9 @@ import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * Default text measurer implementation.
@@ -58,6 +62,8 @@ import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 public class TextMeasurer implements JRTextMeasurer
 {
 
+	private static final Log log = LogFactory.getLog(TextMeasurer.class);
+	
 	/**
 	 *
 	 */
@@ -71,6 +77,8 @@ public class TextMeasurer implements JRTextMeasurer
 	 */
 	private MaxFontSizeFinder maxFontSizeFinder = null;
 
+	private boolean saveLineBreakOffsets;
+	
 	private int width = 0;
 	private int height = 0;
 	private int topPadding = 0;
@@ -96,6 +104,9 @@ public class TextMeasurer implements JRTextMeasurer
 		protected float firstLineLeading = 0;
 		protected boolean isLeftToRight = true;
 		protected String textSuffix = null;
+		
+		protected int lastOffset = 0;
+		protected ArrayList lineBreakOffsets;
 		
 		public boolean isLeftToRight()
 		{
@@ -135,13 +146,76 @@ public class TextMeasurer implements JRTextMeasurer
 		{
 			try
 			{
-				return (TextMeasuredState) super.clone();
+				TextMeasuredState clone = (TextMeasuredState) super.clone();
+				
+				//clone the list of offsets
+				//might be a performance problem on very large texts
+				if (lineBreakOffsets != null)
+				{
+					clone.lineBreakOffsets = (ArrayList) lineBreakOffsets.clone();
+				}
+				
+				return clone;
 			}
 			catch (CloneNotSupportedException e)
 			{
 				//never
 				throw new JRRuntimeException(e);
 			}
+		}
+
+		protected void addLineBreak()
+		{
+			if (lineBreakOffsets == null)
+			{
+				lineBreakOffsets = new ArrayList();
+			}
+
+			int breakOffset = textOffset - lastOffset;
+			lineBreakOffsets.add(new Integer(breakOffset));
+			lastOffset = textOffset;
+		}
+		
+		public short[] getLineBreakOffsets()
+		{
+			//if the last line break occurred at the truncation position
+			//exclude the last break offset
+			int exclude = lastOffset == textOffset ? 1 : 0;
+			if (lineBreakOffsets == null 
+					|| lineBreakOffsets.size() <= exclude)
+			{
+				return null;
+			}
+			
+			short[] offsets = new short[lineBreakOffsets.size() - exclude];
+			boolean overflow = false;
+			for (int i = 0; i < offsets.length; i++)
+			{
+				int offset = ((Integer) lineBreakOffsets.get(i)).intValue();
+				if (offset > Short.MAX_VALUE)
+				{
+					if (log.isWarnEnabled())
+					{
+						log.warn("Line break offset value " + offset 
+								+ " is bigger than the maximum supported value of"
+								+ Short.MAX_VALUE 
+								+ ". Line break offsets will not be saved for this text.");
+					}
+					
+					overflow = true;
+					break;
+				}
+				offsets[i] = (short) offset;
+			}
+			
+			if (overflow)
+			{
+				//if a line break offset overflow occurred, do not return any 
+				//line break offsets
+				return null;
+			}
+			
+			return offsets;
 		}
 	}
 	
@@ -157,7 +231,9 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 * 
 	 */
-	protected void initialize(JRStyledText styledText, int availableStretchHeight, boolean canOverflow)
+	protected void initialize(JRStyledText styledText,
+			int remainingTextStart,
+			int availableStretchHeight, boolean canOverflow)
 	{
 		width = textElement.getWidth();
 		height = textElement.getHeight();
@@ -239,8 +315,14 @@ public class TextMeasurer implements JRTextMeasurer
 		maxHeight = maxHeight < 0 ? 0 : maxHeight;
 		this.canOverflow = canOverflow;
 		this.globalAttributes = styledText.getGlobalAttributes();
+		
+		saveLineBreakOffsets = JRProperties.getBooleanProperty(propertiesHolder, 
+				JRTextElement.PROPERTY_SAVE_LINE_BREAK_POSITIONS, false);
+		
 		measuredState = new TextMeasuredState();
+		measuredState.lastOffset = remainingTextStart;
 		prevMeasuredState = null;
+		
 	}
 
 	/**
@@ -254,7 +336,7 @@ public class TextMeasurer implements JRTextMeasurer
 		)
 	{
 		/*   */
-		initialize(styledText, availableStretchHeight, canOverflow);
+		initialize(styledText, remainingTextStart, availableStretchHeight, canOverflow);
 
 		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString().getIterator();
 
@@ -536,6 +618,13 @@ public class TextMeasurer implements JRTextMeasurer
 			measuredState.textHeight += layout.getDescent();
 			
 			measuredState.textOffset += lineMeasurer.getPosition() - lineStartPosition;
+			
+			if (saveLineBreakOffsets 
+					&& lineMeasurer.getPosition() < paragraph.getEndIndex())
+			{
+				//if not the last line in a paragraph, save the line break position
+				measuredState.addLineBreak();
+			}
 		}
 		
 		return fits;
