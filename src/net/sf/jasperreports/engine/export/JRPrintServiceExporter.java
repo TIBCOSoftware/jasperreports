@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.export;
 
 import java.awt.Graphics;
 import java.awt.print.PageFormat;
+import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
@@ -245,6 +246,39 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 					}
 					else
 					{
+						PageFormat pageFormat = printerJob.defaultPage();
+						Paper paper = pageFormat.getPaper();
+						
+						switch (jasperPrint.getOrientation())
+						{
+							case JRReport.ORIENTATION_LANDSCAPE :
+							{
+								pageFormat.setOrientation(PageFormat.LANDSCAPE);
+								paper.setSize(jasperPrint.getPageHeight(), jasperPrint.getPageWidth());
+								paper.setImageableArea(
+									0,
+									0,
+									jasperPrint.getPageHeight(),
+									jasperPrint.getPageWidth()
+									);
+								break;
+							}
+							case JRReport.ORIENTATION_PORTRAIT :
+							default :
+							{
+								pageFormat.setOrientation(PageFormat.PORTRAIT);
+								paper.setSize(jasperPrint.getPageWidth(), jasperPrint.getPageHeight());
+								paper.setImageableArea(
+									0,
+									0,
+									jasperPrint.getPageWidth(),
+									jasperPrint.getPageHeight()
+									);
+							}
+						}
+						
+						printerJob.setPrintable(this, pageFormat);
+
 						printerJob.print(printRequestAttributeSet);
 					}
 				}
