@@ -268,7 +268,8 @@ public class JRPrintXmlLoader implements ErrorHandler
 		digester.addFactoryCreate("*/text", JRPrintTextFactory.class.getName());
 		digester.addSetNext("*/text", "addElement", JRPrintElement.class.getName());
 		SetNestedPropertiesRule textRule = new SetNestedPropertiesRule(
-				new String[]{"textContent", "textTruncateSuffix", "reportElement", "box", "font"}, 
+				new String[]{"textContent", "textTruncateSuffix", "reportElement", "box", "font",
+						JRXmlConstants.ELEMENT_lineBreakOffsets}, 
 				new String[]{"text", "textTruncateSuffix"});
 		textRule.setTrimData(false);
 		textRule.setAllowUnknownChildElements(true);
@@ -280,6 +281,9 @@ public class JRPrintXmlLoader implements ErrorHandler
 		/*   */
 		digester.addFactoryCreate("*/text/font", JRPrintFontFactory.class.getName());
 		digester.addSetNext("*/text/font", "setFont", JRFont.class.getName());
+		
+		digester.addRule("*/text/" + JRXmlConstants.ELEMENT_lineBreakOffsets,
+				new TextLineBreakOffsetsRule());
 		
 		addFrameRules(digester);
 

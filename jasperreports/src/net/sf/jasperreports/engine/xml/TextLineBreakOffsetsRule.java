@@ -25,68 +25,41 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.engine.xml;
+
+import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRPrintText;
 
+import org.apache.commons.digester.Rule;
+
 /**
- * Text measuring information as produced by a {@link JRTextMeasurer text measurer}.
+ * A digester rule that parses comma-separated values for
+ * {@link JRPrintText#setLineBreakOffsets(short[])}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see JRTextMeasurer#measure(net.sf.jasperreports.engine.util.JRStyledText, int, int, boolean)
  */
-public interface JRMeasuredText
+public class TextLineBreakOffsetsRule extends Rule
 {
 
-	/**
-	 * Returns the text leading offset.
-	 * 
-	 * @return the text leading offset
-	 */
-	float getLeadingOffset();
-
-	/**
-	 * Return the line spacing factor for the text.
-	 * 
-	 * @return the line spacing factor
-	 */
-	float getLineSpacingFactor();
-
-	/**
-	 * Returns the text's measure height.
-	 * 
-	 * @return the text's measure height
-	 */
-	float getTextHeight();
-
-	/**
-	 * Returns the offset up to which text fitted.
-	 * 
-	 * @return the offset up to which text fitted
-	 */
-	int getTextOffset();
-
-	/**
-	 * Returns whether the text was determined to be left to right or not.
-	 * 
-	 * @return whether the text was determined to be left to right
-	 */
-	boolean isLeftToRight();
-
-	/**
-	 * Returns the suffix that was appended to the text
-	 * (after {@link #getTextOffset()}).
-	 * 
-	 * @return the suffix that was appended to the text
-	 */
-	String getTextSuffix();
-
-	/**
-	 * Returns the line break offsets as required for
-	 * {@link JRPrintText#getLineBreakOffsets()}.
-	 * 
-	 * @return the line break offsets for the measured text
-	 */
-	short[] getLineBreakOffsets();
+	public void body(String namespace, String name, String text)
+			throws Exception
+	{
+		if (text != null)
+		{
+			StringTokenizer tokenizer = new StringTokenizer(text, 
+					JRXmlConstants.LINE_BREAK_OFFSET_SEPARATOR);
+			short[] offsets = new short[tokenizer.countTokens()];
+			for (int i = 0; i < offsets.length; i++)
+			{
+				String token = tokenizer.nextToken();
+				offsets[i] = Short.parseShort(token);
+			}
+			
+			JRPrintText printText = (JRPrintText) getDigester().peek();
+			printText.setLineBreakOffsets(offsets);
+		}
+	}
+	
 }

@@ -68,6 +68,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private String text = "";
 	private Integer textTruncateIndex;
 	private String textTruncateSuffix;
+	private short[] lineBreakOffsets;
 	private transient String truncatedText;
 	private float lineSpacingFactor = 0;
 	private float leadingOffset = 0;
@@ -158,6 +159,16 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	{
 		this.textTruncateSuffix = textTruncateSuffix;
 		this.truncatedText = null;
+	}
+
+	public short[] getLineBreakOffsets()
+	{
+		return lineBreakOffsets;
+	}
+
+	public void setLineBreakOffsets(short[] lineBreakOffsets)
+	{
+		this.lineBreakOffsets = lineBreakOffsets;
 	}
 
 	public String getFullText()

@@ -79,6 +79,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private float textHeight = 0;
 	private int textStart = 0;
 	private int textEnd = 0;
+	private short[] lineBreakOffsets;
 	private String textTruncateSuffix;
 	private String rawText = null;
 	private JRStyledText styledText = null;
@@ -887,6 +888,16 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		this.textEnd = textEnd;
 	}
+	
+	protected short[] getLineBreakOffsets()
+	{
+		return lineBreakOffsets;
+	}
+
+	protected void setLineBreakOffsets(short[] lineBreakOffsets)
+	{
+		this.lineBreakOffsets = lineBreakOffsets;
+	}
 
 	/**
 	 *
@@ -927,6 +938,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		textStart = 0;
 		textEnd = 0;
+		lineBreakOffsets = null;
 	}
 
 
@@ -1007,6 +1019,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		}
 		setTextStart(getTextEnd());
 		setTextEnd(measuredText.getTextOffset());
+		setLineBreakOffsets(measuredText.getLineBreakOffsets());
 		setTextTruncateSuffix(measuredText.getTextSuffix());
 		setLineSpacingFactor(measuredText.getLineSpacingFactor());
 		setLeadingOffset(measuredText.getLeadingOffset());
@@ -1444,6 +1457,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		}
 		
 		printText.setTextTruncateSuffix(getTextTruncateSuffix());
+		printText.setLineBreakOffsets(getLineBreakOffsets());
 	}
 
 	protected String getTextTruncateSuffix()

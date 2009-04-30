@@ -1279,6 +1279,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
 		}
 
+		if (text.getLineBreakOffsets() != null)
+		{
+			//if we have line breaks saved in the text, set nowrap so that
+			//the text only wraps at the explicit positions
+			styleBuffer.append("white-space: nowrap; ");
+		}
+		
 		if (styleBuffer.length() > 0)
 		{
 			writer.write(" style=\"");
@@ -2208,6 +2215,27 @@ public class JRHtmlExporter extends JRAbstractExporter
 	public JasperPrint getExportedReport()
 	{
 		return jasperPrint;
+	}
+
+
+	protected JRStyledText getStyledText(JRPrintText textElement,
+			boolean setBackcolor)
+	{
+		JRStyledText styledText = super.getStyledText(textElement, setBackcolor);
+		
+		if (styledText != null)
+		{
+			short[] lineBreakOffsets = textElement.getLineBreakOffsets();
+			if (lineBreakOffsets != null)
+			{
+				//insert new lines at the line break positions saved at fill time
+				//cloning the text first
+				styledText = styledText.cloneText();
+				styledText.insert("\n", lineBreakOffsets);
+			}
+		}
+		
+		return styledText;
 	}
 	
 }

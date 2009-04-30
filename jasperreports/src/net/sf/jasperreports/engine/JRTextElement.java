@@ -97,6 +97,36 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	public static final String PROPERTY_TRUNCATE_SUFFIX = JRProperties.PROPERTY_PREFIX + "text.truncate.suffix";
 	
 	/**
+	 * Boolean property that determines whether the positions where text line
+	 * break occurs are to be saved during report fill in oder to be used at
+	 * export time.
+	 * 
+	 * <p>
+	 * At report fill time, each text element is measure in order to determine
+	 * how long it needs to stretch or where it needs to be truncated.
+	 * During this measurement, the text wraps at certain positions in order to
+	 * fit the text element defined width.
+	 * 
+	 * <p>
+	 * Setting this property to true instructs the engine to save the positions
+	 * at which line breaks occur in the generated print element.
+	 * The positions can be used by report exporters that want to enforce line
+	 * breaks to occur at exactly the same position as they did during text
+	 * measurement at fill time.
+	 * 
+	 * <p>
+	 * Currently, the HTML exporter will make use of the saved line break
+	 * positions by introducing explicit line breaks.
+	 * 
+	 * <p>
+	 * The property can be set globally, at report level or at text element level.
+	 * 
+	 * @see JRPrintText#getLineBreakOffsets()
+	 */
+	public static final String PROPERTY_SAVE_LINE_BREAK_POSITIONS = JRProperties.PROPERTY_PREFIX 
+			+ "text.save.line.break.positions";
+	
+	/**
 	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_LEFT}.
 	 */
 	public static final byte TEXT_ALIGN_LEFT = HORIZONTAL_ALIGN_LEFT;
