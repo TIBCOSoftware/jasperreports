@@ -2226,7 +2226,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		if (styledText != null)
 		{
 			short[] lineBreakOffsets = textElement.getLineBreakOffsets();
-			if (lineBreakOffsets != null)
+			if (lineBreakOffsets != null && lineBreakOffsets.length > 0)
 			{
 				//insert new lines at the line break positions saved at fill time
 				//cloning the text first
