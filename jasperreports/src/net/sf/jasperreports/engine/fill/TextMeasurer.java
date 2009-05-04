@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRCommonText;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
@@ -76,8 +77,6 @@ public class TextMeasurer implements JRTextMeasurer
 	 * 
 	 */
 	private MaxFontSizeFinder maxFontSizeFinder = null;
-
-	private boolean saveLineBreakOffsets;
 	
 	private int width = 0;
 	private int height = 0;
@@ -96,6 +95,8 @@ public class TextMeasurer implements JRTextMeasurer
 	
 	protected static class TextMeasuredState implements JRMeasuredText, Cloneable
 	{
+		private final boolean saveLineBreakOffsets;
+		
 		protected int textOffset = 0;
 		protected int lines = 0;
 		protected int fontSizeSum = 0;
@@ -107,6 +108,11 @@ public class TextMeasurer implements JRTextMeasurer
 		
 		protected int lastOffset = 0;
 		protected ArrayList lineBreakOffsets;
+		
+		public TextMeasuredState(boolean saveLineBreakOffsets)
+		{
+			this.saveLineBreakOffsets = saveLineBreakOffsets;
+		}
 		
 		public boolean isLeftToRight()
 		{
@@ -166,25 +172,35 @@ public class TextMeasurer implements JRTextMeasurer
 
 		protected void addLineBreak()
 		{
-			if (lineBreakOffsets == null)
+			if (saveLineBreakOffsets)
 			{
-				lineBreakOffsets = new ArrayList();
-			}
+				if (lineBreakOffsets == null)
+				{
+					lineBreakOffsets = new ArrayList();
+				}
 
-			int breakOffset = textOffset - lastOffset;
-			lineBreakOffsets.add(new Integer(breakOffset));
-			lastOffset = textOffset;
+				int breakOffset = textOffset - lastOffset;
+				lineBreakOffsets.add(new Integer(breakOffset));
+				lastOffset = textOffset;
+			}
 		}
 		
 		public short[] getLineBreakOffsets()
 		{
+			if (!saveLineBreakOffsets)
+			{
+				//if no line breaks are to be saved, return null
+				return null;
+			}
+			
 			//if the last line break occurred at the truncation position
 			//exclude the last break offset
 			int exclude = lastOffset == textOffset ? 1 : 0;
 			if (lineBreakOffsets == null 
 					|| lineBreakOffsets.size() <= exclude)
 			{
-				return null;
+				//use the zero length array singleton
+				return JRPrintText.ZERO_LINE_BREAK_OFFSETS;
 			}
 			
 			short[] offsets = new short[lineBreakOffsets.size() - exclude];
@@ -316,10 +332,10 @@ public class TextMeasurer implements JRTextMeasurer
 		this.canOverflow = canOverflow;
 		this.globalAttributes = styledText.getGlobalAttributes();
 		
-		saveLineBreakOffsets = JRProperties.getBooleanProperty(propertiesHolder, 
+		boolean saveLineBreakOffsets = JRProperties.getBooleanProperty(propertiesHolder, 
 				JRTextElement.PROPERTY_SAVE_LINE_BREAK_POSITIONS, false);
 		
-		measuredState = new TextMeasuredState();
+		measuredState = new TextMeasuredState(saveLineBreakOffsets);
 		measuredState.lastOffset = remainingTextStart;
 		prevMeasuredState = null;
 		
@@ -619,8 +635,7 @@ public class TextMeasurer implements JRTextMeasurer
 			
 			measuredState.textOffset += lineMeasurer.getPosition() - lineStartPosition;
 			
-			if (saveLineBreakOffsets 
-					&& lineMeasurer.getPosition() < paragraph.getEndIndex())
+			if (lineMeasurer.getPosition() < paragraph.getEndIndex())
 			{
 				//if not the last line in a paragraph, save the line break position
 				measuredState.addLineBreak();

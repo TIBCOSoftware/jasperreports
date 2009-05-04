@@ -37,6 +37,11 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor, JRPrintHyperlink, JRBox, JRFont, JRCommonText
 {
 
+	/**
+	 * Zero-length line break offset array used for {@link #getLineBreakOffsets()
+	 * when the text does not have any line breaks.
+	 */
+	public static final short[] ZERO_LINE_BREAK_OFFSETS = new short[0];
 
 	/**
 	 *
@@ -335,9 +340,14 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 * the text.  The array only includes line break positions within a 
 	 * paragraph in the text.
 	 * 
-	 * @return the line break offsets, or <code>null</code> if no line break
-	 * positions were saved during the fill or if the text does not contain
-	 * any line breaks
+	 * <p>
+	 * If the text was meant to have saved line break offsets but no (non
+	 * explicit) breaks were detected (e.g. if the text is a single line),
+	 * this method will return a zero-length array.  If the text was not meant
+	 * to include saved line breaks, the method will return <code>null</code>.
+	 * 
+	 * @return the line break offsets (possibly zero-length array), or
+	 * <code>null</code> if no line break positions were saved during the fill
 	 * 
 	 * @see JRTextElement#PROPERTY_SAVE_LINE_BREAK_POSITIONS
 	 */

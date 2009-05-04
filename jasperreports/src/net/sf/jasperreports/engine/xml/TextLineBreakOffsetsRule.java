@@ -50,11 +50,21 @@ public class TextLineBreakOffsetsRule extends Rule
 		{
 			StringTokenizer tokenizer = new StringTokenizer(text, 
 					JRXmlConstants.LINE_BREAK_OFFSET_SEPARATOR);
-			short[] offsets = new short[tokenizer.countTokens()];
-			for (int i = 0; i < offsets.length; i++)
+			int tokenCount = tokenizer.countTokens();
+			short[] offsets;
+			if (tokenCount == 0)
 			{
-				String token = tokenizer.nextToken();
-				offsets[i] = Short.parseShort(token);
+				//use the zero length array singleton
+				offsets = JRPrintText.ZERO_LINE_BREAK_OFFSETS;
+			}
+			else
+			{
+				offsets = new short[tokenCount];
+				for (int i = 0; i < offsets.length; i++)
+				{
+					String token = tokenizer.nextToken();
+					offsets[i] = Short.parseShort(token);
+				}
 			}
 			
 			JRPrintText printText = (JRPrintText) getDigester().peek();
