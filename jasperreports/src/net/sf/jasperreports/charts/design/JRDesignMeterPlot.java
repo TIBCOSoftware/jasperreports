@@ -278,9 +278,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	}
 	
 	/**
-	 * Sets the font to use when displaying the value.
+	 * Sets the font to use when displaying the tick label.
 	 *
-	 * @param font the font to use when displaying the value
+	 * @param tickLabelFont the font to use when displaying the tick label
 	 */
 	public void setTickLabelFont(JRFont tickLabelFont)
 	{

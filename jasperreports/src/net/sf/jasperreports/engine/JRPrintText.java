@@ -38,7 +38,7 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 {
 
 	/**
-	 * Zero-length line break offset array used for {@link #getLineBreakOffsets()
+	 * Zero-length line break offset array used for {@link #getLineBreakOffsets()}
 	 * when the text does not have any line breaks.
 	 */
 	public static final short[] ZERO_LINE_BREAK_OFFSETS = new short[0];
