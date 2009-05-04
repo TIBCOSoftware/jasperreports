@@ -132,9 +132,12 @@ public class AegeanChartTheme extends GenericChartTheme
 			CategoryPlot categoryPlot = (CategoryPlot)plot;
 			CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 			CategoryDataset categoryDataset = categoryPlot.getDataset();
-			for(int i = 0; i < categoryDataset.getRowCount(); i++)
+			if(categoryDataset != null)
 			{
-				categoryRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
+				for(int i = 0; i < categoryDataset.getRowCount(); i++)
+				{
+					categoryRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
+				}
 			}
 			categoryPlot.setRangeGridlinePaint(ChartThemesConstants.GRAY_PAINT_217);
 			categoryPlot.setRangeGridlineStroke(new BasicStroke(0.5f));
@@ -144,11 +147,14 @@ public class AegeanChartTheme extends GenericChartTheme
 		else if(plot instanceof XYPlot)
 		{
 			XYPlot xyPlot = (XYPlot)plot;
-			XYDataset xyDataset = xyPlot.getDataset();
 			XYItemRenderer xyItemRenderer = xyPlot.getRenderer();
-			for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+			XYDataset xyDataset = xyPlot.getDataset();
+			if(xyDataset != null)
 			{
-				xyItemRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
+				for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+				{
+					xyItemRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
+				}
 			}
 			xyPlot.setRangeGridlinePaint(ChartThemesConstants.GRAY_PAINT_217);
 			xyPlot.setRangeGridlineStroke(new BasicStroke(0.5f));
@@ -182,14 +188,16 @@ public class AegeanChartTheme extends GenericChartTheme
 		piePlot.setShadowXOffset(0);
 		piePlot.setShadowYOffset(0);
 		PieDataset pieDataset = piePlot.getDataset();
-		for(int i = 0; i < pieDataset.getItemCount(); i++)
+		if(pieDataset != null)
 		{
-			piePlot.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
-			
-			//makes pie colors darker
-			//piePlot.setSectionPaint(pieDataset.getKey(i), GRADIENT_PAINTS[i]);
+			for(int i = 0; i < pieDataset.getItemCount(); i++)
+			{
+				piePlot.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
+				
+				//makes pie colors darker
+				//piePlot.setSectionPaint(pieDataset.getKey(i), GRADIENT_PAINTS[i]);
+			}
 		}
-
 		if (
 			getLabelGenerator() == null
 			&& ((JRPiePlot)getPlot()).getLabelFormat() == null
@@ -235,12 +243,13 @@ public class AegeanChartTheme extends GenericChartTheme
 //		);
 
 		PieDataset pieDataset = piePlot3D.getDataset();
-
-		for(int i = 0; i < pieDataset.getItemCount(); i++)
+		if(pieDataset != null)
 		{
-			piePlot3D.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
+			for(int i = 0; i < pieDataset.getItemCount(); i++)
+			{
+				piePlot3D.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
+			}
 		}
-
 		if (
 			getLabelGenerator() == null
 			&& ((JRPie3DPlot)getPlot()).getLabelFormat() == null
@@ -269,11 +278,13 @@ public class AegeanChartTheme extends GenericChartTheme
 		barRenderer3D.setWallPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		//categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
-		for(int i = 0; i < categoryDataset.getRowCount(); i++)
+		if(categoryDataset != null)
 		{
-			barRenderer3D.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
+			for(int i = 0; i < categoryDataset.getRowCount(); i++)
+			{
+				barRenderer3D.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
+			}
 		}
-		
 		return jfreeChart;
 	}
 
@@ -286,11 +297,13 @@ public class AegeanChartTheme extends GenericChartTheme
 		barRenderer3D.setWallPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 		barRenderer3D.setItemMargin(0);
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
-		for(int i = 0; i < categoryDataset.getRowCount(); i++)
+		if(categoryDataset != null)
 		{
-			barRenderer3D.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
+			for(int i = 0; i < categoryDataset.getRowCount(); i++)
+			{
+				barRenderer3D.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
+			}
 		}
-		
 		return jfreeChart;
 	}
 
@@ -303,11 +316,14 @@ public class AegeanChartTheme extends GenericChartTheme
 		JFreeChart jfreeChart = super.createBubbleChart();
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
-		XYDataset xyDataset = xyPlot.getDataset();
 		XYBubbleRenderer bubbleRenderer = (XYBubbleRenderer)xyPlot.getRenderer();
-		for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+		XYDataset xyDataset = xyPlot.getDataset();
+		if(xyDataset != null)
 		{
-			bubbleRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
+			for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+			{
+				bubbleRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
+			}
 		}
 		return jfreeChart;
 	}
@@ -352,21 +368,24 @@ public class AegeanChartTheme extends GenericChartTheme
 //				categoryPlot.getShowTickLabels() == null ? true : barPlot.getShowTickLabels().
 //				true
 //				);
-		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelsVisible(true);
 		BarRenderer barRenderer = (BarRenderer)categoryRenderer;
 		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
 		barRenderer.setSeriesPaint(0, (Paint)seriesPaints.get(3));
 		barRenderer.setSeriesPaint(1, (Paint)seriesPaints.get(0));
-		for(int i = 0; i < categoryDataset.getRowCount(); i++)
+		CategoryDataset categoryDataset = categoryPlot.getDataset();
+		if(categoryDataset != null)
 		{
-			barRenderer.setSeriesItemLabelFont(i, categoryPlot.getDomainAxis().getTickLabelFont());
-			barRenderer.setSeriesItemLabelsVisible(i, true);
-//			barRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
-//			CategoryMarker categoryMarker = new CategoryMarker(categoryDataset.getColumnKey(i),MARKER_COLOR, new BasicStroke(1f));
-//			categoryMarker.setAlpha(0.5f);
-//			categoryPlot.addDomainMarker(categoryMarker, Layer.BACKGROUND);
+			for(int i = 0; i < categoryDataset.getRowCount(); i++)
+			{
+				barRenderer.setSeriesItemLabelFont(i, categoryPlot.getDomainAxis().getTickLabelFont());
+				barRenderer.setSeriesItemLabelsVisible(i, true);
+	//			barRenderer.setSeriesPaint(i, GRADIENT_PAINTS[i]);
+	//			CategoryMarker categoryMarker = new CategoryMarker(categoryDataset.getColumnKey(i),MARKER_COLOR, new BasicStroke(1f));
+	//			categoryMarker.setAlpha(0.5f);
+	//			categoryPlot.addDomainMarker(categoryMarker, Layer.BACKGROUND);
+			}
 		}
 		categoryPlot.setOutlinePaint(Color.DARK_GRAY);
 		categoryPlot.setOutlineStroke(new BasicStroke(1.5f));
@@ -419,27 +438,30 @@ public class AegeanChartTheme extends GenericChartTheme
 		
 		Color tickColor = jrPlot.getTickColor() == null ? Color.BLACK : jrPlot.getTickColor();
 		chartPlot.setTickPaint(tickColor);
-		
+		int dialUnitScale = 1;
 		Range range = convertRange(jrPlot.getDataRange());
-		// Set the meter's range
-		chartPlot.setRange(range);
-		double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
-		int dialUnitScale = ChartThemesUtilities.getScale(bound);
-		if((range.getLowerBound() == (int)range.getLowerBound() &&
-				range.getUpperBound() == (int)range.getUpperBound() &&
-				tickInterval == (int)tickInterval) ||
-				dialUnitScale > 1
-				)
+		if(range != null)
 		{
-			chartPlot.setTickLabelFormat(new DecimalFormat("#,##0"));
-		}
-		else if(dialUnitScale == 1)
-		{
-			chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.0"));
-		}
-		else if(dialUnitScale <= 0)
-		{
-			chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.00"));
+			// Set the meter's range
+			chartPlot.setRange(range);
+			double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
+			dialUnitScale = ChartThemesUtilities.getScale(bound);
+			if((range.getLowerBound() == (int)range.getLowerBound() &&
+					range.getUpperBound() == (int)range.getUpperBound() &&
+					tickInterval == (int)tickInterval) ||
+					dialUnitScale > 1
+					)
+			{
+				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0"));
+			}
+			else if(dialUnitScale == 1)
+			{
+				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.0"));
+			}
+			else if(dialUnitScale <= 0)
+			{
+				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.00"));
+			}
 		}
 		chartPlot.setTickLabelsVisible(true);
 
@@ -467,19 +489,21 @@ public class AegeanChartTheme extends GenericChartTheme
 		chartPlot.setNeedlePaint(needlePaint);
 
 		JRValueDisplay display = jrPlot.getValueDisplay();
-		Color valueColor = display.getColor() == null ? Color.BLACK : display.getColor();
-		chartPlot.setValuePaint(valueColor);
-		String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
-		if(pattern != null)
-			chartPlot.setTickLabelFormat( new DecimalFormat(pattern));
-		JRFont displayFont = jrPlot.getValueDisplay().getFont();
-		Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
-
-		if (themeDisplayFont != null)
+		if(display != null)
 		{
-			chartPlot.setValueFont(themeDisplayFont);
+			Color valueColor = display.getColor() == null ? Color.BLACK : display.getColor();
+			chartPlot.setValuePaint(valueColor);
+			String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
+			if(pattern != null)
+				chartPlot.setTickLabelFormat( new DecimalFormat(pattern));
+			JRFont displayFont = display.getFont();
+			Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
+	
+			if (themeDisplayFont != null)
+			{
+				chartPlot.setValueFont(themeDisplayFont);
+			}
 		}
-		
 		String label = getChart().hasProperties() ?
 				getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
 		
@@ -560,9 +584,12 @@ public class AegeanChartTheme extends GenericChartTheme
 
 		Range range = convertRange(jrPlot.getDataRange());
 
-		// Set the boundary of the thermomoter
-		chartPlot.setLowerBound(range.getLowerBound());
-		chartPlot.setUpperBound(range.getUpperBound());
+		if(range != null)
+		{
+			// Set the boundary of the thermomoter
+			chartPlot.setLowerBound(range.getLowerBound());
+			chartPlot.setUpperBound(range.getUpperBound());
+		}
 		chartPlot.setGap(0);
 
 		// Units can only be Fahrenheit, Celsius or none, so turn off for now.
@@ -579,8 +606,6 @@ public class AegeanChartTheme extends GenericChartTheme
 		chartPlot.setThermometerStroke(new BasicStroke(2f));
 		chartPlot.setOutlineVisible(false);
 		chartPlot.setValueFont(chartPlot.getValueFont().deriveFont(Font.BOLD));
-
-
 
 		// Set the formatting of the value display
 		JRValueDisplay display = jrPlot.getValueDisplay();
@@ -640,21 +665,6 @@ public class AegeanChartTheme extends GenericChartTheme
 		}
 
 		return jfreeChart;
-
-//
-//
-//
-//
-//
-//		JFreeChart jfreeChart = super.createThermometerChart();
-//		ThermometerPlot thermometerPlot = (ThermometerPlot)jfreeChart.getPlot();
-//		thermometerPlot.setMercuryPaint(GRADIENT_PAINTS[0]);
-//		thermometerPlot.setThermometerPaint(THERMOMETER_COLOR);
-//		thermometerPlot.setThermometerStroke(new BasicStroke(2f));
-//		thermometerPlot.setGap(2);
-//		thermometerPlot.setForegroundAlpha(1f);
-//		thermometerPlot.setValueFont(thermometerPlot.getValueFont().deriveFont(Font.BOLD));
-//		return jfreeChart;
 	}
 
 	/**
@@ -667,7 +677,10 @@ public class AegeanChartTheme extends GenericChartTheme
 
 		// get data for diagrams
 		DialPlot dialPlot = new DialPlot();
-		dialPlot.setDataset((ValueDataset)getDataset());
+		if(getDataset() != null)
+		{
+			dialPlot.setDataset((ValueDataset)getDataset());
+		}
 		StandardDialFrame dialFrame = new StandardDialFrame();
 		dialFrame.setForegroundPaint(Color.BLACK);
 		dialFrame.setBackgroundPaint(Color.BLACK);
@@ -676,23 +689,48 @@ public class AegeanChartTheme extends GenericChartTheme
 
 		DialBackground db = new DialBackground(ChartThemesConstants.TRANSPARENT_PAINT);
 		dialPlot.setBackground(db);
-
+		ScaledDialScale scale = null;
+		int dialUnitScale = 1;
 		Range range = convertRange(jrPlot.getDataRange());
-		double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
-		int dialUnitScale = ChartThemesUtilities.getScale(bound);
+		if(range != null)
+		{
+			double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
+			dialUnitScale = ChartThemesUtilities.getScale(bound);
+	
+			double lowerBound = ChartThemesUtilities.getTruncatedValue(range.getLowerBound(), dialUnitScale);
+			double upperBound = ChartThemesUtilities.getTruncatedValue(range.getUpperBound(), dialUnitScale);
+	
+			scale =
+				new ScaledDialScale(
+					lowerBound,
+					upperBound,
+					210,
+					-240,
+					(upperBound - lowerBound)/6,
+					1
+					);
+			if((lowerBound == (int)lowerBound &&
+					upperBound == (int)upperBound &&
+					scale.getMajorTickIncrement() == (int)scale.getMajorTickIncrement()) ||
+					dialUnitScale > 1
+					)
+			{
+				scale.setTickLabelFormatter(new DecimalFormat("#,##0"));
+			}
+			else if(dialUnitScale == 1)
+			{
 
-		double lowerBound = ChartThemesUtilities.getTruncatedValue(range.getLowerBound(), dialUnitScale);
-		double upperBound = ChartThemesUtilities.getTruncatedValue(range.getUpperBound(), dialUnitScale);
-
-		ScaledDialScale scale =
-			new ScaledDialScale(
-				lowerBound,
-				upperBound,
-				210,
-				-240,
-				(upperBound - lowerBound)/6,
-				1
-				);
+				scale.setTickLabelFormatter(new DecimalFormat("#,##0.0"));
+			}
+			else if(dialUnitScale <= 0)
+			{
+				scale.setTickLabelFormatter(new DecimalFormat("#,##0.00"));
+			}
+		}
+		else
+		{
+			scale = new ScaledDialScale();
+		}
 		scale.setTickRadius(0.9);
 		scale.setTickLabelOffset(0.16);
 		JRFont tickLabelFont = jrPlot.getTickLabelFont();
@@ -705,23 +743,6 @@ public class AegeanChartTheme extends GenericChartTheme
 		scale.setMinorTickPaint(Color.BLACK);
 		scale.setTickLabelsVisible(true);
 		scale.setFirstTickLabelVisible(true);
-		if((lowerBound == (int)lowerBound &&
-				upperBound == (int)upperBound &&
-				scale.getMajorTickIncrement() == (int)scale.getMajorTickIncrement()) ||
-				dialUnitScale > 1
-				)
-		{
-			scale.setTickLabelFormatter(new DecimalFormat("#,##0"));
-		}
-		else if(dialUnitScale == 1)
-		{
-
-			scale.setTickLabelFormatter(new DecimalFormat("#,##0.0"));
-		}
-		else if(dialUnitScale <= 0)
-		{
-			scale.setTickLabelFormatter(new DecimalFormat("#,##0.00"));
-		}
 		dialPlot.addScale(0, scale);
 		
 		
