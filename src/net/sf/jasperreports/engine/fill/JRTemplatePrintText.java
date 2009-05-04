@@ -32,9 +32,9 @@ import java.awt.Color;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRCommonText;
-import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
@@ -193,10 +193,13 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 			return null;
 		}
 		
-		return JRStyledTextParser.getInstance().getStyledText(
+		return 
+			JRStyledTextParser.getInstance().getStyledText(
 				attributeSelector.getStyledTextAttributes(this), 
 				getText(), 
-				!JRCommonText.MARKUP_NONE.equals(getMarkup()));
+				!JRCommonText.MARKUP_NONE.equals(getMarkup()),
+				JRStyledTextAttributeSelector.getTextLocale(this)
+				);
 	}
 
 	public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector)
@@ -206,10 +209,13 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 			return null;
 		}
 
-		return JRStyledTextParser.getInstance().getStyledText(
+		return 
+			JRStyledTextParser.getInstance().getStyledText(
 				attributeSelector.getStyledTextAttributes(this), 
 				getFullText(), 
-				!JRCommonText.MARKUP_NONE.equals(getMarkup()));
+				!JRCommonText.MARKUP_NONE.equals(getMarkup()),
+				JRStyledTextAttributeSelector.getTextLocale(this)
+				);
 	}
 	
 	/**

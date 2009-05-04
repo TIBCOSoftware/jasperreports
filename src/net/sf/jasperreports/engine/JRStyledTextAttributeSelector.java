@@ -57,7 +57,7 @@ public abstract class JRStyledTextAttributeSelector
 	/**
 	 * 
 	 */
-	private static Locale getTextLocale(JRPrintText printText)
+	public static Locale getTextLocale(JRPrintText printText)
 	{
 		String localeCode = printText.getLocaleCode();
 		if (localeCode == null)

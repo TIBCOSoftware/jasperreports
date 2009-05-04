@@ -198,11 +198,19 @@ public class JRStyledTextParser implements ErrorHandler
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #parse(Map, String, Locale)}.
 	 */
 	public JRStyledText parse(Map attributes, String text) throws SAXException
 	{
-		JRStyledText styledText = new JRStyledText();
+		return parse(attributes, text, null);
+	}
+	
+	/**
+	 *
+	 */
+	public JRStyledText parse(Map attributes, String text, Locale locale) throws SAXException
+	{
+		JRStyledText styledText = new JRStyledText(locale);
 		
 		Document document = null;
 
@@ -223,22 +231,31 @@ public class JRStyledTextParser implements ErrorHandler
 	}
 
 	/**
+	 * @deprecated Replaced by {@link #getStyledText(Map, String, boolean, Locale)}.
+	 */
+	public JRStyledText getStyledText(Map parentAttributes, String text, boolean isStyledText)
+	{
+		return getStyledText(parentAttributes, text, isStyledText, null);
+	}
+	
+	/**
 	 * Creates a styled text object by either parsing a styled text String or
 	 * by wrapping an unstyled String.
 	 * 
 	 * @param parentAttributes the element-level styled text attributes
 	 * @param text the (either styled or unstyled) text
 	 * @param isStyledText flag indicating that the text is styled
+	 * @param locale the locale for the text
 	 * @return a styled text object
 	 */
-	public JRStyledText getStyledText(Map parentAttributes, String text, boolean isStyledText)
+	public JRStyledText getStyledText(Map parentAttributes, String text, boolean isStyledText, Locale locale)
 	{
 		JRStyledText styledText = null;
 		if (isStyledText)
 		{
 			try
 			{
-				styledText = parse(parentAttributes, text);
+				styledText = parse(parentAttributes, text, locale);
 			}
 			catch (SAXException e)
 			{
@@ -248,7 +265,7 @@ public class JRStyledTextParser implements ErrorHandler
 	
 		if (styledText == null)
 		{
-			styledText = new JRStyledText();
+			styledText = new JRStyledText(locale);
 			styledText.append(text);
 			styledText.setGlobalAttributes(parentAttributes);
 		}

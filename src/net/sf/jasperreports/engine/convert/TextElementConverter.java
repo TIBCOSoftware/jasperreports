@@ -35,8 +35,6 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import java.util.Map;
-
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
@@ -96,12 +94,12 @@ public abstract class TextElementConverter extends ElementConverter
 		{
 			text = "";
 		}
-		Map attributes = JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText); 
 		JRStyledText styledText = 
 			styledTextParser.getStyledText(
-				attributes, 
+				JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText), 
 				text, 
-				JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup())//FIXMEMARKUP only static styled text appears on preview. no other markup
+				JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup()),//FIXMEMARKUP only static styled text appears on preview. no other markup
+				JRStyledTextAttributeSelector.getTextLocale(printText)
 				);
 		
 		JRMeasuredText measuredText = textMeasurer.measure(

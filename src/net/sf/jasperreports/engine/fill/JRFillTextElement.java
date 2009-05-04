@@ -952,10 +952,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			String text = getRawText();
 			if (text != null)
 			{
-				styledText = filler.getStyledTextParser().getStyledText(
+				styledText = 
+					filler.getStyledTextParser().getStyledText(
 						getStyledTextAttributes(), 
 						text, 
-						!JRCommonText.MARKUP_NONE.equals(getMarkup()));
+						!JRCommonText.MARKUP_NONE.equals(getMarkup()),
+						filler.getLocale()
+						);
 			}
 		}
 		
