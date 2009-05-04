@@ -2,10 +2,16 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.5.1 (2009-05-xx)
+JasperReports 3.5.1 (2009-05-05)
 -----------------------------------
 
 - list component;
+
+- Generic element PDF handlers;
+
+- schema reference;
+
+- Save line break positions at fill/measure time and use them in HTML
 
 - minor bug fixes and improvements;
 

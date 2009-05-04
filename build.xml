@@ -307,22 +307,9 @@
 		</javadoc>
 	</target>
 
-	<target name="quickref" description="Generates the Quick Reference.">
-		<mkdir dir="./dist"/> 
-		<style basedir="docs" includes="*.xml" destdir="dist" extension="-${version}.html" style="docs/quick.reference.xsl">
-			<param name="version" expression="${version}"/>
-			<classpath>
-				<fileset dir="./lib">
-					<include name="**/*.jar"/>
-				</fileset>
-				<pathelement location="./build/classes"/>
-			</classpath>
-		</style>
-	</target>
-
 	<target name="schemaref" description="Generates the Schema Reference.">
 		<mkdir dir="./dist"/> 
-		<style basedir="./build/classes/net/sf/jasperreports/engine/dtds" includes="jasperreport.xsd" destdir="dist" extension="-${version}.html" style="docs/schema.reference.xsl">
+		<style basedir="./build/classes/net/sf/jasperreports/engine/dtds" includes="jasperreport.xsd" destdir="dist" style="docs/schema.reference.xsl">
 			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
@@ -331,8 +318,9 @@
 				<pathelement location="./build/classes"/>
 			</classpath>
 		</style>
+		<move file="./dist/jasperreport.html" tofile="./dist/jasperreports-${version}-schema.reference.html" overwrite="true"/>
 	</target>
 	
-	<target name="docs" depends="javadoc, quickref, schemaref" description="Generates all documentation."/>
+	<target name="docs" depends="javadoc, schemaref" description="Generates all documentation."/>
 
 </project>
