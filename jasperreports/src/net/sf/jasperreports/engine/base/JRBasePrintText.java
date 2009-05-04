@@ -236,10 +236,13 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 			return null;
 		}
 		
-		return JRStyledTextParser.getInstance().getStyledText(
+		return 
+			JRStyledTextParser.getInstance().getStyledText(
 				attributeSelector.getStyledTextAttributes(this), 
 				getText(), 
-				!JRCommonText.MARKUP_NONE.equals(getMarkup()));
+				!JRCommonText.MARKUP_NONE.equals(getMarkup()),
+				JRStyledTextAttributeSelector.getTextLocale(this)
+				);
 	}
 
 	public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector)
@@ -249,10 +252,13 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 			return null;
 		}
 
-		return JRStyledTextParser.getInstance().getStyledText(
+		return 
+			JRStyledTextParser.getInstance().getStyledText(
 				attributeSelector.getStyledTextAttributes(this), 
 				getFullText(), 
-				!JRCommonText.MARKUP_NONE.equals(getMarkup()));
+				!JRCommonText.MARKUP_NONE.equals(getMarkup()),
+				JRStyledTextAttributeSelector.getTextLocale(this)
+				);
 	}
 
 	/**

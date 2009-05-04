@@ -82,6 +82,16 @@ public class JRStyledText implements Cloneable
 	 */
 	public JRStyledText()
 	{
+		this(null);
+	}
+
+
+	/**
+	 *
+	 */
+	public JRStyledText(Locale locale)
+	{
+		this.locale = locale;
 	}
 
 
