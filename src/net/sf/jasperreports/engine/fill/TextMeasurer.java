@@ -333,7 +333,7 @@ public class TextMeasurer implements JRTextMeasurer
 		this.globalAttributes = styledText.getGlobalAttributes();
 		
 		boolean saveLineBreakOffsets = JRProperties.getBooleanProperty(propertiesHolder, 
-				JRTextElement.PROPERTY_SAVE_LINE_BREAK_POSITIONS, false);
+				JRTextElement.PROPERTY_SAVE_LINE_BREAKS, false);
 		
 		measuredState = new TextMeasuredState(saveLineBreakOffsets);
 		measuredState.lastOffset = remainingTextStart;
