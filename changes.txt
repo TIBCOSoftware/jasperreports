@@ -5,13 +5,18 @@ JasperReports Change Log
 JasperReports 3.5.1 (2009-05-05)
 -----------------------------------
 
-- list component;
+- list component added to simplify iteration through datasets 
+without using a subreport;
 
-- Generic element PDF handlers;
+- support for generic element PDF handlers to allow customizing 
+PDF output using generic elements;
 
-- schema reference;
+- the report template structure and syntax (JRXML) are now fully 
+documented using the comments from the source XSD file to produce 
+a complete and up-to-date HTML schema reference;
 
-- Save line break positions at fill/measure time and use them in HTML
+- option to save line break positions at fill/measure time and 
+use them during HTML export in order to preserve word wrap;
 
 - minor bug fixes and improvements;
 
