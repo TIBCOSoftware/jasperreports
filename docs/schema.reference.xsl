@@ -171,7 +171,7 @@
   </tr>
   <tr>
     <td></td>
-    <td><i>Values: </i><xsl:choose><xsl:when test="xsd:simpleType/xsd:restriction/xsd:enumeration"></xsl:when><xsl:otherwise><span class="description bold">There are no predefined values.</span></xsl:otherwise></xsl:choose></td>
+    <td><i>Values: </i><xsl:choose><xsl:when test="xsd:simpleType/xsd:restriction/xsd:enumeration or @type='jr:basicEvaluationTime' or @type='jr:complexEvaluationTime'"></xsl:when><xsl:otherwise><span class="description bold">There are no predefined values.</span></xsl:otherwise></xsl:choose></td>
   </tr>
   <xsl:if test="xsd:simpleType/xsd:restriction/xsd:enumeration">
   <tr>
@@ -183,6 +183,34 @@
 	    <td></td>
 	  </tr>
 <xsl:apply-templates select="xsd:simpleType/xsd:restriction/xsd:enumeration"/>
+	</table>
+    </td>
+  </tr>
+  </xsl:if>
+  <xsl:if test="@type='jr:basicEvaluationTime'">
+  <tr>
+    <td></td>
+    <td>
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	  <tr>
+	    <td style="width: 20px;"></td>
+	    <td></td>
+	  </tr>
+<xsl:apply-templates select="../../../xsd:simpleType[@name='basicEvaluationTime']"/>
+	</table>
+    </td>
+  </tr>
+  </xsl:if>
+  <xsl:if test="@type='jr:complexEvaluationTime'">
+  <tr>
+    <td></td>
+    <td>
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	  <tr>
+	    <td style="width: 20px;"></td>
+	    <td></td>
+	  </tr>
+<xsl:apply-templates select="../../../xsd:simpleType[@name='complexEvaluationTime']"/>
 	</table>
     </td>
   </tr>
@@ -205,6 +233,45 @@
 </xsl:template>
 
 <xsl:template match="xsd:simpleType/xsd:restriction/xsd:enumeration">
+  <tr>
+    <td style="width: 20px;"></td>
+    <td>- <span class="description bold"><xsl:value-of select="@value"/></span> 
+    	<xsl:if test="xsd:annotation/xsd:documentation and xsd:annotation/xsd:documentation[.!='']"> - <span class="description"><xsl:value-of select="xsd:annotation/xsd:documentation"/></span></xsl:if>
+    </td>
+  </tr>
+</xsl:template>
+
+<xsl:template match="xsd:simpleType[@name='basicEvaluationTime']">
+  <tr>
+    <td></td>
+    <td>
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	  <tr>
+	    <td style="width: 20px;"></td>
+	    <td></td>
+	  </tr>
+<xsl:apply-templates select="xsd:restriction/xsd:enumeration"/>
+	</table>
+    </td>
+  </tr>
+</xsl:template>
+
+<xsl:template match="xsd:simpleType[@name='complexEvaluationTime']">
+  <tr>
+    <td></td>
+    <td>
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	  <tr>
+	    <td style="width: 20px;"></td>
+	    <td></td>
+	  </tr>
+<xsl:apply-templates select="xsd:restriction/xsd:enumeration"/>
+	</table>
+    </td>
+  </tr>
+</xsl:template>
+
+<xsl:template match="xsd:restriction/xsd:enumeration">
   <tr>
     <td style="width: 20px;"></td>
     <td>- <span class="description bold"><xsl:value-of select="@value"/></span> 
