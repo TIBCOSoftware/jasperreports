@@ -349,7 +349,7 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 * @return the line break offsets (possibly zero-length array), or
 	 * <code>null</code> if no line break positions were saved during the fill
 	 * 
-	 * @see JRTextElement#PROPERTY_SAVE_LINE_BREAK_POSITIONS
+	 * @see JRTextElement#PROPERTY_SAVE_LINE_BREAKS
 	 */
 	public short[] getLineBreakOffsets();
 

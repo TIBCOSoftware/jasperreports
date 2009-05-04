@@ -123,8 +123,8 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	 * 
 	 * @see JRPrintText#getLineBreakOffsets()
 	 */
-	public static final String PROPERTY_SAVE_LINE_BREAK_POSITIONS = JRProperties.PROPERTY_PREFIX 
-			+ "text.save.line.break.positions";
+	public static final String PROPERTY_SAVE_LINE_BREAKS = JRProperties.PROPERTY_PREFIX 
+			+ "text.save.line.breaks";
 	
 	/**
 	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_LEFT}.
