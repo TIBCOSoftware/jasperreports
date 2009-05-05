@@ -170,6 +170,36 @@ font-weight: bold;
 </xsl:template>
 
 
+<xsl:template match="xsd:ul">
+  <span class="element"><xsl:element name="ul"><xsl:apply-templates/></xsl:element></span>
+</xsl:template>
+
+
+<xsl:template match="xsd:li">
+  <span class="description"><xsl:element name="li"><xsl:apply-templates/></xsl:element></span>
+</xsl:template>
+
+
+<xsl:template match="xsd:dl">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr valign="top">
+  	  <td style="width: 20px;"></td>
+  	  <td><span class="element"><xsl:element name="dl"><xsl:apply-templates/></xsl:element></span></td>
+	</tr>
+  </table>
+</xsl:template>
+
+
+<xsl:template match="xsd:dd">
+  <span class="description"><xsl:element name="dd"><xsl:apply-templates/></xsl:element></span>
+</xsl:template>
+
+
+<xsl:template match="xsd:dt">
+  <span class="value"><xsl:element name="dt"><xsl:value-of select="."/></xsl:element></span>
+</xsl:template>
+
+
 <xsl:template match="xsd:complexType/xsd:attribute">
   <tr>
     <td colspan="2"></td>
