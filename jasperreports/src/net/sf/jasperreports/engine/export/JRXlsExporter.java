@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -139,6 +140,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected ExporterNature nature = null;
 
 	protected HSSFPatriarch patriarch = null;
+	
+	protected String password = null;
 
 	protected void setParameters()
 	{
@@ -147,6 +150,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 
 		nature = new JRXlsExporterNature(filter, isIgnoreGraphics, isIgnorePageMargins);
+		
+		password = 
+			getStringParameter(
+				JExcelApiExporterParameter.PASSWORD,
+				JExcelApiExporterParameter.PROPERTY_PASSWORD
+				);
+		
 	}
 
 
@@ -175,9 +185,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		patriarch = sheet.createDrawingPatriarch();
 		sheet.getPrintSetup().setLandscape(jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE);
 		short paperSize = getSuitablePaperSize(jasperPrint);
+
 		if(paperSize != -1)
 		{
 			sheet.getPrintSetup().setPaperSize(paperSize);
+		}
+		if(password != null)
+		{
+			sheet.protectSheet(password);
 		}
 	}
 
@@ -393,7 +408,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				getLoadedFont(textElement, forecolor, null),
 				gridCell
 				);
-
 		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
 	}
 
