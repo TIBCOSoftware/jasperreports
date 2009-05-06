@@ -45,7 +45,7 @@ public interface JRBand extends JRElementGroup
 	public int getHeight();
 
 	/**
-	 * Specifies if the band can be splitted between two pages.
+	 * Specifies if the band can be split between two pages.
 	 */
 	public boolean isSplitAllowed();
 
