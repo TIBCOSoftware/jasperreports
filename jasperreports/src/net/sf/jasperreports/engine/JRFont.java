@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * managing font attributes and special PDF font attributes.
  * <p>
  * Users can define report level fonts that can be referenced by name in text elements. Their default properties
- * can be overriden in each element (for example, a text element can use a report level font and just change its
+ * can be overridden in each element (for example, a text element can use a report level font and just change its
  * "underline" attribute). All the "own" methods in this class actually return the override values of font properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$

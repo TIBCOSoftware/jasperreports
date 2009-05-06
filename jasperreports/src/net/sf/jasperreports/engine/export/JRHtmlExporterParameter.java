@@ -103,15 +103,15 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 
 	/**
 	 * A string representing HTML code that will be inserted between pages of the generated report. By default, JasperReports
-	 * separates pages by two empty lines, but this behaviour can be overriden by this parameter.
+	 * separates pages by two empty lines, but this behavior can be overridden by this parameter.
 	 */
 	public static final JRHtmlExporterParameter BETWEEN_PAGES_HTML = new JRHtmlExporterParameter("Between Pages HTML");
 
 
 	/**
 	 * A string representing HTML code that will be inserted after the generated report. By default, JasperReports closes
-	 * the usual HTML tags that were opened in HTML_HEADER. If the default HTML_HEADER was overriden, it is recommended that
-	 * this parameter is overriden too, in order to ensure proper construction of HTML page.
+	 * the usual HTML tags that were opened in HTML_HEADER. If the default HTML_HEADER was overridden, it is recommended that
+	 * this parameter is overridden too, in order to ensure proper construction of HTML page.
 	 */
 	public static final JRHtmlExporterParameter HTML_FOOTER = new JRHtmlExporterParameter("HTML Footer");
 

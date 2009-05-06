@@ -51,7 +51,7 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<text><![CDATA[Text elements can also be truncated at the last character that fits the element reserved area; the behaviour is triggered by setting a property.
+				<text><![CDATA[Text elements can also be truncated at the last character that fits the element reserved area; the behavior is triggered by setting a property.
 This sentence might not fit fully in the space reserved for the element.]]></text>
 			</staticText>
 			<staticText>
