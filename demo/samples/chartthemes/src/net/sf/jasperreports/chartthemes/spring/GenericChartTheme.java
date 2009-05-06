@@ -1747,7 +1747,7 @@ public class GenericChartTheme implements ChartTheme
 
 	/**
 	 * Specifies the axis location.
-	 * It has to be overriden for child themes with another default axis location
+	 * It has to be overridden for child themes with another default axis location
 	 */
 	protected AxisLocation getChartAxisLocation(JRChartAxis chartAxis)
 	{

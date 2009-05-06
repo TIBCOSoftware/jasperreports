@@ -36,9 +36,9 @@ import net.sf.jasperreports.engine.fill.JRFillVariable;
 
 
 /**
- * Defines an abstract representation of a report scriptlet. Scriptlets are useful when a specific behaviour is needed
+ * Defines an abstract representation of a report scriptlet. Scriptlets are useful when a specific behavior is needed
  * in certain moments of the report filling process, such as report, column or group initialization. Scriptlets must implement
- * the abstract methods that define the behaviour at the specified moments.
+ * the abstract methods that define the behavior at the specified moments.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

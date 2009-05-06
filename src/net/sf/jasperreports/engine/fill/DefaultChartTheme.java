@@ -1808,7 +1808,7 @@ public class DefaultChartTheme implements ChartTheme
 	}
 	/**
 	 * Specifies the axis location.
-	 * It has to be overriden for child themes with another default axis location
+	 * It has to be overridden for child themes with another default axis location
 	 */
 	protected AxisLocation getChartAxisLocation(JRChartAxis chartAxis)
 	{
@@ -1997,7 +1997,7 @@ public class DefaultChartTheme implements ChartTheme
 		
 	/**
 	 * Specifies whether a chart legend should be visible or no by default.
-	 * It has to be overriden for child themes which don't show chart legends
+	 * It has to be overridden for child themes which don't show chart legends
 	 */
 	protected boolean isShowLegend()
 	{

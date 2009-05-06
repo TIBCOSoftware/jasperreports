@@ -76,7 +76,7 @@ public class JRTextExporterParameter extends JRExporterParameter
 
 	/**
 	 * A string representing text that will be inserted between pages of the generated report. By default, JasperReports
-	 * separates pages by two empty lines, but this behaviour can be overriden by this parameter.
+	 * separates pages by two empty lines, but this behavior can be overridden by this parameter.
 	 */
 	public static final JRTextExporterParameter BETWEEN_PAGES_TEXT = new JRTextExporterParameter("Between Pages Text");
 
