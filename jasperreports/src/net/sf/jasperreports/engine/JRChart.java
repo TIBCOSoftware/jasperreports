@@ -52,7 +52,7 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	public static final String PROPERTY_CHART_RENDER_TYPE = JRProperties.PROPERTY_PREFIX + "chart.render.type";//FIXMECHART javadoc comment
 
 	/**
-	 *
+	 * Property used to specify the chart theme name.
 	 */
 	public static final String PROPERTY_CHART_THEME = JRProperties.PROPERTY_PREFIX + "chart.theme";
 
