@@ -68,32 +68,32 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	 *
 	 */
 	protected JRFillElementGroup(
-			JRElementGroup elementGrp, 
-			JRFillObjectFactory factory
-			)
-		{
-			factory.put(elementGrp, this);
+		JRElementGroup elementGrp, 
+		JRFillObjectFactory factory
+		)
+	{
+		factory.put(elementGrp, this);
 
-			if (elementGrp != null)
+		if (elementGrp != null)
+		{
+			/*   */
+			List list = elementGrp.getChildren();
+			if (list != null && list.size() > 0)
 			{
-				/*   */
-				List list = elementGrp.getChildren();
-				if (list != null && list.size() > 0)
+				for(int i = 0; i < list.size(); i++)
 				{
-					for(int i = 0; i < list.size(); i++)
-					{
-						JRChild child = (JRChild)list.get(i);
-						child = (JRChild)factory.getVisitResult(child);
-						children.add(child);
-					}
+					JRChild child = (JRChild)list.get(i);
+					child = (JRChild)factory.getVisitResult(child);
+					children.add(child);
 				}
-		
-				/*   */
-				this.getElements();
-		
-				this.elementGroup = (JRElementGroup)factory.getVisitResult(elementGrp.getElementGroup());
 			}
+	
+			/*   */
+			this.getElements();
+	
+			this.elementGroup = (JRElementGroup)factory.getVisitResult(elementGrp.getElementGroup());
 		}
+	}
 
 	
 	protected JRFillElementGroup(JRFillElementGroup elementGrp, JRFillCloneFactory factory)
