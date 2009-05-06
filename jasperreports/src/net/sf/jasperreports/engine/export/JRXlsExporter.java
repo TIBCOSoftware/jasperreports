@@ -77,7 +77,6 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
