@@ -134,6 +134,8 @@ public abstract class JRAbstractExporter implements JRExporter
 		int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue);
 
 		Character getCharacterParameter(JRExporterParameter parameter, String property);
+		
+		Object getParameters(JRExporterParameter parameter, String property);
 	}
 	
 	protected class ParameterOverrideResolver implements ParameterResolver
@@ -240,6 +242,20 @@ public abstract class JRAbstractExporter implements JRExporter
 			{
 				return JRProperties.getCharacterProperty(
 						jasperPrint.getPropertiesMap(), property);
+			}
+		}
+		
+		public Object getParameters(JRExporterParameter parameter, 
+				String propertyPrefix)
+		{
+			if (parameters.containsKey(parameter))
+			{
+				return parameters.get(parameter);
+			}
+			else
+			{
+				return JRProperties.getProperties(
+						jasperPrint.getPropertiesMap(), propertyPrefix);
 			}
 		}
 	}
@@ -367,6 +383,21 @@ public abstract class JRAbstractExporter implements JRExporter
 				{
 					value = JRProperties.getCharacterProperty(property);
 				}
+			}
+			return value;
+		}
+		
+		public Object getParameters(JRExporterParameter parameter, String propertyPrefix)
+		{
+			Object value;
+			JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
+			if (hintsMap != null)
+			{
+				value = JRProperties.getProperties(hintsMap, propertyPrefix);
+			}
+			else
+			{
+				value = parameters.get(parameter);
 			}
 			return value;
 		}
@@ -539,6 +570,11 @@ public abstract class JRAbstractExporter implements JRExporter
 	public Character getCharacterParameter(JRExporterParameter parameter, String property)
 	{
 		return getParameterResolver().getCharacterParameter(parameter, property);
+	}
+
+	public Object getParameters(JRExporterParameter parameter, String property)
+	{
+		return getParameterResolver().getParameters(parameter, property);
 	}
 
 	

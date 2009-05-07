@@ -168,6 +168,22 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * Property prefix used in order to identify a set of properties holding sheet names, very useful when 
+	 * indicating sheet names in the jrxml template is required. These properties' values are collected in an 
+	 * ordered list, therefore it is important the order they are written in. If set, these values are considered 
+	 * as defaults for the {@link #SHEET_NAMES} export parameter.
+	 * <p/>
+	 * A property starting with this prefix can hold one or more sheet names. In order to be well parsed, 
+	 * sheet names contained in such a property's value should be separated by a slash character ("/")
+	 * <p/>
+	 * These properties are by default not set.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_NAMES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.names.";;
+
+
+	/**
 	 * Flag for decreasing font size so that texts fit into the specified cell height.
 	 */
 	public static final JRXlsAbstractExporterParameter IS_FONT_SIZE_FIX_ENABLED = new JRXlsAbstractExporterParameter("Is Font Size Fix Enabled");
