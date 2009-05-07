@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -310,7 +311,47 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				false
 				);
 
-		sheetNames = (String[])parameters.get(JRXlsAbstractExporterParameter.SHEET_NAMES);
+		Object names = getParameters(
+				JRXlsAbstractExporterParameter.SHEET_NAMES,
+				JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAMES_PREFIX
+				);
+		if(names != null && names instanceof List && !((List)names).isEmpty())
+		{
+			List sheetNamesList = (List)names;
+			int j = 0;
+			sheetNames = new String[jasperPrint.getPages().size()];
+			for(int i=0; i < sheetNamesList.size(); i++)
+			{
+				String[] currentSheetNamesArray = ((PropertySuffix)sheetNamesList.get(i)).getValue().split("/");
+				for(int k = 0; k < currentSheetNamesArray.length && j < sheetNames.length ; k++, j++)
+				{
+					sheetNames[j] = currentSheetNamesArray[k];
+				}
+			
+			}
+			while(j < sheetNames.length)
+			{
+				sheetNames[j] = "Page "+ (++j);
+			}
+		}
+		else if(names instanceof String[])
+		{
+			String[] sheetNamesArray = (String[])names;
+			sheetNames = new String[jasperPrint.getPages().size()];
+			int j = 0;
+			for(int i = 0; i < sheetNamesArray.length; i++)
+			{
+				String[] currentSheetNamesArray = sheetNamesArray[i].split("/");
+				for(int k = 0; k < currentSheetNamesArray.length && j < sheetNames.length ; k++, j++)
+				{
+					sheetNames[j] = currentSheetNamesArray[k];
+				}
+			}
+			while(j < sheetNames.length)
+			{
+				sheetNames[j] = "Page "+ (++j);
+			}
+		}
 
 		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 
