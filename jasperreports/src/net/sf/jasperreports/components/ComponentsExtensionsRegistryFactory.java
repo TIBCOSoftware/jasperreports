@@ -28,8 +28,12 @@
 package net.sf.jasperreports.components;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
+import net.sf.jasperreports.components.barbecue.BarbecueCompiler;
+import net.sf.jasperreports.components.barbecue.BarbecueDesignConverter;
+import net.sf.jasperreports.components.barbecue.BarbecueFillFactory;
 import net.sf.jasperreports.components.list.FillListFactory;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListComponentCompiler;
@@ -63,7 +67,9 @@ public class ComponentsExtensionsRegistryFactory implements
 		"http://jasperreports.sourceforge.net/xsd/components.xsd";
 	protected static final String XSD_RESOURCE = 
 		"net/sf/jasperreports/components/components.xsd";
+	
 	protected static final String LIST_COMPONENT_NAME = "list";
+	protected static final String BARBECUE_COMPONENT_NAME = "barbecue";
 	
 	private static final ExtensionsRegistry REGISTRY;
 	
@@ -80,13 +86,23 @@ public class ComponentsExtensionsRegistryFactory implements
 		parser.setDigesterConfigurer(xmlHandler);
 		bundle.setXmlParser(parser);
 		
+		HashMap componentManagers = new HashMap();
+		
 		DefaultComponentManager listManager = new DefaultComponentManager();
 		listManager.setDesignConverter(new ListDesignConverter());
 		listManager.setComponentCompiler(new ListComponentCompiler());
 		listManager.setComponentXmlWriter(xmlHandler);
 		listManager.setComponentFillFactory(new FillListFactory());
-		bundle.setComponentManagers(
-				Collections.singletonMap(LIST_COMPONENT_NAME, listManager));
+		componentManagers.put(LIST_COMPONENT_NAME, listManager);
+		
+		DefaultComponentManager barbecueManager = new DefaultComponentManager();
+		barbecueManager.setDesignConverter(new BarbecueDesignConverter());
+		barbecueManager.setComponentCompiler(new BarbecueCompiler());
+		barbecueManager.setComponentXmlWriter(xmlHandler);
+		barbecueManager.setComponentFillFactory(new BarbecueFillFactory());
+		componentManagers.put(BARBECUE_COMPONENT_NAME, barbecueManager);
+		
+		bundle.setComponentManagers(componentManagers);
 		
 		REGISTRY = new ExtensionsRegistry()
 		{

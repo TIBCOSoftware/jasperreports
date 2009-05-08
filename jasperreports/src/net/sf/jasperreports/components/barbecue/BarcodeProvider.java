@@ -25,7 +25,7 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.barcode;
+package net.sf.jasperreports.components.barbecue;
 
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.BarcodeException;
@@ -38,6 +38,6 @@ import net.sourceforge.barbecue.BarcodeException;
 public interface BarcodeProvider
 {
 
-	Barcode createBarcode(String code) throws BarcodeException;
+	Barcode createBarcode(BarcodeInfo barcodeInfo) throws BarcodeException;
 	
 }

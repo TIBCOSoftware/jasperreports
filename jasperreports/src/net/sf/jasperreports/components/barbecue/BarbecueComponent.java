@@ -25,60 +25,33 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.barcode;
+package net.sf.jasperreports.components.barbecue;
 
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Dimension2D;
-import java.awt.geom.Rectangle2D;
-
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sourceforge.barbecue.Barcode;
-import net.sourceforge.barbecue.output.OutputException;
-
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.component.Component;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BarbecueRenderer extends JRAbstractSvgRenderer
+public interface BarbecueComponent extends Component
 {
+	//TODO evaluation time, scale type, alignment
 
-	private static final long serialVersionUID = 1L;
+	String getType();
+
+	JRExpression getApplicationIdentifierExpression();
 	
-	private Barcode barcode = null;
+	//TODO use Object?
+	JRExpression getCodeExpression();
 
-	public BarbecueRenderer(Barcode barcode) 
-	{
-		this.barcode = barcode;
-	}
+	boolean isDrawText();
 
-	public Dimension2D getDimension()
-	{
-		return barcode.getSize();
-	}
-
-	public void render(Graphics2D grx, Rectangle2D rectangle) 
-	{
-		AffineTransform origTransform = grx.getTransform();
-		try
-		{
-			Dimension size = barcode.getSize();
-			grx.translate(rectangle.getX(), rectangle.getY());
-			grx.scale(rectangle.getWidth() / size.getWidth(), rectangle.getHeight() / size.getHeight());
-			barcode.draw(grx, 0, 0);
-		}
-		catch (OutputException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		finally
-		{
-			grx.setTransform(origTransform);
-		}
-	}
+	boolean isChecksumRequired();
+	
+	Integer getBarWidth();
+	
+	Integer getBarHeight();
 	
 }

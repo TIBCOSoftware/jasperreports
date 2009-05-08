@@ -29,16 +29,20 @@ package net.sf.jasperreports.components;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.components.barbecue.BarbecueComponent;
+import net.sf.jasperreports.components.barbecue.XmlBarbecueFactory;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
+import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.apache.commons.digester.Digester;
@@ -55,6 +59,12 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 
 	public void configureDigester(Digester digester)
 	{
+		addListRules(digester);
+		addBarbecueRules(digester);
+	}
+
+	protected void addListRules(Digester digester)
+	{
 		String listPattern = "*/componentElement/list";
 		digester.addObjectCreate(listPattern, StandardListComponent.class);
 		
@@ -64,11 +74,48 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addSetNext(listContentsPattern, "setContents");
 	}
 
+	protected void addBarbecueRules(Digester digester)
+	{
+		String barcodePattern = "*/componentElement/barbecue";
+		digester.addFactoryCreate(barcodePattern, XmlBarbecueFactory.class.getName());
+		digester.addSetProperties(barcodePattern,
+				//property to be ignored by this rule
+				new String[]{}, new String[0]);
+
+		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
+		digester.addFactoryCreate(barcodeExpressionPattern, 
+				JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addCallMethod(barcodeExpressionPattern, "setText", 0);
+		digester.addSetNext(barcodeExpressionPattern, "setCodeExpression", 
+				JRExpression.class.getName());
+
+		String applicationIdentifierExpressionPattern = barcodePattern 
+				+ "/applicationIdentifierExpression";
+		digester.addFactoryCreate(applicationIdentifierExpressionPattern, 
+				JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addCallMethod(applicationIdentifierExpressionPattern, "setText", 0);
+		digester.addSetNext(applicationIdentifierExpressionPattern, 
+				"setApplicationIdentifierExpression", 
+				JRExpression.class.getName());
+	}
+
 	public void writeToXml(ComponentKey componentKey, Component component,
 			JRXmlWriter reportWriter) throws IOException
 	{
-		ListComponent list = (ListComponent) component;
-		
+		if (component instanceof ListComponent)
+		{
+			ListComponent list = (ListComponent) component;
+			writeList(list, componentKey, reportWriter);
+		}
+		else if (component instanceof BarbecueComponent)
+		{
+			
+		}
+	}
+
+	protected void writeList(ListComponent list, ComponentKey componentKey,
+			JRXmlWriter reportWriter) throws IOException
+	{
 		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
 		
 		XmlNamespace namespace = new XmlNamespace(
@@ -88,4 +135,30 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.closeElement();
 	}
 
+	protected void writeBarbecue(BarbecueComponent barcode, ComponentKey componentKey,
+			JRXmlWriter reportWriter) throws IOException
+	{
+		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+		
+		XmlNamespace namespace = new XmlNamespace(
+				ComponentsExtensionsRegistryFactory.NAMESPACE, 
+				componentKey.getNamespacePrefix(),
+				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
+		
+		writer.startElement("barcode", namespace);
+		
+		writer.addAttribute("type", barcode.getType());
+		writer.addAttribute("drawText", barcode.isDrawText());
+		writer.addAttribute("requiresChecksum", barcode.isChecksumRequired());
+		writer.addAttribute("barWidth", barcode.getBarWidth());
+		writer.addAttribute("barHeight", barcode.getBarHeight());
+
+		writer.writeExpression("codeExpression", 
+				barcode.getCodeExpression(), false);
+		writer.writeExpression("applicationIdentifierExpression", 
+				barcode.getApplicationIdentifierExpression(), false);
+		
+		writer.closeElement();
+	}
+	
 }

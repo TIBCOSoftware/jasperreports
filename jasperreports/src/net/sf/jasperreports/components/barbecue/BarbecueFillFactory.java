@@ -25,45 +25,46 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.barcode;
-
-import java.io.IOException;
+package net.sf.jasperreports.components.barbecue;
 
 import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.component.ComponentKey;
-import net.sf.jasperreports.engine.component.ComponentXmlWriter;
-import net.sf.jasperreports.engine.component.ComponentsEnvironment;
-import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
-import net.sf.jasperreports.engine.util.XmlNamespace;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.component.ComponentFillFactory;
+import net.sf.jasperreports.engine.component.FillComponent;
+import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BarcodeXmlWriter implements ComponentXmlWriter
+public class BarbecueFillFactory implements ComponentFillFactory
 {
+	
+	private BarcodeProviders providers = new BarcodeProviders();
 
-	public void writeToXml(ComponentKey componentKey, Component component,
-			JRXmlWriter reportWriter) throws IOException
+	public FillComponent toFillComponent(Component component,
+			JRFillObjectFactory factory)
 	{
-		BarcodeComponent barcode = (BarcodeComponent) component;
-		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
-		
-		String namespaceURI = componentKey.getNamespace();
-		String schemaLocation = ComponentsEnvironment.
-			getComponentsBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
-		XmlNamespace namespace = new XmlNamespace(namespaceURI, componentKey.getNamespacePrefix(),
-				schemaLocation);
-		
-		writer.startElement("barcode", namespace);
-		
-		writer.addAttribute("type", barcode.getType());
-		writer.addAttribute("drawText", barcode.isDrawText(), true);
-		
-		writer.writeExpression("codeExpression", barcode.getCodeExpression(), false);
-		writer.closeElement();
+		BarbecueComponent barcode = (BarbecueComponent) component;
+		return new BarbecueFillComponent(providers, barcode);
+	}
+
+	public FillComponent cloneFillComponent(FillComponent component,
+			JRFillCloneFactory factory)
+	{
+		BarbecueFillComponent fillBarcode = (BarbecueFillComponent) component;
+		return new BarbecueFillComponent(providers, fillBarcode.getBarcode());
+	}
+
+	public BarcodeProviders getProviders()
+	{
+		return providers;
+	}
+
+	public void setProviders(BarcodeProviders providers)
+	{
+		this.providers = providers;
 	}
 
 }

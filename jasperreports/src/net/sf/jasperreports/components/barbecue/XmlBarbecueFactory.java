@@ -25,67 +25,24 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.barcode;
+package net.sf.jasperreports.components.barbecue;
 
-import java.io.Serializable;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.JRExpression;
+import org.xml.sax.Attributes;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BarcodeComponent implements Component, Serializable
+public class XmlBarbecueFactory extends JRBaseFactory
 {
 
-	private static final long serialVersionUID = 1L;
-
-	private String type;
-	private boolean drawText = true;
-	private JRExpression codeExpression;
-
-	public BarcodeComponent()
+	public Object createObject(Attributes attrs) throws Exception
 	{
+		StandardBarbecueComponent bc = new StandardBarbecueComponent();
+		return bc;
 	}
 
-	public BarcodeComponent(BarcodeComponent barcode, JRBaseObjectFactory objectFactory)
-	{
-		this.type = barcode.getType();
-		this.drawText = barcode.isDrawText();
-		this.codeExpression = objectFactory.getExpression(barcode.getCodeExpression());
-	}
-	
-	public JRExpression getCodeExpression()
-	{
-		return codeExpression;
-	}
-
-	public void setCodeExpression(JRExpression codeExpression)
-	{
-		this.codeExpression = codeExpression;
-	}
-
-	public String getType()
-	{
-		return type;
-	}
-
-	public void setType(String type)
-	{
-		this.type = type;
-	}
-
-	public boolean isDrawText()
-	{
-		return drawText;
-	}
-
-	public void setDrawText(boolean drawText)
-	{
-		this.drawText = drawText;
-	}
-	
 }

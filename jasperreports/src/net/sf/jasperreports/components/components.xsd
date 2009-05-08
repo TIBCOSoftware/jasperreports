@@ -3,7 +3,8 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://jasperreports.sourceforge.net/jasperreports/components"
 	xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"
-	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
+	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
+	elementFormDefault="qualified">
 
 	<import namespace="http://jasperreports.sourceforge.net/jasperreports" />
 
@@ -61,6 +62,62 @@
 				</choice>
 			</sequence>
 			<attribute name="height" use="required" type="unsignedInt"/>
+		</complexType>
+	</element>
+	
+	<element name="barbecue" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element name="codeExpression">
+							<complexType mixed="true"/>
+						</element>
+						<element name="applicationIdentifierExpression" minOccurs="0">
+							<complexType mixed="true"/>
+						</element>
+					</sequence>
+					<attribute name="type" use="required">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="2of7"/>
+								<enumeration value="3of9"/>
+								<enumeration value="Bookland"/>
+								<enumeration value="Codabar"/>
+								<enumeration value="Code128"/>
+								<enumeration value="Code128A"/>
+								<enumeration value="Code128B"/>
+								<enumeration value="Code128C"/>
+								<enumeration value="Code39"/>
+								<enumeration value="Code39 (Extended)"/>
+								<enumeration value="EAN128"/>
+								<enumeration value="EAN13"/>
+								<enumeration value="GlobalTradeItemNumber"/>
+								<enumeration value="Int2of5"/>
+								<enumeration value="Monarch"/>
+								<enumeration value="NW7"/>
+								<enumeration value="PDF417"/>
+								<enumeration value="PostNet"/>
+								<enumeration value="RandomWeightUPCA"/>
+								<enumeration value="PDF417"/>
+								<enumeration value="SCC14ShippingCode"/>
+								<enumeration value="ShipmentIdentificationNumber"/>
+								<enumeration value="SSCC18"/>
+								<enumeration value="Std2of5"/>
+								<enumeration value="UCC128"/>
+								<enumeration value="UPCA"/>
+								<enumeration value="USD3"/>
+								<enumeration value="USD4"/>
+								<enumeration value="USPS"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="drawText" type="boolean" use="optional" default="false"/>
+					<attribute name="checksumRequired" type="boolean" use="optional" default="false"/>
+					<attribute name="barWidth" use="optional" type="unsignedInt"/>
+					<attribute name="barHeight" use="optional" type="unsignedInt"/>
+				</extension>
+			</complexContent>
 		</complexType>
 	</element>
 

@@ -25,35 +25,92 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.barcode;
-
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
-import org.xml.sax.Attributes;
+package net.sf.jasperreports.components.barbecue;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class XmlBarcodeFactory extends JRBaseFactory
+public class BarcodeInfo
 {
 
-	public Object createObject(Attributes attrs) throws Exception
+	private String type;
+	private String code;
+	private String applicationIdentifier;
+	private boolean drawText;
+	private boolean requiresChecksum;
+	private Integer barWidth;
+	private Integer barHeight;
+
+	public String getCode()
 	{
-		BarcodeComponent bc = new BarcodeComponent();
-		
-		String type = attrs.getValue("type");
-		bc.setType(type);
-		
-		String drawTextAttr = attrs.getValue("drawText");
-		if (drawTextAttr != null)
-		{
-			boolean drawText = Boolean.valueOf(drawTextAttr).booleanValue();
-			bc.setDrawText(drawText);
-		}
-		
-		return bc;
+		return code;
 	}
 
+	public void setCode(String code)
+	{
+		this.code = code;
+	}
+
+	public boolean isDrawText()
+	{
+		return drawText;
+	}
+
+	public void setDrawText(boolean drawText)
+	{
+		this.drawText = drawText;
+	}
+
+	public Integer getBarWidth()
+	{
+		return barWidth;
+	}
+
+	public void setBarWidth(Integer barWidth)
+	{
+		this.barWidth = barWidth;
+	}
+
+	public Integer getBarHeight()
+	{
+		return barHeight;
+	}
+
+	public void setBarHeight(Integer barHeight)
+	{
+		this.barHeight = barHeight;
+	}
+
+	public String getType()
+	{
+		return type;
+	}
+
+	public void setType(String type)
+	{
+		this.type = type;
+	}
+
+	public boolean getRequiresChecksum()
+	{
+		return requiresChecksum;
+	}
+
+	public void setRequiresChecksum(boolean requiresChecksum)
+	{
+		this.requiresChecksum = requiresChecksum;
+	}
+
+	public String getApplicationIdentifier()
+	{
+		return applicationIdentifier;
+	}
+
+	public void setApplicationIdentifier(String applicationIdentifier)
+	{
+		this.applicationIdentifier = applicationIdentifier;
+	}
+	
 }
