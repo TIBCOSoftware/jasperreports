@@ -25,7 +25,7 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.barcode;
+package net.sf.jasperreports.components.barbecue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,19 +44,19 @@ import net.sourceforge.barbecue.Barcode;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BarcodeDesignConverter implements ComponentDesignConverter
+public class BarbecueDesignConverter implements ComponentDesignConverter
 {
 	
-	private static final Log log = LogFactory.getLog(BarcodeDesignConverter.class);
+	private static final Log log = LogFactory.getLog(BarbecueDesignConverter.class);
 	
-	private static final String DEFAULT_PREVIEW_CODE = "0123456789";
+	private static final String DEFAULT_PREVIEW_CODE = "01234567890";
 	
-	private BarcodeProviders providers;
+	private BarcodeProviders providers = new BarcodeProviders();
 
 	public JRPrintElement convert(ReportConverter reportConverter,
 			JRComponentElement element)
 	{
-		BarcodeComponent component = (BarcodeComponent) element.getComponent();
+		BarbecueComponent component = (BarbecueComponent) element.getComponent();
 		if (component == null || component.getType() == null)
 		{
 			return null;
@@ -64,24 +64,41 @@ public class BarcodeDesignConverter implements ComponentDesignConverter
 		
 		try
 		{
-			JRBasePrintImage image = new JRBasePrintImage(reportConverter.getDefaultStyleProvider());
+			JRBasePrintImage image = new JRBasePrintImage(
+					reportConverter.getDefaultStyleProvider());
 			reportConverter.copyBaseAttributes(element, image);
 			image.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
 			
 			String code = null;
 			if (component.getCodeExpression() != null)
 			{
-				code = JRExpressionUtil.getSimpleExpressionText(component.getCodeExpression());
+				code = JRExpressionUtil.getSimpleExpressionText(
+						component.getCodeExpression());
 			}
-			
 			if (code == null)
 			{
+				//TODO custom default code
 				code = DEFAULT_PREVIEW_CODE;
 			}
 			
-			Barcode barcode = providers.createBarcode(component.getType(), code);
-			barcode.setDrawingText(component.isDrawText());
+			String applicationIdentifier = null;
+			if (component.getApplicationIdentifierExpression() != null)
+			{
+				applicationIdentifier = JRExpressionUtil.getSimpleExpressionText(
+						component.getApplicationIdentifierExpression());
+			}
+			//TODO custom default app id
 			
+			BarcodeInfo barcodeInfo = new BarcodeInfo();
+			barcodeInfo.setType(component.getType());
+			barcodeInfo.setCode(code);
+			barcodeInfo.setApplicationIdentifier(applicationIdentifier);
+			barcodeInfo.setDrawText(component.isDrawText());
+			barcodeInfo.setRequiresChecksum(component.isChecksumRequired());
+			barcodeInfo.setBarWidth(component.getBarWidth());
+			barcodeInfo.setBarHeight(component.getBarHeight());
+			
+			Barcode barcode = providers.createBarcode(barcodeInfo);
 			image.setRenderer(new BarbecueRenderer(barcode));
 			return image;
 		}

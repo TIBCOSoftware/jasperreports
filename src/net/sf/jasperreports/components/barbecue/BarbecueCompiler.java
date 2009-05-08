@@ -25,7 +25,7 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.barcode;
+package net.sf.jasperreports.components.barbecue;
 
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.JRExpression;
@@ -39,28 +39,35 @@ import net.sf.jasperreports.engine.design.JRVerifier;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BarcodeCompiler implements ComponentCompiler
+public class BarbecueCompiler implements ComponentCompiler
 {
 
 	private BarcodeProviders providers;
 	
 	public void collectExpressions(Component component, JRExpressionCollector collector)
 	{
-		BarcodeComponent barcode = (BarcodeComponent) component;
+		BarbecueComponent barcode = (BarbecueComponent) component;
 		collector.addExpression(barcode.getCodeExpression());
+		collector.addExpression(barcode.getApplicationIdentifierExpression());
 	}
 
 	public Component toCompiledComponent(Component component,
 			JRBaseObjectFactory baseFactory)
 	{
-		BarcodeComponent barcode = (BarcodeComponent) component;
-		BarcodeComponent compiledBarcode = new BarcodeComponent(barcode, baseFactory);
+		BarbecueComponent barcode = (BarbecueComponent) component;
+		StandardBarbecueComponent compiledBarcode = new StandardBarbecueComponent(barcode, baseFactory);
 		return compiledBarcode;
 	}
 
 	public void verify(Component component, JRVerifier verifier)
 	{
-		BarcodeComponent barcode = (BarcodeComponent) component;
+		BarbecueComponent barcode = (BarbecueComponent) component;
+		
+		String type = barcode.getType();
+		if (type == null)
+		{
+			verifier.addBrokenRule("No barcode type set", barcode);
+		}
 		
 		JRExpression codeExpression = barcode.getCodeExpression();
 		if (codeExpression == null)
@@ -82,14 +89,22 @@ public class BarcodeCompiler implements ComponentCompiler
 			}
 		}
 		
-		String type = barcode.getType();
-		if (type == null)
+		JRExpression applicationIdentifierExpression = 
+			barcode.getApplicationIdentifierExpression();
+		if (applicationIdentifierExpression != null)
 		{
-			verifier.addBrokenRule("No barcode type set", barcode);
-		}
-		else if (!providers.isTypeSupported(type))
-		{
-			verifier.addBrokenRule("Barcode type " + type + " not supported", barcode);
+			String valueClass = applicationIdentifierExpression.getValueClassName();
+			if (valueClass == null)
+			{
+				verifier.addBrokenRule("Barcode application identifier expression value class not set", 
+						applicationIdentifierExpression);
+			}
+			else if (!"java.lang.String".equals(valueClass))
+			{
+				verifier.addBrokenRule("Class " + valueClass 
+						+ " not supported for barcode application identifier expression. Use java.lang.String instead.",
+						applicationIdentifierExpression);
+			}
 		}
 	}
 

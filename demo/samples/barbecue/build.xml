@@ -1,6 +1,6 @@
 <project name="barbecue" default="javac" basedir=".">
 
-	<description>Shows how barcodes could be included in reports using specilized barcode APIs.</description>
+	<description>Shows how barcodes could be included in reports using the Barbecue component.</description>
 
 	<property name="class.name" value="BarbecueApp" />
 	<property name="file.name" value="${basedir}/build/reports/BarbecueReport" />
@@ -10,9 +10,6 @@
 	
 	<path id="classpath">
 		<pathelement location="./build/classes"/>
-		<fileset dir="./lib">
-			<include name="**/*.jar"/>
-		</fileset>
 		<pathelement location="${classes.dir}" />
 		<pathelement location="${fonts.dir}" />
 		<fileset dir="${lib.dir}">

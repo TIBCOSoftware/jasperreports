@@ -25,12 +25,16 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.barcode;
+package net.sf.jasperreports.components.barbecue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
@@ -42,20 +46,24 @@ import net.sourceforge.barbecue.Barcode;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class FillBarcode extends BaseFillComponent
+public class BarbecueFillComponent extends BaseFillComponent
 {
 
 	private final BarcodeProviders providers;
-	private final BarcodeComponent barcodeComponent;
-	private String code;
+	private final BarbecueComponent barcodeComponent;
 	
-	public FillBarcode(BarcodeProviders providers, BarcodeComponent barcode)
+	private final Map printTemplates = new HashMap();
+	
+	private String code;
+	private String applicationIdentifier;
+	
+	public BarbecueFillComponent(BarcodeProviders providers, BarbecueComponent barcode)
 	{
 		this.providers = providers;
 		this.barcodeComponent = barcode;
 	}
 	
-	protected BarcodeComponent getBarcode()
+	protected BarbecueComponent getBarcode()
 	{
 		return barcodeComponent;
 	}
@@ -64,6 +72,9 @@ public class FillBarcode extends BaseFillComponent
 	{
 		code = (String) fillContext.evaluate(
 				barcodeComponent.getCodeExpression(), evaluation);
+		
+		applicationIdentifier = (String) fillContext.evaluate(
+				barcodeComponent.getApplicationIdentifierExpression(), evaluation);
 	}
 
 	public FillPrepareResult prepare(int availableHeight)
@@ -75,18 +86,24 @@ public class FillBarcode extends BaseFillComponent
 	public JRPrintElement fill()
 	{
 		String type = barcodeComponent.getType();
-		Barcode barcode = providers.createBarcode(type, code);
-		barcode.setDrawingText(barcodeComponent.isDrawText());
+		
+		BarcodeInfo barcodeInfo = new BarcodeInfo();
+		barcodeInfo.setType(type);
+		barcodeInfo.setCode(code);
+		barcodeInfo.setApplicationIdentifier(applicationIdentifier);
+		barcodeInfo.setDrawText(barcodeComponent.isDrawText());
+		barcodeInfo.setRequiresChecksum(barcodeComponent.isChecksumRequired());
+		barcodeInfo.setBarWidth(barcodeComponent.getBarWidth());
+		barcodeInfo.setBarHeight(barcodeComponent.getBarHeight());
+		
+		Barcode barcode = providers.createBarcode(barcodeInfo);
 		
 		BarbecueRenderer renderer = new BarbecueRenderer(barcode);
 		
-		//TODO cache template objects
-		JRComponentElement element = fillContext.getComponentElement();
-		JRTemplateImage templateImage = new JRTemplateImage(fillContext.getElementOrigin(), 
-				fillContext.getDefaultStyleProvider());
-		templateImage.setStyle(fillContext.getElementStyle());
+		JRTemplateImage templateImage = getTemplateImage();
 		
 		JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage);
+		JRComponentElement element = fillContext.getComponentElement();
 		image.setX(element.getX());
 		image.setY(fillContext.getElementPrintY());
 		image.setWidth(element.getWidth());
@@ -95,6 +112,22 @@ public class FillBarcode extends BaseFillComponent
 		image.setRenderer(renderer);
 		
 		return image;
+	}
+
+	protected JRTemplateImage getTemplateImage()
+	{
+		JRStyle elementStyle = fillContext.getElementStyle();
+		JRTemplateImage templateImage = (JRTemplateImage) printTemplates.get(elementStyle);
+		if (templateImage == null)
+		{
+			templateImage = new JRTemplateImage(
+					fillContext.getElementOrigin(), 
+					fillContext.getDefaultStyleProvider());
+			templateImage.setStyle(elementStyle);
+			
+			printTemplates.put(elementStyle, templateImage);
+		}
+		return templateImage;
 	}
 
 }

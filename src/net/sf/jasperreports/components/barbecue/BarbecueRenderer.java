@@ -25,31 +25,60 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.barcode;
+package net.sf.jasperreports.components.barbecue;
 
-import org.apache.commons.digester.Digester;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
-import net.sf.jasperreports.engine.xml.JRExpressionFactory;
+import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.output.OutputException;
+
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BarcodeDigesterRules implements XmlDigesterConfigurer
+public class BarbecueRenderer extends JRAbstractSvgRenderer
 {
 
-	public void configureDigester(Digester digester)
-	{
-		String barcodePattern = "*/componentElement/barcode";
-		digester.addFactoryCreate(barcodePattern, XmlBarcodeFactory.class.getName());
+	private static final long serialVersionUID = 1L;
+	
+	private Barcode barcode = null;
 
-		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
-		digester.addFactoryCreate(barcodeExpressionPattern, JRExpressionFactory.StringExpressionFactory.class.getName());
-		digester.addCallMethod(barcodeExpressionPattern, "setText", 0);
-		digester.addSetNext(barcodeExpressionPattern, "setCodeExpression", JRExpression.class.getName());
+	public BarbecueRenderer(Barcode barcode) 
+	{
+		this.barcode = barcode;
 	}
 
+	public Dimension2D getDimension()
+	{
+		return barcode.getSize();
+	}
+
+	public void render(Graphics2D grx, Rectangle2D rectangle) 
+	{
+		AffineTransform origTransform = grx.getTransform();
+		try
+		{
+			Dimension size = barcode.getSize();
+			grx.translate(rectangle.getX(), rectangle.getY());
+			grx.scale(rectangle.getWidth() / size.getWidth(), rectangle.getHeight() / size.getHeight());
+			barcode.draw(grx, 0, 0);
+		}
+		catch (OutputException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			grx.setTransform(origTransform);
+		}
+	}
+	
 }

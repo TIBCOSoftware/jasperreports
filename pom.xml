@@ -342,5 +342,6 @@
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
+		<!-- TODO barbecue -->
 	</dependencies>
 </project>
