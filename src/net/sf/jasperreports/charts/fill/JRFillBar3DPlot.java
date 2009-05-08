@@ -29,7 +29,6 @@ package net.sf.jasperreports.charts.fill;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
