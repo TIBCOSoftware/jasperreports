@@ -29,12 +29,34 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.engine.util.JRProperties;
+
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
 public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContainer, JRCloneable
 {
+	
+	/**
+	 * A flag the determines whether the style of an element is evaluated at
+	 * the element evaluation time, or at the time the band on which the element
+	 * is placed is rendered.
+	 * 
+	 * <p>
+	 * This applies to report elements that can have delayed evaluations times
+	 * (such as text fields and images).  When this flag is set to
+	 * <code>true</code>, conditional style expressions of the style that is
+	 * associated with the element are evaluated at the moment the element is
+	 * set to evaluate, and the resulting style to the generated print element.
+	 * 
+	 * <p>
+	 * By default, this flag is set to <code>false</code>.  The property can be
+	 * set globally, at report level and at element level.
+	 */
+	public static final String PROPERTY_EVALUATION_TIME_ENABLED = 
+		JRProperties.PROPERTY_PREFIX + "style.evaluation.time.enabled";
+	
 	/**
 	 * Gets the style unique name.
 	 */

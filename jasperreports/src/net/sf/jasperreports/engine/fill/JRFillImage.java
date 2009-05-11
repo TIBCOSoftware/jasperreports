@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
@@ -849,26 +848,24 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	protected JRTemplateImage getJRTemplateImage()
 	{
-		JRStyle style = getStyle();
-		JRTemplateImage template = (JRTemplateImage) getTemplate(style);
-		if (template == null)
+		return (JRTemplateImage) getElementTemplate();
+	}
+
+	protected JRTemplateElement createElementTemplate()
+	{
+		JRTemplateImage template = 
+			new JRTemplateImage(
+				getElementOrigin(), 
+				filler.getJasperPrint().getDefaultStyleProvider(), 
+				this
+				);
+		
+		if (getScaleImage() == JRImage.SCALE_IMAGE_REAL_HEIGHT
+				|| getScaleImage() == JRImage.SCALE_IMAGE_REAL_SIZE)
 		{
-			template = 
-				new JRTemplateImage(
-					getElementOrigin(), 
-					filler.getJasperPrint().getDefaultStyleProvider(), 
-					this
-					);
-			
-			if (getScaleImage() == JRImage.SCALE_IMAGE_REAL_HEIGHT
-					|| getScaleImage() == JRImage.SCALE_IMAGE_REAL_SIZE)
-			{
-				template.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
-			}
-			
-			transferProperties(template);
-			registerTemplate(style, template);
+			template.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
 		}
+		
 		return template;
 	}
 
@@ -1315,6 +1312,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	
 	protected void collectDelayedEvaluations()
 	{
+		super.collectDelayedEvaluations();
+		
 		collectDelayedEvaluations(getExpression());
 		collectDelayedEvaluations(getAnchorNameExpression());
 		collectDelayedEvaluations(getHyperlinkReferenceExpression());

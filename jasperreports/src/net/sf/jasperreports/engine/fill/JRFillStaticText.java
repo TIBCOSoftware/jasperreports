@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStaticText;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitor;
 
 
@@ -89,20 +88,17 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	 */
 	protected JRTemplateText getJRTemplateText()
 	{
-		JRStyle style = getStyle();
-		JRTemplateText template = (JRTemplateText) getTemplate(style);
-		if (template == null)
-		{
-			template = 
-				new JRTemplateText(
-					getElementOrigin(), 
-					filler.getJasperPrint().getDefaultStyleProvider(), 
-					this
-					);
-			transferProperties(template);
-			registerTemplate(style, template);
-		}
-		return template;
+		return (JRTemplateText) getElementTemplate();
+	}
+
+
+	protected JRTemplateElement createElementTemplate()
+	{
+		return new JRTemplateText(
+				getElementOrigin(), 
+				filler.getJasperPrint().getDefaultStyleProvider(), 
+				this
+				);
 	}
 
 

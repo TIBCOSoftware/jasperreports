@@ -98,7 +98,6 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -1204,16 +1203,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected JRTemplateImage getJRTemplateImage()
 	{
-		JRStyle style = getStyle();
-		JRTemplateImage template = (JRTemplateImage) getTemplate(style);
-		if (template == null)
-		{
-			template = new JRTemplateImage(getElementOrigin(), 
-					filler.getJasperPrint().getDefaultStyleProvider(), this);
-			transferProperties(template);
-			registerTemplate(style, template);
-		}
-		return template;
+		return (JRTemplateImage) getElementTemplate();
+	}
+
+	protected JRTemplateElement createElementTemplate()
+	{
+		return new JRTemplateImage(getElementOrigin(), 
+				filler.getJasperPrint().getDefaultStyleProvider(), this);
 	}
 
 

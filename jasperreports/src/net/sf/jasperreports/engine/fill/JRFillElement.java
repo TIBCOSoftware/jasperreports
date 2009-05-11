@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
@@ -121,6 +122,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected JRFillElementContainer conditionalStylesContainer;
 	
 	protected JRStyle initStyle;
+	
+	protected JRStyle currentStyle;
 	
 	/**
 	 * Flag indicating whether the element is shrinkable.
@@ -725,7 +728,22 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	protected abstract JRPrintElement fill() throws JRException;
 
+	protected JRTemplateElement getElementTemplate()
+	{
+		JRStyle style = getStyle();
+		JRTemplateElement template = (JRTemplateElement) getTemplate(style);
+		if (template == null)
+		{
+			template = createElementTemplate();
+			transferProperties(template);
+			
+			registerTemplate(style, template);
+		}
+		return template;
+	}
 
+	protected abstract JRTemplateElement createElementTemplate();
+	
 	/**
 	 *
 	 */
@@ -820,6 +838,42 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 * @param evaluation the evaluation type
 	 */
 	protected abstract void resolveElement (JRPrintElement element, byte evaluation) throws JRException;
+	
+	protected void performDelayedEvaluation(JRPrintElement element, byte evaluation) 
+			throws JRException
+	{
+		if (isDelayedStyleEvaluation())
+		{
+			JRStyle elementStyle = initStyle;
+			if (elementStyle == null)
+			{
+				elementStyle = filler.getDefaultStyle();
+			}
+			
+			if (elementStyle != null)
+			{
+				JRStyle evaluatedStyle = conditionalStylesContainer.evaluateConditionalStyle(
+						elementStyle, evaluation);
+				// if the evaluated style differs from the existing style
+				if (evaluatedStyle != element.getStyle())
+				{
+					// set the evaluated style as current style
+					this.currentStyle = evaluatedStyle;
+					
+					// get/create an element template that corresponds to the
+					// current style
+					JRTemplateElement newTemplate = getElementTemplate();
+					((JRTemplatePrintElement) element).updateElementTemplate(
+							newTemplate);
+				}
+			}
+		}
+		
+		resolveElement(element, evaluation);
+		
+		// reset the current style
+		this.currentStyle = null;
+	}
 
 
 	/**
@@ -901,7 +955,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				delayedEvaluate((JRRecordedValuesPrintElement) element, evaluationTime, evaluation);
 				break;
 			default:
-				resolveElement(element, evaluation);
+				performDelayedEvaluation(element, evaluation);
 				break;
 		}
 	}
@@ -931,8 +985,47 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	protected void collectDelayedEvaluations()
 	{
-		//to be overridden by elements that support "Auto" evaluation
+		if (isDelayedStyleEvaluation())
+		{
+			collectStyleDelayedEvaluations();
+		}
 	}
+
+	protected void collectStyleDelayedEvaluations()
+	{
+		JRStyle elementStyle = initStyle;
+		if (elementStyle == null)
+		{
+			elementStyle = filler.getDefaultStyle();
+		}
+		
+		if (elementStyle != null)
+		{
+			JRStyle style = elementStyle;
+			while (style != null)
+			{
+				collectDelayedEvaluations(style);
+				
+				// proceed to the parent style
+				style = style.getStyle();
+			}
+		}
+	}
+
+	protected void collectDelayedEvaluations(JRStyle style)
+	{
+		JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
+		// collect delayed evaluations from conditional style expressions
+		if (conditionalStyles != null && conditionalStyles.length > 0)
+		{
+			for (int i = 0; i < conditionalStyles.length; i++)
+			{
+				collectDelayedEvaluations(
+						conditionalStyles[i].getConditionExpression());
+			}
+		}
+	}
+
 
 	protected void collectDelayedEvaluations(JRExpression expression)
 	{
@@ -1065,7 +1158,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		if (recordedValues.finishedEvaluations())
 		{
 			overwriteWithRecordedValues(recordedValues, evaluation);
-			resolveElement(printElement, evaluation);
+			performDelayedEvaluation(printElement, evaluation);
 			restoreValues(recordedValues, evaluation);
 			printElement.deleteRecordedValues();
 		}
@@ -1140,6 +1233,12 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	public JRStyle getStyle()
 	{
+		// the current style overrides other style objects
+		if (currentStyle != null)
+		{
+			return currentStyle;
+		}
+		
 		JRStyle crtStyle = initStyle;
 		
 		boolean isUsingDefaultStyle = false;
@@ -1346,5 +1445,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			elementOrigin = originProvider.getOrigin();
 		}
 		return elementOrigin;
+	}
+	
+	protected boolean isDelayedStyleEvaluation()
+	{
+		return JRProperties.getBooleanProperty(this, 
+				JRStyle.PROPERTY_EVALUATION_TIME_ENABLED, false);
 	}
 }

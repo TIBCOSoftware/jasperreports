@@ -52,7 +52,6 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
@@ -223,16 +222,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 */
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
-		JRStyle style = getStyle();
-		JRTemplateRectangle template = (JRTemplateRectangle) getTemplate(style);
-		if (template == null)
-		{
-			template = new JRTemplateRectangle(getElementOrigin(), 
-					filler.getJasperPrint().getDefaultStyleProvider(), this);
-			transferProperties(template);
-			registerTemplate(style, template);
-		}
-		return template;
+		return (JRTemplateRectangle) getElementTemplate();
+	}
+
+
+	protected JRTemplateElement createElementTemplate()
+	{
+		return new JRTemplateRectangle(getElementOrigin(), 
+				filler.getJasperPrint().getDefaultStyleProvider(), this);
 	}
 
 

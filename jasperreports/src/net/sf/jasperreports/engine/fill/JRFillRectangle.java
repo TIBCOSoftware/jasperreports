@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRectangle;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -96,20 +95,17 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	 */
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
-		JRStyle style = getStyle();
-		JRTemplateRectangle template = (JRTemplateRectangle) getTemplate(style);
-		if (template == null)
-		{
-			template = 
-				new JRTemplateRectangle(
-					getElementOrigin(), 
-					filler.getJasperPrint().getDefaultStyleProvider(), 
-					this
-					);
-			transferProperties(template);
-			registerTemplate(style, template);
-		}
-		return template;
+		return (JRTemplateRectangle) getElementTemplate();
+	}
+
+
+	protected JRTemplateElement createElementTemplate()
+	{
+		return new JRTemplateRectangle(
+				getElementOrigin(), 
+				filler.getJasperPrint().getDefaultStyleProvider(), 
+				this
+				);
 	}
 
 
