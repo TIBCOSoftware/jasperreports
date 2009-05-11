@@ -74,7 +74,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -519,35 +518,31 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
-		JRStyle style = getStyle();
-		JRTemplateRectangle template = (JRTemplateRectangle) getTemplate(style);
-		if (template == null)
-		{
-			JRDesignRectangle rectangle = new JRDesignRectangle();
+		return (JRTemplateRectangle) getElementTemplate();
+	}
 
-			rectangle.setKey(getKey());
-			rectangle.setPositionType(getPositionType());
-			// rectangle.setPrintRepeatedValues(isPrintRepeatedValues());
-			rectangle.setMode(getMode());
-			rectangle.setX(getX());
-			rectangle.setY(getY());
-			rectangle.setWidth(getWidth());
-			rectangle.setHeight(getHeight());
-			rectangle.setRemoveLineWhenBlank(isRemoveLineWhenBlank());
-			rectangle.setPrintInFirstWholeBand(isPrintInFirstWholeBand());
-			rectangle.setPrintWhenDetailOverflows(isPrintWhenDetailOverflows());
-			rectangle.setPrintWhenGroupChanges(getPrintWhenGroupChanges());
-			rectangle.setForecolor(getForecolor());
-			rectangle.setBackcolor(getBackcolor());
-			rectangle.getLinePen().setLineWidth(0f);
+	protected JRTemplateElement createElementTemplate()
+	{
+		JRDesignRectangle rectangle = new JRDesignRectangle();
 
-			template = new JRTemplateRectangle(getElementOrigin(), 
-					filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
-			
-			registerTemplate(style, template);
-		}
+		rectangle.setKey(getKey());
+		rectangle.setPositionType(getPositionType());
+		// rectangle.setPrintRepeatedValues(isPrintRepeatedValues());
+		rectangle.setMode(getMode());
+		rectangle.setX(getX());
+		rectangle.setY(getY());
+		rectangle.setWidth(getWidth());
+		rectangle.setHeight(getHeight());
+		rectangle.setRemoveLineWhenBlank(isRemoveLineWhenBlank());
+		rectangle.setPrintInFirstWholeBand(isPrintInFirstWholeBand());
+		rectangle.setPrintWhenDetailOverflows(isPrintWhenDetailOverflows());
+		rectangle.setPrintWhenGroupChanges(getPrintWhenGroupChanges());
+		rectangle.setForecolor(getForecolor());
+		rectangle.setBackcolor(getBackcolor());
+		rectangle.getLinePen().setLineWidth(0f);
 
-		return template;
+		return new JRTemplateRectangle(getElementOrigin(), 
+				filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
 	}
 
 	protected void rewind()

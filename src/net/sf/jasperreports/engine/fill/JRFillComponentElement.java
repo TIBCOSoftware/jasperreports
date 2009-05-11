@@ -148,10 +148,16 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		return fillComponent.fill();
 	}
 
+	protected JRTemplateElement createElementTemplate()
+	{
+		// not called
+		return null;
+	}
+
 	protected void resolveElement (JRPrintElement element, byte evaluation, 
 			JREvaluationTime evaluationTime) throws JRException
 	{
-		resolveElement(element, evaluation);
+		performDelayedEvaluation(element, evaluation);
 	}
 	
 	protected void resolveElement(JRPrintElement element, byte evaluation)

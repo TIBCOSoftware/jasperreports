@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.JRGenericElementParameter;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitor;
 
 /**
@@ -88,6 +87,8 @@ public class JRFillGenericElement extends JRFillElement implements
 	
 	protected void collectDelayedEvaluations()
 	{
+		super.collectDelayedEvaluations();
+		
 		for (int i = 0; i < parameters.length; i++)
 		{
 			JRGenericElementParameter parameter = parameters[i];
@@ -195,21 +196,15 @@ public class JRFillGenericElement extends JRFillElement implements
 	
 	protected JRTemplateGenericElement getTemplate()
 	{
-		JRStyle style = getStyle();
-		JRTemplateGenericElement template = (JRTemplateGenericElement) getTemplate(style);
-		if (template == null)
-		{
-			template = 
-				new JRTemplateGenericElement(
-					getElementOrigin(), 
-					filler.getJasperPrint().getDefaultStyleProvider(), 
-					this
-					);
-			
-			transferProperties(template);
-			registerTemplate(style, template);
-		}
-		return template;
+		return (JRTemplateGenericElement) getElementTemplate();
+	}
+
+	protected JRTemplateElement createElementTemplate()
+	{
+		return new JRTemplateGenericElement(
+				getElementOrigin(), 
+				filler.getJasperPrint().getDefaultStyleProvider(), 
+				this);
 	}
 
 	protected void copy(JRGenericPrintElement printElement)

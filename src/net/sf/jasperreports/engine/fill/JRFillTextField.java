@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.util.JRDataUtils;
@@ -283,22 +282,19 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	protected JRTemplateText getJRTemplateText()
 	{
-		JRStyle style = getStyle();
-		JRTemplateText template = (JRTemplateText) getTemplate(style);
-		if (template == null)
-		{
-			template = 
-				new JRTemplateText(
-					getElementOrigin(), 
-					filler.getJasperPrint().getDefaultStyleProvider(), 
-					this
-					);
-			transferProperties(template);
-			setTemplatePattern(template);
-			
-			registerTemplate(style, template);
-		}
-		
+		return (JRTemplateText) getElementTemplate();
+	}
+
+
+	protected JRTemplateElement createElementTemplate()
+	{
+		JRTemplateText template = 
+			new JRTemplateText(
+				getElementOrigin(), 
+				filler.getJasperPrint().getDefaultStyleProvider(), 
+				this
+				);
+		setTemplatePattern(template);
 		return template;
 	}
 
@@ -789,6 +785,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	
 	protected void collectDelayedEvaluations()
 	{
+		super.collectDelayedEvaluations();
+		
 		collectDelayedEvaluations(getExpression());
 		collectDelayedEvaluations(getAnchorNameExpression());
 		collectDelayedEvaluations(getHyperlinkReferenceExpression());

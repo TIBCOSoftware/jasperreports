@@ -79,6 +79,16 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	}
 
 	/**
+	 * Updates the template used by this element.
+	 * 
+	 * @param elementTemplate the new element template
+	 */
+	protected void updateElementTemplate(JRTemplateElement elementTemplate)
+	{
+		this.template = elementTemplate;
+	}
+	
+	/**
 	 *
 	 */
 	public JRDefaultStyleProvider getDefaultStyleProvider()

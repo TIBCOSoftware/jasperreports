@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitor;
 
 
@@ -67,20 +66,15 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	 */
 	protected JRTemplateEllipse getJRTemplateEllipse()
 	{
-		JRStyle style = getStyle();
-		JRTemplateEllipse template = (JRTemplateEllipse) getTemplate(style);
-		if (template == null)
-		{
-			template = 
-				new JRTemplateEllipse(
-					getElementOrigin(), 
-					filler.getJasperPrint().getDefaultStyleProvider(), 
-					this
-					);
-			transferProperties(template);
-			registerTemplate(style, template);
-		}
-		return template;
+		return (JRTemplateEllipse) getElementTemplate();
+	}
+
+	protected JRTemplateElement createElementTemplate()
+	{
+		return new JRTemplateEllipse(
+				getElementOrigin(), 
+				filler.getJasperPrint().getDefaultStyleProvider(), 
+				this);
 	}
 
 

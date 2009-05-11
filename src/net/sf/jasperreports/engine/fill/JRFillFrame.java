@@ -320,11 +320,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		JRTemplateFrame boxTemplate = (JRTemplateFrame) templatesMap.get(style);
 		if (boxTemplate == null)
 		{
-			boxTemplate = 
-				new JRTemplateFrame(
-					getElementOrigin(), 
-					filler.getJasperPrint().getDefaultStyleProvider(), 
-					this);
+			boxTemplate = createFrameTemplate();
 			transferProperties(boxTemplate);
 			if (first)
 			{
@@ -352,6 +348,17 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		}
 		
 		return boxTemplate;
+	}
+
+	protected JRTemplateFrame createFrameTemplate()
+	{
+		return new JRTemplateFrame(getElementOrigin(), 
+				filler.getJasperPrint().getDefaultStyleProvider(), this);
+	}
+
+	protected JRTemplateElement createElementTemplate()
+	{
+		return createFrameTemplate();
 	}
 
 	protected void resolveElement(JRPrintElement element, byte evaluation)

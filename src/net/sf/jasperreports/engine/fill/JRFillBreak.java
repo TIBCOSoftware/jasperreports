@@ -130,6 +130,12 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 //		return printLine;
 	}
 
+	protected JRTemplateElement createElementTemplate()
+	{
+		// not called
+		return null;
+	}
+
 
 	/**
 	 *
