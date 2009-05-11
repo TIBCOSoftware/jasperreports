@@ -173,7 +173,7 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * ordered list, therefore it is important the order they are written in. If set, these values are considered 
 	 * as defaults for the {@link #SHEET_NAMES} export parameter.
 	 * <p/>
-	 * A property starting with this prefix can hold one or more sheet names. In order to be well parsed, 
+	 * A property starting with this prefix can hold one or many sheet names. In order to be well parsed, 
 	 * sheet names contained in such a property's value should be separated by a slash character ("/")
 	 * <p/>
 	 * These properties are by default not set.
