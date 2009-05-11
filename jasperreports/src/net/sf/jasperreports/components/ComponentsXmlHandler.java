@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.apache.commons.digester.Digester;
@@ -79,8 +80,9 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		String barcodePattern = "*/componentElement/barbecue";
 		digester.addFactoryCreate(barcodePattern, XmlBarbecueFactory.class.getName());
 		digester.addSetProperties(barcodePattern,
-				//property to be ignored by this rule
-				new String[]{}, new String[0]);
+				//properties to be ignored by this rule
+				new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime}, 
+				new String[0]);
 
 		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
 		digester.addFactoryCreate(barcodeExpressionPattern, 
@@ -109,7 +111,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		}
 		else if (component instanceof BarbecueComponent)
 		{
-			
+			BarbecueComponent barcode = (BarbecueComponent) component;
+			writeBarbecue(barcode, componentKey, reportWriter);
 		}
 	}
 
@@ -145,13 +148,20 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				componentKey.getNamespacePrefix(),
 				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
 		
-		writer.startElement("barcode", namespace);
+		writer.startElement("barbecue", namespace);
 		
 		writer.addAttribute("type", barcode.getType());
 		writer.addAttribute("drawText", barcode.isDrawText());
-		writer.addAttribute("requiresChecksum", barcode.isChecksumRequired());
+		writer.addAttribute("checksumRequired", barcode.isChecksumRequired());
 		writer.addAttribute("barWidth", barcode.getBarWidth());
 		writer.addAttribute("barHeight", barcode.getBarHeight());
+		if (barcode.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW) {
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
+					barcode.getEvaluationTime(),
+					JRXmlConstants.getEvaluationTimeMap());
+		}
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
+				barcode.getEvaluationGroup());
 
 		writer.writeExpression("codeExpression", 
 				barcode.getCodeExpression(), false);

@@ -28,6 +28,7 @@
 package net.sf.jasperreports.components.barbecue;
 
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -42,6 +43,14 @@ public class XmlBarbecueFactory extends JRBaseFactory
 	public Object createObject(Attributes attrs) throws Exception
 	{
 		StandardBarbecueComponent bc = new StandardBarbecueComponent();
+		
+		String evaluationAttr = attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime);
+		if (evaluationAttr != null)
+		{
+			Byte evaluationTime = (Byte) JRXmlConstants.getEvaluationTimeMap().get(evaluationAttr);
+			bc.setEvaluationTime(evaluationTime.byteValue());
+		}
+		
 		return bc;
 	}
 

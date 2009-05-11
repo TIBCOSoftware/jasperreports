@@ -51,6 +51,8 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	public static final String PROPERTY_CHECKSUM_REQUIRED = "checksumRequired";
 	public static final String PROPERTY_BAR_WIDTH = "barWidth";
 	public static final String PROPERTY_BAR_HEIGTH = "barHeight";
+	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
+	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 
 	private String type;
 	private JRExpression codeExpression;
@@ -59,6 +61,9 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	private boolean checksumRequired;
 	private Integer barWidth;
 	private Integer barHeight;
+	
+	private byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
+	private String evaluationGroup;
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
@@ -77,6 +82,8 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 		this.checksumRequired = barcode.isChecksumRequired();
 		this.barWidth = barcode.getBarWidth();
 		this.barHeight = barcode.getBarHeight();
+		this.evaluationTime = barcode.getEvaluationTime();
+		this.evaluationGroup = barcode.getEvaluationGroup();
 	}
 	
 	public JRExpression getCodeExpression()
@@ -171,6 +178,32 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 				old, this.drawText);
 	}
 	
+	public byte getEvaluationTime()
+	{
+		return evaluationTime;
+	}
+
+	public void setEvaluationTime(byte evaluationTime)
+	{
+		byte old = this.evaluationTime;
+		this.evaluationTime = evaluationTime;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, 
+				old, this.evaluationTime);
+	}
+
+	public String getEvaluationGroup()
+	{
+		return evaluationGroup;
+	}
+
+	public void setEvaluationGroup(String evaluationGroup)
+	{
+		Object old = this.evaluationGroup;
+		this.evaluationGroup = evaluationGroup;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP, 
+				old, this.evaluationGroup);
+	}
+	
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -183,5 +216,4 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 		
 		return eventSupport;
 	}
-	
 }
