@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.component.Component;
  */
 public interface BarbecueComponent extends Component
 {
-	//TODO evaluation time, scale type, alignment
+	//TODO scale type, alignment
 
 	String getType();
 
@@ -53,5 +53,9 @@ public interface BarbecueComponent extends Component
 	Integer getBarWidth();
 	
 	Integer getBarHeight();
+	
+	byte getEvaluationTime();
+	
+	String getEvaluationGroup();
 	
 }

@@ -68,7 +68,14 @@ public class BarbecueRenderer extends JRAbstractSvgRenderer
 		{
 			Dimension size = barcode.getSize();
 			grx.translate(rectangle.getX(), rectangle.getY());
-			grx.scale(rectangle.getWidth() / size.getWidth(), rectangle.getHeight() / size.getHeight());
+			
+			if (rectangle.getWidth() != size.getWidth() 
+					|| rectangle.getHeight() != size.getHeight())
+			{
+				grx.scale(rectangle.getWidth() / size.getWidth(), 
+						rectangle.getHeight() / size.getHeight());
+			}
+			
 			barcode.draw(grx, 0, 0);
 		}
 		catch (OutputException e)

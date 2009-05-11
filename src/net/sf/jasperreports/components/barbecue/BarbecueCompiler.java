@@ -106,6 +106,25 @@ public class BarbecueCompiler implements ComponentCompiler
 						applicationIdentifierExpression);
 			}
 		}
+		
+		byte evaluationTime = barcode.getEvaluationTime();
+		if (evaluationTime == JRExpression.EVALUATION_TIME_AUTO)
+		{
+			verifier.addBrokenRule("Auto evaluation time is not supported for barcodes", barcode);
+		}
+		else if (evaluationTime == JRExpression.EVALUATION_TIME_GROUP)
+		{
+			String evaluationGroup = barcode.getEvaluationGroup();
+			if (evaluationGroup == null || evaluationGroup.length() == 0)
+			{
+				verifier.addBrokenRule("No evaluation group set for barcode", barcode);
+			}
+			else if (!verifier.getReportDesign().getGroupsMap().containsKey(evaluationGroup))
+			{
+				verifier.addBrokenRule("Barcode evalution group \"" 
+						+ evaluationGroup + " not found", barcode);
+			}
+		}
 	}
 
 	public BarcodeProviders getProviders()

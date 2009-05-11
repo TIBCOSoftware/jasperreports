@@ -32,6 +32,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
@@ -70,36 +71,35 @@ public class BarbecueFillComponent extends BaseFillComponent
 	
 	public void evaluate(byte evaluation) throws JRException
 	{
+		if (isEvaluateNow())
+		{
+			evaluateBarcode(evaluation);
+		}
+	}
+	
+	protected void evaluateBarcode(byte evaluation) throws JRException
+	{
 		code = (String) fillContext.evaluate(
 				barcodeComponent.getCodeExpression(), evaluation);
 		
 		applicationIdentifier = (String) fillContext.evaluate(
 				barcodeComponent.getApplicationIdentifierExpression(), evaluation);
 	}
+	
+	protected boolean isEvaluateNow()
+	{
+		return barcodeComponent.getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW;
+	}
 
 	public FillPrepareResult prepare(int availableHeight)
 	{
-		return code == null ? FillPrepareResult.NO_PRINT_NO_OVERFLOW
+		return isEvaluateNow() && code == null 
+				? FillPrepareResult.NO_PRINT_NO_OVERFLOW
 				: FillPrepareResult.PRINT_NO_STRETCH;
 	}
 
 	public JRPrintElement fill()
 	{
-		String type = barcodeComponent.getType();
-		
-		BarcodeInfo barcodeInfo = new BarcodeInfo();
-		barcodeInfo.setType(type);
-		barcodeInfo.setCode(code);
-		barcodeInfo.setApplicationIdentifier(applicationIdentifier);
-		barcodeInfo.setDrawText(barcodeComponent.isDrawText());
-		barcodeInfo.setRequiresChecksum(barcodeComponent.isChecksumRequired());
-		barcodeInfo.setBarWidth(barcodeComponent.getBarWidth());
-		barcodeInfo.setBarHeight(barcodeComponent.getBarHeight());
-		
-		Barcode barcode = providers.createBarcode(barcodeInfo);
-		
-		BarbecueRenderer renderer = new BarbecueRenderer(barcode);
-		
 		JRTemplateImage templateImage = getTemplateImage();
 		
 		JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage);
@@ -109,9 +109,42 @@ public class BarbecueFillComponent extends BaseFillComponent
 		image.setWidth(element.getWidth());
 		image.setHeight(element.getHeight());
 		image.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
-		image.setRenderer(renderer);
+		
+		if (isEvaluateNow())
+		{
+			setBarcodeImage(image);
+		}
+		else
+		{
+			fillContext.registerDelayedEvaluation(image, 
+					barcodeComponent.getEvaluationTime(), 
+					barcodeComponent.getEvaluationGroup());
+		}
 		
 		return image;
+	}
+
+	public void evaluateDelayedElement(JRPrintElement element, byte evaluation)
+			throws JRException
+	{
+		evaluateBarcode(evaluation);
+		setBarcodeImage((JRTemplatePrintImage) element);
+	}
+
+	protected void setBarcodeImage(JRTemplatePrintImage image)
+	{
+		BarcodeInfo barcodeInfo = new BarcodeInfo();
+		barcodeInfo.setType(barcodeComponent.getType());
+		barcodeInfo.setCode(code);
+		barcodeInfo.setApplicationIdentifier(applicationIdentifier);
+		barcodeInfo.setDrawText(barcodeComponent.isDrawText());
+		barcodeInfo.setRequiresChecksum(barcodeComponent.isChecksumRequired());
+		barcodeInfo.setBarWidth(barcodeComponent.getBarWidth());
+		barcodeInfo.setBarHeight(barcodeComponent.getBarHeight());
+		
+		Barcode barcode = providers.createBarcode(barcodeInfo);
+		BarbecueRenderer renderer = new BarbecueRenderer(barcode);
+		image.setRenderer(renderer);
 	}
 
 	protected JRTemplateImage getTemplateImage()
