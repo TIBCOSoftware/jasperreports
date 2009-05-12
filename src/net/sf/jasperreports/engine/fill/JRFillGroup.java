@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -50,8 +51,8 @@ public class JRFillGroup implements JRGroup
 	/**
 	 *
 	 */
-	private JRFillBand groupHeader = null;
-	private JRFillBand groupFooter = null;
+	private JRFillSection groupHeaderSection = null;
+	private JRFillSection groupFooterSection = null;
 	private JRVariable countVariable = null;
 
 	/**
@@ -77,10 +78,10 @@ public class JRFillGroup implements JRGroup
 
 		String reportName = factory.getFiller().isSubreport() ? factory.getFiller().getJasperReport().getName() : null;
 		
-		groupHeader = factory.getBand(group.getGroupHeader());
-		if (groupHeader != factory.getFiller().missingFillBand)
+		groupHeaderSection = factory.getSection(group.getGroupHeaderSection());
+		if (groupHeaderSection != factory.getFiller().missingFillSection)
 		{
-			groupHeader.setOrigin(
+			groupHeaderSection.setOrigin(
 				new JROrigin(
 					reportName,
 					group.getName(),
@@ -89,10 +90,10 @@ public class JRFillGroup implements JRGroup
 				);
 		}
 
-		groupFooter = factory.getBand(group.getGroupFooter());
-		if (groupFooter != factory.getFiller().missingFillBand)
+		groupFooterSection = factory.getSection(group.getGroupFooterSection());
+		if (groupFooterSection != factory.getFiller().missingFillSection)
 		{
-			groupFooter.setOrigin(
+			groupFooterSection.setOrigin(
 				new JROrigin(
 					reportName,
 					group.getName(),
@@ -200,19 +201,45 @@ public class JRFillGroup implements JRGroup
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getGroupHeaderSection()}.
 	 */
 	public JRBand getGroupHeader()
 	{
-		return groupHeader;
+		return 
+			groupHeaderSection == null 
+			|| groupHeaderSection.getBands() == null 
+			|| groupHeaderSection.getBands().length == 0 
+				? null 
+				: (JRBand)groupHeaderSection.getBands()[0];
 	}
 		
 	/**
 	 *
 	 */
+	public JRSection getGroupHeaderSection()
+	{
+		return groupHeaderSection;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getGroupFooterSection()}.
+	 */
 	public JRBand getGroupFooter()
 	{
-		return groupFooter;
+		return 
+			groupFooterSection == null 
+			|| groupFooterSection.getBands() == null 
+			|| groupFooterSection.getBands().length == 0 
+				? null 
+				: (JRBand)groupFooterSection.getBands()[0];
+	}
+		
+	/**
+	 *
+	 */
+	public JRSection getGroupFooterSection()
+	{
+		return groupFooterSection;
 	}
 		
 	/**

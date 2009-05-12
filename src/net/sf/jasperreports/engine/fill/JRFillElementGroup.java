@@ -72,10 +72,10 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 		JRFillObjectFactory factory
 		)
 	{
-		factory.put(elementGrp, this);
-
 		if (elementGrp != null)
 		{
+			factory.put(elementGrp, this);
+
 			/*   */
 			List list = elementGrp.getChildren();
 			if (list != null && list.size() > 0)

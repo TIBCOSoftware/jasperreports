@@ -98,6 +98,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
@@ -328,7 +329,7 @@ public class JRVerifier
 		verifyBand(jasperDesign.getTitle());
 		verifyBand(jasperDesign.getPageHeader());
 		verifyBand(jasperDesign.getColumnHeader());
-		verifyBand(jasperDesign.getDetail());
+		verifySection(jasperDesign.getDetailSection());
 		verifyBand(jasperDesign.getColumnFooter());
 		verifyBand(jasperDesign.getPageFooter());
 		verifyBand(jasperDesign.getLastPageFooter());
@@ -547,20 +548,32 @@ public class JRVerifier
 					report);
 		}
 
-		if (
-			topMargin +
-			(report.getPageHeader() != null ? report.getPageHeader().getHeight() : 0) +
-			(report.getColumnHeader() != null ? report.getColumnHeader().getHeight() : 0) +
-			(report.getDetail() != null ? report.getDetail().getHeight() : 0) +
-			(report.getColumnFooter() != null ? report.getColumnFooter().getHeight() : 0) +
-			(report.getPageFooter() != null ? report.getPageFooter().getHeight() : 0) +
-			bottomMargin >
-			pageHeight
-			)
+		JRSection detailSection = report.getDetailSection();
+		if (detailSection != null)
 		{
-			addBrokenRule(brokenRules,
-					"The detail section, the page and column headers and footers and the margins do not fit the page height.", 
-					report);
+			JRBand[] detailBands = detailSection.getBands();
+			if (detailBands != null && detailBands.length > 0)
+			{
+				for(int i = 0; i< detailBands.length; i++)
+				{
+					JRBand detailBand = detailBands[i];
+					if (
+						topMargin +
+						(report.getPageHeader() != null ? report.getPageHeader().getHeight() : 0) +
+						(report.getColumnHeader() != null ? report.getColumnHeader().getHeight() : 0) +
+						detailBand.getHeight() +
+						(report.getColumnFooter() != null ? report.getColumnFooter().getHeight() : 0) +
+						(report.getPageFooter() != null ? report.getPageFooter().getHeight() : 0) +
+						bottomMargin >
+						pageHeight
+						)
+					{
+						addBrokenRule(brokenRules,
+								"The detail section, the page and column headers and footers and the margins do not fit the page height.", 
+								report);
+					}
+				}
+			}
 		}
 
 		if (
@@ -1131,7 +1144,7 @@ public class JRVerifier
 				}
 				else
 				{
-					if (group.getGroupHeader() != null || group.getGroupFooter() != null)
+					if (group.getGroupHeaderSection() != null || group.getGroupFooterSection() != null)
 					{
 						addBrokenRule("Group " + group.getName() + " cannot have header or footer sections.", group);
 					}
@@ -1157,8 +1170,8 @@ public class JRVerifier
 
 				if (isMainDataset)
 				{
-					verifyBand(group.getGroupHeader());
-					verifyBand(group.getGroupFooter());
+					verifySection(group.getGroupHeaderSection());
+					verifySection(group.getGroupFooterSection());
 				}
 			}
 		}
@@ -1169,64 +1182,112 @@ public class JRVerifier
 	{
 		if (jasperDesign.isTitleNewPage())
 		{
-			if (
-				jasperDesign.getTopMargin() +
-				(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
-				(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
-				(group.getGroupHeader() != null ? group.getGroupHeader().getHeight() : 0) +
-				(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
-				(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
-				jasperDesign.getBottomMargin() >
-				jasperDesign.getPageHeight()
-				)
+			JRSection groupHeaderSection = group.getGroupHeaderSection();
+			if (groupHeaderSection != null)
 			{
-				addBrokenRule("The '" + group.getName() + "' group header section, the page and column headers and footers and the margins do not fit the page height.", group.getGroupHeader());
+				JRBand[] groupHeaderBands = groupHeaderSection.getBands();
+				if (groupHeaderBands != null && groupHeaderBands.length > 0)
+				{
+					for(int i = 0; i< groupHeaderBands.length; i++)
+					{
+						JRBand groupHeaderBand = groupHeaderBands[i];
+						if (
+							jasperDesign.getTopMargin() +
+							(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
+							(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
+							groupHeaderBand.getHeight() +
+							(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
+							(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
+							jasperDesign.getBottomMargin() >
+							jasperDesign.getPageHeight()
+							)
+						{
+							addBrokenRule("The '" + group.getName() + "' group header section, the page and column headers and footers and the margins do not fit the page height.", groupHeaderBand);
+						}
+					}
+				}
 			}
 
-			if (
-				jasperDesign.getTopMargin() +
-				(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
-				(jasperDesign.getColumnHeader() != null ?  jasperDesign.getColumnHeader().getHeight() : 0) +
-				(group.getGroupFooter() != null ? group.getGroupFooter().getHeight() : 0) +
-				(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
-				(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
-				jasperDesign.getBottomMargin() >
-				jasperDesign.getPageHeight()
-				)
+			JRSection groupFooterSection = group.getGroupFooterSection();
+			if (groupFooterSection != null)
 			{
-				addBrokenRule("The '" + group.getName() + "' group footer section, the page and column headers and footers and the margins do not fit the page height.", group.getGroupFooter());
+				JRBand[] groupFooterBands = groupFooterSection.getBands();
+				if (groupFooterBands != null && groupFooterBands.length > 0)
+				{
+					for(int i = 0; i< groupFooterBands.length; i++)
+					{
+						JRBand groupFooterBand = groupFooterBands[i];
+						if (
+							jasperDesign.getTopMargin() +
+							(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
+							(jasperDesign.getColumnHeader() != null ?  jasperDesign.getColumnHeader().getHeight() : 0) +
+							groupFooterBand.getHeight() +
+							(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
+							(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
+							jasperDesign.getBottomMargin() >
+							jasperDesign.getPageHeight()
+							)
+						{
+							addBrokenRule("The '" + group.getName() + "' group footer section, the page and column headers and footers and the margins do not fit the page height.", groupFooterBand);
+						}
+					}
+				}
 			}
 		}
 		else
 		{
-			if (
-				jasperDesign.getTopMargin() +
-				(jasperDesign.getTitle() != null ? jasperDesign.getTitle().getHeight() : 0) +
-				(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
-				(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
-				(group.getGroupHeader() != null ? group.getGroupHeader().getHeight() : 0) +
-				(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
-				(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
-				jasperDesign.getBottomMargin() >
-				jasperDesign.getPageHeight()
-				)
+			JRSection groupHeaderSection = group.getGroupHeaderSection();
+			if (groupHeaderSection != null)
 			{
-				addBrokenRule("The '" + group.getName() + "' group header section, the title, the page and column headers and footers and the margins do not fit the first page height.", group.getGroupHeader());
+				JRBand[] groupHeaderBands = groupHeaderSection.getBands();
+				if (groupHeaderBands != null && groupHeaderBands.length > 0)
+				{
+					for(int i = 0; i< groupHeaderBands.length; i++)
+					{
+						JRBand groupHeaderBand = groupHeaderBands[i];
+						if (
+							jasperDesign.getTopMargin() +
+							(jasperDesign.getTitle() != null ? jasperDesign.getTitle().getHeight() : 0) +
+							(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
+							(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
+							groupHeaderBand.getHeight() +
+							(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
+							(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
+							jasperDesign.getBottomMargin() >
+							jasperDesign.getPageHeight()
+							)
+						{
+							addBrokenRule("The '" + group.getName() + "' group header section, the title, the page and column headers and footers and the margins do not fit the first page height.", groupHeaderBand);
+						}
+					}
+				}
 			}
 
-			if (
-				jasperDesign.getTopMargin() +
-				(jasperDesign.getTitle() != null ? jasperDesign.getTitle().getHeight() : 0) +
-				(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
-				(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
-				(group.getGroupFooter() != null ? group.getGroupFooter().getHeight() : 0) +
-				(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
-				(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
-				jasperDesign.getBottomMargin() >
-				jasperDesign.getPageHeight()
-				)
+			JRSection groupFooterSection = group.getGroupFooterSection();
+			if (groupFooterSection != null)
 			{
-				addBrokenRule("The '" + group.getName() + "' group footer section, the title, the page and column headers and footers and the margins do not fit the first page height.", group.getGroupFooter());
+				JRBand[] groupFooterBands = groupFooterSection.getBands();
+				if (groupFooterBands != null && groupFooterBands.length > 0)
+				{
+					for(int i = 0; i< groupFooterBands.length; i++)
+					{
+						JRBand groupFooterBand = groupFooterBands[i];
+						if (
+							jasperDesign.getTopMargin() +
+							(jasperDesign.getTitle() != null ? jasperDesign.getTitle().getHeight() : 0) +
+							(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
+							(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
+							groupFooterBand.getHeight() +
+							(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
+							(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
+							jasperDesign.getBottomMargin() >
+							jasperDesign.getPageHeight()
+							)
+						{
+							addBrokenRule("The '" + group.getName() + "' group footer section, the title, the page and column headers and footers and the margins do not fit the first page height.", groupFooterBand);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1317,7 +1378,27 @@ public class JRVerifier
 			}
 		}
 	}
+
 	
+	/**
+	 *
+	 */
+	private void verifySection(JRSection section)
+	{
+		if (section != null)
+		{
+			JRBand[] bands = section.getBands();
+			if (bands != null && bands.length > 0)
+			{
+				for(int i = 0; i< bands.length; i++)
+				{
+					verifyBand(bands[i]);
+				}
+			}
+		}
+	}
+
+
 	/**
 	 *
 	 */

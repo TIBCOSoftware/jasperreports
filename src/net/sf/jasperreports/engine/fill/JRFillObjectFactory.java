@@ -124,6 +124,7 @@ import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
@@ -512,19 +513,46 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
+	protected JRFillSection getSection(JRSection section)
+	{
+		JRFillSection fillSection = null;
+
+		if (section == null)
+		{
+			fillSection = filler.missingFillSection;
+		}
+		else
+		{
+			fillSection = (JRFillSection)get(section);
+			if (fillSection == null)
+			{
+				fillSection = new JRFillSection(filler, section, this);
+			}
+		}
+
+		return fillSection;
+	}
+
+
+	/**
+	 *
+	 */
 	protected JRFillBand getBand(JRBand band)
 	{
 		JRFillBand fillBand = null;
 
-		//if (band != null)
-		//{
-		// for null bands, the filler's missingFillBand will be returned
+		if (band == null)
+		{
+			fillBand = filler.missingFillBand;
+		}
+		else
+		{
 			fillBand = (JRFillBand)get(band);
 			if (fillBand == null)
 			{
 				fillBand = new JRFillBand(filler, band, this);
 			}
-		//}
+		}
 
 		return fillBand;
 	}

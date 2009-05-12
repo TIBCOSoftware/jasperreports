@@ -414,7 +414,7 @@ public class JRExpressionCollector
 		collect(report.getTitle());
 		collect(report.getPageHeader());
 		collect(report.getColumnHeader());
-		collect(report.getDetail());
+		collect(report.getDetailSection());
 		collect(report.getColumnFooter());
 		collect(report.getPageFooter());
 		collect(report.getLastPageFooter());
@@ -507,8 +507,26 @@ public class JRExpressionCollector
 				JRGroup group = groups[i];
 				addExpression(group.getExpression());
 
-				collect(group.getGroupHeader());
-				collect(group.getGroupFooter());
+				collect(group.getGroupHeaderSection());
+				collect(group.getGroupFooterSection());
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRSection section)
+	{
+		if (section != null)
+		{
+			JRBand[] bands = section.getBands();
+			if (bands != null && bands.length > 0)
+			{
+				for(int i = 0; i < bands.length; i++)
+				{
+					collect(bands[i]);
+				}
 			}
 		}
 	}

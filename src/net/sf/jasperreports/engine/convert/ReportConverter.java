@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.JRStyleSetter;
@@ -159,17 +160,17 @@ public class ReportConverter
 			{
 				for (int i = 0; i < groups.length ; i++)
 				{
-					addBand(groups[i].getGroupHeader());
+					addSection(groups[i].getGroupHeaderSection());
 				}
 			}
 			
-			addBand(report.getDetail());
+			addSection(report.getDetailSection());
 
 			if (groups != null)
 			{
 				for (int i = 0; i < groups.length ; i++)
 				{
-					addBand(groups[i].getGroupFooter());
+					addSection(groups[i].getGroupFooterSection());
 				}
 			}
 			
@@ -330,6 +331,24 @@ public class ReportConverter
 				JRStyle style = styles[i];
 				JRStyle copy = styleFactory.getStyle(style);
 				stylesMap.put(copy.getName(), copy);
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	private void addSection(JRSection section)
+	{
+		if (section != null)
+		{
+			JRBand[] bands = section.getBands();
+			if (bands != null && bands.length > 0)
+			{
+				for(int i = 0; i< bands.length; i++)
+				{
+					addBand(bands[i]);
+				}
 			}
 		}
 	}

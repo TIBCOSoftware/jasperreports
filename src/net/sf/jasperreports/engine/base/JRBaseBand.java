@@ -35,9 +35,9 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
- * Used for implementing band functionality. A report can contain the following * bands: background, title,
- * summary, page header, page footer, last page footer, column header, column footer and detail.
- * For each group defined in the report, there is a corresponding group header and group footer.
+ * Used for implementing band functionality. A report can contain the following bands: background, title,
+ * summary, page header, page footer, last page footer, column header and column footer.
+ * @see JRBaseSection
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

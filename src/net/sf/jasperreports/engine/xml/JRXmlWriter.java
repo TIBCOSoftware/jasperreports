@@ -141,6 +141,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
+import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
@@ -393,11 +394,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.closeElement();
 		}
 
-		if (report.getDetail() != null)
+		JRSection detail = report.getDetailSection();
+		if (detail != null)
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_detail);
-			writeBand(report.getDetail());
-			writer.closeElement();
+			writeSection(detail);
+			writer.closeElement(true);
 		}
 
 		if (report.getColumnFooter() != null)
@@ -628,21 +630,42 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_groupExpression, group.getExpression(), false);
 
-		if (group.getGroupHeader() != null)
+		JRSection groupHeader = group.getGroupHeaderSection();
+		if (groupHeader != null)
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_groupHeader);
-			writeBand(group.getGroupHeader());
-			writer.closeElement();
+			writeSection(groupHeader);
+			writer.closeElement(true);
 		}
 
-		if (group.getGroupFooter() != null)
+		JRSection groupFooter = group.getGroupFooterSection();
+		if (groupFooter != null)
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_groupFooter);
-			writeBand(group.getGroupFooter());
-			writer.closeElement();
+			writeSection(groupFooter);
+			writer.closeElement(true);
 		}
 
 		writer.closeElement();
+	}
+
+
+	/**
+	 *
+	 */
+	protected void writeSection(JRSection section) throws IOException
+	{
+		if (section != null)
+		{
+			JRBand[] bands = section.getBands();
+			if (bands != null && bands.length > 0)
+			{
+				for(int i = 0; i < bands.length; i++)
+				{
+					writeBand(bands[i]);
+				}
+			}
+		}
 	}
 
 

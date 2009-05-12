@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -46,6 +48,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRScriptlet;
+import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
@@ -124,7 +127,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected JRBand title = null;
 	protected JRBand pageHeader = null;
 	protected JRBand columnHeader = null;
-	protected JRBand detail = null;
+	protected JRSection detailSection = null;
 	protected JRBand columnFooter = null;
 	protected JRBand pageFooter = null;
 	protected JRBand lastPageFooter = null;
@@ -226,7 +229,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		title = factory.getBand(report.getTitle());
 		pageHeader = factory.getBand(report.getPageHeader());
 		columnHeader = factory.getBand(report.getColumnHeader());
-		detail = factory.getBand(report.getDetail());
+		detailSection = factory.getSection(report.getDetailSection());
 		columnFooter = factory.getBand(report.getColumnFooter());
 		pageFooter = factory.getBand(report.getPageFooter());
 		lastPageFooter = factory.getBand(report.getLastPageFooter());
@@ -593,11 +596,24 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getDetailSection()}.
 	 */
 	public JRBand getDetail()
 	{
-		return detail;
+		return 
+			detailSection == null 
+			|| detailSection.getBands() == null 
+			|| detailSection.getBands().length == 0 
+				? null 
+				: (JRBand)detailSection.getBands()[0];
+	}
+
+	/**
+	 *
+	 */
+	public JRSection getDetailSection()
+	{
+		return detailSection;
 	}
 
 	/**
@@ -708,4 +724,22 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		
 		return eventSupport;
 	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private JRBand detail = null;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (detail != null)
+		{
+			detailSection = new JRBaseSection(detail);
+			detail = null;
+		}
+	}
+
 }

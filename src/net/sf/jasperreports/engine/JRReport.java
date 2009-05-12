@@ -57,7 +57,7 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 
 
 	/**
-	 * Specifies that columns in a report should be filled horizontalyy (columns are filled proportionally).
+	 * Specifies that columns in a report should be filled horizontally (columns are filled proportionally).
 	 */
 	public static final byte PRINT_ORDER_HORIZONTAL = 2;
 
@@ -158,12 +158,12 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public byte getOrientation();
 
 	/**
-	 * Specifies the report behaviour in case of empty datasources.
+	 * Specifies the report behavior in case of empty datasources.
 	 */
 	public byte getWhenNoDataType();
 
 	/**
-	 * Sets the report behaviour in case of empty datasources.
+	 * Sets the report behavior in case of empty datasources.
 	 */
 	public void setWhenNoDataType(byte whenNoDataType);
 
@@ -322,9 +322,14 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public JRBand getColumnHeader();
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getDetailSection()}.
 	 */
 	public JRBand getDetail();
+
+	/**
+	 *
+	 */
+	public JRSection getDetailSection();
 
 	/**
 	 *

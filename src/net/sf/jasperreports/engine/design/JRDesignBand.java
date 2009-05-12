@@ -123,7 +123,6 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 * (e.g. detail/title/group header/etc).
 	 * The location is automatically set when the band is inserted
 	 * into the report (via one of the
-	 * {@link JasperDesign#setDetail(JRBand) setDetail}/
 	 * {@link JasperDesign#setTitle(JRBand) setTitle}/
 	 * {@link JRDesignGroup#setGroupHeader(JRBand) setGroupHeader}
 	 * methods).
