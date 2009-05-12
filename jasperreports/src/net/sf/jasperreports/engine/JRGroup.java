@@ -108,13 +108,25 @@ public interface JRGroup extends JRCloneable
 	
 	/**
 	 * Gets the header band created for this group.
+	 * @deprecated Replaced by {@link #getGroupHeaderSection()}.
 	 */
 	public JRBand getGroupHeader();
 		
 	/**
+	 * Gets the header section created for this group.
+	 */
+	public JRSection getGroupHeaderSection();
+		
+	/**
 	 * Gets the footer band created for this group.
+	 * @deprecated Replaced by {@link #getGroupFooterSection()}.
 	 */
 	public JRBand getGroupFooter();
+
+	/**
+	 * Gets the footer section created for this group.
+	 */
+	public JRSection getGroupFooterSection();
 
 	/**
 	 *

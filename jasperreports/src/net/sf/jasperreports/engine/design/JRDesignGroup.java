@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseGroup;
 
@@ -80,25 +81,79 @@ public class JRDesignGroup extends JRBaseGroup
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setGroupHeader(JRSection)}.
 	 */
 	public void setGroupHeader(JRBand groupHeader)
 	{
-		Object old = this.groupHeader;
-		this.groupHeader = groupHeader;
-		setBandOrigin(this.groupHeader, JROrigin.GROUP_HEADER);
-		getEventSupport().firePropertyChange(PROPERTY_GROUP_HEADER, old, this.groupHeader);
+		Object old = getGroupHeader();
+		
+		if (groupHeaderSection == null)
+		{
+			groupHeaderSection = new JRDesignSection();
+		}
+		
+		JRBand[] bands = groupHeaderSection.getBands(); 
+		if (bands == null || bands.length == 0)
+		{
+			((JRDesignSection)groupHeaderSection).addBand(groupHeader);
+		}
+		else
+		{
+			((JRDesignSection)groupHeaderSection).removeBand(0);
+			((JRDesignSection)groupHeaderSection).addBand(0, groupHeader);
+		}
+
+		setBandOrigin(groupHeader, JROrigin.GROUP_HEADER);
+		getEventSupport().firePropertyChange(PROPERTY_GROUP_HEADER, old, groupHeader);
 	}
 		
 	/**
 	 *
 	 */
+	public void setGroupHeader(JRSection groupHeaderSection)
+	{
+		Object old = this.groupHeaderSection;
+		this.groupHeaderSection = groupHeaderSection;
+		setSectionOrigin(this.groupHeaderSection, JROrigin.GROUP_HEADER);
+		getEventSupport().firePropertyChange(PROPERTY_GROUP_HEADER, old, this.groupHeaderSection);
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setGroupFooter(JRSection)}.
+	 */
 	public void setGroupFooter(JRBand groupFooter)
 	{
-		Object old = this.groupFooter;
-		this.groupFooter = groupFooter;
-		setBandOrigin(this.groupFooter, JROrigin.GROUP_FOOTER);
-		getEventSupport().firePropertyChange(PROPERTY_GROUP_FOOTER, old, this.groupFooter);
+		Object old = getGroupFooter();
+		
+		if (groupFooterSection == null)
+		{
+			groupFooterSection = new JRDesignSection();
+		}
+		
+		JRBand[] bands = groupFooterSection.getBands(); 
+		if (bands == null || bands.length == 0)
+		{
+			((JRDesignSection)groupFooterSection).addBand(groupFooter);
+		}
+		else
+		{
+			((JRDesignSection)groupFooterSection).removeBand(0);
+			((JRDesignSection)groupFooterSection).addBand(0, groupFooter);
+		}
+
+		setBandOrigin(groupFooter, JROrigin.GROUP_FOOTER);
+		getEventSupport().firePropertyChange(PROPERTY_GROUP_FOOTER, old, groupFooter);
+	}
+
+	/**
+	 *
+	 */
+	public void setGroupFooter(JRSection groupFooterSection)
+	{
+		Object old = this.groupFooterSection;
+		this.groupFooterSection = groupFooterSection;
+		setSectionOrigin(this.groupFooterSection, JROrigin.GROUP_FOOTER);
+		getEventSupport().firePropertyChange(PROPERTY_GROUP_FOOTER, old, this.groupFooterSection);
 	}
 
 	/**
@@ -111,6 +166,15 @@ public class JRDesignGroup extends JRBaseGroup
 		getEventSupport().firePropertyChange(PROPERTY_COUNT_VARIABLE, old, this.countVariable);
 	}
 
+	protected void setSectionOrigin(JRSection section, byte type)
+	{
+		if (section instanceof JRDesignSection)
+		{
+			JROrigin origin = new JROrigin(null, getName(), type);
+			((JRDesignSection) section).setOrigin(origin);
+		}
+	}
+	
 	protected void setBandOrigin(JRBand band, byte type)
 	{
 		if (band instanceof JRDesignBand)
@@ -122,8 +186,8 @@ public class JRDesignGroup extends JRBaseGroup
 	
 	protected void updateBandOrigins()
 	{
-		setBandOrigin(getGroupHeader(), JROrigin.GROUP_HEADER);
-		setBandOrigin(getGroupFooter(), JROrigin.GROUP_FOOTER);
+		setSectionOrigin(getGroupHeaderSection(), JROrigin.GROUP_HEADER);
+		setSectionOrigin(getGroupFooterSection(), JROrigin.GROUP_FOOTER);
 	}
 
 }

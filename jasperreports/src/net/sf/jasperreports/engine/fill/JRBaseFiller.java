@@ -37,6 +37,7 @@ import java.net.URLStreamHandlerFactory;
 import java.sql.Connection;
 import java.text.Format;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -237,6 +238,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected JRFillGroup[] groups = null;
 
+	protected JRFillSection missingFillSection = null;
 	protected JRFillBand missingFillBand = null;
 
 	protected JRFillBand background = null;
@@ -247,7 +249,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected JRFillBand columnHeader = null;
 
-	protected JRFillBand detail = null;
+	protected JRFillSection detailSection = null;
 
 	protected JRFillBand columnFooter = null;
 
@@ -417,6 +419,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		factory = new JRFillObjectFactory(this);
 
 		/*   */
+		missingFillBand = new JRFillBand(this, null, factory);
+		missingFillSection = new JRFillSection(this, null, factory);
+
+		/*   */
 		defaultFont = factory.getReportFont(jasperReport.getDefaultFont());
 
 		/*   */
@@ -438,9 +444,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		String reportName = factory.getFiller().isSubreport() ? factory.getFiller().getJasperReport().getName() : null;
 		
-		/*   */
-		missingFillBand = factory.getBand(null);
-
 		background = factory.getBand(jasperReport.getBackground());
 		if (background != missingFillBand)
 		{
@@ -485,10 +488,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				);
 		}
 		
-		detail = factory.getBand(jasperReport.getDetail());
-		if (detail != missingFillBand)
+		detailSection = factory.getSection(jasperReport.getDetailSection());
+		if (detailSection != missingFillSection)
 		{
-			detail.setOrigin(
+			detailSection.setOrigin(
 				new JROrigin(
 					reportName,
 					JROrigin.DETAIL
@@ -644,7 +647,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		bands.add(lastPageFooter);
 		bands.add(columnHeader);
 		bands.add(columnFooter);
-		bands.add(detail);
+		if (detailSection.getBands() != null)
+		{
+			bands.addAll(Arrays.asList(detailSection.getBands()));
+		}
 		bands.add(noData);
 
 		if (groups != null && groups.length > 0)
@@ -652,8 +658,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			for (int i = 0; i < groups.length; i++)
 			{
 				JRFillGroup group = groups[i];
-				bands.add(group.getGroupHeader());
-				bands.add(group.getGroupFooter());
+				if (group.getGroupHeaderSection().getBands() != null)
+				{
+					bands.addAll(Arrays.asList(group.getGroupHeaderSection().getBands()));
+				}
+				if (group.getGroupFooterSection().getBands() != null)
+				{
+					bands.addAll(Arrays.asList(group.getGroupFooterSection().getBands()));
+				}
 			}
 		}
 
@@ -679,7 +691,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			for (int i = 0; i < groups.length; i++)
 			{
 				JRGroup group = groups[i];
-				JRFillBand footer = (JRFillBand) group.getGroupFooter();
+				JRFillSection footer = (JRFillSection) group.getGroupFooterSection();
 
 				for (int j = i; j < groupEvaluationTimes.length; ++j)
 				{

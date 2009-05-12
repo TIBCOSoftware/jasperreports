@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRVisitor;
 
 
@@ -91,7 +92,7 @@ public class JRElementsVisitor extends JRDelegationVisitor
 		visitBand(report.getTitle());
 		visitBand(report.getPageHeader());
 		visitBand(report.getColumnHeader());
-		visitBand(report.getDetail());
+		visitSection(report.getDetailSection());
 		visitBand(report.getColumnFooter());
 		visitBand(report.getPageFooter());
 		visitBand(report.getLastPageFooter());
@@ -104,8 +105,23 @@ public class JRElementsVisitor extends JRDelegationVisitor
 			for(int i = 0; i < groups.length; i++)
 			{
 				JRGroup group = groups[i];
-				visitBand(group.getGroupHeader());
-				visitBand(group.getGroupFooter());
+				visitSection(group.getGroupHeaderSection());
+				visitSection(group.getGroupFooterSection());
+			}
+		}
+	}
+	
+	protected void visitSection(JRSection section)
+	{
+		if (section != null)
+		{
+			JRBand[] bands = section.getBands();
+			if (bands != null)
+			{
+				for(int i = 0; i < bands.length; i++)
+				{
+					visitBand(bands[i]);
+				}
 			}
 		}
 	}

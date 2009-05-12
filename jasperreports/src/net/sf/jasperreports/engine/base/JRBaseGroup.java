@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRBand;
@@ -34,6 +36,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -76,8 +79,8 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	 *
 	 */
 	protected JRExpression expression = null;
-	protected JRBand groupHeader = null;
-	protected JRBand groupFooter = null;
+	protected JRSection groupHeaderSection = null;
+	protected JRSection groupFooterSection = null;
 	protected JRVariable countVariable = null;
 	
 
@@ -105,8 +108,8 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		
 		expression = factory.getExpression(group.getExpression());
 
-		groupHeader = factory.getBand(group.getGroupHeader());
-		groupFooter = factory.getBand(group.getGroupFooter());
+		groupHeaderSection = factory.getSection(group.getGroupHeaderSection());
+		groupFooterSection = factory.getSection(group.getGroupFooterSection());
 		countVariable = factory.getVariable(group.getCountVariable());
 	}
 		
@@ -218,19 +221,40 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getGroupHeaderSection()}.
 	 */
 	public JRBand getGroupHeader()
 	{
-		return this.groupHeader;
+		return 
+			groupHeaderSection == null 
+			|| groupHeaderSection.getBands() == null 
+			|| groupHeaderSection.getBands().length == 0 
+				? null 
+				: (JRBand)groupHeaderSection.getBands()[0];
 	}
 		
 	/**
 	 *
 	 */
+	public JRSection getGroupHeaderSection()
+	{
+		return this.groupHeaderSection;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getGroupFooterSection()}.
+	 */
 	public JRBand getGroupFooter()
 	{
 		return this.groupFooter;
+	}
+		
+	/**
+	 *
+	 */
+	public JRSection getGroupFooterSection()
+	{
+		return this.groupFooterSection;
 	}
 		
 	/**
@@ -292,6 +316,30 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		}
 		
 		return eventSupport;
+	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private JRBand groupHeader = null;
+	private JRBand groupFooter = null;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (groupHeader != null)
+		{
+			groupHeaderSection = new JRBaseSection(groupHeader);
+			groupHeader = null;
+		}
+		
+		if (groupFooter != null)
+		{
+			groupFooterSection = new JRBaseSection(groupFooter);
+			groupFooter = null;
+		}
 	}
 
 }

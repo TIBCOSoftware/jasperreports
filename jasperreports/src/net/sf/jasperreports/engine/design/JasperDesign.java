@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRScriptlet;
+import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
@@ -478,13 +479,42 @@ public class JasperDesign extends JRBaseReport
 
 	/**
 	 * Sets the detail band.
+	 * @deprecated Replaced by {@link #setDetail(JRSection)}.
 	 */
 	public void setDetail(JRBand detail)
 	{
-		Object old = this.detail;
-		this.detail = detail;
-		setBandOrigin(this.detail, JROrigin.DETAIL);
-		getEventSupport().firePropertyChange(PROPERTY_DETAIL, old, this.detail);
+		Object old = getDetail();
+
+		if (detailSection == null)
+		{
+			detailSection = new JRDesignSection();
+		}
+		
+		JRBand[] bands = detailSection.getBands(); 
+		if (bands == null || bands.length == 0)
+		{
+			((JRDesignSection)detailSection).addBand(detail);
+		}
+		else
+		{
+			((JRDesignSection)detailSection).removeBand(0);
+			((JRDesignSection)detailSection).addBand(0, detail);
+		}
+		
+		setBandOrigin(detail, JROrigin.DETAIL);
+		getEventSupport().firePropertyChange(PROPERTY_DETAIL, old, detail);
+	}
+
+
+	/**
+	 * Sets the detail section.
+	 */
+	public void setDetail(JRSection detailSection)
+	{
+		Object old = this.detailSection;
+		this.detailSection = detailSection;
+		setSectionOrigin(this.detailSection, JROrigin.DETAIL);
+		getEventSupport().firePropertyChange(PROPERTY_DETAIL, old, this.detailSection);
 	}
 
 
@@ -1255,6 +1285,15 @@ public class JasperDesign extends JRBaseReport
 		{
 			JROrigin origin = new JROrigin(type);
 			((JRDesignBand) band).setOrigin(origin);
+		}
+	}
+	
+	protected void setSectionOrigin(JRSection section, byte type)
+	{
+		if (section instanceof JRDesignSection)
+		{
+			JROrigin origin = new JROrigin(type);
+			((JRDesignSection) section).setOrigin(origin);
 		}
 	}
 	

@@ -1353,7 +1353,7 @@
   </annotation>  
   <complexType>
    <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:band" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
   </complexType>
  </element>
@@ -1364,7 +1364,7 @@
   </annotation>  
   <complexType>
    <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:band" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
   </complexType>
  </element>
@@ -1415,11 +1415,11 @@
 
  <element name="detail">
   <annotation>
-   <documentation>Definition of the detail section for this report. The detail section is repeted for each line of data supplied by the report's data source.</documentation>
+   <documentation>Definition of a detail band for this report. A detail band is repeated for each line of data supplied by the report's data source. There can be multiple detail bands in a report.</documentation>
   </annotation>  
   <complexType>
    <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:band" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
   </complexType>
  </element>

@@ -29,9 +29,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.Iterator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
@@ -40,6 +38,9 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -540,9 +541,9 @@ public class JRVerticalFiller extends JRBaseFiller
 	 */
 	private void fillGroupHeader(JRFillGroup group) throws JRException
 	{
-		JRFillBand groupHeader = (JRFillBand)group.getGroupHeader();
+		JRFillSection groupHeaderSection = (JRFillSection)group.getGroupHeaderSection();
 
-		if (log.isDebugEnabled() && !groupHeader.isEmpty())
+		if (log.isDebugEnabled() && !groupHeaderSection.isEmpty())
 		{
 			log.debug("Fill " + fillerId + ": " + group.getName() + " header");
 		}
@@ -566,29 +567,41 @@ public class JRVerticalFiller extends JRBaseFiller
 				);
 		}
 
-		groupHeader.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
-
-		if (groupHeader.isToPrint())
+		JRBand[] groupHeaderBands = groupHeaderSection.getBands();
+		if (groupHeaderBands != null)
 		{
-			while (
-				groupHeader.getHeight() > columnFooterOffsetY - offsetY ||
-				group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
-				)
+			for(int i = 0; i < groupHeaderBands.length; i++)
 			{
-				fillColumnBreak(
-					evalPrevPage,
-					JRExpression.EVALUATION_DEFAULT
-					);
+				JRFillBand groupHeaderBand = (JRFillBand)groupHeaderBands[i];
+
+				groupHeaderBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
+
+				if (groupHeaderBand.isToPrint())
+				{
+					while (
+						groupHeaderBand.getHeight() > columnFooterOffsetY - offsetY ||
+						group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
+						)
+					{
+						fillColumnBreak(
+							evalPrevPage,
+							JRExpression.EVALUATION_DEFAULT
+							);
+					}
+				}
+
+				if (i == 0)
+				{
+					setNewGroupInBands(group);
+
+					group.setFooterPrinted(false);
+				}
+
+				if (groupHeaderBand.isToPrint())
+				{
+					fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
+				}
 			}
-		}
-
-		setNewGroupInBands(group);
-
-		group.setFooterPrinted(false);
-
-		if (groupHeader.isToPrint())
-		{
-			fillColumnBand(groupHeader, JRExpression.EVALUATION_DEFAULT);
 		}
 
 		group.setHeaderPrinted(true);
@@ -624,21 +637,30 @@ public class JRVerticalFiller extends JRBaseFiller
 			(!group.hasChanged() || (group.hasChanged() && group.isHeaderPrinted()))
 			)
 		{
-			JRFillBand groupHeader = (JRFillBand)group.getGroupHeader();
+			JRFillSection groupHeaderSection = (JRFillSection)group.getGroupHeaderSection();
 
-			groupHeader.evaluatePrintWhenExpression(evaluation);
-
-			if (groupHeader.isToPrint())
+			JRBand[] groupHeaderBands = groupHeaderSection.getBands();
+			if (groupHeaderBands != null)
 			{
-				while (
-					groupHeader.getHeight() > columnFooterOffsetY - offsetY ||
-					group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
-					)
+				for(int i = 0; i < groupHeaderBands.length; i++)
 				{
-					fillColumnBreak(evaluation, evaluation);
-				}
+					JRFillBand groupHeaderBand = (JRFillBand)groupHeaderBands[i];
 
-				fillColumnBand(groupHeader, evaluation);
+					groupHeaderBand.evaluatePrintWhenExpression(evaluation);
+
+					if (groupHeaderBand.isToPrint())
+					{
+						while (
+								groupHeaderBand.getHeight() > columnFooterOffsetY - offsetY ||
+							group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
+							)
+						{
+							fillColumnBreak(evaluation, evaluation);
+						}
+
+						fillColumnBand(groupHeaderBand, evaluation);
+					}
+				}
 			}
 
 			isFirstPageBand = false;
@@ -652,29 +674,41 @@ public class JRVerticalFiller extends JRBaseFiller
 	 */
 	private void fillDetail() throws JRException
 	{
-		if (log.isDebugEnabled() && !detail.isEmpty())
+		if (log.isDebugEnabled() && !detailSection.isEmpty())
 		{
 			log.debug("Fill " + fillerId + ": detail");
 		}
 
-		if (!detail.isPrintWhenExpressionNull())
+		if (!detailSection.areAllPrintWhenExpressionsNull())
 		{
 			calculator.estimateVariables();
-			detail.evaluatePrintWhenExpression(JRExpression.EVALUATION_ESTIMATED);
 		}
 
-		if (detail.isToPrint())
+		JRBand[] detailBands = detailSection.getBands();
+		if (detailBands != null)
 		{
-			while (
-				detail.getHeight() > columnFooterOffsetY - offsetY
-				)
+			for(int i = 0; i < detailBands.length; i++)
 			{
-				byte evalPrevPage = (isNewGroup?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD);
+				JRFillBand detailBand = (JRFillBand)detailBands[i];
+				
+				detailBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_ESTIMATED);
 
-				fillColumnBreak(
-					evalPrevPage,
-					JRExpression.EVALUATION_DEFAULT
-					);
+				if (detailBand.isToPrint())
+				{
+					while (
+						detailBand.getHeight() > columnFooterOffsetY - offsetY
+						)
+					{
+						byte evalPrevPage = (isNewGroup?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD);
+
+						fillColumnBreak(
+							evalPrevPage,
+							JRExpression.EVALUATION_DEFAULT
+							);
+					}
+					
+					break;
+				}
 			}
 		}
 
@@ -682,14 +716,19 @@ public class JRVerticalFiller extends JRBaseFiller
 		calculator.calculateVariables();
 		scriptlet.callAfterDetailEval();
 
-		if (!detail.isPrintWhenExpressionNull())
+		if (detailBands != null)
 		{
-			detail.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
-		}
+			for(int i = 0; i < detailBands.length; i++)
+			{
+				JRFillBand detailBand = (JRFillBand)detailBands[i];
+						
+				detailBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-		if (detail.isToPrint())
-		{
-			fillColumnBand(detail, JRExpression.EVALUATION_DEFAULT);
+				if (detailBand.isToPrint())
+				{
+					fillColumnBand(detailBand, JRExpression.EVALUATION_DEFAULT);
+				}
+			}
 		}
 
 		isNewPage = false;
@@ -732,25 +771,34 @@ public class JRVerticalFiller extends JRBaseFiller
 	 */
 	private void fillGroupFooter(JRFillGroup group, byte evaluation) throws JRException
 	{
-		JRFillBand groupFooter = (JRFillBand)group.getGroupFooter();
+		JRFillSection groupFooterSection = (JRFillSection)group.getGroupFooterSection();
 
-		if (log.isDebugEnabled() && !groupFooter.isEmpty())
+		if (log.isDebugEnabled() && !groupFooterSection.isEmpty())
 		{
 			log.debug("Fill " + fillerId + ": " + group.getName() + " footer");
 		}
 
-		groupFooter.evaluatePrintWhenExpression(evaluation);
-
-		if (groupFooter.isToPrint())
+		JRBand[] groupFooterBands = groupFooterSection.getBands();
+		if (groupFooterBands != null)
 		{
-			if (
-				groupFooter.getHeight() > columnFooterOffsetY - offsetY
-				)
+			for(int i = 0; i < groupFooterBands.length; i++)
 			{
-				fillColumnBreak(evaluation, evaluation);
-			}
+				JRFillBand groupFooterBand = (JRFillBand)groupFooterBands[i];
+				
+				groupFooterBand.evaluatePrintWhenExpression(evaluation);
 
-			fillColumnBand(groupFooter, evaluation);
+				if (groupFooterBand.isToPrint())
+				{
+					if (
+							groupFooterBand.getHeight() > columnFooterOffsetY - offsetY
+						)
+					{
+						fillColumnBreak(evaluation, evaluation);
+					}
+
+					fillColumnBand(groupFooterBand, evaluation);
+				}
+			}
 		}
 
 		isNewPage = false;
@@ -1450,7 +1498,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		title.setNewPageColumn(true);
 		pageHeader.setNewPageColumn(true);
 		columnHeader.setNewPageColumn(true);
-		detail.setNewPageColumn(true);
+		detailSection.setNewPageColumn(true);
 		columnFooter.setNewPageColumn(true);
 		pageFooter.setNewPageColumn(true);
 		lastPageFooter.setNewPageColumn(true);
@@ -1461,8 +1509,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		{
 			for(int i = 0; i < groups.length; i++)
 			{
-				((JRFillBand)groups[i].getGroupHeader()).setNewPageColumn(true);
-				((JRFillBand)groups[i].getGroupFooter()).setNewPageColumn(true);
+				((JRFillSection)groups[i].getGroupHeaderSection()).setNewPageColumn(true);
+				((JRFillSection)groups[i].getGroupFooterSection()).setNewPageColumn(true);
 			}
 		}
 	}
@@ -1476,7 +1524,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		title.setNewGroup(group, true);
 		pageHeader.setNewGroup(group, true);
 		columnHeader.setNewGroup(group, true);
-		detail.setNewGroup(group, true);
+		detailSection.setNewGroup(group, true);
 		columnFooter.setNewGroup(group, true);
 		pageFooter.setNewGroup(group, true);
 		lastPageFooter.setNewGroup(group, true);
@@ -1487,8 +1535,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		{
 			for(int i = 0; i < groups.length; i++)
 			{
-				((JRFillBand)groups[i].getGroupHeader()).setNewGroup(group, true);
-				((JRFillBand)groups[i].getGroupFooter()).setNewGroup(group, true);
+				((JRFillSection)groups[i].getGroupHeaderSection()).setNewGroup(group, true);
+				((JRFillSection)groups[i].getGroupFooterSection()).setNewGroup(group, true);
 			}
 		}
 	}

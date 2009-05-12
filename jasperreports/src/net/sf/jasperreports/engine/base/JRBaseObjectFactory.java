@@ -140,6 +140,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
+import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
@@ -515,6 +516,26 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseGroup;
+	}
+
+
+	/**
+	 *
+	 */
+	protected JRBaseSection getSection(JRSection section)
+	{
+		JRBaseSection baseSection = null;
+
+		if (section != null)
+		{
+			baseSection = (JRBaseSection)get(section);
+			if (baseSection == null)
+			{
+				baseSection = new JRBaseSection(section, this);
+			}
+		}
+
+		return baseSection;
 	}
 
 
