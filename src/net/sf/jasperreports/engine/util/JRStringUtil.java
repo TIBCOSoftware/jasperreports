@@ -32,6 +32,8 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.util.regex.Pattern;
+
 
 
 
@@ -346,6 +348,8 @@ public class JRStringUtil
 		return result;
 	}
 
+	private static final Pattern PATTERN_LITERAL_ESCAPE = Pattern.compile("[\\\\\"]");
+	private static final String REPLACEMENT_LITERAL_ESCAPE = "\\\\$0";
 	
 	/**
 	 * Escapes a text so that it can be used as a Java String literal.
@@ -360,11 +364,8 @@ public class JRStringUtil
 			return text;
 		}
 		
-		// escape backslashes
-		text = text.replace("\\", "\\\\");
-		
-		// escape quotes
-		text = text.replace("\"", "\\\"");
+		text = PATTERN_LITERAL_ESCAPE.matcher(text).replaceAll(
+				REPLACEMENT_LITERAL_ESCAPE);
 		
 		// FIXME new lines?
 		return text;
