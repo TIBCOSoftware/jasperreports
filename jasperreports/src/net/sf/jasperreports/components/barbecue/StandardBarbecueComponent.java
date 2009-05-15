@@ -106,7 +106,7 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 
 	public void setType(String type)
 	{
-		Object old = type;
+		Object old = this.type;
 		this.type = type;
 		getEventSupport().firePropertyChange(PROPERTY_TYPE, 
 				old, this.type);
@@ -172,7 +172,7 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 
 	public void setDrawText(boolean drawText)
 	{
-		boolean old = drawText;
+		boolean old = this.drawText;
 		this.drawText = drawText;
 		getEventSupport().firePropertyChange(PROPERTY_DRAW_TEXT, 
 				old, this.drawText);
