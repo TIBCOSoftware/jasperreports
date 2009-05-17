@@ -651,8 +651,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					if (groupHeaderBand.isToPrint())
 					{
 						while (
-								groupHeaderBand.getHeight() > columnFooterOffsetY - offsetY ||
-							group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
+							groupHeaderBand.getHeight() > columnFooterOffsetY - offsetY 
+							|| group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
 							)
 						{
 							fillColumnBreak(evaluation, evaluation);
@@ -790,7 +790,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				if (groupFooterBand.isToPrint())
 				{
 					if (
-							groupFooterBand.getHeight() > columnFooterOffsetY - offsetY
+						groupFooterBand.getHeight() > columnFooterOffsetY - offsetY
 						)
 					{
 						fillColumnBreak(evaluation, evaluation);
