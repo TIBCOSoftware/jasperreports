@@ -2783,7 +2783,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 
-	protected void writeHyperlink(String tagName, JRHyperlink hyperlink) throws IOException
+	public void writeHyperlink(String tagName, JRHyperlink hyperlink) throws IOException
 	{
 		if (hyperlink != null)
 		{

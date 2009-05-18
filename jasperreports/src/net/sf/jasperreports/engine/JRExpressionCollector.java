@@ -588,7 +588,7 @@ public class JRExpressionCollector
 	}
 
 
-	private void collectHyperlink(JRHyperlink hyperlink)
+	public void collectHyperlink(JRHyperlink hyperlink)
 	{
 		if (hyperlink != null)
 		{
