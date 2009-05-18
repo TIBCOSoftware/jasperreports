@@ -2772,7 +2772,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		if (parameter != null)
 		{
-			writer.startElement(JRXmlConstants.ELEMENT_hyperlinkParameter);
+			writer.startElement(JRXmlConstants.ELEMENT_hyperlinkParameter, JASPERREPORTS_NAMESPACE);
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, parameter.getName());
 
 			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkParameterExpression,
@@ -2782,20 +2782,29 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 	}
 
-
 	public void writeHyperlink(String tagName, JRHyperlink hyperlink) throws IOException
+	{
+		writeHyperlink(tagName, null, hyperlink);
+	}
+
+	public void writeHyperlink(String tagName, XmlNamespace namespace, 
+			JRHyperlink hyperlink) throws IOException
 	{
 		if (hyperlink != null)
 		{
-			writer.startElement(tagName);
+			writer.startElement(tagName, namespace);
 
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, hyperlink.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, hyperlink.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
 
-			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, hyperlink.getHyperlinkReferenceExpression(), false);
-			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, hyperlink.getHyperlinkAnchorExpression(), false);
-			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, hyperlink.getHyperlinkPageExpression(), false);
-			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, hyperlink.getHyperlinkTooltipExpression(), false);
+			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, JASPERREPORTS_NAMESPACE,
+					hyperlink.getHyperlinkReferenceExpression(), false);
+			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, JASPERREPORTS_NAMESPACE,
+					hyperlink.getHyperlinkAnchorExpression(), false);
+			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, JASPERREPORTS_NAMESPACE,
+					hyperlink.getHyperlinkPageExpression(), false);
+			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, JASPERREPORTS_NAMESPACE,
+					hyperlink.getHyperlinkTooltipExpression(), false);
 			writeHyperlinkParameters(hyperlink.getHyperlinkParameters());
 
 			writer.closeElement(true);
