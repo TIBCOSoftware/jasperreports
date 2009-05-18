@@ -41,8 +41,6 @@ import net.sf.jasperreports.engine.design.JRVerifier;
  */
 public class BarbecueCompiler implements ComponentCompiler
 {
-
-	private BarcodeProviders providers;
 	
 	public void collectExpressions(Component component, JRExpressionCollector collector)
 	{
@@ -125,16 +123,6 @@ public class BarbecueCompiler implements ComponentCompiler
 						+ evaluationGroup + " not found", barcode);
 			}
 		}
-	}
-
-	public BarcodeProviders getProviders()
-	{
-		return providers;
-	}
-
-	public void setProviders(BarcodeProviders providers)
-	{
-		this.providers = providers;
 	}
 
 }

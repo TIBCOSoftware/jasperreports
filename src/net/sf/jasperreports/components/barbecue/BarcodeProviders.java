@@ -43,12 +43,16 @@ import net.sourceforge.barbecue.linear.ean.UCCEAN128Barcode;
 public class BarcodeProviders
 {
 
-	private Map providers;
+	private static Map providers;
 
-	public BarcodeProviders()
+	private static synchronized void initProviders()
 	{
+		if (providers != null)
+		{
+			return;
+		}
+
 		providers = new HashMap();
-		
         providers.put("2of7", new Barcode2of7Provider());
         providers.put("3of9", new Barcode3of9Provider());
         providers.put("Bookland", new BooklandProvider());
@@ -83,23 +87,17 @@ public class BarcodeProviders
         providers.put("USPS", new USPSProvider());
 	}
 	
-	public Map getProviders()
+	public static boolean isTypeSupported(String type)
 	{
-		return providers;
-	}
-
-	public void setProviders(Map providers)
-	{
-		this.providers = providers;
-	}
-	
-	public boolean isTypeSupported(String type)
-	{
+		initProviders();
+		
 		return providers.containsKey(type);
 	}
 	
-	public Barcode createBarcode(BarcodeInfo barcodeInfo)
+	public static Barcode createBarcode(BarcodeInfo barcodeInfo)
 	{
+		initProviders();
+		
 		BarcodeProvider provider = (BarcodeProvider) providers.get(
 				barcodeInfo.getType());
 		if (provider == null)

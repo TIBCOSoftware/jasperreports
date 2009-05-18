@@ -50,7 +50,6 @@ import net.sourceforge.barbecue.Barcode;
 public class BarbecueFillComponent extends BaseFillComponent
 {
 
-	private final BarcodeProviders providers;
 	private final BarbecueComponent barcodeComponent;
 	
 	private final Map printTemplates = new HashMap();
@@ -58,9 +57,8 @@ public class BarbecueFillComponent extends BaseFillComponent
 	private String code;
 	private String applicationIdentifier;
 	
-	public BarbecueFillComponent(BarcodeProviders providers, BarbecueComponent barcode)
+	public BarbecueFillComponent(BarbecueComponent barcode)
 	{
-		this.providers = providers;
 		this.barcodeComponent = barcode;
 	}
 	
@@ -142,7 +140,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 		barcodeInfo.setBarWidth(barcodeComponent.getBarWidth());
 		barcodeInfo.setBarHeight(barcodeComponent.getBarHeight());
 		
-		Barcode barcode = providers.createBarcode(barcodeInfo);
+		Barcode barcode = BarcodeProviders.createBarcode(barcodeInfo);
 		BarbecueRenderer renderer = new BarbecueRenderer(barcode);
 		image.setRenderer(renderer);
 	}
