@@ -178,6 +178,8 @@ public class JasperDesign extends JRBaseReport
 	public JasperDesign()
 	{
 		setMainDataset(new JRDesignDataset(true));
+		
+		detailSection = new JRDesignSection(new JROrigin(JROrigin.DETAIL));
 	}
 
 
@@ -479,16 +481,16 @@ public class JasperDesign extends JRBaseReport
 
 	/**
 	 * Sets the detail band.
-	 * @deprecated Replaced by {@link #setDetail(JRSection)}.
+	 * @deprecated Replaced by {@link #getDetailSection()}.
 	 */
 	public void setDetail(JRBand detail)
 	{
 		Object old = getDetail();
 
-		if (detailSection == null)
-		{
-			detailSection = new JRDesignSection();
-		}
+//		if (detailSection == null)
+//		{
+//			detailSection = new JRDesignSection();
+//		}
 		
 		JRBand[] bands = detailSection.getBands(); 
 		if (bands == null || bands.length == 0)
@@ -501,14 +503,14 @@ public class JasperDesign extends JRBaseReport
 			((JRDesignSection)detailSection).addBand(0, detail);
 		}
 		
-		setBandOrigin(detail, JROrigin.DETAIL);
+//		setBandOrigin(detail, JROrigin.DETAIL);
 		getEventSupport().firePropertyChange(PROPERTY_DETAIL, old, detail);
 	}
 
 
 	/**
 	 * Sets the detail section.
-	 */
+	 *
 	public void setDetail(JRSection detailSection)
 	{
 		Object old = this.detailSection;
