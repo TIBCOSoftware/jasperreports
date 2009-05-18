@@ -57,6 +57,14 @@ public class JRDesignSection extends JRBaseSection
 
 	
 	/**
+	 * 
+	 */
+	public JRDesignSection(JROrigin origin) 
+	{
+		this.origin = origin;
+	}
+	
+	/**
 	 * Returns the section origin, i.e. its location/role within the report
 	 * (e.g. detail/title/group header/etc).
 	 * The location is automatically set when the section is inserted
@@ -115,6 +123,8 @@ public class JRDesignSection extends JRBaseSection
 	 */
 	public void addBand(JRBand band)
 	{
+		((JRDesignBand)band).setOrigin(getOrigin());
+
 		bandsList.add(band);
 		
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_BANDS, band, bandsList.size() - 1);
@@ -128,6 +138,8 @@ public class JRDesignSection extends JRBaseSection
 	 */
 	public void addBand(int index, JRBand band)
 	{
+		((JRDesignBand)band).setOrigin(getOrigin());
+
 		bandsList.add(index, band);
 		
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_BANDS, band, index);

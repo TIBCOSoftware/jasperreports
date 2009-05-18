@@ -27,7 +27,9 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.design.JRDesignSection;
+import net.sf.jasperreports.engine.JRSection;
+import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
 
@@ -36,18 +38,58 @@ import org.xml.sax.Attributes;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBandFactory.java 2697 2009-03-24 18:41:23Z teodord $
  */
-public class JRSectionFactory extends JRBaseFactory
+public abstract class JRSectionFactory extends JRBaseFactory
 {
+	
+	/**
+	 *
+	 */
+	public abstract JRSection getSection();
+	
 	
 	/**
 	 *
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRDesignSection section = new JRDesignSection();
-		
-		return section;
+		return getSection();
 	}
 	
+
+	/**
+	 *
+	 */
+	public static class DetailSectionFactory extends JRSectionFactory
+	{
+		public JRSection getSection()
+		{
+			return ((JasperDesign)digester.peek(digester.getCount() - 2)).getDetailSection();
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public static class GroupHeaderSectionFactory extends JRSectionFactory
+	{
+		public JRSection getSection()
+		{
+			return ((JRDesignGroup)digester.peek()).getGroupHeaderSection();
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public static class GroupFooterSectionFactory extends JRSectionFactory
+	{
+		public JRSection getSection()
+		{
+			return ((JRDesignGroup)digester.peek()).getGroupFooterSection();
+		}
+	}
+
 
 }

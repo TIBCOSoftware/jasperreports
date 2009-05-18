@@ -59,6 +59,16 @@ public class JRDesignGroup extends JRBaseGroup
 	
 	public static final String PROPERTY_NAME = "name";
 
+
+	/**
+	 *
+	 */
+	public JRDesignGroup() 
+	{
+		groupHeaderSection = new JRDesignSection(new JROrigin(null, getName(), JROrigin.GROUP_HEADER));
+		groupFooterSection = new JRDesignSection(new JROrigin(null, getName(), JROrigin.GROUP_FOOTER));
+	}
+	
 	/**
 	 *
 	 */
@@ -66,7 +76,7 @@ public class JRDesignGroup extends JRBaseGroup
 	{
 		Object old = this.name;
 		this.name = name;
-		updateBandOrigins();
+		updateSectionOrigins();
 		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
@@ -81,16 +91,16 @@ public class JRDesignGroup extends JRBaseGroup
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #setGroupHeader(JRSection)}.
+	 * @deprecated Replaced by {@link #getGroupHeaderSection()}.
 	 */
 	public void setGroupHeader(JRBand groupHeader)
 	{
 		Object old = getGroupHeader();
 		
-		if (groupHeaderSection == null)
-		{
-			groupHeaderSection = new JRDesignSection();
-		}
+//		if (groupHeaderSection == null)
+//		{
+//			groupHeaderSection = new JRDesignSection();
+//		}
 		
 		JRBand[] bands = groupHeaderSection.getBands(); 
 		if (bands == null || bands.length == 0)
@@ -103,13 +113,13 @@ public class JRDesignGroup extends JRBaseGroup
 			((JRDesignSection)groupHeaderSection).addBand(0, groupHeader);
 		}
 
-		setBandOrigin(groupHeader, JROrigin.GROUP_HEADER);
+//		setBandOrigin(groupHeader, JROrigin.GROUP_HEADER);
 		getEventSupport().firePropertyChange(PROPERTY_GROUP_HEADER, old, groupHeader);
 	}
 		
 	/**
 	 *
-	 */
+	 *
 	public void setGroupHeader(JRSection groupHeaderSection)
 	{
 		Object old = this.groupHeaderSection;
@@ -119,16 +129,16 @@ public class JRDesignGroup extends JRBaseGroup
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setGroupFooter(JRSection)}.
+	 * @deprecated Replaced by {@link #getGroupFooterSection()}.
 	 */
 	public void setGroupFooter(JRBand groupFooter)
 	{
 		Object old = getGroupFooter();
 		
-		if (groupFooterSection == null)
-		{
-			groupFooterSection = new JRDesignSection();
-		}
+//		if (groupFooterSection == null)
+//		{
+//			groupFooterSection = new JRDesignSection();
+//		}
 		
 		JRBand[] bands = groupFooterSection.getBands(); 
 		if (bands == null || bands.length == 0)
@@ -141,13 +151,13 @@ public class JRDesignGroup extends JRBaseGroup
 			((JRDesignSection)groupFooterSection).addBand(0, groupFooter);
 		}
 
-		setBandOrigin(groupFooter, JROrigin.GROUP_FOOTER);
+//		setBandOrigin(groupFooter, JROrigin.GROUP_FOOTER);
 		getEventSupport().firePropertyChange(PROPERTY_GROUP_FOOTER, old, groupFooter);
 	}
 
 	/**
 	 *
-	 */
+	 *
 	public void setGroupFooter(JRSection groupFooterSection)
 	{
 		Object old = this.groupFooterSection;
@@ -184,7 +194,7 @@ public class JRDesignGroup extends JRBaseGroup
 		}
 	}
 	
-	protected void updateBandOrigins()
+	protected void updateSectionOrigins()
 	{
 		setSectionOrigin(getGroupHeaderSection(), JROrigin.GROUP_HEADER);
 		setSectionOrigin(getGroupFooterSection(), JROrigin.GROUP_FOOTER);
