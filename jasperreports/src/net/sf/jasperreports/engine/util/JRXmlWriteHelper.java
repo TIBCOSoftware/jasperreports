@@ -272,13 +272,19 @@ public class JRXmlWriteHelper
 	
 	public void writeCDATAElement(String name, String data) throws IOException
 	{
+		writeCDATAElement(name, getParentNamespace(), data);
+	}
+	
+	public void writeCDATAElement(String name, XmlNamespace namespace, 
+			String data) throws IOException
+	{
 		if (data != null)
 		{
 			writeParents(true);
 
 			buffer.append(getIndent(indent));
 			buffer.append('<');
-			String qName = getQualifiedName(name, getParentNamespace());
+			String qName = getQualifiedName(name, namespace);
 			buffer.append(qName);
 			buffer.append("><![CDATA[");
 			buffer.append(encodeCDATA(data));
@@ -296,13 +302,19 @@ public class JRXmlWriteHelper
 	
 	public void writeCDATAElement(String name, String data, String attName, Object attValue) throws IOException
 	{
+		writeCDATAElement(name, getParentNamespace(), data, attName, attValue);
+	}
+	
+	public void writeCDATAElement(String name, XmlNamespace namespace, 
+			String data, String attName, Object attValue) throws IOException
+	{
 		if (data != null)
 		{
 			writeParents(true);
 
 			buffer.append(getIndent(indent));
 			buffer.append('<');
-			String qName = getQualifiedName(name, getParentNamespace());
+			String qName = getQualifiedName(name, namespace);
 			buffer.append(qName);
 			if (attValue != null)
 			{
@@ -410,20 +422,35 @@ public class JRXmlWriteHelper
 	{
 		writeExpression(name, expression, writeClass, null);
 	}
+	
 
+	public void writeExpression(String name, XmlNamespace namespace, 
+			JRExpression expression, boolean writeClass) throws IOException
+	{
+		writeExpression(name, namespace, expression, writeClass, null);
+	}
 
-	public void writeExpression(String name, JRExpression expression, boolean writeClass, String defaultClassName) throws IOException
+	public void writeExpression(String name, 
+			JRExpression expression, boolean writeClass, String defaultClassName) throws IOException
+	{
+		writeExpression(name, getParentNamespace(), expression, writeClass, defaultClassName);
+	}
+	
+
+	public void writeExpression(String name, XmlNamespace namespace,
+			JRExpression expression, boolean writeClass, String defaultClassName) throws IOException
 	{
 		if (expression != null)
 		{
 			if (writeClass &&
 					(defaultClassName == null || !defaultClassName.equals(expression.getValueClassName())))
 			{
-				writeCDATAElement(name, expression.getText(), "class", expression.getValueClassName());
+				writeCDATAElement(name, namespace, expression.getText(), 
+						"class", expression.getValueClassName());
 			}
 			else
 			{
-				writeCDATAElement(name, expression.getText());
+				writeCDATAElement(name, namespace, expression.getText());
 			}
 		}
 	}
