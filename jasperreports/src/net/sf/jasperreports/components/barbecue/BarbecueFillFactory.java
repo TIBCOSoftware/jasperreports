@@ -40,31 +40,19 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  */
 public class BarbecueFillFactory implements ComponentFillFactory
 {
-	
-	private BarcodeProviders providers = new BarcodeProviders();
 
 	public FillComponent toFillComponent(Component component,
 			JRFillObjectFactory factory)
 	{
 		BarbecueComponent barcode = (BarbecueComponent) component;
-		return new BarbecueFillComponent(providers, barcode);
+		return new BarbecueFillComponent(barcode);
 	}
 
 	public FillComponent cloneFillComponent(FillComponent component,
 			JRFillCloneFactory factory)
 	{
 		BarbecueFillComponent fillBarcode = (BarbecueFillComponent) component;
-		return new BarbecueFillComponent(providers, fillBarcode.getBarcode());
-	}
-
-	public BarcodeProviders getProviders()
-	{
-		return providers;
-	}
-
-	public void setProviders(BarcodeProviders providers)
-	{
-		this.providers = providers;
+		return new BarbecueFillComponent(fillBarcode.getBarcode());
 	}
 
 }

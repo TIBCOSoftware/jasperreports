@@ -50,8 +50,6 @@ public class BarbecueDesignConverter implements ComponentDesignConverter
 	private static final Log log = LogFactory.getLog(BarbecueDesignConverter.class);
 	
 	private static final String DEFAULT_PREVIEW_CODE = "01234567890";
-	
-	private BarcodeProviders providers = new BarcodeProviders();
 
 	public JRPrintElement convert(ReportConverter reportConverter,
 			JRComponentElement element)
@@ -98,7 +96,7 @@ public class BarbecueDesignConverter implements ComponentDesignConverter
 			barcodeInfo.setBarWidth(component.getBarWidth());
 			barcodeInfo.setBarHeight(component.getBarHeight());
 			
-			Barcode barcode = providers.createBarcode(barcodeInfo);
+			Barcode barcode = BarcodeProviders.createBarcode(barcodeInfo);
 			image.setRenderer(new BarbecueRenderer(barcode));
 			return image;
 		}
@@ -112,16 +110,6 @@ public class BarbecueDesignConverter implements ComponentDesignConverter
 			return null;
 		}
 		
-	}
-
-	public BarcodeProviders getProviders()
-	{
-		return providers;
-	}
-
-	public void setProviders(BarcodeProviders providers)
-	{
-		this.providers = providers;
 	}
 
 }
