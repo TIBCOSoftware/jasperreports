@@ -1144,7 +1144,14 @@ public class JRVerifier
 				}
 				else
 				{
-					if (group.getGroupHeaderSection() != null || group.getGroupFooterSection() != null)
+					if (
+						(group.getGroupHeaderSection() != null 
+						&& group.getGroupHeaderSection().getBands() != null 
+						&& group.getGroupHeaderSection().getBands().length > 0) 
+						|| (group.getGroupFooterSection() != null
+						&& group.getGroupFooterSection().getBands() != null
+						&& group.getGroupFooterSection().getBands().length > 0)
+						)
 					{
 						addBrokenRule("Group " + group.getName() + " cannot have header or footer sections.", group);
 					}
