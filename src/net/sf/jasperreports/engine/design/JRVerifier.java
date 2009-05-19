@@ -459,7 +459,7 @@ public class JRVerifier
 	 * @param bottomMargin the page bottom margin
 	 */
 	public static void verifyBandHeights(Collection brokenRules, JRReport report,
-			int pageHeight, int topMargin, int bottomMargin)
+			int pageHeight, int topMargin, int bottomMargin)//FIXMEBAND for immediate split bands, the height validation is too restrictive
 	{
 		if (
 			topMargin +

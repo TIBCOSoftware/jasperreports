@@ -34,10 +34,13 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -73,6 +76,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	private Map savedVariableValues = new HashMap();
 
 	protected JROrigin origin = null;
+	
+	private int breakHeight = 0;
 
 	
 	/**
@@ -93,6 +98,21 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 			for(int i = 0; i < deepElements.length; i++)
 			{
 				deepElements[i].setBand(this);
+			}
+		}
+
+		breakHeight = getHeight();
+
+		if (
+			JRBand.SPLIT_TYPE_IMMEDIATE.equals(getSplitType())
+			&& elements != null && elements.length > 0
+			)
+		{
+			for(int i = 0; i < elements.length; i++)
+			{
+				JRElement element = elements[i];
+				int bottom = element.getY() + element.getHeight();
+				breakHeight = bottom < breakHeight ? bottom : breakHeight;
 			}
 		}
 
@@ -182,11 +202,19 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	public int getHeight()
 	{
-		return (parent != null ? parent.getHeight() : 0);
+		return (parent == null ? 0 : parent.getHeight());
 	}
 
 	/**
 	 *
+	 */
+	public int getBreakHeight()
+	{
+		return breakHeight;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getSplitType()}.
 	 */
 	public boolean isSplitAllowed()
 	{
@@ -194,7 +222,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setSplitType(Byte)}.
 	 */
 	public void setSplitAllowed(boolean isSplitAllowed)
 	{
@@ -203,9 +231,42 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	/**
 	 *
 	 */
+	public Byte getSplitType()
+	{
+		Byte splitType = (parent == null ? null : parent.getSplitType());
+		
+		if (splitType == null)
+		{
+			splitType = 
+				(Byte)JRXmlConstants.getSplitTypeMap().get(
+					JRProperties.getProperty(filler.getJasperReport(), JRBand.PROPERTY_SPLIT_TYPE)
+					);
+		}
+		
+		return splitType;
+	}
+
+	/**
+	 *
+	 */
+	public void setSplitType(Byte splitType)
+	{
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getPrintWhenExpression()
 	{
-		return (parent != null ? parent.getPrintWhenExpression() : null);
+		return (parent == null ? null : parent.getPrintWhenExpression());
+	}
+
+	/**
+	 *
+	 */
+	protected boolean isSplitPrevented()
+	{
+		return JRBand.SPLIT_TYPE_PREVENT.equals(getSplitType());
 	}
 
 	/**

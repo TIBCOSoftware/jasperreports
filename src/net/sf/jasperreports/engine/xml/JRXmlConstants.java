@@ -38,6 +38,7 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
@@ -1195,6 +1196,33 @@ public class JRXmlConstants
 	/**
 	 *
 	 */
+	private static final String SPLIT_TYPE_STRETCH = "Stretch";
+	private static final String SPLIT_TYPE_PREVENT = "Prevent";
+	private static final String SPLIT_TYPE_IMMEDIATE = "Immediate";
+
+	
+	private static Map splitTypeMap = null;
+
+	public static Map getSplitTypeMap()
+	{
+		if (splitTypeMap == null)
+		{
+			splitTypeMap = new HashMap(6);
+			splitTypeMap.put(SPLIT_TYPE_STRETCH,   JRBand.SPLIT_TYPE_STRETCH);
+			splitTypeMap.put(SPLIT_TYPE_PREVENT,   JRBand.SPLIT_TYPE_PREVENT);
+			splitTypeMap.put(SPLIT_TYPE_IMMEDIATE, JRBand.SPLIT_TYPE_IMMEDIATE);
+			splitTypeMap.put(JRBand.SPLIT_TYPE_STRETCH,   SPLIT_TYPE_STRETCH);
+			splitTypeMap.put(JRBand.SPLIT_TYPE_PREVENT,   SPLIT_TYPE_PREVENT);
+			splitTypeMap.put(JRBand.SPLIT_TYPE_IMMEDIATE, SPLIT_TYPE_IMMEDIATE);
+		}
+
+		return splitTypeMap;
+	}
+
+	
+	/**
+	 *
+	 */
 	private static final String UNKNOWN = "unknown";
 	private static final String BACKGROUND = "background";
 	private static final String TITLE = "title";
@@ -1400,6 +1428,7 @@ public class JRXmlConstants
 
 	public static final String ATTRIBUTE_height = "height";
 	public static final String ATTRIBUTE_isSplitAllowed = "isSplitAllowed";
+	public static final String ATTRIBUTE_splitType = "splitType";
 
 	/**
 	 * JRPenFactory associated constants

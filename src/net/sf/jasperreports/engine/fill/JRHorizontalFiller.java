@@ -324,7 +324,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			JRPrintBand printBand = title.fill(pageHeight - bottomMargin - offsetY - title.getHeight());
 
-			if (title.willOverflow() && !title.isSplitAllowed() && isSubreport())
+			if (title.willOverflow() && title.isSplitPrevented() && isSubreport())
 			{
 				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, false);
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
@@ -582,7 +582,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 				if (groupHeaderBand.isToPrint())
 				{
 					while (
-							groupHeaderBand.getHeight() > columnFooterOffsetY - offsetY ||
+						groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY ||
 						group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
 						)
 					{
@@ -659,7 +659,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 						setFirstColumn();
 
 						while (
-								groupHeaderBand.getHeight() > columnFooterOffsetY - offsetY ||
+							groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY ||
 							group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
 							)
 						{
@@ -824,7 +824,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 					setFirstColumn();
 
 					if (
-						groupFooterBand.getHeight() > columnFooterOffsetY - offsetY
+						groupFooterBand.getBreakHeight() > columnFooterOffsetY - offsetY
 						)
 					{
 						fillPageBreak(false, evaluation, evaluation, true);
@@ -1007,7 +1007,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY - summary.getHeight());
 
-			if (summary.willOverflow() && !summary.isSplitAllowed())
+			if (summary.willOverflow() && summary.isSplitPrevented())
 			{
 				fillColumnFooters(JRExpression.EVALUATION_DEFAULT);
 
@@ -1078,7 +1078,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY - summary.getHeight());
 
-			if (summary.willOverflow() && !summary.isSplitAllowed())
+			if (summary.willOverflow() && summary.isSplitPrevented())
 			{
 				if (offsetY <= lastPageColumnFooterOffsetY)
 				{
@@ -1204,7 +1204,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			JRPrintBand printBand = summary.fill(pageHeight - bottomMargin - offsetY - summary.getHeight());
 
-			if (summary.willOverflow() && !summary.isSplitAllowed() && isSubreport())
+			if (summary.willOverflow() && summary.isSplitPrevented() && isSubreport())
 			{
 				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
@@ -1439,7 +1439,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		JRPrintBand printBand = band.fill(columnFooterOffsetY - offsetY - band.getHeight());
 
-		if (band.willOverflow() && !band.isSplitAllowed())
+		if (band.willOverflow() && band.isSplitPrevented())
 		{
 			fillPageBreak(false, evaluation, evaluation, true);
 
@@ -1472,7 +1472,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		JRPrintBand printBand = band.fill(columnFooterOffsetY - offsetY - band.getHeight());
 
-		if (band.willOverflow() && !band.isSplitAllowed())
+		if (band.willOverflow() && band.isSplitPrevented())
 		{
 			fillPageBreak(false, evaluation, evaluation, true);
 
@@ -1627,7 +1627,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		if (noData.isToPrint())
 		{
 			while (
-					noData.getHeight() > pageHeight - bottomMargin - offsetY
+				noData.getHeight() > pageHeight - bottomMargin - offsetY
 				)
 			{
 				addPage(false);
@@ -1637,7 +1637,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			JRPrintBand printBand = noData.fill(pageHeight - bottomMargin - offsetY - noData.getHeight());
 
-			if (noData.willOverflow() && !noData.isSplitAllowed() && isSubreport())
+			if (noData.willOverflow() && noData.isSplitPrevented() && isSubreport())
 			{
 				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, false);
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);

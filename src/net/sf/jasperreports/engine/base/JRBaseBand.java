@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -50,13 +53,21 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	/**
+	 * @deprecated Replaced by {@link #PROPERTY_SPLIT_TYPE}.
+	 */
 	public static final String PROPERTY_SPLIT_ALLOWED = "splitAllowed";
 
 	/**
 	 *
 	 */
+	public static final String PROPERTY_SPLIT_TYPE = "splitType";
+
+	/**
+	 *
+	 */
 	protected int height = 0;
-	protected boolean isSplitAllowed = true;
+	protected Byte splitType = null;
 
 	/**
 	 *
@@ -72,7 +83,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 		super(band, factory);
 		
 		height = band.getHeight();
-		isSplitAllowed = band.isSplitAllowed();
+		splitType = band.getSplitType();
 
 		printWhenExpression = factory.getExpression(band.getPrintWhenExpression());
 	}
@@ -83,25 +94,41 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	 */
 	public int getHeight()
 	{
-		return this.height;
+		return height;
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getSplitType()}.
 	 */
 	public boolean isSplitAllowed()
 	{
-		return this.isSplitAllowed;
+		return !JRBand.SPLIT_TYPE_PREVENT.equals(getSplitType());
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setSplitType(Byte)}.
+	 */
+	public void setSplitAllowed(boolean isSplitAllowed)
+	{
+		setSplitType(isSplitAllowed ? JRBand.SPLIT_TYPE_STRETCH : JRBand.SPLIT_TYPE_PREVENT);
+	}
+
+	/**
+	 * 
+	 */
+	public Byte getSplitType()
+	{
+		return splitType;
 	}
 
 	/**
 	 *
 	 */
-	public void setSplitAllowed(boolean isSplitAllowed)
+	public void setSplitType(Byte splitType)
 	{
-		boolean old = this.isSplitAllowed;
-		this.isSplitAllowed = isSplitAllowed;
-		getEventSupport().firePropertyChange(PROPERTY_SPLIT_ALLOWED, old, this.isSplitAllowed);
+		Byte old = this.splitType;
+		this.splitType = splitType;
+		getEventSupport().firePropertyChange(PROPERTY_SPLIT_TYPE, old, this.splitType);
 	}
 
 	/**
@@ -140,4 +167,20 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 		return eventSupport;
 	}
 		
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_5_2;
+	private boolean isSplitAllowed = true;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_5_2)
+		{
+			splitType = isSplitAllowed ? JRBand.SPLIT_TYPE_STRETCH : JRBand.SPLIT_TYPE_PREVENT;
+		}
+	}
+
 }

@@ -1528,9 +1528,9 @@
 	 <documentation>Height of the band.</documentation>
 	</annotation>  
    </attribute>
-   <attribute name="isSplitAllowed" use="optional" default="true">
+   <attribute name="isSplitAllowed" use="optional">
 	<annotation>
-	 <documentation>Flag that indicates if the band is allowed to split when it stretches.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by attribute <code>splitType</code>. Flag that indicates if the band is allowed to split when it stretches.</documentation>
 	</annotation>  
     <simpleType>
      <restriction base="string">
@@ -1542,6 +1542,30 @@
       <enumeration value="false">
 		<annotation>
 		 <documentation>When the band stretches and it does not fit on the current page, the content of the band will be transferred on the next new page. On this new page the flag will be ignored since the band has to be displayed even there is not enough space to acquire the stretch.</documentation>
+		</annotation> 
+	  </enumeration> 
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="splitType" use="optional">
+	<annotation>
+	 <documentation>Specifies the band split behavior.</documentation>
+	</annotation>  
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Stretch">
+		<annotation>
+		 <documentation>The band is allowed to split, but never within its declared height. This means the band splits only when its content stretches.</documentation>
+		</annotation> 
+	  </enumeration> 
+      <enumeration value="Prevent">
+		<annotation>
+		 <documentation>Prevents the band from splitting on first break attempt. On subsequent pages/columns, the band is allowed to split, to avoid infinite loops.</documentation>
+		</annotation> 
+	  </enumeration> 
+      <enumeration value="Immediate">
+		<annotation>
+		 <documentation>The band is allowed to split anywhere, as early as needed, but not before at least one element being printed on the current page/column.</documentation>
 		</annotation> 
 	  </enumeration> 
      </restriction>

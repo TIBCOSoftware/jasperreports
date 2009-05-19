@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -55,7 +58,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 *
 	 */
 	protected int height = 0;
-	protected boolean isSplitAllowed = true;
+	protected Byte splitType = null;
 
 	/**
 	 *
@@ -69,7 +72,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 */
 	public int getHeight()
 	{
-		return this.height;
+		return height;
 	}
 
 	/**
@@ -83,21 +86,37 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getSplitType()}.
 	 */
 	public boolean isSplitAllowed()
 	{
-		return this.isSplitAllowed;
+		return !JRBand.SPLIT_TYPE_PREVENT.equals(getSplitType());
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setSplitType(Byte)}.
+	 */
+	public void setSplitAllowed(boolean isSplitAllowed)
+	{
+		setSplitType(isSplitAllowed ? JRBand.SPLIT_TYPE_STRETCH : JRBand.SPLIT_TYPE_PREVENT);
 	}
 
 	/**
 	 *
 	 */
-	public void setSplitAllowed(boolean isSplitAllowed)
+	public Byte getSplitType()
 	{
-		boolean old = this.isSplitAllowed;
-		this.isSplitAllowed = isSplitAllowed;
-		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_SPLIT_ALLOWED, old, this.isSplitAllowed);
+		return splitType;
+	}
+
+	/**
+	 *
+	 */
+	public void setSplitType(Byte splitType)
+	{
+		Byte old = this.splitType;
+		this.splitType = splitType;
+		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_SPLIT_TYPE, old, this.splitType);
 	}
 
 	/**
@@ -158,4 +177,20 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	}
 
 	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_5_2;
+	private boolean isSplitAllowed = true;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_5_2)
+		{
+			splitType = isSplitAllowed ? JRBand.SPLIT_TYPE_STRETCH : JRBand.SPLIT_TYPE_PREVENT;
+		}
+	}
+
 }

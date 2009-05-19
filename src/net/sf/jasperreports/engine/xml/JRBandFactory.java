@@ -27,8 +27,11 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.design.JRDesignBand;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 
 
@@ -38,6 +41,7 @@ import org.xml.sax.Attributes;
  */
 public class JRBandFactory extends JRBaseFactory
 {
+	private static final Log log = LogFactory.getLog(JRBandFactory.class);
 	
 	/**
 	 *
@@ -55,7 +59,23 @@ public class JRBandFactory extends JRBaseFactory
 		String isSplitAllowed = atts.getValue(JRXmlConstants.ATTRIBUTE_isSplitAllowed);
 		if (isSplitAllowed != null && isSplitAllowed.length() > 0)
 		{
-			band.setSplitAllowed(Boolean.valueOf(isSplitAllowed).booleanValue());
+			if (log.isWarnEnabled())
+				log.warn("The 'isSplitAllowed' attribute is deprecated. Use the 'splitType' attribute instead.");
+				
+			if (Boolean.valueOf(isSplitAllowed).booleanValue())
+			{
+				band.setSplitType(JRBand.SPLIT_TYPE_STRETCH);
+			}
+			else
+			{
+				band.setSplitType(JRBand.SPLIT_TYPE_PREVENT);
+			}
+		}
+
+		Byte splitType = (Byte)JRXmlConstants.getSplitTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_splitType));
+		if (splitType != null)
+		{
+			band.setSplitType(splitType);
 		}
 
 		return band;
