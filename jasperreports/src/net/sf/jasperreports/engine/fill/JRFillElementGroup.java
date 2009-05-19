@@ -89,9 +89,9 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 			}
 	
 			/*   */
-			this.getElements();
+			getElements();
 	
-			this.elementGroup = (JRElementGroup)factory.getVisitResult(elementGrp.getElementGroup());
+			elementGroup = (JRElementGroup)factory.getVisitResult(elementGrp.getElementGroup());
 		}
 	}
 

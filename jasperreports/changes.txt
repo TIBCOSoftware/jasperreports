@@ -7,6 +7,8 @@ JasperReports 3.5.2 (2009-0x-xx)
 
 - multi-band sections;
 
+- band splitType;
+
 - barbecue component;
 
 - minor bug fixes and improvements;
