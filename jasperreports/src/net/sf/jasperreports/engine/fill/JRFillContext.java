@@ -185,7 +185,7 @@ public class JRFillContext
 	/**
 	 * Decides whether virtualization is used by the filling process.
 	 * 
-	 * @return <code>true</code> iff a virtualizer is used
+	 * @return <code>true</code> if and only if a virtualizer is used
 	 * @see #setUsingVirtualizer(boolean)
 	 * @see net.sf.jasperreports.engine.JRParameter#REPORT_VIRTUALIZER
 	 */
@@ -211,7 +211,7 @@ public class JRFillContext
 	/**
 	 * Decides whether fillers should keep per page bound element maps.
 	 * 
-	 * @return <code>true</code> iff fillers should keep per page bound element maps
+	 * @return <code>true</code> if and only if fillers should keep per page bound element maps
 	 * @see #setPerPageBoundElements(boolean)
 	 */
 	public boolean isPerPageBoundElements()
@@ -297,7 +297,7 @@ public class JRFillContext
 	/**
 	 * Cancels the running query.
 	 * 
-	 * @return <code>true</code> iff there is a running query and it has been cancelled.
+	 * @return <code>true</code> if and only if there is a running query and it has been canceled.
 	 * @throws JRException
 	 */
 	public synchronized boolean cancelRunningQuery() throws JRException

@@ -409,7 +409,7 @@ public class BucketingService
 	/**
 	 * Checks whether there is any data accumulated by the engine.
 	 * 
-	 * @return <code>true</code> iff the engine has any accumulated data
+	 * @return <code>true</code> if and only if the engine has any accumulated data
 	 */
 	public boolean hasData()
 	{

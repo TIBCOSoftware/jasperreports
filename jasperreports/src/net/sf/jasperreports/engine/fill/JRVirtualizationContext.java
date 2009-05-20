@@ -100,7 +100,7 @@ public class JRVirtualizationContext implements Serializable
 	 * Determines whether a cached image renderer for a specified ID exists.
 	 * 
 	 * @param id the ID
-	 * @return <code>true</code> iff the context contains a cached renderer with the specified ID
+	 * @return <code>true</code> if and only if the context contains a cached renderer with the specified ID
 	 */
 	public boolean hasCachedRenderer(String id)
 	{
@@ -112,7 +112,7 @@ public class JRVirtualizationContext implements Serializable
 	 * Determines whether a cached {@link JRTemplateElement template} with a specified ID exists.
 	 * 
 	 * @param id the template ID
-	 * @return <code>true</code> iff the context contains a cached template with the specified ID
+	 * @return <code>true</code> if and only if the context contains a cached template with the specified ID
 	 */
 	public boolean hasCachedTemplate(String id)
 	{

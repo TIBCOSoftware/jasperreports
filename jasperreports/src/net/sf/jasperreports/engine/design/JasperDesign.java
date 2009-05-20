@@ -1262,7 +1262,7 @@ public class JasperDesign extends JRBaseReport
 	 * Removes a report template.
 	 *
 	 * @param template the template to remove
-	 * @return <code>true</code> iff the template has been found and removed
+	 * @return <code>true</code> if and only if the template has been found and removed
 	 */
 	public boolean removeTemplate(JRReportTemplate template)
 	{
