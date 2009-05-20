@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 
@@ -171,6 +172,12 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 
 	/**
 	 * A boolean value specifying whether the export engine should use force wrapping by breaking words (CSS <code>word-wrap: break-word</code>).
+	 * 
+	 * <p>
+	 * Note that this CSS property is not currently supported by all browsers.
+	 * An alternative approach for forcing word breaks in HTML is to save the
+	 * line breaks at fill time via the {@link JRTextElement#PROPERTY_SAVE_LINE_BREAKS}
+	 * property.
 	 */
 	public static final JRHtmlExporterParameter IS_WRAP_BREAK_WORD = new JRHtmlExporterParameter("Is Wrap Break Word");
 
