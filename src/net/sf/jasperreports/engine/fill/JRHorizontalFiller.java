@@ -322,7 +322,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			title.evaluate(JRExpression.EVALUATION_DEFAULT);
 
-			JRPrintBand printBand = title.fill(pageHeight - bottomMargin - offsetY - title.getHeight());
+			JRPrintBand printBand = title.fill(pageHeight - bottomMargin - offsetY);
 
 			if (title.willOverflow() && title.isSplitPrevented() && isSubreport())
 			{
@@ -335,7 +335,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				addPage(false);
 
-				printBand = title.refill(pageHeight - bottomMargin - offsetY - title.getHeight());
+				printBand = title.refill(pageHeight - bottomMargin - offsetY);
 			}
 
 			fillBand(printBand);
@@ -352,7 +352,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				addPage(false);
 
-				printBand = title.fill(pageHeight - bottomMargin - offsetY - title.getHeight());
+				printBand = title.fill(pageHeight - bottomMargin - offsetY);
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
@@ -428,13 +428,13 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 	private boolean fillBandNoOverflow(JRFillBand band, byte evaluation) throws JRException
 	{
-		int availableStretch = columnFooterOffsetY - offsetY - band.getHeight();
-		boolean overflow = availableStretch < 0;
+		int availableHeight = columnFooterOffsetY - offsetY;
+		boolean overflow = availableHeight < band.getHeight();
 
 		if (!overflow)
 		{
 			band.evaluate(evaluation);
-			JRPrintBand printBand = band.fill(availableStretch);
+			JRPrintBand printBand = band.fill(availableHeight);
 
 			overflow = band.willOverflow();
 			if (overflow)
@@ -1005,7 +1005,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 
-			JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY - summary.getHeight());
+			JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY);
 
 			if (summary.willOverflow() && summary.isSplitPrevented())
 			{
@@ -1022,7 +1022,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				addPage(false);
 
-				printBand = summary.refill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+				printBand = summary.refill(pageHeight - bottomMargin - offsetY);
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
@@ -1048,7 +1048,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				addPage(false);
 
-				printBand = summary.fill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+				printBand = summary.fill(pageHeight - bottomMargin - offsetY);
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
@@ -1076,7 +1076,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 
-			JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY - summary.getHeight());
+			JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY);
 
 			if (summary.willOverflow() && summary.isSplitPrevented())
 			{
@@ -1097,7 +1097,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 					addPage(false);
 
-					printBand = summary.refill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+					printBand = summary.refill(pageHeight - bottomMargin - offsetY);
 
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
@@ -1108,8 +1108,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 					setLastPageFooter(true);
 
-					printBand = summary.refill(lastPageColumnFooterOffsetY - offsetY - summary.getHeight());
-					//printBand = summary.refill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+					printBand = summary.refill(lastPageColumnFooterOffsetY - offsetY);
 
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
@@ -1130,7 +1129,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				if (summary.willOverflow())
 				{
-					printBand = summary.fill(lastPageColumnFooterOffsetY - offsetY - summary.getHeight());
+					printBand = summary.fill(lastPageColumnFooterOffsetY - offsetY);
 
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
@@ -1152,7 +1151,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				addPage(false);
 
-				printBand = summary.fill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+				printBand = summary.fill(pageHeight - bottomMargin - offsetY);
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
@@ -1202,7 +1201,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 
-			JRPrintBand printBand = summary.fill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+			JRPrintBand printBand = summary.fill(pageHeight - bottomMargin - offsetY);
 
 			if (summary.willOverflow() && summary.isSplitPrevented() && isSubreport())
 			{
@@ -1215,7 +1214,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				addPage(false);
 
-				printBand = summary.refill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+				printBand = summary.refill(pageHeight - bottomMargin - offsetY);
 			}
 
 			fillBand(printBand);
@@ -1232,7 +1231,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				addPage(false);
 
-				printBand = summary.fill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+				printBand = summary.fill(pageHeight - bottomMargin - offsetY);
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
@@ -1268,7 +1267,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				background.evaluate(JRExpression.EVALUATION_DEFAULT);
 				
-				JRPrintBand printBand = background.fill(pageHeight - bottomMargin - offsetY - background.getHeight());
+				JRPrintBand printBand = background.fill(pageHeight - bottomMargin - offsetY);
 				
 				fillBand(printBand);
 				//offsetY += printBand.getHeight();
@@ -1437,13 +1436,13 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{
 		band.evaluate(evaluation);
 
-		JRPrintBand printBand = band.fill(columnFooterOffsetY - offsetY - band.getHeight());
+		JRPrintBand printBand = band.fill(columnFooterOffsetY - offsetY);
 
 		if (band.willOverflow() && band.isSplitPrevented())
 		{
 			fillPageBreak(false, evaluation, evaluation, true);
 
-			printBand = band.refill(columnFooterOffsetY - offsetY - band.getHeight());
+			printBand = band.refill(columnFooterOffsetY - offsetY);
 		}
 
 		fillBand(printBand);
@@ -1453,7 +1452,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			fillPageBreak(false, evaluation, evaluation, true);
 
-			printBand = band.fill(columnFooterOffsetY - offsetY - band.getHeight());
+			printBand = band.fill(columnFooterOffsetY - offsetY);
 
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
@@ -1470,13 +1469,13 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{
 		band.evaluate(evaluation);
 
-		JRPrintBand printBand = band.fill(columnFooterOffsetY - offsetY - band.getHeight());
+		JRPrintBand printBand = band.fill(columnFooterOffsetY - offsetY);
 
 		if (band.willOverflow() && band.isSplitPrevented())
 		{
 			fillPageBreak(false, evaluation, evaluation, true);
 
-			printBand = band.refill(columnFooterOffsetY - offsetY - band.getHeight());
+			printBand = band.refill(columnFooterOffsetY - offsetY);
 		}
 
 		fillBand(printBand);
@@ -1486,7 +1485,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			fillPageBreak(false, evaluation, evaluation, true);
 
-			printBand = band.fill(columnFooterOffsetY - offsetY - band.getHeight());
+			printBand = band.fill(columnFooterOffsetY - offsetY);
 
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
@@ -1635,7 +1634,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			noData.evaluate(JRExpression.EVALUATION_DEFAULT);
 
-			JRPrintBand printBand = noData.fill(pageHeight - bottomMargin - offsetY - noData.getHeight());
+			JRPrintBand printBand = noData.fill(pageHeight - bottomMargin - offsetY);
 
 			if (noData.willOverflow() && noData.isSplitPrevented() && isSubreport())
 			{
@@ -1648,7 +1647,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				addPage(false);
 
-				printBand = noData.refill(pageHeight - bottomMargin - offsetY - noData.getHeight());
+				printBand = noData.refill(pageHeight - bottomMargin - offsetY);
 			}
 
 			fillBand(printBand);
@@ -1665,7 +1664,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				addPage(false);
 
-				printBand = noData.fill(pageHeight - bottomMargin - offsetY - noData.getHeight());
+				printBand = noData.fill(pageHeight - bottomMargin - offsetY);
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
