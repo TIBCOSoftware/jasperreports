@@ -106,7 +106,7 @@ public class JRSimpleTemplate implements JRTemplate, Serializable
 	 * Removes an included style.
 	 * 
 	 * @param style the style to remove
-	 * @return <code>true</code> iff the style has been found and removed
+	 * @return <code>true</code> if and only if the style has been found and removed
 	 */
 	public boolean removeStyle(JRStyle style)
 	{
@@ -189,7 +189,7 @@ public class JRSimpleTemplate implements JRTemplate, Serializable
 	 * Removes an included template.
 	 * 
 	 * @param reference the template reference to remove
-	 * @return <code>true</code> iff the included template has been found and removed
+	 * @return <code>true</code> if and only if the included template has been found and removed
 	 */
 	public boolean removeIncludedTemplate(JRTemplateReference reference)
 	{

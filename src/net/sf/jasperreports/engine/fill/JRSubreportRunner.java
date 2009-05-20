@@ -41,7 +41,7 @@ public interface JRSubreportRunner
 	/**
 	 * Decides whether the subreport filling has ended or not.
 	 * 
-	 * @return <code>true</code> iff the subreport filling has not ended
+	 * @return <code>true</code> if and only if the subreport filling has not ended
 	 */
 	boolean isFilling();
 

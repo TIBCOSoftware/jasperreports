@@ -139,7 +139,7 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable
 	/**
 	 * Decides whether this dataset is the main report dataset or a sub dataset.
 	 * 
-	 * @return <code>true</code> iff this dataset is the main report dataset
+	 * @return <code>true</code> if and only if this dataset is the main report dataset
 	 */
 	public boolean isMainDataset();
 

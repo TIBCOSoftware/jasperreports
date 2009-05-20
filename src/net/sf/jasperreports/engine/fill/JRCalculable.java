@@ -58,9 +58,9 @@ public interface JRCalculable
 
 	
 	/**
-	 * Returns <code>true</code> iff the calculable object was only initialized and not incremented.
+	 * Returns <code>true</code> if and only if the calculable object was only initialized and not incremented.
 	 * 
-	 * @return <code>true</code> iff the calculable object was only initialized and not incremented
+	 * @return <code>true</code> if and only if the calculable object was only initialized and not incremented
 	 */
 	boolean isInitialized();
 	

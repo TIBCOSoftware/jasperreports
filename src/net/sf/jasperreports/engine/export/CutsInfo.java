@@ -144,7 +144,7 @@ public class CutsInfo
 	 * Decides whether a cut is empty or not.
 	 * 
 	 * @param index the cut index
-	 * @return <code>true</code> iff the cut is not empty
+	 * @return <code>true</code> if and only if the cut is not empty
 	 */
 	public boolean isCutNotEmpty(int index)
 	{
@@ -155,7 +155,7 @@ public class CutsInfo
 	 * Decides whether a cut is occupied by spanning cells or not.
 	 * 
 	 * @param index the cut index
-	 * @return <code>true</code> iff the cut is not empty
+	 * @return <code>true</code> if and only if the cut is not empty
 	 */
 	public boolean isCutSpanned(int index)
 	{

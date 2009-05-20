@@ -72,7 +72,7 @@ public interface JRQueryExecuter
 	 * This method will be called from a different thread if the client decides to
 	 * cancel the filling process.
 	 * 
-	 * @return <code>true</code> iff the query was running and it has been cancelled
+	 * @return <code>true</code> if and only if the query was running and it has been canceled
 	 * @throws JRException
 	 */
 	public boolean cancelQuery() throws JRException;

@@ -184,7 +184,7 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	 * The method returns true even if the property value is null.
 	 * 
 	 * @param propName the property name
-	 * @return <code>true</code> iff the map contains the property
+	 * @return <code>true</code> if and only if the map contains the property
 	 */
 	public boolean containsProperty(String propName)
 	{

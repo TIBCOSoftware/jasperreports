@@ -275,7 +275,7 @@ public class JRVerifier
 	 * 	if null, a new collector will be created and used to collect the expressions
 	 *
 	 * @return a list of {@link JRValidationFault design faults};
-	 * 	the report design is valid iff the list is empty
+	 * 	the report design is valid if and only if the list is empty
 	 */
 	public static Collection verifyDesign(JasperDesign jasperDesign, JRExpressionCollector expressionCollector)
 	{
@@ -289,7 +289,7 @@ public class JRVerifier
 	 * @param jasperDesign the report design
 	 *
 	 * @return a list of {@link JRValidationFault design faults};
-	 * 	the report design is valid iff the list is empty
+	 * 	the report design is valid if and only if the list is empty
 	 */
 	public static Collection verifyDesign(JasperDesign jasperDesign)
 	{
