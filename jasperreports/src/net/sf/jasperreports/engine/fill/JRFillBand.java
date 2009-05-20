@@ -77,6 +77,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 
 	protected JROrigin origin = null;
 	
+	private Byte splitType = null;
 	private int breakHeight = 0;
 
 	
@@ -101,8 +102,16 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 			}
 		}
 
+		splitType = (parent == null ? null : parent.getSplitType());
+		if (splitType == null)
+		{
+			splitType = 
+				(Byte)JRXmlConstants.getSplitTypeMap().get(
+					JRProperties.getProperty(filler.getJasperReport(), JRBand.PROPERTY_SPLIT_TYPE)
+					);
+		}
+		
 		breakHeight = getHeight();
-
 		if (
 			JRBand.SPLIT_TYPE_IMMEDIATE.equals(getSplitType())
 			&& elements != null && elements.length > 0
@@ -233,16 +242,6 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	public Byte getSplitType()
 	{
-		Byte splitType = (parent == null ? null : parent.getSplitType());
-		
-		if (splitType == null)
-		{
-			splitType = 
-				(Byte)JRXmlConstants.getSplitTypeMap().get(
-					JRProperties.getProperty(filler.getJasperReport(), JRBand.PROPERTY_SPLIT_TYPE)
-					);
-		}
-		
 		return splitType;
 	}
 
@@ -337,13 +336,13 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 *
 	 */
 	protected JRPrintBand refill(
-		int availableStretchHeight
+		int availableHeight
 		) throws JRException
 	{
 		rewind();
 		restoreSavedVariables();
 
-		return fill(availableStretchHeight);
+		return fill(availableHeight);
 	}
 
 
@@ -360,10 +359,10 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 *
 	 */
 	protected JRPrintBand fill(
-		int availableStretchHeight
+		int availableHeight
 		) throws JRException
 	{
-		return fill(availableStretchHeight, true);
+		return fill(availableHeight - getHeight(), true);
 	}
 
 

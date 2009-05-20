@@ -502,7 +502,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 				}
 				else
 				{
-					blankHeight = iElem.getHeight();//FIXME subreports that strech and then don't print, will not remove all space
+					blankHeight = iElem.getHeight();//FIXME subreports that stretch and then don't print, will not remove all space
 				}
 				
 				if (
