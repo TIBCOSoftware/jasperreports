@@ -255,7 +255,7 @@ public class JRGridLayout
 
 		boolean createXCuts = (xCuts == null);
 
-		xCuts = createXCuts ? new CutsInfo(width) : xCuts;
+		xCuts = createXCuts ? new CutsInfo() : xCuts;
 		yCuts = nature.isIgnoreLastRow() ? new CutsInfo(0) : new CutsInfo(height);
 
 		if(!isNested && nature.isIgnorePageMargins())
@@ -269,10 +269,6 @@ public class JRGridLayout
 				if(hasLeftMargin)
 				{
 					xCutsList.remove(new Integer(0));
-				}
-				if(hasRightMargin)
-				{
-					xCutsList.remove(new Integer(width));
 				}
 			}
 
@@ -290,6 +286,15 @@ public class JRGridLayout
 
 		createCuts(wrappers, offsetX, offsetY, createXCuts);
 
+		// add a cut at the width if it's a nested grid, or if the right margin
+		// is not to be removed and no element goes beyond the width
+		if (createXCuts && (isNested
+				|| (!(nature.isIgnorePageMargins() && hasRightMargin)
+				&& !(xCuts.hasCuts() && xCuts.getLastCut() >= width))))
+		{
+			xCuts.addCut(width);
+		}
+		
 		xCuts.use();
 		yCuts.use();
 
@@ -317,24 +322,8 @@ public class JRGridLayout
 				offsetX, offsetY,
 				0, 0, rowCount, colCount);
 
-		if(!isNested && nature.isIgnorePageMargins())
-		{
-			int newWidth = 0;
-			int newHeight = 0;
-
-			for(int x = 1; x < xCuts.size(); x++)
-			{
-				newWidth += xCuts.getCut(x) - xCuts.getCut(x - 1);
-			}
-
-			for(int y = 1; y < yCuts.size(); y++)
-			{
-				newHeight += yCuts.getCut(y) - yCuts.getCut(y - 1);
-			}
-
-			width = newWidth;
-			height = newHeight;
-		}
+		width = xCuts.getTotalLength();
+		height = yCuts.getTotalLength();
 	}
 
 	protected void createCuts(ElementWrapper[] wrappers, int elementOffsetX, int elementOffsetY, boolean createXCuts)
@@ -846,12 +835,19 @@ public class JRGridLayout
 	 */
 	public static CutsInfo calculateXCuts(ExporterNature nature, List pages, int startPageIndex, int endPageIndex, int width, int offsetX)
 	{
-		CutsInfo xCuts = new CutsInfo(width);
+		CutsInfo xCuts = new CutsInfo();
 
 		for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 		{
 			JRPrintPage page = (JRPrintPage) pages.get(pageIndex);
 			addXCuts(nature, page.getElements(), offsetX, xCuts);
+		}
+		
+		// add a cut at the page width if no element goes beyond the width
+		int lastCut = xCuts.getLastCut();
+		if (lastCut < width)
+		{
+			xCuts.addCut(width);
 		}
 
 		return xCuts;

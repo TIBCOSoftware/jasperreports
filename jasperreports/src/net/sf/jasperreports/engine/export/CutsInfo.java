@@ -100,7 +100,7 @@ public class CutsInfo
 		addCut(element.getY() + element.getHeight() + offset);
 	}
 	
-	private boolean addCut(int cut)
+	protected boolean addCut(int cut)
 	{
 		return addCut(new Integer(cut));
 	}
@@ -168,5 +168,25 @@ public class CutsInfo
 	public boolean isBreak(int index)
 	{
 		return ((cutUsage[index] & USAGE_BREAK) > 0);
+	}
+	
+	public boolean hasCuts()
+	{
+		return !cuts.isEmpty();
+	}
+	
+	public int getFirstCut()
+	{
+		return getCut(0);
+	}
+	
+	public int getLastCut()
+	{
+		return getCut(size() - 1);
+	}
+	
+	public int getTotalLength()
+	{
+		return hasCuts() ? getLastCut() - getFirstCut() : 0;
 	}
 }
