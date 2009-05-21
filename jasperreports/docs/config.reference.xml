@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configReference>
+
+  <category>
+  	<name>Data Source / Query Executer</name>
+  	<content>
+  	  <property ref="net.sf.jasperreports.ejbql.query.hint.{hint}"/>
+  	  <property ref="net.sf.jasperreports.ejbql.query.page.size"/>
+  	  <property ref="net.sf.jasperreports.hql.clear.cache"/>
+  	  <property ref="net.sf.jasperreports.hql.field.mapping.descriptions"/>
+  	  <property ref="net.sf.jasperreports.hql.query.list.page.size"/>
+  	  <property ref="net.sf.jasperreports.hql.query.run.type"/>
+  	  <property ref="net.sf.jasperreports.jdbc.fetch.size"/>
+  	  <property ref="net.sf.jasperreports.query.chunk.token.separators"/>
+  	  <property ref="net.sf.jasperreports.query.executer.factory.{language}"/>
+  	  <property ref="net.sf.jasperreports.xpath.executer.factory"/>
+  	</content>
+  </category>
+  
+  <category>
+  	<name>Report Compilation</name>
+  	<content>
+  	  <property ref="net.sf.jasperreports.compiler.{language}"/>
+  	  <property ref="net.sf.jasperreports.compiler.classpath"/>
+  	  <property ref="net.sf.jasperreports.compiler.keep.java.file"/>
+  	  <property ref="net.sf.jasperreports.compiler.temp.dir"/>
+  	  <property ref="net.sf.jasperreports.compiler.xml.validation"/>
+  	  <property ref="net.sf.jasperreports.compiler.xml.parser.cache.schemas"/>
+  	  <property ref="net.sf.jasperreports.compiler.xml.parser.factory"/>
+  	</content>
+  </category>
+  
+  <category>
+  	<name>Report Design</name>
+  	<content>
+  	  <property ref="net.sf.jasperreports.allow.element.overlap"/>
+  	</content>
+  </category>
+  
+  <category>
+  	<name>Report Filling</name>
+  	<content>
+  	  <property ref="net.sf.jasperreports.chart.render.type"/>
+  	  <property ref="net.sf.jasperreports.chart.renderer.factory.{render_type}"/>
+  	  <property ref="net.sf.jasperreports.chart.theme"/>
+  	  <property ref="net.sf.jasperreports.default.font.name"/>
+  	  <property ref="net.sf.jasperreports.default.font.size"/>
+  	  <property ref="net.sf.jasperreports.image.encoder"/>
+  	  <property ref="net.sf.jasperreports.image.reader"/>
+  	  <property ref="net.sf.jasperreports.markup.processor.factory.{markup}"/>
+  	  <property ref="net.sf.jasperreports.print.keep.full.text"/>
+  	  <property ref="net.sf.jasperreports.text.truncate.at.char"/>
+  	  <property ref="net.sf.jasperreports.text.truncate.suffix"/>
+  	  <property ref="net.sf.jasperreports.text.measurer.factory"/>
+  	  <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
+  	  <property ref="net.sf.jasperreports.subreport.runner.factory"/>
+  	  <property ref="net.sf.jasperreports.evaluator.class.reference.fix.enabled"/>
+  	</content>
+  </category>
+  
+  <category>
+  	<name>Governors</name>
+  	<content>
+  	  <property ref="net.sf.jasperreports.governor.max.pages.enabled"/>
+  	  <property ref="net.sf.jasperreports.governor.max.pages"/>
+  	  <property ref="net.sf.jasperreports.governor.timeout.enabled"/>
+  	  <property ref="net.sf.jasperreports.governor.timeout"/>
+  	</content>
+  </category>
+  
+  <category>
+  	<name>Crosstabs</name>
+  	<content>
+  	  <property ref="net.sf.jasperreports.crosstab.bucket.measure.limit"/>
+  	  <property ref="net.sf.jasperreports.crosstab.cell.type"/>
+  	  <property ref="net.sf.jasperreports.crosstab.cell.row.span"/>
+  	  <property ref="net.sf.jasperreports.crosstab.cell.column.span"/>
+  	</content>
+  </category>
+  
+  <category>
+  	<name>Chart Themes</name>
+  	<content>
+  	  <property ref="net.sf.jasperreports.chart.dial.value.display.visible"/>
+  	  <property ref="net.sf.jasperreports.chart.dial.label"/>
+  	  <property ref="net.sf.jasperreports.chart.domain.axis.tick.count"/>
+  	  <property ref="net.sf.jasperreports.chart.domain.axis.tick.interval"/>
+  	  <property ref="net.sf.jasperreports.chart.range.axis.tick.count"/>
+  	  <property ref="net.sf.jasperreports.chart.range.axis.tick.interval"/>
+  	</content>
+  </category>
+  
+  <category>
+  	<name>Report Export</name>
+  	<content>
+  	  <property ref="net.sf.jasperreports.default.pdf.font.name"/>
+  	  <property ref="net.sf.jasperreports.default.pdf.encoding"/>
+  	  <property ref="net.sf.jasperreports.default.pdf.embedded"/>
+  	  <property ref="net.sf.jasperreports.export.{format}.exclude.origin.{suffix}.{arbitrary_name}"/>
+  	  <property ref="net.sf.jasperreports.export.{format}.exclude.origin.keep.first.{suffix}.{arbitrary_name}"/>
+  	  <property ref="net.sf.jasperreports.export.filter.factory.{filter_element}"/>
+  	  <property ref="net.sf.jasperreports.export.default.filter.factory"/>
+  	  <property ref="net.sf.jasperreports.export.{arbitrary_name}.default.filter.factory"/>
+  	  <property ref="net.sf.jasperreports.export.character.encoding"/>
+  	  <property ref="net.sf.jasperreports.export.legacy.border.offset"/>
+  	  <property ref="net.sf.jasperreports.export.csv.field.delimiter"/>
+  	  <property ref="net.sf.jasperreports.export.csv.record.delimiter"/>
+  	  <property ref="net.sf.jasperreports.export.graphics2d.min.job.size"/>
+  	  <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
+  	  <property ref="net.sf.jasperreports.export.html.frames.as.nested.tables"/>
+  	  <property ref="net.sf.jasperreports.export.html.remove.emtpy.space.between.rows"/>
+  	  <property ref="net.sf.jasperreports.export.html.size.unit"/>
+  	  <property ref="net.sf.jasperreports.export.html.using.images.to.align"/>
+  	  <property ref="net.sf.jasperreports.export.html.white.page.background"/>
+  	  <property ref="net.sf.jasperreports.export.html.wrap.break.word"/>
+  	  <property ref="net.sf.jasperreports.export.parameters.override.report.hints"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.128.bit.key"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.compressed"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.create.batch.mode.bookmarks"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.encrypted"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.font.{arbitrary_name}"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.fontdir.{arbitrary_name}"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.force.linebreak.policy"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.force.svg.shapes"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.javascript"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.owner.password"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.user.password"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.version"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.tagged"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.tag.language"/>
+  	  <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
+  	  <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
+  	  <property ref="net.sf.jasperreports.export.xls.detect.cell.type"/>
+  	  <property ref="net.sf.jasperreports.export.xls.font.size.fix.enabled"/>
+  	  <property ref="net.sf.jasperreports.export.xls.ignore.cell.border"/>
+  	  <property ref="net.sf.jasperreports.export.xls.ignore.graphics"/>
+  	  <property ref="net.sf.jasperreports.export.xls.max.rows.per.sheet"/>
+  	  <property ref="net.sf.jasperreports.export.xls.one.page.per.sheet"/>
+  	  <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.columns"/>
+  	  <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.rows"/>
+  	  <property ref="net.sf.jasperreports.export.xls.white.page.background"/>
+  	  <property ref="net.sf.jasperreports.export.xls.formula"/>
+  	  <property ref="net.sf.jasperreports.export.xls.password"/>
+  	  <property ref="net.sf.jasperreports.export.xls.break.before.row"/>
+  	  <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
+  	  <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
+  	  <property ref="net.sf.jasperreports.export.xml.validation"/>
+  	</content>
+  </category>
+  
+  <category>
+  	<name>JasperReports Extensions</name>
+  	<content>
+  	  <property ref="net.sf.jasperreports.extension.registry.factory.{arbitrary_name}"/>
+  	  <property ref="net.sf.jasperreports.extension.{registry_id}.{property_suffix}"/>
+  	  <property ref="net.sf.jasperreports.extensions.registry.class"/>
+  	</content>
+  </category>
+  
+  <category>
+  	<name>Other</name>
+  	<content>
+  	  <property ref="net.sf.jasperreports.file.buffer.os.memory.threshold"/>
+  	  <property ref="net.sf.jasperreports.properties"/>
+  	  <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
+  	  <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts"/>
+  	  <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.sleep"/>
+  	  <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stakctrace"/>
+  	</content>
+  </category>
+  
+  
+  <!-- net.sf.jasperreports.ejbql.query.hint.{hint} -->
+  
+  <configProperty name="net.sf.jasperreports.ejbql.query.hint.{hint}">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html" class="lm" target="_blank">
+<code>JRJpaQueryExecuter</code></a>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#PROPERTY_JPA_QUERY_HINT_PREFIX</api>
+    <default>N/A</default>
+    <scope>Dataset</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.ejbql.query.page.size -->
+  
+  <configProperty name="net.sf.jasperreports.ejbql.query.page.size">
+    <description>
+Property specifying the number of result rows to be retrieved at once. Result pagination is implemented by 
+<code>javax.persistence.Query.setFirstResult()</code> and <code>javax.persistence.Query.setMaxResults()</code>.
+<br/>
+By default, all the rows are retrieved (no result pagination is performed).
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#PROPERTY_JPA_QUERY_PAGE_SIZE</api>
+    <default>0</default>
+    <scope>Global | Dataset</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.hql.clear.cache -->
+  
+  <configProperty name="net.sf.jasperreports.hql.clear.cache">
+    <description>
+Property specifying whether Hibernate session cache should be cleared between two consecutive fetches when using pagination. 
+<br/>
+By default, the cache cleanup is not performed.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_CLEAR_CACHE</api>
+    <default>false</default>
+    <scope>Global | Dataset</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.hql.field.mapping.descriptions -->
+  
+  <configProperty name="net.sf.jasperreports.hql.field.mapping.descriptions">
+    <description>
+Property specifying whether field descriptions should be used to determine the mapping between the fields and the query return values. 
+<br/>
+By default, field description are used.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS</api>
+    <default>true</default>
+    <scope>Global | Dataset</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.hql.query.list.page.size -->
+  
+  <configProperty name="net.sf.jasperreports.hql.query.list.page.size">
+    <description>
+Property specifying the number of result rows to be retrieved at once when the execution type is <code>list</code>.
+Result pagination is implemented by <code>org.hibernate.Query.setFirstResult()</code> and  <code>org.hibernate.Query.setMaxResults()</code>.
+By default, all the rows are retrieved (no result pagination is performed).
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE</api>
+    <default>0</default>
+    <scope>Global | Dataset</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.hql.query.run.type -->
+  
+  <configProperty name="net.sf.jasperreports.hql.query.run.type">
+    <description>
+Property specifying the Hibernate query execution type. Possible values are:
+<ul>
+  <li><code>list</code> - the query will be run by calling <code>org.hibernate.Query.list()</code></li>
+  <li><code>iterate</code> - the query will be run by calling <code>org.hibernate.Query.iterate()</code></li>
+  <li><code>scroll</code> - the query will be run by calling <code>org.hibernate.Query.scroll()</code></li>
+</ul>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_QUERY_RUN_TYPE</api>
+    <default>list</default>
+    <scope>Global | Dataset</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.jdbc.fetch.size -->
+  
+  <configProperty name="net.sf.jasperreports.jdbc.fetch.size">
+    <description>
+Property specifying the fetch size for the <code>java.sql.ResultSet</code> created by the 
+<a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html" class="lm" target="_blank">
+<code>JRJdbcQueryExecuter</code></a> and the 
+<a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRHibernateQueryExecuter.html" class="lm" target="_blank">
+<code>JRHibernateQueryExecuter</code></a>.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_FETCH_SIZE</api>
+    <default>0</default>
+    <scope>Global | Dataset</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.query.chunk.token.separators -->
+  
+  <configProperty name="net.sf.jasperreports.query.chunk.token.separators">
+    <description>
+Property that specifies the list of token separators characters for <a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRQueryChunk.html#TYPE_CLAUSE_TOKENS" class="lm" target="_blank"><code>TYPE_CLAUSE_TOKENS</code></a> tokenized query clauses.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRQueryChunk.html#PROPERTY_CHUNK_TOKEN_SEPARATOR</api>
+    <default>, ; |</default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.query.executer.factory.{language} -->
+  
+  <configProperty name="net.sf.jasperreports.query.executer.factory.{language}">
+    <description>
+Properties with this prefix associate a query executer factory implementation with a query language.
+To obtain query executer factories, a property having the query language appended to this prefix is used to get the query executer factory name.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRQueryExecuterFactory.html#QUERY_EXECUTER_FACTORY_PREFIX</api>
+    <default>N/A</default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xpath.executer.factory -->
+  
+  <configProperty name="net.sf.jasperreports.xpath.executer.factory">
+    <description>
+Property specifying the 
+<a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/xml/JRXPathExecuterFactory.html" class="lm" target="_blank">
+<code>JRXPathExecuterFactory</code></a> XPath executer factory implementation class name. JasperReports is shipped with two implementation of this factory interface: 
+<a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/xml/XalanXPathExecuterFactory.html" class="lm" target="_blank">
+<code>XalanXPathExecuterFactory</code></a> and 
+<a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/xml/JaxenXPathExecuter.html" class="lm" target="_blank">
+<code>JaxenXPathExecuter</code></a>.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/xml/JRXPathExecuterUtils.html#PROPERTY_XPATH_EXECUTER_FACTORY</api>
+    <default><code>net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory</code></default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.compiler.{language} -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.{language}">
+    <description>
+Prefix for properties that map report compilers to expression languages.
+<br/>
+Properties having this prefix indicate the JRCompiler implementation to be used when compiling
+report designs that rely on the expression language specified as property suffix.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JRCompiler.html#COMPILER_PREFIX</api>
+    <default><code>net.sf.jasperreports.engine.design.JRJdtCompiler</code>, if available; <code>net.sf.jasperreports.engine.design.JRJdk13Compiler</code> otherwise. <br/>Java is considered the default expression language.</default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.compiler.classpath -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.classpath">
+    <description>
+Property specifying the classpath used by the report compiler during the compilation process.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_CLASSPATH</api>
+    <default><code>System.getProperty("java.class.path")</code></default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.compiler.keep.java.file -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.keep.java.file">
+    <description>
+Property specifying whether the temporary source file created by the report compiler should be kept or deleted after the report compilation process ended.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_KEEP_JAVA_FILE</api>
+    <default>false</default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.compiler.temp.dir -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.temp.dir">
+    <description>
+Property specifying the temporary working directory to be used by the report compiler.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_TEMP_DIR</api>
+    <default><code>System.getProperty("user.dir")</code></default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.compiler.xml.validation -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.xml.validation">
+    <description>
+Property that forces the XML validation of the report template file before compiling.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_XML_VALIDATION</api>
+    <default>true</default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.compiler.xml.parser.cache.schemas -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.xml.parser.cache.schemas">
+    <description>
+Property that determines whether XML schemas/grammars are to be cached 
+so that they are not read/initialized each time a report is compiled.
+<br/>
+Currently, setting this property is only effective when a Xerces XML 
+parser is used (either a stock one from Apache or one embedded into a 
+SUN JDK).
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/xml/JRReportSaxParserFactory.html#PROPERTY_CACHE_SCHEMAS</api>
+    <default>true</default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.compiler.xml.parser.factory -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.xml.parser.factory">
+    <description>
+Property that gives a parser factory class which should be used 
+for parsing JRXMLs.
+<br/>
+By default, this property is set to use <a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/xml/JRReportSaxParserFactory.html" class="lm" target="_blank"><code>JRReportSaxParserFactory</code></a> 
+as report parser factory.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/xml/JRSaxParserFactory.html#PROPERTY_REPORT_PARSER_FACTORY</api>
+    <default><code>net.sf.jasperreports.engine.xml.JRReportSaxParserFactory</code></default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.allow.element.overlap -->
+  
+  <configProperty name="net.sf.jasperreports.allow.element.overlap">
+    <description>
+A property that determines whether elements are allowed to overlap.
+<br/>
+If this value is set to <code>false</code>, the report is verified not
+to contain elements that overlap.  This is useful when the report is
+meant to be exported to grid-based formats such as HTML, XLS or CSV.
+Setting this property to <code>false</code> ensures that element overlap
+issues are caught at report compile time.
+<br/>
+Additionally, when this property is set to false <code>false</code>, the
+report is verified not to have any content in the background section as
+this content would likely be overlapped by other sections and would not
+show in grid-based exporters.
+<br/>
+By default, the property is set to <code>true</code> which means that
+no element overlap checks are performed.
+<br/>
+The property can be set at the following levels:
+<ul>
+	<li>At global level (in jasperreports.properties) to provide a default
+value.</li>
+	<li>At report level, to indicate whether element overlap checks are to
+be performed for the report.  If not set, the global property value is
+used.</li>
+	<li>At report element level to specify that the particular element is
+allowed to overlap or be overlapped by other elements, when the report
+or global property determines report element overlap verification.
+The element level property is only effective when set to <code>true</code>;
+setting the property to <code>false</code> does not make the verifier
+check for overlaps when the report is not set to be checked for element
+overlaps.</li>
+</ul>
+<br/>
+Note that print when expressions or export filters cannot be taken into
+consideration while checking for overlapping elements as this check is
+performed at report compilation time.
+If a report contains two elements that overlap but have print when
+expressions that guarantee that only one of them will be printed,
+or if export filters are in place to exclude one of the elements,
+one of them should be explicitly marked to allow element overlap
+when the report is configured to check for overlaps.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_OVERLAP</api>
+    <default>true</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.render.type -->
+  
+  <configProperty name="net.sf.jasperreports.chart.render.type">
+    <description>
+Specifies the default render type for charts. See the <code>renderType</code> attribute of the chart elements.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_RENDER_TYPE</api>
+    <default>draw</default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.renderer.factory.{render_type} -->
+  
+  <configProperty name="net.sf.jasperreports.chart.renderer.factory.{render_type}">
+    <description>
+Prefix for properties that map chart renderers.
+<br/>
+Properties having this prefix indicate the JRRenderable implementation to be used when rendering
+a chart element having a rendering type specified in the property suffix.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_RENDER_TYPE</api>
+    <default>N/A</default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.theme -->
+  
+  <configProperty name="net.sf.jasperreports.chart.theme">
+    <description>
+Property used to specify the chart theme name.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_THEME</api>
+    <default>default</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.default.font.name -->
+  
+  <configProperty name="net.sf.jasperreports.default.font.name">
+    <description>
+Prefix for properties that map chart renderers.
+<br/>
+Properties having this prefix indicate the JRRenderable implementation to be used when rendering
+a chart element having a rendering type specified in the property suffix.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_RENDER_TYPE</api>
+    <default>N/A</default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+</configReference>
