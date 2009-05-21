@@ -307,9 +307,9 @@
 		</javadoc>
 	</target>
 
-	<target name="schemaref" description="Generates the Schema Reference.">
+	<target name="schemaref" description="Generates the Configuration Reference.">
 		<mkdir dir="./dist"/> 
-		<style basedir="./build/classes/net/sf/jasperreports/engine/dtds" includes="jasperreport.xsd" destdir="dist" style="docs/schema.reference.xsl">
+		<style basedir="src/net/sf/jasperreports/engine/dtds" in="src/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist" style="docs/schema.reference.xsl" out="./dist/jasperreports-${version}-schema.reference.html">
 			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
@@ -318,7 +318,19 @@
 				<pathelement location="./build/classes"/>
 			</classpath>
 		</style>
-		<move file="./dist/jasperreport.html" tofile="./dist/jasperreports-${version}-schema.reference.html" overwrite="true"/>
+	</target>
+	
+	<target name="configref" description="Generates the Schema Reference.">
+		<mkdir dir="./dist"/> 
+		<style basedir="docs" in="docs/config.reference.xml" destdir="dist" style="docs/config.reference.xsl" out="./dist/jasperreports-${version}-config.reference.html">
+			<param name="version" expression="${version}"/>
+			<classpath>
+				<fileset dir="./lib">
+					<include name="**/*.jar"/>
+				</fileset>
+				<pathelement location="./build/classes"/>
+			</classpath>
+		</style>
 	</target>
 	
 	<target name="docs" depends="javadoc, schemaref" description="Generates all documentation."/>
