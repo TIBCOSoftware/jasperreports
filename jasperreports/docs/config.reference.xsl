@@ -221,7 +221,16 @@ a.bc:hover {
 	    <td valign="middle" style='width:100px;border:solid windowtext 1.0pt;background:#EEEDEE;padding:2.9pt 5.75pt 2.9pt 5.75pt'>
 	      <span class="fnt11 gr1"><strong>API</strong></span></td>
 	    <td valign="middle" style='border:solid windowtext 1.0pt;background:#FFFFFF;padding:2.9pt 5.75pt 2.9pt 5.75pt'>
-	      <span class="lm"><xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="api"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="substring-after(./api,'#')"/></xsl:element></span>
+	      	<xsl:choose>
+	      		<xsl:when test="api='N/A'">
+	      		  <span class="fnt11 gr1"><xsl:value-of select="api"/></span>
+	      		</xsl:when>
+	      		<xsl:otherwise>
+	      		 <span class="lm">
+	      		  <xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="api"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="substring-after(./api,'#')"/></xsl:element>
+	        	 </span>
+	        	</xsl:otherwise>
+	        </xsl:choose>
 	    </td>
 	  </tr>
 	  <tr>
@@ -317,5 +326,6 @@ a.bc:hover {
 <xsl:template match="li">
   <span class="fnt11 gr1"><xsl:element name="li"><xsl:apply-templates/></xsl:element></span>
 </xsl:template>
+
 
 </xsl:stylesheet>
