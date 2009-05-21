@@ -351,7 +351,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	protected JRPrintBand fill() throws JRException
 	{
-		return fill(0, false);
+		return fill(getHeight(), false);
 	}
 
 
@@ -362,7 +362,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		int availableHeight
 		) throws JRException
 	{
-		return fill(availableHeight - getHeight(), true);
+		return fill(availableHeight, true);
 	}
 
 
@@ -370,7 +370,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 *
 	 */
 	protected JRPrintBand fill(
-		int availableStretchHeight,
+		int availableHeight,
 		boolean isOverflowAllowed
 		) throws JRException
 	{
@@ -403,7 +403,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		
 		resetElements();
 
-		prepareElements(availableStretchHeight, isOverflowAllowed);
+		prepareElements(availableHeight, isOverflowAllowed);
 
 		stretchElements();
 

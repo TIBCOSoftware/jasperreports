@@ -575,13 +575,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 *
 	 */
 	protected boolean prepare(
-		int availableStretchHeight,
+		int availableHeight,
 		boolean isOverflow
 		) throws JRException
 	{
 		boolean willOverflow = false;
 
-		super.prepare(availableStretchHeight, isOverflow);
+		super.prepare(availableHeight, isOverflow);
 		
 		if (subreportFiller == null)
 		{
@@ -593,7 +593,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			return willOverflow;
 		}
 
-		if (availableStretchHeight < getRelativeY() - getY() - getBandBottomY())
+		if (availableHeight < getRelativeY() + getHeight())
 		{
 			setToPrint(false);
 			return true;//willOverflow;
@@ -612,8 +612,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			rewind();
 		}
 		
-		int availableHeight = getHeight() + availableStretchHeight - getRelativeY() + getY() + getBandBottomY();
-		subreportFiller.setPageHeight(availableHeight);
+		subreportFiller.setPageHeight(availableHeight - getRelativeY());
 
 		synchronized (subreportFiller)
 		{
@@ -682,7 +681,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 
 			printPage = subreportFiller.getCurrentPage();
-			setStretchHeight(result.hasFinished() ? subreportFiller.getCurrentPageStretchHeight() : availableHeight);
+			setStretchHeight(result.hasFinished() ? subreportFiller.getCurrentPageStretchHeight() : availableHeight - getRelativeY());
 
 			//if the subreport fill thread has not finished, 
 			// it means that the subreport will overflow on the next page

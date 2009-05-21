@@ -105,7 +105,6 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private Collection dependantElements = new ArrayList();
 	private int relativeY = 0;
 	private int stretchHeight = 0;
-	private int bandBottomY = 0;
 
 	private int x;
 	private int y;
@@ -625,22 +624,6 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	protected int getBandBottomY()
-	{
-		return bandBottomY;
-	}
-
-	/**
-	 *
-	 */
-	protected void setBandBottomY(int bandBottomY)
-	{
-		this.bandBottomY = bandBottomY;
-	}
-
-	/**
-	 *
-	 */
 	protected JRFillBand getBand()
 	{
 		return band;
@@ -748,7 +731,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 *
 	 */
 	protected boolean prepare(
-		int availableStretchHeight,
+		int availableHeight,
 		boolean isOverflow
 		) throws JRException
 	{

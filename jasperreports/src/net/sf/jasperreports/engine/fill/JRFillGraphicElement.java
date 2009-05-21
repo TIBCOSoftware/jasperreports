@@ -163,13 +163,13 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	 *
 	 */
 	protected boolean prepare(
-		int availableStretchHeight,
+		int availableHeight,
 		boolean isOverflow
 		) throws JRException
 	{
 		boolean willOverflow = false;
 
-		super.prepare(availableStretchHeight, isOverflow);
+		super.prepare(availableHeight, isOverflow);
 		
 		if (!this.isToPrint())
 		{
@@ -202,7 +202,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 
 		if (
 			isToPrint && 
-			availableStretchHeight < this.getRelativeY() - this.getY() - this.getBandBottomY()
+			availableHeight < this.getRelativeY() + getHeight()
 			)
 		{
 			isToPrint = false;

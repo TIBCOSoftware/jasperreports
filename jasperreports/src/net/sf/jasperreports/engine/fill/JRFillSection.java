@@ -110,7 +110,7 @@ public class JRFillSection implements JRSection, JROriginProvider
 			}
 		}
 		
-		this.filler.getJasperPrint().addOrigin(origin);
+		this.filler.getJasperPrint().addOrigin(origin);//FIXMESECTION detail origin appears even if empty
 	}
 
 

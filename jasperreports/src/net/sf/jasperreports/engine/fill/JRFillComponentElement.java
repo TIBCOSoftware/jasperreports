@@ -90,12 +90,12 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		filling = false;
 	}
 	
-	protected boolean prepare(int availableStretchHeight, boolean isOverflow)
+	protected boolean prepare(int availableHeight, boolean isOverflow)
 			throws JRException
 	{
 		boolean willOverflow = false;
 
-		super.prepare(availableStretchHeight, isOverflow);
+		super.prepare(availableHeight, isOverflow);
 		
 		if (!isToPrint())
 		{
@@ -111,8 +111,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 			isToPrint = false;
 		}
 
-		int stretchHeight = availableStretchHeight - getRelativeY() + getY() + getBandBottomY();
-		if (isToPrint && stretchHeight < 0)
+		if (isToPrint && availableHeight <  getRelativeY() + getHeight())
 		{
 			isToPrint = false;
 			willOverflow = true;
@@ -126,7 +125,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 
 		if (isToPrint)
 		{
-			FillPrepareResult result = fillComponent.prepare(getHeight() + stretchHeight);
+			FillPrepareResult result = fillComponent.prepare(availableHeight - getRelativeY());
 			
 			isToPrint = result.isToPrint();
 			willOverflow = result.willOverflow();

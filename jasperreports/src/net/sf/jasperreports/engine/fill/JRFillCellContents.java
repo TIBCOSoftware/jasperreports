@@ -276,7 +276,6 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		{
 			transformedCell = (JRFillCellContents) createClone();
 			transformedCell.transform(newWidth, newHeight, xPosition, yPosition);
-			transformedCell.setElementsBandBottomY();
 			
 			transformedContentsCache.put(key, transformedCell);
 		}
@@ -374,14 +373,12 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	}
 	
 	
-	protected void prepare(int availableStretchHeight) throws JRException
+	protected void prepare(int availableHeight) throws JRException
 	{
 		initFill();
 		resetElements();
-		//set bandBottomY again as getContainerHeight() might have changed
-		setElementsBandBottomY();
 		
-		prepareElements(availableStretchHeight, true);
+		prepareElements(availableHeight, true);
 	}
 
 	
