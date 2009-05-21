@@ -1307,7 +1307,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 */
 	protected boolean prepare(
-		int availableStretchHeight,
+		int availableHeight,
 		boolean isOverflow
 		)
 	{
@@ -1343,7 +1343,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 			if (
 				isToPrint &&
-				availableStretchHeight < getRelativeY() - getY() - getBandBottomY()
+				availableHeight < getRelativeY() + getHeight()
 				)
 			{
 				isToPrint = false;
@@ -1378,7 +1378,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 			if (
 				isToPrint &&
-				availableStretchHeight < getRelativeY() - getY() - getBandBottomY()
+				availableHeight < getRelativeY() + getHeight()
 				)
 			{
 				isToPrint = false;

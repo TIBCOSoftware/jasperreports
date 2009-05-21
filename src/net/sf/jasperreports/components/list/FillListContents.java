@@ -70,10 +70,10 @@ public class FillListContents extends JRFillElementContainer
 		evaluate(JRExpression.EVALUATION_DEFAULT);
 	}
 	
-	protected void prepare(int availableStretchHeight) throws JRException
+	protected void prepare(int availableHeight) throws JRException
 	{
 		initFill();
 		resetElements();
-		prepareElements(availableStretchHeight - contentsHeight, true);
+		prepareElements(availableHeight, true);
 	}
 }

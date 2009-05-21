@@ -125,13 +125,13 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	 *
 	 */
 	protected boolean prepare(
-		int availableStretchHeight,
+		int availableHeight,
 		boolean isOverflow
 		) throws JRException
 	{
 		boolean willOverflow = false;
 
-		super.prepare(availableStretchHeight, isOverflow);
+		super.prepare(availableHeight, isOverflow);
 		
 		if (!isToPrint())
 		{
@@ -164,7 +164,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 
 		if (
 			isToPrint && 
-			availableStretchHeight < getRelativeY() - getY() - getBandBottomY()
+			availableHeight < getRelativeY() + getHeight()
 			)
 		{
 			isToPrint = false;

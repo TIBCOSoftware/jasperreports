@@ -193,21 +193,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		
 		/*   */
 		setDependentElements();
-		
-		setElementsBandBottomY();
-	}
-
-	protected final void setElementsBandBottomY()
-	{
-		if (elements != null && elements.length > 0)
-		{
-			for(int i = 0; i < elements.length; i++)
-			{
-				elements[i].setBandBottomY(
-					getContainerHeight() - elements[i].getY() - elements[i].getHeight()
-					);
-			}
-		}
 	}
 
 	/**
@@ -324,7 +309,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	 *
 	 */
 	protected void prepareElements(
-		int availableStretchHeight,
+		int availableHeight,
 		boolean isOverflowAllowed
 		) throws JRException
 	{
@@ -345,7 +330,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 				tmpWillOverflow = 
 					element.prepare(
-						availableStretchHeight + getElementFirstY(element), 
+						availableHeight + getElementFirstY(element), //FIXMEBAND check this
 						isOverflow
 						) 
 					|| tmpWillOverflow;
@@ -369,7 +354,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 					firstYElement = element;
 
-					bandStretch = element.getRelativeY() + element.getStretchHeight() - getContainerHeight() + element.getBandBottomY();
+					bandStretch = element.getRelativeY() + element.getStretchHeight() - element.getY() - element.getHeight();
 					if (bandStretch > maxBandStretch)
 					{
 						maxBandStretch = bandStretch;
@@ -378,14 +363,14 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			}
 		}
 
-		if (maxBandStretch > availableStretchHeight + firstY)
+		if (maxBandStretch > availableHeight - getContainerHeight() + firstY)
 		{
 			tmpWillOverflow = true;
 		}
 		
 		if (tmpWillOverflow)
 		{
-			stretchHeight = getContainerHeight() + availableStretchHeight;
+			stretchHeight = availableHeight;
 		}
 		else
 		{

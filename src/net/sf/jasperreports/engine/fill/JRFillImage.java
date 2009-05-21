@@ -983,7 +983,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	
 
 	protected boolean prepare(
-		int availableStretchHeight,
+		int availableHeight,
 		boolean isOverflow
 		) throws JRException
 	{
@@ -1045,8 +1045,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	
 			if (isToPrint)
 			{
-				int stretch = availableStretchHeight - this.getRelativeY() + this.getY() + this.getBandBottomY();
-				if (stretch < 0)
+				if (availableHeight < getRelativeY() + getHeight())
 				{
 					isToPrint = false;
 					willOverflow = true;
@@ -1056,14 +1055,13 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				{
 					int padding = getLineBox().getBottomPadding().intValue() 
 							+ getLineBox().getTopPadding().intValue();
-					int availableHeight = getHeight() + stretch - padding;
 					boolean reprinted = isOverflow 
 						&& (this.isPrintWhenDetailOverflows() 
 								&& (this.isAlreadyPrinted() 
 										|| (!this.isAlreadyPrinted() && !this.isPrintRepeatedValues())));
 					boolean imageOverflowAllowed = 
 							filler.isBandOverFlowAllowed() && !reprinted && !hasOverflowed;
-					boolean fits = fitImage(availableHeight, imageOverflowAllowed, 
+					boolean fits = fitImage(availableHeight - getRelativeY() - padding, imageOverflowAllowed, 
 							getHorizontalAlignment());
 					if (fits)
 					{
@@ -1077,7 +1075,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 						hasOverflowed = true;
 						isToPrint = false;
 						willOverflow = true;
-						setStretchHeight(availableHeight);
+						setStretchHeight(availableHeight - getRelativeY() - padding);
 					}
 				}
 			}
@@ -1101,7 +1099,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	
 			if (
 				isToPrint && 
-				availableStretchHeight < this.getRelativeY() - this.getY() - this.getBandBottomY()
+				availableHeight < this.getRelativeY() + getHeight()
 				)
 			{
 				isToPrint = false;

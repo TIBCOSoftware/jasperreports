@@ -180,11 +180,11 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 	 *
 	 */
 	protected boolean prepare(
-		int availableStretchHeight,
+		int availableHeight,
 		boolean isOverflow
 		) throws JRException
 	{
-		super.prepare(availableStretchHeight, isOverflow);
+		super.prepare(availableHeight, isOverflow);
 		
 		if (!this.isToPrint())
 		{
@@ -202,7 +202,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 
 		if (
 			isToPrint && 
-			availableStretchHeight < this.getRelativeY() - this.getY() - this.getBandBottomY()
+			availableHeight < getRelativeY() + getHeight()
 			)
 		{
 			isToPrint = false;
@@ -215,14 +215,14 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 			{
 				if (!filler.isFirstColumnBand || band.firstYElement != null)
 				{
-					setStretchHeight(getHeight() + availableStretchHeight - getRelativeY() + getY() + getBandBottomY());
+					setStretchHeight(availableHeight - getRelativeY());
 				}
 			}
 			else
 			{
 				if (!filler.isFirstPageBand || band.firstYElement != null)
 				{
-					setStretchHeight(getHeight() + availableStretchHeight - getRelativeY() + getY() + getBandBottomY());
+					setStretchHeight(availableHeight - getRelativeY());
 					filler.columnIndex = filler.columnCount - 1;
 				}
 			}

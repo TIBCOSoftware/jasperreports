@@ -412,13 +412,13 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 *
 	 */
 	protected boolean prepare(
-		int availableStretchHeight,
+		int availableHeight,
 		boolean isOverflow
 		) throws JRException
 	{
 		boolean willOverflow = false;
 
-		super.prepare(availableStretchHeight, isOverflow);
+		super.prepare(availableHeight, isOverflow);
 
 		if (!isToPrint())
 		{
@@ -509,7 +509,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 			if (isToPrint)
 			{
-				if (availableStretchHeight >= getRelativeY() - getY() - getBandBottomY())
+				if (availableHeight >= getRelativeY() + getHeight())
 				{
 					// the available vertical space is sufficient
 
@@ -529,7 +529,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 							// the text field is allowed to stretch downwards in order to
 							// display all its content
 
-							chopTextElement(availableStretchHeight - getRelativeY() + getY() + getBandBottomY());
+							chopTextElement(availableHeight - getRelativeY() - getHeight());
 							if (getTextEnd() < getText().length())// - 1)
 							{
 								// even after the current chop operation there is some text left
@@ -597,7 +597,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			
 			if (
 				isToPrint && 
-				availableStretchHeight < this.getRelativeY() - this.getY() - this.getBandBottomY()
+				availableHeight < getRelativeY() + getHeight()
 				)
 			{
 				isToPrint = false;

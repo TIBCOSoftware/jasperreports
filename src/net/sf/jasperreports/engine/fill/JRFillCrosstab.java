@@ -458,16 +458,16 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 	}
 
-	protected boolean prepare(int availableStretchHeight, boolean isOverflow) throws JRException
+	protected boolean prepare(int availableHeight, boolean isOverflow) throws JRException
 	{
-		super.prepare(availableStretchHeight, isOverflow);
+		super.prepare(availableHeight, isOverflow);
 
 		if (!isToPrint())
 		{
 			return false;
 		}
 
-		if (availableStretchHeight < getRelativeY() - getY() - getBandBottomY())
+		if (availableHeight < getRelativeY() + getHeight())
 		{
 			setToPrint(false);
 			return true;
@@ -494,11 +494,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			setReprinted(true);
 		}
 
-		int availableHeight = getHeight() + availableStretchHeight - getRelativeY() + getY() + getBandBottomY();
-		crosstabFiller.fill(availableHeight);
+		crosstabFiller.fill(availableHeight - getRelativeY());//FIXMEBAND put height into formula
 		
 		boolean willOverflow = crosstabFiller.willOverflow();
-		setStretchHeight(willOverflow ? availableHeight : crosstabFiller.getUsedHeight());
+		setStretchHeight(willOverflow ? availableHeight - getRelativeY() : crosstabFiller.getUsedHeight());
 		
 		return willOverflow;
 	}
@@ -1071,7 +1070,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				else
 				{
 					whenNoDataCell.evaluate(JRExpression.EVALUATION_DEFAULT);
-					whenNoDataCell.prepare(availableHeight - whenNoDataCell.getHeight());
+					whenNoDataCell.prepare(availableHeight);
 					
 					willOverflow = whenNoDataCell.willOverflow();
 					
@@ -1181,7 +1180,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			
 			JRFillCellContents contents = headerCell.getWorkingClone();
 			contents.evaluate(JRExpression.EVALUATION_DEFAULT);
-			contents.prepare(availableHeight - headerCell.getHeight());
+			contents.prepare(availableHeight);
 			
 			willOverflow = contents.willOverflow();
 			
@@ -1211,9 +1210,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			JRFillCellContents preparedContents = null;
 			
 			int rowY = ((Integer) rowYs.get(rowIdx)).intValue();
-			int cellAvailableStretch = availableHeight - rowY - height;
 			
-			if (cellAvailableStretch >= 0)
+			if (availableHeight >=  rowY + height)
 			{
 				setCountVars(-1, columnIdx);
 				setGroupVariables(columnGroups, cell.getBucketValues());
@@ -1227,7 +1225,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				contents = contents.getWorkingClone();
 
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
-				contents.prepare(cellAvailableStretch);
+				contents.prepare(availableHeight - rowY);
 
 				if (contents.willOverflow())
 				{
@@ -1492,8 +1490,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				return false;
 			}
 			
-			int cellAvailableStretch = availableHeight - rowY - contents.getHeight();
-			boolean overflow = cellAvailableStretch < 0;
+			boolean overflow = availableHeight < rowY + contents.getHeight();
 			if (!overflow)
 			{
 				boolean leftEmpty = startColumnIndex != 0 && !isRepeatRowHeaders();
@@ -1512,7 +1509,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				contents = contents.getWorkingClone();
 				
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
-				contents.prepare(cellAvailableStretch);
+				contents.prepare(availableHeight - rowY);
 								
 				preparedRow.add(contents);
 				
@@ -1555,8 +1552,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			boolean stretchContents = group.getPosition() == JRCellContents.POSITION_Y_STRETCH;
 			int contentsHeight = stretchContents ? rowHeight : contents.getHeight();
 			
-			int cellAvailableStretch = availableHeight - headerY - contentsHeight;
-			boolean headerOverflow = cellAvailableStretch < 0 || rowHeight < contents.getHeight();
+			boolean headerOverflow = availableHeight <  headerY + contentsHeight || rowHeight < contents.getHeight();
 			
 			if (!headerOverflow)
 			{
@@ -1571,7 +1567,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				contents.getWorkingClone();
 
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
-				contents.prepare(cellAvailableStretch);
+				contents.prepare(availableHeight - headerY);
 				
 				preparedRow.add(contents);
 
@@ -1747,8 +1743,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			boolean stretchContents = group.getPosition() == JRCellContents.POSITION_Y_STRETCH;
 			int contentsHeight = stretchContents ? headerHeight : contents.getHeight();
 			
-			int cellAvailableStretch = availableHeight - headerY - contentsHeight;
-			boolean headerOverflow = cellAvailableStretch < 0 || headerHeight < contents.getHeight();
+			boolean headerOverflow = availableHeight < headerY + contentsHeight || headerHeight < contents.getHeight();
 			if (!headerOverflow)
 			{
 				setCountVars(rowIdx + startRowIndex - vSpan, -1);
@@ -1763,7 +1758,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				contents.getWorkingClone();
 
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
-				contents.prepare(cellAvailableStretch);
+				contents.prepare(availableHeight - headerY);
 				
 				preparedRow.add(contents);
 

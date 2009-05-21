@@ -168,9 +168,9 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		filling = false;
 	}
 
-	protected boolean prepare(int availableStretchHeight, boolean isOverflow) throws JRException
+	protected boolean prepare(int availableHeight, boolean isOverflow) throws JRException
 	{
-		super.prepare(availableStretchHeight, isOverflow);
+		super.prepare(availableHeight, isOverflow);
 
 		if (!isToPrint())
 		{
@@ -181,7 +181,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		int topPadding = first ? getLineBox().getTopPadding().intValue() : 0;
 		int bottomPadding = getLineBox().getBottomPadding().intValue();		
 		
-		if (availableStretchHeight < getRelativeY() - getY() - getBandBottomY() - topPadding)
+		if (availableHeight < getRelativeY() + getHeight() - topPadding)
 		{
 			setToPrint(false);
 			return true;
@@ -212,26 +212,21 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			}
 		}
 		
-		int stretchHeight = availableStretchHeight - getRelativeY() + getY() + getBandBottomY();
-		
 		frameContainer.initFill();
 		frameContainer.resetElements();
-		//set bandBottomY again as getContainerHeight() might have changed
-		frameContainer.setElementsBandBottomY();
 		
-		int frameElemsAvailableHeight = stretchHeight + bottomPadding + getLineBox().getTopPadding().intValue() - topPadding;
-		frameContainer.prepareElements(frameElemsAvailableHeight, true);
+		frameContainer.prepareElements(availableHeight - getRelativeY() + bottomPadding + getLineBox().getTopPadding().intValue() - topPadding, true);
 		
 		boolean willOverflow = frameContainer.willOverflow();
 		if (willOverflow)
 		{
 			fillBottomBorder = false;
-			setStretchHeight(getHeight() + stretchHeight);
+			setStretchHeight(availableHeight - getRelativeY());
 		}
 		else
 		{
 			int neededStretch = frameContainer.getStretchHeight() - frameContainer.getFirstY() + topPadding + bottomPadding;
-			if (neededStretch <= getHeight() + stretchHeight)
+			if (neededStretch <= availableHeight - getRelativeY())
 			{
 				fillBottomBorder = true;
 				setStretchHeight(neededStretch);
@@ -239,7 +234,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			else //don't overflow because of the bottom padding
 			{
 				fillBottomBorder = false;
-				setStretchHeight(getHeight() + stretchHeight);
+				setStretchHeight(availableHeight - getRelativeY());
 			}
 		}
 
