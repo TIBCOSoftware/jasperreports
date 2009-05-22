@@ -30,7 +30,7 @@ package net.sf.jasperreports.components;
 import java.io.IOException;
 
 import net.sf.jasperreports.components.barbecue.BarbecueComponent;
-import net.sf.jasperreports.components.barbecue.XmlBarbecueFactory;
+import net.sf.jasperreports.components.barbecue.StandardBarbecueComponent;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
 
 import org.apache.commons.digester.Digester;
 
@@ -78,11 +79,15 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 	protected void addBarbecueRules(Digester digester)
 	{
 		String barcodePattern = "*/componentElement/barbecue";
-		digester.addFactoryCreate(barcodePattern, XmlBarbecueFactory.class.getName());
+		digester.addObjectCreate(barcodePattern, StandardBarbecueComponent.class);
 		digester.addSetProperties(barcodePattern,
 				//properties to be ignored by this rule
 				new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime}, 
 				new String[0]);
+		digester.addRule(barcodePattern, 
+				new XmlConstantPropertyRule(
+						JRXmlConstants.ATTRIBUTE_evaluationTime,
+						JRXmlConstants.getEvaluationTimeMap()));
 
 		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
 		digester.addFactoryCreate(barcodeExpressionPattern, 

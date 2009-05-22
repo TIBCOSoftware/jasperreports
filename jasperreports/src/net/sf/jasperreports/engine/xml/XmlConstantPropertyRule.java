@@ -25,11 +25,16 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.components.barbecue;
+package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import java.util.Map;
 
+import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.digester.Rule;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 
 /**
@@ -37,21 +42,45 @@ import org.xml.sax.Attributes;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class XmlBarbecueFactory extends JRBaseFactory
+public class XmlConstantPropertyRule extends Rule
 {
 
-	public Object createObject(Attributes attrs) throws Exception
+	private static final Log log = LogFactory.getLog(XmlConstantPropertyRule.class);
+	
+	private final String attributeName;
+	private final Map constantsMap;
+
+	public XmlConstantPropertyRule(String attributeName, Map constantsMap)
 	{
-		StandardBarbecueComponent bc = new StandardBarbecueComponent();
-		
-		String evaluationAttr = attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime);
-		if (evaluationAttr != null)
-		{
-			Byte evaluationTime = (Byte) JRXmlConstants.getEvaluationTimeMap().get(evaluationAttr);
-			bc.setEvaluationTime(evaluationTime.byteValue());
-		}
-		
-		return bc;
+		this.attributeName = attributeName;
+		this.constantsMap = constantsMap;
 	}
 
+	public void begin(String namespace, String name, Attributes attributes)
+			throws Exception
+	{
+		String attrValue = attributes.getValue(attributeName);
+		if (attrValue != null)
+		{
+			Object value = constantsMap.get(attrValue);
+			if (value == null)
+			{
+				log.warn("Unrecognized attribute value \"" 
+						+ attrValue + "\" for " + attrValue);
+			}
+			else
+			{
+				Object top = digester.peek();
+				
+				if (log.isDebugEnabled())
+				{
+					log.debug("Setting property " + attributeName + " on " + top
+							+ " to " + value + " from attribute \"" + attrValue + "\"");
+				}
+				
+				BeanUtils.setProperty(top, attributeName, value);
+			}
+		}
+	}
+	
 }
