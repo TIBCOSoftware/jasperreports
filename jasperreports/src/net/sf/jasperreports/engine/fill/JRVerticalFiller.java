@@ -1577,7 +1577,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		if (noData.isToPrint())
 		{
-			while (noData.getHeight() > pageHeight - bottomMargin - offsetY)
+			while (noData.getBreakHeight() > pageHeight - bottomMargin - offsetY)
 			{
 				addPage(false);
 			}

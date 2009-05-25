@@ -578,7 +578,7 @@ public class JRVerifier
 
 		if (
 				topMargin +
-				(report.getNoData() != null ? report.getNoData().getHeight() : 0) +
+				getBreakHeight(report.getNoData()) +
 				bottomMargin >
 				pageHeight
 				)
