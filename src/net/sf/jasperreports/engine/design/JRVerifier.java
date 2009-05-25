@@ -477,7 +477,7 @@ public class JRVerifier
 		{
 			if (
 				topMargin +
-				(report.getTitle() != null ? report.getTitle().getHeight() : 0) +
+				getBreakHeight(report.getTitle()) +
 				bottomMargin >
 				pageHeight
 				)
@@ -491,7 +491,7 @@ public class JRVerifier
 		{
 			if (
 				topMargin +
-				(report.getTitle() != null ? report.getTitle().getHeight() : 0) +
+				getBreakHeight(report.getTitle()) +
 				(report.getPageHeader() != null ? report.getPageHeader().getHeight() : 0) +
 				(report.getColumnHeader() != null ? report.getColumnHeader().getHeight() : 0) +
 				(report.getColumnFooter() != null ? report.getColumnFooter().getHeight() : 0) +
@@ -3170,18 +3170,23 @@ public class JRVerifier
 
 	private static int getBreakHeight(JRBand band)
 	{
-		int breakHeight = band.getHeight();
-		JRElement[] elements = band.getElements();
-		if (
-			JRBand.SPLIT_TYPE_IMMEDIATE.equals(band.getSplitType())
-			&& elements != null && elements.length > 0
-			)
+		int breakHeight = 0;
+
+		if (band != null)
 		{
-			for(int i = 0; i < elements.length; i++)
+			breakHeight = band.getHeight();
+			JRElement[] elements = band.getElements();
+			if (
+				JRBand.SPLIT_TYPE_IMMEDIATE.equals(band.getSplitType())
+				&& elements != null && elements.length > 0
+				)
 			{
-				JRElement element = elements[i];
-				int bottom = element.getY() + element.getHeight();
-				breakHeight = bottom < breakHeight ? bottom : breakHeight;
+				for(int i = 0; i < elements.length; i++)
+				{
+					JRElement element = elements[i];
+					int bottom = element.getY() + element.getHeight();
+					breakHeight = bottom < breakHeight ? bottom : breakHeight;
+				}
 			}
 		}
 

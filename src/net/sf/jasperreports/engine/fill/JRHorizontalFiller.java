@@ -316,7 +316,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		if (title.isToPrint())
 		{
 			while (
-				title.getHeight() > pageHeight - bottomMargin - offsetY
+				title.getBreakHeight() > pageHeight - bottomMargin - offsetY
 				)
 			{
 				addPage(false);
