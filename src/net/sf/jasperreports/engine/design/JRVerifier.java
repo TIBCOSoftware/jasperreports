@@ -459,7 +459,7 @@ public class JRVerifier
 	 * @param bottomMargin the page bottom margin
 	 */
 	public static void verifyBandHeights(Collection brokenRules, JRReport report,
-			int pageHeight, int topMargin, int bottomMargin)//FIXMEBAND for immediate split bands, the height validation is too restrictive
+			int pageHeight, int topMargin, int bottomMargin)
 	{
 		if (
 			topMargin +
@@ -561,7 +561,7 @@ public class JRVerifier
 						topMargin +
 						(report.getPageHeader() != null ? report.getPageHeader().getHeight() : 0) +
 						(report.getColumnHeader() != null ? report.getColumnHeader().getHeight() : 0) +
-						detailBand.getHeight() +
+						getBreakHeight(detailBand) +
 						(report.getColumnFooter() != null ? report.getColumnFooter().getHeight() : 0) +
 						(report.getPageFooter() != null ? report.getPageFooter().getHeight() : 0) +
 						bottomMargin >
@@ -1202,7 +1202,7 @@ public class JRVerifier
 							jasperDesign.getTopMargin() +
 							(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
 							(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
-							groupHeaderBand.getHeight() +
+							getBreakHeight(groupHeaderBand) +
 							(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
 							(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
 							jasperDesign.getBottomMargin() >
@@ -1228,7 +1228,7 @@ public class JRVerifier
 							jasperDesign.getTopMargin() +
 							(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
 							(jasperDesign.getColumnHeader() != null ?  jasperDesign.getColumnHeader().getHeight() : 0) +
-							groupFooterBand.getHeight() +
+							getBreakHeight(groupFooterBand) +
 							(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
 							(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
 							jasperDesign.getBottomMargin() >
@@ -1257,7 +1257,7 @@ public class JRVerifier
 							(jasperDesign.getTitle() != null ? jasperDesign.getTitle().getHeight() : 0) +
 							(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
 							(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
-							groupHeaderBand.getHeight() +
+							getBreakHeight(groupHeaderBand) +
 							(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
 							(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
 							jasperDesign.getBottomMargin() >
@@ -1284,7 +1284,7 @@ public class JRVerifier
 							(jasperDesign.getTitle() != null ? jasperDesign.getTitle().getHeight() : 0) +
 							(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
 							(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
-							groupFooterBand.getHeight() +
+							getBreakHeight(groupFooterBand) +
 							(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
 							(jasperDesign.getPageFooter() != null ? jasperDesign.getPageFooter().getHeight() : 0) +
 							jasperDesign.getBottomMargin() >
@@ -1314,6 +1314,7 @@ public class JRVerifier
 							PROPERTY_ALLOW_ELEMENT_OVERLAP));
 	}
 	
+
 	protected void verifyElementOverlap(JRElement element1, JRElement element2)
 	{
 		if (element1.getWidth() <= 0 || element1.getHeight() <= 0
@@ -3166,4 +3167,25 @@ public class JRVerifier
 			}
 		}
 	}
+
+	private static int getBreakHeight(JRBand band)
+	{
+		int breakHeight = band.getHeight();
+		JRElement[] elements = band.getElements();
+		if (
+			JRBand.SPLIT_TYPE_IMMEDIATE.equals(band.getSplitType())
+			&& elements != null && elements.length > 0
+			)
+		{
+			for(int i = 0; i < elements.length; i++)
+			{
+				JRElement element = elements[i];
+				int bottom = element.getY() + element.getHeight();
+				breakHeight = bottom < breakHeight ? bottom : breakHeight;
+			}
+		}
+
+		return breakHeight;
+	}
+	
 }
