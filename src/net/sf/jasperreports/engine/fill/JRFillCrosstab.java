@@ -494,7 +494,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			setReprinted(true);
 		}
 
-		crosstabFiller.fill(availableHeight - getRelativeY());//FIXMEBAND put height into formula
+		crosstabFiller.fill(availableHeight - getRelativeY());
 		
 		boolean willOverflow = crosstabFiller.willOverflow();
 		setStretchHeight(willOverflow ? availableHeight - getRelativeY() : crosstabFiller.getUsedHeight());

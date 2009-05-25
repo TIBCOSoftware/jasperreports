@@ -330,7 +330,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 				tmpWillOverflow = 
 					element.prepare(
-						availableHeight + getElementFirstY(element), //FIXMEBAND check this
+						availableHeight + getElementFirstY(element),
 						isOverflow
 						) 
 					|| tmpWillOverflow;
