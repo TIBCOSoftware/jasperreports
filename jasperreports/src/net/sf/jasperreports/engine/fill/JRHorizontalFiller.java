@@ -54,7 +54,9 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 	private int lastDetailOffsetX = -1;
 	private int lastDetailOffsetY = -1;
-
+	private int currentDetailOffsetY = 0;
+	private int maxDetailOffsetY = 0;
+	
 
 	/**
 	 *
@@ -728,6 +730,32 @@ public class JRHorizontalFiller extends JRBaseFiller
 				
 		if (detailBands != null)
 		{
+			if (
+				offsetX == lastDetailOffsetX
+				&& offsetY == lastDetailOffsetY
+				)
+			{
+				if (columnIndex == columnCount - 1)
+				{
+					setFirstColumn();
+
+					maxDetailOffsetY = 0;
+					currentDetailOffsetY = offsetY;
+				}
+				else
+				{
+					columnIndex++;
+					offsetX += columnWidth + columnSpacing;
+					offsetY = currentDetailOffsetY;
+
+					setColumnNumberVariable();
+				}
+			}
+			else
+			{
+				currentDetailOffsetY = offsetY;
+			}
+
 			for(int i = 0; i < detailBands.length; i++)
 			{
 				JRFillBand detailBand = (JRFillBand)detailBands[i];
@@ -736,33 +764,34 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				if (detailBand.isToPrint())
 				{
-					if (
-						offsetX == lastDetailOffsetX
-						&& offsetY == lastDetailOffsetY
+					while (
+						//(columnIndex == columnCount - 1 || isNewGroup) &&
+						detailBand.getHeight() > columnFooterOffsetY - offsetY
 						)
 					{
-						if (columnIndex == columnCount - 1)
-						{
-							setFirstColumn();
-						}
-						else
-						{
-							columnIndex++;
-							offsetX += columnWidth + columnSpacing;
-							offsetY -= detailBand.getHeight();
+						byte evalPrevPage = (isNewGroup?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD);
 
-							setColumnNumberVariable();
-						}
+						fillPageBreak(
+							false,
+							evalPrevPage,
+							JRExpression.EVALUATION_DEFAULT,
+							true
+							);
+
+						currentDetailOffsetY = offsetY;
 					}
-
+					
 					fillFixedBand(detailBand, JRExpression.EVALUATION_DEFAULT, false);
-
-					lastDetailOffsetX = offsetX;
-					lastDetailOffsetY = offsetY;
 				}
 			}
+
+			maxDetailOffsetY = maxDetailOffsetY < offsetY ? offsetY : maxDetailOffsetY;
+			offsetY = maxDetailOffsetY;
+
+			lastDetailOffsetX = offsetX;
+			lastDetailOffsetY = offsetY;
 		}
-				
+		
 		isNewPage = false;
 		isNewColumn = false;
 		isNewGroup = false;
@@ -1332,6 +1361,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		lastDetailOffsetX = -1;
 		lastDetailOffsetY = -1;
+		maxDetailOffsetY = 0;
 
 		fillBackground();
 	}
