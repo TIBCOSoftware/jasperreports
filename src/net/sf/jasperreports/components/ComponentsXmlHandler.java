@@ -31,6 +31,12 @@ import java.io.IOException;
 
 import net.sf.jasperreports.components.barbecue.BarbecueComponent;
 import net.sf.jasperreports.components.barbecue.StandardBarbecueComponent;
+import net.sf.jasperreports.components.barcode4j.BarcodeComponent;
+import net.sf.jasperreports.components.barcode4j.BarcodeXmlWriter;
+import net.sf.jasperreports.components.barcode4j.CodabarComponent;
+import net.sf.jasperreports.components.barcode4j.Code128Component;
+import net.sf.jasperreports.components.barcode4j.DataMatrixComponent;
+import net.sf.jasperreports.components.barcode4j.EAN128Component;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
@@ -63,6 +69,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 	{
 		addListRules(digester);
 		addBarbecueRules(digester);
+		addBarcode4jRules(digester);
 	}
 
 	protected void addListRules(Digester digester)
@@ -106,6 +113,47 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				JRExpression.class.getName());
 	}
 
+	protected void addBarcode4jRules(Digester digester)
+	{
+		addBaseBarcode4jRules(digester, 
+				"*/componentElement/Codabar", CodabarComponent.class);
+		addBaseBarcode4jRules(digester, 
+				"*/componentElement/Code128", Code128Component.class);
+		addBaseBarcode4jRules(digester, 
+				"*/componentElement/EAN128", EAN128Component.class);
+		addBaseBarcode4jRules(digester, 
+				"*/componentElement/DataMatrix", DataMatrixComponent.class);
+	}
+	
+	protected void addBaseBarcode4jRules(Digester digester, 
+			String barcodePattern, Class barcodeComponentClass)
+	{
+		digester.addObjectCreate(barcodePattern, barcodeComponentClass);
+		digester.addSetProperties(barcodePattern,
+				//properties to be ignored by this rule
+				new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime}, 
+				new String[0]);
+		//rule to set evaluation time
+		digester.addRule(barcodePattern, 
+				new XmlConstantPropertyRule(
+						JRXmlConstants.ATTRIBUTE_evaluationTime,
+						JRXmlConstants.getEvaluationTimeMap()));
+		
+		String codeExpressionPattern = barcodePattern + "/codeExpression";
+		digester.addFactoryCreate(codeExpressionPattern, 
+				JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addCallMethod(codeExpressionPattern, "setText", 0);
+		digester.addSetNext(codeExpressionPattern, "setCodeExpression", 
+				JRExpression.class.getName());
+		
+		String patternExpressionPattern = barcodePattern + "/patternExpression";
+		digester.addFactoryCreate(patternExpressionPattern, 
+				JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addCallMethod(patternExpressionPattern, "setText", 0);
+		digester.addSetNext(patternExpressionPattern, "setPatternExpression", 
+				JRExpression.class.getName());
+	}
+	
 	public void writeToXml(ComponentKey componentKey, Component component,
 			JRXmlWriter reportWriter) throws IOException
 	{
@@ -118,6 +166,13 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		{
 			BarbecueComponent barcode = (BarbecueComponent) component;
 			writeBarbecue(barcode, componentKey, reportWriter);
+		}
+		else if (component instanceof BarcodeComponent)
+		{
+			BarcodeComponent barcode = (BarcodeComponent) component;
+			BarcodeXmlWriter barcodeWriter = new BarcodeXmlWriter(
+					reportWriter, barcode, componentKey);
+			barcodeWriter.writeBarcode();
 		}
 	}
 
@@ -160,7 +215,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.addAttribute("checksumRequired", barcode.isChecksumRequired());
 		writer.addAttribute("barWidth", barcode.getBarWidth());
 		writer.addAttribute("barHeight", barcode.getBarHeight());
-		if (barcode.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW) {
+		if (barcode.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
+		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
 					barcode.getEvaluationTime(),
 					JRXmlConstants.getEvaluationTimeMap());

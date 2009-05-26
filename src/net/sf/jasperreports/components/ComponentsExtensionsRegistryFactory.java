@@ -34,6 +34,9 @@ import java.util.List;
 import net.sf.jasperreports.components.barbecue.BarbecueCompiler;
 import net.sf.jasperreports.components.barbecue.BarbecueDesignConverter;
 import net.sf.jasperreports.components.barbecue.BarbecueFillFactory;
+import net.sf.jasperreports.components.barcode4j.BarcodeCompiler;
+import net.sf.jasperreports.components.barcode4j.BarcodeDesignConverter;
+import net.sf.jasperreports.components.barcode4j.BarcodeFillFactory;
 import net.sf.jasperreports.components.list.FillListFactory;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListComponentCompiler;
@@ -61,15 +64,17 @@ public class ComponentsExtensionsRegistryFactory implements
 		ExtensionsRegistryFactory
 {
 
-	protected static final String NAMESPACE = 
+	public static final String NAMESPACE = 
 		"http://jasperreports.sourceforge.net/jasperreports/components";
-	protected static final String XSD_LOCATION = 
+	public static final String XSD_LOCATION = 
 		"http://jasperreports.sourceforge.net/xsd/components.xsd";
-	protected static final String XSD_RESOURCE = 
+	public static final String XSD_RESOURCE = 
 		"net/sf/jasperreports/components/components.xsd";
 	
 	protected static final String LIST_COMPONENT_NAME = "list";
 	protected static final String BARBECUE_COMPONENT_NAME = "barbecue";
+	protected static final String[] BARCODE4J_COMPONENT_NAMES = 
+		new String[]{"Codabar", "Code128", "EAN128", "DataMatrix"};
 	
 	private static final ExtensionsRegistry REGISTRY;
 	
@@ -101,6 +106,16 @@ public class ComponentsExtensionsRegistryFactory implements
 		barbecueManager.setComponentXmlWriter(xmlHandler);
 		barbecueManager.setComponentFillFactory(new BarbecueFillFactory());
 		componentManagers.put(BARBECUE_COMPONENT_NAME, barbecueManager);
+		
+		DefaultComponentManager barcode4jManager = new DefaultComponentManager();
+		barcode4jManager.setDesignConverter(new BarcodeDesignConverter());
+		barcode4jManager.setComponentCompiler(new BarcodeCompiler());
+		barcode4jManager.setComponentXmlWriter(xmlHandler);
+		barcode4jManager.setComponentFillFactory(new BarcodeFillFactory());
+		for (int i = 0; i < BARCODE4J_COMPONENT_NAMES.length; i++)
+		{
+			componentManagers.put(BARCODE4J_COMPONENT_NAMES[i], barcode4jManager);
+		}
 		
 		bundle.setComponentManagers(componentManagers);
 		
