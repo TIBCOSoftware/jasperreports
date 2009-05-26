@@ -41,5 +41,6 @@
 	<classpathentry kind="lib" path="lib/jcommon-1.0.15.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.12.jar"/>
 	<classpathentry kind="lib" path="lib/barbecue-1.5-beta1.jar"/>
+	<classpathentry kind="lib" path="lib/barcode4j.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
