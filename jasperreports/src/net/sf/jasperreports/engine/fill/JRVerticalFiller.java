@@ -896,7 +896,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			if (
 				!isSummaryNewPage
 				&& columnIndex == 0
-				&& summary.getHeight() <= columnFooterOffsetY - offsetY
+				&& summary.getBreakHeight() <= columnFooterOffsetY - offsetY
 				)
 			{
 				fillSummarySamePage();
@@ -911,7 +911,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			if (
 				!isSummaryNewPage
 				&& columnIndex == 0
-				&& summary.getHeight() <= lastPageColumnFooterOffsetY - offsetY
+				&& summary.getBreakHeight() <= lastPageColumnFooterOffsetY - offsetY
 				)
 			{
 				setLastPageFooter(true);
@@ -921,7 +921,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			else if (
 				!isSummaryNewPage
 				&& columnIndex == 0
-				&& summary.getHeight() <= columnFooterOffsetY - offsetY
+				&& summary.getBreakHeight() <= columnFooterOffsetY - offsetY
 				)
 			{
 				fillSummarySamePageMixedFooters();
