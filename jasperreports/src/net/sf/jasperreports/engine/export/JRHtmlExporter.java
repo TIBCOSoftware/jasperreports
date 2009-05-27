@@ -112,7 +112,7 @@ import org.apache.commons.logging.LogFactory;
 public class JRHtmlExporter extends JRAbstractExporter
 {
 	
-	private static final Log log = LogFactory.getLog(JRPdfExporter.class);
+	private static final Log log = LogFactory.getLog(JRHtmlExporter.class);
 
 	private static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.html.";
 
