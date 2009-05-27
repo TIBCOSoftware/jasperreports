@@ -27,74 +27,67 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.component.FillContext;
+import net.sf.jasperreports.engine.util.JRExpressionUtil;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BarcodeEvaluator extends AbstractBarcodeEvaluator
+public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 {
 
-	private final FillContext fillContext;
-	private final byte evaluationType;
-	
-	public BarcodeEvaluator(FillContext fillContext, byte evaluationType)
+	public BarcodeDesignEvaluator(JRComponentElement componentElement,
+			JRDefaultStyleProvider defaultStyleProvider)
 	{
-		super(fillContext.getComponentElement(), 
-				fillContext.getDefaultStyleProvider());
-		
-		this.fillContext = fillContext;
-		this.evaluationType = evaluationType;
+		super(componentElement, defaultStyleProvider);
 	}
 	
-	protected void evaluateBaseBarcode(BarcodeComponent barcodeComponent)
+	protected void evaluateBaseBarcode(BarcodeComponent barcodeComponent, 
+			String defaultMessage)
 	{
-		message = (String) evaluateExpression(
-				barcodeComponent.getCodeExpression());
+		message = evaluateStringExpression(barcodeComponent.getCodeExpression(), 
+				defaultMessage);
 		
-		String pattern = (String) evaluateExpression(
-				barcodeComponent.getPatternExpression());
+		String pattern = evaluateStringExpression(
+				barcodeComponent.getPatternExpression(), null);
 		if (pattern != null) 
 		{
 			barcode.setPattern(pattern);
 		}
 	}
-	
-	protected Object evaluateExpression(JRExpression expression)
-	{
-		try
-		{
-			return fillContext.evaluate(expression, evaluationType);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-	}
 
+	protected String evaluateStringExpression(JRExpression expression, String defaultValue)
+	{
+		String value = JRExpressionUtil.getSimpleExpressionText(expression);
+		if (value == null)
+		{
+			value = defaultValue;
+		}
+		return value;
+	}
+	
 	protected void evaluateCodabar(CodabarComponent codabar)
 	{
-		evaluateBaseBarcode(codabar);
+		evaluateBaseBarcode(codabar, "0123456789");
 	}
 
 	protected void evaluateCode128(Code128Component code128)
 	{
-		evaluateBaseBarcode(code128);
+		evaluateBaseBarcode(code128, "0123456789");
 	}
 
 	protected void evaluateDataMatrix(DataMatrixComponent dataMatrix)
 	{
-		evaluateBaseBarcode(dataMatrix);
+		evaluateBaseBarcode(dataMatrix, "0123456789");
 	}
 
 	protected void evaluateEANCode128(EAN128Component ean128)
 	{
-		evaluateBaseBarcode(ean128);
+		evaluateBaseBarcode(ean128, "0101234567890123");
 	}
 
 }

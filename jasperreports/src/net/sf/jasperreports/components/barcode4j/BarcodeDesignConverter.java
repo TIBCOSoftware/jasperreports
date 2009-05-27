@@ -28,9 +28,16 @@
 package net.sf.jasperreports.components.barcode4j;
 
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.component.ComponentDesignConverter;
 import net.sf.jasperreports.engine.convert.ReportConverter;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
 
 /**
  * 
@@ -40,11 +47,50 @@ import net.sf.jasperreports.engine.convert.ReportConverter;
 public class BarcodeDesignConverter implements ComponentDesignConverter
 {
 
+	private static final Log log = LogFactory.getLog(BarcodeDesignConverter.class);
+	
 	public JRPrintElement convert(ReportConverter reportConverter,
 			JRComponentElement element)
 	{
-		//TODO
-		return null;
+		JRBasePrintImage printImage = new JRBasePrintImage(
+				reportConverter.getDefaultStyleProvider());
+		reportConverter.copyBaseAttributes(element, printImage);
+		printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
+		
+		JRRenderable barcodeImage = evaluateBarcode(reportConverter, element);
+		printImage.setRenderer(barcodeImage);
+		
+		return printImage;
+	}
+
+	protected JRRenderable evaluateBarcode(ReportConverter reportConverter,
+			JRComponentElement element)
+	{
+		try
+		{
+			BarcodeComponent barcodeComponent = (BarcodeComponent) element.getComponent();
+
+			BarcodeDesignEvaluator evaluator = new BarcodeDesignEvaluator(element, 
+					reportConverter.getDefaultStyleProvider());
+			evaluator.evaluateBarcode();
+			
+			AbstractBarcodeBean barcode = evaluator.getBarcode();
+			String message = evaluator.getMessage();
+			
+			BarcodeImageProducer imageProducer = BarcodeUtils.getImageProducer(element);
+			JRRenderable barcodeImage = imageProducer.createImage(
+					element, barcode, message, barcodeComponent.getOrientation());
+			return barcodeImage;
+		}
+		catch (Exception e)
+		{
+			if (log.isWarnEnabled())
+			{
+				log.warn("Failed to create barcode preview", e);
+			}
+			
+			return null;
+		}
 	}
 
 }

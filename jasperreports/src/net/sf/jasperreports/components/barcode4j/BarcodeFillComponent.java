@@ -150,7 +150,8 @@ public class BarcodeFillComponent extends BaseFillComponent
 			BarcodeImageProducer imageProducer = BarcodeUtils.getImageProducer(
 					fillContext.getComponentElement());
 			JRRenderable barcodeImage = imageProducer.createImage(
-					fillContext, barcode, message, barcodeComponent.getOrientation());
+					fillContext.getComponentElement(), 
+					barcode, message, barcodeComponent.getOrientation());
 			image.setRenderer(barcodeImage);
 		}
 	}

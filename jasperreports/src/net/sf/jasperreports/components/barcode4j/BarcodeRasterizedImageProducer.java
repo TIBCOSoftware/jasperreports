@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -57,20 +56,19 @@ public class BarcodeRasterizedImageProducer implements BarcodeImageProducer
 	public static final String PROPERTY_ANTIALIAS = 
 		BarcodeComponent.PROPERTY_PREFIX + "image.antiAlias";
 	
-	public JRRenderable createImage(FillContext fillContext, 
+	public JRRenderable createImage(JRComponentElement componentElement, 
 			BarcodeGenerator barcode, String message, int orientation)
 	{
 		try
 		{
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			
-			JRComponentElement element = fillContext.getComponentElement();
 			int resolution = JRProperties.getIntegerProperty(
-					element, PROPERTY_RESOLUTION, 300);
+					componentElement, PROPERTY_RESOLUTION, 300);
 			boolean gray = JRProperties.getBooleanProperty(
-					element, PROPERTY_GRAY, true);
+					componentElement, PROPERTY_GRAY, true);
 			boolean antiAlias = JRProperties.getBooleanProperty(
-					element, PROPERTY_ANTIALIAS, true);
+					componentElement, PROPERTY_ANTIALIAS, true);
 			int imageType = gray ? BufferedImage.TYPE_BYTE_GRAY 
 					: BufferedImage.TYPE_BYTE_BINARY;
 			
