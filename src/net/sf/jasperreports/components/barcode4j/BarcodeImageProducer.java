@@ -27,10 +27,10 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import org.krysalis.barcode4j.BarcodeGenerator;
-
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRRenderable;
-import net.sf.jasperreports.engine.component.FillContext;
+
+import org.krysalis.barcode4j.BarcodeGenerator;
 
 /**
  * 
@@ -46,7 +46,7 @@ public interface BarcodeImageProducer
 	String PROPERTY_PREFIX_IMAGE_PRODUCER = 
 		BarcodeComponent.PROPERTY_PREFIX + "image.producer.";
 	
-	JRRenderable createImage(FillContext fillContext, 
+	JRRenderable createImage(JRComponentElement componentElement, 
 			BarcodeGenerator barcode, String message, int orientation);
 	
 }

@@ -36,9 +36,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.renderers.BatikRenderer;
 
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -53,7 +53,7 @@ import org.w3c.dom.Document;
 public class BarcodeSVGImageProducer implements BarcodeImageProducer
 {
 
-	public JRRenderable createImage(FillContext fillContext,
+	public JRRenderable createImage(JRComponentElement componentElement,
 			BarcodeGenerator barcode, String message, int orientation)
 	{
 		try
