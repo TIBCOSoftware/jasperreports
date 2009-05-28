@@ -73,6 +73,15 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	protected static class JRUserAgent extends UserAgentAdapter
+	{
+		public float getPixelUnitToMillimeter()
+		{
+			// JR works at 72dpi
+			return 0.35277777777777777777777777777778f;
+		}
+	}
+	
 	private String svgText;
 	private byte[] svgData;
 	private String svgDataLocation;
@@ -163,7 +172,8 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 		
 		try
 		{
-			UserAgent userAgent = new UserAgentAdapter();
+			UserAgent userAgent = new JRUserAgent();
+			
 			SVGDocumentFactory documentFactory =
 				new SAXSVGDocumentFactory(userAgent.getXMLParserClassName(), true);
 			documentFactory.setValidating(userAgent.isXMLParserValidating());
