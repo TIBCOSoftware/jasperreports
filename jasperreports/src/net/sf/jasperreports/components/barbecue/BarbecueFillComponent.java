@@ -106,7 +106,6 @@ public class BarbecueFillComponent extends BaseFillComponent
 		image.setY(fillContext.getElementPrintY());
 		image.setWidth(element.getWidth());
 		image.setHeight(element.getHeight());
-		image.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
 		
 		if (isEvaluateNow())
 		{
@@ -155,6 +154,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 					fillContext.getElementOrigin(), 
 					fillContext.getDefaultStyleProvider());
 			templateImage.setStyle(elementStyle);
+			templateImage.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
 			
 			printTemplates.put(elementStyle, templateImage);
 		}
