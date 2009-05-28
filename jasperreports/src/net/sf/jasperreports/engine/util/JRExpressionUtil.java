@@ -35,6 +35,9 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 
@@ -56,6 +59,14 @@ public class JRExpressionUtil
 	}
 
 
+	private static final Pattern SIMPLE_EXPRESSION_PATTERN = 
+		Pattern.compile("\\s*\"([^\"]*((?<=\\\\)\"[^\"]*)*)\"\\s*");
+	
+	private static final int SIMPLE_EXPRESSION_TEXT_GROUP = 1;
+	
+	private static final Pattern TEXT_QUOTE_PATTERN = Pattern.compile("\\\\\"");
+	private static final String TEXT_QUOTE_REPLACEMENT = "\"";
+	
 	/**
 	 *
 	 */
@@ -71,11 +82,13 @@ public class JRExpressionUtil
 				&& chunks[0].getType() == JRExpressionChunk.TYPE_TEXT
 				)
 			{
-				String chunk = chunks[0].getText().trim();
-				int chunkLength = chunk.length();
-				if (chunk.charAt(0) == '"' && chunk.charAt(chunkLength - 1) == '"')
+				String chunk = chunks[0].getText();
+				Matcher matcher = SIMPLE_EXPRESSION_PATTERN.matcher(chunk);
+				if (matcher.matches())
 				{
-					value = chunk.substring(1, chunkLength - 1);
+					String text = matcher.group(SIMPLE_EXPRESSION_TEXT_GROUP);
+					value = TEXT_QUOTE_PATTERN.matcher(text).replaceAll(
+							TEXT_QUOTE_REPLACEMENT);
 				}
 			}
 		}
