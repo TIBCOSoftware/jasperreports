@@ -128,6 +128,15 @@
   	  <property ref="net.sf.jasperreports.export.pdf.user.password"/>
   	  <property ref="net.sf.jasperreports.export.pdf.version"/>
   	  <property ref="net.sf.jasperreports.export.pdf.tagged"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.tag.table"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.tag.tr"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.tag.th"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.tag.td"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.tag.h1"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.tag.h2"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.tag.h3"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.tag.colspan"/>
+  	  <property ref="net.sf.jasperreports.export.pdf.tag.rowspan"/>
   	  <property ref="net.sf.jasperreports.export.pdf.tag.language"/>
   	  <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
   	  <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
@@ -145,6 +154,9 @@
   	  <property ref="net.sf.jasperreports.export.xls.break.before.row"/>
   	  <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
   	  <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
+  	  <property ref="net.sf.jasperreports.export.xml.end.page.index"/>
+  	  <property ref="net.sf.jasperreports.export.xml.page.count"/>
+  	  <property ref="net.sf.jasperreports.export.xml.start.page.index"/>
   	  <property ref="net.sf.jasperreports.export.xml.validation"/>
   	</content>
   </category>
@@ -167,6 +179,7 @@
   	  <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts"/>
   	  <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.sleep"/>
   	  <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stakctrace"/>
+  	  <property ref="net.sf.jasperreports.awt.superscript.fix.enabled"/>
   	</content>
   </category>
   
@@ -1789,6 +1802,149 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_NAMES_PREFIX</api>
     <default>N/A</default>
     <scope>Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.awt.superscript.fix.enabled -->
+  
+  <configProperty name="net.sf.jasperreports.awt.superscript.fix.enabled">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRStyledText.html#PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED</api>
+    <default>N/A</default>
+    <scope>Global</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xml.start.page.index -->
+  
+  <configProperty name="net.sf.jasperreports.export.xml.start.page.index">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_START_PAGE_INDEX</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xml.end.page.index -->
+  
+  <configProperty name="net.sf.jasperreports.export.xml.end.page.index">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_END_PAGE_INDEX</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xml.page.count -->
+  
+  <configProperty name="net.sf.jasperreports.export.xml.page.count">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_PAGE_COUNT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.table -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.table">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.tr -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.tr">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.th -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.th">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.td -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.td">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.h1 -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.h1">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.h2 -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.h2">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.h3 -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.h3">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.colspan -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.colspan">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.rowspan -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.rowspan">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>	
   </configProperty>
   
   
