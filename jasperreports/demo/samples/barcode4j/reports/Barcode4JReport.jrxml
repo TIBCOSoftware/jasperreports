@@ -48,7 +48,7 @@
 			</componentElement>
 			<componentElement>
 				<reportElement style="Barcode" x="0" y="260" width="70" height="70"/>
-				<c:DataMatrix xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+				<c:DataMatrix xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="4">
 					<c:codeExpression><![CDATA["JasperReports"]]></c:codeExpression>
 				</c:DataMatrix>
 			</componentElement>
