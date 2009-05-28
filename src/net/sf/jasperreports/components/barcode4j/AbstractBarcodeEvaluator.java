@@ -81,18 +81,6 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected void setBaseAttributes(BarcodeComponent barcodeComponent)
 	{
-		// FIXME DataMatrix?
-		double barcodeHeight;
-		if (BarcodeUtils.isVertical(barcodeComponent))
-		{
-			barcodeHeight = UnitConv.pt2mm(componentElement.getWidth());
-		}
-		else
-		{
-			barcodeHeight = UnitConv.pt2mm(componentElement.getHeight());
-		}
-		barcode.setHeight(barcodeHeight);
-		
 		JRStyle style = getElementStyle();
 		if (style != null)
 		{
@@ -122,6 +110,19 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 			barcode.setMsgPosition(
 					HumanReadablePlacement.byName(textPlacement));
 		}
+
+		// FIXME DataMatrix?
+		double barcodeHeight;
+		if (BarcodeUtils.isVertical(barcodeComponent))
+		{
+			barcodeHeight = UnitConv.pt2mm(componentElement.getWidth());
+		}
+		else
+		{
+			barcodeHeight = UnitConv.pt2mm(componentElement.getHeight());
+		}
+		barcode.setHeight(barcodeHeight);
+		
 	}
 
 	protected JRStyle getElementStyle()
