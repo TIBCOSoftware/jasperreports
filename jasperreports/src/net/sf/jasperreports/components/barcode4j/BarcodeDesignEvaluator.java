@@ -72,6 +72,7 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 	
 	protected void evaluateCodabar(CodabarComponent codabar)
 	{
+		//FIXME default code depends on checksum mode?
 		evaluateBaseBarcode(codabar, "0123456789");
 	}
 
@@ -87,6 +88,7 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 
 	protected void evaluateEANCode128(EAN128Component ean128)
 	{
+		//FIXME default code depends on checksum mode?
 		evaluateBaseBarcode(ean128, "0101234567890123");
 	}
 
