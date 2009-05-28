@@ -429,16 +429,16 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
-	public void render(Graphics2D grx, Rectangle2D rectanle) throws JRException
+	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		Image img = getImage();
 
 		grx.drawImage(
 			img, 
-			(int)rectanle.getX(), 
-			(int)rectanle.getY(), 
-			(int)rectanle.getWidth(), 
-			(int)rectanle.getHeight(), 
+			(int)rectangle.getX(), 
+			(int)rectangle.getY(), 
+			(int)rectangle.getWidth(), 
+			(int)rectangle.getHeight(), 
 			null
 			);
 	}
