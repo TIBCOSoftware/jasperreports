@@ -78,6 +78,9 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	private String svgDataLocation;
 	private List areaHyperlinks;
 
+	private GraphicsNode rootNode;
+	private Dimension2D documentSize;
+
 	protected BatikRenderer(List areaHyperlinks)
 	{
 		this.areaHyperlinks = areaHyperlinks;
@@ -109,8 +112,55 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 
 	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
-		ensureData();
+		ensureSvg();
 
+		AffineTransform transform = ViewBox.getPreserveAspectRatioTransform(
+				new float[]{0, 0, (float) documentSize.getWidth(), (float) documentSize.getHeight()},
+				SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE, true,
+				(float) rectangle.getWidth(), (float) rectangle.getHeight());
+		Graphics2D graphics = (Graphics2D) grx.create();
+		graphics.translate(rectangle.getX(), rectangle.getY());
+		graphics.transform(transform);
+
+		// CompositeGraphicsNode not thread safe
+		synchronized (rootNode)
+		{
+			rootNode.paint(graphics);
+		}
+	}
+
+	public Dimension2D getDimension()
+	{
+		try
+		{
+			ensureSvg();
+			return documentSize;
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	protected synchronized void ensureData() throws JRException
+	{
+		if (svgText == null
+				&& svgData == null && svgDataLocation != null)
+		{
+			svgData = JRLoader.loadBytesFromLocation(svgDataLocation);
+		}
+	}
+
+	protected synchronized void ensureSvg() throws JRException
+	{
+		if (rootNode != null)
+		{
+			// already loaded
+			return;
+		}
+
+		ensureData();
+		
 		try
 		{
 			UserAgent userAgent = new UserAgentAdapter();
@@ -133,34 +183,15 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 			BridgeContext ctx = new BridgeContext(userAgent);
 			ctx.setDynamic(true);
 			GVTBuilder builder = new GVTBuilder();
-			GraphicsNode graphicsNode = builder.build(ctx, document);
-
-			Dimension2D docSize = ctx.getDocumentSize();
-			AffineTransform transform = ViewBox.getPreserveAspectRatioTransform(
-					new float[]{0, 0, (float) docSize.getWidth(), (float) docSize.getHeight()},
-					SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE, true,
-					(float) rectangle.getWidth(), (float) rectangle.getHeight());
-			Graphics2D graphics = (Graphics2D) grx.create();
-			graphics.translate(rectangle.getX(), rectangle.getY());
-			graphics.transform(transform);
-
-			graphicsNode.paint(graphics);
+			rootNode = builder.build(ctx, document);
+			documentSize = ctx.getDocumentSize();
 		}
 		catch (IOException e)
 		{
 			throw new JRRuntimeException(e);
 		}
 	}
-
-	protected synchronized void ensureData() throws JRException
-	{
-		if (svgText == null
-				&& svgData == null && svgDataLocation != null)
-		{
-			svgData = JRLoader.loadBytesFromLocation(svgDataLocation);
-		}
-	}
-
+	
 	public List renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		render(grx, rectangle);
