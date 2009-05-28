@@ -222,7 +222,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 *
 	 */
-	protected void setScaleImage(byte scaleImage)
+	public void setScaleImage(byte scaleImage)
 	{
 		this.scaleImage = new Byte(scaleImage);
 	}
@@ -230,7 +230,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 *
 	 */
-	protected void setScaleImage(Byte scaleImage)
+	public void setScaleImage(Byte scaleImage)
 	{
 		this.scaleImage = scaleImage;
 	}

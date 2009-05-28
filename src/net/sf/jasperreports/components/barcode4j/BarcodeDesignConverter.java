@@ -55,7 +55,7 @@ public class BarcodeDesignConverter implements ComponentDesignConverter
 		JRBasePrintImage printImage = new JRBasePrintImage(
 				reportConverter.getDefaultStyleProvider());
 		reportConverter.copyBaseAttributes(element, printImage);
-		printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
+		printImage.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
 		
 		JRRenderable barcodeImage = evaluateBarcode(reportConverter, element);
 		printImage.setRenderer(barcodeImage);
