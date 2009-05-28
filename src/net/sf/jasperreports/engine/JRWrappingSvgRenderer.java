@@ -50,7 +50,7 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	 *
 	 */
 	private JRRenderable renderer = null;
-	private Dimension2D dimension = null;
+	private Dimension2D elementDimension = null;
 	private Color backcolor = null;
 
 	
@@ -59,12 +59,12 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	 */
 	public JRWrappingSvgRenderer(
 		JRRenderable renderer, 
-		Dimension2D dimension,
+		Dimension2D elementDimension,
 		Color backcolor
 		)
 	{
 		this.renderer = renderer;
-		this.dimension = dimension;
+		this.elementDimension = elementDimension;
 		this.backcolor = backcolor;
 	}
 
@@ -74,7 +74,24 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	 */
 	public Dimension2D getDimension()
 	{
-		return dimension;
+		Dimension2D imageDimension = null;
+		try
+		{
+			// use original dimension if possible
+			imageDimension = renderer.getDimension();
+		}
+		catch (JRException e)
+		{
+			// ignore
+		}
+		
+		if (imageDimension == null)
+		{
+			// fallback to element dimension
+			imageDimension = elementDimension;
+		}
+		
+		return imageDimension;
 	}
 
 
