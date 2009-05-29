@@ -41,6 +41,9 @@ public class CodabarComponent extends BarcodeComponent
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_CHECKSUM_MODE = "checksumMode";
+	public static final String PROPERTY_WIDE_FACTOR = "wideFactor";
+	
 	private String checksumMode;
 	private Double wideFactor;
 	
@@ -56,7 +59,10 @@ public class CodabarComponent extends BarcodeComponent
 
 	public void setChecksumMode(String checksumMode)
 	{
+		Object old = this.checksumMode;
 		this.checksumMode = checksumMode;
+		getEventSupport().firePropertyChange(PROPERTY_CHECKSUM_MODE, 
+				old, this.checksumMode);
 	}
 
 	public void setChecksumMode(ChecksumMode checksumMode)
@@ -71,7 +77,10 @@ public class CodabarComponent extends BarcodeComponent
 
 	public void setWideFactor(Double wideFactor)
 	{
+		Object old = this.wideFactor;
 		this.wideFactor = wideFactor;
+		getEventSupport().firePropertyChange(PROPERTY_WIDE_FACTOR, 
+				old, this.wideFactor);
 	}
 
 }
