@@ -30,6 +30,7 @@ package net.sf.jasperreports.components.barcode4j;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 
 /**
@@ -44,6 +45,18 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 			JRDefaultStyleProvider defaultStyleProvider)
 	{
 		super(componentElement, defaultStyleProvider);
+	}
+	
+	public JRRenderable evaluateImage()
+	{
+		evaluateBarcode();
+		
+		BarcodeImageProducer imageProducer = BarcodeUtils.getImageProducer(
+				componentElement);
+		JRRenderable barcodeImage = imageProducer.createImage(
+				componentElement, 
+				barcode, message, barcodeComponent.getOrientation());
+		return barcodeImage;
 	}
 	
 	protected void evaluateBaseBarcode(BarcodeComponent barcodeComponent, 
