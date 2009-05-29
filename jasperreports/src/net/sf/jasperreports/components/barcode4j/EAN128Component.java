@@ -40,6 +40,8 @@ public class EAN128Component extends Code128Component
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_CHECKSUM_MODE = "checksumMode";
 
 	private String checksumMode;
 
@@ -50,7 +52,10 @@ public class EAN128Component extends Code128Component
 
 	public void setChecksumMode(String checksumMode)
 	{
+		Object old = this.checksumMode;
 		this.checksumMode = checksumMode;
+		getEventSupport().firePropertyChange(PROPERTY_CHECKSUM_MODE, 
+				old, this.checksumMode);
 	}
 
 	public void setChecksumMode(ChecksumMode checksumMode)

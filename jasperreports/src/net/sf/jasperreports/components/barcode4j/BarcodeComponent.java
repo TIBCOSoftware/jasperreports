@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
@@ -42,13 +44,23 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class BarcodeComponent implements Component, Serializable, Cloneable
+public abstract class BarcodeComponent implements Component, Serializable, Cloneable, JRChangeEventsSupport
 {
 
 	public static final String PROPERTY_PREFIX = 
 		JRProperties.PROPERTY_PREFIX + "components.barcode4j.";
+
+	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
+	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
+	public static final String PROPERTY_ORIENTATION = "orientation";
+	public static final String PROPERTY_CODE_EXPRESSION = "codeExpression";
+	public static final String PROPERTY_PATTERN_EXPRESSION = "patternExpression";
+	public static final String PROPERTY_MODULE_WIDTH = "moduleWidth";
+	public static final String PROPERTY_TEXT_POSITION = "textPosition";
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	private transient JRPropertyChangeSupport eventSupport;
 	
 	private byte evaluationTime;
 	private String evaluationGroup;
@@ -66,7 +78,10 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 
 	public void setEvaluationTime(byte evaluationTime)
 	{
+		byte old = this.evaluationTime;
 		this.evaluationTime = evaluationTime;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, 
+				old, this.evaluationTime);
 	}
 
 	public String getEvaluationGroup()
@@ -76,7 +91,10 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 
 	public void setEvaluationGroup(String evaluationGroup)
 	{
+		Object old = this.evaluationGroup;
 		this.evaluationGroup = evaluationGroup;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP, 
+				old, this.evaluationGroup);
 	}
 
 	public int getOrientation()
@@ -86,7 +104,10 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 
 	public void setOrientation(int orientation)
 	{
+		int old = this.orientation;
 		this.orientation = orientation;
+		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, 
+				old, this.orientation);
 	}
 
 	public JRExpression getCodeExpression()
@@ -96,7 +117,10 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 
 	public void setCodeExpression(JRExpression codeExpression)
 	{
+		Object old = this.codeExpression;
 		this.codeExpression = codeExpression;
+		getEventSupport().firePropertyChange(PROPERTY_CODE_EXPRESSION, 
+				old, this.codeExpression);
 	}
 
 	public JRExpression getPatternExpression()
@@ -106,7 +130,10 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 
 	public void setPatternExpression(JRExpression patternExpression)
 	{
+		Object old = this.patternExpression;
 		this.patternExpression = patternExpression;
+		getEventSupport().firePropertyChange(PROPERTY_PATTERN_EXPRESSION, 
+				old, this.patternExpression);
 	}
 
 	public Double getModuleWidth()
@@ -116,7 +143,10 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 
 	public void setModuleWidth(Double moduleWidth)
 	{
+		Object old = this.moduleWidth;
 		this.moduleWidth = moduleWidth;
+		getEventSupport().firePropertyChange(PROPERTY_MODULE_WIDTH, 
+				old, this.moduleWidth);
 	}
 
 	public String getTextPosition()
@@ -126,7 +156,10 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 
 	public void setTextPosition(String textPosition)
 	{
+		Object old = this.textPosition;
 		this.textPosition = textPosition;
+		getEventSupport().firePropertyChange(PROPERTY_TEXT_POSITION, 
+				old, this.textPosition);
 	}
 
 	public void setTextPosition(HumanReadablePlacement textPosition)
@@ -148,5 +181,18 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 	}
 	
 	public abstract void receive(BarcodeVisitor visitor);
+
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 	
 }

@@ -41,6 +41,8 @@ public class DataMatrixComponent extends BarcodeComponent
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_SHAPE = "shape";
+
 	private String shape;
 	
 	public void receive(BarcodeVisitor visitor)
@@ -55,7 +57,10 @@ public class DataMatrixComponent extends BarcodeComponent
 
 	public void setShape(String shape)
 	{
+		Object old = this.shape;
 		this.shape = shape;
+		getEventSupport().firePropertyChange(PROPERTY_SHAPE, 
+				old, this.shape);
 	}
 
 	public void setShape(SymbolShapeHint shape)
