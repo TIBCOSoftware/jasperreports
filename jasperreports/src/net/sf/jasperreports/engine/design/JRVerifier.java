@@ -1654,7 +1654,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyHyperlink(JRHyperlink hyperlink)
+	public void verifyHyperlink(JRHyperlink hyperlink)
 	{
 		if (hyperlink != null)
 		{
