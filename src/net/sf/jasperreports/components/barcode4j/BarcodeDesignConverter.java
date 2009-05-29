@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.convert.ReportConverter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
 
 /**
  * 
@@ -68,19 +67,9 @@ public class BarcodeDesignConverter implements ComponentDesignConverter
 	{
 		try
 		{
-			BarcodeComponent barcodeComponent = (BarcodeComponent) element.getComponent();
-
 			BarcodeDesignEvaluator evaluator = new BarcodeDesignEvaluator(element, 
 					reportConverter.getDefaultStyleProvider());
-			evaluator.evaluateBarcode();
-			
-			AbstractBarcodeBean barcode = evaluator.getBarcode();
-			String message = evaluator.getMessage();
-			
-			BarcodeImageProducer imageProducer = BarcodeUtils.getImageProducer(element);
-			JRRenderable barcodeImage = imageProducer.createImage(
-					element, barcode, message, barcodeComponent.getOrientation());
-			return barcodeImage;
+			return evaluator.evaluateImage();
 		}
 		catch (Exception e)
 		{

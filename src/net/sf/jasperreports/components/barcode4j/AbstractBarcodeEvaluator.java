@@ -49,8 +49,9 @@ import org.krysalis.barcode4j.tools.UnitConv;
 public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 {
 	
-	private final JRComponentElement componentElement;
-	private final JRDefaultStyleProvider defaultStyleProvider;
+	protected final JRComponentElement componentElement;
+	protected final BarcodeComponent barcodeComponent;
+	protected final JRDefaultStyleProvider defaultStyleProvider;
 
 	protected String message;
 	protected AbstractBarcodeBean barcode;
@@ -59,6 +60,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 			JRDefaultStyleProvider defaultStyleProvider)
 	{
 		this.componentElement = componentElement;
+		this.barcodeComponent = (BarcodeComponent) componentElement.getComponent();
 		this.defaultStyleProvider = defaultStyleProvider;
 	}
 
