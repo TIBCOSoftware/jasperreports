@@ -3194,8 +3194,7 @@ public class JRVerifier
 		return breakHeight;
 	}
 	
-	public void verifyExpression(JRVerifier verifier, 
-			JRExpression expression, Object parent,
+	public void verifyExpression(JRExpression expression, Object parent,
 			String mandatoryMessage, String noTypeSetMessage,
 			Class expectedType, String invalidTypeMessage)
 	{
@@ -3203,7 +3202,7 @@ public class JRVerifier
 		{
 			if (mandatoryMessage != null)
 			{
-				verifier.addBrokenRule(mandatoryMessage, parent);
+				addBrokenRule(mandatoryMessage, parent);
 			}
 		}
 		else
@@ -3213,13 +3212,13 @@ public class JRVerifier
 				Class type = expression.getValueClass();
 				if (type == null)
 				{
-					verifier.addBrokenRule(noTypeSetMessage, expression);
+					addBrokenRule(noTypeSetMessage, expression);
 				}
 				else if (expectedType != null && !expectedType.isAssignableFrom(type))
 				{
 					String message = MessageFormat.format(invalidTypeMessage, 
 							new Object[]{type.getName()});
-					verifier.addBrokenRule(message, expression);
+					addBrokenRule(message, expression);
 				}
 			}
 			catch (JRRuntimeException e)
