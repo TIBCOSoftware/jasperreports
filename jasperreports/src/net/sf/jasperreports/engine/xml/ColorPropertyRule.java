@@ -27,45 +27,29 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class XmlConstantPropertyRule extends TransformedPropertyRule
+public class ColorPropertyRule extends TransformedPropertyRule
 {
 
-	private static final Log log = LogFactory.getLog(XmlConstantPropertyRule.class);
-	
-	private final Map constantsMap;
-
-	public XmlConstantPropertyRule(String attributeName, Map constantsMap)
-	{
-		super(attributeName);
-		this.constantsMap = constantsMap;
-	}
-
-	public XmlConstantPropertyRule(String attributeName, String propertyName, 
-			Map constantsMap)
+	public ColorPropertyRule(String attributeName, String propertyName)
 	{
 		super(attributeName, propertyName);
-		this.constantsMap = constantsMap;
+	}
+
+	public ColorPropertyRule(String attributeName)
+	{
+		super(attributeName);
 	}
 
 	protected Object toPropertyValue(String attributeValue)
 	{
-		Object value = constantsMap.get(attributeValue);
-		if (value == null)
-		{
-			log.warn("Unrecognized attribute value \"" 
-					+ attributeValue + "\" for " + attributeName);
-		}
-		return value;
+		return JRColorUtil.getColor(attributeValue, null);
 	}
-	
+
 }

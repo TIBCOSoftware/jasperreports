@@ -27,45 +27,66 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.util.Map;
-
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.digester.Rule;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xml.sax.Attributes;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class XmlConstantPropertyRule extends TransformedPropertyRule
+public abstract class TransformedPropertyRule extends Rule
 {
 
-	private static final Log log = LogFactory.getLog(XmlConstantPropertyRule.class);
+	private static final Log log = LogFactory.getLog(TransformedPropertyRule.class);
 	
-	private final Map constantsMap;
+	protected final String attributeName;
+	protected final String propertyName;
 
-	public XmlConstantPropertyRule(String attributeName, Map constantsMap)
+	protected TransformedPropertyRule(String attributeName)
 	{
-		super(attributeName);
-		this.constantsMap = constantsMap;
+		this(attributeName, attributeName);
 	}
 
-	public XmlConstantPropertyRule(String attributeName, String propertyName, 
-			Map constantsMap)
+	protected TransformedPropertyRule(String attributeName, String propertyName)
 	{
-		super(attributeName, propertyName);
-		this.constantsMap = constantsMap;
+		this.attributeName = attributeName;
+		this.propertyName = propertyName;
 	}
 
-	protected Object toPropertyValue(String attributeValue)
+	public void begin(String namespace, String name, Attributes attributes)
+			throws Exception
 	{
-		Object value = constantsMap.get(attributeValue);
-		if (value == null)
+		String attrValue = attributes.getValue(attributeName);
+		if (attrValue != null)
 		{
-			log.warn("Unrecognized attribute value \"" 
-					+ attributeValue + "\" for " + attributeName);
+			Object value = toPropertyValue(attrValue);
+			if (value != null)
+			{
+				Object top = digester.peek();
+				
+				if (log.isDebugEnabled())
+				{
+					log.debug("Setting property " + propertyName + " on " + top
+							+ " to " + value + " from attribute \"" + attrValue + "\"");
+				}
+				
+				BeanUtils.setProperty(top, propertyName, value);
+			}
+			else
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Attribute value " + attrValue 
+							+ " resulted in null property value, not setting");
+				}
+			}
 		}
-		return value;
 	}
+	
+	protected abstract Object toPropertyValue(String attributeValue);
 	
 }
