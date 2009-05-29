@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -3191,6 +3192,41 @@ public class JRVerifier
 		}
 
 		return breakHeight;
+	}
+	
+	public void verifyExpression(JRVerifier verifier, 
+			JRExpression expression, Object parent,
+			String mandatoryMessage, String noTypeSetMessage,
+			Class expectedType, String invalidTypeMessage)
+	{
+		if (expression == null)
+		{
+			if (mandatoryMessage != null)
+			{
+				verifier.addBrokenRule(mandatoryMessage, parent);
+			}
+		}
+		else
+		{
+			try
+			{
+				Class type = expression.getValueClass();
+				if (type == null)
+				{
+					verifier.addBrokenRule(noTypeSetMessage, expression);
+				}
+				else if (expectedType != null && !expectedType.isAssignableFrom(type))
+				{
+					String message = MessageFormat.format(invalidTypeMessage, 
+							new Object[]{type.getName()});
+					verifier.addBrokenRule(message, expression);
+				}
+			}
+			catch (JRRuntimeException e)
+			{
+				addBrokenRule(e, expression);
+			}
+		}
 	}
 	
 }
