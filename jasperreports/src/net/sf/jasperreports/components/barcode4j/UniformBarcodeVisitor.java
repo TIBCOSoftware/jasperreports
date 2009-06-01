@@ -99,4 +99,9 @@ public abstract class UniformBarcodeVisitor implements BarcodeVisitor
 		visitBarcode(intelligentMail);
 	}
 
+	public void visitPostnet(POSTNETComponent postnet)
+	{
+		visitBarcode(postnet);
+	}
+
 }

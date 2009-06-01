@@ -160,6 +160,17 @@
 					<c:codeExpression><![CDATA["01234565"]]></c:codeExpression>
 				</c:EAN8>
 			</componentElement>
+			<staticText>
+				<reportElement style="Barcode" x="0" y="530" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[POSTNET]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement style="Barcode" x="130" y="530" width="400" height="20"/>
+				<c:POSTNET xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" checksumMode="add" shortBarHeight="10">
+					<c:codeExpression><![CDATA["01234"]]></c:codeExpression>
+				</c:POSTNET>
+			</componentElement>
 		</band>
 	</title>
 </jasperReport>

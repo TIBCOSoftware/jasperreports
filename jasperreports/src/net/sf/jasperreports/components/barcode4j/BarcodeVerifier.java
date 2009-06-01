@@ -30,6 +30,7 @@ package net.sf.jasperreports.components.barcode4j;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRVerifier;
 
+import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
@@ -238,6 +239,24 @@ public class BarcodeVerifier implements BarcodeVisitor
 	{
 		verifyBarcode(intelligentMail);
 		verifyChecksumMode(intelligentMail.getChecksumMode(), intelligentMail);
+	}
+
+	public void visitPostnet(POSTNETComponent postnet)
+	{
+		verifyBarcode(postnet);
+		verifyChecksumMode(postnet.getChecksumMode(), postnet);
+		
+		if (postnet.getBaselinePosition() != null)
+		{
+			try
+			{
+				BaselineAlignment.byName(postnet.getBaselinePosition());
+			}
+			catch (Exception e)
+			{
+				verifier.addBrokenRule(e, postnet);
+			}
+		}
 	}
 
 }

@@ -303,5 +303,26 @@
 	
 	<element name="USPSIntelligentMail" substitutionGroup="jr:component" type="c:Barcode4JFourState">
 	</element>
+	
+	<element name="POSTNET" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="shortBarHeight" use="optional" type="double"/>
+					<attribute name="baselinePosition" use="optional">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="top"/>
+								<enumeration value="bottom"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+					<attribute name="displayChecksum" use="optional" type="boolean"/>
+					<attribute name="intercharGapWidth" use="optional" type="double"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
 
 </schema>
