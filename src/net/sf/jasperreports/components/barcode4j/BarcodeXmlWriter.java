@@ -301,4 +301,23 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	public void visitPostnet(POSTNETComponent postnet)
+	{
+		try
+		{
+			startBarcode(postnet);
+			xmlWriteHelper.addAttribute("shortBarHeight", postnet.getShortBarHeight());
+			xmlWriteHelper.addAttribute("baselinePosition", postnet.getBaselinePosition());
+			xmlWriteHelper.addAttribute("checksumMode", postnet.getChecksumMode());
+			xmlWriteHelper.addAttribute("displayChecksum", postnet.getDisplayChecksum());
+			xmlWriteHelper.addAttribute("intercharGapWidth", postnet.getIntercharGapWidth());
+			writeBaseContents(postnet);
+			endBarcode();
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
 }

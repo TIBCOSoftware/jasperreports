@@ -139,4 +139,9 @@ public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 		evaluateBaseBarcode(intelligentMail);
 	}
 
+	protected void evaluatePOSTNET(POSTNETComponent intelligentMail)
+	{
+		evaluateBaseBarcode(intelligentMail);
+	}
+
 }

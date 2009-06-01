@@ -59,4 +59,6 @@ public interface BarcodeVisitor
 
 	void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5);
 
+	void visitPostnet(POSTNETComponent postnet);
+
 }

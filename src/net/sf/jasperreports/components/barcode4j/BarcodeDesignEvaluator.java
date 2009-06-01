@@ -148,4 +148,9 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 				"00040123456200800001987654321");
 	}
 
+	protected void evaluatePOSTNET(POSTNETComponent intelligentMail)
+	{
+		evaluateBaseBarcode(intelligentMail, "01234");
+	}
+
 }

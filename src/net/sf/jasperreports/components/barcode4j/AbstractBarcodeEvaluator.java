@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
 
+import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
@@ -44,6 +45,7 @@ import org.krysalis.barcode4j.impl.fourstate.AbstractFourStateBean;
 import org.krysalis.barcode4j.impl.fourstate.RoyalMailCBCBean;
 import org.krysalis.barcode4j.impl.fourstate.USPSIntelligentMailBean;
 import org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5Bean;
+import org.krysalis.barcode4j.impl.postnet.POSTNETBean;
 import org.krysalis.barcode4j.impl.upcean.EAN13Bean;
 import org.krysalis.barcode4j.impl.upcean.EAN8Bean;
 import org.krysalis.barcode4j.impl.upcean.UPCABean;
@@ -380,5 +382,46 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluateUSPSIntelligentMail(
 			USPSIntelligentMailComponent intelligentMail);
+
+	public void visitPostnet(POSTNETComponent postnet)
+	{
+		POSTNETBean postnetBean = new POSTNETBean();
+		barcode = postnetBean;
+		evaluatePOSTNET(postnet);
+		setBaseAttributes(postnet);
+		
+		if (postnet.getShortBarHeight() != null)
+		{
+			postnetBean.setShortBarHeight(
+					UnitConv.pt2mm(postnet.getShortBarHeight().doubleValue()));
+		}
+		
+		if (postnet.getBaselinePosition() != null)
+		{
+			postnetBean.setBaselinePosition(
+					BaselineAlignment.byName(postnet.getBaselinePosition()));
+		}
+		
+		if (postnet.getChecksumMode() != null)
+		{
+			postnetBean.setChecksumMode(
+					ChecksumMode.byName(postnet.getChecksumMode()));
+		}
+		
+		if (postnet.getDisplayChecksum() != null)
+		{
+			postnetBean.setDisplayChecksum(
+					postnet.getDisplayChecksum().booleanValue());
+		}
+		
+		if (postnet.getIntercharGapWidth() != null)
+		{
+			postnetBean.setIntercharGapWidth(
+					UnitConv.pt2mm(postnet.getIntercharGapWidth().doubleValue()));
+		}
+	}
+
+	protected abstract void evaluatePOSTNET(
+			POSTNETComponent intelligentMail);
 
 }
