@@ -43,6 +43,7 @@ import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
 import org.krysalis.barcode4j.impl.fourstate.AbstractFourStateBean;
 import org.krysalis.barcode4j.impl.fourstate.RoyalMailCBCBean;
 import org.krysalis.barcode4j.impl.fourstate.USPSIntelligentMailBean;
+import org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5Bean;
 import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
@@ -242,6 +243,28 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	}
 
 	protected abstract void evaluateCode39(Code39Component code39);
+
+	protected abstract void evaluateInterleaved2Of5(Interleaved2Of5Component interleaved2Of5);
+
+	public void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
+	{
+		Interleaved2Of5Bean interleaved2Of5Bean = new Interleaved2Of5Bean();
+		barcode = interleaved2Of5Bean;
+		evaluateInterleaved2Of5(interleaved2Of5);
+		setBaseAttributes(interleaved2Of5);
+		if (interleaved2Of5.getChecksumMode() != null)
+		{
+			interleaved2Of5Bean.setChecksumMode(ChecksumMode.byName(interleaved2Of5.getChecksumMode()));
+		}
+		if (interleaved2Of5.isDisplayChecksum() != null)
+		{
+			interleaved2Of5Bean.setDisplayChecksum(interleaved2Of5.isDisplayChecksum().booleanValue());
+		}
+		if (interleaved2Of5.getWideFactor() != null)
+		{
+			interleaved2Of5Bean.setWideFactor(interleaved2Of5.getWideFactor().doubleValue());
+		}
+	}
 
 	public void visitRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer)

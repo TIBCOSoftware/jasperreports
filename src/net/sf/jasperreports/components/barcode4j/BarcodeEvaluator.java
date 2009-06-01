@@ -102,6 +102,11 @@ public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 		evaluateBaseBarcode(code39);
 	}
 
+	protected void evaluateInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
+	{
+		evaluateBaseBarcode(interleaved2Of5);
+	}
+
 	protected void evaluateRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer)
 	{

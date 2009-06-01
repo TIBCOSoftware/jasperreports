@@ -235,6 +235,18 @@
 		</complexType>
 	</element>
 
+	<element name="Interleaved2Of5" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+					<attribute name="displayChecksum" use="optional" type="boolean"/>
+					<attribute name="wideFactor" use="optional" type="double"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
 	<complexType name="Barcode4JFourState">
 		<complexContent>
 			<extension base="c:Barcode4j">
