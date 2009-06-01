@@ -62,6 +62,26 @@ public abstract class UniformBarcodeVisitor implements BarcodeVisitor
 		visitBarcode(code39);
 	}
 
+	public void visitUPCA(UPCAComponent upcA)
+	{
+		visitBarcode(upcA);
+	}
+
+	public void visitUPCE(UPCEComponent upcE)
+	{
+		visitBarcode(upcE);
+	}
+
+	public void visitEAN13(EAN13Component ean13)
+	{
+		visitBarcode(ean13);
+	}
+
+	public void visitEAN8(EAN8Component ean8)
+	{
+		visitBarcode(ean8);
+	}
+
 	public void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
 	{
 		visitBarcode(interleaved2Of5);

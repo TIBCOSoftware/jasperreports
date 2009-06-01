@@ -247,6 +247,46 @@
 		</complexType>
 	</element>
 
+	<element name="UPCA" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="UPCE" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="EAN13" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="EAN8" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
 	<complexType name="Barcode4JFourState">
 		<complexContent>
 			<extension base="c:Barcode4j">

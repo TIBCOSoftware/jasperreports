@@ -44,6 +44,10 @@ import org.krysalis.barcode4j.impl.fourstate.AbstractFourStateBean;
 import org.krysalis.barcode4j.impl.fourstate.RoyalMailCBCBean;
 import org.krysalis.barcode4j.impl.fourstate.USPSIntelligentMailBean;
 import org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5Bean;
+import org.krysalis.barcode4j.impl.upcean.EAN13Bean;
+import org.krysalis.barcode4j.impl.upcean.EAN8Bean;
+import org.krysalis.barcode4j.impl.upcean.UPCABean;
+import org.krysalis.barcode4j.impl.upcean.UPCEBean;
 import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
@@ -265,6 +269,62 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 			interleaved2Of5Bean.setWideFactor(interleaved2Of5.getWideFactor().doubleValue());
 		}
 	}
+
+	public void visitUPCA(UPCAComponent upcA)
+	{
+		UPCABean upcABean = new UPCABean();
+		barcode = upcABean;
+		evaluateUPCA(upcA);
+		setBaseAttributes(upcA);
+		if (upcA.getChecksumMode() != null)
+		{
+			upcABean.setChecksumMode(ChecksumMode.byName(upcA.getChecksumMode()));
+		}
+	}
+
+	protected abstract void evaluateUPCA(UPCAComponent upcA);
+
+	public void visitUPCE(UPCEComponent upcE)
+	{
+		UPCEBean upcEBean = new UPCEBean();
+		barcode = upcEBean;
+		evaluateUPCE(upcE);
+		setBaseAttributes(upcE);
+		if (upcE.getChecksumMode() != null)
+		{
+			upcEBean.setChecksumMode(ChecksumMode.byName(upcE.getChecksumMode()));
+		}
+	}
+
+	protected abstract void evaluateUPCE(UPCEComponent upcE);
+
+	public void visitEAN13(EAN13Component ean13)
+	{
+		EAN13Bean ean13Bean = new EAN13Bean();
+		barcode = ean13Bean;
+		evaluateEAN13(ean13);
+		setBaseAttributes(ean13);
+		if (ean13.getChecksumMode() != null)
+		{
+			ean13Bean.setChecksumMode(ChecksumMode.byName(ean13.getChecksumMode()));
+		}
+	}
+
+	protected abstract void evaluateEAN13(EAN13Component ean13);
+
+	public void visitEAN8(EAN8Component ean8)
+	{
+		EAN8Bean ean8Bean = new EAN8Bean();
+		barcode = ean8Bean;
+		evaluateEAN8(ean8);
+		setBaseAttributes(ean8);
+		if (ean8.getChecksumMode() != null)
+		{
+			ean8Bean.setChecksumMode(ChecksumMode.byName(ean8.getChecksumMode()));
+		}
+	}
+
+	protected abstract void evaluateEAN8(EAN8Component ean8);
 
 	public void visitRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer)

@@ -196,6 +196,30 @@ public class BarcodeVerifier implements BarcodeVisitor
 		verifyChecksumMode(code39.getChecksumMode(), code39);
 	}
 
+	public void visitUPCA(UPCAComponent upcA)
+	{
+		verifyBarcode(upcA);
+		verifyChecksumMode(upcA.getChecksumMode(), upcA);
+	}
+
+	public void visitUPCE(UPCEComponent upcE)
+	{
+		verifyBarcode(upcE);
+		verifyChecksumMode(upcE.getChecksumMode(), upcE);
+	}
+
+	public void visitEAN13(EAN13Component ean13)
+	{
+		verifyBarcode(ean13);
+		verifyChecksumMode(ean13.getChecksumMode(), ean13);
+	}
+
+	public void visitEAN8(EAN8Component ean8)
+	{
+		verifyBarcode(ean8);
+		verifyChecksumMode(ean8.getChecksumMode(), ean8);
+	}
+
 	public void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
 	{
 		verifyBarcode(interleaved2Of5);

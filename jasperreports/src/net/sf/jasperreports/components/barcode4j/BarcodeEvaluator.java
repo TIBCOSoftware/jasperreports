@@ -102,6 +102,26 @@ public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 		evaluateBaseBarcode(code39);
 	}
 
+	protected void evaluateUPCA(UPCAComponent upcA)
+	{
+		evaluateBaseBarcode(upcA);
+	}
+
+	protected void evaluateUPCE(UPCEComponent upcE)
+	{
+		evaluateBaseBarcode(upcE);
+	}
+
+	protected void evaluateEAN13(EAN13Component ean13)
+	{
+		evaluateBaseBarcode(ean13);
+	}
+
+	protected void evaluateEAN8(EAN8Component ean8)
+	{
+		evaluateBaseBarcode(ean8);
+	}
+
 	protected void evaluateInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
 	{
 		evaluateBaseBarcode(interleaved2Of5);
