@@ -220,6 +220,15 @@
 		</complexType>
 	</element>
 
+	<element name="Code39" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
 	<complexType name="Barcode4JFourState">
 		<complexContent>
 			<extension base="c:Barcode4j">

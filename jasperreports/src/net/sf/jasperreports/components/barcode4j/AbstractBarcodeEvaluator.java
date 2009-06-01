@@ -37,6 +37,7 @@ import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
 import org.krysalis.barcode4j.impl.codabar.CodabarBean;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.impl.code128.EAN128Bean;
+import org.krysalis.barcode4j.impl.code39.Code39Bean;
 import org.krysalis.barcode4j.impl.datamatrix.DataMatrixBean;
 import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
 import org.krysalis.barcode4j.impl.fourstate.AbstractFourStateBean;
@@ -207,6 +208,40 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	}
 
 	protected abstract void evaluateEANCode128(EAN128Component ean128);
+
+	public void visitCode39(Code39Component code39)
+	{
+		Code39Bean code39Bean = new Code39Bean();
+		barcode = code39Bean;
+		evaluateCode39(code39);
+		setBaseAttributes(code39);
+		if (code39.getChecksumMode() != null)
+		{
+			code39Bean.setChecksumMode(ChecksumMode.byName(code39.getChecksumMode()));
+		}
+		if (code39.isDisplayChecksum() != null)
+		{
+			code39Bean.setDisplayChecksum(code39.isDisplayChecksum().booleanValue());
+		}
+		if (code39.isDisplayStartStop() != null)
+		{
+			code39Bean.setDisplayStartStop(code39.isDisplayStartStop().booleanValue());
+		}
+		if (code39.isExtendedCharSetEnabled() != null)
+		{
+			code39Bean.setExtendedCharSetEnabled(code39.isExtendedCharSetEnabled().booleanValue());
+		}
+		if (code39.getIntercharGapWidth() != null)
+		{
+			code39Bean.setIntercharGapWidth(code39.getIntercharGapWidth().doubleValue());
+		}
+		if (code39.getWideFactor() != null)
+		{
+			code39Bean.setWideFactor(code39.getWideFactor().doubleValue());
+		}
+	}
+
+	protected abstract void evaluateCode39(Code39Component code39);
 
 	public void visitRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer)

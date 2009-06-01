@@ -36,7 +36,7 @@ public class BarcodesMeta
 {
 
 	private static final String[] BARCODE_NAMES =
-		new String[]{"Codabar", "Code128", "EAN128", "DataMatrix"};
+		new String[]{"Codabar", "Code128", "EAN128", "DataMatrix", "Code39"};
 	
 	public static String[] getBarcodeNames()
 	{
