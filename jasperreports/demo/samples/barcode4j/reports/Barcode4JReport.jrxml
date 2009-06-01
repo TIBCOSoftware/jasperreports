@@ -75,21 +75,32 @@
 			<staticText>
 				<reportElement style="Barcode" x="0" y="250" width="100" height="30"/>
 				<textElement/>
-				<text><![CDATA[USPS Intelligent Mail]]></text>
+				<text><![CDATA[Code39]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement style="Barcode" x="130" y="250" width="400" height="30"/>
+				<c:Code39 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<c:codeExpression><![CDATA["0123456789"]]></c:codeExpression>
+				</c:Code39>
+			</componentElement>
+			<staticText>
+				<reportElement style="Barcode" x="0" y="285" width="100" height="30"/>
+				<textElement/>
+				<text><![CDATA[USPS Intelligent Mail]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement style="Barcode" x="130" y="285" width="400" height="30"/>
 				<c:USPSIntelligentMail xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" ascenderHeight="8.0" trackHeight="10.0">
 					<c:codeExpression><![CDATA["00040123456200800001987654321"]]></c:codeExpression>
 				</c:USPSIntelligentMail>
 			</componentElement>
 			<staticText>
-				<reportElement style="Barcode" x="0" y="285" width="100" height="30"/>
+				<reportElement style="Barcode" x="0" y="320" width="100" height="30"/>
 				<textElement/>
 				<text><![CDATA[Royal Mail Customer]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement style="Barcode" x="130" y="285" width="400" height="30"/>
+				<reportElement style="Barcode" x="130" y="320" width="400" height="30"/>
 				<c:RoyalMailCustomer xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" ascenderHeight="8.0" intercharGapWidth="2.5" trackHeight="10.0">
 					<c:codeExpression><![CDATA["0123456789"]]></c:codeExpression>
 				</c:RoyalMailCustomer>
