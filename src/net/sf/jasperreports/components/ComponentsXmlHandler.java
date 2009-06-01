@@ -41,6 +41,7 @@ import net.sf.jasperreports.components.barcode4j.EAN128Component;
 import net.sf.jasperreports.components.barcode4j.EAN13Component;
 import net.sf.jasperreports.components.barcode4j.EAN8Component;
 import net.sf.jasperreports.components.barcode4j.Interleaved2Of5Component;
+import net.sf.jasperreports.components.barcode4j.PDF417Component;
 import net.sf.jasperreports.components.barcode4j.POSTNETComponent;
 import net.sf.jasperreports.components.barcode4j.RoyalMailCustomerComponent;
 import net.sf.jasperreports.components.barcode4j.UPCAComponent;
@@ -156,6 +157,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				"*/componentElement/EAN8", EAN8Component.class);
 		addBaseBarcode4jRules(digester, 
 				"*/componentElement/POSTNET", POSTNETComponent.class);
+		addBaseBarcode4jRules(digester, 
+				"*/componentElement/PDF417", PDF417Component.class);
 	}
 	
 	protected void addBaseBarcode4jRules(Digester digester, 

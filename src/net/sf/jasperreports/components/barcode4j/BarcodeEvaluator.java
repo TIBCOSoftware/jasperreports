@@ -144,4 +144,9 @@ public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 		evaluateBaseBarcode(intelligentMail);
 	}
 
+	protected void evaluatePDF417(PDF417Component pdf417)
+	{
+		evaluateBaseBarcode(pdf417);
+	}
+
 }

@@ -104,4 +104,9 @@ public abstract class UniformBarcodeVisitor implements BarcodeVisitor
 		visitBarcode(postnet);
 	}
 
+	public void visitPDF417(PDF417Component pdf417)
+	{
+		visitBarcode(pdf417);
+	}
+
 }

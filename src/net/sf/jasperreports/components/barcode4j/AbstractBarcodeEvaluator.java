@@ -45,6 +45,7 @@ import org.krysalis.barcode4j.impl.fourstate.AbstractFourStateBean;
 import org.krysalis.barcode4j.impl.fourstate.RoyalMailCBCBean;
 import org.krysalis.barcode4j.impl.fourstate.USPSIntelligentMailBean;
 import org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5Bean;
+import org.krysalis.barcode4j.impl.pdf417.PDF417Bean;
 import org.krysalis.barcode4j.impl.postnet.POSTNETBean;
 import org.krysalis.barcode4j.impl.upcean.EAN13Bean;
 import org.krysalis.barcode4j.impl.upcean.EAN8Bean;
@@ -423,5 +424,42 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluatePOSTNET(
 			POSTNETComponent intelligentMail);
+
+	public void visitPDF417(PDF417Component pdf417)
+	{
+		PDF417Bean pdf417Bean = new PDF417Bean();
+		barcode = pdf417Bean;
+		evaluatePDF417(pdf417);
+		setBaseAttributes(pdf417);
+		
+		if (pdf417.getMinColumns() != null)
+		{
+			pdf417Bean.setMinCols(pdf417.getMinColumns().intValue());
+		}
+		if (pdf417.getMaxColumns() != null)
+		{
+			pdf417Bean.setMaxCols(pdf417.getMaxColumns().intValue());
+		}
+		if (pdf417.getMinRows() != null)
+		{
+			pdf417Bean.setMinRows(pdf417.getMinRows().intValue());
+		}
+		if (pdf417.getMaxRows() != null)
+		{
+			pdf417Bean.setMaxRows(pdf417.getMaxRows().intValue());
+		}
+		if (pdf417.getWidthToHeightRatio() != null)
+		{
+			pdf417Bean.setWidthToHeightRatio(
+					pdf417.getWidthToHeightRatio().doubleValue());
+		}
+		if (pdf417.getErrorCorrectionLevel() != null)
+		{
+			pdf417Bean.setErrorCorrectionLevel(
+					pdf417.getErrorCorrectionLevel().intValue());
+		}
+	}
+
+	protected abstract void evaluatePDF417(PDF417Component pdf417);
 
 }

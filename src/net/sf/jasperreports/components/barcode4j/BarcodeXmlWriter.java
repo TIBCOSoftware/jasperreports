@@ -320,4 +320,24 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	public void visitPDF417(PDF417Component pdf417)
+	{
+		try
+		{
+			startBarcode(pdf417);
+			xmlWriteHelper.addAttribute("minColumns", pdf417.getMinColumns());
+			xmlWriteHelper.addAttribute("maxColumns", pdf417.getMaxColumns());
+			xmlWriteHelper.addAttribute("minRows", pdf417.getMinRows());
+			xmlWriteHelper.addAttribute("maxRows", pdf417.getMaxRows());
+			xmlWriteHelper.addAttribute("widthToHeightRatio", pdf417.getWidthToHeightRatio());
+			xmlWriteHelper.addAttribute("errorCorrectionLevel", pdf417.getErrorCorrectionLevel());
+			writeBaseContents(pdf417);
+			endBarcode();
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
 }
