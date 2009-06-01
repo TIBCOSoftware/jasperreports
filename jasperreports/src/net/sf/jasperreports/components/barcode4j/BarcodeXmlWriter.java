@@ -164,4 +164,44 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	protected void writeFourStateAttributes(FourStateBarcodeComponent barcode)
+	{
+		xmlWriteHelper.addAttribute("ascenderHeight", barcode.getAscenderHeight());
+		xmlWriteHelper.addAttribute("checksumMode", barcode.getChecksumMode());
+		xmlWriteHelper.addAttribute("intercharGapWidth", barcode.getIntercharGapWidth());
+		xmlWriteHelper.addAttribute("trackHeight", barcode.getTrackHeight());
+	}
+	
+	public void visitRoyalMailCustomer(
+			RoyalMailCustomerComponent royalMailCustomer)
+	{
+		try
+		{
+			startBarcode(royalMailCustomer);
+			writeFourStateAttributes(royalMailCustomer);
+			writeBaseContents(royalMailCustomer);
+			endBarcode();
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public void visitUSPSIntelligentMail(
+			USPSIntelligentMailComponent intelligentMail)
+	{
+		try
+		{
+			startBarcode(intelligentMail);
+			writeFourStateAttributes(intelligentMail);
+			writeBaseContents(intelligentMail);
+			endBarcode();
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
 }

@@ -27,24 +27,21 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface BarcodeVisitor
+public class RoyalMailCustomerComponent extends FourStateBarcodeComponent
 {
 
-	void visitCodabar(CodabarComponent codabar);
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	void visitCode128(Code128Component code128);
+	public void receive(BarcodeVisitor visitor)
+	{
+		visitor.visitRoyalMailCustomer(this);
+	}
 
-	void visitEANCode128(EAN128Component ean128);
-
-	void visitDataMatrix(DataMatrixComponent dataMatrix);
-
-	void visitRoyalMailCustomer(RoyalMailCustomerComponent royalMailCustomer);
-
-	void visitUSPSIntelligentMail(USPSIntelligentMailComponent intelligentMail);
-	
 }

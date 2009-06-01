@@ -190,4 +190,18 @@ public class BarcodeVerifier implements BarcodeVisitor
 		}
 	}
 
+	public void visitRoyalMailCustomer(
+			RoyalMailCustomerComponent royalMailCustomer)
+	{
+		verifyBarcode(royalMailCustomer);
+		verifyChecksumMode(royalMailCustomer.getChecksumMode(), royalMailCustomer);
+	}
+
+	public void visitUSPSIntelligentMail(
+			USPSIntelligentMailComponent intelligentMail)
+	{
+		verifyBarcode(intelligentMail);
+		verifyChecksumMode(intelligentMail.getChecksumMode(), intelligentMail);
+	}
+
 }

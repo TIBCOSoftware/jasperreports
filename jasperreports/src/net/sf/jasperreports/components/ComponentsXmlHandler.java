@@ -37,6 +37,8 @@ import net.sf.jasperreports.components.barcode4j.CodabarComponent;
 import net.sf.jasperreports.components.barcode4j.Code128Component;
 import net.sf.jasperreports.components.barcode4j.DataMatrixComponent;
 import net.sf.jasperreports.components.barcode4j.EAN128Component;
+import net.sf.jasperreports.components.barcode4j.RoyalMailCustomerComponent;
+import net.sf.jasperreports.components.barcode4j.USPSIntelligentMailComponent;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
@@ -116,13 +118,23 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 	protected void addBarcode4jRules(Digester digester)
 	{
 		addBaseBarcode4jRules(digester, 
-				"*/componentElement/Codabar", CodabarComponent.class);
+				"*/componentElement/Codabar", 
+				CodabarComponent.class);
 		addBaseBarcode4jRules(digester, 
-				"*/componentElement/Code128", Code128Component.class);
+				"*/componentElement/Code128", 
+				Code128Component.class);
 		addBaseBarcode4jRules(digester, 
-				"*/componentElement/EAN128", EAN128Component.class);
+				"*/componentElement/EAN128", 
+				EAN128Component.class);
 		addBaseBarcode4jRules(digester, 
-				"*/componentElement/DataMatrix", DataMatrixComponent.class);
+				"*/componentElement/DataMatrix", 
+				DataMatrixComponent.class);
+		addBaseBarcode4jRules(digester, 
+				"*/componentElement/RoyalMailCustomer", 
+				RoyalMailCustomerComponent.class);
+		addBaseBarcode4jRules(digester, 
+				"*/componentElement/USPSIntelligentMail", 
+				USPSIntelligentMailComponent.class);
 	}
 	
 	protected void addBaseBarcode4jRules(Digester digester, 

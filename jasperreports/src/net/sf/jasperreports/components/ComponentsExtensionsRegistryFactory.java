@@ -74,7 +74,8 @@ public class ComponentsExtensionsRegistryFactory implements
 	protected static final String LIST_COMPONENT_NAME = "list";
 	protected static final String BARBECUE_COMPONENT_NAME = "barbecue";
 	protected static final String[] BARCODE4J_COMPONENT_NAMES = 
-		new String[]{"Codabar", "Code128", "EAN128", "DataMatrix"};
+		new String[]{"Codabar", "Code128", "EAN128", "DataMatrix", 
+		"USPSIntelligentMail", "RoyalMailCustomer"};
 	
 	private static final ExtensionsRegistry REGISTRY;
 	

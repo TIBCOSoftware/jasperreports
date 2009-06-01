@@ -39,6 +39,9 @@ import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.impl.code128.EAN128Bean;
 import org.krysalis.barcode4j.impl.datamatrix.DataMatrixBean;
 import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
+import org.krysalis.barcode4j.impl.fourstate.AbstractFourStateBean;
+import org.krysalis.barcode4j.impl.fourstate.RoyalMailCBCBean;
+import org.krysalis.barcode4j.impl.fourstate.USPSIntelligentMailBean;
 import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
@@ -204,5 +207,60 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	}
 
 	protected abstract void evaluateEANCode128(EAN128Component ean128);
+
+	public void visitRoyalMailCustomer(
+			RoyalMailCustomerComponent royalMailCustomer)
+	{
+		RoyalMailCBCBean mailBean = new RoyalMailCBCBean();
+		barcode = mailBean;
+		evaluateRoyalMailCustomer(royalMailCustomer);
+		setBaseAttributes(royalMailCustomer);
+		setFourStateAttributes(royalMailCustomer, mailBean);
+	}
+
+	protected void setFourStateAttributes(
+			FourStateBarcodeComponent barcodeComponent, 
+			AbstractFourStateBean barcodeBean)
+	{
+		if (barcodeComponent.getChecksumMode() != null)
+		{
+			barcodeBean.setChecksumMode(
+					ChecksumMode.byName(barcodeComponent.getChecksumMode()));
+		}
+		
+		if (barcodeComponent.getAscenderHeight() != null)
+		{
+			barcodeBean.setAscenderHeight(
+					UnitConv.pt2mm(barcodeComponent.getAscenderHeight().doubleValue()));
+		}
+		
+		if (barcodeComponent.getIntercharGapWidth() != null)
+		{
+			barcodeBean.setIntercharGapWidth(
+					UnitConv.pt2mm(barcodeComponent.getIntercharGapWidth().doubleValue()));
+		}
+		
+		if (barcodeComponent.getTrackHeight() != null)
+		{
+			barcodeBean.setTrackHeight(
+					UnitConv.pt2mm(barcodeComponent.getTrackHeight().doubleValue()));
+		}
+	}
+
+	protected abstract void evaluateRoyalMailCustomer(
+			RoyalMailCustomerComponent royalMailCustomer);
+
+	public void visitUSPSIntelligentMail(
+			USPSIntelligentMailComponent intelligentMail)
+	{
+		USPSIntelligentMailBean mailBean = new USPSIntelligentMailBean();
+		barcode = mailBean;
+		evaluateUSPSIntelligentMail(intelligentMail);
+		setBaseAttributes(intelligentMail);
+		setFourStateAttributes(intelligentMail, mailBean);
+	}
+
+	protected abstract void evaluateUSPSIntelligentMail(
+			USPSIntelligentMailComponent intelligentMail);
 
 }

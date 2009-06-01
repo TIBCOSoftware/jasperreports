@@ -57,4 +57,16 @@ public abstract class UniformBarcodeVisitor implements BarcodeVisitor
 		visitBarcode(ean128);
 	}
 
+	public void visitRoyalMailCustomer(
+			RoyalMailCustomerComponent royalMailCustomer)
+	{
+		visitBarcode(royalMailCustomer);
+	}
+
+	public void visitUSPSIntelligentMail(
+			USPSIntelligentMailComponent intelligentMail)
+	{
+		visitBarcode(intelligentMail);
+	}
+
 }
