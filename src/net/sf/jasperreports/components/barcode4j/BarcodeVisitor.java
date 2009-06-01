@@ -47,4 +47,6 @@ public interface BarcodeVisitor
 
 	void visitUSPSIntelligentMail(USPSIntelligentMailComponent intelligentMail);
 	
+	void visitCode39(Code39Component code39);
+
 }

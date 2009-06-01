@@ -164,6 +164,26 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	public void visitCode39(Code39Component code39)
+	{
+		try
+		{
+			startBarcode(code39);
+			xmlWriteHelper.addAttribute("checksumMode", code39.getChecksumMode());
+			xmlWriteHelper.addAttribute("displayChecksum", code39.isDisplayChecksum());
+			xmlWriteHelper.addAttribute("displayStartStop", code39.isDisplayStartStop());
+			xmlWriteHelper.addAttribute("extendedCharSetEnabled", code39.isExtendedCharSetEnabled());
+			xmlWriteHelper.addAttribute("intercharGapWidth", code39.getIntercharGapWidth());
+			xmlWriteHelper.addAttribute("wideFactor", code39.getWideFactor());
+			writeBaseContents(code39);
+			endBarcode();
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
 	protected void writeFourStateAttributes(FourStateBarcodeComponent barcode)
 	{
 		xmlWriteHelper.addAttribute("ascenderHeight", barcode.getAscenderHeight());

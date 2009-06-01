@@ -27,12 +27,12 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.design.JRVerifier;
+
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
-
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.design.JRVerifier;
 
 /**
  * 
@@ -188,6 +188,12 @@ public class BarcodeVerifier implements BarcodeVisitor
 		{
 			verifier.addBrokenRule(e, dataMatrix);
 		}
+	}
+
+	public void visitCode39(Code39Component code39)
+	{
+		verifyBarcode(code39);
+		verifyChecksumMode(code39.getChecksumMode(), code39);
 	}
 
 	public void visitRoyalMailCustomer(
