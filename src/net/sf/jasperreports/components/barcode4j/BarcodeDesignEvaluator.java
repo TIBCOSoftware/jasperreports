@@ -110,6 +110,26 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 		evaluateBaseBarcode(code39, "0123456789");
 	}
 
+	protected void evaluateUPCA(UPCAComponent upcA)
+	{
+		evaluateBaseBarcode(upcA, "0123456789");
+	}
+
+	protected void evaluateUPCE(UPCEComponent upcE)
+	{
+		evaluateBaseBarcode(upcE, "0123456789");
+	}
+
+	protected void evaluateEAN13(EAN13Component ean13)
+	{
+		evaluateBaseBarcode(ean13, "0123456789");
+	}
+
+	protected void evaluateEAN8(EAN8Component ean8)
+	{
+		evaluateBaseBarcode(ean8, "0123456789");
+	}
+
 	protected void evaluateInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
 	{
 		evaluateBaseBarcode(interleaved2Of5, "0123456789");

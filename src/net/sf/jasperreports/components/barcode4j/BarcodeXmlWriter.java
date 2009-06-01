@@ -184,6 +184,66 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	public void visitUPCA(UPCAComponent upcA)
+	{
+		try
+		{
+			startBarcode(upcA);
+			xmlWriteHelper.addAttribute("checksumMode", upcA.getChecksumMode());
+			writeBaseContents(upcA);
+			endBarcode();
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public void visitUPCE(UPCEComponent upcE)
+	{
+		try
+		{
+			startBarcode(upcE);
+			xmlWriteHelper.addAttribute("checksumMode", upcE.getChecksumMode());
+			writeBaseContents(upcE);
+			endBarcode();
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public void visitEAN13(EAN13Component ean13)
+	{
+		try
+		{
+			startBarcode(ean13);
+			xmlWriteHelper.addAttribute("checksumMode", ean13.getChecksumMode());
+			writeBaseContents(ean13);
+			endBarcode();
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public void visitEAN8(EAN8Component ean8)
+	{
+		try
+		{
+			startBarcode(ean8);
+			xmlWriteHelper.addAttribute("checksumMode", ean8.getChecksumMode());
+			writeBaseContents(ean8);
+			endBarcode();
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
 	public void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
 	{
 		try

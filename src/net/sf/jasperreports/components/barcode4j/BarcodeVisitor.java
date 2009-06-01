@@ -49,6 +49,14 @@ public interface BarcodeVisitor
 	
 	void visitCode39(Code39Component code39);
 
+	void visitUPCA(UPCAComponent upcA);
+
+	void visitUPCE(UPCEComponent upcE);
+
+	void visitEAN13(EAN13Component ean13);
+
+	void visitEAN8(EAN8Component ean8);
+
 	void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5);
 
 }
