@@ -259,4 +259,9 @@ public class BarcodeVerifier implements BarcodeVisitor
 		}
 	}
 
+	public void visitPDF417(PDF417Component pdf417)
+	{
+		verifyBarcode(pdf417);
+	}
+
 }

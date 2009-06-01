@@ -171,6 +171,17 @@
 					<c:codeExpression><![CDATA["01234"]]></c:codeExpression>
 				</c:POSTNET>
 			</componentElement>
+			<staticText>
+				<reportElement style="Barcode" x="0" y="555" width="100" height="30"/>
+				<textElement/>
+				<text><![CDATA[PDF417]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement style="Barcode" x="130" y="555" width="400" height="30"/>
+				<c:PDF417 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="4">
+					<c:codeExpression><![CDATA["JasperReports"]]></c:codeExpression>
+				</c:PDF417>
+			</componentElement>
 		</band>
 	</title>
 </jasperReport>

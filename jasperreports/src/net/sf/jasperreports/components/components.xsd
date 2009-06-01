@@ -324,5 +324,55 @@
 			</complexContent>
 		</complexType>
 	</element>
+	
+	<element name="PDF417" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="minColumns" use="optional">
+						<simpleType>
+							<restriction base="unsignedInt">
+								<minInclusive value="1"/>
+								<maxInclusive value="30"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="maxColumns" use="optional">
+						<simpleType>
+							<restriction base="unsignedInt">
+								<minInclusive value="1"/>
+								<maxInclusive value="30"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="minRows" use="optional">
+						<simpleType>
+							<restriction base="unsignedInt">
+								<minInclusive value="3"/>
+								<maxInclusive value="90"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="maxRows" use="optional">
+						<simpleType>
+							<restriction base="unsignedInt">
+								<minInclusive value="3"/>
+								<maxInclusive value="90"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="widthToHeightRatio" use="optional" type="double"/>
+					<attribute name="errorCorrectionLevel" use="optional">
+						<simpleType>
+							<restriction base="unsignedInt">
+								<minInclusive value="0"/>
+								<maxInclusive value="8"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
 
 </schema>

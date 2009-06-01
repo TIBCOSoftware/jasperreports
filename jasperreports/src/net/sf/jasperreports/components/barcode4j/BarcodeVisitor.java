@@ -61,4 +61,6 @@ public interface BarcodeVisitor
 
 	void visitPostnet(POSTNETComponent postnet);
 
+	void visitPDF417(PDF417Component pdf417);
+
 }
