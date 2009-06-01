@@ -50,6 +50,11 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 	public static final String PROPERTY_PREFIX = 
 		JRProperties.PROPERTY_PREFIX + "components.barcode4j.";
 
+	public static final int ORIENTATION_UP = 0;
+	public static final int ORIENTATION_LEFT = 90;
+	public static final int ORIENTATION_DOWN = 180;
+	public static final int ORIENTATION_RIGHT = 270;
+	
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 	public static final String PROPERTY_ORIENTATION = "orientation";
@@ -57,6 +62,8 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 	public static final String PROPERTY_PATTERN_EXPRESSION = "patternExpression";
 	public static final String PROPERTY_MODULE_WIDTH = "moduleWidth";
 	public static final String PROPERTY_TEXT_POSITION = "textPosition";
+	public static final String PROPERTY_QUIET_ZONE = "quietZone";
+	public static final String PROPERTY_VERTICAL_QUIET_ZONE = "verticalQuietZone";
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -70,6 +77,8 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 	private JRExpression patternExpression;
 	private Double moduleWidth;
 	private String textPosition;
+	private Double quietZone;
+	private Double verticalQuietZone;
 
 	public byte getEvaluationTime()
 	{
@@ -193,6 +202,32 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 		}
 		
 		return eventSupport;
+	}
+
+	public Double getQuietZone()
+	{
+		return quietZone;
+	}
+
+	public void setQuietZone(Double quietZone)
+	{
+		Object old = this.quietZone;
+		this.quietZone = quietZone;
+		getEventSupport().firePropertyChange(PROPERTY_QUIET_ZONE, 
+				old, this.quietZone);
+	}
+
+	public Double getVerticalQuietZone()
+	{
+		return verticalQuietZone;
+	}
+
+	public void setVerticalQuietZone(Double verticalQuietZone)
+	{
+		Object old = this.verticalQuietZone;
+		this.verticalQuietZone = verticalQuietZone;
+		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_QUIET_ZONE, 
+				old, this.verticalQuietZone);
 	}
 	
 }

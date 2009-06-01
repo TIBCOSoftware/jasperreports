@@ -70,7 +70,8 @@ public class BarcodeUtils
 	public static boolean isVertical(BarcodeComponent barcode)
 	{
 		int orientation = barcode.getOrientation();
-		return orientation == 90 || orientation == 270;
+		return orientation == BarcodeComponent.ORIENTATION_LEFT
+				|| orientation == BarcodeComponent.ORIENTATION_RIGHT;
 	}
 	
 }

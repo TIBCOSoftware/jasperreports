@@ -112,6 +112,19 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 			barcode.setMsgPosition(
 					HumanReadablePlacement.byName(textPlacement));
 		}
+		
+		Double quietZone = barcodeComponent.getQuietZone();
+		if (quietZone != null)
+		{
+			barcode.doQuietZone(true);
+			barcode.setQuietZone(UnitConv.pt2mm(quietZone.doubleValue()));
+		}
+		
+		Double vQuietZone = barcodeComponent.getVerticalQuietZone();
+		if (vQuietZone != null)
+		{
+			barcode.setVerticalQuietZone(UnitConv.pt2mm(vQuietZone.doubleValue()));
+		}
 
 		// FIXME DataMatrix?
 		double barcodeHeight;

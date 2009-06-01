@@ -156,6 +156,8 @@
 						</restriction>
 					</simpleType>
 				</attribute>
+				<attribute name="quietZone" use="optional" type="double"/>
+				<attribute name="verticalQuietZone" use="optional" type="double"/>
 			</extension>
 		</complexContent>
 	</complexType>
