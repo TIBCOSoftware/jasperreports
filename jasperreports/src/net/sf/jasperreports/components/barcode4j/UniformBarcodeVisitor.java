@@ -62,6 +62,11 @@ public abstract class UniformBarcodeVisitor implements BarcodeVisitor
 		visitBarcode(code39);
 	}
 
+	public void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
+	{
+		visitBarcode(interleaved2Of5);
+	}
+
 	public void visitRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer)
 	{

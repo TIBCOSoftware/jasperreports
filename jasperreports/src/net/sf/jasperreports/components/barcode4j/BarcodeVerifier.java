@@ -196,6 +196,12 @@ public class BarcodeVerifier implements BarcodeVisitor
 		verifyChecksumMode(code39.getChecksumMode(), code39);
 	}
 
+	public void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
+	{
+		verifyBarcode(interleaved2Of5);
+		verifyChecksumMode(interleaved2Of5.getChecksumMode(), interleaved2Of5);
+	}
+
 	public void visitRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer)
 	{

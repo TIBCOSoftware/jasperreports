@@ -184,6 +184,23 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	public void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
+	{
+		try
+		{
+			startBarcode(interleaved2Of5);
+			xmlWriteHelper.addAttribute("checksumMode", interleaved2Of5.getChecksumMode());
+			xmlWriteHelper.addAttribute("displayChecksum", interleaved2Of5.isDisplayChecksum());
+			xmlWriteHelper.addAttribute("wideFactor", interleaved2Of5.getWideFactor());
+			writeBaseContents(interleaved2Of5);
+			endBarcode();
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
 	protected void writeFourStateAttributes(FourStateBarcodeComponent barcode)
 	{
 		xmlWriteHelper.addAttribute("ascenderHeight", barcode.getAscenderHeight());

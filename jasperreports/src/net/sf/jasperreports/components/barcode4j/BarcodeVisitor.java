@@ -49,4 +49,6 @@ public interface BarcodeVisitor
 	
 	void visitCode39(Code39Component code39);
 
+	void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5);
+
 }

@@ -38,6 +38,7 @@ import net.sf.jasperreports.components.barcode4j.Code128Component;
 import net.sf.jasperreports.components.barcode4j.Code39Component;
 import net.sf.jasperreports.components.barcode4j.DataMatrixComponent;
 import net.sf.jasperreports.components.barcode4j.EAN128Component;
+import net.sf.jasperreports.components.barcode4j.Interleaved2Of5Component;
 import net.sf.jasperreports.components.barcode4j.RoyalMailCustomerComponent;
 import net.sf.jasperreports.components.barcode4j.USPSIntelligentMailComponent;
 import net.sf.jasperreports.components.list.DesignListContents;
@@ -138,6 +139,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				USPSIntelligentMailComponent.class);
 		addBaseBarcode4jRules(digester, 
 				"*/componentElement/Code39", Code39Component.class);
+		addBaseBarcode4jRules(digester, 
+				"*/componentElement/Interleaved2Of5", Interleaved2Of5Component.class);
 	}
 	
 	protected void addBaseBarcode4jRules(Digester digester, 
