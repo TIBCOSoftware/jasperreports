@@ -92,6 +92,8 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		xmlWriteHelper.addAttribute("orientation", barcode.getOrientation(), 0);
 		xmlWriteHelper.addAttribute("moduleWidth", barcode.getModuleWidth());
 		xmlWriteHelper.addAttribute("textPosition", barcode.getTextPosition());
+		xmlWriteHelper.addAttribute("quietZone", barcode.getQuietZone());
+		xmlWriteHelper.addAttribute("verticalQuietZone", barcode.getVerticalQuietZone());
 	}
 	
 	protected void writeBaseContents(BarcodeComponent barcode) throws IOException

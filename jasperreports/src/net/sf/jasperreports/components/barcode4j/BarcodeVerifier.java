@@ -145,10 +145,12 @@ public class BarcodeVerifier implements BarcodeVisitor
 	protected void verifyOrientation(BarcodeComponent barcode)
 	{
 		int orientation = barcode.getOrientation();
-		if (!(orientation == 0 || orientation == 90 
-				|| orientation == 180 || orientation == 270))
+		if (!(orientation == BarcodeComponent.ORIENTATION_UP 
+				|| orientation == BarcodeComponent.ORIENTATION_LEFT 
+				|| orientation == BarcodeComponent.ORIENTATION_DOWN 
+				|| orientation == BarcodeComponent.ORIENTATION_RIGHT))
 		{
-			verifier.addBrokenRule("Invalid barcode orientation, supported values are 0, 90, 180, 279", 
+			verifier.addBrokenRule("Invalid barcode orientation, supported values are 0, 90, 180, 270", 
 					barcode);
 		}
 	}
