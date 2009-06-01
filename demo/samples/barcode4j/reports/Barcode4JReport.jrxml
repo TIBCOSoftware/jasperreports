@@ -28,29 +28,71 @@
 				<textFieldExpression class="java.lang.String"><![CDATA["http://barcode4j.sourceforge.net/"]]></textFieldExpression>
 				<hyperlinkReferenceExpression><![CDATA["http://barcode4j.sourceforge.net/"]]></hyperlinkReferenceExpression>
 			</textField>
+			<staticText>
+				<reportElement style="Barcode" x="0" y="100" width="100" height="30"/>
+				<textElement/>
+				<text><![CDATA[Code 128]]></text>
+			</staticText>
 			<componentElement>
-				<reportElement x="250" y="100" width="70" height="300"/>
-				<c:EAN128 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" orientation="90" moduleWidth="1.7" checksumMode="check">
-					<c:codeExpression><![CDATA["0101234567890128"]]></c:codeExpression>
-				</c:EAN128>
-			</componentElement>
-			<componentElement>
-				<reportElement style="Barcode" x="0" y="100" width="200" height="70"/>
+				<reportElement style="Barcode" x="130" y="100" width="200" height="30"/>
 				<c:Code128 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.0">
-					<c:codeExpression><![CDATA["Code128"]]></c:codeExpression>
+					<c:codeExpression><![CDATA["0123456789"]]></c:codeExpression>
 				</c:Code128>
 			</componentElement>
+			<staticText>
+				<reportElement style="Barcode" x="0" y="135" width="100" height="30"/>
+				<textElement/>
+				<text><![CDATA[Codabar]]></text>
+			</staticText>
 			<componentElement>
-				<reportElement style="Barcode" x="0" y="180" width="200" height="70"/>
-				<c:Codabar xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.2" textPosition="top" wideFactor="4.0">
+				<reportElement style="Barcode" x="130" y="135" width="200" height="30"/>
+				<c:Codabar xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.2" textPosition="none" wideFactor="4.0">
 					<c:codeExpression><![CDATA["01234567890"]]></c:codeExpression>
 				</c:Codabar>
 			</componentElement>
+			<staticText>
+				<reportElement style="Barcode" x="0" y="170" width="100" height="40"/>
+				<textElement/>
+				<text><![CDATA[DataMatrix]]></text>
+			</staticText>
 			<componentElement>
-				<reportElement style="Barcode" x="0" y="260" width="70" height="70"/>
-				<c:DataMatrix xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="4">
+				<reportElement style="Barcode" x="130" y="170" width="70" height="40"/>
+				<c:DataMatrix xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="4.0">
 					<c:codeExpression><![CDATA["JasperReports"]]></c:codeExpression>
 				</c:DataMatrix>
+			</componentElement>
+			<staticText>
+				<reportElement style="Barcode" x="0" y="215" width="100" height="30"/>
+				<textElement/>
+				<text><![CDATA[EAN 128]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement style="Barcode" x="130" y="215" width="250" height="30"/>
+				<c:EAN128 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.4" checksumMode="check">
+					<c:codeExpression><![CDATA["0101234567890128"]]></c:codeExpression>
+				</c:EAN128>
+			</componentElement>
+			<staticText>
+				<reportElement style="Barcode" x="0" y="250" width="100" height="30"/>
+				<textElement/>
+				<text><![CDATA[USPS Intelligent Mail]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement style="Barcode" x="130" y="250" width="400" height="30"/>
+				<c:USPSIntelligentMail xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" ascenderHeight="8.0" trackHeight="10.0">
+					<c:codeExpression><![CDATA["00040123456200800001987654321"]]></c:codeExpression>
+				</c:USPSIntelligentMail>
+			</componentElement>
+			<staticText>
+				<reportElement style="Barcode" x="0" y="285" width="100" height="30"/>
+				<textElement/>
+				<text><![CDATA[Royal Mail Customer]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement style="Barcode" x="130" y="285" width="400" height="30"/>
+				<c:RoyalMailCustomer xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" ascenderHeight="8.0" intercharGapWidth="2.5" trackHeight="10.0">
+					<c:codeExpression><![CDATA["0123456789"]]></c:codeExpression>
+				</c:RoyalMailCustomer>
 			</componentElement>
 		</band>
 	</title>

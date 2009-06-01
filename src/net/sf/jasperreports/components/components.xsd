@@ -220,4 +220,21 @@
 		</complexType>
 	</element>
 
+	<complexType name="Barcode4JFourState">
+		<complexContent>
+			<extension base="c:Barcode4j">
+				<attribute name="ascenderHeight" use="optional" type="double"/>
+				<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+				<attribute name="intercharGapWidth" use="optional" type="double"/>
+				<attribute name="trackHeight" use="optional" type="double"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<element name="RoyalMailCustomer" substitutionGroup="jr:component" type="c:Barcode4JFourState">
+	</element>
+	
+	<element name="USPSIntelligentMail" substitutionGroup="jr:component" type="c:Barcode4JFourState">
+	</element>
+
 </schema>

@@ -105,4 +105,17 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 		evaluateBaseBarcode(ean128, "0101234567890123");
 	}
 
+	protected void evaluateRoyalMailCustomer(
+			RoyalMailCustomerComponent royalMailCustomer)
+	{
+		evaluateBaseBarcode(royalMailCustomer, "01234");
+	}
+
+	protected void evaluateUSPSIntelligentMail(
+			USPSIntelligentMailComponent intelligentMail)
+	{
+		evaluateBaseBarcode(intelligentMail, 
+				"00040123456200800001987654321");
+	}
+
 }
