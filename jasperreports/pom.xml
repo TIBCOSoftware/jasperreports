@@ -222,7 +222,7 @@
 		<dependency>
 			<groupId>mondrian</groupId>
 			<artifactId>mondrian</artifactId>
-			<version>2.3.2.8944</version>
+			<version>3.1.1.12687</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
