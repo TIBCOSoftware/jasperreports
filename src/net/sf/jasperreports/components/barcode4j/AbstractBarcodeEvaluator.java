@@ -168,10 +168,6 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 		barcode = codabarBean;
 		evaluateCodabar(codabar);
 		setBaseAttributes(codabar);
-		if (codabar.getChecksumMode() != null)
-		{
-			codabarBean.setChecksumMode(ChecksumMode.byName(codabar.getChecksumMode()));
-		}
 		if (codabar.getWideFactor() != null)
 		{
 			codabarBean.setWideFactor(codabar.getWideFactor().doubleValue());
