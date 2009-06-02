@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.components.barbecue;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.Component;
 
@@ -35,7 +36,7 @@ import net.sf.jasperreports.engine.component.Component;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface BarbecueComponent extends Component
+public interface BarbecueComponent extends Component, JRCloneable
 {
 	//TODO scale type, alignment
 

@@ -27,6 +27,10 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -50,6 +54,8 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	private static final Log log = LogFactory.getLog(JRDesignComponentElement.class);
+	
 	public static final String PROPERTY_COMPONENT = "component";
 	public static final String PROPERTY_COMPONENT_KEY = "componentKey";
 	
@@ -135,6 +141,26 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 		Object old = this.componentKey;
 		this.componentKey = componentKey;
 		getEventSupport().firePropertyChange(PROPERTY_COMPONENT_KEY, old, this.componentKey);
+	}
+
+	public Object clone()
+	{
+		JRDesignComponentElement clone = (JRDesignComponentElement) super.clone();
+		
+		if (component instanceof JRCloneable)
+		{
+			clone.component = (Component) ((JRCloneable) component).clone();
+		}
+		else if (component != null)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Component of type " + component.getClass().getName() 
+						+ " does not implement JRCloneable, not cloning");
+			}
+		}
+		
+		return clone;
 	}
 
 }

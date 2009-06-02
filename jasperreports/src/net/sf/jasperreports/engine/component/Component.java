@@ -27,11 +27,16 @@
  */
 package net.sf.jasperreports.engine.component;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRComponentElement;
 
 /**
  * A marker interface that is to be implemented by classes that can be used
  * as report components.
+ * 
+ * <p>
+ * Implementing classes should consider implementing {@link JRCloneable} as well
+ * in order to have component clones created when components elements are cloned.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
