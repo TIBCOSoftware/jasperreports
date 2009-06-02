@@ -159,7 +159,6 @@ public class BarcodeVerifier implements BarcodeVisitor
 	public void visitCodabar(CodabarComponent codabar)
 	{
 		verifyBarcode(codabar);
-		verifyChecksumMode(codabar.getChecksumMode(), codabar);
 	}
 
 	public void visitCode128(Code128Component code128)

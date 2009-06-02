@@ -109,7 +109,6 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		try
 		{
 			startBarcode(codabar);
-			xmlWriteHelper.addAttribute("checksumMode", codabar.getChecksumMode());
 			xmlWriteHelper.addAttribute("wideFactor", codabar.getWideFactor());
 			writeBaseContents(codabar);
 			endBarcode();
