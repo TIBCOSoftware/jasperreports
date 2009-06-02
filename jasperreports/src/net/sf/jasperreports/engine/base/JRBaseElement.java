@@ -519,6 +519,8 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 			clone.printWhenExpression = (JRExpression)printWhenExpression.clone();
 		}
 		
+		//FIXME reset eventSupport
+		
 		return clone;
 	}
 
