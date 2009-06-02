@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import org.krysalis.barcode4j.ChecksumMode;
+
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpression;
@@ -85,7 +87,6 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 	
 	protected void evaluateCodabar(CodabarComponent codabar)
 	{
-		//FIXME default code depends on checksum mode?
 		evaluateBaseBarcode(codabar, "0123456789");
 	}
 
@@ -101,44 +102,103 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 
 	protected void evaluateEANCode128(EAN128Component ean128)
 	{
-		//FIXME default code depends on checksum mode?
-		evaluateBaseBarcode(ean128, "0101234567890123");
+		evaluateBaseBarcode(ean128, "0101234567890128");
 	}
 
 	protected void evaluateCode39(Code39Component code39)
 	{
-		evaluateBaseBarcode(code39, "0123456789");
+		evaluateBaseBarcode(code39, "01234567892");
 	}
 
 	protected void evaluateUPCA(UPCAComponent upcA)
 	{
-		evaluateBaseBarcode(upcA, "0123456789");
+		String defaultMessage;
+		String checksumMode = upcA.getChecksumMode();
+		if (checksumMode != null 
+				&& checksumMode.equals(ChecksumMode.CP_ADD.getName()))
+		{
+			defaultMessage = "01234567890";
+		}
+		else
+		{
+			defaultMessage = "012345678905";
+		}
+			
+		evaluateBaseBarcode(upcA, defaultMessage);
 	}
 
 	protected void evaluateUPCE(UPCEComponent upcE)
 	{
-		evaluateBaseBarcode(upcE, "0123456789");
+		String defaultMessage;
+		String checksumMode = upcE.getChecksumMode();
+		if (checksumMode != null 
+				&& checksumMode.equals(ChecksumMode.CP_ADD.getName()))
+		{
+			defaultMessage = "0123413";
+		}
+		else
+		{
+			defaultMessage = "01234133";
+		}
+			
+		evaluateBaseBarcode(upcE, defaultMessage);
 	}
 
 	protected void evaluateEAN13(EAN13Component ean13)
 	{
-		evaluateBaseBarcode(ean13, "0123456789");
+		String defaultMessage;
+		String checksumMode = ean13.getChecksumMode();
+		if (checksumMode != null 
+				&& checksumMode.equals(ChecksumMode.CP_ADD.getName()))
+		{
+			defaultMessage = "012345678901";
+		}
+		else
+		{
+			defaultMessage = "0123456789012";
+		}
+			
+		evaluateBaseBarcode(ean13, defaultMessage);
 	}
 
 	protected void evaluateEAN8(EAN8Component ean8)
 	{
-		evaluateBaseBarcode(ean8, "0123456789");
+		String defaultMessage;
+		String checksumMode = ean8.getChecksumMode();
+		if (checksumMode != null 
+				&& checksumMode.equals(ChecksumMode.CP_ADD.getName()))
+		{
+			defaultMessage = "0123456";
+		}
+		else
+		{
+			defaultMessage = "01234565";
+		}
+			
+		evaluateBaseBarcode(ean8, defaultMessage);
 	}
 
 	protected void evaluateInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
 	{
-		evaluateBaseBarcode(interleaved2Of5, "0123456789");
+		evaluateBaseBarcode(interleaved2Of5, "0123456784");
 	}
 
 	protected void evaluateRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer)
 	{
-		evaluateBaseBarcode(royalMailCustomer, "01234");
+		String defaultMessage;
+		String checksumMode = royalMailCustomer.getChecksumMode();
+		if (checksumMode != null 
+				&& checksumMode.equals(ChecksumMode.CP_CHECK.getName()))
+		{
+			defaultMessage = "01234Q";
+		}
+		else
+		{
+			defaultMessage = "01234";
+		}
+			
+		evaluateBaseBarcode(royalMailCustomer, defaultMessage);
 	}
 
 	protected void evaluateUSPSIntelligentMail(
