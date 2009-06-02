@@ -30,7 +30,8 @@ package net.sf.jasperreports.components.list;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Standard {@link ListComponent} implementation.
@@ -76,5 +77,21 @@ public class StandardListComponent implements Serializable, ListComponent
 	public void setContents(ListContents contents)
 	{
 		this.contents = contents;
+	}
+	
+	public Object clone()
+	{
+		try
+		{
+			StandardListComponent clone = (StandardListComponent) super.clone();
+			clone.datasetRun = (JRDatasetRun) JRCloneUtils.nullSafeClone(datasetRun);
+			clone.contents = (ListContents) JRCloneUtils.nullSafeClone(contents);
+			return clone;
+		} 
+		catch (CloneNotSupportedException e)
+		{
+			// never
+			throw new JRRuntimeException(e);
+		}
 	}
 }

@@ -29,22 +29,24 @@ package net.sf.jasperreports.components.barcode4j;
 
 import java.io.Serializable;
 
-import org.krysalis.barcode4j.HumanReadablePlacement;
-
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRProperties;
+
+import org.krysalis.barcode4j.HumanReadablePlacement;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class BarcodeComponent implements Component, Serializable, Cloneable, JRChangeEventsSupport
+public abstract class BarcodeComponent implements Component, Serializable, JRCloneable, JRChangeEventsSupport
 {
 
 	public static final String PROPERTY_PREFIX = 
@@ -80,6 +82,10 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 	private Double quietZone;
 	private Double verticalQuietZone;
 
+	public BarcodeComponent()
+	{
+	}
+	
 	public byte getEvaluationTime()
 	{
 		return evaluationTime;
@@ -176,8 +182,25 @@ public abstract class BarcodeComponent implements Component, Serializable, Clone
 		setTextPosition(textPosition == null ? null : textPosition.getName());
 	}
 
-	public BarcodeComponent cloneBarcode()
+	public Object clone()
 	{
+		try
+		{
+			BarcodeComponent clone = (BarcodeComponent) super.clone();
+			clone.codeExpression = (JRExpression) JRCloneUtils
+					.nullSafeClone(codeExpression);
+			clone.patternExpression = (JRExpression) JRCloneUtils
+					.nullSafeClone(patternExpression);
+			return clone;
+		} 
+		catch (CloneNotSupportedException e)
+		{
+			// never
+			throw new JRRuntimeException(e);
+		}
+	}
+	
+	protected BarcodeComponent cloneObject() {
 		try
 		{
 			return (BarcodeComponent) super.clone();

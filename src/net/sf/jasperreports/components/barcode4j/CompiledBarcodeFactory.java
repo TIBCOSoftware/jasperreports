@@ -55,7 +55,7 @@ public class CompiledBarcodeFactory extends UniformBarcodeVisitor
 
 	protected void createCompiledBarcode(BarcodeComponent barcode)
 	{
-		compiledComponent = barcode.cloneBarcode();
+		compiledComponent = barcode.cloneObject();
 		
 		JRExpression compiledCodeExpression = baseFactory.getExpression(
 				barcode.getCodeExpression());
