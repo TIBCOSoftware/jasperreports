@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+
 /**
  * A context that represents information about an HTML export process.
  * 
@@ -37,4 +39,6 @@ package net.sf.jasperreports.engine.export;
 public interface JRHtmlExporterContext extends JRExporterContext
 {
 
+	String getHyperlinkURL(JRPrintHyperlink link);
+	
 }

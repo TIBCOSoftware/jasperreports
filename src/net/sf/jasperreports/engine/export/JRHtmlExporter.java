@@ -157,6 +157,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			return HTML_EXPORTER_PROPERTIES_PREFIX;
 		}
+
+		public String getHyperlinkURL(JRPrintHyperlink link)
+		{
+			return JRHtmlExporter.this.getHyperlinkURL(link);
+		}
 	}
 
 	/**
