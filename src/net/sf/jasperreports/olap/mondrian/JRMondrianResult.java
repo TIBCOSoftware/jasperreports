@@ -58,7 +58,7 @@ public class JRMondrianResult implements JROlapResult
 		axes = new JRMondrianAxis[resultAxes.length];
 		for (int i = 0; i < resultAxes.length; i++)
 		{
-			AxisOrdinal ordinal = AxisOrdinal.forLogicalOrdinal(i);
+			AxisOrdinal ordinal = AxisOrdinal.StandardAxisOrdinal.forLogicalOrdinal(i);
 			axes[i] = new JRMondrianAxis(resultAxes[i], query.getMdxHierarchiesOnAxis(ordinal), factory);
 		}
 	}
