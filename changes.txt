@@ -2,14 +2,21 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.5.2 (2009-0x-xx)
+JasperReports 3.5.2 (2009-06-03)
 -----------------------------------
 
-- multi-band sections;
+- the report detail, the group headers and the group footers are now 
+multi-band sections, meaning that their content can be distributed into 
+several bands, having similar rendering behavior;
 
-- band splitType;
+- new "splitType" attribute available at band level, to control the band 
+breaking policy; this new attribute deprecates the "isSplitAllowed" attribute;
 
-- barbecue component;
+- two new production-ready barcode components that use the Barbecue library
+and the Barcode4J library, respectively;
+
+- all configuration properties are now fully documented in a source XML file that
+is used to produce a complete and up-to-date HTML configuration reference;
 
 - minor bug fixes and improvements;
 
@@ -228,7 +235,7 @@ properties called "net.sf.jasperreports.export.xls.break.before.row" and
 
 - new configuration property called "net.sf.jasperreports.export.legacy.border.offset"
 to allow rendering element borders in older reports using the legacy border offset 
-technique that that was used in versions prior to the 2.0.3 release.  
+technique that was used in versions prior to the 2.0.3 release.  
 
 - support for "Parent" and "Top" as hyperlink targets;
 

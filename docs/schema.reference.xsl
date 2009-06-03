@@ -13,52 +13,52 @@
 <title>JasperReports <xsl:value-of select="$version"/> - Schema Reference</title>
 <style type="text/css">
 .title {
-font-family: Arial, Verdana, Helvetica, sans-serif;
-font-size: 32px;
-font-weight: bold;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 32px;
+	font-weight: bold;
 }
 
 .toc {
-font-family: Courier New, Courier, serif;
-font-size: 12px;
-font-weight: normal;
+	font-family: Courier New, Courier, serif;
+	font-size: 12px;
+	font-weight: normal;
 }
 
 .name {
-font-family: Courier New, Courier, serif;
-font-size: 16px;
-font-weight: bold;
+	font-family: Courier New, Courier, serif;
+	font-size: 16px;
+	font-weight: bold;
 }
 
 .label {
-font-family: Arial, Verdana, Helvetica, sans-serif;
-font-size: 12px;
-font-weight: bold;
-font-style: italic;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: italic;
 }
 
 .description {
-font-family: Arial, Verdana, Helvetica, sans-serif;
-font-size: 12px;
-font-weight: normal;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
 }
 
 .value {
-font-family: Courier New, Courier, serif;
-font-size: 12px;
-font-weight: normal;
+	font-family: Courier New, Courier, serif;
+	font-size: 12px;
+	font-weight: normal;
 }
 
 .element {
-font-family: Courier New, Courier, serif;
-font-size: 12px;
-font-weight: normal;
+	font-family: Courier New, Courier, serif;
+	font-size: 12px;
+	font-weight: normal;
 }
 
 .attribute {
-font-family: Courier New, Courier, serif;
-font-size: 12px;
-font-weight: bold;
+	font-family: Courier New, Courier, serif;
+	font-size: 12px;
+	font-weight: bold;
 }
 </style>
 </head>
