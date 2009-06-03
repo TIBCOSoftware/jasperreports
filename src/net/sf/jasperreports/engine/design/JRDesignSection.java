@@ -169,7 +169,7 @@ public class JRDesignSection extends JRBaseSection
 	/**
 	 * Removes a band from the section.
 	 * 
-	 * @param band the band to be removed
+	 * @param index the index of the band to be removed
 	 * @return the band to be removed
 	 */
 	public JRBand removeBand(int index)
