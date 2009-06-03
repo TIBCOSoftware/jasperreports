@@ -307,7 +307,7 @@
 		</javadoc>
 	</target>
 
-	<target name="schemaref" description="Generates the Configuration Reference.">
+	<target name="schemaref" description="Generates the Schema Reference.">
 		<mkdir dir="./dist"/> 
 		<style basedir="src/net/sf/jasperreports/engine/dtds" in="src/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist" style="docs/schema.reference.xsl" out="./dist/jasperreports-${version}-schema.reference.html">
 			<param name="version" expression="${version}"/>
@@ -320,7 +320,7 @@
 		</style>
 	</target>
 	
-	<target name="configref" description="Generates the Schema Reference.">
+	<target name="configref" description="Generates the Configuration Reference.">
 		<mkdir dir="./dist"/> 
 		<style basedir="docs" in="docs/config.reference.xml" destdir="dist" style="docs/config.reference.xsl" out="./dist/jasperreports-${version}-config.reference.html">
 			<param name="version" expression="${version}"/>
@@ -333,6 +333,6 @@
 		</style>
 	</target>
 	
-	<target name="docs" depends="javadoc, schemaref" description="Generates all documentation."/>
+	<target name="docs" depends="javadoc, schemaref, configref" description="Generates all documentation."/>
 
 </project>

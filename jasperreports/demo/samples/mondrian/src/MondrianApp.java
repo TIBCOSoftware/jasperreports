@@ -273,15 +273,16 @@ public class MondrianApp
 			throw new RuntimeException("connection properties file not set");
 		}
 		ConnectionData data = getConnectionData(propertiesFileName);
-		Connection connection = DriverManager.
-            getConnection(
-					"Provider=mondrian;" + 
-					"JdbcDrivers=" + data.getJdbcDrivers() + ";" +
-					"Jdbc=" + data.getJdbcUrl() + ";" +
-					"JdbcUser=" + data.getJdbcUser() + ";" +
-					"JdbcPassword=" + data.getJdbcPassword() + ";" +
-					"Catalog=" + data.getCatalogUri() + ";", 
-					null);
+		Connection connection = 
+			DriverManager.getConnection(
+				"Provider=mondrian;" + 
+				"JdbcDrivers=" + data.getJdbcDrivers() + ";" +
+				"Jdbc=" + data.getJdbcUrl() + ";" +
+				"JdbcUser=" + data.getJdbcUser() + ";" +
+				"JdbcPassword=" + data.getJdbcPassword() + ";" +
+				"Catalog=" + data.getCatalogUri() + ";", 
+				null
+				);
 		
 		return connection;
 	}

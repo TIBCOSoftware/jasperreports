@@ -46,6 +46,7 @@
   	  <property ref="net.sf.jasperreports.chart.theme"/>
   	  <property ref="net.sf.jasperreports.default.font.name"/>
   	  <property ref="net.sf.jasperreports.default.font.size"/>
+  	  <property ref="net.sf.jasperreports.evaluator.class.reference.fix.enabled"/>
   	  <property ref="net.sf.jasperreports.image.encoder"/>
   	  <property ref="net.sf.jasperreports.image.reader"/>
   	  <property ref="net.sf.jasperreports.markup.processor.factory.{markup}"/>
@@ -53,9 +54,9 @@
   	  <property ref="net.sf.jasperreports.text.truncate.at.char"/>
   	  <property ref="net.sf.jasperreports.text.truncate.suffix"/>
   	  <property ref="net.sf.jasperreports.text.measurer.factory"/>
-  	  <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
+  	  <property ref="net.sf.jasperreports.style.evaluation.time.enabled"/>
   	  <property ref="net.sf.jasperreports.subreport.runner.factory"/>
-  	  <property ref="net.sf.jasperreports.evaluator.class.reference.fix.enabled"/>
+  	  <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
   	</content>
   </category>
   
@@ -164,8 +165,8 @@
   <category>
   	<name>JasperReports Extensions</name>
   	<content>
-  	  <property ref="net.sf.jasperreports.extension.registry.factory.{arbitrary_name}"/>
   	  <property ref="net.sf.jasperreports.extension.{registry_id}.{property_suffix}"/>
+  	  <property ref="net.sf.jasperreports.extension.registry.factory.{arbitrary_name}"/>
   	  <property ref="net.sf.jasperreports.extensions.registry.class"/>
   	</content>
   </category>
@@ -173,13 +174,13 @@
   <category>
   	<name>Other</name>
   	<content>
+  	  <property ref="net.sf.jasperreports.awt.superscript.fix.enabled"/>
   	  <property ref="net.sf.jasperreports.file.buffer.os.memory.threshold"/>
-  	  <property ref="net.sf.jasperreports.properties"/>
-  	  <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
   	  <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts"/>
   	  <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.sleep"/>
   	  <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stakctrace"/>
-  	  <property ref="net.sf.jasperreports.awt.superscript.fix.enabled"/>
+  	  <property ref="net.sf.jasperreports.properties"/>
+  	  <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
   	</content>
   </category>
   
@@ -684,6 +685,26 @@ scenarios, set this property to false.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html#PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED</api>
     <default>true</default>
     <scope>Global</scope>	
+  </configProperty>
+
+
+  <!-- net.sf.jasperreports.style.evaluation.time.enabled -->
+  
+  <configProperty name="net.sf.jasperreports.style.evaluation.time.enabled">
+    <description>
+A flag the determines whether the style of an element is evaluated at
+the element evaluation time, or at the time the band on which the element 
+is placed is rendered.
+<br/>
+This applies to report elements that can have delayed evaluations times 
+(such as text fields and images).  When this flag is set to
+<code>true</code>, conditional style expressions of the style that is
+associated with the element are evaluated at the moment the element is
+set to evaluate, and the resulting style to the generated print element.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRStyle.html#PROPERTY_EVALUATION_TIME_ENABLED</api>
+    <default>false</default>
+    <scope>Global | Report | Element</scope>	
   </configProperty>
   
   
