@@ -181,12 +181,12 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 			SVGDocument document;
 			if (svgText != null)
 			{
-				document = documentFactory.createSVGDocument("",
+				document = documentFactory.createSVGDocument(null,
 						new StringReader(svgText));
 			}
 			else
 			{
-				document = documentFactory.createSVGDocument("",
+				document = documentFactory.createSVGDocument(null,
 						new ByteArrayInputStream(svgData));
 			}
 
