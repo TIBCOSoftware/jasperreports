@@ -54,6 +54,10 @@ public class JRFillGroup implements JRGroup
 	private JRFillSection groupHeaderSection = null;
 	private JRFillSection groupFooterSection = null;
 	private JRVariable countVariable = null;
+	
+	private boolean startNewColumn;
+	private boolean startNewPage;
+	private boolean resetPageNumber;
 
 	/**
 	 *
@@ -62,7 +66,6 @@ public class JRFillGroup implements JRGroup
 	private boolean isTopLevelChange = false;
 	private boolean isHeaderPrinted = false;
 	private boolean isFooterPrinted = true;
-	
 
 	/**
 	 *
@@ -103,6 +106,10 @@ public class JRFillGroup implements JRGroup
 		}
 
 		countVariable = factory.getVariable(group.getCountVariable());
+		
+		startNewColumn = parent.isStartNewColumn();
+		startNewPage = parent.isStartNewPage();
+		resetPageNumber = parent.isResetPageNumber();
 	}
 
 
@@ -127,7 +134,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public boolean isStartNewColumn()
 	{
-		return parent.isStartNewColumn();
+		return startNewColumn;
 	}
 		
 	/**
@@ -135,7 +142,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public void setStartNewColumn(boolean isStart)
 	{
-		parent.setStartNewColumn(isStart);
+		this.startNewColumn = isStart;
 	}
 		
 	/**
@@ -143,7 +150,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public boolean isStartNewPage()
 	{
-		return parent.isStartNewPage();
+		return startNewPage;
 	}
 		
 	/**
@@ -151,7 +158,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public void setStartNewPage(boolean isStart)
 	{
-		parent.setStartNewPage(isStart);
+		this.startNewPage = isStart;
 	}
 		
 	/**
@@ -159,7 +166,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public boolean isResetPageNumber()
 	{
-		return parent.isResetPageNumber();
+		return resetPageNumber;
 	}
 		
 	/**
@@ -167,7 +174,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public void setResetPageNumber(boolean isReset)
 	{
-		parent.setResetPageNumber(isReset);
+		this.resetPageNumber = isReset;
 	}
 		
 	/**
