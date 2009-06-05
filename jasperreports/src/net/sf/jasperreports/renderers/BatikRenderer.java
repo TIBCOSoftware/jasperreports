@@ -87,8 +87,8 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	private String svgDataLocation;
 	private List areaHyperlinks;
 
-	private GraphicsNode rootNode;
-	private Dimension2D documentSize;
+	private transient GraphicsNode rootNode;
+	private transient Dimension2D documentSize;
 
 	protected BatikRenderer(List areaHyperlinks)
 	{
