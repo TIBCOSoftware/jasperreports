@@ -196,6 +196,19 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 		}
 	}
 
+	/**
+	 * Make a new identifier for an object.
+	 * 
+	 * @return the new identifier
+	 */
+	private static String makeUID(JRVirtualPrintPage page) {
+		synchronized (random) {
+			return Integer.toString(System.identityHashCode(page)) + "_"
+					+ Integer.toString(counter++) + "_"
+					+ Integer.toString(random.nextInt());
+		}
+	}
+
 	public final String getUID() {
 		return this.uid;
 	}
@@ -397,7 +410,15 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
-		uid = (String) in.readObject();
+		// we do not use the original ID as the source object might still be
+		// alive in the JVM
+		String oldUid = (String) in.readObject();
+		uid = makeUID(this);
+		if (log.isDebugEnabled())
+		{
+			log.debug("Original uid " + oldUid + "; new uid " + uid);
+		}
+		
 		virtualizationContext = (JRVirtualizationContext) in.readObject();
 		
 		int length = in.readInt();
@@ -419,6 +440,8 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 		
 		try
 		{
+			// maybe we should no longer serialize the id, as a new one is
+			// generated on deserialization
 			out.writeObject(uid);
 			out.writeObject(virtualizationContext);
 
