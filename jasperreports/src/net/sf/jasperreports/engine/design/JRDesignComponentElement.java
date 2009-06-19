@@ -27,9 +27,6 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
@@ -38,9 +35,10 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
-import net.sf.jasperreports.engine.component.ComponentManager;
-import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A {@link JRComponentElement} implementation which is to be used at report
@@ -98,8 +96,7 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 	
 	public void collectExpressions(JRExpressionCollector collector)
 	{
-		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
-		manager.getComponentCompiler().collectExpressions(component, collector);
+		collector.collect(this);
 	}
 
 	public void visit(JRVisitor visitor)
