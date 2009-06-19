@@ -177,6 +177,19 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 		
 
 	/**
+	 * 
+	 */
+	public Object clone() 
+	{
+		JRBaseGraphicElement clone = (JRBaseGraphicElement)super.clone();
+		
+		clone.linePen = (JRPen)linePen.clone(clone);
+		
+		return clone;
+	}
+
+	
+	/**
 	 * This field is only for serialization backward compatibility.
 	 */
 	private Byte pen;
