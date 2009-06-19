@@ -164,6 +164,19 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 
 	
 	/**
+	 * 
+	 */
+	public Object clone() 
+	{
+		JRDesignGraphicElement clone = (JRDesignGraphicElement)super.clone();
+		
+		clone.linePen = (JRPen)linePen.clone(clone);
+		
+		return clone;
+	}
+
+
+	/**
 	 * This field is only for serialization backward compatibility.
 	 */
 	private Byte pen;
