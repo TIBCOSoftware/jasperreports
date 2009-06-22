@@ -260,13 +260,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = CellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(gridCell.getCellBackcolor());
+			backcolor = getXSSFColor(gridCell.getCellBackcolor());
 		}
 
 		XSSFColor forecolor = new XSSFColor(Color.BLACK);
 		if (gridCell.getForecolor() != null)
 		{
-			forecolor = getNearestColor(gridCell.getForecolor());
+			forecolor = getXSSFColor(gridCell.getForecolor());
 		}
 
 		XSSFCellStyle cellStyle =
@@ -288,7 +288,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	 */
 	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
-		XSSFColor forecolor = getNearestColor(line.getLinePen().getLineColor());
+		XSSFColor forecolor = getXSSFColor(line.getLinePen().getLineColor());
 
 		int side = BoxStyle.TOP;
 		float ratio = line.getWidth() / line.getHeight();
@@ -321,7 +321,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = CellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(gridCell.getCellBackcolor());
+			backcolor = getXSSFColor(gridCell.getCellBackcolor());
 		}
 
 		CellStyle cellStyle =
@@ -347,14 +347,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	 */
 	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
-		XSSFColor forecolor = getNearestColor(element.getLinePen().getLineColor());
+		XSSFColor forecolor = getXSSFColor(element.getLinePen().getLineColor());
 
 		short mode = backgroundMode;
 		XSSFColor backcolor = whiteColor;
 		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = CellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(gridCell.getCellBackcolor());
+			backcolor = getXSSFColor(gridCell.getCellBackcolor());
 		}
 
 		CellStyle cellStyle =
@@ -385,7 +385,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			return;
 		}
 
-		XSSFColor forecolor = getNearestColor(textElement.getForecolor());
+		XSSFColor forecolor = getXSSFColor(textElement.getForecolor());
 
 		TextAlignHolder textAlignHolder = getTextAlignHolder(textElement);
 		short horizontalAlignment = getHorizontalAlignment(textAlignHolder);
@@ -397,11 +397,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = CellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(gridCell.getCellBackcolor());
+			backcolor = getXSSFColor(gridCell.getCellBackcolor());
 		}
 
-		XssfStyleInfo baseStyle =
-			new XssfStyleInfo(
+		XSSFStyleInfo baseStyle =
+			new XSSFStyleInfo(
 				mode,
 				backcolor,
 				horizontalAlignment,
@@ -414,7 +414,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void createTextCell(final JRPrintText textElement, final JRExporterGridCell gridCell, final int colIndex, final int rowIndex, final JRStyledText styledText, final XssfStyleInfo baseStyle, final XSSFColor forecolor) throws JRException
+	protected void createTextCell(final JRPrintText textElement, final JRExporterGridCell gridCell, final int colIndex, final int rowIndex, final JRStyledText styledText, final XSSFStyleInfo baseStyle, final XSSFColor forecolor) throws JRException
 	{
 		String formula = textElement.getPropertiesMap().getProperty(JRAbstractExporter.PROPERTY_CELL_FORMULA);
 		String textStr = styledText.getText();
@@ -558,7 +558,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected CellStyle initCreateCell(JRExporterGridCell gridCell, int colIndex, int rowIndex, XssfStyleInfo baseStyle)
+	protected CellStyle initCreateCell(JRExporterGridCell gridCell, int colIndex, int rowIndex, XSSFStyleInfo baseStyle)
 	{
 		CellStyle cellStyle = getLoadedCellStyle(baseStyle);
 		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
@@ -600,7 +600,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			Map attributes = iterator.getAttributes();
 			JRFont runFont = attributes.isEmpty()? defaultFont : new JRBaseFont(attributes);
 			XSSFColor runForecolor = attributes.get(TextAttribute.FOREGROUND) != null ? 
-					getNearestColor((Color)attributes.get(TextAttribute.FOREGROUND)) :
+					getXSSFColor((Color)attributes.get(TextAttribute.FOREGROUND)) :
 					forecolor;
 			XSSFFont font = getLoadedFont(runFont, runForecolor, attributes);
 			richTextStr.applyFont(iterator.getIndex(), runLimit, font);
@@ -686,46 +686,15 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected static XSSFColor getNearestColor(Color awtColor)
+	protected static XSSFColor getXSSFColor(Color awtColor)
 	{
 		XSSFColor color =  (XSSFColor)xssfColorsCache.get(awtColor);
-		
 		if (color == null)
 		{
-			Map triplets = HSSFColor.getTripletHash();
-			if (triplets != null)
-			{
-				Collection keys = triplets.keySet();
-				if (keys != null && keys.size() > 0)
-				{
-					Object key = null;
-					HSSFColor crtColor = null;
-					short[] rgb = null;
-					int diff = 0;
-					int minDiff = 999;
-					for (Iterator it = keys.iterator(); it.hasNext();)
-					{
-						key = it.next();
-
-						crtColor = (HSSFColor) triplets.get(key);
-						rgb = crtColor.getTriplet();
-
-						diff = Math.abs(rgb[0] - awtColor.getRed()) + Math.abs(rgb[1] - awtColor.getGreen()) + Math.abs(rgb[2] - awtColor.getBlue());
-
-						if (diff < minDiff)
-						{
-							minDiff = diff;
-							color = new XSSFColor();
-							color.setRgb(new byte[] {(byte)awtColor.getAlpha(), (byte)rgb[0], (byte)rgb[1], (byte)rgb[2]});
-							
-						}
-					}
-				}
-			}
-
+			color = new XSSFColor();
+			color.setRgb(new byte[] {(byte)awtColor.getAlpha(),(byte)awtColor.getRed(),(byte)awtColor.getGreen(),(byte)awtColor.getBlue()});
 			xssfColorsCache.put(awtColor, color);
 		}
-
 		return color;
 		
 	}
@@ -824,7 +793,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected XSSFCellStyle getLoadedCellStyle(XssfStyleInfo style)
+	protected XSSFCellStyle getLoadedCellStyle(XSSFStyleInfo style)
 	{
 		XSSFCellStyle cellStyle = (XSSFCellStyle) loadedCellStyles.get(style);
 		if (cellStyle == null)
@@ -871,7 +840,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			JRExporterGridCell gridCell
 			)
 	{
-		XssfStyleInfo style = new XssfStyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell);
+		XSSFStyleInfo style = new XSSFStyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell);
 		return getLoadedCellStyle(style);
 	}
 
@@ -885,7 +854,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		BoxStyle box
 		)
 	{
-		XssfStyleInfo style = new XssfStyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box);
+		XSSFStyleInfo style = new XSSFStyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box);
 		return getLoadedCellStyle(style);
 	}
 
@@ -1130,13 +1099,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				if (gridCell.getCellBackcolor() != null)
 				{
 					mode = CellStyle.SOLID_FOREGROUND;
-					backcolor = getNearestColor(gridCell.getCellBackcolor());
+					backcolor = getXSSFColor(gridCell.getCellBackcolor());
 				}
 
-				XSSFColor forecolor = getNearestColor(element.getLineBox().getPen().getLineColor());
+				XSSFColor forecolor = getXSSFColor(element.getLineBox().getPen().getLineColor());
 
 				if(element.getMode() == JRElement.MODE_OPAQUE ){
-					backcolor = getNearestColor(element.getBackcolor());
+					backcolor = getXSSFColor(element.getBackcolor());
 				}
 
 				CellStyle cellStyle =
@@ -1184,10 +1153,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		if (frame.getMode() == JRElement.MODE_OPAQUE)
 		{
 			mode = CellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(frame.getBackcolor());
+			backcolor = getXSSFColor(frame.getBackcolor());
 		}
 
-		XSSFColor forecolor = getNearestColor(frame.getForecolor());
+		XSSFColor forecolor = getXSSFColor(frame.getForecolor());
 
 		CellStyle cellStyle =
 			getLoadedCellStyle(
@@ -1315,7 +1284,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		public BoxStyle(int side, JRPen pen)
 		{
 			borderStyle[side] = getBorderStyle(pen);
-			borderColour[side] = getNearestColor(pen.getLineColor());
+			borderColour[side] = getXSSFColor(pen.getLineColor());
 
 			hash = computeHash();
 		}
@@ -1335,16 +1304,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		public void setBox(JRLineBox box)
 		{
 			borderStyle[TOP] = getBorderStyle(box.getTopPen());
-			borderColour[TOP] = getNearestColor(box.getTopPen().getLineColor());
+			borderColour[TOP] = getXSSFColor(box.getTopPen().getLineColor());
 
 			borderStyle[BOTTOM] = getBorderStyle(box.getBottomPen());
-			borderColour[BOTTOM] = getNearestColor(box.getBottomPen().getLineColor());
+			borderColour[BOTTOM] = getXSSFColor(box.getBottomPen().getLineColor());
 
 			borderStyle[LEFT] = getBorderStyle(box.getLeftPen());
-			borderColour[LEFT] = getNearestColor(box.getLeftPen().getLineColor());
+			borderColour[LEFT] = getXSSFColor(box.getLeftPen().getLineColor());
 
 			borderStyle[RIGHT] = getBorderStyle(box.getRightPen());
-			borderColour[RIGHT] = getNearestColor(box.getRightPen().getLineColor());
+			borderColour[RIGHT] = getXSSFColor(box.getRightPen().getLineColor());
 
 			hash = computeHash();
 		}
@@ -1359,7 +1328,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				)
 			{
 				short style = getBorderStyle(pen);
-				XSSFColor colour = getNearestColor(pen.getLineColor());
+				XSSFColor colour = getXSSFColor(pen.getLineColor());
 
 				borderStyle[TOP] = style;
 				borderStyle[BOTTOM] = style;
@@ -1419,7 +1388,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected static class XssfStyleInfo
+	protected static class XSSFStyleInfo
 	{
 		protected final short mode;
 		protected final XSSFColor backcolor;
@@ -1431,7 +1400,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		private short dataFormat = -1;
 		private int hashCode;
 
-		public XssfStyleInfo(
+		public XSSFStyleInfo(
 			short mode,
 			XSSFColor backcolor,
 			short horizontalAlignment,
@@ -1452,7 +1421,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				);
 		}
 
-		public XssfStyleInfo(
+		public XSSFStyleInfo(
 			short mode,
 			XSSFColor backcolor,
 			short horizontalAlignment,
@@ -1510,7 +1479,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		public boolean equals(Object o)
 		{
-			XssfStyleInfo s = (XssfStyleInfo) o;
+			XSSFStyleInfo s = (XSSFStyleInfo) o;
 
 			return s.mode == mode
 					&& (s.backcolor == null ? backcolor == null : (backcolor != null && s.backcolor.equals(backcolor)))
