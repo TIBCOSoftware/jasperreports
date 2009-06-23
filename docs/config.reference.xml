@@ -54,6 +54,7 @@
   	  <property ref="net.sf.jasperreports.text.truncate.at.char"/>
   	  <property ref="net.sf.jasperreports.text.truncate.suffix"/>
   	  <property ref="net.sf.jasperreports.text.measurer.factory"/>
+  	  <property ref="net.sf.jasperreports.text.save.line.breaks"/>
   	  <property ref="net.sf.jasperreports.style.evaluation.time.enabled"/>
   	  <property ref="net.sf.jasperreports.subreport.runner.factory"/>
   	  <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
@@ -642,6 +643,34 @@ The factory class is used to instantiate text measurers for report text elements
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.text.save.line.breaks -->
+  
+  <configProperty name="net.sf.jasperreports.text.save.line.breaks">
+    <description>
+Boolean property that determines whether the positions where text line
+break occurs are to be saved during report fill in oder to be used at
+export time.
+<br/>
+At report fill time, each text element is measure in order to determine
+how long it needs to stretch or where it needs to be truncated.
+During this measurement, the text wraps at certain positions in order to
+fit the text element defined width.
+<br/>
+Setting this property to true instructs the engine to save the positions
+at which line breaks occur in the generated print element.
+The positions can be used by report exporters that want to enforce line
+breaks to occur at exactly the same position as they did during text
+measurement at fill time.
+<br/>
+Currently, the HTML exporter will make use of the saved line break
+positions by introducing explicit line breaks.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_SAVE_LINE_BREAKS</api>
+    <default><code>false</code></default>
+    <scope>Global | Report | Text Element</scope>	
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.virtualizer.files.delete.on.exit -->
   
   <configProperty name="net.sf.jasperreports.virtualizer.files.delete.on.exit">
