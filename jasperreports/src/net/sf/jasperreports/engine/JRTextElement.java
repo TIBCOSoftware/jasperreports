@@ -102,7 +102,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	 * export time.
 	 * 
 	 * <p>
-	 * At report fill time, each text element is measure in order to determine
+	 * At report fill time, each text element is measured in order to determine
 	 * how long it needs to stretch or where it needs to be truncated.
 	 * During this measurement, the text wraps at certain positions in order to
 	 * fit the text element defined width.

@@ -651,7 +651,7 @@ Boolean property that determines whether the positions where text line
 break occurs are to be saved during report fill in oder to be used at
 export time.
 <br/>
-At report fill time, each text element is measure in order to determine
+At report fill time, each text element is measured in order to determine
 how long it needs to stretch or where it needs to be truncated.
 During this measurement, the text wraps at certain positions in order to
 fit the text element defined width.
