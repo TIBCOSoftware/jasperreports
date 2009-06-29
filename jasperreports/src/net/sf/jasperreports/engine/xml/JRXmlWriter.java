@@ -55,6 +55,7 @@ import net.sf.jasperreports.charts.JRGanttDataset;
 import net.sf.jasperreports.charts.JRGanttSeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
+import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRMultiAxisPlot;
@@ -1508,6 +1509,24 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 	/**
+	 * Writes the description of how to display item labels in a category plot.
+	 *
+	 * @param itemLabel the description to save
+	 */
+	public void writeItemLabel(JRItemLabel itemLabel) throws IOException
+	{
+		writer.startElement(JRXmlConstants.ELEMENT_itemLabel, getNamespace());
+
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, itemLabel.getColor());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundColor, itemLabel.getBackgroundColor());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mask, itemLabel.getMask());
+
+		writeFont(itemLabel.getFont());
+
+		writer.closeElement();
+	}
+
+	/**
 	 * Writes a data range block to the output stream.
 	 *
 	 * @param dataRange the range to write
@@ -1612,6 +1631,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelFormat, plot.getLabelFormat());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_legendLabelFormat, plot.getLegendLabelFormat());
 		writePlot(chart.getPlot());
+		writeItemLabel(plot.getItemLabel());
+		System.out.println("JRXmlWriter: "+plot.getItemLabel());
 		writer.closeElement();
 
 		writer.closeElement();
@@ -1635,6 +1656,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelFormat, plot.getLabelFormat());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_legendLabelFormat, plot.getLegendLabelFormat());
 		writePlot(chart.getPlot());
+		writeItemLabel(plot.getItemLabel());
 		writer.closeElement();
 
 		writer.closeElement();
@@ -1698,6 +1720,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowTickMarks, plot.getShowTickMarks());
 		writePlot(plot);
 
+		writeItemLabel(plot.getItemLabel());
+		
 		writer.writeExpression(JRXmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
 		writeAxisFormat(JRXmlConstants.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
 						plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
@@ -1807,7 +1831,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_yOffset, plot.getYOffsetDouble());
 
 		writePlot(plot);
-
+		writeItemLabel(plot.getItemLabel());
+		
 		writer.writeExpression(JRXmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
 		writeAxisFormat(JRXmlConstants.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
 				plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),

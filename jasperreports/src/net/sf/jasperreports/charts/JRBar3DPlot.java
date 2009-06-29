@@ -78,6 +78,11 @@ public interface JRBar3DPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueA
 	public Double getXOffsetDouble();
 	
 	/**
+	 * 
+	 */
+	public JRItemLabel getItemLabel();
+	
+	/**
 	 * @deprecated Replaced by {@link #setXOffset(Double)} 
 	 */
 	public void setXOffset(double xOffset);

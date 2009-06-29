@@ -99,6 +99,11 @@ public interface JRBarPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAxi
 	public Boolean getShowTickLabels();
 	
 	/**
+	 * 
+	 */
+	public JRItemLabel getItemLabel();
+	
+	/**
 	 * @deprecated Replaced by {@link #setShowTickLabels(Boolean)}
 	 */
 	public void setShowTickLabels(boolean isShowTickLabels);

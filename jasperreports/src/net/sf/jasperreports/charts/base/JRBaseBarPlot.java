@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -86,6 +87,8 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	protected Boolean showTickMarks = null;
 	protected Boolean showTickLabels = null;
 	protected Boolean showLabels = null;
+	
+	protected JRItemLabel itemLabel = null;
 
 
 	/**
@@ -102,6 +105,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 			categoryAxisTickLabelFont = new JRBaseFont(chart, null);
 			valueAxisLabelFont = new JRBaseFont(chart, null);
 			valueAxisTickLabelFont = new JRBaseFont(chart, null);
+			itemLabel = new JRBaseItemLabel(null, chart);
 		}
 		else
 		{
@@ -109,6 +113,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 			categoryAxisTickLabelFont = new JRBaseFont(chart, barPlot.getCategoryAxisTickLabelFont());
 			valueAxisLabelFont = new JRBaseFont(chart, barPlot.getValueAxisLabelFont());
 			valueAxisTickLabelFont = new JRBaseFont(chart, barPlot.getValueAxisTickLabelFont());
+			itemLabel = new JRBaseItemLabel(barPlot.getItemLabel(), chart);
 		}
 	}
 
@@ -142,6 +147,8 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		valueAxisTickLabelColor = barPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = barPlot.getValueAxisTickLabelMask();
 		valueAxisLineColor = barPlot.getOwnValueAxisLineColor();
+		
+		itemLabel = new JRBaseItemLabel(barPlot.getItemLabel(), factory);
 	}
 
 	/**
@@ -345,6 +352,14 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
+	 *
+	 */
+	public JRItemLabel getItemLabel()
+	{
+		return itemLabel;
+	}
+	
+	/**
 	 * @deprecated Replaced by {@link #setShowLabels(Boolean)}
 	 */
 	public void setShowLabels( boolean isShowLabels ){
@@ -467,6 +482,11 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		{
 			clone.rangeAxisMaxValueExpression = (JRExpression)rangeAxisMaxValueExpression.clone();
 		}
+		if (itemLabel != null)
+		{
+			clone.itemLabel = (JRItemLabel)itemLabel.clone();
+		}
+		
 		return clone;
 	}
 

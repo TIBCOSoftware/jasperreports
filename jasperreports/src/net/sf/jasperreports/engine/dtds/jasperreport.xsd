@@ -3734,6 +3734,36 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    </attribute>
   </complexType>
  </element>
+ 
+ <element name="itemLabel">
+  <annotation>
+   <documentation>Configures settings for item labels in a category plot.</documentation>
+  </annotation>
+  <complexType>
+   <sequence>
+    <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="color" type="string" use="optional">
+    <annotation>
+     <documentation>The color of the label's text.</documentation>
+    </annotation>
+   </attribute>
+   <attribute name="backgroundColor" type="string" use="optional">
+    <annotation>
+     <documentation>The background color of the label's text.</documentation>
+    </annotation>
+   </attribute>
+   <attribute name="mask" type="string" use="optional">
+  	<annotation>
+   	 <documentation>The formatting mask to use to display the value.  This mask must follow the rules
+            specified for a <code>java.text.DecimalFormat</code> pattern.
+            <p/>
+            This attribute is currently ignored for a <a href="meterChart">meterChart</a>.
+     </documentation>
+  	</annotation>
+   </attribute>
+  </complexType>
+ </element>
 
  <element name="pieChart">
   <annotation>
@@ -3940,6 +3970,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   <complexType>
    <sequence>
     <element ref="jr:plot"/>
+    <element ref="jr:itemLabel" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="isCircular" use="optional">
     <annotation>
@@ -4177,6 +4208,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   <complexType>
    <sequence>
     <element ref="jr:plot"/>
+    <element ref="jr:itemLabel" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="depthFactor" type="string" use="optional">
 	<annotation>
@@ -4321,6 +4353,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   <complexType>
    <sequence>
     <element ref="jr:plot"/>
+    <element ref="jr:itemLabel" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:categoryAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
@@ -4527,6 +4560,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   <complexType>
    <sequence>
     <element ref="jr:plot"/>
+    <element ref="jr:itemLabel" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:categoryAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>

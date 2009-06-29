@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2009 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 539 Bryant Street, Suite 100
  * San Francisco, CA 94107
@@ -27,88 +27,86 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRItemLabel;
-import net.sf.jasperreports.charts.JRPie3DPlot;
-import net.sf.jasperreports.engine.fill.JRFillChartPlot;
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
-
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillPie3DPlot extends JRFillChartPlot implements JRPie3DPlot
+public class JRFillItemLabel implements JRItemLabel
 {
 
+	/**
+	 *
+	 */
+	protected JRItemLabel parent = null;
 
 	/**
 	 *
 	 */
-	public JRFillPie3DPlot(
-		JRPie3DPlot pie3DPlot, 
-		JRFillObjectFactory factory
-		)
+	protected JRChart chart = null;
+
+	/**
+	 *
+	 */
+	public JRFillItemLabel(JRItemLabel itemLabel, JRFillObjectFactory factory)
 	{
-		super(pie3DPlot, factory);
-		System.out.println("JRFillPie3DPlot: "+pie3DPlot.getItemLabel());
-		System.out.println("JRFillPie3DPlot: "+getItemLabel());
-	}
+		factory.put(itemLabel, this);
+
+		parent = itemLabel;
 		
+		chart = (JRChart)factory.getVisitResult(itemLabel.getChart());
+	}
 
 	/**
-	 * @deprecated Replaced by {@link #getDepthFactorDouble()}
+	 *
 	 */
-	public double getDepthFactor()
+	public JRChart getChart()
 	{
-		return ((JRPie3DPlot)parent).getDepthFactor();
+		return chart;
 	}
 	
 	/**
 	 *
 	 */
-	public Double getDepthFactorDouble()
+	public Color getColor()
 	{
-		return ((JRPie3DPlot)parent).getDepthFactorDouble();
+		return parent.getColor();
 	}
-	
+
 	/**
-	 * @deprecated Replaced by {@link #getCircular()}
+	 *
 	 */
-	public boolean isCircular()
+	public Color getBackgroundColor()
 	{
-		return ((JRPie3DPlot)parent).isCircular();
+		return parent.getBackgroundColor();
+	}
+
+	/**
+	 *
+	 */
+	public String getMask(){
+		return parent.getMask();
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getFont()
+	{
+		return parent.getFont();
 	}
 	
 	/**
 	 *
 	 */
-	public Boolean getCircular()
+	public Object clone() 
 	{
-		return ((JRPie3DPlot)parent).getCircular();
+		throw new UnsupportedOperationException();
 	}
-	
-	/**
-	 *
-	 */
-	public String getLabelFormat()
-	{
-		return ((JRPie3DPlot)parent).getLabelFormat();
-	}
-	
-	/**
-	 *
-	 */
-	public String getLegendLabelFormat()
-	{
-		return ((JRPie3DPlot)parent).getLegendLabelFormat();
-	}
-	
-	/**
-	 *
-	 */
-	public JRItemLabel getItemLabel()
-	{
-		return ((JRPie3DPlot)parent).getItemLabel();
-	}
-	
 }

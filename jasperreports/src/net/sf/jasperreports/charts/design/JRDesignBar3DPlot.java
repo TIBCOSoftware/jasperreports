@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.design;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
 import net.sf.jasperreports.charts.util.JRAxisFormat;
 import net.sf.jasperreports.engine.JRChart;
@@ -82,6 +83,7 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	
 	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_MASK = "valueAxisTickLabelMask";
 
+	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
 
 	public JRDesignBar3DPlot(JRChartPlot barPlot, JRChart chart)
 	{
@@ -269,6 +271,15 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LINE_COLOR, old, this.valueAxisLineColor);
 	}
 	
+	/**
+	 * 
+	 */
+	public void setItemLabel( JRItemLabel itemLabel ){
+		JRItemLabel old = this.itemLabel;
+		this.itemLabel = itemLabel;
+		getEventSupport().firePropertyChange(PROPERTY_ITEM_LABEL, old, this.itemLabel);
+	}
+
 	/**
 	 * 
 	 */

@@ -30,8 +30,7 @@ package net.sf.jasperreports.charts.base;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-import org.jfree.chart.renderer.category.BarRenderer3D;
-
+import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
@@ -60,18 +59,30 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	
 	public static final String PROPERTY_LABEL_FORMAT = "labelFormat";
 	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
+	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
 	
 	protected Double depthFactorDouble = null;
 	protected Boolean circular = null;
 	protected String labelFormat = null;
 	protected String legendLabelFormat = null;
 	
+	protected JRItemLabel itemLabel = null;
 	/**
 	 *
 	 */
 	public JRBasePie3DPlot(JRChartPlot pie3DPlot, JRChart chart)
 	{
 		super(pie3DPlot, chart);
+		if (pie3DPlot == null)
+		{
+			itemLabel = new JRBaseItemLabel(null, chart);
+			System.out.println("JRBasePie3DPlot: pie3DPlot == null");
+		}
+		else
+		{
+			itemLabel = new JRBaseItemLabel(((JRPie3DPlot)pie3DPlot).getItemLabel(), chart);
+			System.out.println("JRBasePie3DPlot2: "+((JRPie3DPlot)pie3DPlot).getItemLabel());
+		}
 	}
 
 	
@@ -86,6 +97,9 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		circular = pie3DPlot.getCircular();
 		labelFormat = pie3DPlot.getLabelFormat();
 		legendLabelFormat = pie3DPlot.getLegendLabelFormat();
+		itemLabel = new JRBaseItemLabel(pie3DPlot.getItemLabel(), factory);
+		System.out.println("JRBasePie3DPlot3: "+pie3DPlot.getItemLabel());
+		
 	}
 
 	
@@ -103,6 +117,14 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	public Double getDepthFactorDouble()
 	{
 		return depthFactorDouble;
+	}
+	
+	/**
+	 *
+	 */
+	public JRItemLabel getItemLabel()
+	{
+		return itemLabel;
 	}
 	
 	/**
@@ -196,6 +218,15 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		String old = this.legendLabelFormat;
 		this.legendLabelFormat = legendLabelFormat;
 		getEventSupport().firePropertyChange(PROPERTY_LEGEND_LABEL_FORMAT, old, this.legendLabelFormat);
+	}
+
+	/**
+	 * @param itemLabel the itemLabel to set
+	 */
+	public void setItemLabel(JRItemLabel itemLabel) {
+		JRItemLabel old = this.itemLabel;
+		this.itemLabel = itemLabel;
+		getEventSupport().firePropertyChange(PROPERTY_ITEM_LABEL, old, this.itemLabel);
 	}
 
 	/**

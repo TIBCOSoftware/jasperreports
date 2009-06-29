@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRBar3DPlot;
+import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -79,11 +80,12 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	protected String valueAxisTickLabelMask = null;
 	protected Color valueAxisLineColor = null;
 
+	protected JRItemLabel itemLabel = null;
+	
 	private Double xOffsetDouble = null;
 	private Double yOffsetDouble = null;
 	private Boolean showLabels = null;
 	
-
 	/**
 	 * 
 	 */
@@ -98,6 +100,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 			categoryAxisTickLabelFont = new JRBaseFont(chart, null);
 			valueAxisLabelFont = new JRBaseFont(chart, null);
 			valueAxisTickLabelFont = new JRBaseFont(chart, null);
+			itemLabel = new JRBaseItemLabel(null, chart);
 		}
 		else
 		{
@@ -105,6 +108,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 			categoryAxisTickLabelFont = new JRBaseFont(chart, barPlot.getCategoryAxisTickLabelFont());
 			valueAxisLabelFont = new JRBaseFont(chart, barPlot.getValueAxisLabelFont());
 			valueAxisTickLabelFont = new JRBaseFont(chart, barPlot.getValueAxisTickLabelFont());
+			itemLabel = new JRBaseItemLabel(barPlot.getItemLabel(), chart);
 		}
 	}
 
@@ -139,6 +143,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 		valueAxisTickLabelColor = barPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = barPlot.getValueAxisTickLabelMask();
 		valueAxisLineColor = barPlot.getOwnValueAxisLineColor();
+		itemLabel = new JRBaseItemLabel(barPlot.getItemLabel(), factory);
 	}
 	
 	/**
@@ -349,6 +354,14 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	}
 	
 	/**
+	 *
+	 */
+	public JRItemLabel getItemLabel()
+	{
+		return itemLabel;
+	}
+	
+	/**
 	 * 
 	 */
 	public void setXOffset( Double xOffset ){
@@ -455,6 +468,11 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 		{
 			clone.rangeAxisMaxValueExpression = (JRExpression)rangeAxisMaxValueExpression.clone();
 		}
+		if (itemLabel != null)
+		{
+			clone.itemLabel = (JRItemLabel)itemLabel.clone();
+		}
+		
 		return clone;
 	}
 

@@ -49,4 +49,10 @@ public interface JRPiePlot extends JRChartPlot
 	public String getLabelFormat();
 	
 	public String getLegendLabelFormat();
+
+	/**
+	 * 
+	 */
+	public JRItemLabel getItemLabel();
+	
 }
