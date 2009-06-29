@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -49,6 +50,8 @@ public class JRFillPiePlot extends JRFillChartPlot implements JRPiePlot
 		)
 	{
 		super(piePlot, factory);
+		System.out.println("JRFillPiePlot: "+piePlot.getItemLabel());
+		System.out.println("JRFillPiePlot2: "+getItemLabel());
 	}
 	
 	/**
@@ -75,6 +78,14 @@ public class JRFillPiePlot extends JRFillChartPlot implements JRPiePlot
 	public String getLegendLabelFormat()
 	{
 		return ((JRPiePlot)parent).getLegendLabelFormat();
+	}
+	
+	/**
+	 *
+	 */
+	public JRItemLabel getItemLabel()
+	{
+		return ((JRPiePlot)parent).getItemLabel();
 	}
 	
 }

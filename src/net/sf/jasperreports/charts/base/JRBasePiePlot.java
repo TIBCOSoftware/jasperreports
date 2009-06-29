@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.base;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
@@ -51,17 +52,31 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 
 	public static final String PROPERTY_LABEL_FORMAT = "labelFormat";
 	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
+	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
 
 	protected Boolean circular = null;
 	protected String labelFormat = null;
 	protected String legendLabelFormat = null;
 	
+	protected JRItemLabel itemLabel = null;
+
 	/**
 	 *
 	 */
 	public JRBasePiePlot(JRChartPlot piePlot, JRChart chart)
 	{
 		super(piePlot, chart);
+		if (piePlot == null)
+		{
+			itemLabel = new JRBaseItemLabel(null, chart);
+			System.out.println("JRBasePiePlot: piePlot = null");
+		}
+		else
+		{
+			itemLabel = new JRBaseItemLabel(((JRPiePlot)piePlot).getItemLabel(), chart);
+			System.out.println("JRBasePiePlot2: "+ ((JRPiePlot)piePlot).getItemLabel());
+		}
+		
 	}
 
 
@@ -74,6 +89,8 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		circular = piePlot.getCircular();
 		labelFormat = piePlot.getLabelFormat();
 		legendLabelFormat = piePlot.getLegendLabelFormat();
+		itemLabel = new JRBaseItemLabel(piePlot.getItemLabel(), factory);
+		System.out.println("JRBasePiePlot3: "+ piePlot.getItemLabel());
 	}
 	
 	/**
@@ -141,7 +158,14 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		return legendLabelFormat;
 	}
 
-
+	/**
+	 *
+	 */
+	public JRItemLabel getItemLabel()
+	{
+		return itemLabel;
+	}
+	
 	/**
 	 * @param legendLabelFormat the legendLabelFormat to set
 	 */
@@ -149,6 +173,29 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		String old = this.legendLabelFormat;
 		this.legendLabelFormat = legendLabelFormat;
 		getEventSupport().firePropertyChange(PROPERTY_LEGEND_LABEL_FORMAT, old, this.legendLabelFormat);
+	}
+
+	/**
+	 * @param itemLabel the itemLabel to set
+	 */
+	public void setItemLabel(JRItemLabel itemLabel) {
+		JRItemLabel old = this.itemLabel;
+		this.itemLabel = itemLabel;
+		getEventSupport().firePropertyChange(PROPERTY_ITEM_LABEL, old, this.itemLabel);
+	}
+
+	/**
+	 *
+	 */
+	public Object clone(JRChart parentChart) 
+	{
+		JRBasePiePlot clone = (JRBasePiePlot)super.clone(parentChart);
+		if (itemLabel != null)
+		{
+			clone.itemLabel = (JRItemLabel)itemLabel.clone();
+		}
+		
+		return clone;
 	}
 
 	/**

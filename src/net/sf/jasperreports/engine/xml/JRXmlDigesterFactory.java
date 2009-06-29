@@ -37,6 +37,7 @@ import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
 import net.sf.jasperreports.charts.design.JRDesignDataRange;
 import net.sf.jasperreports.charts.design.JRDesignGanttSeries;
+import net.sf.jasperreports.charts.design.JRDesignItemLabel;
 import net.sf.jasperreports.charts.design.JRDesignPieSeries;
 import net.sf.jasperreports.charts.design.JRDesignTimePeriodSeries;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
@@ -65,6 +66,7 @@ import net.sf.jasperreports.charts.xml.JRGanttSeriesFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowChartFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowPlotFactory;
+import net.sf.jasperreports.charts.xml.JRItemLabelFactory;
 import net.sf.jasperreports.charts.xml.JRLineChartFactory;
 import net.sf.jasperreports.charts.xml.JRLinePlotFactory;
 import net.sf.jasperreports.charts.xml.JRMeterChartFactory;
@@ -598,6 +600,12 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/yAxisFormat/axisFormat/labelFont/font", "setLabelFont", JRFont.class.getName());
 		digester.addFactoryCreate("*/yAxisFormat/axisFormat/tickLabelFont/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext("*/yAxisFormat/axisFormat/tickLabelFont/font", "setTickLabelFont", JRFont.class.getName());
+
+		// item labels - anything that contains item labels must have a "setItemLabel" method.
+		digester.addFactoryCreate("*/itemLabel", JRItemLabelFactory.class.getName());
+		digester.addSetNext("*/itemLabel", "setItemLabel", JRDesignItemLabel.class.getName());
+		digester.addFactoryCreate("*/itemLabel/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/itemLabel/font", "setFont", JRFont.class.getName());
 
 		// pie charts
 		digester.addFactoryCreate("*/pieChart", JRPieChartFactory.class.getName());

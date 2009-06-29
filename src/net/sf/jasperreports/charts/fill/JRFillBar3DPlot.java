@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.fill;
 import java.awt.Color;
 
 import net.sf.jasperreports.charts.JRBar3DPlot;
+import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -391,6 +392,19 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	 */
 	public Boolean getShowLabels(){
 		return ((JRBar3DPlot)parent).getShowLabels();
+	}
+	
+	/**
+	 *
+	 */
+	public JRItemLabel getItemLabel()
+	{
+		return ((JRBar3DPlot)parent).getItemLabel();
+	}
+	/**
+	 *
+	 */
+	public void setItemLabel( JRItemLabel itemLabel ){
 	}
 	
 	/**

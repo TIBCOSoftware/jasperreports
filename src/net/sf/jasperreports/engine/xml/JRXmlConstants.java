@@ -1552,6 +1552,7 @@ public class JRXmlConstants
 	public static final String ELEMENT_multiAxisPlot = "multiAxisPlot";
 
 	public static final String ELEMENT_valueDisplay = "valueDisplay";
+	public static final String ELEMENT_itemLabel = "itemLabel";
 	public static final String ELEMENT_dataRange = "dataRange";
 	public static final String ELEMENT_meterInterval = "meterInterval";
 	public static final String ELEMENT_categoryAxisFormat = "categoryAxisFormat";
