@@ -76,12 +76,10 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		if (pie3DPlot == null)
 		{
 			itemLabel = new JRBaseItemLabel(null, chart);
-			System.out.println("JRBasePie3DPlot: pie3DPlot == null");
 		}
 		else
 		{
 			itemLabel = new JRBaseItemLabel(((JRPie3DPlot)pie3DPlot).getItemLabel(), chart);
-			System.out.println("JRBasePie3DPlot2: "+((JRPie3DPlot)pie3DPlot).getItemLabel());
 		}
 	}
 
@@ -98,8 +96,6 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		labelFormat = pie3DPlot.getLabelFormat();
 		legendLabelFormat = pie3DPlot.getLegendLabelFormat();
 		itemLabel = new JRBaseItemLabel(pie3DPlot.getItemLabel(), factory);
-		System.out.println("JRBasePie3DPlot3: "+pie3DPlot.getItemLabel());
-		
 	}
 
 	
