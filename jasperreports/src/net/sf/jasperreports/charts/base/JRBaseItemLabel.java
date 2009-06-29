@@ -94,7 +94,6 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 			font = new JRBaseFont(chart, null);
 			color = chart.getForecolor();
 			backgroundColor = chart.getBackcolor();
-			System.out.println("JRBaseItemLabel: itemLabel == null");
 		}
 		else
 		{
@@ -102,8 +101,6 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 			backgroundColor = itemLabel.getBackgroundColor();
 			mask = itemLabel.getMask();
 			font = new JRBaseFont(itemLabel.getChart(), itemLabel.getFont());
-			System.out.println("JRBaseItemLabel: "+ itemLabel);
-
 		}
 	}
 

@@ -50,8 +50,6 @@ public class JRFillPiePlot extends JRFillChartPlot implements JRPiePlot
 		)
 	{
 		super(piePlot, factory);
-		System.out.println("JRFillPiePlot: "+piePlot.getItemLabel());
-		System.out.println("JRFillPiePlot2: "+getItemLabel());
 	}
 	
 	/**

@@ -1632,7 +1632,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_legendLabelFormat, plot.getLegendLabelFormat());
 		writePlot(chart.getPlot());
 		writeItemLabel(plot.getItemLabel());
-		System.out.println("JRXmlWriter: "+plot.getItemLabel());
 		writer.closeElement();
 
 		writer.closeElement();

@@ -69,12 +69,10 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		if (piePlot == null)
 		{
 			itemLabel = new JRBaseItemLabel(null, chart);
-			System.out.println("JRBasePiePlot: piePlot = null");
 		}
 		else
 		{
 			itemLabel = new JRBaseItemLabel(((JRPiePlot)piePlot).getItemLabel(), chart);
-			System.out.println("JRBasePiePlot2: "+ ((JRPiePlot)piePlot).getItemLabel());
 		}
 		
 	}
@@ -90,7 +88,6 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		labelFormat = piePlot.getLabelFormat();
 		legendLabelFormat = piePlot.getLegendLabelFormat();
 		itemLabel = new JRBaseItemLabel(piePlot.getItemLabel(), factory);
-		System.out.println("JRBasePiePlot3: "+ piePlot.getItemLabel());
 	}
 	
 	/**
@@ -114,7 +111,6 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	public Boolean getCircular() {
 		return circular;
 	}
-
 
 	/**
 	 * @param isCircular the isCircular to set
