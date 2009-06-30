@@ -76,6 +76,6 @@ public interface JRItemLabel extends JRCloneable
 	 *
 	 * @return the item label formatting mask
 	 */
-	public String getMask();
+//	public String getMask();
 
 }

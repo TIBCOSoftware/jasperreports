@@ -1519,7 +1519,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, itemLabel.getColor());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundColor, itemLabel.getBackgroundColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mask, itemLabel.getMask());
+//		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mask, itemLabel.getMask());
 
 		writeFont(itemLabel.getFont());
 

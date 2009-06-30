@@ -58,7 +58,7 @@ public class JRDesignItemLabel extends JRBaseItemLabel implements JRChangeEvents
 	
 	public static final String PROPERTY_FONT = "font";
 	
-	public static final String PROPERTY_MASK = "mask";
+//	public static final String PROPERTY_MASK = "mask";
 
 
 	/**
@@ -101,12 +101,12 @@ public class JRDesignItemLabel extends JRBaseItemLabel implements JRChangeEvents
 	 *
 	 * @param mask the formatting mask to use when displaying the value
 	 */
-	public void setMask(String mask)
-	{
-		Object old = this.mask;
-		this.mask = mask;
-		getEventSupport().firePropertyChange(PROPERTY_MASK, old, this.mask);
-	}
+//	public void setMask(String mask)
+//	{
+//		Object old = this.mask;
+//		this.mask = mask;
+//		getEventSupport().firePropertyChange(PROPERTY_MASK, old, this.mask);
+//	}
 
 	/**
 	 * Sets the font to use when displaying the value.

@@ -43,7 +43,7 @@ public class JRItemLabelFactory extends JRBaseFactory
 {
 	private static final String ATTRIBUTE_color = "color";
 	private static final String ATTRIBUTE_backgroundColor = "backgroundColor";
-	private static final String ATTRIBUTE_mask = "mask";
+//	private static final String ATTRIBUTE_mask = "mask";
 
 	/**
 	 *
@@ -64,11 +64,11 @@ public class JRItemLabelFactory extends JRBaseFactory
 			itemLabel.setBackgroundColor(JRColorUtil.getColor(backgroundColor, null));
 		}
 
-		String mask = atts.getValue(ATTRIBUTE_mask);
-		if (mask != null && mask.length() > 0)
-		{
-			itemLabel.setMask(mask);
-		}
+//		String mask = atts.getValue(ATTRIBUTE_mask);
+//		if (mask != null && mask.length() > 0)
+//		{
+//			itemLabel.setMask(mask);
+//		}
 		return itemLabel;
 	}
 }

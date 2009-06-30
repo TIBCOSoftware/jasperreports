@@ -87,7 +87,6 @@ import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
-import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.labels.XYItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
@@ -624,16 +623,16 @@ public class DefaultChartTheme implements ChartTheme
 					barRenderer3D.setBaseItemLabelPaint(getChart().getForecolor());
 				}
 //				categoryRenderer.setBaseFillPaint(itemLabel.getBackgroundColor());
-				if(itemLabel.getMask() != null)
-				{
-					barRenderer3D.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator(
-							StandardCategoryItemLabelGenerator.DEFAULT_LABEL_FORMAT_STRING, 
-							new DecimalFormat(itemLabel.getMask())));
-				}
-				else
-				{
+//				if(itemLabel.getMask() != null)
+//				{
+//					barRenderer3D.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator(
+//							StandardCategoryItemLabelGenerator.DEFAULT_LABEL_FORMAT_STRING, 
+//							new DecimalFormat(itemLabel.getMask())));
+//				}
+//				else
+//				{
 					barRenderer3D.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
-				}
+//				}
 			}
 			else
 			{
@@ -730,16 +729,16 @@ public class DefaultChartTheme implements ChartTheme
 					categoryRenderer.setBaseItemLabelPaint(getChart().getForecolor());
 				}
 //				categoryRenderer.setBaseFillPaint(itemLabel.getBackgroundColor());
-				if(itemLabel.getMask() != null)
-				{
-					categoryRenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator(
-							StandardCategoryItemLabelGenerator.DEFAULT_LABEL_FORMAT_STRING, 
-							new DecimalFormat(itemLabel.getMask())));
-				}
-				else
-				{
+//				if(itemLabel.getMask() != null)
+//				{
+//					categoryRenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator(
+//							StandardCategoryItemLabelGenerator.DEFAULT_LABEL_FORMAT_STRING, 
+//							new DecimalFormat(itemLabel.getMask())));
+//				}
+//				else
+//				{
 					categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
-				}
+//				}
 			}
 			else
 			{
@@ -963,21 +962,18 @@ public class DefaultChartTheme implements ChartTheme
 		{
 			piePlot3D.setLabelGenerator(labelGenerator);
 		}
-		else if (itemLabel != null && itemLabel.getMask() != null)
-		{
-			piePlot3D.setLabelGenerator(
-					new StandardPieSectionLabelGenerator(
-							StandardPieSectionLabelGenerator.DEFAULT_SECTION_LABEL_FORMAT, 
-							new DecimalFormat(itemLabel.getMask()), 
-							new DecimalFormat(itemLabel.getMask()))
-					);
-		}
 		else if (jrPlot.getLabelFormat() != null)
 		{
 			piePlot3D.setLabelGenerator(
 				new StandardPieSectionLabelGenerator(jrPlot.getLabelFormat())
 				);
 		}
+//		else if (itemLabel != null && itemLabel.getMask() != null)
+//		{
+//			piePlot3D.setLabelGenerator(
+//					new StandardPieSectionLabelGenerator(itemLabel.getMask())
+//					);
+//		}
 		
 		if (jrPlot.getLegendLabelFormat() != null)
 		{
@@ -1047,26 +1043,22 @@ public class DefaultChartTheme implements ChartTheme
 		{
 			piePlot.setLabelGenerator(labelGenerator);
 		}
-		else if (itemLabel != null && itemLabel.getMask() != null)
-		{
-			piePlot.setLabelGenerator(
-					new StandardPieSectionLabelGenerator(
-							StandardPieSectionLabelGenerator.DEFAULT_SECTION_LABEL_FORMAT, 
-							new DecimalFormat(itemLabel.getMask()), 
-							new DecimalFormat(itemLabel.getMask()))
-					);
-		}
 		else if (jrPlot.getLabelFormat() != null)
 		{
 			piePlot.setLabelGenerator(
 				new StandardPieSectionLabelGenerator(jrPlot.getLabelFormat())
 				);
 		}
-		
+//		else if (itemLabel != null && itemLabel.getMask() != null)
+//		{
+//			piePlot.setLabelGenerator(
+//					new StandardPieSectionLabelGenerator(itemLabel.getMask())
+//					);
+//		}
 		if (jrPlot.getLegendLabelFormat() != null)
 		{
 			piePlot.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(((JRPie3DPlot)getPlot()).getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(jrPlot.getLegendLabelFormat())
 				);
 		}
 		

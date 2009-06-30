@@ -90,9 +90,9 @@ public class JRFillItemLabel implements JRItemLabel
 	/**
 	 *
 	 */
-	public String getMask(){
-		return parent.getMask();
-	}
+//	public String getMask(){
+//		return parent.getMask();
+//	}
 
 	/**
 	 *

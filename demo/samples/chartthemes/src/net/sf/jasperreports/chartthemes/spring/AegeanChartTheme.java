@@ -38,8 +38,6 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import net.sf.jasperreports.charts.JRMeterPlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
-import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
@@ -51,7 +49,6 @@ import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryLabelPositions;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.DialShape;
 import org.jfree.chart.plot.MeterPlot;
@@ -198,20 +195,6 @@ public class AegeanChartTheme extends GenericChartTheme
 				//piePlot.setSectionPaint(pieDataset.getKey(i), GRADIENT_PAINTS[i]);
 			}
 		}
-		if (
-			getLabelGenerator() == null
-			&& ((JRPiePlot)getPlot()).getLabelFormat() == null
-			)
-		{
-			piePlot.setLabelGenerator(new StandardPieSectionLabelGenerator("{1}", getLocale()));
-		}
-
-		if (((JRPiePlot)getPlot()).getLegendLabelFormat() == null)
-		{
-			piePlot.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator("{0}")
-				);
-		}
 		piePlot.setCircular(true);
 		return jfreeChart;
 	}
@@ -250,21 +233,6 @@ public class AegeanChartTheme extends GenericChartTheme
 				piePlot3D.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
 			}
 		}
-		if (
-			getLabelGenerator() == null
-			&& ((JRPie3DPlot)getPlot()).getLabelFormat() == null
-			)
-		{
-			piePlot3D.setLabelGenerator(null);
-		}
-
-		if (((JRPie3DPlot)getPlot()).getLegendLabelFormat() == null)
-		{
-			piePlot3D.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator("{0}")
-				);
-		}
-//		piePlot3D.setLabelFont(new Font("Tahoma", Font.PLAIN, 4));
 		piePlot3D.setCircular(true);
 		return jfreeChart;
 	}
