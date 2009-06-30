@@ -1515,15 +1515,18 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeItemLabel(JRItemLabel itemLabel) throws IOException
 	{
-		writer.startElement(JRXmlConstants.ELEMENT_itemLabel, getNamespace());
-
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, itemLabel.getColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundColor, itemLabel.getBackgroundColor());
-//		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mask, itemLabel.getMask());
-
-		writeFont(itemLabel.getFont());
-
-		writer.closeElement();
+		if(itemLabel != null)
+		{
+			writer.startElement(JRXmlConstants.ELEMENT_itemLabel, getNamespace());
+	
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, itemLabel.getColor());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundColor, itemLabel.getBackgroundColor());
+	//		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mask, itemLabel.getMask());
+	
+			writeFont(itemLabel.getFont());
+	
+			writer.closeElement();
+		}
 	}
 
 	/**
