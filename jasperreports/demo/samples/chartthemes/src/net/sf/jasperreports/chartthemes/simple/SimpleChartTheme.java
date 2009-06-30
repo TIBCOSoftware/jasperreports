@@ -54,6 +54,7 @@ import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRHighLowPlot;
+import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
@@ -635,8 +636,41 @@ public class SimpleChartTheme implements ChartTheme
 				bar3DPlot.getYOffsetDouble() == null ? BarRenderer3D.DEFAULT_Y_OFFSET : bar3DPlot.getYOffsetDouble().doubleValue()
 				);
 
-		barRenderer3D.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
-		barRenderer3D.setBaseItemLabelsVisible(bar3DPlot.getShowLabels());
+		boolean isShowLabels = bar3DPlot.getShowLabels() == null ? false : bar3DPlot.getShowLabels().booleanValue();
+		barRenderer3D.setBaseItemLabelsVisible( isShowLabels );
+		if(isShowLabels)
+		{
+			JRItemLabel itemLabel = bar3DPlot.getItemLabel();
+			JRFont font = itemLabel != null && itemLabel.getFont() != null ? itemLabel.getFont() : new JRBaseFont(getChart(), null);
+			barRenderer3D.setBaseItemLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
+			if(itemLabel != null)
+			{
+				if(itemLabel.getColor() != null)
+				{
+					barRenderer3D.setBaseItemLabelPaint(itemLabel.getColor());
+				}
+				else
+				{
+					barRenderer3D.setBaseItemLabelPaint(getChart().getForecolor());
+				}
+//				categoryRenderer.setBaseFillPaint(itemLabel.getBackgroundColor());
+//				if(itemLabel.getMask() != null)
+//				{
+//					barRenderer3D.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator(
+//							StandardCategoryItemLabelGenerator.DEFAULT_LABEL_FORMAT_STRING, 
+//							new DecimalFormat(itemLabel.getMask())));
+//				}
+//				else
+//				{
+					barRenderer3D.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
+//				}
+			}
+			else
+			{
+				barRenderer3D.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
+				barRenderer3D.setBaseItemLabelPaint(getChart().getForecolor());
+			}
+		}
 
 		categoryPlot.setRenderer(barRenderer3D);
 		
@@ -713,8 +747,42 @@ public class SimpleChartTheme implements ChartTheme
 
 
 		BarRenderer categoryRenderer = (BarRenderer)categoryPlot.getRenderer();
-		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
-		categoryRenderer.setBaseItemLabelsVisible( barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue());
+		boolean isShowLabels = barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue();
+		categoryRenderer.setBaseItemLabelsVisible( isShowLabels );
+		if(isShowLabels)
+		{
+			JRItemLabel itemLabel = barPlot.getItemLabel();
+			JRFont font = itemLabel != null && itemLabel.getFont() != null ? itemLabel.getFont() : new JRBaseFont(getChart(), null);
+			categoryRenderer.setBaseItemLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
+			if(itemLabel != null)
+			{
+				if(itemLabel.getColor() != null)
+				{
+					categoryRenderer.setBaseItemLabelPaint(itemLabel.getColor());
+				}
+				else
+				{
+					categoryRenderer.setBaseItemLabelPaint(getChart().getForecolor());
+				}
+//				categoryRenderer.setBaseFillPaint(itemLabel.getBackgroundColor());
+//				if(itemLabel.getMask() != null)
+//				{
+//					categoryRenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator(
+//							StandardCategoryItemLabelGenerator.DEFAULT_LABEL_FORMAT_STRING, 
+//							new DecimalFormat(itemLabel.getMask())));
+//				}
+//				else
+//				{
+					categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
+//				}
+			}
+			else
+			{
+				categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
+				categoryRenderer.setBaseItemLabelPaint(getChart().getForecolor());
+			}
+		}
+		
 		categoryRenderer.setShadowVisible(false);
 		
 		return jfreeChart;
@@ -941,30 +1009,57 @@ public class SimpleChartTheme implements ChartTheme
 		piePlot3D.setCircular(isCircular);
 
 		PieSectionLabelGenerator labelGenerator = (PieSectionLabelGenerator)getLabelGenerator();
+		JRItemLabel itemLabel = jrPlot.getItemLabel();
 		if (labelGenerator != null)
 		{
 			piePlot3D.setLabelGenerator(labelGenerator);
 		}
-		else if (((JRPie3DPlot)getPlot()).getLabelFormat() != null)
+		else if (jrPlot.getLabelFormat() != null)
 		{
 			piePlot3D.setLabelGenerator(
-				new StandardPieSectionLabelGenerator(((JRPie3DPlot)getPlot()).getLabelFormat())
+				new StandardPieSectionLabelGenerator(jrPlot.getLabelFormat())
 				);
 		}
-
-		if (((JRPie3DPlot)getPlot()).getLegendLabelFormat() != null)
+//		else if (itemLabel != null && itemLabel.getMask() != null)
+//		{
+//			piePlot3D.setLabelGenerator(
+//					new StandardPieSectionLabelGenerator(itemLabel.getMask())
+//					);
+//		}
+		
+		if (jrPlot.getLegendLabelFormat() != null)
 		{
 			piePlot3D.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(((JRPie3DPlot)getPlot()).getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(jrPlot.getLegendLabelFormat())
 				);
 		}
 		
-		//FIXMECHART at this moment, there are no label font, label backcolor
-		// and label forecolor properties defined for the PieChart3D
+		if(itemLabel != null && itemLabel.getFont() != null)
+		{
+			piePlot3D.setLabelFont(JRFontUtil.getAwtFont(itemLabel.getFont(), getLocale()));
+		}
+		else
+		{
+			piePlot3D.setLabelFont(JRFontUtil.getAwtFont(new JRBaseFont(getChart(), null), getLocale()));
+		}
 
-//		piePlot3D.setLabelFont(JRFontUtil.getAwtFont(new JRBaseFont(null, null, chart, null)));
+		if(itemLabel != null && itemLabel.getColor() != null)
+		{
+			piePlot3D.setLabelPaint(itemLabel.getColor());
+		}
+		else
+		{
+			piePlot3D.setLabelPaint(getChart().getForecolor());
+		}
 
-		piePlot3D.setLabelPaint(getChart().getForecolor());
+		if(itemLabel != null && itemLabel.getBackgroundColor() != null)
+		{
+			piePlot3D.setLabelBackgroundPaint(itemLabel.getBackgroundColor());
+		}
+		else
+		{
+			piePlot3D.setLabelBackgroundPaint(getChart().getBackcolor());
+		}
 
 		return jfreeChart;
 	}
@@ -995,31 +1090,58 @@ public class SimpleChartTheme implements ChartTheme
 		piePlot.setCircular(isCircular);
 
 		PieSectionLabelGenerator labelGenerator = (PieSectionLabelGenerator)getLabelGenerator();
+		JRItemLabel itemLabel = jrPlot.getItemLabel();
 		if (labelGenerator != null)
 		{
 			piePlot.setLabelGenerator(labelGenerator);
 		}
-		else if (((JRPiePlot)getPlot()).getLabelFormat() != null)
+		else if (jrPlot.getLabelFormat() != null)
 		{
 			piePlot.setLabelGenerator(
-				new StandardPieSectionLabelGenerator(((JRPiePlot)getPlot()).getLabelFormat())
+				new StandardPieSectionLabelGenerator(jrPlot.getLabelFormat())
 				);
 		}
-
-		if (((JRPiePlot)getPlot()).getLegendLabelFormat() != null)
+//		else if (itemLabel != null && itemLabel.getMask() != null)
+//		{
+//			piePlot.setLabelGenerator(
+//					new StandardPieSectionLabelGenerator(itemLabel.getMask())
+//					);
+//		}
+		
+		if (jrPlot.getLegendLabelFormat() != null)
 		{
 			piePlot.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(((JRPiePlot)getPlot()).getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(((JRPie3DPlot)getPlot()).getLegendLabelFormat())
 				);
 		}
 		
-		//FIXMECHART at this moment, there are no label font, label backcolor
-		// and label forecolor properties defined for the PieChart
+		if(itemLabel != null && itemLabel.getFont() != null)
+		{
+			piePlot.setLabelFont(JRFontUtil.getAwtFont(itemLabel.getFont(), getLocale()));
+		}
+		else
+		{
+			piePlot.setLabelFont(JRFontUtil.getAwtFont(new JRBaseFont(getChart(), null), getLocale()));
+		}
 
-//		piePlot.setLabelFont(JRFontUtil.getAwtFont(new JRBaseFont(null, null, chart, null)));
+		if(itemLabel != null && itemLabel.getColor() != null)
+		{
+			piePlot.setLabelPaint(itemLabel.getColor());
+		}
+		else
+		{
+			piePlot.setLabelPaint(getChart().getForecolor());
+		}
 
-		piePlot.setLabelPaint(getChart().getForecolor());
-		
+		if(itemLabel != null && itemLabel.getBackgroundColor() != null)
+		{
+			piePlot.setLabelBackgroundPaint(itemLabel.getBackgroundColor());
+		}
+		else
+		{
+			piePlot.setLabelBackgroundPaint(getChart().getBackcolor());
+		}
+
 		return jfreeChart;
 	}
 

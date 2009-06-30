@@ -3753,7 +3753,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
      <documentation>The background color of the label's text.</documentation>
     </annotation>
    </attribute>
-   <attribute name="mask" type="string" use="optional">
+   <!-- attribute name="mask" type="string" use="optional">
   	<annotation>
    	 <documentation>The formatting mask to use to display the value.  This mask must follow the rules
             specified for a <code>java.text.DecimalFormat</code> pattern.
@@ -3761,7 +3761,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
             This attribute is currently ignored for a <a href="meterChart">meterChart</a>.
      </documentation>
   	</annotation>
-   </attribute>
+   </attribute-->
   </complexType>
  </element>
 

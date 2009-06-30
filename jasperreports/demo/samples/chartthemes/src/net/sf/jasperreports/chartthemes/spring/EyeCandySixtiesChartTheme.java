@@ -43,8 +43,6 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import net.sf.jasperreports.charts.JRMeterPlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
-import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
@@ -59,12 +57,10 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPosition;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.DialShape;
@@ -229,21 +225,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 				//piePlot.setSectionPaint(pieDataset.getKey(i), GRADIENT_PAINTS[i]);
 			}
 		}
-		if (
-			getLabelGenerator() == null
-			&& ((JRPiePlot)getPlot()).getLabelFormat() == null
-			)
-		{
-			piePlot.setLabelGenerator(null);
-		}
-
-		if (((JRPiePlot)getPlot()).getLegendLabelFormat() == null)
-		{
-			piePlot.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator("{0}")
-				);
-		}
-//		piePlot.setLabelFont(new Font("Tahoma", Font.PLAIN, 4));
 		
 		piePlot.setCircular(true);
 		return jfreeChart;
@@ -284,21 +265,6 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			}
 		}
 
-		if (
-			getLabelGenerator() == null
-			&& ((JRPie3DPlot)getPlot()).getLabelFormat() == null
-			)
-		{
-			piePlot3D.setLabelGenerator(null);
-		}
-
-		if (((JRPie3DPlot)getPlot()).getLegendLabelFormat() == null)
-		{
-			piePlot3D.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator("{0}")
-				);
-		}
-//		piePlot3D.setLabelFont(new Font("Tahoma", Font.PLAIN, 4));
 		piePlot3D.setCircular(true);
 		return jfreeChart;
 	}

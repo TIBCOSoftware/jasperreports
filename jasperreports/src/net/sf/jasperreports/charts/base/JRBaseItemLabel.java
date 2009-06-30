@@ -71,7 +71,7 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 	 * The formatting mask to use when writing the value.  Must a pattern
 	 * that is accepted by a code>java.text.DecimalFormat</code> object.
 	 */
-	protected String mask = null;
+//	protected String mask = null;
 
 	/**
 	 * The item label text font.
@@ -99,7 +99,7 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 		{
 			color = itemLabel.getColor();
 			backgroundColor = itemLabel.getBackgroundColor();
-			mask = itemLabel.getMask();
+//			mask = itemLabel.getMask();
 			font = new JRBaseFont(itemLabel.getChart(), itemLabel.getFont());
 		}
 	}
@@ -119,7 +119,7 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 
 		color = itemLabel.getColor();
 		backgroundColor = itemLabel.getBackgroundColor();
-		mask = itemLabel.getMask();
+//		mask = itemLabel.getMask();
 		font = new JRBaseFont(itemLabel.getChart(), itemLabel.getFont());
 	}
 
@@ -150,10 +150,10 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 	/**
 	 *
 	 */
-	public String getMask()
-	{
-		return mask;
-	}
+//	public String getMask()
+//	{
+//		return mask;
+//	}
 	/**
 	 *
 	 */
