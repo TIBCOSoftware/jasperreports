@@ -61,6 +61,8 @@ public class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
+		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
+
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
 
@@ -93,6 +95,8 @@ public class JasperRunManager
 
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
@@ -321,6 +325,8 @@ public class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
+		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
+
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);
 
@@ -437,6 +443,8 @@ public class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
+		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
+
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
 
@@ -469,6 +477,8 @@ public class JasperRunManager
 
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
@@ -538,6 +548,8 @@ public class JasperRunManager
 
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);

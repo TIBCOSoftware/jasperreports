@@ -632,7 +632,7 @@ public class JasperFillManager
 	/**
 	 * 
 	 */
-	private static Map setFileResolver(File file, Map parameters)
+	protected static Map setFileResolver(File file, Map parameters)
 	{
 		if (parameters == null)
 		{
