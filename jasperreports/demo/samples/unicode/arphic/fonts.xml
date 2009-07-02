@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="AR_PL_KaitiM_GB_Family" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
+		<property name="name" value="AR PL KaitiM GB"/>
+		<property name="normal" value="arphic/gkai00mp.ttf"/>
+		<property name="pdfEncoding" value="Identity-H"/>
+		<property name="pdfEmbedded" value="true"/>
+	</bean>
+
+</beans>
