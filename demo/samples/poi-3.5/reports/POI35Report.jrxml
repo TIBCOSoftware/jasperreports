@@ -30,7 +30,7 @@
 		<groupHeader>
 		<band height="20">
 			<textField evaluationTime="Group" evaluationGroup="CityGroup" bookmarkLevel="1">
-				<reportElement mode="Opaque" x="0" y="5" width="515" height="15" backcolor="#dec0ff" style="Sans_Bold"/>
+				<reportElement mode="Opaque" x="0" y="5" width="515" height="15" backcolor="#c0c0c0" style="Sans_Bold"/>
 				<box leftPadding="10">
 					<bottomPen lineWidth="1"/>
 				</box>
@@ -86,16 +86,16 @@
 	<pageHeader>
 		<band height="20">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="5" width="55" height="15" forecolor="#b7ba36" backcolor="#333333" style="Sans_Bold"/>
+				<reportElement mode="Opaque" x="0" y="5" width="55" height="15" forecolor="#ffffff" backcolor="#333333" style="Sans_Bold"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#b7ba36" backcolor="#333333" style="Sans_Bold"/>
+				<reportElement mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#ffffff" backcolor="#333333" style="Sans_Bold"/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#b7ba36" backcolor="#333333" style="Sans_Bold"/>
+				<reportElement mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#ffffff" backcolor="#333333" style="Sans_Bold"/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
 		</band>
