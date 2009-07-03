@@ -496,7 +496,7 @@
    <attribute name="backcolor" type="string" use="optional"/>
    <attribute name="pen" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="pen">&lt;pen&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>pen</elem>.</documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -549,7 +549,7 @@
    </attribute>
    <attribute name="border" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -564,17 +564,17 @@
    </attribute>
    <attribute name="borderColor" type="string" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>   
    <attribute name="padding" type="NMTOKEN" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>   
    <attribute name="topBorder" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -589,17 +589,17 @@
    </attribute>
    <attribute name="topBorderColor" type="string" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
    <attribute name="topPadding" type="NMTOKEN" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
    <attribute name="leftBorder" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -614,17 +614,17 @@
    </attribute>
    <attribute name="leftBorderColor" type="string" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
    <attribute name="leftPadding" type="NMTOKEN" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
    <attribute name="bottomBorder" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -639,17 +639,17 @@
    </attribute>
    <attribute name="bottomBorderColor" type="string" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
    <attribute name="bottomPadding" type="NMTOKEN" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
    <attribute name="rightBorder" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -664,12 +664,12 @@
    </attribute>
    <attribute name="rightBorderColor" type="string" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
    <attribute name="rightPadding" type="NMTOKEN" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="box">&lt;box&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
    <attribute name="rotation" use="optional">
@@ -1652,7 +1652,7 @@
    </attribute>  
    <attribute name="style" type="string" use="optional">
 	<annotation>
-	 <documentation>Name of the report level style to use as base style (see <a href="style"><code>&lt;style&gt;</code></a> element).</documentation>
+	 <documentation>Name of the report level style to use as base style (see <elem>style</elem> element).</documentation>
 	</annotation>
    </attribute>  
    <attribute name="positionType" use="optional" default="FixRelativeToTop">
@@ -1692,7 +1692,7 @@
 	  </enumeration>  
       <enumeration value="RelativeToTallestObject">
 		<annotation>
-		 <documentation>The graphic element will stretch to accommodate the tallest object in its group. See the <a href="elementGroup"><code>&lt;elementGroup&gt;</code></a> element, to see how to group elements in bands.</documentation>
+		 <documentation>The graphic element will stretch to accommodate the tallest object in its group. See the <elem>elementGroup</elem> element, to see how to group elements in bands.</documentation>
 		</annotation>
 	  </enumeration>  
       <enumeration value="RelativeToBandHeight">
@@ -1866,7 +1866,7 @@
    </attribute>
    <attribute name="pen" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="pen">&lt;pen&gt;</a>.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>pen</elem>.</documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -2146,15 +2146,15 @@ This can be useful when, for instance, a border has to be drawn around the image
             <dt><code>None</code></dt>
             <dd>The current element doesn't represent a hyperlink.</dd>
             <dt><code>Reference</code></dt>
-            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <elem>hyperlinkReferenceExpression</elem> element, usually an URL.</dd>
             <dt><code>LocalAnchor</code></dt>
-            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <elem>hyperlinkAnchorExpression</elem> element.</dd>
             <dt><code>LocalPage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <elem>hyperlinkPageExpression</elem> element.</dd>
             <dt><code>RemoteAnchor</code></dt>
-            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to an anchor specified by the <elem>hyperlinkAnchorExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
             <dt><code>RemotePage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index specified by the <elem>hyperlinkPageExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
           </dl>
         </li>
         <li>
@@ -2243,7 +2243,7 @@ This can be useful when, for instance, a border has to be drawn around the image
    </sequence>
    <attribute name="border" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="pen">&lt;pen&gt;</a></documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>pen</elem></documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -2282,7 +2282,7 @@ This can be useful when, for instance, a border has to be drawn around the image
    </attribute>
    <attribute name="borderColor" type="string" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="pen">&lt;pen&gt;</a></documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>pen</elem></documentation>
 	</annotation>
    </attribute>
    <attribute name="padding" type="NMTOKEN" use="optional">
@@ -2292,7 +2292,7 @@ This can be useful when, for instance, a border has to be drawn around the image
    </attribute>
    <attribute name="topBorder" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="topPen">&lt;topPen&gt;</a></documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>topPen</elem></documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -2331,7 +2331,7 @@ This can be useful when, for instance, a border has to be drawn around the image
    </attribute>
    <attribute name="topBorderColor" type="string" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="topPen">&lt;topPen&gt;</a></documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>topPen</elem></documentation>
 	</annotation>
    </attribute>
    <attribute name="topPadding" type="NMTOKEN" use="optional">
@@ -2341,7 +2341,7 @@ This can be useful when, for instance, a border has to be drawn around the image
    </attribute>
    <attribute name="leftBorder" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="leftPen">&lt;leftPen&gt;</a></documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>leftPen</elem></documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -2380,7 +2380,7 @@ This can be useful when, for instance, a border has to be drawn around the image
    </attribute>
    <attribute name="leftBorderColor" type="string" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="leftPen">&lt;leftPen&gt;</a></documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>leftPen</elem></documentation>
 	</annotation>
    </attribute>
    <attribute name="leftPadding" type="NMTOKEN" use="optional">
@@ -2390,7 +2390,7 @@ This can be useful when, for instance, a border has to be drawn around the image
    </attribute>
    <attribute name="bottomBorder" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="bottomPen">&lt;bottomPen&gt;</a></documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>bottomPen</elem></documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -2429,7 +2429,7 @@ This can be useful when, for instance, a border has to be drawn around the image
    </attribute>
    <attribute name="bottomBorderColor" type="string" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="bottomPen">&lt;bottomPen&gt;</a></documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>bottomPen</elem></documentation>
 	</annotation>
    </attribute>
    <attribute name="bottomPadding" type="NMTOKEN" use="optional">
@@ -2439,7 +2439,7 @@ This can be useful when, for instance, a border has to be drawn around the image
    </attribute>
    <attribute name="rightBorder" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="rightPen">&lt;rightPen&gt;</a></documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>rightPen</elem></documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -2478,7 +2478,7 @@ This can be useful when, for instance, a border has to be drawn around the image
    </attribute>
    <attribute name="rightBorderColor" type="string" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by tag <a href="rightPen">&lt;rightPen&gt;</a></documentation>
+	 <documentation><i>Deprecated</i>. Replaced by tag <elem>rightPen</elem></documentation>
 	</annotation>
    </attribute>
    <attribute name="rightPadding" type="NMTOKEN" use="optional">
@@ -2770,7 +2770,7 @@ This can be useful when, for instance, a border has to be drawn around the image
 
  <element name="textElement">
   <annotation>
-   <documentation>Element used to specify the common properties of a text object on the report (<a href="staticText"><code>&lt;staticText&gt;</code></a> or <a href="textField"><code>&lt;textField&gt;</code></a>).</documentation>
+   <documentation>Element used to specify the common properties of a text object on the report (<elem>staticText</elem> or <elem>textField</elem>).</documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -2919,7 +2919,7 @@ This can be useful when, for instance, a border has to be drawn around the image
   <complexType>
    <attribute name="reportFont" type="string" use="optional">
     <annotation>
-     <documentation>Name of the report level font to use as base font (see <a href="reportFont"><code>&lt;reportFont&gt;</code></a> element).</documentation>
+     <documentation>Name of the report level font to use as base font (see <elem>reportFont</elem> element).</documentation>
     </annotation>
    </attribute>
    <attribute name="fontName" type="string" use="optional">
@@ -3122,15 +3122,15 @@ This can be useful when, for instance, a border has to be drawn around the image
             <dt><code>None</code></dt>
             <dd>The current element doesn't represent a hyperlink.</dd>
             <dt><code>Reference</code></dt>
-            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <elem>hyperlinkReferenceExpression</elem> element, usually an URL.</dd>
             <dt><code>LocalAnchor</code></dt>
-            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <elem>hyperlinkAnchorExpression</elem> element.</dd>
             <dt><code>LocalPage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <elem>hyperlinkPageExpression</elem> element.</dd>
             <dt><code>RemoteAnchor</code></dt>
-            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to an anchor specified by the <elem>hyperlinkAnchorExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
             <dt><code>RemotePage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index specified by the <elem>hyperlinkPageExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
           </dl>
         </li>
         <li>
@@ -3300,7 +3300,7 @@ This can be useful when, for instance, a border has to be drawn around the image
 
  <element name="parametersMapExpression">
   <annotation>
-   <documentation>Allows bulk passing the parameters to the subreport/subdataset into a <code>java.lang.Map</code> object. There are cases when we want to pass to the subreport/subdataset the same parameters that the master report has received. This can be achieved by passing the system-defined parameter called REPORT_PARAMETERS_MAP and maybe adding to or overriding those parameters using additional <a href="subreportParameter"><code>&lt;subreportParameter&gt;</code></a> elements.</documentation>
+   <documentation>Allows bulk passing the parameters to the subreport/subdataset into a <code>java.lang.Map</code> object. There are cases when we want to pass to the subreport/subdataset the same parameters that the master report has received. This can be achieved by passing the system-defined parameter called REPORT_PARAMETERS_MAP and maybe adding to or overriding those parameters using additional <elem>subreportParameter</elem> elements.</documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -3578,15 +3578,15 @@ This can be useful when, for instance, a border has to be drawn around the image
             <dt><code>None</code></dt>
             <dd>The current element doesn't represent a hyperlink.</dd>
             <dt><code>Reference</code></dt>
-            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <elem>hyperlinkReferenceExpression</elem> element, usually an URL.</dd>
             <dt><code>LocalAnchor</code></dt>
-            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <elem>hyperlinkAnchorExpression</elem> element.</dd>
             <dt><code>LocalPage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <elem>hyperlinkPageExpression</elem> element.</dd>
             <dt><code>RemoteAnchor</code></dt>
-            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to an anchor specified by the <elem>hyperlinkAnchorExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
             <dt><code>RemotePage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index specified by the <elem>hyperlinkPageExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
           </dl>
         </li>
         <li>
@@ -3758,7 +3758,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    	 <documentation>The formatting mask to use to display the value.  This mask must follow the rules
             specified for a <code>java.text.DecimalFormat</code> pattern.
             <p/>
-            This attribute is currently ignored for a <a href="meterChart">meterChart</a>.
+            This attribute is currently ignored for a <elem>meterChart</elem>.
      </documentation>
   	</annotation>
    </attribute-->
@@ -3780,7 +3780,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="pieDataset">
   <annotation>
-   <documentation>Defines a dataset to be used with <a href="pieChart"><code>&lt;pieChart&gt;</code></a></documentation>
+   <documentation>Defines a dataset to be used with <elem>pieChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -3823,7 +3823,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="keyExpression">
   <annotation>
-   <documentation>Defines a key in a <a href="pieDataset"><code>&lt;pieDataset&gt;</code></a> or <a href="pieSeries"><code>&lt;pieSeries&gt;</code></a></documentation>
+   <documentation>Defines a key in a <elem>pieDataset</elem> or <elem>pieSeries</elem></documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -3839,7 +3839,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="labelExpression">
   <annotation>
-   <documentation>Defines a label in a <a href="pieDataset"><code>&lt;pieDataset&gt;</code></a> or <a href="pieSeries"><code>&lt;pieSeries&gt;</code></a>.</documentation>
+   <documentation>Defines a label in a <elem>pieDataset</elem> or <elem>pieSeries</elem>.</documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -3885,15 +3885,15 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
             <dt><code>None</code></dt>
             <dd>The current element doesn't represent a hyperlink.</dd>
             <dt><code>Reference</code></dt>
-            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <elem>hyperlinkReferenceExpression</elem> element, usually an URL.</dd>
             <dt><code>LocalAnchor</code></dt>
-            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <elem>hyperlinkAnchorExpression</elem> element.</dd>
             <dt><code>LocalPage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <elem>hyperlinkPageExpression</elem> element.</dd>
             <dt><code>RemoteAnchor</code></dt>
-            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to an anchor specified by the <elem>hyperlinkAnchorExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
             <dt><code>RemotePage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index specified by the <elem>hyperlinkPageExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
           </dl>
         </li>
         <li>
@@ -3936,15 +3936,15 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
             <dt><code>None</code></dt>
             <dd>The current element doesn't represent a hyperlink.</dd>
             <dt><code>Reference</code></dt>
-            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <elem>hyperlinkReferenceExpression</elem> element, usually an URL.</dd>
             <dt><code>LocalAnchor</code></dt>
-            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <elem>hyperlinkAnchorExpression</elem> element.</dd>
             <dt><code>LocalPage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <elem>hyperlinkPageExpression</elem> element.</dd>
             <dt><code>RemoteAnchor</code></dt>
-            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to an anchor specified by the <elem>hyperlinkAnchorExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
             <dt><code>RemotePage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index specified by the <elem>hyperlinkPageExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
           </dl>
         </li>
         <li>
@@ -3965,7 +3965,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="piePlot">
   <annotation>
-   <documentation>Plot options for a <a href="pieChart"><code>&lt;pieChart&gt;</code></a></documentation>
+   <documentation>Plot options for a <elem>pieChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4074,7 +4074,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    </sequence>
    <attribute name="subDataset" type="string" use="required">
 	<annotation>
- 	 <documentation>The name of the <a href="subDataset">subdataset</a> to instantiate.</documentation>
+ 	 <documentation>The name of the <elem>subdataset</elem> to instantiate.</documentation>
 	</annotation>
    </attribute>
   </complexType>
@@ -4203,7 +4203,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="pie3DPlot">
   <annotation>
-   <documentation>Defines plot options for a <a href="pie3DChart"><code>&lt;pie3DChart&gt;</code></a></documentation>
+   <documentation>Defines plot options for a <elem>pie3DChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4241,7 +4241,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="barChart">
   <annotation>
-   <documentation>Defines a bar chart. Dataset used with this chart is <a href="categoryDataset"><code>&lt;categoryDataset&gt;</code></a></documentation>
+   <documentation>Defines a bar chart. Dataset used with this chart is <elem>categoryDataset</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4319,15 +4319,15 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
             <dt><code>None</code></dt>
             <dd>The current element doesn't represent a hyperlink.</dd>
             <dt><code>Reference</code></dt>
-            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <elem>hyperlinkReferenceExpression</elem> element, usually an URL.</dd>
             <dt><code>LocalAnchor</code></dt>
-            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <elem>hyperlinkAnchorExpression</elem> element.</dd>
             <dt><code>LocalPage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <elem>hyperlinkPageExpression</elem> element.</dd>
             <dt><code>RemoteAnchor</code></dt>
-            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to an anchor specified by the <elem>hyperlinkAnchorExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
             <dt><code>RemotePage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index specified by the <elem>hyperlinkPageExpression</elem> element, within an external document indicated by the corresponding <elem>hyperlinkReferenceExpression</elem> element.</dd>
           </dl>
         </li>
         <li>
@@ -4348,7 +4348,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="barPlot">
   <annotation>
-   <documentation>Plot options for a <a href="barChart"><code>&lt;barChart&gt;</code></a></documentation>
+   <documentation>Plot options for a <elem>barChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4596,7 +4596,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="xyBarChart">
   <annotation>
-   <documentation>Defines a bar chart that uses an <a href="xyDataset"><code>&lt;xyDataset&gt;</code></a></documentation>
+   <documentation>Defines a bar chart that uses an <elem>xyDataset</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4625,7 +4625,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="timePeriodSeries">
   <annotation>
-   <documentation>Defines a time period series for a <a href="timePeriodDataset"><code>&lt;timePeriodDataset&gt;</code></a></documentation>
+   <documentation>Defines a time period series for a <elem>timePeriodDataset</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4709,7 +4709,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="linePlot">
   <annotation>
-   <documentation>Defines plot options for a <a href="lineChart">&lt;line chart&gt;</a></documentation>
+   <documentation>Defines plot options for a <elem>lineChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4750,7 +4750,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="xyLineChart">
   <annotation>
-   <documentation>Defines a line chart that uses an <a href="xyzDataset">&lt;xyzDataset&gt;</a></documentation>
+   <documentation>Defines a line chart that uses an <elem>xyzDataset</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4775,7 +4775,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="xySeries">
   <annotation>
-   <documentation>Defines a series used in an <a href="xyDataset"><code>&lt;xyDataset&gt;</code></a></documentation>
+   <documentation>Defines a series used in an <elem>xyDataset</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4819,7 +4819,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="areaPlot">
   <annotation>
-   <documentation>Defines rendering options for an <a href="areaChart">&lt;areaChart&gt;</a></documentation>
+   <documentation>Defines rendering options for an <elem>areaChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4838,7 +4838,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="xyAreaChart">
   <annotation>
-   <documentation>Defines a area chart that uses an <a href="xyDataset"><code>&lt;xyDataset&gt;</code></a></documentation>
+   <documentation>Defines a area chart that uses an <elem>xyDataset</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4864,7 +4864,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="scatterPlot">
   <annotation>
-   <documentation>Specifies the plot options for a <a href="scatterChart"><code>&lt;scatterChart&gt;</code></a></documentation>
+   <documentation>Specifies the plot options for a <elem>scatterChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4962,7 +4962,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="xyzDataset">
   <annotation>
-   <documentation>Defines a dataaset used for <a href="bubbleChart"><code>&lt;bubbleChart&gt;</code></a></documentation>
+   <documentation>Defines a dataaset used for <elem>bubbleChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4974,7 +4974,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="xyzSeries">
   <annotation>
-   <documentation>Defines a series in an <a href="xyzDataset"><code>&lt;xyzDataset&gt;</code></a></documentation>
+   <documentation>Defines a series in an <elem>xyzDataset</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -4989,7 +4989,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="bubblePlot">
   <annotation>
-   <documentation>Plot options for a <a href="bubbleChart"><code>&lt;bubbleChart&gt;</code></a></documentation>
+   <documentation>Plot options for a <elem>bubbleChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -5020,7 +5020,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="zValueExpression">
   <annotation>
-   <documentation>Expression that defines the value for the Z axis in an <a href="xyzSeries"><code>&lt;xyzSeries&gt;</code></a></documentation>
+   <documentation>Expression that defines the value for the Z axis in an <elem>xyzSeries</elem></documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -5058,7 +5058,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="timeSeries">
   <annotation>
-   <documentation>Defines a time series for <a href="timeSeriesDataset"><code>&lt;timeSeriesDataset&gt;</code></a>.</documentation>
+   <documentation>Defines a time series for <elem>timeSeriesDataset</elem>.</documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -5094,7 +5094,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="timeSeriesPlot">
   <annotation>
-   <documentation>Defines plot options for a <a href="timeSeriesChart"><code>&lt;timeSeriesChart&gt;</code></a></documentation>
+   <documentation>Defines plot options for a <elem>timeSeriesChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -5170,7 +5170,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="highLowDataset">
   <annotation>
-   <documentation>Defines a dataset that can be used with a <a href="highLowChart"><code>&lt;highLowChart&gt;</code></a>.</documentation>
+   <documentation>Defines a dataset that can be used with a <elem>highLowChart</elem>.</documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -5189,7 +5189,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="highLowPlot">
   <annotation>
-   <documentation>Plot options for a <a href="highLowChart"><code>&lt;highLowChart&gt;</code></a></documentation>
+   <documentation>Plot options for a <elem>highLowChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -5230,7 +5230,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="dateExpression">
   <annotation>
-   <documentation>Represents a date expression used in <a href="timeSeriesChart">&lt;time series chart&gt;</a></documentation>
+   <documentation>Represents a date expression used in <elem>timeSeriesChart</elem></documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -5238,7 +5238,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="highExpression">
   <annotation>
-   <documentation>High expresion in a <a href="highLowChart"><code>&lt;highLowchart&gt;</code></a>.</documentation>
+   <documentation>High expresion in a <elem>highLowchart</elem>.</documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -5246,7 +5246,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="lowExpression">
   <annotation>
-   <documentation>Low expresion in a <a href="highLowChart"><code>&lt;highLowchart&gt;</code></a>.</documentation>
+   <documentation>Low expresion in a <elem>highLowchart</elem>.</documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -5254,7 +5254,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="openExpression">
   <annotation>
-   <documentation>Open expression for a <a href="candlestickChart"><code>&lt;candlestickChart&gt;</code></a></documentation>
+   <documentation>Open expression for a <elem>candlestickChart</elem></documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -5262,7 +5262,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="closeExpression">
   <annotation>
-   <documentation>Expression for the close value for <a href="candlestickChart"><code>&lt;candlestickChart&gt;</code></a></documentation>
+   <documentation>Expression for the close value for <elem>candlestickChart</elem></documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -5270,7 +5270,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="volumeExpression">
   <annotation>
-   <documentation>Defines the volumeExpression for a <a href="highLowDataset"><code>&lt;highLowDataset&gt;</code></a></documentation>
+   <documentation>Defines the volumeExpression for a <elem>highLowDataset</elem></documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -5291,7 +5291,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="candlestickPlot">
   <annotation>
-   <documentation>Plot options for a <a href="candlestickChart"><code>&lt;candlestickChart&gt;</code></a></documentation>
+   <documentation>Plot options for a <elem>candlestickChart</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -5307,7 +5307,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    </sequence>
    <attribute name="isShowVolume" use="optional">
   	<annotation>
-   	 <documentation>Flag that enables showing volume values for a <a href="candlestickChart"><code>&lt;candlestickChart&gt;</code></a>.</documentation>
+   	 <documentation>Flag that enables showing volume values for a <elem>candlestickChart</elem>.</documentation>
   	</annotation>
     <simpleType>
      <restriction base="string">
@@ -5348,7 +5348,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="meterPlot">
   <annotation>
-   <documentation>Plot options for a <a href="meterChart">meterChart</a>.</documentation>
+   <documentation>Plot options for a <elem>meterChart</elem>.</documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -5419,7 +5419,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    </attribute>
    <attribute name="meterColor" type="string" use="optional">
   	<annotation>
-   	 <documentation>The color of meter.  If <a href="meterInterval">meterIntervals</a> are defined they may
+   	 <documentation>The color of meter.  If <elem>meterIntervals</elem> are defined they may
         mask this color.
      </documentation>
   	</annotation>
@@ -5439,8 +5439,8 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="valueDisplay">
   <annotation>
-   <documentation>Controls how the single data value is displayed in a <a href="meterChart">meterChart</a> or
-        <a href="thermometerChart">thermometerChart</a>.
+   <documentation>Controls how the single data value is displayed in a <elem>meterChart</elem> or
+        <elem>thermometerChart</elem>.
    </documentation>
   </annotation>
   <complexType>
@@ -5457,7 +5457,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    	 <documentation>The formatting mask to use to display the value.  This mask must follow the rules
             specified for a <code>java.text.DecimalFormat</code> pattern.
             <p/>
-            This attribute is currently ignored for a <a href="meterChart">meterChart</a>.
+            This attribute is currently ignored for a <elem>meterChart</elem>.
      </documentation>
   	</annotation>
    </attribute>
@@ -5478,7 +5478,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="meterInterval">
   <annotation>
-   <documentation>Describes a range of a <a href="meterChart">meterChart</a> to highlight.  A typical use is to
+   <documentation>Describes a range of a <elem>meterChart</elem> to highlight.  A typical use is to
   divide a meter up into sections such as "normal", "warning" and "critical" and color code them.
    </documentation>
   </annotation>
@@ -5527,7 +5527,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="thermometerPlot">
   <annotation>
-   <documentation>Plot options for a <a href="thermometerChart">thermometerChart</a>.</documentation>
+   <documentation>Plot options for a <elem>thermometerChart</elem>.</documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -5602,7 +5602,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="lowRange">
   <annotation>
-   <documentation>Defines the low range in a <a href="thermometerChart"><code>&lt;thermometerChart&gt;</code>.</a></documentation>
+   <documentation>Defines the low range in a <elem>thermometerChart</elem>.</documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -5613,7 +5613,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="mediumRange">
   <annotation>
-   <documentation>Defines the medium range in a <a href="thermometerChart"><code>&lt;thermometerChart&gt;</code>.</a></documentation>
+   <documentation>Defines the medium range in a <elem>thermometerChart</elem>.</documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -5624,7 +5624,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="highRange">
   <annotation>
-   <documentation>Defines the high range in a <a href="thermometerChart"><code>&lt;thermometerChart&gt;</code>.</a></documentation>
+   <documentation>Defines the high range in a <elem>thermometerChart</elem>.</documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -5662,9 +5662,9 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="multiAxisPlot">
   <annotation>
-   <documentation>Plot options for a <a href="multiAxisChart"><code>&lt;multiAxisChart&gt;</code></a>.
+   <documentation>Plot options for a <elem>multiAxisChart</elem>.
     The set plot options will be shared by all the charts inside this plot, and the
-    nested charts are specified via the <a href="axis"><code>&lt;axis&gt;</code></a> tags.
+    nested charts are specified via the <elem>axis</elem> tags.
     All nested charts must share the same type of domain axis - a category, a numeric (xy)
     or a time based axis.
    </documentation>
@@ -5679,9 +5679,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 
  <element name="axis">
   <annotation>
-   <documentation>Describes a range axis to use in a
-    <a href="multiAxisChart"><code>&lt;multiAxisChart&gt;</code></a>.  Each
-    axis has its own range indicator and a data plot.
+   <documentation>Describes a range axis to use in a <elem>multiAxisChart</elem>. Each axis has its own range indicator and a data plot.
    </documentation>
   </annotation>
   <complexType>
@@ -6016,7 +6014,7 @@ property.
     <p/>
     The size of the row header cell is computed based on the following rules:
     <ul>
-      <li>the width of the header is given by the <span class="attr">width</span> attribute of <a href="rowGroup">&lt;rowGroup&gt;</a></li>
+      <li>the width of the header is given by the <span class="attr">width</span> attribute of <elem>rowGroup</elem></li>
       <li>the height of the last row group header is given by the height of the base cell</li>
       <li>the height of a non-last row group header is the sum of the next group header's height and
         the next group total header's height (0 if the next group doesn't have a total header)</li>
@@ -6144,7 +6142,7 @@ property.
     <p/>
     The size of the column header cell is computed based on the following rules:
     <ul>
-      <li>the height of the header is given by the <span class="attr">height</span> attribute of <a href="columnGroup">&lt;columnGroup&gt;</a></li>
+      <li>the height of the header is given by the <span class="attr">height</span> attribute of <elem>columnGroup</elem></li>
       <li>the width of the last column group header is given by the width of the base cell</li>
       <li>the width of a non-last column group header is the sum of the next group header's width and
         the next group total header's width (0 if the next group doesn't have a total header)</li>
@@ -6493,7 +6491,7 @@ property.
    </attribute>
    <attribute name="style" type="string" use="optional">
   	<annotation>
-   	 <documentation>Name of the report level style to use (see <a href="style"><code>&lt;style&gt;</code></a> element).
+   	 <documentation>Name of the report level style to use (see <elem>style</elem> element).
 	 <p/>
 	 The style is only used for cell background and borders and is not inherited by elements inside the cell.
 	 </documentation>
@@ -6599,7 +6597,7 @@ property.
  
  <element name="ganttSeries">
   <annotation>
-   <documentation>Defines a gantt series for a <a href="ganttDataset"><code>&lt;ganttDataset&gt;</code></a></documentation>
+   <documentation>Defines a gantt series for a <elem>ganttDataset</elem></documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -6615,7 +6613,7 @@ property.
  
  <element name="taskExpression">
   <annotation>
-   <documentation>Specifies the expression used to determine tasks in a <a href="ganttSeries"><code>&lt;ganttSeries&gt;</code></a>.</documentation>
+   <documentation>Specifies the expression used to determine tasks in a <elem>ganttSeries</elem>.</documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -6623,7 +6621,7 @@ property.
 
  <element name="subtaskExpression">
   <annotation>
-   <documentation>Specifies the expression used to determine subtasks in a <a href="ganttSeries"><code>&lt;ganttSeries&gt;</code></a>.</documentation>
+   <documentation>Specifies the expression used to determine subtasks in a <elem>ganttSeries</elem>.</documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
@@ -6631,7 +6629,7 @@ property.
 
  <element name="percentExpression">
   <annotation>
-   <documentation>Specifies the expression used to determine the percent in a <a href="ganttSeries"><code>&lt;ganttSeries&gt;</code></a>.</documentation>
+   <documentation>Specifies the expression used to determine the percent in a <elem>ganttSeries</elem>.</documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>
