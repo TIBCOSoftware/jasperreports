@@ -70,15 +70,16 @@
 <br/>
 <br/>
 
+<span class="description">This document describes the structure of the JRXML report template files for the JasperReports library.</span>
+
+<br/>
+<br/>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-  <tr>
-    <td colspan="2"></td>
-  </tr>
   <xsl:for-each select="xsd:schema/xsd:element">
   <xsl:sort select="@name"/>
   <tr>
-    <td colspan="2"><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@name"/></xsl:attribute><span class="toc"><xsl:value-of select="@name"/></span></xsl:element></td>
+    <td><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@name"/></xsl:attribute><span class="toc"><xsl:value-of select="@name"/></span></xsl:element></td>
   </tr>
   </xsl:for-each>
 </table>
@@ -86,11 +87,11 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
-    <td style="width: 20px;">.</td>
-    <td style="width: 20px;">.</td>
-    <td style="width: 20px;">.</td>
-    <td style="width: 20px;">.</td>
-    <td>.</td>
+    <td style="width: 20px;"><br/></td>
+    <td style="width: 20px;"><br/></td>
+    <td style="width: 20px;"><br/></td>
+    <td style="width: 20px;"><br/></td>
+    <td><br/></td>
   </tr>
   <xsl:for-each select="xsd:schema/xsd:element">
   <xsl:sort select="@name"/>
@@ -166,17 +167,22 @@
 
 
 <xsl:template match="xsd:a">
-  <span class="element">&lt;<xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="./@href"/></xsl:attribute><xsl:value-of select="substring(.,2,string-length(.)-2)"/></xsl:element>&gt;</span>
+  <span class="element"><xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="@href"/></xsl:attribute><xsl:value-of select="."/></xsl:element></span>
+</xsl:template>
+
+
+<xsl:template match="xsd:elem">
+  <span class="element"><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="."/></xsl:attribute>&lt;<xsl:value-of select="."/>&gt;</xsl:element></span>
 </xsl:template>
 
 
 <xsl:template match="xsd:ul">
-  <span class="element"><xsl:element name="ul"><xsl:apply-templates/></xsl:element></span>
+  <xsl:element name="ul"><xsl:apply-templates/></xsl:element>
 </xsl:template>
 
 
 <xsl:template match="xsd:li">
-  <span class="description"><xsl:element name="li"><xsl:apply-templates/></xsl:element></span>
+  <xsl:element name="li"><xsl:apply-templates/></xsl:element>
 </xsl:template>
 
 
