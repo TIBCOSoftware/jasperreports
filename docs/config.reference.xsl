@@ -150,6 +150,11 @@
     <td colspan="2"><span class="label">Scope</span></td>
     <td colspan="2"><span class="description"><xsl:value-of select="scope"/></span></td>
   </tr>
+  <tr>
+    <td></td>
+    <td colspan="2"><span class="label">Since</span></td>
+    <td colspan="2"><span class="description"><xsl:value-of select="since"/></span></td>
+  </tr>
   </xsl:for-each>
 </table>
 
