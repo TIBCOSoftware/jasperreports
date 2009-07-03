@@ -103,6 +103,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public static final String PROPERTY_MEASURES = "measures";
 	
 	public static final String PROPERTY_PARAMETERS = "parameters";
+	
+	public static final String PROPERTY_IGNORE_WIDTH = "ignoreWidth";
 
 	protected List parametersList;
 	protected Map parametersMap;
@@ -124,7 +126,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected JRDesignCrosstabCell[][] crossCells;
 	protected JRDesignCellContents whenNoDataCell;
 	protected JRDesignCellContents headerCell;
-	
+	protected Boolean ignoreWidth;
 	
 	private class MeasureClassChangeListener implements PropertyChangeListener, Serializable
 	{
@@ -1632,6 +1634,24 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public Map getMeasureIndicesMap()
 	{
 		return measuresMap;
+	}
+
+	public Boolean getIgnoreWidth()
+	{
+		return ignoreWidth;
+	}
+
+	public void setIgnoreWidth(Boolean ignoreWidth)
+	{
+		Object old = this.ignoreWidth;
+		this.ignoreWidth = ignoreWidth;
+		getEventSupport().firePropertyChange(PROPERTY_IGNORE_WIDTH, 
+				old, this.ignoreWidth);
+	}
+
+	public void setIgnoreWidth(boolean ignoreWidth)
+	{
+		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
 	}
 	
 }

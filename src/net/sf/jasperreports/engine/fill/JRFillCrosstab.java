@@ -79,6 +79,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 import org.jfree.data.general.Dataset;
@@ -117,6 +118,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	protected JRFillCrosstabParameter[] parameters;
 
 	protected Map parametersMap;
+	
+	protected boolean ignoreWidth;
 
 	protected JRCrosstabExpressionEvaluator crosstabEvaluator;
 
@@ -133,6 +136,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	private boolean percentage;
 
 	private CrosstabFiller crosstabFiller;
+	
+	private List fillElements;
 	
 	public JRFillCrosstab(JRBaseFiller filler, JRCrosstab crosstab, JRFillObjectFactory factory)
 	{
@@ -162,6 +167,16 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		copyParameters(crosstab, factory);
 		copyVariables(crosstab, crosstabFactory);
 
+		// default value from property
+		this.ignoreWidth = JRProperties.getBooleanProperty(filler.jasperReport, 
+				PROPERTY_IGNORE_WIDTH, false);
+		Boolean crosstabIgnoreWidth = crosstab.getIgnoreWidth();
+		// crosstab attribute overrides property 
+		if (crosstabIgnoreWidth != null)
+		{
+			this.ignoreWidth = crosstabIgnoreWidth.booleanValue();
+		}
+		
 		crosstabFiller = new CrosstabFiller();
 	}
 
@@ -374,6 +389,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			variables[i].setValue(null);
 			variables[i].setInitialized(true);
 		}
+		
+		fillElements = null;
 	}
 
 	protected void evaluate(byte evaluation) throws JRException
@@ -505,14 +522,51 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	protected JRPrintElement fill()
 	{
 		JRPrintRectangle printRectangle = null;
-
+		
 		printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle());
 		printRectangle.setX(getX());
 		printRectangle.setY(getRelativeY());
 		printRectangle.setWidth(getWidth());
 		printRectangle.setHeight(getStretchHeight());
 
+		fillElements = crosstabFiller.getPrintElements();
+
+		if (ignoreWidth && !fillElements.isEmpty())
+		{
+			int xLimit = getXLimit(fillElements);
+			// if the elements exceed the design crosstab width
+			if (xLimit > getWidth())
+			{
+				// increase the rectangle width
+				printRectangle.setWidth(xLimit);
+				if (getRunDirection() == RUN_DIRECTION_RTL)
+				{
+					// if RTL filling, move the rectangle to the left
+					printRectangle.setX(getX() + getWidth() - xLimit);
+				}
+			}
+		}
+		
+		if (getRunDirection() == RUN_DIRECTION_RTL)
+		{
+			mirrorPrintElements(fillElements);
+		}
+
 		return printRectangle;
+	}
+	
+	protected int getXLimit(List printElements)
+	{
+		int limit = Integer.MIN_VALUE;
+		for (Iterator it = printElements.iterator(); it.hasNext();)
+		{
+			JRPrintElement element = (JRPrintElement) it.next();
+			if (element.getX() + element.getWidth() > limit)
+			{
+				limit = element.getX() + element.getWidth();
+			}
+		}
+		return limit;
 	}
 
 	protected JRTemplateRectangle getJRTemplateRectangle()
@@ -551,14 +605,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 	protected List getPrintElements()
 	{
-		List printElements = crosstabFiller.getPrintElements();
-		
-		if (getRunDirection() == RUN_DIRECTION_RTL)
-		{
-			mirrorPrintElements(printElements);
-		}
-		
-		return printElements;
+		return fillElements;
 	}
 
 	protected void mirrorPrintElements(List printElements)
@@ -959,7 +1006,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 			int maxOffset = available + offsets[firstIndex];
 			int lastIndex;
-			for (lastIndex = firstIndex; lastIndex < headersData[0].length && offsets[lastIndex + 1] <= maxOffset; ++lastIndex)
+			for (lastIndex = firstIndex; 
+				lastIndex < headersData[0].length 
+					&& (ignoreWidth || offsets[lastIndex + 1] <= maxOffset); 
+				++lastIndex)
 			{
 				HeaderCell[] groupHeaders = new HeaderCell[groups.length];
 
@@ -1979,6 +2029,24 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	public JROrigin getOrigin()
 	{
 		return getElementOrigin();
+	}
+
+	public Boolean getIgnoreWidth()
+	{
+		return Boolean.valueOf(ignoreWidth);
+	}
+
+	public void setIgnoreWidth(Boolean ignoreWidth)
+	{
+		if (ignoreWidth != null)
+		{
+			setIgnoreWidth(ignoreWidth.booleanValue());
+		}
+	}
+
+	public void setIgnoreWidth(boolean ignoreWidth)
+	{
+		this.ignoreWidth = ignoreWidth;
 	}
 
 }

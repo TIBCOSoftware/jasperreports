@@ -78,6 +78,7 @@
   	  <property ref="net.sf.jasperreports.crosstab.cell.type"/>
   	  <property ref="net.sf.jasperreports.crosstab.cell.row.span"/>
   	  <property ref="net.sf.jasperreports.crosstab.cell.column.span"/>
+  	  <property ref="net.sf.jasperreports.crosstab.crosstab.ignore.width"/>
   	</content>
   </category>
   
@@ -852,6 +853,18 @@ Property that provides the crosstab column span of a print frame.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_COLUMN_SPAN</api>
     <default>N/A</default>
     <scope>Element</scope>	
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.crosstab.crosstab.ignore.width -->
+  
+  <configProperty name="net.sf.jasperreports.crosstab.crosstab.ignore.width">
+    <description>
+Property that provides the default value for the crosstab <code>ignoreWidth</code> attribute.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCrosstab.html#PROPERTY_IGNORE_WIDTH</api>
+    <default>false</default>
+    <scope>Global | Report</scope>	
   </configProperty>
   
   
