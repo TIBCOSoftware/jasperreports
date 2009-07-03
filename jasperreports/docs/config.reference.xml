@@ -859,6 +859,7 @@ Property that provides the default value for the crosstab <code>ignoreWidth</cod
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCrosstab.html#PROPERTY_IGNORE_WIDTH</api>
     <default>false</default>
     <scope>Global | Report</scope>	
+    <since>3.5.3</since>	
   </configProperty>
   
   
