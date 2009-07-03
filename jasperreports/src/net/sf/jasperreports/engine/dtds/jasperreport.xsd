@@ -5822,6 +5822,28 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="ignoreWidth" type="boolean" use="optional">
+  	<annotation>
+   	 <documentation>
+This attribute determines whether the crosstab will break at the width set for
+the crosstab element, or whether the crosstab is to expand over this width
+(and over the page width as well).
+<p>
+If this attribute is set to <code>true</code>, the crosstab will expand towards
+the right (or towards the left if the crosstab direction is RTL) as long
+as it needs to.  This would result in crosstab cells being rendered over
+the page boundary; such elements will be exported by certain grid-based
+exporters such as the HTML or XLS ones, but will not be visible in export
+formats that observe the page width, such as the PDF exporter.
+</p>
+<p>
+The default value of this flag is given by the
+<a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCrosstab.html#PROPERTY_IGNORE_WIDTH">net.sf.jasperreports.crosstab.ignore.width</a>
+property.
+</p>
+   	 </documentation>
+  	</annotation>
+   </attribute>
   </complexType>
  </element>
 

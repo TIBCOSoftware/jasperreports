@@ -61,6 +61,8 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_RUN_DIRECTION = "runDirection";
+	
+	public static final String PROPERTY_IGNORE_WIDTH = "ignoreWidth";
 
 	protected int id;
 	protected JRCrosstabParameter[] parameters;
@@ -77,6 +79,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	protected JRCrosstabCell[][] cells;
 	protected JRCellContents whenNoDataCell;
 	protected JRCellContents headerCell;
+	protected Boolean ignoreWidth;
 	
 	public JRBaseCrosstab(JRCrosstab crosstab, JRBaseObjectFactory factory, int id)
 	{
@@ -88,6 +91,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		this.repeatColumnHeaders = crosstab.isRepeatColumnHeaders();
 		this.repeatRowHeaders = crosstab.isRepeatRowHeaders();
 		this.runDirection = crosstab.getRunDirection();
+		this.ignoreWidth = crosstab.getIgnoreWidth();
 		
 		this.dataset = factory.getCrosstabDataset(crosstab.getDataset());
 		
@@ -377,4 +381,23 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	{
 		throw new UnsupportedOperationException();//FIXMECLONE: implement this
 	}
+
+	public Boolean getIgnoreWidth()
+	{
+		return ignoreWidth;
+	}
+
+	public void setIgnoreWidth(Boolean ignoreWidth)
+	{
+		Object old = this.ignoreWidth;
+		this.ignoreWidth = ignoreWidth;
+		getEventSupport().firePropertyChange(PROPERTY_IGNORE_WIDTH, 
+				old, this.ignoreWidth);
+	}
+
+	public void setIgnoreWidth(boolean ignoreWidth)
+	{
+		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
+	}
+
 }

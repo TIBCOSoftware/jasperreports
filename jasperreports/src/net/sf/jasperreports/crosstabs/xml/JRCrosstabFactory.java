@@ -51,6 +51,7 @@ public class JRCrosstabFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_columnBreakOffset = "columnBreakOffset";
 	public static final String ATTRIBUTE_isRepeatColumnHeaders = "isRepeatColumnHeaders";
 	public static final String ATTRIBUTE_isRepeatRowHeaders = "isRepeatRowHeaders";
+	public static final String ATTRIBUTE_ignoreWidth = "ignoreWidth";
 	
 	public Object createObject(Attributes atts)
 	{
@@ -84,6 +85,12 @@ public class JRCrosstabFactory extends JRBaseFactory
 			{
 				crosstab.setRunDirection(runDir.byteValue());
 			}
+		}
+		
+		String ignoreWidthAttr = atts.getValue(ATTRIBUTE_ignoreWidth);
+		if (ignoreWidthAttr != null)
+		{
+			crosstab.setIgnoreWidth(Boolean.valueOf(ignoreWidthAttr));
 		}
 		
 		return crosstab;

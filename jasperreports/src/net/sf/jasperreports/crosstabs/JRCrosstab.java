@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Crosstab element interface.
@@ -70,6 +71,23 @@ public interface JRCrosstab extends JRElement
 	 * </p>
 	 */
 	public static final byte RUN_DIRECTION_RTL = JRPrintText.RUN_DIRECTION_RTL;
+
+	/**
+	 * A property that provides a default value for the ignore width crosstab flag.
+	 * 
+	 * <p>
+	 * The property can be set globally and at report level.  A flag/attribute
+	 * set for a crosstab will override the property.
+	 * 
+	 * <p>
+	 * The default value of this property is <code>false</code>, i.e. crosstabs
+	 * will break by default at the width set for the crosstab report element.
+	 * 
+	 * @see #setIgnoreWidth(Boolean)
+	 */
+	public static final String PROPERTY_IGNORE_WIDTH = 
+		JRProperties.PROPERTY_PREFIX + "crosstab.ignore.width";
+	 
 	
 	/**
 	 * Returns the ID of the crosstab.
@@ -287,5 +305,46 @@ public interface JRCrosstab extends JRElement
 	 * and {@link #RUN_DIRECTION_RTL RUN_DIRECTION_RTL}
 	 */
 	public void setRunDirection(byte direction);
+
+	/**
+	 * Returns the ignore width flag for the crosstab.
+	 * 
+	 * @return the ignore width flag, or <code>null</code> is the crosstab
+	 * does not specify a flag value
+	 */
+	public Boolean getIgnoreWidth();
 	
+	/**
+	 * Set the ignore width crosstab flag.
+	 * 
+	 * <p>
+	 * This flag determines whether the crosstab will break at the width set for
+	 * the crosstab element, or whether the crosstab is to expand over this width
+	 * (and over the page width as well).
+	 * 
+	 * <p>
+	 * If this flag is set to <code>true</code>, the crosstab will expand towards
+	 * the right (or towards the left if the crosstab direction is RTL) as long
+	 * as it needs to.  This would result in crosstab cells being rendered over
+	 * the page boundary; such elements will be exported by certain grid-based
+	 * exporters such as the HTML or XLS ones, but will not be visible in export
+	 * formats that observe the page width, such as the PDF exporter.
+	 * 
+	 * <p>
+	 * The default value of this flag is given by the 
+	 * {@link #PROPERTY_IGNORE_WIDTH} property.
+	 * 
+	 * @param ignoreWidth whether the element width is to be ignored by the crosstab,
+	 * or <code>null</code> if the default setting is to be used
+	 * @see #PROPERTY_IGNORE_WIDTH
+	 */
+	public void setIgnoreWidth(Boolean ignoreWidth);
+	
+	/**
+	 * Set the ignore width crosstab flag.
+	 * 
+	 * @param ignoreWidth
+	 * @see #setIgnoreWidth(Boolean)
+	 */
+	public void setIgnoreWidth(boolean ignoreWidth);
 }
