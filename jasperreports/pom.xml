@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>3.5.2</version>
+	<version>3.5.3</version>
 	<packaging>jar</packaging>
 	<name>JasperReports</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -16,14 +16,14 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://scm.jasperforge.org/svn/repos/jasperreports</connection>
-		<tag>jr-3-5-2</tag>
-		<url>http://jasperforge.org/sf/scm/do/viewRepositorySource/projects.jasperreports/scm.jasperreports</url>
+		<connection>scm:svn:http://jasperforge.org/svn/repos/jasperreports</connection>
+		<tag>jr-3-5-3</tag>
+		<url>http://jasperforge.org/scm/viewvc.php/?root=jasperreports</url>
 	</scm>
-	<repositories>
+  <repositories>
 		<repository>
-			<id>jaspersoft</id>
-			<url>http://www.jasperforge.org/maven2</url>
+			<id>jasperreports</id>
+			<url>http://jasperreports.sourceforge.net/maven2</url>
 		</repository>
 	</repositories>
 	<build>
@@ -349,6 +349,12 @@
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
-		<!-- TODO barbecue -->
+		<dependency>
+			<groupId>net.sourceforge.barbecue</groupId>
+			<artifactId>barbecue</artifactId>
+			<version>1.5-beta1</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 </project>
