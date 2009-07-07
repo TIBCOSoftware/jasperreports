@@ -78,7 +78,7 @@
       <property ref="net.sf.jasperreports.crosstab.cell.type"/>
       <property ref="net.sf.jasperreports.crosstab.cell.row.span"/>
       <property ref="net.sf.jasperreports.crosstab.cell.column.span"/>
-      <property ref="net.sf.jasperreports.crosstab.crosstab.ignore.width"/>
+      <property ref="net.sf.jasperreports.crosstab.ignore.width"/>
     </content>
   </category>
   
@@ -572,6 +572,7 @@ If not set, the engine will try to an image encoder implementation that correspo
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRImageLoader.html#PROPERTY_IMAGE_ENCODER</api>
     <default>N/A</default>
     <scope>Global</scope>
+    <since>2.0.5</since>
   </configProperty>
   
   
@@ -586,6 +587,7 @@ If not set, the engine will try to an image reader implementation that correspon
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRImageLoader.html#PROPERTY_IMAGE_READER</api>
     <default>N/A</default>
     <scope>Global</scope>
+    <since>2.0.5</since>
   </configProperty>
   
   
@@ -601,6 +603,7 @@ a given styled text having the markup type specified in the property suffix.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/MarkupProcessorFactory.html#PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX</api>
     <default>N/A</default>
     <scope>Global</scope>
+    <since>2.0.5</since>
   </configProperty>
   
   
@@ -614,6 +617,7 @@ When this property is set, the engine saves the original text in the <api href="
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_PRINT_KEEP_FULL_TEXT</api>
     <default>false</default>
     <scope>Global | Report | Text Element</scope>
+    <since>2.0.3</since>
   </configProperty>
   
   
@@ -627,6 +631,7 @@ By default, when the entire text of a text element does not fit the element's ar
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_TRUNCATE_AT_CHAR</api>
     <default>false</default>
     <scope>Global | Report | Text Element</scope>
+    <since>2.0.3</since>
   </configProperty>
   
   
@@ -641,6 +646,7 @@ If the property is not defined or empty (which is the case by default), no suffi
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_TRUNCATE_SUFFIX</api>
     <default>empty string</default>
     <scope>Global | Report | Text Element</scope>
+    <since>2.0.3</since>
   </configProperty>
   
   
@@ -658,6 +664,7 @@ The factory class is used to instantiate text measurers for report text elements
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRTextMeasurerUtil.html#PROPERTY_TEXT_MEASURER_FACTORY</api>
     <default><code>net.sf.jasperreports.engine.fill.TextMeasurerFactory</code></default>
     <scope>Global | Report | Text Element</scope>
+    <since>2.0.3</since>
   </configProperty>
   
   
@@ -686,6 +693,7 @@ positions by introducing explicit line breaks.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_SAVE_LINE_BREAKS</api>
     <default><code>false</code></default>
     <scope>Global | Report | Text Element</scope>
+    <since>3.5.1</since>
   </configProperty>
 
 
@@ -699,6 +707,7 @@ Temporary files will be deleted by explicitly calling <code>cleanup()</code> or 
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/JRFileVirtualizer.html#PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT</api>
     <default>true</default>
     <scope>Global</scope>
+    <since>1.2.3</since>
   </configProperty>
   
   
@@ -711,6 +720,7 @@ Property specifying the <api href="net/sf/jasperreports/engine/fill/JRSubreportR
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/JRSubreportRunnerFactory.html#SUBREPORT_RUNNER_FACTORY</api>
     <default><code>net.sf.jasperreports.engine.fill<br/>.JRThreadSubreportRunnerFactory</code></default>
     <scope>Global</scope>
+    <since>1.2.2</since>
   </configProperty>
   
   
@@ -732,6 +742,7 @@ scenarios, set this property to false.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html#PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED</api>
     <default>true</default>
     <scope>Global</scope>
+    <since>3.0.0</since>
   </configProperty>
 
 
@@ -752,6 +763,7 @@ set to evaluate, and the resulting style to the generated print element.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRStyle.html#PROPERTY_EVALUATION_TIME_ENABLED</api>
     <default>false</default>
     <scope>Global | Report | Element</scope>
+    <since>3.5.2</since>
   </configProperty>
   
   
@@ -829,6 +841,7 @@ Property that limits the number of buckets in a crosstab, to avoid out of memory
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/fill/calculation/BucketingService.html#PROPERTY_BUCKET_MEASURE_LIMIT</api>
     <default>0</default>
     <scope>Global</scope>
+    <since>1.3.4</since>
   </configProperty>
   
   
@@ -836,7 +849,7 @@ Property that limits the number of buckets in a crosstab, to avoid out of memory
   
   <configProperty name="net.sf.jasperreports.crosstab.cell.type">
     <description>
-Property that provides the type of the cell that generated a print frame.
+Property that provides the type of the cell that generated a print frame. (FIXME not a user defined property)
 <br/>
 The property value is one of
 <ul>
@@ -857,7 +870,7 @@ The property value is one of
   
   <configProperty name="net.sf.jasperreports.crosstab.cell.row.span">
     <description>
-Property that provides the crosstab row span of a print frame.
+Property that provides the crosstab row span of a print frame. (FIXME not a user defined property)
     </description>
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_ROW_SPAN</api>
     <default>N/A</default>
@@ -869,7 +882,7 @@ Property that provides the crosstab row span of a print frame.
   
   <configProperty name="net.sf.jasperreports.crosstab.cell.column.span">
     <description>
-Property that provides the crosstab column span of a print frame.
+Property that provides the crosstab column span of a print frame. (FIXME not a user defined property)
     </description>
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_COLUMN_SPAN</api>
     <default>N/A</default>
@@ -877,9 +890,9 @@ Property that provides the crosstab column span of a print frame.
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.crosstab.crosstab.ignore.width -->
+  <!-- net.sf.jasperreports.crosstab.ignore.width -->
   
-  <configProperty name="net.sf.jasperreports.crosstab.crosstab.ignore.width">
+  <configProperty name="net.sf.jasperreports.crosstab.ignore.width">
     <description>
 Property that provides the default value for the crosstab <code>ignoreWidth</code> attribute.
     </description>
@@ -899,6 +912,7 @@ Property specifying whether the measured value should be rendered visible on a m
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE</api>
     <default>false</default>
     <scope>Element</scope>
+    <since>3.5.0</since>
   </configProperty>
   
   
@@ -911,6 +925,7 @@ Property containing the label text attached to the measured value in a meter or 
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DIAL_LABEL</api>
     <default>N/A</default>
     <scope>Element</scope>
+    <since>3.5.0</since>
   </configProperty>
   
   
@@ -923,6 +938,7 @@ Property specifying the number of ticks on a domain value axis. If it is not set
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DOMAIN_AXIS_TICK_COUNT</api>
     <default>N/A</default>
     <scope>Element</scope>
+    <since>3.5.0</since>
   </configProperty>
   
   
@@ -940,6 +956,7 @@ By default it is not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DOMAIN_AXIS_TICK_INTERVAL</api>
     <default>N/A</default>
     <scope>Element</scope>
+    <since>3.1.4</since>
   </configProperty>
   
   
@@ -954,6 +971,7 @@ By default it is not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_RANGE_AXIS_TICK_COUNT</api>
     <default>N/A</default>
     <scope>Element</scope>
+    <since>3.5.0</since>
   </configProperty>
   
   
@@ -971,6 +989,7 @@ By default it is not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_RANGE_AXIS_TICK_INTERVAL</api>
     <default>N/A</default>
     <scope>Element</scope>
+    <since>3.1.4</since>
   </configProperty>
   
   
@@ -1132,6 +1151,7 @@ Property indicating the default PDF font, if not specified in the report templat
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_FONT_NAME</api>
     <default>Helvetica</default>
     <scope>Global</scope>
+    <since>1.3.0</since>
   </configProperty>
   
   
@@ -1144,6 +1164,7 @@ Property indicating the default PDF encoding, if not specified in the report tem
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_ENCODING</api>
     <default>Cp1252</default>
     <scope>Global</scope>
+    <since>1.3.0</since>
   </configProperty>
   
   
@@ -1156,6 +1177,7 @@ Property indicating the default PDF font embedding behavior, if not specified in
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_EMBEDDED</api>
     <default>false</default>
     <scope>Global</scope>
+    <since>1.3.0</since>
   </configProperty>
   
   
