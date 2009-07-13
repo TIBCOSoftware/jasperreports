@@ -521,9 +521,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	{
 		if (htmlHeader == null)
 		{
-			// no doctype because of bug 1430880
 			writer.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
-//			writer.write("<html xmlns=\"http://www.w3.org/1999/xhtml\">\n");
 			writer.write("<html>\n");
 			writer.write("<head>\n");
 			writer.write("  <title></title>\n");
@@ -1291,17 +1289,6 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	}
 		
 	
-//	protected int getOutsideBorderOffset(float borderWidth)
-//	{
-//		int intBorderWidth = (int)borderWidth;
-//		if (0f < borderWidth && borderWidth < 1f)
-//		{
-//			return 1;
-//		}
-//		return intBorderWidth / 2;
-//	}
-		
-
 	protected void appendSizeStyle(JRPrintText element, JRBoxContainer boxContainer, StringBuffer styleBuffer)
 	{
 		int widthDiff = 0;
