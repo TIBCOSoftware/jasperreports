@@ -1298,13 +1298,13 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		if (box != null)
 		{
 			widthDiff = 
-				box.getLeftPadding() + box.getRightPadding()
-				+ getInsideBorderOffset(box.getLeftPen().getLineWidth())
-				+ getInsideBorderOffset(box.getRightPen().getLineWidth());
+				box.getLeftPadding().intValue() + box.getRightPadding().intValue()
+				+ getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue())
+				+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue());
 			heightDiff =
-				box.getTopPadding() + box.getBottomPadding()
-				+ getInsideBorderOffset(box.getTopPen().getLineWidth())
-				+ getInsideBorderOffset(box.getBottomPen().getLineWidth());
+				box.getTopPadding().intValue() + box.getBottomPadding().intValue()
+				+ getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue())
+				+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue());
 		}
 		
 		styleBuffer.append("width:");
@@ -1323,7 +1323,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		if (pen != null)
 		{
-			diff = 2 * getInsideBorderOffset(pen.getLineWidth());
+			diff = 2 * getInsideBorderOffset(pen.getLineWidth().floatValue());
 		}
 		
 		styleBuffer.append("width:");
