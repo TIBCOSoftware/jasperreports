@@ -37,6 +37,7 @@ package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 
 import net.sf.jasperreports.engine.JRAlignment;
@@ -179,7 +180,7 @@ public class ImageDrawer extends ElementDrawer
 					int xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
 					int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
 
-//					Shape oldClipShape = grx.getClip();
+					Shape oldClipShape = grx.getClip();
 
 					grx.clip(
 						new Rectangle(
@@ -190,8 +191,8 @@ public class ImageDrawer extends ElementDrawer
 							)
 						);
 					
-//					try
-//					{
+					try
+					{
 						renderer.render(
 							grx, 
 							new Rectangle(
@@ -201,11 +202,11 @@ public class ImageDrawer extends ElementDrawer
 								normalHeight
 								) 
 							);
-//					}
-//					finally
-//					{
-//						grx.setClip(oldClipShape);
-//					}
+					}
+					finally
+					{
+						grx.setClip(oldClipShape);
+					}
 	
 					break;
 				}
