@@ -606,7 +606,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		writer.write("<div style=\"position:relative;width:" + jasperPrint.getPageWidth() + "px;height:" + jasperPrint.getPageHeight() + "px;\">");
+		writer.write("<div style=\"position:relative;width:" + jasperPrint.getPageWidth() + "px;height:" + jasperPrint.getPageHeight() + "px;\">\n");
 
 		frameIndexStack = new ArrayList();
 		
@@ -1289,7 +1289,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	}
 		
 	
-	protected void appendSizeStyle(JRPrintText element, JRBoxContainer boxContainer, StringBuffer styleBuffer)
+	protected void appendSizeStyle(JRPrintElement element, JRBoxContainer boxContainer, StringBuffer styleBuffer)
 	{
 		int widthDiff = 0;
 		int heightDiff = 0;
@@ -1424,6 +1424,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		StringBuffer styleBuffer = new StringBuffer();
 		appendPositionStyle(image, styleBuffer);
+		appendSizeStyle(image, image, styleBuffer);
 		appendBackcolorStyle(image, styleBuffer);
 		
 		boolean addedToStyle = appendBorderStyle(image.getLineBox(), styleBuffer);
@@ -1545,17 +1546,99 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			{
 				case JRImage.SCALE_IMAGE_FILL_FRAME :
 				{
-					writer.write(" style=\"width: ");
-					writer.write(String.valueOf(imageWidth));
+					int leftDiff = 0;
+					int topDiff = 0;
+					int widthDiff = 0;
+					int heightDiff = 0;
+
+					JRLineBox box = image.getLineBox();
+					if (box != null)
+					{
+						leftDiff = box.getLeftPadding().intValue();
+						topDiff = box.getTopPadding().intValue();
+						widthDiff = 
+							getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue())
+							+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue());
+						heightDiff =
+							getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue())
+							+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue());
+					}
+					
+					writer.write(" style=\"position:absolute;left:");
+					writer.write(String.valueOf(leftDiff));
+					writer.write("px;top:");
+					writer.write(String.valueOf(topDiff));
+					writer.write("px;width:");
+					writer.write(String.valueOf(imageWidth - widthDiff));
 					writer.write(sizeUnit);
 					writer.write("; height: ");
-					writer.write(String.valueOf(imageHeight));
+					writer.write(String.valueOf(imageHeight - heightDiff));
 					writer.write(sizeUnit);
 					writer.write("\"");
 		
 					break;
 				}
-				case JRImage.SCALE_IMAGE_CLIP : //FIXMEIMAGE image clip could be achieved by cutting the image and preserving the image type
+				case JRImage.SCALE_IMAGE_CLIP :
+				{
+					double normalWidth = imageWidth;
+					double normalHeight = imageHeight;
+		
+					if (!image.isLazy())
+					{
+						// Image load might fail. 
+						JRRenderable tmpRenderer = 
+							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
+						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+						// If renderer was replaced, ignore image dimension.
+						if (tmpRenderer == renderer && dimension != null)
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+					}
+
+					int leftDiff = 0;
+					int topDiff = 0;
+					int widthDiff = 0;
+					int heightDiff = 0;
+
+					JRLineBox box = image.getLineBox();
+					if (box != null)
+					{
+						leftDiff = box.getLeftPadding().intValue();
+						topDiff = box.getTopPadding().intValue();
+						widthDiff = 
+							getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue())
+							+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue());
+						heightDiff =
+							getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue())
+							+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue());
+					}
+					
+					writer.write(" style=\"position:absolute;left:");
+					writer.write(String.valueOf(leftDiff));
+					writer.write("px;top:");
+					writer.write(String.valueOf(topDiff));
+					writer.write("px;width:");
+					writer.write(String.valueOf(normalWidth));
+					writer.write("px;height:");
+					writer.write(String.valueOf(normalHeight));
+					writer.write("px;clip:rect(");
+					writer.write(String.valueOf(0));
+					writer.write(sizeUnit);
+					writer.write(",");
+					writer.write(String.valueOf(imageWidth - widthDiff));
+					writer.write(sizeUnit);
+					writer.write(",");
+					writer.write(String.valueOf(imageHeight - heightDiff));
+					writer.write(sizeUnit);
+					writer.write(",");
+					writer.write(String.valueOf(0));
+					writer.write(sizeUnit);
+					writer.write(")\"");//FIXME no px
+
+					break;
+				}
 				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
 				default :
 				{
@@ -1576,21 +1659,47 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						}
 					}
 		
+					int leftDiff = 0;
+					int topDiff = 0;
+					int widthDiff = 0;
+					int heightDiff = 0;
+
+					JRLineBox box = image.getLineBox();
+					if (box != null)
+					{
+						leftDiff = box.getLeftPadding().intValue();
+						topDiff = box.getTopPadding().intValue();
+						widthDiff = 
+							getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue())
+							+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue());
+						heightDiff =
+							getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue())
+							+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue());
+					}
+					
 					if (imageHeight > 0)
 					{
 						double ratio = normalWidth / normalHeight;
 		
 						if( ratio > (double)imageWidth / (double)imageHeight )
 						{
-							writer.write(" style=\"width: ");
-							writer.write(String.valueOf(imageWidth));
+							writer.write(" style=\"position:absolute;left:");
+							writer.write(String.valueOf(leftDiff));
+							writer.write("px;top:");
+							writer.write(String.valueOf(topDiff));
+							writer.write("px;width:");
+							writer.write(String.valueOf(imageWidth - widthDiff));
 							writer.write(sizeUnit);
 							writer.write("\"");
 						}
 						else
 						{
-							writer.write(" style=\"height: ");
-							writer.write(String.valueOf(imageHeight));
+							writer.write(" style=\"position:absolute;left:");
+							writer.write(String.valueOf(leftDiff));
+							writer.write("px;top:");
+							writer.write(String.valueOf(topDiff));
+							writer.write("px;height:");
+							writer.write(String.valueOf(imageHeight - heightDiff));
 							writer.write(sizeUnit);
 							writer.write("\"");
 						}
