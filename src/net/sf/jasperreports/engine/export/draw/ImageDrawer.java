@@ -64,21 +64,13 @@ public class ImageDrawer extends ElementDrawer
 	{
 		JRPrintImage printImage = (JRPrintImage)element;
 		
-		grx = //FIXME use this for all Graphics2D operations
-			(Graphics2D) grx.create(
-				printImage.getX() + offsetX, 
-				printImage.getY() + offsetY, 
-				printImage.getWidth(),
-				printImage.getHeight()
-				);
-
 		if (printImage.getMode() == JRElement.MODE_OPAQUE)
 		{
 			grx.setColor(printImage.getBackcolor());
 
 			grx.fillRect(
-				0, 
-				0, 
+				printImage.getX() + offsetX, 
+				printImage.getY() + offsetY, 
 				printImage.getWidth(),
 				printImage.getHeight()
 				);
@@ -184,8 +176,8 @@ public class ImageDrawer extends ElementDrawer
 
 					grx.clip(
 						new Rectangle(
-							leftPadding, 
-							topPadding, 
+							printImage.getX() + leftPadding + offsetX, 
+							printImage.getY() + topPadding + offsetY, 
 							availableImageWidth, 
 							availableImageHeight
 							)
@@ -196,8 +188,8 @@ public class ImageDrawer extends ElementDrawer
 						renderer.render(
 							grx, 
 							new Rectangle(
-								leftPadding + xoffset, 
-								topPadding + yoffset, 
+								printImage.getX() + leftPadding + offsetX + xoffset, 
+								printImage.getY() + topPadding + offsetY + yoffset, 
 								normalWidth, 
 								normalHeight
 								) 
@@ -215,8 +207,8 @@ public class ImageDrawer extends ElementDrawer
 					renderer.render(
 						grx,
 						new Rectangle(
-							leftPadding, 
-							topPadding, 
+							printImage.getX() + leftPadding + offsetX, 
+							printImage.getY() + topPadding + offsetY, 
 							availableImageWidth, 
 							availableImageHeight
 							)
@@ -248,8 +240,8 @@ public class ImageDrawer extends ElementDrawer
 						renderer.render(
 							grx,
 							new Rectangle(
-								leftPadding + xoffset, 
-								topPadding + yoffset, 
+								printImage.getX() + leftPadding + offsetX + xoffset, 
+								printImage.getY() + topPadding + offsetY + yoffset, 
 								normalWidth, 
 								normalHeight
 								) 
@@ -274,20 +266,14 @@ public class ImageDrawer extends ElementDrawer
 					grx, 
 					printImage.getLinePen(), 
 					printImage, 
-					- printImage.getX(),//FIXME revisit this; see grx creation above
-					- printImage.getY()
+					offsetX, 
+					offsetY
 					);
 			}
 		}
 		else
 		{
-			drawBox(
-				grx, 
-				printImage.getLineBox(), 
-				printImage, 
-				- printImage.getX(),//FIXME revisit this; see grx creation above
-				- printImage.getY()
-				);
+			drawBox(grx, printImage.getLineBox(), printImage, offsetX, offsetY);
 		}
 	}
 
