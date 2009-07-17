@@ -1,0 +1,350 @@
+/*
+ * ============================================================================
+ * GNU Lesser General Public License
+ * ============================================================================
+ *
+ * JasperReports - Free Java report-generating library.
+ * Copyright (C) 2001-2009 JasperSoft Corporation http://www.jaspersoft.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
+ *
+ * JasperSoft Corporation
+ * 539 Bryant Street, Suite 100
+ * San Francisco, CA 94107
+ * http://www.jaspersoft.com
+ */
+package net.sf.jasperreports.engine.export.ooxml;
+
+import java.awt.Color;
+import java.awt.font.TextAttribute;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import net.sf.jasperreports.engine.JRBoxContainer;
+import net.sf.jasperreports.engine.JRCommonGraphicElement;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.util.JRColorUtil;
+
+
+/**
+ * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @version $Id$
+ */
+public class StyleCache
+{
+	/**
+	 *
+	 */
+	private Writer styleWriter = null;
+	private Writer bodyWriter = null;
+	
+	private Map fontMap = null;
+	private Set fontFaces = new HashSet();
+
+	/**
+	 *
+	 */
+	private Map frameStyles = new HashMap();//FIXMEODT soft cache?
+	private int frameStylesCounter = 0;
+	private Map cellStyles = new HashMap();
+	private int cellStylesCounter = 0;
+	private Map graphicStyles = new HashMap();
+	private int graphicStylesCounter = 0;
+	private Map paragraphStyles = new HashMap();
+	private int paragraphStylesCounter = 0;
+	private Map textSpanStyles = new HashMap();
+	private int textSpanStylesCounter = 0;
+
+
+	/**
+	 *
+	 */
+	public StyleCache(Writer styleWriter, Map fontMap)
+	{
+		this(styleWriter, null, fontMap);
+	}
+
+	/**
+	 *
+	 */
+	public StyleCache(Writer styleWriter, Writer bodyWriter, Map fontMap)
+	{
+		this.styleWriter = styleWriter;
+		this.bodyWriter = bodyWriter;
+		this.fontMap = fontMap;
+	}
+
+
+	/**
+	 *
+	 */
+	public Collection getFontFaces()
+	{
+		return fontFaces;
+	}
+
+
+	/**
+	 *
+	 */
+	public String getFrameStyle(JRPrintText text) throws IOException
+	{
+		FrameStyle frameStyle  = new FrameStyle(styleWriter, text);
+		frameStyle.setBox(text.getLineBox());
+		
+		String frameStyleId = frameStyle.getId();
+		String frameStyleName = (String)frameStyles.get(frameStyleId);
+		
+		if (frameStyleName == null)
+		{
+			frameStyleName = "F" + frameStylesCounter++;
+			frameStyles.put(frameStyleId, frameStyleName);
+			
+			frameStyle.write(frameStyleName);
+		}
+		
+		return frameStyleName;
+	}
+
+
+	/**
+	 *
+	 */
+	public String getFrameStyle(JRPrintElement element) throws IOException
+	{
+		FrameStyle frameStyle  = new FrameStyle(styleWriter, element);
+		
+		String frameStyleId = frameStyle.getId();
+		String frameStyleName = (String)frameStyles.get(frameStyleId);
+		
+		if (frameStyleName == null)
+		{
+			frameStyleName = "F" + frameStylesCounter++;
+			frameStyles.put(frameStyleId, frameStyleName);
+			
+			frameStyle.write(frameStyleName);
+		}
+		
+		return frameStyleName;
+	}
+
+
+	/**
+	 *
+	 */
+	public String getGraphicStyle(JRPrintGraphicElement element) throws IOException
+	{
+		GraphicStyle graphicStyle  = new GraphicStyle(styleWriter, element);
+		
+		String graphicStyleId = graphicStyle.getId();
+		String graphicStyleName = (String)cellStyles.get(graphicStyleId);
+		
+		if (graphicStyleName == null)
+		{
+			graphicStyleName = "G" + graphicStylesCounter++;
+			graphicStyles.put(graphicStyleId, graphicStyleName);
+			
+			graphicStyle.write(graphicStyleName);
+		}
+		
+		return graphicStyleName;
+	}
+
+
+	/**
+	 *
+	 */
+	public String getCellStyle(JRPrintElement element) throws IOException
+	{
+		CellStyle cellStyle  = new CellStyle(styleWriter, element);
+		
+		if (element instanceof JRBoxContainer)
+			cellStyle.setBox(((JRBoxContainer)element).getLineBox());
+		if (element instanceof JRCommonGraphicElement)
+			cellStyle.setPen(((JRCommonGraphicElement)element).getLinePen());
+		
+		String cellStyleId = cellStyle.getId();
+		String cellStyleName = (String)cellStyles.get(cellStyleId);
+		
+		if (cellStyleName == null)
+		{
+			cellStyleName = "C" + cellStylesCounter++;
+			cellStyles.put(cellStyleId, cellStyleName);
+			
+			cellStyle.write(cellStyleName);
+		}
+		
+		return cellStyleName;
+	}
+
+
+	/**
+	 *
+	 */
+	public String getParagraphStyle(JRPrintText text) throws IOException
+	{
+		ParagraphStyle paragraphStyle  = new ParagraphStyle(styleWriter, text);
+		
+		String paragraphStyleId = paragraphStyle.getId();
+		String paragraphStyleName = (String)paragraphStyles.get(paragraphStyleId);
+		
+		if (paragraphStyleName == null)
+		{
+			paragraphStyleName = "P" + paragraphStylesCounter++;
+			paragraphStyles.put(paragraphStyleId, paragraphStyleName);
+			
+			paragraphStyle.write(paragraphStyleName);
+		}
+		
+		return paragraphStyleName;
+	}
+
+	/**
+	 *
+	 */
+	public void writeTextSpanStyle(Map attributes, String text) throws IOException
+	{
+		String fontFamily;
+		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
+		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
+		{
+			fontFamily = (String) fontMap.get(fontFamilyAttr);
+		}
+		else
+		{
+			fontFamily = fontFamilyAttr;
+		}
+		fontFaces.add(fontFamily);
+		
+		StringBuffer textSpanStyleIdBuffer = new StringBuffer();
+		textSpanStyleIdBuffer.append(fontFamily);
+
+		String forecolorHexa = null;
+		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
+		if (!Color.black.equals(forecolor))
+		{
+			forecolorHexa = JRColorUtil.getColorHexa(forecolor);
+			textSpanStyleIdBuffer.append(forecolorHexa);
+		}
+
+		String backcolorHexa = null;
+		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
+		if (runBackcolor != null)
+		{
+			backcolorHexa = JRColorUtil.getColorHexa(runBackcolor);
+			textSpanStyleIdBuffer.append(backcolorHexa);
+		}
+
+		String size = String.valueOf(attributes.get(TextAttribute.SIZE));
+		textSpanStyleIdBuffer.append(size);
+
+		String weight = null;
+		if (TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT)))
+		{
+			weight = "b";
+			textSpanStyleIdBuffer.append(weight);
+		}
+		String posture = null;
+		if (TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE)))
+		{
+			posture = "i";
+			textSpanStyleIdBuffer.append(posture);
+		}
+		String underline = null;
+		if (TextAttribute.UNDERLINE_ON.equals(attributes.get(TextAttribute.UNDERLINE)))
+		{
+			underline = "u";
+			textSpanStyleIdBuffer.append(underline);
+		}
+		String strikeThrough = null;
+		if (TextAttribute.STRIKETHROUGH_ON.equals(attributes.get(TextAttribute.STRIKETHROUGH)))
+		{
+			strikeThrough = "s";
+			textSpanStyleIdBuffer.append(strikeThrough);
+		}
+
+		String superscript = null;
+		if (TextAttribute.SUPERSCRIPT_SUPER.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
+		{
+			superscript = "super";
+			textSpanStyleIdBuffer.append(superscript);
+		}
+		
+		String subscript = null;
+		if (TextAttribute.SUPERSCRIPT_SUB.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
+		{
+			subscript = "sub";
+			textSpanStyleIdBuffer.append(subscript);
+		}
+
+		String textSpanStyleId = textSpanStyleIdBuffer.toString();
+		String textSpanStyleName = (String)textSpanStyles.get(textSpanStyleId);
+		
+		if (textSpanStyleName == null)
+		{
+			textSpanStyleName = "T" + textSpanStylesCounter++;
+			textSpanStyles.put(textSpanStyleId, textSpanStyleName);
+		}
+		bodyWriter.write("        <w:rFonts w:ascii=\"" + fontFamily + "\" /> \r\n");
+		bodyWriter.write("        <w:sz w:val=\"" + size + "\" /> \r\n");
+		if (forecolorHexa != null)
+		{
+			bodyWriter.write("        <w:color w:val=\"" + forecolorHexa + "\" /> \r\n");
+		}
+		if (backcolorHexa != null)
+		{
+			//FIXME: the highlight does not accept the color hexadecimal expression, but only few color names
+//			bodyWriter.write("        <w:highlight w:val=\"" + backcolorHexa + "\" /> \r\n");
+		}
+		if (weight != null)
+		{
+			bodyWriter.write("        <w:b /> \r\n");
+		}
+		if (posture != null)
+		{
+			bodyWriter.write("        <w:i /> \r\n");
+		}
+		if (strikeThrough != null)
+		{
+			bodyWriter.write("        <w:strike /> \r\n");
+		}
+		if (underline != null)
+		{
+			bodyWriter.write("        <w:u w:val=\"single\"/> \r\n");
+		}
+		if (superscript != null)
+		{
+			bodyWriter.write("        <w:vertAlign w:val=\"superscript\" /> \r\n");
+		}
+		if (subscript != null)
+		{
+			bodyWriter.write("        <w:vertAlign w:val=\"subscript\" /> \r\n");
+		}
+		
+//		bodyWriter.write("  </w:rPr> \r\n");
+//		bodyWriter.write(" </w:style> \r\n");
+		bodyWriter.flush();
+		
+	}
+
+}
+
