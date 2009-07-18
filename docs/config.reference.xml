@@ -1917,6 +1917,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_NAMES_PREFIX</api>
     <default>N/A</default>
     <scope>Report</scope>
+    <since>3.5.2</since>
   </configProperty>
   
   
