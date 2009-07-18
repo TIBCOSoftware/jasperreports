@@ -601,7 +601,7 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/yAxisFormat/axisFormat/tickLabelFont/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext("*/yAxisFormat/axisFormat/tickLabelFont/font", "setTickLabelFont", JRFont.class.getName());
 
-		// item labels - anything that contains item labels must have a "setItemLabel" method.
+		// item labels
 		digester.addFactoryCreate("*/itemLabel", JRItemLabelFactory.class.getName());
 		digester.addSetNext("*/itemLabel", "setItemLabel", JRDesignItemLabel.class.getName());
 		digester.addFactoryCreate("*/itemLabel/font", JRFontFactory.ChartFontFactory.class.getName());

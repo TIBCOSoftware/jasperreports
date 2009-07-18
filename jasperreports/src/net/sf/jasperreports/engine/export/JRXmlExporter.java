@@ -579,8 +579,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_page);
 
-		Collection elements = page.getElements();
-		exportElements(elements);
+		exportElements(page.getElements());
 
 		xmlWriter.closeElement();
 		
