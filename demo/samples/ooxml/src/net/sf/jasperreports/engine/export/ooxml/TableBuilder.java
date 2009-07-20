@@ -38,6 +38,8 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.IOException;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JRPrintElement;
+
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -193,7 +195,7 @@ public class TableBuilder
 //		bodyWriter.write("</table:table-column>\n");		
 //	}
 
-	public void buildCellHeader(String cellStyleName, int colSpan, int rowSpan) throws IOException 
+	public void buildCellHeader(StyleCache styleCache, JRPrintElement element, int colSpan, int rowSpan) throws IOException 
 	{
 		bodyWriter.write("    <w:tc> \r\n");
 		bodyWriter.write("     <w:tcPr> \r\n");
@@ -202,6 +204,7 @@ public class TableBuilder
 		{
 			bodyWriter.write("      <w:gridSpan w:val=\"" + colSpan +"\" /> \r\n");
 		}
+		styleCache.getCellStyle(element);
 		bodyWriter.write("     </w:tcPr> \r\n");
 		bodyWriter.flush();
 	}

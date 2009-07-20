@@ -64,7 +64,7 @@ public abstract class OOXmlZip
 	private OOXmlZipEntry documentEntry;
 //	private OOXmlZipEntry fontTableEntry;
 //	private OOXmlZipEntry settingsEntry;
-//	private OOXmlZipEntry stylesEntry;
+	private OOXmlZipEntry stylesEntry;
 //	private OOXmlZipEntry webSettingsEntry;
 //	private OOXmlZipEntry worksheetsRelsEntry;
 //	private OOXmlZipEntry calcChainEntry;
@@ -156,8 +156,8 @@ public abstract class OOXmlZip
 //		createCoreEntry(mimetype);
 //		createThemeEntry(mimetype);
 //		
-//		stylesEntry = createEntry(mimetype + "/styles.xml");
-//		ooxmlZipEntries.add(stylesEntry);
+		stylesEntry = createEntry(mimetype + "/styles.xml");
+		ooxmlZipEntries.add(stylesEntry);
 	}
 	
 	/**
@@ -205,14 +205,14 @@ public abstract class OOXmlZip
 		}
 	}
 
-//	/**
-//	 * @return the stylesEntry
-//	 */
-//	public OOXmlZipEntry getStylesEntry()
-//	{
-//		return stylesEntry;
-//	}
-//	
+	/**
+	 * @return the stylesEntry
+	 */
+	public OOXmlZipEntry getStylesEntry()
+	{
+		return stylesEntry;
+	}
+	
 	/**
      * @return the contentTypesEntry
      */
@@ -651,7 +651,7 @@ public abstract class OOXmlZip
 //			else
 //			{
 				writer.write(" <Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/> \r\n");
-//				writer.write(" <Override PartName=\"/word/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml\"/> \r\n");
+				writer.write(" <Override PartName=\"/word/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml\"/> \r\n");
 //				writer.write(" <Override PartName=\"/word/fontTable.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml\"/> \r\n");
 //				writer.write(" <Override PartName=\"/word/webSettings.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml\"/> \r\n");
 //			}

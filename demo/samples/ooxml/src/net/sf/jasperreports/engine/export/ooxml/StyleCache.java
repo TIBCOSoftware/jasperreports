@@ -175,7 +175,8 @@ public class StyleCache
 	 */
 	public String getCellStyle(JRPrintElement element) throws IOException
 	{
-		CellStyle cellStyle  = new CellStyle(styleWriter, element);
+		CellStyle cellStyle  = new CellStyle(bodyWriter, element);
+		//CellStyle cellStyle  = new CellStyle(styleWriter, element);
 		
 		if (element instanceof JRBoxContainer)
 			cellStyle.setBox(((JRBoxContainer)element).getLineBox());
@@ -183,7 +184,7 @@ public class StyleCache
 			cellStyle.setPen(((JRCommonGraphicElement)element).getLinePen());
 		
 		String cellStyleId = cellStyle.getId();
-		String cellStyleName = (String)cellStyles.get(cellStyleId);
+		String cellStyleName = null;//(String)cellStyles.get(cellStyleId);
 		
 		if (cellStyleName == null)
 		{
@@ -254,7 +255,7 @@ public class StyleCache
 			textSpanStyleIdBuffer.append(backcolorHexa);
 		}
 
-		String size = String.valueOf(attributes.get(TextAttribute.SIZE));
+		String size = String.valueOf(((Float)attributes.get(TextAttribute.SIZE)).floatValue() * 2);
 		textSpanStyleIdBuffer.append(size);
 
 		String weight = null;

@@ -71,7 +71,7 @@ public class StyleBuilder
 	public void build() throws IOException
 	{
 		buildDocDefaults();
-		buildLatentStyles();
+		//buildLatentStyles();
 		
 //		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 //		{
@@ -86,7 +86,7 @@ public class StyleBuilder
 //			buildMasterPage(reportIndex);
 //		}
 
-		buildStyles();
+//		buildStyles();
 		
 		writer.flush();
 //		writer.close();
@@ -116,7 +116,7 @@ public class StyleBuilder
 	
 	/**
 	 * 
-	 */
+	 *
 	private void buildLatentStyles() throws IOException
 	{
 		writer.write(" <w:latentStyles w:defLockedState=\"0\" w:defUIPriority=\"99\" w:defSemiHidden=\"1\" w:defUnhideWhenUsed=\"1\" w:defQFormat=\"0\" w:count=\"267\"> \r\n");
@@ -262,7 +262,7 @@ public class StyleBuilder
 	
 	/**
 	 * 
-	 */
+	 *
 	private void buildStyles() throws IOException
 	{
 		writer.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"Normal\"> \r\n");	
@@ -300,6 +300,9 @@ public class StyleBuilder
 		writer.flush();	
 	}
 
+	/**
+	 * 
+	 */
 	public void buildStylesFooter() throws IOException
 	{
 		writer.write("</w:styles> \r\n");
