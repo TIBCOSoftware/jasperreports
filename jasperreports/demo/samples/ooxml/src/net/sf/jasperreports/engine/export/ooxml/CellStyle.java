@@ -104,12 +104,12 @@ public class CellStyle extends BorderStyle
 	 */
 	public void write(String cellStyleName) throws IOException
 	{
-		bodyWriter.write("     <w:tcPr> \r\n");
-		bodyWriter.write("      <w:tcW w:w=\"" + width + "\" w:type=\"dxa\" /> \r\n");
-		if (gridspan > 0)
-		{
-			bodyWriter.write("      <w:gridSpan w:val=\"" + gridspan + "\" /> \r\n");
-		}
+//		bodyWriter.write("     <w:tcPr> \r\n");
+//		bodyWriter.write("      <w:tcW w:w=\"" + width + "\" w:type=\"dxa\" /> \r\n");
+//		if (gridspan > 0)
+//		{
+//			bodyWriter.write("      <w:gridSpan w:val=\"" + gridspan + "\" /> \r\n");
+//		}
 		
 		if(hasBorder())
 		{
@@ -137,7 +137,7 @@ public class CellStyle extends BorderStyle
 		{
 			bodyWriter.write("      <w:vAlign w:val=\"" + verticalAlignment +"\" /> \r\n");
 		}
-		bodyWriter.write("     </w:tcPr> \r\n");
+//		bodyWriter.write("     </w:tcPr> \r\n");
 		bodyWriter.flush();
 	}
 }

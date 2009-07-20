@@ -123,7 +123,7 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 	 *
 	 */
 	protected Writer tempDocWriter = null;
-//	protected Writer tempStyleWriter = null;
+	protected Writer tempStyleWriter = null;
 //	protected Writer tempFontWriter = null;
 
 	protected JRExportProgressMonitor progressMonitor = null;
@@ -321,15 +321,15 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 					);
 
 			OOXmlZipEntry tempDocEntry = ooxmlZip.getDocumentEntry();
-//			OOXmlZipEntry tempStyleEntry = ooxmlZip.getStylesEntry();
+			OOXmlZipEntry tempStyleEntry = ooxmlZip.getStylesEntry();
 
 			tempDocWriter = tempDocEntry.getWriter();
-//			tempStyleWriter = tempStyleEntry.getWriter();
+			tempStyleWriter = tempStyleEntry.getWriter();
 
-//			styleCache = new StyleCache(tempStyleWriter, tempDocWriter, fontMap);
-//
-//			styleBuilder = new StyleBuilder(tempStyleWriter, xmlProlog);
-//			styleBuilder.build();
+			styleCache = new StyleCache(tempStyleWriter, tempDocWriter, fontMap);
+
+			styleBuilder = new StyleBuilder(tempStyleWriter, xmlProlog);
+			styleBuilder.build();
 			
 			writeDocHeader(xmlProlog);
 			List pages = jasperPrint.getPages();
@@ -354,15 +354,15 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 					exportPage(page);
 				}
 			}
-//			styleBuilder.buildStylesFooter();
+			styleBuilder.buildStylesFooter();
 			writeDocFooter(jasperPrint.getPageWidth(), 
 					jasperPrint.getPageHeight());
 			
 			tempDocWriter.flush();
-//			tempStyleWriter.flush();
+			tempStyleWriter.flush();
 
 			tempDocWriter.close();
-//			tempStyleWriter.close();
+			tempStyleWriter.close();
 			
 			ooxmlZip.zipEntries(os);
 			ooxmlZip.dispose();
@@ -677,8 +677,7 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 	 */
 	protected void exportText(TableBuilder tableBuilder, JRPrintText text, JRExporterGridCell gridCell) throws IOException
 	{
-//		tableBuilder.buildCellHeader(styleCache.getCellStyle(text), gridCell.getColSpan(), gridCell.getRowSpan());
-		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache, text, gridCell.getColSpan(), gridCell.getRowSpan());
 
 		JRStyledText styledText = getStyledText(text);
 
@@ -715,7 +714,7 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 			tempDocWriter.write("        <w:pageBreakBefore/> \r\n");
 			pageBreakInserted = true;
 		}
-//		tempDocWriter.write("        <w:pStyle w:val=\"" + styleCache.getParagraphStyle(text) + "\"/> \r\n");
+		tempDocWriter.write("        <w:pStyle w:val=\"" + styleCache.getParagraphStyle(text) + "\"/> \r\n");
 		tempDocWriter.write("      </w:pPr> \r\n");
 		tempDocWriter.flush();
 		
@@ -731,7 +730,7 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 
 		if (textLength > 0)
 		{
-			exportStyledText(styledText);
+			exportStyledText(styledText);//FIXMEDOCX deal with new line characters
 		}
 
 //		if (startedHyperlink)
@@ -772,15 +771,15 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 	protected void exportStyledTextRun(Map attributes, String text) throws IOException
 	{
 		tempDocWriter.write("      <w:r> \r\n");
-//		tempDocWriter.write("       <w:rPr> \r\n");
-//		styleCache.writeTextSpanStyle(attributes, text);
-//		tempDocWriter.write("       </w:rPr> \r\n");
-		tempDocWriter.write("       <w:t> \r\n");
+		tempDocWriter.write("       <w:rPr> \r\n");
+		styleCache.writeTextSpanStyle(attributes, text);
+		tempDocWriter.write("       </w:rPr> \r\n");
+		tempDocWriter.write("<w:t xml:space=\"preserve\">");
 		if (text != null)
 		{
-			tempDocWriter.write(JRStringUtil.xmlEncode(text) + " \r\n");//FIXMEODT try something nicer for replace
+			tempDocWriter.write(JRStringUtil.xmlEncode(text));//FIXMEODT try something nicer for replace
 		}
-		tempDocWriter.write("       </w:t> \r\n");
+		tempDocWriter.write("</w:t> \r\n");
 		tempDocWriter.write("      </w:r> \r\n");
 		tempDocWriter.flush();
 	}
@@ -1081,7 +1080,7 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 	 */
 	protected void exportFrame(TableBuilder tableBuilder, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
 	{
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(frame), gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache, frame, gridCell.getColSpan(), gridCell.getRowSpan());
 
 		boolean appendBackcolor =
 			frame.getMode() == JRElement.MODE_OPAQUE
