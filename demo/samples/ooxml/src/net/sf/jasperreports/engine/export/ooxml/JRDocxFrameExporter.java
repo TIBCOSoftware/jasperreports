@@ -277,12 +277,12 @@ public class JRDocxFrameExporter extends JRAbstractExporter
 
 		styleCache = new StyleCache(tempStyleWriter, fontMap);
 
-		Writer stylesWriter = ooxmlZip.getStylesEntry().getWriter();
+//		Writer stylesWriter = ooxmlZip.getStylesEntry().getWriter();
 		
-		StyleBuilder styleBuilder = new StyleBuilder(stylesWriter, xmlProlog);
-		styleBuilder.build();
+//		StyleBuilder styleBuilder = new StyleBuilder(stylesWriter, xmlProlog);
+//		styleBuilder.build();
 
-		stylesWriter.close();
+//		stylesWriter.close();
 		
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{

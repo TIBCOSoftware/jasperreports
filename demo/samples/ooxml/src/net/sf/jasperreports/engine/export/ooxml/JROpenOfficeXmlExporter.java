@@ -36,7 +36,6 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
-import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -55,9 +54,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -126,8 +123,8 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 	 *
 	 */
 	protected Writer tempDocWriter = null;
-	protected Writer tempStyleWriter = null;
-	protected Writer tempFontWriter = null;
+//	protected Writer tempStyleWriter = null;
+//	protected Writer tempFontWriter = null;
 
 	protected JRExportProgressMonitor progressMonitor = null;
 	protected Map rendererToImagePathMap = null;
@@ -138,6 +135,7 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 	protected int pageIndex = 0;
 	protected int tableIndex = 0;
 	protected boolean startPage;
+	protected boolean pageBreakInserted = false;
 
 	/**
 	 *
@@ -323,15 +321,15 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 					);
 
 			OOXmlZipEntry tempDocEntry = ooxmlZip.getDocumentEntry();
-			OOXmlZipEntry tempStyleEntry = ooxmlZip.getStylesEntry();
+//			OOXmlZipEntry tempStyleEntry = ooxmlZip.getStylesEntry();
 
 			tempDocWriter = tempDocEntry.getWriter();
-			tempStyleWriter = tempStyleEntry.getWriter();
+//			tempStyleWriter = tempStyleEntry.getWriter();
 
-			styleCache = new StyleCache(tempStyleWriter, tempDocWriter, fontMap);
-
-			styleBuilder = new StyleBuilder(tempStyleWriter, xmlProlog);
-			styleBuilder.build();
+//			styleCache = new StyleCache(tempStyleWriter, tempDocWriter, fontMap);
+//
+//			styleBuilder = new StyleBuilder(tempStyleWriter, xmlProlog);
+//			styleBuilder.build();
 			
 			writeDocHeader(xmlProlog);
 			List pages = jasperPrint.getPages();
@@ -356,15 +354,15 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 					exportPage(page);
 				}
 			}
-			styleBuilder.buildStylesFooter();
+//			styleBuilder.buildStylesFooter();
 			writeDocFooter(jasperPrint.getPageWidth(), 
 					jasperPrint.getPageHeight());
 			
 			tempDocWriter.flush();
-			tempStyleWriter.flush();
+//			tempStyleWriter.flush();
 
 			tempDocWriter.close();
-			tempStyleWriter.close();
+//			tempStyleWriter.close();
 			
 			ooxmlZip.zipEntries(os);
 			ooxmlZip.dispose();
@@ -434,7 +432,7 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 				);
 
 		exportGrid(layout, null);
-
+		
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -447,48 +445,45 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 	 */
 	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws IOException, JRException
 	{
+		pageBreakInserted = frameIndex != null || pageIndex == startPageIndex;
+
 		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
 		TableBuilder tableBuilder = frameIndex == null
-			? new TableBuilder(reportIndex, pageIndex, tempDocWriter, tempStyleWriter)
-			: new TableBuilder(frameIndex.toString(), tempDocWriter, tempStyleWriter);
+			? new TableBuilder(reportIndex, pageIndex, tempDocWriter, null)
+			: new TableBuilder(frameIndex.toString(), tempDocWriter, null);
 
 //		tableBuilder.buildTableStyle();
-		tableBuilder.buildTableHeader(xCuts.size());
+		tableBuilder.buildTableHeader();
 
-//		for(int col = 1; col < xCuts.size(); col++)
-//		{
-//			tableBuilder.buildColumnStyle(
-//					col - 1,
-//					xCuts.getCut(col) - xCuts.getCut(col - 1)
-//					);
+		tempDocWriter.write("   <w:tblGrid> \r\n");
+		for(int col = 1; col < xCuts.size(); col++)
+		{
+			tableBuilder.buildColumnStyle(
+					col - 1,
+					xCuts.getCut(col) - xCuts.getCut(col - 1)
+					);
 //			tableBuilder.buildColumnHeader(col - 1);
 //			tableBuilder.buildColumnFooter();
-//		}
+		}
+		tempDocWriter.write("   </w:tblGrid> \r\n");
 
 		JRPrintElement element = null;
 		for(int row = 0; row < grid.length; row++)
 		{
-			int rowHeight = gridLayout.getRowHeight(row);
-			if(rowHeight == 0)
-			{
-				continue;
-			}
+			//JRExporterGridCell[] gridRow = grid[row];
+
 			int emptyCellColSpan = 0;
 			int emptyCellWidth = 0;
+			int rowHeight = gridLayout.getRowHeight(row);
 
 //			tableBuilder.buildRowStyle(row, rowHeight);
-			tableBuilder.buildRowHeader(row);
+			tableBuilder.buildRowHeader(rowHeight);
 
 			for(int col = 0; col < grid[0].length; col++)
 			{
 				JRExporterGridCell gridCell = grid[row][col];
-				if(gridCell.getWidth() == 0)
-				{
-					continue;
-				}
-				
 				if (gridCell == JRExporterGridCell.OCCUPIED_CELL)
 				{
 					if (emptyCellColSpan > 0)
@@ -502,21 +497,14 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 				}
 				else if(gridCell.getWrapper() != null)
 				{
-					int colspan = 0;
-					element = gridCell.getWrapper().getElement();
 					if (emptyCellColSpan > 0)
 					{
-//						writeCellHeader(gridCell, emptyCellColSpan, emptyCellWidth, rowHeight);
-						tableBuilder.buildCellHeader(styleCache.getCellStyle(element), emptyCellColSpan, gridCell.getRowSpan());
-						
+						writeEmptyCell(gridCell, emptyCellColSpan, emptyCellWidth, rowHeight);
 						emptyCellColSpan = 0;
 						emptyCellWidth = 0;
 					}
-					else
-					{
-						tableBuilder.buildCellHeader(styleCache.getCellStyle(element), gridCell.getColSpan(), gridCell.getRowSpan());
-					}
-					
+
+					element = gridCell.getWrapper().getElement();
 
 					if (element instanceof JRPrintLine)
 					{
@@ -542,7 +530,6 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 					{
 //						exportFrame(tableBuilder, (JRPrintFrame)element, gridCell);
 					}
-					tableBuilder.buildCellFooter();
 					
 					//x += gridCell.colSpan - 1;
 				}
@@ -551,7 +538,6 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 					emptyCellColSpan++;
 					emptyCellWidth += gridCell.getWidth();
 				}
-				
 			}
 
 			if (emptyCellColSpan > 0)
@@ -570,13 +556,19 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 	{
 		tempDocWriter.write("    <w:tc> \r\n");
 		tempDocWriter.write("     <w:tcPr> \r\n");
-		tempDocWriter.write("      <w:tcW w:w=\"" + Utility.translatePointsToTwips(emptyCellWidth) + "\" w:type=\"dxa\" /> \r\n");
+//		tempDocWriter.write("      <w:tcW w:w=\"" + Utility.translatePointsToTwips(emptyCellWidth) + "\" w:type=\"dxa\" /> \r\n");
 		if (emptyCellColSpan > 1)
 		{
 			tempDocWriter.write("      <w:gridSpan w:val=\"" + emptyCellColSpan +"\" /> \r\n");
 		}
 		tempDocWriter.write("     </w:tcPr> \r\n");
-		tempDocWriter.write("     <w:p/> \r\n");
+		tempDocWriter.write("     <w:p><w:pPr> \r\n");
+		if (!pageBreakInserted)
+		{
+			tempDocWriter.write("        <w:pageBreakBefore/> \r\n");
+			pageBreakInserted = true;
+		}
+		tempDocWriter.write("     </w:pPr></w:p> \r\n");
 		tempDocWriter.write("    </w:tc> \r\n");
 		
 		tempDocWriter.flush();
@@ -584,25 +576,33 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 //		writeOccupiedCells(emptyCellColSpan - 1);
 	}
 	
-	private void writeCellFooter() throws IOException
-	{
-		tempDocWriter.write("    </w:tc> \r\n");
-		tempDocWriter.flush();
-	}
+//	private void writeCellFooter() throws IOException
+//	{
+//		tempDocWriter.write("    </w:tc> \r\n");
+//		tempDocWriter.flush();
+//	}
 
 
 //	private void writeOccupiedCells(int count) throws IOException
 //	{
 //		for(int i = 0; i < count; i++)
 //		{
-//			tempDocWriter.write("<table:covered-table-cell/>\n");
+//			tempDocWriter.write("    <w:tc> \r\n");
+//			tempDocWriter.write("     <w:tcPr> \r\n");
+//			if (isPageBreak)
+//			{
+//				tempDocWriter.write("        <w:pageBreakBefore/> \r\n");
+//			}
+//			tempDocWriter.write("     </w:tcPr> \r\n");
+//			tempDocWriter.write("     <w:p/> \r\n");
+//			tempDocWriter.write("    </w:tc> \r\n");
 //		}
 //	}
 
 
 	/**
 	 *
-	 */
+	 *
 	protected void exportLine(TableBuilder tableBuilder, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
 		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
@@ -643,7 +643,7 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 
 	/**
 	 *
-	 */
+	 *
 	protected void exportRectangle(TableBuilder tableBuilder, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
 	{
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(rectangle), gridCell.getColSpan(), gridCell.getRowSpan());
@@ -653,7 +653,7 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 
 	/**
 	 *
-	 */
+	 *
 	protected void exportEllipse(TableBuilder tableBuilder, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
 	{
 		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
@@ -677,6 +677,8 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 	 */
 	protected void exportText(TableBuilder tableBuilder, JRPrintText text, JRExporterGridCell gridCell) throws IOException
 	{
+//		tableBuilder.buildCellHeader(styleCache.getCellStyle(text), gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
 
 		JRStyledText styledText = getStyledText(text);
 
@@ -708,7 +710,12 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 //		writer.write(">");
 		tempDocWriter.write("     <w:p> \r\n");
 		tempDocWriter.write("      <w:pPr> \r\n");
-		tempDocWriter.write("        <w:pStyle w:val=\"" + styleCache.getParagraphStyle(text) + "\"/> \r\n");
+		if (!pageBreakInserted)
+		{
+			tempDocWriter.write("        <w:pageBreakBefore/> \r\n");
+			pageBreakInserted = true;
+		}
+//		tempDocWriter.write("        <w:pStyle w:val=\"" + styleCache.getParagraphStyle(text) + "\"/> \r\n");
 		tempDocWriter.write("      </w:pPr> \r\n");
 		tempDocWriter.flush();
 		
@@ -734,6 +741,8 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 
 		tempDocWriter.write("     </w:p> \r\n");
 		tempDocWriter.flush();
+
+		tableBuilder.buildCellFooter();
 	}
 
 
@@ -763,9 +772,9 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 	protected void exportStyledTextRun(Map attributes, String text) throws IOException
 	{
 		tempDocWriter.write("      <w:r> \r\n");
-		tempDocWriter.write("       <w:rPr> \r\n");
-		styleCache.writeTextSpanStyle(attributes, text);
-		tempDocWriter.write("       </w:rPr> \r\n");
+//		tempDocWriter.write("       <w:rPr> \r\n");
+//		styleCache.writeTextSpanStyle(attributes, text);
+//		tempDocWriter.write("       </w:rPr> \r\n");
 		tempDocWriter.write("       <w:t> \r\n");
 		if (text != null)
 		{
@@ -778,7 +787,7 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 
 	/**
 	 *
-	 */
+	 *
 	protected void exportImage(TableBuilder tableBuilder, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
 		int topPadding = 
@@ -1333,15 +1342,16 @@ public abstract class JROpenOfficeXmlExporter extends JRAbstractExporter
 	{
 		tempDocWriter.write(xmlProlog + " \r\n");
 		tempDocWriter.write("<w:document \r\n");
-		tempDocWriter.write(" xmlns:ve=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" \r\n");
-		tempDocWriter.write(" xmlns:o=\"urn:schemas-microsoft-com:office:office\" \r\n");
-		tempDocWriter.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" \r\n");
-		tempDocWriter.write(" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\" \r\n");
-		tempDocWriter.write(" xmlns:v=\"urn:schemas-microsoft-com:vml\" \r\n");
-		tempDocWriter.write(" xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" \r\n");
-		tempDocWriter.write(" xmlns:w10=\"urn:schemas-microsoft-com:office:word\" \r\n");
-		tempDocWriter.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\" \r\n");
-		tempDocWriter.write(" xmlns:wne=\"http://schemas.microsoft.com/office/word/2006/wordml\"> \r\n");
+//		tempDocWriter.write(" xmlns:ve=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" \r\n");
+//		tempDocWriter.write(" xmlns:o=\"urn:schemas-microsoft-com:office:office\" \r\n");
+//		tempDocWriter.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" \r\n");
+//		tempDocWriter.write(" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\" \r\n");
+//		tempDocWriter.write(" xmlns:v=\"urn:schemas-microsoft-com:vml\" \r\n");
+//		tempDocWriter.write(" xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" \r\n");
+//		tempDocWriter.write(" xmlns:w10=\"urn:schemas-microsoft-com:office:word\" \r\n");
+		tempDocWriter.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"> \r\n");
+//		tempDocWriter.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\" \r\n");
+//		tempDocWriter.write(" xmlns:wne=\"http://schemas.microsoft.com/office/word/2006/wordml\"> \r\n");
 		tempDocWriter.write(" <w:body> \r\n");
 		tempDocWriter.flush();
 	}

@@ -111,7 +111,7 @@ public class TableBuilder
 //		styleWriter.write(" </style:style>\n");
 //	}
 	
-	public void buildTableHeader(int size) throws IOException 
+	public void buildTableHeader() throws IOException 
 	{
 		bodyWriter.write("  <w:tbl> \r\n");
 //		if (isFrame)
@@ -119,17 +119,18 @@ public class TableBuilder
 //			bodyWriter.write(" is-subtable=\"true\"");
 //		}
 		bodyWriter.write("   <w:tblPr> \r\n");
-		bodyWriter.write("    <w:tblStyle w:val=\"TableNormal\" /> \r\n");
-		bodyWriter.write("    <w:tblW w:w=\"0\" w:type=\"auto\" /> \r\n");
-		bodyWriter.write("    <w:tblLook w:val=\"04A0\" /> \r\n");
+		bodyWriter.write("    <w:tblLayout w:type=\"fixed\"/> \r\n");
+//		bodyWriter.write("    <w:tblStyle w:val=\"TableNormal\" /> \r\n");
+//		bodyWriter.write("    <w:tblW w:w=\"0\" w:type=\"pct\" /> \r\n");
+//		bodyWriter.write("    <w:tblLook w:val=\"04A0\" /> \r\n");
 		bodyWriter.write("   </w:tblPr> \r\n");
-		bodyWriter.write("   <w:tblGrid> \r\n");
-		for(int j = 1; j < size; j++)
-		{
-			bodyWriter.write("    <w:gridCol/> \r\n");
-		}
-		bodyWriter.write("   </w:tblGrid> \r\n");
-		bodyWriter.flush();
+//		bodyWriter.write("   <w:tblGrid> \r\n");
+//		for(int j = 1; j < size; j++)
+//		{
+//			bodyWriter.write("    <w:gridCol/> \r\n");
+//		}
+//		bodyWriter.write("   </w:tblGrid> \r\n");
+		bodyWriter.flush();//FIXME check all these
 	}
 	
 	public void buildTableFooter() throws IOException 
@@ -155,7 +156,7 @@ public class TableBuilder
 	{
 		bodyWriter.write("   <w:tr> \r\n");
 		bodyWriter.write("    <w:trPr> \r\n");
-		bodyWriter.write("     <w:trHeight w:val=\"" + Utility.translatePointsToTwips(rowHeight) + "\" /> \r\n");
+		bodyWriter.write("     <w:trHeight w:hRule=\"exact\" w:val=\"" +  + Utility.translatePointsToTwips(rowHeight) + "\" /> \r\n");
 		bodyWriter.write("    </w:trPr> \r\n");
 		bodyWriter.flush();
 	}
@@ -166,8 +167,8 @@ public class TableBuilder
 		bodyWriter.flush();
 	}
 	
-//	public void buildColumnStyle(int colIndex, int colWidth) throws IOException 
-//	{
+	public void buildColumnStyle(int colIndex, int colWidth) throws IOException 
+	{
 //		String columnName = tableName + "_col_" + colIndex;
 //		styleWriter.write(" <style:style style:name=\"" + columnName + "\"");
 //		styleWriter.write(" style:family=\"table-column\">\n");
@@ -175,7 +176,9 @@ public class TableBuilder
 //		styleWriter.write(" style:column-width=\"" + Utility.translatePixelsToInches(colWidth) + "in\"");
 //		styleWriter.write("/>\n");
 //		styleWriter.write(" </style:style>\n");
-//	}
+		bodyWriter.write("    <w:gridCol w:w=\"" + Utility.translatePointsToTwips(colWidth) + "\"/> \r\n");
+//		bodyWriter.write("    <w:gridCol w:type=\"dxa\" w:w=\"" + Utility.translatePointsToTwips(colWidth) + "\"/> \r\n");
+	}
 
 //	public void buildColumnHeader(int colIndex) throws IOException 
 //	{
@@ -193,6 +196,13 @@ public class TableBuilder
 	public void buildCellHeader(String cellStyleName, int colSpan, int rowSpan) throws IOException 
 	{
 		bodyWriter.write("    <w:tc> \r\n");
+		bodyWriter.write("     <w:tcPr> \r\n");
+//		bodyWriter.write("      <w:tcW w:w=\"" + Utility.translatePointsToTwips(emptyCellWidth) + "\" w:type=\"dxa\" /> \r\n");
+		if (colSpan > 1)
+		{
+			bodyWriter.write("      <w:gridSpan w:val=\"" + colSpan +"\" /> \r\n");
+		}
+		bodyWriter.write("     </w:tcPr> \r\n");
 		bodyWriter.flush();
 	}
 
