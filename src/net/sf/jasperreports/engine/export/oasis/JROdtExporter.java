@@ -51,7 +51,7 @@ public class JROdtExporter extends JROpenDocumentExporter
 	public JROdtExporter()
 	{
 		super();
-		exporterPropertiesPrefix = JROpenDocumentExporter.ODT_EXPORTER_PROPERTIES_PREFIX;
+		exporterPropertiesPrefix = JROpenDocumentExporter.ODT_EXPORTER_PROPERTIES_PREFIX;//FIXMEODT move the constant to this class
 	}
 
 

@@ -40,7 +40,7 @@ import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sf.jasperreports.engine.export.oasis.zip.OasisZipEntry;
+import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 
 
 
@@ -58,9 +58,9 @@ public class ContentBuilder
 	/**
 	 * 
 	 */
-	private OasisZipEntry contentEntry = null;
-	private OasisZipEntry styleEntry = null;
-	private OasisZipEntry bodyEntry = null;
+	private ExportZipEntry contentEntry = null;
+	private ExportZipEntry styleEntry = null;
+	private ExportZipEntry bodyEntry = null;
 	
 	private Collection fontFaces = null;
 	
@@ -70,9 +70,9 @@ public class ContentBuilder
 	 * 
 	 */
 	public ContentBuilder(
-		OasisZipEntry contentEntry,
-		OasisZipEntry styleEntry,
-		OasisZipEntry bodyEntry,
+		ExportZipEntry contentEntry,
+		ExportZipEntry styleEntry,
+		ExportZipEntry bodyEntry,
 		Collection fontFaces
 		)
 	{
@@ -89,9 +89,9 @@ public class ContentBuilder
 	 * 
 	 */
 	public ContentBuilder(
-		OasisZipEntry contentEntry,
-		OasisZipEntry styleEntry,
-		OasisZipEntry bodyEntry,
+		ExportZipEntry contentEntry,
+		ExportZipEntry styleEntry,
+		ExportZipEntry bodyEntry,
 		Collection fontFaces,
 		byte openDocumentNature
 		)

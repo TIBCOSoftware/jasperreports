@@ -28,33 +28,27 @@
 package net.sf.jasperreports.engine.export.oasis.zip;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterNature;
+import net.sf.jasperreports.engine.export.zip.AbstractZip;
+import net.sf.jasperreports.engine.export.zip.EmptyZipEntry;
+import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class OasisZip
+public abstract class OasisZip extends AbstractZip
 {
 
 	/**
 	 * 
 	 */
-	private List oasisZipEntries = null;
-
-	/**
-	 * 
-	 */
-	private OasisZipEntry contentEntry = null;
-	private OasisZipEntry stylesEntry = null;
+	private ExportZipEntry contentEntry = null;
+	private ExportZipEntry stylesEntry = null;
 	
 	public OasisZip() throws IOException
 	{
@@ -66,16 +60,16 @@ public abstract class OasisZip
 	public OasisZip(byte openDocumentNature) throws IOException
 	{
 		
-		oasisZipEntries = new ArrayList();
+		exportZipEntries = new ArrayList();
 
 		contentEntry = createEntry("content.xml");
-		oasisZipEntries.add(contentEntry);
+		exportZipEntries.add(contentEntry);
 		
-		oasisZipEntries.add(new EmptyOasisZipEntry("meta.xml"));
-		oasisZipEntries.add(new EmptyOasisZipEntry("settings.xml"));
+		exportZipEntries.add(new EmptyZipEntry("meta.xml"));
+		exportZipEntries.add(new EmptyZipEntry("settings.xml"));
 
 		stylesEntry = createEntry("styles.xml");
-		oasisZipEntries.add(stylesEntry);
+		exportZipEntries.add(stylesEntry);
 		
 		String mimetype;
 		
@@ -88,14 +82,14 @@ public abstract class OasisZip
 			default:
 				mimetype = "text";
 		}
-		OasisZipEntry mimeEntry = createEntry("mimetype");
+		ExportZipEntry mimeEntry = createEntry("mimetype");
 		Writer mimeWriter = null;
 		try
 		{
 			mimeWriter = mimeEntry.getWriter();
 			mimeWriter.write("application/vnd.oasis.opendocument."+mimetype);
 			mimeWriter.flush();
-			oasisZipEntries.add(mimeEntry);
+			exportZipEntries.add(mimeEntry);
 		}
 		finally
 		{
@@ -111,7 +105,7 @@ public abstract class OasisZip
 			}
 		}
 
-		OasisZipEntry manifestEntry = createEntry("META-INF/manifest.xml");
+		ExportZipEntry manifestEntry = createEntry("META-INF/manifest.xml");
 		Writer manifestWriter = null;
 		try
 		{
@@ -130,7 +124,7 @@ public abstract class OasisZip
 			manifestWriter.write("  <manifest:file-entry manifest:media-type=\"text/xml\" manifest:full-path=\"settings.xml\"/> \r\n");
 			manifestWriter.write("</manifest:manifest> \r\n");
 			manifestWriter.flush();
-			oasisZipEntries.add(manifestEntry);
+			exportZipEntries.add(manifestEntry);
 		}
 		finally
 		{
@@ -150,12 +144,7 @@ public abstract class OasisZip
 	/**
 	 *
 	 */
-	public abstract OasisZipEntry createEntry(String name);
-	
-	/**
-	 *
-	 */
-	public OasisZipEntry getContentEntry()
+	public ExportZipEntry getContentEntry()
 	{
 		return contentEntry;
 	}
@@ -163,49 +152,9 @@ public abstract class OasisZip
 	/**
 	 *
 	 */
-	public OasisZipEntry getStylesEntry()
+	public ExportZipEntry getStylesEntry()
 	{
 		return stylesEntry;
-	}
-	
-	/**
-	 *
-	 */
-	public void addEntry(OasisZipEntry entry)
-	{
-		oasisZipEntries.add(entry);
-	}
-	
-	/**
-	 *
-	 */
-	public void zipEntries(OutputStream os) throws IOException
-	{
-		ZipOutputStream zipos = new ZipOutputStream(os);
-		zipos.setMethod(ZipOutputStream.DEFLATED);
-		
-		for (int i = 0; i < oasisZipEntries.size(); i++) 
-		{
-			OasisZipEntry oasisZipEntry = (OasisZipEntry)oasisZipEntries.get(i);
-			ZipEntry zipEntry = new ZipEntry(oasisZipEntry.getName());
-			zipos.putNextEntry(zipEntry);
-			oasisZipEntry.writeData(zipos);
-		}
-		
-		zipos.flush();
-		zipos.finish();
-	}
-	
-	/**
-	 *
-	 */
-	public void dispose()
-	{
-		for (int i = 0; i < oasisZipEntries.size(); i++) 
-		{
-			OasisZipEntry oasisZipEntry = (OasisZipEntry)oasisZipEntries.get(i);
-			oasisZipEntry.dispose();
-		}
 	}
 	
 }

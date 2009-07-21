@@ -75,18 +75,16 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.CutsInfo;
-import net.sf.jasperreports.engine.export.DefaultHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
-import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZip;
-import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZipEntry;
 import net.sf.jasperreports.engine.export.oasis.zip.OasisZip;
-import net.sf.jasperreports.engine.export.oasis.zip.OasisZipEntry;
+import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
+import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -163,7 +161,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	private StyleCache styleCache = null;
 
 	protected ExporterNature nature = null;
-	protected String exporterPropertiesPrefix;
+	protected String exporterPropertiesPrefix;//FIXMEODT use an abstract property
 
 	public JROpenDocumentExporter()
 	{
@@ -310,8 +308,8 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	{
 		OasisZip oasisZip = new FileBufferedOasisZip(((JROpenDocumentExporterNature)nature).getOpenDocumentNature());
 
-		OasisZipEntry tempBodyEntry = new FileBufferedOasisZipEntry(null);
-		OasisZipEntry tempStyleEntry = new FileBufferedOasisZipEntry(null);
+		ExportZipEntry tempBodyEntry = new FileBufferedZipEntry(null);
+		ExportZipEntry tempStyleEntry = new FileBufferedZipEntry(null);
 
 		tempBodyWriter = tempBodyEntry.getWriter();
 		tempStyleWriter = tempStyleEntry.getWriter();
@@ -395,7 +393,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 				}
 
 				oasisZip.addEntry(//FIXMEODT optimize with a different implementation of entry
-					new FileBufferedOasisZipEntry(
+					new FileBufferedZipEntry(
 						"Pictures/" + getImageName(imageIndex),
 						renderer.getImageData()
 						)
