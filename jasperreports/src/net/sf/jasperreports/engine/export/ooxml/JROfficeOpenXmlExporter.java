@@ -698,7 +698,11 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 			docWriter.write("        <w:pageBreakBefore/> \r\n");
 			pageBreakInserted = true;
 		}
-		docWriter.write("        <w:pStyle w:val=\"" + styleCache.getParagraphStyle(text) + "\"/> \r\n");
+//		docWriter.write("        <w:pStyle w:val=\"" + styleCache.getParagraphStyle(text) + "\"/> \r\n");
+		if (text.getStyle() != null)
+		{
+			docWriter.write("        <w:pStyle w:val=\"" + text.getStyle().getName() + "\"/> \r\n");
+		}
 		docWriter.write("      </w:pPr> \r\n");
 		docWriter.flush();
 //		insertPageAnchor();
