@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class BorderStyle extends Style
+public abstract class BorderHelper extends StyleHelper
 {
 	/**
 	 *
@@ -61,7 +61,7 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	public BorderStyle(Writer styleWriter, JRPrintElement element)
+	public BorderHelper(Writer styleWriter, JRPrintElement element)
 	{
 		super(styleWriter);
 		
@@ -128,7 +128,7 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	protected void writeBorder(int side) throws IOException
+	protected void exportBorder(int side) throws IOException
 	{
 		if (borderWidth[side] != null)
 		{
@@ -138,7 +138,7 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	protected void writePadding(int side) throws IOException
+	protected void exportPadding(int side) throws IOException
 	{
 		if (borderPadding[side] != null)
 		{

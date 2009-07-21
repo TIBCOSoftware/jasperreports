@@ -97,7 +97,7 @@ public class StyleCache
 	 */
 	public String getFrameStyle(JRPrintText text) throws IOException
 	{
-		FrameStyle frameStyle  = new FrameStyle(styleWriter, text);
+		FrameHelper frameStyle  = new FrameHelper(styleWriter, text);
 		frameStyle.setBox(text.getLineBox());
 		
 		String frameStyleId = frameStyle.getId();
@@ -108,7 +108,7 @@ public class StyleCache
 			frameStyleName = "F" + frameStylesCounter++;
 			frameStyles.put(frameStyleId, frameStyleName);
 			
-			frameStyle.write(frameStyleName);
+			frameStyle.export(frameStyleName);
 		}
 		
 		return frameStyleName;
@@ -120,7 +120,7 @@ public class StyleCache
 	 */
 	public String getFrameStyle(JRPrintElement element) throws IOException
 	{
-		FrameStyle frameStyle  = new FrameStyle(styleWriter, element);
+		FrameHelper frameStyle  = new FrameHelper(styleWriter, element);
 		
 		String frameStyleId = frameStyle.getId();
 		String frameStyleName = (String)frameStyles.get(frameStyleId);
@@ -130,7 +130,7 @@ public class StyleCache
 			frameStyleName = "F" + frameStylesCounter++;
 			frameStyles.put(frameStyleId, frameStyleName);
 			
-			frameStyle.write(frameStyleName);
+			frameStyle.export(frameStyleName);
 		}
 		
 		return frameStyleName;
@@ -142,7 +142,7 @@ public class StyleCache
 	 */
 	public String getGraphicStyle(JRPrintGraphicElement element) throws IOException
 	{
-		GraphicStyle graphicStyle  = new GraphicStyle(styleWriter, element);
+		GraphicHelper graphicStyle  = new GraphicHelper(styleWriter, element);
 		
 		String graphicStyleId = graphicStyle.getId();
 		String graphicStyleName = (String)cellStyles.get(graphicStyleId);
@@ -152,7 +152,7 @@ public class StyleCache
 			graphicStyleName = "G" + graphicStylesCounter++;
 			graphicStyles.put(graphicStyleId, graphicStyleName);
 			
-			graphicStyle.write(graphicStyleName);
+			graphicStyle.export(graphicStyleName);
 		}
 		
 		return graphicStyleName;
@@ -164,7 +164,7 @@ public class StyleCache
 	 */
 	public String getCellStyle(JRPrintElement element) throws IOException
 	{
-		CellStyle cellStyle  = new CellStyle(styleWriter, element);
+		CellHelper cellStyle  = new CellHelper(styleWriter, element);
 		
 		if (element instanceof JRBoxContainer)
 			cellStyle.setBox(((JRBoxContainer)element).getLineBox());
@@ -179,7 +179,7 @@ public class StyleCache
 			cellStyleName = "C" + cellStylesCounter++;
 			cellStyles.put(cellStyleId, cellStyleName);
 			
-			cellStyle.write(cellStyleName);
+			cellStyle.export(cellStyleName);
 		}
 		
 		return cellStyleName;
@@ -191,7 +191,7 @@ public class StyleCache
 	 */
 	public String getParagraphStyle(JRPrintText text) throws IOException
 	{
-		ParagraphStyle paragraphStyle  = new ParagraphStyle(styleWriter, text);
+		ParagraphHelper paragraphStyle  = new ParagraphHelper(styleWriter, text);
 		
 		String paragraphStyleId = paragraphStyle.getId();
 		String paragraphStyleName = (String)paragraphStyles.get(paragraphStyleId);
@@ -201,7 +201,7 @@ public class StyleCache
 			paragraphStyleName = "P" + paragraphStylesCounter++;
 			paragraphStyles.put(paragraphStyleId, paragraphStyleName);
 			
-			paragraphStyle.write(paragraphStyleName);
+			paragraphStyle.export(paragraphStyleName);
 		}
 		
 		return paragraphStyleName;

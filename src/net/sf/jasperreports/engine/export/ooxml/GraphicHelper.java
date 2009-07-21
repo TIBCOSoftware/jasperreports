@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class GraphicStyle extends Style
+public class GraphicHelper extends StyleHelper
 {
 	/**
 	 *
@@ -58,7 +58,7 @@ public class GraphicStyle extends Style
 	/**
 	 *
 	 */
-	public GraphicStyle(Writer styleWriter, JRPrintGraphicElement element)
+	public GraphicHelper(Writer styleWriter, JRPrintGraphicElement element)
 	{
 		super(styleWriter);
 
@@ -180,7 +180,7 @@ public class GraphicStyle extends Style
 	/**
 	 *
 	 */
-	public void write(String lineStyleName) throws IOException
+	public void export(String lineStyleName) throws IOException
 	{
 		styleWriter.write(" <style:style style:name=\"" + lineStyleName + "\"");
 		styleWriter.write(" style:family=\"graphic\" style:parent-style-name=\"Graphics\">\n");

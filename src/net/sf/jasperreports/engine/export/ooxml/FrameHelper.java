@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class FrameStyle extends BorderStyle
+public class FrameHelper extends BorderHelper
 {
 	/**
 	 *
@@ -50,7 +50,7 @@ public class FrameStyle extends BorderStyle
 	/**
 	 *
 	 */
-	public FrameStyle(Writer styleWriter, JRPrintElement element)
+	public FrameHelper(Writer styleWriter, JRPrintElement element)
 	{
 		super(styleWriter, element);
 		
@@ -76,7 +76,7 @@ public class FrameStyle extends BorderStyle
 	/**
 	 *
 	 */
-	public void write(String frameStyleName) throws IOException
+	public void export(String frameStyleName) throws IOException
 	{
 		styleWriter.write("<style:style style:name=\"");
 		styleWriter.write(frameStyleName);
@@ -98,10 +98,10 @@ public class FrameStyle extends BorderStyle
 		styleWriter.write(backcolor);
 		styleWriter.write("\"");
 
-		writeBorder(TOP_BORDER);
-		writeBorder(LEFT_BORDER);
-		writeBorder(BOTTOM_BORDER);
-		writeBorder(RIGHT_BORDER);
+		exportBorder(TOP_BORDER);
+		exportBorder(LEFT_BORDER);
+		exportBorder(BOTTOM_BORDER);
+		exportBorder(RIGHT_BORDER);
 		
 		styleWriter.write("/>\n");
 		styleWriter.write("</style:style>\n");

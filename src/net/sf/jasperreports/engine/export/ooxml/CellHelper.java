@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class CellStyle extends BorderStyle
+public class CellHelper extends BorderHelper
 {
 	//private String fill = null;
 	private String backcolor = null;
@@ -53,7 +53,7 @@ public class CellStyle extends BorderStyle
 	/**
 	 *
 	 */
-	public CellStyle(Writer styleWriter, JRPrintElement element)
+	public CellHelper(Writer styleWriter, JRPrintElement element)
 	{
 		super(styleWriter, element);
 		
@@ -78,7 +78,7 @@ public class CellStyle extends BorderStyle
 			hAlign = alignment.getHorizontalAlignment();
 		}
 		
-		verticalAlignment = ParagraphStyle.getVerticalAlignment(hAlign, vAlign, rotation);
+		verticalAlignment = ParagraphHelper.getVerticalAlignment(hAlign, vAlign, rotation);
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class CellStyle extends BorderStyle
 	/**
 	 *
 	 */
-	public void write(String cellStyleName) throws IOException
+	public void export(String cellStyleName) throws IOException
 	{
 //		bodyWriter.write("     <w:tcPr> \r\n");
 //		bodyWriter.write("      <w:tcW w:w=\"" + width + "\" w:type=\"dxa\" /> \r\n");
@@ -139,10 +139,10 @@ public class CellStyle extends BorderStyle
 		if(hasBorder())
 		{
 			styleWriter.write("      <w:tcBorders> \r\n");
-			writeBorder(TOP_BORDER);
-			writeBorder(LEFT_BORDER);
-			writeBorder(BOTTOM_BORDER);
-			writeBorder(RIGHT_BORDER);
+			exportBorder(TOP_BORDER);
+			exportBorder(LEFT_BORDER);
+			exportBorder(BOTTOM_BORDER);
+			exportBorder(RIGHT_BORDER);
 			styleWriter.write("      </w:tcBorders> \r\n");
 		}
 		
@@ -152,10 +152,10 @@ public class CellStyle extends BorderStyle
 		}
 		
 		styleWriter.write("      <w:tcMar> \r\n");
-		writePadding(TOP_BORDER);
-		writePadding(LEFT_BORDER);
-		writePadding(BOTTOM_BORDER);
-		writePadding(RIGHT_BORDER);
+		exportPadding(TOP_BORDER);
+		exportPadding(LEFT_BORDER);
+		exportPadding(BOTTOM_BORDER);
+		exportPadding(RIGHT_BORDER);
 		styleWriter.write("      </w:tcMar> \r\n");
 		
 		if (verticalAlignment != null)

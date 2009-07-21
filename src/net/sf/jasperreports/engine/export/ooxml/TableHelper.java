@@ -37,27 +37,28 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRPrintElement;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class TableBuilder 
+public class TableHelper 
 {
-
-	private String tableName = null;
 	private int reportIndex = 0;
 	private Writer docWriter = null;
 	private boolean isFrame = false;
 	private boolean isPageBreak = false;
-	
 
-	protected TableBuilder(
+	private TableCellHelper tableCellHelper = null;
+
+	protected TableHelper(
 		String name, 
-		Writer docWriter
+		Writer docWriter,
+		Map fontMap
 		) 
 	{
 		isFrame = true;
@@ -65,13 +66,14 @@ public class TableBuilder
 		
 		this.docWriter = docWriter;
 
-		this.tableName = "TBL_" + name;
+		tableCellHelper = new TableCellHelper(docWriter, fontMap);
 	}
 
-	protected TableBuilder(
+	protected TableHelper(
 		int reportIndex,
 		int pageIndex,
-		Writer docWriter
+		Writer docWriter,
+		Map fontMap
 		) 
 	{
 		isFrame = false;
@@ -80,11 +82,11 @@ public class TableBuilder
 		this.reportIndex = reportIndex;
 		this.docWriter = docWriter;
 
-		this.tableName = "TBL_" + reportIndex + "_" + pageIndex;
+		tableCellHelper = new TableCellHelper(docWriter, fontMap);
 	}
 
 
-//	public void buildTableStyle() throws IOException 
+//	public void exportTableStyle() throws IOException 
 //	{
 //		styleWriter.write(" <style:style style:name=\"" + tableName + "\"");//FIXMEODT can we have only one page style per report?
 //		if (!isFrame)
@@ -108,7 +110,7 @@ public class TableBuilder
 //		styleWriter.write(" </style:style>\n");
 //	}
 	
-	public void buildTableHeader() throws IOException 
+	public void exportTableHeader() throws IOException 
 	{
 		docWriter.write("  <w:tbl> \r\n");
 //		if (isFrame)
@@ -129,12 +131,12 @@ public class TableBuilder
 //		docWriter.write("   </w:tblGrid> \r\n");
 	}
 	
-	public void buildTableFooter() throws IOException 
+	public void exportTableFooter() throws IOException 
 	{
 		docWriter.write("  </w:tbl> \r\n");
 	}
 	
-//	public void buildRowStyle(int rowIndex, int rowHeight) throws IOException 
+//	public void exportRowStyle(int rowIndex, int rowHeight) throws IOException 
 //	{
 //		String rowName = tableName + "_row_" + rowIndex;
 //		styleWriter.write(" <style:style style:name=\"" + rowName + "\"");
@@ -147,7 +149,7 @@ public class TableBuilder
 //		styleWriter.write(" </style:style>\n");
 //	}
 
-	public void buildRowHeader(int rowHeight) throws IOException 
+	public void exportRowHeader(int rowHeight) throws IOException 
 	{
 		docWriter.write("   <w:tr> \r\n");
 		docWriter.write("    <w:trPr> \r\n");
@@ -155,12 +157,12 @@ public class TableBuilder
 		docWriter.write("    </w:trPr> \r\n");
 	}
 	
-	public void buildRowFooter() throws IOException 
+	public void exportRowFooter() throws IOException 
 	{
 		docWriter.write("   </w:tr> \r\n");//FIXMEDOCX really need rn?
 	}
 	
-	public void buildColumnStyle(int colIndex, int colWidth) throws IOException 
+	public void exportColumnStyle(int colIndex, int colWidth) throws IOException 
 	{
 //		String columnName = tableName + "_col_" + colIndex;
 //		styleWriter.write(" <style:style style:name=\"" + columnName + "\"");
@@ -172,7 +174,7 @@ public class TableBuilder
 		docWriter.write("    <w:gridCol w:w=\"" + Utility.twip(colWidth) + "\"/> \r\n");
 	}
 
-//	public void buildColumnHeader(int colIndex) throws IOException 
+//	public void exportColumnHeader(int colIndex) throws IOException 
 //	{
 //		String columnName = tableName + "_col_" + colIndex;
 //		bodyWriter.write("<table:table-column");		
@@ -180,12 +182,12 @@ public class TableBuilder
 //		bodyWriter.write(">\n");
 //	}
 
-//	public void buildColumnFooter() throws IOException 
+//	public void exportColumnFooter() throws IOException 
 //	{
 //		bodyWriter.write("</table:table-column>\n");		
 //	}
 
-	public void buildCellHeader(StyleCache styleCache, JRPrintElement element, int colSpan, int rowSpan) throws IOException 
+	public void exportCellHeader(JRPrintElement element, int colSpan, int rowSpan) throws IOException 
 	{
 		docWriter.write("    <w:tc> \r\n");
 		docWriter.write("     <w:tcPr> \r\n");
@@ -194,11 +196,11 @@ public class TableBuilder
 		{
 			docWriter.write("      <w:gridSpan w:val=\"" + colSpan +"\" /> \r\n");
 		}
-		styleCache.getCellStyle(element);
+		tableCellHelper.getCellStyle(element);
 		docWriter.write("     </w:tcPr> \r\n");
 	}
 
-	public void buildCellFooter() throws IOException 
+	public void exportCellFooter() throws IOException 
 	{
 		docWriter.write("    </w:tc> \r\n");
 	}
