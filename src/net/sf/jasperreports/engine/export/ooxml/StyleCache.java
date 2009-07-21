@@ -172,7 +172,7 @@ public class StyleCache
 			cellStyle.setPen(((JRCommonGraphicElement)element).getLinePen());
 		
 		String cellStyleId = cellStyle.getId();
-		String cellStyleName = (String)cellStyles.get(cellStyleId);
+		String cellStyleName = null;//(String)cellStyles.get(cellStyleId);
 		
 		if (cellStyleName == null)
 		{

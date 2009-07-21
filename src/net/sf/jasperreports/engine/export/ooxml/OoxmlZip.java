@@ -67,42 +67,10 @@ public abstract class OoxmlZip extends AbstractZip
 		stylesEntry = createEntry("word/styles.xml");
 		exportZipEntries.add(stylesEntry);
 		
-//		String mimetype;
-//		
-//		switch(openDocumentNature)
-//		{
-//			case JROpenDocumentExporterNature.ODS_NATURE:
-//				mimetype = "spreadsheet";
-//				break;
-//			case JROpenDocumentExporterNature.ODT_NATURE:
-//			default:
-//				mimetype = "text";
-//		}
-//		ExportZipEntry mimeEntry = createEntry("mimetype");
-//		Writer mimeWriter = null;
-//		try
-//		{
-//			mimeWriter = mimeEntry.getWriter();
-//			mimeWriter.write("application/vnd.oasis.opendocument."+mimetype);
-//			mimeWriter.flush();
-//			exportZipEntries.add(mimeEntry);
-//		}
-//		finally
-//		{
-//			if (mimeWriter != null)
-//			{
-//				try
-//				{
-//					mimeWriter.close();
-//				}
-//				catch (IOException e)
-//				{
-//				}
-//			}
-//		}
-
 		createRelsEntry();
 
+		createWordRelsEntry();
+		
 		createContentTypesEntry();
 	}
 	
@@ -136,6 +104,38 @@ public abstract class OoxmlZip extends AbstractZip
 			relsWriter.write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">\n");
 			relsWriter.write(" <Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/>\n"); 
 			relsWriter.write("</Relationships>\n"); 
+			relsWriter.flush();
+			exportZipEntries.add(relsEntry);
+		}
+		finally
+		{
+			if (relsWriter != null)
+			{
+				try
+				{
+					relsWriter.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	private void createWordRelsEntry() throws IOException
+	{
+		ExportZipEntry relsEntry = createEntry("word/_rels/document.xml.rels");
+		Writer relsWriter = null;
+		try
+		{
+			relsWriter = relsEntry.getWriter();
+			relsWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			relsWriter.write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"> \r\n");
+			relsWriter.write(" <Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles\" Target=\"styles.xml\"/> \r\n");
+			relsWriter.write("</Relationships> \r\n");
 			relsWriter.flush();
 			exportZipEntries.add(relsEntry);
 		}

@@ -39,7 +39,11 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRCommonElement;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 
 
@@ -69,128 +73,60 @@ public class StyleBuilder
 	 */
 	public void build() throws IOException
 	{
-		buildBeforeAutomaticStyles();
-		
+		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		writer.write("<w:styles \r\n");
+		writer.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" \r\n");
+		writer.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"> \r\n");
+		writer.write(" <w:docDefaults> \r\n");
+		writer.write("  <w:rPrDefault> \r\n");
+		writer.write("   <w:rPr> \r\n");
+		writer.write("    <w:rFonts w:ascii=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> \r\n");
+		writer.write("   </w:rPr> \r\n");
+		writer.write("  </w:rPrDefault> \r\n");
+		writer.write("  <w:pPrDefault> \r\n");
+		writer.write("  </w:pPrDefault> \r\n");
+		writer.write(" </w:docDefaults> \r\n");
+
 		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			JasperPrint jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 			
-//			buildPageLayout(reportIndex, jasperPrint);
+			JRStyle[] styles = jasperPrint.getStyles();
+			if (styles != null)
+			{
+				for(int i = 0; i < styles.length; i++)
+				{
+					buildStyle(styles[i]);
+				}
+			}
 		}
 
-//		buildBetweenAutomaticAndMasterStyles();
-
-		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
-		{
-//			buildMasterPage(reportIndex);
-		}
-
-//		buildAfterMasterStyles();
-		
-		writer.flush();
+		writer.write("</w:styles> \r\n");
 	}
 	
 	/**
 	 * 
 	 */
-	private void buildBeforeAutomaticStyles() throws IOException
+	private void buildStyle(JRStyle style) throws IOException
 	{
-		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-//
-//		writer.write("<office:document-styles");
-//		writer.write(" xmlns:office=\"urn:oasis:names:tc:opendocument:xmlns:office:1.0\"");
-//		writer.write(" xmlns:style=\"urn:oasis:names:tc:opendocument:xmlns:style:1.0\"");
-//		writer.write(" xmlns:text=\"urn:oasis:names:tc:opendocument:xmlns:text:1.0\"");
-//		writer.write(" xmlns:table=\"urn:oasis:names:tc:opendocument:xmlns:table:1.0\"");
-//		writer.write(" xmlns:draw=\"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0\"");
-//		writer.write(" xmlns:fo=\"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0\"");
-//		writer.write(" xmlns:xlink=\"http://www.w3.org/1999/xlink\"");
-//		writer.write(" xmlns:dc=\"http://purl.org/dc/elements/1.1/\"");
-//		writer.write(" xmlns:meta=\"urn:oasis:names:tc:opendocument:xmlns:meta:1.0\"");
-//		writer.write(" xmlns:number=\"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0\"");
-//		writer.write(" xmlns:svg=\"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0\"");
-//		writer.write(" xmlns:chart=\"urn:oasis:names:tc:opendocument:xmlns:chart:1.0\"");
-//		writer.write(" xmlns:dr3d=\"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0\"");
-//		writer.write(" xmlns:math=\"http://www.w3.org/1998/Math/MathML\"");
-//		writer.write(" xmlns:form=\"urn:oasis:names:tc:opendocument:xmlns:form:1.0\"");
-//		writer.write(" xmlns:script=\"urn:oasis:names:tc:opendocument:xmlns:script:1.0\"");
-//		writer.write(" xmlns:ooo=\"http://openoffice.org/2004/office\"");
-//		writer.write(" xmlns:ooow=\"http://openoffice.org/2004/writer\"");
-//		writer.write(" xmlns:oooc=\"http://openoffice.org/2004/calc\"");
-//		writer.write(" xmlns:dom=\"http://www.w3.org/2001/xml-events\"");
-//		writer.write(" xmlns:xforms=\"http://www.w3.org/2002/xforms\"");
-//		writer.write(" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"");
-//		writer.write(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
-//		writer.write(" office:version=\"");		
-//		//writer.write(DocumentBuilder.VERSION);		
-//		writer.write("\">\n");		
-//
-//		writer.write(" <office:styles>\n");	
-//		writer.write("<draw:stroke-dash draw:name=\"Dashed\" draw:display-name=\"Dashed\" " +
-//			"draw:style=\"rect\" draw:dots1=\"1\" draw:dots1-length=\"0.05cm\" draw:dots2=\"1\" " +
-//			"draw:dots2-length=\"0.05cm\" draw:distance=\"0.05cm\"/>");
-//		writer.write(" </office:styles>\n");	
-//		writer.write(" <office:automatic-styles>\n");	
+		writer.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\"> \r\n");
+		writer.write("  <w:name w:val=\"" + style.getName() + "\" /> \r\n");
+		writer.write("  <w:qFormat /> \r\n");
+		writer.write("  <w:pPr> \r\n");
+		if (style.getOwnHorizontalAlignment() != null || style.getOwnRotation() != null)
+		{
+			writer.write("   <w:jc w:val=\"" 
+				+ ParagraphStyle.getHorizontalAlignment(
+					style.getHorizontalAlignment().byteValue(), 
+					style.getVerticalAlignment() == null ? JRAlignment.VERTICAL_ALIGN_TOP : style.getVerticalAlignment().byteValue(), 
+					style.getRotation() == null ? JRTextElement.ROTATION_NONE : style.getRotation().byteValue()
+					) 
+				+ "\" /> \r\n");
+		}
+		writer.write("  </w:pPr> \r\n");
+		//FIXME: textRotation???
+		writer.write(" </w:style> \r\n");
+		writer.flush();
 	}
 	
-//	/**
-//	 * 
-//	 */
-//	private void buildBetweenAutomaticAndMasterStyles() throws IOException
-//	{
-//		writer.write(" </office:automatic-styles>\n");
-//		writer.write(" <office:master-styles>\n");	
-//	}
-//	
-//	/**
-//	 * 
-//	 */
-//	private void buildAfterMasterStyles() throws IOException
-//	{
-//		writer.write(" </office:master-styles>\n");	
-//		writer.write("</office:document-styles>\n");
-//	}
-//
-//	/**
-//	 * 
-//	 */
-//	private void buildPageLayout(int reportIndex, JasperPrint jasperPrint) throws IOException 
-//	{
-//			writer.write("<style:page-layout");
-//			writer.write(" style:name=\"page_" + reportIndex + "\">\n");
-//			
-//			writer.write("<style:page-layout-properties");
-//			writer.write(" fo:page-width=\"" + Utility.translatePixelsToInchesRound(jasperPrint.getPageWidth()) +"in\"");
-//			writer.write(" fo:page-height=\"" + Utility.translatePixelsToInchesRound(jasperPrint.getPageHeight()) +"in\"");//FIXMEODT we probably need some actualHeight trick
-//			writer.write(" fo:margin-top=\"0in\"");//FIXMEODT useless?
-//			writer.write(" fo:margin-bottom=\"0in\"");
-//			writer.write(" fo:margin-left=\"0in\"");
-//			writer.write(" fo:margin-right=\"0in\"");
-//
-//			switch (jasperPrint.getOrientation())
-//			{
-//				case JRReport.ORIENTATION_LANDSCAPE:
-//					writer.write(" style:print-orientation=\"landscape\"");
-//					break;
-//				default:
-//					writer.write(" style:print-orientation=\"portrait\"");
-//					break;
-//			}
-//			
-//			writer.write("/>\n");
-//			writer.write("</style:page-layout>\n");
-//	}
-//
-//	/**
-//	 * 
-//	 */
-//	private void buildMasterPage(int reportIndex) throws IOException 
-//	{
-//		writer.write("<style:master-page style:name=\"master_");
-//		writer.write(String.valueOf(reportIndex));
-//		writer.write("\" style:page-layout-name=\"page_");
-//		writer.write(String.valueOf(reportIndex));
-//		writer.write("\"/>\n");
-//	}
-
 }

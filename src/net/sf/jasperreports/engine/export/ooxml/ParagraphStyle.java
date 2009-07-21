@@ -44,8 +44,8 @@ public class ParagraphStyle extends Style
 	/**
 	 *
 	 */
-	protected static final String HORIZONTAL_ALIGN_LEFT = "start";
-	protected static final String HORIZONTAL_ALIGN_RIGHT = "end";
+	protected static final String HORIZONTAL_ALIGN_LEFT = "left";
+	protected static final String HORIZONTAL_ALIGN_RIGHT = "right";
 	protected static final String HORIZONTAL_ALIGN_CENTER = "center";
 	protected static final String HORIZONTAL_ALIGN_JUSTIFY = "justified";
 
