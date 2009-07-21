@@ -63,7 +63,6 @@ public abstract class OasisZip extends AbstractZip
 	 */
 	public OasisZip(byte openDocumentNature) throws IOException
 	{
-		
 		exportZipEntries = new ArrayList();
 
 		contentEntry = createEntry("content.xml");
