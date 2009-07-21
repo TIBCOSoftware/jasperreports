@@ -50,10 +50,14 @@ public abstract class OasisZip extends AbstractZip
 	private ExportZipEntry contentEntry = null;
 	private ExportZipEntry stylesEntry = null;
 	
+	/**
+	 * 
+	 */
 	public OasisZip() throws IOException
 	{
 		this(JROpenDocumentExporterNature.ODT_NATURE);
 	}
+
 	/**
 	 * 
 	 */
@@ -82,12 +86,39 @@ public abstract class OasisZip extends AbstractZip
 			default:
 				mimetype = "text";
 		}
+
+		createMimeEntry(mimetype);
+
+		createManifestEntry(mimetype);
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getContentEntry()
+	{
+		return contentEntry;
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getStylesEntry()
+	{
+		return stylesEntry;
+	}
+	
+	/**
+	 * 
+	 */
+	private void createMimeEntry(String mimetype) throws IOException
+	{
 		ExportZipEntry mimeEntry = createEntry("mimetype");
 		Writer mimeWriter = null;
 		try
 		{
 			mimeWriter = mimeEntry.getWriter();
-			mimeWriter.write("application/vnd.oasis.opendocument."+mimetype);
+			mimeWriter.write("application/vnd.oasis.opendocument." + mimetype);
 			mimeWriter.flush();
 			exportZipEntries.add(mimeEntry);
 		}
@@ -104,7 +135,13 @@ public abstract class OasisZip extends AbstractZip
 				}
 			}
 		}
+	}
 
+	/**
+	 * 
+	 */
+	private void createManifestEntry(String mimetype) throws IOException
+	{
 		ExportZipEntry manifestEntry = createEntry("META-INF/manifest.xml");
 		Writer manifestWriter = null;
 		try
@@ -128,33 +165,17 @@ public abstract class OasisZip extends AbstractZip
 		}
 		finally
 		{
-			if (mimeWriter != null)
+			if (manifestWriter != null)
 			{
 				try
 				{
-					mimeWriter.close();
+					manifestWriter.close();
 				}
 				catch (IOException e)
 				{
 				}
 			}
 		}
-	}
-	
-	/**
-	 *
-	 */
-	public ExportZipEntry getContentEntry()
-	{
-		return contentEntry;
-	}
-	
-	/**
-	 *
-	 */
-	public ExportZipEntry getStylesEntry()
-	{
-		return stylesEntry;
 	}
 	
 }
