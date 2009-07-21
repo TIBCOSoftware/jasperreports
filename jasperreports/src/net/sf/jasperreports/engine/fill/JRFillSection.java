@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.JRSection;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRFillBand.java 2696 2009-03-24 18:35:01Z teodord $
+ * @version $Id$
  */
 public class JRFillSection implements JRSection, JROriginProvider
 {

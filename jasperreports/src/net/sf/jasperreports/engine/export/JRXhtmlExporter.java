@@ -104,7 +104,7 @@ import net.sf.jasperreports.engine.util.Pair;
  * By using the {@link JRExporterParameter#FONT_MAP} parameter, a logical font like "sansserif" can be mapped to a
  * list of HTML specific fonts, like "Arial, Verdana, Tahoma". Both map keys and values are strings.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRHtmlExporter.java 2847 2009-06-02 15:39:06Z lucianc $
+ * @version $Id$
  */
 public class JRXhtmlExporter extends JRAbstractExporter
 {

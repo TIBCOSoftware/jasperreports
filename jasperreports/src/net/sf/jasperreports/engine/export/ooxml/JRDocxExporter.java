@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * Exports a JasperReports document to ODF format. It has character output type and exports the document to a
  * grid-based layout.
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: Utility.java 2891 2009-07-17 15:56:09Z shertage $
+ * @version $Id$
  */
 public class JRDocxExporter extends JROfficeOpenXmlExporter
 {

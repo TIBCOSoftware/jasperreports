@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.base.JRBaseSection;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDesignBand.java 2694 2009-03-24 18:11:24Z teodord $
+ * @version $Id$
  */
 public class JRDesignSection extends JRBaseSection
 {
