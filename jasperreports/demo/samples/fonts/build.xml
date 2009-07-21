@@ -150,6 +150,30 @@
 		</java>
 	</target>
 
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="ods"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="docx"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="xhtml" description="Generates a XHTML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="xhtml"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="run" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
 		<java classname="${class.name}">
 			<arg value="run"/>
@@ -193,6 +217,9 @@
 		<antcall target="jxl" />
 		<antcall target="csv" />
 		<antcall target="odt" />
+		<antcall target="ods" />
+		<antcall target="docx" />
+		<antcall target="xhtml" />
 	</target>
 
 </project>
