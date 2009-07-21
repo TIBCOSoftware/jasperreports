@@ -44,8 +44,8 @@ public class ParagraphStyle extends Style
 	/**
 	 *
 	 */
-	protected static final String HORIZONTAL_ALIGN_LEFT = "start";
-	protected static final String HORIZONTAL_ALIGN_RIGHT = "end";
+	protected static final String HORIZONTAL_ALIGN_LEFT = "left";
+	protected static final String HORIZONTAL_ALIGN_RIGHT = "right";
 	protected static final String HORIZONTAL_ALIGN_CENTER = "center";
 	protected static final String HORIZONTAL_ALIGN_JUSTIFY = "justified";
 
@@ -238,7 +238,9 @@ public class ParagraphStyle extends Style
 		styleWriter.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + paragraphStyleName + "\"> \r\n");
 		styleWriter.write("  <w:name w:val=\"" + paragraphStyleName + "\" /> \r\n");
 		styleWriter.write("  <w:qFormat /> \r\n");
-		styleWriter.write("  <w:jc w:val=\"" + horizontalAlignment + "\" /> \r\n");
+		styleWriter.write("  <w:pPr> \r\n");
+		styleWriter.write("   <w:jc w:val=\"" + horizontalAlignment + "\" /> \r\n");
+		styleWriter.write("  </w:pPr> \r\n");
 		if (runDirection != null)
 		{
 			styleWriter.write(" <w:textFlow w:val=\"" + runDirection + "\" /> \r\n");

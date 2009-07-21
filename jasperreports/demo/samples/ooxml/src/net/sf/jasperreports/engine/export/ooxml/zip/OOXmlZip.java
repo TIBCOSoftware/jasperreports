@@ -152,6 +152,7 @@ public abstract class OOXmlZip
 		
 		createContentTypesEntry(mimetype);
 		createRelsEntry(mimetype);
+		createWordRelsEntry(mimetype);
 //		createAppEntry(mimetype);
 //		createCoreEntry(mimetype);
 //		createThemeEntry(mimetype);
@@ -690,6 +691,38 @@ public abstract class OOXmlZip
 //			writer.write(" <Relationship Id=\"rId3\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties\" Target=\"docProps/app.xml\"/> \r\n");
 //			writer.write(" <Relationship Id=\"rId2\" Type=\"http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties\" Target=\"docProps/core.xml\"/> \r\n");
 			writer.write(" <Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"" + target + ".xml\"/> \r\n");
+			writer.write("</Relationships> \r\n");
+			
+			writer.flush();
+			writer.close();
+			ooxmlZipEntries.add(relsEntry);
+		}
+		finally
+		{
+			if (writer != null)
+			{
+				try
+				{
+					writer.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
+		}
+    }
+
+    private void createWordRelsEntry(String mimetype) throws IOException
+    {
+		Writer writer = null;
+		relsEntry = createEntry("word/_rels/document.xml.rels");
+		
+		try
+		{
+			writer = relsEntry.getWriter();
+			writer.write(xmlProlog);
+			writer.write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"> \r\n");
+			writer.write(" <Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles\" Target=\"styles.xml\"/> \r\n");
 			writer.write("</Relationships> \r\n");
 			
 			writer.flush();
