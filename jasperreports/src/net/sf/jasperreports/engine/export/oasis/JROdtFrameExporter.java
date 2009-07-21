@@ -62,13 +62,11 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.DefaultHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
-import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZip;
-import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZipEntry;
 import net.sf.jasperreports.engine.export.oasis.zip.OasisZip;
-import net.sf.jasperreports.engine.export.oasis.zip.OasisZipEntry;
+import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
+import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -267,8 +265,8 @@ public class JROdtFrameExporter extends JRAbstractExporter
 	{
 		OasisZip oasisZip = new FileBufferedOasisZip();
 
-		OasisZipEntry tempBodyEntry = new FileBufferedOasisZipEntry(null);
-		OasisZipEntry tempStyleEntry = new FileBufferedOasisZipEntry(null);
+		ExportZipEntry tempBodyEntry = new FileBufferedZipEntry(null);
+		ExportZipEntry tempStyleEntry = new FileBufferedZipEntry(null);
 
 		tempBodyWriter = tempBodyEntry.getWriter();
 		tempStyleWriter = tempStyleEntry.getWriter();

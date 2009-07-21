@@ -29,7 +29,8 @@ package net.sf.jasperreports.engine.export.oasis.zip;
 
 import java.io.IOException;
 
-import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
+import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 
 
 /**
@@ -58,9 +59,9 @@ public class FileBufferedOasisZip extends OasisZip
 	/**
 	 *
 	 */
-	public OasisZipEntry createEntry(String name)
+	public ExportZipEntry createEntry(String name)
 	{
-		return new FileBufferedOasisZipEntry(name);
+		return new FileBufferedZipEntry(name);
 	}
 	
 }
