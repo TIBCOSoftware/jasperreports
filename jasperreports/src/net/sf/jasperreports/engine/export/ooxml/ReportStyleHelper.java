@@ -39,39 +39,20 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRCommonElement;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class StyleBuilder
+public class ReportStyleHelper
 {
 	/**
 	 * 
 	 */
-	private List jasperPrintList = null;
-	private Writer writer = null;
-	
-	/**
-	 * 
-	 */
-	public StyleBuilder(List jasperPrintList, Writer writer)
-	{
-		this.jasperPrintList = jasperPrintList;
-		this.writer = writer;
-	}
-
-	/**
-	 * 
-	 */
-	public void build() throws IOException
+	public static void export(List jasperPrintList, Writer writer) throws IOException
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		writer.write("<w:styles \r\n");
@@ -96,7 +77,7 @@ public class StyleBuilder
 			{
 				for(int i = 0; i < styles.length; i++)
 				{
-					buildStyle(styles[i]);
+					exportStyle(styles[i], writer);
 				}
 			}
 		}
@@ -107,26 +88,13 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private void buildStyle(JRStyle style) throws IOException
+	private static void exportStyle(JRStyle style, Writer writer) throws IOException
 	{
 		writer.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\"> \r\n");
 		writer.write("  <w:name w:val=\"" + style.getName() + "\" /> \r\n");
 		writer.write("  <w:qFormat /> \r\n");
-		writer.write("  <w:pPr> \r\n");
-		if (style.getOwnHorizontalAlignment() != null || style.getOwnRotation() != null)
-		{
-			writer.write("   <w:jc w:val=\"" 
-				+ ParagraphStyle.getHorizontalAlignment(
-					style.getHorizontalAlignment().byteValue(), 
-					style.getVerticalAlignment() == null ? JRAlignment.VERTICAL_ALIGN_TOP : style.getVerticalAlignment().byteValue(), 
-					style.getRotation() == null ? JRTextElement.ROTATION_NONE : style.getRotation().byteValue()
-					) 
-				+ "\" /> \r\n");
-		}
-		writer.write("  </w:pPr> \r\n");
-		//FIXME: textRotation???
+		new ParagraphHelper(writer, style).export(true);
 		writer.write(" </w:style> \r\n");
-		writer.flush();
 	}
 	
 }

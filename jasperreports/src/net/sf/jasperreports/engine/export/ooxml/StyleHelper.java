@@ -35,7 +35,7 @@ import java.io.Writer;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class Style
+public abstract class StyleHelper
 {
 	/**
 	 *
@@ -45,7 +45,7 @@ public abstract class Style
 	/**
 	 *
 	 */
-	public Style(Writer styleWriter)
+	public StyleHelper(Writer styleWriter)
 	{
 		this.styleWriter = styleWriter;
 	}
@@ -58,7 +58,7 @@ public abstract class Style
 	/**
 	 *
 	 */
-	public abstract void write(String styleName) throws IOException;
+	public abstract void export(String styleName) throws IOException;
 	
 }
 
