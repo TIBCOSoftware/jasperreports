@@ -36,7 +36,7 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: OasisZip.java 2695 2009-03-24 18:14:25Z teodord $
+ * @version $Id$
  */
 public abstract class AbstractZip
 {
