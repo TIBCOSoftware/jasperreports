@@ -35,7 +35,7 @@ package net.sf.jasperreports.engine;
  * Report sections consist of one or more bands.
  * @see JRBand
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBand.java 2698 2009-03-24 18:46:27Z teodord $
+ * @version $Id$
  */
 public interface JRSection extends JRCloneable
 {

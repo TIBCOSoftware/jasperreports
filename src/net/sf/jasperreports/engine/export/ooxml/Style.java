@@ -33,7 +33,7 @@ import java.io.Writer;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: Utility.java 2891 2009-07-17 15:56:09Z shertage $
+ * @version $Id$
  */
 public abstract class Style
 {

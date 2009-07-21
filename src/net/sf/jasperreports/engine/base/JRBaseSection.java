@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * Report sections consist of one or more bands.
  * @see JRBaseBand
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBaseBand.java 2694 2009-03-24 18:11:24Z teodord $
+ * @version $Id$
  */
 public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializable
 {

@@ -34,7 +34,7 @@ import org.krysalis.barcode4j.ChecksumMode;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: Code128Component.java 2810 2009-05-26 17:30:50Z lucianc $
+ * @version $Id$
  */
 public class UPCEComponent extends BarcodeComponent
 {
