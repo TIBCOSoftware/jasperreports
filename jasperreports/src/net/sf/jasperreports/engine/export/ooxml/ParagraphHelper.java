@@ -49,13 +49,13 @@ public class ParagraphHelper extends StyleHelper
 	protected static final String HORIZONTAL_ALIGN_LEFT = "left";
 	protected static final String HORIZONTAL_ALIGN_RIGHT = "right";
 	protected static final String HORIZONTAL_ALIGN_CENTER = "center";
-	protected static final String HORIZONTAL_ALIGN_JUSTIFY = "justified";
+	protected static final String HORIZONTAL_ALIGN_JUSTIFY = "both";
 
 	/**
 	 *
 	 */
 	private static final String VERTICAL_ALIGN_TOP = "top";
-	private static final String VERTICAL_ALIGN_MIDDLE = "middle";
+	private static final String VERTICAL_ALIGN_MIDDLE = "center";
 	private static final String VERTICAL_ALIGN_BOTTOM = "bottom";
 
 	/**
