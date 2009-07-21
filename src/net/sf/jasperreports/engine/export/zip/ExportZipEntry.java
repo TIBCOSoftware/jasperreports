@@ -34,7 +34,7 @@ import java.io.Writer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: OasisZipEntry.java 2695 2009-03-24 18:14:25Z teodord $
+ * @version $Id$
  */
 public interface ExportZipEntry 
 {
