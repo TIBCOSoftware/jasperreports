@@ -158,6 +158,22 @@
 		</java>
 	</target>
 
+	<target name="docx" if="using.jdk.1.5" description="Generates a DOCX version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="docx"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="xhtml" if="using.jdk.1.5" description="Generates an XHTML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="${build.dir}">
+			<arg value="xhtml"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="run" if="using.jdk.1.5" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
 		<java classname="${class.name}" fork="true" dir="${build.dir}">
 			<jvmarg value="-javaagent:../lib/toplink-essentials-agent.jar"/>
@@ -202,6 +218,8 @@
 		<antcall target="jxl" />
 		<antcall target="csv" />
 		<antcall target="odt" />
+		<antcall target="docx" />
+		<antcall target="xhtml" />
 	</target>
 
 </project>
