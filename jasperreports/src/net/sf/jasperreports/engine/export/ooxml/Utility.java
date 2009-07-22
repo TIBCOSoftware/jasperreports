@@ -107,4 +107,15 @@ public class Utility {
 	public static int twip(float points) {//FIXMEDOCX move this utility
 		return (int)(points * 20);
 	}
+
+	/**
+	 * Convert an int value from points to EMU (multiply with 12700)
+	 * @param points value that needs to be converted
+	 * @return converted value in EMU
+	 */
+	public static int emu(float points) 
+	{
+		return (int)(points * 12700);
+	}
+	
 }

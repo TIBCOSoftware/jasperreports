@@ -870,7 +870,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 			docWriter.write("<w:r>\n"); 
 			docWriter.write("<w:drawing>\n");
 			docWriter.write("<wp:inline distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\">\n");
-			docWriter.write("<wp:extent cx=\"5943600\" cy=\"4457700\"/>\n");
+			docWriter.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
 			docWriter.write("<wp:effectExtent l=\"19050\" t=\"0\" r=\"0\" b=\"0\"/>\n");
 			docWriter.write("<wp:docPr id=\"1\" name=\"Picture 0\" descr=\"Water lilies.jpg\"/>\n");
 			docWriter.write("<wp:cNvGraphicFramePr>\n");
