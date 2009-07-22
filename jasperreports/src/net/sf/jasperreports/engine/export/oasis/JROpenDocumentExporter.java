@@ -471,7 +471,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			for(int col = 0; col < grid[0].length; col++)
 			{
 				JRExporterGridCell gridCell = grid[row][col];
-				if (gridCell == JRExporterGridCell.OCCUPIED_CELL)
+				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
 				{
 					if (emptyCellColSpan > 0)
 					{

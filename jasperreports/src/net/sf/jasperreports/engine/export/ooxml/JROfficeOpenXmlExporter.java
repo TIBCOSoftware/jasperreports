@@ -72,12 +72,14 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.CutsInfo;
+import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
+import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -431,6 +433,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 		{
 			//JRExporterGridCell[] gridRow = grid[row];
 
+//			int occupiedCellColSpan = 0;
 			int emptyCellColSpan = 0;
 			int emptyCellWidth = 0;
 			int rowHeight = gridLayout.getRowHeight(row);
@@ -440,7 +443,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 			for(int col = 0; col < grid[0].length; col++)
 			{
 				JRExporterGridCell gridCell = grid[row][col];
-				if (gridCell == JRExporterGridCell.OCCUPIED_CELL)
+				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
 				{
 					if (emptyCellColSpan > 0)
 					{
@@ -449,7 +452,12 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 						emptyCellWidth = 0;
 					}
 
+//					occupiedCellColSpan++;
 //					writeOccupiedCells(1);
+					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
+					ElementGridCell elementGridCell = (ElementGridCell)grid[occupiedGridCell.getRow()][occupiedGridCell.getCol()];
+					writeOccupiedCells(elementGridCell.getColSpan());
+					col += elementGridCell.getColSpan() - 1;
 				}
 				else if(gridCell.getWrapper() != null)
 				{
@@ -460,23 +468,29 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 						emptyCellWidth = 0;
 					}
 
+//					if (occupiedCellColSpan > 0)
+//					{
+//						writeOccupiedCells(occupiedCellColSpan);
+//						occupiedCellColSpan = 0;
+//					}
+
 					element = gridCell.getWrapper().getElement();
 
 					if (element instanceof JRPrintLine)
 					{
-//						exportLine(tableHelper, (JRPrintLine)element, gridCell);
+						exportLine(tableHelper, (JRPrintLine)element, gridCell);
 					}
 					else if (element instanceof JRPrintRectangle)
 					{
-//						exportRectangle(tableHelper, (JRPrintRectangle)element, gridCell);
+						exportRectangle(tableHelper, (JRPrintRectangle)element, gridCell);
 					}
 					else if (element instanceof JRPrintEllipse)
 					{
-//						exportEllipse(tableHelper, (JRPrintEllipse)element, gridCell);
+						exportEllipse(tableHelper, (JRPrintEllipse)element, gridCell);
 					}
 					else if (element instanceof JRPrintImage)
 					{
-//						exportImage(tableHelper, (JRPrintImage)element, gridCell);
+						exportImage(tableHelper, (JRPrintImage)element, gridCell);
 					}
 					else if (element instanceof JRPrintText)
 					{
@@ -484,13 +498,19 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 					}
 					else if (element instanceof JRPrintFrame)
 					{
-//						exportFrame(tableHelper, (JRPrintFrame)element, gridCell);
+						exportFrame(tableHelper, (JRPrintFrame)element, gridCell);
 					}
 
-					//x += gridCell.colSpan - 1;
+					col += gridCell.getColSpan() - 1;
 				}
 				else
 				{
+//					if (occupiedCellColSpan > 0)
+//					{
+//						writeOccupiedCells(occupiedCellColSpan);
+//						occupiedCellColSpan = 0;
+//					}
+
 					emptyCellColSpan++;
 					emptyCellWidth += gridCell.getWidth();
 				}
@@ -531,22 +551,36 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	}
 
 
-//	private void writeOccupiedCells(int count) throws IOException
-//	{
+	private void writeOccupiedCells(int count) throws IOException
+	{
 //		for(int i = 0; i < count; i++)
 //		{
-//			tempBodyWriter.write("<table:covered-table-cell/>\n");
+			docWriter.write("    <w:tc> \r\n");
+			docWriter.write("     <w:tcPr> \r\n");
+			if (count > 1)
+			{
+				docWriter.write("      <w:gridSpan w:val=\"" + count +"\" /> \r\n");
+			}
+			docWriter.write("        <w:vMerge w:val=\"continue\"/> \r\n");
+//			if (!pageBreakInserted)
+//			{
+//				docWriter.write("        <w:pageBreakBefore/> \r\n");
+//			}
+			docWriter.write("     </w:tcPr> \r\n");
+			docWriter.write("     <w:p/> \r\n");
+			docWriter.write("    </w:tc> \r\n");
 //		}
-//	}
+	}
 
 
-//	/**
-//	 *
-//	 */
-//	protected void exportLine(TableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
-//	{
-//		tableHelper.exportCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
-//
+	/**
+	 *
+	 */
+	protected void exportLine(TableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
+	{
+		tableHelper.exportCellHeader(line, gridCell.getColSpan(), gridCell.getRowSpan());
+		docWriter.write("<w:p/>");
+
 //		double x1, y1, x2, y2;
 //
 //		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
@@ -577,26 +611,28 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 //				+ "<text:p/></draw:line>"
 //				+ "</text:p>"
 //				);
-//		tableHelper.exportCellFooter();
-//	}
+		tableHelper.exportCellFooter();
+	}
 
 
-//	/**
-//	 *
-//	 */
-//	protected void exportRectangle(TableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
-//	{
-//		tableHelper.exportCellHeader(styleCache.getCellStyle(rectangle), gridCell.getColSpan(), gridCell.getRowSpan());
-//		tableHelper.exportCellFooter();
-//	}
+	/**
+	 *
+	 */
+	protected void exportRectangle(TableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
+	{
+		tableHelper.exportCellHeader(rectangle, gridCell.getColSpan(), gridCell.getRowSpan());
+		docWriter.write("<w:p/>");
+		tableHelper.exportCellFooter();
+	}
 
 
-//	/**
-//	 *
-//	 */
-//	protected void exportEllipse(TableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
-//	{
-//		tableHelper.exportCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
+	/**
+	 *
+	 */
+	protected void exportEllipse(TableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
+	{
+		tableHelper.exportCellHeader(ellipse, gridCell.getColSpan(), gridCell.getRowSpan());
+		docWriter.write("<w:p/>");
 //		tempBodyWriter.write("<text:p>");
 //		insertPageAnchor();
 //		tempBodyWriter.write(
@@ -608,8 +644,8 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 //			+ "svg:y=\"0in\">"
 //			+ "<text:p/></draw:ellipse></text:p>"
 //			);
-//		tableHelper.exportCellFooter();
-//	}
+		tableHelper.exportCellFooter();
+	}
 
 
 	/**
@@ -719,11 +755,11 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 		docWriter.write("      </w:r> \r\n");
 	}
 
-//	/**
-//	 *
-//	 */
-//	protected void exportImage(TableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
-//	{
+	/**
+	 *
+	 */
+	protected void exportImage(TableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
+	{
 //		int topPadding = 
 //			Math.max(image.getLineBox().getTopPadding().intValue(), Math.round(image.getLineBox().getTopPen().getLineWidth().floatValue()));
 //		int leftPadding = 
@@ -744,9 +780,10 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 //
 //		int xoffset = 0;
 //		int yoffset = 0;
-//
-//		tableHelper.exportCellHeader(styleCache.getCellStyle(image), gridCell.getColSpan(), gridCell.getRowSpan());
-//
+
+		tableHelper.exportCellHeader(image, gridCell.getColSpan(), gridCell.getRowSpan());
+		docWriter.write("<w:p/>");
+
 //		JRRenderable renderer = image.getRenderer();
 //
 //		if (
@@ -859,8 +896,8 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 //			tempBodyWriter.write("</text:p>");
 //		}
 //
-//		tableHelper.exportCellFooter();
-//	}
+		tableHelper.exportCellFooter();
+	}
 
 
 	/**
@@ -1010,43 +1047,44 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	}
 
 
-//	/**
-//	 *
-//	 */
-//	protected void exportFrame(TableHelper tableHelper, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
-//	{
-//		tableHelper.exportCellHeader(styleCache.getCellStyle(frame), gridCell.getColSpan(), gridCell.getRowSpan());
-//
-//		boolean appendBackcolor =
-//			frame.getMode() == JRElement.MODE_OPAQUE
-//			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
-//
-//		if (appendBackcolor)
-//		{
-//			setBackcolor(frame.getBackcolor());
-//		}
-//
-//		try
-//		{
-//			JRGridLayout layout = gridCell.getLayout();
-//			JRPrintElementIndex frameIndex =
-//				new JRPrintElementIndex(
-//						reportIndex,
-//						pageIndex,
-//						gridCell.getWrapper().getAddress()
-//						);
-//			exportGrid(layout, frameIndex);
-//		}
-//		finally
-//		{
-//			if (appendBackcolor)
-//			{
-//				restoreBackcolor();
-//			}
-//		}
-//
-//		tableHelper.exportCellFooter();
-//	}
+	/**
+	 *
+	 */
+	protected void exportFrame(TableHelper tableHelper, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
+	{
+		tableHelper.exportCellHeader(frame, gridCell.getColSpan(), gridCell.getRowSpan());
+
+		boolean appendBackcolor =
+			frame.getMode() == JRElement.MODE_OPAQUE
+			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
+
+		if (appendBackcolor)
+		{
+			setBackcolor(frame.getBackcolor());
+		}
+
+		try
+		{
+			JRGridLayout layout = gridCell.getLayout();
+			JRPrintElementIndex frameIndex =
+				new JRPrintElementIndex(
+						reportIndex,
+						pageIndex,
+						gridCell.getWrapper().getAddress()
+						);
+			exportGrid(layout, frameIndex);
+		}
+		finally
+		{
+			if (appendBackcolor)
+			{
+				restoreBackcolor();
+			}
+		}
+
+		docWriter.write("<w:p/>");
+		tableHelper.exportCellFooter();
+	}
 
 	/**
 	 *

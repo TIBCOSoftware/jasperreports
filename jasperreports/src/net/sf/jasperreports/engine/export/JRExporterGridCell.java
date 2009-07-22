@@ -32,28 +32,20 @@ import java.awt.Color;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.base.JRBasePrintElement;
 	
 	
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRExporterGridCell
+public abstract class JRExporterGridCell
 {
-
-
 	/**
 	 *
 	 */
-	public static final JRExporterGridCell OCCUPIED_CELL = 
-		new JRExporterGridCell(
-			new ElementWrapper(new JRBasePrintElement(null), null, null),
-			0,
-			0,
-			1,
-			1
-		); 
+	public static byte TYPE_EMPTY_CELL = 1; 
+	public static byte TYPE_OCCUPIED_CELL = 2; 
+	public static byte TYPE_ELEMENT_CELL = 3; 
 
 
 	/**
@@ -211,5 +203,7 @@ public class JRExporterGridCell
 	{
 		return wrapper == null && backcolor == null && box == null;
 	}
+
+	public abstract byte getType();
 
 }
