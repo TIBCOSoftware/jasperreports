@@ -80,7 +80,7 @@ public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 	 */
 	public boolean isSplitSharedRowSpan()
 	{
-		return true;
+		return false;
 	}
 
 	/**
