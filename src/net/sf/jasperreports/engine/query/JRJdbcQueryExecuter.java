@@ -170,13 +170,14 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				int holdability = JRProperties.getIntegerProperty(dataset,
 						JRJdbcQueryExecuterFactory.PROPERTY_RESULT_SET_HOLDABILITY,
 						ResultSet.HOLD_CURSORS_OVER_COMMIT);
-				try
+				if(type != ResultSet.TYPE_FORWARD_ONLY 
+						|| concurrency != ResultSet.CONCUR_READ_ONLY
+						|| holdability != ResultSet.HOLD_CURSORS_OVER_COMMIT)
 				{
 					statement = connection.prepareStatement(queryString, type, concurrency, holdability);
 				}
-				catch(AbstractMethodError ex)
+				else
 				{
-					//for hsqldb v1.7.1 and earlier
 					statement = connection.prepareStatement(queryString);
 				}
 				
