@@ -41,9 +41,11 @@ import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -66,6 +68,8 @@ public class BatchExportApp
 	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_ODT = "odt";
+	private static final String TASK_DOCX = "docx";
+	private static final String TASK_XHTML = "xhtml";
 	
 	
 	/**
@@ -219,6 +223,38 @@ public class BatchExportApp
 
 				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
 			}
+			else if (TASK_DOCX.equals(taskName))
+			{
+				List jasperPrintList = new ArrayList();
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report3.jrprint"));
+				
+				JRDocxExporter exporter = new JRDocxExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
+				
+				exporter.exportReport();
+
+				System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_XHTML.equals(taskName))
+			{
+				List jasperPrintList = new ArrayList();
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report3.jrprint"));
+				
+				JRXhtmlExporter exporter = new JRXhtmlExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
+				
+				exporter.exportReport();
+
+				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
+			}
 			else
 			{
 				usage();
@@ -242,7 +278,7 @@ public class BatchExportApp
 	{
 		System.out.println( "BatchExportApp usage:" );
 		System.out.println( "\tjava BatchExportApp task file" );
-		System.out.println( "\tTasks : fill | pdf | html | rtf | xls | jxl | csv | odt" );
+		System.out.println( "\tTasks : fill | pdf | html | rtf | xls | jxl | csv | odt | docx | xhtml" );
 	}
 
 

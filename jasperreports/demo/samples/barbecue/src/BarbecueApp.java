@@ -39,9 +39,11 @@ import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -67,6 +69,8 @@ public class BarbecueApp
 	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_ODT = "odt";
+	private static final String TASK_DOCX = "docx";
+	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_RUN = "run";
 	
 	
@@ -204,6 +208,40 @@ public class BarbecueApp
 
 				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
 			}
+			else if (TASK_DOCX.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
+				
+				JRDocxExporter exporter = new JRDocxExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_XHTML.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
+				
+				JRXhtmlExporter exporter = new JRXhtmlExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
+			}
 			else if (TASK_RUN.equals(taskName))
 			{
 				JasperRunManager.runReportToPdfFile(fileName, null, new JREmptyDataSource());
@@ -232,7 +270,7 @@ public class BarbecueApp
 	{
 		System.out.println( "BarbecueApp usage:" );
 		System.out.println( "\tjava BarbecueApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xhtml | run" );
 	}
 
 
