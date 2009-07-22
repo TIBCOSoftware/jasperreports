@@ -203,14 +203,15 @@ public class JRGridLayout
 		JRBasePrintFrame frame = new JRBasePrintFrame(null);
 		List wrappers = new ArrayList();
 
+		OccupiedGridCell occupiedGridCell = new OccupiedGridCell(row1, col1);
 		for(int row = row1; row < row2; row++)
 		{
 			for(int col = col1; col < col2; col++)
 			{
 				JRExporterGridCell gridCell = grid[row][col];
-				grid[row][col] = JRExporterGridCell.OCCUPIED_CELL;
+				grid[row][col] = occupiedGridCell;
 				ElementWrapper wrapper = gridCell.getWrapper();
-				if (gridCell != JRExporterGridCell.OCCUPIED_CELL && wrapper != null)
+				if (gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
 				{
 					wrappers.add(wrapper);
 					frame.addElement(wrapper.getElement());//FIXMEODT do we need this?
@@ -224,7 +225,7 @@ public class JRGridLayout
 		String virtualAddress = (address == null ? "" : address + "_") + getNextVirtualFrameIndex();
 
 		JRExporterGridCell gridCell =
-			new JRExporterGridCell(
+			new ElementGridCell(
 				new ElementWrapper(frame, virtualAddress, null),
 				frame.getWidth(),
 				frame.getHeight(),
@@ -308,8 +309,7 @@ public class JRGridLayout
 			for(int col = 0; col < colCount; col++)
 			{
 				grid[row][col] =
-					new JRExporterGridCell(
-						null,
+					new EmptyGridCell(
 						xCuts.getCut(col + 1) - xCuts.getCut(col),
 						yCuts.getCut(row + 1) - yCuts.getCut(row),
 						1,
@@ -511,11 +511,12 @@ public class JRGridLayout
 
 		if (nature.isSpanCells())
 		{
+			OccupiedGridCell occupiedGridCell = new OccupiedGridCell(row1, col1);
 			for (int row = row1; row < row2; row++)
 			{
 				for (int col = col1; col < col2; col++)
 				{
-					grid[row][col] = JRExporterGridCell.OCCUPIED_CELL;
+					grid[row][col] = occupiedGridCell;
 				}
 				yCuts.addUsage(row, CutsInfo.USAGE_SPANNED);
 			}
@@ -534,7 +535,7 @@ public class JRGridLayout
 			int rowSpan = nature.isSpanCells() ? row2 - row1 : 1;
 			int colSpan = nature.isSpanCells() ? col2 - col1 : 1;
 			JRExporterGridCell gridCell =
-				new JRExporterGridCell(
+				new ElementGridCell(
 					wrapper,
 					element.getWidth(),
 					element.getHeight(),
@@ -766,7 +767,7 @@ public class JRGridLayout
 		{
 			JRExporterGridCell cell = row[col];
 
-			if (cell != JRExporterGridCell.OCCUPIED_CELL)
+			if (cell.getType() != JRExporterGridCell.TYPE_OCCUPIED_CELL)
 			{
 				if (maxRowHeight < cell.getHeight())
 				{
@@ -780,7 +781,7 @@ public class JRGridLayout
 
 	public static int getRowHeight(JRExporterGridCell[] row)//FIXMEODT are we still using this?
 	{
-		if (row[0].getRowSpan() == 1 && row[0] != JRExporterGridCell.OCCUPIED_CELL) //quick exit
+		if (row[0].getRowSpan() == 1 && row[0].getType() != JRExporterGridCell.TYPE_OCCUPIED_CELL) //quick exit
 		{
 			return row[0].getHeight();
 		}
@@ -795,7 +796,7 @@ public class JRGridLayout
 		{
 			JRExporterGridCell cell = row[col];
 
-			if (cell != JRExporterGridCell.OCCUPIED_CELL)
+			if (cell.getType() != JRExporterGridCell.TYPE_OCCUPIED_CELL)
 			{
 				if (cell.getRowSpan() == 1)
 				{

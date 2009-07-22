@@ -196,6 +196,10 @@ public class TableHelper
 		{
 			docWriter.write("      <w:gridSpan w:val=\"" + colSpan +"\" /> \r\n");
 		}
+		if (rowSpan > 1)
+		{
+			docWriter.write("      <w:vMerge w:val=\"restart\" /> \r\n");
+		}
 		tableCellHelper.getCellStyle(element);
 		docWriter.write("     </w:tcPr> \r\n");
 	}
