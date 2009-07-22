@@ -51,6 +51,26 @@ public class JRJdbcQueryExecuterFactory implements JRQueryExecuterFactory
 	public static final String PROPERTY_JDBC_FETCH_SIZE = JRProperties.PROPERTY_PREFIX + "jdbc.fetch.size";
 
 	/**
+	 * Property specifying the ResultSet type.
+	 */
+	public static final String PROPERTY_RESULT_SET_TYPE = JRProperties.PROPERTY_PREFIX + "result.set.type";
+
+	/**
+	 * Property specifying the ResultSet concurrency.
+	 */
+	public static final String PROPERTY_RESULT_SET_CONCURRENCY = JRProperties.PROPERTY_PREFIX + "result.set.concurrency";
+
+	/**
+	 * Property specifying the ResultSet holdability.
+	 */
+	public static final String PROPERTY_RESULT_SET_HOLDABILITY = JRProperties.PROPERTY_PREFIX + "result.set.holdability";
+
+	/**
+	 * Property specifying the statement max field size.
+	 */
+	public static final String PROPERTY_STATEMENT_MAX_FIELD_SIZE = JRProperties.PROPERTY_PREFIX + "statement.max.field.size";
+
+	/**
 	 * SQL query language.
 	 */
 	public static final String QUERY_LANGUAGE_SQL = "sql";

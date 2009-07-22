@@ -14,6 +14,10 @@
       <property ref="net.sf.jasperreports.jdbc.fetch.size"/>
       <property ref="net.sf.jasperreports.query.chunk.token.separators"/>
       <property ref="net.sf.jasperreports.query.executer.factory.{language}"/>
+      <property ref="net.sf.jasperreports.result.set.type"/>
+      <property ref="net.sf.jasperreports.result.set.concurrency"/>
+      <property ref="net.sf.jasperreports.result.set.holdability"/>
+      <property ref="net.sf.jasperreports.statement.max.field.size"/>
       <property ref="net.sf.jasperreports.xpath.executer.factory"/>
     </content>
   </category>
@@ -294,6 +298,57 @@ Property specifying the fetch size for the <code>java.sql.ResultSet</code> creat
     <since>1.2.0</since>
   </configProperty>
   
+  <!-- net.sf.jasperreports.result.set.type -->
+  
+  <configProperty name="net.sf.jasperreports.result.set.type">
+    <description>
+Property specifying the type for the <code>java.sql.ResultSet</code> created by the 
+<api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api>.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_RESULT_SET_TYPE</api>
+    <default><code>java.sql.ResultSet.TYPE_FORWARD_ONLY</code></default>
+    <scope>Global | Dataset</scope>
+    <since>3.5.3</since>
+  </configProperty>
+  
+  <!-- net.sf.jasperreports.result.set.concurrency -->
+  
+  <configProperty name="net.sf.jasperreports.result.set.concurrency">
+    <description>
+Property specifying the concurrency rule for the <code>java.sql.ResultSet</code> created by the 
+<api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api>.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_RESULT_SET_CONCURRENCY</api>
+    <default><code>java.sql.ResultSet.CONCUR_READ_ONLY</code></default>
+    <scope>Global | Dataset</scope>
+    <since>3.5.3</since>
+  </configProperty>
+  
+  <!-- net.sf.jasperreports.result.set.holdability -->
+  
+  <configProperty name="net.sf.jasperreports.result.set.holdability">
+    <description>
+Property specifying the cursor holdability after commit for the <code>java.sql.ResultSet</code> created by the 
+<api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api>.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_RESULT_SET_HOLDABILITY</api>
+    <default><code>java.sql.ResultSet.HOLD_CURSORS_OVER_COMMIT</code></default>
+    <scope>Global | Dataset</scope>
+    <since>3.5.3</since>
+  </configProperty>
+  
+  <!-- net.sf.jasperreports.statement.max.field.size -->
+  
+  <configProperty name="net.sf.jasperreports.statement.max.field.size">
+    <description>
+Property specifying the maximum field size for the prepared statement created by the 
+<api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api>.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_STATEMENT_MAX_FIELD_SIZE</api>
+    <default>0</default>
+    <scope>Global | Dataset</scope>
+    <since>3.5.3</since>
+  </configProperty>
   
   <!-- net.sf.jasperreports.query.chunk.token.separators -->
   
