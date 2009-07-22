@@ -159,7 +159,26 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			try
 			{
-				statement = connection.prepareStatement(queryString);
+				int type = JRProperties.getIntegerProperty(dataset,
+						JRJdbcQueryExecuterFactory.PROPERTY_RESULT_SET_TYPE,
+						ResultSet.TYPE_FORWARD_ONLY);
+				
+				int concurrency = JRProperties.getIntegerProperty(dataset,
+						JRJdbcQueryExecuterFactory.PROPERTY_RESULT_SET_CONCURRENCY,
+						ResultSet.CONCUR_READ_ONLY);
+				
+				int holdability = JRProperties.getIntegerProperty(dataset,
+						JRJdbcQueryExecuterFactory.PROPERTY_RESULT_SET_HOLDABILITY,
+						ResultSet.HOLD_CURSORS_OVER_COMMIT);
+				try
+				{
+					statement = connection.prepareStatement(queryString, type, concurrency, holdability);
+				}
+				catch(AbstractMethodError ex)
+				{
+					//for hsqldb v1.7.1 and earlier
+					statement = connection.prepareStatement(queryString);
+				}
 				
 				int fetchSize = JRProperties.getIntegerProperty(dataset,
 						JRJdbcQueryExecuterFactory.PROPERTY_JDBC_FETCH_SIZE,
@@ -167,6 +186,14 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				if (fetchSize != 0)
 				{
 					statement.setFetchSize(fetchSize);
+				}
+				
+				int maxFieldSize = JRProperties.getIntegerProperty(dataset,
+						JRJdbcQueryExecuterFactory.PROPERTY_STATEMENT_MAX_FIELD_SIZE,
+						0);
+				if(maxFieldSize != 0)
+				{
+					statement.setMaxFieldSize(maxFieldSize);
 				}
 				
 				List parameterNames = getCollectedParameters();
