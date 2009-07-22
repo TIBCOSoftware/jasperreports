@@ -883,7 +883,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 			docWriter.write("<pic:blipFill>\n");
 			docWriter.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/><a:stretch><a:fillRect/></a:stretch>\n");
 			docWriter.write("</pic:blipFill>\n");
-			docWriter.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"5943600\" cy=\"4457700\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom></pic:spPr>\n");
+			docWriter.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom></pic:spPr>\n");
 			docWriter.write("</pic:pic>\n");
 			docWriter.write("</a:graphicData>\n");
 			docWriter.write("</a:graphic>\n");
