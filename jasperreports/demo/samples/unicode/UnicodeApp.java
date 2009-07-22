@@ -40,9 +40,11 @@ import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -68,6 +70,8 @@ public class UnicodeApp
 	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_ODT = "odt";
+	private static final String TASK_DOCX = "docx";
+	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_RUN = "run";
 	
 	
@@ -214,11 +218,48 @@ public class UnicodeApp
 
 				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
 			}
+			else if (TASK_DOCX.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
+
+				JRDocxExporter exporter = new JRDocxExporter();
+
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
+
+				exporter.exportReport();
+
+				System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_XHTML.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
+
+				JRXhtmlExporter exporter = new JRXhtmlExporter();
+
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
+
+				exporter.exportReport();
+
+				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
+			}
 			else if (TASK_RUN.equals(taskName))
 			{
 				Map parameters = new HashMap();
 				parameters.put("GreekText", "\u0393 \u0394 \u0398 \u039B \u039E \u03A0 \u03A3 \u03A6 \u03A8 \u03A9");
 				parameters.put("CyrillicText", "\u0402 \u040B \u040F \u0414 \u0416 \u0418 \u041B \u0426 \u0429 \u042E");
+				parameters.put("ChineseText", "\u6211\u559c\u6b22\u4e2d\u56fd\u98df\u7269");
 				parameters.put("ArabicText", "\u0647\u0630\u0627 \u0639\u0631\u0636 \u0644\u0645\u062C\u0645\u0648\u0639\u0629 TextLayout");
 				parameters.put("HebrewText", "\u05D0\u05E0\u05D9 \u05DC\u05D0 \u05DE\u05D1\u05D9\u05DF \u05E2\u05D1\u05E8\u05D9\u05EA");
 
@@ -248,7 +289,7 @@ public class UnicodeApp
 	{
 		System.out.println( "UnicodeApp usage:" );
 		System.out.println( "\tjava UnicodeApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xhtml | run" );
 	}
 
 
