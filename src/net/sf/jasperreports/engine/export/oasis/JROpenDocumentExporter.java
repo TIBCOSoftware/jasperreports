@@ -106,21 +106,6 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 
-	/**
-	 *
-	 */
-	protected static final String HORIZONTAL_ALIGN_LEFT = "start";
-	protected static final String HORIZONTAL_ALIGN_RIGHT = "end";
-	protected static final String HORIZONTAL_ALIGN_CENTER = "center";
-	protected static final String HORIZONTAL_ALIGN_JUSTIFY = "justified";
-
-	/**
-	 *
-	 */
-	protected static final String VERTICAL_ALIGN_TOP = "top";
-	protected static final String VERTICAL_ALIGN_MIDDLE = "middle";
-	protected static final String VERTICAL_ALIGN_BOTTOM = "bottom";
-
 	public static final String IMAGE_NAME_PREFIX = "img_";
 	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
 
@@ -459,8 +444,6 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		JRPrintElement element = null;
 		for(int row = 0; row < grid.length; row++)
 		{
-			//JRExporterGridCell[] gridRow = grid[row];
-
 			int emptyCellColSpan = 0;
 			int emptyCellWidth = 0;
 			int rowHeight = gridLayout.getRowHeight(row);
