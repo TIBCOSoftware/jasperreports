@@ -48,6 +48,7 @@ public abstract class OoxmlZip extends AbstractZip
 	 */
 	private ExportZipEntry documentEntry = null;
 	private ExportZipEntry stylesEntry = null;
+	private ExportZipEntry relsEntry = null;
 	
 	public OoxmlZip() throws IOException
 	{
@@ -67,10 +68,11 @@ public abstract class OoxmlZip extends AbstractZip
 		stylesEntry = createEntry("word/styles.xml");
 		exportZipEntries.add(stylesEntry);
 		
+		relsEntry = createEntry("word/_rels/document.xml.rels");
+		exportZipEntries.add(relsEntry);
+		
 		createRelsEntry();
 
-		createWordRelsEntry();
-		
 		createContentTypesEntry();
 	}
 	
@@ -88,6 +90,14 @@ public abstract class OoxmlZip extends AbstractZip
 	public ExportZipEntry getStylesEntry()
 	{
 		return stylesEntry;
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getRelsEntry()
+	{
+		return relsEntry;
 	}
 	
 	/**
@@ -125,38 +135,6 @@ public abstract class OoxmlZip extends AbstractZip
 	/**
 	 * 
 	 */
-	private void createWordRelsEntry() throws IOException
-	{
-		ExportZipEntry relsEntry = createEntry("word/_rels/document.xml.rels");
-		Writer relsWriter = null;
-		try
-		{
-			relsWriter = relsEntry.getWriter();
-			relsWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-			relsWriter.write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"> \r\n");
-			relsWriter.write(" <Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles\" Target=\"styles.xml\"/> \r\n");
-			relsWriter.write("</Relationships> \r\n");
-			relsWriter.flush();
-			exportZipEntries.add(relsEntry);
-		}
-		finally
-		{
-			if (relsWriter != null)
-			{
-				try
-				{
-					relsWriter.close();
-				}
-				catch (IOException e)
-				{
-				}
-			}
-		}
-	}
-	
-	/**
-	 * 
-	 */
 	private void createContentTypesEntry() throws IOException
 	{
 		ExportZipEntry contentTypesEntry = createEntry("[Content_Types].xml");
@@ -167,7 +145,7 @@ public abstract class OoxmlZip extends AbstractZip
 			ctWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \r\n");
 			ctWriter.write("<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"> \r\n");
 //			ctWriter.write("  <Override PartName=\"/word/footnotes.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml\"/> \r\n");
-//			ctWriter.write("  <Default Extension=\"jpeg\" ContentType=\"image/jpeg\"/> \r\n");
+			ctWriter.write("  <Default Extension=\"jpeg\" ContentType=\"image/jpeg\"/> \r\n");
 			ctWriter.write("  <Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/> \r\n");
 			ctWriter.write("  <Default Extension=\"xml\" ContentType=\"application/xml\"/> \r\n");
 			ctWriter.write("  <Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/> \r\n");

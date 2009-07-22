@@ -37,6 +37,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -56,6 +57,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
@@ -102,18 +104,6 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected static final String HORIZONTAL_ALIGN_LEFT = "start";
-	protected static final String HORIZONTAL_ALIGN_RIGHT = "end";
-	protected static final String HORIZONTAL_ALIGN_CENTER = "center";
-	protected static final String HORIZONTAL_ALIGN_JUSTIFY = "justified";
-
-	/**
-	 *
-	 */
-	protected static final String VERTICAL_ALIGN_TOP = "top";
-	protected static final String VERTICAL_ALIGN_MIDDLE = "middle";
-	protected static final String VERTICAL_ALIGN_BOTTOM = "bottom";
-
 	public static final String IMAGE_NAME_PREFIX = "img_";
 	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
 
@@ -121,6 +111,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	 *
 	 */
 	protected Writer docWriter = null;
+	protected Writer relsWriter = null;
 
 	protected JRExportProgressMonitor progressMonitor = null;
 	protected Map rendererToImagePathMap = null;
@@ -306,8 +297,10 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 		stylesWriter.close();
 		
 		docWriter = ooxmlZip.getDocumentEntry().getWriter();
+		relsWriter = ooxmlZip.getRelsEntry().getWriter();
 		
 		DocumentHelper.exportHeader(docWriter);
+		RelsHelper.exportHeader(relsWriter);
 		
 		textHelper = new TextHelper(docWriter, fontMap);
 
@@ -361,14 +354,22 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 							);
 				}
 
+				String imageName = getImageName(imageIndex);
+				
 				ooxmlZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 					new FileBufferedZipEntry(
-						"word/media/" + getImageName(imageIndex),
+						"word/media/" + imageName + ".jpeg",
 						renderer.getImageData()
 						)
 					);
+				
+				RelsHelper.exportImage(imageName, relsWriter);
 			}
 		}
+
+		RelsHelper.exportFooter(relsWriter);
+
+		relsWriter.close();
 
 		ooxmlZip.zipEntries(os);
 
@@ -431,9 +432,6 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 		JRPrintElement element = null;
 		for(int row = 0; row < grid.length; row++)
 		{
-			//JRExporterGridCell[] gridRow = grid[row];
-
-//			int occupiedCellColSpan = 0;
 			int emptyCellColSpan = 0;
 			int emptyCellWidth = 0;
 			int rowHeight = gridLayout.getRowHeight(row);
@@ -452,8 +450,6 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 						emptyCellWidth = 0;
 					}
 
-//					occupiedCellColSpan++;
-//					writeOccupiedCells(1);
 					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
 					ElementGridCell elementGridCell = (ElementGridCell)grid[occupiedGridCell.getRow()][occupiedGridCell.getCol()];
 					writeOccupiedCells(elementGridCell.getColSpan());
@@ -467,12 +463,6 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 						emptyCellColSpan = 0;
 						emptyCellWidth = 0;
 					}
-
-//					if (occupiedCellColSpan > 0)
-//					{
-//						writeOccupiedCells(occupiedCellColSpan);
-//						occupiedCellColSpan = 0;
-//					}
 
 					element = gridCell.getWrapper().getElement();
 
@@ -505,12 +495,6 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 				}
 				else
 				{
-//					if (occupiedCellColSpan > 0)
-//					{
-//						writeOccupiedCells(occupiedCellColSpan);
-//						occupiedCellColSpan = 0;
-//					}
-
 					emptyCellColSpan++;
 					emptyCellWidth += gridCell.getWidth();
 				}
@@ -532,7 +516,6 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	{
 		docWriter.write("    <w:tc> \r\n");
 		docWriter.write("     <w:tcPr> \r\n");
-//		docWriter.write("      <w:tcW w:w=\"" + Utility.translatePointsToTwips(emptyCellWidth) + "\" w:type=\"dxa\" /> \r\n");
 		if (emptyCellColSpan > 1)
 		{
 			docWriter.write("      <w:gridSpan w:val=\"" + emptyCellColSpan +"\" /> \r\n");
@@ -546,30 +529,25 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 		}
 		docWriter.write("     </w:pPr></w:p> \r\n");
 		docWriter.write("    </w:tc> \r\n");
-		
-//		writeOccupiedCells(emptyCellColSpan - 1);
 	}
 
 
 	private void writeOccupiedCells(int count) throws IOException
 	{
-//		for(int i = 0; i < count; i++)
+		docWriter.write("    <w:tc> \r\n");
+		docWriter.write("     <w:tcPr> \r\n");
+		if (count > 1)
+		{
+			docWriter.write("      <w:gridSpan w:val=\"" + count +"\" /> \r\n");
+		}
+		docWriter.write("        <w:vMerge w:val=\"continue\"/> \r\n");
+//		if (!pageBreakInserted)
 //		{
-			docWriter.write("    <w:tc> \r\n");
-			docWriter.write("     <w:tcPr> \r\n");
-			if (count > 1)
-			{
-				docWriter.write("      <w:gridSpan w:val=\"" + count +"\" /> \r\n");
-			}
-			docWriter.write("        <w:vMerge w:val=\"continue\"/> \r\n");
-//			if (!pageBreakInserted)
-//			{
-//				docWriter.write("        <w:pageBreakBefore/> \r\n");
-//			}
-			docWriter.write("     </w:tcPr> \r\n");
-			docWriter.write("     <w:p/> \r\n");
-			docWriter.write("    </w:tc> \r\n");
+//			docWriter.write("        <w:pageBreakBefore/> \r\n");
 //		}
+		docWriter.write("     </w:tcPr> \r\n");
+		docWriter.write("     <w:p/> \r\n");
+		docWriter.write("    </w:tc> \r\n");
 	}
 
 
@@ -760,109 +738,109 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	 */
 	protected void exportImage(TableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
-//		int topPadding = 
-//			Math.max(image.getLineBox().getTopPadding().intValue(), Math.round(image.getLineBox().getTopPen().getLineWidth().floatValue()));
-//		int leftPadding = 
-//			Math.max(image.getLineBox().getLeftPadding().intValue(), Math.round(image.getLineBox().getLeftPen().getLineWidth().floatValue()));
-//		int bottomPadding = 
-//			Math.max(image.getLineBox().getBottomPadding().intValue(), Math.round(image.getLineBox().getBottomPen().getLineWidth().floatValue()));
-//		int rightPadding = 
-//			Math.max(image.getLineBox().getRightPadding().intValue(), Math.round(image.getLineBox().getRightPen().getLineWidth().floatValue()));
-//
-//		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
-//		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
-//
-//		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
-//		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
-//
-//		int width = availableImageWidth;
-//		int height = availableImageHeight;
-//
-//		int xoffset = 0;
-//		int yoffset = 0;
+		int topPadding = 
+			Math.max(image.getLineBox().getTopPadding().intValue(), Math.round(image.getLineBox().getTopPen().getLineWidth().floatValue()));
+		int leftPadding = 
+			Math.max(image.getLineBox().getLeftPadding().intValue(), Math.round(image.getLineBox().getLeftPen().getLineWidth().floatValue()));
+		int bottomPadding = 
+			Math.max(image.getLineBox().getBottomPadding().intValue(), Math.round(image.getLineBox().getBottomPen().getLineWidth().floatValue()));
+		int rightPadding = 
+			Math.max(image.getLineBox().getRightPadding().intValue(), Math.round(image.getLineBox().getRightPen().getLineWidth().floatValue()));
+
+		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
+		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
+
+		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
+		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
+
+		int width = availableImageWidth;
+		int height = availableImageHeight;
+
+		int xoffset = 0;
+		int yoffset = 0;
 
 		tableHelper.exportCellHeader(image, gridCell.getColSpan(), gridCell.getRowSpan());
-		docWriter.write("<w:p/>");
 
-//		JRRenderable renderer = image.getRenderer();
-//
-//		if (
-//			renderer != null &&
-//			availableImageWidth > 0 &&
-//			availableImageHeight > 0
-//			)
-//		{
-//			if (renderer.getType() == JRRenderable.TYPE_IMAGE && !image.isLazy())
-//			{
-//				// Non-lazy image renderers are all asked for their image data at some point.
-//				// Better to test and replace the renderer now, in case of lazy load error.
-//				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, image.getOnErrorType());
-//			}
-//		}
-//		else
-//		{
-//			renderer = null;
-//		}
-//
-//		if (renderer != null)
-//		{
-//			float xalignFactor = getXAlignFactor(image);
-//			float yalignFactor = getYAlignFactor(image);
-//
-//			switch (image.getScaleImage())
-//			{
-//				case JRImage.SCALE_IMAGE_FILL_FRAME :
-//				{
-//					width = availableImageWidth;
-//					height = availableImageHeight;
-//					xoffset = 0;
-//					yoffset = 0;
-//					break;
-//				}
-//				case JRImage.SCALE_IMAGE_CLIP :
-//				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
-//				default :
-//				{
-//					double normalWidth = availableImageWidth;
-//					double normalHeight = availableImageHeight;
-//
-//					if (!image.isLazy())
-//					{
-//						// Image load might fail.
-//						JRRenderable tmpRenderer =
-//							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
-//						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
-//						// If renderer was replaced, ignore image dimension.
-//						if (tmpRenderer == renderer && dimension != null)
-//						{
-//							normalWidth = dimension.getWidth();
-//							normalHeight = dimension.getHeight();
-//						}
-//					}
-//
-//					if (availableImageHeight > 0)
-//					{
-//						double ratio = (double)normalWidth / (double)normalHeight;
-//
-//						if( ratio > availableImageWidth / (double)availableImageHeight )
-//						{
-//							width = availableImageWidth;
-//							height = (int)(width/ratio);
-//
-//						}
-//						else
-//						{
-//							height = availableImageHeight;
-//							width = (int)(ratio * height);
-//						}
-//					}
-//
-//					xoffset = (int)(xalignFactor * (availableImageWidth - width));
-//					yoffset = (int)(yalignFactor * (availableImageHeight - height));
-//				}
-//			}
-//
-//			tempBodyWriter.write("<text:p>");
+		docWriter.write("<w:p>");
+
+		JRRenderable renderer = image.getRenderer();
+
+		if (
+			renderer != null &&
+			availableImageWidth > 0 &&
+			availableImageHeight > 0
+			)
+		{
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE && !image.isLazy())
+			{
+				// Non-lazy image renderers are all asked for their image data at some point.
+				// Better to test and replace the renderer now, in case of lazy load error.
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, image.getOnErrorType());
+			}
+		}
+		else
+		{
+			renderer = null;
+		}
+
+		if (renderer != null)
+		{
+			float xalignFactor = getXAlignFactor(image);
+			float yalignFactor = getYAlignFactor(image);
+
+			switch (image.getScaleImage())
+			{
+				case JRImage.SCALE_IMAGE_FILL_FRAME :
+				{
+					width = availableImageWidth;
+					height = availableImageHeight;
+					xoffset = 0;
+					yoffset = 0;
+					break;
+				}
+				case JRImage.SCALE_IMAGE_CLIP :
+				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+				default :
+				{
+					double normalWidth = availableImageWidth;
+					double normalHeight = availableImageHeight;
+
+					if (!image.isLazy())
+					{
+						// Image load might fail.
+						JRRenderable tmpRenderer =
+							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
+						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+						// If renderer was replaced, ignore image dimension.
+						if (tmpRenderer == renderer && dimension != null)
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+					}
+
+					if (availableImageHeight > 0)
+					{
+						double ratio = (double)normalWidth / (double)normalHeight;
+
+						if( ratio > availableImageWidth / (double)availableImageHeight )
+						{
+							width = availableImageWidth;
+							height = (int)(width/ratio);
+
+						}
+						else
+						{
+							height = availableImageHeight;
+							width = (int)(ratio * height);
+						}
+					}
+
+					xoffset = (int)(xalignFactor * (availableImageWidth - width));
+					yoffset = (int)(yalignFactor * (availableImageHeight - height));
+				}
+			}
+
 //			insertPageAnchor();
 //			if (image.getAnchorName() != null)
 //			{
@@ -870,32 +848,57 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 //				tempBodyWriter.write(image.getAnchorName());
 //				tempBodyWriter.write("\"/>");
 //			}
-//
-//
+
+
 //			boolean startedHyperlink = startHyperlink(image,false);
-//
-//			tempBodyWriter.write("<draw:frame text:anchor-type=\"paragraph\" "
+
+//			docWriter.write("<draw:frame text:anchor-type=\"paragraph\" "
 //					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
 //					+ "svg:x=\"" + Utility.translatePixelsToInches(leftPadding + xoffset) + "in\" "
 //					+ "svg:y=\"" + Utility.translatePixelsToInches(topPadding + yoffset) + "in\" "
 //					+ "svg:width=\"" + Utility.translatePixelsToInches(width) + "in\" "
 //					+ "svg:height=\"" + Utility.translatePixelsToInches(height) + "in\">"
 //					);
-//			tempBodyWriter.write("<draw:image ");
-//			tempBodyWriter.write(" xlink:href=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"");
-//			tempBodyWriter.write(" xlink:type=\"simple\"");
-//			tempBodyWriter.write(" xlink:show=\"embed\"");
-//			tempBodyWriter.write(" xlink:actuate=\"onLoad\"");
-//			tempBodyWriter.write("/>\n");
-//
-//			tempBodyWriter.write("</draw:frame>");
+//			docWriter.write("<draw:image ");
+//			docWriter.write(" xlink:href=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"");
+//			docWriter.write(" xlink:type=\"simple\"");
+//			docWriter.write(" xlink:show=\"embed\"");
+//			docWriter.write(" xlink:actuate=\"onLoad\"");
+//			docWriter.write("/>\n");
+
+
+			docWriter.write("<w:r>\n"); 
+			docWriter.write("<w:drawing>\n");
+			docWriter.write("<wp:inline distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\">\n");
+			docWriter.write("<wp:extent cx=\"5943600\" cy=\"4457700\"/>\n");
+			docWriter.write("<wp:effectExtent l=\"19050\" t=\"0\" r=\"0\" b=\"0\"/>\n");
+			docWriter.write("<wp:docPr id=\"1\" name=\"Picture 0\" descr=\"Water lilies.jpg\"/>\n");
+			docWriter.write("<wp:cNvGraphicFramePr>\n");
+			docWriter.write("<a:graphicFrameLocks noChangeAspect=\"1\"/>\n");
+			docWriter.write("</wp:cNvGraphicFramePr>\n");
+			docWriter.write("<a:graphic>\n");
+			docWriter.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
+			docWriter.write("<pic:pic>\n");
+			docWriter.write("<pic:nvPicPr><pic:cNvPr id=\"0\" name=\"Water lilies.jpg\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
+			docWriter.write("<pic:blipFill>\n");
+			docWriter.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/><a:stretch><a:fillRect/></a:stretch>\n");
+			docWriter.write("</pic:blipFill>\n");
+			docWriter.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"5943600\" cy=\"4457700\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom></pic:spPr>\n");
+			docWriter.write("</pic:pic>\n");
+			docWriter.write("</a:graphicData>\n");
+			docWriter.write("</a:graphic>\n");
+			docWriter.write("</wp:inline>\n");
+			docWriter.write("</w:drawing>\n");
+			docWriter.write("</w:r>"); 
+
 //			if(startedHyperlink)
 //			{
 //				endHyperlink(false);
 //			}
-//			tempBodyWriter.write("</text:p>");
-//		}
-//
+		}
+
+		docWriter.write("</w:p>");
+
 		tableHelper.exportCellFooter();
 	}
 
@@ -925,7 +928,8 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 					imagesToProcess.add(imageIndex);
 
 					String imageName = getImageName(imageIndex);
-					imagePath = "Pictures/" + imageName;
+					imagePath = imageName;
+					//imagePath = "Pictures/" + imageName;
 				}
 
 				rendererToImagePathMap.put(renderer.getId(), imagePath);

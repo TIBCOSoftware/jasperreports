@@ -54,16 +54,17 @@ public class DocumentHelper
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		writer.write("<w:document \r\n");
-//		writer.write(" xmlns:ve=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" \r\n");
-//		writer.write(" xmlns:o=\"urn:schemas-microsoft-com:office:office\" \r\n");
-//		writer.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" \r\n");
-//		writer.write(" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\" \r\n");
-//		writer.write(" xmlns:v=\"urn:schemas-microsoft-com:vml\" \r\n");
-//		writer.write(" xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" \r\n");
-//		writer.write(" xmlns:w10=\"urn:schemas-microsoft-com:office:word\" \r\n");
-		writer.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"> \r\n");
-//		writer.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\" \r\n");
-//		writer.write(" xmlns:wne=\"http://schemas.microsoft.com/office/word/2006/wordml\"> \r\n");
+		writer.write(" xmlns:ve=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" \r\n");
+		writer.write(" xmlns:o=\"urn:schemas-microsoft-com:office:office\" \r\n");
+		writer.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" \r\n");
+		writer.write(" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\" \r\n");
+		writer.write(" xmlns:v=\"urn:schemas-microsoft-com:vml\" \r\n");
+		writer.write(" xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" \r\n");
+		writer.write(" xmlns:w10=\"urn:schemas-microsoft-com:office:word\" \r\n");
+		writer.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\" \r\n");
+		writer.write(" xmlns:wne=\"http://schemas.microsoft.com/office/word/2006/wordml\" \r\n");
+		writer.write(" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\" \r\n");
+		writer.write(" xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\"> \r\n"); 
 		writer.write(" <w:body> \r\n");
 	}
 	
