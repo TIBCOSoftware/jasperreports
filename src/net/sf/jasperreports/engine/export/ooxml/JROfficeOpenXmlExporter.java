@@ -358,7 +358,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 				
 				ooxmlZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 					new FileBufferedZipEntry(
-						"word/media/" + imageName + ".jpeg",
+						"word/media/" + imageName + ".jpeg",//FIXMEDOCX deal with extension
 						renderer.getImageData()
 						)
 					);
@@ -918,19 +918,19 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 			}
 			else
 			{
-				if (isLazy)
-				{
-					imagePath = ((JRImageRenderer)renderer).getImageLocation();
-				}
-				else
-				{
+//				if (isLazy)//FIXMEDOCX learn how to link images
+//				{
+//					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+//				}
+//				else
+//				{
 					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
 					imagesToProcess.add(imageIndex);
 
 					String imageName = getImageName(imageIndex);
 					imagePath = imageName;
 					//imagePath = "Pictures/" + imageName;
-				}
+//				}
 
 				rendererToImagePathMap.put(renderer.getId(), imagePath);
 			}
