@@ -341,7 +341,7 @@ Property specifying the cursor holdability after commit for the <code>java.sql.R
 <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api>. Possible values are:
 <ul>
   <li><code>java.sql.ResultSet.HOLD_CURSORS_OVER_COMMIT</code> - indicates that <code>ResultSet</code> objects should not be closed when the method <code>Connection.commit()</code> is called.</li>
-  <li><code>java.sql.ResultSet.	CLOSE_CURSORS_AT_COMMIT</code> - indicates that <code>ResultSet</code> objects should be closed when the method <code>Connection.commit()</code> is called.</li>
+  <li><code>java.sql.ResultSet.CLOSE_CURSORS_AT_COMMIT</code> - indicates that <code>ResultSet</code> objects should be closed when the method <code>Connection.commit()</code> is called.</li>
 </ul>
     </description>
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_RESULT_SET_HOLDABILITY</api>
