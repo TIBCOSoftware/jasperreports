@@ -72,7 +72,7 @@ public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 	 */
 	public boolean isDeep()
 	{
-		return true;
+		return false;
 	}
 	
 	/**
