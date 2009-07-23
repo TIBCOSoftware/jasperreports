@@ -382,7 +382,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
 		startPage = true;
-		JRGridLayout gridLayout =
+		JRGridLayout layout =
 			new JRGridLayout(
 				nature,
 				page.getElements(),
@@ -393,6 +393,20 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 				null //address
 				);
 
+		exportGrid(layout, null);
+		
+		if (progressMonitor != null)
+		{
+			progressMonitor.afterPageExport();
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws JRException, IOException
+	{
 		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
@@ -400,7 +414,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 			new TableHelper(
 				docWriter, 
 				textHelper,
-				reportIndex != 0 || pageIndex != startPageIndex
+				frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex)
 				);
 
 		tableHelper.exportHeader(xCuts);
@@ -486,12 +500,6 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 		}
 
 		tableHelper.exportFooter();
-
-		
-		if (progressMonitor != null)
-		{
-			progressMonitor.afterPageExport();
-		}
 	}
 
 
@@ -1001,6 +1009,35 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	{
 		tableHelper.getCellHelper().exportHeader(frame, gridCell);
 		tableHelper.getCellHelper().exportProps(gridCell);
+
+		boolean appendBackcolor =
+			frame.getMode() == JRElement.MODE_OPAQUE
+			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
+
+		if (appendBackcolor)
+		{
+			setBackcolor(frame.getBackcolor());
+		}
+
+		try
+		{
+			JRGridLayout layout = gridCell.getLayout();
+			JRPrintElementIndex frameIndex =
+				new JRPrintElementIndex(
+						reportIndex,
+						pageIndex,
+						gridCell.getWrapper().getAddress()
+						);
+			exportGrid(layout, frameIndex);
+		}
+		finally
+		{
+			if (appendBackcolor)
+			{
+				restoreBackcolor();
+			}
+		}
+		
 		tableHelper.getParagraphHelper().exportEmptyParagraph();
 		tableHelper.getCellHelper().exportFooter();
 	}
