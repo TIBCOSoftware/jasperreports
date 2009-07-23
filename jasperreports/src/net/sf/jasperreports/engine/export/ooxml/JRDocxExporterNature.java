@@ -41,16 +41,32 @@ import net.sf.jasperreports.engine.export.ExporterFilter;
  */
 public class JRDocxExporterNature extends JROfficeOpenXmlExporterNature
 {
+
+	private final boolean deepGrid;
+
 	/**
 	 *
 	 */
-	public JRDocxExporterNature(ExporterFilter filter)
+	public JRDocxExporterNature(ExporterFilter filter, boolean deepGrid)
 	{
 		super(filter);
+		
+		this.deepGrid = deepGrid;
 	}
 
-	protected byte getOfficeOpenXmlNature() {
-
+	/**
+	 * 
+	 */
+	public boolean isDeep()
+	{
+		return deepGrid;
+	}
+	
+	/**
+	 * 
+	 */
+	protected byte getOfficeOpenXmlNature() 
+	{
 		return JROfficeOpenXmlExporterNature.ODT_NATURE;
 	}
 

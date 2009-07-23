@@ -35,6 +35,7 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -50,15 +51,34 @@ public class JRDocxExporter extends JROfficeOpenXmlExporter
 {
 	protected static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.docx.";
 
+	protected boolean deepGrid;
+
 	/**
 	 *
-	 * @see net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporter#getExporterNature(net.sf.jasperreports.engine.export.ExporterFilter)
 	 */
-	protected ExporterNature getExporterNature(ExporterFilter filter) {
-		return new JRDocxExporterNature(filter);
+	protected void setInput() throws JRException
+	{
+		super.setInput();
+
+		deepGrid = 
+			!getBooleanParameter(
+				JRDocxExporterParameter.FRAMES_AS_NESTED_TABLES,
+				JRDocxExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES,
+				true
+				);
 	}
 
+	/**
+	 * @see net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporter#getExporterNature(net.sf.jasperreports.engine.export.ExporterFilter)
+	 */
+	protected ExporterNature getExporterNature(ExporterFilter filter) 
+	{
+		return new JRDocxExporterNature(filter, deepGrid);
+	}
 
+	/**
+	 *
+	 */
 	protected String getExporterPropertiesPrefix()
 	{
 		return DOCX_EXPORTER_PROPERTIES_PREFIX;

@@ -70,14 +70,6 @@ public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 	/**
 	 * 
 	 */
-	public boolean isDeep()
-	{
-		return false;
-	}
-	
-	/**
-	 * 
-	 */
 	public boolean isSplitSharedRowSpan()
 	{
 		return false;

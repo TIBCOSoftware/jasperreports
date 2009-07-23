@@ -214,8 +214,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected boolean hyperlinkStarted = false;	
 	
-	protected boolean deepGrid;
-	
 	protected ExporterNature nature = null;
 
 	protected JRHtmlExporterContext exporterContext = new ExporterContext();
@@ -389,7 +387,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 						
 			setHyperlinkProducerFactory();
-			setDeepGrid();
+
+			//FIXMENOW check all exporter properties that are supposed to work at report level
+			boolean deepGrid = 
+				!getBooleanParameter(
+					JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES,
+					JRHtmlExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES,
+					true
+					);
 			
 			nature = new JRHtmlExporterNature(filter, deepGrid, isIgnorePageMargins);
 	
@@ -613,31 +618,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			resetExportContext();
 		}
-	}
-
-
-	protected void setDeepGrid()
-	{
-		deepGrid = 
-			!getBooleanParameter(
-				JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES,
-				JRHtmlExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES,
-				true
-				);
-
-//FIXMENOW check all exporter properties that are supposed to work at report level but use the below faulty code
-//		boolean nestedTables;
-//		Boolean nestedTablesParam = (Boolean) parameters.get(JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES);
-//		if (nestedTablesParam == null)
-//		{
-//			nestedTables = JRProperties.getBooleanProperty(PROPERTY_FRAMES_AS_NESTED_TABLES);
-//		}
-//		else
-//		{
-//			nestedTables = nestedTablesParam.booleanValue();
-//		}
-//
-//		deepGrid = !nestedTables;
 	}
 
 
