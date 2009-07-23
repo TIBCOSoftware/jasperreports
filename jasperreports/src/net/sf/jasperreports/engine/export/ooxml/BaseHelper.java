@@ -25,7 +25,7 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.export.ooxml2;
+package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 

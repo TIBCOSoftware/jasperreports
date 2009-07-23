@@ -33,7 +33,7 @@
  * Majid Ali Khan - majidkk@users.sourceforge.net
  * Frank Sch�nheit - Frank.Schoenheit@Sun.COM
  */
-package net.sf.jasperreports.engine.export.ooxml2;
+package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;

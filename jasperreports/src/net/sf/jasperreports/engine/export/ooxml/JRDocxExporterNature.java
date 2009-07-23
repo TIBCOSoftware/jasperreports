@@ -31,7 +31,7 @@
  * Greg Hilton
  */
 
-package net.sf.jasperreports.engine.export.ooxml2;
+package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.export.ExporterFilter;
 
