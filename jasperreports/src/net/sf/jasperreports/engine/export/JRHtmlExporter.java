@@ -618,18 +618,26 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected void setDeepGrid()
 	{
-		boolean nestedTables;
-		Boolean nestedTablesParam = (Boolean) parameters.get(JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES);
-		if (nestedTablesParam == null)
-		{
-			nestedTables = JRProperties.getBooleanProperty(PROPERTY_FRAMES_AS_NESTED_TABLES);
-		}
-		else
-		{
-			nestedTables = nestedTablesParam.booleanValue();
-		}
-		
-		deepGrid = !nestedTables;
+		deepGrid = 
+			!getBooleanParameter(
+				JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES,
+				JRHtmlExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES,
+				true
+				);
+
+//FIXMENOW check all exporter properties that are supposed to work at report level but use the below faulty code
+//		boolean nestedTables;
+//		Boolean nestedTablesParam = (Boolean) parameters.get(JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES);
+//		if (nestedTablesParam == null)
+//		{
+//			nestedTables = JRProperties.getBooleanProperty(PROPERTY_FRAMES_AS_NESTED_TABLES);
+//		}
+//		else
+//		{
+//			nestedTables = nestedTablesParam.booleanValue();
+//		}
+//
+//		deepGrid = !nestedTables;
 	}
 
 
