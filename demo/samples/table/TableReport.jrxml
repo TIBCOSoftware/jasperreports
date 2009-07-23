@@ -132,7 +132,7 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="15" isSplitAllowed="false">
+		<band height="15" splitType="Prevent">
 		<frame>
 			<reportElement x="0" y="0" width="555" height="15">
 				<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
