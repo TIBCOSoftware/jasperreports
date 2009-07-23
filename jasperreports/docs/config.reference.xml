@@ -113,6 +113,7 @@
       <property ref="net.sf.jasperreports.export.legacy.border.offset"/>
       <property ref="net.sf.jasperreports.export.csv.field.delimiter"/>
       <property ref="net.sf.jasperreports.export.csv.record.delimiter"/>
+      <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.graphics2d.min.job.size"/>
       <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
       <property ref="net.sf.jasperreports.export.html.frames.as.nested.tables"/>
@@ -1410,12 +1411,26 @@ If the property is <code>true</code>, any page in the document will be exported 
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.docx.frames.as.nested.tables -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.frames.as.nested.tables">
+    <description>
+This property serves as default value for the <api href="net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#FRAMES_AS_NESTED_TABLES">FRAMES_AS_NESTED_TABLES</api> export parameter.
+If set to <code>false</code>, the frame content will be integrated into the master/page table.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
+    <default>true</default>
+    <scope>Global | Report</scope>
+    <since>3.5.3</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.html.frames.as.nested.tables -->
   
   <configProperty name="net.sf.jasperreports.export.html.frames.as.nested.tables">
     <description>
 This property serves as default value for the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#FRAMES_AS_NESTED_TABLES">FRAMES_AS_NESTED_TABLES</api> export parameter.
-If set to <code>false</code>, the frame content will be integrated into the master/page HTML table
+If set to <code>false</code>, the frame content will be integrated into the master/page HTML table.
     </description>
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
     <default>true</default>
