@@ -25,16 +25,20 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.export.ooxml;
+package net.sf.jasperreports.engine.export.ooxml2;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -42,31 +46,119 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class CellHelper extends BorderHelper
+public class CellHelper extends BaseHelper
 {
-	//private String fill = null;
-	private String backcolor = null;
 	
-	private final String verticalAlignment;
+	/**
+	 *
+	 */
+	private BorderHelper borderHelper = null;
+	
+	/**
+	 *
+	 */
+	public CellHelper(Writer writer)
+	{
+		super(writer);
+		
+		borderHelper = new BorderHelper(writer);
+	}
+		
+	/**
+	 *
+	 */
+	public void exportHeader(JRPrintElement element, JRExporterGridCell gridCell) throws IOException 
+	{
+		writer.write("    <w:tc> \r\n");
+		writer.write("     <w:tcPr> \r\n");
+//		writer.write("      <w:tcW w:w=\"" + Utility.translatePointsToTwips(emptyCellWidth) + "\" w:type=\"dxa\" /> \r\n");
+		if (gridCell.getColSpan() > 1)
+		{
+			writer.write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" /> \r\n");
+		}
+		if (gridCell.getRowSpan() > 1)
+		{
+			writer.write("      <w:vMerge w:val=\"restart\" /> \r\n");
+		}
+		
+		exportProps(element, gridCell);
+		
+		writer.write("     </w:tcPr> \r\n");
+	}
+
+	/**
+	 *
+	 */
+	public void exportFooter() throws IOException 
+	{
+		writer.write("    </w:tc> \r\n");
+	}
+
+
+	/**
+	 *
+	 */
+	public void exportProps(JRStyle style) throws IOException
+	{
+		exportBackcolor(style.getMode() == null ? JRElement.MODE_OPAQUE : style.getMode().byteValue(), style.getOwnBackcolor());
+
+//		if (element instanceof JRBoxContainer)
+			borderHelper.export(style.getLineBox());
+			
+		//FIXMEDOCS invert this or use constructor with to parameters for priority management
+//		if (element instanceof JRCommonGraphicElement)
+			borderHelper.export(style.getLinePen());
+		
+		//export(null);
+	}
+
+
+	/**
+	 *
+	 */
+	private void exportProps(JRPrintElement element, JRExporterGridCell gridCell) throws IOException
+	{
+		exportBackcolor(element.getMode(), element.getOwnBackcolor());
+		
+		borderHelper.export(gridCell.getBox());
+
+		if (element instanceof JRCommonGraphicElement)
+			borderHelper.export(((JRCommonGraphicElement)element).getLinePen());
+		
+		//export(element);
+	}
+
+
+	/**
+	 *
+	 */
+	public void exportProps(JRExporterGridCell gridCell) throws IOException
+	{
+		exportBackcolor(JRElement.MODE_OPAQUE, gridCell.getBackcolor());//FIXMEDOCX check this
+		
+		borderHelper.export(gridCell.getBox());
+
+		//export(null);
+	}
 
 	
 	/**
 	 *
 	 */
-	public CellHelper(Writer styleWriter, JRPrintElement element)
+	public void exportBackcolor(byte mode, Color backcolor) throws IOException
 	{
-		super(styleWriter, element);
-		
-		if (element.getMode() == JRElement.MODE_OPAQUE)
+		if (mode == JRElement.MODE_OPAQUE && backcolor != null)
 		{
-			//fill = "solid";
-			backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
+			writer.write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" /> \r\n");
 		}
-		else
-		{
-			//fill = "none";
-		}
+	}
 
+	/**
+	 *
+	 */
+	public void export(JRPrintElement element) throws IOException
+	{
+		
 		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotation() : JRTextElement.ROTATION_NONE;
 		byte vAlign = JRAlignment.VERTICAL_ALIGN_TOP;
 		byte hAlign = JRAlignment.HORIZONTAL_ALIGN_LEFT;
@@ -78,93 +170,12 @@ public class CellHelper extends BorderHelper
 			hAlign = alignment.getHorizontalAlignment();
 		}
 		
-		verticalAlignment = ParagraphHelper.getVerticalAlignment(hAlign, vAlign, rotation);
-	}
-	
-	/**
-	 *
-	 */
-	public String getId()
-	{
-		return backcolor + super.getId() + "|" + verticalAlignment; 
-	}
+		String verticalAlignment = AlignmentHelper.getVerticalAlignment(hAlign, vAlign, rotation);
 
-//	/**
-//	 *
-//	 */
-//	public void write(String cellStyleName) throws IOException
-//	{
-//		styleWriter.write("<style:style style:name=\"");
-//		styleWriter.write(cellStyleName);
-//		styleWriter.write("\"");
-//		styleWriter.write(" style:family=\"table-cell\">\n");
-//		styleWriter.write(" <style:table-cell-properties");		
-//		styleWriter.write(" fo:wrap-option=\"wrap\"");
-//		styleWriter.write(" style:shrink-to-fit=\"false\"");
-//		if (backcolor != null)
-//		{
-//			styleWriter.write(" fo:background-color=\"#");
-//			styleWriter.write(backcolor);
-//			styleWriter.write("\"");
-//		}
-//		
-//		writeBorder(TOP_BORDER);
-//		writeBorder(LEFT_BORDER);
-//		writeBorder(BOTTOM_BORDER);
-//		writeBorder(RIGHT_BORDER);
-//		
-//		if (verticalAlignment != null)
-//		{
-//			styleWriter.write(" style:vertical-align=\"");
-//			styleWriter.write(verticalAlignment);
-//			styleWriter.write("\"");
-//		}
-//
-//		styleWriter.write("/>\n");
-//		styleWriter.write("</style:style>\n");
-//	}
-
-	/**
-	 *
-	 */
-	public void export(String cellStyleName) throws IOException
-	{
-//		bodyWriter.write("     <w:tcPr> \r\n");
-//		bodyWriter.write("      <w:tcW w:w=\"" + width + "\" w:type=\"dxa\" /> \r\n");
-//		if (gridspan > 0)
-//		{
-//			bodyWriter.write("      <w:gridSpan w:val=\"" + gridspan + "\" /> \r\n");
-//		}
-		
-		if(hasBorder())
-		{
-			styleWriter.write("      <w:tcBorders> \r\n");
-			exportBorder(TOP_BORDER);
-			exportBorder(LEFT_BORDER);
-			exportBorder(BOTTOM_BORDER);
-			exportBorder(RIGHT_BORDER);
-			styleWriter.write("      </w:tcBorders> \r\n");
-		}
-		
-		if (backcolor != null)
-		{
-			styleWriter.write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + backcolor + "\" /> \r\n");
-		}
-		
-		styleWriter.write("      <w:tcMar> \r\n");
-		exportPadding(TOP_BORDER);
-		exportPadding(LEFT_BORDER);
-		exportPadding(BOTTOM_BORDER);
-		exportPadding(RIGHT_BORDER);
-		styleWriter.write("      </w:tcMar> \r\n");
-		
 		if (verticalAlignment != null)
 		{
-			styleWriter.write("      <w:vAlign w:val=\"" + verticalAlignment +"\" /> \r\n");
+			writer.write("      <w:vAlign w:val=\"" + verticalAlignment +"\" /> \r\n");
 		}
-//		bodyWriter.write("     </w:tcPr> \r\n");
-//		bodyWriter.flush();//FIXMEDOCX check all flush
 	}
 
 }
-

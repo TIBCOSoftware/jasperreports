@@ -33,7 +33,7 @@
  * Majid Ali Khan - majidkk@users.sourceforge.net
  * Frank Schönheit - Frank.Schoenheit@Sun.COM
  */
-package net.sf.jasperreports.engine.export.ooxml;
+package net.sf.jasperreports.engine.export.ooxml2;
 
 import java.io.IOException;
 import java.io.Writer;

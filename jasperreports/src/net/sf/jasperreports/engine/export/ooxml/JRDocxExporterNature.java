@@ -31,7 +31,7 @@
  * Greg Hilton
  */
 
-package net.sf.jasperreports.engine.export.ooxml;
+package net.sf.jasperreports.engine.export.ooxml2;
 
 import net.sf.jasperreports.engine.export.ExporterFilter;
 
@@ -49,7 +49,7 @@ public class JRDocxExporterNature extends JROfficeOpenXmlExporterNature
 		super(filter);
 	}
 
-	protected byte getOpenDocumentNature() {
+	protected byte getOfficeOpenXmlNature() {
 
 		return JROfficeOpenXmlExporterNature.ODT_NATURE;
 	}

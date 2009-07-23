@@ -25,7 +25,7 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.export.ooxml;
+package net.sf.jasperreports.engine.export.ooxml2;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -41,255 +41,109 @@ import net.sf.jasperreports.engine.JRTextElement;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class ParagraphHelper extends StyleHelper
+public class ParagraphHelper extends BaseHelper
 {
 	/**
 	 *
 	 */
-	protected static final String HORIZONTAL_ALIGN_LEFT = "left";
-	protected static final String HORIZONTAL_ALIGN_RIGHT = "right";
-	protected static final String HORIZONTAL_ALIGN_CENTER = "center";
-	protected static final String HORIZONTAL_ALIGN_JUSTIFY = "both";
+	private boolean pageBreak = false;
 
 	/**
 	 *
 	 */
-	private static final String VERTICAL_ALIGN_TOP = "top";
-	private static final String VERTICAL_ALIGN_MIDDLE = "center";
-	private static final String VERTICAL_ALIGN_BOTTOM = "bottom";
-
-	/**
-	*
-	*/
-	protected static final String ROTATION_ALIGN_NONE = "none";
-	protected static final String ROTATION_ALIGN_TOP = "top";
-	protected static final String ROTATION_ALIGN_CENTER = "center";
-	protected static final String ROTATION_ALIGN_BOTTOM = "bottom";
-
-	private String styleNameReference = null;
-	private String verticalAlignment = null;
-	private String horizontalAlignment = null;
-	private String textRotation = null;
-	private String runDirection = null;
-
-	/**
-	 *
-	 */
-	public ParagraphHelper(Writer styleWriter, JRStyle style)
+	public ParagraphHelper(Writer writer, boolean pageBreak)
 	{
-		super(styleWriter);
+		super(writer);
 		
-		if (style.getStyle() != null)
-		{
-			styleNameReference = style.getStyle().getName();//FIXMEDOCX why getStyleNameReference is not working?
-		}
-
-		setAlignmentAndRotation(
-			style.getOwnHorizontalAlignment(), 
-			style.getOwnVerticalAlignment(), 
-			style.getOwnRotation(), 
-			style.getHorizontalAlignment() == null ? JRAlignment.HORIZONTAL_ALIGN_LEFT : style.getHorizontalAlignment().byteValue(),//FIXMEDOCX how to get rid of these conditional expressions? 
-			style.getVerticalAlignment() == null ? JRAlignment.VERTICAL_ALIGN_TOP : style.getVerticalAlignment().byteValue(), 
-			style.getRotation() == null ? JRTextElement.ROTATION_NONE : style.getRotation().byteValue()
-			);
+		this.pageBreak = pageBreak;
 	}
 	
 	/**
 	 *
 	 */
-	public ParagraphHelper(Writer styleWriter, JRPrintText text)
+	public void exportProps(JRStyle style) throws IOException
 	{
-		super(styleWriter);
+		exportPropsHeader(style.getStyle() == null ? null : style.getStyle().getName());//FIXMEDOCX why getStyleNameReference is not working?
+
+		String horizontalAlignment = 
+			getHorizontalAlignment(
+				style.getOwnHorizontalAlignment(), 
+				style.getOwnVerticalAlignment(), 
+				style.getOwnRotation(), 
+				style.getHorizontalAlignment() == null ? JRAlignment.HORIZONTAL_ALIGN_LEFT : style.getHorizontalAlignment().byteValue(),//FIXMEDOCX how to get rid of these conditional expressions? 
+				style.getVerticalAlignment() == null ? JRAlignment.VERTICAL_ALIGN_TOP : style.getVerticalAlignment().byteValue(), 
+				style.getRotation() == null ? JRTextElement.ROTATION_NONE : style.getRotation().byteValue()
+				);
+		String textRotation = getRotation(style.getOwnRotation());
+
+		exportAlignmentAndRotation(horizontalAlignment, textRotation);
+
+		exportPropsFooter();
+	}
+	
+	/**
+	 *
+	 */
+	public void exportProps(JRPrintText text) throws IOException
+	{
+		exportPropsHeader(text.getStyle() == null ? null : text.getStyle().getName());//FIXMEDOCX why getStyleNameReference is not working?
+
+		String horizontalAlignment = 
+			getHorizontalAlignment(
+				text.getOwnHorizontalAlignment(), 
+				text.getOwnVerticalAlignment(), 
+				text.getOwnRotation(), 
+				text.getHorizontalAlignment(), 
+				text.getVerticalAlignment(), 
+				text.getRotation()
+				);
+		String textRotation = getRotation(text.getOwnRotation());
+
+		exportAlignmentAndRotation(horizontalAlignment, textRotation);
 		
-		if (text.getStyle() != null)
-		{
-			styleNameReference = text.getStyle().getName();//FIXMEDOCX why getStyleNameReference is not working?
-		}
+//		exportRunDirection(text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL ? "rl" : null);
 
-		setAlignmentAndRotation(
-			text.getOwnHorizontalAlignment(), 
-			text.getOwnVerticalAlignment(), 
-			text.getOwnRotation(), 
-			text.getHorizontalAlignment(), 
-			text.getVerticalAlignment(), 
-			text.getRotation()
-			);
-		
-		runDirection = null;
-		if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
+		exportPropsFooter();
+	}
+	
+	
+	/**
+	 *
+	 */
+	private void exportPropsHeader(String styleNameReference) throws IOException
+	{
+		writer.write("      <w:pPr> \r\n");
+		if (styleNameReference != null)
 		{
-			runDirection = "rl";
+			writer.write("        <w:pStyle w:val=\"" + styleNameReference + "\"/> \r\n");
+		}
+		if (pageBreak)
+		{
+			writer.write("        <w:pageBreakBefore/> \r\n");
+			pageBreak = false;
 		}
 	}
 	
 	/**
 	 *
 	 */
-	public void setAlignmentAndRotation(
-		Byte ownHAlign, 
-		Byte ownVAlign, 
-		Byte ownRotation,
-		byte hAlign, 
-		byte vAlign, 
-		byte rotation
-		)
+	private void exportAlignmentAndRotation(String horizontalAlignment, String textRotation) throws IOException
 	{
-		if (
-			ownHAlign != null
-			|| ownVAlign != null
-			|| ownRotation != null
-			)
+		if (horizontalAlignment != null)
 		{
-			horizontalAlignment = getHorizontalAlignment(hAlign, vAlign, rotation);
-			verticalAlignment = getVerticalAlignment(hAlign, vAlign, rotation);
-			
-			switch(rotation)
-			{
-				case JRTextElement.ROTATION_LEFT:
-				{
-					textRotation = "90";
-					break;
-				}
-				case JRTextElement.ROTATION_RIGHT:
-				{
-					textRotation = "270";
-					break;
-				}
-				case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEDOCX possible?
-				case JRTextElement.ROTATION_NONE:
-				default:
-				{
-					textRotation = "0";
-				}
-			}
+			writer.write("   <w:jc w:val=\"" + horizontalAlignment + "\" /> \r\n");
 		}
-	}
-
-	
-	/**
-	 *
-	 */
-	public static String getVerticalAlignment(
-		byte horizontalAlignment, 
-		byte verticalAlignment, 
-		byte rotation
-		)
-	{
-		switch(rotation)
-		{
-			case JRTextElement.ROTATION_LEFT:
-			{
-				switch (horizontalAlignment)
-				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-						return VERTICAL_ALIGN_TOP;
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-						return VERTICAL_ALIGN_MIDDLE;
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-						return HORIZONTAL_ALIGN_JUSTIFY;//FIXMEDOCX ?????????????????
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-					default :
-						return VERTICAL_ALIGN_BOTTOM;
-				}
-			}
-			case JRTextElement.ROTATION_RIGHT:
-			{
-				switch (horizontalAlignment)
-				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-						return VERTICAL_ALIGN_BOTTOM;
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-						return VERTICAL_ALIGN_MIDDLE;
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-						return HORIZONTAL_ALIGN_JUSTIFY;//?????????????????
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-					default :
-						return VERTICAL_ALIGN_TOP;
-				}
-			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEDOCX possible?
-			case JRTextElement.ROTATION_NONE:
-			default:
-			{
-				switch (verticalAlignment)
-				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-						return VERTICAL_ALIGN_BOTTOM;
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-						return VERTICAL_ALIGN_MIDDLE;
-					case JRAlignment.VERTICAL_ALIGN_TOP :
-					default :
-						return VERTICAL_ALIGN_TOP;
-				}
-			}
-		}
+		//FIXME: textRotation???
 	}
 	
 	/**
 	 *
 	 */
-	public static String getHorizontalAlignment(
-		byte horizontalAlignment, 
-		byte verticalAlignment, 
-		byte rotation
-		)
+	private void exportPropsFooter() throws IOException
 	{
-		switch(rotation)
-		{
-			case JRTextElement.ROTATION_LEFT:
-			{
-				switch (verticalAlignment)
-				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-						return HORIZONTAL_ALIGN_RIGHT;
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-						return HORIZONTAL_ALIGN_CENTER;
-					case JRAlignment.VERTICAL_ALIGN_TOP :
-					default :
-						return HORIZONTAL_ALIGN_LEFT;
-				}
-			}
-			case JRTextElement.ROTATION_RIGHT:
-			{
-				switch (verticalAlignment)
-				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-						return HORIZONTAL_ALIGN_LEFT;
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-						return HORIZONTAL_ALIGN_CENTER;
-					case JRAlignment.VERTICAL_ALIGN_TOP :
-					default :
-						return HORIZONTAL_ALIGN_RIGHT;
-				}
-			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEDOCX possible?
-			case JRTextElement.ROTATION_NONE:
-			default:
-			{
-				switch (horizontalAlignment)
-				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-						return HORIZONTAL_ALIGN_RIGHT;
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-						return HORIZONTAL_ALIGN_CENTER;
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-						return HORIZONTAL_ALIGN_JUSTIFY;
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-					default :
-						return HORIZONTAL_ALIGN_LEFT;
-				}
-			}
-		}
+		writer.write("      </w:pPr> \r\n");
 	}
 	
-	/**
-	 *
-	 */
-	public String getId()
-	{
-		return verticalAlignment + "|" + horizontalAlignment + "|" + runDirection + "|" + textRotation;
-	}
-
 //	/**
 //	 *
 //	 */
@@ -332,31 +186,78 @@ public class ParagraphHelper extends StyleHelper
 	/**
 	 *
 	 */
-	public void export(boolean pageBreakInserted) throws IOException
+	public void export(String styleNameRef) throws IOException
 	{
-		styleWriter.write("      <w:pPr> \r\n");
-		if (styleNameReference != null)
+		throw new JRRuntimeException("FIXMEDOCX why should we implement this?");
+	}
+
+	public void exportEmptyParagraph() throws IOException
+	{
+		writer.write("     <w:p><w:pPr> \r\n");
+		if (pageBreak)
 		{
-			styleWriter.write("        <w:pStyle w:val=\"" + styleNameReference + "\"/> \r\n");
+			writer.write("        <w:pageBreakBefore/> \r\n");
+			pageBreak = false;
 		}
-		if (!pageBreakInserted)
-		{
-			styleWriter.write("        <w:pageBreakBefore/> \r\n");
-		}
-		if (horizontalAlignment != null)
-		{
-			styleWriter.write("   <w:jc w:val=\"" + horizontalAlignment + "\" /> \r\n");
-		}
-		//FIXME: textRotation???
-		styleWriter.write("      </w:pPr> \r\n");
+		writer.write("     </w:pPr></w:p> \r\n");
 	}
 
 	/**
 	 *
 	 */
-	public void export(String styleNameRef) throws IOException
+	private String getHorizontalAlignment(
+		Byte ownHAlign, 
+		Byte ownVAlign, 
+		Byte ownRotation,
+		byte hAlign, 
+		byte vAlign, 
+		byte rotation
+		)
 	{
-		throw new JRRuntimeException("FIXMEDOCX why should we implement this?");
+		String horizontalAlignment = null;
+		
+		if (
+			ownHAlign != null
+			|| ownVAlign != null
+			|| ownRotation != null
+			)
+		{
+			horizontalAlignment = AlignmentHelper.getHorizontalAlignment(hAlign, vAlign, rotation);
+		}
+		
+		return horizontalAlignment;
+	}
+
+	/**
+	 *
+	 */
+	private String getRotation(Byte rotation)
+	{
+		String textRotation = null;
+		
+		if (rotation != null)
+		{
+			switch(rotation.byteValue())
+			{
+				case JRTextElement.ROTATION_LEFT:
+				{
+					textRotation = "90";
+					break;
+				}
+				case JRTextElement.ROTATION_RIGHT:
+				{
+					textRotation = "270";
+					break;
+				}
+				case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEDOCX possible?
+				case JRTextElement.ROTATION_NONE:
+				default:
+				{
+					textRotation = "0";
+				}
+			}
+		}
+
+		return textRotation;
 	}
 }
-
