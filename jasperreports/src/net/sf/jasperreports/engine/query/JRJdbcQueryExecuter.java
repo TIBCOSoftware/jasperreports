@@ -35,6 +35,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +67,30 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 
 	protected static final String CLAUSE_ID_IN = "IN";
 	protected static final String CLAUSE_ID_NOTIN = "NOTIN";
+	
+	protected static final String FORWARD_ONLY = "forwardOnly";
+	protected static final String SCROLL_INSENSITIVE = "scrollInsensitive";
+	protected static final String SCROLL_SENSITIVE = "scrollSensitive";
+	
+	protected static final String READ_ONLY = "readOnly";
+	protected static final String UPDATABLE = "updatable";
+	
+	protected static final String HOLD = "hold";
+	protected static final String CLOSE = "close";
+
+	protected static final Map jdbcProperties = new HashMap()
+	{{
+		put(FORWARD_ONLY, Integer.valueOf(ResultSet.TYPE_FORWARD_ONLY));
+		put(SCROLL_INSENSITIVE, Integer.valueOf(ResultSet.TYPE_SCROLL_INSENSITIVE));
+		put(SCROLL_SENSITIVE, Integer.valueOf(ResultSet.TYPE_SCROLL_SENSITIVE));
+		
+		put(READ_ONLY, Integer.valueOf(ResultSet.CONCUR_READ_ONLY));
+		put(UPDATABLE, Integer.valueOf(ResultSet.CONCUR_UPDATABLE));
+		
+		put(HOLD, Integer.valueOf(ResultSet.HOLD_CURSORS_OVER_COMMIT));
+		put(CLOSE, Integer.valueOf(ResultSet.CLOSE_CURSORS_AT_COMMIT));
+		
+	}};
 	
 	private Connection connection;
 	
@@ -159,22 +184,26 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			try
 			{
-				int type = JRProperties.getIntegerProperty(dataset,
-						JRJdbcQueryExecuterFactory.PROPERTY_RESULT_SET_TYPE,
-						ResultSet.TYPE_FORWARD_ONLY);
+				String type = JRProperties.getProperty(dataset,	JRJdbcQueryExecuterFactory.PROPERTY_JDBC_RESULT_SET_TYPE) == null 
+						? FORWARD_ONLY 
+						: JRProperties.getProperty(dataset,	JRJdbcQueryExecuterFactory.PROPERTY_JDBC_RESULT_SET_TYPE);
 				
-				int concurrency = JRProperties.getIntegerProperty(dataset,
-						JRJdbcQueryExecuterFactory.PROPERTY_RESULT_SET_CONCURRENCY,
-						ResultSet.CONCUR_READ_ONLY);
+				String concurrency = JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_CONCURRENCY) == null 
+						? READ_ONLY 
+						: JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_CONCURRENCY);
 				
-				int holdability = JRProperties.getIntegerProperty(dataset,
-						JRJdbcQueryExecuterFactory.PROPERTY_RESULT_SET_HOLDABILITY,
-						ResultSet.HOLD_CURSORS_OVER_COMMIT);
-				if(type != ResultSet.TYPE_FORWARD_ONLY 
-						|| concurrency != ResultSet.CONCUR_READ_ONLY
-						|| holdability != ResultSet.HOLD_CURSORS_OVER_COMMIT)
+				String holdability = JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_HOLDABILITY) == null 
+						? HOLD 
+						: JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_HOLDABILITY);
+				
+				if(!type.equals(FORWARD_ONLY) || !concurrency.equals(READ_ONLY)	|| !holdability.equals(HOLD))
 				{
-					statement = connection.prepareStatement(queryString, type, concurrency, holdability);
+					statement = connection.prepareStatement(
+							queryString, 
+							((Integer)jdbcProperties.get(type)).intValue(), 
+							((Integer)jdbcProperties.get(concurrency)).intValue(),
+							((Integer)jdbcProperties.get(holdability)).intValue()
+							);
 				}
 				else
 				{
@@ -190,7 +219,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				}
 				
 				int maxFieldSize = JRProperties.getIntegerProperty(dataset,
-						JRJdbcQueryExecuterFactory.PROPERTY_STATEMENT_MAX_FIELD_SIZE,
+						JRJdbcQueryExecuterFactory.PROPERTY_JDBC_MAX_FIELD_SIZE,
 						0);
 				if(maxFieldSize != 0)
 				{
