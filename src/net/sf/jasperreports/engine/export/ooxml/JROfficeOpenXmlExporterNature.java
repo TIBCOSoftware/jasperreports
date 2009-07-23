@@ -31,7 +31,7 @@
  * Greg Hilton 
  */
 
-package net.sf.jasperreports.engine.export.ooxml;
+package net.sf.jasperreports.engine.export.ooxml2;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.export.ExporterNature;
 public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 {
 	
-	public static final byte ODT_NATURE = 1;
+	public static final byte ODT_NATURE = 1;//FIXMEDOCX
 	public static final byte ODS_NATURE = 2;
 	
 	protected ExporterFilter filter = null;
@@ -128,5 +128,5 @@ public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 		return false;
 	}
 	
-	protected abstract byte getOpenDocumentNature();
+	protected abstract byte getOfficeOpenXmlNature();
 }

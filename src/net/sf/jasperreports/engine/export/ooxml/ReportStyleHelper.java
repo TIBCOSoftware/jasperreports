@@ -33,7 +33,7 @@
  * Majid Ali Khan - majidkk@users.sourceforge.net
  * Frank Schönheit - Frank.Schoenheit@Sun.COM
  */
-package net.sf.jasperreports.engine.export.ooxml;
+package net.sf.jasperreports.engine.export.ooxml2;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -47,12 +47,29 @@ import net.sf.jasperreports.engine.JasperPrint;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ReportStyleHelper
+public class ReportStyleHelper extends BaseHelper
 {
 	/**
 	 * 
 	 */
-	public static void export(List jasperPrintList, Writer writer) throws IOException
+	private CellHelper cellHelper = null;
+	private ParagraphHelper paragraphHelper = null;
+	
+	/**
+	 * 
+	 */
+	public ReportStyleHelper(Writer writer)
+	{
+		super(writer);
+		
+		cellHelper = new CellHelper(writer);
+		paragraphHelper = new ParagraphHelper(writer, false);
+	}
+
+	/**
+	 * 
+	 */
+	public void export(List jasperPrintList) throws IOException
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		writer.write("<w:styles \r\n");
@@ -77,7 +94,11 @@ public class ReportStyleHelper
 			{
 				for(int i = 0; i < styles.length; i++)
 				{
-					exportStyle(styles[i], writer);
+					JRStyle style = styles[i];
+					exportHeader(style);
+					cellHelper.exportProps(style);
+					paragraphHelper.exportProps(style);
+					exportFooter();
 				}
 			}
 		}
@@ -88,12 +109,18 @@ public class ReportStyleHelper
 	/**
 	 * 
 	 */
-	private static void exportStyle(JRStyle style, Writer writer) throws IOException
+	private void exportHeader(JRStyle style) throws IOException
 	{
 		writer.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\"> \r\n");
 		writer.write("  <w:name w:val=\"" + style.getName() + "\" /> \r\n");
 		writer.write("  <w:qFormat /> \r\n");
-		new ParagraphHelper(writer, style).export(true);
+	}
+	
+	/**
+	 * 
+	 */
+	private void exportFooter() throws IOException
+	{
 		writer.write(" </w:style> \r\n");
 	}
 	

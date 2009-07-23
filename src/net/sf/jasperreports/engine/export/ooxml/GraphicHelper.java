@@ -25,7 +25,7 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.export.ooxml;
+package net.sf.jasperreports.engine.export.ooxml2;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class GraphicHelper extends StyleHelper
+public class GraphicHelper extends BaseHelper
 {
 	/**
 	 *
@@ -182,18 +182,18 @@ public class GraphicHelper extends StyleHelper
 	 */
 	public void export(String lineStyleName) throws IOException
 	{
-		styleWriter.write(" <style:style style:name=\"" + lineStyleName + "\"");
-		styleWriter.write(" style:family=\"graphic\" style:parent-style-name=\"Graphics\">\n");
-		styleWriter.write("   <style:graphic-properties");
-		styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
-		styleWriter.write(" style:horizontal-pos=\""+hAlign+ "\" style:horizontal-rel=\"paragraph\"");
-		styleWriter.write(" style:vertical-pos=\""+vAlign+ "\" style:vertical-rel=\"paragraph\"");
-		styleWriter.write(" svg:stroke-color=\"#" + forecolor + "\"");
-		styleWriter.write(" draw:stroke=\"" + style + "\"");//FIXMENOW dashed borders do not work; only dashed lines and ellipses seem to work
-		styleWriter.write(" draw:stroke-dash=\"Dashed\"");
-		styleWriter.write(" svg:stroke-width=\"" + width + "in\"");
-		styleWriter.write("/>\n");
-		styleWriter.write("</style:style>\n");
+		writer.write(" <style:style style:name=\"" + lineStyleName + "\"");
+		writer.write(" style:family=\"graphic\" style:parent-style-name=\"Graphics\">\n");
+		writer.write("   <style:graphic-properties");
+		writer.write(" draw:fill-color=\"#" + backcolor + "\"");
+		writer.write(" style:horizontal-pos=\""+hAlign+ "\" style:horizontal-rel=\"paragraph\"");
+		writer.write(" style:vertical-pos=\""+vAlign+ "\" style:vertical-rel=\"paragraph\"");
+		writer.write(" svg:stroke-color=\"#" + forecolor + "\"");
+		writer.write(" draw:stroke=\"" + style + "\"");//FIXMENOW dashed borders do not work; only dashed lines and ellipses seem to work
+		writer.write(" draw:stroke-dash=\"Dashed\"");
+		writer.write(" svg:stroke-width=\"" + width + "in\"");
+		writer.write("/>\n");
+		writer.write("</style:style>\n");
 	}
 
 }
