@@ -150,23 +150,23 @@ public class TableHelper extends BaseHelper
 		writer.write("    </w:tc> \r\n");
 	}
 
-	public void exportOccupiedCells(JRExporterGridCell gridCell, int occupiedCellColSpan) throws IOException
+	public void exportOccupiedCells(JRExporterGridCell gridCell) throws IOException
 	{
 		writer.write("    <w:tc> \r\n");
 		writer.write("     <w:tcPr> \r\n");
-		if (occupiedCellColSpan > 1)
+		if (gridCell.getColSpan() > 1)
 		{
-			writer.write("      <w:gridSpan w:val=\"" + occupiedCellColSpan +"\" /> \r\n");
+			writer.write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" /> \r\n");
 		}
-		writer.write("        <w:vMerge w:val=\"continue\"/> \r\n");
+		writer.write("      <w:vMerge w:val=\"continue\" /> \r\n");
 		
-		cellHelper.exportProps(gridCell);
-
+		cellHelper.exportProps(gridCell.getElement(), gridCell);
+		
 		writer.write("     </w:tcPr> \r\n");
-
-		paragraphHelper.exportEmptyParagraph();
 		
-		writer.write("    </w:tc> \r\n");
+		paragraphHelper.exportEmptyParagraph();
+
+		cellHelper.exportFooter();
 	}
 
 }

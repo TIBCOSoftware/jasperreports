@@ -116,7 +116,7 @@ public class CellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportProps(JRPrintElement element, JRExporterGridCell gridCell) throws IOException
+	public void exportProps(JRPrintElement element, JRExporterGridCell gridCell) throws IOException
 	{
 		exportBackcolor(element.getMode(), element.getOwnBackcolor());
 		

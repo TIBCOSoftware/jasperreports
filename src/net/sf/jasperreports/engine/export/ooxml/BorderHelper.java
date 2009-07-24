@@ -103,7 +103,7 @@ public class BorderHelper extends BaseHelper
 	{
 		if (info.borderWidth[side] != null)
 		{
-			writer.write("<w:" + info.border[side] +" w:val=\"" + info.borderStyle[side] + "\" w:sz=\"" + info.borderWidth[side] + "\" w:space=\"0\"");
+			writer.write("<w:" + BorderInfo.BORDER[side] +" w:val=\"" + info.borderStyle[side] + "\" w:sz=\"" + info.borderWidth[side] + "\" w:space=\"0\"");
 			if (info.borderColor[side] != null)//FIXMEDOCX check this; use default color?
 			{
 				writer.write(" w:color=\"" + JRColorUtil.getColorHexa(info.borderColor[side]) + "\"");
@@ -119,7 +119,7 @@ public class BorderHelper extends BaseHelper
 	{
 		if (info.borderPadding[side] != null)
 		{
-			writer.write("       <w:" + info.border[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" /> \r\n");
+			writer.write("       <w:" + BorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" /> \r\n");
 		}
 	}
 
@@ -130,7 +130,7 @@ class BorderInfo
 	/**
 	 *
 	 */
-	protected static final String[] border = new String[]{"top", "left", "bottom", "right"};
+	protected static final String[] BORDER = new String[]{"top", "left", "bottom", "right"};
 	protected static final int TOP_BORDER = 0;
 	protected static final int LEFT_BORDER = 1;
 	protected static final int BOTTOM_BORDER = 2;
