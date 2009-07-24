@@ -35,7 +35,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -68,30 +67,16 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	protected static final String CLAUSE_ID_IN = "IN";
 	protected static final String CLAUSE_ID_NOTIN = "NOTIN";
 	
-	protected static final String FORWARD_ONLY = "forwardOnly";
-	protected static final String SCROLL_INSENSITIVE = "scrollInsensitive";
-	protected static final String SCROLL_SENSITIVE = "scrollSensitive";
+	protected static final String TYPE_FORWARD_ONLY = "forwardOnly";
+	protected static final String TYPE_SCROLL_INSENSITIVE = "scrollInsensitive";
+	protected static final String TYPE_SCROLL_SENSITIVE = "scrollSensitive";
 	
-	protected static final String READ_ONLY = "readOnly";
-	protected static final String UPDATABLE = "updatable";
+	protected static final String CONCUR_READ_ONLY = "readOnly";
+	protected static final String CONCUR_UPDATABLE = "updatable";
 	
-	protected static final String HOLD = "hold";
-	protected static final String CLOSE = "close";
+	protected static final String HOLD_CURSORS_OVER_COMMIT = "hold";
+	protected static final String CLOSE_CURSORS_AT_COMMIT = "close";
 
-	protected static final Map jdbcProperties = new HashMap()
-	{{
-		put(FORWARD_ONLY, Integer.valueOf(ResultSet.TYPE_FORWARD_ONLY));
-		put(SCROLL_INSENSITIVE, Integer.valueOf(ResultSet.TYPE_SCROLL_INSENSITIVE));
-		put(SCROLL_SENSITIVE, Integer.valueOf(ResultSet.TYPE_SCROLL_SENSITIVE));
-		
-		put(READ_ONLY, Integer.valueOf(ResultSet.CONCUR_READ_ONLY));
-		put(UPDATABLE, Integer.valueOf(ResultSet.CONCUR_UPDATABLE));
-		
-		put(HOLD, Integer.valueOf(ResultSet.HOLD_CURSORS_OVER_COMMIT));
-		put(CLOSE, Integer.valueOf(ResultSet.CLOSE_CURSORS_AT_COMMIT));
-		
-	}};
-	
 	private Connection connection;
 	
 	/**
@@ -151,12 +136,6 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			try
 			{
-				Integer reportMaxCount = (Integer) getParameterValue(JRParameter.REPORT_MAX_COUNT);
-				if (reportMaxCount != null)
-				{
-					statement.setMaxRows(reportMaxCount.intValue());
-				}
-
 				resultSet = statement.executeQuery();
 				
 				dataSource = new JRResultSetDataSource(resultSet);
@@ -184,30 +163,38 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			try
 			{
-				String type = JRProperties.getProperty(dataset,	JRJdbcQueryExecuterFactory.PROPERTY_JDBC_RESULT_SET_TYPE) == null 
-						? FORWARD_ONLY 
-						: JRProperties.getProperty(dataset,	JRJdbcQueryExecuterFactory.PROPERTY_JDBC_RESULT_SET_TYPE);
+				String type = JRProperties.getProperty(dataset,	JRJdbcQueryExecuterFactory.PROPERTY_JDBC_RESULT_SET_TYPE);
+				String concurrency = JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_CONCURRENCY);
+				String holdability = JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_HOLDABILITY);
 				
-				String concurrency = JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_CONCURRENCY) == null 
-						? READ_ONLY 
-						: JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_CONCURRENCY);
-				
-				String holdability = JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_HOLDABILITY) == null 
-						? HOLD 
-						: JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_HOLDABILITY);
-				
-				if(!type.equals(FORWARD_ONLY) || !concurrency.equals(READ_ONLY)	|| !holdability.equals(HOLD))
+				if (type == null && concurrency == null && holdability == null)
 				{
-					statement = connection.prepareStatement(
-							queryString, 
-							((Integer)jdbcProperties.get(type)).intValue(), 
-							((Integer)jdbcProperties.get(concurrency)).intValue(),
-							((Integer)jdbcProperties.get(holdability)).intValue()
-							);
+					statement = connection.prepareStatement(queryString);
 				}
 				else
 				{
-					statement = connection.prepareStatement(queryString);
+					type = type == null ? TYPE_FORWARD_ONLY : type; 
+					concurrency = concurrency == null ? CONCUR_READ_ONLY : concurrency; 
+			
+					if (holdability == null)
+					{
+						statement = 
+							connection.prepareStatement(
+								queryString, 
+								getResultSetType(type), 
+								getConcurrency(concurrency)
+								);
+					}
+					else
+					{
+						statement = 
+							connection.prepareStatement(
+								queryString, 
+								getResultSetType(type), 
+								getConcurrency(concurrency),
+								getHoldability(holdability, connection)
+								);
+					}
 				}
 				
 				int fetchSize = JRProperties.getIntegerProperty(dataset,
@@ -220,12 +207,18 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				
 				int maxFieldSize = JRProperties.getIntegerProperty(dataset,
 						JRJdbcQueryExecuterFactory.PROPERTY_JDBC_MAX_FIELD_SIZE,
-						0);
+						0);//FIXMENOW check the default of all zero default properties
 				if(maxFieldSize != 0)
 				{
 					statement.setMaxFieldSize(maxFieldSize);
 				}
 				
+				Integer reportMaxCount = (Integer) getParameterValue(JRParameter.REPORT_MAX_COUNT);
+				if (reportMaxCount != null)
+				{
+					statement.setMaxRows(reportMaxCount.intValue());
+				}
+
 				List parameterNames = getCollectedParameters();
 				if (!parameterNames.isEmpty())
 				{
@@ -525,5 +518,51 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		
 		return false;
 	}
+	
+	protected static int getResultSetType(String type)
+	{
+		if (TYPE_FORWARD_ONLY.equals(type))
+		{
+			return ResultSet.TYPE_FORWARD_ONLY;
+		}
+		else if (TYPE_SCROLL_INSENSITIVE.equals(type))
+		{
+			return ResultSet.TYPE_SCROLL_INSENSITIVE;
+		}
+		else if (TYPE_SCROLL_SENSITIVE.equals(TYPE_SCROLL_SENSITIVE))
+		{
+			return ResultSet.TYPE_SCROLL_SENSITIVE;
+		}
+		
+		return ResultSet.TYPE_FORWARD_ONLY;
+	}
+	
+	protected static int getConcurrency(String concurrency)
+	{
+		if (CONCUR_READ_ONLY.equals(concurrency))
+		{
+			return ResultSet.CONCUR_READ_ONLY;
+		}
+		else if (CONCUR_UPDATABLE.equals(concurrency))
+		{
+			return ResultSet.CONCUR_UPDATABLE;
+		}
+		
+		return ResultSet.CONCUR_READ_ONLY;
+	};
+	
+	protected static int getHoldability(String holdability, Connection connection) throws SQLException
+	{
+		if (HOLD_CURSORS_OVER_COMMIT.equals(holdability))
+		{
+			return ResultSet.HOLD_CURSORS_OVER_COMMIT;
+		}
+		else if (CLOSE_CURSORS_AT_COMMIT.equals(holdability))
+		{
+			return ResultSet.CLOSE_CURSORS_AT_COMMIT;
+		}
+		
+		return connection.getHoldability();
+	};
 	
 }
