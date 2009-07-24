@@ -447,7 +447,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 
 					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
 					ElementGridCell elementGridCell = (ElementGridCell)grid[occupiedGridCell.getRow()][occupiedGridCell.getCol()];
-					tableHelper.exportOccupiedCells(elementGridCell, elementGridCell.getColSpan());
+					tableHelper.exportOccupiedCells(elementGridCell);
 					col += elementGridCell.getColSpan() - 1;
 				}
 				else if(gridCell.getWrapper() != null)
