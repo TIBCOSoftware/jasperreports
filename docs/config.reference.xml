@@ -306,13 +306,13 @@ Property specifying the fetch size for the <code>java.sql.ResultSet</code> creat
 Property specifying the type for the <code>java.sql.ResultSet</code> created by the 
 <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api>. Possible values are:
 <ul>
-  <li>&quot;forwardOnly&quot; - the cursor may move only forward.</li>
-  <li>&quot;scrollInsensitive&quot; - the result set is scrollable but generally not sensitive to changes made by others.</li>
-  <li>&quot;scrollSensitive&quot; - the result set is scrollable and generally sensitive to changes made by others.</li>
+  <li><code>forwardOnly</code> - the cursor may move only forward.</li>
+  <li><code>scrollInsensitive</code> - the result set is scrollable but generally not sensitive to changes made by others.</li>
+  <li><code>scrollSensitive</code> - the result set is scrollable and generally sensitive to changes made by others.</li>
 </ul>
     </description>
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_RESULT_SET_TYPE</api>
-    <default>&quot;forwardOnly&quot;</default>
+    <default>forwardOnly</default>
     <scope>Global | Dataset</scope>
     <since>3.5.3</since>
   </configProperty>
@@ -324,12 +324,12 @@ Property specifying the type for the <code>java.sql.ResultSet</code> created by 
 Property specifying the concurrency rule for the <code>java.sql.ResultSet</code> created by the 
 <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api>. Possible values are:
 <ul>
-  <li>&quot;readOnly&quot; - the concurrency mode for a <code>ResultSet</code> object that may NOT be updated.</li>
-  <li>&quot;updatable&quot; - the concurrency mode for a <code>ResultSet</code> object that may be updated.</li>
+  <li><code>readOnly</code> - the concurrency mode for a <code>ResultSet</code> object that may NOT be updated.</li>
+  <li><code>updatable</code> - the concurrency mode for a <code>ResultSet</code> object that may be updated.</li>
 </ul>
     </description>
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_CONCURRENCY</api>
-    <default>&quot;readOnly&quot;</default>
+    <default>readOnly</default>
     <scope>Global | Dataset</scope>
     <since>3.5.3</since>
   </configProperty>
@@ -341,12 +341,12 @@ Property specifying the concurrency rule for the <code>java.sql.ResultSet</code>
 Property specifying the cursor holdability after commit for the <code>java.sql.ResultSet</code> created by the 
 <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api>. Possible values are:
 <ul>
-  <li>&quot;hold&quot; - indicates that <code>ResultSet</code> objects should not be closed when the method <code>Connection.commit()</code> is called.</li>
-  <li>&quot;close&quot; - indicates that <code>ResultSet</code> objects should be closed when the method <code>Connection.commit()</code> is called.</li>
+  <li><code>hold</code> - indicates that <code>ResultSet</code> objects should not be closed when the method <code>Connection.commit()</code> is called.</li>
+  <li><code>close</code> - indicates that <code>ResultSet</code> objects should be closed when the method <code>Connection.commit()</code> is called.</li>
 </ul>
     </description>
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_HOLDABILITY</api>
-    <default>&quot;hold&quot;</default>
+    <default>hold</default>
     <scope>Global | Dataset</scope>
     <since>3.5.3</since>
   </configProperty>
@@ -360,7 +360,7 @@ storing character or binary values created by the
 <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api>.
     </description>
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_MAX_FIELD_SIZE</api>
-    <default>0, i.e. "not set"</default>
+    <default>N/A</default>
     <scope>Global | Dataset</scope>
     <since>3.5.3</since>
   </configProperty>
