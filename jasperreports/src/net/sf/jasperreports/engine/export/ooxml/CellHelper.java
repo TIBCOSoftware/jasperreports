@@ -65,6 +65,14 @@ public class CellHelper extends BaseHelper
 	}
 		
 	/**
+	 * 
+	 */
+	public BorderHelper getBorderHelper() 
+	{
+		return borderHelper;
+	}
+
+	/**
 	 *
 	 */
 	public void exportHeader(JRPrintElement element, JRExporterGridCell gridCell) throws IOException 

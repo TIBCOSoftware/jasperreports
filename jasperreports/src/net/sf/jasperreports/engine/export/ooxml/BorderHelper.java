@@ -192,7 +192,7 @@ class BorderInfo
 	 */
 	private void setBorder(JRPen pen, int side)
 	{
-		double width = pen.getLineWidth() == null ? 0 : pen.getLineWidth().doubleValue();
+		float width = pen.getLineWidth() == null ? 0 : pen.getLineWidth().floatValue();
 		String style = null;
 
 		if (width > 0f)
@@ -217,7 +217,7 @@ class BorderInfo
 				}
 			}
 
-			borderWidth[side] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(width));
+			borderWidth[side] = String.valueOf(Utility.halfPoint(width));
 		}
 		else
 		{
