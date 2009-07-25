@@ -118,4 +118,12 @@ public class Utility {
 		return (int)(points * 12700);
 	}
 	
+	/**
+	 * 
+	 */
+	public static int halfPoint(float pixels) 
+	{
+		return (int)(pixels * 8);
+	}
+	
 }

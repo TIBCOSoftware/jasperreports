@@ -59,6 +59,9 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
+import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -73,6 +76,7 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterFilter;
@@ -513,40 +517,53 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	 */
 	protected void exportLine(TableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
-		tableHelper.getCellHelper().exportHeader(line, gridCell);
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = null;
+		float ratio = line.getWidth() / line.getHeight();
+		if (ratio > 1)
+		{
+			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			{
+				pen = box.getTopPen();
+			}
+			else
+			{
+				pen = box.getBottomPen();
+			}
+		}
+		else
+		{
+			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			{
+				pen = box.getLeftPen();
+			}
+			else
+			{
+				pen = box.getRightPen();
+			}
+		}
+		pen.setLineColor(line.getLinePen().getLineColor());
+		pen.setLineStyle(line.getLinePen().getLineStyle());
+		pen.setLineWidth(line.getLinePen().getLineWidth());
+
+		docWriter.write("    <w:tc> \r\n");
+		docWriter.write("     <w:tcPr> \r\n");
+		if (gridCell.getColSpan() > 1)
+		{
+			docWriter.write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" /> \r\n");
+		}
+		if (gridCell.getRowSpan() > 1)
+		{
+			docWriter.write("      <w:vMerge w:val=\"restart\" /> \r\n");
+		}
+		
+		tableHelper.getCellHelper().getBorderHelper().export(box);
+
+		docWriter.write("     </w:tcPr> \r\n");
+
 		docWriter.write("<w:p/>");
 
-//		double x1, y1, x2, y2;
-//
-//		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
-//		{
-//			x1 = Utility.translatePixelsToInches(0);
-//			y1 = Utility.translatePixelsToInches(0);
-//			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-//			y2 = Utility.translatePixelsToInches(line.getHeight() - 1);
-//		}
-//		else
-//		{
-//			x1 = Utility.translatePixelsToInches(0);
-//			y1 = Utility.translatePixelsToInches(line.getHeight() - 1);
-//			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-//			y2 = Utility.translatePixelsToInches(0);
-//		}
-//
-//		tempBodyWriter.write("<text:p>");
-//		insertPageAnchor();
-//		tempBodyWriter.write(
-//				"<draw:line text:anchor-type=\"paragraph\" "
-//				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
-//				+ "svg:x1=\"" + x1 + "in\" "
-//				+ "svg:y1=\"" + y1 + "in\" "
-//				+ "svg:x2=\"" + x2 + "in\" "
-//				+ "svg:y2=\"" + y2 + "in\">"
-//				//+ "</draw:line>"
-//				+ "<text:p/></draw:line>"
-//				+ "</text:p>"
-//				);
-		tableHelper.getCellHelper().exportFooter();
+		docWriter.write("    </w:tc> \r\n");
 	}
 
 
