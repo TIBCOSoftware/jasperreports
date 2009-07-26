@@ -1,6 +1,6 @@
 <project name="images" default="javac" basedir=".">
 
-	<description>Shows how images could be used in a report tempalte.</description>
+	<description>Shows how images could be used in a report template.</description>
 
 	<property name="class.name" value="ImagesApp" />
 	<property name="file.name" value="${basedir}/ImagesReport" />
