@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
@@ -68,10 +69,11 @@ public class OoxmlApp
 	private static final String TASK_HTML = "html";
 	private static final String TASK_RTF = "rtf";
 	private static final String TASK_XLS = "xls";
-	private static final String TASK_DOCX = "docx";
 	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_ODT = "odt";
+	private static final String TASK_DOCX = "docx";
+	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_RUN = "run";
 	
 	
@@ -164,21 +166,45 @@ public class OoxmlApp
 			}
 			else if (TASK_DOCX.equals(taskName))
 			{
-				File sourceFile = new File(fileName);
+				for(int i = 0; i < reportNames.length; i++)
+				{
+					long start = System.currentTimeMillis();
+					File sourceFile = new File(reportNames[i] + ".jrprint");
 		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
+					File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
 				
-				JRDocxExporter exporter = new JRDocxExporter();
+					JRDocxExporter exporter = new JRDocxExporter();
 				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-//				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+					exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+					exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 				
-				exporter.exportReport();
+					exporter.exportReport();
 
-				System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". DOCX creation time : " + (System.currentTimeMillis() - start));
+				}
+			}
+			else if (TASK_XHTML.equals(taskName))
+			{
+				for(int i = 0; i < reportNames.length; i++)
+				{
+					long start = System.currentTimeMillis();
+					File sourceFile = new File(reportNames[i] + ".jrprint");
+		
+					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+					File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
+				
+					JRXhtmlExporter exporter = new JRXhtmlExporter();
+				
+					exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+					exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+					exporter.exportReport();
+
+					System.err.println("Report : " + reportNames[i] + ". XHTML creation time : " + (System.currentTimeMillis() - start));
+				}
 			}
 			else if (TASK_JXL.equals(taskName))
 			{
