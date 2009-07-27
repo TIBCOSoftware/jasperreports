@@ -38,6 +38,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -52,18 +53,18 @@ public class ReportStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	private CellHelper cellHelper = null;
 	private ParagraphHelper paragraphHelper = null;
+	private RunHelper runHelper = null;
 	
 	/**
 	 * 
 	 */
-	public ReportStyleHelper(Writer writer)
+	public ReportStyleHelper(Writer writer, Map fontMap)
 	{
 		super(writer);
 		
-		cellHelper = new CellHelper(writer);
 		paragraphHelper = new ParagraphHelper(writer, false);
+		runHelper = new RunHelper(writer, fontMap);
 	}
 
 	/**
@@ -96,8 +97,8 @@ public class ReportStyleHelper extends BaseHelper
 				{
 					JRStyle style = styles[i];
 					exportHeader(style);
-					cellHelper.exportProps(style);
 					paragraphHelper.exportProps(style);
+					runHelper.exportProps(style);
 					exportFooter();
 				}
 			}
@@ -111,9 +112,15 @@ public class ReportStyleHelper extends BaseHelper
 	 */
 	private void exportHeader(JRStyle style) throws IOException
 	{
-		writer.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\"> \r\n");
+		//writer.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\"> \r\n");
+		writer.write(" <w:style w:type=\"paragraph\" w:styleId=\"" + style.getName() + "\"> \r\n");
 		writer.write("  <w:name w:val=\"" + style.getName() + "\" /> \r\n");
 		writer.write("  <w:qFormat /> \r\n");
+		String styleNameReference = style.getStyle() == null ? null : style.getStyle().getName();//FIXMEDOCX why getStyleNameReference is not working?
+		if (styleNameReference != null)
+		{
+			writer.write("  <w:basedOn w:val=\"" + styleNameReference + "\" /> \r\n");
+		}
 	}
 	
 	/**

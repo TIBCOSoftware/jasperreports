@@ -63,7 +63,7 @@ public class ParagraphHelper extends BaseHelper
 	 */
 	public void exportProps(JRStyle style) throws IOException
 	{
-		exportPropsHeader(style.getStyle() == null ? null : style.getStyle().getName());//FIXMEDOCX why getStyleNameReference is not working?
+		exportPropsHeader(null);
 
 		String horizontalAlignment = 
 			getHorizontalAlignment(

@@ -53,7 +53,7 @@ public class TableHelper extends BaseHelper
 	 */
 	private CellHelper cellHelper = null;
 	private ParagraphHelper paragraphHelper = null;
-	private TextHelper textHelper = null;
+	private RunHelper runHelper = null;
 
 
 	/**
@@ -61,7 +61,7 @@ public class TableHelper extends BaseHelper
 	 */
 	protected TableHelper(
 		Writer writer,
-		TextHelper textHelper,
+		RunHelper runHelper,
 		boolean pageBreak
 		) 
 	{
@@ -69,7 +69,7 @@ public class TableHelper extends BaseHelper
 
 		this.cellHelper = new CellHelper(writer);
 		this.paragraphHelper = new ParagraphHelper(writer, pageBreak);
-		this.textHelper = textHelper;
+		this.runHelper = runHelper;
 	}
 
 
