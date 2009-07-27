@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRTextElement;
 
 
 /**
@@ -43,6 +42,14 @@ import net.sf.jasperreports.engine.JRTextElement;
  */
 public class ParagraphHelper extends BaseHelper
 {
+	/**
+	 *
+	 */
+	private static final String HORIZONTAL_ALIGN_LEFT = "left";
+	private static final String HORIZONTAL_ALIGN_RIGHT = "right";
+	private static final String HORIZONTAL_ALIGN_CENTER = "center";
+	private static final String HORIZONTAL_ALIGN_BOTH = "both";
+
 	/**
 	 *
 	 */
@@ -65,18 +72,11 @@ public class ParagraphHelper extends BaseHelper
 	{
 		exportPropsHeader(null);
 
-		String horizontalAlignment = 
+		exportAlignment(
 			getHorizontalAlignment(
-				style.getOwnHorizontalAlignment(), 
-				style.getOwnVerticalAlignment(), 
-				style.getOwnRotation(), 
-				style.getHorizontalAlignment() == null ? JRAlignment.HORIZONTAL_ALIGN_LEFT : style.getHorizontalAlignment().byteValue(),//FIXMEDOCX how to get rid of these conditional expressions? 
-				style.getVerticalAlignment() == null ? JRAlignment.VERTICAL_ALIGN_TOP : style.getVerticalAlignment().byteValue(), 
-				style.getRotation() == null ? JRTextElement.ROTATION_NONE : style.getRotation().byteValue()
-				);
-		String textRotation = getRotation(style.getOwnRotation());
-
-		exportAlignmentAndRotation(horizontalAlignment, textRotation);
+				style.getOwnHorizontalAlignment() 
+				)
+			);
 
 		exportPropsFooter();
 	}
@@ -88,18 +88,11 @@ public class ParagraphHelper extends BaseHelper
 	{
 		exportPropsHeader(text.getStyle() == null ? null : text.getStyle().getName());//FIXMEDOCX why getStyleNameReference is not working?
 
-		String horizontalAlignment = 
+		exportAlignment(
 			getHorizontalAlignment(
-				text.getOwnHorizontalAlignment(), 
-				text.getOwnVerticalAlignment(), 
-				text.getOwnRotation(), 
-				text.getHorizontalAlignment(), 
-				text.getVerticalAlignment(), 
-				text.getRotation()
-				);
-		String textRotation = getRotation(text.getOwnRotation());
-
-		exportAlignmentAndRotation(horizontalAlignment, textRotation);
+				text.getOwnHorizontalAlignment()
+				)
+			);
 		
 //		exportRunDirection(text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL ? "rl" : null);
 
@@ -127,13 +120,13 @@ public class ParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportAlignmentAndRotation(String horizontalAlignment, String textRotation) throws IOException
+	private void exportAlignment(String horizontalAlignment) throws IOException
 	{
 		if (horizontalAlignment != null)
 		{
 			writer.write("   <w:jc w:val=\"" + horizontalAlignment + "\" /> \r\n");
 		}
-		//FIXME: textRotation???
+		//FIXMEDOCX line spacing?
 	}
 	
 	/**
@@ -144,45 +137,6 @@ public class ParagraphHelper extends BaseHelper
 		writer.write("      </w:pPr> \r\n");
 	}
 	
-//	/**
-//	 *
-//	 */
-//	public void write(String paragraphStyleName) throws IOException
-//	{
-//		styleWriter.write("<style:style style:name=\"" + paragraphStyleName + "\"");
-//		styleWriter.write(" style:family=\"paragraph\">\n");
-//		styleWriter.write("<style:paragraph-properties");
-////		styleWriter.write(" fo:line-height=\"" + pLineHeight + "\"");
-////		styleWriter.write(" style:line-spacing=\"" + pLineSpacing + "\"");
-//		styleWriter.write(" fo:text-align=\"" + horizontalAlignment + "\"");
-//
-////		styleWriter.write(" fo:keep-together=\"" + pKeepTogether + "\"");
-////		styleWriter.write(" fo:margin-left=\"" + pMarginLeft + "\"");
-////		styleWriter.write(" fo:margin-right=\"" + pMarginRight + "\"");
-////		styleWriter.write(" fo:margin-top=\"" + pMarginTop + "\"");
-////		styleWriter.write(" fo:margin-bottom=\"" + pMarginBottom + "\"");
-////		styleWriter.write(" fo:background-color=\"#" + pBackGroundColor + "\"");
-//		styleWriter.write(" style:vertical-align=\"" + verticalAlignment + "\"");
-//		if (runDirection != null)
-//		{
-//			styleWriter.write(" style:writing-mode=\"" + runDirection + "\"");
-//		}
-//		styleWriter.write("> \r\n");
-//		styleWriter.write("</style:paragraph-properties>\n");
-//		styleWriter.write("<style:text-properties");
-//		styleWriter.write(" style:text-rotation-angle=\"" + textRotation + "\"");
-//		styleWriter.write("> \r\n");
-//		styleWriter.write("</style:text-properties>\n");
-//		
-////        styleWriter.write("<style:properties");
-////        styleWriter.write(" style:rotation-align=\"" + rotationAlignment + "\"");
-////        styleWriter.write("> \r\n");
-////        styleWriter.write("</style:properties>\n");
-////
-//
-//		styleWriter.write("</style:style>\n");
-//	}
-
 	/**
 	 *
 	 */
@@ -205,59 +159,23 @@ public class ParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private String getHorizontalAlignment(
-		Byte ownHAlign, 
-		Byte ownVAlign, 
-		Byte ownRotation,
-		byte hAlign, 
-		byte vAlign, 
-		byte rotation
-		)
+	private static String getHorizontalAlignment(Byte horizontalAlignment)
 	{
-		String horizontalAlignment = null;
-		
-		if (
-			ownHAlign != null
-			|| ownVAlign != null
-			|| ownRotation != null
-			)
+		if (horizontalAlignment != null)
 		{
-			horizontalAlignment = AlignmentHelper.getHorizontalAlignment(hAlign, vAlign, rotation);
-		}
-		
-		return horizontalAlignment;
-	}
-
-	/**
-	 *
-	 */
-	private String getRotation(Byte rotation)
-	{
-		String textRotation = null;
-		
-		if (rotation != null)
-		{
-			switch(rotation.byteValue())
+			switch (horizontalAlignment.byteValue())
 			{
-				case JRTextElement.ROTATION_LEFT:
-				{
-					textRotation = "90";
-					break;
-				}
-				case JRTextElement.ROTATION_RIGHT:
-				{
-					textRotation = "270";
-					break;
-				}
-				case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEDOCX possible?
-				case JRTextElement.ROTATION_NONE:
-				default:
-				{
-					textRotation = "0";
-				}
+				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+					return HORIZONTAL_ALIGN_RIGHT;
+				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+					return HORIZONTAL_ALIGN_CENTER;
+				case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+					return HORIZONTAL_ALIGN_BOTH;
+				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+				default :
+					return HORIZONTAL_ALIGN_LEFT;
 			}
 		}
-
-		return textRotation;
+		return null;
 	}
 }
