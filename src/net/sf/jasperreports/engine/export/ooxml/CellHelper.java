@@ -47,6 +47,12 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  */
 public class CellHelper extends BaseHelper
 {
+	/**
+	 *
+	 */
+	private static final String VERTICAL_ALIGN_TOP = "top";
+	private static final String VERTICAL_ALIGN_MIDDLE = "center";
+	private static final String VERTICAL_ALIGN_BOTTOM = "bottom";
 	
 	/**
 	 *
@@ -105,35 +111,6 @@ public class CellHelper extends BaseHelper
 
 	/**
 	 *
-	 *
-	public void exportProps(JRStyle style) throws IOException
-	{
-		exportBackcolor(style.getMode() == null ? JRElement.MODE_OPAQUE : style.getMode().byteValue(), style.getOwnBackcolor());
-
-//		if (element instanceof JRBoxContainer)
-			borderHelper.export(style.getLineBox());
-			
-		//FIXMEDOCX invert this or use constructor with to parameters for priority management
-//		if (element instanceof JRCommonGraphicElement)
-			borderHelper.export(style.getLinePen());
-		
-		String verticalAlignment = 
-			getVerticalAlignment(
-				style.getOwnHorizontalAlignment(), 
-				style.getOwnVerticalAlignment(), 
-				style.getOwnRotation(), 
-				style.getHorizontalAlignment() == null ? JRAlignment.HORIZONTAL_ALIGN_LEFT : style.getHorizontalAlignment().byteValue(),//FIXMEDOCX how to get rid of these conditional expressions? 
-				style.getVerticalAlignment() == null ? JRAlignment.VERTICAL_ALIGN_TOP : style.getVerticalAlignment().byteValue(), 
-				style.getRotation() == null ? JRTextElement.ROTATION_NONE : style.getRotation().byteValue()
-				);
-		String textRotation = null;//FIXMEDOCX getRotation(style.getOwnRotation());
-
-		exportAlignmentAndRotation(verticalAlignment, textRotation);
-	}
-
-
-	/**
-	 *
 	 */
 	public void exportProps(JRPrintElement element, JRExporterGridCell gridCell) throws IOException
 	{
@@ -148,16 +125,13 @@ public class CellHelper extends BaseHelper
 		if (align != null)
 		{
 			JRPrintText text = element instanceof JRPrintText ? (JRPrintText)element : null;
+			Byte ownRotation = text == null ? null : text.getOwnRotation();
+			
 			String verticalAlignment = 
 				getVerticalAlignment(
-					align.getOwnHorizontalAlignment(), 
-					align.getOwnVerticalAlignment(), 
-					text == null ? null : text.getOwnRotation(), 
-					align.getHorizontalAlignment(), 
-					align.getVerticalAlignment(), 
-					text == null ? JRTextElement.ROTATION_NONE : text.getRotation()
+					align.getOwnVerticalAlignment() 
 					);
-			String textRotation = null;//FIXMEDOCX getRotation(style.getOwnRotation());
+			String textRotation = getTextDirection(ownRotation);
 
 			exportAlignmentAndRotation(verticalAlignment, textRotation);
 		}
@@ -190,28 +164,6 @@ public class CellHelper extends BaseHelper
 
 	/**
 	 *
-	 *
-	public void export(JRPrintElement element) throws IOException
-	{
-		JRAlignment alignment = element instanceof JRAlignment ? (JRAlignment)element : null;
-		if (alignment != null)
-		{
-			byte vAlign = alignment.getVerticalAlignment();
-			byte hAlign = alignment.getHorizontalAlignment();
-			byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotation() : JRTextElement.ROTATION_NONE;
-
-			String verticalAlignment = AlignmentHelper.getVerticalAlignment(hAlign, vAlign, rotation);
-
-			if (verticalAlignment != null)
-			{
-				writer.write("      <w:vAlign w:val=\"" + verticalAlignment +"\" /> \r\n");
-			}
-		}
-		
-	}
-
-	/**
-	 *
 	 */
 	private void exportPropsHeader() throws IOException
 	{
@@ -227,7 +179,10 @@ public class CellHelper extends BaseHelper
 		{
 			writer.write("      <w:vAlign w:val=\"" + verticalAlignment +"\" /> \r\n");
 		}
-		//FIXME: textRotation???
+		if (textRotation != null)
+		{
+			writer.write("   <w:textDirection w:val=\"" + textRotation + "\" /> \r\n");
+		}
 	}
 	
 	/**
@@ -241,27 +196,53 @@ public class CellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private String getVerticalAlignment(
-		Byte ownHAlign, 
-		Byte ownVAlign, 
-		Byte ownRotation,
-		byte hAlign, 
-		byte vAlign, 
-		byte rotation
-		)
+	private static String getTextDirection(Byte rotation)
 	{
-		String verticalAlignment = null;
+		String textDirection = null;
 		
-		if (
-			ownHAlign != null
-			|| ownVAlign != null
-			|| ownRotation != null
-			)
+		if (rotation != null)
 		{
-			verticalAlignment = AlignmentHelper.getVerticalAlignment(hAlign, vAlign, rotation);
+			switch(rotation.byteValue())
+			{
+				case JRTextElement.ROTATION_LEFT:
+				{
+					textDirection = "btLr";
+					break;
+				}
+				case JRTextElement.ROTATION_RIGHT:
+				{
+					textDirection = "tbRl";
+					break;
+				}
+				case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEDOCX possible?
+				case JRTextElement.ROTATION_NONE:
+				default:
+				{
+				}
+			}
 		}
-		
-		return verticalAlignment;
+
+		return textDirection;
 	}
 
+	/**
+	 *
+	 */
+	private static String getVerticalAlignment(Byte verticalAlignment)
+	{
+		if (verticalAlignment != null)
+		{
+			switch (verticalAlignment.byteValue())
+			{
+				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+					return VERTICAL_ALIGN_BOTTOM;
+				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+					return VERTICAL_ALIGN_MIDDLE;
+				case JRAlignment.VERTICAL_ALIGN_TOP :
+				default :
+					return VERTICAL_ALIGN_TOP;
+			}
+		}
+		return null;
+	}
 }
