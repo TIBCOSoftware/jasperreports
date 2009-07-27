@@ -171,15 +171,15 @@
 	</target>
 
 	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="docx"/>
 			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="xhtml" description="Generates a XHTML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="xhtml"/>
 			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>

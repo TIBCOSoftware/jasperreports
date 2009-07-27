@@ -1,4 +1,4 @@
-<project name="datasource" default="javac" basedir=".">
+<project name="poi-3.5" default="javac" basedir=".">
 
 	<description>Shows how custom or JavaBean-based data sources implementation could be used to fill reports.</description>
 
@@ -178,7 +178,7 @@
 	
 	<target name="test" description="Runs the sample.">
 		<echo message="==================================="/>
-		<echo message=" Data Source Sample"/>
+		<echo message=" POI 3.5 Sample"/>
 		<echo message="==================================="/>
 		<antcall target="clean" />
 		<antcall target="javac" />
