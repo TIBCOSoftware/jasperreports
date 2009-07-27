@@ -144,7 +144,7 @@ public abstract class JRExporterGridCell
 	}
 
 
-	public Color getBackcolor()
+	public Color getBackcolor()//FIXMENOW who uses this and why?
 	{
 		return backcolor;
 	}
