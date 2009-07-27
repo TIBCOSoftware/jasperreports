@@ -1,6 +1,6 @@
 <project name="list" default="javac" basedir=".">
 
-	<description>Illustrates the usage of the list component element</description>
+	<description>Illustrates the usage of the list component element.</description>
 
 	<property name="class.name" value="ListApp" />
 	<property name="file.name" value="${basedir}/ListReport" />

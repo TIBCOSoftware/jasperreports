@@ -1,6 +1,6 @@
 <project name="jasper" default="javac" basedir=".">
 
-	<description>Shows how different feautures of the library could be used to generate a complex document.</description>
+	<description>Shows how MDX queries could be used to generate a report.</description>
 	
 	<property name="project.location" location="."/>
 	<property file="${project.location}/build.properties"/>
