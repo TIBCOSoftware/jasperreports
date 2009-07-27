@@ -74,6 +74,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
@@ -87,7 +88,6 @@ import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 
@@ -143,7 +143,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	protected LinkedList backcolorStack;
 	protected Color backcolor;
 
-	private TextHelper textHelper = null;
+	private RunHelper runHelper = null;
 
 	protected ExporterNature nature = null;
 
@@ -293,19 +293,17 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	{
 		OoxmlZip ooxmlZip = new FileBufferedOoxmlZip();
 
-		Writer stylesWriter = ooxmlZip.getStylesEntry().getWriter();
-
-		new ReportStyleHelper(stylesWriter).export(jasperPrintList);
-
-		stylesWriter.close();
-		
 		docWriter = ooxmlZip.getDocumentEntry().getWriter();
 		relsWriter = ooxmlZip.getRelsEntry().getWriter();
 		
 		DocumentHelper.exportHeader(docWriter);
 		RelsHelper.exportHeader(relsWriter);
 		
-		textHelper = new TextHelper(docWriter, fontMap);
+		Writer stylesWriter = ooxmlZip.getStylesEntry().getWriter();
+		new ReportStyleHelper(stylesWriter, fontMap).export(jasperPrintList);
+		stylesWriter.close();
+
+		runHelper = new RunHelper(docWriter, fontMap);
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
@@ -422,7 +420,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 		TableHelper tableHelper = 
 			new TableHelper(
 				docWriter, 
-				textHelper,
+				runHelper,
 				frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex)
 				);
 
@@ -651,7 +649,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 
 		if (textLength > 0)
 		{
-			exportStyledText(styledText);
+			exportStyledText(text.getStyle(), styledText);
 		}
 
 //		if (startedHyperlink)
@@ -669,7 +667,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyledText styledText) throws IOException
+	protected void exportStyledText(JRStyle style, JRStyledText styledText) throws IOException
 	{
 		String text = styledText.getText();
 
@@ -679,32 +677,12 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			exportStyledTextRun(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
+			runHelper.export(style, iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
 
 			iterator.setIndex(runLimit);
 		}
 	}
 
-
-	/**
-	 *
-	 */
-	protected void exportStyledTextRun(Map attributes, String text) throws IOException
-	{
-//		String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text);
-
-		docWriter.write("      <w:r> \r\n");
-		docWriter.write("       <w:rPr> \r\n");
-		textHelper.writeTextSpanStyle(attributes, text);
-		docWriter.write("       </w:rPr> \r\n");
-		docWriter.write("<w:t xml:space=\"preserve\">");
-		if (text != null)
-		{
-			docWriter.write(JRStringUtil.xmlEncode(text));//FIXMEODT try something nicer for replace
-		}
-		docWriter.write("</w:t> \r\n");
-		docWriter.write("      </w:r> \r\n");
-	}
 
 	/**
 	 *
@@ -1030,7 +1008,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	protected void exportFrame(TableHelper tableHelper, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
 	{
 		tableHelper.getCellHelper().exportHeader(frame, gridCell);
-		tableHelper.getCellHelper().exportProps(gridCell);
+//		tableHelper.getCellHelper().exportProps(gridCell);
 
 		boolean appendBackcolor =
 			frame.getMode() == JRElement.MODE_OPAQUE

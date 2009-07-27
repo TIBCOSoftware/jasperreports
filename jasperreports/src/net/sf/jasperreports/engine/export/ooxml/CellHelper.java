@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -78,8 +77,9 @@ public class CellHelper extends BaseHelper
 	public void exportHeader(JRPrintElement element, JRExporterGridCell gridCell) throws IOException 
 	{
 		writer.write("    <w:tc> \r\n");
-		writer.write("     <w:tcPr> \r\n");
-//		writer.write("      <w:tcW w:w=\"" + Utility.translatePointsToTwips(emptyCellWidth) + "\" w:type=\"dxa\" /> \r\n");
+		
+		exportPropsHeader();
+
 		if (gridCell.getColSpan() > 1)
 		{
 			writer.write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" /> \r\n");
@@ -91,7 +91,7 @@ public class CellHelper extends BaseHelper
 		
 		exportProps(element, gridCell);
 		
-		writer.write("     </w:tcPr> \r\n");
+		exportPropsFooter();
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class CellHelper extends BaseHelper
 
 	/**
 	 *
-	 */
+	 *
 	public void exportProps(JRStyle style) throws IOException
 	{
 		exportBackcolor(style.getMode() == null ? JRElement.MODE_OPAQUE : style.getMode().byteValue(), style.getOwnBackcolor());
@@ -113,11 +113,22 @@ public class CellHelper extends BaseHelper
 //		if (element instanceof JRBoxContainer)
 			borderHelper.export(style.getLineBox());
 			
-		//FIXMEDOCS invert this or use constructor with to parameters for priority management
+		//FIXMEDOCX invert this or use constructor with to parameters for priority management
 //		if (element instanceof JRCommonGraphicElement)
 			borderHelper.export(style.getLinePen());
 		
-		//export(null);
+		String verticalAlignment = 
+			getVerticalAlignment(
+				style.getOwnHorizontalAlignment(), 
+				style.getOwnVerticalAlignment(), 
+				style.getOwnRotation(), 
+				style.getHorizontalAlignment() == null ? JRAlignment.HORIZONTAL_ALIGN_LEFT : style.getHorizontalAlignment().byteValue(),//FIXMEDOCX how to get rid of these conditional expressions? 
+				style.getVerticalAlignment() == null ? JRAlignment.VERTICAL_ALIGN_TOP : style.getVerticalAlignment().byteValue(), 
+				style.getRotation() == null ? JRTextElement.ROTATION_NONE : style.getRotation().byteValue()
+				);
+		String textRotation = null;//FIXMEDOCX getRotation(style.getOwnRotation());
+
+		exportAlignmentAndRotation(verticalAlignment, textRotation);
 	}
 
 
@@ -126,14 +137,30 @@ public class CellHelper extends BaseHelper
 	 */
 	public void exportProps(JRPrintElement element, JRExporterGridCell gridCell) throws IOException
 	{
-		exportBackcolor(element.getMode(), element.getOwnBackcolor());
+		exportBackcolor(element.getMode(), element.getBackcolor());
 		
 		borderHelper.export(gridCell.getBox());
 
 		if (element instanceof JRCommonGraphicElement)
 			borderHelper.export(((JRCommonGraphicElement)element).getLinePen());
 		
-		//export(element);
+		JRAlignment align = element instanceof JRAlignment ? (JRAlignment)element : null;
+		if (align != null)
+		{
+			JRPrintText text = element instanceof JRPrintText ? (JRPrintText)element : null;
+			String verticalAlignment = 
+				getVerticalAlignment(
+					align.getOwnHorizontalAlignment(), 
+					align.getOwnVerticalAlignment(), 
+					text == null ? null : text.getOwnRotation(), 
+					align.getHorizontalAlignment(), 
+					align.getVerticalAlignment(), 
+					text == null ? JRTextElement.ROTATION_NONE : text.getRotation()
+					);
+			String textRotation = null;//FIXMEDOCX getRotation(style.getOwnRotation());
+
+			exportAlignmentAndRotation(verticalAlignment, textRotation);
+		}
 	}
 
 
@@ -153,7 +180,7 @@ public class CellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportBackcolor(byte mode, Color backcolor) throws IOException
+	private void exportBackcolor(byte mode, Color backcolor) throws IOException
 	{
 		if (mode == JRElement.MODE_OPAQUE && backcolor != null)
 		{
@@ -163,27 +190,78 @@ public class CellHelper extends BaseHelper
 
 	/**
 	 *
-	 */
+	 *
 	public void export(JRPrintElement element) throws IOException
 	{
-		
-		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotation() : JRTextElement.ROTATION_NONE;
-		byte vAlign = JRAlignment.VERTICAL_ALIGN_TOP;
-		byte hAlign = JRAlignment.HORIZONTAL_ALIGN_LEFT;
-
 		JRAlignment alignment = element instanceof JRAlignment ? (JRAlignment)element : null;
 		if (alignment != null)
 		{
-			vAlign = alignment.getVerticalAlignment();
-			hAlign = alignment.getHorizontalAlignment();
+			byte vAlign = alignment.getVerticalAlignment();
+			byte hAlign = alignment.getHorizontalAlignment();
+			byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotation() : JRTextElement.ROTATION_NONE;
+
+			String verticalAlignment = AlignmentHelper.getVerticalAlignment(hAlign, vAlign, rotation);
+
+			if (verticalAlignment != null)
+			{
+				writer.write("      <w:vAlign w:val=\"" + verticalAlignment +"\" /> \r\n");
+			}
 		}
 		
-		String verticalAlignment = AlignmentHelper.getVerticalAlignment(hAlign, vAlign, rotation);
+	}
 
+	/**
+	 *
+	 */
+	private void exportPropsHeader() throws IOException
+	{
+		writer.write("      <w:tcPr> \r\n");
+	}
+	
+	/**
+	 *
+	 */
+	private void exportAlignmentAndRotation(String verticalAlignment, String textRotation) throws IOException
+	{
 		if (verticalAlignment != null)
 		{
 			writer.write("      <w:vAlign w:val=\"" + verticalAlignment +"\" /> \r\n");
 		}
+		//FIXME: textRotation???
+	}
+	
+	/**
+	 *
+	 */
+	private void exportPropsFooter() throws IOException
+	{
+		writer.write("      </w:tcPr> \r\n");
+	}
+	
+	/**
+	 *
+	 */
+	private String getVerticalAlignment(
+		Byte ownHAlign, 
+		Byte ownVAlign, 
+		Byte ownRotation,
+		byte hAlign, 
+		byte vAlign, 
+		byte rotation
+		)
+	{
+		String verticalAlignment = null;
+		
+		if (
+			ownHAlign != null
+			|| ownVAlign != null
+			|| ownRotation != null
+			)
+		{
+			verticalAlignment = AlignmentHelper.getVerticalAlignment(hAlign, vAlign, rotation);
+		}
+		
+		return verticalAlignment;
 	}
 
 }
