@@ -92,13 +92,14 @@ public class JRXmlConstants
 	{
 		if (positionTypeMap == null)
 		{
-			positionTypeMap = new HashMap(6);
-			positionTypeMap.put(POSITION_TYPE_FLOAT,                  new Byte(JRElement.POSITION_TYPE_FLOAT));
-			positionTypeMap.put(POSITION_TYPE_FIX_RELATIVE_TO_TOP,    new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP));
-			positionTypeMap.put(POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM, new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM));
-			positionTypeMap.put(new Byte(JRElement.POSITION_TYPE_FLOAT),                  POSITION_TYPE_FLOAT);
-			positionTypeMap.put(new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP),    POSITION_TYPE_FIX_RELATIVE_TO_TOP);
-			positionTypeMap.put(new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM), POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM);
+			Map map = new HashMap(6);
+			map.put(POSITION_TYPE_FLOAT,                  new Byte(JRElement.POSITION_TYPE_FLOAT));
+			map.put(POSITION_TYPE_FIX_RELATIVE_TO_TOP,    new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP));
+			map.put(POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM, new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM));
+			map.put(new Byte(JRElement.POSITION_TYPE_FLOAT),                  POSITION_TYPE_FLOAT);
+			map.put(new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP),    POSITION_TYPE_FIX_RELATIVE_TO_TOP);
+			map.put(new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM), POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM);
+			positionTypeMap = map;
 		}
 
 		return positionTypeMap;
@@ -116,11 +117,12 @@ public class JRXmlConstants
 	{
 		if (modeMap == null)
 		{
-			modeMap = new HashMap(4);
-			modeMap.put(MODE_OPAQUE,      new Byte(JRElement.MODE_OPAQUE));
-			modeMap.put(MODE_TRANSPARENT, new Byte(JRElement.MODE_TRANSPARENT));
-			modeMap.put(new Byte(JRElement.MODE_OPAQUE),      MODE_OPAQUE);
-			modeMap.put(new Byte(JRElement.MODE_TRANSPARENT), MODE_TRANSPARENT);
+			Map map = new HashMap(4);
+			map.put(MODE_OPAQUE,      new Byte(JRElement.MODE_OPAQUE));
+			map.put(MODE_TRANSPARENT, new Byte(JRElement.MODE_TRANSPARENT));
+			map.put(new Byte(JRElement.MODE_OPAQUE),      MODE_OPAQUE);
+			map.put(new Byte(JRElement.MODE_TRANSPARENT), MODE_TRANSPARENT);
+			modeMap = map;
 		}
 
 		return modeMap;
@@ -149,33 +151,34 @@ public class JRXmlConstants
 	{
 		if (colorMap == null)
 		{
-			colorMap = new HashMap(26);
-			colorMap.put(COLOR_BLACK,      Color.black);
-			colorMap.put(COLOR_BLUE,       Color.blue);
-			colorMap.put(COLOR_CYAN,       Color.cyan);
-			colorMap.put(COLOR_DARK_GRAY,  Color.darkGray);
-			colorMap.put(COLOR_GRAY,       Color.gray);
-			colorMap.put(COLOR_GREEN,      Color.green);
-			colorMap.put(COLOR_LIGHT_GRAY, Color.lightGray);
-			colorMap.put(COLOR_MAGENTA,    Color.magenta);
-			colorMap.put(COLOR_ORANGE,     Color.orange);
-			colorMap.put(COLOR_PINK,       Color.pink);
-			colorMap.put(COLOR_RED,        Color.red);
-			colorMap.put(COLOR_YELLOW,     Color.yellow);
-			colorMap.put(COLOR_WHITE,      Color.white);
-			colorMap.put(Color.black,      COLOR_BLACK);
-			colorMap.put(Color.blue,       COLOR_BLUE);
-			colorMap.put(Color.cyan,       COLOR_CYAN);
-			colorMap.put(Color.darkGray,   COLOR_DARK_GRAY);
-			colorMap.put(Color.gray,       COLOR_GRAY);
-			colorMap.put(Color.green,      COLOR_GREEN);
-			colorMap.put(Color.lightGray,  COLOR_LIGHT_GRAY);
-			colorMap.put(Color.magenta,    COLOR_MAGENTA);
-			colorMap.put(Color.orange,     COLOR_ORANGE);
-			colorMap.put(Color.pink,       COLOR_PINK);
-			colorMap.put(Color.red,        COLOR_RED);
-			colorMap.put(Color.yellow,     COLOR_YELLOW);
-			colorMap.put(Color.white,      COLOR_WHITE);
+			Map map = new HashMap(26);
+			map.put(COLOR_BLACK,      Color.black);
+			map.put(COLOR_BLUE,       Color.blue);
+			map.put(COLOR_CYAN,       Color.cyan);
+			map.put(COLOR_DARK_GRAY,  Color.darkGray);
+			map.put(COLOR_GRAY,       Color.gray);
+			map.put(COLOR_GREEN,      Color.green);
+			map.put(COLOR_LIGHT_GRAY, Color.lightGray);
+			map.put(COLOR_MAGENTA,    Color.magenta);
+			map.put(COLOR_ORANGE,     Color.orange);
+			map.put(COLOR_PINK,       Color.pink);
+			map.put(COLOR_RED,        Color.red);
+			map.put(COLOR_YELLOW,     Color.yellow);
+			map.put(COLOR_WHITE,      Color.white);
+			map.put(Color.black,      COLOR_BLACK);
+			map.put(Color.blue,       COLOR_BLUE);
+			map.put(Color.cyan,       COLOR_CYAN);
+			map.put(Color.darkGray,   COLOR_DARK_GRAY);
+			map.put(Color.gray,       COLOR_GRAY);
+			map.put(Color.green,      COLOR_GREEN);
+			map.put(Color.lightGray,  COLOR_LIGHT_GRAY);
+			map.put(Color.magenta,    COLOR_MAGENTA);
+			map.put(Color.orange,     COLOR_ORANGE);
+			map.put(Color.pink,       COLOR_PINK);
+			map.put(Color.red,        COLOR_RED);
+			map.put(Color.yellow,     COLOR_YELLOW);
+			map.put(Color.white,      COLOR_WHITE);
+			colorMap = map;
 		}
 
 		return colorMap;
@@ -195,15 +198,16 @@ public class JRXmlConstants
 	{
 		if (horizontalAlignMap == null)
 		{
-			horizontalAlignMap = new HashMap(8);
-			horizontalAlignMap.put(HORIZONTAL_ALIGN_LEFT,      new Byte(JRAlignment.HORIZONTAL_ALIGN_LEFT));
-			horizontalAlignMap.put(HORIZONTAL_ALIGN_CENTER,    new Byte(JRAlignment.HORIZONTAL_ALIGN_CENTER));
-			horizontalAlignMap.put(HORIZONTAL_ALIGN_RIGHT,     new Byte(JRAlignment.HORIZONTAL_ALIGN_RIGHT));
-			horizontalAlignMap.put(HORIZONTAL_ALIGN_JUSTIFIED, new Byte(JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED));
-			horizontalAlignMap.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_LEFT),      HORIZONTAL_ALIGN_LEFT);
-			horizontalAlignMap.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_CENTER),    HORIZONTAL_ALIGN_CENTER);
-			horizontalAlignMap.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_RIGHT),     HORIZONTAL_ALIGN_RIGHT);
-			horizontalAlignMap.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED), HORIZONTAL_ALIGN_JUSTIFIED);
+			Map map = new HashMap(8);
+			map.put(HORIZONTAL_ALIGN_LEFT,      new Byte(JRAlignment.HORIZONTAL_ALIGN_LEFT));
+			map.put(HORIZONTAL_ALIGN_CENTER,    new Byte(JRAlignment.HORIZONTAL_ALIGN_CENTER));
+			map.put(HORIZONTAL_ALIGN_RIGHT,     new Byte(JRAlignment.HORIZONTAL_ALIGN_RIGHT));
+			map.put(HORIZONTAL_ALIGN_JUSTIFIED, new Byte(JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED));
+			map.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_LEFT),      HORIZONTAL_ALIGN_LEFT);
+			map.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_CENTER),    HORIZONTAL_ALIGN_CENTER);
+			map.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_RIGHT),     HORIZONTAL_ALIGN_RIGHT);
+			map.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED), HORIZONTAL_ALIGN_JUSTIFIED);
+			horizontalAlignMap = map;
 		}
 
 		return horizontalAlignMap;
@@ -230,13 +234,14 @@ public class JRXmlConstants
 	{
 		if (verticalAlignMap == null)
 		{
-			verticalAlignMap = new HashMap(6);
-			verticalAlignMap.put(VERTICAL_ALIGN_TOP,    new Byte(JRAlignment.VERTICAL_ALIGN_TOP));
-			verticalAlignMap.put(VERTICAL_ALIGN_MIDDLE, new Byte(JRAlignment.VERTICAL_ALIGN_MIDDLE));
-			verticalAlignMap.put(VERTICAL_ALIGN_BOTTOM, new Byte(JRAlignment.VERTICAL_ALIGN_BOTTOM));
-			verticalAlignMap.put(new Byte(JRAlignment.VERTICAL_ALIGN_TOP),    VERTICAL_ALIGN_TOP);
-			verticalAlignMap.put(new Byte(JRAlignment.VERTICAL_ALIGN_MIDDLE), VERTICAL_ALIGN_MIDDLE);
-			verticalAlignMap.put(new Byte(JRAlignment.VERTICAL_ALIGN_BOTTOM), VERTICAL_ALIGN_BOTTOM);
+			Map map = new HashMap(6);
+			map.put(VERTICAL_ALIGN_TOP,    new Byte(JRAlignment.VERTICAL_ALIGN_TOP));
+			map.put(VERTICAL_ALIGN_MIDDLE, new Byte(JRAlignment.VERTICAL_ALIGN_MIDDLE));
+			map.put(VERTICAL_ALIGN_BOTTOM, new Byte(JRAlignment.VERTICAL_ALIGN_BOTTOM));
+			map.put(new Byte(JRAlignment.VERTICAL_ALIGN_TOP),    VERTICAL_ALIGN_TOP);
+			map.put(new Byte(JRAlignment.VERTICAL_ALIGN_MIDDLE), VERTICAL_ALIGN_MIDDLE);
+			map.put(new Byte(JRAlignment.VERTICAL_ALIGN_BOTTOM), VERTICAL_ALIGN_BOTTOM);
+			verticalAlignMap = map;
 		}
 
 		return verticalAlignMap;
@@ -256,15 +261,16 @@ public class JRXmlConstants
 	{
 		if (rotationMap == null)
 		{
-			rotationMap = new HashMap(6);
-			rotationMap.put(ROTATION_NONE,  		new Byte(JRTextElement.ROTATION_NONE));
-			rotationMap.put(ROTATION_LEFT,  		new Byte(JRTextElement.ROTATION_LEFT));
-			rotationMap.put(ROTATION_RIGHT, 		new Byte(JRTextElement.ROTATION_RIGHT));
-			rotationMap.put(ROTATION_UPSIDE_DOWN, 	new Byte(JRTextElement.ROTATION_UPSIDE_DOWN));
-			rotationMap.put(new Byte(JRTextElement.ROTATION_NONE),  		ROTATION_NONE);
-			rotationMap.put(new Byte(JRTextElement.ROTATION_LEFT),  		ROTATION_LEFT);
-			rotationMap.put(new Byte(JRTextElement.ROTATION_RIGHT), 		ROTATION_RIGHT);
-			rotationMap.put(new Byte(JRTextElement.ROTATION_UPSIDE_DOWN), 	ROTATION_UPSIDE_DOWN);
+			Map map = new HashMap(6);
+			map.put(ROTATION_NONE,  		new Byte(JRTextElement.ROTATION_NONE));
+			map.put(ROTATION_LEFT,  		new Byte(JRTextElement.ROTATION_LEFT));
+			map.put(ROTATION_RIGHT, 		new Byte(JRTextElement.ROTATION_RIGHT));
+			map.put(ROTATION_UPSIDE_DOWN, 	new Byte(JRTextElement.ROTATION_UPSIDE_DOWN));
+			map.put(new Byte(JRTextElement.ROTATION_NONE),  		ROTATION_NONE);
+			map.put(new Byte(JRTextElement.ROTATION_LEFT),  		ROTATION_LEFT);
+			map.put(new Byte(JRTextElement.ROTATION_RIGHT), 		ROTATION_RIGHT);
+			map.put(new Byte(JRTextElement.ROTATION_UPSIDE_DOWN), 	ROTATION_UPSIDE_DOWN);
+			rotationMap = map;
 		}
 
 		return rotationMap;
@@ -282,11 +288,12 @@ public class JRXmlConstants
 	{
 		if (breakTypeMap == null)
 		{
-			breakTypeMap = new HashMap(4);
-			breakTypeMap.put(BREAK_TYPE_PAGE,   new Byte(JRBreak.TYPE_PAGE));
-			breakTypeMap.put(BREAK_TYPE_COLUMN, new Byte(JRBreak.TYPE_COLUMN));
-			breakTypeMap.put(new Byte(JRBreak.TYPE_PAGE),   BREAK_TYPE_PAGE);
-			breakTypeMap.put(new Byte(JRBreak.TYPE_COLUMN), BREAK_TYPE_COLUMN);
+			Map map = new HashMap(4);
+			map.put(BREAK_TYPE_PAGE,   new Byte(JRBreak.TYPE_PAGE));
+			map.put(BREAK_TYPE_COLUMN, new Byte(JRBreak.TYPE_COLUMN));
+			map.put(new Byte(JRBreak.TYPE_PAGE),   BREAK_TYPE_PAGE);
+			map.put(new Byte(JRBreak.TYPE_COLUMN), BREAK_TYPE_COLUMN);
+			breakTypeMap = map;
 		}
 
 		return breakTypeMap;
@@ -304,11 +311,12 @@ public class JRXmlConstants
 	{
 		if (runDirectionMap == null)
 		{
-			runDirectionMap = new HashMap(4);
-			runDirectionMap.put(RUN_DIRECTION_LTR, new Byte(JRPrintText.RUN_DIRECTION_LTR));
-			runDirectionMap.put(RUN_DIRECTION_RTL, new Byte(JRPrintText.RUN_DIRECTION_RTL));
-			runDirectionMap.put(new Byte(JRPrintText.RUN_DIRECTION_LTR), RUN_DIRECTION_LTR);
-			runDirectionMap.put(new Byte(JRPrintText.RUN_DIRECTION_RTL), RUN_DIRECTION_RTL);
+			Map map = new HashMap(4);
+			map.put(RUN_DIRECTION_LTR, new Byte(JRPrintText.RUN_DIRECTION_LTR));
+			map.put(RUN_DIRECTION_RTL, new Byte(JRPrintText.RUN_DIRECTION_RTL));
+			map.put(new Byte(JRPrintText.RUN_DIRECTION_LTR), RUN_DIRECTION_LTR);
+			map.put(new Byte(JRPrintText.RUN_DIRECTION_RTL), RUN_DIRECTION_RTL);
+			runDirectionMap = map;
 		}
 
 		return runDirectionMap;
@@ -327,13 +335,14 @@ public class JRXmlConstants
 	{
 		if (lineSpacingMap == null)
 		{
-			lineSpacingMap = new HashMap(6);
-			lineSpacingMap.put(LINE_SPACING_SINGLE, new Byte(JRTextElement.LINE_SPACING_SINGLE));
-			lineSpacingMap.put(LINE_SPACING_1_1_2,  new Byte(JRTextElement.LINE_SPACING_1_1_2));
-			lineSpacingMap.put(LINE_SPACING_DOUBLE, new Byte(JRTextElement.LINE_SPACING_DOUBLE));
-			lineSpacingMap.put(new Byte(JRTextElement.LINE_SPACING_SINGLE), LINE_SPACING_SINGLE);
-			lineSpacingMap.put(new Byte(JRTextElement.LINE_SPACING_1_1_2),  LINE_SPACING_1_1_2);
-			lineSpacingMap.put(new Byte(JRTextElement.LINE_SPACING_DOUBLE), LINE_SPACING_DOUBLE);
+			Map map = new HashMap(6);
+			map.put(LINE_SPACING_SINGLE, new Byte(JRTextElement.LINE_SPACING_SINGLE));
+			map.put(LINE_SPACING_1_1_2,  new Byte(JRTextElement.LINE_SPACING_1_1_2));
+			map.put(LINE_SPACING_DOUBLE, new Byte(JRTextElement.LINE_SPACING_DOUBLE));
+			map.put(new Byte(JRTextElement.LINE_SPACING_SINGLE), LINE_SPACING_SINGLE);
+			map.put(new Byte(JRTextElement.LINE_SPACING_1_1_2),  LINE_SPACING_1_1_2);
+			map.put(new Byte(JRTextElement.LINE_SPACING_DOUBLE), LINE_SPACING_DOUBLE);
+			lineSpacingMap = map;
 		}
 
 		return lineSpacingMap;
@@ -351,11 +360,12 @@ public class JRXmlConstants
 	{
 		if (directionMap == null)
 		{
-			directionMap = new HashMap(4);
-			directionMap.put(DIRECTION_TOP_DOWN,  new Byte(JRLine.DIRECTION_TOP_DOWN));
-			directionMap.put(DIRECTION_BOTTOM_UP, new Byte(JRLine.DIRECTION_BOTTOM_UP));
-			directionMap.put(new Byte(JRLine.DIRECTION_TOP_DOWN),  DIRECTION_TOP_DOWN);
-			directionMap.put(new Byte(JRLine.DIRECTION_BOTTOM_UP), DIRECTION_BOTTOM_UP);
+			Map map = new HashMap(4);
+			map.put(DIRECTION_TOP_DOWN,  new Byte(JRLine.DIRECTION_TOP_DOWN));
+			map.put(DIRECTION_BOTTOM_UP, new Byte(JRLine.DIRECTION_BOTTOM_UP));
+			map.put(new Byte(JRLine.DIRECTION_TOP_DOWN),  DIRECTION_TOP_DOWN);
+			map.put(new Byte(JRLine.DIRECTION_BOTTOM_UP), DIRECTION_BOTTOM_UP);
+			directionMap = map;
 		}
 
 		return directionMap;
@@ -376,17 +386,18 @@ public class JRXmlConstants
 	{
 		if (scaleImageMap == null)
 		{
-			scaleImageMap = new HashMap(6);
-			scaleImageMap.put(SCALE_IMAGE_CLIP,         new Byte(JRImage.SCALE_IMAGE_CLIP));
-			scaleImageMap.put(SCALE_IMAGE_FILL_FRAME,   new Byte(JRImage.SCALE_IMAGE_FILL_FRAME));
-			scaleImageMap.put(SCALE_IMAGE_RETAIN_SHAPE, new Byte(JRImage.SCALE_IMAGE_RETAIN_SHAPE));
-			scaleImageMap.put(SCALE_IMAGE_REAL_HEIGT, new Byte(JRImage.SCALE_IMAGE_REAL_HEIGHT));
-			scaleImageMap.put(SCALE_IMAGE_REAL_SIZE, new Byte(JRImage.SCALE_IMAGE_REAL_SIZE));
-			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_CLIP),         SCALE_IMAGE_CLIP);
-			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_FILL_FRAME),   SCALE_IMAGE_FILL_FRAME);
-			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_RETAIN_SHAPE), SCALE_IMAGE_RETAIN_SHAPE);
-			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_REAL_HEIGHT), SCALE_IMAGE_REAL_HEIGT);
-			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_REAL_SIZE), SCALE_IMAGE_REAL_SIZE);
+			Map map = new HashMap(6);
+			map.put(SCALE_IMAGE_CLIP,         new Byte(JRImage.SCALE_IMAGE_CLIP));
+			map.put(SCALE_IMAGE_FILL_FRAME,   new Byte(JRImage.SCALE_IMAGE_FILL_FRAME));
+			map.put(SCALE_IMAGE_RETAIN_SHAPE, new Byte(JRImage.SCALE_IMAGE_RETAIN_SHAPE));
+			map.put(SCALE_IMAGE_REAL_HEIGT, new Byte(JRImage.SCALE_IMAGE_REAL_HEIGHT));
+			map.put(SCALE_IMAGE_REAL_SIZE, new Byte(JRImage.SCALE_IMAGE_REAL_SIZE));
+			map.put(new Byte(JRImage.SCALE_IMAGE_CLIP),         SCALE_IMAGE_CLIP);
+			map.put(new Byte(JRImage.SCALE_IMAGE_FILL_FRAME),   SCALE_IMAGE_FILL_FRAME);
+			map.put(new Byte(JRImage.SCALE_IMAGE_RETAIN_SHAPE), SCALE_IMAGE_RETAIN_SHAPE);
+			map.put(new Byte(JRImage.SCALE_IMAGE_REAL_HEIGHT), SCALE_IMAGE_REAL_HEIGT);
+			map.put(new Byte(JRImage.SCALE_IMAGE_REAL_SIZE), SCALE_IMAGE_REAL_SIZE);
+			scaleImageMap = map;
 		}
 
 		return scaleImageMap;
@@ -405,13 +416,14 @@ public class JRXmlConstants
 	{
 		if (onErrorTypeMap == null)
 		{
-			onErrorTypeMap = new HashMap(6);
-			onErrorTypeMap.put(ON_ERROR_TYPE_ERROR, new Byte(JRImage.ON_ERROR_TYPE_ERROR));
-			onErrorTypeMap.put(ON_ERROR_TYPE_BLANK, new Byte(JRImage.ON_ERROR_TYPE_BLANK));
-			onErrorTypeMap.put(ON_ERROR_TYPE_ICON,  new Byte(JRImage.ON_ERROR_TYPE_ICON));
-			onErrorTypeMap.put(new Byte(JRImage.ON_ERROR_TYPE_ERROR), ON_ERROR_TYPE_ERROR);
-			onErrorTypeMap.put(new Byte(JRImage.ON_ERROR_TYPE_BLANK), ON_ERROR_TYPE_BLANK);
-			onErrorTypeMap.put(new Byte(JRImage.ON_ERROR_TYPE_ICON),  ON_ERROR_TYPE_ICON);
+			Map map = new HashMap(6);
+			map.put(ON_ERROR_TYPE_ERROR, new Byte(JRImage.ON_ERROR_TYPE_ERROR));
+			map.put(ON_ERROR_TYPE_BLANK, new Byte(JRImage.ON_ERROR_TYPE_BLANK));
+			map.put(ON_ERROR_TYPE_ICON,  new Byte(JRImage.ON_ERROR_TYPE_ICON));
+			map.put(new Byte(JRImage.ON_ERROR_TYPE_ERROR), ON_ERROR_TYPE_ERROR);
+			map.put(new Byte(JRImage.ON_ERROR_TYPE_BLANK), ON_ERROR_TYPE_BLANK);
+			map.put(new Byte(JRImage.ON_ERROR_TYPE_ICON),  ON_ERROR_TYPE_ICON);
+			onErrorTypeMap = map;
 		}
 
 		return onErrorTypeMap;
@@ -430,13 +442,14 @@ public class JRXmlConstants
 	{
 		if (stretchTypeMap == null)
 		{
-			stretchTypeMap = new HashMap(6);
-			stretchTypeMap.put(STRETCH_TYPE_NO_STRETCH,                 new Byte(JRElement.STRETCH_TYPE_NO_STRETCH));
-			stretchTypeMap.put(STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT, new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT));
-			stretchTypeMap.put(STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT,    new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT));
-			stretchTypeMap.put(new Byte(JRElement.STRETCH_TYPE_NO_STRETCH),                 STRETCH_TYPE_NO_STRETCH);
-			stretchTypeMap.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT), STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT);
-			stretchTypeMap.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT),    STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT);
+			Map map = new HashMap(6);
+			map.put(STRETCH_TYPE_NO_STRETCH,                 new Byte(JRElement.STRETCH_TYPE_NO_STRETCH));
+			map.put(STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT, new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT));
+			map.put(STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT,    new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT));
+			map.put(new Byte(JRElement.STRETCH_TYPE_NO_STRETCH),                 STRETCH_TYPE_NO_STRETCH);
+			map.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT), STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT);
+			map.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT),    STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT);
+			stretchTypeMap = map;
 		}
 
 		return stretchTypeMap;
@@ -456,15 +469,16 @@ public class JRXmlConstants
 	{
 		if (lineStyleMap == null)
 		{
-			lineStyleMap = new HashMap(4);
-			lineStyleMap.put(LINE_STYLE_SOLID,  new Byte(JRPen.LINE_STYLE_SOLID));
-			lineStyleMap.put(LINE_STYLE_DASHED, new Byte(JRPen.LINE_STYLE_DASHED));
-			lineStyleMap.put(LINE_STYLE_DOTTED, new Byte(JRPen.LINE_STYLE_DOTTED));
-			lineStyleMap.put(lINE_STYLE_DOUBLE, new Byte(JRPen.LINE_STYLE_DOUBLE));
-			lineStyleMap.put(new Byte(JRPen.LINE_STYLE_SOLID),  LINE_STYLE_SOLID);
-			lineStyleMap.put(new Byte(JRPen.LINE_STYLE_DASHED), LINE_STYLE_DASHED);
-			lineStyleMap.put(new Byte(JRPen.LINE_STYLE_DOTTED), LINE_STYLE_DOTTED);
-			lineStyleMap.put(new Byte(JRPen.LINE_STYLE_DOUBLE), lINE_STYLE_DOUBLE);
+			Map map = new HashMap(4);
+			map.put(LINE_STYLE_SOLID,  new Byte(JRPen.LINE_STYLE_SOLID));
+			map.put(LINE_STYLE_DASHED, new Byte(JRPen.LINE_STYLE_DASHED));
+			map.put(LINE_STYLE_DOTTED, new Byte(JRPen.LINE_STYLE_DOTTED));
+			map.put(lINE_STYLE_DOUBLE, new Byte(JRPen.LINE_STYLE_DOUBLE));
+			map.put(new Byte(JRPen.LINE_STYLE_SOLID),  LINE_STYLE_SOLID);
+			map.put(new Byte(JRPen.LINE_STYLE_DASHED), LINE_STYLE_DASHED);
+			map.put(new Byte(JRPen.LINE_STYLE_DOTTED), LINE_STYLE_DOTTED);
+			map.put(new Byte(JRPen.LINE_STYLE_DOUBLE), lINE_STYLE_DOUBLE);
+			lineStyleMap = map;
 		}
 
 		return lineStyleMap;
@@ -486,19 +500,20 @@ public class JRXmlConstants
 	{
 		if (penMap == null)
 		{
-			penMap = new HashMap(10);
-			penMap.put(PEN_NONE,     new Byte(JRGraphicElement.PEN_NONE));
-			penMap.put(PEN_THIN,     new Byte(JRGraphicElement.PEN_THIN));
-			penMap.put(PEN_1_POINT,  new Byte(JRGraphicElement.PEN_1_POINT));
-			penMap.put(PEN_2_POINT,  new Byte(JRGraphicElement.PEN_2_POINT));
-			penMap.put(PEN_4_POINT,  new Byte(JRGraphicElement.PEN_4_POINT));
-			penMap.put(PEN_DOTTED,   new Byte(JRGraphicElement.PEN_DOTTED));
-			penMap.put(new Byte(JRGraphicElement.PEN_NONE),     PEN_NONE);
-			penMap.put(new Byte(JRGraphicElement.PEN_THIN),     PEN_THIN);
-			penMap.put(new Byte(JRGraphicElement.PEN_1_POINT),  PEN_1_POINT);
-			penMap.put(new Byte(JRGraphicElement.PEN_2_POINT),  PEN_2_POINT);
-			penMap.put(new Byte(JRGraphicElement.PEN_4_POINT),  PEN_4_POINT);
-			penMap.put(new Byte(JRGraphicElement.PEN_DOTTED),   PEN_DOTTED);
+			Map map = new HashMap(10);
+			map.put(PEN_NONE,     new Byte(JRGraphicElement.PEN_NONE));
+			map.put(PEN_THIN,     new Byte(JRGraphicElement.PEN_THIN));
+			map.put(PEN_1_POINT,  new Byte(JRGraphicElement.PEN_1_POINT));
+			map.put(PEN_2_POINT,  new Byte(JRGraphicElement.PEN_2_POINT));
+			map.put(PEN_4_POINT,  new Byte(JRGraphicElement.PEN_4_POINT));
+			map.put(PEN_DOTTED,   new Byte(JRGraphicElement.PEN_DOTTED));
+			map.put(new Byte(JRGraphicElement.PEN_NONE),     PEN_NONE);
+			map.put(new Byte(JRGraphicElement.PEN_THIN),     PEN_THIN);
+			map.put(new Byte(JRGraphicElement.PEN_1_POINT),  PEN_1_POINT);
+			map.put(new Byte(JRGraphicElement.PEN_2_POINT),  PEN_2_POINT);
+			map.put(new Byte(JRGraphicElement.PEN_4_POINT),  PEN_4_POINT);
+			map.put(new Byte(JRGraphicElement.PEN_DOTTED),   PEN_DOTTED);
+			penMap = map;
 		}
 
 		return penMap;
@@ -515,9 +530,10 @@ public class JRXmlConstants
 	{
 		if (fillMap == null)
 		{
-			fillMap = new HashMap(2);
-			fillMap.put(FILL_SOLID, new Byte(JRGraphicElement.FILL_SOLID));
-			fillMap.put(new Byte(JRGraphicElement.FILL_SOLID), FILL_SOLID);
+			Map map = new HashMap(2);
+			map.put(FILL_SOLID, new Byte(JRGraphicElement.FILL_SOLID));
+			map.put(new Byte(JRGraphicElement.FILL_SOLID), FILL_SOLID);
+			fillMap = map;
 		}
 
 		return fillMap;
@@ -538,17 +554,18 @@ public class JRXmlConstants
 	{
 		if (resetTypeMap == null)
 		{
-			resetTypeMap = new HashMap(10);
-			resetTypeMap.put(RESET_TYPE_NONE,   new Byte(JRVariable.RESET_TYPE_NONE));
-			resetTypeMap.put(RESET_TYPE_REPORT, new Byte(JRVariable.RESET_TYPE_REPORT));
-			resetTypeMap.put(RESET_TYPE_PAGE,   new Byte(JRVariable.RESET_TYPE_PAGE));
-			resetTypeMap.put(RESET_TYPE_COLUMN, new Byte(JRVariable.RESET_TYPE_COLUMN));
-			resetTypeMap.put(RESET_TYPE_GROUP,  new Byte(JRVariable.RESET_TYPE_GROUP));
-			resetTypeMap.put(new Byte(JRVariable.RESET_TYPE_NONE),   RESET_TYPE_NONE);
-			resetTypeMap.put(new Byte(JRVariable.RESET_TYPE_REPORT), RESET_TYPE_REPORT);
-			resetTypeMap.put(new Byte(JRVariable.RESET_TYPE_PAGE),   RESET_TYPE_PAGE);
-			resetTypeMap.put(new Byte(JRVariable.RESET_TYPE_COLUMN), RESET_TYPE_COLUMN);
-			resetTypeMap.put(new Byte(JRVariable.RESET_TYPE_GROUP),  RESET_TYPE_GROUP);
+			Map map = new HashMap(10);
+			map.put(RESET_TYPE_NONE,   new Byte(JRVariable.RESET_TYPE_NONE));
+			map.put(RESET_TYPE_REPORT, new Byte(JRVariable.RESET_TYPE_REPORT));
+			map.put(RESET_TYPE_PAGE,   new Byte(JRVariable.RESET_TYPE_PAGE));
+			map.put(RESET_TYPE_COLUMN, new Byte(JRVariable.RESET_TYPE_COLUMN));
+			map.put(RESET_TYPE_GROUP,  new Byte(JRVariable.RESET_TYPE_GROUP));
+			map.put(new Byte(JRVariable.RESET_TYPE_NONE),   RESET_TYPE_NONE);
+			map.put(new Byte(JRVariable.RESET_TYPE_REPORT), RESET_TYPE_REPORT);
+			map.put(new Byte(JRVariable.RESET_TYPE_PAGE),   RESET_TYPE_PAGE);
+			map.put(new Byte(JRVariable.RESET_TYPE_COLUMN), RESET_TYPE_COLUMN);
+			map.put(new Byte(JRVariable.RESET_TYPE_GROUP),  RESET_TYPE_GROUP);
+			resetTypeMap = map;
 		}
 
 		return resetTypeMap;
@@ -575,29 +592,30 @@ public class JRXmlConstants
 	{
 		if (calculationMap == null)
 		{
-			calculationMap = new HashMap(18);
-			calculationMap.put(CALCULATION_NOTHING,            new Byte(JRVariable.CALCULATION_NOTHING));
-			calculationMap.put(CALCULATION_COUNT,              new Byte(JRVariable.CALCULATION_COUNT));
-			calculationMap.put(CALCULATION_SUM,                new Byte(JRVariable.CALCULATION_SUM));
-			calculationMap.put(CALCULATION_AVERAGE,            new Byte(JRVariable.CALCULATION_AVERAGE));
-			calculationMap.put(CALCULATION_LOWEST,             new Byte(JRVariable.CALCULATION_LOWEST));
-			calculationMap.put(CALCULATION_HIGHEST,            new Byte(JRVariable.CALCULATION_HIGHEST));
-			calculationMap.put(CALCULATION_STANDARD_DEVIATION, new Byte(JRVariable.CALCULATION_STANDARD_DEVIATION));
-			calculationMap.put(CALCULATION_VARIANCE,           new Byte(JRVariable.CALCULATION_VARIANCE));
-			calculationMap.put(CALCULATION_SYSTEM,             new Byte(JRVariable.CALCULATION_SYSTEM));
-			calculationMap.put(CALCULATION_FIRST,              new Byte(JRVariable.CALCULATION_FIRST));
-			calculationMap.put(CALCULATION_DISTINCT_COUNT,     new Byte(JRVariable.CALCULATION_DISTINCT_COUNT));
-			calculationMap.put(new Byte(JRVariable.CALCULATION_NOTHING),            CALCULATION_NOTHING);
-			calculationMap.put(new Byte(JRVariable.CALCULATION_COUNT),              CALCULATION_COUNT);
-			calculationMap.put(new Byte(JRVariable.CALCULATION_SUM),                CALCULATION_SUM);
-			calculationMap.put(new Byte(JRVariable.CALCULATION_AVERAGE),            CALCULATION_AVERAGE);
-			calculationMap.put(new Byte(JRVariable.CALCULATION_LOWEST),             CALCULATION_LOWEST);
-			calculationMap.put(new Byte(JRVariable.CALCULATION_HIGHEST),            CALCULATION_HIGHEST);
-			calculationMap.put(new Byte(JRVariable.CALCULATION_STANDARD_DEVIATION), CALCULATION_STANDARD_DEVIATION);
-			calculationMap.put(new Byte(JRVariable.CALCULATION_VARIANCE),           CALCULATION_VARIANCE);
-			calculationMap.put(new Byte(JRVariable.CALCULATION_SYSTEM),             CALCULATION_SYSTEM);
-			calculationMap.put(new Byte(JRVariable.CALCULATION_FIRST),              CALCULATION_FIRST);
-			calculationMap.put(new Byte(JRVariable.CALCULATION_DISTINCT_COUNT),     CALCULATION_DISTINCT_COUNT);
+			Map map = new HashMap(18);
+			map.put(CALCULATION_NOTHING,            new Byte(JRVariable.CALCULATION_NOTHING));
+			map.put(CALCULATION_COUNT,              new Byte(JRVariable.CALCULATION_COUNT));
+			map.put(CALCULATION_SUM,                new Byte(JRVariable.CALCULATION_SUM));
+			map.put(CALCULATION_AVERAGE,            new Byte(JRVariable.CALCULATION_AVERAGE));
+			map.put(CALCULATION_LOWEST,             new Byte(JRVariable.CALCULATION_LOWEST));
+			map.put(CALCULATION_HIGHEST,            new Byte(JRVariable.CALCULATION_HIGHEST));
+			map.put(CALCULATION_STANDARD_DEVIATION, new Byte(JRVariable.CALCULATION_STANDARD_DEVIATION));
+			map.put(CALCULATION_VARIANCE,           new Byte(JRVariable.CALCULATION_VARIANCE));
+			map.put(CALCULATION_SYSTEM,             new Byte(JRVariable.CALCULATION_SYSTEM));
+			map.put(CALCULATION_FIRST,              new Byte(JRVariable.CALCULATION_FIRST));
+			map.put(CALCULATION_DISTINCT_COUNT,     new Byte(JRVariable.CALCULATION_DISTINCT_COUNT));
+			map.put(new Byte(JRVariable.CALCULATION_NOTHING),            CALCULATION_NOTHING);
+			map.put(new Byte(JRVariable.CALCULATION_COUNT),              CALCULATION_COUNT);
+			map.put(new Byte(JRVariable.CALCULATION_SUM),                CALCULATION_SUM);
+			map.put(new Byte(JRVariable.CALCULATION_AVERAGE),            CALCULATION_AVERAGE);
+			map.put(new Byte(JRVariable.CALCULATION_LOWEST),             CALCULATION_LOWEST);
+			map.put(new Byte(JRVariable.CALCULATION_HIGHEST),            CALCULATION_HIGHEST);
+			map.put(new Byte(JRVariable.CALCULATION_STANDARD_DEVIATION), CALCULATION_STANDARD_DEVIATION);
+			map.put(new Byte(JRVariable.CALCULATION_VARIANCE),           CALCULATION_VARIANCE);
+			map.put(new Byte(JRVariable.CALCULATION_SYSTEM),             CALCULATION_SYSTEM);
+			map.put(new Byte(JRVariable.CALCULATION_FIRST),              CALCULATION_FIRST);
+			map.put(new Byte(JRVariable.CALCULATION_DISTINCT_COUNT),     CALCULATION_DISTINCT_COUNT);
+			calculationMap = map;
 		}
 
 		return calculationMap;
@@ -615,11 +633,12 @@ public class JRXmlConstants
 	{
 		if (printOrderMap == null)
 		{
-			printOrderMap = new HashMap(4);
-			printOrderMap.put(PRINT_ORDER_VERTICAL,   new Byte(JRReport.PRINT_ORDER_VERTICAL));
-			printOrderMap.put(PRINT_ORDER_HORIZONTAL, new Byte(JRReport.PRINT_ORDER_HORIZONTAL));
-			printOrderMap.put(new Byte(JRReport.PRINT_ORDER_VERTICAL),   PRINT_ORDER_VERTICAL);
-			printOrderMap.put(new Byte(JRReport.PRINT_ORDER_HORIZONTAL), PRINT_ORDER_HORIZONTAL);
+			Map map = new HashMap(4);
+			map.put(PRINT_ORDER_VERTICAL,   new Byte(JRReport.PRINT_ORDER_VERTICAL));
+			map.put(PRINT_ORDER_HORIZONTAL, new Byte(JRReport.PRINT_ORDER_HORIZONTAL));
+			map.put(new Byte(JRReport.PRINT_ORDER_VERTICAL),   PRINT_ORDER_VERTICAL);
+			map.put(new Byte(JRReport.PRINT_ORDER_HORIZONTAL), PRINT_ORDER_HORIZONTAL);
+			printOrderMap = map;
 		}
 
 		return printOrderMap;
@@ -637,11 +656,12 @@ public class JRXmlConstants
 	{
 		if (orientationMap == null)
 		{
-			orientationMap = new HashMap(4);
-			orientationMap.put(ORIENTATION_PORTRAIT,  new Byte(JRReport.ORIENTATION_PORTRAIT));
-			orientationMap.put(ORIENTATION_LANDSCAPE, new Byte(JRReport.ORIENTATION_LANDSCAPE));
-			orientationMap.put(new Byte(JRReport.ORIENTATION_PORTRAIT),  ORIENTATION_PORTRAIT);
-			orientationMap.put(new Byte(JRReport.ORIENTATION_LANDSCAPE), ORIENTATION_LANDSCAPE);
+			Map map = new HashMap(4);
+			map.put(ORIENTATION_PORTRAIT,  new Byte(JRReport.ORIENTATION_PORTRAIT));
+			map.put(ORIENTATION_LANDSCAPE, new Byte(JRReport.ORIENTATION_LANDSCAPE));
+			map.put(new Byte(JRReport.ORIENTATION_PORTRAIT),  ORIENTATION_PORTRAIT);
+			map.put(new Byte(JRReport.ORIENTATION_LANDSCAPE), ORIENTATION_LANDSCAPE);
+			orientationMap = map;
 		}
 
 		return orientationMap;
@@ -661,15 +681,16 @@ public class JRXmlConstants
 	{
 		if (whenNoDataTypeMap == null)
 		{
-			whenNoDataTypeMap = new HashMap(6);
-			whenNoDataTypeMap.put(WHEN_NO_DATA_TYPE_NO_PAGES,               new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_PAGES));
-			whenNoDataTypeMap.put(WHEN_NO_DATA_TYPE_BLANK_PAGE,             new Byte(JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE));
-			whenNoDataTypeMap.put(WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL, new Byte(JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL));
-			whenNoDataTypeMap.put(WHEN_NO_DATA_TYPE_NO_DATA_SECTION,        new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION));
-			whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_PAGES),               WHEN_NO_DATA_TYPE_NO_PAGES);
-			whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE),             WHEN_NO_DATA_TYPE_BLANK_PAGE);
-			whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL), WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL);
-			whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION),        WHEN_NO_DATA_TYPE_NO_DATA_SECTION);
+			Map map = new HashMap(6);
+			map.put(WHEN_NO_DATA_TYPE_NO_PAGES,               new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_PAGES));
+			map.put(WHEN_NO_DATA_TYPE_BLANK_PAGE,             new Byte(JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE));
+			map.put(WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL, new Byte(JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL));
+			map.put(WHEN_NO_DATA_TYPE_NO_DATA_SECTION,        new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION));
+			map.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_PAGES),               WHEN_NO_DATA_TYPE_NO_PAGES);
+			map.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE),             WHEN_NO_DATA_TYPE_BLANK_PAGE);
+			map.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL), WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL);
+			map.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION),        WHEN_NO_DATA_TYPE_NO_DATA_SECTION);
+			whenNoDataTypeMap = map;
 		}
 
 		return whenNoDataTypeMap;
@@ -692,21 +713,22 @@ public class JRXmlConstants
 	{
 		if (evaluationTimeMap == null)
 		{
-			evaluationTimeMap = new HashMap(10);
-			evaluationTimeMap.put(EVALUATION_TIME_NOW,    new Byte(JRExpression.EVALUATION_TIME_NOW));
-			evaluationTimeMap.put(EVALUATION_TIME_REPORT, new Byte(JRExpression.EVALUATION_TIME_REPORT));
-			evaluationTimeMap.put(EVALUATION_TIME_PAGE,   new Byte(JRExpression.EVALUATION_TIME_PAGE));
-			evaluationTimeMap.put(EVALUATION_TIME_COLUMN, new Byte(JRExpression.EVALUATION_TIME_COLUMN));
-			evaluationTimeMap.put(EVALUATION_TIME_GROUP,  new Byte(JRExpression.EVALUATION_TIME_GROUP));
-			evaluationTimeMap.put(EVALUATION_TIME_BAND,  new Byte(JRExpression.EVALUATION_TIME_BAND));
-			evaluationTimeMap.put(EVALUATION_TIME_AUTO,  new Byte(JRExpression.EVALUATION_TIME_AUTO));
-			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_NOW),    EVALUATION_TIME_NOW);
-			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_REPORT), EVALUATION_TIME_REPORT);
-			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_PAGE),   EVALUATION_TIME_PAGE);
-			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_COLUMN), EVALUATION_TIME_COLUMN);
-			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_GROUP),  EVALUATION_TIME_GROUP);
-			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_BAND),  EVALUATION_TIME_BAND);
-			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_AUTO),  EVALUATION_TIME_AUTO);
+			Map map = new HashMap(10);
+			map.put(EVALUATION_TIME_NOW,    new Byte(JRExpression.EVALUATION_TIME_NOW));
+			map.put(EVALUATION_TIME_REPORT, new Byte(JRExpression.EVALUATION_TIME_REPORT));
+			map.put(EVALUATION_TIME_PAGE,   new Byte(JRExpression.EVALUATION_TIME_PAGE));
+			map.put(EVALUATION_TIME_COLUMN, new Byte(JRExpression.EVALUATION_TIME_COLUMN));
+			map.put(EVALUATION_TIME_GROUP,  new Byte(JRExpression.EVALUATION_TIME_GROUP));
+			map.put(EVALUATION_TIME_BAND,  new Byte(JRExpression.EVALUATION_TIME_BAND));
+			map.put(EVALUATION_TIME_AUTO,  new Byte(JRExpression.EVALUATION_TIME_AUTO));
+			map.put(new Byte(JRExpression.EVALUATION_TIME_NOW),    EVALUATION_TIME_NOW);
+			map.put(new Byte(JRExpression.EVALUATION_TIME_REPORT), EVALUATION_TIME_REPORT);
+			map.put(new Byte(JRExpression.EVALUATION_TIME_PAGE),   EVALUATION_TIME_PAGE);
+			map.put(new Byte(JRExpression.EVALUATION_TIME_COLUMN), EVALUATION_TIME_COLUMN);
+			map.put(new Byte(JRExpression.EVALUATION_TIME_GROUP),  EVALUATION_TIME_GROUP);
+			map.put(new Byte(JRExpression.EVALUATION_TIME_BAND),  EVALUATION_TIME_BAND);
+			map.put(new Byte(JRExpression.EVALUATION_TIME_AUTO),  EVALUATION_TIME_AUTO);
+			evaluationTimeMap = map;
 		}
 
 		return evaluationTimeMap;
@@ -732,19 +754,20 @@ public class JRXmlConstants
 	{
 		if (hyperlinkTypeMap == null)
 		{
-			hyperlinkTypeMap = new HashMap(12);
-			hyperlinkTypeMap.put(HYPERLINK_TYPE_NONE,          new Byte(JRHyperlink.HYPERLINK_TYPE_NONE));
-			hyperlinkTypeMap.put(HYPERLINK_TYPE_REFERENCE,     new Byte(JRHyperlink.HYPERLINK_TYPE_REFERENCE));
-			hyperlinkTypeMap.put(HYPERLINK_TYPE_LOCAL_ANCHOR,  new Byte(JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR));
-			hyperlinkTypeMap.put(HYPERLINK_TYPE_LOCAL_PAGE,    new Byte(JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE));
-			hyperlinkTypeMap.put(HYPERLINK_TYPE_REMOTE_ANCHOR, new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR));
-			hyperlinkTypeMap.put(HYPERLINK_TYPE_REMOTE_PAGE,   new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE));
-			hyperlinkTypeMap.put(new Byte(JRHyperlink.HYPERLINK_TYPE_NONE),          HYPERLINK_TYPE_NONE);
-			hyperlinkTypeMap.put(new Byte(JRHyperlink.HYPERLINK_TYPE_REFERENCE),     HYPERLINK_TYPE_REFERENCE);
-			hyperlinkTypeMap.put(new Byte(JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR),  HYPERLINK_TYPE_LOCAL_ANCHOR);
-			hyperlinkTypeMap.put(new Byte(JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE),    HYPERLINK_TYPE_LOCAL_PAGE);
-			hyperlinkTypeMap.put(new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR), HYPERLINK_TYPE_REMOTE_ANCHOR);
-			hyperlinkTypeMap.put(new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE),   HYPERLINK_TYPE_REMOTE_PAGE);
+			Map map = new HashMap(12);
+			map.put(HYPERLINK_TYPE_NONE,          new Byte(JRHyperlink.HYPERLINK_TYPE_NONE));
+			map.put(HYPERLINK_TYPE_REFERENCE,     new Byte(JRHyperlink.HYPERLINK_TYPE_REFERENCE));
+			map.put(HYPERLINK_TYPE_LOCAL_ANCHOR,  new Byte(JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR));
+			map.put(HYPERLINK_TYPE_LOCAL_PAGE,    new Byte(JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE));
+			map.put(HYPERLINK_TYPE_REMOTE_ANCHOR, new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR));
+			map.put(HYPERLINK_TYPE_REMOTE_PAGE,   new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE));
+			map.put(new Byte(JRHyperlink.HYPERLINK_TYPE_NONE),          HYPERLINK_TYPE_NONE);
+			map.put(new Byte(JRHyperlink.HYPERLINK_TYPE_REFERENCE),     HYPERLINK_TYPE_REFERENCE);
+			map.put(new Byte(JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR),  HYPERLINK_TYPE_LOCAL_ANCHOR);
+			map.put(new Byte(JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE),    HYPERLINK_TYPE_LOCAL_PAGE);
+			map.put(new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR), HYPERLINK_TYPE_REMOTE_ANCHOR);
+			map.put(new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE),   HYPERLINK_TYPE_REMOTE_PAGE);
+			hyperlinkTypeMap = map;
 		}
 
 		return hyperlinkTypeMap;
@@ -767,15 +790,16 @@ public class JRXmlConstants
 	{
 		if (hyperlinkTargetMap == null)
 		{
-			hyperlinkTargetMap = new HashMap(4);
-			hyperlinkTargetMap.put(HYPERLINK_TARGET_SELF,  new Byte(JRHyperlink.HYPERLINK_TARGET_SELF));
-			hyperlinkTargetMap.put(HYPERLINK_TARGET_BLANK, new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK));
-			hyperlinkTargetMap.put(HYPERLINK_TARGET_PARENT, new Byte(JRHyperlink.HYPERLINK_TARGET_PARENT));
-			hyperlinkTargetMap.put(HYPERLINK_TARGET_TOP, new Byte(JRHyperlink.HYPERLINK_TARGET_TOP));
-			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_SELF),  HYPERLINK_TARGET_SELF);
-			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK), HYPERLINK_TARGET_BLANK);
-			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_PARENT), HYPERLINK_TARGET_PARENT);
-			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_TOP), HYPERLINK_TARGET_TOP);
+			Map map = new HashMap(4);
+			map.put(HYPERLINK_TARGET_SELF,  new Byte(JRHyperlink.HYPERLINK_TARGET_SELF));
+			map.put(HYPERLINK_TARGET_BLANK, new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK));
+			map.put(HYPERLINK_TARGET_PARENT, new Byte(JRHyperlink.HYPERLINK_TARGET_PARENT));
+			map.put(HYPERLINK_TARGET_TOP, new Byte(JRHyperlink.HYPERLINK_TARGET_TOP));
+			map.put(new Byte(JRHyperlink.HYPERLINK_TARGET_SELF),  HYPERLINK_TARGET_SELF);
+			map.put(new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK), HYPERLINK_TARGET_BLANK);
+			map.put(new Byte(JRHyperlink.HYPERLINK_TARGET_PARENT), HYPERLINK_TARGET_PARENT);
+			map.put(new Byte(JRHyperlink.HYPERLINK_TARGET_TOP), HYPERLINK_TARGET_TOP);
+			hyperlinkTargetMap = map;
 		}
 
 		return hyperlinkTargetMap;
@@ -796,15 +820,16 @@ public class JRXmlConstants
 	{
 		if (chartEdgeMap == null)
 		{
-			chartEdgeMap = new HashMap(4);
-			chartEdgeMap.put(EDGE_TOP,    new Byte(JRChart.EDGE_TOP));
-			chartEdgeMap.put(EDGE_BOTTOM, new Byte(JRChart.EDGE_BOTTOM));
-			chartEdgeMap.put(EDGE_LEFT,   new Byte(JRChart.EDGE_LEFT));
-			chartEdgeMap.put(EDGE_RIGHT,  new Byte(JRChart.EDGE_RIGHT));
-			chartEdgeMap.put(new Byte(JRChart.EDGE_TOP),    EDGE_TOP);
-			chartEdgeMap.put(new Byte(JRChart.EDGE_BOTTOM), EDGE_BOTTOM);
-			chartEdgeMap.put(new Byte(JRChart.EDGE_LEFT),   EDGE_LEFT);
-			chartEdgeMap.put(new Byte(JRChart.EDGE_RIGHT),  EDGE_RIGHT);
+			Map map = new HashMap(4);
+			map.put(EDGE_TOP,    new Byte(JRChart.EDGE_TOP));
+			map.put(EDGE_BOTTOM, new Byte(JRChart.EDGE_BOTTOM));
+			map.put(EDGE_LEFT,   new Byte(JRChart.EDGE_LEFT));
+			map.put(EDGE_RIGHT,  new Byte(JRChart.EDGE_RIGHT));
+			map.put(new Byte(JRChart.EDGE_TOP),    EDGE_TOP);
+			map.put(new Byte(JRChart.EDGE_BOTTOM), EDGE_BOTTOM);
+			map.put(new Byte(JRChart.EDGE_LEFT),   EDGE_LEFT);
+			map.put(new Byte(JRChart.EDGE_RIGHT),  EDGE_RIGHT);
+			chartEdgeMap = map;
 		}
 
 		return chartEdgeMap;
@@ -830,11 +855,12 @@ public class JRXmlConstants
 	{
 		if (plotOrientationMap == null)
 		{
-			plotOrientationMap = new HashMap(4);
-			plotOrientationMap.put(ORIENTATION_HORIZONTAL, PlotOrientation.HORIZONTAL);
-			plotOrientationMap.put(ORIENTATION_VERTICAL,   PlotOrientation.VERTICAL);
-			plotOrientationMap.put(PlotOrientation.HORIZONTAL, ORIENTATION_HORIZONTAL);
-			plotOrientationMap.put(PlotOrientation.VERTICAL,   ORIENTATION_VERTICAL);
+			Map map = new HashMap(4);
+			map.put(ORIENTATION_HORIZONTAL, PlotOrientation.HORIZONTAL);
+			map.put(ORIENTATION_VERTICAL,   PlotOrientation.VERTICAL);
+			map.put(PlotOrientation.HORIZONTAL, ORIENTATION_HORIZONTAL);
+			map.put(PlotOrientation.VERTICAL,   ORIENTATION_VERTICAL);
+			plotOrientationMap = map;
 		}
 
 		return plotOrientationMap;
@@ -852,11 +878,12 @@ public class JRXmlConstants
 	{
 		if (sortOrderMap == null)
 		{
-			sortOrderMap = new HashMap(4);
-			sortOrderMap.put(SORT_ORDER_ASCENDING,  new Byte(JRSortField.SORT_ORDER_ASCENDING));
-			sortOrderMap.put(SORT_ORDER_DESCENDING, new Byte(JRSortField.SORT_ORDER_DESCENDING));
-			sortOrderMap.put(new Byte(JRSortField.SORT_ORDER_ASCENDING),  SORT_ORDER_ASCENDING);
-			sortOrderMap.put(new Byte(JRSortField.SORT_ORDER_DESCENDING), SORT_ORDER_DESCENDING);
+			Map map = new HashMap(4);
+			map.put(SORT_ORDER_ASCENDING,  new Byte(JRSortField.SORT_ORDER_ASCENDING));
+			map.put(SORT_ORDER_DESCENDING, new Byte(JRSortField.SORT_ORDER_DESCENDING));
+			map.put(new Byte(JRSortField.SORT_ORDER_ASCENDING),  SORT_ORDER_ASCENDING);
+			map.put(new Byte(JRSortField.SORT_ORDER_DESCENDING), SORT_ORDER_DESCENDING);
+			sortOrderMap = map;
 		}
 
 		return sortOrderMap;
@@ -871,13 +898,14 @@ public class JRXmlConstants
 
 	public static Map  getScaleTypeMap(){
 		if( scaleTypeMap == null ){
-			scaleTypeMap = new HashMap( 6 );
-			scaleTypeMap.put( SCALE_ON_BOTH_AXES, new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ));
-			scaleTypeMap.put( SCALE_ON_DOMAIN_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ));
-			scaleTypeMap.put( SCALE_ON_RANGE_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ));
-			scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ), SCALE_ON_BOTH_AXES );
-			scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ), SCALE_ON_DOMAIN_AXIS );
-			scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ), SCALE_ON_RANGE_AXIS );
+			Map map = new HashMap( 6 );
+			map.put( SCALE_ON_BOTH_AXES, new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ));
+			map.put( SCALE_ON_DOMAIN_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ));
+			map.put( SCALE_ON_RANGE_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ));
+			map.put( new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ), SCALE_ON_BOTH_AXES );
+			map.put( new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ), SCALE_ON_DOMAIN_AXIS );
+			map.put( new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ), SCALE_ON_RANGE_AXIS );
+			scaleTypeMap = map;
 		}
 
 		return scaleTypeMap;
@@ -975,15 +1003,16 @@ public class JRXmlConstants
 	{
 		if (whenResourceMissingTypeMap == null)
 		{
-			whenResourceMissingTypeMap = new HashMap();
-			whenResourceMissingTypeMap.put(WHEN_RESOURCE_MISSING_TYPE_NULL, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL));
-			whenResourceMissingTypeMap.put(WHEN_RESOURCE_MISSING_TYPE_EMPTY, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY));
-			whenResourceMissingTypeMap.put(WHEN_RESOURCE_MISSING_TYPE_KEY, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY));
-			whenResourceMissingTypeMap.put(WHEN_RESOURCE_MISSING_TYPE_ERROR, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR));
-			whenResourceMissingTypeMap.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL), WHEN_RESOURCE_MISSING_TYPE_NULL);
-			whenResourceMissingTypeMap.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY), WHEN_RESOURCE_MISSING_TYPE_EMPTY);
-			whenResourceMissingTypeMap.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY), WHEN_RESOURCE_MISSING_TYPE_KEY);
-			whenResourceMissingTypeMap.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR), WHEN_RESOURCE_MISSING_TYPE_ERROR);
+			Map map = new HashMap();
+			map.put(WHEN_RESOURCE_MISSING_TYPE_NULL, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL));
+			map.put(WHEN_RESOURCE_MISSING_TYPE_EMPTY, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY));
+			map.put(WHEN_RESOURCE_MISSING_TYPE_KEY, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY));
+			map.put(WHEN_RESOURCE_MISSING_TYPE_ERROR, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR));
+			map.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL), WHEN_RESOURCE_MISSING_TYPE_NULL);
+			map.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY), WHEN_RESOURCE_MISSING_TYPE_EMPTY);
+			map.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY), WHEN_RESOURCE_MISSING_TYPE_KEY);
+			map.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR), WHEN_RESOURCE_MISSING_TYPE_ERROR);
+			whenResourceMissingTypeMap = map;
 		}
 
 		return whenResourceMissingTypeMap;
@@ -1004,15 +1033,16 @@ public class JRXmlConstants
 	{
 		if (meterShapeMap == null)
 		{
-			meterShapeMap = new HashMap();
-			meterShapeMap.put(METER_SHAPE_CHORD, new Byte(JRMeterPlot.SHAPE_CHORD));
-			meterShapeMap.put(METER_SHAPE_CIRCLE, new Byte(JRMeterPlot.SHAPE_CIRCLE));
-			meterShapeMap.put(METER_SHAPE_PIE, new Byte(JRMeterPlot.SHAPE_PIE));
-			meterShapeMap.put(METER_SHAPE_DIAL, new Byte(JRMeterPlot.SHAPE_DIAL));
-			meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_CHORD), METER_SHAPE_CHORD);
-			meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_CIRCLE), METER_SHAPE_CIRCLE);
-			meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_PIE), METER_SHAPE_PIE);
-			meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_DIAL), METER_SHAPE_DIAL);
+			Map map = new HashMap();
+			map.put(METER_SHAPE_CHORD, new Byte(JRMeterPlot.SHAPE_CHORD));
+			map.put(METER_SHAPE_CIRCLE, new Byte(JRMeterPlot.SHAPE_CIRCLE));
+			map.put(METER_SHAPE_PIE, new Byte(JRMeterPlot.SHAPE_PIE));
+			map.put(METER_SHAPE_DIAL, new Byte(JRMeterPlot.SHAPE_DIAL));
+			map.put(new Byte(JRMeterPlot.SHAPE_CHORD), METER_SHAPE_CHORD);
+			map.put(new Byte(JRMeterPlot.SHAPE_CIRCLE), METER_SHAPE_CIRCLE);
+			map.put(new Byte(JRMeterPlot.SHAPE_PIE), METER_SHAPE_PIE);
+			map.put(new Byte(JRMeterPlot.SHAPE_DIAL), METER_SHAPE_DIAL);
+			meterShapeMap = map;
 		}
 
 		return meterShapeMap;
@@ -1033,15 +1063,16 @@ public class JRXmlConstants
 	{
 		if (thermometerValueLocationMap == null)
 		{
-			thermometerValueLocationMap = new HashMap();
-			thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_NONE, new Byte(JRThermometerPlot.LOCATION_NONE));
-			thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_LEFT, new Byte(JRThermometerPlot.LOCATION_LEFT));
-			thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_RIGHT, new Byte(JRThermometerPlot.LOCATION_RIGHT));
-			thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_BULB, new Byte(JRThermometerPlot.LOCATION_BULB));
-			thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_NONE), THERMOMETER_VALUE_LOCATION_NONE);
-			thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_LEFT), THERMOMETER_VALUE_LOCATION_LEFT);
-			thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_RIGHT), THERMOMETER_VALUE_LOCATION_RIGHT);
-			thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_BULB), THERMOMETER_VALUE_LOCATION_BULB);
+			Map map = new HashMap();
+			map.put(THERMOMETER_VALUE_LOCATION_NONE, new Byte(JRThermometerPlot.LOCATION_NONE));
+			map.put(THERMOMETER_VALUE_LOCATION_LEFT, new Byte(JRThermometerPlot.LOCATION_LEFT));
+			map.put(THERMOMETER_VALUE_LOCATION_RIGHT, new Byte(JRThermometerPlot.LOCATION_RIGHT));
+			map.put(THERMOMETER_VALUE_LOCATION_BULB, new Byte(JRThermometerPlot.LOCATION_BULB));
+			map.put(new Byte(JRThermometerPlot.LOCATION_NONE), THERMOMETER_VALUE_LOCATION_NONE);
+			map.put(new Byte(JRThermometerPlot.LOCATION_LEFT), THERMOMETER_VALUE_LOCATION_LEFT);
+			map.put(new Byte(JRThermometerPlot.LOCATION_RIGHT), THERMOMETER_VALUE_LOCATION_RIGHT);
+			map.put(new Byte(JRThermometerPlot.LOCATION_BULB), THERMOMETER_VALUE_LOCATION_BULB);
+			thermometerValueLocationMap = map;
 		}
 
 		return thermometerValueLocationMap;
@@ -1060,11 +1091,12 @@ public class JRXmlConstants
 	{
 		 if (axisPositionMap == null)
 		 {
-			axisPositionMap = new HashMap();
-			axisPositionMap.put(AXIS_POSITION_LEFT_OR_TOP, new Byte(JRChartAxis.POSITION_LEFT_OR_TOP));
-			axisPositionMap.put(AXIS_POSITION_RIGHT_OR_BOTTOM, new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM));
-			axisPositionMap.put(new Byte(JRChartAxis.POSITION_LEFT_OR_TOP), AXIS_POSITION_LEFT_OR_TOP);
-			axisPositionMap.put(new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM), AXIS_POSITION_RIGHT_OR_BOTTOM);
+			Map map = new HashMap();
+			map.put(AXIS_POSITION_LEFT_OR_TOP, new Byte(JRChartAxis.POSITION_LEFT_OR_TOP));
+			map.put(AXIS_POSITION_RIGHT_OR_BOTTOM, new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM));
+			map.put(new Byte(JRChartAxis.POSITION_LEFT_OR_TOP), AXIS_POSITION_LEFT_OR_TOP);
+			map.put(new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM), AXIS_POSITION_RIGHT_OR_BOTTOM);
+			axisPositionMap = map;
 		 }
 
 		 return axisPositionMap;
@@ -1083,11 +1115,12 @@ public class JRXmlConstants
 	{
 		if (crosstabBucketOrderMap == null)
 		{
-			crosstabBucketOrderMap = new HashMap();
-			crosstabBucketOrderMap.put(CROSSTAB_BUCKET_ORDER_ASCENDING, new Byte(BucketDefinition.ORDER_ASCENDING));
-			crosstabBucketOrderMap.put(CROSSTAB_BUCKET_ORDER_DESCENDING, new Byte(BucketDefinition.ORDER_DESCENDING));
-			crosstabBucketOrderMap.put(new Byte(BucketDefinition.ORDER_ASCENDING), CROSSTAB_BUCKET_ORDER_ASCENDING);
-			crosstabBucketOrderMap.put(new Byte(BucketDefinition.ORDER_DESCENDING), CROSSTAB_BUCKET_ORDER_DESCENDING);
+			Map map = new HashMap();
+			map.put(CROSSTAB_BUCKET_ORDER_ASCENDING, new Byte(BucketDefinition.ORDER_ASCENDING));
+			map.put(CROSSTAB_BUCKET_ORDER_DESCENDING, new Byte(BucketDefinition.ORDER_DESCENDING));
+			map.put(new Byte(BucketDefinition.ORDER_ASCENDING), CROSSTAB_BUCKET_ORDER_ASCENDING);
+			map.put(new Byte(BucketDefinition.ORDER_DESCENDING), CROSSTAB_BUCKET_ORDER_DESCENDING);
+			crosstabBucketOrderMap = map;
 		}
 
 		return crosstabBucketOrderMap;
@@ -1104,11 +1137,12 @@ public class JRXmlConstants
 	{
 		if (crosstabPercentageMap == null)
 		{
-			crosstabPercentageMap = new HashMap();
-			crosstabPercentageMap.put(CROSSTAB_PERCENTAGE_NONE, new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_NONE));
-			crosstabPercentageMap.put(CROSSTAB_PERCENTAGE_GRAND_TOTAL, new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL));
-			crosstabPercentageMap.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_NONE), CROSSTAB_PERCENTAGE_NONE);
-			crosstabPercentageMap.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL), CROSSTAB_PERCENTAGE_GRAND_TOTAL);
+			Map map = new HashMap();
+			map.put(CROSSTAB_PERCENTAGE_NONE, new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_NONE));
+			map.put(CROSSTAB_PERCENTAGE_GRAND_TOTAL, new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL));
+			map.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_NONE), CROSSTAB_PERCENTAGE_NONE);
+			map.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL), CROSSTAB_PERCENTAGE_GRAND_TOTAL);
+			crosstabPercentageMap = map;
 		}
 
 		return crosstabPercentageMap;
@@ -1126,13 +1160,14 @@ public class JRXmlConstants
 	{
 		if (crosstabTotalPositionMap == null)
 		{
-			crosstabTotalPositionMap = new HashMap();
-			crosstabTotalPositionMap.put(CROSSTAB_TOTAL_POSITION_NONE, new Byte(BucketDefinition.TOTAL_POSITION_NONE));
-			crosstabTotalPositionMap.put(CROSSTAB_TOTAL_POSITION_START, new Byte(BucketDefinition.TOTAL_POSITION_START));
-			crosstabTotalPositionMap.put(CROSSTAB_TOTAL_POSITION_END, new Byte(BucketDefinition.TOTAL_POSITION_END));
-			crosstabTotalPositionMap.put(new Byte(BucketDefinition.TOTAL_POSITION_NONE), CROSSTAB_TOTAL_POSITION_NONE);
-			crosstabTotalPositionMap.put(new Byte(BucketDefinition.TOTAL_POSITION_START), CROSSTAB_TOTAL_POSITION_START);
-			crosstabTotalPositionMap.put(new Byte(BucketDefinition.TOTAL_POSITION_END), CROSSTAB_TOTAL_POSITION_END);
+			Map map = new HashMap();
+			map.put(CROSSTAB_TOTAL_POSITION_NONE, new Byte(BucketDefinition.TOTAL_POSITION_NONE));
+			map.put(CROSSTAB_TOTAL_POSITION_START, new Byte(BucketDefinition.TOTAL_POSITION_START));
+			map.put(CROSSTAB_TOTAL_POSITION_END, new Byte(BucketDefinition.TOTAL_POSITION_END));
+			map.put(new Byte(BucketDefinition.TOTAL_POSITION_NONE), CROSSTAB_TOTAL_POSITION_NONE);
+			map.put(new Byte(BucketDefinition.TOTAL_POSITION_START), CROSSTAB_TOTAL_POSITION_START);
+			map.put(new Byte(BucketDefinition.TOTAL_POSITION_END), CROSSTAB_TOTAL_POSITION_END);
+			crosstabTotalPositionMap = map;
 		}
 
 		return crosstabTotalPositionMap;
@@ -1151,15 +1186,16 @@ public class JRXmlConstants
 	{
 		if (crosstabRowPositionMap == null)
 		{
-			crosstabRowPositionMap = new HashMap();
-			crosstabRowPositionMap.put(CROSSTAB_ROW_POSITION_TOP, new Byte(JRCellContents.POSITION_Y_TOP));
-			crosstabRowPositionMap.put(CROSSTAB_ROW_POSITION_MIDDLE, new Byte(JRCellContents.POSITION_Y_MIDDLE));
-			crosstabRowPositionMap.put(CROSSTAB_ROW_POSITION_BOTTOM, new Byte(JRCellContents.POSITION_Y_BOTTOM));
-			crosstabRowPositionMap.put(CROSSTAB_ROW_POSITION_STRETCH, new Byte(JRCellContents.POSITION_Y_STRETCH));
-			crosstabRowPositionMap.put(new Byte(JRCellContents.POSITION_Y_TOP), CROSSTAB_ROW_POSITION_TOP);
-			crosstabRowPositionMap.put(new Byte(JRCellContents.POSITION_Y_MIDDLE), CROSSTAB_ROW_POSITION_MIDDLE);
-			crosstabRowPositionMap.put(new Byte(JRCellContents.POSITION_Y_BOTTOM), CROSSTAB_ROW_POSITION_BOTTOM);
-			crosstabRowPositionMap.put(new Byte(JRCellContents.POSITION_Y_STRETCH), CROSSTAB_ROW_POSITION_STRETCH);
+			Map map = new HashMap();
+			map.put(CROSSTAB_ROW_POSITION_TOP, new Byte(JRCellContents.POSITION_Y_TOP));
+			map.put(CROSSTAB_ROW_POSITION_MIDDLE, new Byte(JRCellContents.POSITION_Y_MIDDLE));
+			map.put(CROSSTAB_ROW_POSITION_BOTTOM, new Byte(JRCellContents.POSITION_Y_BOTTOM));
+			map.put(CROSSTAB_ROW_POSITION_STRETCH, new Byte(JRCellContents.POSITION_Y_STRETCH));
+			map.put(new Byte(JRCellContents.POSITION_Y_TOP), CROSSTAB_ROW_POSITION_TOP);
+			map.put(new Byte(JRCellContents.POSITION_Y_MIDDLE), CROSSTAB_ROW_POSITION_MIDDLE);
+			map.put(new Byte(JRCellContents.POSITION_Y_BOTTOM), CROSSTAB_ROW_POSITION_BOTTOM);
+			map.put(new Byte(JRCellContents.POSITION_Y_STRETCH), CROSSTAB_ROW_POSITION_STRETCH);
+			crosstabRowPositionMap = map;
 		}
 
 		return crosstabRowPositionMap;
@@ -1178,15 +1214,16 @@ public class JRXmlConstants
 	{
 		if (crosstabColumnPositionMap == null)
 		{
-			crosstabColumnPositionMap = new HashMap();
-			crosstabColumnPositionMap.put(CROSSTAB_COLUMN_POSITION_LEFT, new Byte(JRCellContents.POSITION_X_LEFT));
-			crosstabColumnPositionMap.put(CROSSTAB_COLUMN_POSITION_CENTER, new Byte(JRCellContents.POSITION_X_CENTER));
-			crosstabColumnPositionMap.put(CROSSTAB_COLUMN_POSITION_RIGHT, new Byte(JRCellContents.POSITION_X_RIGHT));
-			crosstabColumnPositionMap.put(CROSSTAB_COLUMN_POSITION_STRETCH, new Byte(JRCellContents.POSITION_X_STRETCH));
-			crosstabColumnPositionMap.put(new Byte(JRCellContents.POSITION_X_LEFT), CROSSTAB_COLUMN_POSITION_LEFT);
-			crosstabColumnPositionMap.put(new Byte(JRCellContents.POSITION_X_CENTER), CROSSTAB_COLUMN_POSITION_CENTER);
-			crosstabColumnPositionMap.put(new Byte(JRCellContents.POSITION_X_RIGHT), CROSSTAB_COLUMN_POSITION_RIGHT);
-			crosstabColumnPositionMap.put(new Byte(JRCellContents.POSITION_X_STRETCH), CROSSTAB_COLUMN_POSITION_STRETCH);
+			Map map = new HashMap();
+			map.put(CROSSTAB_COLUMN_POSITION_LEFT, new Byte(JRCellContents.POSITION_X_LEFT));
+			map.put(CROSSTAB_COLUMN_POSITION_CENTER, new Byte(JRCellContents.POSITION_X_CENTER));
+			map.put(CROSSTAB_COLUMN_POSITION_RIGHT, new Byte(JRCellContents.POSITION_X_RIGHT));
+			map.put(CROSSTAB_COLUMN_POSITION_STRETCH, new Byte(JRCellContents.POSITION_X_STRETCH));
+			map.put(new Byte(JRCellContents.POSITION_X_LEFT), CROSSTAB_COLUMN_POSITION_LEFT);
+			map.put(new Byte(JRCellContents.POSITION_X_CENTER), CROSSTAB_COLUMN_POSITION_CENTER);
+			map.put(new Byte(JRCellContents.POSITION_X_RIGHT), CROSSTAB_COLUMN_POSITION_RIGHT);
+			map.put(new Byte(JRCellContents.POSITION_X_STRETCH), CROSSTAB_COLUMN_POSITION_STRETCH);
+			crosstabColumnPositionMap = map;
 		}
 
 		return crosstabColumnPositionMap;
@@ -1207,13 +1244,14 @@ public class JRXmlConstants
 	{
 		if (splitTypeMap == null)
 		{
-			splitTypeMap = new HashMap(6);
-			splitTypeMap.put(SPLIT_TYPE_STRETCH,   JRBand.SPLIT_TYPE_STRETCH);
-			splitTypeMap.put(SPLIT_TYPE_PREVENT,   JRBand.SPLIT_TYPE_PREVENT);
-			splitTypeMap.put(SPLIT_TYPE_IMMEDIATE, JRBand.SPLIT_TYPE_IMMEDIATE);
-			splitTypeMap.put(JRBand.SPLIT_TYPE_STRETCH,   SPLIT_TYPE_STRETCH);
-			splitTypeMap.put(JRBand.SPLIT_TYPE_PREVENT,   SPLIT_TYPE_PREVENT);
-			splitTypeMap.put(JRBand.SPLIT_TYPE_IMMEDIATE, SPLIT_TYPE_IMMEDIATE);
+			Map map = new HashMap(6);
+			map.put(SPLIT_TYPE_STRETCH,   JRBand.SPLIT_TYPE_STRETCH);
+			map.put(SPLIT_TYPE_PREVENT,   JRBand.SPLIT_TYPE_PREVENT);
+			map.put(SPLIT_TYPE_IMMEDIATE, JRBand.SPLIT_TYPE_IMMEDIATE);
+			map.put(JRBand.SPLIT_TYPE_STRETCH,   SPLIT_TYPE_STRETCH);
+			map.put(JRBand.SPLIT_TYPE_PREVENT,   SPLIT_TYPE_PREVENT);
+			map.put(JRBand.SPLIT_TYPE_IMMEDIATE, SPLIT_TYPE_IMMEDIATE);
+			splitTypeMap = map;
 		}
 
 		return splitTypeMap;
@@ -1244,33 +1282,34 @@ public class JRXmlConstants
 	{
 		if (bandTypeMap == null)
 		{
-			bandTypeMap = new HashMap(24);
-			bandTypeMap.put(UNKNOWN,          new Byte(JROrigin.UNKNOWN));
-			bandTypeMap.put(BACKGROUND,       new Byte(JROrigin.BACKGROUND));
-			bandTypeMap.put(TITLE,            new Byte(JROrigin.TITLE));
-			bandTypeMap.put(PAGE_HEADER,      new Byte(JROrigin.PAGE_HEADER));
-			bandTypeMap.put(COLUMN_HEADER,    new Byte(JROrigin.COLUMN_HEADER));
-			bandTypeMap.put(GROUP_HEADER,     new Byte(JROrigin.GROUP_HEADER));
-			bandTypeMap.put(DETAIL,           new Byte(JROrigin.DETAIL));
-			bandTypeMap.put(GROUP_FOOTER,     new Byte(JROrigin.GROUP_FOOTER));
-			bandTypeMap.put(COLUMN_FOOTER,    new Byte(JROrigin.COLUMN_FOOTER));
-			bandTypeMap.put(PAGE_FOOTER,      new Byte(JROrigin.PAGE_FOOTER));
-			bandTypeMap.put(LAST_PAGE_FOOTER, new Byte(JROrigin.LAST_PAGE_FOOTER));
-			bandTypeMap.put(SUMMARY,          new Byte(JROrigin.SUMMARY));
-			bandTypeMap.put(NO_DATA,          new Byte(JROrigin.NO_DATA));
-			bandTypeMap.put(new Byte(JROrigin.UNKNOWN),          UNKNOWN);
-			bandTypeMap.put(new Byte(JROrigin.BACKGROUND),       BACKGROUND);
-			bandTypeMap.put(new Byte(JROrigin.TITLE),            TITLE);
-			bandTypeMap.put(new Byte(JROrigin.PAGE_HEADER),      PAGE_HEADER);
-			bandTypeMap.put(new Byte(JROrigin.COLUMN_HEADER),    COLUMN_HEADER);
-			bandTypeMap.put(new Byte(JROrigin.GROUP_HEADER),     GROUP_HEADER);
-			bandTypeMap.put(new Byte(JROrigin.DETAIL),           DETAIL);
-			bandTypeMap.put(new Byte(JROrigin.GROUP_FOOTER),     GROUP_FOOTER);
-			bandTypeMap.put(new Byte(JROrigin.COLUMN_FOOTER),    COLUMN_FOOTER);
-			bandTypeMap.put(new Byte(JROrigin.PAGE_FOOTER),      PAGE_FOOTER);
-			bandTypeMap.put(new Byte(JROrigin.LAST_PAGE_FOOTER), LAST_PAGE_FOOTER);
-			bandTypeMap.put(new Byte(JROrigin.SUMMARY),          SUMMARY);
-			bandTypeMap.put(new Byte(JROrigin.NO_DATA),          NO_DATA);
+			Map map = new HashMap(24);
+			map.put(UNKNOWN,          new Byte(JROrigin.UNKNOWN));
+			map.put(BACKGROUND,       new Byte(JROrigin.BACKGROUND));
+			map.put(TITLE,            new Byte(JROrigin.TITLE));
+			map.put(PAGE_HEADER,      new Byte(JROrigin.PAGE_HEADER));
+			map.put(COLUMN_HEADER,    new Byte(JROrigin.COLUMN_HEADER));
+			map.put(GROUP_HEADER,     new Byte(JROrigin.GROUP_HEADER));
+			map.put(DETAIL,           new Byte(JROrigin.DETAIL));
+			map.put(GROUP_FOOTER,     new Byte(JROrigin.GROUP_FOOTER));
+			map.put(COLUMN_FOOTER,    new Byte(JROrigin.COLUMN_FOOTER));
+			map.put(PAGE_FOOTER,      new Byte(JROrigin.PAGE_FOOTER));
+			map.put(LAST_PAGE_FOOTER, new Byte(JROrigin.LAST_PAGE_FOOTER));
+			map.put(SUMMARY,          new Byte(JROrigin.SUMMARY));
+			map.put(NO_DATA,          new Byte(JROrigin.NO_DATA));
+			map.put(new Byte(JROrigin.UNKNOWN),          UNKNOWN);
+			map.put(new Byte(JROrigin.BACKGROUND),       BACKGROUND);
+			map.put(new Byte(JROrigin.TITLE),            TITLE);
+			map.put(new Byte(JROrigin.PAGE_HEADER),      PAGE_HEADER);
+			map.put(new Byte(JROrigin.COLUMN_HEADER),    COLUMN_HEADER);
+			map.put(new Byte(JROrigin.GROUP_HEADER),     GROUP_HEADER);
+			map.put(new Byte(JROrigin.DETAIL),           DETAIL);
+			map.put(new Byte(JROrigin.GROUP_FOOTER),     GROUP_FOOTER);
+			map.put(new Byte(JROrigin.COLUMN_FOOTER),    COLUMN_FOOTER);
+			map.put(new Byte(JROrigin.PAGE_FOOTER),      PAGE_FOOTER);
+			map.put(new Byte(JROrigin.LAST_PAGE_FOOTER), LAST_PAGE_FOOTER);
+			map.put(new Byte(JROrigin.SUMMARY),          SUMMARY);
+			map.put(new Byte(JROrigin.NO_DATA),          NO_DATA);
+			bandTypeMap = map;
 		}
 
 		return bandTypeMap;
