@@ -246,6 +246,7 @@
 		</delete>
 		<delete dir="${file.name}.jrpxml_files" />
 		<delete dir="${file.name}.html_files" />
+		<delete dir="${file.name}.x.html_files" />
 	</target>
 	
 	<target name="test" description="Runs the sample.">

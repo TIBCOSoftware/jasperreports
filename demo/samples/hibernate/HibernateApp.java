@@ -365,6 +365,6 @@ public class HibernateApp
 	{
 		System.out.println( "HibernateApp usage:" );
 		System.out.println( "\tjava HibernateApp task file" );
-		System.out.println( "\tTasks : compile | fill | fillIgnorePagination | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | run" );
+		System.out.println( "\tTasks : compile | fill | fillIgnorePagination | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xhtml | run" );
 	}
 }
