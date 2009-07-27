@@ -94,6 +94,7 @@ public class I18nApp
 
 		try
 		{
+			long start = System.currentTimeMillis();
 			if (TASK_FILL.equals(taskName))
 			{
 				Locale locale = chooseLocale();
@@ -104,7 +105,6 @@ public class I18nApp
 					parameters.put("number", new Double(1234567 + Math.random()));
 //					parameters.put("array", aw);
 					parameters.put(JRParameter.REPORT_LOCALE, locale);
-					long start = System.currentTimeMillis();
 					JasperFillManager.fillReportToFile(fileName, parameters, new JREmptyDataSource());
 					System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				}
@@ -113,7 +113,6 @@ public class I18nApp
 			{
 				Map parameters = new HashMap();
 				parameters.put("number", new Double(1234567 + Math.random()));
-				long start = System.currentTimeMillis();
 				JasperFillManager.fillReportToFile(fileName, parameters, new JREmptyDataSource());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 			}
@@ -127,32 +126,26 @@ public class I18nApp
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
-				long start = System.currentTimeMillis();
 				JasperExportManager.exportReportToPdfFile(fileName);
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_XML.equals(taskName))
 			{
-				long start = System.currentTimeMillis();
 				JasperExportManager.exportReportToXmlFile(fileName, false);
 				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_XML_EMBED.equals(taskName))
 			{
-				long start = System.currentTimeMillis();
 				JasperExportManager.exportReportToXmlFile(fileName, true);
 				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-				long start = System.currentTimeMillis();
 				JasperExportManager.exportReportToHtmlFile(fileName);
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_RTF.equals(taskName))
 			{
-				long start = System.currentTimeMillis();
-
 				File sourceFile = new File(fileName);
 		
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
@@ -170,8 +163,6 @@ public class I18nApp
 			}
 			else if (TASK_XLS.equals(taskName))
 			{
-				long start = System.currentTimeMillis();
-
 				File sourceFile = new File(fileName);
 		
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
@@ -190,8 +181,6 @@ public class I18nApp
 			}
 			else if (TASK_JXL.equals(taskName))
 			{
-				long start = System.currentTimeMillis();
-
 				File sourceFile = new File(fileName);
 
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
@@ -210,8 +199,6 @@ public class I18nApp
 			}
 			else if (TASK_CSV.equals(taskName))
 			{
-				long start = System.currentTimeMillis();
-
 				File sourceFile = new File(fileName);
 		
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
@@ -229,8 +216,6 @@ public class I18nApp
 			}
 			else if (TASK_ODT.equals(taskName))
 			{
-				long start = System.currentTimeMillis();
-
 				File sourceFile = new File(fileName);
 		
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
