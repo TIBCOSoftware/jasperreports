@@ -31,7 +31,7 @@
  *
  * Contributors:
  * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
+ * Frank Schï¿½nheit - Frank.Schoenheit@Sun.COM
  */
 package net.sf.jasperreports.engine.export.oasis;
 
@@ -660,7 +660,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		if (text.getAnchorName() != null)
 		{
 			tempBodyWriter.write("<text:bookmark text:name=\"");
-			tempBodyWriter.write(text.getAnchorName());
+			tempBodyWriter.write(JRStringUtil.xmlEncode(text.getAnchorName()));
 			tempBodyWriter.write("\"/>");
 		}
 
@@ -832,7 +832,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			if (image.getAnchorName() != null)
 			{
 				tempBodyWriter.write("<text:bookmark text:name=\"");
-				tempBodyWriter.write(image.getAnchorName());
+				tempBodyWriter.write(JRStringUtil.xmlEncode(image.getAnchorName()));
 				tempBodyWriter.write("\"/>");
 			}
 
@@ -847,7 +847,8 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 					+ "svg:height=\"" + Utility.translatePixelsToInches(height) + "in\">"
 					);
 			tempBodyWriter.write("<draw:image ");
-			tempBodyWriter.write(" xlink:href=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"");
+			String imagePath = getImagePath(renderer, image.isLazy(), gridCell);
+			tempBodyWriter.write(" xlink:href=\"" + JRStringUtil.xmlEncode(imagePath) + "\"");
 			tempBodyWriter.write(" xlink:type=\"simple\"");
 			tempBodyWriter.write(" xlink:show=\"embed\"");
 			tempBodyWriter.write(" xlink:actuate=\"onLoad\"");
@@ -1132,7 +1133,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			{
 				tempBodyWriter.write("<draw:a xlink:type=\"simple\" xlink:href=\"");
 			}
-			tempBodyWriter.write(href);
+			tempBodyWriter.write(JRStringUtil.xmlEncode(href));
 			tempBodyWriter.write("\"");
 
 
