@@ -245,7 +245,7 @@ public class POI35App
 	{
 		System.out.println( "DataSourceApp usage:" );
 		System.out.println( "\tjava DataSourceApp task file" );
-		System.out.println( "\tTasks : fill1 | fill2 | fill3 | fill4 | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | run" );
+		System.out.println( "\tTasks : fill1 | fill2 | fill3 | fill4 | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xhtml | run" );
 	}
 
 

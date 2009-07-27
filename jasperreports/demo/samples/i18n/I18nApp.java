@@ -248,45 +248,37 @@ public class I18nApp
 			}
 			else if (TASK_DOCX.equals(taskName))
 			{
-				for(int i = 0; i < reportNames.length; i++)
-				{
-					long start = System.currentTimeMillis();
-					File sourceFile = new File(reportNames[i] + ".jrprint");
+				File sourceFile = new File(fileName);
 		
-					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 		
-					File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
 				
-					JRDocxExporter exporter = new JRDocxExporter();
+				JRDocxExporter exporter = new JRDocxExporter();
 				
-					exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-					exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 				
-					exporter.exportReport();
+				exporter.exportReport();
 
-					System.err.println("Report : " + reportNames[i] + ". DOCX creation time : " + (System.currentTimeMillis() - start));
-				}
+				System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_XHTML.equals(taskName))
 			{
-				for(int i = 0; i < reportNames.length; i++)
-				{
-					long start = System.currentTimeMillis();
-					File sourceFile = new File(reportNames[i] + ".jrprint");
+				File sourceFile = new File(fileName);
 		
-					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 		
-					File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
 				
-					JRXhtmlExporter exporter = new JRXhtmlExporter();
+				JRXhtmlExporter exporter = new JRXhtmlExporter();
 				
-					exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-					exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 				
-					exporter.exportReport();
+				exporter.exportReport();
 
-					System.err.println("Report : " + reportNames[i] + ". XHTML creation time : " + (System.currentTimeMillis() - start));
-				}
+				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
 			}
 			else
 			{
@@ -345,7 +337,7 @@ public class I18nApp
 	{
 		System.out.println( "I18nApp usage:" );
 		System.out.println( "\tjava I18nApp task file" );
-		System.out.println( "\tTasks : fill | fillDefault | view | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt" );
+		System.out.println( "\tTasks : fill | fillDefault | view | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xhtml" );
 	}
 
 

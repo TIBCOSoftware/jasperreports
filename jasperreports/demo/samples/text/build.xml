@@ -93,8 +93,6 @@
 			<fileset dir="." includes="**/TextReport.txt"/>
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
-		<delete dir="${file.name}.jrpxml_files" />
-		<delete dir="${file.name}.html_files" />
 	</target>
 	
 	<target name="test" description="Runs the sample.">
