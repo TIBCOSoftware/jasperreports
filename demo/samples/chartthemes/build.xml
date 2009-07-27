@@ -1,6 +1,6 @@
 <project name="charts" default="javac" basedir=".">
 
-	<description>Shows how the chart element could be used to render different types of charts.</description>
+	<description>Shows how the chart themes could be used to change the look and feel of all chart types.</description>
 
 	<property name="class.name" value="ChartThemesApp" />
     <property name="file.name" value="${basedir}/build/reports/AllChartsReport" />
