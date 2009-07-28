@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -54,6 +55,7 @@ public class GenericElementApp
 	private static final String TASK_XML = "xml";
 	private static final String TASK_XML_EMBED = "xmlEmbed";
 	private static final String TASK_HTML = "html";
+	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_RUN = "run";
 	
 	
@@ -94,6 +96,23 @@ public class GenericElementApp
 				JasperExportManager.exportReportToHtmlFile(fileName);
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 			}
+			else if (TASK_XHTML.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
+				
+				JRXhtmlExporter exporter = new JRXhtmlExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
+			}
 			else if (TASK_RUN.equals(taskName))
 			{
 				JasperRunManager.runReportToHtmlFile(fileName, null, new JREmptyDataSource());
@@ -122,7 +141,7 @@ public class GenericElementApp
 	{
 		System.out.println( "GenericElementApp usage:" );
 		System.out.println( "\tjava GenericElementApp task file" );
-		System.out.println( "\tTasks : fill | print | xml | xmlEmbed | html | run" );
+		System.out.println( "\tTasks : fill | print | xml | xmlEmbed | html | xhtml | run" );
 	}
 
 
