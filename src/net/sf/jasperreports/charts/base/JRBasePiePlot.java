@@ -54,6 +54,11 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
 	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
 
+	/*
+	 * README
+	 * 
+	 * Make sure that all fields are read in readObject().
+	 */
 	protected Boolean circular = null;
 	protected String labelFormat = null;
 	protected String legendLabelFormat = null;
@@ -198,21 +203,26 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	 * This field is only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
-	private boolean isCircular = true;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		// this fixes a problem with JFreeChart that changed the default value of isCircular at some point.
 		// look into SVN history for details
 		ObjectInputStream.GetField fields = in.readFields();
-		isCircular = fields.get("isCircular", true);
 		//the following lines are required because above we called readFields(), not defaultReadObject()
-		labelFormat = (String)fields.get("labelFormat", null);
-		legendLabelFormat = (String)fields.get("legendLabelFormat", null);
+		labelFormat = (String) fields.get("labelFormat", null);
+		legendLabelFormat = (String) fields.get("legendLabelFormat", null);
+		itemLabel = (JRItemLabel) fields.get("itemLabel", null);
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)//FIXMETHEME check this in light of the above comment
+		PSEUDO_SERIAL_VERSION_UID = fields.get("PSEUDO_SERIAL_VERSION_UID", 0);
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
-			circular = Boolean.valueOf(isCircular);
+			boolean circularField = fields.get("isCircular", true);
+			circular = Boolean.valueOf(circularField);
+		}
+		else
+		{
+			circular = (Boolean) fields.get("circular", null);
 		}
 	}
 	
