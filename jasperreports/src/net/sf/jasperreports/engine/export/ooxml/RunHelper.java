@@ -34,6 +34,7 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -71,17 +72,29 @@ public class RunHelper extends BaseHelper
 	 */
 	public void export(JRStyle style, Map attributes, String text) throws IOException
 	{
-		writer.write("      <w:r>\n");
-		
-		exportProps(getAttributes(style), attributes);
-		
-		writer.write("<w:t xml:space=\"preserve\">");
 		if (text != null)
 		{
-			writer.write(JRStringUtil.xmlEncode(text));//FIXMEODT try something nicer for replace
+			writer.write("      <w:r>\n");
+			
+			exportProps(getAttributes(style), attributes);
+			
+			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
+			while(tkzer.hasMoreTokens())
+			{
+				String token = tkzer.nextToken();
+				if ("\n".equals(token))
+				{
+					writer.write("<w:br/>");
+				}
+				else
+				{
+					writer.write("<w:t xml:space=\"preserve\">");
+					writer.write(JRStringUtil.xmlEncode(token));//FIXMEODT try something nicer for replace
+					writer.write("</w:t>\n");
+				}
+			}
+			writer.write("      </w:r>\n");
 		}
-		writer.write("</w:t>\n");
-		writer.write("      </w:r>\n");
 	}
 
 	/**
