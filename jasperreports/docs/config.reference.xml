@@ -1551,6 +1551,7 @@ It specifies whether the encryption key is 128 bits.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_128_BIT_KEY</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1564,6 +1565,7 @@ It specifies whether the PDF document should be compressed.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_COMPRESSED</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1577,6 +1579,7 @@ It specifies whether the PDF document should contain an outline section.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_CREATE_BATCH_MODE_BOOKMARKS</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1590,6 +1593,7 @@ It specifies  whether the final PDF document should be encrypted.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_ENCRYPTED</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1629,6 +1633,7 @@ It specifies whether the PDF exporter should use a <a href="http://itext.ugent.b
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_FORCE_LINEBREAK_POLICY</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1642,7 +1647,7 @@ It specifies whether the rendering of SVG images using shapes on the PDF Graphic
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_FORCE_SVG_SHAPES</api>
     <default>true</default>
     <scope>Global | Report</scope>
-    <since>1.2.8</since>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1656,6 +1661,7 @@ Contains the user defined JavaScript piece of code to be inserted into the gener
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_JAVASCRIPT</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1669,6 +1675,7 @@ Contains the password belonging to the owner of the document, if it is encrypted
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_OWNER_PASSWORD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1682,6 +1689,7 @@ Contains the user password needed to open the document, if it is encrypted.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_USER_PASSWORD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1695,6 +1703,7 @@ Contains a <code>Character</code> instance representing the version of the gener
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_VERSION</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1708,6 +1717,7 @@ Specifies whether the exporter should put structure tags in the generated PDF.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_TAGGED</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>3.1.2</since>
   </configProperty>
   
   
@@ -1721,6 +1731,7 @@ Specifies the language that the exporter should put in the language tag of the g
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_TAG_LANGUAGE</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.1.2</since>
   </configProperty>
   
   
