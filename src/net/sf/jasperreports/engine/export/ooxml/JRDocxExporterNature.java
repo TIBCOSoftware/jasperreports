@@ -61,13 +61,5 @@ public class JRDocxExporterNature extends JROfficeOpenXmlExporterNature
 	{
 		return deepGrid;
 	}
-	
-	/**
-	 * 
-	 */
-	protected byte getOfficeOpenXmlNature() 
-	{
-		return JROfficeOpenXmlExporterNature.ODT_NATURE;
-	}
 
 }

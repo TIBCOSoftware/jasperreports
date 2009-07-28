@@ -32,7 +32,6 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 
 
@@ -140,11 +139,6 @@ public class ParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(String styleNameRef) throws IOException
-	{
-		throw new JRRuntimeException("FIXMEDOCX why should we implement this?");
-	}
-
 	public void exportEmptyParagraph() throws IOException
 	{
 		writer.write("     <w:p><w:pPr>\n");
