@@ -145,8 +145,6 @@ public class CellHelper extends BaseHelper
 		exportBackcolor(JRElement.MODE_OPAQUE, gridCell.getBackcolor());//FIXMEDOCX check this
 		
 		borderHelper.export(gridCell.getBox());
-
-		//export(null);
 	}
 
 	

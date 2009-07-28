@@ -44,10 +44,6 @@ import net.sf.jasperreports.engine.export.ExporterNature;
  */
 public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 {
-	
-	public static final byte ODT_NATURE = 1;//FIXMEDOCX
-	public static final byte ODS_NATURE = 2;
-	
 	protected ExporterFilter filter = null;
 
 	/**
@@ -119,6 +115,4 @@ public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 	{
 		return false;
 	}
-	
-	protected abstract byte getOfficeOpenXmlNature();
 }
