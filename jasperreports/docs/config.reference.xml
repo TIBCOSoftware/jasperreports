@@ -1173,6 +1173,7 @@ to measure a single text element before giving up.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_ATTEMPTS</api>
     <default>20</default>
     <scope>Global</scope>
+    <since>3.0.0</since>
   </configProperty>
   
   
@@ -1189,6 +1190,7 @@ between reattempts (see <api href="net/sf/jasperreports/engine/util/JdkGlyphFixT
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_ATTEMPT_SLEEP</api>
     <default>0</default>
     <scope>Global</scope>
+    <since>3.0.0</since>
   </configProperty>
   
   
@@ -1205,6 +1207,7 @@ exception stacktraces in some cases.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_CATCH_EMPTY_STACKTRACE</api>
     <default>false</default>
     <scope>Global</scope>
+    <since>3.0.0</since>
   </configProperty>
   
   
@@ -1307,6 +1310,7 @@ For example: <code>net.sf.jasperreports.export.filter.factory.origin</code> indi
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/DefaultExporterFilterFactory.html#PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.0.1</since>
   </configProperty>
   
   
@@ -1318,6 +1322,7 @@ A property that gives the generic default filter factory class name.    </descri
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_DEFAULT_FILTER_FACTORY</api>
     <default><code>net.sf.jasperreports.engine.export.DefaultExporterFilterFactory</code></default>
     <scope>Global | Report</scope>
+    <since>3.0.1</since>
   </configProperty>
   
   
@@ -1337,6 +1342,7 @@ If this property is not defined for a specific exporter, the generic
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY</api>
     <default><api href="net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_DEFAULT_FILTER_FACTORY">PROPERTY_DEFAULT_FILTER_FACTORY</api> 's default value.</default>
     <scope>Global</scope>
+    <since>3.0.1</since>
   </configProperty>
   
   
@@ -1349,6 +1355,7 @@ Property whose value is used as default for the <api href="net/sf/jasperreports/
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_CHARACTER_ENCODING</api>
     <default>UTF-8</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
