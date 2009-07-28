@@ -544,24 +544,11 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 		pen.setLineStyle(line.getLinePen().getLineStyle());
 		pen.setLineWidth(line.getLinePen().getLineWidth());
 
-		docWriter.write("    <w:tc> \r\n");
-		docWriter.write("     <w:tcPr> \r\n");
-		if (gridCell.getColSpan() > 1)
-		{
-			docWriter.write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" /> \r\n");
-		}
-		if (gridCell.getRowSpan() > 1)
-		{
-			docWriter.write("      <w:vMerge w:val=\"restart\" /> \r\n");
-		}
+		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
 		
-		tableHelper.getCellHelper().getBorderHelper().export(box);
-
-		docWriter.write("     </w:tcPr> \r\n");
-
+		tableHelper.getCellHelper().exportHeader(line, gridCell);
 		docWriter.write("<w:p/>");
-
-		docWriter.write("    </w:tc> \r\n");
+		tableHelper.getCellHelper().exportFooter();
 	}
 
 
@@ -570,6 +557,14 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	 */
 	protected void exportRectangle(TableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
 	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = box.getPen();
+		pen.setLineColor(rectangle.getLinePen().getLineColor());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyle());
+		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
+		
 		tableHelper.getCellHelper().exportHeader(rectangle, gridCell);
 		docWriter.write("<w:p/>");
 		tableHelper.getCellHelper().exportFooter();
@@ -581,19 +576,16 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	 */
 	protected void exportEllipse(TableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
 	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = box.getPen();
+		pen.setLineColor(ellipse.getLinePen().getLineColor());
+		pen.setLineStyle(ellipse.getLinePen().getLineStyle());
+		pen.setLineWidth(ellipse.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
+		
 		tableHelper.getCellHelper().exportHeader(ellipse, gridCell);
 		docWriter.write("<w:p/>");
-//		tempBodyWriter.write("<text:p>");
-//		insertPageAnchor();
-//		tempBodyWriter.write(
-//			"<draw:ellipse text:anchor-type=\"paragraph\" "
-//			+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" "
-//			+ "svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\" "
-//			+ "svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\" "
-//			+ "svg:x=\"0in\" "
-//			+ "svg:y=\"0in\">"
-//			+ "<text:p/></draw:ellipse></text:p>"
-//			);
 		tableHelper.getCellHelper().exportFooter();
 	}
 

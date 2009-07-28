@@ -99,9 +99,6 @@ public class TableHelper extends BaseHelper
 		writer.write("  <w:tbl> \r\n");
 		writer.write("   <w:tblPr> \r\n");
 		writer.write("    <w:tblLayout w:type=\"fixed\"/> \r\n");
-//		writer.write("    <w:tblStyle w:val=\"TableNormal\" /> \r\n");
-//		writer.write("    <w:tblW w:w=\"0\" w:type=\"pct\" /> \r\n");
-//		writer.write("    <w:tblLook w:val=\"04A0\" /> \r\n");
 		writer.write("   </w:tblPr> \r\n");
 		writer.write("   <w:tblGrid> \r\n");
 		for(int col = 1; col < xCuts.size(); col++)
