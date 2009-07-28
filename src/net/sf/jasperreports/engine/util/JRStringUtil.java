@@ -47,7 +47,7 @@ public class JRStringUtil
 	protected static final String JAVA_IDENTIFIER_PREFIX = "j";
 
 	/**
-	 * This method replaces all occurences of the CR character with the LF character, 
+	 * This method replaces all occurrences of the CR character with the LF character, 
 	 * except when the CR is immediately followed by a LF (CRLF sequences), in which case the CR is removed.
 	 */
 	public static String replaceCRwithLF(String text)
