@@ -185,7 +185,7 @@
       <property ref="net.sf.jasperreports.file.buffer.os.memory.threshold"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.sleep"/>
-      <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stakctrace"/>
+      <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace"/>
       <property ref="net.sf.jasperreports.properties"/>
       <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
     </content>
@@ -1183,9 +1183,9 @@ between reattempts (see <api href="net/sf/jasperreports/engine/util/JdkGlyphFixT
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stakctrace -->
+  <!-- net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace -->
   
-  <configProperty name="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stakctrace">
+  <configProperty name="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace">
     <description>
 A property that specifies whether <code>java.lang.NullPointer</code> exceptions with empty stacktraces 
 should be caught.
