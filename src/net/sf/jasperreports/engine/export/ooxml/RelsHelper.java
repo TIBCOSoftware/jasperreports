@@ -29,24 +29,27 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-
-import net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterNature;
-import net.sf.jasperreports.engine.export.zip.AbstractZip;
-import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id: OoxmlZip.java 2908 2009-07-21 14:32:01Z teodord $
  */
-public class RelsHelper
+public class RelsHelper extends BaseHelper
 {
 
 	/**
 	 * 
 	 */
-	public static void exportHeader(Writer writer) throws IOException
+	public RelsHelper(Writer writer)
+	{
+		super(writer);
+	}
+
+	/**
+	 * 
+	 */
+	public void exportHeader() throws IOException
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		writer.write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">\n");
@@ -56,15 +59,23 @@ public class RelsHelper
 	/**
 	 * 
 	 */
-	public static void exportImage(String imageName, Writer writer) throws IOException
+	public void exportImage(String imageName) throws IOException
 	{
 		writer.write(" <Relationship Id=\"" + imageName + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image\" Target=\"media/" + imageName + ".jpeg\"/>\n");
 	}
 	
+//	/**
+//	 * 
+//	 */
+//	public void exportHyperlink(String id, String href) throws IOException
+//	{
+//		writer.write(" <Relationship Id=\"" + id + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink\" Target=\"" + href + "\"/>\n");
+//	}
+	
 	/**
 	 * 
 	 */
-	public static void exportFooter(Writer writer) throws IOException
+	public void exportFooter() throws IOException
 	{
 		writer.write("</Relationships>\n");
 	}
