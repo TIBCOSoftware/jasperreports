@@ -108,6 +108,11 @@ public class JRFillHyperlinkHelper
 			JRFillExpressionEvaluator expressionEvaluator,
 			byte evaluationType) throws JRException
 	{
+		if (hyperlink == null)
+		{
+			return null;
+		}
+		
 		JRBasePrintHyperlink printHyperlink = new JRBasePrintHyperlink();
 		printHyperlink.setLinkType(hyperlink.getLinkType());
 		printHyperlink.setLinkTarget(hyperlink.getLinkTarget());

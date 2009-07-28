@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 
 /**
  * A fill context provides access to data and functionality related to a
@@ -42,7 +43,7 @@ import net.sf.jasperreports.engine.JRStyle;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface FillContext
+public interface FillContext extends JRFillExpressionEvaluator
 {
 	
 	/**
