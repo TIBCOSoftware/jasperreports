@@ -1383,6 +1383,7 @@ Contains the character or sequence of characters used to delimit two fields on t
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#PROPERTY_FIELD_DELIMITER</api>
     <default>,</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1396,6 +1397,7 @@ Contains the character or sequence of characters used to delimit two records.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#PROPERTY_RECORD_DELIMITER</api>
     <default>\n</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1424,6 +1426,7 @@ If the property is <code>true</code>, any page in the document will be exported 
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_IGNORE_PAGE_MARGINS</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.5</since>
   </configProperty>
   
   
@@ -1451,6 +1454,7 @@ If set to <code>false</code>, the frame content will be integrated into the mast
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
     <default>true</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1464,6 +1468,7 @@ If set to <code>true</code>, blank lines that sometimes appear between rows as s
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1477,6 +1482,7 @@ A String value specifying the unit to use when measuring lengths or font size.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_SIZE_UNIT</api>
     <default>px</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1490,6 +1496,7 @@ It specifies whether the export engine should use small transparent spacer image
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_USING_IMAGES_TO_ALIGN</api>
     <default>true</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1503,6 +1510,7 @@ It specifies whether the report page background should be forced to white.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
     <default>true</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1516,6 +1524,7 @@ It specifies whether the export engine should force text wrapping by breaking wo
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_WRAP_BREAK_WORD</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
