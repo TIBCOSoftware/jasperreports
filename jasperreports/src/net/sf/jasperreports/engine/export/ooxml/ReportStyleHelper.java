@@ -73,18 +73,18 @@ public class ReportStyleHelper extends BaseHelper
 	public void export(List jasperPrintList) throws IOException
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		writer.write("<w:styles \r\n");
-		writer.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" \r\n");
-		writer.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"> \r\n");
-		writer.write(" <w:docDefaults> \r\n");
-		writer.write("  <w:rPrDefault> \r\n");
-		writer.write("   <w:rPr> \r\n");
-		writer.write("    <w:rFonts w:ascii=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> \r\n");
-		writer.write("   </w:rPr> \r\n");
-		writer.write("  </w:rPrDefault> \r\n");
-		writer.write("  <w:pPrDefault> \r\n");
-		writer.write("  </w:pPrDefault> \r\n");
-		writer.write(" </w:docDefaults> \r\n");
+		writer.write("<w:styles\n");
+		writer.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"\n");
+		writer.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">\n");
+		writer.write(" <w:docDefaults>\n");
+		writer.write("  <w:rPrDefault>\n");
+		writer.write("   <w:rPr>\n");
+		writer.write("    <w:rFonts w:ascii=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/>\n");
+		writer.write("   </w:rPr>\n");
+		writer.write("  </w:rPrDefault>\n");
+		writer.write("  <w:pPrDefault>\n");
+		writer.write("  </w:pPrDefault>\n");
+		writer.write(" </w:docDefaults>\n");
 
 		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
@@ -104,7 +104,7 @@ public class ReportStyleHelper extends BaseHelper
 			}
 		}
 
-		writer.write("</w:styles> \r\n");
+		writer.write("</w:styles>\n");
 	}
 	
 	/**
@@ -112,14 +112,14 @@ public class ReportStyleHelper extends BaseHelper
 	 */
 	private void exportHeader(JRStyle style) throws IOException
 	{
-		//writer.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\"> \r\n");
-		writer.write(" <w:style w:type=\"paragraph\" w:styleId=\"" + style.getName() + "\"> \r\n");
-		writer.write("  <w:name w:val=\"" + style.getName() + "\" /> \r\n");
-		writer.write("  <w:qFormat /> \r\n");
+		//writer.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\">\n");
+		writer.write(" <w:style w:type=\"paragraph\" w:styleId=\"" + style.getName() + "\">\n");
+		writer.write("  <w:name w:val=\"" + style.getName() + "\" />\n");
+		writer.write("  <w:qFormat />\n");
 		String styleNameReference = style.getStyle() == null ? null : style.getStyle().getName();//FIXMEDOCX why getStyleNameReference is not working?
 		if (styleNameReference != null)
 		{
-			writer.write("  <w:basedOn w:val=\"" + styleNameReference + "\" /> \r\n");
+			writer.write("  <w:basedOn w:val=\"" + styleNameReference + "\" />\n");
 		}
 	}
 	
@@ -128,7 +128,7 @@ public class ReportStyleHelper extends BaseHelper
 	 */
 	private void exportFooter() throws IOException
 	{
-		writer.write(" </w:style> \r\n");
+		writer.write(" </w:style>\n");
 	}
 	
 }

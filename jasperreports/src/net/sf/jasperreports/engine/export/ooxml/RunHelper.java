@@ -71,7 +71,7 @@ public class RunHelper extends BaseHelper
 	 */
 	public void export(JRStyle style, Map attributes, String text) throws IOException
 	{
-		writer.write("      <w:r> \r\n");
+		writer.write("      <w:r>\n");
 		
 		exportProps(getAttributes(style), attributes);
 		
@@ -80,8 +80,8 @@ public class RunHelper extends BaseHelper
 		{
 			writer.write(JRStringUtil.xmlEncode(text));//FIXMEODT try something nicer for replace
 		}
-		writer.write("</w:t> \r\n");
-		writer.write("      </w:r> \r\n");
+		writer.write("</w:t>\n");
+		writer.write("      </w:r>\n");
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class RunHelper extends BaseHelper
 	 */
 	public void exportProps(Map parentAttrs,  Map attrs) throws IOException
 	{
-		writer.write("       <w:rPr> \r\n");
+		writer.write("       <w:rPr>\n");
 
 		Object value = attrs.get(TextAttribute.FAMILY);
 		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
@@ -124,7 +124,7 @@ public class RunHelper extends BaseHelper
 			{
 				fontFamily = fontFamilyAttr;
 			}
-			writer.write("        <w:rFonts w:ascii=\"" + fontFamily + "\" /> \r\n");
+			writer.write("        <w:rFonts w:ascii=\"" + fontFamily + "\" />\n");
 		}
 		
 		value = attrs.get(TextAttribute.FOREGROUND);
@@ -132,7 +132,7 @@ public class RunHelper extends BaseHelper
 		
 		if (value != null && !value.equals(oldValue))
 		{
-			writer.write("        <w:color w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" /> \r\n");
+			writer.write("        <w:color w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
 		}
 
 		value = attrs.get(TextAttribute.BACKGROUND);
@@ -141,7 +141,7 @@ public class RunHelper extends BaseHelper
 		if (value != null && !value.equals(oldValue))
 		{
 			//FIXME: the highlight does not accept the color hexadecimal expression, but only few color names
-//			writer.write("        <w:highlight w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" /> \r\n");
+//			writer.write("        <w:highlight w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
 		}
 
 		value = attrs.get(TextAttribute.SIZE);
@@ -149,7 +149,7 @@ public class RunHelper extends BaseHelper
 
 		if (value != null && !value.equals(oldValue))
 		{
-			writer.write("        <w:sz w:val=\"" + (2 * ((Float)value).floatValue()) + "\" /> \r\n");
+			writer.write("        <w:sz w:val=\"" + (2 * ((Float)value).floatValue()) + "\" />\n");
 		}
 		
 		value = attrs.get(TextAttribute.WEIGHT);
@@ -157,7 +157,7 @@ public class RunHelper extends BaseHelper
 
 		if (value != null && !value.equals(oldValue))
 		{
-			writer.write("        <w:b w:val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/> \r\n");
+			writer.write("        <w:b w:val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
 		}
 
 		value = attrs.get(TextAttribute.POSTURE);
@@ -165,7 +165,7 @@ public class RunHelper extends BaseHelper
 
 		if (value != null && !value.equals(oldValue))
 		{
-			writer.write("        <w:i w:val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/> \r\n");
+			writer.write("        <w:i w:val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
 		}
 
 
@@ -177,7 +177,7 @@ public class RunHelper extends BaseHelper
 			|| (value != null && !value.equals(oldValue))
 			)
 		{
-			writer.write("        <w:u w:val=\"" + (value == null ? "none" : "single") + "\"/> \r\n");
+			writer.write("        <w:u w:val=\"" + (value == null ? "none" : "single") + "\"/>\n");
 		}
 		
 		value = attrs.get(TextAttribute.STRIKETHROUGH);
@@ -188,21 +188,21 @@ public class RunHelper extends BaseHelper
 			|| (value != null && !value.equals(oldValue))
 			)
 		{
-			writer.write("        <w:strike w:val=\"" + (value != null) + "\"/> \r\n");
+			writer.write("        <w:strike w:val=\"" + (value != null) + "\"/>\n");
 		}
 
 		value = attrs.get(TextAttribute.SUPERSCRIPT);
 
 		if (TextAttribute.SUPERSCRIPT_SUPER.equals(value))
 		{
-			writer.write("        <w:vertAlign w:val=\"superscript\" /> \r\n");
+			writer.write("        <w:vertAlign w:val=\"superscript\" />\n");
 		}
 		else if (TextAttribute.SUPERSCRIPT_SUB.equals(value))
 		{
-			writer.write("        <w:vertAlign w:val=\"subscript\" /> \r\n");
+			writer.write("        <w:vertAlign w:val=\"subscript\" />\n");
 		}
 
-		writer.write("       </w:rPr> \r\n");
+		writer.write("       </w:rPr>\n");
 	}
 
 

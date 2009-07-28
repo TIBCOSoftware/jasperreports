@@ -641,7 +641,7 @@ public class JROdtFrameExporter extends JRAbstractExporter
 			{
 				tempStyleWriter.write(" style:writing-mode=\"" + runDirection + "\"");
 			}
-			tempStyleWriter.write("> \r\n");
+			tempStyleWriter.write(">\n");
 			tempStyleWriter.write("</style:paragraph-properties>\n");
 			tempStyleWriter.write("</style:style>\n");
 		}

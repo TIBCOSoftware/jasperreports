@@ -253,16 +253,16 @@ public class ParagraphStyle extends Style
 		{
 			styleWriter.write(" style:writing-mode=\"" + runDirection + "\"");
 		}
-		styleWriter.write("> \r\n");
+		styleWriter.write(">\n");
 		styleWriter.write("</style:paragraph-properties>\n");
 		styleWriter.write("<style:text-properties");
 		styleWriter.write(" style:text-rotation-angle=\"" + textRotation + "\"");
-		styleWriter.write("> \r\n");
+		styleWriter.write(">\n");
 		styleWriter.write("</style:text-properties>\n");
 		
 //        styleWriter.write("<style:properties");
 //        styleWriter.write(" style:rotation-align=\"" + rotationAlignment + "\"");
-//        styleWriter.write("> \r\n");
+//        styleWriter.write(">\n");
 //        styleWriter.write("</style:properties>\n");
 //
 
