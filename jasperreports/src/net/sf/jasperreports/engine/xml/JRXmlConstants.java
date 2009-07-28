@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,7 +100,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRElement.POSITION_TYPE_FLOAT),                  POSITION_TYPE_FLOAT);
 			map.put(new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP),    POSITION_TYPE_FIX_RELATIVE_TO_TOP);
 			map.put(new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM), POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM);
-			positionTypeMap = map;
+			positionTypeMap = Collections.unmodifiableMap(map);
 		}
 
 		return positionTypeMap;
@@ -122,7 +123,7 @@ public class JRXmlConstants
 			map.put(MODE_TRANSPARENT, new Byte(JRElement.MODE_TRANSPARENT));
 			map.put(new Byte(JRElement.MODE_OPAQUE),      MODE_OPAQUE);
 			map.put(new Byte(JRElement.MODE_TRANSPARENT), MODE_TRANSPARENT);
-			modeMap = map;
+			modeMap = Collections.unmodifiableMap(map);
 		}
 
 		return modeMap;
@@ -178,7 +179,7 @@ public class JRXmlConstants
 			map.put(Color.red,        COLOR_RED);
 			map.put(Color.yellow,     COLOR_YELLOW);
 			map.put(Color.white,      COLOR_WHITE);
-			colorMap = map;
+			colorMap = Collections.unmodifiableMap(map);
 		}
 
 		return colorMap;
@@ -207,7 +208,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_CENTER),    HORIZONTAL_ALIGN_CENTER);
 			map.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_RIGHT),     HORIZONTAL_ALIGN_RIGHT);
 			map.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED), HORIZONTAL_ALIGN_JUSTIFIED);
-			horizontalAlignMap = map;
+			horizontalAlignMap = Collections.unmodifiableMap(map);
 		}
 
 		return horizontalAlignMap;
@@ -241,7 +242,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRAlignment.VERTICAL_ALIGN_TOP),    VERTICAL_ALIGN_TOP);
 			map.put(new Byte(JRAlignment.VERTICAL_ALIGN_MIDDLE), VERTICAL_ALIGN_MIDDLE);
 			map.put(new Byte(JRAlignment.VERTICAL_ALIGN_BOTTOM), VERTICAL_ALIGN_BOTTOM);
-			verticalAlignMap = map;
+			verticalAlignMap = Collections.unmodifiableMap(map);
 		}
 
 		return verticalAlignMap;
@@ -270,7 +271,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRTextElement.ROTATION_LEFT),  		ROTATION_LEFT);
 			map.put(new Byte(JRTextElement.ROTATION_RIGHT), 		ROTATION_RIGHT);
 			map.put(new Byte(JRTextElement.ROTATION_UPSIDE_DOWN), 	ROTATION_UPSIDE_DOWN);
-			rotationMap = map;
+			rotationMap = Collections.unmodifiableMap(map);
 		}
 
 		return rotationMap;
@@ -293,7 +294,7 @@ public class JRXmlConstants
 			map.put(BREAK_TYPE_COLUMN, new Byte(JRBreak.TYPE_COLUMN));
 			map.put(new Byte(JRBreak.TYPE_PAGE),   BREAK_TYPE_PAGE);
 			map.put(new Byte(JRBreak.TYPE_COLUMN), BREAK_TYPE_COLUMN);
-			breakTypeMap = map;
+			breakTypeMap = Collections.unmodifiableMap(map);
 		}
 
 		return breakTypeMap;
@@ -316,7 +317,7 @@ public class JRXmlConstants
 			map.put(RUN_DIRECTION_RTL, new Byte(JRPrintText.RUN_DIRECTION_RTL));
 			map.put(new Byte(JRPrintText.RUN_DIRECTION_LTR), RUN_DIRECTION_LTR);
 			map.put(new Byte(JRPrintText.RUN_DIRECTION_RTL), RUN_DIRECTION_RTL);
-			runDirectionMap = map;
+			runDirectionMap = Collections.unmodifiableMap(map);
 		}
 
 		return runDirectionMap;
@@ -342,7 +343,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRTextElement.LINE_SPACING_SINGLE), LINE_SPACING_SINGLE);
 			map.put(new Byte(JRTextElement.LINE_SPACING_1_1_2),  LINE_SPACING_1_1_2);
 			map.put(new Byte(JRTextElement.LINE_SPACING_DOUBLE), LINE_SPACING_DOUBLE);
-			lineSpacingMap = map;
+			lineSpacingMap = Collections.unmodifiableMap(map);
 		}
 
 		return lineSpacingMap;
@@ -365,7 +366,7 @@ public class JRXmlConstants
 			map.put(DIRECTION_BOTTOM_UP, new Byte(JRLine.DIRECTION_BOTTOM_UP));
 			map.put(new Byte(JRLine.DIRECTION_TOP_DOWN),  DIRECTION_TOP_DOWN);
 			map.put(new Byte(JRLine.DIRECTION_BOTTOM_UP), DIRECTION_BOTTOM_UP);
-			directionMap = map;
+			directionMap = Collections.unmodifiableMap(map);
 		}
 
 		return directionMap;
@@ -397,7 +398,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRImage.SCALE_IMAGE_RETAIN_SHAPE), SCALE_IMAGE_RETAIN_SHAPE);
 			map.put(new Byte(JRImage.SCALE_IMAGE_REAL_HEIGHT), SCALE_IMAGE_REAL_HEIGT);
 			map.put(new Byte(JRImage.SCALE_IMAGE_REAL_SIZE), SCALE_IMAGE_REAL_SIZE);
-			scaleImageMap = map;
+			scaleImageMap = Collections.unmodifiableMap(map);
 		}
 
 		return scaleImageMap;
@@ -423,7 +424,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRImage.ON_ERROR_TYPE_ERROR), ON_ERROR_TYPE_ERROR);
 			map.put(new Byte(JRImage.ON_ERROR_TYPE_BLANK), ON_ERROR_TYPE_BLANK);
 			map.put(new Byte(JRImage.ON_ERROR_TYPE_ICON),  ON_ERROR_TYPE_ICON);
-			onErrorTypeMap = map;
+			onErrorTypeMap = Collections.unmodifiableMap(map);
 		}
 
 		return onErrorTypeMap;
@@ -449,7 +450,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRElement.STRETCH_TYPE_NO_STRETCH),                 STRETCH_TYPE_NO_STRETCH);
 			map.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT), STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT);
 			map.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT),    STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT);
-			stretchTypeMap = map;
+			stretchTypeMap = Collections.unmodifiableMap(map);
 		}
 
 		return stretchTypeMap;
@@ -478,7 +479,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRPen.LINE_STYLE_DASHED), LINE_STYLE_DASHED);
 			map.put(new Byte(JRPen.LINE_STYLE_DOTTED), LINE_STYLE_DOTTED);
 			map.put(new Byte(JRPen.LINE_STYLE_DOUBLE), lINE_STYLE_DOUBLE);
-			lineStyleMap = map;
+			lineStyleMap = Collections.unmodifiableMap(map);
 		}
 
 		return lineStyleMap;
@@ -513,7 +514,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRGraphicElement.PEN_2_POINT),  PEN_2_POINT);
 			map.put(new Byte(JRGraphicElement.PEN_4_POINT),  PEN_4_POINT);
 			map.put(new Byte(JRGraphicElement.PEN_DOTTED),   PEN_DOTTED);
-			penMap = map;
+			penMap = Collections.unmodifiableMap(map);
 		}
 
 		return penMap;
@@ -533,7 +534,7 @@ public class JRXmlConstants
 			Map map = new HashMap(2);
 			map.put(FILL_SOLID, new Byte(JRGraphicElement.FILL_SOLID));
 			map.put(new Byte(JRGraphicElement.FILL_SOLID), FILL_SOLID);
-			fillMap = map;
+			fillMap = Collections.unmodifiableMap(map);
 		}
 
 		return fillMap;
@@ -565,7 +566,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRVariable.RESET_TYPE_PAGE),   RESET_TYPE_PAGE);
 			map.put(new Byte(JRVariable.RESET_TYPE_COLUMN), RESET_TYPE_COLUMN);
 			map.put(new Byte(JRVariable.RESET_TYPE_GROUP),  RESET_TYPE_GROUP);
-			resetTypeMap = map;
+			resetTypeMap = Collections.unmodifiableMap(map);
 		}
 
 		return resetTypeMap;
@@ -615,7 +616,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRVariable.CALCULATION_SYSTEM),             CALCULATION_SYSTEM);
 			map.put(new Byte(JRVariable.CALCULATION_FIRST),              CALCULATION_FIRST);
 			map.put(new Byte(JRVariable.CALCULATION_DISTINCT_COUNT),     CALCULATION_DISTINCT_COUNT);
-			calculationMap = map;
+			calculationMap = Collections.unmodifiableMap(map);
 		}
 
 		return calculationMap;
@@ -638,7 +639,7 @@ public class JRXmlConstants
 			map.put(PRINT_ORDER_HORIZONTAL, new Byte(JRReport.PRINT_ORDER_HORIZONTAL));
 			map.put(new Byte(JRReport.PRINT_ORDER_VERTICAL),   PRINT_ORDER_VERTICAL);
 			map.put(new Byte(JRReport.PRINT_ORDER_HORIZONTAL), PRINT_ORDER_HORIZONTAL);
-			printOrderMap = map;
+			printOrderMap = Collections.unmodifiableMap(map);
 		}
 
 		return printOrderMap;
@@ -661,7 +662,7 @@ public class JRXmlConstants
 			map.put(ORIENTATION_LANDSCAPE, new Byte(JRReport.ORIENTATION_LANDSCAPE));
 			map.put(new Byte(JRReport.ORIENTATION_PORTRAIT),  ORIENTATION_PORTRAIT);
 			map.put(new Byte(JRReport.ORIENTATION_LANDSCAPE), ORIENTATION_LANDSCAPE);
-			orientationMap = map;
+			orientationMap = Collections.unmodifiableMap(map);
 		}
 
 		return orientationMap;
@@ -690,7 +691,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE),             WHEN_NO_DATA_TYPE_BLANK_PAGE);
 			map.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL), WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL);
 			map.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION),        WHEN_NO_DATA_TYPE_NO_DATA_SECTION);
-			whenNoDataTypeMap = map;
+			whenNoDataTypeMap = Collections.unmodifiableMap(map);
 		}
 
 		return whenNoDataTypeMap;
@@ -728,7 +729,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRExpression.EVALUATION_TIME_GROUP),  EVALUATION_TIME_GROUP);
 			map.put(new Byte(JRExpression.EVALUATION_TIME_BAND),  EVALUATION_TIME_BAND);
 			map.put(new Byte(JRExpression.EVALUATION_TIME_AUTO),  EVALUATION_TIME_AUTO);
-			evaluationTimeMap = map;
+			evaluationTimeMap = Collections.unmodifiableMap(map);
 		}
 
 		return evaluationTimeMap;
@@ -767,7 +768,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE),    HYPERLINK_TYPE_LOCAL_PAGE);
 			map.put(new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR), HYPERLINK_TYPE_REMOTE_ANCHOR);
 			map.put(new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE),   HYPERLINK_TYPE_REMOTE_PAGE);
-			hyperlinkTypeMap = map;
+			hyperlinkTypeMap = Collections.unmodifiableMap(map);
 		}
 
 		return hyperlinkTypeMap;
@@ -799,7 +800,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK), HYPERLINK_TARGET_BLANK);
 			map.put(new Byte(JRHyperlink.HYPERLINK_TARGET_PARENT), HYPERLINK_TARGET_PARENT);
 			map.put(new Byte(JRHyperlink.HYPERLINK_TARGET_TOP), HYPERLINK_TARGET_TOP);
-			hyperlinkTargetMap = map;
+			hyperlinkTargetMap = Collections.unmodifiableMap(map);
 		}
 
 		return hyperlinkTargetMap;
@@ -829,7 +830,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRChart.EDGE_BOTTOM), EDGE_BOTTOM);
 			map.put(new Byte(JRChart.EDGE_LEFT),   EDGE_LEFT);
 			map.put(new Byte(JRChart.EDGE_RIGHT),  EDGE_RIGHT);
-			chartEdgeMap = map;
+			chartEdgeMap = Collections.unmodifiableMap(map);
 		}
 
 		return chartEdgeMap;
@@ -860,7 +861,7 @@ public class JRXmlConstants
 			map.put(ORIENTATION_VERTICAL,   PlotOrientation.VERTICAL);
 			map.put(PlotOrientation.HORIZONTAL, ORIENTATION_HORIZONTAL);
 			map.put(PlotOrientation.VERTICAL,   ORIENTATION_VERTICAL);
-			plotOrientationMap = map;
+			plotOrientationMap = Collections.unmodifiableMap(map);
 		}
 
 		return plotOrientationMap;
@@ -883,7 +884,7 @@ public class JRXmlConstants
 			map.put(SORT_ORDER_DESCENDING, new Byte(JRSortField.SORT_ORDER_DESCENDING));
 			map.put(new Byte(JRSortField.SORT_ORDER_ASCENDING),  SORT_ORDER_ASCENDING);
 			map.put(new Byte(JRSortField.SORT_ORDER_DESCENDING), SORT_ORDER_DESCENDING);
-			sortOrderMap = map;
+			sortOrderMap = Collections.unmodifiableMap(map);
 		}
 
 		return sortOrderMap;
@@ -905,7 +906,7 @@ public class JRXmlConstants
 			map.put( new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ), SCALE_ON_BOTH_AXES );
 			map.put( new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ), SCALE_ON_DOMAIN_AXIS );
 			map.put( new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ), SCALE_ON_RANGE_AXIS );
-			scaleTypeMap = map;
+			scaleTypeMap = Collections.unmodifiableMap(map);
 		}
 
 		return scaleTypeMap;
@@ -1012,7 +1013,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY), WHEN_RESOURCE_MISSING_TYPE_EMPTY);
 			map.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY), WHEN_RESOURCE_MISSING_TYPE_KEY);
 			map.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR), WHEN_RESOURCE_MISSING_TYPE_ERROR);
-			whenResourceMissingTypeMap = map;
+			whenResourceMissingTypeMap = Collections.unmodifiableMap(map);
 		}
 
 		return whenResourceMissingTypeMap;
@@ -1042,7 +1043,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRMeterPlot.SHAPE_CIRCLE), METER_SHAPE_CIRCLE);
 			map.put(new Byte(JRMeterPlot.SHAPE_PIE), METER_SHAPE_PIE);
 			map.put(new Byte(JRMeterPlot.SHAPE_DIAL), METER_SHAPE_DIAL);
-			meterShapeMap = map;
+			meterShapeMap = Collections.unmodifiableMap(map);
 		}
 
 		return meterShapeMap;
@@ -1072,7 +1073,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRThermometerPlot.LOCATION_LEFT), THERMOMETER_VALUE_LOCATION_LEFT);
 			map.put(new Byte(JRThermometerPlot.LOCATION_RIGHT), THERMOMETER_VALUE_LOCATION_RIGHT);
 			map.put(new Byte(JRThermometerPlot.LOCATION_BULB), THERMOMETER_VALUE_LOCATION_BULB);
-			thermometerValueLocationMap = map;
+			thermometerValueLocationMap = Collections.unmodifiableMap(map);
 		}
 
 		return thermometerValueLocationMap;
@@ -1096,7 +1097,7 @@ public class JRXmlConstants
 			map.put(AXIS_POSITION_RIGHT_OR_BOTTOM, new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM));
 			map.put(new Byte(JRChartAxis.POSITION_LEFT_OR_TOP), AXIS_POSITION_LEFT_OR_TOP);
 			map.put(new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM), AXIS_POSITION_RIGHT_OR_BOTTOM);
-			axisPositionMap = map;
+			axisPositionMap = Collections.unmodifiableMap(map);
 		 }
 
 		 return axisPositionMap;
@@ -1120,7 +1121,7 @@ public class JRXmlConstants
 			map.put(CROSSTAB_BUCKET_ORDER_DESCENDING, new Byte(BucketDefinition.ORDER_DESCENDING));
 			map.put(new Byte(BucketDefinition.ORDER_ASCENDING), CROSSTAB_BUCKET_ORDER_ASCENDING);
 			map.put(new Byte(BucketDefinition.ORDER_DESCENDING), CROSSTAB_BUCKET_ORDER_DESCENDING);
-			crosstabBucketOrderMap = map;
+			crosstabBucketOrderMap = Collections.unmodifiableMap(map);
 		}
 
 		return crosstabBucketOrderMap;
@@ -1142,7 +1143,7 @@ public class JRXmlConstants
 			map.put(CROSSTAB_PERCENTAGE_GRAND_TOTAL, new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL));
 			map.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_NONE), CROSSTAB_PERCENTAGE_NONE);
 			map.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL), CROSSTAB_PERCENTAGE_GRAND_TOTAL);
-			crosstabPercentageMap = map;
+			crosstabPercentageMap = Collections.unmodifiableMap(map);
 		}
 
 		return crosstabPercentageMap;
@@ -1167,7 +1168,7 @@ public class JRXmlConstants
 			map.put(new Byte(BucketDefinition.TOTAL_POSITION_NONE), CROSSTAB_TOTAL_POSITION_NONE);
 			map.put(new Byte(BucketDefinition.TOTAL_POSITION_START), CROSSTAB_TOTAL_POSITION_START);
 			map.put(new Byte(BucketDefinition.TOTAL_POSITION_END), CROSSTAB_TOTAL_POSITION_END);
-			crosstabTotalPositionMap = map;
+			crosstabTotalPositionMap = Collections.unmodifiableMap(map);
 		}
 
 		return crosstabTotalPositionMap;
@@ -1195,7 +1196,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRCellContents.POSITION_Y_MIDDLE), CROSSTAB_ROW_POSITION_MIDDLE);
 			map.put(new Byte(JRCellContents.POSITION_Y_BOTTOM), CROSSTAB_ROW_POSITION_BOTTOM);
 			map.put(new Byte(JRCellContents.POSITION_Y_STRETCH), CROSSTAB_ROW_POSITION_STRETCH);
-			crosstabRowPositionMap = map;
+			crosstabRowPositionMap = Collections.unmodifiableMap(map);
 		}
 
 		return crosstabRowPositionMap;
@@ -1223,7 +1224,7 @@ public class JRXmlConstants
 			map.put(new Byte(JRCellContents.POSITION_X_CENTER), CROSSTAB_COLUMN_POSITION_CENTER);
 			map.put(new Byte(JRCellContents.POSITION_X_RIGHT), CROSSTAB_COLUMN_POSITION_RIGHT);
 			map.put(new Byte(JRCellContents.POSITION_X_STRETCH), CROSSTAB_COLUMN_POSITION_STRETCH);
-			crosstabColumnPositionMap = map;
+			crosstabColumnPositionMap = Collections.unmodifiableMap(map);
 		}
 
 		return crosstabColumnPositionMap;
@@ -1251,7 +1252,7 @@ public class JRXmlConstants
 			map.put(JRBand.SPLIT_TYPE_STRETCH,   SPLIT_TYPE_STRETCH);
 			map.put(JRBand.SPLIT_TYPE_PREVENT,   SPLIT_TYPE_PREVENT);
 			map.put(JRBand.SPLIT_TYPE_IMMEDIATE, SPLIT_TYPE_IMMEDIATE);
-			splitTypeMap = map;
+			splitTypeMap = Collections.unmodifiableMap(map);
 		}
 
 		return splitTypeMap;
@@ -1309,7 +1310,7 @@ public class JRXmlConstants
 			map.put(new Byte(JROrigin.LAST_PAGE_FOOTER), LAST_PAGE_FOOTER);
 			map.put(new Byte(JROrigin.SUMMARY),          SUMMARY);
 			map.put(new Byte(JROrigin.NO_DATA),          NO_DATA);
-			bandTypeMap = map;
+			bandTypeMap = Collections.unmodifiableMap(map);
 		}
 
 		return bandTypeMap;
