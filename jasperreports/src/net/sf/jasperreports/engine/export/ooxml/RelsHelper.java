@@ -59,9 +59,9 @@ public class RelsHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void exportImage(String imageName) throws IOException
+	public void exportImage(String imageName, String extension) throws IOException
 	{
-		writer.write(" <Relationship Id=\"" + imageName + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image\" Target=\"media/" + imageName + ".jpeg\"/>\n");
+		writer.write(" <Relationship Id=\"" + imageName + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image\" Target=\"media/" + imageName + "." + extension + "\"/>\n");
 	}
 	
 //	/**

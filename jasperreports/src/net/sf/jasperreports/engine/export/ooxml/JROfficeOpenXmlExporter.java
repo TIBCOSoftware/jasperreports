@@ -90,6 +90,7 @@ import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
 
 /**
@@ -359,16 +360,23 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 							);
 				}
 
+				String mimeType = JRTypeSniffer.getImageMimeType(renderer.getImageType());
+				if (mimeType == null)
+				{
+					mimeType = JRRenderable.MIME_TYPE_JPEG;
+				}
+				String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
+				
 				String imageName = getImageName(imageIndex);
 				
 				ooxmlZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 					new FileBufferedZipEntry(
-						"word/media/" + imageName + ".jpeg",//FIXMEDOCX deal with extension
+						"word/media/" + imageName + "." + extension,
 						renderer.getImageData()
 						)
 					);
 				
-				relsHelper.exportImage(imageName);
+				relsHelper.exportImage(imageName, extension);
 			}
 		}
 
