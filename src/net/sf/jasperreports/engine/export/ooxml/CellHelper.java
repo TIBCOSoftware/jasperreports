@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -118,8 +117,8 @@ public class CellHelper extends BaseHelper
 		
 		borderHelper.export(gridCell.getBox());
 
-		if (element instanceof JRCommonGraphicElement)
-			borderHelper.export(((JRCommonGraphicElement)element).getLinePen());
+//		if (element instanceof JRCommonGraphicElement)
+//			borderHelper.export(((JRCommonGraphicElement)element).getLinePen());
 		
 		JRAlignment align = element instanceof JRAlignment ? (JRAlignment)element : null;
 		if (align != null)
