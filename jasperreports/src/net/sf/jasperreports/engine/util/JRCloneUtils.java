@@ -27,6 +27,10 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRCloneable;
 
 /**
@@ -48,6 +52,33 @@ public class JRCloneUtils
 	public static Object nullSafeClone(JRCloneable original)
 	{
 		return original == null ? null : original.clone();
+	}
+	
+	/**
+	 * Clones a list of objects.
+	 * 
+	 * The list elements are assumed to implement {@link JRCloneable}.
+	 * 
+	 * @param items the list to clone
+	 * @return a new list which contains clones of the elements in the original list
+	 */
+	public static List cloneList(List items)
+	{
+		List clone;
+		if (items == null)
+		{
+			clone = null;
+		}
+		else
+		{
+			clone = new ArrayList(items.size());
+			for (Iterator it = items.iterator(); it.hasNext();)
+			{
+				JRCloneable item = (JRCloneable) it.next();
+				clone.add(item.clone());
+			}
+		}
+		return clone;
 	}
 	
 }
