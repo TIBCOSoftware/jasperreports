@@ -166,7 +166,7 @@
 		</java>
 	</target>
 
-	<target name="xhtml" description="Generates a XHTML version of the report by converting the .jrprint file.">
+	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}">
 			<arg value="xhtml"/>
 			<arg value="${file.name}.jrprint"/>

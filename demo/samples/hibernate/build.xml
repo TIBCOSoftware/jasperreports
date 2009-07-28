@@ -152,7 +152,7 @@
 		</java>
 	</target>
 
-	<target name="xhtml" description="Generates a XHTML version of the report by converting the .jrprint file.">
+	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="xhtml"/>
 			<arg value="${file.name}.jrprint"/>
@@ -225,7 +225,7 @@
 		<antcall target="csv" />
 		<antcall target="odt" />
 		<antcall target="docx" />
-		<antcall target="html" />
+		<antcall target="xhtml" />
 	</target>
 
 </project>

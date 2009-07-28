@@ -1,4 +1,4 @@
-<project name="barbecue" default="javac" basedir=".">
+<project name="genericelement" default="javac" basedir=".">
 
 	<description>Shows how generic elements embedded in reports can be managed at export time by custom handlers.</description>
 
@@ -90,6 +90,14 @@
 		</java>
 	</target>
 
+	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}">
+			<arg value="xhtml"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="run" description="Generates an HTML file by filling the .jasper report design. No intermediate .jrprint file is produced.">
 		<java classname="${class.name}">
 			<arg value="run"/>
@@ -127,6 +135,7 @@
 		<antcall target="xmlEmbed" />
 		<antcall target="xml" />
 		<antcall target="html" />
+		<antcall target="xhtml" />
 	</target>
 	
 </project>
