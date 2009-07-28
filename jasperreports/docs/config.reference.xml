@@ -1745,6 +1745,7 @@ Specifies whether row spans should be collapsed and merging cells across rows sh
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_COLLAPSE_ROW_SPAN</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1758,6 +1759,7 @@ This property is by default not set (<code>false</code>).
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JExcelApiExporterParameter.html#PROPERTY_CREATE_CUSTOM_PALETTE</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.0</since>
   </configProperty>
   
   
@@ -1771,6 +1773,7 @@ Specifies whether the exporter should take into consideration the type of the or
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_DETECT_CELL_TYPE</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1784,6 +1787,7 @@ Specifies whether the font size should be decreased so that texts fit into the s
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_FONT_SIZE_FIX_ENABLED</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1797,6 +1801,7 @@ Specifies whether cell borders should be ignored.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_IGNORE_CELL_BORDER</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1810,6 +1815,7 @@ Specifies whether graphic elements should be ignored and only text elements be e
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_IGNORE_GRAPHICS</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1823,6 +1829,7 @@ Specifies the maximum number of rows allowed to be exported to the same sheet. N
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_MAXIMUM_ROWS_PER_SHEET</api>
     <default>0</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1836,6 +1843,7 @@ Specifies whether each report page should be written in a different XLS sheet.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_ONE_PAGE_PER_SHEET</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1849,6 +1857,7 @@ Specifies whether the empty spacer columns should be removed or not.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1862,6 +1871,7 @@ Specifies whether the empty spacer rows should be removed or not.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
     <default>false</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1875,6 +1885,7 @@ Specifies whether the page background should be white or the default XLS backgro
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
     <default>true</default>
     <scope>Global | Report</scope>
+    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1904,6 +1915,7 @@ This property is by default not set (<code>null</code>).
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JExcelApiExporterParameter.html#PROPERTY_PASSWORD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.0.1</since>
   </configProperty>
   
   
@@ -2049,6 +2061,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRStyledText.html#PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED</api>
     <default>N/A</default>
     <scope>Global</scope>
+    <since>3.1.3</since>
   </configProperty>
   
   
@@ -2060,6 +2073,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_START_PAGE_INDEX</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.0.1</since>
   </configProperty>
   
   
@@ -2071,6 +2085,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_END_PAGE_INDEX</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.0.1</since>
   </configProperty>
   
   
@@ -2082,6 +2097,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_PAGE_COUNT</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.0.0</since>
   </configProperty>
   
   
@@ -2093,6 +2109,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.1.2</since>
   </configProperty>
   
   
@@ -2104,6 +2121,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.1.2</since>
   </configProperty>
   
   
@@ -2115,6 +2133,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.1.2</since>
   </configProperty>
   
   
@@ -2126,6 +2145,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.1.2</since>
   </configProperty>
   
   
@@ -2137,6 +2157,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.1.2</since>
   </configProperty>
   
   
@@ -2148,6 +2169,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.1.2</since>
   </configProperty>
   
   
@@ -2159,6 +2181,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.1.2</since>
   </configProperty>
   
   
@@ -2170,6 +2193,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.1.2</since>
   </configProperty>
   
   
@@ -2181,6 +2205,7 @@ These properties are by default not set.
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.1.2</since>
   </configProperty>
   
   
