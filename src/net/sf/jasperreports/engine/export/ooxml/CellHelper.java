@@ -81,17 +81,17 @@ public class CellHelper extends BaseHelper
 	 */
 	public void exportHeader(JRPrintElement element, JRExporterGridCell gridCell) throws IOException 
 	{
-		writer.write("    <w:tc> \r\n");
+		writer.write("    <w:tc>\n");
 		
 		exportPropsHeader();
 
 		if (gridCell.getColSpan() > 1)
 		{
-			writer.write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" /> \r\n");
+			writer.write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" />\n");
 		}
 		if (gridCell.getRowSpan() > 1)
 		{
-			writer.write("      <w:vMerge w:val=\"restart\" /> \r\n");
+			writer.write("      <w:vMerge w:val=\"restart\" />\n");
 		}
 		
 		exportProps(element, gridCell);
@@ -104,7 +104,7 @@ public class CellHelper extends BaseHelper
 	 */
 	public void exportFooter() throws IOException 
 	{
-		writer.write("    </w:tc> \r\n");
+		writer.write("    </w:tc>\n");
 	}
 
 
@@ -157,7 +157,7 @@ public class CellHelper extends BaseHelper
 	{
 		if (mode == JRElement.MODE_OPAQUE && backcolor != null)
 		{
-			writer.write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" /> \r\n");
+			writer.write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" />\n");
 		}
 	}
 
@@ -166,7 +166,7 @@ public class CellHelper extends BaseHelper
 	 */
 	private void exportPropsHeader() throws IOException
 	{
-		writer.write("      <w:tcPr> \r\n");
+		writer.write("      <w:tcPr>\n");
 	}
 	
 	/**
@@ -176,11 +176,11 @@ public class CellHelper extends BaseHelper
 	{
 		if (verticalAlignment != null)
 		{
-			writer.write("      <w:vAlign w:val=\"" + verticalAlignment +"\" /> \r\n");
+			writer.write("      <w:vAlign w:val=\"" + verticalAlignment +"\" />\n");
 		}
 		if (textRotation != null)
 		{
-			writer.write("   <w:textDirection w:val=\"" + textRotation + "\" /> \r\n");
+			writer.write("   <w:textDirection w:val=\"" + textRotation + "\" />\n");
 		}
 	}
 	
@@ -189,7 +189,7 @@ public class CellHelper extends BaseHelper
 	 */
 	private void exportPropsFooter() throws IOException
 	{
-		writer.write("      </w:tcPr> \r\n");
+		writer.write("      </w:tcPr>\n");
 	}
 	
 	/**

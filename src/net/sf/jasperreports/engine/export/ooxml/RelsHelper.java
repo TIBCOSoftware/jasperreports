@@ -49,8 +49,8 @@ public class RelsHelper
 	public static void exportHeader(Writer writer) throws IOException
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		writer.write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"> \r\n");
-		writer.write(" <Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles\" Target=\"styles.xml\"/> \r\n");
+		writer.write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">\n");
+		writer.write(" <Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles\" Target=\"styles.xml\"/>\n");
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class RelsHelper
 	 */
 	public static void exportImage(String imageName, Writer writer) throws IOException
 	{
-		writer.write(" <Relationship Id=\"" + imageName + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image\" Target=\"media/" + imageName + ".jpeg\"/> \r\n");
+		writer.write(" <Relationship Id=\"" + imageName + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image\" Target=\"media/" + imageName + ".jpeg\"/>\n");
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class RelsHelper
 	 */
 	public static void exportFooter(Writer writer) throws IOException
 	{
-		writer.write("</Relationships> \r\n");
+		writer.write("</Relationships>\n");
 	}
 	
 }

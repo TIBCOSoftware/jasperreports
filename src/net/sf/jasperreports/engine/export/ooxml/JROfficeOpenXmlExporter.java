@@ -625,7 +625,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 //		}
 //
 //		writer.write(">");
-		docWriter.write("     <w:p> \r\n");
+		docWriter.write("     <w:p>\n");
 
 		tableHelper.getParagraphHelper().exportProps(text);
 		
@@ -649,7 +649,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 //			endHyperlink(true);
 //		}
 
-		docWriter.write("     </w:p> \r\n");
+		docWriter.write("     </w:p>\n");
 		docWriter.flush();
 
 		tableHelper.getCellHelper().exportFooter();

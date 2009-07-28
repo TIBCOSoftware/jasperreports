@@ -105,14 +105,14 @@ public class ParagraphHelper extends BaseHelper
 	 */
 	private void exportPropsHeader(String styleNameReference) throws IOException
 	{
-		writer.write("      <w:pPr> \r\n");
+		writer.write("      <w:pPr>\n");
 		if (styleNameReference != null)
 		{
-			writer.write("        <w:pStyle w:val=\"" + styleNameReference + "\"/> \r\n");
+			writer.write("        <w:pStyle w:val=\"" + styleNameReference + "\"/>\n");
 		}
 		if (pageBreak)
 		{
-			writer.write("        <w:pageBreakBefore/> \r\n");
+			writer.write("        <w:pageBreakBefore/>\n");
 			pageBreak = false;
 		}
 	}
@@ -124,7 +124,7 @@ public class ParagraphHelper extends BaseHelper
 	{
 		if (horizontalAlignment != null)
 		{
-			writer.write("   <w:jc w:val=\"" + horizontalAlignment + "\" /> \r\n");
+			writer.write("   <w:jc w:val=\"" + horizontalAlignment + "\" />\n");
 		}
 		//FIXMEDOCX line spacing?
 	}
@@ -134,7 +134,7 @@ public class ParagraphHelper extends BaseHelper
 	 */
 	private void exportPropsFooter() throws IOException
 	{
-		writer.write("      </w:pPr> \r\n");
+		writer.write("      </w:pPr>\n");
 	}
 	
 	/**
@@ -147,13 +147,13 @@ public class ParagraphHelper extends BaseHelper
 
 	public void exportEmptyParagraph() throws IOException
 	{
-		writer.write("     <w:p><w:pPr> \r\n");
+		writer.write("     <w:p><w:pPr>\n");
 		if (pageBreak)
 		{
-			writer.write("        <w:pageBreakBefore/> \r\n");
+			writer.write("        <w:pageBreakBefore/>\n");
 			pageBreak = false;
 		}
-		writer.write("     </w:pPr></w:p> \r\n");
+		writer.write("     </w:pPr></w:p>\n");
 	}
 
 	/**

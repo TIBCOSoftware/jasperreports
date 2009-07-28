@@ -53,19 +53,19 @@ public class DocumentHelper
 	public static void exportHeader(Writer writer) throws IOException
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		writer.write("<w:document \r\n");
-		writer.write(" xmlns:ve=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" \r\n");
-		writer.write(" xmlns:o=\"urn:schemas-microsoft-com:office:office\" \r\n");
-		writer.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" \r\n");
-		writer.write(" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\" \r\n");
-		writer.write(" xmlns:v=\"urn:schemas-microsoft-com:vml\" \r\n");
-		writer.write(" xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" \r\n");
-		writer.write(" xmlns:w10=\"urn:schemas-microsoft-com:office:word\" \r\n");
-		writer.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\" \r\n");
-		writer.write(" xmlns:wne=\"http://schemas.microsoft.com/office/word/2006/wordml\" \r\n");
-		writer.write(" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\" \r\n");
-		writer.write(" xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\"> \r\n"); 
-		writer.write(" <w:body> \r\n");
+		writer.write("<w:document\n");
+		writer.write(" xmlns:ve=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n");
+		writer.write(" xmlns:o=\"urn:schemas-microsoft-com:office:office\"\n");
+		writer.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"\n");
+		writer.write(" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"\n");
+		writer.write(" xmlns:v=\"urn:schemas-microsoft-com:vml\"\n");
+		writer.write(" xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\"\n");
+		writer.write(" xmlns:w10=\"urn:schemas-microsoft-com:office:word\"\n");
+		writer.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"\n");
+		writer.write(" xmlns:wne=\"http://schemas.microsoft.com/office/word/2006/wordml\"\n");
+		writer.write(" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"\n");
+		writer.write(" xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n"); 
+		writer.write(" <w:body>\n");
 	}
 	
 
@@ -74,14 +74,14 @@ public class DocumentHelper
 	 */
 	public static void exportFooter(JasperPrint jasperPrint, Writer writer) throws IOException
 	{
-		writer.write("  <w:sectPr> \r\n");
-		writer.write("   <w:pgSz w:w=\"" + Utility.twip(jasperPrint.getPageWidth()) + "\" w:h=\"" + Utility.twip(jasperPrint.getPageHeight()) + "\" /> \r\n");
-		writer.write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" /> \r\n");
-//		writer.write("   <w:cols w:space=\"720\" /> \r\n");
-		writer.write("   <w:docGrid w:linePitch=\"360\" /> \r\n");
-		writer.write("  </w:sectPr> \r\n");
-		writer.write(" </w:body> \r\n");
-		writer.write("</w:document> \r\n");
+		writer.write("  <w:sectPr>\n");
+		writer.write("   <w:pgSz w:w=\"" + Utility.twip(jasperPrint.getPageWidth()) + "\" w:h=\"" + Utility.twip(jasperPrint.getPageHeight()) + "\" />\n");
+		writer.write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
+//		writer.write("   <w:cols w:space=\"720\" />\n");
+		writer.write("   <w:docGrid w:linePitch=\"360\" />\n");
+		writer.write("  </w:sectPr>\n");
+		writer.write(" </w:body>\n");
+		writer.write("</w:document>\n");
 	}
 
 }

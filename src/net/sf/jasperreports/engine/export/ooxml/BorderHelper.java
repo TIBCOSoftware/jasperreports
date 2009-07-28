@@ -80,20 +80,20 @@ public class BorderHelper extends BaseHelper
 	{
 		if(info.hasBorder())
 		{
-			writer.write("      <w:tcBorders> \r\n");
+			writer.write("      <w:tcBorders>\n");
 			exportBorder(info, BorderInfo.TOP_BORDER);
 			exportBorder(info, BorderInfo.LEFT_BORDER);
 			exportBorder(info, BorderInfo.BOTTOM_BORDER);
 			exportBorder(info, BorderInfo.RIGHT_BORDER);
-			writer.write("      </w:tcBorders> \r\n");
+			writer.write("      </w:tcBorders>\n");
 		}
 		
-		writer.write("      <w:tcMar> \r\n");
+		writer.write("      <w:tcMar>\n");
 		exportPadding(info, BorderInfo.TOP_BORDER);
 		exportPadding(info, BorderInfo.LEFT_BORDER);
 		exportPadding(info, BorderInfo.BOTTOM_BORDER);
 		exportPadding(info, BorderInfo.RIGHT_BORDER);
-		writer.write("      </w:tcMar> \r\n");
+		writer.write("      </w:tcMar>\n");
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class BorderHelper extends BaseHelper
 			{
 				writer.write(" w:color=\"" + JRColorUtil.getColorHexa(info.borderColor[side]) + "\"");
 			}
-			writer.write(" /> \r\n");
+			writer.write(" />\n");
 		}
 	}
 	
@@ -119,7 +119,7 @@ public class BorderHelper extends BaseHelper
 	{
 		if (info.borderPadding[side] != null)
 		{
-			writer.write("       <w:" + BorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" /> \r\n");
+			writer.write("       <w:" + BorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" />\n");
 		}
 	}
 

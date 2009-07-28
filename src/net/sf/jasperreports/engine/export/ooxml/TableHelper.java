@@ -96,43 +96,43 @@ public class TableHelper extends BaseHelper
 	 */
 	public void exportHeader(CutsInfo xCuts) throws IOException 
 	{
-		writer.write("  <w:tbl> \r\n");
-		writer.write("   <w:tblPr> \r\n");
-		writer.write("    <w:tblLayout w:type=\"fixed\"/> \r\n");
-		writer.write("   </w:tblPr> \r\n");
-		writer.write("   <w:tblGrid> \r\n");
+		writer.write("  <w:tbl>\n");
+		writer.write("   <w:tblPr>\n");
+		writer.write("    <w:tblLayout w:type=\"fixed\"/>\n");
+		writer.write("   </w:tblPr>\n");
+		writer.write("   <w:tblGrid>\n");
 		for(int col = 1; col < xCuts.size(); col++)
 		{
-			writer.write("    <w:gridCol w:w=\"" + Utility.twip(xCuts.getCut(col) - xCuts.getCut(col - 1)) + "\"/> \r\n");
+			writer.write("    <w:gridCol w:w=\"" + Utility.twip(xCuts.getCut(col) - xCuts.getCut(col - 1)) + "\"/>\n");
 		}
-		writer.write("   </w:tblGrid> \r\n");
+		writer.write("   </w:tblGrid>\n");
 	}
 	
 	public void exportFooter() throws IOException 
 	{
-		writer.write("  </w:tbl> \r\n");
+		writer.write("  </w:tbl>\n");
 	}
 	
 	public void exportRowHeader(int rowHeight) throws IOException 
 	{
-		writer.write("   <w:tr> \r\n");
-		writer.write("    <w:trPr> \r\n");
-		writer.write("     <w:trHeight w:hRule=\"exact\" w:val=\"" +  + Utility.twip(rowHeight) + "\" /> \r\n");
-		writer.write("    </w:trPr> \r\n");
+		writer.write("   <w:tr>\n");
+		writer.write("    <w:trPr>\n");
+		writer.write("     <w:trHeight w:hRule=\"exact\" w:val=\"" +  + Utility.twip(rowHeight) + "\" />\n");
+		writer.write("    </w:trPr>\n");
 	}
 	
 	public void exportRowFooter() throws IOException 
 	{
-		writer.write("   </w:tr> \r\n");//FIXMEDOCX really need rn?
+		writer.write("   </w:tr>\n");
 	}
 	
 	public void exportEmptyCell(JRExporterGridCell gridCell, int emptyCellColSpan) throws IOException
 	{
-		writer.write("    <w:tc> \r\n");
-		writer.write("     <w:tcPr> \r\n");
+		writer.write("    <w:tc>\n");
+		writer.write("     <w:tcPr>\n");
 		if (emptyCellColSpan > 1)
 		{
-			writer.write("      <w:gridSpan w:val=\"" + emptyCellColSpan +"\" /> \r\n");
+			writer.write("      <w:gridSpan w:val=\"" + emptyCellColSpan +"\" />\n");
 		}
 		
 		if (gridCell != null)
@@ -140,26 +140,26 @@ public class TableHelper extends BaseHelper
 			cellHelper.exportProps(gridCell);
 		}
 		
-		writer.write("     </w:tcPr> \r\n");
+		writer.write("     </w:tcPr>\n");
 		
 		paragraphHelper.exportEmptyParagraph();
 
-		writer.write("    </w:tc> \r\n");
+		writer.write("    </w:tc>\n");
 	}
 
 	public void exportOccupiedCells(JRExporterGridCell gridCell) throws IOException
 	{
-		writer.write("    <w:tc> \r\n");
-		writer.write("     <w:tcPr> \r\n");
+		writer.write("    <w:tc>\n");
+		writer.write("     <w:tcPr>\n");
 		if (gridCell.getColSpan() > 1)
 		{
-			writer.write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" /> \r\n");
+			writer.write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" />\n");
 		}
-		writer.write("      <w:vMerge w:val=\"continue\" /> \r\n");
+		writer.write("      <w:vMerge w:val=\"continue\" />\n");
 		
 		cellHelper.exportProps(gridCell.getElement(), gridCell);
 		
-		writer.write("     </w:tcPr> \r\n");
+		writer.write("     </w:tcPr>\n");
 		
 		paragraphHelper.exportEmptyParagraph();
 
