@@ -678,6 +678,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 				"net.sf.jasperreports.view.save.JRPdfSaveContributor",
 				"net.sf.jasperreports.view.save.JRRtfSaveContributor",
 				"net.sf.jasperreports.view.save.JROdtSaveContributor",
+				"net.sf.jasperreports.view.save.JRDocxSaveContributor",
 				"net.sf.jasperreports.view.save.JRHtmlSaveContributor",
 				"net.sf.jasperreports.view.save.JRSingleSheetXlsSaveContributor",
 				"net.sf.jasperreports.view.save.JRMultipleSheetsXlsSaveContributor",
