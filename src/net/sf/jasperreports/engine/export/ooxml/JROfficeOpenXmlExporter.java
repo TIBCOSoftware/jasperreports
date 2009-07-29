@@ -443,11 +443,12 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 		TableHelper tableHelper = 
 			new TableHelper(
 				docWriter, 
+				xCuts,
 				runHelper,
 				frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex)
 				);
 
-		tableHelper.exportHeader(xCuts);
+		tableHelper.exportHeader();
 
 		JRPrintElement element = null;
 		for(int row = 0; row < grid.length; row++)
@@ -544,7 +545,11 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 			tableHelper.exportRowFooter();
 		}
 
-		tableHelper.exportFooter();
+		tableHelper.exportFooter(
+			frameIndex == null && reportIndex != jasperPrintList.size() - 1 && pageIndex == endPageIndex , 
+			jasperPrint.getPageWidth(), 
+			jasperPrint.getPageHeight()
+			);
 	}
 
 
