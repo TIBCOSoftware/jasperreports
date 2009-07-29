@@ -51,6 +51,7 @@ public class TableHelper extends BaseHelper
 	/**
 	 * 
 	 */
+	private CutsInfo xCuts = null;
 	private CellHelper cellHelper = null;
 	private ParagraphHelper paragraphHelper = null;
 	private RunHelper runHelper = null;
@@ -61,12 +62,14 @@ public class TableHelper extends BaseHelper
 	 */
 	protected TableHelper(
 		Writer writer,
+		CutsInfo xCuts,
 		RunHelper runHelper,
 		boolean pageBreak
 		) 
 	{
 		super(writer);
 
+		this.xCuts = xCuts;
 		this.cellHelper = new CellHelper(writer);
 		this.paragraphHelper = new ParagraphHelper(writer, pageBreak);
 		this.runHelper = runHelper;
@@ -94,7 +97,7 @@ public class TableHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void exportHeader(CutsInfo xCuts) throws IOException 
+	public void exportHeader() throws IOException 
 	{
 		writer.write("  <w:tbl>\n");
 		writer.write("   <w:tblPr>\n");
@@ -108,9 +111,21 @@ public class TableHelper extends BaseHelper
 		writer.write("   </w:tblGrid>\n");
 	}
 	
-	public void exportFooter() throws IOException 
+	public void exportFooter(boolean lastPage, int pageWidth, int pageHeight) throws IOException 
 	{
 		writer.write("  </w:tbl>\n");
+		if (lastPage)
+		{
+			writer.write("    <w:p>\n");
+			writer.write("    <w:pPr>\n");
+			writer.write("  <w:sectPr>\n");
+			writer.write("   <w:pgSz w:w=\"" + Utility.twip(pageWidth) + "\" w:h=\"" + Utility.twip(pageHeight) + "\" />\n");
+			writer.write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
+			writer.write("   <w:docGrid w:linePitch=\"360\" />\n");
+			writer.write("  </w:sectPr>\n");
+			writer.write("    </w:pPr>\n");
+			writer.write("    </w:p>\n");
+		}
 	}
 	
 	public void exportRowHeader(int rowHeight) throws IOException 
