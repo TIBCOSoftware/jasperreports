@@ -38,6 +38,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.IOException;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperPrint;
 
 
@@ -75,7 +76,9 @@ public class DocumentHelper
 	public static void exportFooter(JasperPrint jasperPrint, Writer writer) throws IOException
 	{
 		writer.write("  <w:sectPr>\n");
-		writer.write("   <w:pgSz w:w=\"" + Utility.twip(jasperPrint.getPageWidth()) + "\" w:h=\"" + Utility.twip(jasperPrint.getPageHeight()) + "\" />\n");
+		writer.write("   <w:pgSz w:w=\"" + Utility.twip(jasperPrint.getPageWidth()) + "\" w:h=\"" + Utility.twip(jasperPrint.getPageHeight()) + "\"");
+		writer.write(" w:orient=\"" + (jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE ? "landscape" : "portrait") + "\"");
+		writer.write("/>\n");
 		writer.write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
 //		writer.write("   <w:cols w:space=\"720\" />\n");
 		writer.write("   <w:docGrid w:linePitch=\"360\" />\n");
