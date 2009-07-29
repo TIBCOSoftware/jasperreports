@@ -113,7 +113,12 @@ public class ReportStyleHelper extends BaseHelper
 	private void exportHeader(JRStyle style) throws IOException
 	{
 		//writer.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\">\n");
-		writer.write(" <w:style w:type=\"paragraph\" w:styleId=\"" + style.getName() + "\">\n");
+		writer.write(" <w:style w:type=\"paragraph\" w:styleId=\"" + style.getName() + "\"");
+		if (style.isDefault())
+		{
+			writer.write(" w:default=\"1\"");
+		}
+		writer.write(">\n");
 		writer.write("  <w:name w:val=\"" + style.getName() + "\" />\n");
 		writer.write("  <w:qFormat />\n");
 		String styleNameReference = style.getStyle() == null ? null : style.getStyle().getName();//FIXMEDOCX why getStyleNameReference is not working?
