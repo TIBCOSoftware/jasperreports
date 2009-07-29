@@ -95,10 +95,12 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.Pair;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
- * Exports a JasperReports document to HTML format. It has character output type and exports the document to a
- * grid-based layout.
+ * Exports a JasperReports document to XHTML format.
  * <p>
  * Since classic AWT fonts can be sometimes very different from HTML fonts, a font mapping feature was added.
  * By using the {@link JRExporterParameter#FONT_MAP} parameter, a logical font like "sansserif" can be mapped to a
@@ -108,15 +110,16 @@ import net.sf.jasperreports.engine.util.Pair;
  */
 public class JRXhtmlExporter extends JRAbstractExporter
 {
+	private static final Log log = LogFactory.getLog(JRXhtmlExporter.class);
 	
-	private static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.html.";
+	private static final String XHTML_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xhtml.";
 
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
-	public static final String HTML_EXPORTER_KEY = 
-		JRProperties.PROPERTY_PREFIX + "html";
+	public static final String XHTML_EXPORTER_KEY = 
+		JRProperties.PROPERTY_PREFIX + "xhtml";
 	
 	/**
 	 *
@@ -145,7 +148,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	{
 		public String getExportPropertiesPrefix()
 		{
-			return HTML_EXPORTER_PROPERTIES_PREFIX;
+			return XHTML_EXPORTER_PROPERTIES_PREFIX;
 		}
 
 		public String getHyperlinkURL(JRPrintHyperlink link)
@@ -224,7 +227,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			
 			if (!parameters.containsKey(JRExporterParameter.FILTER))
 			{
-				filter = createFilter(HTML_EXPORTER_PROPERTIES_PREFIX);
+				filter = createFilter(XHTML_EXPORTER_PROPERTIES_PREFIX);
 			}
 
 			/*   */
@@ -664,7 +667,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					}
 					else if (element instanceof JRGenericPrintElement)
 					{
-//						exportGenericElement((JRGenericPrintElement) element);
+						exportGenericElement((JRGenericPrintElement) element);
 					}
 				}
 			}
@@ -1294,7 +1297,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		int widthDiff = 0;
 		int heightDiff = 0;
 
-		JRLineBox box = boxContainer.getLineBox();
+		JRLineBox box = boxContainer == null ? null :  boxContainer.getLineBox();
 		if (box != null)
 		{
 			widthDiff = 
@@ -1977,47 +1980,48 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	}
 
 
-//	protected void exportGenericElement(JRGenericPrintElement element, int rowHeight) throws IOException
-//	{
-//		GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
-//				GenericElementHandlerEnviroment.getHandler(
-//						element.getGenericType(), HTML_EXPORTER_KEY);
-//		
-//		if (handler == null)
-//		{
-//			if (log.isDebugEnabled())
-//			{
-//				log.debug("No HTML generic element handler for " 
-//						+ element.getGenericType());
-//			}
-//			
-//			writeEmptyCell(gridCell, rowHeight);
-//		}
-//		else
-//		{
-//			writeCellTDStart(gridCell);
-//
-//			StringBuffer styleBuffer = new StringBuffer();
-//			appendBackcolorStyle(gridCell, styleBuffer);
-//			appendBorderStyle(gridCell.getBox(), styleBuffer);
-//			if (styleBuffer.length() > 0)
-//			{
-//				writer.write(" style=\"");
-//				writer.write(styleBuffer.toString());
-//				writer.write("\"");
-//			}
-//
-//			writer.write(">");
-//			
-//			String htmlFragment = handler.getHtmlFragment(exporterContext, element);
-//			if (htmlFragment != null)
-//			{
-//				writer.write(htmlFragment);
-//			}
-//
-//			writer.write("</td>\n");
-//		}
-//	}
+	protected void exportGenericElement(JRGenericPrintElement element) throws IOException
+	{
+		GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
+				GenericElementHandlerEnviroment.getHandler(
+						element.getGenericType(), XHTML_EXPORTER_KEY);
+		
+		if (handler == null)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("No XHTML generic element handler for " 
+						+ element.getGenericType());
+			}
+		}
+		else
+		{
+			writer.write("<div");
+
+			StringBuffer styleBuffer = new StringBuffer();
+
+			appendPositionStyle(element, styleBuffer);
+			appendSizeStyle(element, (JRBoxContainer)null, styleBuffer);
+			appendBackcolorStyle(element, styleBuffer);
+			
+			if (styleBuffer.length() > 0)
+			{
+				writer.write(" style=\"");
+				writer.write(styleBuffer.toString());
+				writer.write("\"");
+			}
+
+			writer.write(">");
+
+			String htmlFragment = handler.getHtmlFragment(exporterContext, element);
+			if (htmlFragment != null)
+			{
+				writer.write(htmlFragment);
+			}
+
+			writer.write("</div>\n");
+		}
+	}
 
 	public Map getExportParameters()
 	{
@@ -2026,7 +2030,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 	public String getExportPropertiesPrefix()
 	{
-		return HTML_EXPORTER_PROPERTIES_PREFIX;
+		return XHTML_EXPORTER_PROPERTIES_PREFIX;
 	}
 
 	public JasperPrint getExportedReport()
