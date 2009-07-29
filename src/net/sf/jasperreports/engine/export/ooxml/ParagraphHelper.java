@@ -153,7 +153,7 @@ public class ParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private static String getHorizontalAlignment(Byte horizontalAlignment)
+	public static String getHorizontalAlignment(Byte horizontalAlignment)
 	{
 		if (horizontalAlignment != null)
 		{

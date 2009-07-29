@@ -454,8 +454,23 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 		{
 			int emptyCellColSpan = 0;
 			int emptyCellWidth = 0;
-			int rowHeight = gridLayout.getRowHeight(row);
 
+			int maxBottomPadding = 0; //for some strange reason, the bottom margin affects the row height; subtracting it here
+			for(int col = 0; col < grid[0].length; col++)
+			{
+				JRExporterGridCell gridCell = grid[row][col];
+				JRLineBox box = gridCell.getBox();
+				if (
+					box != null 
+					&& box.getBottomPadding() != null 
+					&& maxBottomPadding < box.getBottomPadding().intValue()
+					)
+				{
+					maxBottomPadding = box.getBottomPadding().intValue();
+				}
+			}
+			int rowHeight = gridLayout.getRowHeight(row) - maxBottomPadding;
+			
 			tableHelper.exportRowHeader(rowHeight);
 
 			for(int col = 0; col < grid[0].length; col++)
@@ -704,26 +719,16 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	 */
 	protected void exportImage(TableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
-		int topPadding = 
-			Math.max(image.getLineBox().getTopPadding().intValue(), Math.round(image.getLineBox().getTopPen().getLineWidth().floatValue()));
-		int leftPadding = 
-			Math.max(image.getLineBox().getLeftPadding().intValue(), Math.round(image.getLineBox().getLeftPen().getLineWidth().floatValue()));
-		int bottomPadding = 
-			Math.max(image.getLineBox().getBottomPadding().intValue(), Math.round(image.getLineBox().getBottomPen().getLineWidth().floatValue()));
-		int rightPadding = 
-			Math.max(image.getLineBox().getRightPadding().intValue(), Math.round(image.getLineBox().getRightPen().getLineWidth().floatValue()));
+		int leftPadding = image.getLineBox().getLeftPadding().intValue();
+		int topPadding = image.getLineBox().getTopPadding().intValue();//FIXMEDOCX maybe consider border thickness
+		int rightPadding = image.getLineBox().getRightPadding().intValue();
+		int bottomPadding = image.getLineBox().getBottomPadding().intValue();
 
 		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
 
 		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
-
-		int width = availableImageWidth;
-		int height = availableImageHeight;
-
-		int xoffset = 0;
-		int yoffset = 0;
 
 		tableHelper.getCellHelper().exportHeader(image, gridCell);
 
@@ -737,7 +742,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 			availableImageHeight > 0
 			)
 		{
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE && !image.isLazy())
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 			{
 				// Non-lazy image renderers are all asked for their image data at some point.
 				// Better to test and replace the renderer now, in case of lazy load error.
@@ -751,40 +756,109 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 
 		if (renderer != null)
 		{
-			float xalignFactor = getXAlignFactor(image);
-			float yalignFactor = getYAlignFactor(image);
+			int width = availableImageWidth;
+			int height = availableImageHeight;
 
+			double normalWidth = availableImageWidth;
+			double normalHeight = availableImageHeight;
+
+			// Image load might fail.
+			JRRenderable tmpRenderer =
+				JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
+			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+			// If renderer was replaced, ignore image dimension.
+			if (tmpRenderer == renderer && dimension != null)
+			{
+				normalWidth = dimension.getWidth();
+				normalHeight = dimension.getHeight();
+			}
+
+			double cropTop = 0;
+			double cropLeft = 0;
+			double cropBottom = 0;
+			double cropRight = 0;
+			
 			switch (image.getScaleImage())
 			{
 				case JRImage.SCALE_IMAGE_FILL_FRAME :
 				{
 					width = availableImageWidth;
 					height = availableImageHeight;
-					xoffset = 0;
-					yoffset = 0;
 					break;
 				}
 				case JRImage.SCALE_IMAGE_CLIP :
+				{
+					if (normalWidth > availableImageWidth)
+					{
+						switch (image.getHorizontalAlignment())
+						{
+							case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+							{
+								cropLeft = 65536 * (normalWidth - availableImageWidth) / normalWidth;
+								cropRight = 0;
+								break;
+							}
+							case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+							{
+								cropLeft = 65536 * (- availableImageWidth + normalWidth) / normalWidth / 2;
+								cropRight = cropLeft;
+								break;
+							}
+							case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+							default :
+							{
+								cropLeft = 0;
+								cropRight = 65536 * (normalWidth - availableImageWidth) / normalWidth;
+								break;
+							}
+						}
+						width = availableImageWidth;
+						cropLeft = cropLeft / 0.75d;
+						cropRight = cropRight / 0.75d;
+					}
+					else
+					{
+						width = (int)normalWidth;
+					}
+
+					if (normalHeight > availableImageHeight)
+					{
+						switch (image.getVerticalAlignment())
+						{
+							case JRAlignment.VERTICAL_ALIGN_TOP :
+							{
+								cropTop = 0;
+								cropBottom = 65536 * (normalHeight - availableImageHeight) / normalHeight;
+								break;
+							}
+							case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+							{
+								cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight / 2;
+								cropBottom = cropTop;
+								break;
+							}
+							case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+							default :
+							{
+								cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight;
+								cropBottom = 0;
+								break;
+							}
+						}
+						height = availableImageHeight;
+						cropTop = cropTop / 0.75d;
+						cropBottom = cropBottom / 0.75d;
+					}
+					else
+					{
+						height = (int)normalHeight;
+					}
+
+					break;
+				}
 				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
 				default :
 				{
-					double normalWidth = availableImageWidth;
-					double normalHeight = availableImageHeight;
-
-					if (!image.isLazy())
-					{
-						// Image load might fail.
-						JRRenderable tmpRenderer =
-							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
-						// If renderer was replaced, ignore image dimension.
-						if (tmpRenderer == renderer && dimension != null)
-						{
-							normalWidth = dimension.getWidth();
-							normalHeight = dimension.getHeight();
-						}
-					}
-
 					if (availableImageHeight > 0)
 					{
 						double ratio = (double)normalWidth / (double)normalHeight;
@@ -801,9 +875,6 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 							width = (int)(ratio * height);
 						}
 					}
-
-					xoffset = (int)(xalignFactor * (availableImageWidth - width));
-					yoffset = (int)(yalignFactor * (availableImageHeight - height));
 				}
 			}
 
@@ -818,42 +889,41 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 
 			boolean startedHyperlink = startHyperlink(image,false);
 
-//			docWriter.write("<draw:frame text:anchor-type=\"paragraph\" "
-//					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
-//					+ "svg:x=\"" + Utility.translatePixelsToInches(leftPadding + xoffset) + "in\" "
-//					+ "svg:y=\"" + Utility.translatePixelsToInches(topPadding + yoffset) + "in\" "
-//					+ "svg:width=\"" + Utility.translatePixelsToInches(width) + "in\" "
-//					+ "svg:height=\"" + Utility.translatePixelsToInches(height) + "in\">"
-//					);
-//			docWriter.write("<draw:image ");
-//			docWriter.write(" xlink:href=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"");
-//			docWriter.write(" xlink:type=\"simple\"");
-//			docWriter.write(" xlink:show=\"embed\"");
-//			docWriter.write(" xlink:actuate=\"onLoad\"");
-//			docWriter.write("/>\n");
-
-
 			docWriter.write("<w:r>\n"); 
 			docWriter.write("<w:drawing>\n");
-			docWriter.write("<wp:inline distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\">\n");
+			docWriter.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
+			docWriter.write("<wp:simplePos x=\"0\" y=\"0\"/>");
+			docWriter.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + ParagraphHelper.getHorizontalAlignment(new Byte(image.getHorizontalAlignment())) + "</wp:align></wp:positionH>");
+			docWriter.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
+//			docWriter.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
+			
 			docWriter.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
-			docWriter.write("<wp:effectExtent l=\"19050\" t=\"0\" r=\"0\" b=\"0\"/>\n");
-			docWriter.write("<wp:docPr id=\"1\" name=\"Picture 0\" descr=\"Water lilies.jpg\"/>\n");
-			docWriter.write("<wp:cNvGraphicFramePr>\n");
-			docWriter.write("<a:graphicFrameLocks noChangeAspect=\"1\"/>\n");
-			docWriter.write("</wp:cNvGraphicFramePr>\n");
+			docWriter.write("<wp:wrapNone/>");
+			docWriter.write("<wp:docPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
 			docWriter.write("<a:graphic>\n");
 			docWriter.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
 			docWriter.write("<pic:pic>\n");
-			docWriter.write("<pic:nvPicPr><pic:cNvPr id=\"0\" name=\"Water lilies.jpg\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
+			docWriter.write("<pic:nvPicPr><pic:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
 			docWriter.write("<pic:blipFill>\n");
-			docWriter.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/><a:stretch><a:fillRect/></a:stretch>\n");
+			docWriter.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
+			docWriter.write("<a:srcRect");
+			if (cropLeft > 0)
+				docWriter.write(" l=\"" + (int)cropLeft + "\"");
+			if (cropTop > 0)
+				docWriter.write(" t=\"" + (int)cropTop + "\"");
+			if (cropRight > 0)
+				docWriter.write(" r=\"" + (int)cropRight + "\"");
+			if (cropBottom > 0)
+				docWriter.write(" b=\"" + (int)cropBottom + "\"");
+			docWriter.write("/>");
+			docWriter.write("<a:stretch><a:fillRect/></a:stretch>\n");
 			docWriter.write("</pic:blipFill>\n");
-			docWriter.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom></pic:spPr>\n");
+			docWriter.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>");
+			docWriter.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
 			docWriter.write("</pic:pic>\n");
 			docWriter.write("</a:graphicData>\n");
 			docWriter.write("</a:graphic>\n");
-			docWriter.write("</wp:inline>\n");
+			docWriter.write("</wp:anchor>\n");
 			docWriter.write("</w:drawing>\n");
 			docWriter.write("</w:r>"); 
 
