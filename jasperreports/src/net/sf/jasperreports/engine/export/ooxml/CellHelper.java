@@ -225,7 +225,7 @@ public class CellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private static String getVerticalAlignment(Byte verticalAlignment)
+	public static String getVerticalAlignment(Byte verticalAlignment)
 	{
 		if (verticalAlignment != null)
 		{
