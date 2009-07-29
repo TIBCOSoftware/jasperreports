@@ -84,9 +84,9 @@ public class JRDesignItemLabel extends JRBaseItemLabel implements JRChangeEvents
 	}
 
 	/**
-	 * Sets the color to use when displaying the value.
+	 * Sets the background color to use when displaying the value.
 	 *
-	 * @param color the color to use when displaying the value
+	 * @param backgroundColor the background color to use when displaying the value
 	 */
 	public void setBackgroundColor(Color backgroundColor)
 	{
