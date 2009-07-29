@@ -920,38 +920,10 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		{
 			writer.write("<a name=\"");
 			writer.write(text.getAnchorName());
-			writer.write("\"/>");
+			writer.write("\"></a>");
 		}
 
 		writer.write("<span");//FIXME why dealing with cell style if no text to print (textLength == 0)?
-
-		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
-
-		switch (text.getVerticalAlignment())
-		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
-				break;
-			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
-				break;
-			}
-			case JRAlignment.VERTICAL_ALIGN_TOP :
-			default :
-			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
-			}
-		}
-
-		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
-		{
-			writer.write(" valign=\"");
-			writer.write(verticalAlignment);
-			writer.write("\"");
-		}
 
 		if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
 		{
@@ -1003,6 +975,34 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				styleBuffer.append(horizontalAlignment);
 				styleBuffer.append(";");
 //			}
+
+			String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
+
+			switch (text.getVerticalAlignment())
+			{
+				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+				{
+					verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
+					break;
+				}
+				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+				{
+					verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
+					break;
+				}
+				case JRAlignment.VERTICAL_ALIGN_TOP :
+				default :
+				{
+					verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
+				}
+			}
+
+			if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
+			{
+				styleBuffer.append(" vertical-align: ");
+				styleBuffer.append(verticalAlignment);
+				styleBuffer.append(";");
+			}
 		}
 
 		if (isWrapBreakWord)
@@ -1366,60 +1366,46 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	{
 		writer.write("<span");
 
-		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
+		float xAlignFactor = 0f;
 
 		switch (image.getHorizontalAlignment())
 		{
 			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
 			{
-				horizontalAlignment = CSS_TEXT_ALIGN_RIGHT;
+				xAlignFactor = 1f;
 				break;
 			}
 			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
 			{
-				horizontalAlignment = CSS_TEXT_ALIGN_CENTER;
+				xAlignFactor = 0.5f;
 				break;
 			}
 			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
 			default :
 			{
-				horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
+				xAlignFactor = 0f;
 			}
 		}
 
-		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
-		{
-			writer.write(" align=\"");
-			writer.write(horizontalAlignment);
-			writer.write("\"");
-		}
-
-		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
+		float yAlignFactor = 0f;
 
 		switch (image.getVerticalAlignment())
 		{
 			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
 			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
+				yAlignFactor = 1f;
 				break;
 			}
 			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
 			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
+				yAlignFactor = 0.5f;
 				break;
 			}
 			case JRAlignment.VERTICAL_ALIGN_TOP :
 			default :
 			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
+				yAlignFactor = 0f;
 			}
-		}
-
-		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
-		{
-			writer.write(" valign=\"");
-			writer.write(verticalAlignment);
-			writer.write("\"");
 		}
 
 		StringBuffer styleBuffer = new StringBuffer();
@@ -1450,7 +1436,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		{
 			writer.write("<a name=\"");
 			writer.write(image.getAnchorName());
-			writer.write("\"/>");
+			writer.write("\"></a>");
 		}
 		
 		JRRenderable renderer = image.getRenderer();
@@ -1530,16 +1516,16 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				writer.write(imagePath);
 			writer.write("\"");
 		
-			int imageWidth = image.getWidth() - image.getLineBox().getLeftPadding().intValue() - image.getLineBox().getRightPadding().intValue();
-			if (imageWidth < 0)
+			int availableImageWidth = image.getWidth() - image.getLineBox().getLeftPadding().intValue() - image.getLineBox().getRightPadding().intValue();
+			if (availableImageWidth < 0)
 			{
-				imageWidth = 0;
+				availableImageWidth = 0;
 			}
 		
-			int imageHeight = image.getHeight() - image.getLineBox().getTopPadding().intValue() - image.getLineBox().getBottomPadding().intValue();
-			if (imageHeight < 0)
+			int availableImageHeight = image.getHeight() - image.getLineBox().getTopPadding().intValue() - image.getLineBox().getBottomPadding().intValue();
+			if (availableImageHeight < 0)
 			{
-				imageHeight = 0;
+				availableImageHeight = 0;
 			}
 		
 			switch (scaleImage)
@@ -1569,10 +1555,10 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					writer.write("px;top:");
 					writer.write(String.valueOf(topDiff));
 					writer.write("px;width:");
-					writer.write(String.valueOf(imageWidth - widthDiff));
+					writer.write(String.valueOf(availableImageWidth - widthDiff));
 					writer.write(sizeUnit);
 					writer.write("; height: ");
-					writer.write(String.valueOf(imageHeight - heightDiff));
+					writer.write(String.valueOf(availableImageHeight - heightDiff));
 					writer.write(sizeUnit);
 					writer.write("\"");
 		
@@ -1580,8 +1566,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				}
 				case JRImage.SCALE_IMAGE_CLIP :
 				{
-					double normalWidth = imageWidth;
-					double normalHeight = imageHeight;
+					double normalWidth = availableImageWidth;
+					double normalHeight = availableImageHeight;
 		
 					if (!image.isLazy())
 					{
@@ -1616,24 +1602,24 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					}
 					
 					writer.write(" style=\"position:absolute;left:");
-					writer.write(String.valueOf(leftDiff));
+					writer.write(String.valueOf(leftDiff + xAlignFactor * (availableImageWidth - widthDiff - normalWidth)));
 					writer.write("px;top:");
-					writer.write(String.valueOf(topDiff));
+					writer.write(String.valueOf(topDiff + yAlignFactor * (availableImageHeight - heightDiff - normalHeight)));
 					writer.write("px;width:");
 					writer.write(String.valueOf(normalWidth));
 					writer.write("px;height:");
 					writer.write(String.valueOf(normalHeight));
 					writer.write("px;clip:rect(");
-					writer.write(String.valueOf(0));
+					writer.write(String.valueOf(yAlignFactor * (normalHeight - availableImageHeight + heightDiff)));
 					writer.write(sizeUnit);
 					writer.write(",");
-					writer.write(String.valueOf(imageWidth - widthDiff));
+					writer.write(String.valueOf(xAlignFactor * normalWidth + (1 - xAlignFactor) * (availableImageWidth - widthDiff)));
 					writer.write(sizeUnit);
 					writer.write(",");
-					writer.write(String.valueOf(imageHeight - heightDiff));
+					writer.write(String.valueOf(yAlignFactor * normalHeight + (1 - yAlignFactor) * (availableImageHeight - heightDiff)));
 					writer.write(sizeUnit);
 					writer.write(",");
-					writer.write(String.valueOf(0));
+					writer.write(String.valueOf(xAlignFactor * (normalWidth - availableImageWidth + widthDiff)));
 					writer.write(sizeUnit);
 					writer.write(")\"");//FIXME no px
 
@@ -1642,8 +1628,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
 				default :
 				{
-					double normalWidth = imageWidth;
-					double normalHeight = imageHeight;
+					double normalWidth = availableImageWidth;
+					double normalHeight = availableImageHeight;
 		
 					if (!image.isLazy())
 					{
@@ -1677,29 +1663,30 @@ public class JRXhtmlExporter extends JRAbstractExporter
 							+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue());
 					}
 					
-					if (imageHeight > 0)
+					if (availableImageHeight > 0)
 					{
 						double ratio = normalWidth / normalHeight;
 		
-						if( ratio > (double)imageWidth / (double)imageHeight )
+						if( ratio > (double)availableImageWidth / (double)availableImageHeight )
 						{
 							writer.write(" style=\"position:absolute;left:");
 							writer.write(String.valueOf(leftDiff));
 							writer.write("px;top:");
-							writer.write(String.valueOf(topDiff));
+							writer.write(String.valueOf(topDiff + yAlignFactor * (availableImageHeight - heightDiff - (availableImageWidth - widthDiff) / ratio)));
 							writer.write("px;width:");
-							writer.write(String.valueOf(imageWidth - widthDiff));
+							writer.write(String.valueOf(availableImageWidth - widthDiff));
 							writer.write(sizeUnit);
 							writer.write("\"");
 						}
 						else
 						{
 							writer.write(" style=\"position:absolute;left:");
-							writer.write(String.valueOf(leftDiff));
+							//writer.write(String.valueOf(leftDiff));
+							writer.write(String.valueOf(leftDiff + xAlignFactor * (availableImageWidth - widthDiff - ratio * (availableImageHeight - heightDiff))));
 							writer.write("px;top:");
 							writer.write(String.valueOf(topDiff));
 							writer.write("px;height:");
-							writer.write(String.valueOf(imageHeight - heightDiff));
+							writer.write(String.valueOf(availableImageHeight - heightDiff));
 							writer.write(sizeUnit);
 							writer.write("\"");
 						}
@@ -1967,6 +1954,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		StringBuffer styleBuffer = new StringBuffer();
 		appendPositionStyle(frame, styleBuffer);
+		appendSizeStyle(frame, frame, styleBuffer);
 		appendBackcolorStyle(frame, styleBuffer);
 		appendBorderStyle(frame.getLineBox(), styleBuffer);
 
