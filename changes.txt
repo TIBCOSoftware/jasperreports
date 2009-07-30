@@ -14,7 +14,7 @@ the XLSX (Excel 2007) generating capabilities of POI 3.5 Beta;
 - new XHTML/CSS exporter added to core library to avoid the grid exporter limitations
 of the classic HTML exporter;
 
-- new JDBC-related config properties introduced to allow fine-tunning the SQL query execution;
+- new JDBC-related configuration properties introduced to allow fine-tuning the SQL query execution;
 
 - <since> tag added to properties in the Config Reference documentation;
 
