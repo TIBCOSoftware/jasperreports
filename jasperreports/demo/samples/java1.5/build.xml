@@ -1,0 +1,122 @@
+<project name="java1.5" default="javac" basedir=".">
+
+	<description>Shows how Java 1.5 could be used inside report templates.</description>
+
+	<property name="class.name" value="Java5App" />
+	<property name="file.name" value="${basedir}/Java5Report" />
+	<property name="classes.dir" value="../../../build/classes" />
+	<property name="lib.dir" value="../../../lib" />
+	<property name="fonts.dir" value="../../fonts" />
+	
+	<path id="classpath">
+		<pathelement location="." />
+		<pathelement location="${classes.dir}" />
+		<pathelement location="${fonts.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<condition property="using.jdk.1.5">
+		<or>
+		<equals arg1="${ant.java.version}" arg2="1.5"/>
+		<equals arg1="${ant.java.version}" arg2="1.6"/>
+		</or>
+	</condition>
+
+	<target name="check1.5" unless="using.jdk.1.5">
+		<echo level="warning" message="This sample needs Java 1.5"/>
+	</target>
+	
+	<target name="testSample" depends="check1.5,runSample">
+	</target>
+	
+	<target name="runSample" if="using.jdk.1.5">
+		<antcall target="runAll"/>
+	</target>
+	
+	<target name="runAll" depends="javac, compile, fill, pdf">
+	</target>
+	
+	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application." depends="check1.5">
+		<javac srcdir="." destdir="." debug="true" optimize="false" deprecation="false">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<target name="compile" if="using.jdk.1.5" description="Compiles the XML report designs and produces the .jasper files." depends="check1.5">
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+			<classpath refid="classpath"/>
+		</taskdef>
+		<jrc destdir=".">
+			<src>
+				<fileset dir=".">
+					<include name="**/*.jrxml"/>
+				</fileset>
+			</src>
+			<classpath refid="classpath"/>
+		</jrc> 
+	</target>
+
+	<target name="fill" if="using.jdk.1.5" description="Fills the compiled report design with data and produces the .jrprint file." depends="check1.5">
+		<java classname="${class.name}">
+			<arg value="fill"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="view" if="using.jdk.1.5" description="Launches the report viewer to preview the report stored in the .jrprint file." depends="check1.5">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewXML" if="using.jdk.1.5" description="Launches the report viewer to preview the generated report stored in an XML file." depends="check1.5">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="${file.name}.jrpxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="pdf" if="using.jdk.1.5" description="Generates a PDF version of the report by converting the .jrprint file." depends="check1.5">
+		<java classname="${class.name}">
+			<arg value="pdf"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design." depends="check1.5">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${file.name}.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign" if="using.jdk.1.5" description="Launches the design viewer to preview the compiled report design." depends="check1.5">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<delete>
+			<fileset dir="." includes="**/*.class" />
+			<fileset dir="." includes="**/*.jasper" />
+			<fileset dir="." includes="**/*.jrprint" />
+			<fileset dir="." includes="**/*.pdf" />
+		</delete>
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Java 1.5 Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="testSample" />
+	</target>
+
+</project>

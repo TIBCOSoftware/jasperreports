@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="HeadingsReport" pageWidth="515" pageHeight="842" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="ReportTitle" class="java.lang.String">
+	</parameter>
+	<field name="headingType" class="java.lang.Integer">
+	</field>
+	<field name="headingText" class="java.lang.String">
+	</field>
+	<field name="reference" class="java.lang.String">
+	</field>
+	<field name="pageIndex" class="java.lang.Integer">
+	</field>
+	<title>
+		<band height="320">
+			<line>
+				<reportElement x="0" y="0" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="1" width="200" height="8" forecolor="#ffffff"/>
+				<textElement textAlignment="Justified">
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[HIDDEN TEXT TO MARK THE BEGINNING OF THE TABEL OF CONTENTS]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="10" width="515" height="30" style="Sans_Normal"/>
+				<textElement textAlignment="Center">
+					<font size="22"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="40" width="515" height="270" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[Here is a simple example that shows how to create a table of contents for your report.
+There are various ways to build tables of contents. Just let free your imagination and be creative, because JasperReports is very flexible and won't let you down. Most of the time you will end up using scriptlets and subreports, like we have in this sample.
+
+Note, that normally, the table of contents is generated as the report itself is being built. In this sample, it is generated using a subreport placed on the master report summary section and using data prepared by the master report scriptlet object. After the report is generated, the table of contents appears at the end of the master report, as you would expect after checking the report design.
+But the parent application performs a trick or a hack, or whatever you want to call it to remove the table of contents from the end of the document and insert it at the beginning. 
+This operation has apparently only one inconvenience. The final document does not reflect the modification in the order of pages. You can see that in our sample, the table of contents does not display a page number on the footer and that the page #1 comes after the table of contents.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="40">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="10" width="515" height="20" isRemoveLineWhenBlank="true" style="Sans_Normal"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Table of Contents]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="32">
+			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
+				<reportElement positionType="Float" x="45" y="0" width="100" height="15" isRemoveLineWhenBlank="true" style="Sans_Bold">
+					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{headingText}]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="145" y="0" width="290" height="15" isRemoveLineWhenBlank="true" style="Sans_Bold">
+					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[___________________________________]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
+				<reportElement positionType="Float" x="435" y="0" width="30" height="15" isRemoveLineWhenBlank="true" style="Sans_Bold">
+					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{pageIndex}]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
+				<reportElement positionType="Float" x="75" y="16" width="100" height="15" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 2)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{headingText}]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
+				<hyperlinkTooltipExpression><![CDATA["View orders from " + $F{headingText}]]></hyperlinkTooltipExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="175" y="16" width="260" height="15" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 2)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
+				<reportElement positionType="Float" x="435" y="16" width="30" height="15" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 2)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{pageIndex}]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
