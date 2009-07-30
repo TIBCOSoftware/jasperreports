@@ -246,7 +246,12 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	 */
 	public JRBand getGroupFooter()
 	{
-		return this.groupFooter;
+		return 
+			groupFooterSection == null 
+			|| groupFooterSection.getBands() == null 
+			|| groupFooterSection.getBands().length == 0 
+				? null 
+				: (JRBand)groupFooterSection.getBands()[0];
 	}
 		
 	/**
