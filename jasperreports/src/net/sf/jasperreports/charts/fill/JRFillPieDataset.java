@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.charts.JRPieDataset;
@@ -202,7 +203,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	 */
 	protected void customInitialize()
 	{
-		values = new HashMap();
+		values = new LinkedHashMap();
 		labels = new HashMap();
 		sectionHyperlinks = new HashMap();
 	}
