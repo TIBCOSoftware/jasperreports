@@ -51,6 +51,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
@@ -470,7 +471,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				public void handle(StringTextValue textValue)
 				{
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
-					setRichTextStringCellValue(styledText, forecolor, textElement);
+					if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+					{
+						setStringCellValue(textValue.getText());
+					}
+					else
+					{
+						setRichTextStringCellValue(styledText, forecolor, textElement);
+					}
 					endCreateCell(cellStyle);
 				}
 
@@ -541,14 +549,28 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 			catch(NumberFormatException e)
 			{
-				setRichTextStringCellValue(styledText, forecolor, textElement);
+				if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+				{
+					setStringCellValue(textStr);
+				}
+				else
+				{
+					setRichTextStringCellValue(styledText, forecolor, textElement);
+				}
 			}
 			endCreateCell(cellStyle);
 		}
 		else
 		{
 			HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
-			setRichTextStringCellValue(styledText, forecolor, textElement);
+			if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+			{
+				setStringCellValue(textStr);
+			}
+			else
+			{
+				setRichTextStringCellValue(styledText, forecolor, textElement);
+			}
 			endCreateCell(cellStyle);
 		}
 	}
@@ -567,13 +589,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		cell.setCellStyle(cellStyle);
 	}
 	
-/*
 	protected final void setStringCellValue(String textStr)
 	{
 		//cell.setCellValue(JRStringUtil.replaceDosEOL(textStr));
-		cell.setCellValue(textStr);
+		//cell.setCellValue(textStr);
+		cell.setCellValue(new HSSFRichTextString(textStr));
 	}
-*/
 	
 	protected final void setRichTextStringCellValue(JRStyledText styledText, short forecolor, JRFont defaultFont)
 	{	
