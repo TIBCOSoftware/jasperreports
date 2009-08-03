@@ -27,10 +27,11 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+
+import org.apache.commons.collections.ReferenceMap;
 
 
 /**
@@ -44,7 +45,8 @@ public class JRIncrementerFactoryCache
 	/**
 	 *
 	 */
-	private static Map factoriesMap = null;
+	private static Map factoriesMap = 
+		new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
 
 
 	/**
@@ -52,12 +54,7 @@ public class JRIncrementerFactoryCache
 	 */
 	public static synchronized JRIncrementerFactory getInstance(Class factoryClass)
 	{
-		if (factoriesMap == null)
-		{
-			factoriesMap = new HashMap();
-		}
-		
-		JRIncrementerFactory incrementerFactory = (JRIncrementerFactory)factoriesMap.get(factoryClass.getName());
+		JRIncrementerFactory incrementerFactory = (JRIncrementerFactory)factoriesMap.get(factoryClass);
 
 		if (incrementerFactory == null)
 		{
@@ -74,7 +71,7 @@ public class JRIncrementerFactoryCache
 				throw new JRRuntimeException(e);
 			}
 
-			factoriesMap.put(factoryClass.getName(), incrementerFactory);
+			factoriesMap.put(factoryClass, incrementerFactory);
 		}
 		
 		return incrementerFactory;
