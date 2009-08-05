@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.fill;
 import java.math.BigDecimal;
 
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.util.BigDecimalUtils;
 
 
 /**
@@ -375,7 +376,7 @@ class JRBigDecimalAverageIncrementer extends JRAbstractExtendedIncrementer
 		}
 		BigDecimal countValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
 		BigDecimal sumValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
-		return sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP);
+		return BigDecimalUtils.divide(sumValue, countValue);
 	}
 
 	
@@ -493,12 +494,15 @@ class JRBigDecimalVarianceIncrementer extends JRAbstractExtendedIncrementer
 		{
 			BigDecimal countValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
 			BigDecimal sumValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
-			return
-				countValue.subtract(JRBigDecimalIncrementerFactory.ONE).multiply(value).divide(countValue, BigDecimal.ROUND_HALF_UP).add(
-					sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP).subtract(newValue).multiply(
-						sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP).subtract(newValue)
-						).divide(countValue.subtract(JRBigDecimalIncrementerFactory.ONE), BigDecimal.ROUND_HALF_UP)
-					);
+
+			BigDecimal x1 = BigDecimalUtils.divide(
+					countValue.subtract(JRBigDecimalIncrementerFactory.ONE).multiply(value), 
+					countValue);
+			BigDecimal avg = BigDecimalUtils.divide(sumValue, countValue);
+			BigDecimal avg2 = avg.subtract(newValue);
+			return x1.add(
+					BigDecimalUtils.divide(avg2.multiply(avg2), 
+							countValue.subtract(JRBigDecimalIncrementerFactory.ONE)));
 		}
 	}
 
@@ -533,16 +537,10 @@ class JRBigDecimalVarianceIncrementer extends JRAbstractExtendedIncrementer
 		s1 = s1.subtract(s2);
 		
 		BigDecimal c = c1.add(c2);
-		
-		BigDecimal x1 = s1.divide(c, BigDecimal.ROUND_HALF_UP);
-		BigDecimal x2 = s2.divide(c, BigDecimal.ROUND_HALF_UP);
-		BigDecimal x3 = x1.multiply(x2);
-		
-		return c1.divide(c, BigDecimal.ROUND_HALF_UP).multiply(v1)
-			.add(c2.divide(c, BigDecimal.ROUND_HALF_UP).multiply(v2))
-			.add(c2.divide(c1, BigDecimal.ROUND_HALF_UP).multiply(x1).multiply(x1))
-			.add(c1.divide(c2, BigDecimal.ROUND_HALF_UP).multiply(x2).multiply(x2))
-			.subtract(x3).subtract(x3);
+		BigDecimal t1 = c1.multiply(c2).multiply(c).multiply(c1.multiply(v1).add(c2.multiply(v2)));
+		BigDecimal t2 = c1.multiply(s2).subtract(c2.multiply(s1));
+		BigDecimal t3 = c1.multiply(c2).multiply(c).multiply(c);
+		return BigDecimalUtils.divide(t1.add(t2.multiply(t2)), t3);
 	}
 
 	

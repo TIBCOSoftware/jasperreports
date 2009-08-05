@@ -190,6 +190,7 @@
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace"/>
       <property ref="net.sf.jasperreports.properties"/>
       <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
+      <property ref="net.sf.jasperreports.big.decimal.minimum.precision"/>
     </content>
   </category>
   
@@ -2208,6 +2209,20 @@ These properties are by default not set.
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.big.decimal.minimum.precision -->
+  
+  <configProperty name="net.sf.jasperreports.big.decimal.minimum.precision">
+    <description>
+An integer property that provides the minimum precision to be used for <code>java.math.BigDecimal</code> division operations.
+Important note: this property is only effective when Java 1.5 or newer is used.  See <api href="net/sf/jasperreports/engine/util/BigDecimalUtils.html">BigDecimalUtils</api> for details.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/Java15BigDecimalHandler.html#PROPERTY_MINIMUM_PRECISION</api>
+    <default>16</default>
+    <scope>Global</scope>
+    <since>3.5.4</since>
   </configProperty>
   
   
