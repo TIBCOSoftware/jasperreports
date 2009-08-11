@@ -2,8 +2,8 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.5.3 (2009-07-29)
------------------------------------
+JasperReports 3.5.3 (2009-07-29, SVN 2990)
+---------------------------------------------
 
 - new DOCX exporter added to the core library to help creating Word 2007 documents 
 based on the Office Open XML format;
@@ -24,8 +24,8 @@ of the classic HTML exporter;
 
 
 
-JasperReports 3.5.2 (2009-06-03)
------------------------------------
+JasperReports 3.5.2 (2009-06-03, SVN 2856)
+---------------------------------------------
 
 - the report detail, the group headers and the group footers are now 
 multi-band sections, meaning that their content can be distributed into 
@@ -46,8 +46,8 @@ is used to produce a complete and up-to-date HTML configuration reference;
 
 
 
-JasperReports 3.5.1 (2009-05-05)
------------------------------------
+JasperReports 3.5.1 (2009-05-05, SVN 2762)
+---------------------------------------------
 
 - list component added to simplify iteration through datasets 
 without using a subreport;
@@ -68,8 +68,8 @@ use them during HTML export in order to preserve word wrap;
 
 
 
-JasperReports 3.5.0 (2009-03-25)
------------------------------------
+JasperReports 3.5.0 (2009-03-25, SVN 2712)
+---------------------------------------------
 
 - new min/max expressions available for controlling the displayed values 
 interval for both chart axis;
@@ -98,8 +98,8 @@ where overlapping elements do not show up;
 
 
 
-JasperReports 3.1.4 (2009-02-10)
------------------------------------
+JasperReports 3.1.4 (2009-02-10, SVN 2607)
+---------------------------------------------
 
 - allow any value as hyperlink target to support open hyperlinks 
 into named frames; 
@@ -132,8 +132,8 @@ a visual chart theme designer;
 
 
 
-JasperReports 3.1.3 (2009-01-12)
------------------------------------
+JasperReports 3.1.3 (2009-01-12, SVN 2526)
+---------------------------------------------
 
 - font extensions support to allow using TTF files without the need to install 
 them into the system; this also allows using different TTF files for the same
@@ -150,8 +150,8 @@ to allow chart theme implementations to check if they were set or not;
 
 
 
-JasperReports 3.1.2 (2008-11-04)
------------------------------------
+JasperReports 3.1.2 (2008-11-04, SVN 2458)
+---------------------------------------------
 
 - new report compiler based on the Rhino library to support JavaScript 
 as the report expression language;
@@ -176,8 +176,8 @@ appearance of charts generated with the build-in chart element;
 
 
 
-JasperReports 3.1.0 (2008-09-17)
------------------------------------
+JasperReports 3.1.0 (2008-09-17, SVN 2367)
+---------------------------------------------
 
 - chart themes support to allow changing the overall appearance 
 of charts generated with the build-in chart element;
@@ -209,8 +209,8 @@ without need for chart customizer;
 
 
 
-JasperReports 3.0.1 (2008-08-07)
------------------------------------
+JasperReports 3.0.1 (2008-08-07, SVN 2263)
+---------------------------------------------
 
 - new Gantt chart type added;
 
@@ -240,8 +240,8 @@ configured as the default subreport runner factory;
 
 
 
-JasperReports 3.0.0 (2008-05-19)
------------------------------------
+JasperReports 3.0.0 (2008-05-19, SVN 2200)
+---------------------------------------------
 
 - support for custom properties at element level in generated documents, 
 to allow extending exporter functionality; 
@@ -275,8 +275,8 @@ very large reports;
 
 
 
-JasperReports 2.0.5 (2008-03-12)
------------------------------------
+JasperReports 2.0.5 (2008-03-12, SVN 2137)
+---------------------------------------------
 
 - support for RTF and HTML snippets inside text elements using new "markup" attribute 
 that deprecates the former isStyledText attribute;
@@ -292,8 +292,8 @@ or as SVG, besides the direct drawing performed by the JFreeChart components;
 
 
 
-JasperReports 2.0.4 (2008-01-11)
------------------------------------
+JasperReports 2.0.4 (2008-01-11, SVN 2065)
+---------------------------------------------
 
 - support for Dotted and Double line style added;
 
