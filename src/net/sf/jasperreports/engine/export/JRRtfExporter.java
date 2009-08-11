@@ -79,7 +79,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
-import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -103,15 +103,14 @@ public class JRRtfExporter extends JRAbstractExporter
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 	protected JRExportProgressMonitor progressMonitor = null;
 
-	protected Writer writer = null;
+	protected FileBufferedWriter colorWriter = null;
+	protected FileBufferedWriter fontWriter = null;
+	protected FileBufferedWriter writer = null;
+	protected Writer rtfWriter = null;
 	protected File destFile = null;
 
 	protected int reportIndex = 0;
 
-	// temporary list of fonts and colors to be
-	// added to the header or the document
-	private StringBuffer colorBuffer = null;
-	private StringBuffer fontBuffer = null;
 	protected List colors = null;
 	protected List fonts = null;
 
@@ -149,10 +148,8 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 
 			fonts = new ArrayList();
-			fontBuffer = new StringBuffer();
 			colors = new ArrayList();
 			colors.add(null);
-			colorBuffer = new StringBuffer(";");
 
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 			setHyperlinkProducerFactory();
@@ -165,7 +162,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				Writer outWriter = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
 				if (outWriter != null) {
 					try {
-						writer = outWriter;
+						rtfWriter = outWriter;
 
 						// export report
 						exportReportToStream();
@@ -178,7 +175,7 @@ public class JRRtfExporter extends JRAbstractExporter
 					OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 					if(os != null) {
 						try {
-							writer = new OutputStreamWriter(os);
+							rtfWriter = new OutputStreamWriter(os);
 
 							// export report
 							exportReportToStream();
@@ -217,7 +214,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	protected StringBuffer exportReportToBuffer() throws JRException{
 		StringWriter buffer = new StringWriter();
-		writer = buffer;
+		rtfWriter = buffer;
 		try {
 			exportReportToStream();
 		}
@@ -234,20 +231,11 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @throws JRException
 	 * @throws IOException
 	 */
-	protected void exportReportToStream() throws JRException, IOException {
-
-		// create the header of the rtf file
-		writer.write("{\\rtf1\\ansi\\deff0\n");
-		// create font and color tables
-		createColorAndFontEntries();
-		writer.write("{\\fonttbl ");
-		writer.write(fontBuffer.toString());
-		writer.write("}\n");
-
-		writer.write("{\\colortbl ");
-		writer.write(colorBuffer.toString());
-		writer.write("}\n");
-
+	protected void exportReportToStream() throws JRException, IOException 
+	{
+		colorWriter = new FileBufferedWriter();
+		fontWriter = new FileBufferedWriter();
+		writer = new FileBufferedWriter();
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
 			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
@@ -295,7 +283,29 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 		}
 		writer.write("}\n");
-		writer.flush();
+
+		writer.close();
+		colorWriter.close();
+		fontWriter.close();
+		
+		// create the header of the rtf file
+		rtfWriter.write("{\\rtf1\\ansi\\deff0\n");
+		// create font and color tables
+		rtfWriter.write("{\\fonttbl ");
+		fontWriter.writeData(rtfWriter);
+		rtfWriter.write("}\n");
+
+		rtfWriter.write("{\\colortbl ;");
+		colorWriter.writeData(rtfWriter);
+		rtfWriter.write("}\n");
+
+		writer.writeData(rtfWriter);
+
+		rtfWriter.flush();
+
+		writer.dispose();
+		colorWriter.dispose();
+		fontWriter.dispose();
 	}
 
 
@@ -305,16 +315,16 @@ public class JRRtfExporter extends JRAbstractExporter
 	protected void exportReportToFile() throws JRException {
 		try {
 			OutputStream fileOutputStream = new FileOutputStream(destFile);
-			writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+			rtfWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
 			exportReportToStream();
 		}
 		catch (IOException ex) {
 			throw new JRException("Error writing to the file : " + destFile, ex);
 		}
 		finally {
-			if(writer != null) {
+			if(rtfWriter != null) {
 				try {
-					writer.close();
+					rtfWriter.close();
 				}
 				catch(IOException ex) {
 
@@ -325,95 +335,25 @@ public class JRRtfExporter extends JRAbstractExporter
 
 
 	/**
-	 * Create color and font entries for the header of .rtf file.
-	 * Each color is represented by values of the red,
-	 * green and blue components.
-	 * @throws JRException
-	 */
-	protected void createColorAndFontEntries() throws JRException {
-		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
-			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
-
-			getFontIndex(new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
-
-			List pages = jasperPrint.getPages();
-			if (pages != null && pages.size() > 0) {
-				if (isModeBatch) {
-					startPageIndex = 0;
-					endPageIndex = pages.size() - 1;
-				}
-
-				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
-					if (Thread.currentThread().isInterrupted()) {
-						throw new JRException("Current thread interrupted");
-					}
-					JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
-					JRPrintElement element = null;
-					Collection elements = page.getElements();
-					if (elements != null && elements.size() > 0)
-					{
-						for (Iterator it = elements.iterator(); it.hasNext();)
-						{
-							element = (JRPrintElement) it.next();
-							getColorIndex(element.getForecolor());
-							getColorIndex(element.getBackcolor());
-
-							if (element instanceof JRPrintText)
-							{
-								JRPrintText text = (JRPrintText)element;
-
-								// create color indices for box border color
-								getColorIndex(text.getLineBox().getPen().getLineColor());
-								getColorIndex(text.getLineBox().getTopPen().getLineColor());
-								getColorIndex(text.getLineBox().getBottomPen().getLineColor());
-								getColorIndex(text.getLineBox().getLeftPen().getLineColor());
-								getColorIndex(text.getLineBox().getRightPen().getLineColor());
-
-								int runLimit = 0;
-								JRStyledText styledText = getStyledText((JRPrintText)element);
-								AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
-								while (runLimit < styledText.length()
-										&& (runLimit = iterator.getRunLimit()) <= styledText.length())
-								{
-									Map styledTextAttributes = iterator.getAttributes();
-
-									getFontIndex(new JRBaseFont(styledTextAttributes));
-
-									getColorIndex((Color)styledTextAttributes.get(TextAttribute.FOREGROUND));
-									getColorIndex((Color)styledTextAttributes.get(TextAttribute.BACKGROUND));
-
-									iterator.setIndex(runLimit);
-								}
-
-								getFontIndex((JRPrintText)element);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-
-	/**
 	 * Return color index from header of the .rtf file. If a color is not
 	 * found is automatically added to the header of the rtf file. The
 	 * method is called first when the header of the .rtf file is constructed
-	 * and when a componenent needs a color for foreground or background
+	 * and when a component needs a color for foreground or background
 	 * @param color Color for which the index is required.
 	 * @return index of the color from .rtf file header
 	 */
-	private int getColorIndex(Color color)
+	private int getColorIndex(Color color) throws IOException
 	{
 		int colorNdx = colors.indexOf(color);
 		if (colorNdx < 0)
 		{
 			colorNdx = colors.size();
 			colors.add(color);
-			colorBuffer.append("\\red").append(color.getRed())
-					.append("\\green").append(color.getGreen())
-					.append("\\blue").append(color.getBlue())
-					.append(";");
+			colorWriter.write(
+				"\\red" + color.getRed() 
+				+ "\\green" + color.getGreen() 
+				+ "\\blue" + color.getBlue() + ";"
+				);
 		}
 		return colorNdx;
 	}
@@ -426,7 +366,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @param font the font for which the index is required
 	 * @return index of the font from .rtf file header
 	 */
-	private int getFontIndex(JRFont font)
+	private int getFontIndex(JRFont font) throws IOException
 	{
 		String fontName = font.getFontName();
 		if(fontMap != null && fontMap.containsKey(fontName)){
@@ -438,7 +378,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		if(fontIndex < 0) {
 			fontIndex = fonts.size();
 			fonts.add(fontName);
-			fontBuffer.append("{\\f").append(fontIndex).append("\\fnil ").append(fontName).append(";}");
+			fontWriter.write("{\\f"  + fontIndex + "\\fnil " + fontName + ";}");
 		}
 
 		return fontIndex;
