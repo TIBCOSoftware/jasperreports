@@ -205,20 +205,6 @@ public class JRLoader
 		{
 			throw new JRException("Class not found when loading object from InputStream", e);
 		}
-		finally
-		{
-			//FIXMENOW should not close the stream
-			if (ois != null)
-			{
-				try
-				{
-					ois.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
 
 		return obj;
 	}
