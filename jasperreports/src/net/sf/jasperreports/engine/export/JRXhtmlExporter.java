@@ -609,7 +609,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		writer.write("<div style=\"position:relative;width:" + jasperPrint.getPageWidth() + "px;height:" + jasperPrint.getPageHeight() + "px;\">\n");
+		writer.write("<div style=\"position:relative;width:" + jasperPrint.getPageWidth() + sizeUnit + ";height:" + jasperPrint.getPageHeight() + sizeUnit + ";\">\n");
 
 		frameIndexStack = new ArrayList();
 		
@@ -1312,11 +1312,13 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		
 		styleBuffer.append("width:");
 		styleBuffer.append(element.getWidth() - widthDiff);
-		styleBuffer.append("px;");
+		styleBuffer.append(sizeUnit);
+		styleBuffer.append(";");
 
 		styleBuffer.append("height:");
 		styleBuffer.append(element.getHeight() - heightDiff);
-		styleBuffer.append("px;");
+		styleBuffer.append(sizeUnit);
+		styleBuffer.append(";");
 	}
 
 
@@ -1331,11 +1333,13 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		
 		styleBuffer.append("width:");
 		styleBuffer.append(element.getWidth() - diff);
-		styleBuffer.append("px;");
+		styleBuffer.append(sizeUnit);
+		styleBuffer.append(";");
 
 		styleBuffer.append("height:");
 		styleBuffer.append(element.getHeight() - diff);
-		styleBuffer.append("px;");
+		styleBuffer.append(sizeUnit);
+		styleBuffer.append(";");
 	}
 
 
@@ -1344,10 +1348,12 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		styleBuffer.append("position:absolute;");
 		styleBuffer.append("left:");
 		styleBuffer.append(element.getX());
-		styleBuffer.append("px;");
+		styleBuffer.append(sizeUnit);
+		styleBuffer.append(";");
 		styleBuffer.append("top:");
 		styleBuffer.append(element.getY());
-		styleBuffer.append("px;");
+		styleBuffer.append(sizeUnit);
+		styleBuffer.append(";");
 	}
 
 
@@ -1555,12 +1561,14 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					
 					writer.write(" style=\"position:absolute;left:");
 					writer.write(String.valueOf(leftDiff));
-					writer.write("px;top:");
+					writer.write(sizeUnit);
+					writer.write(";top:");
 					writer.write(String.valueOf(topDiff));
-					writer.write("px;width:");
+					writer.write(sizeUnit);
+					writer.write(";width:");
 					writer.write(String.valueOf(availableImageWidth - widthDiff));
 					writer.write(sizeUnit);
-					writer.write("; height: ");
+					writer.write(";height:");
 					writer.write(String.valueOf(availableImageHeight - heightDiff));
 					writer.write(sizeUnit);
 					writer.write("\"");
@@ -1606,13 +1614,17 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					
 					writer.write(" style=\"position:absolute;left:");
 					writer.write(String.valueOf(leftDiff + xAlignFactor * (availableImageWidth - widthDiff - normalWidth)));
-					writer.write("px;top:");
+					writer.write(sizeUnit);
+					writer.write(";top:");
 					writer.write(String.valueOf(topDiff + yAlignFactor * (availableImageHeight - heightDiff - normalHeight)));
-					writer.write("px;width:");
+					writer.write(sizeUnit);
+					writer.write(";width:");
 					writer.write(String.valueOf(normalWidth));
-					writer.write("px;height:");
+					writer.write(sizeUnit);
+					writer.write(";height:");
 					writer.write(String.valueOf(normalHeight));
-					writer.write("px;clip:rect(");
+					writer.write(sizeUnit);
+					writer.write(";clip:rect(");
 					writer.write(String.valueOf(yAlignFactor * (normalHeight - availableImageHeight + heightDiff)));
 					writer.write(sizeUnit);
 					writer.write(",");
@@ -1624,7 +1636,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					writer.write(",");
 					writer.write(String.valueOf(xAlignFactor * (normalWidth - availableImageWidth + widthDiff)));
 					writer.write(sizeUnit);
-					writer.write(")\"");//FIXME no px
+					writer.write(")\"");
 
 					break;
 				}
@@ -1674,9 +1686,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						{
 							writer.write(" style=\"position:absolute;left:");
 							writer.write(String.valueOf(leftDiff));
-							writer.write("px;top:");
+							writer.write(sizeUnit);
+							writer.write(";top:");
 							writer.write(String.valueOf(topDiff + yAlignFactor * (availableImageHeight - heightDiff - (availableImageWidth - widthDiff) / ratio)));
-							writer.write("px;width:");
+							writer.write(sizeUnit);
+							writer.write(";width:");
 							writer.write(String.valueOf(availableImageWidth - widthDiff));
 							writer.write(sizeUnit);
 							writer.write("\"");
@@ -1686,9 +1700,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 							writer.write(" style=\"position:absolute;left:");
 							//writer.write(String.valueOf(leftDiff));
 							writer.write(String.valueOf(leftDiff + xAlignFactor * (availableImageWidth - widthDiff - ratio * (availableImageHeight - heightDiff))));
-							writer.write("px;top:");
+							writer.write(sizeUnit);
+							writer.write(";top:");
 							writer.write(String.valueOf(topDiff));
-							writer.write("px;height:");
+							writer.write(sizeUnit);
+							writer.write(";height:");
 							writer.write(String.valueOf(availableImageHeight - heightDiff));
 							writer.write(sizeUnit);
 							writer.write("\"");
