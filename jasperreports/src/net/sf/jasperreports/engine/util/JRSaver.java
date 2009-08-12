@@ -131,20 +131,6 @@ public class JRSaver
 		{
 			throw new JRException("Error saving object to OutputStream", e);
 		}
-		finally
-		{
-			//FIXMENOW should not close the stream
-			if (oos != null)
-			{
-				try
-				{
-					oos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
 	}
 		
 
