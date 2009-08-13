@@ -137,7 +137,7 @@ public class RunHelper extends BaseHelper
 			{
 				fontFamily = fontFamilyAttr;
 			}
-			writer.write("        <w:rFonts w:ascii=\"" + fontFamily + "\" />\n");
+			writer.write("        <w:rFonts w:ascii=\"" + fontFamily + "\" w:hAnsi=\"" + fontFamily + "\" w:eastAsia=\"" + fontFamily + "\" w:cs=\"" + fontFamily + "\" />\n");
 		}
 		
 		value = attrs.get(TextAttribute.FOREGROUND);

@@ -435,7 +435,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
-		if (grid[0].length > 63)
+		if (grid.length > 0 && grid[0].length > 63)
 		{
 			throw new JRException("The DOCX format does not support more than 63 columns in a table.");
 		}
