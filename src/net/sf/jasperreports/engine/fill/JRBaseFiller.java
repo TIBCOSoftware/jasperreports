@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -1315,6 +1316,17 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected TimeZone getTimeZone()
 	{
 		return mainDataset.timeZone;
+	}
+
+
+	/**
+	 * Returns the report resource bundle.
+	 *
+	 * @return the report resource bundle
+	 */
+	protected ResourceBundle getResourceBundle()
+	{
+		return mainDataset.resourceBundle;
 	}
 
 
