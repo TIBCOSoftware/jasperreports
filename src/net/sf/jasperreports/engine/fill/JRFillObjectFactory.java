@@ -1623,7 +1623,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	{
 		if (!delayedStyleSettersByName.isEmpty())
 		{
-			StringBuffer errorMsg = new StringBuffer("Could not resolved style(s): ");
+			StringBuffer errorMsg = new StringBuffer("Could not resolve style(s): ");
 			for (Iterator it = delayedStyleSettersByName.keySet().iterator(); it.hasNext();)
 			{
 				String name = (String) it.next();
