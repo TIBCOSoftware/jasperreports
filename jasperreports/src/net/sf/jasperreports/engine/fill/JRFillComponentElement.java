@@ -27,6 +27,10 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.TimeZone;
+
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -227,6 +231,21 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 	{
 		filler.addBoundElement(this, printElement, 
 				evaluationTime, evaluationGroup, band);
+	}
+
+	public Locale getReportLocale()
+	{
+		return filler.getLocale();
+	}
+
+	public ResourceBundle getReportResourceBundle()
+	{
+		return filler.getResourceBundle();
+	}
+
+	public TimeZone getReportTimezone()
+	{
+		return filler.getTimeZone();
 	}
 
 }
