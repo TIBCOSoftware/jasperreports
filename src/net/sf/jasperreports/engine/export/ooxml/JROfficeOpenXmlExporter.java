@@ -1224,7 +1224,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 //			docWriter.write(">\n");
 
 			docWriter.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
-			docWriter.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + href + "\"");
+			docWriter.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + JRStringUtil.xmlEncode(href) + "\"");
 
 			String target = getHyperlinkTarget(link);//FIXMETARGET
 			if (target != null)
