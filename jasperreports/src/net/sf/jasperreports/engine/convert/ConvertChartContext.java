@@ -38,6 +38,7 @@ package net.sf.jasperreports.engine.convert;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.charts.ChartContext;
 import net.sf.jasperreports.engine.JRChart;
@@ -143,6 +144,10 @@ public class ConvertChartContext implements ChartContext
 
 	public Locale getLocale() {
 		return null;//FIXMETHEME
+	}
+
+	public TimeZone getTimeZone() {
+		return null;
 	}
 	
 	private static DefaultCategoryDataset sampleCategoryDataset = null;

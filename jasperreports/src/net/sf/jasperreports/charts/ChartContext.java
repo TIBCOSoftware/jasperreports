@@ -28,6 +28,7 @@
 package net.sf.jasperreports.charts;
 
 import java.util.Locale;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRException;
@@ -61,6 +62,8 @@ public interface ChartContext
 	 * 
 	 */
 	public Locale getLocale();
+
+	public TimeZone getTimeZone();
 
 	/**
 	 * 
