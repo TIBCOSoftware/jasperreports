@@ -24,7 +24,7 @@
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<java classname="${class.name}">
+		<java classname="${class.name}" fork="true">
 			<arg value="fill"/>
 			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -39,7 +39,7 @@
 	</target>
 
 	<target name="print" description="Sends the report in the .jrprint file to the printer.">
-		<java classname="${class.name}">
+		<java classname="${class.name}" fork="true">
 			<arg value="print"/>
 			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>

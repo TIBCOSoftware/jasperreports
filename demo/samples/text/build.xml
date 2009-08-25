@@ -24,7 +24,7 @@
 	</target>
 
 	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
-		<java classname="${class.name}">
+		<java classname="${class.name}" fork="true">
 			<arg value="compile"/>
 			<arg value="${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
@@ -32,7 +32,7 @@
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<java classname="${class.name}">
+		<java classname="${class.name}" fork="true">
 			<arg value="fill"/>
 			<arg value="${file.name}.jasper"/>
 			<classpath refid="classpath"/>
@@ -47,7 +47,7 @@
 	</target>
 
 	<target name="print" description="Sends the report in the .jrprint file to the printer.">
-		<java classname="${class.name}">
+		<java classname="${class.name}" fork="true">
 			<arg value="print"/>
 			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -55,7 +55,7 @@
 	</target>
 
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}">
+		<java classname="${class.name}" fork="true">
 			<arg value="pdf"/>
 			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -63,7 +63,7 @@
 	</target>
 
 	<target name="text" description="Generates a pure text version of the report by converting the .jrprint file.">
-		<java classname="${class.name}">
+		<java classname="${class.name}" fork="true">
 			<arg value="text"/>
 			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
