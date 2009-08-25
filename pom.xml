@@ -194,7 +194,7 @@
 		<dependency>
 			<groupId>ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.5.1</version>
+			<version>1.7.1</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
