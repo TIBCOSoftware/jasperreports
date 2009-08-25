@@ -49,7 +49,7 @@
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data from the CustomDataSource.java and produces the .jrprint file.">
-		<java classname="${class.name}">
+		<java classname="${class.name}" fork="true">
 			<arg value="fill"/>
 			<arg value="${file.name}.jasper"/>
 			<classpath refid="classpath"/>
@@ -64,7 +64,7 @@
 	</target>
 
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}">
+		<java classname="${class.name}" fork="true">
 			<arg value="pdf"/>
 			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -72,7 +72,7 @@
 	</target>
 
 	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file using the POI 3.5 Beta library.">
-		<java classname="${class.name}">
+		<java classname="${class.name}" fork="true">
 			<arg value="xlsx"/>
 			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
