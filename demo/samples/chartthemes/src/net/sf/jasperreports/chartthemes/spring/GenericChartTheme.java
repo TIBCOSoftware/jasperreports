@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.SortedSet;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.charts.ChartContext;
 import net.sf.jasperreports.charts.ChartTheme;
@@ -2409,6 +2410,14 @@ public class GenericChartTheme implements ChartTheme
 			{
 				axis.setTickLabelPaint(tickLabelPaint);
 			}
+			
+			TimeZone timeZone = getChartContext().getTimeZone();
+			if (axis instanceof DateAxis && timeZone != null)
+			{
+				// used when no mask is set
+				((DateAxis) axis).setTimeZone(timeZone);
+			}
+			
 			if (tickLabelMask != null)
 			{
 				if (axis instanceof NumberAxis)
@@ -2420,7 +2429,7 @@ public class GenericChartTheme implements ChartTheme
 				}
 				else if (axis instanceof DateAxis)
 				{
-					DateFormat fmt = null;
+					DateFormat fmt;
 					if (tickLabelMask.equals("SHORT") || tickLabelMask.equals("DateFormat.SHORT"))
 						fmt = DateFormat.getDateInstance(DateFormat.SHORT);
 					else if (tickLabelMask.equals("MEDIUM") || tickLabelMask.equals("DateFormat.MEDIUM"))
@@ -2432,8 +2441,16 @@ public class GenericChartTheme implements ChartTheme
 					else
 						fmt = new SimpleDateFormat(tickLabelMask);
 					
+					// FIXME fmt cannot be null
 					if (fmt != null)
+					{
+						if (timeZone != null)
+						{
+							fmt.setTimeZone(timeZone);
+						}
+						
 						((DateAxis)axis).setDateFormatOverride(fmt);
+					}
 					else
 						((DateAxis)axis).setDateFormatOverride(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT));
 				}

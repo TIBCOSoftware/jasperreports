@@ -39,6 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.SortedSet;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.charts.ChartContext;
 import net.sf.jasperreports.charts.ChartTheme;
@@ -510,6 +511,14 @@ public class DefaultChartTheme implements ChartTheme
 			axis.setTickMarkPaint(lineColor);
 		}
 
+		TimeZone timeZone = chartContext.getTimeZone();
+		if (axis instanceof DateAxis && timeZone != null)
+		{
+			// used when no mask is set
+			((DateAxis) axis).setTimeZone(timeZone);
+		}
+		
+		// FIXME use locale for formats
 		if (tickLabelMask != null)
 		{
 			if (axis instanceof NumberAxis)
@@ -521,7 +530,7 @@ public class DefaultChartTheme implements ChartTheme
 			}
 			else if (axis instanceof DateAxis)
 			{
-				DateFormat fmt = null;
+				DateFormat fmt;
 				if (tickLabelMask.equals("SHORT") || tickLabelMask.equals("DateFormat.SHORT"))
 					fmt = DateFormat.getDateInstance(DateFormat.SHORT);
 				else if (tickLabelMask.equals("MEDIUM") || tickLabelMask.equals("DateFormat.MEDIUM"))
@@ -533,6 +542,11 @@ public class DefaultChartTheme implements ChartTheme
 				else
 					fmt = new SimpleDateFormat(tickLabelMask);
 
+				if (timeZone != null)
+				{
+					fmt.setTimeZone(timeZone);
+				}
+				
 				((DateAxis)axis).setDateFormatOverride(fmt);
 			}
 			// ignore mask for other axis types.

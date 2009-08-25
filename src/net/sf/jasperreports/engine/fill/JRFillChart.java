@@ -32,6 +32,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.SortedSet;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.charts.ChartContext;
 import net.sf.jasperreports.charts.ChartTheme;
@@ -1120,6 +1121,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return filler.getLocale();
 	}
 
+	public TimeZone getTimeZone()
+	{
+		return filler.getTimeZone();
+	}
+
 	/**
 	 *
 	 */
@@ -1886,6 +1892,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		public Locale getLocale() {
 			return JRFillChart.this.getLocale();
+		}
+
+		public TimeZone getTimeZone() {
+			return JRFillChart.this.getTimeZone();
 		}
 		
 	}
