@@ -21,14 +21,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * Special thanks to Google 'Summer of Code 2005' program for supporting this development
- * 
- * Contributors:
- * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
- */
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.util.StringTokenizer;
