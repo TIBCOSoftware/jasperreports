@@ -27,7 +27,7 @@
  *
  * Contributors:
  * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schï¿½nheit - Frank.Schoenheit@Sun.COM
+ * Frank Schönheit - Frank.Schoenheit@Sun.COM
  */
 package net.sf.jasperreports.engine.export.oasis;
 
