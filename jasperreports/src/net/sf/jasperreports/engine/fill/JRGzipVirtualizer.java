@@ -1,35 +1,29 @@
 /*
- * ============================================================================
- * GNU Lesser General Public License
- * ============================================================================
+ * JasperReports - Free Java Reporting Library.
+ * Copyright (C) 2005 - 2009 Works, Inc. All rights reserved.
+ * http://www.works.com
  *
- * JasperReports - Free Java report-generating library.
- * Copyright (C) 2005 Works, Inc.  http://www.works.com/
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- * 
- * This library is distributed in the hope that it will be useful,
+ * Unless you have purchased a commercial license agreement from Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is part of JasperReports.
+ *
+ * JasperReports is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ *(at your option) any later version.
+ *
+ * JasperReports is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
  * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
- * Works, Inc.
- * 6034 West Courtyard Drive
- * Suite 210
- * Austin, TX 78730-5032
- * USA
- * http://www.works.com/
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
- * Licensed to JasperSoft Corporation under a Contributer Agreement
+ * Licensed to Jaspersoft Corporation under a Contributer Agreement
  */
 package net.sf.jasperreports.engine.fill;
 
