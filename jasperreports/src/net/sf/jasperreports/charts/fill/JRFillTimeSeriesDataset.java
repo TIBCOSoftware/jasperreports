@@ -177,7 +177,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	
 	public Dataset getCustomDataset()
 	{
-		TimeSeriesCollection dataset = new TimeSeriesCollection();
+		TimeSeriesCollection dataset = new TimeSeriesCollection(getTimeZone());
 		if (seriesNames != null)
 		{
 			for(int i = 0; i < seriesNames.size(); i++)
