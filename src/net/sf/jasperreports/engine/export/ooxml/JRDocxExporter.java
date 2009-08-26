@@ -21,14 +21,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * Special thanks to Google 'Summer of Code 2005' program for supporting this development
- *
- * Contributors:
- * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Sch�nheit - Frank.Schoenheit@Sun.COM
- */
 package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRException;
@@ -38,7 +30,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
- * Exports a JasperReports document to ODF format. It has character output type and exports the document to a
+ * Exports a JasperReports document to DOCX format. It has character output type and exports the document to a
  * grid-based layout.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
