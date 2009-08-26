@@ -47,6 +47,7 @@
   <category>
     <name>Report Filling</name>
     <content>
+      <property ref="net.sf.jasperreports.band.split.type"/>
       <property ref="net.sf.jasperreports.chart.render.type"/>
       <property ref="net.sf.jasperreports.chart.renderer.factory.{render_type}"/>
       <property ref="net.sf.jasperreports.chart.theme"/>
@@ -566,6 +567,19 @@ when the report is configured to check for overlaps.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.band.split.type -->
+  
+  <configProperty name="net.sf.jasperreports.band.split.type">
+    <description>
+Specifies the default split type for bands. See the splitType attribute of the report band. 
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRBand.html#PROPERTY_SPLIT_TYPE</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>3.5.2</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.chart.render.type -->
   
   <configProperty name="net.sf.jasperreports.chart.render.type">
@@ -574,7 +588,7 @@ Specifies the default render type for charts. See the <code>renderType</code> at
     </description>
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_RENDER_TYPE</api>
     <default>draw</default>
-    <scope>Global</scope>
+    <scope>Global | Report</scope>
     <since>2.0.5</since>
   </configProperty>
   
