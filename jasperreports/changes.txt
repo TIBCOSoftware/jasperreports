@@ -5,6 +5,8 @@ JasperReports Change Log
 JasperReports 3.6.0 (2009-08-xx, SVN xxx)
 ---------------------------------------------
 
+- upgrade to LGPL v3;
+
 - minor bug fixes and improvements;
 
 
