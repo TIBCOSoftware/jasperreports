@@ -13,6 +13,7 @@
 			</or>
 		</condition>
 		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.4" source="1.4" encoding="ISO-8859-1">
+			<exclude name="**/net/sf/jasperreports/engine/util/Java15BigDecimalHandler.java" unless="using.jdk.1.5"/>
 			<exclude name="**/olap/**/*.java" unless="using.jdk.1.5"/>
 			<exclude name="**/JRJpa*.java" unless="using.jdk.1.5"/>
 			<classpath>
