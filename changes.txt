@@ -5,7 +5,15 @@ JasperReports Change Log
 JasperReports 3.6.0 (2009-08-xx, SVN xxx)
 ---------------------------------------------
 
-- upgrade to LGPL v3;
+- upgrading the JasperReports license to Version 3 of the
+GNU LESSER GENERAL PUBLIC LICENSE (http://www.gnu.org/licenses/lgpl.txt); 
+
+- fixed JRXlsExporter to avoid creating invalid XLS files for large reports
+(tracker #0004014);
+
+- fixed JRRtfExporter font table section (tracker #0004169);
+
+- fixed hyperlink encoding in JRDocxExporter (tracker #0004252);
 
 - minor bug fixes and improvements;
 
