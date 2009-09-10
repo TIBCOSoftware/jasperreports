@@ -55,27 +55,27 @@
 		</groupFooter>
 	</group>
 	<title>
-		<band height="70">
+		<band height="80">
 			<line>
 				<reportElement x="0" y="0" width="515" height="1"/>
 				<graphicElement/>
 			</line>
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement x="0" y="10" width="300" height="30" style="Sans_Normal"/>
+				<reportElement x="0" y="10" width="300" height="40" style="Sans_Normal"/>
 				<textElement textAlignment="Left">
 					<font size="22"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
 				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
 			</textField>
-			<image scaleImage="Clip">
-				<reportElement x="365" y="10" width="150" height="30"/>
+			<image scaleImage="Clip" hAlign="Right">
+				<reportElement x="365" y="10" width="150" height="40"/>
 				<graphicElement/>
 				<imageExpression class="java.lang.String"><![CDATA["jasperreports.gif"]]></imageExpression>
 				<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 			</image>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="40" width="515" height="20" style="Sans_Normal"/>
+				<reportElement x="0" y="50" width="515" height="20" style="Sans_Normal"/>
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
