@@ -2,7 +2,16 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.6.0 (2009-08-xx, SVN 3038)
+JasperReports 3.6.1 (2009-08-xx, SVN 3038)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.6.0 (2009-08-31, SVN 3038)
 ---------------------------------------------
 
 - upgrading the JasperReports license to Version 3 of the
