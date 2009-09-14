@@ -123,7 +123,7 @@ import com.lowagie.text.pdf.PdfWriter;
  * a free-form layout.
  * <p>
  * Since classic AWT fonts can be sometimes very different from PDF fonts, a font mapping feature was added.
- * By using the {@link JRExporterParameter#FONT_MAP} parameter, a logical font like "sansserif" can be mapped
+ * By using the {@link JRExporterParameter#FONT_MAP} parameter, a logical font like "SansSerif" can be mapped
  * to a system specific font, like "Helvetica-BoldOblique". PDF font mapping is a little more complicated, because
  * for a logical font, PDF can provide two or more fonts, from the same family but with different styles (like
  * "Helvetica", "Helvetica-Bold", "Helvetica-BoldOblique"). So every key in the map is a simple bean containing

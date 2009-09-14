@@ -629,7 +629,7 @@ Property used to specify the chart theme name.
 Specifies the default font name when no default font is explicitly given in a report.
     </description>
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRFont.html#DEFAULT_FONT_NAME</api>
-    <default>sansserif</default>
+    <default>SansSerif</default>
     <scope>Global</scope>
     <since>1.3.0</since>
   </configProperty>
