@@ -1716,16 +1716,19 @@ public class JRPdfExporter extends JRAbstractExporter
 			FontInfo fontInfo = JRFontUtil.getFontInfo(jrFont.getFontName(), locale);
 			if (fontInfo == null)
 			{
+				//fontName NOT found in font extensions
 				pdfFont = new PdfFont(jrFont.getPdfFontName(), jrFont.getPdfEncoding(), jrFont.isPdfEmbedded());
 			}
 			else
 			{
+				//fontName found in font extensions
 				FontFamily family = fontInfo.getFontFamily();
 				FontFace face = fontInfo.getFontFace();
 				int faceStyle = java.awt.Font.PLAIN;
 
 				if (face == null)
 				{
+					//fontName matches family name in font extension
 					if (jrFont.isBold() && jrFont.isItalic())
 					{
 						face = family.getBoldItalicFace();
@@ -1757,8 +1760,32 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				else
 				{
+					//fontName matches face name in font extension; not family name
 					faceStyle = fontInfo.getStyle();
 				}
+				
+				String pdfFontName = null;
+				if (jrFont.isBold() && jrFont.isItalic())
+				{
+					pdfFontName = family.getBoldItalicPdfFont();
+				}
+				
+				if (pdfFontName == null && jrFont.isBold())
+				{
+					pdfFontName = family.getBoldPdfFont();
+				}
+				
+				if (pdfFontName == null && jrFont.isItalic())
+				{
+					pdfFontName = family.getItalicPdfFont();
+				}
+				
+				if (pdfFontName == null)
+				{
+					pdfFontName = family.getNormalPdfFont();
+				}
+
+				pdfFontName = pdfFontName == null ? (face.getFile() == null ? jrFont.getPdfFontName() : face.getFile()) : pdfFontName;
 
 //				String ttf = face.getFile();
 //				if (ttf == null)
@@ -1768,7 +1795,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				
 				pdfFont = 
 					new PdfFont(
-						face.getFile() == null ? jrFont.getPdfFontName() : face.getFile(), 
+						pdfFontName, 
 						family.getPdfEncoding() == null ? jrFont.getPdfEncoding() : family.getPdfEncoding(),
  						family.isPdfEmbedded() == null ? jrFont.isPdfEmbedded() : family.isPdfEmbedded().booleanValue(), 
 						jrFont.isBold() && ((faceStyle & java.awt.Font.BOLD) == 0), 

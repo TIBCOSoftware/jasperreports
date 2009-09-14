@@ -45,10 +45,12 @@ public class SimpleFontFamily implements FontFamily
 	private FontFace boldFace = null;
 	private FontFace italicFace = null;
 	private FontFace boldItalicFace = null;
+	private String normalPdfFont = null;
+	private String boldPdfFont = null;
+	private String italicPdfFont = null;
+	private String boldItalicPdfFont = null;
 	private String pdfEncoding = null;
 	private Boolean isPdfEmbedded = null;
-	private boolean isSimulatedBold = false;
-	private boolean isSimulatedItalic = false;
 	private Set locales = null;
 	
 	/**
@@ -134,33 +136,65 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public boolean isSimulatedBold()
+	public String getNormalPdfFont()
 	{
-		return isSimulatedBold;
+		return normalPdfFont;
 	}
 	
 	/**
 	 * 
 	 */
-	public void setSimulatedBold(boolean isSimulatedBold)
+	public void setNormalPdfFont(String normalPdfFont)
 	{
-		this.isSimulatedBold = isSimulatedBold;
+		this.normalPdfFont = normalPdfFont;
 	}
 	
 	/**
 	 * 
 	 */
-	public boolean isSimulatedItalic()
+	public String getBoldPdfFont()
 	{
-		return isSimulatedItalic;
+		return boldPdfFont;
 	}
 	
 	/**
 	 * 
 	 */
-	public void setSimulatedItalic(boolean isSimulatedItalic)
+	public void setBoldPdfFont(String boldPdfFont)
 	{
-		this.isSimulatedItalic = isSimulatedItalic;
+		this.boldPdfFont = boldPdfFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getItalicPdfFont()
+	{
+		return italicPdfFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setItalicPdfFont(String italicPdfFont)
+	{
+		this.italicPdfFont = italicPdfFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getBoldItalicPdfFont()
+	{
+		return boldItalicPdfFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setBoldItalicPdfFont(String boldItalicPdfFont)
+	{
+		this.boldItalicPdfFont = boldItalicPdfFont;
 	}
 	
 	/**

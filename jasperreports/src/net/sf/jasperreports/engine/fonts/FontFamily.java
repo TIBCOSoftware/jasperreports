@@ -62,12 +62,22 @@ public interface FontFamily
 	/**
 	 * 
 	 */
-	public boolean isSimulatedBold();
+	public String getNormalPdfFont();
 	
 	/**
 	 * 
 	 */
-	public boolean isSimulatedItalic();
+	public String getBoldPdfFont();
+	
+	/**
+	 * 
+	 */
+	public String getItalicPdfFont();
+	
+	/**
+	 * 
+	 */
+	public String getBoldItalicPdfFont();
 	
 	/**
 	 * 
