@@ -1765,27 +1765,37 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				
 				String pdfFontName = null;
+				int pdfFontStyle = java.awt.Font.PLAIN;
 				if (jrFont.isBold() && jrFont.isItalic())
 				{
 					pdfFontName = family.getBoldItalicPdfFont();
+					pdfFontStyle = java.awt.Font.BOLD | java.awt.Font.ITALIC;
 				}
 				
 				if (pdfFontName == null && jrFont.isBold())
 				{
 					pdfFontName = family.getBoldPdfFont();
+					pdfFontStyle = java.awt.Font.BOLD;
 				}
 				
 				if (pdfFontName == null && jrFont.isItalic())
 				{
 					pdfFontName = family.getItalicPdfFont();
+					pdfFontStyle = java.awt.Font.ITALIC;
 				}
 				
 				if (pdfFontName == null)
 				{
 					pdfFontName = family.getNormalPdfFont();
+					pdfFontStyle = java.awt.Font.PLAIN;
 				}
 
-				pdfFontName = pdfFontName == null ? (face.getFile() == null ? jrFont.getPdfFontName() : face.getFile()) : pdfFontName;
+				if (pdfFontName == null)
+				{
+					//in theory, face file cannot be null here
+					pdfFontName = (face.getFile() == null ? jrFont.getPdfFontName() : face.getFile());
+					pdfFontStyle = faceStyle;
+				}
 
 //				String ttf = face.getFile();
 //				if (ttf == null)
@@ -1798,8 +1808,8 @@ public class JRPdfExporter extends JRAbstractExporter
 						pdfFontName, 
 						family.getPdfEncoding() == null ? jrFont.getPdfEncoding() : family.getPdfEncoding(),
  						family.isPdfEmbedded() == null ? jrFont.isPdfEmbedded() : family.isPdfEmbedded().booleanValue(), 
-						jrFont.isBold() && ((faceStyle & java.awt.Font.BOLD) == 0), 
-						jrFont.isItalic() && ((faceStyle & java.awt.Font.ITALIC) == 0)
+						jrFont.isBold() && ((pdfFontStyle & java.awt.Font.BOLD) == 0), 
+						jrFont.isItalic() && ((pdfFontStyle & java.awt.Font.ITALIC) == 0)
 						);
 			}
 		}
