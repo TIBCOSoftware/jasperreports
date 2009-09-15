@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.export.draw.FrameDrawer;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRStyledText;
 
 
 /**
@@ -165,14 +166,18 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		Boolean isMinimizePrinterJobSizeParam = (Boolean) parameters.get(JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE);
 		if (isMinimizePrinterJobSizeParam == null)
 		{
-			isMinimizePrinterJobSize = JRProperties.getBooleanProperty(MINIMIZE_PRINTER_JOB_SIZE);
+			isMinimizePrinterJobSize = JRProperties.getBooleanProperty(MINIMIZE_PRINTER_JOB_SIZE);//FIXMENOW check other potential report properties
 		}
 		else
 		{
 			isMinimizePrinterJobSize = isMinimizePrinterJobSizeParam.booleanValue();
 		}
 		
-		textRenderer = new TextRenderer(isMinimizePrinterJobSize);
+		textRenderer = 
+			new TextRenderer(
+				isMinimizePrinterJobSize,
+				JRProperties.getBooleanProperty(jasperPrint, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
+				);
 	}
 
 	

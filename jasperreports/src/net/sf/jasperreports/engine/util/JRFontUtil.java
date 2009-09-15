@@ -86,7 +86,8 @@ public class JRFontUtil
 	
 
 	/**
-	 *
+	 * Fills the supplied Map parameter with attributes copied from the JRFont parameter.
+	 * The attributes include the TextAttribute.FONT, which has a java.awt.Font object as value.
 	 */
 	public static Map getAttributes(Map attributes, JRFont font, Locale locale)
 	{
@@ -283,7 +284,8 @@ public class JRFontUtil
 
 	
 	/**
-	 *
+	 * Returns a java.awt.Font instance by converting a JRFont instance.
+	 * Mostly used in combination with third-party visualization packages such as JFreeChart (for chart themes). 
 	 */
 	public static Font getAwtFont(JRFont font, Locale locale)
 	{

@@ -47,6 +47,11 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class JRStyledText implements Cloneable
 {
 
+	/**
+	 * 
+	 */
+	public static final String PROPERTY_AWT_IGNORE_MISSING_FONT = JRProperties.PROPERTY_PREFIX + "awt.ignore.missing.font";
+	
 	private static final String PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED = JRProperties.PROPERTY_PREFIX + "awt.superscript.fix.enabled";
 	private static final boolean AWT_SUPERSCRIPT_FIX_ENABLED = 
 		System.getProperty("java.version").startsWith("1.6") 
@@ -165,7 +170,7 @@ public class JRStyledText implements Cloneable
 	 * @return an attributed string that only contains standard Java text
 	 * attributes
 	 */
-	public AttributedString getAwtAttributedString()
+	public AttributedString getAwtAttributedString(boolean ignoreMissingFont)
 	{
 		if (awtAttributedString == null)
 		{
@@ -203,15 +208,24 @@ public class JRStyledText implements Cloneable
 			{
 				Map attrs = iterator.getAttributes();
 					
+				String familyName = (String)attrs.get(TextAttribute.FAMILY); 
+				
 				Font awtFont = 
 					JRFontUtil.getAwtFontFromBundles(
-						(String)attrs.get(TextAttribute.FAMILY), 
+						familyName, 
 						((TextAttribute.WEIGHT_BOLD.equals(attrs.get(TextAttribute.WEIGHT))?Font.BOLD:Font.PLAIN)
 							|(TextAttribute.POSTURE_OBLIQUE.equals(attrs.get(TextAttribute.POSTURE))?Font.ITALIC:Font.PLAIN)), 
 						((Float)attrs.get(TextAttribute.SIZE)).intValue(),
 						locale
 						);
-				if (awtFont != null)
+				if (awtFont == null)
+				{
+					if (!ignoreMissingFont && !JRGraphEnvInitializer.isFontAvailable(familyName))
+					{
+						throw new JRFontNotFoundException(familyName);
+					}
+				}
+				else
 				{
 					if (AWT_SUPERSCRIPT_FIX_ENABLED && atrans != null)
 					{

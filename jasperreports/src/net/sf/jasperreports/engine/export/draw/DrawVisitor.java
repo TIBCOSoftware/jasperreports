@@ -53,7 +53,10 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.convert.ConvertVisitor;
 import net.sf.jasperreports.engine.convert.ReportConverter;
+import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.TextRenderer;
+import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRStyledText;
 
 
 /**
@@ -63,7 +66,7 @@ import net.sf.jasperreports.engine.export.TextRenderer;
 public class DrawVisitor implements JRVisitor
 {
 	
-	private TextRenderer textRenderer = new TextRenderer(false);
+	private TextRenderer textRenderer = null;
 
 	private ConvertVisitor convertVisitor = null;
 	private Graphics2D grx = null;
@@ -81,6 +84,8 @@ public class DrawVisitor implements JRVisitor
 	public DrawVisitor(JRReport report, Graphics2D grx)
 	{
 		this(new ReportConverter(report, true, true), grx);
+
+		setTextRenderer(report);
 	}
 
 	/**
@@ -89,6 +94,7 @@ public class DrawVisitor implements JRVisitor
 	public DrawVisitor(ReportConverter reportConverter, Graphics2D grx)
 	{
 		this.convertVisitor = new ConvertVisitor(reportConverter);
+		setTextRenderer(reportConverter.getReport());
 		setGraphics2D(grx);
 		frameDrawer.setClip(true);
 	}
@@ -99,6 +105,18 @@ public class DrawVisitor implements JRVisitor
 	public void setGraphics2D(Graphics2D grx)
 	{
 		this.grx = grx;
+	}
+
+	/**
+	 *
+	 */
+	public void setTextRenderer(JRReport report)
+	{
+		textRenderer = 
+			new TextRenderer(
+				JRProperties.getBooleanProperty(report, JRGraphics2DExporter.MINIMIZE_PRINTER_JOB_SIZE, true),
+				JRProperties.getBooleanProperty(report, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
+				);
 	}
 
 	/**

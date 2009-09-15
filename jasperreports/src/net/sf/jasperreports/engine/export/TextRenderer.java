@@ -70,6 +70,7 @@ public class TextRenderer
 	 * 
 	 */
 	private boolean isMinimizePrinterJobSize = true;
+	private boolean ignoreMissingFont = false;
 
 	
 	/**
@@ -77,16 +78,24 @@ public class TextRenderer
 	 */
 	public static TextRenderer getInstance()
 	{
-		return new TextRenderer(JRProperties.getBooleanProperty(JRGraphics2DExporter.MINIMIZE_PRINTER_JOB_SIZE));
+		return 
+			new TextRenderer(
+				JRProperties.getBooleanProperty(JRGraphics2DExporter.MINIMIZE_PRINTER_JOB_SIZE),
+				JRProperties.getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT)
+				);
 	}
 	
 	
 	/**
 	 * 
 	 */
-	public TextRenderer(boolean isMinimizePrinterJobSize)
+	public TextRenderer(
+		boolean isMinimizePrinterJobSize,
+		boolean ignoreMissingFont
+		)
 	{
 		this.isMinimizePrinterJobSize = isMinimizePrinterJobSize;
+		this.ignoreMissingFont = ignoreMissingFont;
 	}
 	
 	
@@ -134,7 +143,8 @@ public class TextRenderer
 			isStyledText
 			);
 		
-		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString().getIterator();
+		AttributedCharacterIterator allParagraphs = 
+			styledText.getAwtAttributedString(ignoreMissingFont).getIterator();
 
 		int tokenPosition = 0;
 		int lastParagraphStart = 0;

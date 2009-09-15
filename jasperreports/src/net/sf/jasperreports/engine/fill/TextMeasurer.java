@@ -60,7 +60,7 @@ public class TextMeasurer implements JRTextMeasurer
 {
 
 	private static final Log log = LogFactory.getLog(TextMeasurer.class);
-	
+
 	/**
 	 *
 	 */
@@ -350,7 +350,10 @@ public class TextMeasurer implements JRTextMeasurer
 		/*   */
 		initialize(styledText, remainingTextStart, availableStretchHeight, canOverflow);
 
-		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString().getIterator();
+		AttributedCharacterIterator allParagraphs = 
+			styledText.getAwtAttributedString(
+				JRProperties.getBooleanProperty(propertiesHolder, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
+				).getIterator();
 
 		int tokenPosition = remainingTextStart;
 		int lastParagraphStart = remainingTextStart;
