@@ -184,6 +184,7 @@
   <category>
     <name>Other</name>
     <content>
+      <property ref="net.sf.jasperreports.awt.ignore.missing.font"/>
       <property ref="net.sf.jasperreports.awt.superscript.fix.enabled"/>
       <property ref="net.sf.jasperreports.file.buffer.os.memory.threshold"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts"/>
@@ -2067,6 +2068,18 @@ These properties are by default not set.
     <default>N/A</default>
     <scope>Report</scope>
     <since>3.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.awt.ignore.missing.font -->
+  
+  <configProperty name="net.sf.jasperreports.awt.ignore.missing.font">
+    <description>
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRStyledText.html#PROPERTY_AWT_IGNORE_MISSING_FONT</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>3.6.1</since>
   </configProperty>
   
   
