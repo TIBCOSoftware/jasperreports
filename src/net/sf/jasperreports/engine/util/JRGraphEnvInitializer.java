@@ -24,8 +24,11 @@
 package net.sf.jasperreports.engine.util;
 
 import java.awt.GraphicsEnvironment;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -39,28 +42,38 @@ public class JRGraphEnvInitializer
 	/**
 	 *
 	 */
-	private static boolean isGraphicsEnvironmentInitiliazed = false;
-
+	private static Set AVAILABLE_FONT_FACE_NAMES = null;
 
 	/**
 	 *
 	 */
-	public static void initializeGraphEnv() throws JRException
+	public static void initializeGraphEnv()
 	{
-		if (!isGraphicsEnvironmentInitiliazed)
+		if (AVAILABLE_FONT_FACE_NAMES == null)
 		{
+			AVAILABLE_FONT_FACE_NAMES = new HashSet();
+
 			try
 			{
-				GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+				AVAILABLE_FONT_FACE_NAMES.addAll(
+					Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
+					);
 			}
 			catch(Exception e)
 			{
-				throw new JRException("Error initializing graphic environment.", e);
+				throw new JRRuntimeException("Error initializing graphic environment.", e);
 			}
-			
-			isGraphicsEnvironmentInitiliazed = true;
 		}
 	}
 
+	/**
+	 *
+	 */
+	public static boolean isFontAvailable(String font)
+	{
+		initializeGraphEnv();
+		
+		return AVAILABLE_FONT_FACE_NAMES.contains(font);//FIXMEFONT not sure if we should check families or fonts
+	}
 
 }
