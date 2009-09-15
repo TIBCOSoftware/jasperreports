@@ -2074,8 +2074,9 @@ These properties are by default not set.
   <!-- net.sf.jasperreports.awt.ignore.missing.font -->
   
   <configProperty name="net.sf.jasperreports.awt.ignore.missing.font">
-    <description>
-    </description>
+    <description>When set to <code>false</code>, it forces the engine to check if the font used as value for the <code>fontName</code> attribute inside 
+the report template is available either through the JasperReports font extension mechanism or as a JVM accesible font, 
+and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.html">JRFontNotFoundException</api> exception, if this font is not available.</description>
     <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRStyledText.html#PROPERTY_AWT_IGNORE_MISSING_FONT</api>
     <default>false</default>
     <scope>Global | Report</scope>
