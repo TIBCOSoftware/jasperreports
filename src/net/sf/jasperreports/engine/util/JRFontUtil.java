@@ -250,25 +250,32 @@ public class JRFontUtil
 					faceStyle = Font.PLAIN;
 				}
 					
-				if (face == null)
-				{
-					throw new JRRuntimeException("Font family '" + family.getName() + "' does not have the normal font face.");
-				}
+//				if (face == null)
+//				{
+//					throw new JRRuntimeException("Font family '" + family.getName() + "' does not have the normal font face.");
+//				}
 			}
 			else
 			{
 				faceStyle = fontInfo.getStyle();
 			}
 
-			awtFont = face.getFont();
-			if (awtFont == null)
+			if (face == null)
 			{
-				throw new JRRuntimeException("The '" + face.getName() + "' font face in family '" + family.getName() + "' returns a null font.");
+				awtFont = new Font(family.getName(), style, size);
 			}
+			else
+			{
+				awtFont = face.getFont();
+				if (awtFont == null)
+				{
+					throw new JRRuntimeException("The '" + face.getName() + "' font face in family '" + family.getName() + "' returns a null font.");
+				}
 
-			awtFont = awtFont.deriveFont((float)size);
-			
-			awtFont = FONT_DERIVER.deriveFont(awtFont, name, style, faceStyle);
+				awtFont = awtFont.deriveFont((float)size);
+				
+				awtFont = FONT_DERIVER.deriveFont(awtFont, name, style, faceStyle);
+			}
 		}
 		
 		return awtFont;

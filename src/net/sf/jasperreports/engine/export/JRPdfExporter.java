@@ -1753,10 +1753,10 @@ public class JRPdfExporter extends JRAbstractExporter
 						faceStyle = java.awt.Font.PLAIN;
 					}
 						
-					if (face == null)
-					{
-						throw new JRRuntimeException("Font family '" + family.getName() + "' does not have the normal font face.");
-					}
+//					if (face == null)
+//					{
+//						throw new JRRuntimeException("Font family '" + family.getName() + "' does not have the normal font face.");
+//					}
 				}
 				else
 				{
@@ -1793,8 +1793,8 @@ public class JRPdfExporter extends JRAbstractExporter
 				if (pdfFontName == null)
 				{
 					//in theory, face file cannot be null here
-					pdfFontName = (face.getFile() == null ? jrFont.getPdfFontName() : face.getFile());
-					pdfFontStyle = faceStyle;
+					pdfFontName = (face == null || face.getFile() == null ? jrFont.getPdfFontName() : face.getFile());
+					pdfFontStyle = faceStyle;//FIXMEFONT not sure this is correct, in case we inherit pdfFontName from default properties
 				}
 
 //				String ttf = face.getFile();
