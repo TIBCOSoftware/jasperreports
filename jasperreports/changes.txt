@@ -2,8 +2,15 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.6.1 (2009-08-xx, SVN 3038)
+JasperReports 3.6.1 (2009-09-xx, SVN xxxx)
 ---------------------------------------------
+
+- enhanced font extension support to allow mapping JVM available fonts
+and PDF built-in fonts;
+
+- net.sf.jasperreports.awt.ignore.missing.font configuration property added
+to control font availability verifications during report filling and report
+AWT rendering 
 
 - minor bug fixes and improvements;
 
