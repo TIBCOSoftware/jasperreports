@@ -917,7 +917,7 @@ exceeds a specified amount of time is turned on, this property will indicate the
 maximum allowed amount of time, in order to prevent a memory overflow error. If this value  
 becomes exceeded, the report execution will be stopped. 
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/governors/MaxPagesGovernor.html#PROPERTY_MAX_PAGES</api>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/governors/TimeoutGovernor.html#PROPERTY_TIMEOUT</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.4</since>
