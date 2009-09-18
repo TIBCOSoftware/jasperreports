@@ -25,7 +25,14 @@
 		<pathelement location="./web"/>
 	</path>
 
-	<target name="javac" description="Compiles the java source files of the test application.">
+	<condition property="using.jdk.1.5">
+		<or>
+		<equals arg1="${ant.java.version}" arg2="1.5"/>
+		<equals arg1="${ant.java.version}" arg2="1.6"/>
+		</or>
+	</condition>
+
+	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application.">
 		<mkdir dir="./build/classes"/> 
 		<javac srcdir="." destdir="./build/classes" debug="true" optimize="false" deprecation="false">
 			<classpath refid="classpath"/>
@@ -42,7 +49,7 @@
 		</copy>
 	</target>
 	
-	<target name="jar" description="Packs the component classes and resources into a jar" depends="javac">
+	<target name="jar" if="using.jdk.1.5" description="Packs the component classes and resources into a jar" depends="javac">
 		<jar jarfile="./build/jasperreports-ofc-component.jar">
 			<manifest>
 				<attribute name="Built-By" value="Jaspersoft"/>
@@ -51,7 +58,7 @@
 		</jar>
 	</target>
 
-	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+	<target name="compile" if="using.jdk.1.5" description="Compiles the XML report design and produces the .jasper file.">
 		<mkdir dir="./build"/> 
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
@@ -66,7 +73,7 @@
 		</jrc> 
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+	<target name="fill" if="using.jdk.1.5" description="Fills the compiled report design with data and produces the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="fill"/>
 			<arg value="${file.name}.jasper"/>
@@ -74,13 +81,13 @@
 		</java>
 	</target>
 
-	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
+	<target name="viewXML" if="using.jdk.1.5" description="Launches the report viewer to preview the generated report stored in an XML file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
+	<target name="xml" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="xml"/>
 			<arg value="${file.name}.jrprint"/>
@@ -88,7 +95,7 @@
 		</java>
 	</target>
 
-	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
+	<target name="xmlEmbed" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="xmlEmbed"/>
 			<arg value="${file.name}.jrprint"/>
@@ -96,7 +103,7 @@
 		</java>
 	</target>
 
-	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+	<target name="html" if="using.jdk.1.5" description="Generates an HTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="html"/>
 			<arg value="${file.name}.jrprint"/>
@@ -104,7 +111,7 @@
 		</java>
 	</target>
 
-	<target name="pdf" description="Generates an PDF  version of the report by converting the .jrprint file.">
+	<target name="pdf" if="using.jdk.1.5" description="Generates an PDF  version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="pdf"/>
 			<arg value="${file.name}.jrprint"/>
@@ -112,7 +119,7 @@
 		</java>
 	</target>
 
-	<target name="view" description="Displays the HTML report by starting an embedded web server and launching a browser.">
+	<target name="view" if="using.jdk.1.5" description="Displays the HTML report by starting an embedded web server and launching a browser.">
 		<mkdir dir="${web.dir}"/>
 		<copy todir="${web.dir}">
 			<fileset dir="./web"/>
@@ -127,14 +134,14 @@
 		</java>
 	</target>
 
-	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
+	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="./${base.file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+	<target name="viewDesign" if="using.jdk.1.5" description="Launches the design viewer to preview the compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${file.name}.jasper"/>
 			<classpath refid="classpath"/>

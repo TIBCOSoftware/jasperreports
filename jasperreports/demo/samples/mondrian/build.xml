@@ -170,7 +170,7 @@
 		</java>
 	</target>
 
-	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
+	<target name="docx" if="using.jdk.1.5" description="Generates a DOCX version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="docx"/>
 			<arg value="${file.name}.jrprint"/>
@@ -178,7 +178,7 @@
 		</java>
 	</target>
 
-	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
+	<target name="xhtml" if="using.jdk.1.5" description="Generates an XHTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="xhtml"/>
 			<arg value="${file.name}.jrprint"/>

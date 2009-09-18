@@ -20,7 +20,14 @@
 		</fileset>
 	</path>
 
-	<target name="javac" description="Compiles the java source files of the test application.">
+	<condition property="using.jdk.1.5">
+		<or>
+		<equals arg1="${ant.java.version}" arg2="1.5"/>
+		<equals arg1="${ant.java.version}" arg2="1.6"/>
+		</or>
+	</condition>
+
+	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application.">
 		<mkdir dir="./build/classes"/>
 		<mkdir dir="./build/reports"/>
 		<javac srcdir="./" destdir="./build/classes" debug="true" optimize="false" deprecation="false">
@@ -34,7 +41,7 @@
 		
 	</target>
 
-	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+	<target name="compile" if="using.jdk.1.5" description="Compiles the XML report design and produces the .jasper file.">
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
 		</taskdef>
@@ -48,7 +55,7 @@
 		</jrc> 
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data from the CustomDataSource.java and produces the .jrprint file.">
+	<target name="fill" if="using.jdk.1.5" description="Fills the compiled report design with data from the CustomDataSource.java and produces the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="fill"/>
 			<arg value="${file.name}.jasper"/>
@@ -56,14 +63,14 @@
 		</java>
 	</target>
 
-	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+	<target name="view" if="using.jdk.1.5" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+	<target name="pdf" if="using.jdk.1.5" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="pdf"/>
 			<arg value="${file.name}.jrprint"/>
@@ -71,7 +78,7 @@
 		</java>
 	</target>
 
-	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file using the POI 3.5 Beta library.">
+	<target name="xlsx" if="using.jdk.1.5" description="Generates an XLSX version of the report by converting the .jrprint file using the POI 3.5 Beta library.">
 		<java classname="${class.name}" fork="true">
 			<arg value="xlsx"/>
 			<arg value="${file.name}.jrprint"/>
@@ -79,14 +86,14 @@
 		</java>
 	</target>
 
-	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
+	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${basedir}/reports/POI35Report.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+	<target name="viewDesign" if="using.jdk.1.5" description="Launches the design viewer to preview the compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${file.name}.jasper"/>
 			<classpath refid="classpath"/>
