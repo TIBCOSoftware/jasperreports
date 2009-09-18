@@ -149,6 +149,10 @@
       <property ref="net.sf.jasperreports.export.pdf.tag.colspan"/>
       <property ref="net.sf.jasperreports.export.pdf.tag.rowspan"/>
       <property ref="net.sf.jasperreports.export.pdf.tag.language"/>
+      <property ref="net.sf.jasperreports.export.text.character.height"/>
+      <property ref="net.sf.jasperreports.export.text.character.width"/>
+      <property ref="net.sf.jasperreports.export.text.page.height"/>
+      <property ref="net.sf.jasperreports.export.text.page.width"/>
       <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
       <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
       <property ref="net.sf.jasperreports.export.xls.detect.cell.type"/>
@@ -1750,6 +1754,58 @@ Specifies the language that the exporter should put in the language tag of the g
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
+  </configProperty>
+  
+ 
+  <!-- net.sf.jasperreports.export.text.character.width -->
+  
+  <configProperty name="net.sf.jasperreports.export.text.character.width">
+    <description>
+Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#CHARACTER_WIDTH">CHARACTER_WIDTH</api> export parameter.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_CHARACTER_WIDTH</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.6.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.text.character.height -->
+  
+  <configProperty name="net.sf.jasperreports.export.text.character.height">
+    <description>
+Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#CHARACTER_HEIGHT">CHARACTER_HEIGHT</api> export parameter.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_CHARACTER_HEIGHT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.6.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.text.page.width -->
+  
+  <configProperty name="net.sf.jasperreports.export.text.page.width">
+    <description>
+Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PAGE_WIDTH">PAGE_WIDTH</api> export parameter.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_PAGE_WIDTH</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.6.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.text.page.height -->
+  
+  <configProperty name="net.sf.jasperreports.export.text.page.height">
+    <description>
+Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PAGE_HEIGHT">PAGE_HEIGHT</api> export parameter.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_PAGE_HEIGHT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.6.1</since>
   </configProperty>
   
   
