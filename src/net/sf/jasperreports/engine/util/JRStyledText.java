@@ -216,11 +216,14 @@ public class JRStyledText implements Cloneable
 						((TextAttribute.WEIGHT_BOLD.equals(attrs.get(TextAttribute.WEIGHT))?Font.BOLD:Font.PLAIN)
 							|(TextAttribute.POSTURE_OBLIQUE.equals(attrs.get(TextAttribute.POSTURE))?Font.ITALIC:Font.PLAIN)), 
 						((Float)attrs.get(TextAttribute.SIZE)).intValue(),
-						locale
+						locale,
+						ignoreMissingFont
 						);
 				if (awtFont == null)
 				{
-					if (!ignoreMissingFont && !JRGraphEnvInitializer.isFontAvailable(familyName))
+					// The font was not found in any of the font extensions, so it is expected that the TextAttribute.FAMILY attribute
+					// will be used by AWT. In that case, we want make sure the font family name is available to the JVM.
+					if(!ignoreMissingFont && !JRGraphEnvInitializer.isAwtFontAvailable(familyName))
 					{
 						throw new JRFontNotFoundException(familyName);
 					}

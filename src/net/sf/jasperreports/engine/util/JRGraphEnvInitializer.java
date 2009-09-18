@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class JRGraphEnvInitializer
 {
 
-	
 	/**
 	 *
 	 */
@@ -69,7 +68,7 @@ public class JRGraphEnvInitializer
 	/**
 	 *
 	 */
-	public static boolean isFontAvailable(String font)
+	public static boolean isAwtFontAvailable(String font)
 	{
 		initializeGraphEnv();
 		

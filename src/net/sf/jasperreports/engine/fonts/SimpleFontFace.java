@@ -50,20 +50,7 @@ public class SimpleFontFace implements FontFace
 	/**
 	 * 
 	 */
-	public static SimpleFontFace createInstance(String file)
-	{
-		SimpleFontFace fontFace = null;
-		if (file != null)
-		{
-			fontFace = new SimpleFontFace(file);
-		}
-		return fontFace;
-	}
-	
-	/**
-	 * 
-	 */
-	private SimpleFontFace(String file)
+	public SimpleFontFace(String file)
 	{
 		this.file = file;
 
@@ -79,7 +66,7 @@ public class SimpleFontFace implements FontFace
 		
 		try
 		{
-			font = Font.createFont(Font.TRUETYPE_FONT, is); 
+			font = Font.createFont(Font.TRUETYPE_FONT, is);
 		}
 		catch(FontFormatException e)
 		{
@@ -99,6 +86,14 @@ public class SimpleFontFace implements FontFace
 			{
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	public SimpleFontFace(Font font)
+	{
+		this.font = font;
 	}
 	
 	/**
