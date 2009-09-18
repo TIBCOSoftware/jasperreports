@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Contains parameters useful for export in plain text format.
@@ -51,11 +52,31 @@ public class JRTextExporterParameter extends JRExporterParameter
 	 */
 	public static final JRTextExporterParameter CHARACTER_WIDTH = new JRTextExporterParameter("Character Width");
 
+	
+	/**
+	 * Property whose value is used as default state of the {@link #CHARACTER_WIDTH CHARACTER_WIDTH} export parameter.
+	 * <p/>
+	 * This property is not set by default.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_CHARACTER_WIDTH = JRProperties.PROPERTY_PREFIX + "export.text.character.width";
+
 
 	/**
 	 * An integer representing the pixel/character horizontal ratio.
 	 */
 	public static final JRTextExporterParameter CHARACTER_HEIGHT = new JRTextExporterParameter("Character Height");
+
+
+	/**
+	 * Property whose value is used as default state of the {@link #CHARACTER_HEIGHT CHARACTER_HEIGHT} export parameter.
+	 * <p/>
+	 * This property is not set by default.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_CHARACTER_HEIGHT = JRProperties.PROPERTY_PREFIX + "export.text.character.height";
 
 
 	/**
@@ -65,9 +86,29 @@ public class JRTextExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * Property whose value is used as default state of the {@link #PAGE_WIDTH PAGE_WIDTH} export parameter.
+	 * <p/>
+	 * This property is not set by default.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_PAGE_WIDTH = JRProperties.PROPERTY_PREFIX + "export.text.page.width";
+
+
+	/**
 	 * An integer representing the page height in characters.
 	 */
 	public static final JRTextExporterParameter PAGE_HEIGHT = new JRTextExporterParameter("Page Height");
+
+
+	/**
+	 * Property whose value is used as default state of the {@link #PAGE_HEIGHT PAGE_HEIGHT} export parameter.
+	 * <p/>
+	 * This property is not set by default.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_PAGE_HEIGHT = JRProperties.PROPERTY_PREFIX + "export.text.page.height";
 
 
 	/**
