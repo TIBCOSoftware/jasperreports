@@ -88,6 +88,7 @@ public class JRFontUtil
 	/**
 	 * Fills the supplied Map parameter with attributes copied from the JRFont parameter.
 	 * The attributes include the TextAttribute.FONT, which has a java.awt.Font object as value.
+	 * @deprecated Replaced by {@link #getAttributesWithoutAwtFont(Map, JRFont)}.
 	 */
 	public static Map getAttributes(Map attributes, JRFont font, Locale locale)
 	{
@@ -97,7 +98,8 @@ public class JRFontUtil
 				font.getFontName(), 
 				((font.isBold()?Font.BOLD:Font.PLAIN)|(font.isItalic()?Font.ITALIC:Font.PLAIN)), 
 				font.getFontSize(),
-				locale
+				locale,
+				true
 				);
 		if (awtFont != null)
 		{
@@ -113,7 +115,7 @@ public class JRFontUtil
 	/**
 	 *
 	 */
-	private static Map getAttributesWithoutAwtFont(Map attributes, JRFont font)
+	public static Map getAttributesWithoutAwtFont(Map attributes, JRFont font)
 	{
 		attributes.put(TextAttribute.FAMILY, font.getFontName());
 
@@ -213,9 +215,17 @@ public class JRFontUtil
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getAwtFontFromBundles(String, int, int, Locale, boolean)}.
 	 */
 	public static Font getAwtFontFromBundles(String name, int style, int size, Locale locale)
+	{
+		return getAwtFontFromBundles(name, style, size, locale, true);
+	}
+	
+	/**
+	 *
+	 */
+	public static Font getAwtFontFromBundles(String name, int style, int size, Locale locale, boolean ignoreMissingFont)
 	{
 		Font awtFont = null;
 		FontInfo fontInfo = getFontInfo(name, locale);
@@ -263,6 +273,13 @@ public class JRFontUtil
 
 			if (face == null)
 			{
+				// The font family does not specify any font face, not even a normal one.
+				// In such case, we take the family name and consider it as JVM available font name.
+				if (!ignoreMissingFont && !JRGraphEnvInitializer.isAwtFontAvailable(family.getName()))
+				{
+					throw new JRFontNotFoundException(family.getName());
+				}
+				
 				awtFont = new Font(family.getName(), style, size);
 			}
 			else
@@ -285,7 +302,10 @@ public class JRFontUtil
 	
 	/**
 	 * Returns a java.awt.Font instance by converting a JRFont instance.
-	 * Mostly used in combination with third-party visualization packages such as JFreeChart (for chart themes). 
+	 * Mostly used in combination with third-party visualization packages such as JFreeChart (for chart themes).
+	 * Unless the font parameter is null, this method always returns a non-null AWT font, regardless whether it was
+	 * found in the font extensions or not. This is because we do need a font to draw with and there is no point
+	 * in raising a font missing exception here, as it is not JasperReports who does the drawing. 
 	 */
 	public static Font getAwtFont(JRFont font, Locale locale)
 	{
@@ -294,12 +314,14 @@ public class JRFontUtil
 			return null;
 		}
 		
+		// ignoring missing font as explained in the Javadoc
 		Font awtFont = 
 			getAwtFontFromBundles(
 				font.getFontName(), 
 				((font.isBold()?Font.BOLD:Font.PLAIN)|(font.isItalic()?Font.ITALIC:Font.PLAIN)), 
 				font.getFontSize(),
-				locale
+				locale,
+				true
 				);
 		
 		if (awtFont == null)

@@ -23,10 +23,16 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
+import java.awt.Font;
 import java.util.Locale;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.util.JRDataUtils;
+import net.sf.jasperreports.engine.util.JRFontNotFoundException;
+import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRStyledText;
 
 
 
@@ -74,7 +80,7 @@ public class SimpleFontFamily implements FontFamily
 	 */
 	public void setNormal(String normal)
 	{
-		normalFace = SimpleFontFace.createInstance(normal);
+		normalFace = createFontFace(normal);
 	}
 	
 	/**
@@ -82,7 +88,7 @@ public class SimpleFontFamily implements FontFamily
 	 */
 	public void setBold(String bold)
 	{
-		boldFace = SimpleFontFace.createInstance(bold);
+		boldFace = createFontFace(bold);
 	}
 	
 	/**
@@ -90,7 +96,7 @@ public class SimpleFontFamily implements FontFamily
 	 */
 	public void setItalic(String italic)
 	{
-		italicFace = SimpleFontFace.createInstance(italic);
+		italicFace = createFontFace(italic);
 	}
 	
 	/**
@@ -98,7 +104,7 @@ public class SimpleFontFamily implements FontFamily
 	 */
 	public void setBoldItalic(String boldItalic)
 	{
-		boldItalicFace = SimpleFontFace.createInstance(boldItalic);
+		boldItalicFace = createFontFace(boldItalic);
 	}
 
 	/**
@@ -251,6 +257,36 @@ public class SimpleFontFamily implements FontFamily
 	public boolean supportsLocale(Locale locale)
 	{
 		return locales == null || locales.contains(JRDataUtils.getLocaleCode(locale));
+	}
+	
+	/**
+	 * 
+	 */
+	private static SimpleFontFace createFontFace(String value)
+	{
+		SimpleFontFace fontFace = null;
+
+		if (value != null)
+		{
+			if (value.trim().toUpperCase().endsWith(".TTF"))
+			{
+				fontFace = new SimpleFontFace(value);
+			}
+			else
+			{
+				if (
+					!JRProperties.getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT) 
+					&& !JRGraphEnvInitializer.isAwtFontAvailable(value)
+					)
+				{
+					throw new JRFontNotFoundException(value);
+				}
+				
+				fontFace = new SimpleFontFace(new Font(value, Font.PLAIN, JRProperties.getIntegerProperty(JRFont.DEFAULT_FONT_SIZE)));
+			}
+		}
+		
+		return fontFace;
 	}
 	
 }

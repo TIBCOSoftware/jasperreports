@@ -42,7 +42,7 @@ public class JRFontNotFoundException extends JRRuntimeException
 	 * to the Java Virtual Machine.
 	 * <p/>
 	 * The missing font check that raises this exception can be turned off by using the
-	 * <code>net.sf.jasperreports.awt.ignore.missing.font</code> configuration property, 
+	 * <code>net.sf.jasperreports.awt.ignore.missing.font</code> boolean configuration property, 
 	 * which is available globally or at report level.
 	 * <p/>
 	 * However, we advise you to leave this font check in place and rather make sure that inside your report template 

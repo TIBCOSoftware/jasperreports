@@ -72,7 +72,8 @@ public abstract class JRStyledTextAttributeSelector
 		public Map getStyledTextAttributes(JRPrintText printText)
 		{
 			Map attributes = new HashMap(); 
-			JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
+			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
+			JRFontUtil.getAttributesWithoutAwtFont(attributes, printText);
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
 			if (printText.getMode() == JRElement.MODE_OPAQUE)
 			{
@@ -91,7 +92,8 @@ public abstract class JRStyledTextAttributeSelector
 		public Map getStyledTextAttributes(JRPrintText printText)
 		{
 			Map attributes = new HashMap(); 
-			JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
+			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
+			JRFontUtil.getAttributesWithoutAwtFont(attributes, printText);
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
 			return attributes;
 		}
