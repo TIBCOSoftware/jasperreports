@@ -35,17 +35,18 @@ public interface FontFace
 {
 
 	/**
-	 * 
+	 * Returns the non-null name of the font face.
 	 */
 	public String getName();
 	
 	/**
-	 * 
+	 * Returns the TTF file, if the font face has specified one (the font face does not specify a TTF file in case it maps
+	 * a JVM available font such as a Java logical font or a system font).
 	 */
 	public String getFile();
 	
 	/**
-	 * 
+	 * Returns a non-null instance of java.awt.Font representing the font face.
 	 */
 	public Font getFont();
 
