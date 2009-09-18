@@ -112,14 +112,36 @@ public class JRTextExporter extends JRAbstractExporter
 				JRExporterParameter.PROPERTY_CHARACTER_ENCODING
 				);
 
-		Integer characterWidthParam = (Integer) parameters.get(JRTextExporterParameter.CHARACTER_WIDTH);
+		Integer characterWidthParam = null;
+		int cwp = getIntegerParameter(
+				JRTextExporterParameter.CHARACTER_WIDTH,
+				JRTextExporterParameter.PROPERTY_CHARACTER_WIDTH,
+				-1
+				);
+		
+		if(cwp > -1)
+		{
+			characterWidthParam = new Integer(cwp);
+		}
+		
 		if (characterWidthParam != null) {
 			characterWidth = characterWidthParam.intValue();
 			if (characterWidth < 0)
 				throw new JRException("Character width must be greater than 0");
 		}
 		else {
-			Integer pageWidthParam = (Integer) parameters.get(JRTextExporterParameter.PAGE_WIDTH);
+			Integer pageWidthParam = null;
+			int pwp = getIntegerParameter(
+					JRTextExporterParameter.PAGE_WIDTH,
+					JRTextExporterParameter.PROPERTY_PAGE_WIDTH,
+					-1
+					);
+			
+			if(pwp > -1)
+			{
+				pageWidthParam = new Integer(pwp);
+			}
+			
 			if (pageWidthParam != null) {
 				pageWidth = pageWidthParam.intValue();
 				if (pageWidth <= 0)
@@ -129,15 +151,36 @@ public class JRTextExporter extends JRAbstractExporter
 			}
 		}
 
-
-		Integer characterHeightParam = (Integer) parameters.get(JRTextExporterParameter.CHARACTER_HEIGHT);
+		Integer characterHeightParam = null;
+		int chp = getIntegerParameter(
+				JRTextExporterParameter.CHARACTER_HEIGHT,
+				JRTextExporterParameter.PROPERTY_CHARACTER_HEIGHT,
+				-1
+				);
+		
+		if(chp > -1)
+		{
+			characterHeightParam = new Integer(chp);
+		}
+		
 		if (characterHeightParam != null) {
 			characterHeight = characterHeightParam.intValue();
 			if (characterHeight < 0)
 				throw new JRException("Character height must be greater than 0");
 		}
 		else {
-			Integer pageHeightParam = (Integer) parameters.get(JRTextExporterParameter.PAGE_HEIGHT);
+			Integer pageHeightParam = null;
+			int php = getIntegerParameter(
+					JRTextExporterParameter.PAGE_HEIGHT,
+					JRTextExporterParameter.PROPERTY_PAGE_HEIGHT,
+					-1
+					);
+			
+			if(php > -1)
+			{
+				pageHeightParam = new Integer(php);
+			}
+			
 			if (pageHeightParam != null) {
 				pageHeight = pageHeightParam.intValue();
 				if (pageHeight <= 0)
