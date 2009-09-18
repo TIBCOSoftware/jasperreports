@@ -103,7 +103,7 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 	 * {@link ClassNotFoundException} attempts to load the class using the
 	 * context class loader.
 	 */
-	protected Object resolveObject(Object obj) throws IOException
+	protected Object resolveObject(Object obj) throws IOException//FIXMENOW fix the javadoc comment
 	{
 		Font font = (obj instanceof Font) ? (Font)obj : null;
 		
@@ -111,6 +111,9 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 		{
 			//String fontName = (String)font.getAttributes().get(TextAttribute.FAMILY);//FIXMEFONT check this
 			String fontName = font.getName();
+			// We load an instance of an AWT font, even if the specified fontName is not available (ignoreMissingFont=true),
+			// because only third-party visualization packages such as JFreeChart (chart themes) store serialized java.awt.Font objects,
+			// and they are responsible for the drawing as well.
 			Font newFont = JRFontUtil.getAwtFontFromBundles(fontName, font.getStyle(), font.getSize(), null);
 			
 			if (newFont != null)
