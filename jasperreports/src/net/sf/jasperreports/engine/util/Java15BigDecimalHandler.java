@@ -27,8 +27,6 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-import mondrian.olap.InvalidArgumentException;
-
 /**
  * {@link BigDecimalHandler} implementation used on Java 1.5 or newer.
  * 
@@ -66,7 +64,7 @@ public class Java15BigDecimalHandler implements BigDecimalHandler
 	{
 		if (minPrecision <= 0)
 		{
-			throw new InvalidArgumentException("minPrecision must be positive");
+			throw new IllegalArgumentException("minPrecision must be positive");
 		}
 		
 		this.minPrecision = minPrecision;
