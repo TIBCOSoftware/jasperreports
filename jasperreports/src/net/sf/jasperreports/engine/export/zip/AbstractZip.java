@@ -65,10 +65,10 @@ public abstract class AbstractZip
 		
 		for (int i = 0; i < exportZipEntries.size(); i++) 
 		{
-			ExportZipEntry oasisZipEntry = (ExportZipEntry)exportZipEntries.get(i);
-			ZipEntry zipEntry = new ZipEntry(oasisZipEntry.getName());
+			ExportZipEntry exportZipEntry = (ExportZipEntry)exportZipEntries.get(i);
+			ZipEntry zipEntry = new ZipEntry(exportZipEntry.getName());
 			zipos.putNextEntry(zipEntry);
-			oasisZipEntry.writeData(zipos);
+			exportZipEntry.writeData(zipos);
 		}
 		
 		zipos.flush();
@@ -82,8 +82,8 @@ public abstract class AbstractZip
 	{
 		for (int i = 0; i < exportZipEntries.size(); i++) 
 		{
-			ExportZipEntry oasisZipEntry = (ExportZipEntry)exportZipEntries.get(i);
-			oasisZipEntry.dispose();
+			ExportZipEntry exportZipEntry = (ExportZipEntry)exportZipEntries.get(i);
+			exportZipEntry.dispose();
 		}
 	}
 	

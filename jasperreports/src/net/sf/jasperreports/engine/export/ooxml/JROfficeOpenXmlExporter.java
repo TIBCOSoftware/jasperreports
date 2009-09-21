@@ -21,14 +21,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * Special thanks to Google 'Summer of Code 2005' program for supporting this development
- *
- * Contributors:
- * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
- */
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
@@ -129,12 +121,6 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String encoding = null;
-
-
-	/**
-	 *
-	 */
 	protected boolean isWrapBreakWord = false;
 
 	protected Map fontMap = null;
@@ -183,12 +169,6 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 				setPageRange();
 			}
 
-			encoding =
-				getStringParameterOrDefault(
-					JRExporterParameter.CHARACTER_ENCODING,
-					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
-					);
-
 			rendererToImagePathMap = new HashMap();
 			imageMaps = new HashMap();
 			imagesToProcess = new ArrayList();
@@ -205,7 +185,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 			{
 				try
 				{
-					exportReportToOoxmlZip(os);
+					exportReportToStream(os);
 				}
 				catch (IOException e)
 				{
@@ -231,7 +211,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 				try
 				{
 					os = new FileOutputStream(destFile);
-					exportReportToOoxmlZip(os);
+					exportReportToStream(os);
 				}
 				catch (IOException e)
 				{
@@ -289,18 +269,18 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportReportToOoxmlZip(OutputStream os) throws JRException, IOException
+	protected void exportReportToStream(OutputStream os) throws JRException, IOException
 	{
-		OoxmlZip ooxmlZip = new FileBufferedOoxmlZip();
+		DocxZip docxZip = new DocxZip();
 
-		docWriter = ooxmlZip.getDocumentEntry().getWriter();
-		relsWriter = ooxmlZip.getRelsEntry().getWriter();
+		docWriter = docxZip.getDocumentEntry().getWriter();
+		relsWriter = docxZip.getRelsEntry().getWriter();
 		
 		DocumentHelper.exportHeader(docWriter);
 		RelsHelper relsHelper = new RelsHelper(relsWriter);
 		relsHelper.exportHeader();
 		
-		Writer stylesWriter = ooxmlZip.getStylesEntry().getWriter();
+		Writer stylesWriter = docxZip.getStylesEntry().getWriter();
 		new ReportStyleHelper(stylesWriter, fontMap).export(jasperPrintList);
 		stylesWriter.close();
 
@@ -365,7 +345,7 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 				
 				String imageName = getImageName(imageIndex);
 				
-				ooxmlZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
+				docxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 					new FileBufferedZipEntry(
 						"word/media/" + imageName + "." + extension,
 						renderer.getImageData()
@@ -391,9 +371,9 @@ public abstract class JROfficeOpenXmlExporter extends JRAbstractExporter
 
 		relsWriter.close();
 
-		ooxmlZip.zipEntries(os);
+		docxZip.zipEntries(os);
 
-		ooxmlZip.dispose();
+		docxZip.dispose();
 	}
 
 
