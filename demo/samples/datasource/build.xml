@@ -171,6 +171,14 @@
 		</java>
 	</target>
 
+	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="xlsx"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="xhtml"/>
@@ -213,6 +221,7 @@
 			<fileset dir="." includes="**/*.csv" />
 			<fileset dir="." includes="**/*.odt" />
 			<fileset dir="." includes="**/*.docx" />
+			<fileset dir="." includes="**/*.xlsx" />
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
 		<delete dir="${file.name}.jrpxml_files" />
