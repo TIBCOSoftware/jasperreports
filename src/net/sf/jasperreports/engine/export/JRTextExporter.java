@@ -55,7 +55,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  * characters is large enough to render the report, because if the report pages contain too much text, some of it may be
  * rendered only partially. On the other hand, if the character resolution is too small compared to the pixel resolution
  * (say, a height of 20 characters for a page 800 pixels tall) all texts with sizes smaller than the one needed to map to a
- * character, will not be displayed (in the previous examplle, a text element needs to be at least 800/20 = 40 pixels tall
+ * character, will not be displayed (in the previous example, a text element needs to be at least 800/20 = 40 pixels tall
  * in order to be rendered).
  * <p>
  * As a conclusion, the text exporter will yield the better results if the space needed for displaying a text is large. So
@@ -109,62 +109,6 @@ public class JRTextExporter extends JRAbstractExporter
 				JRExporterParameter.CHARACTER_ENCODING, 
 				JRExporterParameter.PROPERTY_CHARACTER_ENCODING
 				);
-
-		int characterWidth = 
-			getIntegerParameter(
-				JRTextExporterParameter.CHARACTER_WIDTH,
-				JRTextExporterParameter.PROPERTY_CHARACTER_WIDTH,
-				0
-				);
-		if (characterWidth < 0)
-		{
-			throw new JRException("Character width must be greater than zero.");
-		}
-		
-		charPageWidth = 
-			getIntegerParameter(
-				JRTextExporterParameter.PAGE_WIDTH,
-				JRTextExporterParameter.PROPERTY_PAGE_WIDTH,
-				0
-				);
-		if (charPageWidth < 0)
-		{
-			throw new JRException("Page width must be greater than zero.");
-		}
-
-		if (characterWidth + charPageWidth == 0)
-		{
-			throw new JRException("Character width or page width must be specified and must be greater than zero.");
-		}
-
-		
-		int characterHeight = 
-			getIntegerParameter(
-				JRTextExporterParameter.CHARACTER_HEIGHT,
-				JRTextExporterParameter.PROPERTY_CHARACTER_HEIGHT,
-				0
-				);
-		if (characterHeight < 0)
-		{
-			throw new JRException("Character height must be greater than zero.");
-		}
-		
-		charPageHeight = 
-			getIntegerParameter(
-				JRTextExporterParameter.PAGE_HEIGHT,
-				JRTextExporterParameter.PROPERTY_PAGE_HEIGHT,
-				0
-				);
-		if (charPageHeight < 0)
-		{
-			throw new JRException("Page height must be greater than zero.");
-		}
-
-		if (characterHeight + charPageHeight == 0)
-		{
-			throw new JRException("Character height or page height must be specified and must be greater than zero.");
-		}
-
 
 		betweenPagesText = (String) parameters.get(JRTextExporterParameter.BETWEEN_PAGES_TEXT);
 		if (betweenPagesText == null) {
