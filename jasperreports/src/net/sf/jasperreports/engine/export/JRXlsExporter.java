@@ -820,10 +820,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			{
 				cellFont.setItalic(true);
 			}
-			if (font.isItalic())
-			{
-				cellFont.setItalic(true);
-			}
 
 			cellFont.setTypeOffset(superscriptType);
 			loadedFonts.add(cellFont);
