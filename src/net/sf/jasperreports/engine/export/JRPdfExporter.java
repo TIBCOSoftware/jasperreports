@@ -205,7 +205,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected int permissions = 0;
 	protected Character pdfVersion;
 	protected String pdfJavaScript;
-	protected boolean isPrintScalingNone;
+	protected String printScaling;
 
 	/**
 	 *
@@ -346,11 +346,10 @@ public class JRPdfExporter extends JRAbstractExporter
 					JRPdfExporterParameter.PROPERTY_PDF_JAVASCRIPT
 					);
 
-			isPrintScalingNone =
-				getBooleanParameter(
-					JRPdfExporterParameter.IS_PRINT_SCALING_NONE,
-					JRPdfExporterParameter.PROPERTY_PRINT_SCALING_NONE,
-					false
+			printScaling =
+				getStringParameter(
+					JRPdfExporterParameter.PRINT_SCALING,
+					JRPdfExporterParameter.PROPERTY_PRINT_SCALING
 					);
 
 			tagHelper.setTagged( 
@@ -488,9 +487,16 @@ public class JRPdfExporter extends JRAbstractExporter
 			
 			pdfWriter.setRgbTransparencyBlending(true);
 
-			if (isPrintScalingNone) 
+			if (printScaling != null) 
 			{
-				pdfWriter.addViewerPreference(PdfName.PRINTSCALING, PdfName.NONE);
+				if (JRPdfExporterParameter.PRINT_SCALING_DEFAULT.equals(printScaling))
+				{
+					pdfWriter.addViewerPreference(PdfName.PRINTSCALING, PdfName.APPDEFAULT);
+				}
+				else if (JRPdfExporterParameter.PRINT_SCALING_NONE.equals(printScaling))
+				{
+					pdfWriter.addViewerPreference(PdfName.PRINTSCALING, PdfName.NONE);
+				}
 			}
 
 			// Add meta-data parameters to generated PDF document
