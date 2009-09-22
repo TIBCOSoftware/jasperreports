@@ -136,6 +136,7 @@
       <property ref="net.sf.jasperreports.export.pdf.force.svg.shapes"/>
       <property ref="net.sf.jasperreports.export.pdf.javascript"/>
       <property ref="net.sf.jasperreports.export.pdf.owner.password"/>
+      <property ref="net.sf.jasperreports.export.pdf.print.scaling.none"/>
       <property ref="net.sf.jasperreports.export.pdf.user.password"/>
       <property ref="net.sf.jasperreports.export.pdf.version"/>
       <property ref="net.sf.jasperreports.export.pdf.tagged"/>
@@ -1698,6 +1699,19 @@ Contains the password belonging to the owner of the document, if it is encrypted
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.print.scaling.none -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.print.scaling.none">
+    <description>
+Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_PRINT_SCALING_NONE">IS_PRINT_SCALING_NONE</api> export parameter.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_PRINT_SCALING_NONE</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>3.6.1</since>
   </configProperty>
   
   
