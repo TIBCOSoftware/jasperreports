@@ -113,6 +113,7 @@ import com.lowagie.text.pdf.FontMapper;
 import com.lowagie.text.pdf.PdfAction;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
@@ -204,6 +205,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected int permissions = 0;
 	protected Character pdfVersion;
 	protected String pdfJavaScript;
+	protected boolean isPrintScalingNone;
 
 	/**
 	 *
@@ -344,6 +346,13 @@ public class JRPdfExporter extends JRAbstractExporter
 					JRPdfExporterParameter.PROPERTY_PDF_JAVASCRIPT
 					);
 
+			isPrintScalingNone =
+				getBooleanParameter(
+					JRPdfExporterParameter.IS_PRINT_SCALING_NONE,
+					JRPdfExporterParameter.PROPERTY_PRINT_SCALING_NONE,
+					false
+					);
+
 			tagHelper.setTagged( 
 				getBooleanParameter(
 					JRPdfExporterParameter.IS_TAGGED,
@@ -478,6 +487,11 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			
 			pdfWriter.setRgbTransparencyBlending(true);
+
+			if (isPrintScalingNone) 
+			{
+				pdfWriter.addViewerPreference(PdfName.PRINTSCALING, PdfName.NONE);
+			}
 
 			// Add meta-data parameters to generated PDF document
 			// mtclough@users.sourceforge.net 2005-12-05
