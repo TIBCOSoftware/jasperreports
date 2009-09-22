@@ -273,6 +273,22 @@ public class JRPdfExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * A boolean value specifying whether the print dialog should reflect no page scaling.
+	 */
+	public static final JRPdfExporterParameter IS_PRINT_SCALING_NONE = new JRPdfExporterParameter("IsPrintScalingNone");
+	 
+	
+	/**
+	 * Property whose value is used as default state of the {@link #IS_PRINT_SCALING_NONE IS_PRINT_SCALING_NONE} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 *
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_PRINT_SCALING_NONE = JRProperties.PROPERTY_PREFIX + "export.pdf.print.scaling.none";
+
+	
+	/**
 	 * Specifies whether the exporter should put structure tags in the generated PDF.
 	 */
 	public static final JRPdfExporterParameter IS_TAGGED = new JRPdfExporterParameter("Is Tagged");
