@@ -48,6 +48,8 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	public static Character PDF_VERSION_1_6 = new Character('6');
 	public static Character PDF_VERSION_1_7 = new Character('7');
 
+	public static String PRINT_SCALING_DEFAULT = "default";
+	public static String PRINT_SCALING_NONE = "none";
 
 	/**
 	 *
@@ -273,19 +275,19 @@ public class JRPdfExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * A boolean value specifying whether the print dialog should reflect no page scaling.
+	 * Parameter specifying the print scaling preference in the PDF print dialog.
 	 */
-	public static final JRPdfExporterParameter IS_PRINT_SCALING_NONE = new JRPdfExporterParameter("IsPrintScalingNone");
+	public static final JRPdfExporterParameter PRINT_SCALING = new JRPdfExporterParameter("Print Scaling");
 	 
 	
 	/**
-	 * Property whose value is used as default state of the {@link #IS_PRINT_SCALING_NONE IS_PRINT_SCALING_NONE} export flag.
+	 * Property whose value is used as default state of the {@link #PRINT_SCALING PRINT_SCALING} export parameter.
 	 * <p/>
-	 * This property is by default not set (<code>false</code>).
+	 * By default, this property is set to {@link #PRINT_SCALING_DEFAULT}.
 	 *
 	 * @see JRProperties
 	 */
-	public static final String PROPERTY_PRINT_SCALING_NONE = JRProperties.PROPERTY_PREFIX + "export.pdf.print.scaling.none";
+	public static final String PROPERTY_PRINT_SCALING = JRProperties.PROPERTY_PREFIX + "export.pdf.print.scaling";
 
 	
 	/**
