@@ -605,6 +605,9 @@ public class JRHorizontalFiller extends JRBaseFiller
 					setFirstColumn();
 
 					fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
+
+					isFirstPageBand = false;
+					isFirstColumnBand = true;
 				}
 			}
 		}
@@ -612,7 +615,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 		group.setHeaderPrinted(true);
 
 		isNewGroup = true;
-		isFirstPageBand = false;
 	}
 
 
@@ -665,11 +667,12 @@ public class JRHorizontalFiller extends JRBaseFiller
 						}
 
 						fillColumnBand(groupHeaderBand, evaluation);
+
+						isFirstPageBand = false;
+						isFirstColumnBand = true;
 					}
 				}
 			}
-
-			isFirstPageBand = false;
 		}
 	}
 
@@ -778,6 +781,9 @@ public class JRHorizontalFiller extends JRBaseFiller
 					}
 					
 					fillFixedBand(detailBand, JRExpression.EVALUATION_DEFAULT, false);
+
+					isFirstPageBand = false;
+					isFirstColumnBand = false;
 				}
 			}
 
@@ -791,8 +797,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 		isNewPage = false;
 		isNewColumn = false;
 		isNewGroup = false;
-		isFirstPageBand = false;
-		isFirstColumnBand = false;
 	}
 
 
@@ -856,14 +860,15 @@ public class JRHorizontalFiller extends JRBaseFiller
 					}
 
 					fillColumnBand(groupFooterBand, evaluation);
+
+					isFirstPageBand = false;
+					isFirstColumnBand = true;
 				}
 			}
 		}
 
 		isNewPage = false;
 		isNewColumn = false;
-		isFirstPageBand = false;
-		isFirstColumnBand = false;
 
 		group.setHeaderPrinted(false);
 		group.setFooterPrinted(true);
