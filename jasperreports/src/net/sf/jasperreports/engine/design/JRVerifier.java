@@ -3045,6 +3045,11 @@ public class JRVerifier
 	
 	protected void verifyReportElement(JRElement element)
 	{
+		if (element.getWidth() < 0)
+		{
+			addBrokenRule("Element cannot have negative width.", element);
+		}
+
 		verifyProperyExpressions(element.getPropertyExpressions());
 	}
 
