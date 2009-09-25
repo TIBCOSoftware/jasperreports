@@ -120,7 +120,7 @@ public class TableHelper extends BaseHelper
 	{
 		writer.write("   <w:tr>\n");
 		writer.write("    <w:trPr>\n");
-		writer.write("     <w:trHeight w:hRule=\"exact\" w:val=\"" +  + Utility.twip(rowHeight) + "\" />\n");
+		writer.write("     <w:trHeight w:hRule=\"atLeast\" w:val=\"" +  + Utility.twip(rowHeight) + "\" />\n");
 		writer.write("    </w:trPr>\n");
 	}
 	
