@@ -34,6 +34,7 @@ import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRDateLocaleConverter;
+import net.sf.jasperreports.engine.util.JRFloatLocaleConverter;
 
 /**
  * Abstract text data source, containing methods used to parse text
@@ -132,6 +133,13 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 				java.util.Date.class,
 				locale
 				);
+			
+			// fix for https://issues.apache.org/jira/browse/BEANUTILS-351
+			// remove on upgrade to BeanUtils 1.8.1
+			JRFloatLocaleConverter floatConverter = new JRFloatLocaleConverter(
+					locale == null ? Locale.getDefault() : locale);
+			convertBean.register(floatConverter, Float.class, locale);
+			convertBean.register(floatConverter, Float.TYPE, locale);
 		}
 		return convertBean;
 	}
