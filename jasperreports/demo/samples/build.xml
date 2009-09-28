@@ -60,6 +60,7 @@
 		<ant dir="unicode" target="test" />
 		<ant dir="virtualizer" target="test" />
 		<ant dir="webapp" target="test" />
+		<ant dir="xlsdatasource" target="test" />
 		<ant dir="xlsformula" target="test" />
 		<ant dir="xmldatasource" target="test" />
 	</target>
@@ -118,6 +119,7 @@
 		<ant dir="virtualizer" target="clean" />
 		<ant dir="webapp" target="clean" />
 		<ant dir="xlsformula" target="clean" />
+		<ant dir="xlsdatasource" target="clean" />
 		<ant dir="xmldatasource" target="clean" />
 	</target>
 
