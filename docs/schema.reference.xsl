@@ -156,8 +156,13 @@
 </xsl:template>
 
 
+<xsl:template match="xsd:p">
+  <p><xsl:apply-templates/></p>
+</xsl:template>
+
+
 <xsl:template match="xsd:p/text()">
-  <p><span class="description"><xsl:value-of select="." disable-output-escaping="yes" /></span></p>
+  <span class="description"><xsl:value-of select="." disable-output-escaping="yes" /></span>
 </xsl:template>
 
 
