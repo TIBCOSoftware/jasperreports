@@ -630,14 +630,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setX(getX());
 		text.setY(getRelativeY());
 		text.setWidth(getWidth());
-		if (getRotation() == ROTATION_NONE)
-		{
+//		if (getRotation() == ROTATION_NONE)
+//		{
 			text.setHeight(getStretchHeight());
-		}
-		else
-		{
-			text.setHeight(getHeight());
-		}
+//		}
+//		else
+//		{
+//			text.setHeight(getHeight());
+//		}
 		text.setRunDirection(getRunDirection());
 
 		if (isEvaluateNow())
