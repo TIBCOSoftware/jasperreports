@@ -48,7 +48,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * then the specified proprties file is loaded.</li>
  * <li>Otherwise "jasperreports.properties" is loaded if found in the classpath.</li>
  * <li>For backward compatibility, system properties like "jasper.reports.compile.xml.validation"
- * are checked and their values are used.  This way of specifying properties is deprecated.</li> 
+ * are checked and their values are used.  This way of specifying properties is deprecated.</li>
+ * </ul>
+ * </p> 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
@@ -397,6 +399,24 @@ public class JRProperties
 	public static void setProperty (String key, boolean value)
 	{
 		props.setProperty(key, String.valueOf(value));
+	}
+	
+	/**
+	 * Removes the value set for a property. 
+	 * 
+	 * <p>
+	 * This method removes values set in jasperreports.properties or via the
+	 * {@link #setProperty(String, String) setProperty} method.
+	 * Built-in default property values are not affected; if the property has
+	 * a default value it will be used after calling this method for the
+	 * property.
+	 * </p>
+	 * 
+	 * @param key the property key
+	 */
+	public static void removeProperty (String key)
+	{
+		props.remove(key);
 	}
 	
 	/**
