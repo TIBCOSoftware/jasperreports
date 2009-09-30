@@ -414,7 +414,7 @@ public class JRProperties
 	 * 
 	 * @param key the property key
 	 */
-	public static void removeProperty (String key)
+	public static void removePropertyValue (String key)
 	{
 		props.remove(key);
 	}
