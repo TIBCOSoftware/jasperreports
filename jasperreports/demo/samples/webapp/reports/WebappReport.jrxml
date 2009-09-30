@@ -63,7 +63,7 @@
 	<title>
 		<band height="60">
 			<frame>
-				<reportElement x="0" y="0" width="515" height="40" backcolor="#E0E0E0"/>
+				<reportElement x="0" y="0" width="515" height="50" backcolor="#E0E0E0"/>
 				<box>
 					<topPen lineWidth="1"/>
 				</box>
