@@ -71,7 +71,7 @@
 			<image scaleImage="Clip" hAlign="Right">
 				<reportElement x="365" y="10" width="150" height="40"/>
 				<graphicElement/>
-				<imageExpression class="java.lang.String"><![CDATA["jasperreports.gif"]]></imageExpression>
+				<imageExpression class="java.lang.String"><![CDATA["jasperreports.png"]]></imageExpression>
 				<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 			</image>
 			<textField isBlankWhenNull="true">

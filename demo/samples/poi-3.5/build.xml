@@ -35,7 +35,7 @@
 		</javac>
 		<copy todir="./build/reports">
 			<fileset dir="./reports">
-				<include name="**/*.gif"/>
+				<include name="**/*.png"/>
 			</fileset>
 		</copy>
 		
