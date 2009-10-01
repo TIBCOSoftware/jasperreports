@@ -120,7 +120,7 @@ public class SimpleSettingsFactory
 		
 		ChartSettings chartSettings = settings.getChartSettings();
 		chartSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
-		chartSettings.setBackgroundImage(new FileImageProvider("net/sf/jasperreports/chartthemes/simple/jasperreports.gif"));
+		chartSettings.setBackgroundImage(new FileImageProvider("net/sf/jasperreports/chartthemes/simple/jasperreports.png"));
 		chartSettings.setBackgroundImageAlignment(new Integer(Align.TOP_RIGHT));
 		chartSettings.setBackgroundImageAlpha(new Float(1f));
 		chartSettings.setBorderVisible(Boolean.TRUE);
@@ -167,7 +167,7 @@ public class SimpleSettingsFactory
 //		plotSettings.setForegroundAlpha(new Float(0.5f));
 		plotSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 //		plotSettings.setBackgroundAlpha(new Float(0.5f));
-		plotSettings.setBackgroundImage(new FileImageProvider("net/sf/jasperreports/chartthemes/simple/jasperreports.gif"));
+		plotSettings.setBackgroundImage(new FileImageProvider("net/sf/jasperreports/chartthemes/simple/jasperreports.png"));
 		plotSettings.setBackgroundImageAlpha(new Float(0.5f));
 		plotSettings.setBackgroundImageAlignment(new Integer(Align.NORTH_WEST));
 		plotSettings.setLabelRotation(new Double(0));

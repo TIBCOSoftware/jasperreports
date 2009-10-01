@@ -336,7 +336,7 @@ public class NoReportApp
 		image.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
 		image.setRenderer(
 			JRImageRenderer.getInstance(
-				JRLoader.loadBytesFromLocation("jasperreports.gif")
+				JRLoader.loadBytesFromLocation("jasperreports.png")
 				)
 			);
 		page.addElement(image);
