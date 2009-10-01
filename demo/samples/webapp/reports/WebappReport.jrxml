@@ -70,7 +70,7 @@
 				<image scaleImage="Clip" hyperlinkType="Reference">
 					<reportElement x="5" y="5" width="165" height="40"/>
 					<graphicElement/>
-					<imageExpression class="java.io.File"><![CDATA[new File($P{BaseDir}, "../images/jasperreports.gif")]]></imageExpression>
+					<imageExpression class="java.io.File"><![CDATA[new File($P{BaseDir}, "../images/jasperreports.png")]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sourceforge.net"]]></hyperlinkReferenceExpression>
 				</image>
 				<textField isBlankWhenNull="true">
