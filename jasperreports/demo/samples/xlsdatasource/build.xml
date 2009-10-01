@@ -185,8 +185,8 @@
 			<fileset dir="." includes="**/*.jrpxml" />
 			<fileset dir="." includes="**/*.html" />
 			<fileset dir="." includes="**/*.rtf" />
-			<fileset dir="." includes="**/*Source.xls" />
-			<fileset dir="." includes="**/*Source.jxl.xls" />
+			<fileset dir="." includes="**/*Report.xls" />
+			<fileset dir="." includes="**/*Report.jxl.xls" />
 			<fileset dir="." includes="**/*.csv" />
 			<fileset dir="." includes="**/*.odt" />
 			<fileset dir="." includes="**/*.docx" />
