@@ -82,6 +82,9 @@
 						<entry key="net.sf.jasperreports.rtf">
 							<bean class="com.jaspersoft.sample.ofc.ChartRtfHandler"/>
 						</entry>
+						<entry key="net.sf.jasperreports.xhtml">
+							<bean class="com.jaspersoft.sample.ofc.ChartHtmlHandler"/>
+						</entry>
 					</map>
 				</entry>
 			</map>
