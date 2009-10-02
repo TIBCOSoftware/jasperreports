@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
@@ -74,6 +75,7 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -109,6 +111,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	private static final Log log = LogFactory.getLog(JRXlsAbstractExporter.class);
 	
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String XLS_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "xls";
+	
 	private static Map hssfColorsCache = new ReferenceMap();
 
 	protected Map loadedCellStyles = new HashMap();
@@ -139,6 +147,17 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	
 	protected String password = null;
 
+	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext
+	{
+		public String getExportPropertiesPrefix()
+		{
+			return XLS_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
+	
+	protected JRXlsExporterContext exporterContext = new ExporterContext();
+
+	
 	protected void setParameters()
 	{
 		super.setParameters();
@@ -370,7 +389,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 
 
-	protected void exportText(JRPrintText textElement, JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException
+	public void exportText(JRPrintText textElement, JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException
 	{
 		JRStyledText styledText = getStyledText(textElement);
 
@@ -1209,6 +1228,27 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		cell = row.createCell(x);
 		cell.setCellStyle(cellStyle);
+	}
+
+
+	protected void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols) throws JRException
+	{
+		GenericElementXlsHandler handler = (GenericElementXlsHandler) 
+		GenericElementHandlerEnviroment.getHandler(
+				element.getGenericType(), XLS_EXPORTER_KEY);
+
+		if (handler != null)
+		{
+			handler.exportElement(exporterContext, element, gridCell, colIndex, rowIndex);
+		}
+		else
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("No XLS generic element handler for " 
+						+ element.getGenericType());
+			}
+		}
 	}
 
 

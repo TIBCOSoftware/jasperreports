@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 
@@ -36,6 +37,13 @@ import net.sf.jasperreports.engine.JasperPrint;
  */
 public interface JRExporterContext
 {
+
+	/**
+	 * Returns the current exporter.
+	 * 
+	 * @return current exporter
+	 */
+	JRExporter getExporter();
 
 	/**
 	 * Returns the report which is currently exported.

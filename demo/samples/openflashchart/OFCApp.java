@@ -31,20 +31,20 @@ import java.sql.SQLException;
 
 import edu.stanford.ejalbert.BrowserLauncher;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
@@ -60,11 +60,20 @@ public class OFCApp
 	 *
 	 */
 	private static final String TASK_FILL = "fill";
+	private static final String TASK_PRINT = "print";
+	private static final String TASK_PDF = "pdf";
 	private static final String TASK_XML = "xml";
 	private static final String TASK_XML_EMBED = "xmlEmbed";
 	private static final String TASK_HTML = "html";
-	private static final String TASK_PDF = "pdf";
-	private static final String TASK_VIEW = "view";
+	private static final String TASK_RTF = "rtf";
+	private static final String TASK_XLS = "xls";
+	private static final String TASK_JXL = "jxl";
+	private static final String TASK_CSV = "csv";
+	private static final String TASK_ODT = "odt";
+	private static final String TASK_DOCX = "docx";
+	private static final String TASK_XHTML = "xhtml";
+	private static final String TASK_VIEW_HTML = "viewHTML";
+	private static final String TASK_VIEW_XHTML = "viewXHTML";
 	
 	
 	/**
@@ -89,6 +98,33 @@ public class OFCApp
 				JasperFillManager.fillReportToFile(fileName, null, getConnection());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 			}
+			else if (TASK_PRINT.equals(taskName))
+			{
+				JasperPrintManager.printReport(fileName, true);
+				System.err.println("Printing time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_PDF.equals(taskName))
+			{
+				JasperExportManager.exportReportToPdfFile(fileName);
+				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_RTF.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
+				
+				JRRtfExporter exporter = new JRRtfExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
+			}
 			else if (TASK_XML.equals(taskName))
 			{
 				JasperExportManager.exportReportToXmlFile(fileName, false);
@@ -104,12 +140,111 @@ public class OFCApp
 				JasperExportManager.exportReportToHtmlFile(fileName);
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 			}
-			else if (TASK_PDF.equals(taskName))
+			else if (TASK_XLS.equals(taskName))
 			{
-				JasperExportManager.exportReportToPdfFile(fileName);
-				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
+				
+				JRXlsExporter exporter = new JRXlsExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+				
+				exporter.exportReport();
+
+				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
 			}
-			else if (TASK_VIEW.equals(taskName))
+			else if (TASK_JXL.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
+
+				JExcelApiExporter exporter = new JExcelApiExporter();
+
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+
+				exporter.exportReport();
+
+				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_CSV.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".csv");
+				
+				JRCsvExporter exporter = new JRCsvExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_ODT.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
+				
+				JROdtExporter exporter = new JROdtExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_DOCX.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
+				
+				JRDocxExporter exporter = new JRDocxExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_XHTML.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
+				
+				JRXhtmlExporter exporter = new JRXhtmlExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_VIEW_HTML.equals(taskName))
 			{
 				launchReport();
 			}
@@ -203,7 +338,7 @@ public class OFCApp
 	{
 		System.out.println( "OFCApp usage:" );
 		System.out.println( "\tjava OFCApp task file" );
-		System.out.println( "\tTasks : fill | xml | xmlEmbed | html | pdf | view" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xhtml | viewHTML | viewXHTML" );
 	}
 
 

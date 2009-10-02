@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -68,9 +69,9 @@ import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 {
 
-	private static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.";
+	protected static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.";
 
-	
+
 	protected static class TextAlignHolder
 	{
 		public final short horizontalAlignment;
@@ -589,6 +590,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						{
 							exportFrame((JRPrintFrame) element, gridCell, colIndex, y);//FIXME rowIndex?
 						}
+						else if (element instanceof JRGenericPrintElement)
+						{
+							exportGenericElement((JRGenericPrintElement) element, gridCell, colIndex, rowIndex, emptyCols);
+						}
 
 						colIndex += gridCell.getColSpan() - 1;
 					}
@@ -906,4 +911,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected abstract void exportLine(JRPrintLine line, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
 	protected abstract void exportFrame(JRPrintFrame frame, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
+
+	protected abstract void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols) throws JRException;
 }

@@ -40,6 +40,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -1289,6 +1290,19 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected void exportText(JRPrintText text, JRExporterGridCell cell,
 			int colIndex, int rowIndex) throws JRException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	protected void exportGenericElement(
+		JRGenericPrintElement element, 
+		JRExporterGridCell gridCell, 
+		int colIndex, 
+		int rowIndex, 
+		int emptyCols
+		) throws JRException
+	{
 		// TODO Auto-generated method stub
 		
 	}
