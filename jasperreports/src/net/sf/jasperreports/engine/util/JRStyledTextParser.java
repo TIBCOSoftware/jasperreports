@@ -176,7 +176,7 @@ public class JRStyledTextParser implements ErrorHandler
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getInstance()}.
 	 */
 	public JRStyledTextParser()
 	{

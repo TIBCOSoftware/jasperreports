@@ -50,8 +50,6 @@ import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 public abstract class TextElementConverter extends ElementConverter
 {
 	
-	private final JRStyledTextParser styledTextParser = new JRStyledTextParser();
-
 	/**
 	 *
 	 */
@@ -82,8 +80,10 @@ public abstract class TextElementConverter extends ElementConverter
 	/**
 	 * 
 	 */
-	protected void measureTextElement(JRPrintText printText, String text)
+	public static void measureTextElement(JRPrintText printText)//FIXMEHANDLER consider putting in JRTextMeasurerUtil
 	{
+		String text = printText.getText();
+		
 		JRTextMeasurer textMeasurer = JRTextMeasurerUtil.createTextMeasurer(printText);//FIXME use element properties?
 		
 		if (text == null)
@@ -91,7 +91,7 @@ public abstract class TextElementConverter extends ElementConverter
 			text = "";
 		}
 		JRStyledText styledText = 
-			styledTextParser.getStyledText(
+			JRStyledTextParser.getInstance().getStyledText(
 				JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText), 
 				text, 
 				JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup()),//FIXMEMARKUP only static styled text appears on preview. no other markup
@@ -112,7 +112,7 @@ public abstract class TextElementConverter extends ElementConverter
 		String printedText;
 		if (JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup()))
 		{
-			printedText = styledTextParser.write(styledText, 0, textEnd);
+			printedText = JRStyledTextParser.getInstance().write(styledText, 0, textEnd);
 		}
 		else
 		{

@@ -171,7 +171,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	private final JRFillObjectFactory factory;
 
-	private JRStyledTextParser styledTextParser = new JRStyledTextParser();
+	private JRStyledTextParser styledTextParser = JRStyledTextParser.getInstance();
 
 	/**
 	 *
