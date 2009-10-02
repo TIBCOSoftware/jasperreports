@@ -73,7 +73,6 @@ public class OFCApp
 	private static final String TASK_DOCX = "docx";
 	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_VIEW_HTML = "viewHTML";
-	private static final String TASK_VIEW_XHTML = "viewXHTML";
 	
 	
 	/**
@@ -272,7 +271,8 @@ public class OFCApp
 		new NanoHTTPD(HTTP_PORT);
 		
 		//launching the browser
-		launchBrowser();
+		launchBrowser("html");
+		launchBrowser("x.html");
 		
 		//waiting for a long time so that the server does not shut down
 		try
@@ -285,9 +285,9 @@ public class OFCApp
 		}
 	}
 
-	protected static void launchBrowser()
+	protected static void launchBrowser(String extension)
 	{
-		String reportURI = "http://localhost:" + HTTP_PORT + "/OpenFlashChartReport.html";
+		String reportURI = "http://localhost:" + HTTP_PORT + "/OpenFlashChartReport." + extension;
 		
 		System.out.println("Launching a browser to for " + reportURI);
 		System.out.println("If a browser is not launched, please navigate to this URL manually");
@@ -338,7 +338,7 @@ public class OFCApp
 	{
 		System.out.println( "OFCApp usage:" );
 		System.out.println( "\tjava OFCApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xhtml | viewHTML | viewXHTML" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xhtml | viewHTML" );
 	}
 
 
