@@ -151,8 +151,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
-	public static final String PDF_EXPORTER_KEY = 
-		JRProperties.PROPERTY_PREFIX + "pdf";
+	public static final String PDF_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "pdf";
 	
 	private static final String EMPTY_BOOKMARK_TITLE = "";
 

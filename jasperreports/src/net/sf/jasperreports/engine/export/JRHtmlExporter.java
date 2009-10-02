@@ -116,8 +116,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
-	public static final String HTML_EXPORTER_KEY = 
-		JRProperties.PROPERTY_PREFIX + "html";
+	public static final String HTML_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "html";
 	
 	/**
 	 * @deprecated Replaced by  {@link JRHtmlExporterParameter#PROPERTY_FRAMES_AS_NESTED_TABLES}.

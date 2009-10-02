@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -104,6 +105,7 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -120,6 +122,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	private static final Log log = LogFactory.getLog(JExcelApiExporter.class);
 
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String JXL_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "jxl";
+	
 	protected static final Colour WHITE = Colour.WHITE;
 	protected static final Colour BLACK = Colour.BLACK;
 
@@ -149,6 +157,16 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected String password;
 	
 	protected ExporterNature nature = null;
+	
+	protected class ExporterContext extends BaseExporterContext implements JExcelApiExporterContext
+	{
+		public String getExportPropertiesPrefix()
+		{
+			return XLS_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
+	
+	protected JExcelApiExporterContext exporterContext = new ExporterContext();
 	
 
 	public JExcelApiExporter()
@@ -433,7 +451,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void exportText(JRPrintText text, JRExporterGridCell gridCell, int col, int row) throws JRException
+	public void exportText(JRPrintText text, JRExporterGridCell gridCell, int col, int row) throws JRException
 	{
 		addMergeRegion(gridCell, col, row);
 
@@ -1855,6 +1873,28 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			throw new JRException("Can't add cell.", e);
 		}
 	}
+
+
+	protected void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols) throws JRException
+	{
+		GenericElementJExcelApiHandler handler = (GenericElementJExcelApiHandler) 
+		GenericElementHandlerEnviroment.getHandler(
+				element.getGenericType(), JXL_EXPORTER_KEY);
+
+		if (handler != null)
+		{
+			handler.exportElement(exporterContext, element, gridCell, colIndex, rowIndex);
+		}
+		else
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("No XLS generic element handler for " 
+						+ element.getGenericType());
+			}
+		}
+	}
+
 
 	/**
 	 * This method is intended to modify a given format pattern so to include

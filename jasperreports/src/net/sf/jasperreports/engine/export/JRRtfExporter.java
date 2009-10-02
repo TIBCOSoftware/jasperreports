@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -79,6 +80,9 @@ import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Exports a JasperReports document to RTF format. It has binary output type and exports the document to
  * a free-form layout. It uses the RTF Specification 1.6 (compatible with MS Word 6.0, 2003 and XP).
@@ -91,8 +95,16 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public class JRRtfExporter extends JRAbstractExporter
 {
+	private static final Log log = LogFactory.getLog(JRRtfExporter.class);
+	
 	private static final String RTF_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.rtf.";
 
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String RTF_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "rtf";
+	
 	/**
 	 *
 	 */
@@ -115,7 +127,17 @@ public class JRRtfExporter extends JRAbstractExporter
 
 	private Map fontMap = null;
 
+	protected class ExporterContext extends BaseExporterContext implements JRRtfExporterContext
+	{
+		public String getExportPropertiesPrefix()
+		{
+			return RTF_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
+	
+	protected JRRtfExporterContext exporterContext = new ExporterContext();
 
+	
 	/**
 	 * Export report in .rtf format
 	 */
@@ -642,7 +664,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @param text JasperReports text object (JRPrintText)
 	 * @throws JRException
 	 */
-	protected void exportText(JRPrintText text) throws IOException, JRException {
+	public void exportText(JRPrintText text) throws IOException, JRException {
 
 
 		// use styled text
@@ -1257,6 +1279,9 @@ public class JRRtfExporter extends JRAbstractExporter
 					else if (element instanceof JRPrintFrame) {
 						exportFrame((JRPrintFrame)element);
 					}
+					else if (element instanceof JRGenericPrintElement) {
+						exportGenericElement((JRGenericPrintElement)element);
+					}
 				}
 			}
 		}
@@ -1389,6 +1414,27 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 
 
+	protected void exportGenericElement(JRGenericPrintElement element)
+	{
+		GenericElementRtfHandler handler = (GenericElementRtfHandler) 
+				GenericElementHandlerEnviroment.getHandler(
+						element.getGenericType(), RTF_EXPORTER_KEY);
+		
+		if (handler != null)
+		{
+			handler.exportElement(exporterContext, element);
+		}
+		else
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("No PDF generic element handler for " 
+						+ element.getGenericType());
+			}
+		}
+	}
+
+	
 	protected void exportHyperlink(JRPrintHyperlink link) throws IOException
 	{
 		String hlloc = null;

@@ -73,6 +73,15 @@
 						<entry key="net.sf.jasperreports.pdf">
 							<bean class="com.jaspersoft.sample.ofc.ChartPdfHandler"/>
 						</entry>
+						<entry key="net.sf.jasperreports.xls">
+							<bean class="com.jaspersoft.sample.ofc.ChartXlsHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.jxl">
+							<bean class="com.jaspersoft.sample.ofc.ChartJExcelApiHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.rtf">
+							<bean class="com.jaspersoft.sample.ofc.ChartRtfHandler"/>
+						</entry>
 					</map>
 				</entry>
 			</map>
