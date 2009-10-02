@@ -31,7 +31,7 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.util.LinkedList;
+import java.io.IOException;
 
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
@@ -61,5 +61,17 @@ public class JROdsExporter extends JROpenDocumentExporter
 	protected ExporterNature getExporterNature(ExporterFilter filter) {
 		return new JROdsExporterNature(filter);
 	}
+
+	protected void insertPageAnchor() throws IOException
+	{
+		if(startPage)
+		{
+//			tempBodyWriter.write("<text:bookmark text:name=\"");
+//			tempBodyWriter.write(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
+//			tempBodyWriter.write("\"/>\n");
+			startPage = false;
+		}
+	}
+	
 }
 

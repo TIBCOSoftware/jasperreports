@@ -1260,16 +1260,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			tempBodyWriter.write("</draw:a>");
 	}
 
-	protected void insertPageAnchor() throws IOException
-	{
-		if(startPage)
-		{
-			tempBodyWriter.write("<text:bookmark text:name=\"");
-			tempBodyWriter.write(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
-			tempBodyWriter.write("\"/>\n");
-			startPage = false;
-		}
-	}
+	protected abstract void insertPageAnchor() throws IOException;
 	
 	protected abstract ExporterNature getExporterNature(ExporterFilter filter);
 
