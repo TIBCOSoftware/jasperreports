@@ -74,7 +74,9 @@ public class StaticTextConverter extends TextElementConverter
 		
 		copyTextElement(reportConverter, staticText, printText);
 		
-		measureTextElement(printText, staticText.getText());
+		printText.setText(staticText.getText());
+		
+		measureTextElement(printText);
 		
 		return printText;
 	}

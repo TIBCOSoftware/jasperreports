@@ -82,7 +82,9 @@ public class TextFieldConverter extends TextElementConverter
 		printText.setLinkType(textField.getLinkType());
 		printText.setPattern(textField.getOwnPattern());
 		
-		measureTextElement(printText, JRExpressionUtil.getExpressionText(textField.getExpression()));
+		printText.setText(JRExpressionUtil.getExpressionText(textField.getExpression()));
+		
+		measureTextElement(printText);
 
 		return printText;
 	}
