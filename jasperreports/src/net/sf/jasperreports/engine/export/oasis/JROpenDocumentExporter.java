@@ -55,7 +55,6 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -137,7 +136,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	protected LinkedList backcolorStack;
 	protected Color backcolor;
 
-	private StyleCache styleCache = null;
+	protected StyleCache styleCache = null;
 
 	protected ExporterNature nature = null;
 	protected String exporterPropertiesPrefix;//FIXMEODT use an abstract property
@@ -545,42 +544,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportLine(TableBuilder tableBuilder, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
-	{
-		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
-
-		double x1, y1, x2, y2;
-
-		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
-		{
-			x1 = Utility.translatePixelsToInches(0);
-			y1 = Utility.translatePixelsToInches(0);
-			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-			y2 = Utility.translatePixelsToInches(line.getHeight() - 1);
-		}
-		else
-		{
-			x1 = Utility.translatePixelsToInches(0);
-			y1 = Utility.translatePixelsToInches(line.getHeight() - 1);
-			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-			y2 = Utility.translatePixelsToInches(0);
-		}
-
-		tempBodyWriter.write("<text:p>");
-		insertPageAnchor();
-		tempBodyWriter.write(
-				"<draw:line text:anchor-type=\"paragraph\" "
-				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
-				+ "svg:x1=\"" + x1 + "in\" "
-				+ "svg:y1=\"" + y1 + "in\" "
-				+ "svg:x2=\"" + x2 + "in\" "
-				+ "svg:y2=\"" + y2 + "in\">"
-				//+ "</draw:line>"
-				+ "<text:p/></draw:line>"
-				+ "</text:p>"
-				);
-		tableBuilder.buildCellFooter();
-	}
+	protected abstract void exportLine(TableBuilder tableBuilder, JRPrintLine line, JRExporterGridCell gridCell) throws IOException;
 
 
 	/**
@@ -655,9 +619,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		insertPageAnchor();
 		if (text.getAnchorName() != null)
 		{
-			tempBodyWriter.write("<text:bookmark text:name=\"");
-			tempBodyWriter.write(JRStringUtil.xmlEncode(text.getAnchorName()));
-			tempBodyWriter.write("\"/>");
+			exportAnchor(JRStringUtil.xmlEncode(text.getAnchorName()));
 		}
 
 		boolean startedHyperlink = startHyperlink(text, true);
@@ -827,9 +789,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			insertPageAnchor();
 			if (image.getAnchorName() != null)
 			{
-				tempBodyWriter.write("<text:bookmark text:name=\"");
-				tempBodyWriter.write(JRStringUtil.xmlEncode(image.getAnchorName()));
-				tempBodyWriter.write("\"/>");
+				exportAnchor(JRStringUtil.xmlEncode(image.getAnchorName()));
 			}
 
 
@@ -1260,8 +1220,17 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			tempBodyWriter.write("</draw:a>");
 	}
 
-	protected abstract void insertPageAnchor() throws IOException;
+	protected void insertPageAnchor() throws IOException
+	{
+		if(startPage)
+		{
+			exportAnchor(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
+			startPage = false;
+		}
+	}
 	
+	protected abstract void exportAnchor(String anchorName) throws IOException;
+
 	protected abstract ExporterNature getExporterNature(ExporterFilter filter);
 
 }
