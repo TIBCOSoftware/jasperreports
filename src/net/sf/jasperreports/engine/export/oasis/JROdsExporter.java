@@ -34,6 +34,7 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.io.IOException;
 
 import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
@@ -101,6 +102,28 @@ public class JROdsExporter extends JROpenDocumentExporter
 //				//+ "</draw:line>"
 //				+ "<text:p/></draw:line>"
 //				);
+		tempBodyWriter.write("</text:p>");
+		tableBuilder.buildCellFooter();
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportEllipse(TableBuilder tableBuilder, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
+	{
+		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
+		tempBodyWriter.write("<text:p>");
+		insertPageAnchor();
+//		tempBodyWriter.write(
+//			"<draw:ellipse text:anchor-type=\"paragraph\" "
+//			+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" "
+//			+ "svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\" "
+//			+ "svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\" "
+//			+ "svg:x=\"0in\" "
+//			+ "svg:y=\"0in\">"
+//			+ "<text:p/></draw:ellipse>"
+//			);
 		tempBodyWriter.write("</text:p>");
 		tableBuilder.buildCellFooter();
 	}
