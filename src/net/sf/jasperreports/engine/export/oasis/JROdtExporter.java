@@ -33,8 +33,11 @@ package net.sf.jasperreports.engine.export.oasis;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.export.JRExporterGridCell;
 
 
 /**
@@ -62,15 +65,52 @@ public class JROdtExporter extends JROpenDocumentExporter
 	}
 
 
-	protected void insertPageAnchor() throws IOException
+	/**
+	 *
+	 */
+	protected void exportLine(TableBuilder tableBuilder, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
-		if(startPage)
+		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
+
+		double x1, y1, x2, y2;
+
+		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
 		{
-			tempBodyWriter.write("<text:bookmark text:name=\"");
-			tempBodyWriter.write(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
-			tempBodyWriter.write("\"/>\n");
-			startPage = false;
+			x1 = Utility.translatePixelsToInches(0);
+			y1 = Utility.translatePixelsToInches(0);
+			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
+			y2 = Utility.translatePixelsToInches(line.getHeight() - 1);
 		}
+		else
+		{
+			x1 = Utility.translatePixelsToInches(0);
+			y1 = Utility.translatePixelsToInches(line.getHeight() - 1);
+			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
+			y2 = Utility.translatePixelsToInches(0);
+		}
+
+		tempBodyWriter.write("<text:p>");
+		insertPageAnchor();
+		tempBodyWriter.write(
+				"<draw:line text:anchor-type=\"paragraph\" "
+				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
+				+ "svg:x1=\"" + x1 + "in\" "
+				+ "svg:y1=\"" + y1 + "in\" "
+				+ "svg:x2=\"" + x2 + "in\" "
+				+ "svg:y2=\"" + y2 + "in\">"
+				//+ "</draw:line>"
+				+ "<text:p/></draw:line>"
+				+ "</text:p>"
+				);
+		tableBuilder.buildCellFooter();
+	}
+
+
+	protected void exportAnchor(String anchorName) throws IOException
+	{
+		tempBodyWriter.write("<text:bookmark text:name=\"");
+		tempBodyWriter.write(anchorName);
+		tempBodyWriter.write("\"/>\n");
 	}
 	
 }
