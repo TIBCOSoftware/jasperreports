@@ -560,22 +560,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportEllipse(TableBuilder tableBuilder, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
-	{
-		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
-		tempBodyWriter.write("<text:p>");
-		insertPageAnchor();
-		tempBodyWriter.write(
-			"<draw:ellipse text:anchor-type=\"paragraph\" "
-			+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" "
-			+ "svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\" "
-			+ "svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\" "
-			+ "svg:x=\"0in\" "
-			+ "svg:y=\"0in\">"
-			+ "<text:p/></draw:ellipse></text:p>"
-			);
-		tableBuilder.buildCellFooter();
-	}
+	protected abstract void exportEllipse(TableBuilder tableBuilder, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException;
 
 
 	/**
