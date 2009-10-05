@@ -91,6 +91,9 @@
 						<entry key="net.sf.jasperreports.ods">
 							<bean class="com.jaspersoft.sample.ofc.ChartOdsHandler"/>
 						</entry>
+						<entry key="net.sf.jasperreports.docx">
+							<bean class="com.jaspersoft.sample.ofc.ChartDocxHandler"/>
+						</entry>
 					</map>
 				</entry>
 			</map>
