@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
@@ -64,6 +65,7 @@ public class ImagesApp
 	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_ODT = "odt";
+	private static final String TASK_ODS = "ods";
 	private static final String TASK_DOCX = "docx";
 	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_RUN = "run";
@@ -203,6 +205,23 @@ public class ImagesApp
 
 				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
 			}
+			else if (TASK_ODS.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".ods");
+				
+				JROdsExporter exporter = new JROdsExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("ODS creation time : " + (System.currentTimeMillis() - start));
+			}
 			else if (TASK_DOCX.equals(taskName))
 			{
 				File sourceFile = new File(fileName);
@@ -265,7 +284,7 @@ public class ImagesApp
 	{
 		System.out.println( "ImagesApp usage:" );
 		System.out.println( "\tjava ImagesApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xhtml | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xhtml | run" );
 	}
 
 

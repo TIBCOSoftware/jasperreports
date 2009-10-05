@@ -31,14 +31,21 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
+import java.awt.geom.Dimension2D;
 import java.io.IOException;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintEllipse;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
 /**
@@ -128,6 +135,149 @@ public class JROdtExporter extends JROpenDocumentExporter
 	}
 
 
+	/**
+	 *
+	 */
+	protected void exportImage(TableBuilder tableBuilder, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
+	{
+		int topPadding = 
+			Math.max(image.getLineBox().getTopPadding().intValue(), Math.round(image.getLineBox().getTopPen().getLineWidth().floatValue()));
+		int leftPadding = 
+			Math.max(image.getLineBox().getLeftPadding().intValue(), Math.round(image.getLineBox().getLeftPen().getLineWidth().floatValue()));
+		int bottomPadding = 
+			Math.max(image.getLineBox().getBottomPadding().intValue(), Math.round(image.getLineBox().getBottomPen().getLineWidth().floatValue()));
+		int rightPadding = 
+			Math.max(image.getLineBox().getRightPadding().intValue(), Math.round(image.getLineBox().getRightPen().getLineWidth().floatValue()));
+
+		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
+		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
+
+		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
+		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
+
+		int width = availableImageWidth;
+		int height = availableImageHeight;
+
+		int xoffset = 0;
+		int yoffset = 0;
+
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(image), gridCell.getColSpan(), gridCell.getRowSpan());
+
+		JRRenderable renderer = image.getRenderer();
+
+		if (
+			renderer != null &&
+			availableImageWidth > 0 &&
+			availableImageHeight > 0
+			)
+		{
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE && !image.isLazy())
+			{
+				// Non-lazy image renderers are all asked for their image data at some point.
+				// Better to test and replace the renderer now, in case of lazy load error.
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, image.getOnErrorType());
+			}
+		}
+		else
+		{
+			renderer = null;
+		}
+
+		if (renderer != null)
+		{
+			float xalignFactor = getXAlignFactor(image);
+			float yalignFactor = getYAlignFactor(image);
+
+			switch (image.getScaleImage())
+			{
+				case JRImage.SCALE_IMAGE_FILL_FRAME :
+				{
+					width = availableImageWidth;
+					height = availableImageHeight;
+					xoffset = 0;
+					yoffset = 0;
+					break;
+				}
+				case JRImage.SCALE_IMAGE_CLIP :
+				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+				default :
+				{
+					double normalWidth = availableImageWidth;
+					double normalHeight = availableImageHeight;
+
+					if (!image.isLazy())
+					{
+						// Image load might fail.
+						JRRenderable tmpRenderer =
+							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
+						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+						// If renderer was replaced, ignore image dimension.
+						if (tmpRenderer == renderer && dimension != null)
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+					}
+
+					if (availableImageHeight > 0)
+					{
+						double ratio = (double)normalWidth / (double)normalHeight;
+
+						if( ratio > availableImageWidth / (double)availableImageHeight )
+						{
+							width = availableImageWidth;
+							height = (int)(width/ratio);
+
+						}
+						else
+						{
+							height = availableImageHeight;
+							width = (int)(ratio * height);
+						}
+					}
+
+					xoffset = (int)(xalignFactor * (availableImageWidth - width));
+					yoffset = (int)(yalignFactor * (availableImageHeight - height));
+				}
+			}
+
+			tempBodyWriter.write("<text:p>");
+			insertPageAnchor();
+			if (image.getAnchorName() != null)
+			{
+				exportAnchor(JRStringUtil.xmlEncode(image.getAnchorName()));
+			}
+
+
+			boolean startedHyperlink = startHyperlink(image,false);
+
+			tempBodyWriter.write("<draw:frame text:anchor-type=\"paragraph\" "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
+					+ "svg:x=\"" + Utility.translatePixelsToInches(leftPadding + xoffset) + "in\" "
+					+ "svg:y=\"" + Utility.translatePixelsToInches(topPadding + yoffset) + "in\" "
+					+ "svg:width=\"" + Utility.translatePixelsToInches(width) + "in\" "
+					+ "svg:height=\"" + Utility.translatePixelsToInches(height) + "in\">"
+					);
+			tempBodyWriter.write("<draw:image ");
+			String imagePath = getImagePath(renderer, image.isLazy(), gridCell);
+			tempBodyWriter.write(" xlink:href=\"" + JRStringUtil.xmlEncode(imagePath) + "\"");
+			tempBodyWriter.write(" xlink:type=\"simple\"");
+			tempBodyWriter.write(" xlink:show=\"embed\"");
+			tempBodyWriter.write(" xlink:actuate=\"onLoad\"");
+			tempBodyWriter.write("/>\n");
+
+			tempBodyWriter.write("</draw:frame>");
+			if(startedHyperlink)
+			{
+				endHyperlink(false);
+			}
+			tempBodyWriter.write("</text:p>");
+		}
+
+		tableBuilder.buildCellFooter();
+	}
+
+	
 	protected void exportAnchor(String anchorName) throws IOException
 	{
 		tempBodyWriter.write("<text:bookmark text:name=\"");
