@@ -57,7 +57,7 @@ public class JRDocxExporter extends JROfficeOpenXmlExporter
 	}
 
 	/**
-	 * @see net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporter#getExporterNature(net.sf.jasperreports.engine.export.ExporterFilter)
+	 * @see JROfficeOpenXmlExporter#getExporterNature(net.sf.jasperreports.engine.export.ExporterFilter)
 	 */
 	protected ExporterNature getExporterNature(ExporterFilter filter) 
 	{
