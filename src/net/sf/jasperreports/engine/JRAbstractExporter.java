@@ -96,7 +96,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	public static final String PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY = "default.filter.factory";
 	
-	protected abstract class BaseExporterContext implements JRExporterContext
+	public abstract class BaseExporterContext implements JRExporterContext
 	{
 		public JRExporter getExporter()
 		{
