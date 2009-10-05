@@ -287,4 +287,20 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	public static final String PROPERTY_IGNORE_CELL_BORDER = JRProperties.PROPERTY_PREFIX + "export.xls.ignore.cell.border";
 
 
+	/**
+	 * A String value representing the password in case of password protected documents 
+	 */
+	public static final JRXlsAbstractExporterParameter PASSWORD = new JRXlsAbstractExporterParameter("Password");
+
+
+	/**
+	 * Property whose value is used as default value of the {@link #PASSWORD PASSWORD} export parameter.
+	 * <p/>
+	 * This property is by default not set (<code>null</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_PASSWORD = JRProperties.PROPERTY_PREFIX + "export.xls.password";
+
+
 }

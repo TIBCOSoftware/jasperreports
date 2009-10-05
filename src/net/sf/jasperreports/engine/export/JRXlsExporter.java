@@ -168,8 +168,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		
 		password = 
 			getStringParameter(
-				JExcelApiExporterParameter.PASSWORD,
-				JExcelApiExporterParameter.PROPERTY_PASSWORD
+				JRXlsExporterParameter.PASSWORD,
+				JRXlsExporterParameter.PROPERTY_PASSWORD
 				);
 		
 	}
