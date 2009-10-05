@@ -76,7 +76,6 @@ import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -89,11 +88,6 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public abstract class JROpenDocumentExporter extends JRAbstractExporter
 {
-
-	protected static final String ODT_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.odt.";
-	protected static final String ODS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.ods.";
-	
-
 	/**
 	 *
 	 */
@@ -137,7 +131,6 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	protected StyleCache styleCache = null;
 
 	protected ExporterNature nature = null;
-	protected String exporterPropertiesPrefix;//FIXMEODT use an abstract property
 
 	public JROpenDocumentExporter()
 	{
@@ -166,7 +159,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 
 			if (!parameters.containsKey(JRExporterParameter.FILTER))
 			{
-				filter = createFilter(exporterPropertiesPrefix);
+				filter = createFilter(getExporterPropertiesPrefix());
 			}
 
 			/*   */
@@ -1078,6 +1071,8 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	protected abstract void exportAnchor(String anchorName) throws IOException;
 
 	protected abstract ExporterNature getExporterNature(ExporterFilter filter);
+
+	protected abstract String getExporterPropertiesPrefix();
 
 }
 

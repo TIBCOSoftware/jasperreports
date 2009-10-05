@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
@@ -57,20 +58,22 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public class JROdsExporter extends JROpenDocumentExporter//FIXMEODS check commented code
 {
-
-	public JROdsExporter()
-	{
-		super();
-		exporterPropertiesPrefix = JROpenDocumentExporter.ODS_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-
+	protected static final String ODS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.ods.";
+	
 	/**
 	 *
 	 * @see net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporter#getExporterNature(net.sf.jasperreports.engine.export.ExporterFilter)
 	 */
 	protected ExporterNature getExporterNature(ExporterFilter filter) {
 		return new JROdsExporterNature(filter);
+	}
+
+	/**
+	 *
+	 */
+	protected String getExporterPropertiesPrefix()
+	{
+		return ODS_EXPORTER_PROPERTIES_PREFIX;
 	}
 
 	/**
