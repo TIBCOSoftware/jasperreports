@@ -51,4 +51,21 @@ public class JROdsExporterNature extends JROpenDocumentExporterNature
 
 		return JROpenDocumentExporterNature.ODS_NATURE;
 	}
+
+	/**
+	 * 
+	 */
+	public boolean isDeep()
+	{
+		return true;
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean isSplitSharedRowSpan()
+	{
+		return false;
+	}
+
 }
