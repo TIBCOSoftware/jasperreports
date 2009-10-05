@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -70,6 +71,7 @@ import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
@@ -81,6 +83,9 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * Exports a JasperReports document to DOCX format. It has character output type and exports the document to a
@@ -90,7 +95,14 @@ import net.sf.jasperreports.engine.util.JRTypeSniffer;
  */
 public class JRDocxExporter extends JRAbstractExporter
 {
-
+	private static final Log log = LogFactory.getLog(JRDocxExporter.class);
+	
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String DOCX_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "docx";
+	
 	protected static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.docx.";
 
 	/**
@@ -136,6 +148,27 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected ExporterNature nature = null;
 
 	protected boolean deepGrid;
+	
+
+	protected class ExporterContext extends BaseExporterContext implements JRDocxExporterContext
+	{
+		TableHelper tableHelper = null;
+		
+		public ExporterContext(TableHelper tableHelper)
+		{
+			this.tableHelper = tableHelper;
+		}
+		
+		public TableHelper getTableHelper()
+		{
+			return tableHelper;
+		}
+
+		public String getExportPropertiesPrefix()
+		{
+			return DOCX_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
 	
 	
 	public JRDocxExporter()
@@ -507,6 +540,10 @@ public class JRDocxExporter extends JRAbstractExporter
 					{
 						exportFrame(tableHelper, (JRPrintFrame)element, gridCell);
 					}
+					else if (element instanceof JRGenericPrintElement)
+					{
+						exportGenericElement(tableHelper, (JRGenericPrintElement)element, gridCell);
+					}
 
 					col += gridCell.getColSpan() - 1;
 				}
@@ -617,7 +654,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportText(TableHelper tableHelper, JRPrintText text, JRExporterGridCell gridCell) throws IOException
+	public void exportText(TableHelper tableHelper, JRPrintText text, JRExporterGridCell gridCell) throws IOException
 	{
 		tableHelper.getCellHelper().exportHeader(text, gridCell);
 
@@ -1112,6 +1149,33 @@ public class JRDocxExporter extends JRAbstractExporter
 		tableHelper.getParagraphHelper().exportEmptyParagraph();
 		tableHelper.getCellHelper().exportFooter();
 	}
+
+
+	/**
+	 *
+	 */
+	protected void exportGenericElement(TableHelper tableHelper, JRGenericPrintElement element, JRExporterGridCell gridCell) throws IOException, JRException
+	{
+		GenericElementDocxHandler handler = (GenericElementDocxHandler) 
+		GenericElementHandlerEnviroment.getHandler(
+				element.getGenericType(), DOCX_EXPORTER_KEY);
+
+		if (handler != null)
+		{
+			JRDocxExporterContext exporterContext = new ExporterContext(tableHelper);
+
+			handler.exportElement(exporterContext, element, gridCell);
+		}
+		else
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("No DOCX generic element handler for " 
+						+ element.getGenericType());
+			}
+		}
+	}
+
 
 	/**
 	 *

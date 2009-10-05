@@ -21,19 +21,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export.oasis;
+package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 
 /**
- * A generic print element ODT export handler.
+ * A generic print element DOCX export handler.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: GenericElementPdfHandler.java 3033 2009-08-27 11:46:22Z teodord $
  */
-public interface GenericElementOdtHandler extends GenericElementHandler
+public interface GenericElementDocxHandler extends GenericElementHandler
 {
 
 	/**
@@ -41,11 +41,11 @@ public interface GenericElementOdtHandler extends GenericElementHandler
 	 * 
 	 * <p>
 	 * Access to the exporter output and environment is provided via the
-	 * {@link JROdtExporterContext} argument.
+	 * {@link JRDocxExporterContext} argument.
 	 * 
 	 * @param exporterContext the exporter context
 	 * @param element the generic element to export
 	 */
-	void exportElement(JROdtExporterContext exporterContext, JRGenericPrintElement element, JRExporterGridCell gridCell);
+	void exportElement(JRDocxExporterContext exporterContext, JRGenericPrintElement element, JRExporterGridCell gridCell);
 	
 }
