@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
@@ -56,12 +57,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public class JROdtExporter extends JROpenDocumentExporter
 {
-
-	public JROdtExporter()
-	{
-		super();
-		exporterPropertiesPrefix = JROpenDocumentExporter.ODT_EXPORTER_PROPERTIES_PREFIX;//FIXMEODT move the constant to this class
-	}
+	protected static final String ODT_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.odt.";
 
 
 	/**
@@ -72,6 +68,13 @@ public class JROdtExporter extends JROpenDocumentExporter
 		return new JROdtExporterNature(filter);
 	}
 
+	/**
+	 *
+	 */
+	protected String getExporterPropertiesPrefix()
+	{
+		return ODT_EXPORTER_PROPERTIES_PREFIX;
+	}
 
 	/**
 	 *
