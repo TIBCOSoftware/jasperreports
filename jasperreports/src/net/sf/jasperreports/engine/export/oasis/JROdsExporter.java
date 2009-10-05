@@ -35,6 +35,7 @@ import java.awt.geom.Dimension2D;
 import java.io.IOException;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
@@ -44,9 +45,13 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -58,7 +63,35 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public class JROdsExporter extends JROpenDocumentExporter//FIXMEODS check commented code
 {
+	private static final Log log = LogFactory.getLog(JROdsExporter.class);
+	
 	protected static final String ODS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.ods.";
+	
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String ODS_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "ods";
+	
+	protected class ExporterContext extends BaseExporterContext implements JROdsExporterContext
+	{
+		TableBuilder tableBuilder = null;
+		
+		public ExporterContext(TableBuilder tableBuidler)
+		{
+			this.tableBuilder = tableBuidler;
+		}
+		
+		public TableBuilder getTableBuilder()
+		{
+			return tableBuilder;
+		}
+
+		public String getExportPropertiesPrefix()
+		{
+			return ODS_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
 	
 	/**
 	 *
@@ -287,5 +320,30 @@ public class JROdsExporter extends JROpenDocumentExporter//FIXMEODS check commen
 	}
 	
 	
+	/**
+	 *
+	 */
+	protected void exportGenericElement(TableBuilder tableBuilder, JRGenericPrintElement element, JRExporterGridCell gridCell) throws IOException, JRException
+	{
+		GenericElementOdsHandler handler = (GenericElementOdsHandler) 
+		GenericElementHandlerEnviroment.getHandler(
+				element.getGenericType(), ODS_EXPORTER_KEY);
+
+		if (handler != null)
+		{
+			JROdsExporterContext exporterContext = new ExporterContext(tableBuilder);
+
+			handler.exportElement(exporterContext, element, gridCell);
+		}
+		else
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("No ODS generic element handler for " 
+						+ element.getGenericType());
+			}
+		}
+	}
+
 }
 

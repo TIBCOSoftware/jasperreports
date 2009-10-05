@@ -35,6 +35,7 @@ import java.awt.geom.Dimension2D;
 import java.io.IOException;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
@@ -44,9 +45,13 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -57,9 +62,37 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public class JROdtExporter extends JROpenDocumentExporter
 {
+	private static final Log log = LogFactory.getLog(JROdtExporter.class);
+	
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String ODT_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "odt";
+	
 	protected static final String ODT_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.odt.";
 
 
+	protected class ExporterContext extends BaseExporterContext implements JROdtExporterContext
+	{
+		TableBuilder tableBuilder = null;
+		
+		public ExporterContext(TableBuilder tableBuidler)
+		{
+			this.tableBuilder = tableBuidler;
+		}
+		
+		public TableBuilder getTableBuilder()
+		{
+			return tableBuilder;
+		}
+
+		public String getExportPropertiesPrefix()
+		{
+			return ODT_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
+	
 	/**
 	 *
 	 * @see net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporter#getExporterNature(net.sf.jasperreports.engine.export.ExporterFilter)
@@ -288,5 +321,30 @@ public class JROdtExporter extends JROpenDocumentExporter
 		tempBodyWriter.write("\"/>\n");
 	}
 	
+	/**
+	 *
+	 */
+	protected void exportGenericElement(TableBuilder tableBuilder, JRGenericPrintElement element, JRExporterGridCell gridCell) throws IOException, JRException
+	{
+		GenericElementOdtHandler handler = (GenericElementOdtHandler) 
+		GenericElementHandlerEnviroment.getHandler(
+				element.getGenericType(), ODT_EXPORTER_KEY);
+
+		if (handler != null)
+		{
+			JROdtExporterContext exporterContext = new ExporterContext(tableBuilder);
+
+			handler.exportElement(exporterContext, element, gridCell);
+		}
+		else
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("No ODT generic element handler for " 
+						+ element.getGenericType());
+			}
+		}
+	}
+
 }
 

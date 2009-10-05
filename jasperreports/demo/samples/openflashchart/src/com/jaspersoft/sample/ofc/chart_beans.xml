@@ -85,6 +85,12 @@
 						<entry key="net.sf.jasperreports.xhtml">
 							<bean class="com.jaspersoft.sample.ofc.ChartHtmlHandler"/>
 						</entry>
+						<entry key="net.sf.jasperreports.odt">
+							<bean class="com.jaspersoft.sample.ofc.ChartOdtHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.ods">
+							<bean class="com.jaspersoft.sample.ofc.ChartOdsHandler"/>
+						</entry>
 					</map>
 				</entry>
 			</map>

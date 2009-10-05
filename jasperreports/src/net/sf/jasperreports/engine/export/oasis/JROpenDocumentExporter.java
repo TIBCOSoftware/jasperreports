@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -486,6 +487,10 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 					{
 						exportFrame(tableBuilder, (JRPrintFrame)element, gridCell);
 					}
+					else if (element instanceof JRGenericPrintElement)
+					{
+						exportGenericElement(tableBuilder, (JRGenericPrintElement)element, gridCell);
+					}
 
 					//x += gridCell.colSpan - 1;
 				}
@@ -557,7 +562,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportText(TableBuilder tableBuilder, JRPrintText text, JRExporterGridCell gridCell) throws IOException
+	public void exportText(TableBuilder tableBuilder, JRPrintText text, JRExporterGridCell gridCell) throws IOException
 	{
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(text), gridCell.getColSpan(), gridCell.getRowSpan());
 
@@ -845,6 +850,13 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 
 		tableBuilder.buildCellFooter();
 	}
+
+
+	/**
+	 *
+	 */
+	protected abstract void exportGenericElement(TableBuilder tableBuilder, JRGenericPrintElement element, JRExporterGridCell gridCell) throws IOException, JRException;
+
 
 	/**
 	 *
