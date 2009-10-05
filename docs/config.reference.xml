@@ -1995,13 +1995,13 @@ Property that stores the formula which has to be applied to a given cell in an E
   
   <configProperty name="net.sf.jasperreports.export.xls.password">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JExcelApiExporterParameter.html#PASSWORD">PASSWORD</api> export parameter.
+Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRAbstractXlsExporterParameter.html#PASSWORD">PASSWORD</api> export parameter.
 <br/>
 Contains a String value representing the password in case of password protected sheets in documents.
 <br/>
 This property is by default not set (<code>null</code>).                      
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JExcelApiExporterParameter.html#PROPERTY_PASSWORD</api>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRAbstractXlsExporterParameter.html#PROPERTY_PASSWORD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.0.1</since>
