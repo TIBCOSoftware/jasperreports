@@ -29,8 +29,8 @@
 		<band height="800">
 			<componentElement>
 				<reportElement x="0" y="0" width="555" height="350"/>
-				<ofc:pieChart xmlns:ofc="http://jaspersoft.com/sample/openflashchart"
-						xsi:schemaLocation="http://jaspersoft.com/sample/openflashchart http://jaspersoft.com/xsd/openflashchart.xsd"
+				<ofc:pieChart xmlns:ofc="http://jasperreports.sourceforge.net/openflashchart"
+						xsi:schemaLocation="http://jasperreports.sourceforge.net/openflashchart http://jasperreports.sourceforge.net/xsd/openflashchart.xsd"
 						evaluationTime="Report">
 					<ofc:pieDataset>
 						<dataset incrementType="Group" incrementGroup="Country"/>
@@ -42,8 +42,8 @@
 			</componentElement>
 			<componentElement>
 				<reportElement x="0" y="400" width="555" height="350"/>
-				<ofc:barChart xmlns:ofc="http://jaspersoft.com/sample/openflashchart"
-						xsi:schemaLocation="http://jaspersoft.com/sample/openflashchart http://jaspersoft.com/xsd/openflashchart.xsd"
+				<ofc:barChart xmlns:ofc="http://jasperreports.sourceforge.net/openflashchart"
+						xsi:schemaLocation="http://jasperreports.sourceforge.net/openflashchart http://jasperreports.sourceforge.net/xsd/openflashchart.xsd"
 						evaluationTime="Report">
 					<ofc:barDataset>
 						<dataset incrementType="Group" incrementGroup="Year"/>
