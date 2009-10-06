@@ -198,6 +198,14 @@
 		</java>
 	</target>
 
+	<target name="xml4swf" if="using.jdk.1.5" description="Generates an Xml4Swf version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="xml4swf"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="viewHTML" if="using.jdk.1.5" description="Displays the HTML and XHTML reports by starting an embedded web server and launching a browser.">
 		<mkdir dir="${web.dir}"/>
 		<copy todir="${web.dir}">
@@ -251,6 +259,7 @@
 		<antcall target="ods" />
 		<antcall target="docx" />
 		<antcall target="xhtml" />
+		<antcall target="xml4swf" />
 	</target>
 	
 </project>

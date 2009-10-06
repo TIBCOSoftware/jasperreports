@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.JRXml4SwfExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -74,6 +75,7 @@ public class OFCApp
 	private static final String TASK_ODS = "ods";
 	private static final String TASK_DOCX = "docx";
 	private static final String TASK_XHTML = "xhtml";
+	private static final String TASK_XML4SWF = "xml4swf";
 	private static final String TASK_VIEW_HTML = "viewHTML";
 	
 	
@@ -262,6 +264,23 @@ public class OFCApp
 
 				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
 			}
+			else if (TASK_XML4SWF.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xml4swf");
+				
+				JRXml4SwfExporter exporter = new JRXml4SwfExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("XML4SWF creation time : " + (System.currentTimeMillis() - start));
+			}
 			else if (TASK_VIEW_HTML.equals(taskName))
 			{
 				launchReport();
@@ -357,7 +376,7 @@ public class OFCApp
 	{
 		System.out.println( "OFCApp usage:" );
 		System.out.println( "\tjava OFCApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xhtml | viewHTML" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xhtml | xml4swf | viewHTML" );
 	}
 
 

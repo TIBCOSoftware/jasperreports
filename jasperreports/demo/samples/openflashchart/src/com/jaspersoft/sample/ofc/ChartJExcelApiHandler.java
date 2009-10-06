@@ -23,17 +23,10 @@
  */
 package com.jaspersoft.sample.ofc;
 
-import java.awt.Color;
-
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.export.ElementGridCell;
-import net.sf.jasperreports.engine.export.ElementWrapper;
 import net.sf.jasperreports.engine.export.GenericElementJExcelApiHandler;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JExcelApiExporterContext;
@@ -43,13 +36,8 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: ChartPdfHandler.java 3031 2009-08-27 11:14:57Z teodord $
  */
-public class ChartJExcelApiHandler implements GenericElementJExcelApiHandler
+public class ChartJExcelApiHandler extends BaseChartHandler implements GenericElementJExcelApiHandler
 {
-	public boolean toExport(JRGenericPrintElement element)
-	{
-		return true;
-	}
-	
 	public void exportElement(
 		JExcelApiExporterContext exporterContext,
 		JRGenericPrintElement element,
@@ -60,30 +48,11 @@ public class ChartJExcelApiHandler implements GenericElementJExcelApiHandler
 	{
 		JExcelApiExporter exporter = (JExcelApiExporter)exporterContext.getExporter();
 		
-		JRBasePrintText text = new JRBasePrintText(exporterContext.getExportedReport().getDefaultStyleProvider());
-		text.setText("[Open Flash Chart Component]");
-		text.setMode(JRElement.MODE_OPAQUE);
-		text.setBackcolor(Color.lightGray);
-		text.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_CENTER);
-		text.setVerticalAlignment(JRAlignment.VERTICAL_ALIGN_MIDDLE);
-		text.getLineBox().getPen().setLineWidth(1f);
-		text.getLineBox().getPen().setLineColor(Color.black);
-		text.getLineBox().getPen().setLineStyle(JRPen.LINE_STYLE_DASHED);
-		
-		JRExporterGridCell newGridCell = 
-			new ElementGridCell(
-				new ElementWrapper(text, null, null), 
-				gridCell.getWidth(), 
-				gridCell.getHeight(),
-				gridCell.getColSpan(),
-				gridCell.getRowSpan()
-				);
-		
-		newGridCell.setBox(text.getLineBox());
+		JRExporterGridCell newGridCell = getGridCellReplacement(exporterContext, element, gridCell); 
 		
 		try
 		{
-			exporter.exportText(text, newGridCell, colIndex, rowIndex);
+			exporter.exportText((JRPrintText)newGridCell.getElement(), newGridCell, colIndex, rowIndex);
 		}
 		catch (JRException e)
 		{

@@ -63,7 +63,7 @@ public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 		if (handler == null)
 		{
 			throw new JRRuntimeException("No " + exporterKey 
-					+ "handler for generic elements of type "
+					+ " handler for generic elements of type "
 					+ namespace + "#" + elementName);
 		}
 		
