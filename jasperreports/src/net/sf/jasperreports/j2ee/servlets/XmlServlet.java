@@ -112,7 +112,7 @@ public class XmlServlet extends BaseHttpServlet
 		if (isBuffered.booleanValue())
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
-			JRXmlExporter exporter = new JRXmlExporter();
+			JRXmlExporter exporter = getExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			if (startPageIndex >= 0)
 			{
@@ -182,7 +182,7 @@ public class XmlServlet extends BaseHttpServlet
 			response.setContentType("text/xml");
 			response.setHeader("Content-Disposition", "inline; filename=\"file.jrpxml\"");
 
-			JRXmlExporter exporter = new JRXmlExporter();
+			JRXmlExporter exporter = getExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			if (startPageIndex >= 0)
 			{
@@ -221,5 +221,12 @@ public class XmlServlet extends BaseHttpServlet
 	}
 
 	
+	/**
+	 * 
+	 */
+	public JRXmlExporter getExporter()
+	{
+		return new JRXmlExporter();
+	}
 }
 

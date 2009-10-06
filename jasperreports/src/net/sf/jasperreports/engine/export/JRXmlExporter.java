@@ -105,12 +105,19 @@ public class JRXmlExporter extends JRAbstractExporter
 	 *
 	 */
 	private static final String XML_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xml.";
+
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String XML_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "xml";
+
 	private static final String PROPERTY_START_PAGE_INDEX = JRProperties.PROPERTY_PREFIX + "export.xml.start.page.index";
 	private static final String PROPERTY_END_PAGE_INDEX = JRProperties.PROPERTY_PREFIX + "export.xml.end.page.index";
 	private static final String PROPERTY_PAGE_COUNT = JRProperties.PROPERTY_PREFIX + "export.xml.page.count";
 	protected static final String DEFAULT_XML_ENCODING = "UTF-8";
 	protected static final String DEFAULT_OBJECT_TYPE = "java.lang.String";
-	protected static final String HTML_FILES_SUFFIX = "_files";
+	protected static final String XML_FILES_SUFFIX = "_files";
 	protected static final String IMAGE_PREFIX = "img_";
 
 	/**
@@ -139,6 +146,17 @@ public class JRXmlExporter extends JRAbstractExporter
 	private static int imageId = 0;
 
 
+	protected class ExporterContext extends BaseExporterContext implements JRXmlExporterContext
+	{
+		public String getExportPropertiesPrefix()
+		{
+			return JRXmlExporter.this.getExporterPropertiesPrefix();
+		}
+	}
+	
+	protected JRXmlExporterContext exporterContext = new ExporterContext();
+
+
 	/**
 	 *
 	 */
@@ -159,7 +177,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	
 			if (!parameters.containsKey(JRExporterParameter.FILTER))
 			{
-				filter = createFilter(XML_EXPORTER_PROPERTIES_PREFIX);
+				filter = createFilter(getExporterPropertiesPrefix());
 			}
 
 			/*   */
@@ -229,7 +247,7 @@ public class JRXmlExporter extends JRAbstractExporter
 							}
 						}
 						
-						imagesDir = new File(destFile.getParent(), destFile.getName() + HTML_FILES_SUFFIX);
+						imagesDir = new File(destFile.getParent(), destFile.getName() + XML_FILES_SUFFIX);
 						
 						Boolean isEmbeddingImagesParameter = (Boolean)parameters.get(JRXmlExporterParameter.IS_EMBEDDING_IMAGES);
 						if (isEmbeddingImagesParameter == null)
@@ -860,7 +878,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	 * @throws IOException 
 	 *
 	 */
-	protected void exportText(JRPrintText text) throws IOException
+	public void exportText(JRPrintText text) throws IOException
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_text);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, text.getOwnHorizontalAlignment(), JRXmlConstants.getHorizontalAlignMap());
@@ -1074,39 +1092,70 @@ public class JRXmlExporter extends JRAbstractExporter
 	}
 
 
-	protected void exportGenericElement(JRGenericPrintElement element) 
-			throws IOException
+	/**
+	 *
+	 */
+	protected void exportGenericElement(JRGenericPrintElement element) throws IOException
 	{
-		xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElement);
-		exportReportElement(element);
-		
-		JRGenericElementType genericType = element.getGenericType();
-		xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementType);
-		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_namespace, 
-				genericType.getNamespace());
-		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, 
-				genericType.getName());
-		xmlWriter.closeElement();//genericElementType
-		
-		Set names = element.getParameterNames();
-		for (Iterator it = names.iterator(); it.hasNext();)
+		GenericElementXmlHandler handler = (GenericElementXmlHandler) 
+		GenericElementHandlerEnviroment.getHandler(
+				element.getGenericType(), getExporterHandlerKey());
+
+		if (handler != null)
 		{
-			String name = (String) it.next();
-			Object value = element.getParameterValue(name);
-			xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementParameter);
-			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_name, name);
-			if (value != null)
-			{
-				String valueClass = value.getClass().getName();
-				String data = JRValueStringUtils.serialize(valueClass, value);
-				xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementParameterValue);
-				xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_class, valueClass);
-				xmlWriter.writeCDATA(data);
-				xmlWriter.closeElement();//genericElementParameterValue
-			}
-			xmlWriter.closeElement();//genericElementParameter
+			handler.exportElement(exporterContext, element);
 		}
-		
-		xmlWriter.closeElement();//genericElement
+		else
+		{
+			xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElement);
+			exportReportElement(element);
+			
+			JRGenericElementType genericType = element.getGenericType();
+			xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementType);
+			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_namespace, 
+					genericType.getNamespace());
+			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, 
+					genericType.getName());
+			xmlWriter.closeElement();//genericElementType
+			
+			Set names = element.getParameterNames();
+			for (Iterator it = names.iterator(); it.hasNext();)
+			{
+				String name = (String) it.next();
+				Object value = element.getParameterValue(name);
+				xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementParameter);
+				xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_name, name);
+				if (value != null)
+				{
+					String valueClass = value.getClass().getName();
+					String data = JRValueStringUtils.serialize(valueClass, value);
+					xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementParameterValue);
+					xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_class, valueClass);
+					xmlWriter.writeCDATA(data);
+					xmlWriter.closeElement();//genericElementParameterValue
+				}
+				xmlWriter.closeElement();//genericElementParameter
+			}
+			
+			xmlWriter.closeElement();//genericElement
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected String getExporterPropertiesPrefix()
+	{
+		return XML_EXPORTER_PROPERTIES_PREFIX;
+	}
+
+	
+	/**
+	 *
+	 */
+	protected String getExporterHandlerKey()
+	{
+		return XML_EXPORTER_KEY;
 	}
 }
