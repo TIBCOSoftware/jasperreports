@@ -50,7 +50,7 @@
 	</target>
 	
 	<target name="jar" if="using.jdk.1.5" description="Packs the component classes and resources into a jar" depends="javac">
-		<jar jarfile="./build/jasperreports-ofc-component.jar">
+		<jar jarfile="./build/jasperreports-ofc.jar">
 			<manifest>
 				<attribute name="Built-By" value="Jaspersoft"/>
 			</manifest>		
