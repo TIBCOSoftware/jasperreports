@@ -25,36 +25,31 @@ package com.jaspersoft.sample.ofc;
 
 import java.io.IOException;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.export.GenericElementRtfHandler;
-import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRRtfExporterContext;
+import net.sf.jasperreports.engine.export.GenericElementXmlHandler;
+import net.sf.jasperreports.engine.export.JRXml4SwfExporter;
+import net.sf.jasperreports.engine.export.JRXmlExporterContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: ChartPdfHandler.java 3031 2009-08-27 11:14:57Z teodord $
  */
-public class ChartRtfHandler extends BaseChartHandler implements GenericElementRtfHandler
+public class ChartXml4SwfHandler extends BaseChartHandler implements GenericElementXmlHandler
 {
 	public void exportElement(
-		JRRtfExporterContext exporterContext,
+		JRXmlExporterContext exporterContext,
 		JRGenericPrintElement element
 		)
 	{
-		JRRtfExporter exporter = (JRRtfExporter)exporterContext.getExporter();
+		JRXml4SwfExporter exporter = (JRXml4SwfExporter)exporterContext.getExporter();
 		
 		JRPrintText text = getTextElementReplacement(exporterContext, element);
 		
 		try
 		{
 			exporter.exportText(text);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
 		}
 		catch (IOException e)
 		{

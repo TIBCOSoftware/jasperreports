@@ -94,6 +94,9 @@
 						<entry key="net.sf.jasperreports.docx">
 							<bean class="com.jaspersoft.sample.ofc.ChartDocxHandler"/>
 						</entry>
+						<entry key="net.sf.jasperreports.xml4swf">
+							<bean class="com.jaspersoft.sample.ofc.ChartXml4SwfHandler"/>
+						</entry>
 					</map>
 				</entry>
 			</map>
