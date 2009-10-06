@@ -1920,7 +1920,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportText(JRPrintText text) throws DocumentException
+	public void exportText(JRPrintText text) throws DocumentException
 	{
 		JRStyledText styledText = getStyledText(text, false);
 
