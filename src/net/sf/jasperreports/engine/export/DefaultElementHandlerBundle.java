@@ -60,7 +60,7 @@ public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 		
 		GenericElementHandler handler = (GenericElementHandler) handlers.get(
 				exporterKey);
-		if (handler == null)
+		if (handler == null && !JRXmlExporter.XML_EXPORTER_KEY.equals(exporterKey))
 		{
 			throw new JRRuntimeException("No " + exporterKey 
 					+ " handler for generic elements of type "
