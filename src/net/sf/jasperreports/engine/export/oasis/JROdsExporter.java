@@ -87,7 +87,7 @@ public class JROdsExporter extends JROpenDocumentExporter//FIXMEODS check commen
 			return tableBuilder;
 		}
 
-		public String getExportPropertiesPrefix()
+		public String getExportPropertiesPrefix()//FIXMENOW if this is moved in abstract exporter, it can be removed from context
 		{
 			return ODS_EXPORTER_PROPERTIES_PREFIX;
 		}
