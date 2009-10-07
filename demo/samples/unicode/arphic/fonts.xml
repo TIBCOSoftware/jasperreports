@@ -10,6 +10,13 @@
 		<property name="normal" value="arphic/gkai00mp.ttf"/>
 		<property name="pdfEncoding" value="Identity-H"/>
 		<property name="pdfEmbedded" value="true"/>
+		<property name="exportFonts">
+			<map>
+				<entry key="net.sf.jasperreports.html">
+					<value>'AR PL KaitiM GB', 'Times New Roman', Times, serif</value>
+				</entry>
+			</map>
+		</property>
 	</bean>
 
 </beans>
