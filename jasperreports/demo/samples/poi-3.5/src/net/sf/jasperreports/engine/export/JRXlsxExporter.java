@@ -101,10 +101,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 /**
  * Exports a JasperReports document to XLSX format. It has binary output type and exports the document to
  * a grid-based layout.
- * <p>
- * Since classic AWT fonts can be sometimes very different from system fonts (which are used by XLSX viewers),
- * a font mapping feature was added. By using the {@link net.sf.jasperreports.engine.JRExporterParameter#FONT_MAP} parameter, a logical
- * font like "SansSerif" can be mapped to a system specific font, like "DejaVu Serif". Both map keys and values are strings.
+ * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
