@@ -11,6 +11,13 @@
 		<property name="italic" value="gentium/GenI102.TTF"/>
 		<property name="pdfEncoding" value="Identity-H"/>
 		<property name="pdfEmbedded" value="true"/>
+		<property name="exportFonts">
+			<map>
+				<entry key="net.sf.jasperreports.html">
+					<value>Gentium, 'Times New Roman', Times, serif</value>
+				</entry>
+			</map>
+		</property>
 	</bean>
 
 </beans>

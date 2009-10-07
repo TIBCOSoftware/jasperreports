@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fonts;
 
 import java.awt.Font;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRFont;
@@ -57,6 +58,8 @@ public class SimpleFontFamily implements FontFamily
 	private String boldItalicPdfFont = null;
 	private String pdfEncoding = null;
 	private Boolean isPdfEmbedded = null;
+	private String defaultExportFont = null;
+	private Map exportFonts = null;
 	private Set locales = null;
 	
 	/**
@@ -233,6 +236,47 @@ public class SimpleFontFamily implements FontFamily
 	public void setPdfEmbedded(Boolean isPdfEmbedded)
 	{
 		this.isPdfEmbedded = isPdfEmbedded;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getDefaultExportFont()
+	{
+		return defaultExportFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setDefaultExportFont(String defaultExportFont)
+	{
+		this.defaultExportFont = defaultExportFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public Map getExportFonts()
+	{
+		return exportFonts;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setExportFonts(Map exportFonts)
+	{
+		this.exportFonts = exportFonts;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getExportFont(String key)
+	{
+		String exportFont = exportFonts == null ? null : (String)exportFonts.get(key);
+		return exportFont == null ? defaultExportFont : exportFont;
 	}
 	
 	/**

@@ -92,6 +92,11 @@ public interface FontFamily
 	/**
 	 * 
 	 */
+	public String getExportFont(String key);
+	
+	/**
+	 * 
+	 */
 	public boolean supportsLocale(Locale locale);
 	
 }

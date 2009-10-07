@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
+import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -209,7 +210,7 @@ public class JRExporterParameter
 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link FontFamily#getExportFont(String)}.
 	 */
 	public static final JRExporterParameter FONT_MAP = new JRExporterParameter("Font Map");
 

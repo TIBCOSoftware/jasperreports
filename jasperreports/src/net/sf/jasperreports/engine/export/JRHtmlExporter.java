@@ -51,6 +51,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -85,7 +86,10 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -198,7 +202,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	protected Map fontMap = null;
 
@@ -1020,12 +1024,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyledText styledText) throws IOException
+	protected void exportStyledText(JRStyledText styledText, Locale locale) throws IOException
 	{
-		exportStyledText(styledText, null);
+		exportStyledText(styledText, null, locale);
 	}
 	
-	protected void exportStyledText(JRStyledText styledText, String tooltip) throws IOException
+
+	/**
+	 *
+	 */
+	protected void exportStyledText(JRStyledText styledText, String tooltip, Locale locale) throws IOException
 	{
 		String text = styledText.getText();
 
@@ -1049,8 +1057,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 			first = false;
 			
-			exportStyledTextRun(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit),
-					tooltip);
+			exportStyledTextRun(
+				iterator.getAttributes(), 
+				text.substring(iterator.getIndex(), runLimit),
+				tooltip,
+				locale
+				);
 
 			iterator.setIndex(runLimit);
 		}
@@ -1065,23 +1077,41 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledTextRun(Map attributes, String text) throws IOException
+	protected void exportStyledTextRun(Map attributes, String text, Locale locale) throws IOException
 	{
-		exportStyledTextRun(attributes, text, null);
+		exportStyledTextRun(attributes, text, null, locale);
 	}
+
 	
-	protected void exportStyledTextRun(Map attributes, String text,
-			String tooltip) throws IOException
+	/**
+	 *
+	 */
+	protected void exportStyledTextRun(
+		Map attributes, 
+		String text,
+		String tooltip,
+		Locale locale
+		) throws IOException
 	{
-		String fontFamily;
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
+		String fontFamily = fontFamilyAttr;
 		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 		{
 			fontFamily = (String) fontMap.get(fontFamilyAttr);
 		}
 		else
 		{
-			fontFamily = fontFamilyAttr;
+			FontInfo fontInfo = JRFontUtil.getFontInfo(fontFamilyAttr, locale);
+			if (fontInfo != null)
+			{
+				//fontName found in font extensions
+				FontFamily family = fontInfo.getFontFamily();
+				String exportFont = family.getExportFont(HTML_EXPORTER_KEY);
+				if (exportFont != null)
+				{
+					fontFamily = exportFont;
+				}
+			}
 		}
 		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);
@@ -1296,7 +1326,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			//only use text tooltip when no hyperlink present
 			String textTooltip = hyperlinkStarted ? null : text.getHyperlinkTooltip();
-			exportStyledText(styledText, textTooltip);
+			exportStyledText(styledText, textTooltip, getTextLocale(text));
 		}
 		else
 		{
