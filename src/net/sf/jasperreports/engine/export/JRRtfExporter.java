@@ -86,10 +86,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Exports a JasperReports document to RTF format. It has binary output type and exports the document to
  * a free-form layout. It uses the RTF Specification 1.6 (compatible with MS Word 6.0, 2003 and XP).
- * <p>
- * Since classic AWT fonts can be sometimes very different from system fonts (which are used by RTF viewers),
- * a font mapping feature was added. By using the {@link JRExporterParameter#FONT_MAP} parameter, a logical
- * font like "SansSerif" can be mapped to a system specific font, like "DejaVu Serif". Both map keys and values are strings.
+ * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */

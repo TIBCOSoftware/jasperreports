@@ -99,10 +99,7 @@ import org.apache.poi.hssf.util.HSSFColor;
 /**
  * Exports a JasperReports document to XLS format. It has binary output type and exports the document to
  * a grid-based layout.
- * <p>
- * Since classic AWT fonts can be sometimes very different from system fonts (which are used by XLS viewers),
- * a font mapping feature was added. By using the {@link net.sf.jasperreports.engine.JRExporterParameter#FONT_MAP} parameter, a logical
- * font like "SansSerif" can be mapped to a system specific font, like "DejaVu Serif". Both map keys and values are strings.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
