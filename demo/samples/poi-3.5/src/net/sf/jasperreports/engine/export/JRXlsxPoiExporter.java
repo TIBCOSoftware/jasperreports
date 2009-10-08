@@ -39,9 +39,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -50,6 +48,7 @@ import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
@@ -73,20 +72,18 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
@@ -105,11 +102,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsxExporter extends JRXlsAbstractExporter
+public class JRXlsxPoiExporter extends JRXlsAbstractExporter
 {
-
 	private static final Log log = LogFactory.getLog(JRXlsAbstractExporter.class);
 	
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String XLSX_POI_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "xlsx.poi";
+
 	private static Map xssfColorsCache = new ReferenceMap();
 
 	protected Map loadedCellStyles = new HashMap();
@@ -138,6 +140,17 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	
 	protected String password = null;
 
+	protected class ExporterContext extends BaseExporterContext implements JRXlsxPoiExporterContext
+	{
+		public String getExportPropertiesPrefix()
+		{
+			return XLS_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
+	
+	protected JRXlsxPoiExporterContext exporterContext = new ExporterContext();
+
+	
 	protected void setParameters()
 	{
 		super.setParameters();
@@ -705,6 +718,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		{
 			fontName = (String) fontMap.get(fontName);
 		}
+		else
+		{
+			
+		}
+		
 		short superscriptType = Font.SS_NONE;
 		
 		if( attributes != null && attributes.get(TextAttribute.SUPERSCRIPT) != null)
@@ -1169,6 +1187,27 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
+	protected void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols) throws JRException
+	{
+		GenericElementXlsxPoiHandler handler = (GenericElementXlsxPoiHandler) 
+		GenericElementHandlerEnviroment.getHandler(
+				element.getGenericType(), XLSX_POI_EXPORTER_KEY);
+
+		if (handler != null)
+		{
+			handler.exportElement(exporterContext, element, gridCell, colIndex, rowIndex);
+		}
+		else
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("No XLSX POI generic element handler for " 
+						+ element.getGenericType());
+			}
+		}
+	}
+
+
 	protected ExporterNature getNature()
 	{
 		return nature;
@@ -1492,5 +1531,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				rotation + "," + font + "," +
 				box + "," + dataFormat + ")";
 		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	protected String getExporterKey()
+	{
+		return XLSX_POI_EXPORTER_KEY; 		
 	}
 }

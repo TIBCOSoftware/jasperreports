@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsxExporter;
+import net.sf.jasperreports.engine.export.JRXlsxPoiExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
@@ -100,7 +100,7 @@ public class POI35App
 		
 				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xlsx");
 				
-				JRXlsxExporter exporter = new JRXlsxExporter();
+				JRXlsxPoiExporter exporter = new JRXlsxPoiExporter();
 				
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
