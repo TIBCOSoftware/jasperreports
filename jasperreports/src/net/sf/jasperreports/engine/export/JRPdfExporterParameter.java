@@ -241,14 +241,12 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 *
 	 * To reduce PDF file size for documents containing SVG images such as charts, the flag should be
 	 * turned to false, and the PDF exporter font mappings should be correctly configured using the
-	 * {@link JRExporterParameter#FONT_MAP FONT_MAP} exporter parameter to ensure proper rendering of
-	 * text in the SVG.
+	 * font extension support, to ensure proper rendering of text in the SVG.
 	 *
 	 * This flag can be set system-wide using the {@link #PROPERTY_FORCE_SVG_SHAPES PROPERTY_FORCE_SVG_SHAPES} 
 	 * property. This export parameter overrides the property value.
 	 *
 	 * @see #PROPERTY_FORCE_SVG_SHAPES
-	 * @see net.sf.jasperreports.engine.JRExporterParameter#FONT_MAP
 	 */
 	public static final JRPdfExporterParameter FORCE_SVG_SHAPES = new JRPdfExporterParameter("Force SVG Shapes");
 

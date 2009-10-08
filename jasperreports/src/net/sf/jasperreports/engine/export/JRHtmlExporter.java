@@ -1103,7 +1103,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			{
 				//fontName found in font extensions
 				FontFamily family = fontInfo.getFontFamily();
-				String exportFont = family.getExportFont(HTML_EXPORTER_KEY);
+				String exportFont = family.getExportFont(getExporterKey());
 				if (exportFont != null)
 				{
 					fontFamily = exportFont;

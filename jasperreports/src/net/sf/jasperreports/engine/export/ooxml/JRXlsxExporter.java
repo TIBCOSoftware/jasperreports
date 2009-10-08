@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAlignment;
@@ -480,7 +481,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		if (textLength > 0)
 		{
-			exportStyledText(text.getStyle(), styledText);
+			exportStyledText(text.getStyle(), styledText, getTextLocale(text));
 		}
 
 		if (startedHyperlink)
@@ -498,7 +499,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText) throws IOException
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale) throws IOException
 	{
 		String text = styledText.getText();
 
@@ -508,7 +509,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			runHelper.export(style, iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
+			runHelper.export(
+				style, iterator.getAttributes(), 
+				text.substring(iterator.getIndex(), runLimit),
+				locale
+				);
 
 			iterator.setIndex(runLimit);
 		}
@@ -1345,7 +1350,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			ctHelper.exportHeader();
 			
 			Writer stylesWriter = xlsxZip.getStylesEntry().getWriter();
-			new XlsxStyleHelper(stylesWriter, fontMap).export(jasperPrintList);
+			new XlsxStyleHelper(stylesWriter, fontMap, getExporterKey()).export(jasperPrintList);
 			stylesWriter.close();
 		}
 		catch (IOException e)
@@ -1353,7 +1358,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			throw new JRException(e);
 		}
 
-		runHelper = new RunHelper(wbWriter, fontMap);
+		runHelper = new RunHelper(wbWriter, fontMap, null);//FIXMEXLSX check this null
 	}
 
 

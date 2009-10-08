@@ -115,7 +115,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected int reportIndex = 0;
 
-
+	/**
+	 * @deprecated
+	 */
 	protected Map fontMap = null;
 
 	/**

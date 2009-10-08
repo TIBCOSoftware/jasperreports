@@ -46,12 +46,12 @@ public class XlsxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public XlsxStyleHelper(Writer writer, Map fontMap)
+	public XlsxStyleHelper(Writer writer, Map fontMap, String exporterKey)
 	{
 		super(writer);
 		
 		paragraphHelper = new ParagraphHelper(writer, false);
-		runHelper = new RunHelper(writer, fontMap);
+		runHelper = new RunHelper(writer, fontMap, exporterKey);
 	}
 
 	/**

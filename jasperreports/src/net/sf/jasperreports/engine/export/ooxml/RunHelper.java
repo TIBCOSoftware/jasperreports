@@ -28,6 +28,7 @@ import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -35,6 +36,8 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -50,28 +53,30 @@ public class RunHelper extends BaseHelper
 	 *
 	 */
 	private Map fontMap = null;
+	private String exporterKey = null;
 
 
 	/**
 	 *
 	 */
-	public RunHelper(Writer writer, Map fontMap)
+	public RunHelper(Writer writer, Map fontMap, String exporterKey)
 	{
 		super(writer);
 		this.fontMap = fontMap;
+		this.exporterKey = exporterKey;
 	}
 
 
 	/**
 	 *
 	 */
-	public void export(JRStyle style, Map attributes, String text) throws IOException
+	public void export(JRStyle style, Map attributes, String text, Locale locale) throws IOException
 	{
 		if (text != null)
 		{
 			writer.write("      <w:r>\n");
 			
-			exportProps(getAttributes(style), attributes);
+			exportProps(getAttributes(style), attributes, locale);
 			
 			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
 			while(tkzer.hasMoreTokens())
@@ -95,12 +100,11 @@ public class RunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportProps(JRStyle style) throws IOException
+	public void exportProps(JRStyle style, Locale locale) throws IOException
 	{
 		JRPrintText text = new JRBasePrintText(null);
 		text.setStyle(style);
 		Map styledTextAttributes = new HashMap(); 
-		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
 		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
 		if (style.getMode() == null || style.getMode().byteValue() == JRElement.MODE_OPAQUE)
@@ -108,30 +112,40 @@ public class RunHelper extends BaseHelper
 			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getBackcolor());
 		}
 
-		exportProps(getAttributes(style.getStyle()), getAttributes(style));
+		exportProps(getAttributes(style.getStyle()), getAttributes(style), locale);
 	}
 
 	/**
 	 *
 	 */
-	public void exportProps(Map parentAttrs,  Map attrs) throws IOException
+	public void exportProps(Map parentAttrs,  Map attrs, Locale locale) throws IOException
 	{
 		writer.write("       <w:rPr>\n");
 
 		Object value = attrs.get(TextAttribute.FAMILY);
 		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
 		
-		if (value != null && !value.equals(oldValue))
+		if (value != null && !value.equals(oldValue))//FIXMEDOCX the text locale might be different from the report locale, resulting in different export font
 		{
-			String fontFamily;
 			String fontFamilyAttr = (String)value;
+			String fontFamily = fontFamilyAttr;
 			if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 			{
 				fontFamily = (String) fontMap.get(fontFamilyAttr);
 			}
 			else
 			{
-				fontFamily = fontFamilyAttr;
+				FontInfo fontInfo = JRFontUtil.getFontInfo(fontFamilyAttr, locale);
+				if (fontInfo != null)
+				{
+					//fontName found in font extensions
+					FontFamily family = fontInfo.getFontFamily();
+					String exportFont = family.getExportFont(exporterKey);
+					if (exportFont != null)
+					{
+						fontFamily = exportFont;
+					}
+				}
 			}
 			writer.write("        <w:rFonts w:ascii=\"" + fontFamily + "\" w:hAnsi=\"" + fontFamily + "\" w:eastAsia=\"" + fontFamily + "\" w:cs=\"" + fontFamily + "\" />\n");
 		}

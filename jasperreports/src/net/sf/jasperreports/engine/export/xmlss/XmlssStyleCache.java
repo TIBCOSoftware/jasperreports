@@ -206,15 +206,25 @@ public class XmlssStyleCache
 	 */
 //	public String getTextSpanStyle(Map attributes, String text) throws IOException
 //	{
-//		String fontFamily;
 //		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
+//		String fontFamily = fontFamilyAttr;
 //		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 //		{
 //			fontFamily = (String) fontMap.get(fontFamilyAttr);
 //		}
 //		else
 //		{
-//			fontFamily = fontFamilyAttr;
+//			FontInfo fontInfo = JRFontUtil.getFontInfo(fontFamilyAttr, locale);
+//			if (fontInfo != null)
+//			{
+//				//fontName found in font extensions
+//				FontFamily family = fontInfo.getFontFamily();
+//				String exportFont = family.getExportFont(HTML_EXPORTER_KEY);
+//				if (exportFont != null)
+//				{
+//					fontFamily = exportFont;
+//				}
+//			}
 //		}
 //		fontFaces.add(fontFamily);
 //		
