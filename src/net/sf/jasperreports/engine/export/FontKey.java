@@ -23,7 +23,11 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.fonts.FontFamily;
+
 /**
+ * @deprecated Replaced by {@link FontFamily#getExportFont(String)}.
+ * 
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
