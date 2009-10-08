@@ -1918,5 +1918,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return nature;
 	}
 
+
+	protected String getExporterKey()
+	{
+		return JXL_EXPORTER_KEY;
+	}
+
 }
 

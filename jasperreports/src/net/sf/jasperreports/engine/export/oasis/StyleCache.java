@@ -30,6 +30,7 @@ import java.io.Writer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,7 +39,10 @@ import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 
 
 /**
@@ -53,6 +57,7 @@ public class StyleCache
 	private Writer styleWriter = null;
 	private Map fontMap = null;
 	private Set fontFaces = new HashSet();
+	private String exporterKey = null;
 
 	/**
 	 *
@@ -72,10 +77,11 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public StyleCache(Writer styleWriter, Map fontMap)
+	public StyleCache(Writer styleWriter, Map fontMap, String exporterKey)
 	{
 		this.styleWriter = styleWriter;
 		this.fontMap = fontMap;
+		this.exporterKey = exporterKey;
 	}
 
 
@@ -207,17 +213,27 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getTextSpanStyle(Map attributes, String text) throws IOException
+	public String getTextSpanStyle(Map attributes, String text, Locale locale) throws IOException
 	{
-		String fontFamily;
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
+		String fontFamily = fontFamilyAttr;
 		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 		{
 			fontFamily = (String) fontMap.get(fontFamilyAttr);
 		}
 		else
 		{
-			fontFamily = fontFamilyAttr;
+			FontInfo fontInfo = JRFontUtil.getFontInfo(fontFamilyAttr, locale);
+			if (fontInfo != null)
+			{
+				//fontName found in font extensions
+				FontFamily family = fontInfo.getFontFamily();
+				String exportFont = family.getExportFont(exporterKey);
+				if (exportFont != null)
+				{
+					fontFamily = exportFont;
+				}
+			}
 		}
 		fontFaces.add(fontFamily);
 		
@@ -324,6 +340,6 @@ public class StyleCache
 		return textSpanStyleName;
 	}
 
-
+	
 }
 

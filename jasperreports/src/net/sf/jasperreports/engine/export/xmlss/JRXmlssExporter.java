@@ -62,11 +62,11 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
-import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ResetableExporterFilter;
@@ -88,6 +88,11 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public class JRXmlssExporter extends JRAbstractExporter
 {
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String XMLSS_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "xmlss";
 
 	private static final String XMLSS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xmlss.";
 
@@ -1250,6 +1255,14 @@ public class JRXmlssExporter extends JRAbstractExporter
 		tempBodyWriter.write(" </x:PageSetup>\n");
 		tempBodyWriter.write("</x:WorksheetOptions>\n");
 		tempBodyWriter.write("</Worksheet>\n");
+	}
+
+	/**
+	 *
+	 */
+	protected String getExporterKey()
+	{
+		return XMLSS_EXPORTER_KEY;
 	}
 }
 

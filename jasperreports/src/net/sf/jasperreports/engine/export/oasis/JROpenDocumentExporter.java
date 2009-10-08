@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -124,6 +125,9 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	 */
 	protected boolean isWrapBreakWord = false;
 
+	/**
+	 * @deprecated
+	 */
 	protected Map fontMap = null;
 
 	protected LinkedList backcolorStack;
@@ -284,7 +288,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		tempBodyWriter = tempBodyEntry.getWriter();
 		tempStyleWriter = tempStyleEntry.getWriter();
 
-		styleCache = new StyleCache(tempStyleWriter, fontMap);
+		styleCache = new StyleCache(tempStyleWriter, fontMap, getExporterKey());
 
 		Writer stylesWriter = oasisZip.getStylesEntry().getWriter();
 
@@ -607,7 +611,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 
 		if (textLength > 0)
 		{
-			exportStyledText(styledText);
+			exportStyledText(styledText, getTextLocale(text));
 		}
 
 		if (startedHyperlink)
@@ -624,7 +628,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyledText styledText) throws IOException
+	protected void exportStyledText(JRStyledText styledText, Locale locale) throws IOException
 	{
 		String text = styledText.getText();
 
@@ -634,7 +638,11 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			exportStyledTextRun(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
+			exportStyledTextRun(
+				iterator.getAttributes(), 
+				text.substring(iterator.getIndex(), runLimit),
+				locale
+				);
 
 			iterator.setIndex(runLimit);
 		}
@@ -644,9 +652,9 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledTextRun(Map attributes, String text) throws IOException
+	protected void exportStyledTextRun(Map attributes, String text, Locale locale) throws IOException
 	{
-		String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text);
+		String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text, locale);
 
 		tempBodyWriter.write("<text:span");
 		tempBodyWriter.write(" text:style-name=\"" + textSpanStyleName + "\"");

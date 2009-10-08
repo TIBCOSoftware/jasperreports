@@ -1099,7 +1099,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		GenericElementXmlHandler handler = (GenericElementXmlHandler) 
 		GenericElementHandlerEnviroment.getHandler(
-				element.getGenericType(), getExporterHandlerKey());
+				element.getGenericType(), getExporterKey());
 
 		if (handler != null)
 		{
@@ -1154,7 +1154,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String getExporterHandlerKey()
+	protected String getExporterKey()
 	{
 		return XML_EXPORTER_KEY;
 	}

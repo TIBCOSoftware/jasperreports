@@ -1590,4 +1590,11 @@ public class JRRtfExporter extends JRAbstractExporter
 		return yalignFactor;
 	}
 
+	/**
+	 *
+	 */
+	protected String getExporterKey()
+	{
+		return RTF_EXPORTER_KEY;
+	}
 }

@@ -414,4 +414,9 @@ public class JRCsvExporter extends JRAbstractExporter
 	}
 
 
+	protected String getExporterKey()
+	{
+		return null;
+	}
+
 }

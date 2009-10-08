@@ -414,4 +414,11 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		return printService;
 	}
 	
+	/**
+	 *
+	 */
+	protected String getExporterKey()
+	{
+		return null;
+	}
 }

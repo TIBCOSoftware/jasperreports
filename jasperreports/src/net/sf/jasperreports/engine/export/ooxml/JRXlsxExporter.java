@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
@@ -84,6 +85,12 @@ import net.sf.jasperreports.engine.util.JRTypeSniffer;
  */
 public class JRXlsxExporter extends JRXlsAbstractExporter
 {
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String XLSX_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "xlsx";
+
 	protected static final String XLSX_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xlsx.";
 
 	/**
@@ -1380,5 +1387,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		
 	}
 
+	/**
+	 *
+	 */
+	protected String getExporterKey()
+	{
+		return XLSX_EXPORTER_KEY;
+	}
 }
 
