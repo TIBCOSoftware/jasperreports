@@ -42,6 +42,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import jxl.CellView;
@@ -104,6 +105,9 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -331,7 +335,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			backcolor = getWorkbookColour(gridCell.getCellBackcolor());
 		}
 
-		WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue());
+		WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue(), getLocale());
 		WritableCellFormat cellStyle = 
 			getLoadedCellStyle(
 				mode, 
@@ -359,7 +363,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		addMergeRegion(gridCell, col, row);
 
 		Colour forecolor2 = getWorkbookColour(line.getLinePen().getLineColor());
-		WritableFont cellFont2 = getLoadedFont(getDefaultFont(), forecolor2.getValue());
+		WritableFont cellFont2 = getLoadedFont(getDefaultFont(), forecolor2.getValue(), getLocale());
 		
 		Colour backcolor = WHITE;
 		Pattern mode = this.backgroundMode;
@@ -430,7 +434,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 
 		Colour forecolor = getWorkbookColour(element.getLinePen().getLineColor());
-		WritableFont cellFont2 = getLoadedFont(getDefaultFont(), forecolor.getValue());
+		WritableFont cellFont2 = getLoadedFont(getDefaultFont(), forecolor.getValue(), getLocale());
 		WritableCellFormat cellStyle2 = 
 			getLoadedCellStyle(
 				mode, 
@@ -460,7 +464,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		if (styledText != null)
 		{
 			Colour forecolor = getWorkbookColour(text.getForecolor());
-			WritableFont cellFont = this.getLoadedFont(text, forecolor.getValue());
+			WritableFont cellFont = this.getLoadedFont(text, forecolor.getValue(), getTextLocale(text));
 
 			TextAlignHolder alignment = getTextAlignHolder(text);
 			int horizontalAlignment = getHorizontalAlignment(alignment);
@@ -1006,7 +1010,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 			Colour forecolor = getWorkbookColour(element.getLineBox().getPen().getLineColor());
 
-			WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
+			WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue(), getLocale());
 
 			WritableCellFormat cellStyle2 = 
 				getLoadedCellStyle(
@@ -1191,7 +1195,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return retVal;
 	}*/
 
-	private WritableFont getLoadedFont(JRFont font, int forecolor) throws JRException
+	private WritableFont getLoadedFont(JRFont font, int forecolor, Locale locale) throws JRException
 	{
 		WritableFont cellFont = null;
 
@@ -1209,6 +1213,20 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				if (fontMap != null && fontMap.containsKey(fontName))
 				{
 					fontName = (String) fontMap.get(fontName);
+				}
+				else
+				{
+					FontInfo fontInfo = JRFontUtil.getFontInfo(fontName, locale);
+					if (fontInfo != null)
+					{
+						//fontName found in font extensions
+						FontFamily family = fontInfo.getFontFamily();
+						String exportFont = family.getExportFont(getExporterKey());
+						if (exportFont != null)
+						{
+							fontName = exportFont;
+						}
+					}
 				}
 
 				if ((cf.getName().equals(fontName))
@@ -1854,7 +1872,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			backcolor = getWorkbookColour(frame.getBackcolor());
 		}
 
-		WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue());
+		WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue(), getLocale());
 		WritableCellFormat cellStyle = 
 			getLoadedCellStyle(
 				mode, 

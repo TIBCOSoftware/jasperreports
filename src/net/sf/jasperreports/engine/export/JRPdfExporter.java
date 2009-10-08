@@ -205,6 +205,9 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	private BookmarkStack bookmarkStack = null;
 
+	/**
+	 * @deprecated
+	 */
 	private Map fontMap = null;
 
 	private SplitCharacter splitCharacter;

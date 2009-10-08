@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -138,6 +139,9 @@ public class JRDocxExporter extends JRAbstractExporter
 	 */
 	protected boolean isWrapBreakWord = false;
 
+	/**
+	 * @deprecated
+	 */
 	protected Map fontMap = null;
 
 	protected LinkedList backcolorStack;
@@ -319,10 +323,10 @@ public class JRDocxExporter extends JRAbstractExporter
 		relsHelper.exportHeader();
 		
 		Writer stylesWriter = docxZip.getStylesEntry().getWriter();
-		new ReportStyleHelper(stylesWriter, fontMap).export(jasperPrintList);
+		new ReportStyleHelper(stylesWriter, fontMap, getExporterKey()).export(jasperPrintList);
 		stylesWriter.close();
 
-		runHelper = new RunHelper(docWriter, fontMap);
+		runHelper = new RunHelper(docWriter, fontMap, getExporterKey());
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
@@ -702,7 +706,7 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		if (textLength > 0)
 		{
-			exportStyledText(text.getStyle(), styledText);
+			exportStyledText(text.getStyle(), styledText, getTextLocale(text));
 		}
 
 		if (startedHyperlink)
@@ -720,7 +724,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText) throws IOException
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale) throws IOException
 	{
 		String text = styledText.getText();
 
@@ -730,7 +734,12 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			runHelper.export(style, iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
+			runHelper.export(
+				style, 
+				iterator.getAttributes(), 
+				text.substring(iterator.getIndex(), runLimit),
+				locale
+				);
 
 			iterator.setIndex(runLimit);
 		}

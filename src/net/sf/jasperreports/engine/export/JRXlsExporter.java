@@ -42,6 +42,7 @@ import java.text.AttributedCharacterIterator;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -74,6 +75,9 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -286,7 +290,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT,
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
-				getLoadedFont(getDefaultFont(), forecolor, null),
+				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 				gridCell
 				);
 
@@ -341,7 +345,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT,
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
-				getLoadedFont(getDefaultFont(), forecolor, null),
+				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 				boxStyle
 				);
 
@@ -374,7 +378,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT,
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
-				getLoadedFont(getDefaultFont(), forecolor, null),
+				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 				gridCell
 				);
 
@@ -417,7 +421,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				horizontalAlignment,
 				verticalAlignment,
 				rotation,
-				getLoadedFont(textElement, forecolor, null),
+				getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
 				gridCell
 				);
 		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
@@ -489,7 +493,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					}
 					else
 					{
-						setRichTextStringCellValue(styledText, forecolor, textElement);
+						setRichTextStringCellValue(styledText, forecolor, textElement, getTextLocale(textElement));
 					}
 					endCreateCell(cellStyle);
 				}
@@ -567,7 +571,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				}
 				else
 				{
-					setRichTextStringCellValue(styledText, forecolor, textElement);
+					setRichTextStringCellValue(styledText, forecolor, textElement, getTextLocale(textElement));
 				}
 			}
 			endCreateCell(cellStyle);
@@ -581,7 +585,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 			else
 			{
-				setRichTextStringCellValue(styledText, forecolor, textElement);
+				setRichTextStringCellValue(styledText, forecolor, textElement, getTextLocale(textElement));
 			}
 			endCreateCell(cellStyle);
 		}
@@ -608,15 +612,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		cell.setCellValue(new HSSFRichTextString(textStr));
 	}
 	
-	protected final void setRichTextStringCellValue(JRStyledText styledText, short forecolor, JRFont defaultFont)
+	protected final void setRichTextStringCellValue(JRStyledText styledText, short forecolor, JRFont defaultFont, Locale locale)
 	{	
 		if(styledText != null)
 		{
-			cell.setCellValue(getRichTextString(styledText, forecolor, defaultFont));
+			cell.setCellValue(getRichTextString(styledText, forecolor, defaultFont, locale));
 		}
 	}
 
-	protected HSSFRichTextString getRichTextString(JRStyledText styledText, short forecolor, JRFont defaultFont)
+	protected HSSFRichTextString getRichTextString(JRStyledText styledText, short forecolor, JRFont defaultFont, Locale locale)
 	{
 		String text = styledText.getText();
 		HSSFRichTextString richTextStr = new HSSFRichTextString(text);
@@ -630,7 +634,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			short runForecolor = attributes.get(TextAttribute.FOREGROUND) != null ? 
 					getNearestColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex() :
 					forecolor;
-			HSSFFont font = getLoadedFont(runFont, runForecolor, attributes);
+			HSSFFont font = getLoadedFont(runFont, runForecolor, attributes, locale);
 			richTextStr.applyFont(iterator.getIndex(), runLimit, font);
 			iterator.setIndex(runLimit);
 		}
@@ -759,7 +763,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected HSSFFont getLoadedFont(JRFont font, short forecolor, Map attributes)
+	protected HSSFFont getLoadedFont(JRFont font, short forecolor, Map attributes, Locale locale)
 	{
 		HSSFFont cellFont = null;
 
@@ -768,6 +772,21 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		{
 			fontName = (String) fontMap.get(fontName);
 		}
+		else
+		{
+			FontInfo fontInfo = JRFontUtil.getFontInfo(fontName, locale);
+			if (fontInfo != null)
+			{
+				//fontName found in font extensions
+				FontFamily family = fontInfo.getFontFamily();
+				String exportFont = family.getExportFont(getExporterKey());
+				if (exportFont != null)
+				{
+					fontName = exportFont;
+				}
+			}
+		}
+		
 		short superscriptType = HSSFFont.SS_NONE;
 		
 		if( attributes != null && attributes.get(TextAttribute.SUPERSCRIPT) != null)
@@ -1167,7 +1186,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						HSSFCellStyle.ALIGN_LEFT,
 						HSSFCellStyle.VERTICAL_TOP,
 						(short)0,
-						getLoadedFont(getDefaultFont(), forecolor, null),
+						getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 						gridCell
 						);
 
@@ -1217,7 +1236,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT,
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
-				getLoadedFont(getDefaultFont(), forecolor, null),
+				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 				gridCell
 				);
 

@@ -30,6 +30,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 
 
 /**
@@ -47,12 +48,12 @@ public class ReportStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public ReportStyleHelper(Writer writer, Map fontMap)
+	public ReportStyleHelper(Writer writer, Map fontMap, String exporterKey)
 	{
 		super(writer);
 		
 		paragraphHelper = new ParagraphHelper(writer, false);
-		runHelper = new RunHelper(writer, fontMap);
+		runHelper = new RunHelper(writer, fontMap, exporterKey);
 	}
 
 	/**
@@ -78,6 +79,8 @@ public class ReportStyleHelper extends BaseHelper
 		{
 			JasperPrint jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 			
+			String localeCode = jasperPrint.getLocaleCode();
+			
 			JRStyle[] styles = jasperPrint.getStyles();
 			if (styles != null)
 			{
@@ -86,7 +89,7 @@ public class ReportStyleHelper extends BaseHelper
 					JRStyle style = styles[i];
 					exportHeader(style);
 					paragraphHelper.exportProps(style);
-					runHelper.exportProps(style);
+					runHelper.exportProps(style, (localeCode == null ? null : JRDataUtils.getLocale(localeCode)));//FIXMEDOCX reuse exporter
 					exportFooter();
 				}
 			}

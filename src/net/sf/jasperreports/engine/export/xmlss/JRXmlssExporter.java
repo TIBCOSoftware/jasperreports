@@ -148,6 +148,9 @@ public class JRXmlssExporter extends JRAbstractExporter
 	 */
 	protected boolean isWrapBreakWord = false;
 
+	/**
+	 * @deprecated
+	 */
 	protected Map fontMap = null;
 
 	private LinkedList backcolorStack;
@@ -797,7 +800,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 		}
 		else
 		{
-			//FIXME: how to distinguish between font name and font family; 
+			//FIXMEXMLSS: how to distinguish between font name and font family; 
 			// now it's possible thanks to FONT_NAME attribute;
 			// see other exporters for details about font mapping
 			String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);

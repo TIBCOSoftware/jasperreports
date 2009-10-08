@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -76,7 +77,10 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -122,6 +126,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	// z order of the graphical objects in .rtf file
 	private int zorder = 1;
 
+	/**
+	 * @deprecated
+	 */
 	private Map fontMap = null;
 
 	protected class ExporterContext extends BaseExporterContext implements JRRtfExporterContext
@@ -381,11 +388,26 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @param font the font for which the index is required
 	 * @return index of the font from .rtf file header
 	 */
-	private int getFontIndex(JRFont font) throws IOException
+	private int getFontIndex(JRFont font, Locale locale) throws IOException
 	{
 		String fontName = font.getFontName();
-		if(fontMap != null && fontMap.containsKey(fontName)){
+		if(fontMap != null && fontMap.containsKey(fontName))
+		{
 			fontName = (String)fontMap.get(fontName);
+		}
+		else
+		{
+			FontInfo fontInfo = JRFontUtil.getFontInfo(fontName, locale);
+			if (fontInfo != null)
+			{
+				//fontName found in font extensions
+				FontFamily family = fontInfo.getFontFamily();
+				String exportFont = family.getExportFont(getExporterKey());
+				if (exportFont != null)
+				{
+					fontName = exportFont;
+				}
+			}
 		}
 
 		int fontIndex = fonts.indexOf(fontName);
@@ -873,7 +895,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			Color styleBackground = (Color) styledTextAttributes.get(TextAttribute.BACKGROUND);
 
 			writer.write("\\f");
-			writer.write(String.valueOf(getFontIndex(styleFont)));
+			writer.write(String.valueOf(getFontIndex(styleFont, getTextLocale(text))));
 			writer.write("\\fs");
 			writer.write(String.valueOf(2 * styleFont.getFontSize()));
 
