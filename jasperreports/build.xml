@@ -46,7 +46,7 @@
 		</antlr>
 	</target>
 
-	<target name="jar" depends="compile, javaflow, applet" description="Builds the JasperReports JAR files.">
+	<target name="jar" depends="compile, javaflow, applet, fonts" description="Builds the JasperReports JAR files.">
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-${version}.jar">
 			<manifest>
@@ -98,16 +98,16 @@
 		</javaflow>
 
 		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-${version}-javaflow.jar">
+		<jar jarfile="./dist/jasperreports-javaflow-${version}.jar">
 			<manifest>
-				<attribute name="Built-By" value="JasperReports"/>
+				<attribute name="Built-By" value="Jaspersoft"/>
 				<section name="net/sf/jasperreports/engine/">
 					<attribute name="Specification-Title" value="JasperReports Library"/>
 					<attribute name="Specification-Version" value="${version}"/>
-					<attribute name="Specification-Vendor" value="JasperReports"/>
+					<attribute name="Specification-Vendor" value="Jaspersoft"/>
 					<attribute name="Implementation-Title" value="net.sf.jasperreports.engine"/>
 					<attribute name="Implementation-Version" value="${version}"/> 
-					<attribute name="Implementation-Vendor" value="JasperReports"/>
+					<attribute name="Implementation-Vendor" value="Jaspersoft"/>
 				</section>
 			</manifest>		
 			<fileset dir="./build/javaflow"/>
@@ -120,7 +120,18 @@
 	
 	<target name="applet" depends="compile" description="Builds the jasperreports-applet.jar file.">
 		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-${version}-applet.jar">
+		<jar jarfile="./dist/jasperreports-applet-${version}.jar">
+			<manifest>
+				<attribute name="Built-By" value="Jaspersoft"/>
+				<section name="net/sf/jasperreports/engine/">
+					<attribute name="Specification-Title" value="JasperReports Applet Viewer"/>
+					<attribute name="Specification-Version" value="${version}"/>
+					<attribute name="Specification-Vendor" value="Jaspersoft"/>
+					<attribute name="Implementation-Title" value="net.sf.jasperreports.engine"/>
+					<attribute name="Implementation-Version" value="${version}"/> 
+					<attribute name="Implementation-Vendor" value="Jaspersoft"/>
+				</section>
+			</manifest>		
 			<fileset dir="./build/classes">
 				<include name="**/default.jasperreports.properties"/>
 				<include name="**/net/sf/jasperreports/charts/util/CategoryLabelGenerator.class"/>
@@ -276,6 +287,28 @@
 		</jar>
 	</target>
 
+	<target name="fonts" description="Builds the JAR containing the JasperReports default font extension.">
+		<mkdir dir="./dist"/> 
+		<jar jarfile="./dist/jasperreports-fonts-${version}.jar">
+			<manifest>
+				<attribute name="Built-By" value="Jaspersoft"/>
+				<section name="net/sf/jasperreports/fonts/">
+					<attribute name="Specification-Title" value="JasperReports Font Extension"/>
+					<attribute name="Specification-Version" value="${version}"/>
+					<attribute name="Specification-Vendor" value="Jaspersoft"/>
+					<attribute name="Implementation-Title" value="net.sf.jasperreports.fonts"/>
+					<attribute name="Implementation-Version" value="${version}"/> 
+					<attribute name="Implementation-Vendor" value="Jaspersoft"/>
+				</section>
+			</manifest>		
+			<fileset dir="./demo/fonts">
+				<exclude name="**/log4j.properties"/>
+				<exclude name="**/readme.txt"/>
+				<exclude name="**/pom.xml"/>
+			</fileset>
+		</jar>
+	</target>
+	
 	<target name="clean" description="Deletes all build files.">
 		<delete dir="./build"/>
 		<delete dir="./dist"/>
