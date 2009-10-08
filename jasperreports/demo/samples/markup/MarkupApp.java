@@ -116,25 +116,7 @@ public class MarkupApp
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
-				File sourceFile = new File(fileName);
-				
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-				
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
-
-				JRPdfExporter exporter = new JRPdfExporter();
-
-				Map fontMap = new HashMap();
-				fontMap.put(new FontKey("DejaVu Sans", true, false), new PdfFont("Helvetica-Bold", "Cp1252", false));
-				fontMap.put(new FontKey("DejaVu Sans", false, true), new PdfFont("Helvetica-Oblique", "Cp1252", false));
-				fontMap.put(new FontKey("DejaVu Sans", true, true), new PdfFont("Helvetica-BoldOblique", "Cp1252", false));
-
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
-
-				exporter.exportReport();
-
+				JasperExportManager.exportReportToPdfFile(fileName);
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_RTF.equals(taskName))
