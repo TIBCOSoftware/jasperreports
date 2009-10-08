@@ -54,7 +54,7 @@
 			<classpath>
 				<pathelement location="./"/>
 				<fileset dir="../../../dist">
-					<include name="**/*-javaflow.jar"/>
+					<include name="**/jasperreports-javaflow-*.jar"/>
 				</fileset>
 				<pathelement location="${fonts.dir}" />
 				<fileset dir="${lib.dir}">
