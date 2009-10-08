@@ -328,7 +328,7 @@ public class JROdtExporter extends JROpenDocumentExporter
 	{
 		GenericElementOdtHandler handler = (GenericElementOdtHandler) 
 		GenericElementHandlerEnviroment.getHandler(
-				element.getGenericType(), ODT_EXPORTER_KEY);
+				element.getGenericType(), getExporterKey());
 
 		if (handler != null)
 		{
@@ -344,6 +344,14 @@ public class JROdtExporter extends JROpenDocumentExporter
 						+ element.getGenericType());
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	protected String getExporterKey()
+	{
+		return ODT_EXPORTER_KEY;
 	}
 
 }

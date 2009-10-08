@@ -315,6 +315,9 @@ public class JROdsExporter extends JROpenDocumentExporter//FIXMEODS check commen
 	}
 
 	
+	/**
+	 *
+	 */
 	protected void exportAnchor(String anchorName) throws IOException //FIXMEODS check anchors
 	{
 	}
@@ -345,5 +348,13 @@ public class JROdsExporter extends JROpenDocumentExporter//FIXMEODS check commen
 		}
 	}
 
+
+	/**
+	 *
+	 */
+	protected String getExporterKey()
+	{
+		return ODS_EXPORTER_KEY;
+	}
 }
 

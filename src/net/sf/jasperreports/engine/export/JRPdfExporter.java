@@ -2655,6 +2655,9 @@ public class JRPdfExporter extends JRAbstractExporter
 	}
 
 
+	/**
+	 *
+	 */
 	protected void exportGenericElement(JRGenericPrintElement element)
 	{
 		GenericElementPdfHandler handler = (GenericElementPdfHandler) 
@@ -2673,5 +2676,14 @@ public class JRPdfExporter extends JRAbstractExporter
 						+ element.getGenericType());
 			}
 		}
+	}
+
+	
+	/**
+	 *
+	 */
+	protected String getExporterKey()
+	{
+		return PDF_EXPORTER_KEY;
 	}
 }

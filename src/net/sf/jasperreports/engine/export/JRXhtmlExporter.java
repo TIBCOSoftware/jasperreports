@@ -111,8 +111,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
-	public static final String XHTML_EXPORTER_KEY = 
-		JRProperties.PROPERTY_PREFIX + "xhtml";
+	public static final String XHTML_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "xhtml";
 	
 	/**
 	 *
@@ -2068,5 +2067,12 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		return styledText;
 	}
 	
+	/**
+	 *
+	 */
+	protected String getExporterKey()
+	{
+		return XHTML_EXPORTER_KEY;
+	}
 }
 

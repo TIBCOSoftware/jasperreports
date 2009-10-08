@@ -1573,4 +1573,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				box + "," + dataFormat + ")";
 		}
 	}
+
+	/**
+	 *
+	 */
+	protected String getExporterKey()
+	{
+		return XLS_EXPORTER_KEY;
+	}
 }

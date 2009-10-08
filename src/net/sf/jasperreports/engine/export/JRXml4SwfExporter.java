@@ -62,7 +62,7 @@ public class JRXml4SwfExporter extends JRXmlExporter
 	/**
 	 *
 	 */
-	protected String getExporterHandlerKey()
+	protected String getExporterKey()
 	{
 		return XML4SWF_EXPORTER_KEY;
 	}

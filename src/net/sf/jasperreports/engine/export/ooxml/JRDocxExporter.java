@@ -1430,5 +1430,13 @@ public class JRDocxExporter extends JRAbstractExporter
 		return DOCX_EXPORTER_PROPERTIES_PREFIX;
 	}
 
+	/**
+	 *
+	 */
+	protected String getExporterKey()
+	{
+		return DOCX_EXPORTER_KEY;
+	}
+
 }
 

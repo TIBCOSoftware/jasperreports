@@ -608,4 +608,11 @@ public class JRTextExporter extends JRAbstractExporter
 		return textElement.getStyledText(JRStyledTextAttributeSelector.NONE);
 	}
 
+	/**
+	 *
+	 */
+	protected String getExporterKey()
+	{
+		return null;
+	}
 }

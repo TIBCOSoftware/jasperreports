@@ -1232,4 +1232,11 @@ public abstract class JRAbstractExporter implements JRExporter
 	{
 		return getHyperlinkProducer(link);
 	}
+
+	/**
+	 * 
+	 */
+	protected abstract String getExporterKey() throws JRException;
+
+
 }

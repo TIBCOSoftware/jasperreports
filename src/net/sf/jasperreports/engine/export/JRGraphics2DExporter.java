@@ -247,4 +247,11 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		}
 	}
 
+	/**
+	 *
+	 */
+	protected String getExporterKey()
+	{
+		return null;		
+	}
 }
