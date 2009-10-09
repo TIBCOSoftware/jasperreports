@@ -83,7 +83,7 @@ public class TableBuilder
 	}
 
 
-	public void buildTableStyle() throws IOException 
+	public void buildTableStyle(int width) throws IOException 
 	{
 		styleWriter.write(" <style:style style:name=\"" + tableName + "\"");//FIXMEODT can we have only one page style per report?
 		if (!isFrame)
@@ -92,6 +92,7 @@ public class TableBuilder
 		}
 		styleWriter.write(" style:family=\"table\">\n");
 		styleWriter.write("   <style:table-properties");		
+		styleWriter.write(" table:align=\"left\" style:width=\"" + Utility.translatePixelsToInches(width) + "in\"");
 		if (isPageBreak)
 			styleWriter.write(" fo:break-before=\"page\"");
 //		FIXMEODT

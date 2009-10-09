@@ -419,7 +419,8 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			? new TableBuilder(reportIndex, pageIndex, tempBodyWriter, tempStyleWriter)
 			: new TableBuilder(frameIndex.toString(), tempBodyWriter, tempStyleWriter);
 
-		tableBuilder.buildTableStyle();
+		
+		tableBuilder.buildTableStyle(gridLayout.getWidth());
 		tableBuilder.buildTableHeader();
 
 		for(int col = 1; col < xCuts.size(); col++)
