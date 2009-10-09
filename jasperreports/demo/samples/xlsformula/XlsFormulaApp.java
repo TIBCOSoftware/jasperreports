@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.FontKey;
 import net.sf.jasperreports.engine.export.PdfFont;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
-import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -60,7 +60,7 @@ public class XlsFormulaApp
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_JXL = "jxl";
-	
+	private static final String TASK_ODS = "ods";
 	
 	/**
 	 *
@@ -120,6 +120,24 @@ public class XlsFormulaApp
 
 				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
 			}
+			else if (TASK_ODS.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".ods");
+
+				JROdsExporter exporter = new JROdsExporter();
+
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+
+				exporter.exportReport();
+
+				System.err.println("ODS creation time : " + (System.currentTimeMillis() - start));
+			}
 			else
 			{
 				usage();
@@ -143,7 +161,7 @@ public class XlsFormulaApp
 	{
 		System.out.println( "XlsFormulaApp usage:" );
 		System.out.println( "\tjava XlsFormulaApp task file" );
-		System.out.println( "\tTasks : fill | xls | jxl" );
+		System.out.println( "\tTasks : fill | xls | jxl | ods" );
 	}
 
 
