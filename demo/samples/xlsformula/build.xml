@@ -68,6 +68,14 @@
 		</java>
 	</target>
 
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<java classname="${class.name}" fork="true">
+			<arg value="ods"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${file.name}.jrxml"/>
@@ -88,6 +96,7 @@
 			<fileset dir="." includes="**/*.jasper" />
 			<fileset dir="." includes="**/*.jrprint" />
 			<fileset dir="." includes="**/*.xls" />
+			<fileset dir="." includes="**/*.ods" />
 		</delete>
 	</target>
 	
@@ -101,6 +110,7 @@
 		<antcall target="fill" />
 		<antcall target="xls" />
 		<antcall target="jxl" />
+		<antcall target="ods" />
 	</target>
 
 </project>

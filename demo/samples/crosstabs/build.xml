@@ -138,6 +138,14 @@
 		</java>
 	</target>
 
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="ods"/>
+			<arg value="${basedir}"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="docx"/>
@@ -180,6 +188,7 @@
 			<fileset dir="." includes="**/*.xls" />
 			<fileset dir="." includes="**/*.csv" />
 			<fileset dir="." includes="**/*.odt" />
+			<fileset dir="." includes="**/*.ods" />
 			<fileset dir="." includes="**/*.docx" />
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
@@ -211,6 +220,7 @@
 		<antcall target="xls" />
 		<antcall target="jxl" />
 		<antcall target="odt" />
+		<antcall target="ods" />
 		<antcall target="docx" />
 		<antcall target="xhtml" />
 		<antcall target="xmlEmbed" />
