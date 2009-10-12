@@ -289,7 +289,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
 					writer.write("\n");
-					if(Thread.currentThread().isInterrupted()){
+					if(Thread.interrupted()){
 						throw new JRException("Current thread intrerrupted");
 					}
 

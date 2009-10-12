@@ -308,7 +308,7 @@ public class JRTextExporter extends JRAbstractExporter
 
 				for(int i = startPageIndex; i <= endPageIndex; i++)
 				{
-					if (Thread.currentThread().isInterrupted())
+					if (Thread.interrupted())
 					{
 						throw new JRException("Current thread interrupted.");
 					}

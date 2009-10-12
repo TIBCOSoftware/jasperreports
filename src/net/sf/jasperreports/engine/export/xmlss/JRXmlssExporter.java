@@ -388,7 +388,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 				{
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
-						if (Thread.currentThread().isInterrupted())
+						if (Thread.interrupted())
 						{
 							throw new JRException("Current thread interrupted.");
 						}
@@ -449,7 +449,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
-						if (Thread.currentThread().isInterrupted())
+						if (Thread.interrupted())
 						{
 							throw new JRException("Current thread interrupted.");
 						}

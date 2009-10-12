@@ -373,7 +373,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		filler.fillContext.ensureMasterPageAvailable();
 
 		if (
-			Thread.currentThread().isInterrupted()
+			Thread.interrupted()
 			|| filler.isInterrupted()
 			)
 		{

@@ -206,7 +206,7 @@ public class JRPrinterAWT implements Printable
 	 */
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException
 	{
-		if (Thread.currentThread().isInterrupted())
+		if (Thread.interrupted())
 		{
 			throw new PrinterException("Current thread interrupted.");
 		}

@@ -448,7 +448,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			JRPrintPage page = null;
 			for(int i = startPageIndex; i <= endPageIndex; i++)
 			{
-				if (Thread.currentThread().isInterrupted())
+				if (Thread.interrupted())
 				{
 					throw new JRException("Current thread interrupted.");
 				}
