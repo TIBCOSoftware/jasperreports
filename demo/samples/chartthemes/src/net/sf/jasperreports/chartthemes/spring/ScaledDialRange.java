@@ -104,7 +104,7 @@ public class ScaledDialRange extends StandardDialRange
 				angleMin - angleMax, Arc2D.OPEN);
 		
 		g2.setPaint(this.getPaint());
-		g2.setStroke(new BasicStroke(this.lineWidth));
+		g2.setStroke(new BasicStroke(this.lineWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 		g2.draw(arcInner);
 		g2.draw(arcOuter);
 	}
