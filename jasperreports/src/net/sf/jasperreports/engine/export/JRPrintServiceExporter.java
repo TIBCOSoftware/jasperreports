@@ -299,7 +299,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	 */
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException
 	{
-		if (Thread.currentThread().isInterrupted())
+		if (Thread.interrupted())
 		{
 			throw new PrinterException("Current thread interrupted.");
 		}
