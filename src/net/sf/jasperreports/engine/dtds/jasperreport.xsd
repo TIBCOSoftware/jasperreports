@@ -197,6 +197,25 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="isSummaryWithPageHeaderAndFooter" use="optional" default="false">
+   	<annotation>
+   		<documentation>Flag used to specify if the summary section should be accompanied by the page header and footer.</documentation>
+   	</annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true">
+	   	<annotation>
+	   		<documentation>Summary section will be printed along with the page header and footer.</documentation>
+	   	</annotation>
+      </enumeration>
+      <enumeration value="false">
+	   	<annotation>
+	   		<documentation>Summary section will be printed without page header and footer.</documentation>
+	   	</annotation>
+	  </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
    <attribute name="isFloatColumnFooter" use="optional" default="false">
    	<annotation>
    		<documentation>Flag used to specify if the column footer section should be printed at the bottom of the column or if it should immediately follow the last detail or group footer printed on the current column.</documentation>

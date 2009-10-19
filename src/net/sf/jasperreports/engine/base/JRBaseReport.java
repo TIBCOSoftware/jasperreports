@@ -86,6 +86,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected int bottomMargin = 30;
 	protected boolean isTitleNewPage = false;
 	protected boolean isSummaryNewPage = false;
+	protected boolean isSummaryWithPageHeaderAndFooter = false;
 	protected boolean isFloatColumnFooter = false;
 	protected boolean ignorePagination = false;
 
@@ -163,6 +164,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		bottomMargin = report.getBottomMargin();
 		isTitleNewPage = report.isTitleNewPage();
 		isSummaryNewPage = report.isSummaryNewPage();
+		isSummaryWithPageHeaderAndFooter = report.isSummaryWithPageHeaderAndFooter();
 		isFloatColumnFooter = report.isFloatColumnFooter();
 		ignorePagination = report.isIgnorePagination();
 
@@ -393,6 +395,14 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	public boolean isSummaryNewPage()
 	{
 		return isSummaryNewPage;
+	}
+
+	/**
+	 *
+	 */
+	public boolean isSummaryWithPageHeaderAndFooter()
+	{
+		return isSummaryWithPageHeaderAndFooter;
 	}
 
 	/**

@@ -1416,6 +1416,7 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_bottomMargin = "bottomMargin";
 	public static final String ATTRIBUTE_isTitleNewPage = "isTitleNewPage";
 	public static final String ATTRIBUTE_isSummaryNewPage = "isSummaryNewPage";
+	public static final String ATTRIBUTE_isSummaryWithPageHeaderAndFooter = "isSummaryWithPageHeaderAndFooter";
 	public static final String ATTRIBUTE_isFloatColumnFooter = "isFloatColumnFooter";
 	public static final String ATTRIBUTE_scriptletClass = "scriptletClass";
 	public static final String ATTRIBUTE_formatFactoryClass = "formatFactoryClass";

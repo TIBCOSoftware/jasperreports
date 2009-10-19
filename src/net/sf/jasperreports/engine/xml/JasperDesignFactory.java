@@ -131,6 +131,12 @@ public class JasperDesignFactory extends JRBaseFactory
 			jasperDesign.setSummaryNewPage(Boolean.valueOf(isSummaryNewPage).booleanValue());
 		}
 
+		String isSummaryWithPageHeaderAndFooter = atts.getValue(JRXmlConstants.ATTRIBUTE_isSummaryWithPageHeaderAndFooter);
+		if (isSummaryWithPageHeaderAndFooter != null && isSummaryWithPageHeaderAndFooter.length() > 0)
+		{
+			jasperDesign.setSummaryWithPageHeaderAndFooter(Boolean.valueOf(isSummaryWithPageHeaderAndFooter).booleanValue());
+		}
+
 		String isFloatColumnFooter = atts.getValue(JRXmlConstants.ATTRIBUTE_isFloatColumnFooter);
 		if (isFloatColumnFooter != null && isFloatColumnFooter.length() > 0)
 		{
