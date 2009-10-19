@@ -139,6 +139,8 @@ public class JasperDesign extends JRBaseReport
 
 	public static final String PROPERTY_SUMMARY_NEW_PAGE = "summaryNewPage";
 
+	public static final String PROPERTY_SUMMARY_WITH_PAGE_HEADER_AND_FOOTER = "summaryWithPageHeaderAndFooter";
+
 	public static final String PROPERTY_TEMPLATES = "templates";
 
 	public static final String PROPERTY_TITLE = "title";
@@ -400,6 +402,20 @@ public class JasperDesign extends JRBaseReport
 		boolean old = this.isSummaryNewPage;
 		this.isSummaryNewPage = isSummaryNewPage;
 		getEventSupport().firePropertyChange(PROPERTY_SUMMARY_NEW_PAGE, old, this.isSummaryNewPage);
+	}
+
+
+	/**
+	 * Flag used to specify if the summary section should be accompanied by the page header and footer.
+	 *
+	 * @param isSummaryWithPageHeaderAndFooter true if the summary section should be displayed on pages that have the page header and footer, 
+	 * false if it will be displayed on pages without header and footer.
+	 */
+	public void setSummaryWithPageHeaderAndFooter(boolean isSummaryWithPageHeaderAndFooter)
+	{
+		boolean old = this.isSummaryWithPageHeaderAndFooter;
+		this.isSummaryWithPageHeaderAndFooter = isSummaryWithPageHeaderAndFooter;
+		getEventSupport().firePropertyChange(PROPERTY_SUMMARY_NEW_PAGE, old, this.isSummaryWithPageHeaderAndFooter);
 	}
 
 

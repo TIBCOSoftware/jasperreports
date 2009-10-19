@@ -211,6 +211,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected boolean isSummaryNewPage = false;
 
+	protected boolean isSummaryWithPageHeaderAndFooter = false;
+
 	protected boolean isFloatColumnFooter = false;
 
 	/**
@@ -395,6 +397,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		bottomMargin = jasperReport.getBottomMargin();
 		isTitleNewPage = jasperReport.isTitleNewPage();
 		isSummaryNewPage = jasperReport.isSummaryNewPage();
+		isSummaryWithPageHeaderAndFooter = jasperReport.isSummaryWithPageHeaderAndFooter();
 		isFloatColumnFooter = jasperReport.isFloatColumnFooter();
 		whenResourceMissingType = jasperReport.getWhenResourceMissingType();
 

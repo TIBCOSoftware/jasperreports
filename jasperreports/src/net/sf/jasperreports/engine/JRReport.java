@@ -204,7 +204,12 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public boolean isSummaryNewPage();
 
 	/**
-	 * Specifie if the column footer section will be printed at the bottom of the column or if it
+	 * Specifies if the summary section will be accompanied by the page header and footer.
+	 */
+	public boolean isSummaryWithPageHeaderAndFooter();
+
+	/**
+	 * Specifies if the column footer section will be printed at the bottom of the column or if it
 	 * will immediately follow the last detail or group footer printed on the current column.
 
 	 */
