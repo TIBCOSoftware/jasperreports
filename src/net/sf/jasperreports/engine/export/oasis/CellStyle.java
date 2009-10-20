@@ -44,6 +44,7 @@ public class CellStyle extends BorderStyle
 	//private String fill = null;
 	private String backcolor = null;
 	
+	private final String horizontalAlignment;
 	private final String verticalAlignment;
 
 	
@@ -81,6 +82,7 @@ public class CellStyle extends BorderStyle
 			hAlign = alignment.getHorizontalAlignment();
 		}
 		
+		horizontalAlignment = ParagraphStyle.getHorizontalAlignment(hAlign, vAlign, rotation);
 		verticalAlignment = ParagraphStyle.getVerticalAlignment(hAlign, vAlign, rotation);
 		
 		setBox(gridCell.getBox());
@@ -91,7 +93,7 @@ public class CellStyle extends BorderStyle
 	 */
 	public String getId()
 	{
-		return backcolor + super.getId() + "|" + verticalAlignment; 
+		return backcolor + super.getId() + "|" + horizontalAlignment + "|" + verticalAlignment; 
 	}
 
 	/**
@@ -126,6 +128,16 @@ public class CellStyle extends BorderStyle
 		}
 
 		styleWriter.write("/>\n");
+
+		if (horizontalAlignment != null)
+		{
+			styleWriter.write(" <style:paragraph-properties");		
+			styleWriter.write(" fo:text-align=\"");
+			styleWriter.write(horizontalAlignment);
+			styleWriter.write("\"");
+			styleWriter.write("/>\n");
+		}
+
 		styleWriter.write("</style:style>\n");
 	}
 
