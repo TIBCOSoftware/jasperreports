@@ -415,7 +415,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		boolean old = this.isSummaryWithPageHeaderAndFooter;
 		this.isSummaryWithPageHeaderAndFooter = isSummaryWithPageHeaderAndFooter;
-		getEventSupport().firePropertyChange(PROPERTY_SUMMARY_NEW_PAGE, old, this.isSummaryWithPageHeaderAndFooter);
+		getEventSupport().firePropertyChange(PROPERTY_SUMMARY_WITH_PAGE_HEADER_AND_FOOTER, old, this.isSummaryWithPageHeaderAndFooter);
 	}
 
 
