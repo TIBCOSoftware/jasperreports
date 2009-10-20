@@ -116,11 +116,11 @@ public class TableHelper extends BaseHelper
 		}
 	}
 	
-	public void exportRowHeader(int rowHeight) throws IOException 
+	public void exportRowHeader(int rowHeight, boolean isRowNotEmpty) throws IOException 
 	{
 		writer.write("   <w:tr>\n");
 		writer.write("    <w:trPr>\n");
-		writer.write("     <w:trHeight w:hRule=\"atLeast\" w:val=\"" +  + Utility.twip(rowHeight) + "\" />\n");
+		writer.write("     <w:trHeight w:hRule=\"" + (isRowNotEmpty ? "atLeast" : "exact")  + "\" w:val=\"" +  + Utility.twip(rowHeight) + "\" />\n");
 		writer.write("    </w:trPr>\n");
 	}
 	

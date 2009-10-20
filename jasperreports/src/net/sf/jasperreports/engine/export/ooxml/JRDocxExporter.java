@@ -474,6 +474,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			int emptyCellColSpan = 0;
 			int emptyCellWidth = 0;
 
+			boolean hasText = false;
 			int maxBottomPadding = 0; //for some strange reason, the bottom margin affects the row height; subtracting it here
 			for(int col = 0; col < grid[0].length; col++)
 			{
@@ -487,10 +488,15 @@ public class JRDocxExporter extends JRAbstractExporter
 				{
 					maxBottomPadding = box.getBottomPadding().intValue();
 				}
+				
+				hasText = hasText || gridCell.getElement() instanceof JRPrintText;
 			}
 			int rowHeight = gridLayout.getRowHeight(row) - maxBottomPadding;
 			
-			tableHelper.exportRowHeader(rowHeight);
+			tableHelper.exportRowHeader(
+				rowHeight,
+				hasText
+				);
 
 			for(int col = 0; col < grid[0].length; col++)
 			{
@@ -609,7 +615,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		pen.setLineStyle(line.getLinePen().getLineStyle());
 		pen.setLineWidth(line.getLinePen().getLineWidth());
 
-		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(line, gridCell);
 		docWriter.write("<w:p/>");
@@ -628,7 +634,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		pen.setLineStyle(rectangle.getLinePen().getLineStyle());
 		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
 
-		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(rectangle, gridCell);
 		docWriter.write("<w:p/>");
@@ -647,7 +653,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		pen.setLineStyle(ellipse.getLinePen().getLineStyle());
 		pen.setLineWidth(ellipse.getLinePen().getLineWidth());
 
-		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(ellipse, gridCell);
 		docWriter.write("<w:p/>");
