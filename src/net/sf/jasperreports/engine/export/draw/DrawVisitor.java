@@ -75,8 +75,8 @@ public class DrawVisitor implements JRVisitor
 	private RectangleDrawer rectangleDrawer = new RectangleDrawer();
 	private EllipseDrawer ellipseDrawer = new EllipseDrawer();
 	private ImageDrawer imageDrawer = new ImageDrawer();
-	private TextDrawer textDrawer = new TextDrawer(textRenderer);
-	private FrameDrawer frameDrawer = new FrameDrawer(null, textRenderer);
+	private TextDrawer textDrawer = null;
+	private FrameDrawer frameDrawer = null;
 	
 	/**
 	 *
@@ -117,6 +117,9 @@ public class DrawVisitor implements JRVisitor
 				JRProperties.getBooleanProperty(report, JRGraphics2DExporter.MINIMIZE_PRINTER_JOB_SIZE, true),
 				JRProperties.getBooleanProperty(report, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
 				);
+		
+		textDrawer = new TextDrawer(textRenderer);
+		frameDrawer = new FrameDrawer(null, textRenderer);
 	}
 
 	/**
