@@ -1543,7 +1543,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 					JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY);
 
-					if (summary.willOverflow() && summary.isSplitPrevented())//FIXME check subreport here?
+					if (summary.willOverflow() && summary.isSplitPrevented())//FIXMENOW check subreport here?
 					{
 						fillPageFooter(JRExpression.EVALUATION_DEFAULT);
 

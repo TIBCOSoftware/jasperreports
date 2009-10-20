@@ -97,7 +97,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			columnFooterOffsetY -= columnFooter.getHeight();
 
 		lastPageColumnFooterOffsetY = pageHeight - bottomMargin;
-		if (lastPageFooter != null)
+		if (lastPageFooter != null)//FIXMENOW testing with null is awkward since bands can never be null, but rather equal to missingFillBand
 			lastPageColumnFooterOffsetY -= lastPageFooter.getHeight();
 		if (columnFooter != null)
 			lastPageColumnFooterOffsetY -= columnFooter.getHeight();
@@ -1614,7 +1614,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 					JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY);
 
-					if (summary.willOverflow() && summary.isSplitPrevented())//FIXME check subreport here?
+					if (summary.willOverflow() && summary.isSplitPrevented())//FIXMENOW check subreport here?
 					{
 						fillPageFooter(JRExpression.EVALUATION_DEFAULT);
 
