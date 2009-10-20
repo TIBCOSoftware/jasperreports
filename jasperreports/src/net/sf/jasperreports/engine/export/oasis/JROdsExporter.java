@@ -39,10 +39,13 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
@@ -61,7 +64,7 @@ import org.apache.commons.logging.LogFactory;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JROdsExporter extends JROpenDocumentExporter//FIXMEODS check commented code
+public class JROdsExporter extends JROpenDocumentExporter
 {
 	private static final Log log = LogFactory.getLog(JROdsExporter.class);
 	
@@ -114,24 +117,55 @@ public class JROdsExporter extends JROpenDocumentExporter//FIXMEODS check commen
 	 */
 	protected void exportLine(TableBuilder tableBuilder, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
-		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
-
-		double x1, y1, x2, y2;
-
-		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = null;
+		float ratio = line.getWidth() / line.getHeight();
+		if (ratio > 1)
 		{
-			x1 = Utility.translatePixelsToInches(0);
-			y1 = Utility.translatePixelsToInches(0);
-			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-			y2 = Utility.translatePixelsToInches(line.getHeight() - 1);
+			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			{
+				pen = box.getTopPen();
+			}
+			else
+			{
+				pen = box.getBottomPen();
+			}
 		}
 		else
 		{
-			x1 = Utility.translatePixelsToInches(0);
-			y1 = Utility.translatePixelsToInches(line.getHeight() - 1);
-			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-			y2 = Utility.translatePixelsToInches(0);
+			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			{
+				pen = box.getLeftPen();
+			}
+			else
+			{
+				pen = box.getRightPen();
+			}
 		}
+		pen.setLineColor(line.getLinePen().getLineColor());
+		pen.setLineStyle(line.getLinePen().getLineStyle());
+		pen.setLineWidth(line.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
+
+//		double x1, y1, x2, y2;
+//
+//		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+//		{
+//			x1 = Utility.translatePixelsToInches(0);
+//			y1 = Utility.translatePixelsToInches(0);
+//			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
+//			y2 = Utility.translatePixelsToInches(line.getHeight() - 1);
+//		}
+//		else
+//		{
+//			x1 = Utility.translatePixelsToInches(0);
+//			y1 = Utility.translatePixelsToInches(line.getHeight() - 1);
+//			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
+//			y2 = Utility.translatePixelsToInches(0);
+//		}
 
 		tempBodyWriter.write("<text:p>");
 		insertPageAnchor();
@@ -155,7 +189,15 @@ public class JROdsExporter extends JROpenDocumentExporter//FIXMEODS check commen
 	 */
 	protected void exportEllipse(TableBuilder tableBuilder, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
 	{
-		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = box.getPen();
+		pen.setLineColor(ellipse.getLinePen().getLineColor());
+		pen.setLineStyle(ellipse.getLinePen().getLineStyle());
+		pen.setLineWidth(ellipse.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+		
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 		tempBodyWriter.write("<text:p>");
 		insertPageAnchor();
 //		tempBodyWriter.write(
@@ -198,7 +240,7 @@ public class JROdsExporter extends JROpenDocumentExporter//FIXMEODS check commen
 		int xoffset = 0;
 		int yoffset = 0;
 
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(image), gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		JRRenderable renderer = image.getRenderer();
 
@@ -288,6 +330,7 @@ public class JROdsExporter extends JROpenDocumentExporter//FIXMEODS check commen
 
 			boolean startedHyperlink = startHyperlink(image,false);
 
+//FIXMEODS check images
 //			tempBodyWriter.write("<draw:frame text:anchor-type=\"paragraph\" "
 //					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
 //					+ "svg:x=\"" + Utility.translatePixelsToInches(leftPadding + xoffset) + "in\" "

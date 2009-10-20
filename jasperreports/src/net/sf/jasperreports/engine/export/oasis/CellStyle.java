@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -49,11 +50,13 @@ public class CellStyle extends BorderStyle
 	/**
 	 *
 	 */
-	public CellStyle(Writer styleWriter, JRPrintElement element)
+	public CellStyle(Writer styleWriter, JRExporterGridCell gridCell) throws IOException
 	{
-		super(styleWriter, element);
+		super(styleWriter);
+
+		JRPrintElement element = gridCell.getElement();
 		
-		if (element.getMode() == JRElement.MODE_OPAQUE)
+		if (element != null && element.getMode() == JRElement.MODE_OPAQUE)
 		{
 			//fill = "solid";
 			backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
@@ -61,6 +64,10 @@ public class CellStyle extends BorderStyle
 		else
 		{
 			//fill = "none";
+			if (gridCell.getBackcolor() != null)
+			{
+				backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
+			}
 		}
 
 		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotation() : JRTextElement.ROTATION_NONE;
@@ -75,6 +82,8 @@ public class CellStyle extends BorderStyle
 		}
 		
 		verticalAlignment = ParagraphStyle.getVerticalAlignment(hAlign, vAlign, rotation);
+		
+		setBox(gridCell.getBox());
 	}
 	
 	/**

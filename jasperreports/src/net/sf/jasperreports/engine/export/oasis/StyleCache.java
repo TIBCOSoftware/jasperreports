@@ -34,11 +34,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.jasperreports.engine.JRBoxContainer;
-import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -97,7 +96,7 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getFrameStyle(JRPrintText text) throws IOException
+	public String getFrameStyle(JRPrintText text) throws IOException //FIXMEODT is this used?
 	{
 		FrameStyle frameStyle  = new FrameStyle(styleWriter, text);
 		frameStyle.setBox(text.getLineBox());
@@ -120,7 +119,7 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getFrameStyle(JRPrintElement element) throws IOException
+	public String getFrameStyle(JRPrintElement element) throws IOException //FIXMEODT is this used?
 	{
 		FrameStyle frameStyle  = new FrameStyle(styleWriter, element);
 		
@@ -164,14 +163,16 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getCellStyle(JRPrintElement element) throws IOException
+	public String getCellStyle(JRExporterGridCell gridCell) throws IOException
 	{
-		CellStyle cellStyle  = new CellStyle(styleWriter, element);
+		CellStyle cellStyle  = new CellStyle(styleWriter, gridCell);
 		
-		if (element instanceof JRBoxContainer)
-			cellStyle.setBox(((JRBoxContainer)element).getLineBox());
-		if (element instanceof JRCommonGraphicElement)
-			cellStyle.setPen(((JRCommonGraphicElement)element).getLinePen());
+//		JRPrintElement element = gridCell.getElement();
+//
+//		if (element instanceof JRBoxContainer)
+//			cellStyle.setBox(((JRBoxContainer)element).getLineBox());
+//		if (element instanceof JRCommonGraphicElement)
+//			cellStyle.setPen(((JRCommonGraphicElement)element).getLinePen());
 		
 		String cellStyleId = cellStyle.getId();
 		String cellStyleName = (String)cellStyles.get(cellStyleId);

@@ -28,7 +28,6 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -47,8 +46,6 @@ public abstract class BorderStyle extends Style
 	protected static final int BOTTOM_BORDER = 2;
 	protected static final int RIGHT_BORDER = 3;
 	
-	protected JRPrintElement element = null;
-	
 	private String[] borderColor = new String[4];
 	private String[] borderWidth = new String[4];
 	private String[] borderStyle = new String[4];
@@ -57,11 +54,9 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	public BorderStyle(Writer styleWriter, JRPrintElement element)
+	public BorderStyle(Writer styleWriter)
 	{
 		super(styleWriter);
-		
-		this.element = element;
 	}
 	
 	/**
@@ -69,14 +64,17 @@ public abstract class BorderStyle extends Style
 	 */
 	public void setBox(JRLineBox box) throws IOException
 	{
-		appendBorder(box.getTopPen(), TOP_BORDER);
-		borderPadding[TOP_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getTopPadding().intValue()));
-		appendBorder(box.getLeftPen(), LEFT_BORDER);
-		borderPadding[LEFT_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getLeftPadding().intValue()));
-		appendBorder(box.getBottomPen(), BOTTOM_BORDER);
-		borderPadding[BOTTOM_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getBottomPadding().intValue()));
-		appendBorder(box.getRightPen(), RIGHT_BORDER);
-		borderPadding[RIGHT_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getRightPadding().intValue()));
+		if (box != null)
+		{
+			appendBorder(box.getTopPen(), TOP_BORDER);
+			borderPadding[TOP_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getTopPadding().intValue()));
+			appendBorder(box.getLeftPen(), LEFT_BORDER);
+			borderPadding[LEFT_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getLeftPadding().intValue()));
+			appendBorder(box.getBottomPen(), BOTTOM_BORDER);
+			borderPadding[BOTTOM_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getBottomPadding().intValue()));
+			appendBorder(box.getRightPen(), RIGHT_BORDER);
+			borderPadding[RIGHT_BORDER] = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(box.getRightPadding().intValue()));
+		}
 	}
 
 	/**
