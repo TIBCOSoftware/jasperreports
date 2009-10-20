@@ -48,7 +48,7 @@ public class FrameStyle extends BorderStyle
 	 */
 	public FrameStyle(Writer styleWriter, JRPrintElement element)
 	{
-		super(styleWriter, element);
+		super(styleWriter);
 		
 		if (element.getMode() == JRElement.MODE_OPAQUE)
 		{

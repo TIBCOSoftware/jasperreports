@@ -197,7 +197,7 @@ public class JROdtExporter extends JROpenDocumentExporter
 		int xoffset = 0;
 		int yoffset = 0;
 
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(image), gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		JRRenderable renderer = image.getRenderer();
 
