@@ -1325,7 +1325,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //
 //		writer.write(">");
 		
-		sheetHelper.write("<is><t>");//FIXMENOW make writer util
+		sheetHelper.write("<is>");//FIXMENOW make writer util
 
 //		tableHelper.getParagraphHelper().exportProps(text);
 		
@@ -1349,7 +1349,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			endHyperlink(true);
 		}
 
-		sheetHelper.write("</t></is>");
+		sheetHelper.write("</is>");
 		sheetHelper.flush();
 
 		cellHelper.exportFooter();
