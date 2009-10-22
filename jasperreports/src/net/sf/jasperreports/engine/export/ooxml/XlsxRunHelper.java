@@ -74,26 +74,29 @@ public class XlsxRunHelper extends BaseHelper
 	{
 		if (text != null)
 		{
-//			write("      <w:r>\n");
+			write("      <r>\n");
 			
 			exportProps(getAttributes(style), attributes, locale);
 			
+			write("<t>");
+
 			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
 			while(tkzer.hasMoreTokens())
 			{
 				String token = tkzer.nextToken();
 				if ("\n".equals(token))
 				{
-//					write("<w:br/>");
+//					write("<br/>"); //FIXMEXLSX
 				}
 				else
 				{
-//					write("<w:t xml:space=\"preserve\">");
+//					write("<t>");
 					write(JRStringUtil.xmlEncode(token));//FIXMEODT try something nicer for replace
-//					write("</w:t>\n");
+//					write("</t>\n");
 				}
 			}
-//			write("      </w:r>\n");
+			write("</t>\n");
+			write("      </r>\n");
 		}
 	}
 
@@ -120,8 +123,8 @@ public class XlsxRunHelper extends BaseHelper
 	 */
 	public void exportProps(Map parentAttrs,  Map attrs, Locale locale)
 	{
-//		write("       <w:rPr>\n");
-//
+		write("       <rPr>\n");
+
 		Object value = attrs.get(TextAttribute.FAMILY);
 		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
 		
@@ -147,8 +150,8 @@ public class XlsxRunHelper extends BaseHelper
 					}
 				}
 			}
-//			write("        <w:rFonts w:ascii=\"" + fontFamily + "\" w:hAnsi=\"" + fontFamily + "\" w:eastAsia=\"" + fontFamily + "\" w:cs=\"" + fontFamily + "\" />\n");
-//			
+			write("        <rFont val=\"" + fontFamily + "\"/>\n");
+			
 		}
 		
 		value = attrs.get(TextAttribute.FOREGROUND);
@@ -156,8 +159,7 @@ public class XlsxRunHelper extends BaseHelper
 		
 		if (value != null && !value.equals(oldValue))
 		{
-//			write("        <w:color w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
-//			
+			write("        <color rgb=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
 		}
 
 		value = attrs.get(TextAttribute.BACKGROUND);
@@ -174,61 +176,61 @@ public class XlsxRunHelper extends BaseHelper
 
 		if (value != null && !value.equals(oldValue))
 		{
-//			write("        <w:sz w:val=\"" + (2 * ((Float)value).floatValue()) + "\" />\n");
-//			
+			write("        <sz val=\"" + (2 * ((Float)value).floatValue()) + "\" />\n");
+			
 		}
 		
 		value = attrs.get(TextAttribute.WEIGHT);
 		oldValue = parentAttrs.get(TextAttribute.WEIGHT);
 
-//		if (value != null && !value.equals(oldValue))
-//		{
-//			write("        <w:b w:val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
-//		}
+		if (value != null && !value.equals(oldValue))
+		{
+			write("        <b val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
+		}
 
 		value = attrs.get(TextAttribute.POSTURE);
 		oldValue = parentAttrs.get(TextAttribute.POSTURE);
 
-//		if (value != null && !value.equals(oldValue))
-//		{
-//			write("        <w:i w:val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
-//		}
+		if (value != null && !value.equals(oldValue))
+		{
+			write("        <i val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
+		}
 
 
 		value = attrs.get(TextAttribute.UNDERLINE);
 		oldValue = parentAttrs.get(TextAttribute.UNDERLINE);
 
-//		if (
-//			(value == null && oldValue != null)
-//			|| (value != null && !value.equals(oldValue))
-//			)
-//		{
-//			write("        <w:u w:val=\"" + (value == null ? "none" : "single") + "\"/>\n");
-//		}
-//		
+		if (
+			(value == null && oldValue != null)
+			|| (value != null && !value.equals(oldValue))
+			)
+		{
+			write("        <u val=\"" + (value == null ? "none" : "single") + "\"/>\n");
+		}
+		
 		value = attrs.get(TextAttribute.STRIKETHROUGH);
 		oldValue = parentAttrs.get(TextAttribute.STRIKETHROUGH);
 
-//		if (
-//			(value == null && oldValue != null)
-//			|| (value != null && !value.equals(oldValue))
-//			)
-//		{
-//			write("        <w:strike w:val=\"" + (value != null) + "\"/>\n");
-//		}
-//
-//		value = attrs.get(TextAttribute.SUPERSCRIPT);
-//
-//		if (TextAttribute.SUPERSCRIPT_SUPER.equals(value))
-//		{
-//			write("        <w:vertAlign w:val=\"superscript\" />\n");
-//		}
-//		else if (TextAttribute.SUPERSCRIPT_SUB.equals(value))
-//		{
-//			write("        <w:vertAlign w:val=\"subscript\" />\n");
-//		}
-//
-//		write("       </w:rPr>\n");
+		if (
+			(value == null && oldValue != null)
+			|| (value != null && !value.equals(oldValue))
+			)
+		{
+			write("        <strike val=\"" + (value != null) + "\"/>\n");
+		}
+
+		value = attrs.get(TextAttribute.SUPERSCRIPT);
+
+		if (TextAttribute.SUPERSCRIPT_SUPER.equals(value))
+		{
+			write("        <vertAlign val=\"superscript\" />\n");
+		}
+		else if (TextAttribute.SUPERSCRIPT_SUB.equals(value))
+		{
+			write("        <vertAlign val=\"subscript\" />\n");
+		}
+
+		write("       </rPr>\n");
 	}
 
 
