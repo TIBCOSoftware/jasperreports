@@ -62,12 +62,14 @@ public class FileBufferedWriter extends Writer
 	/**
 	 * 
 	 */
-	public void writeData(Writer writer) throws IOException
+	public void writeData(Writer writer)
 	{
 		Reader reader = null;
 
 		try
 		{
+			flush();
+			
 			reader = new InputStreamReader(fbos.getDataInputStream(), "UTF-8");
 
 			char[] chars = new char[10000];
@@ -78,6 +80,10 @@ public class FileBufferedWriter extends Writer
 			}
 
 			writer.flush();
+		}
+		catch(IOException e)
+		{
+			throw new JRRuntimeException(e);
 		}
 		finally
 		{

@@ -294,7 +294,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected void setColumnWidth(int col, int width)
 	{
 		CellView cv = new CellView();
-		cv.setSize(width);
+		cv.setSize(43 * width);
 		sheet.setColumnView(col, cv);
 	}
 
