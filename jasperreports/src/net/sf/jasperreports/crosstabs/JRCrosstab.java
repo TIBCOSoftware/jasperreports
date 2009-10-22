@@ -307,6 +307,7 @@ public interface JRCrosstab extends JRElement
 	 * 
 	 * @return the ignore width flag, or <code>null</code> is the crosstab
 	 * does not specify a flag value
+	 * @see #setIgnoreWidth(Boolean)
 	 */
 	public Boolean getIgnoreWidth();
 	
