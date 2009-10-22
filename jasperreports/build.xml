@@ -16,6 +16,7 @@
 			<exclude name="**/net/sf/jasperreports/engine/util/Java15BigDecimalHandler.java" unless="using.jdk.1.5"/>
 			<exclude name="**/olap/**/*.java" unless="using.jdk.1.5"/>
 			<exclude name="**/JRJpa*.java" unless="using.jdk.1.5"/>
+			<exclude name="**/Java15BigDecimalHandler.java" unless="using.jdk.1.5"/>
 			<classpath>
 				<pathelement location="./build/classes"/>
 				<fileset dir="./lib">
