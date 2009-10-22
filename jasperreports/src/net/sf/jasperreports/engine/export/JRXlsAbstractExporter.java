@@ -450,6 +450,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					if (filter instanceof ResetableExporterFilter)
 						((ResetableExporterFilter)filter).reset();
 					
+					setColumnWidths(xCuts);
+
 					int startRow = 0;
 
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
@@ -497,13 +499,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		if (createXCuts) 
 		{
 			xCuts = layout.getXCuts();
+			setColumnWidths(xCuts);
 		}
 
 		CutsInfo yCuts = layout.getYCuts();
 
 		int skippedRows = 0;
 		int rowIndex = startRow;
-		boolean columnsWidthsToSet = true;
 		for(int y = 0; y < grid.length; y++)
 		{
 			rowIndex = y - skippedRows + startRow;
@@ -515,18 +517,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				)
 			{
 				createSheet(getSheetName(currentSheetName));
+				setColumnWidths(xCuts);
 				startRow = 0;
 				rowIndex = 0;
 				skippedRows = y;
-				columnsWidthsToSet = true;
 			}
 			
-			if (columnsWidthsToSet)
-			{
-				setColumnWidths(xCuts);
-				columnsWidthsToSet = false;
-			}
-
 			if (
 				yCuts.isCutNotEmpty(y)
 				|| ((!isRemoveEmptySpaceBetweenRows || yCuts.isCutSpanned(y))
@@ -654,7 +650,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			if (!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
 			{
 				int width = xCuts.getCut(col + 1) - xCuts.getCut(col);
-				setColumnWidth((short)(col), (short)(width * 43));
+				setColumnWidth(col, width);
 			}
 		}
 	}
@@ -894,9 +890,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void closeWorkbook(OutputStream os) throws JRException;
 
-	protected abstract void setColumnWidth (int col, int width);
+	protected abstract void setColumnWidth(int col, int width);
 
-	protected abstract void removeColumn (int col);
+	protected abstract void removeColumn(int col);
 
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight) throws JRException;
 

@@ -26,6 +26,9 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.IOException;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.FileBufferedWriter;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -33,6 +36,10 @@ import java.io.Writer;
  */
 public class SheetHelper extends BaseHelper
 {
+	private int rowIndex = 0;
+	
+	private FileBufferedWriter mergedCellsWriter = new FileBufferedWriter();
+	
 	/**
 	 * 
 	 */
@@ -44,43 +51,89 @@ public class SheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportHeader() throws IOException
+	public void exportHeader()
 	{
-		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		writer.write("<worksheet\n");
-		writer.write(" xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"\n");
-		writer.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		write("<worksheet\n");
+		write(" xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"\n");
+		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
 
-//		<dimension ref="A1:B10"/>
-//		<sheetViews>
-//		 <sheetView tabSelected="1" workbookViewId="0"/></sheetViews>
-//		 <sheetFormatPr defaultRowHeight="15"/>
-//		 <sheetData>
-//		  <row r="1"><c r="A1" t="inlineStr"><is><t>This is inline string example</t></is></c><c r="B1"><v>111</v></c></row>
-//		  <row r="2"><c r="A2" t="s"><v>1</v></c><c r="B2"><v>222</v></c></row>
-//		  <row r="3"><c r="A3" t="s"><v>2</v></c><c r="B3"><v>333</v></c></row>
-//		  <row r="4"><c r="A4" t="s"><v>3</v></c><c r="B4"><v>444</v></c></row>
-//		  <row r="5"><c r="A5" t="s"><v>4</v></c><c r="B5"><v>555</v></c></row>
-//		  <row r="6"><c r="A6" t="s"><v>5</v></c><c r="B6"><v>666</v></c></row>
-//		  <row r="7"><c r="A7" t="s"><v>6</v></c><c r="B7"><v>777</v></c></row>
-//		  <row r="8"><c r="A8" t="s"><v>7</v></c><c r="B8"><v>888</v></c></row>
-//		  <row r="9"><c r="A9" t="s"><v>8</v></c><c r="B9"><v>999</v></c></row>
-//		  <row r="10"><c r="A10" t="s"><v>9</v></c><c r="B10"><f>SUM(B1:B9)</f><v>4995</v></c></row>
-//		</sheetData>
-
-		writer.write("<dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"/></sheetViews>\n");
-		writer.write("<sheetFormatPr defaultRowHeight=\"15\"/>\n");
-		writer.write("<sheetData/>\n");
-		writer.write("<pageMargins left=\"0.7\" right=\"0.7\" top=\"0.75\" bottom=\"0.75\" header=\"0.3\" footer=\"0.3\"/>\n");
-		//writer.write("<pageSetup orientation=\"portrait\" r:id=\"rId1\"/>\n");		
+		write("<dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"/></sheetViews>\n");
+		write("<sheetFormatPr defaultRowHeight=\"15\"/>\n");
+		write("<cols>\n");
 	}
 	
 
 	/**
 	 *
 	 */
-	public void exportFooter() throws IOException
+	public void exportFooter()
 	{
-		writer.write("</worksheet>");		
+		if (rowIndex > 0)
+		{
+			write("</row>\n");
+		}
+		else
+		{
+			write("</cols>\n");
+			write("<sheetData>\n");
+		}
+		write("</sheetData>\n");
+		write("<mergeCells>\n");//FIXMEXLSX check count attribute
+		mergedCellsWriter.writeData(writer);
+		write("</mergeCells>\n");
+		write("<pageMargins left=\"0.7\" right=\"0.7\" top=\"0.75\" bottom=\"0.75\" header=\"0.3\" footer=\"0.3\"/>\n");
+		//write("<pageSetup orientation=\"portrait\" r:id=\"rId1\"/>\n");		
+		write("</worksheet>");		
 	}
+
+
+	/**
+	 *
+	 */
+	public void exportColumn(int colIndex, int colWidth) 
+	{
+		write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\" width=\"" + (3f * (float)colWidth / 20f) + "\"/>\n");
+	}
+	
+	/**
+	 *
+	 */
+	public void exportRow(int rowHeight) 
+	{
+		if (rowIndex > 0)
+		{
+			write("</row>\n");
+		}
+		else
+		{
+			write("</cols>\n");
+			write("<sheetData>\n");
+		}
+		rowIndex++;
+		write("<row r=\"" + rowIndex + "\" customHeight=\"1\" ht=\"" + rowHeight + "\">\n");
+	}
+	
+	/**
+	 *
+	 */
+	public void exportMergedCells(int row, int col, int rowSpan, int colSpan) 
+	{
+		if (rowSpan > 1 || colSpan > 1)
+		{
+			String ref = 
+				XlsxCellHelper.getColumIndexLetter(col) + (row + 1)
+				+ ":" + XlsxCellHelper.getColumIndexLetter(col + colSpan - 1) + (row + rowSpan); //FIXMEXLSX reuse this utility method
+			
+			try
+			{
+				mergedCellsWriter.write("<mergeCell ref=\"" + ref + "\"/>\n");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+	}
+
 }

@@ -183,7 +183,7 @@ public class XlsxZip extends FileBufferedZip
 	/**
 	 * 
 	 */
-	public ExportZipEntry addSheet(int index) throws IOException
+	public ExportZipEntry addSheet(int index)
 	{
 		ExportZipEntry sheetEntry = createEntry("xl/worksheets/sheet" + index + ".xml");
 

@@ -116,7 +116,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected ContentTypesHelper ctHelper = null;
 	protected Writer ctWriter = null;
 	protected SheetHelper sheetHelper = null;
-	protected Writer sheetWriter = null;
+	//protected Writer sheetWriter = null;
+	//protected TableHelper tableHelper = null;
+	protected XlsxCellHelper cellHelper = null;//FIXMEXLSX maybe cell helper should be part of sheet helper, just like in table helper
 
 	protected JRExportProgressMonitor progressMonitor = null;
 	protected Map rendererToImagePathMap = null;
@@ -140,7 +142,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected LinkedList backcolorStack;
 	protected Color backcolor;
 
-	private RunHelper runHelper = null;
+	private XlsxRunHelper runHelper = null;
 
 	protected ExporterNature nature = null;
 
@@ -222,6 +224,34 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			progressMonitor.afterPageExport();
 		}
 	}
+	*/
+	
+//	protected int exportPage(
+//		JRPrintPage page, 
+//		CutsInfo xCuts, 
+//		int startRow
+//		) throws JRException 
+//	{
+//		tableHelper = 
+//			new TableHelper(
+//				sheetWriter, 
+//				xCuts,
+//				runHelper,
+//				reportIndex != 0 || pageIndex != startPageIndex
+//				);
+//
+//		tableHelper.exportHeader();
+//		
+//		int result = super.exportPage(page, xCuts, startRow);
+//		
+//		tableHelper.exportFooter(
+//			reportIndex != jasperPrintList.size() - 1 && pageIndex == endPageIndex, 
+//			jasperPrint.getPageWidth(), 
+//			jasperPrint.getPageHeight()
+//			);
+//		
+//		return result;
+//	}
 
 
 	/**
@@ -433,73 +463,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportText(TableHelper tableHelper, JRPrintText text, JRExporterGridCell gridCell) throws IOException
-	{
-		tableHelper.getCellHelper().exportHeader(text, gridCell);
-
-		JRStyledText styledText = getStyledText(text);
-
-		int textLength = 0;
-
-		if (styledText != null)
-		{
-			textLength = styledText.length();
-		}
-
-//		if (isWrapBreakWord)
-//		{
-//			styleBuffer.append("width: " + gridCell.width + "; ");
-//			styleBuffer.append("word-wrap: break-word; ");
-//		}
-
-//		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
-//		{
-//			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
-//		}
-
-//		if (styleBuffer.length() > 0)
-//		{
-//			writer.write(" style=\"");
-//			writer.write(styleBuffer.toString());
-//			writer.write("\"");
-//		}
-//
-//		writer.write(">");
-		wbWriter.write("     <w:p>\n");
-
-		tableHelper.getParagraphHelper().exportProps(text);
-		
-//		insertPageAnchor();
-//		if (text.getAnchorName() != null)
-//		{
-//			tempBodyWriter.write("<text:bookmark text:name=\"");
-//			tempBodyWriter.write(text.getAnchorName());
-//			tempBodyWriter.write("\"/>");
-//		}
-
-		boolean startedHyperlink = startHyperlink(text, true);
-
-		if (textLength > 0)
-		{
-			exportStyledText(text.getStyle(), styledText, getTextLocale(text));
-		}
-
-		if (startedHyperlink)
-		{
-			endHyperlink(true);
-		}
-
-		wbWriter.write("     </w:p>\n");
-		wbWriter.flush();
-
-		tableHelper.getCellHelper().exportFooter();
-	}
-
-
-	/**
-	 *
-	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale) throws IOException
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale)
 	{
 		String text = styledText.getText();
 
@@ -1001,7 +965,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		return yalignFactor;
 	}
 
-	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText) throws IOException
+	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText)
 	{
 		String href = getHyperlinkURL(link);
 
@@ -1024,23 +988,30 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //
 //			wbWriter.write(">\n");
 
-			wbWriter.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
-			wbWriter.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + href + "\"");
-
-			String target = getHyperlinkTarget(link);//FIXMETARGET
-			if (target != null)
+			try
 			{
-				wbWriter.write(" \\t \"" + target + "\"");
-			}
+				wbWriter.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
+				wbWriter.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + href + "\"");
 
-			String tooltip = link.getHyperlinkTooltip(); 
-			if (tooltip != null)
+				String target = getHyperlinkTarget(link);//FIXMETARGET
+				if (target != null)
+				{
+					wbWriter.write(" \\t \"" + target + "\"");
+				}
+
+				String tooltip = link.getHyperlinkTooltip(); 
+				if (tooltip != null)
+				{
+					wbWriter.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip) + "\"");
+				}
+
+				wbWriter.write(" </w:instrText></w:r>\n");
+				wbWriter.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
+			}
+			catch (IOException e)
 			{
-				wbWriter.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip) + "\"");
+				throw new JRRuntimeException(e);
 			}
-
-			wbWriter.write(" </w:instrText></w:r>\n");
-			wbWriter.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
 		}
 
 		return href != null;
@@ -1138,10 +1109,17 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void endHyperlink(boolean isText) throws IOException
+	protected void endHyperlink(boolean isText)
 	{
 //		wbWriter.write("</w:hyperlink>\n");
-		wbWriter.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
+		try
+		{
+			wbWriter.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 //	protected void insertPageAnchor() throws IOException
@@ -1173,6 +1151,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected void closeWorkbook(OutputStream os) throws JRException 
 	{
+		closeSheet();
+
 		try
 		{
 			wbHelper.exportFooter();
@@ -1249,24 +1229,30 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected void createSheet(String name)
 	{
-		try
-		{
-			ExportZipEntry sheetEntry = xlsxZip.addSheet(sheetIndex + 1);
-			sheetWriter = sheetEntry.getWriter();
-			sheetHelper = new SheetHelper(sheetWriter);
+		closeSheet();
+		
+		wbHelper.exportSheet(sheetIndex + 1);
+		ctHelper.exportSheet(sheetIndex + 1);
+		relsHelper.exportSheet(sheetIndex + 1);
 
-			sheetHelper.exportHeader();
+		ExportZipEntry sheetEntry = xlsxZip.addSheet(sheetIndex + 1);
+		Writer sheetWriter = sheetEntry.getWriter();
+		sheetHelper = new SheetHelper(sheetWriter);
+
+		cellHelper = new XlsxCellHelper(sheetWriter);
+		runHelper = new XlsxRunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
+
+		sheetHelper.exportHeader();
+	}
+
+
+	protected void closeSheet()
+	{
+		if (sheetHelper != null)
+		{
 			sheetHelper.exportFooter();
 			
-			sheetWriter.close();
-			
-			wbHelper.exportSheet(sheetIndex + 1);
-			ctHelper.exportSheet(sheetIndex + 1);
-			relsHelper.exportSheet(sheetIndex + 1);
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
+			sheetHelper.close();
 		}
 	}
 
@@ -1300,10 +1286,73 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void exportText(JRPrintText text, JRExporterGridCell cell,
-			int colIndex, int rowIndex) throws JRException {
-		// TODO Auto-generated method stub
+	protected void exportText(
+		JRPrintText text, 
+		JRExporterGridCell gridCell,
+		int colIndex, 
+		int rowIndex
+		) throws JRException
+	{
+		cellHelper.exportHeader(text, gridCell, rowIndex, colIndex);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+
+		JRStyledText styledText = getStyledText(text);
+
+		int textLength = 0;
+
+		if (styledText != null)
+		{
+			textLength = styledText.length();
+		}
+
+//		if (isWrapBreakWord)
+//		{
+//			styleBuffer.append("width: " + gridCell.width + "; ");
+//			styleBuffer.append("word-wrap: break-word; ");
+//		}
+
+//		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
+//		{
+//			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
+//		}
+
+//		if (styleBuffer.length() > 0)
+//		{
+//			writer.write(" style=\"");
+//			writer.write(styleBuffer.toString());
+//			writer.write("\"");
+//		}
+//
+//		writer.write(">");
 		
+		sheetHelper.write("<is><t>");//FIXMENOW make writer util
+
+//		tableHelper.getParagraphHelper().exportProps(text);
+		
+//		insertPageAnchor();
+//		if (text.getAnchorName() != null)
+//		{
+//			tempBodyWriter.write("<text:bookmark text:name=\"");
+//			tempBodyWriter.write(text.getAnchorName());
+//			tempBodyWriter.write("\"/>");
+//		}
+
+		boolean startedHyperlink = startHyperlink(text, true);
+
+		if (textLength > 0)
+		{
+			exportStyledText(text.getStyle(), styledText, getTextLocale(text));
+		}
+
+		if (startedHyperlink)
+		{
+			endHyperlink(true);
+		}
+
+		sheetHelper.write("</t></is>");
+		sheetHelper.flush();
+
+		cellHelper.exportFooter();
 	}
 
 
@@ -1358,7 +1407,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			throw new JRException(e);
 		}
 
-		runHelper = new RunHelper(wbWriter, fontMap, null);//FIXMEXLSX check this null
+//		runHelper = new RunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
 	}
 
 
@@ -1380,16 +1429,18 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void setColumnWidth(int col, int width) {
-		// TODO Auto-generated method stub
-		
+	protected void setColumnWidth(int col, int width) 
+	{
+		sheetHelper.exportColumn(col, width);
 	}
 
 
-	protected void setRowHeight(int rowIndex, int lastRowHeight)
-			throws JRException {
-		// TODO Auto-generated method stub
-		
+	protected void setRowHeight(
+		int rowIndex, 
+		int rowHeight
+		) throws JRException 
+	{
+		sheetHelper.exportRow(rowHeight);
 	}
 
 	/**
