@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.io.IOException;
 import java.io.Writer;
 
 
@@ -44,36 +43,36 @@ public class ContentTypesHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportHeader() throws IOException
+	public void exportHeader()
 	{
-		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		writer.write("<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\">\n");
-		writer.write("  <Default Extension=\"gif\" ContentType=\"image/gif\"/>\n");
-		writer.write("  <Default Extension=\"jpeg\" ContentType=\"image/jpeg\"/>\n");
-		writer.write("  <Default Extension=\"png\" ContentType=\"image/png\"/>\n");
-		writer.write("  <Default Extension=\"tiff\" ContentType=\"image/tiff\"/>\n");
-		writer.write("  <Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/>\n");
-		writer.write("  <Default Extension=\"xml\" ContentType=\"application/xml\"/>\n");
-		writer.write("  <Override PartName=\"/xl/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml\"/>\n");
-		writer.write("  <Override PartName=\"/xl/workbook.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml\"/>\n");
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		write("<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\">\n");
+		write("  <Default Extension=\"gif\" ContentType=\"image/gif\"/>\n");
+		write("  <Default Extension=\"jpeg\" ContentType=\"image/jpeg\"/>\n");
+		write("  <Default Extension=\"png\" ContentType=\"image/png\"/>\n");
+		write("  <Default Extension=\"tiff\" ContentType=\"image/tiff\"/>\n");
+		write("  <Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/>\n");
+		write("  <Default Extension=\"xml\" ContentType=\"application/xml\"/>\n");
+		write("  <Override PartName=\"/xl/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml\"/>\n");
+		write("  <Override PartName=\"/xl/workbook.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml\"/>\n");
 	}
 	
 
 	/**
 	 * 
 	 */
-	public void exportSheet(int index) throws IOException
+	public void exportSheet(int index)
 	{
-		writer.write("  <Override PartName=\"/xl/worksheets/sheet" + index + ".xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml\"/>\n");
+		write("  <Override PartName=\"/xl/worksheets/sheet" + index + ".xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml\"/>\n");
 	}
 	
 
 	/**
 	 *
 	 */
-	public void exportFooter() throws IOException
+	public void exportFooter()
 	{
-		writer.write("</Types>\n");
+		write("</Types>\n");
 	}
 
 }

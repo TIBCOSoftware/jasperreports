@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRLineBox;
@@ -50,7 +49,7 @@ public class BorderHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRLineBox box) throws IOException
+	public void export(JRLineBox box)
 	{
 		if (box != null)
 		{
@@ -61,7 +60,7 @@ public class BorderHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRPen pen) throws IOException
+	public void export(JRPen pen)
 	{
 		if (pen != null)
 		{
@@ -72,50 +71,50 @@ public class BorderHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void export(BorderInfo info) throws IOException
+	private void export(BorderInfo info)
 	{
 		if(info.hasBorder())
 		{
-			writer.write("      <w:tcBorders>\n");
+			write("      <w:tcBorders>\n");
 			exportBorder(info, BorderInfo.TOP_BORDER);
 			exportBorder(info, BorderInfo.LEFT_BORDER);
 			exportBorder(info, BorderInfo.BOTTOM_BORDER);
 			exportBorder(info, BorderInfo.RIGHT_BORDER);
-			writer.write("      </w:tcBorders>\n");
+			write("      </w:tcBorders>\n");
 		}
 		
-		writer.write("      <w:tcMar>\n");
+		write("      <w:tcMar>\n");
 		exportPadding(info, BorderInfo.TOP_BORDER);
 		exportPadding(info, BorderInfo.LEFT_BORDER);
 		exportPadding(info, BorderInfo.BOTTOM_BORDER);
 		exportPadding(info, BorderInfo.RIGHT_BORDER);
-		writer.write("      </w:tcMar>\n");
+		write("      </w:tcMar>\n");
 	}
 
 	/**
 	 *
 	 */
-	private void exportBorder(BorderInfo info, int side) throws IOException
+	private void exportBorder(BorderInfo info, int side)
 	{
 		if (info.borderWidth[side] != null)
 		{
-			writer.write("<w:" + BorderInfo.BORDER[side] +" w:val=\"" + info.borderStyle[side] + "\" w:sz=\"" + info.borderWidth[side] + "\" w:space=\"0\"");
+			write("<w:" + BorderInfo.BORDER[side] +" w:val=\"" + info.borderStyle[side] + "\" w:sz=\"" + info.borderWidth[side] + "\" w:space=\"0\"");
 			if (info.borderColor[side] != null)//FIXMEDOCX check this; use default color?
 			{
-				writer.write(" w:color=\"" + JRColorUtil.getColorHexa(info.borderColor[side]) + "\"");
+				write(" w:color=\"" + JRColorUtil.getColorHexa(info.borderColor[side]) + "\"");
 			}
-			writer.write(" />\n");
+			write(" />\n");
 		}
 	}
 	
 	/**
 	 *
 	 */
-	private void exportPadding(BorderInfo info, int side) throws IOException
+	private void exportPadding(BorderInfo info, int side)
 	{
 		if (info.borderPadding[side] != null)
 		{
-			writer.write("       <w:" + BorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" />\n");
+			write("       <w:" + BorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" />\n");
 		}
 	}
 

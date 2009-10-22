@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRAlignment;
@@ -75,19 +74,19 @@ public class CellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportHeader(JRPrintElement element, JRExporterGridCell gridCell) throws IOException 
+	public void exportHeader(JRPrintElement element, JRExporterGridCell gridCell) 
 	{
-		writer.write("    <w:tc>\n");
+		write("    <w:tc>\n");
 		
 		exportPropsHeader();
 
 		if (gridCell.getColSpan() > 1)
 		{
-			writer.write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" />\n");
+			write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" />\n");
 		}
 		if (gridCell.getRowSpan() > 1)
 		{
-			writer.write("      <w:vMerge w:val=\"restart\" />\n");
+			write("      <w:vMerge w:val=\"restart\" />\n");
 		}
 		
 		exportProps(element, gridCell);
@@ -98,16 +97,16 @@ public class CellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportFooter() throws IOException 
+	public void exportFooter() 
 	{
-		writer.write("    </w:tc>\n");
+		write("    </w:tc>\n");
 	}
 
 
 	/**
 	 *
 	 */
-	public void exportProps(JRPrintElement element, JRExporterGridCell gridCell) throws IOException
+	public void exportProps(JRPrintElement element, JRExporterGridCell gridCell)
 	{
 		exportBackcolor(element.getMode(), element.getBackcolor());
 		
@@ -136,7 +135,7 @@ public class CellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportProps(JRExporterGridCell gridCell) throws IOException
+	public void exportProps(JRExporterGridCell gridCell)
 	{
 		exportBackcolor(JRElement.MODE_OPAQUE, gridCell.getBackcolor());//FIXMEDOCX check this
 		
@@ -147,43 +146,43 @@ public class CellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportBackcolor(byte mode, Color backcolor) throws IOException
+	private void exportBackcolor(byte mode, Color backcolor)
 	{
 		if (mode == JRElement.MODE_OPAQUE && backcolor != null)
 		{
-			writer.write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" />\n");
+			write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" />\n");
 		}
 	}
 
 	/**
 	 *
 	 */
-	private void exportPropsHeader() throws IOException
+	private void exportPropsHeader()
 	{
-		writer.write("      <w:tcPr>\n");
+		write("      <w:tcPr>\n");
 	}
 	
 	/**
 	 *
 	 */
-	private void exportAlignmentAndRotation(String verticalAlignment, String textRotation) throws IOException
+	private void exportAlignmentAndRotation(String verticalAlignment, String textRotation)
 	{
 		if (verticalAlignment != null)
 		{
-			writer.write("      <w:vAlign w:val=\"" + verticalAlignment +"\" />\n");
+			write("      <w:vAlign w:val=\"" + verticalAlignment +"\" />\n");
 		}
 		if (textRotation != null)
 		{
-			writer.write("   <w:textDirection w:val=\"" + textRotation + "\" />\n");
+			write("   <w:textDirection w:val=\"" + textRotation + "\" />\n");
 		}
 	}
 	
 	/**
 	 *
 	 */
-	private void exportPropsFooter() throws IOException
+	private void exportPropsFooter()
 	{
-		writer.write("      </w:tcPr>\n");
+		write("      </w:tcPr>\n");
 	}
 	
 	/**

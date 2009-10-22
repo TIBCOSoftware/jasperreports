@@ -70,11 +70,11 @@ public class RunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRStyle style, Map attributes, String text, Locale locale) throws IOException
+	public void export(JRStyle style, Map attributes, String text, Locale locale)
 	{
 		if (text != null)
 		{
-			writer.write("      <w:r>\n");
+			write("      <w:r>\n");
 			
 			exportProps(getAttributes(style), attributes, locale);
 			
@@ -84,16 +84,16 @@ public class RunHelper extends BaseHelper
 				String token = tkzer.nextToken();
 				if ("\n".equals(token))
 				{
-					writer.write("<w:br/>");
+					write("<w:br/>");
 				}
 				else
 				{
-					writer.write("<w:t xml:space=\"preserve\">");
-					writer.write(JRStringUtil.xmlEncode(token));//FIXMEODT try something nicer for replace
-					writer.write("</w:t>\n");
+					write("<w:t xml:space=\"preserve\">");
+					write(JRStringUtil.xmlEncode(token));//FIXMEODT try something nicer for replace
+					write("</w:t>\n");
 				}
 			}
-			writer.write("      </w:r>\n");
+			write("      </w:r>\n");
 		}
 	}
 
@@ -118,9 +118,9 @@ public class RunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportProps(Map parentAttrs,  Map attrs, Locale locale) throws IOException
+	public void exportProps(Map parentAttrs,  Map attrs, Locale locale)
 	{
-		writer.write("       <w:rPr>\n");
+		write("       <w:rPr>\n");
 
 		Object value = attrs.get(TextAttribute.FAMILY);
 		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
@@ -147,7 +147,7 @@ public class RunHelper extends BaseHelper
 					}
 				}
 			}
-			writer.write("        <w:rFonts w:ascii=\"" + fontFamily + "\" w:hAnsi=\"" + fontFamily + "\" w:eastAsia=\"" + fontFamily + "\" w:cs=\"" + fontFamily + "\" />\n");
+			write("        <w:rFonts w:ascii=\"" + fontFamily + "\" w:hAnsi=\"" + fontFamily + "\" w:eastAsia=\"" + fontFamily + "\" w:cs=\"" + fontFamily + "\" />\n");
 		}
 		
 		value = attrs.get(TextAttribute.FOREGROUND);
@@ -155,7 +155,7 @@ public class RunHelper extends BaseHelper
 		
 		if (value != null && !value.equals(oldValue))
 		{
-			writer.write("        <w:color w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
+			write("        <w:color w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
 		}
 
 		value = attrs.get(TextAttribute.BACKGROUND);
@@ -172,7 +172,7 @@ public class RunHelper extends BaseHelper
 
 		if (value != null && !value.equals(oldValue))
 		{
-			writer.write("        <w:sz w:val=\"" + (2 * ((Float)value).floatValue()) + "\" />\n");
+			write("        <w:sz w:val=\"" + (2 * ((Float)value).floatValue()) + "\" />\n");
 		}
 		
 		value = attrs.get(TextAttribute.WEIGHT);
@@ -180,7 +180,7 @@ public class RunHelper extends BaseHelper
 
 		if (value != null && !value.equals(oldValue))
 		{
-			writer.write("        <w:b w:val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
+			write("        <w:b w:val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
 		}
 
 		value = attrs.get(TextAttribute.POSTURE);
@@ -188,7 +188,7 @@ public class RunHelper extends BaseHelper
 
 		if (value != null && !value.equals(oldValue))
 		{
-			writer.write("        <w:i w:val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
+			write("        <w:i w:val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
 		}
 
 
@@ -200,7 +200,7 @@ public class RunHelper extends BaseHelper
 			|| (value != null && !value.equals(oldValue))
 			)
 		{
-			writer.write("        <w:u w:val=\"" + (value == null ? "none" : "single") + "\"/>\n");
+			write("        <w:u w:val=\"" + (value == null ? "none" : "single") + "\"/>\n");
 		}
 		
 		value = attrs.get(TextAttribute.STRIKETHROUGH);
@@ -211,28 +211,28 @@ public class RunHelper extends BaseHelper
 			|| (value != null && !value.equals(oldValue))
 			)
 		{
-			writer.write("        <w:strike w:val=\"" + (value != null) + "\"/>\n");
+			write("        <w:strike w:val=\"" + (value != null) + "\"/>\n");
 		}
 
 		value = attrs.get(TextAttribute.SUPERSCRIPT);
 
 		if (TextAttribute.SUPERSCRIPT_SUPER.equals(value))
 		{
-			writer.write("        <w:vertAlign w:val=\"superscript\" />\n");
+			write("        <w:vertAlign w:val=\"superscript\" />\n");
 		}
 		else if (TextAttribute.SUPERSCRIPT_SUB.equals(value))
 		{
-			writer.write("        <w:vertAlign w:val=\"subscript\" />\n");
+			write("        <w:vertAlign w:val=\"subscript\" />\n");
 		}
 
-		writer.write("       </w:rPr>\n");
+		write("       </w:rPr>\n");
 	}
 
 
 	/**
 	 *
 	 */
-	private Map getAttributes(JRStyle style) throws IOException//FIXMEDOCX put this in util?
+	private Map getAttributes(JRStyle style)//FIXMEDOCX put this in util?
 	{
 		JRPrintText text = new JRBasePrintText(null);
 		text.setStyle(style);

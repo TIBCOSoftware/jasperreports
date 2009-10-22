@@ -36,7 +36,7 @@ public interface ExportZipEntry
 {
 	public String getName();
 	
-	public Writer getWriter() throws IOException;
+	public Writer getWriter();
 	
 	public OutputStream getOutputStream();
 

@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
+import java.io.IOException;
 import java.io.Writer;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -43,6 +46,42 @@ public abstract class BaseHelper
 	public BaseHelper(Writer writer)
 	{
 		this.writer = writer;
+	}
+	
+	public void write(String text)
+	{
+		try
+		{
+			writer.write(text);
+		}
+		catch(IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public void close()
+	{
+		try
+		{
+			writer.close();
+		}
+		catch(IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public void flush()
+	{
+		try
+		{
+			writer.flush();
+		}
+		catch(IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 }
 
