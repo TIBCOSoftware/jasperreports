@@ -38,17 +38,24 @@ public class BaseListContents extends JRBaseElementGroup implements ListContents
 	private static final long serialVersionUID = 1L;
 	
 	private final int height;
+	private final Integer width;
 
 	protected BaseListContents(ListContents listContents, JRBaseObjectFactory factory)
 	{
 		super(listContents, factory);
 		
 		this.height = listContents.getHeight();
+		this.width = listContents.getWidth();
 	}
 
 	public int getHeight()
 	{
 		return height;
+	}
+
+	public Integer getWidth()
+	{
+		return width;
 	}
 	
 }

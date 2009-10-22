@@ -50,6 +50,7 @@ public interface ComponentCompiler
 	 * @param component the component
 	 * @param verifier the verifier object, which can be used to raise validation
 	 * errors
+	 * @see JRVerifier#getCurrentComponentElement()
 	 */
 	void verify(Component component, JRVerifier verifier);
 

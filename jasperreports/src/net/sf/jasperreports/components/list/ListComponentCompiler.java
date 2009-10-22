@@ -26,7 +26,7 @@ package net.sf.jasperreports.components.list;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.base.JRBaseDatasetRun;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
@@ -64,14 +64,8 @@ public class ListComponentCompiler implements ComponentCompiler
 			JRBaseObjectFactory baseFactory)
 	{
 		ListComponent listComponent = (ListComponent) component;
-		
-		JRBaseDatasetRun datasetRun = baseFactory.getDatasetRun(
-				listComponent.getDatasetRun());
-		ListContents listContents = new BaseListContents(listComponent.getContents(), baseFactory);
-		
-		StandardListComponent compiledComponent = new StandardListComponent();
-		compiledComponent.setDatasetRun(datasetRun);
-		compiledComponent.setContents(listContents);
+		StandardListComponent compiledComponent = new StandardListComponent(
+				listComponent, baseFactory);
 		return compiledComponent;
 	}
 
@@ -97,9 +91,42 @@ public class ListComponentCompiler implements ComponentCompiler
 		}
 		else
 		{
+			Byte listPrintOrder = listComponent.getPrintOrder();
+			byte printOder = listPrintOrder == null ? JRReport.PRINT_ORDER_VERTICAL 
+					: listPrintOrder.byteValue();
+			
+			Boolean listIgnoreWidth = listComponent.getIgnoreWidth();
+			boolean ignoreWidth = listIgnoreWidth != null 
+					&& listIgnoreWidth.booleanValue();
+			
 			if (listContents.getHeight() < 0)
 			{
 				verifier.addBrokenRule("List contents height must be positive.", listContents);
+			}
+			
+			int elementWidth = verifier.getCurrentComponentElement().getWidth();
+			Integer width = listContents.getWidth();
+			int contentsWidth;
+			if (width == null)
+			{
+				contentsWidth = elementWidth;
+			}
+			else
+			{
+				contentsWidth = width.intValue();
+				
+				if (width.intValue() <= 0)
+				{
+					verifier.addBrokenRule("List contents width must be positive.", listContents);
+				}
+				
+				if (!ignoreWidth && printOder == JRReport.PRINT_ORDER_HORIZONTAL 
+						&& width.intValue() > elementWidth)
+				{
+					verifier.addBrokenRule(
+							"List contents width is larger than the list element width", 
+							listComponent);
+				}
 			}
 			
 			JRElement[] elements = listContents.getElements();
@@ -124,7 +151,12 @@ public class ListComponentCompiler implements ComponentCompiler
 								+ ", list contents height = " + listContents.getHeight() + ".", element);
 					}
 					
-					//TODO verify width
+					if (element.getX() + element.getWidth() > contentsWidth)
+					{
+						verifier.addBrokenRule("Element reaches outside list contents width: x = " 
+								+ element.getX() + ", width = " + element.getWidth() 
+								+ ", list contents width = " + contentsWidth + ".", element);
+					}
 				}
 			}
 		}

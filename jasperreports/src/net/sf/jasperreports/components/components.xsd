@@ -16,6 +16,15 @@
 						<element ref="jr:datasetRun" minOccurs="1" maxOccurs="1" />
 						<element ref="c:listContents" />
 					</sequence>
+					<attribute name="printOrder" use="optional" default="Vertical">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Vertical" />
+								<enumeration value="Horizontal" />
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="ignoreWidth" type="boolean" use="optional"/>
 				</extension>
 			</complexContent>
 		</complexType>
@@ -62,6 +71,7 @@
 				</choice>
 			</sequence>
 			<attribute name="height" use="required" type="unsignedInt"/>
+			<attribute name="width" use="optional" type="unsignedInt"/>
 		</complexType>
 	</element>
 	

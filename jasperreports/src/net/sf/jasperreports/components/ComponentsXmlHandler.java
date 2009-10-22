@@ -82,6 +82,12 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 	{
 		String listPattern = "*/componentElement/list";
 		digester.addObjectCreate(listPattern, StandardListComponent.class);
+		digester.addSetProperties(listPattern,
+				//properties to be ignored by this rule
+				new String[]{"printOrder"}, 
+				new String[0]);
+		digester.addRule(listPattern, new XmlConstantPropertyRule(
+				"printOrder", JRXmlConstants.getPrintOrderMap()));
 		
 		String listContentsPattern = listPattern + "/listContents";
 		digester.addObjectCreate(listContentsPattern, DesignListContents.class);
@@ -219,11 +225,15 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
 		
 		writer.startElement("list", namespace);
+		writer.addAttribute("printOrder", list.getPrintOrder(), 
+				JRXmlConstants.getPrintOrderMap());
+		writer.addAttribute("ignoreWidth", list.getIgnoreWidth()); 
 		reportWriter.writeDatasetRun(list.getDatasetRun());
 		
 		ListContents contents = list.getContents();
 		writer.startElement("listContents");
 		writer.addAttribute("height", contents.getHeight());
+		writer.addAttribute("width", contents.getWidth());
 		reportWriter.writeChildElements(contents);
 		writer.closeElement();
 		

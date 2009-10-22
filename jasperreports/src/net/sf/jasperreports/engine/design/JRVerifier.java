@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -199,6 +200,7 @@ public class JRVerifier
 
 	private JRExpressionCollector expressionCollector;
 
+	private LinkedList currentComponentElementStack = new LinkedList();
 
 	/**
 	 *
@@ -3114,10 +3116,46 @@ public class JRVerifier
 		{
 			ComponentCompiler compiler = ComponentsEnvironment.
 				getComponentManager(componentKey).getComponentCompiler();
-			compiler.verify(component, this);
+			pushCurrentComponentElement(element);
+			try
+			{
+				compiler.verify(component, this);
+			}
+			finally
+			{
+				popCurrentComponentElement();
+			}
 		}
 	}
+	
+	/**
+	 * Returns the component element which is currently verified, if any.
+	 *
+	 * <p>
+	 * This method can be used in the {@link ComponentCompiler#verify(Component, JRVerifier)}
+	 * method to get a handle of the wrapping componenet element.
+	 * </p>
+	 * 
+	 * @return the currently verified component element
+	 */
+	public JRComponentElement getCurrentComponentElement()
+	{
+		if (currentComponentElementStack.isEmpty())
+		{
+			return null;
+		}
+		return (JRComponentElement) currentComponentElementStack.getFirst();
+	}
 
+	protected void pushCurrentComponentElement(JRComponentElement element)
+	{
+		currentComponentElementStack.addFirst(element);
+	}
+	
+	protected void popCurrentComponentElement()
+	{
+		currentComponentElementStack.removeFirst();
+	}
 
 	protected void verifyGenericElement(JRGenericElement element)
 	{

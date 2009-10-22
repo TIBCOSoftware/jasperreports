@@ -48,4 +48,20 @@ public interface ListContents extends JRElementGroup
 	 */
 	int getHeight();
 
+	/**
+	 * Returns the width of the list contents.
+	 * 
+	 * <p>
+	 * When the list is filled horizontally, several list cells will be placed
+	 * on the same row one next to another within the width of the list element
+	 * (unless the list element width is ignored).
+	 * The width of the list contents will determine how many cells can be
+	 * placed on a row.
+	 * </p>
+	 * 
+	 * @return the width of the list contents
+	 * @see ListComponent#getPrintOrder()
+	 * @see ListComponent#getIgnoreWidth()
+	 */
+	Integer getWidth();
 }

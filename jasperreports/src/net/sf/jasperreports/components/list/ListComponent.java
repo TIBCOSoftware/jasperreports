@@ -23,8 +23,10 @@
  */
 package net.sf.jasperreports.components.list;
 
+import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.component.Component;
 
 /**
@@ -57,5 +59,46 @@ public interface ListComponent extends Component, JRCloneable
 	 * @return the list item contents
 	 */
 	ListContents getContents();
+
+	/**
+	 * Returns the print order of the list cells.
+	 * 
+	 * <p>
+	 * The list cells can be either printed vertically one beneath another
+	 * (on a single column), or horizontally on rows of 2 or more columns.
+	 * </p>
+	 * 
+	 * <p>
+	 * The default print order (used when no explicit order has been set)
+	 * is vertical.
+	 * </p>
+	 * 
+	 * @return the list print order if set, one of
+	 * <ul>
+	 * <li>{@link JRReport#PRINT_ORDER_VERTICAL}</li>
+	 * <li>{@link JRReport#PRINT_ORDER_HORIZONTAL}</li>
+	 * </ul>
+	 * @see ListContents#getWidth()
+	 */
+	public Byte getPrintOrder();
+	
+	/**
+	 * Returns the flag that determines whether the element width is to be ignored
+	 * when filling this list.
+	 * 
+	 * <p>
+	 * This flag only applies to horizontally filled reports.  If the flag is set,
+	 * the list will be filled on a single row.
+	 * </p>
+	 * 
+	 * <p>
+	 * By default, the flag is not set.
+	 * </p>
+	 * 
+	 * @return
+	 * @see #getPrintOrder()
+	 * @see JRCrosstab#setIgnoreWidth(Boolean)
+	 */
+	public Boolean getIgnoreWidth();
 
 }
