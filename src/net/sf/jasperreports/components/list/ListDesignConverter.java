@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.convert.ReportConverter;
 public class ListDesignConverter implements ComponentDesignConverter
 {
 
+	//FIXME consider width
 	public JRPrintElement convert(ReportConverter reportConverter,
 			JRComponentElement element)
 	{

@@ -26,7 +26,10 @@ package net.sf.jasperreports.components.list;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -40,9 +43,26 @@ public class StandardListComponent implements Serializable, ListComponent
 
 	private static final long serialVersionUID = 1L;
 	
+	public static final String PROPERTY_PRINT_ORDER = "printOrder";
+	public static final String PROPERTY_IGNORE_WIDTH = "ignoreWidth";
+	
 	private JRDatasetRun datasetRun;
 	private ListContents contents;
+	private Byte printOrder;
+	private Boolean ignoreWidth;
 
+	public StandardListComponent()
+	{
+	}
+
+	public StandardListComponent(ListComponent list, JRBaseObjectFactory baseFactory)
+	{
+		this.datasetRun = baseFactory.getDatasetRun(list.getDatasetRun());
+		this.contents = new BaseListContents(list.getContents(), baseFactory);
+		this.printOrder = list.getPrintOrder();
+		this.ignoreWidth = list.getIgnoreWidth();
+	}
+	
 	public JRDatasetRun getDatasetRun()
 	{
 		return datasetRun;
@@ -89,5 +109,85 @@ public class StandardListComponent implements Serializable, ListComponent
 			// never
 			throw new JRRuntimeException(e);
 		}
+	}
+
+	public Byte getPrintOrder()
+	{
+		return printOrder;
+	}
+
+	/**
+	 * Sets the list cell print order.
+	 * 
+	 * @param printOrder the cell print oder, null or one of
+	 * <ul>
+	 * <li>{@link JRReport#PRINT_ORDER_VERTICAL}</li>
+	 * <li>{@link JRReport#PRINT_ORDER_HORIZONTAL}</li>
+	 * </ul>
+	 * @see #getPrintOrder()
+	 */
+	public void setPrintOrder(Byte printOrder)
+	{
+		Object old = this.printOrder;
+		this.printOrder = printOrder;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_ORDER, old, this.printOrder);
+	}
+
+	/**
+	 * Sets the list cell print order.
+	 * 
+	 * @param printOrder the cell print oder, one of
+	 * <ul>
+	 * <li>{@link JRReport#PRINT_ORDER_VERTICAL}</li>
+	 * <li>{@link JRReport#PRINT_ORDER_HORIZONTAL}</li>
+	 * </ul>
+	 * @see #getPrintOrder()
+	 */
+	public void setPrintOrder(byte printOrder)
+	{
+		setPrintOrder(new Byte(printOrder));
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
+
+	public Boolean getIgnoreWidth()
+	{
+		return ignoreWidth;
+	}
+
+	/**
+	 * Sets the list ignore width flag.
+	 * 
+	 * @param ignoreWidth the ignore width flag
+	 */
+	public void setIgnoreWidth(Boolean ignoreWidth)
+	{
+		Object old = this.ignoreWidth;
+		this.ignoreWidth = ignoreWidth;
+		getEventSupport().firePropertyChange(PROPERTY_IGNORE_WIDTH, 
+				old, this.ignoreWidth);
+	}
+	
+	/**
+	 * Sets the list ignore width flag.
+	 * 
+	 * @param ignoreWidth the ignore width flag
+	 */
+	public void setIgnoreWidth(boolean ignoreWidth)
+	{
+		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
 	}
 }

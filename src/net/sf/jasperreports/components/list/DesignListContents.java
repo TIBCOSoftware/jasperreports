@@ -38,8 +38,10 @@ public class DesignListContents extends JRDesignElementGroup implements
 	private static final long serialVersionUID = 1L;
 	
 	public static final String PROPERTY_HEIGHT = "height";
+	public static final String PROPERTY_WIDTH = "width";
 	
 	private int height;
+	private Integer width;
 
 	public int getHeight()
 	{
@@ -57,6 +59,35 @@ public class DesignListContents extends JRDesignElementGroup implements
 		int old = this.height;
 		this.height = height;
 		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, old, this.height);
+	}
+
+	public Integer getWidth()
+	{
+		return width;
+	}
+
+	/**
+	 * Sets the width of the list contents.
+	 * 
+	 * @param width the list contents width
+	 * @see #getWidth()
+	 */
+	public void setWidth(Integer width)
+	{
+		Object old = this.width;
+		this.width = width;
+		getEventSupport().firePropertyChange(PROPERTY_WIDTH, old, this.width);
+	}
+
+	/**
+	 * Sets the width of the list contents.
+	 * 
+	 * @param width the list contents width
+	 * @see #getWidth()
+	 */
+	public void setWidth(int width)
+	{
+		setWidth(new Integer(width));
 	}
 
 }

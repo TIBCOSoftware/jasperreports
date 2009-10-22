@@ -25,6 +25,8 @@ package net.sf.jasperreports.components.list;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
+import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillElementContainer;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -50,6 +52,17 @@ public class FillListContents extends JRFillElementContainer
 		initConditionalStyles();
 	}
 
+	public FillListContents(FillListContents fillListContents,
+			JRFillCloneFactory factory)
+	{
+		super(fillListContents, factory);
+		
+		this.contentsHeight = fillListContents.contentsHeight;
+
+		initElements();
+		initConditionalStyles();
+	}
+
 	public int getHeight()
 	{
 		return contentsHeight;
@@ -71,5 +84,40 @@ public class FillListContents extends JRFillElementContainer
 		initFill();
 		resetElements();
 		prepareElements(availableHeight, true);
+	}
+	
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
+	{
+		return new FillListContents(this, factory);
+	}
+	
+	public FillListContents createClone()
+	{
+		JRFillCloneFactory factory = new JRFillCloneFactory();
+		return new FillListContents(this, factory);
+	}
+	
+	// overridden for access
+	protected int getStretchHeight()
+	{
+		return super.getStretchHeight();
+	}
+	
+	// overridden for access
+	protected void rewind() throws JRException
+	{
+		super.rewind();
+	}
+	
+	protected void stretchTo(int height)
+	{
+		setStretchHeight(height);
+	}
+
+	protected void finalizeElementPositions()
+	{
+		stretchElements();
+		moveBandBottomElements();
+		removeBlankElements();
 	}
 }
