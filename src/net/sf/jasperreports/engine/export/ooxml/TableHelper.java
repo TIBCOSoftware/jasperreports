@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.export.CutsInfo;
@@ -85,57 +84,57 @@ public class TableHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void exportHeader() throws IOException 
+	public void exportHeader() 
 	{
-		writer.write("  <w:tbl>\n");
-		writer.write("   <w:tblPr>\n");
-		writer.write("    <w:tblLayout w:type=\"fixed\"/>\n");
-		writer.write("   </w:tblPr>\n");
-		writer.write("   <w:tblGrid>\n");
+		write("  <w:tbl>\n");
+		write("   <w:tblPr>\n");
+		write("    <w:tblLayout w:type=\"fixed\"/>\n");
+		write("   </w:tblPr>\n");
+		write("   <w:tblGrid>\n");
 		for(int col = 1; col < xCuts.size(); col++)
 		{
-			writer.write("    <w:gridCol w:w=\"" + Utility.twip(xCuts.getCut(col) - xCuts.getCut(col - 1)) + "\"/>\n");
+			write("    <w:gridCol w:w=\"" + Utility.twip(xCuts.getCut(col) - xCuts.getCut(col - 1)) + "\"/>\n");
 		}
-		writer.write("   </w:tblGrid>\n");
+		write("   </w:tblGrid>\n");
 	}
 	
-	public void exportFooter(boolean lastPage, int pageWidth, int pageHeight) throws IOException 
+	public void exportFooter(boolean lastPage, int pageWidth, int pageHeight) 
 	{
-		writer.write("  </w:tbl>\n");
+		write("  </w:tbl>\n");
 		if (lastPage)
 		{
-			writer.write("    <w:p>\n");
-			writer.write("    <w:pPr>\n");
-			writer.write("  <w:sectPr>\n");
-			writer.write("   <w:pgSz w:w=\"" + Utility.twip(pageWidth) + "\" w:h=\"" + Utility.twip(pageHeight) + "\" />\n");
-			writer.write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
-			writer.write("   <w:docGrid w:linePitch=\"360\" />\n");
-			writer.write("  </w:sectPr>\n");
-			writer.write("    </w:pPr>\n");
-			writer.write("    </w:p>\n");
+			write("    <w:p>\n");
+			write("    <w:pPr>\n");
+			write("  <w:sectPr>\n");
+			write("   <w:pgSz w:w=\"" + Utility.twip(pageWidth) + "\" w:h=\"" + Utility.twip(pageHeight) + "\" />\n");
+			write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
+			write("   <w:docGrid w:linePitch=\"360\" />\n");
+			write("  </w:sectPr>\n");
+			write("    </w:pPr>\n");
+			write("    </w:p>\n");
 		}
 	}
 	
-	public void exportRowHeader(int rowHeight, boolean isRowNotEmpty) throws IOException 
+	public void exportRowHeader(int rowHeight, boolean isRowNotEmpty) 
 	{
-		writer.write("   <w:tr>\n");
-		writer.write("    <w:trPr>\n");
-		writer.write("     <w:trHeight w:hRule=\"" + (isRowNotEmpty ? "atLeast" : "exact")  + "\" w:val=\"" +  + Utility.twip(rowHeight) + "\" />\n");
-		writer.write("    </w:trPr>\n");
+		write("   <w:tr>\n");
+		write("    <w:trPr>\n");
+		write("     <w:trHeight w:hRule=\"" + (isRowNotEmpty ? "atLeast" : "exact")  + "\" w:val=\"" +  + Utility.twip(rowHeight) + "\" />\n");
+		write("    </w:trPr>\n");
 	}
 	
-	public void exportRowFooter() throws IOException 
+	public void exportRowFooter() 
 	{
-		writer.write("   </w:tr>\n");
+		write("   </w:tr>\n");
 	}
 	
-	public void exportEmptyCell(JRExporterGridCell gridCell, int emptyCellColSpan) throws IOException
+	public void exportEmptyCell(JRExporterGridCell gridCell, int emptyCellColSpan)
 	{
-		writer.write("    <w:tc>\n");
-		writer.write("     <w:tcPr>\n");
+		write("    <w:tc>\n");
+		write("     <w:tcPr>\n");
 		if (emptyCellColSpan > 1)
 		{
-			writer.write("      <w:gridSpan w:val=\"" + emptyCellColSpan +"\" />\n");
+			write("      <w:gridSpan w:val=\"" + emptyCellColSpan +"\" />\n");
 		}
 		
 		if (gridCell != null)
@@ -143,26 +142,26 @@ public class TableHelper extends BaseHelper
 			cellHelper.exportProps(gridCell);
 		}
 		
-		writer.write("     </w:tcPr>\n");
+		write("     </w:tcPr>\n");
 		
 		paragraphHelper.exportEmptyParagraph();
 
-		writer.write("    </w:tc>\n");
+		write("    </w:tc>\n");
 	}
 
-	public void exportOccupiedCells(JRExporterGridCell gridCell) throws IOException
+	public void exportOccupiedCells(JRExporterGridCell gridCell)
 	{
-		writer.write("    <w:tc>\n");
-		writer.write("     <w:tcPr>\n");
+		write("    <w:tc>\n");
+		write("     <w:tcPr>\n");
 		if (gridCell.getColSpan() > 1)
 		{
-			writer.write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" />\n");
+			write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" />\n");
 		}
-		writer.write("      <w:vMerge w:val=\"continue\" />\n");
+		write("      <w:vMerge w:val=\"continue\" />\n");
 		
 		cellHelper.exportProps(gridCell.getElement(), gridCell);
 		
-		writer.write("     </w:tcPr>\n");
+		write("     </w:tcPr>\n");
 		
 		paragraphHelper.exportEmptyParagraph();
 

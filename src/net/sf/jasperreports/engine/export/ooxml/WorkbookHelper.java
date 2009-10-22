@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.io.IOException;
 import java.io.Writer;
 
 
@@ -44,32 +43,32 @@ public class WorkbookHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportHeader() throws IOException
+	public void exportHeader()
 	{
-		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		writer.write("<workbook\n");
-		writer.write(" xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"\n");
-		writer.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
-		writer.write("<workbookPr filterPrivacy=\"1\"/>\n");
-		writer.write("<sheets>\n");
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		write("<workbook\n");
+		write(" xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"\n");
+		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
+		write("<workbookPr filterPrivacy=\"1\"/>\n");
+		write("<sheets>\n");
 	}
 	
 
 	/**
 	 * 
 	 */
-	public void exportSheet(int index) throws IOException
+	public void exportSheet(int index)
 	{
-		writer.write("  <sheet name=\"Sheet" + index + "\" sheetId=\"" + index + "\" r:id=\"rId" + index + "\"/>\n");
+		write("  <sheet name=\"Sheet" + index + "\" sheetId=\"" + index + "\" r:id=\"rId" + index + "\"/>\n");
 	}
 	
 
 	/**
 	 *
 	 */
-	public void exportFooter() throws IOException
+	public void exportFooter()
 	{
-		writer.write("</sheets>\n");
-		writer.write("</workbook>\n");
+		write("</sheets>\n");
+		write("</workbook>\n");
 	}
 }

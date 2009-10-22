@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRAlignment;
@@ -63,7 +62,7 @@ public class ParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportProps(JRStyle style) throws IOException
+	public void exportProps(JRStyle style)
 	{
 		exportPropsHeader(null);
 
@@ -79,7 +78,7 @@ public class ParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportProps(JRPrintText text) throws IOException
+	public void exportProps(JRPrintText text)
 	{
 		exportPropsHeader(text.getStyle() == null ? null : text.getStyle().getName());//FIXMEDOCX why getStyleNameReference is not working?
 
@@ -98,16 +97,16 @@ public class ParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportPropsHeader(String styleNameReference) throws IOException
+	private void exportPropsHeader(String styleNameReference)
 	{
-		writer.write("      <w:pPr>\n");
+		write("      <w:pPr>\n");
 		if (styleNameReference != null)
 		{
-			writer.write("        <w:pStyle w:val=\"" + styleNameReference + "\"/>\n");
+			write("        <w:pStyle w:val=\"" + styleNameReference + "\"/>\n");
 		}
 		if (pageBreak)
 		{
-			writer.write("        <w:pageBreakBefore/>\n");
+			write("        <w:pageBreakBefore/>\n");
 			pageBreak = false;
 		}
 	}
@@ -115,11 +114,11 @@ public class ParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportAlignment(String horizontalAlignment) throws IOException
+	private void exportAlignment(String horizontalAlignment)
 	{
 		if (horizontalAlignment != null)
 		{
-			writer.write("   <w:jc w:val=\"" + horizontalAlignment + "\" />\n");
+			write("   <w:jc w:val=\"" + horizontalAlignment + "\" />\n");
 		}
 		//FIXMEDOCX line spacing?
 	}
@@ -127,23 +126,23 @@ public class ParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportPropsFooter() throws IOException
+	private void exportPropsFooter()
 	{
-		writer.write("      </w:pPr>\n");
+		write("      </w:pPr>\n");
 	}
 	
 	/**
 	 *
 	 */
-	public void exportEmptyParagraph() throws IOException
+	public void exportEmptyParagraph()
 	{
-		writer.write("     <w:p><w:pPr>\n");
+		write("     <w:p><w:pPr>\n");
 		if (pageBreak)
 		{
-			writer.write("        <w:pageBreakBefore/>\n");
+			write("        <w:pageBreakBefore/>\n");
 			pageBreak = false;
 		}
-		writer.write("     </w:pPr></w:p>\n");
+		write("     </w:pPr></w:p>\n");
 	}
 
 	/**

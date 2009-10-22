@@ -60,7 +60,7 @@ public class EmptyZipEntry implements ExportZipEntry
 	/**
 	 * 
 	 */
-	public Writer getWriter() throws IOException
+	public Writer getWriter()
 	{
 		throw new JRRuntimeException("This method should not be called on this type");
 	}

@@ -90,12 +90,18 @@ public class FileBufferedZipEntry implements ExportZipEntry
 	/**
 	 * 
 	 */
-	public Writer getWriter() throws IOException
+	public Writer getWriter()
 	{
 		if (writer == null)
 		{
-
-			writer = new BufferedWriter(new OutputStreamWriter(fbos, "UTF-8"));
+			try
+			{
+				writer = new BufferedWriter(new OutputStreamWriter(fbos, "UTF-8"));
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
 		
 		return writer;
