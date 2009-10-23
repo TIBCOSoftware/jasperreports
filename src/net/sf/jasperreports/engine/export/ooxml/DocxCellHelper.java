@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class CellHelper extends BaseHelper
+public class DocxCellHelper extends BaseHelper
 {
 	/**
 	 *
@@ -51,22 +51,22 @@ public class CellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private BorderHelper borderHelper = null;
+	private DocxBorderHelper borderHelper = null;
 	
 	/**
 	 *
 	 */
-	public CellHelper(Writer writer)
+	public DocxCellHelper(Writer writer)
 	{
 		super(writer);
 		
-		borderHelper = new BorderHelper(writer);
+		borderHelper = new DocxBorderHelper(writer);
 	}
 		
 	/**
 	 * 
 	 */
-	public BorderHelper getBorderHelper() 
+	public DocxBorderHelper getBorderHelper() 
 	{
 		return borderHelper;
 	}

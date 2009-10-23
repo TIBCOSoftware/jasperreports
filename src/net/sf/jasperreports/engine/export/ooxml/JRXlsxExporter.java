@@ -383,7 +383,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportLine(TableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
+	protected void exportLine(DocxTableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = null;
@@ -425,7 +425,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportRectangle(TableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
+	protected void exportRectangle(DocxTableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
@@ -444,7 +444,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportEllipse(TableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
+	protected void exportEllipse(DocxTableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
@@ -487,7 +487,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportImage(TableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
+	protected void exportImage(DocxTableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
 		int leftPadding = image.getLineBox().getLeftPadding().intValue();
 		int topPadding = image.getLineBox().getTopPadding().intValue();//FIXMEDOCX maybe consider border thickness
@@ -663,7 +663,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			wbWriter.write("<w:drawing>\n");
 			wbWriter.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
 			wbWriter.write("<wp:simplePos x=\"0\" y=\"0\"/>");
-			wbWriter.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + ParagraphHelper.getHorizontalAlignment(new Byte(image.getHorizontalAlignment())) + "</wp:align></wp:positionH>");
+			wbWriter.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + XlsxParagraphHelper.getHorizontalAlignment(new Byte(image.getHorizontalAlignment())) + "</wp:align></wp:positionH>");
 			wbWriter.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
 //			wbWriter.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
 			

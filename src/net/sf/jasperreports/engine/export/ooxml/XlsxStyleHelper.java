@@ -40,8 +40,8 @@ public class XlsxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	private ParagraphHelper paragraphHelper = null;
-	private RunHelper runHelper = null;
+	private XlsxParagraphHelper paragraphHelper = null;
+	private XlsxRunHelper runHelper = null;
 	
 	/**
 	 * 
@@ -50,8 +50,8 @@ public class XlsxStyleHelper extends BaseHelper
 	{
 		super(writer);
 		
-		paragraphHelper = new ParagraphHelper(writer, false);
-		runHelper = new RunHelper(writer, fontMap, exporterKey);
+		paragraphHelper = new XlsxParagraphHelper(writer, false);
+		runHelper = new XlsxRunHelper(writer, fontMap, exporterKey);
 	}
 
 	/**

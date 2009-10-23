@@ -37,23 +37,23 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ReportStyleHelper extends BaseHelper
+public class DocxStyleHelper extends BaseHelper
 {
 	/**
 	 * 
 	 */
-	private ParagraphHelper paragraphHelper = null;
-	private RunHelper runHelper = null;
+	private DocxParagraphHelper paragraphHelper = null;
+	private DocxRunHelper runHelper = null;
 	
 	/**
 	 * 
 	 */
-	public ReportStyleHelper(Writer writer, Map fontMap, String exporterKey)
+	public DocxStyleHelper(Writer writer, Map fontMap, String exporterKey)
 	{
 		super(writer);
 		
-		paragraphHelper = new ParagraphHelper(writer, false);
-		runHelper = new RunHelper(writer, fontMap, exporterKey);
+		paragraphHelper = new DocxParagraphHelper(writer, false);
+		runHelper = new DocxRunHelper(writer, fontMap, exporterKey);
 	}
 
 	/**

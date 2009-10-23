@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JRStyle;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class ParagraphHelper extends BaseHelper
+public class DocxParagraphHelper extends BaseHelper
 {
 	/**
 	 *
@@ -52,7 +52,7 @@ public class ParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public ParagraphHelper(Writer writer, boolean pageBreak)
+	public DocxParagraphHelper(Writer writer, boolean pageBreak)
 	{
 		super(writer);
 		

@@ -31,13 +31,13 @@ import java.io.Writer;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id: OoxmlZip.java 2908 2009-07-21 14:32:01Z teodord $
  */
-public class RelsHelper extends BaseHelper
+public class DocxRelsHelper extends BaseHelper
 {
 
 	/**
 	 * 
 	 */
-	public RelsHelper(Writer writer)
+	public DocxRelsHelper(Writer writer)
 	{
 		super(writer);
 	}

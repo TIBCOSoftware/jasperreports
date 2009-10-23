@@ -147,7 +147,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected LinkedList backcolorStack;
 	protected Color backcolor;
 
-	private RunHelper runHelper = null;
+	private DocxRunHelper runHelper = null;
 
 	protected ExporterNature nature = null;
 
@@ -156,14 +156,14 @@ public class JRDocxExporter extends JRAbstractExporter
 
 	protected class ExporterContext extends BaseExporterContext implements JRDocxExporterContext
 	{
-		TableHelper tableHelper = null;
+		DocxTableHelper tableHelper = null;
 		
-		public ExporterContext(TableHelper tableHelper)
+		public ExporterContext(DocxTableHelper tableHelper)
 		{
 			this.tableHelper = tableHelper;
 		}
 		
-		public TableHelper getTableHelper()
+		public DocxTableHelper getTableHelper()
 		{
 			return tableHelper;
 		}
@@ -318,15 +318,15 @@ public class JRDocxExporter extends JRAbstractExporter
 		docWriter = docxZip.getDocumentEntry().getWriter();
 		relsWriter = docxZip.getRelsEntry().getWriter();
 		
-		DocumentHelper.exportHeader(docWriter);
-		RelsHelper relsHelper = new RelsHelper(relsWriter);
+		DocxDocumentHelper.exportHeader(docWriter);
+		DocxRelsHelper relsHelper = new DocxRelsHelper(relsWriter);
 		relsHelper.exportHeader();
 		
 		Writer stylesWriter = docxZip.getStylesEntry().getWriter();
-		new ReportStyleHelper(stylesWriter, fontMap, getExporterKey()).export(jasperPrintList);
+		new DocxStyleHelper(stylesWriter, fontMap, getExporterKey()).export(jasperPrintList);
 		stylesWriter.close();
 
-		runHelper = new RunHelper(docWriter, fontMap, getExporterKey());
+		runHelper = new DocxRunHelper(docWriter, fontMap, getExporterKey());
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
@@ -356,7 +356,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			}
 		}
 		
-		DocumentHelper.exportFooter(jasperPrint, docWriter);
+		DocxDocumentHelper.exportFooter(jasperPrint, docWriter);
 
 		docWriter.close();
 
@@ -458,8 +458,8 @@ public class JRDocxExporter extends JRAbstractExporter
 			throw new JRException("The DOCX format does not support more than 63 columns in a table.");
 		}
 		
-		TableHelper tableHelper = 
-			new TableHelper(
+		DocxTableHelper tableHelper = 
+			new DocxTableHelper(
 				docWriter, 
 				xCuts,
 				runHelper,
@@ -584,7 +584,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportLine(TableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
+	protected void exportLine(DocxTableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = null;
@@ -626,7 +626,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportRectangle(TableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
+	protected void exportRectangle(DocxTableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
@@ -645,7 +645,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportEllipse(TableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
+	protected void exportEllipse(DocxTableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
@@ -664,7 +664,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public void exportText(TableHelper tableHelper, JRPrintText text, JRExporterGridCell gridCell) throws IOException
+	public void exportText(DocxTableHelper tableHelper, JRPrintText text, JRExporterGridCell gridCell) throws IOException
 	{
 		tableHelper.getCellHelper().exportHeader(text, gridCell);
 
@@ -755,7 +755,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportImage(TableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
+	protected void exportImage(DocxTableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
 		int leftPadding = image.getLineBox().getLeftPadding().intValue();
 		int topPadding = image.getLineBox().getTopPadding().intValue();//FIXMEDOCX maybe consider border thickness
@@ -931,7 +931,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			docWriter.write("<w:drawing>\n");
 			docWriter.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
 			docWriter.write("<wp:simplePos x=\"0\" y=\"0\"/>");
-			docWriter.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + ParagraphHelper.getHorizontalAlignment(new Byte(image.getHorizontalAlignment())) + "</wp:align></wp:positionH>");
+			docWriter.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + DocxParagraphHelper.getHorizontalAlignment(new Byte(image.getHorizontalAlignment())) + "</wp:align></wp:positionH>");
 			docWriter.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
 //			docWriter.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
 			
@@ -1128,7 +1128,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 * In deep grids, this is called only for empty frames.
 	 */
-	protected void exportFrame(TableHelper tableHelper, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
+	protected void exportFrame(DocxTableHelper tableHelper, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
 	{
 		tableHelper.getCellHelper().exportHeader(frame, gridCell);
 //		tableHelper.getCellHelper().exportProps(gridCell);
@@ -1169,7 +1169,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportGenericElement(TableHelper tableHelper, JRGenericPrintElement element, JRExporterGridCell gridCell) throws IOException, JRException
+	protected void exportGenericElement(DocxTableHelper tableHelper, JRGenericPrintElement element, JRExporterGridCell gridCell) throws IOException, JRException
 	{
 		GenericElementDocxHandler handler = (GenericElementDocxHandler) 
 		GenericElementHandlerEnviroment.getHandler(
