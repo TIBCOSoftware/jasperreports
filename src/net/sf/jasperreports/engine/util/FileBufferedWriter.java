@@ -42,6 +42,7 @@ public class FileBufferedWriter extends Writer
 {
 	private FileBufferedOutputStream fbos = null;
 	private Writer osw = null;
+	private boolean isEmpty = true;
 
 	/**
 	 * 
@@ -57,6 +58,14 @@ public class FileBufferedWriter extends Writer
 		{
 			throw new JRRuntimeException(e);
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean isEmpty()
+	{
+		return isEmpty;
 	}
 	
 	/**
@@ -117,6 +126,10 @@ public class FileBufferedWriter extends Writer
 
 	public void write(char[] cbuf, int off, int len) throws IOException 
 	{
+		if (len > 0)
+		{
+			isEmpty = false;
+		}
 		osw.write(cbuf, off, len);
 	}
 	

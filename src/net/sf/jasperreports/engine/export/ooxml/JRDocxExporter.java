@@ -122,7 +122,6 @@ public class JRDocxExporter extends JRAbstractExporter
 	 */
 	protected DocxDocumentHelper docHelper = null;
 	protected Writer docWriter = null;
-	protected Writer relsWriter = null;
 
 	protected JRExportProgressMonitor progressMonitor = null;
 	protected Map rendererToImagePathMap = null;
@@ -317,12 +316,11 @@ public class JRDocxExporter extends JRAbstractExporter
 		DocxZip docxZip = new DocxZip();
 
 		docWriter = docxZip.getDocumentEntry().getWriter();
-		relsWriter = docxZip.getRelsEntry().getWriter();
 		
 		docHelper = new DocxDocumentHelper(docWriter);
 		docHelper.exportHeader();
 		
-		DocxRelsHelper relsHelper = new DocxRelsHelper(relsWriter);
+		DocxRelsHelper relsHelper = new DocxRelsHelper(docxZip.getRelsEntry().getWriter());
 		relsHelper.exportHeader();
 		
 		DocxStyleHelper styleHelper = 
@@ -418,7 +416,7 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		relsHelper.exportFooter();
 
-		relsWriter.close();
+		relsHelper.close();
 
 		docxZip.zipEntries(os);
 

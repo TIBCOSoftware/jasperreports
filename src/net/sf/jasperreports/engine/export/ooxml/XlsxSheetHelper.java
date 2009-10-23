@@ -79,9 +79,12 @@ public class XlsxSheetHelper extends BaseHelper
 			write("<sheetData>\n");
 		}
 		write("</sheetData>\n");
-		write("<mergeCells>\n");//FIXMEXLSX check count attribute
-		mergedCellsWriter.writeData(writer);
-		write("</mergeCells>\n");
+		if (!mergedCellsWriter.isEmpty())
+		{
+			write("<mergeCells>\n");//FIXMEXLSX check count attribute
+			mergedCellsWriter.writeData(writer);
+			write("</mergeCells>\n");
+		}
 		write("<pageMargins left=\"0.7\" right=\"0.7\" top=\"0.75\" bottom=\"0.75\" header=\"0.3\" footer=\"0.3\"/>\n");
 		//write("<pageSetup orientation=\"portrait\" r:id=\"rId1\"/>\n");		
 		write("</worksheet>");		
@@ -93,7 +96,7 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportColumn(int colIndex, int colWidth) 
 	{
-		write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\" width=\"" + (3f * (float)colWidth / 20f) + "\"/>\n");
+		write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\" width=\"" + (3f * (float)colWidth / 18f) + "\"/>\n");
 	}
 	
 	/**
