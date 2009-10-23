@@ -516,7 +516,7 @@ public class JRDocxExporter extends JRAbstractExporter
 					}
 
 					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
-					ElementGridCell elementGridCell = (ElementGridCell)grid[occupiedGridCell.getRow()][occupiedGridCell.getCol()];
+					ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
 					tableHelper.exportOccupiedCells(elementGridCell);
 					col += elementGridCell.getColSpan() - 1;
 				}

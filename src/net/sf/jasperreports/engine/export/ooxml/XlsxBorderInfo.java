@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRPen;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: BorderHelper.java 3135 2009-10-22 14:20:23Z teodord $
  */
-public class BorderInfo
+public class XlsxBorderInfo
 {
 	/**
 	 *
@@ -52,7 +52,7 @@ public class BorderInfo
 	/**
 	 *
 	 */
-	public BorderInfo(JRLineBox box)
+	public XlsxBorderInfo(JRLineBox box)
 	{
 		setBorder(box.getTopPen(), TOP_BORDER);
 		borderPadding[TOP_BORDER] = String.valueOf(Utility.twip(box.getTopPadding().intValue()));
@@ -67,7 +67,7 @@ public class BorderInfo
 	/**
 	 *
 	 */
-	public BorderInfo(JRPen pen)
+	public XlsxBorderInfo(JRPen pen)
 	{
 		if (
 			borderWidth[TOP_BORDER] == null
@@ -81,6 +81,18 @@ public class BorderInfo
 			setBorder(pen, BOTTOM_BORDER);
 			setBorder(pen, RIGHT_BORDER);
 		}
+	}
+
+	/**
+	 *
+	 */
+	public String getId() 
+	{
+		return	
+			borderStyle[TOP_BORDER]
+			+ "|" + borderStyle[LEFT_BORDER]
+			+ "|" + borderStyle[BOTTOM_BORDER]
+			+ "|" + borderStyle[RIGHT_BORDER];
 	}
 
 	/**
@@ -114,13 +126,13 @@ public class BorderInfo
 				}
 				case JRPen.LINE_STYLE_DASHED :
 				{
-					style = "dashSmallGap";
+					style = "mediumDashed";
 					break;
 				}
 				case JRPen.LINE_STYLE_SOLID :
 				default :
 				{
-					style = "single";
+					style = "thin";
 					break;
 				}
 			}

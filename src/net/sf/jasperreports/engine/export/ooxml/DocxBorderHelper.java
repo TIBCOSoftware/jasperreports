@@ -52,7 +52,7 @@ public class DocxBorderHelper extends BaseHelper
 	{
 		if (box != null)
 		{
-			export(new BorderInfo(box));
+			export(new DocxBorderInfo(box));
 		}
 	}
 
@@ -63,41 +63,41 @@ public class DocxBorderHelper extends BaseHelper
 	{
 		if (pen != null)
 		{
-			export(new BorderInfo(pen));
+			export(new DocxBorderInfo(pen));
 		}
 	}
 
 	/**
 	 *
 	 */
-	private void export(BorderInfo info)
+	private void export(DocxBorderInfo info)
 	{
 		if(info.hasBorder())
 		{
 			write("      <w:tcBorders>\n");
-			exportBorder(info, BorderInfo.TOP_BORDER);
-			exportBorder(info, BorderInfo.LEFT_BORDER);
-			exportBorder(info, BorderInfo.BOTTOM_BORDER);
-			exportBorder(info, BorderInfo.RIGHT_BORDER);
+			exportBorder(info, DocxBorderInfo.TOP_BORDER);
+			exportBorder(info, DocxBorderInfo.LEFT_BORDER);
+			exportBorder(info, DocxBorderInfo.BOTTOM_BORDER);
+			exportBorder(info, DocxBorderInfo.RIGHT_BORDER);
 			write("      </w:tcBorders>\n");
 		}
 		
 		write("      <w:tcMar>\n");
-		exportPadding(info, BorderInfo.TOP_BORDER);
-		exportPadding(info, BorderInfo.LEFT_BORDER);
-		exportPadding(info, BorderInfo.BOTTOM_BORDER);
-		exportPadding(info, BorderInfo.RIGHT_BORDER);
+		exportPadding(info, DocxBorderInfo.TOP_BORDER);
+		exportPadding(info, DocxBorderInfo.LEFT_BORDER);
+		exportPadding(info, DocxBorderInfo.BOTTOM_BORDER);
+		exportPadding(info, DocxBorderInfo.RIGHT_BORDER);
 		write("      </w:tcMar>\n");
 	}
 
 	/**
 	 *
 	 */
-	private void exportBorder(BorderInfo info, int side)
+	private void exportBorder(DocxBorderInfo info, int side)
 	{
 		if (info.borderWidth[side] != null)
 		{
-			write("<w:" + BorderInfo.BORDER[side] +" w:val=\"" + info.borderStyle[side] + "\" w:sz=\"" + info.borderWidth[side] + "\" w:space=\"0\"");
+			write("<w:" + DocxBorderInfo.BORDER[side] +" w:val=\"" + info.borderStyle[side] + "\" w:sz=\"" + info.borderWidth[side] + "\" w:space=\"0\"");
 			if (info.borderColor[side] != null)//FIXMEDOCX check this; use default color?
 			{
 				write(" w:color=\"" + JRColorUtil.getColorHexa(info.borderColor[side]) + "\"");
@@ -109,11 +109,11 @@ public class DocxBorderHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportPadding(BorderInfo info, int side)
+	private void exportPadding(DocxBorderInfo info, int side)
 	{
 		if (info.borderPadding[side] != null)
 		{
-			write("       <w:" + BorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" />\n");
+			write("       <w:" + DocxBorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" />\n");
 		}
 	}
 

@@ -38,37 +38,26 @@ public class OccupiedGridCell extends JRExporterGridCell
 	/**
 	 *
 	 */
-	private int col = 0;
-	private int row = 0;
+	private JRExporterGridCell occupier = null;
 
 
 	/**
 	 *
 	 */
-	public OccupiedGridCell(
-		int row, 
-		int col
-		)
+	public OccupiedGridCell(JRExporterGridCell occupier)
 	{
 		super(
 			new ElementWrapper(new JRBasePrintElement(null), null, null), //FIXMEDOCX optimize memory with static fields
 			0, 0, 1, 1
 			);
 		
-		this.row = row;
-		this.col = col;
+		this.occupier = occupier;
 	}
 
 
-	public int getRow()
+	public JRExporterGridCell getOccupier()
 	{
-		return row;
-	}
-
-
-	public int getCol()
-	{
-		return col;
+		return occupier;
 	}
 
 
