@@ -64,12 +64,14 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
+import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -1282,7 +1284,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int rowIndex
 		) throws JRException
 	{
-		cellHelper.exportHeader(text, gridCell, rowIndex, colIndex);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 		JRStyledText styledText = getStyledText(text);
@@ -1409,9 +1411,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void setCell(int colIndex, int rowIndex) {
-		// TODO Auto-generated method stub
-		
+	protected void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) 
+	{
+	}
+
+
+	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
+	{
+		ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
+		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex);
+		cellHelper.exportFooter();
 	}
 
 

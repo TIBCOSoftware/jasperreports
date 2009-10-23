@@ -44,9 +44,12 @@ public class XlsxStyleHelper extends BaseHelper
 	 */
 	private FileBufferedWriter fontsWriter = new FileBufferedWriter();
 	private FileBufferedWriter fillsWriter = new FileBufferedWriter();
+	private FileBufferedWriter bordersWriter = new FileBufferedWriter();
 	private FileBufferedWriter cellXfsWriter = new FileBufferedWriter();
 	
 	private Map styleCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
+	
+	private XlsxBorderHelper borderHelper = null;
 	
 	/**
 	 * 
@@ -54,6 +57,8 @@ public class XlsxStyleHelper extends BaseHelper
 	public XlsxStyleHelper(Writer writer, Map fontMap, String exporterKey)
 	{
 		super(writer);
+		
+		borderHelper = new XlsxBorderHelper(bordersWriter);
 	}
 
 	/**
@@ -66,7 +71,7 @@ public class XlsxStyleHelper extends BaseHelper
 		if (styleIndex == null)
 		{
 			styleIndex = new Integer(styleCache.size());
-			exportCellStyle(styleInfo, styleIndex);
+			exportCellStyle(gridCell, styleInfo, styleIndex);
 			styleCache.put(styleInfo.getId(), styleIndex);
 		}
 		return styleIndex.intValue();
@@ -75,7 +80,7 @@ public class XlsxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	private void exportCellStyle(XlsxStyleInfo styleInfo, Integer styleIndex)
+	private void exportCellStyle(JRExporterGridCell gridCell, XlsxStyleInfo styleInfo, Integer styleIndex)
 	{
 		try
 		{
@@ -88,16 +93,19 @@ public class XlsxStyleHelper extends BaseHelper
 				+ "<u val=\"" + (styleInfo.isUnderline ? "single" : "none") + "\"/>"
 				+ "<strike val=\"" + styleInfo.isStrikeThrough + "\"/>"
 				+ "<family val=\"2\"/></font>\n");
+			
 			fillsWriter.write("<fill><patternFill patternType=\"solid\"><fgColor rgb=\"" + styleInfo.backcolor + "\"/></patternFill></fill>\n");
+			
 			cellXfsWriter.write(
 				"<xf numFmtId=\"" + styleIndex
 				+ "\" fontId=\"" + (styleIndex.intValue() + 1)
 				+ "\" fillId=\"" + (styleIndex.intValue() + 2)
-				+ "\" borderId=\"0\" xfId=\"" + styleIndex + "\">"
+				+ "\" borderId=\"" + (borderHelper.getBorder(gridCell) + 1)
+				+ "\" xfId=\"" + styleIndex + "\">"
 				+ "<alignment wrapText=\"1\""
-				+ " horizontal=\"" + styleInfo.horizontalAlign
-				+ "\" vertical=\"" + styleInfo.verticalAlign
-				+ "\"/></xf>\n");
+				+ (styleInfo.horizontalAlign == null ? "" : " horizontal=\"" + styleInfo.horizontalAlign + "\"")
+				+ (styleInfo.verticalAlign == null ? "" : " vertical=\"" + styleInfo.verticalAlign + "\"")
+				+ "/></xf>\n");
 		}
 		catch (IOException e)
 		{
@@ -123,14 +131,17 @@ public class XlsxStyleHelper extends BaseHelper
 		write("<fill><patternFill patternType=\"gray125\"/></fill>\n");
 		fillsWriter.writeData(writer);
 		write("</fills>\n");
-		write("<borders count=\"1\"><border><left/><right/><top/><bottom/><diagonal/></border></borders>\n");
-		write("<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\"/></cellStyleXfs>\n");
+		write("<borders>\n");// count=\"1\">\n");
+		write("<border><left/><right/><top/><bottom/><diagonal/></border>\n");
+		bordersWriter.writeData(writer);
+		write("</borders>\n");
+		//write("<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\"/></cellStyleXfs>\n");
 
 		write("<cellXfs>\n");// count=\"1\">\n");
 		cellXfsWriter.writeData(writer);
 		write("</cellXfs>\n");
 		
-		write("<cellStyles count=\"1\"><cellStyle name=\"Normal\" xfId=\"0\" builtinId=\"0\"/></cellStyles>\n");
+		//write("<cellStyles count=\"1\"><cellStyle name=\"Normal\" xfId=\"0\" builtinId=\"0\"/></cellStyles>\n");
 		write("<dxfs count=\"0\"/><tableStyles count=\"0\" defaultTableStyle=\"TableStyleMedium9\" defaultPivotStyle=\"PivotStyleLight16\"/>\n");
 
 		write("</styleSheet>\n");

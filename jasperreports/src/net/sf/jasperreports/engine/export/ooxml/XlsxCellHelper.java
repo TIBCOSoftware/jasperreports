@@ -80,7 +80,6 @@ public class XlsxCellHelper extends BaseHelper
 	 *
 	 */
 	public void exportHeader(
-		JRPrintElement element, 
 		JRExporterGridCell gridCell,
 		int rowIndex,
 		int colIndex

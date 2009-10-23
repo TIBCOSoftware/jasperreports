@@ -546,10 +546,22 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				{
 					emptyCols += (isRemoveEmptySpaceBetweenColumns && (!(xCuts.isCutNotEmpty(colIndex) || xCuts.isCutSpanned(colIndex))) ? 1 : 0);
 					
-					setCell(colIndex, rowIndex);
-
 					JRExporterGridCell gridCell = gridRow[colIndex];
-					if(gridCell.getWrapper() != null)
+
+					setCell(gridCell, colIndex, rowIndex);
+					
+					if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
+					{
+						if (emptyCellColSpan > 0)
+						{
+							//tableHelper.exportEmptyCell(gridCell, emptyCellColSpan);
+							emptyCellColSpan = 0;
+							emptyCellWidth = 0;
+						}
+
+						addOccupiedCell((OccupiedGridCell)gridCell, colIndex, rowIndex);
+					}
+					else if(gridCell.getWrapper() != null)
 					{
 						if (emptyCellColSpan > 0)
 						{
@@ -593,7 +605,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							exportGenericElement((JRGenericPrintElement) element, gridCell, colIndex, rowIndex, emptyCols);
 						}
 
-						colIndex += gridCell.getColSpan() - 1;
+						//colIndex += gridCell.getColSpan() - 1;
 					}
 					else
 					{
@@ -896,9 +908,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight) throws JRException;
 
-	protected abstract void setCell(int colIndex, int rowIndex);
+	protected abstract void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex);
 
 	protected abstract void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException;
+
+	protected abstract void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) throws JRException;
 
 	protected abstract void exportText(JRPrintText text, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 

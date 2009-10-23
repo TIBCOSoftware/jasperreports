@@ -310,7 +310,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void setCell(int x, int y)
+	protected void setCell(JRExporterGridCell gridCell, int x, int y)
 	{
 	}
 
@@ -356,6 +356,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
 		}
+	}
+	
+	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) throws JRException
+	{
 	}
 
 	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int col, int row) throws JRException

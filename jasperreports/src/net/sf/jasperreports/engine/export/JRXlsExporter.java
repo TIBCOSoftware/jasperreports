@@ -240,7 +240,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		row.setHeightInPoints(lastRowHeight);
 	}
 
-	protected void setCell(int colIndex, int rowIndex)
+	protected void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
 		HSSFCell emptyCell = row.getCell(colIndex);
 		if (emptyCell == null)
@@ -297,6 +297,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		cell.setCellStyle(cellStyle);
 	}
 
+	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex)
+	{
+	}
+	
 	/**
 	 *
 	 */

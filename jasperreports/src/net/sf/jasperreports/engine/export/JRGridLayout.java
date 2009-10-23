@@ -199,22 +199,6 @@ public class JRGridLayout
 		JRBasePrintFrame frame = new JRBasePrintFrame(null);
 		List wrappers = new ArrayList();
 
-		OccupiedGridCell occupiedGridCell = new OccupiedGridCell(row1, col1);
-		for(int row = row1; row < row2; row++)
-		{
-			for(int col = col1; col < col2; col++)
-			{
-				JRExporterGridCell gridCell = grid[row][col];
-				grid[row][col] = occupiedGridCell;
-				ElementWrapper wrapper = gridCell.getWrapper();
-				if (gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
-				{
-					wrappers.add(wrapper);
-					frame.addElement(wrapper.getElement());//FIXMEODT do we need this?
-				}
-			}
-		}
-
 		frame.setWidth(xCuts.getCut(col2) - xCuts.getCut(col1));
 		frame.setHeight(yCuts.getCut(row2) - yCuts.getCut(row1));
 
@@ -240,6 +224,23 @@ public class JRGridLayout
 				virtualAddress
 				)
 			);
+
+		OccupiedGridCell occupiedGridCell = new OccupiedGridCell(gridCell);
+		for(int row = row1; row < row2; row++)
+		{
+			for(int col = col1; col < col2; col++)
+			{
+				JRExporterGridCell gCell = grid[row][col];
+				grid[row][col] = occupiedGridCell;
+				ElementWrapper wrapper = gCell.getWrapper();
+				if (gCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
+				{
+					wrappers.add(wrapper);
+					frame.addElement(wrapper.getElement());//FIXMEODT do we need this?
+				}
+			}
+		}
+
 		grid[row1][col1] = gridCell;
 	}
 
@@ -505,24 +506,6 @@ public class JRGridLayout
 		yCuts.addUsage(row1, CutsInfo.USAGE_NOT_EMPTY);
 		xCuts.addUsage(col1, CutsInfo.USAGE_NOT_EMPTY);
 
-		if (nature.isSpanCells())
-		{
-			OccupiedGridCell occupiedGridCell = new OccupiedGridCell(row1, col1);
-			for (int row = row1; row < row2; row++)
-			{
-				for (int col = col1; col < col2; col++)
-				{
-					grid[row][col] = occupiedGridCell;
-				}
-				yCuts.addUsage(row, CutsInfo.USAGE_SPANNED);
-			}
-
-			for (int col = col1; col < col2; col++)
-			{
-				xCuts.addUsage(col, CutsInfo.USAGE_SPANNED);
-			}
-		}
-
 		if (col2 - col1 != 0 && row2 - row1 != 0)
 		{
 			JRPrintElement element = wrapper.getElement();
@@ -563,6 +546,24 @@ public class JRGridLayout
 			if (nature.isBreakAfterRow(element))
 			{
 				yCuts.addUsage(row1 + rowSpan,  CutsInfo.USAGE_BREAK);
+			}
+
+			if (nature.isSpanCells())
+			{
+				OccupiedGridCell occupiedGridCell = new OccupiedGridCell(gridCell);
+				for (int row = row1; row < row2; row++)
+				{
+					for (int col = col1; col < col2; col++)
+					{
+						grid[row][col] = occupiedGridCell;
+					}
+					yCuts.addUsage(row, CutsInfo.USAGE_SPANNED);
+				}
+
+				for (int col = col1; col < col2; col++)
+				{
+					xCuts.addUsage(col, CutsInfo.USAGE_SPANNED);
+				}
 			}
 
 			grid[row1][col1] = gridCell;
