@@ -3,7 +3,8 @@
 	<description>Illustrates the usage of the list component element.</description>
 
 	<property name="class.name" value="ListApp" />
-	<property name="file.name" value="${basedir}/ListReport" />
+	<property name="file.name.1" value="${basedir}/ListReport" />
+	<property name="file.name.2" value="${basedir}/HorizontalListReport" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
@@ -37,164 +38,159 @@
 		</jrc> 
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="fill"/>
-			<arg value="${file.name}.jasper"/>
-			<classpath refid="classpath"/>
-		</java>
+	<macrodef name="fill">
+		<attribute name="fileName"/>
+		<sequential>
+			<java classname="${class.name}" fork="true">
+				<arg value="fill"/>
+				<arg value="@{fileName}.jasper"/>
+				<classpath refid="classpath"/>
+			</java>
+		</sequential>
+	</macrodef>
+	
+	<target name="fill" description="Fills the compiled report designs with data and produces the .jrprint files.">
+		<fill filename="${file.name.1}"/>
+		<fill filename="${file.name.2}"/>
 	</target>
 
-	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
-		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<macrodef name="view">
+		<attribute name="fileName"/>
+		<sequential>
+			<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+				<arg value="@{fileName}"/>
+				<classpath refid="classpath"/>
+			</java>
+		</sequential>
+	</macrodef>
+
+	<target name="view" description="Launches the report viewer to preview the reports stored in the .jrprint files.">
+		<view filename="${file.name.1}.jrprint"/>
+		<view filename="${file.name.2}.jrprint"/>
 	</target>
 
-	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
-		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="${file.name}.jrpxml"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="viewXML" description="Launches the report viewer to preview the generated reports stored in XML files.">
+		<view filename="${file.name.1}.jrpxml"/>
+		<view filename="${file.name.2}.jrpxml"/>
 	</target>
 
-	<target name="print" description="Sends the report in the .jrprint file to the printer.">
-		<java classname="${class.name}" fork="true">
-			<arg value="print"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<macrodef name="classTask">
+		<attribute name="task"/>
+		<attribute name="fileName"/>
+		<sequential>
+			<java classname="${class.name}" fork="true">
+				<arg value="@{task}"/>
+				<arg value="@{fileName}.jrprint"/>
+				<classpath refid="classpath"/>
+			</java>
+		</sequential>
+	</macrodef>
+	
+	<target name="print" description="Sends the reports in the .jrprint file to the printer.">
+		<classTask task="print" filename="${file.name.1}"/>
+		<classTask task="print" filename="${file.name.2}"/>
 	</target>
 
-	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="pdf"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="pdf" description="Generates a PDF version of the reports by converting the .jrprint files.">
+		<classTask task="pdf" filename="${file.name.1}"/>
+		<classTask task="pdf" filename="${file.name.2}"/>
 	</target>
 
-	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="xml"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="xml" description="Generates an XML version of the reports by converting the .jrprint files.">
+		<classTask task="xml" filename="${file.name.1}"/>
+		<classTask task="xml" filename="${file.name.2}"/>
 	</target>
 
-	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="xmlEmbed"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="xmlEmbed" description="Generates an XML version of the reports by converting the .jrprint files.">
+		<classTask task="xmlEmbed" filename="${file.name.1}"/>
+		<classTask task="xmlEmbed" filename="${file.name.2}"/>
 	</target>
 
-	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="html"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="html" description="Generates an HTML version of the reports by converting the .jrprint files.">
+		<classTask task="html" filename="${file.name.1}"/>
+		<classTask task="html" filename="${file.name.2}"/>
 	</target>
 	
-	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="rtf"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="rtf" description="Generates an RTF version of the reports by converting the .jrprint files.">
+		<classTask task="rtf" filename="${file.name.1}"/>
+		<classTask task="rtf" filename="${file.name.2}"/>
 	</target>
 	
-	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
-		<java classname="${class.name}" fork="true">
-			<arg value="xls"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="xls" description="Generates an XLS version of the reports by converting the .jrprint files using the POI library.">
+		<classTask task="xls" filename="${file.name.1}"/>
+		<classTask task="xls" filename="${file.name.2}"/>
 	</target>
 
-	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
-		<java classname="${class.name}" fork="true">
-			<arg value="jxl"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="jxl" description="Generates an XLS version of the reports by converting the .jrprint files using the JExcelApi library.">
+		<classTask task="jxl" filename="${file.name.1}"/>
+		<classTask task="jxl" filename="${file.name.2}"/>
 	</target>
 
-	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="csv"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="csv" description="Generates a CSV version of the reports by converting the .jrprint files.">
+		<classTask task="csv" filename="${file.name.1}"/>
+		<classTask task="csv" filename="${file.name.2}"/>
 	</target>
 
-	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="odt"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="odt" description="Generates an ODT version of the reports by converting the .jrprint files.">
+		<classTask task="odt" filename="${file.name.1}"/>
+		<classTask task="odt" filename="${file.name.2}"/>
 	</target>
 
-	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="ods"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="ods" description="Generates an ODS version of the reports by converting the .jrprint files.">
+		<classTask task="ods" filename="${file.name.1}"/>
+		<classTask task="ods" filename="${file.name.2}"/>
 	</target>
 
-	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="docx"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="docx" description="Generates a DOCX version of the reports by converting the .jrprint files.">
+		<classTask task="docx" filename="${file.name.1}"/>
+		<classTask task="docx" filename="${file.name.2}"/>
 	</target>
 
-	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file using the POI library.">
-		<java classname="${class.name}" fork="true">
-			<arg value="xlsx"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="xlsx" description="Generates an XLSX version of the reports by converting the .jrprint files using the POI library.">
+		<classTask task="xlsx" filename="${file.name.1}"/>
+		<classTask task="xlsx" filename="${file.name.2}"/>
 	</target>
 
-	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="xhtml"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="xhtml" description="Generates an XHTML version of the reports by converting the .jrprint files.">
+		<classTask task="xhtml" filename="${file.name.1}"/>
+		<classTask task="xhtml" filename="${file.name.2}"/>
 	</target>
 
-	<target name="run" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
-		<java classname="${class.name}" fork="true">
-			<arg value="run"/>
-			<arg value="${file.name}.jasper"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="run" description="Generates a PDF file by filling the .jasper report designs. No intermediate .jrprint files are produced.">
+		<classTask task="run" filename="${file.name.1}"/>
+		<classTask task="run" filename="${file.name.2}"/>
 	</target>
 
-	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
-		<echo message="Viewing the ${file.name}.jrxml file"/>
-		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="${file.name}.jrxml"/>
-			<classpath refid="classpath"/>
-		</java>
+	<macrodef name="viewDesign">
+		<attribute name="fileName"/>
+		<sequential>
+			<echo message="Viewing the @{fileName} file"/>
+			<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+				<arg value="@{fileName}"/>
+				<classpath refid="classpath"/>
+			</java>
+		</sequential>
+	</macrodef>
+	
+	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report designs.">
+		<viewDesign filename="${file.name.1}.jrxml"/>
+		<viewDesign filename="${file.name.2}.jrxml"/>
 	</target>
 
-	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
-		<echo message="Viewing the ${file.name}.jasper file"/>
-		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="${file.name}.jasper"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report designs.">
+		<viewDesign filename="${file.name.1}.jasper"/>
+		<viewDesign filename="${file.name.2}.jasper"/>
 	</target>
 
+	<macrodef name="cleanReport">
+		<attribute name="fileName"/>
+		<sequential>
+			<delete dir="@{fileName}.jrpxml_files" />
+			<delete dir="@{fileName}.html_files" />
+			<delete dir="@{fileName}.x.html_files" />
+		</sequential>
+	</macrodef>
+	
 	<target name="clean" description="Deletes all the generated files.">
 		<delete>
 			<fileset dir="." includes="**/*.class" />
@@ -211,9 +207,8 @@
 			<fileset dir="." includes="**/*.docx" />
 			<fileset dir="." includes="**/*.xlsx" />
 		</delete>
-		<delete dir="${file.name}.jrpxml_files" />
-		<delete dir="${file.name}.html_files" />
-		<delete dir="${file.name}.x.html_files" />
+		<cleanReport filename="${file.name.1}"/>
+		<cleanReport filename="${file.name.2}"/>
 	</target>
 	
 	<target name="test" description="Runs the sample.">
