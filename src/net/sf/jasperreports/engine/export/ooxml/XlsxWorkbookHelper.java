@@ -30,12 +30,12 @@ import java.io.Writer;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: StyleBuilder.java 2908 2009-07-21 14:32:01Z teodord $
  */
-public class WorkbookHelper extends BaseHelper
+public class XlsxWorkbookHelper extends BaseHelper
 {
 	/**
 	 * 
 	 */
-	public WorkbookHelper(Writer writer)
+	public XlsxWorkbookHelper(Writer writer)
 	{
 		super(writer);
 	}
