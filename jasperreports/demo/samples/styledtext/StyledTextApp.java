@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -73,6 +74,7 @@ public class StyledTextApp
 	private static final String TASK_ODT = "odt";
 	private static final String TASK_ODS = "ods";
 	private static final String TASK_DOCX = "docx";
+	private static final String TASK_XLSX = "xlsx";
 	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_RUN = "run";
 	
@@ -246,6 +248,23 @@ public class StyledTextApp
 
 				System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
 			}
+			else if (TASK_XLSX.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xlsx");
+				
+				JRXlsxExporter exporter = new JRXlsxExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
+			}
 			else if (TASK_XHTML.equals(taskName))
 			{
 				File sourceFile = new File(fileName);
@@ -291,7 +310,7 @@ public class StyledTextApp
 	{
 		System.out.println( "StyledTextApp usage:" );
 		System.out.println( "\tjava StyledTextApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xhtml | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run" );
 	}
 
 
