@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRReport;
@@ -34,45 +33,53 @@ import net.sf.jasperreports.engine.JasperPrint;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: StyleBuilder.java 2908 2009-07-21 14:32:01Z teodord $
  */
-public class DocxDocumentHelper
+public class DocxDocumentHelper extends BaseHelper
 {
+	/**
+	 * 
+	 */
+	public DocxDocumentHelper(Writer writer)
+	{
+		super(writer);
+	}
+	
 	/**
 	 *
 	 */
-	public static void exportHeader(Writer writer) throws IOException
+	public void exportHeader()
 	{
-		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		writer.write("<w:document\n");
-		writer.write(" xmlns:ve=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n");
-		writer.write(" xmlns:o=\"urn:schemas-microsoft-com:office:office\"\n");
-		writer.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"\n");
-		writer.write(" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"\n");
-		writer.write(" xmlns:v=\"urn:schemas-microsoft-com:vml\"\n");
-		writer.write(" xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\"\n");
-		writer.write(" xmlns:w10=\"urn:schemas-microsoft-com:office:word\"\n");
-		writer.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"\n");
-		writer.write(" xmlns:wne=\"http://schemas.microsoft.com/office/word/2006/wordml\"\n");
-		writer.write(" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"\n");
-		writer.write(" xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n"); 
-		writer.write(" <w:body>\n");
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		write("<w:document\n");
+		write(" xmlns:ve=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n");
+		write(" xmlns:o=\"urn:schemas-microsoft-com:office:office\"\n");
+		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"\n");
+		write(" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"\n");
+		write(" xmlns:v=\"urn:schemas-microsoft-com:vml\"\n");
+		write(" xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\"\n");
+		write(" xmlns:w10=\"urn:schemas-microsoft-com:office:word\"\n");
+		write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"\n");
+		write(" xmlns:wne=\"http://schemas.microsoft.com/office/word/2006/wordml\"\n");
+		write(" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"\n");
+		write(" xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n"); 
+		write(" <w:body>\n");
 	}
 	
 
 	/**
 	 *
 	 */
-	public static void exportFooter(JasperPrint jasperPrint, Writer writer) throws IOException
+	public void exportFooter(JasperPrint jasperPrint)
 	{
-		writer.write("  <w:sectPr>\n");
-		writer.write("   <w:pgSz w:w=\"" + Utility.twip(jasperPrint.getPageWidth()) + "\" w:h=\"" + Utility.twip(jasperPrint.getPageHeight()) + "\"");
-		writer.write(" w:orient=\"" + (jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE ? "landscape" : "portrait") + "\"");
-		writer.write("/>\n");
-		writer.write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
-//		writer.write("   <w:cols w:space=\"720\" />\n");
-		writer.write("   <w:docGrid w:linePitch=\"360\" />\n");
-		writer.write("  </w:sectPr>\n");
-		writer.write(" </w:body>\n");
-		writer.write("</w:document>\n");
+		write("  <w:sectPr>\n");
+		write("   <w:pgSz w:w=\"" + Utility.twip(jasperPrint.getPageWidth()) + "\" w:h=\"" + Utility.twip(jasperPrint.getPageHeight()) + "\"");
+		write(" w:orient=\"" + (jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE ? "landscape" : "portrait") + "\"");
+		write("/>\n");
+		write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
+//		write("   <w:cols w:space=\"720\" />\n");
+		write("   <w:docGrid w:linePitch=\"360\" />\n");
+		write("  </w:sectPr>\n");
+		write(" </w:body>\n");
+		write("</w:document>\n");
 	}
 
 }
