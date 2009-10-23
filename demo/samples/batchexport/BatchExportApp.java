@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -67,6 +68,7 @@ public class BatchExportApp
 	private static final String TASK_ODT = "odt";
 	private static final String TASK_ODS = "ods";
 	private static final String TASK_DOCX = "docx";
+	private static final String TASK_XLSX = "xlsx";
 	private static final String TASK_XHTML = "xhtml";
 	
 	
@@ -254,6 +256,23 @@ public class BatchExportApp
 
 				System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
 			}
+			else if (TASK_XLSX.equals(taskName))
+			{
+				List jasperPrintList = new ArrayList();
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report3.jrprint"));
+				
+				JRXlsxExporter exporter = new JRXlsxExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
+				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+				
+				exporter.exportReport();
+
+				System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
+			}
 			else if (TASK_XHTML.equals(taskName))
 			{
 				List jasperPrintList = new ArrayList();
@@ -293,7 +312,7 @@ public class BatchExportApp
 	{
 		System.out.println( "BatchExportApp usage:" );
 		System.out.println( "\tjava BatchExportApp task file" );
-		System.out.println( "\tTasks : fill | pdf | html | rtf | xls | jxl | csv | odt | ods | docx | xhtml" );
+		System.out.println( "\tTasks : fill | pdf | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml" );
 	}
 
 
