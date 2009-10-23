@@ -109,13 +109,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	 *
 	 */
 	protected XlsxZip xlsxZip = null;
-	protected WorkbookHelper wbHelper = null;
+	protected XlsxWorkbookHelper wbHelper = null;
 	protected Writer wbWriter = null;
 	protected XlsxRelsHelper relsHelper = null;
 	protected Writer relsWriter = null;
-	protected ContentTypesHelper ctHelper = null;
+	protected XlsxContentTypesHelper ctHelper = null;
 	protected Writer ctWriter = null;
-	protected SheetHelper sheetHelper = null;
+	protected XlsxSheetHelper sheetHelper = null;
 	//protected Writer sheetWriter = null;
 	//protected TableHelper tableHelper = null;
 	protected XlsxCellHelper cellHelper = null;//FIXMEXLSX maybe cell helper should be part of sheet helper, just like in table helper
@@ -1237,7 +1237,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		ExportZipEntry sheetEntry = xlsxZip.addSheet(sheetIndex + 1);
 		Writer sheetWriter = sheetEntry.getWriter();
-		sheetHelper = new SheetHelper(sheetWriter);
+		sheetHelper = new XlsxSheetHelper(sheetWriter);
 
 		cellHelper = new XlsxCellHelper(sheetWriter);
 		runHelper = new XlsxRunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
@@ -1387,7 +1387,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			xlsxZip = new XlsxZip();
 
 			wbWriter = xlsxZip.getWorkbookEntry().getWriter();
-			wbHelper = new WorkbookHelper(wbWriter);
+			wbHelper = new XlsxWorkbookHelper(wbWriter);
 			wbHelper.exportHeader();
 
 			relsWriter = xlsxZip.getRelsEntry().getWriter();
@@ -1395,7 +1395,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			relsHelper.exportHeader();
 
 			ctWriter = xlsxZip.getContentTypesEntry().getWriter();
-			ctHelper = new ContentTypesHelper(ctWriter);
+			ctHelper = new XlsxContentTypesHelper(ctWriter);
 			ctHelper.exportHeader();
 			
 			Writer stylesWriter = xlsxZip.getStylesEntry().getWriter();
