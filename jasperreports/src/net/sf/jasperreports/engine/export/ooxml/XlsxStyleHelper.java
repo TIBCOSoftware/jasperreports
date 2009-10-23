@@ -25,10 +25,12 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.util.FileBufferedWriter;
 
 
 /**
@@ -40,8 +42,11 @@ public class XlsxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	private XlsxParagraphHelper paragraphHelper = null;
-	private XlsxRunHelper runHelper = null;
+	private FileBufferedWriter fontsWriter = new FileBufferedWriter();
+	private FileBufferedWriter fillsWriter = new FileBufferedWriter();
+	private FileBufferedWriter cellXfsWriter = new FileBufferedWriter();
+	
+	private Map styleCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	/**
 	 * 
@@ -49,75 +54,86 @@ public class XlsxStyleHelper extends BaseHelper
 	public XlsxStyleHelper(Writer writer, Map fontMap, String exporterKey)
 	{
 		super(writer);
-		
-		paragraphHelper = new XlsxParagraphHelper(writer, false);
-		runHelper = new XlsxRunHelper(writer, fontMap, exporterKey);
 	}
 
 	/**
 	 * 
 	 */
-	public void export(List jasperPrintList) throws IOException
+	public int getCellStyle(JRExporterGridCell gridCell)
 	{
-		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		writer.write("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">\n");
-		writer.write("<fonts count=\"1\"><font><sz val=\"11\"/><color theme=\"1\"/><name val=\"Calibri\"/><family val=\"2\"/><scheme val=\"minor\"/></font></fonts>\n");
-		writer.write("<fills count=\"2\"><fill><patternFill patternType=\"none\"/></fill><fill><patternFill patternType=\"gray125\"/></fill></fills>\n");
-		writer.write("<borders count=\"1\"><border><left/><right/><top/><bottom/><diagonal/></border></borders>\n");
-		writer.write("<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\"/></cellStyleXfs>\n");
-		writer.write("<cellXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\" xfId=\"0\"/></cellXfs>\n");
-		writer.write("<cellStyles count=\"1\"><cellStyle name=\"Normal\" xfId=\"0\" builtinId=\"0\"/></cellStyles>\n");
-		writer.write("<dxfs count=\"0\"/><tableStyles count=\"0\" defaultTableStyle=\"TableStyleMedium9\" defaultPivotStyle=\"PivotStyleLight16\"/>\n");
-
-		
-//		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
-//		{
-//			JasperPrint jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
-//			
-//			JRStyle[] styles = jasperPrint.getStyles();
-//			if (styles != null)
-//			{
-//				for(int i = 0; i < styles.length; i++)
-//				{
-//					JRStyle style = styles[i];
-//					exportHeader(style);
-//					paragraphHelper.exportProps(style);
-//					runHelper.exportProps(style);
-//					exportFooter();
-//				}
-//			}
-//		}
-
-		writer.write("</styleSheet>\n");
-	}
-	
-	/**
-	 * 
-	 */
-	private void exportHeader(JRStyle style) throws IOException
-	{
-		//writer.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\">\n");
-		writer.write(" <w:style w:type=\"paragraph\" w:styleId=\"" + style.getName() + "\"");
-		if (style.isDefault())
+		XlsxStyleInfo styleInfo = new XlsxStyleInfo(gridCell);
+		Integer styleIndex = (Integer)styleCache.get(styleInfo.getId());
+		if (styleIndex == null)
 		{
-			writer.write(" w:default=\"1\"");
+			styleIndex = new Integer(styleCache.size());
+			exportCellStyle(styleInfo, styleIndex);
+			styleCache.put(styleInfo.getId(), styleIndex);
 		}
-		writer.write(">\n");
-		writer.write("  <w:name w:val=\"" + style.getName() + "\" />\n");
-		writer.write("  <w:qFormat />\n");
-		String styleNameReference = style.getStyle() == null ? null : style.getStyle().getName();//FIXMEDOCX why getStyleNameReference is not working?
-		if (styleNameReference != null)
+		return styleIndex.intValue();
+	}
+
+	/**
+	 * 
+	 */
+	private void exportCellStyle(XlsxStyleInfo styleInfo, Integer styleIndex)
+	{
+		try
 		{
-			writer.write("  <w:basedOn w:val=\"" + styleNameReference + "\" />\n");
+			fontsWriter.write(
+				"<font><sz val=\"" + styleInfo.fontSize + "\"/>" 
+				+ "<color rgb=\"" + styleInfo.forecolor + "\"/>"
+				+ "<name val=\"" + styleInfo.fontName + "\"/>"
+				+ "<b val=\"" + styleInfo.isBold + "\"/>"
+				+ "<i val=\"" + styleInfo.isItalic + "\"/>"
+				+ "<u val=\"" + (styleInfo.isUnderline ? "single" : "none") + "\"/>"
+				+ "<strike val=\"" + styleInfo.isStrikeThrough + "\"/>"
+				+ "<family val=\"2\"/></font>\n");
+			fillsWriter.write("<fill><patternFill patternType=\"solid\"><fgColor rgb=\"" + styleInfo.backcolor + "\"/></patternFill></fill>\n");
+			cellXfsWriter.write(
+				"<xf numFmtId=\"" + styleIndex
+				+ "\" fontId=\"" + (styleIndex.intValue() + 1)
+				+ "\" fillId=\"" + (styleIndex.intValue() + 2)
+				+ "\" borderId=\"0\" xfId=\"" + styleIndex + "\">"
+				+ "<alignment wrapText=\"1\""
+				+ " horizontal=\"" + styleInfo.horizontalAlign
+				+ "\" vertical=\"" + styleInfo.verticalAlign
+				+ "\"/></xf>\n");
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
-	private void exportFooter() throws IOException
+	public void export()
 	{
-		writer.write("</styleSheet>\n");
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		write("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">\n");
+		
+		write("<fonts>\n");// count=\"1\">\n");
+		write("<font><sz val=\"11\"/><color theme=\"1\"/><name val=\"Calibri\"/><family val=\"2\"/><scheme val=\"minor\"/></font>\n");
+		fontsWriter.writeData(writer);
+		write("</fonts>\n");
+
+		write("<fills>\n");// count=\"2\">\n");
+		write("<fill><patternFill patternType=\"none\"/></fill>\n");
+		write("<fill><patternFill patternType=\"gray125\"/></fill>\n");
+		fillsWriter.writeData(writer);
+		write("</fills>\n");
+		write("<borders count=\"1\"><border><left/><right/><top/><bottom/><diagonal/></border></borders>\n");
+		write("<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\"/></cellStyleXfs>\n");
+
+		write("<cellXfs>\n");// count=\"1\">\n");
+		cellXfsWriter.writeData(writer);
+		write("</cellXfs>\n");
+		
+		write("<cellStyles count=\"1\"><cellStyle name=\"Normal\" xfId=\"0\" builtinId=\"0\"/></cellStyles>\n");
+		write("<dxfs count=\"0\"/><tableStyles count=\"0\" defaultTableStyle=\"TableStyleMedium9\" defaultPivotStyle=\"PivotStyleLight16\"/>\n");
+
+		write("</styleSheet>\n");
 	}
 	
 }

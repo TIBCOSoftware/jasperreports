@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.JRStyle;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: ParagraphHelper.java 3135 2009-10-22 14:20:23Z teodord $
  */
 public class XlsxParagraphHelper extends BaseHelper
@@ -42,7 +42,7 @@ public class XlsxParagraphHelper extends BaseHelper
 	private static final String HORIZONTAL_ALIGN_LEFT = "left";
 	private static final String HORIZONTAL_ALIGN_RIGHT = "right";
 	private static final String HORIZONTAL_ALIGN_CENTER = "center";
-	private static final String HORIZONTAL_ALIGN_BOTH = "both";
+	private static final String HORIZONTAL_ALIGN_JUSTIFY = "justify";
 
 	/**
 	 *
@@ -159,7 +159,7 @@ public class XlsxParagraphHelper extends BaseHelper
 				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
 					return HORIZONTAL_ALIGN_CENTER;
 				case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-					return HORIZONTAL_ALIGN_BOTH;
+					return HORIZONTAL_ALIGN_JUSTIFY;
 				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
 				default :
 					return HORIZONTAL_ALIGN_LEFT;

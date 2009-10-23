@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: BorderHelper.java 3135 2009-10-22 14:20:23Z teodord $
  */
 public class XlsxBorderHelper extends BaseHelper

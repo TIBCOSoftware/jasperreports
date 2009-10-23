@@ -110,14 +110,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	 */
 	protected XlsxZip xlsxZip = null;
 	protected XlsxWorkbookHelper wbHelper = null;
-	protected Writer wbWriter = null;
 	protected XlsxRelsHelper relsHelper = null;
-	protected Writer relsWriter = null;
 	protected XlsxContentTypesHelper ctHelper = null;
-	protected Writer ctWriter = null;
 	protected XlsxSheetHelper sheetHelper = null;
-	//protected Writer sheetWriter = null;
-	//protected TableHelper tableHelper = null;
+	protected XlsxStyleHelper styleHelper = null;
 	protected XlsxCellHelper cellHelper = null;//FIXMEXLSX maybe cell helper should be part of sheet helper, just like in table helper
 
 	protected JRExportProgressMonitor progressMonitor = null;
@@ -417,7 +413,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
 		
 		tableHelper.getCellHelper().exportHeader(line, gridCell);
-		wbWriter.write("<w:p/>");
+		wbHelper.write("<w:p/>");
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -436,7 +432,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
 		
 		tableHelper.getCellHelper().exportHeader(rectangle, gridCell);
-		wbWriter.write("<w:p/>");
+		wbHelper.write("<w:p/>");
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -455,7 +451,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
 		
 		tableHelper.getCellHelper().exportHeader(ellipse, gridCell);
-		wbWriter.write("<w:p/>");
+		wbHelper.write("<w:p/>");
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -502,7 +498,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		tableHelper.getCellHelper().exportHeader(image, gridCell);
 
-		wbWriter.write("<w:p>");
+		wbHelper.write("<w:p>");
 
 		JRRenderable renderer = image.getRenderer();
 
@@ -659,43 +655,43 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 			boolean startedHyperlink = startHyperlink(image,false);
 
-			wbWriter.write("<w:r>\n"); 
-			wbWriter.write("<w:drawing>\n");
-			wbWriter.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
-			wbWriter.write("<wp:simplePos x=\"0\" y=\"0\"/>");
-			wbWriter.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + XlsxParagraphHelper.getHorizontalAlignment(new Byte(image.getHorizontalAlignment())) + "</wp:align></wp:positionH>");
-			wbWriter.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
-//			wbWriter.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
+			wbHelper.write("<w:r>\n"); 
+			wbHelper.write("<w:drawing>\n");
+			wbHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
+			wbHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>");
+			wbHelper.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + XlsxParagraphHelper.getHorizontalAlignment(new Byte(image.getHorizontalAlignment())) + "</wp:align></wp:positionH>");
+			wbHelper.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
+//			wbHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
 			
-			wbWriter.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
-			wbWriter.write("<wp:wrapNone/>");
-			wbWriter.write("<wp:docPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
-			wbWriter.write("<a:graphic>\n");
-			wbWriter.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
-			wbWriter.write("<pic:pic>\n");
-			wbWriter.write("<pic:nvPicPr><pic:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
-			wbWriter.write("<pic:blipFill>\n");
-			wbWriter.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
-			wbWriter.write("<a:srcRect");
+			wbHelper.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
+			wbHelper.write("<wp:wrapNone/>");
+			wbHelper.write("<wp:docPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
+			wbHelper.write("<a:graphic>\n");
+			wbHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
+			wbHelper.write("<pic:pic>\n");
+			wbHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
+			wbHelper.write("<pic:blipFill>\n");
+			wbHelper.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
+			wbHelper.write("<a:srcRect");
 			if (cropLeft > 0)
-				wbWriter.write(" l=\"" + (int)cropLeft + "\"");
+				wbHelper.write(" l=\"" + (int)cropLeft + "\"");
 			if (cropTop > 0)
-				wbWriter.write(" t=\"" + (int)cropTop + "\"");
+				wbHelper.write(" t=\"" + (int)cropTop + "\"");
 			if (cropRight > 0)
-				wbWriter.write(" r=\"" + (int)cropRight + "\"");
+				wbHelper.write(" r=\"" + (int)cropRight + "\"");
 			if (cropBottom > 0)
-				wbWriter.write(" b=\"" + (int)cropBottom + "\"");
-			wbWriter.write("/>");
-			wbWriter.write("<a:stretch><a:fillRect/></a:stretch>\n");
-			wbWriter.write("</pic:blipFill>\n");
-			wbWriter.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>");
-			wbWriter.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
-			wbWriter.write("</pic:pic>\n");
-			wbWriter.write("</a:graphicData>\n");
-			wbWriter.write("</a:graphic>\n");
-			wbWriter.write("</wp:anchor>\n");
-			wbWriter.write("</w:drawing>\n");
-			wbWriter.write("</w:r>"); 
+				wbHelper.write(" b=\"" + (int)cropBottom + "\"");
+			wbHelper.write("/>");
+			wbHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
+			wbHelper.write("</pic:blipFill>\n");
+			wbHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>");
+			wbHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
+			wbHelper.write("</pic:pic>\n");
+			wbHelper.write("</a:graphicData>\n");
+			wbHelper.write("</a:graphic>\n");
+			wbHelper.write("</wp:anchor>\n");
+			wbHelper.write("</w:drawing>\n");
+			wbHelper.write("</w:r>"); 
 
 			if(startedHyperlink)
 			{
@@ -703,7 +699,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			}
 		}
 
-		wbWriter.write("</w:p>");
+		wbHelper.write("</w:p>");
 
 		tableHelper.getCellHelper().exportFooter();
 	}
@@ -978,40 +974,33 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //				hyperlinksMap.put(href, id);
 //			}
 //			
-//			wbWriter.write("<w:hyperlink r:id=\"" + id + "\"");
+//			wbHelper.write("<w:hyperlink r:id=\"" + id + "\"");
 //
 //			String target = getHyperlinkTarget(link);//FIXMETARGET
 //			if (target != null)
 //			{
-//				wbWriter.write(" tgtFrame=\"" + target + "\"");
+//				wbHelper.write(" tgtFrame=\"" + target + "\"");
 //			}
 //
-//			wbWriter.write(">\n");
+//			wbHelper.write(">\n");
 
-			try
+			wbHelper.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
+			wbHelper.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + href + "\"");
+
+			String target = getHyperlinkTarget(link);//FIXMETARGET
+			if (target != null)
 			{
-				wbWriter.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
-				wbWriter.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + href + "\"");
-
-				String target = getHyperlinkTarget(link);//FIXMETARGET
-				if (target != null)
-				{
-					wbWriter.write(" \\t \"" + target + "\"");
-				}
-
-				String tooltip = link.getHyperlinkTooltip(); 
-				if (tooltip != null)
-				{
-					wbWriter.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip) + "\"");
-				}
-
-				wbWriter.write(" </w:instrText></w:r>\n");
-				wbWriter.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
+				wbHelper.write(" \\t \"" + target + "\"");
 			}
-			catch (IOException e)
+
+			String tooltip = link.getHyperlinkTooltip(); 
+			if (tooltip != null)
 			{
-				throw new JRRuntimeException(e);
+				wbHelper.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip) + "\"");
 			}
+
+			wbHelper.write(" </w:instrText></w:r>\n");
+			wbHelper.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
 		}
 
 		return href != null;
@@ -1111,15 +1100,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected void endHyperlink(boolean isText)
 	{
-//		wbWriter.write("</w:hyperlink>\n");
-		try
-		{
-			wbWriter.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
+//		wbHelper.write("</w:hyperlink>\n");
+		wbHelper.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
 	}
 
 //	protected void insertPageAnchor() throws IOException
@@ -1152,12 +1134,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected void closeWorkbook(OutputStream os) throws JRException 
 	{
 		closeSheet();
+		
+		styleHelper.export();
+		
+		styleHelper.close();
 
 		try
 		{
 			wbHelper.exportFooter();
 
-			wbWriter.close();
+			wbHelper.close();
 
 			if ((imagesToProcess != null && imagesToProcess.size() > 0))
 			{
@@ -1210,11 +1196,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 			relsHelper.exportFooter();
 
-			relsWriter.close();
+			relsHelper.close();
 			
 			ctHelper.exportFooter();
 			
-			ctWriter.close();
+			ctHelper.close();
 
 			xlsxZip.zipEntries(os);
 
@@ -1238,8 +1224,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		ExportZipEntry sheetEntry = xlsxZip.addSheet(sheetIndex + 1);
 		Writer sheetWriter = sheetEntry.getWriter();
 		sheetHelper = new XlsxSheetHelper(sheetWriter);
+		
+		styleHelper = new XlsxStyleHelper(xlsxZip.getStylesEntry().getWriter(), fontMap, getExporterKey());
 
-		cellHelper = new XlsxCellHelper(sheetWriter);
+		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
+		
 		runHelper = new XlsxRunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
 
 		sheetHelper.exportHeader();
@@ -1386,21 +1375,18 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		{
 			xlsxZip = new XlsxZip();
 
-			wbWriter = xlsxZip.getWorkbookEntry().getWriter();
-			wbHelper = new XlsxWorkbookHelper(wbWriter);
+			wbHelper = new XlsxWorkbookHelper(xlsxZip.getWorkbookEntry().getWriter());
 			wbHelper.exportHeader();
 
-			relsWriter = xlsxZip.getRelsEntry().getWriter();
-			relsHelper = new XlsxRelsHelper(relsWriter);
+			relsHelper = new XlsxRelsHelper(xlsxZip.getRelsEntry().getWriter());
 			relsHelper.exportHeader();
 
-			ctWriter = xlsxZip.getContentTypesEntry().getWriter();
-			ctHelper = new XlsxContentTypesHelper(ctWriter);
+			ctHelper = new XlsxContentTypesHelper(xlsxZip.getContentTypesEntry().getWriter());
 			ctHelper.exportHeader();
 			
-			Writer stylesWriter = xlsxZip.getStylesEntry().getWriter();
-			new XlsxStyleHelper(stylesWriter, fontMap, getExporterKey()).export(jasperPrintList);
-			stylesWriter.close();
+//			Writer stylesWriter = xlsxZip.getStylesEntry().getWriter();
+//			new XlsxStyleHelper(stylesWriter, fontMap, getExporterKey()).export(jasperPrintList);
+//			stylesWriter.close();
 		}
 		catch (IOException e)
 		{

@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: CellHelper.java 3033 2009-08-27 11:46:22Z teodord $
  */
 public class XlsxCellHelper extends BaseHelper
@@ -51,15 +51,20 @@ public class XlsxCellHelper extends BaseHelper
 	/**
 	 *
 	 */
+	private XlsxStyleHelper styleHelper = null;
 	private XlsxBorderHelper borderHelper = null;
 	
 	/**
 	 *
 	 */
-	public XlsxCellHelper(Writer writer)
+	public XlsxCellHelper(
+		Writer writer,
+		XlsxStyleHelper styleHelper
+		)
 	{
 		super(writer);
 		
+		this.styleHelper = styleHelper;
 		borderHelper = new XlsxBorderHelper(writer);
 	}
 		
@@ -81,7 +86,7 @@ public class XlsxCellHelper extends BaseHelper
 		int colIndex
 		) 
 	{
-		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" r=\"" + "getCellStyle()FIXMEXLSX" + "\" t=\"inlineStr\">");
+		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell) + "\" t=\"inlineStr\">");
 		
 //		exportPropsHeader();
 //
