@@ -120,6 +120,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	protected DocxDocumentHelper docHelper = null;
 	protected Writer docWriter = null;
 	protected Writer relsWriter = null;
 
@@ -318,13 +319,20 @@ public class JRDocxExporter extends JRAbstractExporter
 		docWriter = docxZip.getDocumentEntry().getWriter();
 		relsWriter = docxZip.getRelsEntry().getWriter();
 		
-		DocxDocumentHelper.exportHeader(docWriter);
+		docHelper = new DocxDocumentHelper(docWriter);
+		docHelper.exportHeader();
+		
 		DocxRelsHelper relsHelper = new DocxRelsHelper(relsWriter);
 		relsHelper.exportHeader();
 		
-		Writer stylesWriter = docxZip.getStylesEntry().getWriter();
-		new DocxStyleHelper(stylesWriter, fontMap, getExporterKey()).export(jasperPrintList);
-		stylesWriter.close();
+		DocxStyleHelper styleHelper = 
+			new DocxStyleHelper(
+				docxZip.getStylesEntry().getWriter(), 
+				fontMap, 
+				getExporterKey()
+				);
+		styleHelper.export(jasperPrintList);
+		styleHelper.close();
 
 		runHelper = new DocxRunHelper(docWriter, fontMap, getExporterKey());
 
@@ -356,9 +364,8 @@ public class JRDocxExporter extends JRAbstractExporter
 			}
 		}
 		
-		DocxDocumentHelper.exportFooter(jasperPrint, docWriter);
-
-		docWriter.close();
+		docHelper.exportFooter(jasperPrint);
+		docHelper.close();
 
 		if ((imagesToProcess != null && imagesToProcess.size() > 0))
 		{
@@ -448,7 +455,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws JRException, IOException
+	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws JRException
 	{
 		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
@@ -584,7 +591,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportLine(DocxTableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
+	protected void exportLine(DocxTableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell)
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = null;
@@ -618,7 +625,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(line, gridCell);
-		docWriter.write("<w:p/>");
+		docHelper.write("<w:p/>");
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -626,7 +633,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportRectangle(DocxTableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
+	protected void exportRectangle(DocxTableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell)
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
@@ -637,7 +644,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(rectangle, gridCell);
-		docWriter.write("<w:p/>");
+		docHelper.write("<w:p/>");
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -645,7 +652,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportEllipse(DocxTableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
+	protected void exportEllipse(DocxTableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell)
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
@@ -656,7 +663,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(ellipse, gridCell);
-		docWriter.write("<w:p/>");
+		docHelper.write("<w:p/>");
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -664,7 +671,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public void exportText(DocxTableHelper tableHelper, JRPrintText text, JRExporterGridCell gridCell) throws IOException
+	public void exportText(DocxTableHelper tableHelper, JRPrintText text, JRExporterGridCell gridCell)
 	{
 		tableHelper.getCellHelper().exportHeader(text, gridCell);
 
@@ -696,7 +703,7 @@ public class JRDocxExporter extends JRAbstractExporter
 //		}
 //
 //		writer.write(">");
-		docWriter.write("     <w:p>\n");
+		docHelper.write("     <w:p>\n");
 
 		tableHelper.getParagraphHelper().exportProps(text);
 		
@@ -720,8 +727,8 @@ public class JRDocxExporter extends JRAbstractExporter
 			endHyperlink(true);
 		}
 
-		docWriter.write("     </w:p>\n");
-		docWriter.flush();
+		docHelper.write("     </w:p>\n");
+		docHelper.flush();
 
 		tableHelper.getCellHelper().exportFooter();
 	}
@@ -730,7 +737,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale) throws IOException
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale)
 	{
 		String text = styledText.getText();
 
@@ -755,7 +762,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportImage(DocxTableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
+	protected void exportImage(DocxTableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException
 	{
 		int leftPadding = image.getLineBox().getLeftPadding().intValue();
 		int topPadding = image.getLineBox().getTopPadding().intValue();//FIXMEDOCX maybe consider border thickness
@@ -770,7 +777,7 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		tableHelper.getCellHelper().exportHeader(image, gridCell);
 
-		docWriter.write("<w:p>");
+		docHelper.write("<w:p>");
 
 		JRRenderable renderer = image.getRenderer();
 
@@ -927,43 +934,43 @@ public class JRDocxExporter extends JRAbstractExporter
 
 			boolean startedHyperlink = startHyperlink(image,false);
 
-			docWriter.write("<w:r>\n"); 
-			docWriter.write("<w:drawing>\n");
-			docWriter.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
-			docWriter.write("<wp:simplePos x=\"0\" y=\"0\"/>");
-			docWriter.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + DocxParagraphHelper.getHorizontalAlignment(new Byte(image.getHorizontalAlignment())) + "</wp:align></wp:positionH>");
-			docWriter.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
-//			docWriter.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
+			docHelper.write("<w:r>\n"); 
+			docHelper.write("<w:drawing>\n");
+			docHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
+			docHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>");
+			docHelper.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + DocxParagraphHelper.getHorizontalAlignment(new Byte(image.getHorizontalAlignment())) + "</wp:align></wp:positionH>");
+			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
+//			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
 			
-			docWriter.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
-			docWriter.write("<wp:wrapNone/>");
-			docWriter.write("<wp:docPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
-			docWriter.write("<a:graphic>\n");
-			docWriter.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
-			docWriter.write("<pic:pic>\n");
-			docWriter.write("<pic:nvPicPr><pic:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
-			docWriter.write("<pic:blipFill>\n");
-			docWriter.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
-			docWriter.write("<a:srcRect");
+			docHelper.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
+			docHelper.write("<wp:wrapNone/>");
+			docHelper.write("<wp:docPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
+			docHelper.write("<a:graphic>\n");
+			docHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
+			docHelper.write("<pic:pic>\n");
+			docHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
+			docHelper.write("<pic:blipFill>\n");
+			docHelper.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
+			docHelper.write("<a:srcRect");
 			if (cropLeft > 0)
-				docWriter.write(" l=\"" + (int)cropLeft + "\"");
+				docHelper.write(" l=\"" + (int)cropLeft + "\"");
 			if (cropTop > 0)
-				docWriter.write(" t=\"" + (int)cropTop + "\"");
+				docHelper.write(" t=\"" + (int)cropTop + "\"");
 			if (cropRight > 0)
-				docWriter.write(" r=\"" + (int)cropRight + "\"");
+				docHelper.write(" r=\"" + (int)cropRight + "\"");
 			if (cropBottom > 0)
-				docWriter.write(" b=\"" + (int)cropBottom + "\"");
-			docWriter.write("/>");
-			docWriter.write("<a:stretch><a:fillRect/></a:stretch>\n");
-			docWriter.write("</pic:blipFill>\n");
-			docWriter.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>");
-			docWriter.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
-			docWriter.write("</pic:pic>\n");
-			docWriter.write("</a:graphicData>\n");
-			docWriter.write("</a:graphic>\n");
-			docWriter.write("</wp:anchor>\n");
-			docWriter.write("</w:drawing>\n");
-			docWriter.write("</w:r>"); 
+				docHelper.write(" b=\"" + (int)cropBottom + "\"");
+			docHelper.write("/>");
+			docHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
+			docHelper.write("</pic:blipFill>\n");
+			docHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>");
+			docHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
+			docHelper.write("</pic:pic>\n");
+			docHelper.write("</a:graphicData>\n");
+			docHelper.write("</a:graphic>\n");
+			docHelper.write("</wp:anchor>\n");
+			docHelper.write("</w:drawing>\n");
+			docHelper.write("</w:r>"); 
 
 			if(startedHyperlink)
 			{
@@ -971,7 +978,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			}
 		}
 
-		docWriter.write("</w:p>");
+		docHelper.write("</w:p>");
 
 		tableHelper.getCellHelper().exportFooter();
 	}
@@ -980,7 +987,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String getImagePath(JRRenderable renderer, boolean isLazy, JRExporterGridCell gridCell) throws IOException
+	protected String getImagePath(JRRenderable renderer, boolean isLazy, JRExporterGridCell gridCell)
 	{
 		String imagePath = null;
 
@@ -1029,7 +1036,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 *
-	protected void writeImageMap(String imageMapName, JRPrintHyperlink mainHyperlink, List imageMapAreas) throws IOException
+	protected void writeImageMap(String imageMapName, JRPrintHyperlink mainHyperlink, List imageMapAreas)
 	{
 		writer.write("<map name=\"" + imageMapName + "\">\n");
 
@@ -1055,7 +1062,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	}
 
 
-	protected void writeImageAreaCoordinates(JRPrintImageArea area) throws IOException
+	protected void writeImageAreaCoordinates(JRPrintImageArea area)
 	{
 		int[] coords = area.getCoordinates();
 		if (coords != null && coords.length > 0)
@@ -1073,7 +1080,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	}
 
 
-	protected void writeImageAreaHyperlink(JRPrintHyperlink hyperlink) throws IOException
+	protected void writeImageAreaHyperlink(JRPrintHyperlink hyperlink)
 	{
 		String href = getHyperlinkURL(hyperlink);
 		if (href == null)
@@ -1128,7 +1135,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 * In deep grids, this is called only for empty frames.
 	 */
-	protected void exportFrame(DocxTableHelper tableHelper, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
+	protected void exportFrame(DocxTableHelper tableHelper, JRPrintFrame frame, JRExporterGridCell gridCell) throws JRException
 	{
 		tableHelper.getCellHelper().exportHeader(frame, gridCell);
 //		tableHelper.getCellHelper().exportProps(gridCell);
@@ -1169,7 +1176,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportGenericElement(DocxTableHelper tableHelper, JRGenericPrintElement element, JRExporterGridCell gridCell) throws IOException, JRException
+	protected void exportGenericElement(DocxTableHelper tableHelper, JRGenericPrintElement element, JRExporterGridCell gridCell) throws JRException
 	{
 		GenericElementDocxHandler handler = (GenericElementDocxHandler) 
 		GenericElementHandlerEnviroment.getHandler(
@@ -1260,7 +1267,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		return yalignFactor;
 	}
 
-	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText) throws IOException
+	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText)
 	{
 		String href = getHyperlinkURL(link);
 
@@ -1273,33 +1280,33 @@ public class JRDocxExporter extends JRAbstractExporter
 //				hyperlinksMap.put(href, id);
 //			}
 //			
-//			docWriter.write("<w:hyperlink r:id=\"" + id + "\"");
+//			docHelper.write("<w:hyperlink r:id=\"" + id + "\"");
 //
 //			String target = getHyperlinkTarget(link);//FIXMETARGET
 //			if (target != null)
 //			{
-//				docWriter.write(" tgtFrame=\"" + target + "\"");
+//				docHelper.write(" tgtFrame=\"" + target + "\"");
 //			}
 //
-//			docWriter.write(">\n");
+//			docHelper.write(">\n");
 
-			docWriter.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
-			docWriter.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + JRStringUtil.xmlEncode(href) + "\"");
+			docHelper.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
+			docHelper.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + JRStringUtil.xmlEncode(href) + "\"");
 
 			String target = getHyperlinkTarget(link);//FIXMETARGET
 			if (target != null)
 			{
-				docWriter.write(" \\t \"" + target + "\"");
+				docHelper.write(" \\t \"" + target + "\"");
 			}
 
 			String tooltip = link.getHyperlinkTooltip(); 
 			if (tooltip != null)
 			{
-				docWriter.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip) + "\"");
+				docHelper.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip) + "\"");
 			}
 
-			docWriter.write(" </w:instrText></w:r>\n");
-			docWriter.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
+			docHelper.write(" </w:instrText></w:r>\n");
+			docHelper.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
 		}
 
 		return href != null;
@@ -1397,13 +1404,13 @@ public class JRDocxExporter extends JRAbstractExporter
 	}
 
 
-	protected void endHyperlink(boolean isText) throws IOException
+	protected void endHyperlink(boolean isText)
 	{
-//		docWriter.write("</w:hyperlink>\n");
-		docWriter.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
+//		docHelper.write("</w:hyperlink>\n");
+		docHelper.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
 	}
 
-//	protected void insertPageAnchor() throws IOException
+//	protected void insertPageAnchor()
 //	{
 //		if(startPage)
 //		{
