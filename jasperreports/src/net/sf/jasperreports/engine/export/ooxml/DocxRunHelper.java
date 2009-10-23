@@ -47,7 +47,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id: StyleCache.java 2908 2009-07-21 14:32:01Z teodord $
  */
-public class RunHelper extends BaseHelper
+public class DocxRunHelper extends BaseHelper
 {
 	/**
 	 *
@@ -59,7 +59,7 @@ public class RunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public RunHelper(Writer writer, Map fontMap, String exporterKey)
+	public DocxRunHelper(Writer writer, Map fontMap, String exporterKey)
 	{
 		super(writer);
 		this.fontMap = fontMap;

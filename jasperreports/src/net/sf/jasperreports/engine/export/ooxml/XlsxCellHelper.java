@@ -51,7 +51,7 @@ public class XlsxCellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private BorderHelper borderHelper = null;
+	private XlsxBorderHelper borderHelper = null;
 	
 	/**
 	 *
@@ -60,13 +60,13 @@ public class XlsxCellHelper extends BaseHelper
 	{
 		super(writer);
 		
-		borderHelper = new BorderHelper(writer);
+		borderHelper = new XlsxBorderHelper(writer);
 	}
 		
 	/**
 	 * 
 	 */
-	public BorderHelper getBorderHelper() 
+	public XlsxBorderHelper getBorderHelper() 
 	{
 		return borderHelper;
 	}
@@ -81,7 +81,7 @@ public class XlsxCellHelper extends BaseHelper
 		int colIndex
 		) 
 	{
-		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" t=\"inlineStr\">");
+		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" r=\"" + "getCellStyle()FIXMEXLSX" + "\" t=\"inlineStr\">");
 		
 //		exportPropsHeader();
 //
@@ -159,13 +159,13 @@ public class XlsxCellHelper extends BaseHelper
 		}
 	}
 
-	/**
-	 *
-	 */
-	private void exportPropsHeader()
-	{
-		write("      <w:tcPr>\n");
-	}
+//	/**
+//	 *
+//	 */
+//	private void exportPropsHeader()
+//	{
+//		write("      <w:tcPr>\n");
+//	}
 	
 	/**
 	 *
@@ -182,13 +182,13 @@ public class XlsxCellHelper extends BaseHelper
 		}
 	}
 	
-	/**
-	 *
-	 */
-	private void exportPropsFooter()
-	{
-		write("      </w:tcPr>\n");
-	}
+//	/**
+//	 *
+//	 */
+//	private void exportPropsFooter()
+//	{
+//		write("      </w:tcPr>\n");
+//	}
 	
 	/**
 	 *

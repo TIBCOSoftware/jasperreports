@@ -37,6 +37,6 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 public interface JRDocxExporterContext extends JRExporterContext
 {
 	
-	public TableHelper getTableHelper();
+	public DocxTableHelper getTableHelper();
 	
 }

@@ -33,32 +33,32 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class TableHelper extends BaseHelper
+public class DocxTableHelper extends BaseHelper
 {
 	/**
 	 * 
 	 */
 	private CutsInfo xCuts = null;
-	private CellHelper cellHelper = null;
-	private ParagraphHelper paragraphHelper = null;
-	private RunHelper runHelper = null;
+	private DocxCellHelper cellHelper = null;
+	private DocxParagraphHelper paragraphHelper = null;
+	private DocxRunHelper runHelper = null;
 
 
 	/**
 	 * 
 	 */
-	protected TableHelper(
+	protected DocxTableHelper(
 		Writer writer,
 		CutsInfo xCuts,
-		RunHelper runHelper,
+		DocxRunHelper runHelper,
 		boolean pageBreak
 		) 
 	{
 		super(writer);
 
 		this.xCuts = xCuts;
-		this.cellHelper = new CellHelper(writer);
-		this.paragraphHelper = new ParagraphHelper(writer, pageBreak);
+		this.cellHelper = new DocxCellHelper(writer);
+		this.paragraphHelper = new DocxParagraphHelper(writer, pageBreak);
 		this.runHelper = runHelper;
 	}
 
@@ -66,7 +66,7 @@ public class TableHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public CellHelper getCellHelper() 
+	public DocxCellHelper getCellHelper() 
 	{
 		return cellHelper;
 	}
@@ -75,7 +75,7 @@ public class TableHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public ParagraphHelper getParagraphHelper() 
+	public DocxParagraphHelper getParagraphHelper() 
 	{
 		return paragraphHelper;
 	}
