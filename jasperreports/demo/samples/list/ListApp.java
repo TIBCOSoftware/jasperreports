@@ -99,17 +99,17 @@ public class ListApp
 			if (TASK_FILL.equals(taskName))
 			{
 				JasperFillManager.fillReportToFile(fileName, null, getConnection());
-				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " filling time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_PRINT.equals(taskName))
 			{
 				JasperPrintManager.printReport(fileName, true);
-				System.err.println("Printing time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " printing time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
 				JasperExportManager.exportReportToPdfFile(fileName);
-				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " PDF creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_RTF.equals(taskName))
 			{
@@ -126,22 +126,22 @@ public class ListApp
 				
 				exporter.exportReport();
 
-				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " RTF creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_XML.equals(taskName))
 			{
 				JasperExportManager.exportReportToXmlFile(fileName, false);
-				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " XML creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_XML_EMBED.equals(taskName))
 			{
 				JasperExportManager.exportReportToXmlFile(fileName, true);
-				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " XML creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
 				JasperExportManager.exportReportToHtmlFile(fileName);
-				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " HTML creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_XLS.equals(taskName))
 			{
@@ -159,7 +159,7 @@ public class ListApp
 				
 				exporter.exportReport();
 
-				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " XLS creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_JXL.equals(taskName))
 			{
@@ -178,7 +178,7 @@ public class ListApp
 
 				exporter.exportReport();
 
-				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " XLS creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_CSV.equals(taskName))
 			{
@@ -195,7 +195,7 @@ public class ListApp
 				
 				exporter.exportReport();
 
-				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " CSV creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_ODT.equals(taskName))
 			{
@@ -212,7 +212,7 @@ public class ListApp
 				
 				exporter.exportReport();
 
-				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " ODT creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_ODS.equals(taskName))
 			{
@@ -230,7 +230,7 @@ public class ListApp
 				
 				exporter.exportReport();
 
-				System.err.println("ODS creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " ODS creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_DOCX.equals(taskName))
 			{
@@ -247,7 +247,7 @@ public class ListApp
 				
 				exporter.exportReport();
 
-				System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " DOCX creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_XLSX.equals(taskName))
 			{
@@ -265,7 +265,7 @@ public class ListApp
 				
 				exporter.exportReport();
 
-				System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " XLSX creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_XHTML.equals(taskName))
 			{
@@ -282,12 +282,12 @@ public class ListApp
 				
 				exporter.exportReport();
 
-				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " XHTML creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_RUN.equals(taskName))
 			{
 				JasperRunManager.runReportToPdfFile(fileName, null, getConnection());
-				System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
+				System.err.println(file(fileName) + " PDF running time : " + (System.currentTimeMillis() - start));
 			}
 			else
 			{
@@ -304,6 +304,16 @@ public class ListApp
 		}
 	}
 
+	private static String file(String filename)
+	{
+		String name = new File(filename).getName();
+		int extIdx = name.indexOf(".");
+		if (extIdx > 0)
+		{
+			name = name.substring(0, extIdx);
+		}
+		return name;
+	}
 
 	/**
 	 *
