@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.list;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
@@ -46,9 +47,20 @@ public class UnusedSpaceImageRenderer extends JRAbstractSvgRenderer
 	private static final Color FILL = new Color(224, 224, 224, 128);
 	
 	public static final UnusedSpaceImageRenderer INSTANCE = new UnusedSpaceImageRenderer();
-	
+
+	private final Shape clip;
 	private final int lineGap = 15;
 	private final int lineWidth = 10;
+	
+	public UnusedSpaceImageRenderer()
+	{
+		this(null);
+	}
+	
+	public UnusedSpaceImageRenderer(Shape clip)
+	{
+		this.clip = clip;
+	}
 	
 	public void render(Graphics2D grx, Rectangle2D rectangle)
 			throws JRException
@@ -56,6 +68,11 @@ public class UnusedSpaceImageRenderer extends JRAbstractSvgRenderer
 		Graphics2D graphics = (Graphics2D) grx.create();
 		graphics.translate(rectangle.getX(), rectangle.getY());
 		graphics.setColor(FILL);
+		
+		if (clip != null)
+		{
+			graphics.clip(clip);
+		}
 		
 		int width = (int) rectangle.getWidth();
 		int limit = width + (int) rectangle.getHeight();

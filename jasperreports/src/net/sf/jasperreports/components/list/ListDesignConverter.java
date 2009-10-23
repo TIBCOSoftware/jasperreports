@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.list;
 
+import java.awt.Rectangle;
+import java.awt.geom.Area;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,7 +47,6 @@ import net.sf.jasperreports.engine.convert.ReportConverter;
 public class ListDesignConverter implements ComponentDesignConverter
 {
 
-	//FIXME consider width
 	public JRPrintElement convert(ReportConverter reportConverter,
 			JRComponentElement element)
 	{
@@ -85,17 +86,29 @@ public class ListDesignConverter implements ComponentDesignConverter
 			
 			frame.addElement(contentsFrame);
 
-			if (contents.getHeight() < element.getHeight())
+			Integer width = contents.getWidth();
+			int contentsWidth = width == null ? element.getWidth() 
+					: width.intValue();
+			
+			if (contents.getHeight() < element.getHeight() 
+					|| contentsWidth < element.getWidth())
 			{
 				// add a grey rectangle to highlight the contents height
 				JRBasePrintImage image = new JRBasePrintImage(
 						reportConverter.getDefaultStyleProvider());
 				image.setX(0);
 				image.setWidth(element.getWidth());
-				image.setY(contents.getHeight());
-				image.setHeight(element.getHeight() - contents.getHeight());
+				image.setY(0);
+				image.setHeight(element.getHeight());
 				image.setMode(JRElement.MODE_TRANSPARENT);
-				image.setRenderer(UnusedSpaceImageRenderer.INSTANCE);
+				
+				// clip out the list contents area
+				Area clip = new Area(new Rectangle(
+						0, 0, element.getWidth(), element.getHeight()));
+				clip.subtract(new Area(new Rectangle(
+						0, 0, contentsWidth, contents.getHeight())));
+				
+				image.setRenderer(new UnusedSpaceImageRenderer(clip));
 				frame.addElement(image);
 			}
 		}
