@@ -244,4 +244,9 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		return filler.getTimeZone();
 	}
 
+	public JRBaseFiller getFiller()
+	{
+		return filler;
+	}
+
 }

@@ -48,7 +48,8 @@ public class HorizontalFillList extends BaseFillList
 	private final int contentsWidth;
 	private final boolean ignoreWidth;
 	private final List contentsList;
-	
+
+	private int overflowStartPage;
 	private int overflowColumnIndex;
 	
 	public HorizontalFillList(ListComponent component, JRFillObjectFactory factory) throws JRException
@@ -106,6 +107,9 @@ public class HorizontalFillList extends BaseFillList
 				
 				datasetRun.start();
 				fillStarted = true;
+				
+				// reset the overflow page
+				overflowStartPage = 0;
 			}
 			
 			boolean overflow = false;
@@ -136,8 +140,6 @@ public class HorizontalFillList extends BaseFillList
 					FillListContents listContents = getContents(columnIndex);
 					if (columnIndex < overflowColumnIndex)
 					{
-						//FIXME check max overflow count and throw exception
-						
 						// refilling an overflowed cell
 						if (log.isDebugEnabled())
 						{
@@ -149,6 +151,9 @@ public class HorizontalFillList extends BaseFillList
 					}
 					else
 					{
+						// reset the overflow counter as we render a new cell
+						overflowStartPage = 0;
+
 						// a new cell, evaluate
 						if (log.isDebugEnabled())
 						{
@@ -186,6 +191,18 @@ public class HorizontalFillList extends BaseFillList
 				if (log.isDebugEnabled())
 				{
 					log.debug("List has overflowed at column " + (columnIndex - 1));
+				}
+				
+				int pageCount = fillContext.getFiller().getCurrentPageCount();
+				if (overflowStartPage == 0)
+				{
+					// first overflow
+					overflowStartPage = pageCount;
+				}
+				else if (pageCount >= overflowStartPage + 2)
+				{
+					throw new JRRuntimeException("List row overflowed on 3 consecutive pages, "
+							+ "likely infinite loop");
 				}
 				
 				// set the filling flag so that we know that we are continuing
@@ -292,7 +309,8 @@ public class HorizontalFillList extends BaseFillList
 	public void rewind()
 	{
 		super.rewind();
-		
+
+		overflowStartPage = 0;
 		overflowColumnIndex = 0;
 	}
 }
