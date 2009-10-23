@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.fill.JRBaseFiller;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 
 /**
@@ -138,6 +139,13 @@ public interface FillContext extends JRFillExpressionEvaluator
 	 * @see JRParameter#REPORT_TIME_ZONE
 	 */
 	TimeZone getReportTimezone();
+
+	/**
+	 * Returns the filler object.
+	 * 
+	 * @return the filler object
+	 */
+	JRBaseFiller getFiller();
 	
 	//TODO access to params/fields/vars?
 }

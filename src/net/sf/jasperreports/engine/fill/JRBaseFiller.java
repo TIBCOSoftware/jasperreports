@@ -727,6 +727,16 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
+	 * Returns the number of generated master print pages.
+	 * 
+	 * @return the number of generated master print pages
+	 */
+	public int getCurrentPageCount()
+	{
+		return getMasterFiller().jasperPrint.getPages().size();
+	}
+	
+	/**
 	 *
 	 */
 	public JRReportFont getDefaultFont()
@@ -1863,6 +1873,20 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return colCount;
 	}
 
+	/**
+	 * Returns the top-level (master) filler object.
+	 * 
+	 * @return the master filler object
+	 */
+	public JRBaseFiller getMasterFiller()
+	{
+		JRBaseFiller filler = this;
+		while (filler.parentFiller != null)
+		{
+			filler = filler.parentFiller;
+		}
+		return filler;
+	}
 
 	public JRFillDataset getMainDataset()
 	{
