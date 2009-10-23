@@ -77,7 +77,7 @@ public class FileBufferedWriter extends Writer
 
 		try
 		{
-			flush();
+			close();
 			
 			reader = new InputStreamReader(fbos.getDataInputStream(), "UTF-8");
 
