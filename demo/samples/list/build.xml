@@ -146,7 +146,7 @@
 		<classTask task="docx" filename="${file.name.2}"/>
 	</target>
 
-	<target name="xlsx" description="Generates an XLSX version of the reports by converting the .jrprint files using the POI library.">
+	<target name="xlsx" description="Generates an XLSX version of the reports by converting the .jrprint files.">
 		<classTask task="xlsx" filename="${file.name.1}"/>
 		<classTask task="xlsx" filename="${file.name.2}"/>
 	</target>
