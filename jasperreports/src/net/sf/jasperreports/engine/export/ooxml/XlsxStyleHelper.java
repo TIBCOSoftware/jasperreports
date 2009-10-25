@@ -49,6 +49,7 @@ public class XlsxStyleHelper extends BaseHelper
 	
 	private Map styleCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
+	private XlsxFontHelper fontHelper = null;
 	private XlsxBorderHelper borderHelper = null;
 	
 	/**
@@ -58,6 +59,7 @@ public class XlsxStyleHelper extends BaseHelper
 	{
 		super(writer);
 		
+		fontHelper = new XlsxFontHelper(fontsWriter);
 		borderHelper = new XlsxBorderHelper(bordersWriter);
 	}
 
@@ -66,7 +68,12 @@ public class XlsxStyleHelper extends BaseHelper
 	 */
 	public int getCellStyle(JRExporterGridCell gridCell)
 	{
-		XlsxStyleInfo styleInfo = new XlsxStyleInfo(gridCell);
+		XlsxStyleInfo styleInfo = 
+			new XlsxStyleInfo(
+				fontHelper.getFont(gridCell) + 1,
+				borderHelper.getBorder(gridCell) + 1,
+				gridCell
+				);
 		Integer styleIndex = (Integer)styleCache.get(styleInfo.getId());
 		if (styleIndex == null)
 		{
@@ -84,23 +91,13 @@ public class XlsxStyleHelper extends BaseHelper
 	{
 		try
 		{
-			fontsWriter.write(
-				"<font><sz val=\"" + styleInfo.fontSize + "\"/>" 
-				+ "<color rgb=\"" + styleInfo.forecolor + "\"/>"
-				+ "<name val=\"" + styleInfo.fontName + "\"/>"
-				+ "<b val=\"" + styleInfo.isBold + "\"/>"
-				+ "<i val=\"" + styleInfo.isItalic + "\"/>"
-				+ "<u val=\"" + (styleInfo.isUnderline ? "single" : "none") + "\"/>"
-				+ "<strike val=\"" + styleInfo.isStrikeThrough + "\"/>"
-				+ "<family val=\"2\"/></font>\n");
-			
 			fillsWriter.write("<fill><patternFill patternType=\"solid\"><fgColor rgb=\"" + styleInfo.backcolor + "\"/></patternFill></fill>\n");
 			
 			cellXfsWriter.write(
 				"<xf numFmtId=\"" + styleIndex
-				+ "\" fontId=\"" + (styleIndex.intValue() + 1)
-				+ "\" fillId=\"" + (styleIndex.intValue() + 2)
-				+ "\" borderId=\"" + (borderHelper.getBorder(gridCell) + 1)
+				+ "\" fontId=\"" + styleInfo.fontIndex
+				+ "\" fillId=\"" + (styleIndex.intValue() + 1)
+				+ "\" borderId=\"" + styleInfo.borderIndex
 				+ "\" xfId=\"" + styleIndex + "\">"
 				+ "<alignment wrapText=\"1\""
 				+ (styleInfo.horizontalAlign == null ? "" : " horizontal=\"" + styleInfo.horizontalAlign + "\"")
@@ -128,7 +125,6 @@ public class XlsxStyleHelper extends BaseHelper
 
 		write("<fills>\n");// count=\"2\">\n");
 		write("<fill><patternFill patternType=\"none\"/></fill>\n");
-		write("<fill><patternFill patternType=\"gray125\"/></fill>\n");
 		fillsWriter.writeData(writer);
 		write("</fills>\n");
 		write("<borders>\n");// count=\"1\">\n");

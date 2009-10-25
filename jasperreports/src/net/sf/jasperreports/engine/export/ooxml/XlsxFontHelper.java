@@ -23,53 +23,68 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRPrintElement;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: BorderHelper.java 3135 2009-10-22 14:20:23Z teodord $
  */
-public class XlsxStyleInfo
+public class XlsxFontHelper extends BaseHelper
 {
-	/**
-	 *
-	 */
-	protected int fontIndex = 0; 
-	protected int borderIndex = 0; 
-	protected String backcolor = null; 
-	protected String horizontalAlign = null;
-	protected String verticalAlign = null;
+	private Map fontCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
+	
 
 	/**
 	 *
 	 */
-	public XlsxStyleInfo(int fontIndex, int borderIndex, JRExporterGridCell gridCell)
+	public XlsxFontHelper(Writer writer)
 	{
-		this.fontIndex = fontIndex;
-		this.borderIndex = borderIndex;
-		
-		JRPrintElement element = gridCell.getElement();
-		
-		if (element != null)
-		{
-			this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
-		}
-
-		JRAlignment align = element instanceof JRAlignment ? (JRAlignment)element : null;
-		if (align != null)
-		{
-			this.horizontalAlign = XlsxParagraphHelper.getHorizontalAlignment(new Byte(align.getHorizontalAlignment()));//FIXMEXLSX use common util
-			this.verticalAlign = DocxCellHelper.getVerticalAlignment(new Byte(align.getVerticalAlignment()));//FIXMEXLSX use common util
-		}
+		super(writer);
 	}
 	
-	public String getId()
+	/**
+	 *
+	 */
+	public int getFont(JRExporterGridCell gridCell)
 	{
-		return 
-			fontIndex + "|" + borderIndex + "|" + backcolor + "|" + horizontalAlign + "|" + verticalAlign;
+		JRFont font = gridCell.getElement() instanceof JRFont ? (JRFont)gridCell.getElement() : null;
+		if (font == null)
+		{
+			return 0;			
+		}
+
+		XlsxFontInfo fontInfo = new XlsxFontInfo(gridCell);
+		Integer fontIndex = (Integer)fontCache.get(fontInfo.getId());
+		if (fontIndex == null)
+		{
+			fontIndex = new Integer(fontCache.size());
+			export(fontInfo);
+			fontCache.put(fontInfo.getId(), fontIndex);
+		}
+		return fontIndex.intValue();
 	}
+
+	/**
+	 *
+	 */
+	private void export(XlsxFontInfo fontInfo)
+	{
+		write(
+			"<font><sz val=\"" + fontInfo.fontSize + "\"/>" 
+			+ "<color rgb=\"" + fontInfo.color + "\"/>"
+			+ "<name val=\"" + fontInfo.fontName + "\"/>"
+			+ "<b val=\"" + fontInfo.isBold + "\"/>"
+			+ "<i val=\"" + fontInfo.isItalic + "\"/>"
+			+ "<u val=\"" + (fontInfo.isUnderline ? "single" : "none") + "\"/>"
+			+ "<strike val=\"" + fontInfo.isStrikeThrough + "\"/>"
+			+ "<family val=\"2\"/></font>\n"
+			);
+	}
+
 }
