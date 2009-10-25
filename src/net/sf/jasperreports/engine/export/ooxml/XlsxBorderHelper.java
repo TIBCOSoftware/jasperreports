@@ -55,6 +55,11 @@ public class XlsxBorderHelper extends BaseHelper
 	 */
 	public int getBorder(JRExporterGridCell gridCell)
 	{
+		if (gridCell.getBox() == null)
+		{
+			return 0;			
+		}
+
 		XlsxBorderInfo borderInfo = new XlsxBorderInfo(gridCell.getBox());
 		Integer borderIndex = (Integer)borderCache.get(borderInfo.getId());
 		if (borderIndex == null)

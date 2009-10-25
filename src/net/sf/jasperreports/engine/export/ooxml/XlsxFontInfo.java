@@ -24,6 +24,9 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
@@ -37,18 +40,42 @@ public class XlsxFontInfo
 	 */
 	protected String fontName = null;
 	protected int fontSize = 0;
+	protected boolean isBold = false;
+	protected boolean isItalic = false;
+	protected boolean isUnderline = false;
+	protected boolean isStrikeThrough = false;
+	protected String color = null;
 
 	/**
 	 *
 	 */
-	public XlsxFontInfo(JRFont font)
+	public XlsxFontInfo(JRExporterGridCell gridCell)
 	{
-		this.fontName = font.getFontName();
-		this.fontSize = font.getFontSize();
+		JRPrintElement element = gridCell.getElement();
+
+		if (element != null)
+		{
+			this.color = JRColorUtil.getColorHexa(element.getForecolor());
+		}
+		
+		JRFont font = element instanceof JRFont ? (JRFont)element : null;
+		if (font != null)
+		{
+			this.fontName = font.getFontName();
+			this.fontSize = font.getFontSize();
+			this.isBold = font.isBold();
+			this.isItalic = font.isItalic();
+			this.isUnderline = font.isUnderline();
+			this.isStrikeThrough = font.isStrikeThrough();
+		}
 	}
 	
 	public String getId()
 	{
-		return fontName + "|" + fontSize;
+		return 
+			fontName + "|" + fontSize
+			+ "|" + isBold + "|"+ isItalic 
+			+ "|" + isUnderline + "|"+ isStrikeThrough
+			+ "|" + color; 
 	}
 }
