@@ -1612,6 +1612,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				}
 				case JRPen.LINE_STYLE_DASHED :
 				{
+					if (lineWidth >= 1f)
+					{
+						return BorderLineStyle.MEDIUM_DASHED;
+					}
+
 					return BorderLineStyle.DASHED;
 				}
 				case JRPen.LINE_STYLE_SOLID :
@@ -1623,7 +1628,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					}
 					else if (lineWidth >= 1f)
 					{
-						return BorderLineStyle.MEDIUM;//FIXMEBORDER there is also BorderLineStyle.MEDIUM_DASHED available
+						return BorderLineStyle.MEDIUM;
 					}
 					else if (lineWidth >= 0.5f)
 					{
