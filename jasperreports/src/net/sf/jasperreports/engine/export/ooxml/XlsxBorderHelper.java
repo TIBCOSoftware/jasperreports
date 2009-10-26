@@ -121,7 +121,7 @@ public class XlsxBorderHelper extends BaseHelper
 	private void exportBorder(XlsxBorderInfo info, int side)
 	{
 		write("<" + DocxBorderInfo.BORDER[side]);
-  		if (info.borderWidth[side] != null)
+  		if (info.borderStyle[side] != null)
 		{
   			write(" style=\"" + info.borderStyle[side] + "\"");
 		}

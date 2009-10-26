@@ -954,6 +954,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				}
 				case JRPen.LINE_STYLE_DASHED :
 				{
+					if (lineWidth >= 1f)
+					{
+						return HSSFCellStyle.BORDER_MEDIUM_DASHED;
+					}
+
 					return HSSFCellStyle.BORDER_DASHED;
 				}
 				case JRPen.LINE_STYLE_SOLID :
@@ -965,7 +970,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					}
 					else if (lineWidth >= 1f)
 					{
-						return HSSFCellStyle.BORDER_MEDIUM;//FIXMEBORDER there is also HSSFCellStyle.BORDER_MEDIUM_DASHED available
+						return HSSFCellStyle.BORDER_MEDIUM;
 					}
 					else if (lineWidth >= 0.5f)
 					{

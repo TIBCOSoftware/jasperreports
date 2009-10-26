@@ -44,7 +44,6 @@ public class XlsxBorderInfo
 	protected static final int RIGHT_BORDER = 3;
 	
 	protected String[] borderColor = new String[4];
-	protected String[] borderWidth = new String[4];
 	protected String[] borderStyle = new String[4];
 	protected String[] borderPadding = new String[4];
 
@@ -68,18 +67,10 @@ public class XlsxBorderInfo
 	 */
 	public XlsxBorderInfo(JRPen pen)
 	{
-		if (
-			borderWidth[TOP_BORDER] == null
-			&& borderWidth[LEFT_BORDER] == null
-			&& borderWidth[BOTTOM_BORDER] == null
-			&& borderWidth[RIGHT_BORDER] == null
-			)
-		{
-			setBorder(pen, TOP_BORDER);
-			setBorder(pen, LEFT_BORDER);
-			setBorder(pen, BOTTOM_BORDER);
-			setBorder(pen, RIGHT_BORDER);
-		}
+		setBorder(pen, TOP_BORDER);
+		setBorder(pen, LEFT_BORDER);
+		setBorder(pen, BOTTOM_BORDER);
+		setBorder(pen, RIGHT_BORDER);
 	}
 
 	/**
@@ -88,22 +79,10 @@ public class XlsxBorderInfo
 	public String getId() 
 	{
 		return	
-			borderWidth[TOP_BORDER] + "|" + borderStyle[TOP_BORDER] + "|" + borderColor[TOP_BORDER] 
-			+ borderWidth[LEFT_BORDER] + "|" + borderStyle[LEFT_BORDER] + "|" + borderColor[LEFT_BORDER]
-			+ borderWidth[BOTTOM_BORDER] + "|" + borderStyle[BOTTOM_BORDER] + "|" + borderColor[BOTTOM_BORDER]
-			+ borderWidth[RIGHT_BORDER] + "|" + borderStyle[RIGHT_BORDER] + "|" + borderColor[RIGHT_BORDER];
-	}
-
-	/**
-	 *
-	 *
-	protected boolean hasBorder() 
-	{
-		return	
-			borderWidth[TOP_BORDER] != null
-			|| borderWidth[LEFT_BORDER] != null
-			|| borderWidth[BOTTOM_BORDER] != null
-			|| borderWidth[RIGHT_BORDER] != null;
+			borderStyle[TOP_BORDER] + "|" + borderColor[TOP_BORDER] 
+			+ "|" + borderStyle[LEFT_BORDER] + "|" + borderColor[LEFT_BORDER]
+			+ "|" + borderStyle[BOTTOM_BORDER] + "|" + borderColor[BOTTOM_BORDER]
+			+ "|" + borderStyle[RIGHT_BORDER] + "|" + borderColor[RIGHT_BORDER];
 	}
 
 	/**
@@ -116,8 +95,13 @@ public class XlsxBorderInfo
 
 		if (width > 0f)
 		{
-			switch (pen.getLineStyle().byteValue())//FIXMEBORDER is this working? deal with double border too.
+			switch (pen.getLineStyle().byteValue())
 			{
+				case JRPen.LINE_STYLE_DOUBLE :
+				{
+					style = "double";
+					break;
+				}
 				case JRPen.LINE_STYLE_DOTTED :
 				{
 					style = "dotted";
@@ -125,22 +109,38 @@ public class XlsxBorderInfo
 				}
 				case JRPen.LINE_STYLE_DASHED :
 				{
-					style = "mediumDashed";
+					if (width >= 1f)
+					{
+						style = "mediumDashed";
+					}
+					else
+					{
+						style = "dashed";
+					}
 					break;
 				}
 				case JRPen.LINE_STYLE_SOLID :
 				default :
 				{
-					style = "thin";
+					if (width >= 2f)
+					{
+						style = "thick";
+					}
+					else if (width >= 1f)
+					{
+						style = "medium";
+					}
+					else if (width >= 0.5f)
+					{
+						style = "thin";
+					}
+					else
+					{
+						style = "hair";
+					}
 					break;
 				}
 			}
-
-			borderWidth[side] = String.valueOf(Utility.halfPoint(width));
-		}
-		else
-		{
-			style = "none";
 		}
 
 		borderStyle[side] = style;
