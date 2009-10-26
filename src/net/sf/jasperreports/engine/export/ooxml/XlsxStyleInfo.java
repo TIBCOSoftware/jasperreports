@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -54,11 +55,11 @@ public class XlsxStyleInfo
 		
 		JRPrintElement element = gridCell.getElement();
 		
-//		if (element != null)
-//		{
-//			this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
-//		}
-		if (gridCell.getBackcolor() != null)
+		if (element != null && element.getMode() == JRElement.MODE_OPAQUE)
+		{
+			this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
+		}
+		else if (gridCell.getBackcolor() != null)
 		{
 			this.backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
 		}

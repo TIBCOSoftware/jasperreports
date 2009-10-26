@@ -727,13 +727,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		Writer sheetWriter = sheetEntry.getWriter();
 		sheetHelper = new XlsxSheetHelper(sheetWriter);
 		
-		styleHelper = new XlsxStyleHelper(xlsxZip.getStylesEntry().getWriter(), fontMap, getExporterKey());
-
 		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 		
 		runHelper = new XlsxRunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
-
+		
 		sheetHelper.exportHeader();
+		
 	}
 
 
@@ -1224,9 +1223,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			ctHelper = new XlsxContentTypesHelper(xlsxZip.getContentTypesEntry().getWriter());
 			ctHelper.exportHeader();
 			
-//			Writer stylesWriter = xlsxZip.getStylesEntry().getWriter();
-//			new XlsxStyleHelper(stylesWriter, fontMap, getExporterKey()).export(jasperPrintList);
-//			stylesWriter.close();
+			styleHelper = new XlsxStyleHelper(xlsxZip.getStylesEntry().getWriter(), fontMap, getExporterKey());
 		}
 		catch (IOException e)
 		{
