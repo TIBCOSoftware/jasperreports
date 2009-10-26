@@ -15,8 +15,8 @@
 		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../dist">
 				<include name="**/jasperreports-*.jar"/>
-				<exclude name="**/jasperreports-*-javaflow.jar"/>
-				<exclude name="**/jasperreports-*-applet.jar"/>
+				<exclude name="**/jasperreports-javaflow-*.jar"/>
+				<exclude name="**/jasperreports-applet-*.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="./WEB-INF/lib">
@@ -32,7 +32,7 @@
 			</fileset>
 		</copy>
 		<copy todir="./applets">
-			<fileset dir="../../../dist" includes="**/jasperreports-*-applet.jar"/>
+			<fileset dir="../../../dist" includes="**/jasperreports-applet-*.jar"/>
 			<fileset dir="../../../lib" includes="**/commons-logging-*.jar"/>
 			<fileset dir="../../../lib" includes="**/commons-collections-*.jar"/>
 		</copy>
