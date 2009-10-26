@@ -15,17 +15,23 @@ the former FONT_MAP exporter parameter;
 to control font availability verifications during report filling and report
 AWT rendering;
 
-- font JAR build;
+- new JAR containing default font extension was added to the JasperReports 
+project build process as well as the distribution files;
 
-- new XLS data source; 
+- new XLS data source implementation added, to support filling reports
+using data coming from Excel 95, 97, 2000, XP, and 2003 workbooks;
 
-- XLSX exporter; 
+- new XLSX exporter added to the core library to help creating Excel 2007 
+documents based on the Office Open XML format;
 
-- ODS exporter; 
+- new OpenDocument Spreadsheet exporter added (ODS);
 
-- isSummaryWithPageHeaderAndFooter;
+- new "isSummaryWithPageHeaderAndFooter" attribute added to the report template
+definition, to allow rendering the summary page together with the page footer 
+and page header bands;
 
-- Horizontal list;
+- new "printOrder" attribute added to list component, to support horizontal
+filling of lists, in addition to vertical filling;
 
 - minor bug fixes and improvements;
 
