@@ -2,21 +2,30 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.6.1 (2009-09-xx, SVN xxxx)
+JasperReports 3.6.1 (2009-10-26, SVN xxxx)
 ---------------------------------------------
 
 - enhanced font extension support to allow mapping JVM available fonts
-and PDF built-in fonts;
+with PDF built-in fonts;
+
+- exporter font mapping support added to font extensions, which deprecates
+the former FONT_MAP exporter parameter;
 
 - net.sf.jasperreports.awt.ignore.missing.font configuration property added
 to control font availability verifications during report filling and report
 AWT rendering;
+
+- font JAR build;
 
 - new XLS data source; 
 
 - XLSX exporter; 
 
 - ODS exporter; 
+
+- isSummaryWithPageHeaderAndFooter;
+
+- Horizontal list;
 
 - minor bug fixes and improvements;
 
