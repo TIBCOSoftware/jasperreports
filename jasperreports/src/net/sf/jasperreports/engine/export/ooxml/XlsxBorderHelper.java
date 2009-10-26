@@ -30,7 +30,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
@@ -129,7 +128,7 @@ public class XlsxBorderHelper extends BaseHelper
 		write(">");
 		if (info.borderColor[side] != null)//FIXMEDOCX check this; use default color?
 		{
-			write("<color rgb=\"" + JRColorUtil.getColorHexa(info.borderColor[side]) + "\"/>");
+			write("<color rgb=\"" + info.borderColor[side] + "\"/>");
 		}
 		write("</" + DocxBorderInfo.BORDER[side] + ">");
 	}
@@ -137,7 +136,7 @@ public class XlsxBorderHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportPadding(XlsxBorderInfo info, int side)
+	private void exportPadding(XlsxBorderInfo info, int side)//FIXMEXLSX padding
 	{
 		if (info.borderPadding[side] != null)
 		{

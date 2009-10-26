@@ -23,10 +23,9 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.awt.Color;
-
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
@@ -44,7 +43,7 @@ public class XlsxBorderInfo
 	protected static final int BOTTOM_BORDER = 2;
 	protected static final int RIGHT_BORDER = 3;
 	
-	protected Color[] borderColor = new Color[4];
+	protected String[] borderColor = new String[4];
 	protected String[] borderWidth = new String[4];
 	protected String[] borderStyle = new String[4];
 	protected String[] borderPadding = new String[4];
@@ -89,15 +88,15 @@ public class XlsxBorderInfo
 	public String getId() 
 	{
 		return	
-			borderStyle[TOP_BORDER]
-			+ "|" + borderStyle[LEFT_BORDER]
-			+ "|" + borderStyle[BOTTOM_BORDER]
-			+ "|" + borderStyle[RIGHT_BORDER];
+			borderWidth[TOP_BORDER] + "|" + borderStyle[TOP_BORDER] + "|" + borderColor[TOP_BORDER] 
+			+ borderWidth[LEFT_BORDER] + "|" + borderStyle[LEFT_BORDER] + "|" + borderColor[LEFT_BORDER]
+			+ borderWidth[BOTTOM_BORDER] + "|" + borderStyle[BOTTOM_BORDER] + "|" + borderColor[BOTTOM_BORDER]
+			+ borderWidth[RIGHT_BORDER] + "|" + borderStyle[RIGHT_BORDER] + "|" + borderColor[RIGHT_BORDER];
 	}
 
 	/**
 	 *
-	 */
+	 *
 	protected boolean hasBorder() 
 	{
 		return	
@@ -145,7 +144,7 @@ public class XlsxBorderInfo
 		}
 
 		borderStyle[side] = style;
-		borderColor[side] = pen.getLineColor();
+		borderColor[side] = JRColorUtil.getColorHexa(pen.getLineColor());
 	}
 
 }

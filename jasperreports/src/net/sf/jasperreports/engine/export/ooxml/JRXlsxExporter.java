@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.geom.Dimension2D;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
@@ -43,20 +42,16 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
-import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -200,266 +195,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	/**
 	 *
-	 *
-	protected void exportPage(JRPrintPage page) throws JRException, IOException
-	{
-		startPage = true;
-		JRGridLayout layout =
-			new JRGridLayout(
-				nature,
-				page.getElements(),
-				jasperPrint.getPageWidth(),
-				jasperPrint.getPageHeight(),
-				globalOffsetX,
-				globalOffsetY,
-				null //address
-				);
-
-		exportGrid(layout, null);
-		
-		if (progressMonitor != null)
-		{
-			progressMonitor.afterPageExport();
-		}
-	}
-	*/
-	
-//	protected int exportPage(
-//		JRPrintPage page, 
-//		CutsInfo xCuts, 
-//		int startRow
-//		) throws JRException 
-//	{
-//		tableHelper = 
-//			new TableHelper(
-//				sheetWriter, 
-//				xCuts,
-//				runHelper,
-//				reportIndex != 0 || pageIndex != startPageIndex
-//				);
-//
-//		tableHelper.exportHeader();
-//		
-//		int result = super.exportPage(page, xCuts, startRow);
-//		
-//		tableHelper.exportFooter(
-//			reportIndex != jasperPrintList.size() - 1 && pageIndex == endPageIndex, 
-//			jasperPrint.getPageWidth(), 
-//			jasperPrint.getPageHeight()
-//			);
-//		
-//		return result;
-//	}
-
-
-	/**
-	 *
-	 *
-	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws JRException, IOException
-	{
-		CutsInfo xCuts = gridLayout.getXCuts();
-		JRExporterGridCell[][] grid = gridLayout.getGrid();
-
-		if (grid.length > 0 && grid[0].length > 63)
-		{
-			throw new JRException("The DOCX format does not support more than 63 columns in a table.");
-		}
-		
-		TableHelper tableHelper = 
-			new TableHelper(
-				wbWriter, 
-				xCuts,
-				runHelper,
-				frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex)
-				);
-
-		tableHelper.exportHeader();
-
-		JRPrintElement element = null;
-		for(int row = 0; row < grid.length; row++)
-		{
-			int emptyCellColSpan = 0;
-			int emptyCellWidth = 0;
-
-			int maxBottomPadding = 0; //for some strange reason, the bottom margin affects the row height; subtracting it here
-			for(int col = 0; col < grid[0].length; col++)
-			{
-				JRExporterGridCell gridCell = grid[row][col];
-				JRLineBox box = gridCell.getBox();
-				if (
-					box != null 
-					&& box.getBottomPadding() != null 
-					&& maxBottomPadding < box.getBottomPadding().intValue()
-					)
-				{
-					maxBottomPadding = box.getBottomPadding().intValue();
-				}
-			}
-			int rowHeight = gridLayout.getRowHeight(row) - maxBottomPadding;
-			
-			tableHelper.exportRowHeader(rowHeight);
-
-			for(int col = 0; col < grid[0].length; col++)
-			{
-				JRExporterGridCell gridCell = grid[row][col];
-				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
-				{
-					if (emptyCellColSpan > 0)
-					{
-						//tableHelper.exportEmptyCell(gridCell, emptyCellColSpan);
-						emptyCellColSpan = 0;
-						emptyCellWidth = 0;
-					}
-
-					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
-					ElementGridCell elementGridCell = (ElementGridCell)grid[occupiedGridCell.getRow()][occupiedGridCell.getCol()];
-					tableHelper.exportOccupiedCells(elementGridCell);
-					col += elementGridCell.getColSpan() - 1;
-				}
-				else if(gridCell.getWrapper() != null)
-				{
-					if (emptyCellColSpan > 0)
-					{
-						//writeEmptyCell(tableHelper, gridCell, emptyCellColSpan, emptyCellWidth, rowHeight);
-						emptyCellColSpan = 0;
-						emptyCellWidth = 0;
-					}
-
-					element = gridCell.getWrapper().getElement();
-
-					if (element instanceof JRPrintLine)
-					{
-						exportLine(tableHelper, (JRPrintLine)element, gridCell);
-					}
-					else if (element instanceof JRPrintRectangle)
-					{
-						exportRectangle(tableHelper, (JRPrintRectangle)element, gridCell);
-					}
-					else if (element instanceof JRPrintEllipse)
-					{
-						exportEllipse(tableHelper, (JRPrintEllipse)element, gridCell);
-					}
-					else if (element instanceof JRPrintImage)
-					{
-						exportImage(tableHelper, (JRPrintImage)element, gridCell);
-					}
-					else if (element instanceof JRPrintText)
-					{
-						exportText(tableHelper, (JRPrintText)element, gridCell);
-					}
-					else if (element instanceof JRPrintFrame)
-					{
-						exportFrame(tableHelper, (JRPrintFrame)element, gridCell);
-					}
-
-					col += gridCell.getColSpan() - 1;
-				}
-				else
-				{
-					emptyCellColSpan++;
-					emptyCellWidth += gridCell.getWidth();
-					tableHelper.exportEmptyCell(gridCell, 1);
-				}
-			}
-
-			if (emptyCellColSpan > 0)
-			{
-				//writeEmptyCell(tableHelper, null, emptyCellColSpan, emptyCellWidth, rowHeight);
-			}
-
-			tableHelper.exportRowFooter();
-		}
-
-		tableHelper.exportFooter(
-			frameIndex == null && reportIndex != jasperPrintList.size() - 1 && pageIndex == endPageIndex , 
-			jasperPrint.getPageWidth(), 
-			jasperPrint.getPageHeight()
-			);
-	}
-
-
-	/**
-	 *
-	 */
-	protected void exportLine(DocxTableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
-	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = null;
-		float ratio = line.getWidth() / line.getHeight();
-		if (ratio > 1)
-		{
-			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
-			{
-				pen = box.getTopPen();
-			}
-			else
-			{
-				pen = box.getBottomPen();
-			}
-		}
-		else
-		{
-			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
-			{
-				pen = box.getLeftPen();
-			}
-			else
-			{
-				pen = box.getRightPen();
-			}
-		}
-		pen.setLineColor(line.getLinePen().getLineColor());
-		pen.setLineStyle(line.getLinePen().getLineStyle());
-		pen.setLineWidth(line.getLinePen().getLineWidth());
-
-		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
-		
-		tableHelper.getCellHelper().exportHeader(line, gridCell);
-		wbHelper.write("<w:p/>");
-		tableHelper.getCellHelper().exportFooter();
-	}
-
-
-	/**
-	 *
-	 */
-	protected void exportRectangle(DocxTableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
-	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = box.getPen();
-		pen.setLineColor(rectangle.getLinePen().getLineColor());
-		pen.setLineStyle(rectangle.getLinePen().getLineStyle());
-		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
-
-		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
-		
-		tableHelper.getCellHelper().exportHeader(rectangle, gridCell);
-		wbHelper.write("<w:p/>");
-		tableHelper.getCellHelper().exportFooter();
-	}
-
-
-	/**
-	 *
-	 */
-	protected void exportEllipse(DocxTableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
-	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = box.getPen();
-		pen.setLineColor(ellipse.getLinePen().getLineColor());
-		pen.setLineStyle(ellipse.getLinePen().getLineStyle());
-		pen.setLineWidth(ellipse.getLinePen().getLineWidth());
-
-		gridCell.setBox(box);//caution: this is the only exporter that sets the cell box
-		
-		tableHelper.getCellHelper().exportHeader(ellipse, gridCell);
-		wbHelper.write("<w:p/>");
-		tableHelper.getCellHelper().exportFooter();
-	}
-
-
-	/**
-	 *
 	 */
 	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale)
 	{
@@ -485,232 +220,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportImage(DocxTableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
-	{
-		int leftPadding = image.getLineBox().getLeftPadding().intValue();
-		int topPadding = image.getLineBox().getTopPadding().intValue();//FIXMEDOCX maybe consider border thickness
-		int rightPadding = image.getLineBox().getRightPadding().intValue();
-		int bottomPadding = image.getLineBox().getBottomPadding().intValue();
-
-		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
-		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
-
-		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
-		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
-
-		tableHelper.getCellHelper().exportHeader(image, gridCell);
-
-		wbHelper.write("<w:p>");
-
-		JRRenderable renderer = image.getRenderer();
-
-		if (
-			renderer != null &&
-			availableImageWidth > 0 &&
-			availableImageHeight > 0
-			)
-		{
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
-			{
-				// Non-lazy image renderers are all asked for their image data at some point.
-				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, image.getOnErrorType());
-			}
-		}
-		else
-		{
-			renderer = null;
-		}
-
-		if (renderer != null)
-		{
-			int width = availableImageWidth;
-			int height = availableImageHeight;
-
-			double normalWidth = availableImageWidth;
-			double normalHeight = availableImageHeight;
-
-			// Image load might fail.
-			JRRenderable tmpRenderer =
-				JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
-			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
-			// If renderer was replaced, ignore image dimension.
-			if (tmpRenderer == renderer && dimension != null)
-			{
-				normalWidth = dimension.getWidth();
-				normalHeight = dimension.getHeight();
-			}
-
-			double cropTop = 0;
-			double cropLeft = 0;
-			double cropBottom = 0;
-			double cropRight = 0;
-			
-			switch (image.getScaleImage())
-			{
-				case JRImage.SCALE_IMAGE_FILL_FRAME :
-				{
-					width = availableImageWidth;
-					height = availableImageHeight;
-					break;
-				}
-				case JRImage.SCALE_IMAGE_CLIP :
-				{
-					if (normalWidth > availableImageWidth)
-					{
-						switch (image.getHorizontalAlignment())
-						{
-							case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-							{
-								cropLeft = 65536 * (normalWidth - availableImageWidth) / normalWidth;
-								cropRight = 0;
-								break;
-							}
-							case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-							{
-								cropLeft = 65536 * (- availableImageWidth + normalWidth) / normalWidth / 2;
-								cropRight = cropLeft;
-								break;
-							}
-							case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-							default :
-							{
-								cropLeft = 0;
-								cropRight = 65536 * (normalWidth - availableImageWidth) / normalWidth;
-								break;
-							}
-						}
-						width = availableImageWidth;
-						cropLeft = cropLeft / 0.75d;
-						cropRight = cropRight / 0.75d;
-					}
-					else
-					{
-						width = (int)normalWidth;
-					}
-
-					if (normalHeight > availableImageHeight)
-					{
-						switch (image.getVerticalAlignment())
-						{
-							case JRAlignment.VERTICAL_ALIGN_TOP :
-							{
-								cropTop = 0;
-								cropBottom = 65536 * (normalHeight - availableImageHeight) / normalHeight;
-								break;
-							}
-							case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-							{
-								cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight / 2;
-								cropBottom = cropTop;
-								break;
-							}
-							case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-							default :
-							{
-								cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight;
-								cropBottom = 0;
-								break;
-							}
-						}
-						height = availableImageHeight;
-						cropTop = cropTop / 0.75d;
-						cropBottom = cropBottom / 0.75d;
-					}
-					else
-					{
-						height = (int)normalHeight;
-					}
-
-					break;
-				}
-				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
-				default :
-				{
-					if (availableImageHeight > 0)
-					{
-						double ratio = (double)normalWidth / (double)normalHeight;
-
-						if( ratio > availableImageWidth / (double)availableImageHeight )
-						{
-							width = availableImageWidth;
-							height = (int)(width/ratio);
-
-						}
-						else
-						{
-							height = availableImageHeight;
-							width = (int)(ratio * height);
-						}
-					}
-				}
-			}
-
-//			insertPageAnchor();
-//			if (image.getAnchorName() != null)
-//			{
-//				tempBodyWriter.write("<text:bookmark text:name=\"");
-//				tempBodyWriter.write(image.getAnchorName());
-//				tempBodyWriter.write("\"/>");
-//			}
-
-
-			boolean startedHyperlink = startHyperlink(image,false);
-
-			wbHelper.write("<w:r>\n"); 
-			wbHelper.write("<w:drawing>\n");
-			wbHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
-			wbHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>");
-			wbHelper.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + XlsxParagraphHelper.getHorizontalAlignment(new Byte(image.getHorizontalAlignment())) + "</wp:align></wp:positionH>");
-			wbHelper.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
-//			wbHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
-			
-			wbHelper.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
-			wbHelper.write("<wp:wrapNone/>");
-			wbHelper.write("<wp:docPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
-			wbHelper.write("<a:graphic>\n");
-			wbHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
-			wbHelper.write("<pic:pic>\n");
-			wbHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
-			wbHelper.write("<pic:blipFill>\n");
-			wbHelper.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
-			wbHelper.write("<a:srcRect");
-			if (cropLeft > 0)
-				wbHelper.write(" l=\"" + (int)cropLeft + "\"");
-			if (cropTop > 0)
-				wbHelper.write(" t=\"" + (int)cropTop + "\"");
-			if (cropRight > 0)
-				wbHelper.write(" r=\"" + (int)cropRight + "\"");
-			if (cropBottom > 0)
-				wbHelper.write(" b=\"" + (int)cropBottom + "\"");
-			wbHelper.write("/>");
-			wbHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
-			wbHelper.write("</pic:blipFill>\n");
-			wbHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>");
-			wbHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
-			wbHelper.write("</pic:pic>\n");
-			wbHelper.write("</a:graphicData>\n");
-			wbHelper.write("</a:graphic>\n");
-			wbHelper.write("</wp:anchor>\n");
-			wbHelper.write("</w:drawing>\n");
-			wbHelper.write("</w:r>"); 
-
-			if(startedHyperlink)
-			{
-				endHyperlink(false);
-			}
-		}
-
-		wbHelper.write("</w:p>");
-
-		tableHelper.getCellHelper().exportFooter();
-	}
-
-
-	/**
-	 *
-	 */
-	protected String getImagePath(JRRenderable renderer, boolean isLazy, JRExporterGridCell gridCell) throws IOException
+	protected String getImagePath(JRRenderable renderer, boolean isLazy, JRExporterGridCell gridCell)
 	{
 		String imagePath = null;
 
@@ -1176,7 +686,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 					
 					xlsxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 						new FileBufferedZipEntry(
-							"word/media/" + imageName + "." + extension,
+							"xl/media/" + imageName + "." + extension,
 							renderer.getImageData()
 							)
 						);
@@ -1255,25 +765,312 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void exportImage(JRPrintImage image, JRExporterGridCell cell,
-			int colIndex, int rowIndex, int emptyCols) throws JRException {
-		// TODO Auto-generated method stub
+	protected void exportImage(
+			JRPrintImage image, 
+			JRExporterGridCell gridCell,
+			int colIndex, 
+			int rowIndex, 
+			int emptyCols
+			) throws JRException 
+	{
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		cellHelper.exportFooter();
+	}
+	
+	/*
+	protected void exportImage(
+		JRPrintImage image, 
+		JRExporterGridCell gridCell,
+		int colIndex, 
+		int rowIndex, 
+		int emptyCols
+		) throws JRException 
+	{
+		int leftPadding = image.getLineBox().getLeftPadding().intValue();
+		int topPadding = image.getLineBox().getTopPadding().intValue();//FIXMEDOCX maybe consider border thickness
+		int rightPadding = image.getLineBox().getRightPadding().intValue();
+		int bottomPadding = image.getLineBox().getBottomPadding().intValue();
+
+		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
+		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
+
+		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
+		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
+
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+
+		wbHelper.write("<w:p>");
+
+		JRRenderable renderer = image.getRenderer();
+
+		if (
+			renderer != null &&
+			availableImageWidth > 0 &&
+			availableImageHeight > 0
+			)
+		{
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+			{
+				// Non-lazy image renderers are all asked for their image data at some point.
+				// Better to test and replace the renderer now, in case of lazy load error.
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, image.getOnErrorType());
+			}
+		}
+		else
+		{
+			renderer = null;
+		}
+
+		if (renderer != null)
+		{
+			int width = availableImageWidth;
+			int height = availableImageHeight;
+
+			double normalWidth = availableImageWidth;
+			double normalHeight = availableImageHeight;
+
+			// Image load might fail.
+			JRRenderable tmpRenderer =
+				JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
+			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+			// If renderer was replaced, ignore image dimension.
+			if (tmpRenderer == renderer && dimension != null)
+			{
+				normalWidth = dimension.getWidth();
+				normalHeight = dimension.getHeight();
+			}
+
+			double cropTop = 0;
+			double cropLeft = 0;
+			double cropBottom = 0;
+			double cropRight = 0;
+			
+			switch (image.getScaleImage())
+			{
+				case JRImage.SCALE_IMAGE_FILL_FRAME :
+				{
+					width = availableImageWidth;
+					height = availableImageHeight;
+					break;
+				}
+				case JRImage.SCALE_IMAGE_CLIP :
+				{
+					if (normalWidth > availableImageWidth)
+					{
+						switch (image.getHorizontalAlignment())
+						{
+							case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+							{
+								cropLeft = 65536 * (normalWidth - availableImageWidth) / normalWidth;
+								cropRight = 0;
+								break;
+							}
+							case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+							{
+								cropLeft = 65536 * (- availableImageWidth + normalWidth) / normalWidth / 2;
+								cropRight = cropLeft;
+								break;
+							}
+							case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+							default :
+							{
+								cropLeft = 0;
+								cropRight = 65536 * (normalWidth - availableImageWidth) / normalWidth;
+								break;
+							}
+						}
+						width = availableImageWidth;
+						cropLeft = cropLeft / 0.75d;
+						cropRight = cropRight / 0.75d;
+					}
+					else
+					{
+						width = (int)normalWidth;
+					}
+
+					if (normalHeight > availableImageHeight)
+					{
+						switch (image.getVerticalAlignment())
+						{
+							case JRAlignment.VERTICAL_ALIGN_TOP :
+							{
+								cropTop = 0;
+								cropBottom = 65536 * (normalHeight - availableImageHeight) / normalHeight;
+								break;
+							}
+							case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+							{
+								cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight / 2;
+								cropBottom = cropTop;
+								break;
+							}
+							case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+							default :
+							{
+								cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight;
+								cropBottom = 0;
+								break;
+							}
+						}
+						height = availableImageHeight;
+						cropTop = cropTop / 0.75d;
+						cropBottom = cropBottom / 0.75d;
+					}
+					else
+					{
+						height = (int)normalHeight;
+					}
+
+					break;
+				}
+				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+				default :
+				{
+					if (availableImageHeight > 0)
+					{
+						double ratio = (double)normalWidth / (double)normalHeight;
+
+						if( ratio > availableImageWidth / (double)availableImageHeight )
+						{
+							width = availableImageWidth;
+							height = (int)(width/ratio);
+
+						}
+						else
+						{
+							height = availableImageHeight;
+							width = (int)(ratio * height);
+						}
+					}
+				}
+			}
+
+//			insertPageAnchor();
+//			if (image.getAnchorName() != null)
+//			{
+//				tempBodyWriter.write("<text:bookmark text:name=\"");
+//				tempBodyWriter.write(image.getAnchorName());
+//				tempBodyWriter.write("\"/>");
+//			}
+
+
+			boolean startedHyperlink = startHyperlink(image,false);
+
+			wbHelper.write("<w:r>\n"); 
+			wbHelper.write("<w:drawing>\n");
+			wbHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
+			wbHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>");
+			wbHelper.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + XlsxParagraphHelper.getHorizontalAlignment(new Byte(image.getHorizontalAlignment())) + "</wp:align></wp:positionH>");
+			wbHelper.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
+//			wbHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
+			
+			wbHelper.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
+			wbHelper.write("<wp:wrapNone/>");
+			wbHelper.write("<wp:docPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
+			wbHelper.write("<a:graphic>\n");
+			wbHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
+			wbHelper.write("<pic:pic>\n");
+			wbHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
+			wbHelper.write("<pic:blipFill>\n");
+			wbHelper.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
+			wbHelper.write("<a:srcRect");
+			if (cropLeft > 0)
+				wbHelper.write(" l=\"" + (int)cropLeft + "\"");
+			if (cropTop > 0)
+				wbHelper.write(" t=\"" + (int)cropTop + "\"");
+			if (cropRight > 0)
+				wbHelper.write(" r=\"" + (int)cropRight + "\"");
+			if (cropBottom > 0)
+				wbHelper.write(" b=\"" + (int)cropBottom + "\"");
+			wbHelper.write("/>");
+			wbHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
+			wbHelper.write("</pic:blipFill>\n");
+			wbHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>");
+			wbHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
+			wbHelper.write("</pic:pic>\n");
+			wbHelper.write("</a:graphicData>\n");
+			wbHelper.write("</a:graphic>\n");
+			wbHelper.write("</wp:anchor>\n");
+			wbHelper.write("</w:drawing>\n");
+			wbHelper.write("</w:r>"); 
+
+			if(startedHyperlink)
+			{
+				endHyperlink(false);
+			}
+		}
+
+		wbHelper.write("</w:p>");
+
+		cellHelper.exportFooter();
+	}
+	*/
+
+
+	protected void exportLine(
+		JRPrintLine line, 
+		JRExporterGridCell gridCell,
+		int colIndex, 
+		int rowIndex
+		) throws JRException 
+	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = null;
+		float ratio = line.getWidth() / line.getHeight();
+		if (ratio > 1)
+		{
+			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			{
+				pen = box.getTopPen();
+			}
+			else
+			{
+				pen = box.getBottomPen();
+			}
+		}
+		else
+		{
+			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			{
+				pen = box.getLeftPen();
+			}
+			else
+			{
+				pen = box.getRightPen();
+			}
+		}
+		pen.setLineColor(line.getLinePen().getLineColor());
+		pen.setLineStyle(line.getLinePen().getLineStyle());
+		pen.setLineWidth(line.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		cellHelper.exportFooter();
 	}
 
 
-	protected void exportLine(JRPrintLine line, JRExporterGridCell cell,
-			int colIndex, int rowIndex) throws JRException {
-		// TODO Auto-generated method stub
-		
-	}
+	protected void exportRectangle(
+		JRPrintGraphicElement rectangle,
+		JRExporterGridCell gridCell, 
+		int colIndex, 
+		int rowIndex
+		) throws JRException 
+	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = box.getPen();
+		pen.setLineColor(rectangle.getLinePen().getLineColor());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyle());
+		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
 
-
-	protected void exportRectangle(JRPrintGraphicElement element,
-			JRExporterGridCell cell, int colIndex, int rowIndex)
-			throws JRException {
-		// TODO Auto-generated method stub
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		cellHelper.exportFooter();
 	}
 
 
