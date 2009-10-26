@@ -66,6 +66,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -288,6 +289,10 @@ public class JRXlsxPoiExporter extends JRXlsAbstractExporter
 				);
 
 		cell.setCellStyle(cellStyle);
+	}
+	
+	protected void addOccupiedCell(OccupiedGridCell gridCell, int colIndex, int rowIndex)
+	{
 	}
 
 	/**
