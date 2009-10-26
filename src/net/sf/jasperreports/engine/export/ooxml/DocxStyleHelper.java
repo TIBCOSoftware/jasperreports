@@ -30,6 +30,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 
 
@@ -80,6 +81,18 @@ public class DocxStyleHelper extends BaseHelper
 			JasperPrint jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 			
 			String localeCode = jasperPrint.getLocaleCode();
+			
+			if (reportIndex == 0)
+			{
+				JRDesignStyle style = new JRDesignStyle();
+				style.setName("EMPTY_CELL_STYLE");
+				style.setParentStyle(jasperPrint.getDefaultStyle());
+				style.setFontSize(0);
+				exportHeader(style);
+				paragraphHelper.exportProps(style);
+				runHelper.exportProps(style, (localeCode == null ? null : JRDataUtils.getLocale(localeCode)));//FIXMEDOCX reuse exporter
+				exportFooter();
+			}
 			
 			JRStyle[] styles = jasperPrint.getStyles();
 			if (styles != null)

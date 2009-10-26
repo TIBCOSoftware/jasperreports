@@ -225,7 +225,7 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 * </p>
 	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
 	 */
-	public static final JRHtmlExporterParameter FRAMES_AS_NESTED_TABLES = new JRHtmlExporterParameter("Export frames as nested tables");
+	public static final JRHtmlExporterParameter FRAMES_AS_NESTED_TABLES = new JRHtmlExporterParameter("Export Frames as Nested Tables");
 	
 
 	/**

@@ -136,7 +136,7 @@ public class DocxParagraphHelper extends BaseHelper
 	 */
 	public void exportEmptyParagraph()
 	{
-		write("     <w:p><w:pPr>\n");
+		write("     <w:p><w:pPr><w:pStyle w:val=\"EMPTY_CELL_STYLE\"/>\n");
 		if (pageBreak)
 		{
 			write("        <w:pageBreakBefore/>\n");

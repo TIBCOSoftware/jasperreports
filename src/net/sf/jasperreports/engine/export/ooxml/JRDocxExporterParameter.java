@@ -56,18 +56,42 @@ public class JRDocxExporterParameter extends JRExporterParameter
 	 * </p>
 	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
 	 */
-	public static final JRDocxExporterParameter FRAMES_AS_NESTED_TABLES = new JRDocxExporterParameter("Export frames as nested tables");
+	public static final JRDocxExporterParameter FRAMES_AS_NESTED_TABLES = new JRDocxExporterParameter("Export Frames as Nested Tables");
 	
 
 	/**
 	 * This property serves as default value for the {@link #FRAMES_AS_NESTED_TABLES FRAMES_AS_NESTED_TABLES}
 	 * export parameter.
 	 * <p>
-	 * The propery itself defaults to <code>true</code>.
+	 * The property itself defaults to <code>true</code>.
 	 * </p>
 	 * @see JRProperties
 	 */
 	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRProperties.PROPERTY_PREFIX + "export.docx.frames.as.nested.tables";
+	
+
+	/**
+	 * Indicates whether table rows can grow if more text is added into cells.
+	 * <p>
+	 * The type of the parameter is <code>java.lang.Boolean</code>.
+	 * </p>
+	 * <p>
+	 * Is set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
+	 * </p>
+	 * @see #PROPERTY_FLEXIBLE_ROW_HEIGHT
+	 */
+	public static final JRDocxExporterParameter FLEXIBLE_ROW_HEIGHT = new JRDocxExporterParameter("Flexible Row Height");
+	
+
+	/**
+	 * This property serves as default value for the {@link #FLEXIBLE_ROW_HEIGHT FLEXIBLE_ROW_HEIGHT}
+	 * export parameter.
+	 * <p>
+	 * The property itself defaults to <code>false</code>.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRProperties.PROPERTY_PREFIX + "export.docx.flexible.row.height";
 	
 
 }

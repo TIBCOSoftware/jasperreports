@@ -152,6 +152,8 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected ExporterNature nature = null;
 
 	protected boolean deepGrid;
+
+	protected boolean flexibleRowHeight;
 	
 
 	protected class ExporterContext extends BaseExporterContext implements JRDocxExporterContext
@@ -479,7 +481,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			int emptyCellColSpan = 0;
 			int emptyCellWidth = 0;
 
-			boolean hasText = false;
+			boolean allowRowResize = false;
 			int maxBottomPadding = 0; //for some strange reason, the bottom margin affects the row height; subtracting it here
 			for(int col = 0; col < grid[0].length; col++)
 			{
@@ -494,13 +496,20 @@ public class JRDocxExporter extends JRAbstractExporter
 					maxBottomPadding = box.getBottomPadding().intValue();
 				}
 				
-				hasText = hasText || gridCell.getElement() instanceof JRPrintText;
+				allowRowResize = 
+					flexibleRowHeight 
+					&& (allowRowResize 
+						|| (gridCell.getElement() instanceof JRPrintText 
+							|| (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL
+								&& ((OccupiedGridCell)gridCell).getOccupier().getElement() instanceof JRPrintText)
+							)
+						);
 			}
 			int rowHeight = gridLayout.getRowHeight(row) - maxBottomPadding;
 			
 			tableHelper.exportRowHeader(
 				rowHeight,
-				hasText
+				allowRowResize
 				);
 
 			for(int col = 0; col < grid[0].length; col++)
@@ -623,7 +632,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(line, gridCell);
-		docHelper.write("<w:p/>");
+		tableHelper.getParagraphHelper().exportEmptyParagraph();
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -642,7 +651,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(rectangle, gridCell);
-		docHelper.write("<w:p/>");
+		tableHelper.getParagraphHelper().exportEmptyParagraph();
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -661,7 +670,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(ellipse, gridCell);
-		docHelper.write("<w:p/>");
+		tableHelper.getParagraphHelper().exportEmptyParagraph();
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -1431,6 +1440,13 @@ public class JRDocxExporter extends JRAbstractExporter
 				JRDocxExporterParameter.FRAMES_AS_NESTED_TABLES,
 				JRDocxExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES,
 				true
+				);
+
+		flexibleRowHeight = 
+			getBooleanParameter(
+				JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT,
+				JRDocxExporterParameter.PROPERTY_FLEXIBLE_ROW_HEIGHT,
+				false
 				);
 	}
 
