@@ -77,7 +77,7 @@ public class XlsxStyleHelper extends BaseHelper
 		Integer styleIndex = (Integer)styleCache.get(styleInfo.getId());
 		if (styleIndex == null)
 		{
-			styleIndex = new Integer(styleCache.size());
+			styleIndex = new Integer(styleCache.size() + 1);
 			exportCellStyle(gridCell, styleInfo, styleIndex);
 			styleCache.put(styleInfo.getId(), styleIndex);
 		}
@@ -96,9 +96,10 @@ public class XlsxStyleHelper extends BaseHelper
 			cellXfsWriter.write(
 				"<xf numFmtId=\"" + styleIndex
 				+ "\" fontId=\"" + styleInfo.fontIndex
-				+ "\" fillId=\"" + (styleIndex.intValue() + 1)
+				+ "\" fillId=\"" + styleIndex.intValue()
 				+ "\" borderId=\"" + styleInfo.borderIndex
-				+ "\" xfId=\"" + styleIndex + "\">"
+				+ "\" xfId=\"" + styleIndex
+				+ "\" applyFont=\"1\" applyFill=\"1\" applyBorder=\"1\" applyAlignment=\"1\">"
 				+ "<alignment wrapText=\"1\""
 				+ (styleInfo.horizontalAlign == null ? "" : " horizontal=\"" + styleInfo.horizontalAlign + "\"")
 				+ (styleInfo.verticalAlign == null ? "" : " vertical=\"" + styleInfo.verticalAlign + "\"")
@@ -134,6 +135,7 @@ public class XlsxStyleHelper extends BaseHelper
 		//write("<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\"/></cellStyleXfs>\n");
 
 		write("<cellXfs>\n");// count=\"1\">\n");
+		write("<xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\" xfId=\"0\"/>\n");
 		cellXfsWriter.writeData(writer);
 		write("</cellXfs>\n");
 		
