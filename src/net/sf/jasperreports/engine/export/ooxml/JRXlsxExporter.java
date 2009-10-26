@@ -74,6 +74,9 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * Exports a JasperReports document to XLSX format. It has character output type and exports the document to a
@@ -83,6 +86,8 @@ import net.sf.jasperreports.engine.util.JRTypeSniffer;
  */
 public class JRXlsxExporter extends JRXlsAbstractExporter
 {
+	private static final Log log = LogFactory.getLog(JRXlsxExporter.class);
+	
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
@@ -138,6 +143,27 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	private XlsxRunHelper runHelper = null;
 
 	protected ExporterNature nature = null;
+
+	
+	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
+	{
+		XlsxSheetHelper sheetHelper = null;
+		
+		public ExporterContext(XlsxSheetHelper sheetHelper)
+		{
+			this.sheetHelper = sheetHelper;
+		}
+		
+		public XlsxSheetHelper getSheetHelper()
+		{
+			return sheetHelper;
+		}
+
+		public String getExportPropertiesPrefix()
+		{
+			return XLSX_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
 
 	
 	public JRXlsxExporter()
@@ -1073,7 +1099,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void exportText(
+	public void exportText(
 		JRPrintText text, 
 		JRExporterGridCell gridCell,
 		int colIndex, 
@@ -1151,8 +1177,24 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int emptyCols
 		) throws JRException
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
-		cellHelper.exportFooter();
+		GenericElementXlsxHandler handler = (GenericElementXlsxHandler) 
+			GenericElementHandlerEnviroment.getHandler(
+				element.getGenericType(), XLSX_EXPORTER_KEY);
+
+		if (handler != null)
+		{
+			JRXlsxExporterContext exporterContext = new ExporterContext(sheetHelper);
+
+			handler.exportElement(exporterContext, element, gridCell, colIndex, rowIndex);
+		}
+		else
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("No XLSX generic element handler for " 
+						+ element.getGenericType());
+			}
+		}
 	}
 
 
