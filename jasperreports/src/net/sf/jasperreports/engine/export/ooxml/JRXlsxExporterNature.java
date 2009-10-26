@@ -48,4 +48,12 @@ public class JRXlsxExporterNature extends JROfficeOpenXmlExporterNature
 		return true;
 	}
 
+	/**
+	 * 
+	 */
+	public boolean isIgnoreLastRow()
+	{
+		return false;
+	}
+
 }
