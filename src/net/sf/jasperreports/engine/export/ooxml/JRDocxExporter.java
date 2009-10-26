@@ -1451,7 +1451,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	}
 
 	/**
-	 * @see JROfficeOpenXmlExporter#getExporterNature(net.sf.jasperreports.engine.export.ExporterFilter)
+	 *
 	 */
 	protected ExporterNature getExporterNature(ExporterFilter filter) 
 	{
