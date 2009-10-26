@@ -1467,6 +1467,20 @@ If set to <code>false</code>, the frame content will be integrated into the mast
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.docx.flexible.row.height -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.flexible.row.height">
+    <description>
+This property serves as default value for the <api href="net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#FLEXIBLE_ROW_HEIGHT">FLEXIBLE_ROW_HEIGHT</api> export parameter.
+If set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>3.6.1</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.html.frames.as.nested.tables -->
   
   <configProperty name="net.sf.jasperreports.export.html.frames.as.nested.tables">

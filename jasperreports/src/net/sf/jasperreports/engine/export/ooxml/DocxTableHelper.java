@@ -115,11 +115,11 @@ public class DocxTableHelper extends BaseHelper
 		}
 	}
 	
-	public void exportRowHeader(int rowHeight, boolean isRowNotEmpty) 
+	public void exportRowHeader(int rowHeight, boolean allowRowResize) 
 	{
 		write("   <w:tr>\n");
 		write("    <w:trPr>\n");
-		write("     <w:trHeight w:hRule=\"" + (isRowNotEmpty ? "atLeast" : "exact")  + "\" w:val=\"" +  + Utility.twip(rowHeight) + "\" />\n");
+		write("     <w:trHeight w:hRule=\"" + (allowRowResize ? "atLeast" : "exact")  + "\" w:val=\"" +  + Utility.twip(rowHeight) + "\" />\n");
 		write("    </w:trPr>\n");
 	}
 	

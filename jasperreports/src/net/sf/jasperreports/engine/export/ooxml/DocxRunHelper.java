@@ -172,7 +172,9 @@ public class DocxRunHelper extends BaseHelper
 
 		if (value != null && !value.equals(oldValue))
 		{
-			write("        <w:sz w:val=\"" + (2 * ((Float)value).floatValue()) + "\" />\n");
+			float fontSize = ((Float)value).floatValue();
+			fontSize = fontSize == 0 ? 0.5f : fontSize;// only the special EMPTY_CELL_STYLE would have font size zero
+			write("        <w:sz w:val=\"" + (2 * (fontSize)) + "\" />\n");
 		}
 		
 		value = attrs.get(TextAttribute.WEIGHT);
