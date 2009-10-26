@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
+		<property name="xmlParser">
+			<ref local="xmlParser"/>
+		</property>
+		<property name="componentManagers">
+			<map>
+				<entry key="axisChart">
+					<ref local="axisChartManager"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="xmlParser" class="net.sf.jasperreports.engine.component.DefaultComponentXmlParser">
+		<property name="namespace">
+			<value>http://jasperreports.sourceforge.net/jasperreports/jcharts</value>
+		</property>
+		<property name="publicSchemaLocation">
+			<value>http://jasperreports.sourceforge.net/dtds/charts.xsd</value>
+		</property>
+		<property name="internalSchemaResource">
+			<value>jcharts/charts.xsd</value>
+		</property>
+		<property name="digesterConfigurer">
+			<bean class="jcharts.ChartsDigester"/>
+		</property>
+	</bean>
+
+	<bean id="axisChartManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+		<property name="componentCompiler">
+			<bean class="jcharts.AxisChartCompiler"/>
+		</property>
+		<property name="componentXmlWriter">
+			<bean class="jcharts.AxisChartXmlWriter"/>
+		</property>
+		<property name="componentFillFactory">
+			<bean class="jcharts.AxisChartFillFactory"/>
+		</property>
+	</bean>
+
+</beans>

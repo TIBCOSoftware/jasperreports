@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="dejaVuSansFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
+		<property name="name" value="DejaVu Sans"/>
+		<property name="normal" value="net/sf/jasperreports/fonts/dejavu/DejaVuSans.ttf"/>
+		<property name="bold" value="net/sf/jasperreports/fonts/dejavu/DejaVuSans-Bold.ttf"/>
+		<property name="italic" value="net/sf/jasperreports/fonts/dejavu/DejaVuSans-Oblique.ttf"/>
+		<property name="boldItalic" value="net/sf/jasperreports/fonts/dejavu/DejaVuSans-BoldOblique.ttf"/>
+		<property name="pdfEncoding" value="Identity-H"/>
+		<property name="pdfEmbedded" value="true"/>
+		<property name="exportFonts">
+			<map>
+				<entry key="net.sf.jasperreports.html">
+					<value>'DejaVu Sans', Arial, Helvetica, sans-serif</value>
+				</entry>
+				<entry key="net.sf.jasperreports.xhtml">
+					<value>'DejaVu Sans', Arial, Helvetica, sans-serif</value>
+				</entry>
+			</map>
+		</property>
+		<!--
+		<property name="locales">
+			<set>
+				<value>en_US</value>
+				<value>de_DE</value>
+			</set>
+		</property>
+		-->
+	</bean>
+
+	<bean id="dejaVuSerifFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
+		<property name="name" value="DejaVu Serif"/>
+		<property name="normal" value="net/sf/jasperreports/fonts/dejavu/DejaVuSerif.ttf"/>
+		<property name="bold" value="net/sf/jasperreports/fonts/dejavu/DejaVuSerif-Bold.ttf"/>
+		<property name="italic" value="net/sf/jasperreports/fonts/dejavu/DejaVuSerif-Italic.ttf"/>
+		<property name="boldItalic" value="net/sf/jasperreports/fonts/dejavu/DejaVuSerif-BoldItalic.ttf"/>
+		<property name="pdfEncoding" value="Identity-H"/>
+		<property name="pdfEmbedded" value="true"/>
+		<property name="exportFonts">
+			<map>
+				<entry key="net.sf.jasperreports.html">
+					<value>'DejaVu Serif', 'Times New Roman', Times, serif</value>
+				</entry>
+				<entry key="net.sf.jasperreports.xhtml">
+					<value>'DejaVu Serif', 'Times New Roman', Times, serif</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="dejaVuSansMonoFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
+		<property name="name" value="DejaVu Sans Mono"/>
+		<property name="normal" value="net/sf/jasperreports/fonts/dejavu/DejaVuSansMono.ttf"/>
+		<property name="bold" value="net/sf/jasperreports/fonts/dejavu/DejaVuSansMono-Bold.ttf"/>
+		<property name="italic" value="net/sf/jasperreports/fonts/dejavu/DejaVuSansMono-Oblique.ttf"/>
+		<property name="boldItalic" value="net/sf/jasperreports/fonts/dejavu/DejaVuSansMono-BoldOblique.ttf"/>
+		<property name="pdfEncoding" value="Identity-H"/>
+		<property name="pdfEmbedded" value="true"/>
+		<property name="exportFonts">
+			<map>
+				<entry key="net.sf.jasperreports.html">
+					<value>'DejaVu Sans Mono', 'Courier New', Courier, monospace</value>
+				</entry>
+				<entry key="net.sf.jasperreports.xhtml">
+					<value>'DejaVu Sans Mono', 'Courier New', Courier, monospace</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!--
+		Mapping Java logical fonts, for the sake of HTML export only.
+	-->
+	
+	<bean id="sansSerifFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
+		<property name="name" value="SansSerif"/>
+		<property name="exportFonts">
+			<map>
+				<entry key="net.sf.jasperreports.html">
+					<value>'DejaVu Sans', Arial, Helvetica, sans-serif</value>
+				</entry>
+				<entry key="net.sf.jasperreports.xhtml">
+					<value>'DejaVu Sans', Arial, Helvetica, sans-serif</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="serifFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
+		<property name="name" value="Serif"/>
+		<property name="exportFonts">
+			<map>
+				<entry key="net.sf.jasperreports.html">
+					<value>'DejaVu Serif', 'Times New Roman', Times, serif</value>
+				</entry>
+				<entry key="net.sf.jasperreports.xhtml">
+					<value>'DejaVu Serif', 'Times New Roman', Times, serif</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="monospacedFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
+		<property name="name" value="Monospaced"/>
+		<property name="exportFonts">
+			<map>
+				<entry key="net.sf.jasperreports.html">
+					<value>'DejaVu Sans Mono', 'Courier New', Courier, monospace</value>
+				</entry>
+				<entry key="net.sf.jasperreports.xhtml">
+					<value>'DejaVu Sans Mono', 'Courier New', Courier, monospace</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>
