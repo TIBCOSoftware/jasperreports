@@ -91,15 +91,21 @@ public class XlsxStyleHelper extends BaseHelper
 	{
 		try
 		{
-			fillsWriter.write("<fill><patternFill patternType=\"solid\"><fgColor rgb=\"" + styleInfo.backcolor + "\"/></patternFill></fill>\n");
+			if (styleInfo.backcolor == null)
+			{
+				fillsWriter.write("<fill><patternFill patternType=\"none\"/></fill>\n");
+			}
+			else
+			{
+				fillsWriter.write("<fill><patternFill patternType=\"solid\"><fgColor rgb=\"" + styleInfo.backcolor + "\"/></patternFill></fill>\n");
+			}
 			
 			cellXfsWriter.write(
 				"<xf numFmtId=\"" + styleIndex
 				+ "\" fontId=\"" + styleInfo.fontIndex
-				+ "\" fillId=\"" + styleIndex.intValue()
+				+ "\" fillId=\"" + (styleIndex.intValue() + 1)
 				+ "\" borderId=\"" + styleInfo.borderIndex
-				+ "\" xfId=\"" + styleIndex
-				+ "\" applyFont=\"1\" applyFill=\"1\" applyBorder=\"1\" applyAlignment=\"1\">"
+				+ "\" xfId=\"" + styleIndex + "\">"
 				+ "<alignment wrapText=\"1\""
 				+ (styleInfo.horizontalAlign == null ? "" : " horizontal=\"" + styleInfo.horizontalAlign + "\"")
 				+ (styleInfo.verticalAlign == null ? "" : " vertical=\"" + styleInfo.verticalAlign + "\"")
@@ -126,6 +132,7 @@ public class XlsxStyleHelper extends BaseHelper
 
 		write("<fills>\n");// count=\"2\">\n");
 		write("<fill><patternFill patternType=\"none\"/></fill>\n");
+		write("<fill><patternFill patternType=\"solid\"><fgColor rgb=\"FFFFFF\"/></patternFill></fill>\n");
 		fillsWriter.writeData(writer);
 		write("</fills>\n");
 		write("<borders>\n");// count=\"1\">\n");

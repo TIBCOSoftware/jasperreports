@@ -54,9 +54,13 @@ public class XlsxStyleInfo
 		
 		JRPrintElement element = gridCell.getElement();
 		
-		if (element != null)
+//		if (element != null)
+//		{
+//			this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
+//		}
+		if (gridCell.getBackcolor() != null)
 		{
-			this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
+			this.backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
 		}
 
 		JRAlignment align = element instanceof JRAlignment ? (JRAlignment)element : null;

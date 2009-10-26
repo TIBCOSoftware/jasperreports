@@ -366,46 +366,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 
 	/**
-	 * In deep grids, this is called only for empty frames.
-	 *
-	protected void exportFrame(TableHelper tableHelper, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
-	{
-		tableHelper.getCellHelper().exportHeader(frame, gridCell);
-//		tableHelper.getCellHelper().exportProps(gridCell);
-
-		boolean appendBackcolor =
-			frame.getMode() == JRElement.MODE_OPAQUE
-			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
-
-		if (appendBackcolor)
-		{
-			setBackcolor(frame.getBackcolor());
-		}
-
-		try
-		{
-			JRGridLayout layout = gridCell.getLayout();
-			JRPrintElementIndex frameIndex =
-				new JRPrintElementIndex(
-						reportIndex,
-						pageIndex,
-						gridCell.getWrapper().getAddress()
-						);
-			exportGrid(layout, frameIndex);
-		}
-		finally
-		{
-			if (appendBackcolor)
-			{
-				restoreBackcolor();
-			}
-		}
-		
-		tableHelper.getParagraphHelper().exportEmptyParagraph();
-		tableHelper.getCellHelper().exportFooter();
-	}
-
-	/**
 	 *
 	 */
 	protected void setBackcolor(Color color)
@@ -636,10 +596,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex,
-			int rowIndex) throws JRException {
-		// TODO Auto-generated method stub
-		
+	protected void addBlankCell(
+		JRExporterGridCell gridCell, 
+		int colIndex,
+		int rowIndex
+		) throws JRException 
+	{
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		cellHelper.exportFooter();
 	}
 
 
@@ -758,10 +722,45 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell cell,
-			int colIndex, int rowIndex) throws JRException {
-		// TODO Auto-generated method stub
+	protected void exportFrame(
+		JRPrintFrame frame, 
+		JRExporterGridCell gridCell,
+		int colIndex, 
+		int rowIndex
+		) throws JRException 
+	{
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+
+//		boolean appendBackcolor =
+//			frame.getMode() == JRElement.MODE_OPAQUE
+//			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
+//
+//		if (appendBackcolor)
+//		{
+//			setBackcolor(frame.getBackcolor());
+//		}
+//
+//		try
+//		{
+//			JRGridLayout layout = gridCell.getLayout();
+//			JRPrintElementIndex frameIndex =
+//				new JRPrintElementIndex(
+//						reportIndex,
+//						pageIndex,
+//						gridCell.getWrapper().getAddress()
+//						);
+//			exportGrid(layout, frameIndex);
+//		}
+//		finally
+//		{
+//			if (appendBackcolor)
+//			{
+//				restoreBackcolor();
+//			}
+//		}
 		
+		cellHelper.exportFooter();
 	}
 
 
@@ -1152,8 +1151,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int emptyCols
 		) throws JRException
 	{
-		// TODO Auto-generated method stub
-		
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		cellHelper.exportFooter();
 	}
 
 

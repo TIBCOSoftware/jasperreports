@@ -56,7 +56,7 @@ public class XlsxBorderHelper extends BaseHelper
 	{
 		if (gridCell.getBox() == null)
 		{
-			return 0;			
+			return -1;			
 		}
 
 		XlsxBorderInfo borderInfo = new XlsxBorderInfo(gridCell.getBox());
