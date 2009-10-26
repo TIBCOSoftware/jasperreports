@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.6.1 (2009-10-26, SVN xxxx)
+JasperReports 3.6.1 (2009-10-26, SVN 3170)
 ---------------------------------------------
 
 - enhanced font extension support to allow mapping JVM available fonts
