@@ -30,7 +30,6 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -74,29 +73,13 @@ public class XlsxRunHelper extends BaseHelper
 	{
 		if (text != null)
 		{
-			write("      <r>\n");
+			write("<r>\n");
 			
 			exportProps(getAttributes(style), attributes, locale);
 			
-			write("<t>");
-
-			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
-			while(tkzer.hasMoreTokens())
-			{
-				String token = tkzer.nextToken();
-				if ("\n".equals(token))
-				{
-//					write("<br/>"); //FIXMEXLSX
-				}
-				else
-				{
-//					write("<t>");
-					write(JRStringUtil.xmlEncode(token));//FIXMEODT try something nicer for replace
-//					write("</t>\n");
-				}
-			}
-			write("</t>\n");
-			write("      </r>\n");
+			write("<t xml:space=\"preserve\">");
+			write(JRStringUtil.xmlEncode(text));
+			write("</t></r>\n");
 		}
 	}
 
