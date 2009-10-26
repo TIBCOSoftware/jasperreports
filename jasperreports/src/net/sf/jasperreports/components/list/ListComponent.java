@@ -95,7 +95,6 @@ public interface ListComponent extends Component, JRCloneable
 	 * By default, the flag is not set.
 	 * </p>
 	 * 
-	 * @return
 	 * @see #getPrintOrder()
 	 * @see JRCrosstab#setIgnoreWidth(Boolean)
 	 */
