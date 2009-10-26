@@ -36,9 +36,6 @@
 			<fileset dir="../../../lib" includes="**/commons-logging-*.jar"/>
 			<fileset dir="../../../lib" includes="**/commons-collections-*.jar"/>
 		</copy>
-		<jar jarfile="./WEB-INF/lib/dejavu-fonts.jar">
-			<fileset dir="../../fonts/"/>
-		</jar>
 	</target>
 
 	<target name="javac" depends="prepare" description="Compiles the java source files of the web application.">
