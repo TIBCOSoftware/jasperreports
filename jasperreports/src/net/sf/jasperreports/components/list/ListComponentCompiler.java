@@ -110,6 +110,12 @@ public class ListComponentCompiler implements ComponentCompiler
 			if (width == null)
 			{
 				contentsWidth = elementWidth;
+				
+				if (printOder == JRReport.PRINT_ORDER_HORIZONTAL)
+				{
+					verifier.addBrokenRule("List contents width must be set for horizontal lists", 
+							listContents);
+				}
 			}
 			else
 			{
