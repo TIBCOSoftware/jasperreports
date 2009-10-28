@@ -66,17 +66,17 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public class DrawVisitor implements JRVisitor
 {
 	
-	private TextRenderer textRenderer = null;
+	protected TextRenderer textRenderer = null;
 
-	private ConvertVisitor convertVisitor = null;
-	private Graphics2D grx = null;
+	protected ConvertVisitor convertVisitor = null;
+	protected Graphics2D grx = null;
 
-	private LineDrawer lineDrawer = new LineDrawer();
-	private RectangleDrawer rectangleDrawer = new RectangleDrawer();
-	private EllipseDrawer ellipseDrawer = new EllipseDrawer();
-	private ImageDrawer imageDrawer = new ImageDrawer();
-	private TextDrawer textDrawer = null;
-	private FrameDrawer frameDrawer = null;
+	protected LineDrawer lineDrawer = new LineDrawer();
+	protected RectangleDrawer rectangleDrawer = new RectangleDrawer();
+	protected EllipseDrawer ellipseDrawer = new EllipseDrawer();
+	protected ImageDrawer imageDrawer = new ImageDrawer();
+	protected TextDrawer textDrawer = null;
+	protected FrameDrawer frameDrawer = null;
 	
 	/**
 	 *
