@@ -25,7 +25,6 @@ package net.sf.jasperreports.charts.fill;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -156,12 +155,13 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setCategoryAxisTickLabelMask(String mask)
+	public Boolean getCategoryAxisVerticalTickLabels()
 	{
+		return ((JRLinePlot)parent).getCategoryAxisVerticalTickLabels();
 	}
-	
+
 	/**
 	 *
 	 */
@@ -296,10 +296,11 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setValueAxisTickLabelMask(String mask)
+	public Boolean getValueAxisVerticalTickLabels()
 	{
+		return ((JRLinePlot)parent).getValueAxisVerticalTickLabels();
 	}
 
 	/**

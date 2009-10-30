@@ -57,6 +57,8 @@ public class JRDesignTimeSeriesPlot extends JRBaseTimeSeriesPlot {
 	
 	public static final String PROPERTY_TIME_AXIS_TICK_LABEL_MASK = "timeAxisTickLabelMask";
 	
+	public static final String PROPERTY_TIME_AXIS_VERTICAL_TICK_LABELS = "timeAxisVerticalTickLabels";
+	
 	public static final String PROPERTY_VALUE_AXIS_LABEL_COLOR = "valueAxisLabelColor";
 	
 	public static final String PROPERTY_VALUE_AXIS_LABEL_EXPRESSION = "valueAxisLabelExpression";
@@ -78,6 +80,8 @@ public class JRDesignTimeSeriesPlot extends JRBaseTimeSeriesPlot {
 	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_FONT = "valueAxisTickLabelFont";
 	
 	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_MASK = "valueAxisTickLabelMask";
+	
+	public static final String PROPERTY_VALUE_AXIS_VERTICAL_TICK_LABELS = "valueAxisVerticalTickLabels";
 	
 	public JRDesignTimeSeriesPlot(JRChartPlot plot, JRChart chart){
 		super(plot, chart);
@@ -141,6 +145,16 @@ public class JRDesignTimeSeriesPlot extends JRBaseTimeSeriesPlot {
 		Object old = this.timeAxisTickLabelMask;
 		this.timeAxisTickLabelMask = timeAxisTickLabelMask;
 		getEventSupport().firePropertyChange(PROPERTY_TIME_AXIS_TICK_LABEL_MASK, old, this.timeAxisTickLabelMask);
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisVerticalTickLabels(Boolean timeAxisVerticalTickLabels)
+	{
+		Object old = this.timeAxisVerticalTickLabels;
+		this.timeAxisVerticalTickLabels = timeAxisVerticalTickLabels;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_AXIS_VERTICAL_TICK_LABELS, old, this.timeAxisVerticalTickLabels);
 	}
 
 	/**
@@ -256,6 +270,16 @@ public class JRDesignTimeSeriesPlot extends JRBaseTimeSeriesPlot {
 	/**
 	 *
 	 */
+	public void setValueAxisVerticalTickLabels(Boolean valueAxisVerticalTickLabels)
+	{
+		Object old = this.valueAxisVerticalTickLabels;
+		this.valueAxisVerticalTickLabels = valueAxisVerticalTickLabels;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_VERTICAL_TICK_LABELS, old, this.valueAxisVerticalTickLabels);
+	}
+
+	/**
+	 *
+	 */
 	public void setValueAxisLineColor(Color valueAxisLineColor)
 	{
 		Object old = this.valueAxisLineColor;
@@ -273,6 +297,7 @@ public class JRDesignTimeSeriesPlot extends JRBaseTimeSeriesPlot {
 		setTimeAxisTickLabelFont(axisFormat.getTickLabelFont());
 		setTimeAxisTickLabelColor(axisFormat.getTickLabelColor());
 		setTimeAxisTickLabelMask(axisFormat.getTickLabelMask());
+		setTimeAxisVerticalTickLabels(axisFormat.getVerticalTickLabels());
 		setTimeAxisLineColor(axisFormat.getLineColor());
 	}
 
@@ -286,6 +311,7 @@ public class JRDesignTimeSeriesPlot extends JRBaseTimeSeriesPlot {
 		setValueAxisTickLabelFont(axisFormat.getTickLabelFont());
 		setValueAxisTickLabelColor(axisFormat.getTickLabelColor());
 		setValueAxisTickLabelMask(axisFormat.getTickLabelMask());
+		setValueAxisVerticalTickLabels(axisFormat.getVerticalTickLabels());
 		setValueAxisLineColor(axisFormat.getLineColor());
 	}
 }

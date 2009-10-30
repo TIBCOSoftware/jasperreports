@@ -72,6 +72,11 @@ public interface JRXAxisFormat
 	/**
 	 * 
 	 */
+	public Boolean getXAxisVerticalTickLabels();
+	
+	/**
+	 * 
+	 */
 	public Color getXAxisLineColor();
 
 	/**

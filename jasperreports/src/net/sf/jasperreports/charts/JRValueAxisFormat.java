@@ -72,6 +72,11 @@ public interface JRValueAxisFormat
 	/**
 	 * 
 	 */
+	public Boolean getValueAxisVerticalTickLabels();
+	
+	/**
+	 * 
+	 */
 	public Color getValueAxisLineColor();
 	
 	/**

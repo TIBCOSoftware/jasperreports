@@ -25,7 +25,6 @@ package net.sf.jasperreports.charts.fill;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -155,10 +154,11 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setTimeAxisTickLabelMask(String mask)
+	public Boolean getTimeAxisVerticalTickLabels()
 	{
+		return ((JRTimeSeriesPlot)parent).getTimeAxisVerticalTickLabels();
 	}
 
 	/**
@@ -295,10 +295,11 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setValueAxisTickLabelMask(String mask)
+	public Boolean getValueAxisVerticalTickLabels()
 	{
+		return ((JRTimeSeriesPlot)parent).getValueAxisVerticalTickLabels();
 	}
 
 	/**

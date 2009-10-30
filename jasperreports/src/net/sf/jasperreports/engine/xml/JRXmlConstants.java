@@ -1557,6 +1557,7 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_labelColor = "labelColor";
 	public static final String ATTRIBUTE_tickLabelColor = "tickLabelColor";
 	public static final String ATTRIBUTE_tickLabelMask = "tickLabelMask";
+	public static final String ATTRIBUTE_verticalTickLabels = "verticalTickLabels";
 	public static final String ATTRIBUTE_axisLineColor = "axisLineColor";
 
 	/**

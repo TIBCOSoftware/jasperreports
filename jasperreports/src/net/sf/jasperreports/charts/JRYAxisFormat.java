@@ -72,6 +72,11 @@ public interface JRYAxisFormat
 	/**
 	 * 
 	 */
+	public Boolean getYAxisVerticalTickLabels();
+	
+	/**
+	 * 
+	 */
 	public Color getYAxisLineColor();
 	
 	/**

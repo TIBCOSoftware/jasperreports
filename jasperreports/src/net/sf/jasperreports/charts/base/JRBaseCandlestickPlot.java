@@ -59,6 +59,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	protected JRFont timeAxisTickLabelFont = null;
 	protected Color timeAxisTickLabelColor = null;
 	protected String timeAxisTickLabelMask = null;
+	protected Boolean timeAxisVerticalTickLabels = null;
 	protected Color timeAxisLineColor = null;
 
 	protected JRExpression valueAxisLabelExpression = null;
@@ -71,6 +72,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	protected JRFont valueAxisTickLabelFont = null;
 	protected Color valueAxisTickLabelColor = null;
 	protected String valueAxisTickLabelMask = null;
+	protected Boolean valueAxisVerticalTickLabels = null;
 	protected Color valueAxisLineColor = null;
 
 	protected Boolean showVolume = null;
@@ -115,6 +117,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		timeAxisTickLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = candlestickPlot.getOwnTimeAxisTickLabelColor();
 		timeAxisTickLabelMask = candlestickPlot.getTimeAxisTickLabelMask();
+		timeAxisVerticalTickLabels = candlestickPlot.getTimeAxisVerticalTickLabels();
 		timeAxisLineColor = candlestickPlot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( candlestickPlot.getValueAxisLabelExpression() );
@@ -127,6 +130,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		valueAxisTickLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = candlestickPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = candlestickPlot.getValueAxisTickLabelMask();
+		valueAxisVerticalTickLabels = candlestickPlot.getValueAxisVerticalTickLabels();
 		valueAxisLineColor = candlestickPlot.getOwnValueAxisTickLabelColor();
 	}
 
@@ -192,6 +196,14 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	public String getTimeAxisTickLabelMask()
 	{
 		return timeAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getTimeAxisVerticalTickLabels()
+	{
+		return timeAxisVerticalTickLabels;
 	}
 
 	/**
@@ -299,6 +311,14 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	public String getValueAxisTickLabelMask()
 	{
 		return valueAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getValueAxisVerticalTickLabels()
+	{
+		return valueAxisVerticalTickLabels;
 	}
 
 	/**

@@ -56,6 +56,8 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	
 	public static final String PROPERTY_X_AXIS_TICK_LABEL_MASK = "xAxisTickLabelMask";
 	
+	public static final String PROPERTY_X_AXIS_VERTICAL_TICK_LABELS = "xAxisVerticalTickLabels";
+	
 	public static final String PROPERTY_Y_AXIS_LABEL_COLOR = "yAxisLabelColor";
 	
 	public static final String PROPERTY_Y_AXIS_LABEL_EXPRESSION = "yAxisLabelExpression";
@@ -70,6 +72,8 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	
 	public static final String PROPERTY_Y_AXIS_TICK_LABEL_MASK = "yAxisTickLabelMask";
 
+	public static final String PROPERTY_Y_AXIS_VERTICAL_TICK_LABELS = "yAxisVerticalTickLabels";
+	
 	public static final String PROPERTY_DOMAIN_AXIS_MINVALUE_EXPRESSION = "domainAxisMinValueExpression";
 	
 	public static final String PROPERTY_DOMAIN_AXIS_MAXVALUE_EXPRESSION = "domainAxisMaxValueExpression";
@@ -147,6 +151,16 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	/**
 	 *
 	 */
+	public void setXAxisVerticalTickLabels(Boolean xAxisVerticalTickLabels)
+	{
+		Object old = this.xAxisVerticalTickLabels;
+		this.xAxisVerticalTickLabels = xAxisVerticalTickLabels;
+		getEventSupport().firePropertyChange(PROPERTY_X_AXIS_VERTICAL_TICK_LABELS, old, this.xAxisVerticalTickLabels);
+	}
+
+	/**
+	 *
+	 */
 	public void setXAxisLineColor(Color xAxisLineColor)
 	{
 		Object old = this.xAxisLineColor;
@@ -216,6 +230,16 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	/**
 	 *
 	 */
+	public void setYAxisVerticalTickLabels(Boolean yAxisVerticalTickLabels)
+	{
+		Object old = this.yAxisVerticalTickLabels;
+		this.yAxisVerticalTickLabels = yAxisVerticalTickLabels;
+		getEventSupport().firePropertyChange(PROPERTY_Y_AXIS_VERTICAL_TICK_LABELS, old, this.yAxisVerticalTickLabels);
+	}
+
+	/**
+	 *
+	 */
 	public void setYAxisLineColor(Color yAxisLineColor)
 	{
 		Object old = this.yAxisLineColor;
@@ -233,6 +257,7 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 		setXAxisTickLabelFont(axisFormat.getTickLabelFont());
 		setXAxisTickLabelColor(axisFormat.getTickLabelColor());
 		setXAxisTickLabelMask(axisFormat.getTickLabelMask());
+		setXAxisVerticalTickLabels(axisFormat.getVerticalTickLabels());
 		setXAxisLineColor(axisFormat.getLineColor());
 	}
 
@@ -246,6 +271,7 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 		setYAxisTickLabelFont(axisFormat.getTickLabelFont());
 		setYAxisTickLabelColor(axisFormat.getTickLabelColor());
 		setYAxisTickLabelMask(axisFormat.getTickLabelMask());
+		setYAxisVerticalTickLabels(axisFormat.getVerticalTickLabels());
 		setYAxisLineColor(axisFormat.getLineColor());
 	}
 

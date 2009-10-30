@@ -73,6 +73,11 @@ public interface JRTimeAxisFormat
 	/**
 	 * 
 	 */
+	public Boolean getTimeAxisVerticalTickLabels();
+	
+	/**
+	 * 
+	 */
 	public Color getTimeAxisLineColor();
 	
 	/**

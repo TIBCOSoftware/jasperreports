@@ -62,6 +62,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	protected JRFont timeAxisTickLabelFont = null;
 	protected Color timeAxisTickLabelColor = null;
 	protected String timeAxisTickLabelMask = null;
+	protected Boolean timeAxisVerticalTickLabels = null;
 	protected Color timeAxisLineColor = null;
 
 	protected JRExpression valueAxisLabelExpression = null;
@@ -74,6 +75,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	protected JRFont valueAxisTickLabelFont = null;
 	protected Color valueAxisTickLabelColor = null;
 	protected String valueAxisTickLabelMask = null;
+	protected Boolean valueAxisVerticalTickLabels = null;
 	protected Color valueAxisLineColor = null;
 
 	protected Boolean showOpenTicks = null;
@@ -121,6 +123,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		timeAxisTickLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = highLowPlot.getOwnTimeAxisTickLabelColor();
 		timeAxisTickLabelMask = highLowPlot.getTimeAxisTickLabelMask();
+		timeAxisVerticalTickLabels = highLowPlot.getTimeAxisVerticalTickLabels();
 		timeAxisLineColor = highLowPlot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( highLowPlot.getValueAxisLabelExpression() );
@@ -133,6 +136,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		valueAxisTickLabelFont = new JRBaseFont(highLowPlot.getChart(), highLowPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = highLowPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = highLowPlot.getValueAxisTickLabelMask();
+		valueAxisVerticalTickLabels = highLowPlot.getValueAxisVerticalTickLabels();
 		valueAxisLineColor = highLowPlot.getOwnValueAxisTickLabelColor();
 	}
 
@@ -198,6 +202,14 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	public String getTimeAxisTickLabelMask()
 	{
 		return timeAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getTimeAxisVerticalTickLabels()
+	{
+		return timeAxisVerticalTickLabels;
 	}
 
 	/**
@@ -304,6 +316,14 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	public String getValueAxisTickLabelMask()
 	{
 		return valueAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getValueAxisVerticalTickLabels()
+	{
+		return valueAxisVerticalTickLabels;
 	}
 
 	/**

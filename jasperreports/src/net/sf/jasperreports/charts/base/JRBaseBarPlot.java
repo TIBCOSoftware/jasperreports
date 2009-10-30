@@ -66,6 +66,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	protected JRFont categoryAxisTickLabelFont = null;
 	protected Color categoryAxisTickLabelColor = null;
 	protected String categoryAxisTickLabelMask = null;
+	protected Boolean categoryAxisVerticalTickLabels = null;
 	protected Color categoryAxisLineColor = null;
 
 	protected JRExpression valueAxisLabelExpression = null;
@@ -78,6 +79,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	protected JRFont valueAxisTickLabelFont = null;
 	protected Color valueAxisTickLabelColor = null;
 	protected String valueAxisTickLabelMask = null;
+	protected Boolean valueAxisVerticalTickLabels = null;
 	protected Color valueAxisLineColor = null;
 
 	protected Boolean showTickMarks = null;
@@ -130,6 +132,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		categoryAxisTickLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getCategoryAxisTickLabelFont());
 		categoryAxisTickLabelColor = barPlot.getOwnCategoryAxisTickLabelColor();
 		categoryAxisTickLabelMask = barPlot.getCategoryAxisTickLabelMask();
+		categoryAxisVerticalTickLabels = barPlot.getCategoryAxisVerticalTickLabels();
 		categoryAxisLineColor = barPlot.getOwnCategoryAxisLineColor();
 
 		valueAxisLabelExpression = factory.getExpression( barPlot.getValueAxisLabelExpression() );
@@ -142,6 +145,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		valueAxisTickLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = barPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = barPlot.getValueAxisTickLabelMask();
+		valueAxisVerticalTickLabels = barPlot.getValueAxisVerticalTickLabels();
 		valueAxisLineColor = barPlot.getOwnValueAxisLineColor();
 		
 		itemLabel = new JRBaseItemLabel(barPlot.getItemLabel(), factory);
@@ -208,6 +212,14 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	public String getCategoryAxisTickLabelMask()
 	{
 		return categoryAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getCategoryAxisVerticalTickLabels()
+	{
+		return categoryAxisVerticalTickLabels;
 	}
 
 	/**
@@ -315,6 +327,14 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	public String getValueAxisTickLabelMask()
 	{
 		return valueAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getValueAxisVerticalTickLabels()
+	{
+		return valueAxisVerticalTickLabels;
 	}
 
 	/**

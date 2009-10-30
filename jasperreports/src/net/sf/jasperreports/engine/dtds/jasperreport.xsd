@@ -4525,6 +4525,11 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
      </documentation>
     </annotation>
    </attribute>
+   <attribute name="verticalTickLabels" type="boolean" use="optional">
+    <annotation>
+     <documentation>Flag to force rendering the tick labels rotated 90 degrees.</documentation>
+    </annotation>
+   </attribute>
    <attribute name="axisLineColor" type="string" use="optional">
     <annotation>
      <documentation>The color to use when drawing the line showing the axis.</documentation>

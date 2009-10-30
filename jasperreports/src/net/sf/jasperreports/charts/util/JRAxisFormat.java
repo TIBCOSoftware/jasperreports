@@ -36,7 +36,8 @@ import net.sf.jasperreports.engine.JRFont;
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  * @version $Id$
  */
-public class JRAxisFormat implements Serializable {
+public class JRAxisFormat implements Serializable 
+{
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -51,22 +52,27 @@ public class JRAxisFormat implements Serializable {
 	protected JRFont labelFont = null;
 
 	/**
-	 * The color to use when writing the label of each tick mark.  Ignored if tick marks are
+	 * The color to use when writing the label of each tick mark. Ignored if tick marks are
 	 * disabled.
 	 */
 	protected Color tickLabelColor = null;
 	
 	/**
-	 * The font to use when writing the label of each tick mark.  Ignored if tick marks
+	 * The font to use when writing the label of each tick mark. Ignored if tick marks
 	 * are disabled.
 	 */
 	protected JRFont tickLabelFont = null;
 
 	/**
-	 * The mask to use for formatting the label of each tick mark.  Ignored if tick marks
+	 * The mask to use for formatting the label of each tick mark. Ignored if tick marks
 	 * are disabled, or if the axis being formatted is not either numeric or a date axis.
 	 */
 	protected String tickLabelMask = null;
+
+	/**
+	 * Flag to force rendering the tick labels rotated 90 degrees.
+	 */
+	protected Boolean verticalTickLabels = null;
 
 	/**
 	 * The color to use when drawing the axis line and tick marks, if enabled.
@@ -192,4 +198,21 @@ public class JRAxisFormat implements Serializable {
 	public void setTickLabelMask(String mask) {
 		this.tickLabelMask = mask;
 	}
+
+	/**
+	 * 
+	 */
+	public Boolean getVerticalTickLabels()
+	{
+		return verticalTickLabels;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setVerticalTickLabel(Boolean verticalTickLabels)
+	{
+		this.verticalTickLabels = verticalTickLabels;
+	}
+	
 }

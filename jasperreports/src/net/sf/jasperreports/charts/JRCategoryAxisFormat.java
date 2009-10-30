@@ -72,6 +72,11 @@ public interface JRCategoryAxisFormat
 	/**
 	 * 
 	 */
+	public Boolean getCategoryAxisVerticalTickLabels();
+	
+	/**
+	 * 
+	 */
 	public Color getCategoryAxisLineColor();
 	
 	/**

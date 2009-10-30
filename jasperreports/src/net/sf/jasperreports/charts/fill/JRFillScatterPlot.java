@@ -25,7 +25,6 @@ package net.sf.jasperreports.charts.fill;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -140,10 +139,11 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setXAxisTickLabelMask(String mask)
+	public Boolean getXAxisVerticalTickLabels()
 	{
+		return ((JRScatterPlot)parent).getXAxisVerticalTickLabels();
 	}
 
 	/**
@@ -227,10 +227,11 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setYAxisTickLabelMask(String mask)
+	public Boolean getYAxisVerticalTickLabels()
 	{
+		return ((JRScatterPlot)parent).getYAxisVerticalTickLabels();
 	}
 
 	/**
