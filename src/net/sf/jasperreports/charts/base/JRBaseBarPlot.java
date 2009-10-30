@@ -134,6 +134,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		categoryAxisTickLabelMask = barPlot.getCategoryAxisTickLabelMask();
 		categoryAxisVerticalTickLabels = barPlot.getCategoryAxisVerticalTickLabels();
 		categoryAxisLineColor = barPlot.getOwnCategoryAxisLineColor();
+		labelRotationDouble = barPlot.getCategoryAxisTickLabelRotation();
 
 		valueAxisLabelExpression = factory.getExpression( barPlot.getValueAxisLabelExpression() );
 		domainAxisMinValueExpression = factory.getExpression( barPlot.getDomainAxisMinValueExpression() );
@@ -220,6 +221,24 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	public Boolean getCategoryAxisVerticalTickLabels()
 	{
 		return categoryAxisVerticalTickLabels;
+	}
+
+	/**
+	 * 
+	 */
+	public Double getCategoryAxisTickLabelRotation()
+	{
+		return labelRotationDouble;
+	}
+
+	/**
+	 * 
+	 */
+	public void setCategoryAxisTickLabelRotation(Double labelRotationDouble)
+	{
+		Object old = this.labelRotationDouble;
+		this.labelRotationDouble = labelRotationDouble;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_ROTATION, old, this.labelRotationDouble);
 	}
 
 	/**

@@ -1662,7 +1662,52 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 
+	/**
+	 * Writes out the category axis format block.
+	 *
+	 * @param axisFormatElementName the name of the axis format element being written
+	 * @param axisLabelFont font to use for the axis label
+	 * @param axisLabelColor color to use for the axis label
+	 * @param axisTickLabelFont font to use for the label of each tick mark
+	 * @param axisTickLabelColor color to use for the label of each tick mark
+	 * @param axisTickLabelMask formatting mask to use for the label of each tick mark
+	 * @param axisVerticalTickLabels flag to render tick labels at 90 degrees
+	 * @param axisLineColor the color to use for the axis line and any tick marks
+	 *
+	 */
+	public void writeCategoryAxisFormat(
+		JRFont axisLabelFont, 
+		Color axisLabelColor,
+		JRFont axisTickLabelFont, 
+		Color axisTickLabelColor,
+		String axisTickLabelMask, 
+		Boolean axisVerticalTickLabels, 
+		Double labelRotation, 
+		Color axisLineColor
+		)  throws IOException
+	{
+		if (axisLabelFont == null && axisLabelColor == null &&
+			axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
+			return;
 
+		writer.startElement(JRXmlConstants.ELEMENT_categoryAxisFormat, getNamespace());
+		
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelRotation, labelRotation);
+
+		writeAxisFormat(
+			axisLabelFont, 
+			axisLabelColor,
+			axisTickLabelFont, 
+			axisTickLabelColor,
+			axisTickLabelMask, 
+			axisVerticalTickLabels, 
+			axisLineColor
+			);
+		
+		writer.closeElement();
+	}
+	
+	
 	/**
 	 * Writes out the axis format block for a chart axis.
 	 *
@@ -1692,6 +1737,44 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			return;
 
 		writer.startElement(axisFormatElementName, getNamespace());
+
+		writeAxisFormat(
+			axisLabelFont, 
+			axisLabelColor,
+			axisTickLabelFont, 
+			axisTickLabelColor,
+			axisTickLabelMask, 
+			axisVerticalTickLabels, 
+			axisLineColor
+			);
+		
+		writer.closeElement();
+	}
+	
+	
+	/**
+	 * Writes out the axis format block for a chart axis.
+	 *
+	 * @param axisFormatElementName the name of the axis format element being written
+	 * @param axisLabelFont font to use for the axis label
+	 * @param axisLabelColor color to use for the axis label
+	 * @param axisTickLabelFont font to use for the label of each tick mark
+	 * @param axisTickLabelColor color to use for the label of each tick mark
+	 * @param axisTickLabelMask formatting mask to use for the label of each tick mark
+	 * @param axisVerticalTickLabels flag to render tick labels at 90 degrees
+	 * @param axisLineColor the color to use for the axis line and any tick marks
+	 *
+	 */
+	public void writeAxisFormat(
+		JRFont axisLabelFont, 
+		Color axisLabelColor,
+		JRFont axisTickLabelFont, 
+		Color axisTickLabelColor,
+		String axisTickLabelMask, 
+		Boolean axisVerticalTickLabels, 
+		Color axisLineColor
+		)  throws IOException
+	{
 		writer.startElement(JRXmlConstants.ELEMENT_axisFormat);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelColor, axisLabelColor);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_tickLabelColor, axisTickLabelColor);
@@ -1714,7 +1797,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 
 		writer.closeElement();
-		writer.closeElement();
 	}
 	/**
 	 *
@@ -1730,9 +1812,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeItemLabel(plot.getItemLabel());
 		
 		writer.writeExpression(JRXmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
-		writeAxisFormat(JRXmlConstants.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
+		writeCategoryAxisFormat(plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
 						plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
-						plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), plot.getOwnCategoryAxisLineColor());
+						plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
+						plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor());
 		writer.writeExpression(JRXmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
 		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
@@ -1785,9 +1868,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writePlot(plot);
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
-		writeAxisFormat(JRXmlConstants.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
+		writeCategoryAxisFormat(plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
 				plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
-				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), plot.getOwnCategoryAxisLineColor());
+				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
+				plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor());
 		writer.writeExpression(JRXmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
 		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
@@ -1841,9 +1925,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeItemLabel(plot.getItemLabel());
 		
 		writer.writeExpression(JRXmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
-		writeAxisFormat(JRXmlConstants.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
+		writeCategoryAxisFormat(plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
 				plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
-				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), plot.getOwnCategoryAxisLineColor());
+				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
+				plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor());
 		writer.writeExpression(JRXmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
 		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
@@ -2060,9 +2145,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writePlot(plot);
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
-		writeAxisFormat(JRXmlConstants.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
+		writeCategoryAxisFormat(plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
 				plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
-				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), plot.getOwnCategoryAxisLineColor());
+				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
+				plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor());
 		writer.writeExpression(JRXmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
 		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),

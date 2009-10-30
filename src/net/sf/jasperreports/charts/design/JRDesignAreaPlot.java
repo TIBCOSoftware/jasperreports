@@ -116,7 +116,7 @@ public class JRDesignAreaPlot extends JRBaseAreaPlot
 	/**
 	 *
 	 */
-	public void setCategoryAxisLabelColor(Color categoryAxisLabelColor)
+	public void setCategoryAxisLabelColor(Color categoryAxisLabelColor)//FIXMECHART move the setters of axis format in interface and base class
 	{
 		Object old = this.categoryAxisLabelColor;
 		this.categoryAxisLabelColor = categoryAxisLabelColor;

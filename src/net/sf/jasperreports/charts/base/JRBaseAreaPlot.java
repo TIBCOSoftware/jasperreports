@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  */
 public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot 
 {
-
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	protected JRExpression categoryAxisLabelExpression = null;
@@ -109,6 +108,7 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot
 		categoryAxisTickLabelMask = areaPlot.getCategoryAxisTickLabelMask();
 		categoryAxisVerticalTickLabels = areaPlot.getCategoryAxisVerticalTickLabels();
 		categoryAxisLineColor = areaPlot.getOwnCategoryAxisLineColor();
+		labelRotationDouble = areaPlot.getCategoryAxisTickLabelRotation();
 		
 		valueAxisLabelExpression = factory.getExpression( areaPlot.getValueAxisLabelExpression() );
 		domainAxisMinValueExpression = factory.getExpression( areaPlot.getDomainAxisMinValueExpression() );
@@ -193,6 +193,24 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot
 	public Boolean getCategoryAxisVerticalTickLabels()
 	{
 		return categoryAxisVerticalTickLabels;
+	}
+
+	/**
+	 * 
+	 */
+	public Double getCategoryAxisTickLabelRotation()
+	{
+		return labelRotationDouble;
+	}
+
+	/**
+	 * 
+	 */
+	public void setCategoryAxisTickLabelRotation(Double labelRotationDouble)
+	{
+		Object old = this.labelRotationDouble;
+		this.labelRotationDouble = labelRotationDouble;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_ROTATION, old, this.labelRotationDouble);
 	}
 
 	/**

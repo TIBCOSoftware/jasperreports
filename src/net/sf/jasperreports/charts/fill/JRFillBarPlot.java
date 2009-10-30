@@ -184,6 +184,21 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	}
 
 	/**
+	 * 
+	 */
+	public Double getCategoryAxisTickLabelRotation()
+	{
+		return ((JRBarPlot)parent).getCategoryAxisTickLabelRotation();
+	}
+
+	/**
+	 * 
+	 */
+	public void setCategoryAxisTickLabelRotation(Double labelRotation)
+	{
+	}
+
+	/**
 	 *
 	 */
 	public Color getCategoryAxisLineColor()

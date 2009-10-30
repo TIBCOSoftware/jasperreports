@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.SortedSet;
 
+import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -192,7 +193,7 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRCategoryAxisFormat#getCategoryAxisTickLabelRotation()}.
 	 */
 	public Double getLabelRotationDouble()
 	{

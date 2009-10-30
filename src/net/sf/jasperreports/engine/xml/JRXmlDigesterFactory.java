@@ -155,6 +155,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
+import net.sf.jasperreports.engine.xml.JRChartFactory.JRCategoryAxisFormatFactory;
 
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.SetNestedPropertiesRule;
@@ -562,6 +563,9 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/chart/chartLegend/font", "setLegendFont", JRFont.class.getName());
 
 		// axis labels
+
+		digester.addFactoryCreate("*/categoryAxisFormat", JRCategoryAxisFormatFactory.class.getName());
+
 		digester.addFactoryCreate("*/categoryAxisFormat/axisFormat", JRChartFactory.JRChartAxisFormatFactory.class.getName());
 		digester.addSetNext("*/categoryAxisFormat/axisFormat", "setCategoryAxisFormat", JRAxisFormat.class.getName());
 		digester.addFactoryCreate("*/categoryAxisFormat/axisFormat/labelFont/font", JRFontFactory.ChartFontFactory.class.getName());
