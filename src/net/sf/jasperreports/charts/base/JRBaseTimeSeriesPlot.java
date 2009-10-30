@@ -43,7 +43,8 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSeriesPlot {
+public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSeriesPlot 
+{
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -57,6 +58,7 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	protected JRFont timeAxisTickLabelFont = null;
 	protected Color timeAxisTickLabelColor = null;
 	protected String timeAxisTickLabelMask = null;
+	protected Boolean timeAxisVerticalTickLabels = null;
 	protected Color timeAxisLineColor = null;
 
 	protected JRExpression valueAxisLabelExpression = null;
@@ -69,6 +71,7 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	protected JRFont valueAxisTickLabelFont = null;
 	protected Color valueAxisTickLabelColor = null;
 	protected String valueAxisTickLabelMask = null;
+	protected Boolean valueAxisVerticalTickLabels = null;
 	protected Color valueAxisLineColor = null;
 	
 	Boolean showShapes = null;
@@ -114,6 +117,7 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 		timeAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = plot.getOwnTimeAxisTickLabelColor();
 		timeAxisTickLabelMask = plot.getTimeAxisTickLabelMask();
+		timeAxisVerticalTickLabels = plot.getTimeAxisVerticalTickLabels();
 		timeAxisLineColor = plot.getOwnTimeAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( plot.getValueAxisLabelExpression() );
@@ -126,6 +130,7 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 		valueAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = plot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = plot.getValueAxisTickLabelMask();
+		valueAxisVerticalTickLabels = plot.getValueAxisVerticalTickLabels();
 		valueAxisLineColor = plot.getOwnValueAxisTickLabelColor();
 	}
 	
@@ -190,6 +195,14 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	public String getTimeAxisTickLabelMask()
 	{
 		return timeAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getTimeAxisVerticalTickLabels()
+	{
+		return timeAxisVerticalTickLabels;
 	}
 
 	/**
@@ -297,6 +310,14 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	public String getValueAxisTickLabelMask()
 	{
 		return valueAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getValueAxisVerticalTickLabels()
+	{
+		return valueAxisVerticalTickLabels;
 	}
 
 	/**

@@ -57,6 +57,8 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	
 	public static final String PROPERTY_CATEGORY_AXIS_TICK_LABEL_MASK = "categoryAxisTickLabelMask";
 	
+	public static final String PROPERTY_CATEGORY_AXIS_VERTICAL_TICK_LABELS = "categoryAxisVerticalTickLabels";
+	
 	public static final String PROPERTY_VALUE_AXIS_LABEL_COLOR = "valueAxisLabelColor";
 	
 	public static final String PROPERTY_VALUE_AXIS_LABEL_EXPRESSION = "valueAxisLabelExpression";
@@ -78,6 +80,8 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_FONT = "valueAxisTickLabelFont";
 	
 	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_MASK = "valueAxisTickLabelMask";
+
+	public static final String PROPERTY_VALUE_AXIS_VERTICAL_TICK_LABELS = "valueAxisVerticalTickLabels";
 
 	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
 
@@ -144,6 +148,16 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 		Object old = this.categoryAxisTickLabelMask;
 		this.categoryAxisTickLabelMask = categoryAxisTickLabelMask;
 		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_MASK, old, this.categoryAxisTickLabelMask);
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisVerticalTickLabels(Boolean categoryAxisVerticalTickLabels)
+	{
+		Object old = this.categoryAxisVerticalTickLabels;
+		this.categoryAxisVerticalTickLabels = categoryAxisVerticalTickLabels;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_VERTICAL_TICK_LABELS, old, this.categoryAxisVerticalTickLabels);
 	}
 
 	/**
@@ -260,6 +274,16 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	/**
 	 *
 	 */
+	public void setValueAxisVerticalTickLabels(Boolean valueAxisVerticalTickLabels)
+	{
+		Object old = this.valueAxisVerticalTickLabels;
+		this.valueAxisVerticalTickLabels = valueAxisVerticalTickLabels;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_VERTICAL_TICK_LABELS, old, this.valueAxisVerticalTickLabels);
+	}
+
+	/**
+	 *
+	 */
 	public void setValueAxisLineColor(Color valueAxisLineColor)
 	{
 		Object old = this.valueAxisLineColor;
@@ -286,6 +310,7 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 		setCategoryAxisTickLabelFont(axisFormat.getTickLabelFont());
 		setCategoryAxisTickLabelColor(axisFormat.getTickLabelColor());
 		setCategoryAxisTickLabelMask(axisFormat.getTickLabelMask());
+		setCategoryAxisVerticalTickLabels(axisFormat.getVerticalTickLabels());
 		setCategoryAxisLineColor(axisFormat.getLineColor());
 	}
 
@@ -299,6 +324,7 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 		setValueAxisTickLabelFont(axisFormat.getTickLabelFont());
 		setValueAxisTickLabelColor(axisFormat.getTickLabelColor());
 		setValueAxisTickLabelMask(axisFormat.getTickLabelMask());
+		setValueAxisVerticalTickLabels(axisFormat.getVerticalTickLabels());
 		setValueAxisLineColor(axisFormat.getLineColor());
 	}
 }

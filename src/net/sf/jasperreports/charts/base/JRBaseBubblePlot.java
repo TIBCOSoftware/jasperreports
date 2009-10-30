@@ -57,6 +57,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	protected JRFont xAxisTickLabelFont = null;
 	protected Color xAxisTickLabelColor = null;
 	protected String xAxisTickLabelMask = null;
+	protected Boolean xAxisVerticalTickLabels = null;
 	protected Color xAxisLineColor = null;
 
 	protected JRExpression yAxisLabelExpression = null;
@@ -65,6 +66,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	protected JRFont yAxisTickLabelFont = null;
 	protected Color yAxisTickLabelColor = null;
 	protected String yAxisTickLabelMask = null;
+	protected Boolean yAxisVerticalTickLabels = null;
 	protected Color yAxisLineColor = null;
 	
 	protected JRExpression domainAxisMinValueExpression = null;
@@ -114,6 +116,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		xAxisTickLabelFont = new JRBaseFont(bubblePlot.getChart(), bubblePlot.getXAxisTickLabelFont());
 		xAxisTickLabelColor = bubblePlot.getOwnXAxisTickLabelColor();
 		xAxisTickLabelMask = bubblePlot.getXAxisTickLabelMask();
+		xAxisVerticalTickLabels = bubblePlot.getXAxisVerticalTickLabels();
 		xAxisLineColor = bubblePlot.getOwnXAxisLineColor();
 		
 		yAxisLabelExpression = factory.getExpression( bubblePlot.getYAxisLabelExpression() );
@@ -122,6 +125,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		yAxisTickLabelFont = new JRBaseFont(bubblePlot.getChart(), bubblePlot.getYAxisTickLabelFont());
 		yAxisTickLabelColor = bubblePlot.getOwnYAxisTickLabelColor();
 		yAxisTickLabelMask = bubblePlot.getYAxisTickLabelMask();
+		yAxisVerticalTickLabels = bubblePlot.getYAxisVerticalTickLabels();
 		yAxisLineColor = bubblePlot.getOwnYAxisLineColor();
 		
 		domainAxisMinValueExpression = factory.getExpression( bubblePlot.getDomainAxisMinValueExpression() );
@@ -191,6 +195,14 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	public String getXAxisTickLabelMask()
 	{
 		return xAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getXAxisVerticalTickLabels()
+	{
+		return xAxisVerticalTickLabels;
 	}
 
 	/**
@@ -270,6 +282,14 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	public String getYAxisTickLabelMask()
 	{
 		return yAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getYAxisVerticalTickLabels()
+	{
+		return yAxisVerticalTickLabels;
 	}
 
 	/**

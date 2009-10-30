@@ -41,7 +41,8 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
+public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot 
+{
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -51,6 +52,7 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	protected JRFont categoryAxisTickLabelFont = null;
 	protected Color categoryAxisTickLabelColor = null;
 	protected String categoryAxisTickLabelMask = null;
+	protected Boolean categoryAxisVerticalTickLabels = null;
 	protected Color categoryAxisLineColor = null;
 
 	protected JRExpression valueAxisLabelExpression = null;
@@ -63,6 +65,7 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	protected JRFont valueAxisTickLabelFont = null;
 	protected Color valueAxisTickLabelColor = null;
 	protected String valueAxisTickLabelMask = null;
+	protected Boolean valueAxisVerticalTickLabels = null;
 	protected Color valueAxisLineColor = null;
 	
 
@@ -104,6 +107,7 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 		categoryAxisTickLabelFont = new JRBaseFont(areaPlot.getChart(), areaPlot.getCategoryAxisTickLabelFont());
 		categoryAxisTickLabelColor = areaPlot.getOwnCategoryAxisTickLabelColor();
 		categoryAxisTickLabelMask = areaPlot.getCategoryAxisTickLabelMask();
+		categoryAxisVerticalTickLabels = areaPlot.getCategoryAxisVerticalTickLabels();
 		categoryAxisLineColor = areaPlot.getOwnCategoryAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( areaPlot.getValueAxisLabelExpression() );
@@ -116,6 +120,7 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 		valueAxisTickLabelFont = new JRBaseFont(areaPlot.getChart(), areaPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = areaPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = areaPlot.getValueAxisTickLabelMask();
+		valueAxisVerticalTickLabels = areaPlot.getValueAxisVerticalTickLabels();
 		valueAxisLineColor = areaPlot.getOwnValueAxisLineColor();
 	}
 	
@@ -180,6 +185,14 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	public String getCategoryAxisTickLabelMask()
 	{
 		return categoryAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getCategoryAxisVerticalTickLabels()
+	{
+		return categoryAxisVerticalTickLabels;
 	}
 
 	/**
@@ -287,6 +300,14 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	public String getValueAxisTickLabelMask()
 	{
 		return valueAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getValueAxisVerticalTickLabels()
+	{
+		return valueAxisVerticalTickLabels;
 	}
 
 	/**

@@ -155,12 +155,13 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setCategoryAxisTickLabelMask(String mask)
+	public Boolean getCategoryAxisVerticalTickLabels()
 	{
+		return ((JRBar3DPlot)parent).getCategoryAxisVerticalTickLabels();
 	}
-	
+
 	/**
 	 *
 	 */
@@ -295,10 +296,11 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setValueAxisTickLabelMask(String mask)
+	public Boolean getValueAxisVerticalTickLabels()
 	{
+		return ((JRBar3DPlot)parent).getValueAxisVerticalTickLabels();
 	}
 
 	/**

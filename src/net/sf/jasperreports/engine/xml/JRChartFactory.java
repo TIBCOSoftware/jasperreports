@@ -221,6 +221,13 @@ public class JRChartFactory extends JRBaseFactory
 				axisLabel.setTickLabelMask(attrValue);
 			}
 
+			// Set the vertical tick labels flag
+			attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_verticalTickLabels);
+			if (attrValue != null && attrValue.length() > 0)
+			{
+				axisLabel.setVerticalTickLabel(Boolean.valueOf(attrValue));
+			}
+
 			// And finally set the axis line color
 			attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_axisLineColor);
 			if (attrValue != null && attrValue.length() > 0)

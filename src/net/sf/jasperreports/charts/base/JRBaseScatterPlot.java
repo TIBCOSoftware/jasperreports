@@ -57,6 +57,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	protected JRFont xAxisTickLabelFont = null;
 	protected Color xAxisTickLabelColor = null;
 	protected String xAxisTickLabelMask = null;
+	protected Boolean xAxisVerticalTickLabels = null;
 	protected Color xAxisLineColor = null;
 
 	protected JRExpression yAxisLabelExpression = null;
@@ -65,6 +66,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	protected JRFont yAxisTickLabelFont = null;
 	protected Color yAxisTickLabelColor = null;
 	protected String yAxisTickLabelMask = null;
+	protected Boolean yAxisVerticalTickLabels = null;
 	protected Color yAxisLineColor = null;
 	
 	protected JRExpression domainAxisMinValueExpression = null;
@@ -116,6 +118,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		xAxisTickLabelFont = new JRBaseFont(scatterPlot.getChart(), scatterPlot.getXAxisTickLabelFont());
 		xAxisTickLabelColor = scatterPlot.getOwnXAxisTickLabelColor();
 		xAxisTickLabelMask = scatterPlot.getXAxisTickLabelMask();
+		xAxisVerticalTickLabels = scatterPlot.getXAxisVerticalTickLabels();
 		xAxisLineColor = scatterPlot.getOwnXAxisLineColor();
 		
 		yAxisLabelExpression = factory.getExpression( scatterPlot.getYAxisLabelExpression() );
@@ -124,6 +127,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		yAxisTickLabelFont = new JRBaseFont(scatterPlot.getChart(), scatterPlot.getYAxisTickLabelFont());
 		yAxisTickLabelColor = scatterPlot.getOwnYAxisTickLabelColor();
 		yAxisTickLabelMask = scatterPlot.getYAxisTickLabelMask();
+		yAxisVerticalTickLabels = scatterPlot.getYAxisVerticalTickLabels();
 		yAxisLineColor = scatterPlot.getOwnYAxisLineColor();
 		
 		domainAxisMinValueExpression = factory.getExpression( scatterPlot.getDomainAxisMinValueExpression() );
@@ -193,6 +197,14 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	public String getXAxisTickLabelMask()
 	{
 		return xAxisTickLabelMask;
+	}
+	
+	/**
+	 * 
+	 */
+	public Boolean getXAxisVerticalTickLabels()
+	{
+		return xAxisVerticalTickLabels;
 	}
 	
 	/**
@@ -272,6 +284,14 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	public String getYAxisTickLabelMask()
 	{
 		return yAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean getYAxisVerticalTickLabels()
+	{
+		return yAxisVerticalTickLabels;
 	}
 
 	/**

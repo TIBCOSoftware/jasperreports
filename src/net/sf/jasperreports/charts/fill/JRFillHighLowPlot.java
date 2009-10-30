@@ -25,7 +25,6 @@ package net.sf.jasperreports.charts.fill;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -160,10 +159,11 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setTimeAxisTickLabelMask(String mask)
+	public Boolean getTimeAxisVerticalTickLabels()
 	{
+		return ((JRHighLowPlot)parent).getTimeAxisVerticalTickLabels();
 	}
 
 	/**
@@ -300,10 +300,11 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setValueAxisTickLabelMask(String mask)
+	public Boolean getValueAxisVerticalTickLabels()
 	{
+		return ((JRHighLowPlot)parent).getValueAxisVerticalTickLabels();
 	}
 
 	/**

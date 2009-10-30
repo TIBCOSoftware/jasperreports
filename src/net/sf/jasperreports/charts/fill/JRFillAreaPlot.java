@@ -155,12 +155,13 @@ public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setCategoryAxisTickLabelMask(String mask)
+	public Boolean getCategoryAxisVerticalTickLabels()
 	{
+		return ((JRAreaPlot)parent).getCategoryAxisVerticalTickLabels();
 	}
-	
+
 	/**
 	 *
 	 */
@@ -295,10 +296,11 @@ public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setValueAxisTickLabelMask(String mask)
+	public Boolean getValueAxisVerticalTickLabels()
 	{
+		return ((JRAreaPlot)parent).getValueAxisVerticalTickLabels();
 	}
 
 	/**
