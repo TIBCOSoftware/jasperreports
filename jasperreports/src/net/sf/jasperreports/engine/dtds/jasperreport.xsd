@@ -4159,7 +4159,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    </attribute>
    <attribute name="labelRotation" type="string" use="optional">
 	<annotation>
- 	 <documentation>Degrees to rotate the text labels for the x axis of the chart.  Positive
+ 	 <documentation><i>Deprecated</i>. Replaced by attribute <code>labelRotation</code> of tag <elem>categoryAxisFormat</elem>. Degrees to rotate the text labels for the x axis of the chart.  Positive
             values rotate the text clockwise and negative values rotate it counterclockwise.
             This attribute has no effect on charts where the x axis is either numeric or a
             date.
@@ -4477,6 +4477,13 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    <sequence>
     <element ref="jr:axisFormat"/>
    </sequence>
+   <attribute name="labelRotation" type="string" use="optional">
+	<annotation>
+ 	 <documentation>Degrees to rotate the text labels for the category axis of the chart. Positive
+            values rotate the text clockwise and negative values rotate it counterclockwise.
+     </documentation>
+	</annotation>
+   </attribute>
   </complexType>
  </element>
 

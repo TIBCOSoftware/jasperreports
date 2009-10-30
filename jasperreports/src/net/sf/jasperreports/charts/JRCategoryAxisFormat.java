@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.JRFont;
 public interface JRCategoryAxisFormat
 {
 
+	public static final String PROPERTY_CATEGORY_AXIS_TICK_LABEL_ROTATION = "categoryAxisVerticalTickLabels";
+	
 	/**
 	 * 
 	 */
@@ -83,5 +85,15 @@ public interface JRCategoryAxisFormat
 	 * 
 	 */
 	public Color getOwnCategoryAxisLineColor();
+	
+	/**
+	 * 
+	 */
+	public Double getCategoryAxisTickLabelRotation();
+	
+	/**
+	 * 
+	 */
+	public void setCategoryAxisTickLabelRotation(Double labelRotation);
 	
 }

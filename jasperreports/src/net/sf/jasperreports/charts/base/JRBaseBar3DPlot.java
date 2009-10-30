@@ -46,7 +46,8 @@ import org.jfree.chart.renderer.category.BarRenderer3D;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$ 
  */
-public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
+public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot 
+{
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -130,6 +131,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 		categoryAxisTickLabelMask = barPlot.getCategoryAxisTickLabelMask();
 		categoryAxisVerticalTickLabels = barPlot.getCategoryAxisVerticalTickLabels();
 		categoryAxisLineColor = barPlot.getOwnCategoryAxisLineColor();
+		labelRotationDouble = barPlot.getCategoryAxisTickLabelRotation();
 		
 		valueAxisLabelExpression = factory.getExpression( barPlot.getValueAxisLabelExpression() );
 		domainAxisMinValueExpression = factory.getExpression( barPlot.getDomainAxisMinValueExpression() );
@@ -215,6 +217,24 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	public Boolean getCategoryAxisVerticalTickLabels()
 	{
 		return categoryAxisVerticalTickLabels;
+	}
+
+	/**
+	 * 
+	 */
+	public Double getCategoryAxisTickLabelRotation()
+	{
+		return labelRotationDouble;
+	}
+
+	/**
+	 * 
+	 */
+	public void setCategoryAxisTickLabelRotation(Double labelRotationDouble)
+	{
+		Object old = this.labelRotationDouble;
+		this.labelRotationDouble = labelRotationDouble;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_ROTATION, old, this.labelRotationDouble);
 	}
 
 	/**

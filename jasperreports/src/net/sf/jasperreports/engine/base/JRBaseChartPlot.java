@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -258,6 +259,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 * Gets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
 	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
 	 * use a category based axis (such as line or bar charts) support label rotation.
+	 * @deprecated Replaced by {@link JRCategoryAxisFormat#getCategoryAxisTickLabelRotation()}.
 	 */
 	public Double getLabelRotationDouble()
 	{
@@ -268,6 +270,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 * Sets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
 	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
 	 * use a category based axis (such as line or bar charts) support label rotation.
+	 * @deprecated Replaced by {@link JRCategoryAxisFormat#setCategoryAxisTickLabelRotation(Double)}.
 	 */
 	public void setLabelRotation(Double labelRotation)
 	{

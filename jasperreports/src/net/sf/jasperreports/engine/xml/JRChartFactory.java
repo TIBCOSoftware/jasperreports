@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.xml;
 import java.awt.Color;
 import java.util.Collection;
 
+import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.util.JRAxisFormat;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -239,6 +240,27 @@ public class JRChartFactory extends JRBaseFactory
 			// Any fonts set will be put in the axis format object by the digester.
 
 			return axisLabel;
+		}
+	}
+
+
+	/**
+	 * 
+	 */
+	public static class JRCategoryAxisFormatFactory extends JRBaseFactory
+	{
+		/**
+		 *
+		 */
+		public Object createObject(Attributes atts) throws JRException
+		{
+			JRCategoryAxisFormat categoryAxisFormat = (JRCategoryAxisFormat)digester.peek();
+			
+			String labelRotation = atts.getValue(JRXmlConstants.ATTRIBUTE_labelRotation);
+			if (labelRotation != null && labelRotation.length() > 0)
+				categoryAxisFormat.setCategoryAxisTickLabelRotation(Double.valueOf(labelRotation));
+			
+			return categoryAxisFormat;
 		}
 	}
 }

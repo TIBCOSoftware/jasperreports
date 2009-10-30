@@ -27,6 +27,8 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.SortedSet;
 
+import net.sf.jasperreports.charts.JRCategoryAxisFormat;
+
 import org.jfree.chart.plot.PlotOrientation;
 
 
@@ -135,6 +137,7 @@ public interface JRChartPlot extends JRCloneable
 	 * Gets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
 	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
 	 * use a category based axis (such as line or bar charts) support label rotation.
+	 * @deprecated Replaced by {@link JRCategoryAxisFormat#getCategoryAxisTickLabelRotation()}.
 	 */
 	public Double getLabelRotationDouble();
 	
@@ -142,6 +145,7 @@ public interface JRChartPlot extends JRCloneable
 	 * Sets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
 	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
 	 * use a category based axis (such as line or bar charts) support label rotation.
+	 * @deprecated Replaced by {@link JRCategoryAxisFormat#setCategoryAxisTickLabelRotation(Double)}.
 	 */
 	public void setLabelRotation(Double labelRotation);
 	
