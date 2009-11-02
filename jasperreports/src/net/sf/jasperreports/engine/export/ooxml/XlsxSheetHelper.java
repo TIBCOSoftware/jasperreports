@@ -38,6 +38,7 @@ public class XlsxSheetHelper extends BaseHelper
 {
 	private int rowIndex = 0;
 	
+	private FileBufferedWriter colsWriter = new FileBufferedWriter();
 	private FileBufferedWriter mergedCellsWriter = new FileBufferedWriter();
 	
 	/**
@@ -60,7 +61,6 @@ public class XlsxSheetHelper extends BaseHelper
 
 		write("<dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"/></sheetViews>\n");
 		write("<sheetFormatPr defaultRowHeight=\"15\"/>\n");
-		write("<cols>\n");
 	}
 	
 
@@ -75,7 +75,12 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 		else
 		{
-			write("</cols>\n");
+			if (!colsWriter.isEmpty())
+			{
+				write("<cols>\n");//FIXMEXLSX check count attribute
+				colsWriter.writeData(writer);
+				write("</cols>\n");
+			}
 			write("<sheetData>\n");
 		}
 		write("</sheetData>\n");
@@ -96,7 +101,14 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportColumn(int colIndex, int colWidth) 
 	{
-		write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\" width=\"" + (3f * (float)colWidth / 18f) + "\"/>\n");
+		try
+		{
+			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\" width=\"" + (3f * (float)colWidth / 18f) + "\"/>\n");
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 	
 	/**
@@ -110,7 +122,12 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 		else
 		{
-			write("</cols>\n");
+			if (!colsWriter.isEmpty())
+			{
+				write("<cols>\n");//FIXMEXLSX check count attribute
+				colsWriter.writeData(writer);
+				write("</cols>\n");
+			}
 			write("<sheetData>\n");
 		}
 		rowIndex++;

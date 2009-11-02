@@ -450,8 +450,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					if (filter instanceof ResetableExporterFilter)
 						((ResetableExporterFilter)filter).reset();
 					
-					setColumnWidths(xCuts);
-
 					int startRow = 0;
 
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
@@ -499,6 +497,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		if (createXCuts) 
 		{
 			xCuts = layout.getXCuts();
+			setColumnWidths(xCuts);
+		}
+		
+		if (startRow == 0)
+		{
 			setColumnWidths(xCuts);
 		}
 
