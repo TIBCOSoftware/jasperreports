@@ -189,6 +189,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //				JExcelApiExporterParameter.PASSWORD,
 //				JExcelApiExporterParameter.PROPERTY_PASSWORD
 //				);
+		
+		isCollapseRowSpan = false;//FIXMEXLSX this does not work
 	}
 
 
