@@ -332,7 +332,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = Pattern.SOLID;
-			backcolor = getWorkbookColour(gridCell.getCellBackcolor());
+			backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
 		}
 
 		WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue(), getLocale());
@@ -375,7 +375,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = Pattern.SOLID;
-			backcolor = getWorkbookColour(gridCell.getCellBackcolor());
+			backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
 		}
 
 		int side = BoxStyle.TOP;
@@ -434,7 +434,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = Pattern.SOLID;
-			backcolor = getWorkbookColour(gridCell.getCellBackcolor());
+			backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
 		}
 
 		Colour forecolor = getWorkbookColour(element.getLinePen().getLineColor());
@@ -481,7 +481,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			if (gridCell.getCellBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
-				backcolor = getWorkbookColour(gridCell.getCellBackcolor());
+				backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
 			}
 
 			StyleInfo baseStyle =
@@ -1004,12 +1004,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			if (gridCell.getCellBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
-				background = getWorkbookColour(gridCell.getCellBackcolor());
+				background = getWorkbookColour(gridCell.getCellBackcolor(), true);
 			}
 
 			if(element.getMode() == JRElement.MODE_OPAQUE )
 			{
-				background = getWorkbookColour(element.getBackcolor());
+				background = getWorkbookColour(element.getBackcolor(), true);
 			}
 
 			Colour forecolor = getWorkbookColour(element.getLineBox().getPen().getLineColor());
@@ -1046,6 +1046,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				throw new JRException("The cell cannot be added", err);
 			}
 		}
+	}
+
+	protected Colour getWorkbookColour(Color awtColor, boolean isBackcolor)
+	{
+		if (isBackcolor && awtColor.getRGB() == Color.black.getRGB())
+		{
+			return Colour.PALETTE_BLACK;
+		}
+		return getWorkbookColour(awtColor);
 	}
 
 	protected Colour getWorkbookColour(Color awtColor)
@@ -1565,6 +1574,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				{
 					cellStyle = new WritableCellFormat(styleKey.font, styleKey.getDisplayFormat());
 				}
+
 				cellStyle.setBackground(styleKey.backcolor, styleKey.mode);
 				cellStyle.setAlignment(Alignment.getAlignment(styleKey.horizontalAlignment));
 				cellStyle.setVerticalAlignment(VerticalAlignment.getAlignment(styleKey.verticalAlignment));
@@ -1878,7 +1888,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		if (frame.getMode() == JRElement.MODE_OPAQUE)
 		{
 			mode = Pattern.SOLID;
-			backcolor = getWorkbookColour(frame.getBackcolor());
+			backcolor = getWorkbookColour(frame.getBackcolor(), true);
 		}
 
 		WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue(), getLocale());
