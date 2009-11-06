@@ -105,6 +105,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isIgnoreGraphics;
 	protected boolean isCollapseRowSpan;
 	protected boolean isIgnoreCellBorder;
+	protected boolean isIgnoreCellBackground;
 
 	protected int maxRowsPerSheet;
 
@@ -307,6 +308,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			getBooleanParameter(
 				JRXlsAbstractExporterParameter.IS_IGNORE_CELL_BORDER,
 				JRXlsAbstractExporterParameter.PROPERTY_IGNORE_CELL_BORDER,
+				false
+				);
+
+		isIgnoreCellBackground = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.IS_IGNORE_CELL_BACKGROUND,
+				JRXlsAbstractExporterParameter.PROPERTY_IGNORE_CELL_BACKGROUND,
 				false
 				);
 

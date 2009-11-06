@@ -78,7 +78,7 @@ public class XlsxFontHelper extends BaseHelper
 		write(
 			"<font><sz val=\"" + fontInfo.fontSize + "\"/>" 
 			+ "<color rgb=\"" + fontInfo.color + "\"/>"
-			+ "<name val=\"" + fontInfo.fontName + "\"/>"
+			+ "<name val=\"" + fontInfo.fontName + "\"/>"//FIXMEXLSX use font mappings here
 			+ "<b val=\"" + fontInfo.isBold + "\"/>"
 			+ "<i val=\"" + fontInfo.isItalic + "\"/>"
 			+ "<u val=\"" + (fontInfo.isUnderline ? "single" : "none") + "\"/>"

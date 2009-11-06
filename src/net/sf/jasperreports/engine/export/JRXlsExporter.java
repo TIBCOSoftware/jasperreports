@@ -271,7 +271,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		if (gridCell.getCellBackcolor() != null)
+		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
@@ -336,7 +336,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		if (gridCell.getCellBackcolor() != null)
+		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
@@ -369,7 +369,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		if (gridCell.getCellBackcolor() != null)
+		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
@@ -412,7 +412,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		if (gridCell.getCellBackcolor() != null)
+		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
@@ -874,6 +874,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		if (cellStyle == null)
 		{
 			cellStyle = workbook.createCellStyle();
+
 			cellStyle.setFillForegroundColor(style.backcolor);
 			cellStyle.setFillPattern(style.mode);
 			cellStyle.setAlignment(style.horizontalAlignment);
@@ -1176,7 +1177,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 				short mode = backgroundMode;
 				short backcolor = whiteIndex;
-				if (gridCell.getCellBackcolor() != null)
+				if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 				{
 					mode = HSSFCellStyle.SOLID_FOREGROUND;
 					backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();

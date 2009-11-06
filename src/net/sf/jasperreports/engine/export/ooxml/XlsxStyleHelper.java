@@ -52,15 +52,28 @@ public class XlsxStyleHelper extends BaseHelper
 	private XlsxFontHelper fontHelper = null;
 	private XlsxBorderHelper borderHelper = null;
 	
+	private boolean isWhitePageBackground = false;
+	private boolean isIgnoreCellBackground = false;
+	
 	/**
 	 * 
 	 */
-	public XlsxStyleHelper(Writer writer, Map fontMap, String exporterKey)
+	public XlsxStyleHelper(
+		Writer writer, 
+		Map fontMap, 
+		String exporterKey,
+		boolean isWhitePageBackground,
+		boolean isIgnoreCellBorder,
+		boolean isIgnoreCellBackground
+		)
 	{
 		super(writer);
 		
+		this.isWhitePageBackground = isWhitePageBackground;
+		this.isIgnoreCellBackground = isIgnoreCellBackground;
+		
 		fontHelper = new XlsxFontHelper(fontsWriter);
-		borderHelper = new XlsxBorderHelper(bordersWriter);
+		borderHelper = new XlsxBorderHelper(bordersWriter, isIgnoreCellBorder);
 	}
 
 	/**
@@ -91,9 +104,16 @@ public class XlsxStyleHelper extends BaseHelper
 	{
 		try
 		{
-			if (styleInfo.backcolor == null)
+			if (isIgnoreCellBackground || styleInfo.backcolor == null)
 			{
-				fillsWriter.write("<fill><patternFill patternType=\"none\"/></fill>\n");
+				if (isWhitePageBackground)
+				{
+					fillsWriter.write("<fill><patternFill patternType=\"solid\"><fgColor rgb=\"FFFFFF\"/></patternFill></fill>\n");
+				}
+				else
+				{
+					fillsWriter.write("<fill><patternFill patternType=\"none\"/></fill>\n");
+				}
 			}
 			else
 			{

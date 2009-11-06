@@ -288,6 +288,22 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * Flag for ignoring the cell background color.
+	 */
+	public static final JRXlsAbstractExporterParameter IS_IGNORE_CELL_BACKGROUND = new JRXlsAbstractExporterParameter("Is Ignore Cell Background");
+
+
+	/**
+	 * Property whose value is used as default state of the {@link #IS_IGNORE_CELL_BACKGROUND IS_IGNORE_CELL_BACKGROUND} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_IGNORE_CELL_BACKGROUND = JRProperties.PROPERTY_PREFIX + "export.xls.ignore.cell.background";
+
+
+	/**
 	 * A String value representing the password in case of password protected documents 
 	 */
 	public static final JRXlsAbstractExporterParameter PASSWORD = new JRXlsAbstractExporterParameter("Password");

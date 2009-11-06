@@ -329,7 +329,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		Pattern mode = backgroundMode;
 		Colour backcolor = WHITE;
-		if (gridCell.getCellBackcolor() != null)
+		
+		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = Pattern.SOLID;
 			backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
@@ -372,7 +373,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		Colour backcolor = WHITE;
 		Pattern mode = this.backgroundMode;
 
-		if (gridCell.getCellBackcolor() != null)
+		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = Pattern.SOLID;
 			backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
@@ -431,7 +432,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		Colour backcolor = WHITE;
 		Pattern mode = this.backgroundMode;
 
-		if (gridCell.getCellBackcolor() != null)
+		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = Pattern.SOLID;
 			backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
@@ -478,7 +479,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			Pattern mode = this.backgroundMode;
 			Colour backcolor = WHITE;
 
-			if (gridCell.getCellBackcolor() != null)
+			if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
 				backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
@@ -1001,7 +1002,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			Pattern mode = this.backgroundMode;
 			Colour background = WHITE;
 
-			if (gridCell.getCellBackcolor() != null)
+			if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
 				background = getWorkbookColour(gridCell.getCellBackcolor(), true);

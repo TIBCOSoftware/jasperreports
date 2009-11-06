@@ -28,8 +28,6 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -52,7 +50,7 @@ public class XlsxCellHelper extends BaseHelper
 	 *
 	 */
 	private XlsxStyleHelper styleHelper = null;
-	private XlsxBorderHelper borderHelper = null;
+//	private XlsxBorderHelper borderHelper = null;
 	
 	/**
 	 *
@@ -65,12 +63,12 @@ public class XlsxCellHelper extends BaseHelper
 		super(writer);
 		
 		this.styleHelper = styleHelper;
-		borderHelper = new XlsxBorderHelper(writer);
+//		borderHelper = new XlsxBorderHelper(writer);
 	}
 		
 	/**
 	 * 
-	 */
+	 *
 	public XlsxBorderHelper getBorderHelper() 
 	{
 		return borderHelper;
@@ -114,7 +112,7 @@ public class XlsxCellHelper extends BaseHelper
 
 	/**
 	 *
-	 */
+	 *
 	public void exportProps(JRPrintElement element, JRExporterGridCell gridCell)
 	{
 		exportBackcolor(element.getMode(), element.getBackcolor());
@@ -143,7 +141,7 @@ public class XlsxCellHelper extends BaseHelper
 
 	/**
 	 *
-	 */
+	 *
 	public void exportProps(JRExporterGridCell gridCell)
 	{
 		exportBackcolor(JRElement.MODE_OPAQUE, gridCell.getBackcolor());//FIXMEDOCX check this
