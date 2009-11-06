@@ -134,6 +134,8 @@ public abstract class JRAbstractExporter implements JRExporter
 		
 		int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue);
 
+		float getFloatParameter(JRExporterParameter parameter, String property, float defaultValue);
+
 		Character getCharacterParameter(JRExporterParameter parameter, String property);
 		
 		Object getParameters(JRExporterParameter parameter, String property);
@@ -225,6 +227,31 @@ public abstract class JRAbstractExporter implements JRExporter
 			{
 				return 
 					JRProperties.getIntegerProperty(
+						jasperPrint.getPropertiesMap(),
+						property,
+						defaultValue
+						);
+			}
+		}
+		
+		public float getFloatParameter(JRExporterParameter parameter, String property, float defaultValue)
+		{
+			if (parameters.containsKey(parameter))
+			{
+				Float floatValue = (Float)parameters.get(parameter);
+				if (floatValue == null)
+				{
+					return JRProperties.getIntegerProperty(property);
+				}
+				else
+				{
+					return floatValue.intValue();
+				}
+			}
+			else
+			{
+				return 
+					JRProperties.getFloatProperty(
 						jasperPrint.getPropertiesMap(),
 						property,
 						defaultValue
@@ -362,6 +389,37 @@ public abstract class JRAbstractExporter implements JRExporter
 				else
 				{
 					value = param.intValue();
+				}
+			}
+			return value;
+		}
+		
+		public float getFloatParameter(JRExporterParameter parameter, String property, float defaultValue)
+		{
+			float value;
+			JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
+			if (hintsMap != null && hintsMap.containsProperty(property))
+			{
+				String prop = hintsMap.getProperty(property);
+				if (prop == null)
+				{
+					value = JRProperties.getFloatProperty(property);
+				}
+				else
+				{
+					value = JRProperties.asFloat(prop);
+				}
+			}
+			else
+			{
+				Float param = (Float) parameters.get(parameter);
+				if (param == null)
+				{
+					value = JRProperties.getFloatProperty(property);
+				}
+				else
+				{
+					value = param.floatValue();
 				}
 			}
 			return value;
@@ -565,6 +623,15 @@ public abstract class JRAbstractExporter implements JRExporter
 	public int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue)
 	{
 		return getParameterResolver().getIntegerParameter(parameter, property, defaultValue);
+	}
+
+	
+	/**
+	 *
+	 */
+	public float getFloatParameter(JRExporterParameter parameter, String property, float defaultValue)
+	{
+		return getParameterResolver().getFloatParameter(parameter, property, defaultValue);
 	}
 
 	

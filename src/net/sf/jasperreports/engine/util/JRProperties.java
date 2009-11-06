@@ -358,6 +358,17 @@ public class JRProperties
 	}
 
 	/**
+	 * Returns a property as a float value.
+	 * 
+	 * @param key the key
+	 * @return the property value as a float
+	 */
+	public static float getFloatProperty (String key)
+	{
+		return asFloat(props.getProperty(key));
+	}
+
+	/**
 	 * Converts a <code>String</code> value into a <code>boolean</code>.
 	 * 
 	 * @param value the value
@@ -377,6 +388,17 @@ public class JRProperties
 	public static int asInteger(String value)
 	{
 		return Integer.parseInt(value);
+	}
+	
+	/**
+	 * Converts a <code>String</code> value into a <code>float</code>.
+	 * 
+	 * @param value the value
+	 * @return the value as a <code>float</code>
+	 */
+	public static float asFloat(String value)
+	{
+		return Float.parseFloat(value);
 	}
 	
 	/**
@@ -741,6 +763,52 @@ public class JRProperties
 		String value = getProperty(key);
 		
 		return value == null ? defaultValue : asInteger(value);
+	}
+
+	/**
+	 * Returns the value of a property as a float, looking first in the supplied properties holder
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @return the property value
+	 */
+	public static float getFloatProperty (JRPropertiesHolder propertiesHolder, String key, float defaultValue)
+	{
+		String value = getProperty(propertiesHolder, key);
+		
+		return value == null ? defaultValue : asFloat(value);
+	}
+	
+	/**
+	 * Returns the value of a property as a float, looking first in the supplied properties map
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesMap the properties map
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @return the property value
+	 */
+	public static float getFloatProperty (JRPropertiesMap propertiesMap, String key, float defaultValue)
+	{
+		String value = getProperty(propertiesMap, key);
+		
+		return value == null ? defaultValue : asFloat(value);
+	}
+
+	/**
+	 * Returns the value of a property as a float.
+	 * 
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @return the property value
+	 */
+	public static float getFloatProperty (String key, float defaultValue)
+	{
+		String value = getProperty(key);
+		
+		return value == null ? defaultValue : asFloat(value);
 	}
 
 	/**
