@@ -62,6 +62,14 @@
 		</java>
 	</target>
 
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="xml"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="text" description="Generates a pure text version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="text"/>
@@ -90,6 +98,7 @@
 			<fileset dir="." includes="**/*.class" />
 			<fileset dir="." includes="**/*.jasper" />
 			<fileset dir="." includes="**/*.jrprint" />
+			<fileset dir="." includes="**/*.jrpxml" />
 			<fileset dir="." includes="**/TextReport.txt"/>
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
@@ -104,6 +113,7 @@
 		<antcall target="compile" />
 		<antcall target="fill" />
 		<antcall target="pdf" />
+		<antcall target="xml" />
 		<antcall target="text" />
 	</target>
 

@@ -70,8 +70,10 @@ public class JRTextExporter extends JRAbstractExporter
 {
 	private static final String TXT_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.txt.";
 
-	protected int charPageWidth;
-	protected int charPageHeight;
+	protected int pageWidthInChars;
+	protected int pageHeightInChars;
+	protected float charWidth;
+	protected float charHeight;
 	protected JRExportProgressMonitor progressMonitor;
 	protected Writer writer;
 	char[][] pageData;
@@ -226,61 +228,65 @@ public class JRTextExporter extends JRAbstractExporter
 	 */
 	public void setReportParameters() throws JRException
 	{
-		int characterWidth = 
-			getIntegerParameter(
+		charWidth = 
+			getFloatParameter(
 				JRTextExporterParameter.CHARACTER_WIDTH,
 				JRTextExporterParameter.PROPERTY_CHARACTER_WIDTH,
 				0
 				);
-		if (characterWidth < 0)
+		if (charWidth < 0)
 		{
-			throw new JRException("Character width must be greater than zero.");
+			throw new JRException("Character width in pixels must be greater than zero.");
 		}
-		else if (characterWidth == 0)
+		else if (charWidth == 0)
 		{
-			charPageWidth = 
+			pageWidthInChars = 
 				getIntegerParameter(
 					JRTextExporterParameter.PAGE_WIDTH,
 					JRTextExporterParameter.PROPERTY_PAGE_WIDTH,
 					0
 					);
-			if (charPageWidth <= 0)
+			if (pageWidthInChars <= 0)
 			{
-				throw new JRException("Character width or page width must be specified and must be greater than zero.");
+				throw new JRException("Character width in pixels or page width in characters must be specified and must be greater than zero.");
 			}
+			
+			charWidth = jasperPrint.getPageWidth() / (float)pageWidthInChars;
 		}
 		else
 		{
-			charPageWidth = jasperPrint.getPageWidth() / characterWidth;
+			pageWidthInChars = (int)(jasperPrint.getPageWidth() / charWidth);
 		}
 		
 
-		int characterHeight = 
-			getIntegerParameter(
+		charHeight = 
+			getFloatParameter(
 				JRTextExporterParameter.CHARACTER_HEIGHT,
 				JRTextExporterParameter.PROPERTY_CHARACTER_HEIGHT,
 				0
 				);
-		if (characterHeight < 0)
+		if (charHeight < 0)
 		{
-			throw new JRException("Character height must be greater than zero.");
+			throw new JRException("Character height in pixels must be greater than zero.");
 		}
-		else if (characterHeight == 0)
+		else if (charHeight == 0)
 		{
-			charPageHeight = 
+			pageHeightInChars = 
 				getIntegerParameter(
 					JRTextExporterParameter.PAGE_HEIGHT,
 					JRTextExporterParameter.PROPERTY_PAGE_HEIGHT,
 					0
 					);
-			if (charPageHeight <= 0)
+			if (pageHeightInChars <= 0)
 			{
-				throw new JRException("Character height or page height must be specified and must be greater than zero.");
+				throw new JRException("Character height in pixels or page height in characters must be specified and must be greater than zero.");
 			}
+
+			charHeight = jasperPrint.getPageHeight() / (float)pageHeightInChars;
 		}
 		else
 		{
-			charPageHeight = jasperPrint.getPageHeight() / characterHeight;
+			pageHeightInChars = (int)(jasperPrint.getPageHeight() / charHeight);
 		}
 	}
 
@@ -334,15 +340,15 @@ public class JRTextExporter extends JRAbstractExporter
 	{
 		List elements = page.getElements();
 
-		pageData = new char[charPageHeight][];
-		for (int i = 0; i < charPageHeight; i++) {
-			pageData[i] = new char[charPageWidth];
+		pageData = new char[pageHeightInChars][];
+		for (int i = 0; i < pageHeightInChars; i++) {
+			pageData[i] = new char[pageWidthInChars];
 			Arrays.fill(pageData[i], ' ');
 		}
 
 		exportElements(elements);
 
-		for (int i = 0; i < charPageHeight; i++) {
+		for (int i = 0; i < pageHeightInChars; i++) {
 			writer.write(pageData[i]);
 			writer.write(lineSeparator);
 		}
@@ -387,14 +393,15 @@ public class JRTextExporter extends JRAbstractExporter
 	 */
 	protected void exportText(JRPrintText element)
 	{
-		int rowCount = calculateYCoord(element.getHeight());
-		int columnCount = calculateXCoord(element.getWidth());
-		int x = calculateXCoord(element.getX() + getOffsetX());
-		int y = calculateYCoord(element.getY() + getOffsetY());
+		int colSpan = getWidthInChars(element.getWidth());
+		int rowSpan = getHeightInChars(element.getHeight());
+		int col = getWidthInChars(element.getX() + getOffsetX());
+		int row = getHeightInChars(element.getY() + getOffsetY());
 		
-		if (x + columnCount > charPageWidth) {
+		if (col + colSpan > pageWidthInChars) 
+		{
 			//if the text exceeds the page width, truncate the column count
-			columnCount = charPageWidth - x;
+			colSpan = pageWidthInChars - col;
 		}
 
 		String allText;
@@ -409,14 +416,14 @@ public class JRTextExporter extends JRAbstractExporter
 		}
 
 		// if the space is too small, the element will not be rendered
-		if (rowCount <= 0 || columnCount <= 0)
+		if (rowSpan <= 0 || colSpan <= 0)
 			return;
 
 		if (allText != null && allText.length() == 0)
 			return;
 
 		// uses an array of string buffers, since the maximum number of rows is already calculated
-		StringBuffer[] rows = new StringBuffer[rowCount];
+		StringBuffer[] rows = new StringBuffer[rowSpan];
 		rows[0] = new StringBuffer();
 		int rowIndex = 0;
 		int rowPosition = 0;
@@ -432,7 +439,7 @@ public class JRTextExporter extends JRAbstractExporter
 				rows[rowIndex].append("");
 				isFirstLine = false;
 				rowIndex++;
-				if(rowIndex == rowCount || !lfTokenizer.hasMoreTokens())
+				if(rowIndex == rowSpan || !lfTokenizer.hasMoreTokens())
 					break label;
 				rowPosition = 0;
 				rows[rowIndex] = new StringBuffer();
@@ -452,7 +459,7 @@ public class JRTextExporter extends JRAbstractExporter
 				{
 					rows[rowIndex].append("");
 					rowIndex++;
-					if(rowIndex == rowCount)
+					if(rowIndex == rowSpan)
 						break label;
 					rowPosition = 0;
 					rows[rowIndex] = new StringBuffer();
@@ -475,11 +482,11 @@ public class JRTextExporter extends JRAbstractExporter
 	
 					// situation: word is larger than the entire column
 					// in this case breaking occurs in the middle of the word
-					while (word.length() > columnCount) {
-						rows[rowIndex].append(word.substring(0, columnCount - rowPosition));
-						word = word.substring(columnCount - rowPosition, word.length());
+					while (word.length() > colSpan) {
+						rows[rowIndex].append(word.substring(0, colSpan - rowPosition));
+						word = word.substring(colSpan - rowPosition, word.length());
 						rowIndex++;
-						if(rowIndex == rowCount)
+						if(rowIndex == rowSpan)
 							break label;
 						rowPosition = 0;
 						rows[rowIndex] = new StringBuffer();
@@ -487,9 +494,9 @@ public class JRTextExporter extends JRAbstractExporter
 	
 					// situation: word is larger than remaining space on the current line
 					// in this case, go to the next line
-					if (rowPosition + word.length() > columnCount) {
+					if (rowPosition + word.length() > colSpan) {
 						rowIndex++;
-						if (rowIndex == rowCount)
+						if (rowIndex == rowSpan)
 							break label;
 						rowPosition = 0;
 						rows[rowIndex] = new StringBuffer();
@@ -497,8 +504,8 @@ public class JRTextExporter extends JRAbstractExporter
 	
 					// situation: the word is actually a space and it situated at the beginning of a new line
 					// in this case, it is removed
-					if (rowIndex > 9 && rowPosition == 0 && word.equals(" "))
-						break;
+					if (rowIndex > 0 && rowPosition == 0 && word.equals(" "))
+						continue;
 	
 					// situation: the word is small enough to fit in the current line
 					// in this case just add the word and increment the cursor position
@@ -508,20 +515,20 @@ public class JRTextExporter extends JRAbstractExporter
 	
 	
 				rowIndex++;
-				if(rowIndex == rowCount)
+				if(rowIndex == rowSpan)
 					break;
 				rowPosition = 0;
 				rows[rowIndex] = new StringBuffer();
 			}
 		}
 
-		int xOffset = 0;
-		int yOffset = 0;
+		int colOffset = 0;
+		int rowOffset = 0;
 
 		if (element.getVerticalAlignment() == JRAlignment.VERTICAL_ALIGN_BOTTOM)
-			yOffset = rowCount - rowIndex;
+			rowOffset = rowSpan - rowIndex;
 		if (element.getVerticalAlignment() == JRAlignment.VERTICAL_ALIGN_MIDDLE)
-			yOffset = (rowCount - rowIndex) / 2;
+			rowOffset = (rowSpan - rowIndex) / 2;
 
 		for (int i = 0; i < rowIndex; i++) {
 			String line = rows[i].toString();
@@ -530,18 +537,18 @@ public class JRTextExporter extends JRAbstractExporter
 				pos--;
 			line = line.substring(0, pos + 1);
 			if (element.getHorizontalAlignment() == JRAlignment.HORIZONTAL_ALIGN_RIGHT)
-				xOffset = columnCount - line.length();
+				colOffset = colSpan - line.length();
 			if (element.getHorizontalAlignment() == JRAlignment.HORIZONTAL_ALIGN_CENTER)
-				xOffset = (columnCount - line.length()) / 2;
+				colOffset = (colSpan - line.length()) / 2;
 
 			// if text is justified, there is no offset, but the line text is modified
 			// the last line in the paragraph is not justified.
 			if (element.getHorizontalAlignment() == JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED)
 				if (i < rowIndex -1)
-					line = justifyText(line, columnCount);
+					line = justifyText(line, colSpan);
 
 			char[] chars = line.toCharArray();
-			System.arraycopy(chars, 0, pageData[y + yOffset + i], x + xOffset, chars.length);
+			System.arraycopy(chars, 0, pageData[row + rowOffset + i], col + colOffset, chars.length);
 		}
 	}
 
@@ -584,19 +591,21 @@ public class JRTextExporter extends JRAbstractExporter
 
 
 	/**
-	 * Transforms y coordinates from pixel space to character space.
+	 * Transforms height from pixel space to character space.
 	 */
-	protected int calculateYCoord(int y)
+	protected int getHeightInChars(int height)
 	{
-		return (int) (((long) charPageHeight * y) / jasperPrint.getPageHeight());
+		//return (int) (((long) pageHeightInChars * height) / jasperPrint.getPageHeight());
+		return Math.round(height / charHeight);
 	}
 
 	/**
-	 * Transforms x coordinates from pixel space to character space.
+	 * Transforms width from pixel space to character space.
 	 */
-	protected int calculateXCoord(int x)
+	protected int getWidthInChars(int width)
 	{
-		return charPageWidth * x / jasperPrint.getPageWidth();
+//		return pageWidthInChars * width / jasperPrint.getPageWidth();
+		return Math.round(width / charWidth);
 	}
 
 
