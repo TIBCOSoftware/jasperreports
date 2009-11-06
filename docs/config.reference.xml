@@ -158,6 +158,7 @@
       <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
       <property ref="net.sf.jasperreports.export.xls.detect.cell.type"/>
       <property ref="net.sf.jasperreports.export.xls.font.size.fix.enabled"/>
+      <property ref="net.sf.jasperreports.export.xls.ignore.cell.background"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.border"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.graphics"/>
       <property ref="net.sf.jasperreports.export.xls.max.rows.per.sheet"/>
@@ -1891,6 +1892,20 @@ Specifies whether the font size should be decreased so that texts fit into the s
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.ignore.cell.background -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.ignore.cell.background">
+    <description>
+Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_IGNORE_CELL_BACKGROUND">IS_IGNORE_CELL_BACKGROUND</api> export flag.
+Specifies whether cell background color should be ignored.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_IGNORE_CELL_BACKGROUND</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>3.6.2</since>
   </configProperty>
   
   
