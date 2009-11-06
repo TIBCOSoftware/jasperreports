@@ -40,13 +40,16 @@ public class XlsxBorderHelper extends BaseHelper
 {
 	private Map borderCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
-
+	private boolean isIgnoreCellBorder = false;
+	
 	/**
 	 *
 	 */
-	public XlsxBorderHelper(Writer writer)
+	public XlsxBorderHelper(Writer writer, boolean isIgnoreCellBorder)
 	{
 		super(writer);
+		
+		this.isIgnoreCellBorder = isIgnoreCellBorder;
 	}
 	
 	/**
@@ -54,7 +57,7 @@ public class XlsxBorderHelper extends BaseHelper
 	 */
 	public int getBorder(JRExporterGridCell gridCell)
 	{
-		if (gridCell.getBox() == null)
+		if (isIgnoreCellBorder || gridCell.getBox() == null)
 		{
 			return -1;			
 		}

@@ -1225,7 +1225,15 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			ctHelper = new XlsxContentTypesHelper(xlsxZip.getContentTypesEntry().getWriter());
 			ctHelper.exportHeader();
 			
-			styleHelper = new XlsxStyleHelper(xlsxZip.getStylesEntry().getWriter(), fontMap, getExporterKey());
+			styleHelper = 
+				new XlsxStyleHelper(
+					xlsxZip.getStylesEntry().getWriter(), 
+					fontMap, 
+					getExporterKey(),
+					isWhitePageBackground,
+					isIgnoreCellBorder,
+					isIgnoreCellBackground
+					);
 		}
 		catch (IOException e)
 		{
