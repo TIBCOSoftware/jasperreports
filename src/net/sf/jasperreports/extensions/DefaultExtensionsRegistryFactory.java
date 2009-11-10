@@ -28,6 +28,8 @@ import java.util.List;
 
 import net.sf.jasperreports.charts.ChartThemeBundle;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.export.FlashPrintElement;
+import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.query.DefaultQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle;
@@ -57,6 +59,10 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				else if (ChartThemeBundle.class.equals(extensionType))
 				{
 					return Collections.singletonList(DefaultChartTheme.BUNDLE);
+				}
+				else if (GenericElementHandlerBundle.class.equals(extensionType))
+				{
+					return Collections.singletonList(FlashPrintElement.getHandlerBundle());
 				}
 				return null;
 			}
