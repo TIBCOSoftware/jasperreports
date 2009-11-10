@@ -763,7 +763,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
-		String tableStyle = "width: " + gridLayout.getWidth() + sizeUnit;
+		String tableStyle = "width: " + gridLayout.getWidth() + sizeUnit + "; border-collapse: collapse";
 		String additionalTableStyle = emptyCellStringProvider.getReportTableStyle();
 		if (additionalTableStyle != null)
 		{
