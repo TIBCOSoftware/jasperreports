@@ -101,9 +101,21 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 			}
 		}
 
-		return boundary[current - startIdx];
+		return boundary[current - startIdx]
+				|| currentChar(current - 1, cc, ck) <= ' ';
 	}
 
+	protected char currentChar(int current, char[] cc, PdfChunk[] ck)
+	{
+        char currentCh = cc[current];
+        if (ck != null)
+        {
+            PdfChunk chunk = ck[Math.min(current, ck.length - 1)];
+			currentCh = chunk.getUnicodeEquivalent(currentCh);
+        }
+        return currentCh;
+	}
+	
 	protected static class ArrayCharIterator implements CharacterIterator
 	{
 
