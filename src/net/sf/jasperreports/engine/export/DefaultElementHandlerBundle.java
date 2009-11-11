@@ -27,6 +27,9 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * The default {@link GenericElementHandlerBundle} implementation.
  * 
@@ -39,6 +42,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 {
 
+	private static final Log log = LogFactory.getLog(DefaultElementHandlerBundle.class);
+	
 	private String namespace;
 	private Map elementHandlers;
 
@@ -60,9 +65,10 @@ public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 		
 		GenericElementHandler handler = (GenericElementHandler) handlers.get(
 				exporterKey);
-		if (handler == null && !JRXmlExporter.XML_EXPORTER_KEY.equals(exporterKey))
+		
+		if (handler == null && log.isDebugEnabled())
 		{
-			throw new JRRuntimeException("No " + exporterKey 
+			log.debug("No " + exporterKey 
 					+ " handler for generic elements of type "
 					+ namespace + "#" + elementName);
 		}

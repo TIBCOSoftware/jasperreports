@@ -79,7 +79,7 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 			GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
 			GenericElementHandlerEnviroment.getHandler(
 					genericElement.getGenericType(), JRHtmlExporter.HTML_EXPORTER_KEY);
-			if (!handler.toExport(genericElement))
+			if (handler == null || !handler.toExport(genericElement))
 			{
 				isToExport = false;
 			}
