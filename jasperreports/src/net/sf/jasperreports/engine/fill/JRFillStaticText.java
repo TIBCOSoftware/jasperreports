@@ -109,9 +109,8 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		
 		evaluatePrintWhenExpression(evaluation);
 		evaluateProperties(evaluation);
-		
-		setTextStart(0);
-		setTextEnd(0);
+
+		resetTextChunk();
 		
 		setValueRepeating(true);
 	}
@@ -177,8 +176,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 			isReprinted = true;
 		}
 
-		setTextStart(0);
-		setTextEnd(0);
+		resetTextChunk();
 
 		if (isToPrint)
 		{

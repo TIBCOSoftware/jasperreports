@@ -387,8 +387,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		String newRawText = processMarkupText(String.valueOf(textFieldValue));
 
 		setRawText(newRawText);
-		setTextStart(0);
-		setTextEnd(0);
+		resetTextChunk();
 
 		setValueRepeating(
 				(oldRawText == null && newRawText == null) ||
@@ -432,8 +431,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				{
 					// the content of the band bottom text fields is not
 					// consumed during overflows, because they only appear on the last overflow
-					setTextStart(0);
-					setTextEnd(0);
+					resetTextChunk();
 				}
 
 				if (
@@ -453,8 +451,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 						if (isPrintWhenDetailOverflows())
 						{
 							// the whole content is reprinted
-							setTextStart(0);
-							setTextEnd(0);
+							resetTextChunk();
 
 							isReprinted = true;
 						}
