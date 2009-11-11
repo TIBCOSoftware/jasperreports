@@ -23,12 +23,13 @@
  */
 package net.sf.jasperreports.components.ofc;
 
-import java.lang.ref.Reference;
-import java.lang.ref.WeakReference;
+import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
+import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -38,8 +39,6 @@ public class ChartHtmlHandler implements GenericElementHtmlHandler
 {
 
 	public static final String PARAMETER_CHART_DATA = "ChartData";
-
-	private final ThreadLocal lastContext = new ThreadLocal();
 
 	public boolean toExport(JRGenericPrintElement element)
 	{
@@ -51,50 +50,42 @@ public class ChartHtmlHandler implements GenericElementHtmlHandler
 		String divID = "ofc" + System.identityHashCode(element);
 		int width = element.getWidth();
 		int height = element.getHeight();
-		StringBuffer sb = new StringBuffer();
-
-		sb.append("<div id=\"");
-		sb.append(divID);
-		sb.append("\"></div>\n");
-
-		if (!sameAsLast(exporterContext))
-		{
-			sb.append("<script language=\"JavaScript\" src=\"openflashchart/swfobject.js\"></script>\n");
-		}
-
-		sb.append("<script language=\"JavaScript\">\n");
-		sb.append("swfobject.embedSWF(\"openflashchart/open-flash-chart.swf\", \"");
-		sb.append(divID);
-		sb.append("\",\"");
-		sb.append(width);
-		sb.append("\", \"");
-		sb.append(height);
-		sb.append("\", \"9.0.0\", \"openflashchart/expressInstall.swf\",{\"get-data\":\"open_flash_chart_data");
-		sb.append(divID);
-		sb.append("\"});\n");
-		sb.append("function open_flash_chart_data");
-		sb.append(divID);
-		sb.append("()\n");
-		sb.append("{return '");
+		Color backcolor = element.getBackcolor();
+		String swfLocation = "openflashchart/open-flash-chart.swf";
 		String chartData = (String) element.getParameterValue(PARAMETER_CHART_DATA);
-		sb.append(chartData);
-		sb.append("';}\n");
-		sb.append("</script>\n");
+		String chartEncodedData = JRStringUtil.htmlEncode(chartData);
 
-		return sb.toString();
-	}
-
-	protected boolean sameAsLast(JRHtmlExporterContext exporterContext)
-	{
-		Reference lastRef = (Reference) lastContext.get();
-		JRHtmlExporterContext last = (JRHtmlExporterContext) (lastRef == null ? null : lastRef.get());
-		if (last != null && last.equals(exporterContext))
-		{
-			return true;
-		}
-
-		WeakReference ref = new WeakReference(exporterContext);
-		lastContext.set(ref);
-		return false;
+		return 
+			"<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"" +
+				width +
+				"\" height=\"" +
+				height +
+				"\" id=\"" +
+				divID +
+				"\" align=\"middle\"><param name=\"allowScriptAccess\" value=\"sameDomain\" /> <param name=\"movie\" value=\"" +
+				swfLocation +
+				"?width=" +
+				width +
+				"&height=" +
+				height +
+				"&inline_data=" +
+				chartEncodedData +
+				"\" /> <param name=\"quality\" value=\"high\" /><param name=\"bgcolor\" value=\"" +
+				"#" + JRColorUtil.getColorHexa(backcolor) +
+				"\" /> <embed src=\"" +
+				swfLocation +
+				"?width=" +
+				width +
+				"&height=" +
+				height +
+				"&inline_data=" +
+				chartEncodedData +
+				"\" quality=\"high\" bgcolor=\"" +
+				"#" + JRColorUtil.getColorHexa(backcolor) +
+				"\" width=\"" +
+				width +
+				"\" height=\"" +
+				height +
+				"\" name=\"open-flash-chart\" align=\"middle\" allowScriptAccess=\"sameDomain\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" /> </object> ";
 	}
 }

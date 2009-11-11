@@ -60,7 +60,7 @@ public class ChartDataGenerator
 			JSONObject pie = new JSONObject();
 			pie.put("type", "pie");
 			pie.put("animate", true);
-			pie.put("tip", "#val# of #total#<br>#percent# of 100%");
+			pie.put("tip", "#val# of #total#<br>#percent#");
 			pie.put("start-angle", 35);
 			pie.put("border", 2);
 			pie.put("alpha", .6);
