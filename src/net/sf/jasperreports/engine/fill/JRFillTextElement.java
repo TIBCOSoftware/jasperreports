@@ -896,6 +896,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		this.lineBreakOffsets = lineBreakOffsets;
 	}
 
+	protected void resetTextChunk()
+	{
+		textStart = 0;
+		textEnd = 0;
+		lineBreakOffsets = null;
+	}
+	
 	/**
 	 *
 	 */
@@ -933,9 +940,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	protected void rewind()
 	{
-		textStart = 0;
-		textEnd = 0;
-		lineBreakOffsets = null;
+		resetTextChunk();
 	}
 
 
