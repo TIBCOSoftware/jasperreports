@@ -74,6 +74,12 @@ public class JRGroupFactory extends JRBaseFactory
 			group.setMinHeightToStartNewPage(Integer.parseInt(minHeightToStartNewPage));
 		}
 
+		Byte footerPosition = (Byte)JRXmlConstants.getFooterPositionMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_footerPosition));
+		if (footerPosition != null)
+		{
+			group.setFooterPosition(footerPosition.byteValue());
+		}
+		
 		return group;
 	}
 

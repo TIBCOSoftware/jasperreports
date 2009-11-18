@@ -2080,4 +2080,87 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	}
 
+	/**
+	 *
+	 */
+	protected SavePoint advanceSavePoint(SavePoint savePoint, SavePoint newSavePoint) throws JRException
+	{
+		if (savePoint == null)
+		{
+			savePoint = newSavePoint;
+		}
+		else
+		{
+			// check to see if the new save point is on the same page/column as the previous one
+			
+			if (
+				savePoint.page == newSavePoint.page
+				&& savePoint.columnIndex == newSavePoint.columnIndex
+				)
+			{
+				// if the new save point is on the same page/column, 
+				// we just move the marker on the existing save point 
+				savePoint.save(newSavePoint.heightOffset);
+			}
+			else
+			{
+				// page/column break occurred, so the move operation 
+				// must be performed on the previous save point
+				moveSavePointContent(savePoint);
+				savePoint = newSavePoint;
+			}
+		}
+		
+		return savePoint;
+	}
+
+
+	/**
+	 *
+	 */
+	protected void moveSavePointContent(SavePoint savePoint)
+	{
+		if (savePoint != null && savePoint.footerPosition != JRGroup.FOOTER_POSITION_NORMAL)
+		{
+			//no page/column break occurred
+			for(int i = savePoint.startElementIndex; i < savePoint.endElementIndex; i++)
+			{
+				JRPrintElement printElement = (JRPrintElement)savePoint.page.getElements().get(i);
+				printElement.setY(printElement.getY() + savePoint.heightOffset);
+			}
+		}
+	}
+	
+
 }
+
+
+class SavePoint
+{
+	protected JRPrintPage page = null;
+	protected int columnIndex = 0;
+	protected int heightOffset = 0;
+	protected int startElementIndex = 0;
+	protected int endElementIndex = 0;
+	protected byte footerPosition = JRGroup.FOOTER_POSITION_NORMAL;
+	
+	protected SavePoint(
+		JRPrintPage page,
+		int columnIndex
+		)
+	{
+		this.page = page;
+		this.columnIndex = columnIndex;
+
+		this.startElementIndex = page.getElements().size();
+		this.endElementIndex = startElementIndex;
+	}
+	
+	protected void save(int heightOffset)
+	{
+		this.heightOffset = heightOffset;
+		this.endElementIndex = page.getElements().size();
+	}
+	
+}
+

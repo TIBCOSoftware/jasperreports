@@ -53,6 +53,8 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_MIN_HEIGHT_TO_START_NEW_PAGE = "minHeightToStartNewPage";
 	
+	public static final String PROPERTY_FOOTER_POSITION = "footerPosition";
+	
 	public static final String PROPERTY_RESET_PAGE_NUMBER = "resetPageNumber";
 	
 	public static final String PROPERTY_REPRINT_HEADER_ON_EACH_PAGE = "reprintHeaderOnEachPage";
@@ -70,6 +72,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	protected boolean isResetPageNumber = false;
 	protected boolean isReprintHeaderOnEachPage = false;
 	protected int minHeightToStartNewPage = 0;
+	protected byte footerPosition = FOOTER_POSITION_NORMAL;
 
 	/**
 	 *
@@ -101,6 +104,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		isResetPageNumber = group.isResetPageNumber();
 		isReprintHeaderOnEachPage = group.isReprintHeaderOnEachPage();
 		minHeightToStartNewPage = group.getMinHeightToStartNewPage();
+		footerPosition = group.getFooterPosition();
 		
 		expression = factory.getExpression(group.getExpression());
 
@@ -206,6 +210,24 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		int old = this.minHeightToStartNewPage;
 		this.minHeightToStartNewPage = minHeight;
 		getEventSupport().firePropertyChange(PROPERTY_MIN_HEIGHT_TO_START_NEW_PAGE, old, this.minHeightToStartNewPage);
+	}
+		
+	/**
+	 *
+	 */
+	public byte getFooterPosition()
+	{
+		return this.footerPosition;
+	}
+
+	/**
+	 *
+	 */
+	public void setFooterPosition(byte footerPosition)
+	{
+		int old = this.footerPosition;
+		this.footerPosition = footerPosition;
+		getEventSupport().firePropertyChange(PROPERTY_FOOTER_POSITION, old, this.footerPosition);
 	}
 		
 	/**

@@ -204,6 +204,21 @@ public class JRFillGroup implements JRGroup
 	}
 		
 	/**
+	 *
+	 */
+	public byte getFooterPosition()
+	{
+		return parent.getFooterPosition();
+	}
+		
+	/**
+	 *
+	 */
+	public void setFooterPosition(byte footerPosition)
+	{
+	}
+		
+	/**
 	 * @deprecated Replaced by {@link #getGroupHeaderSection()}.
 	 */
 	public JRBand getGroupHeader()
