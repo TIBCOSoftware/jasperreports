@@ -39,6 +39,37 @@ public interface JRGroup extends JRCloneable
 
 
 	/**
+	 * The group footer section is rendered at normal position, just right after the last detail 
+	 * or right after the nested group footer section.
+	 */
+	public static final byte FOOTER_POSITION_NORMAL = 1;
+
+
+	/**
+	 * The group footer section is rendered at bottom of the current page, provided that an inner group 
+	 * having this value would force outer group footers to stack at the bottom of the current page, 
+	 * regardless of the outer group footer setting.
+	 */
+	public static final byte FOOTER_POSITION_STACK_AT_BOTTOM = 2;
+
+
+	/**
+	 * The group footer section is rendered at bottom of the current page, provided that an inner group 
+	 * having this value would render its footer right at the bottom of the page, forcing the outer group 
+	 * footers to render on the next page.
+	 */
+	public static final byte FOOTER_POSITION_FORCE_AT_BOTTOM = 3;
+
+
+	/**
+	 * The group footer section is rendered at bottom of the current page, provided that the outer footers
+	 * have a similar footer display option to render at the page bottom as well, because otherwise, they cannot
+	 * be forced to change their behavior in any way.
+	 */
+	public static final byte FOOTER_POSITION_COLLATE_AT_BOTTOM = 4;
+
+
+	/**
 	 * Gets the group name
 	 */
 	public String getName();
@@ -92,10 +123,20 @@ public interface JRGroup extends JRCloneable
 	public int getMinHeightToStartNewPage();
 
 	/**
-	 * Gets the minimum amount of vertical space needed at the bottom of the column in order to place the
+	 * Sets the minimum amount of vertical space needed at the bottom of the column in order to place the
 	 * group header on the current column.
 	 */
 	public void setMinHeightToStartNewPage(int minHeight);
+		
+	/**
+	 * Specifies how the group footer section behaves with regards to its position on the current page.
+	 */
+	public byte getFooterPosition();
+
+	/**
+	 * Specifies the group footer section behavior with regards to its position on the current page.
+	 */
+	public void setFooterPosition(byte footerPosition);
 		
 	/**
 	 * Gets the expression that defines what records in the group have in common.

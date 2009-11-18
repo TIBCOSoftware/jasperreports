@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
@@ -1314,6 +1315,36 @@ public class JRXmlConstants
 
 	
 	/**
+	 *
+	 */
+	private static final String FOOTER_POSITION_NORMAL = "Normal";
+	private static final String FOOTER_POSITION_STACK_AT_BOTTOM = "StackAtBottom";
+	private static final String FOOTER_POSITION_FORCE_AT_BOTTOM = "ForceAtBottom";
+	private static final String FOOTER_POSITION_COLLATE_AT_BOTTOM = "CollateAtBottom";
+
+	private static Map footerPositionMap = null;
+
+	public static Map getFooterPositionMap()
+	{
+		if (positionTypeMap == null)
+		{
+			Map map = new HashMap(11);
+			map.put(FOOTER_POSITION_NORMAL, new Byte(JRGroup.FOOTER_POSITION_NORMAL));
+			map.put(FOOTER_POSITION_STACK_AT_BOTTOM, new Byte(JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM));
+			map.put(FOOTER_POSITION_FORCE_AT_BOTTOM, new Byte(JRGroup.FOOTER_POSITION_FORCE_AT_BOTTOM));
+			map.put(FOOTER_POSITION_COLLATE_AT_BOTTOM, new Byte(JRGroup.FOOTER_POSITION_COLLATE_AT_BOTTOM));
+			map.put(new Byte(JRGroup.FOOTER_POSITION_NORMAL), FOOTER_POSITION_NORMAL);
+			map.put(new Byte(JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM), FOOTER_POSITION_STACK_AT_BOTTOM);
+			map.put(new Byte(JRGroup.FOOTER_POSITION_FORCE_AT_BOTTOM), FOOTER_POSITION_FORCE_AT_BOTTOM);
+			map.put(new Byte(JRGroup.FOOTER_POSITION_COLLATE_AT_BOTTOM), FOOTER_POSITION_COLLATE_AT_BOTTOM);
+			footerPositionMap = Collections.unmodifiableMap(map);
+		}
+
+		return footerPositionMap;
+	}
+
+	
+	/**
 	 * @deprecated Replaced by {@link JRColorUtil#getColor(String, Color)}.
 	 */
 	public static Color getColor(String strColor, Color defaultColor)
@@ -1826,6 +1857,7 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_isResetPageNumber = "isResetPageNumber";
 	public static final String ATTRIBUTE_isReprintHeaderOnEachPage = "isReprintHeaderOnEachPage";
 	public static final String ATTRIBUTE_minHeightToStartNewPage = "minHeightToStartNewPage";
+	public static final String ATTRIBUTE_footerPosition = "footerPosition";
 
 	/**
 	 * JRHyperlinkFactory associated constants

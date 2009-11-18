@@ -1355,6 +1355,35 @@
   	 <documentation>Minimum amount of vertically space needed at the bottom of the column in order to place the group header on the current column.</documentation>
  	</annotation>
    </attribute>
+   <attribute name="footerPosition" use="optional" default="Normal">
+	<annotation>
+	 <documentation>Specifies how the group footer section behaves with regards to its position on the current page.</documentation>
+	</annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Normal">
+		<annotation>
+		 <documentation>The group footer section is rendered at normal position, just right after the last detail or right after the nested group footer section.</documentation>
+		</annotation>
+	  </enumeration>  
+      <enumeration value="StackAtBottom">
+		<annotation>
+		 <documentation>The group footer section is rendered at bottom of the current page, provided that an inner group having this value would force outer group footers to stack at the bottom of the current page, regardless of the outer group footer setting.</documentation>
+		</annotation>
+	  </enumeration>  
+      <enumeration value="ForceAtBottom">
+		<annotation>
+		 <documentation>The group footer section is rendered at bottom of the current page, provided that an inner group having this value would render its footer right at the bottom of the page, forcing the outer group footers to render on the next page.</documentation>
+		</annotation>
+	  </enumeration>  
+      <enumeration value="CollateAtBottom">
+		<annotation>
+		 <documentation>The group footer section is rendered at bottom of the current page, provided that the outer footers have a similar footer display option to render at the page bottom as well, because otherwise, they cannot be forced to change their behavior in any way.</documentation>
+		</annotation>
+	  </enumeration>  
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 
