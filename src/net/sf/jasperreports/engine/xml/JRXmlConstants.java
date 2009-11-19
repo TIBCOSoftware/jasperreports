@@ -1326,7 +1326,7 @@ public class JRXmlConstants
 
 	public static Map getFooterPositionMap()
 	{
-		if (positionTypeMap == null)
+		if (footerPositionMap == null)
 		{
 			Map map = new HashMap(11);
 			map.put(FOOTER_POSITION_NORMAL, new Byte(JRGroup.FOOTER_POSITION_NORMAL));
