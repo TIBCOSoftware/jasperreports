@@ -72,7 +72,7 @@ public class JRTextMeasurerUtil
 	 * Creates a text measurer for a text object.
 	 * 
 	 * <p>
-	 * If the text objectis an instance of {@link JRPropertiesHolder}, its properties
+	 * If the text object is an instance of {@link JRPropertiesHolder}, its properties
 	 * are used when determining the text measurer factory.
 	 * </p>
 	 * 
