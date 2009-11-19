@@ -2679,6 +2679,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(JRCrosstabBucketFactory.ELEMENT_bucket);
 		writer.addAttribute(JRCrosstabBucketFactory.ATTRIBUTE_order, bucket.getOrder(), JRXmlConstants.getCrosstabBucketOrderMap(), BucketDefinition.ORDER_ASCENDING);
 		writer.writeExpression(JRCrosstabBucketFactory.ELEMENT_bucketExpression, bucket.getExpression(), true);
+		writer.writeExpression(JRCrosstabBucketFactory.ELEMENT_orderByExpression, 
+				bucket.getOrderByExpression(), true, Object.class.getName());
 		writer.writeExpression(JRCrosstabBucketFactory.ELEMENT_comparatorExpression, bucket.getComparatorExpression(), false);
 		writer.closeElement();
 	}

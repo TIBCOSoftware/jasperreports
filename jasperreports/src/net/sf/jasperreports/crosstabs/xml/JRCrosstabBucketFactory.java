@@ -37,6 +37,7 @@ public class JRCrosstabBucketFactory extends JRBaseFactory
 {
 	public static final String ELEMENT_bucket = "bucket";
 	public static final String ELEMENT_bucketExpression = "bucketExpression";
+	public static final String ELEMENT_orderByExpression = "orderByExpression";
 	public static final String ELEMENT_comparatorExpression = "comparatorExpression";
 	
 	public static final String ATTRIBUTE_order = "order";

@@ -34,6 +34,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRGanttDataset;
@@ -131,6 +134,8 @@ import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 public class JRVerifier
 {
 
+	private static final Log log = LogFactory.getLog(JRVerifier.class);
+	
 	/**
 	 * A property that determines whether elements are allowed to overlap.
 	 * 
@@ -2243,6 +2248,25 @@ public class JRVerifier
 				addBrokenRule(e, expression);
 			}
 		}
+		
+		JRExpression orderByExpression = bucket.getOrderByExpression();
+		Class orderByClass = null;
+		if (orderByExpression != null)
+		{
+			try
+			{
+				orderByClass = orderByExpression.getValueClass();
+				if (orderByClass == null)
+				{
+					addBrokenRule("Crosstab bucket order by class missing for group " 
+							+ group.getName() + ".", orderByExpression);
+				}
+			}
+			catch (JRRuntimeException e)
+			{
+				addBrokenRule(e, orderByExpression);
+			}
+		}
 
 		try
 		{
@@ -2255,12 +2279,27 @@ public class JRVerifier
 			{
 				addBrokenRule("The class of the expression is not compatible with the class of the crosstab bucket for group " + group.getName() + ".", expression);
 			}
+			
 			JRExpression comparatorExpression = bucket.getComparatorExpression();
 			if (comparatorExpression == null)
 			{
-				if (valueClass != null && !Comparable.class.isAssignableFrom(valueClass))
+				if (orderByExpression == null)
 				{
-					addBrokenRule("No comparator expression specified and the value class is not comparable for crosstab group " + group.getName() + ".", bucket);
+					// no order by expression, bucket values are used for sorting
+					if (valueClass != null && !Comparable.class.isAssignableFrom(valueClass))
+					{
+						addBrokenRule("No comparator expression specified and the value class is not comparable for crosstab group " + group.getName() + ".", bucket);
+					}
+				}
+				else if (orderByClass != null && !Comparable.class.isAssignableFrom(orderByClass))
+				{
+					// order by values are used for sorting
+					// assuming that the runtime values are comparable
+					if (log.isDebugEnabled())
+					{
+						log.debug("Crosstab group " + group.getName() + " ");
+						addBrokenRule("No comparator expression specified and the order by class is not comparable for crosstab group " + group.getName() + ".", bucket);
+					}
 				}
 			}
 			else

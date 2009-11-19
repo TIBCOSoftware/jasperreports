@@ -1150,6 +1150,8 @@ public class JRExpressionCollector
 				JRCrosstabRowGroup rowGroup = rowGroups[i];
 				JRCrosstabBucket bucket = rowGroup.getBucket();
 				datasetCollector.addExpression(bucket.getExpression());
+				//order by expression is in the crosstab context
+				crosstabCollector.addExpression(bucket.getOrderByExpression());
 				addExpression(bucket.getComparatorExpression());
 				crosstabCollector.collect(rowGroup.getHeader());
 				crosstabCollector.collect(rowGroup.getTotalHeader());
@@ -1162,8 +1164,11 @@ public class JRExpressionCollector
 			for (int i = 0; i < colGroups.length; i++)
 			{
 				JRCrosstabColumnGroup columnGroup = colGroups[i];
-				datasetCollector.addExpression(columnGroup.getBucket().getExpression());
-				addExpression(columnGroup.getBucket().getComparatorExpression());
+				JRCrosstabBucket bucket = columnGroup.getBucket();
+				datasetCollector.addExpression(bucket.getExpression());
+				//order by expression is in the crosstab context
+				crosstabCollector.addExpression(bucket.getOrderByExpression());
+				addExpression(bucket.getComparatorExpression());
 				crosstabCollector.collect(columnGroup.getHeader());
 				crosstabCollector.collect(columnGroup.getTotalHeader());
 			}

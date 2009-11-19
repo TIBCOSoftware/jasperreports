@@ -180,6 +180,23 @@ public class JRExpressionFactory
 	 */
 	public static class ArbitraryExpressionFactory extends JRBaseFactory
 	{
+		private final String defaultValueClass;
+		
+		public ArbitraryExpressionFactory()
+		{
+			this((String) null);
+		}
+		
+		public ArbitraryExpressionFactory(String defaultValueClass)
+		{
+			this.defaultValueClass = defaultValueClass;
+		}
+		
+		public ArbitraryExpressionFactory(Class defaultValueClass)
+		{
+			this(defaultValueClass == null ? null : defaultValueClass.getName());
+		}
+
 		public Object createObject(Attributes attrs)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
@@ -187,6 +204,10 @@ public class JRExpressionFactory
 			if (className != null)
 			{
 				expression.setValueClassName(className);
+			}
+			else if (defaultValueClass != null)
+			{
+				expression.setValueClassName(defaultValueClass);
 			}
 			return expression;
 		}

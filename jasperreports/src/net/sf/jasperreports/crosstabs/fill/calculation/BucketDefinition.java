@@ -26,8 +26,12 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 import java.util.Comparator;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
 
+import org.apache.commons.collections.comparators.ComparableComparator;
 import org.apache.commons.collections.comparators.ReverseComparator;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Bucket definition.
@@ -36,7 +40,10 @@ import org.apache.commons.collections.comparators.ReverseComparator;
  * @version $Id$
  */
 public class BucketDefinition
-{	
+{
+	
+	private static final Log log = LogFactory.getLog(BucketDefinition.class);
+	
 	/**
 	 * Ascending order constant.
 	 */
@@ -87,7 +94,10 @@ public class BucketDefinition
 	 */
 	protected final Bucket VALUE_NULL = new Bucket(VALUE_TYPE_NULL);
 	
-	protected final Comparator comparator;
+	protected final Comparator bucketValueComparator;
+
+	protected final JRExpression orderByExpression;
+	protected final Comparator orderValueComparator;
 	private final byte totalPosition;
 	
 	private boolean computeTotal;
@@ -97,44 +107,92 @@ public class BucketDefinition
 	 * Creates a bucket.
 	 * 
 	 * @param valueClass the class of the bucket values
+	 * @param orderByExpression expression that provides order by values
 	 * @param comparator the comparator to use for bucket sorting
 	 * @param order the order type, {@link #ORDER_ASCENDING ORDER_ASCENDING} or {@link #ORDER_DESCENDING ORDER_DESCENDING} descending
 	 * @param totalPosition the position of the total bucket
 	 * @throws JRException
 	 */
-	public BucketDefinition(Class valueClass, Comparator comparator, byte order, byte totalPosition) throws JRException
+	public BucketDefinition(Class valueClass, 
+			JRExpression orderByExpression, Comparator comparator, byte order, 
+			byte totalPosition) throws JRException
 	{
-		if (comparator == null && !Comparable.class.isAssignableFrom(valueClass))
+		if (comparator == null && orderByExpression == null 
+				&& !Comparable.class.isAssignableFrom(valueClass))
 		{
 			throw new JRException("The bucket expression values are not comparable and no comparator specified.");
 		}
 		
-		switch (order)
+		this.orderByExpression = orderByExpression;
+		if (orderByExpression == null)
 		{
-			case ORDER_DESCENDING:
+			// we don't have an order by expression
+			// the buckets are ordered using the bucket values
+			this.bucketValueComparator = createOrderComparator(comparator, order);
+			this.orderValueComparator = null;
+		}
+		else
+		{
+			// we have an order by expression
+			// we only need an internal ordering for bucket values
+			if (Comparable.class.isAssignableFrom(valueClass))
 			{
-				if (comparator == null)
-				{
-					this.comparator = new ReverseComparator();
-				}
-				else
-				{
-					this.comparator = new ReverseComparator(comparator);
-				}
-				break;
+				// using natural order
+				this.bucketValueComparator = ComparableComparator.getInstance();
 			}
-			case ORDER_ASCENDING:				
-			default:
+			else
 			{
-				this.comparator = comparator;
-				break;
+				// using an arbitrary rank comparator
+				if (log.isDebugEnabled())
+				{
+					log.debug("Using arbitrary rank comparator for bucket");
+				}
+				
+				this.bucketValueComparator = new ArbitraryRankComparator();
 			}
+			
+			// the comparator is used for order by values
+			this.orderValueComparator = createOrderComparator(comparator, order);
 		}
 		
 		this.totalPosition = totalPosition;
 		computeTotal = totalPosition != TOTAL_POSITION_NONE;
 	}
 
+	
+	protected static Comparator createOrderComparator(Comparator comparator, byte order)
+	{
+		Comparator orderComparator;
+		switch (order)
+		{
+			case ORDER_DESCENDING:
+			{
+				if (comparator == null)
+				{
+					orderComparator = new ReverseComparator();
+				}
+				else
+				{
+					orderComparator = new ReverseComparator(comparator);
+				}
+				break;
+			}
+			case ORDER_ASCENDING:				
+			default:
+			{
+				if (comparator == null)
+				{
+					orderComparator = ComparableComparator.getInstance();
+				}
+				else
+				{
+					orderComparator = comparator;
+				}
+				break;
+			}
+		}
+		return orderComparator;
+	}
 	
 	/**
 	 * Whether this bucket needs total calculation.
@@ -169,16 +227,22 @@ public class BucketDefinition
 	}
 
 	
-	/**
-	 * Returns the comparator used for bucket ordering.
-	 * 
-	 * @return the comparator used for bucket ordering
-	 */
-	public Comparator getComparator()
+	public JRExpression getOrderByExpression()
 	{
-		return comparator;
+		return orderByExpression;
 	}
 	
+	
+	public boolean hasOrderValues()
+	{
+		return orderByExpression != null;
+	}
+	
+	
+	public int compareOrderValues(Object v1, Object v2)
+	{
+		return orderValueComparator.compare(v1, v2);
+	}
 	
 	/**
 	 * Creates a {@link Bucket BucketValue} object for a given value.
@@ -302,13 +366,8 @@ public class BucketDefinition
 			{
 				return 0;
 			}
-
-			if (comparator != null)
-			{
-				return comparator.compare(value, val.value);
-			}
 			
-			return ((Comparable) value).compareTo(val.value);
+			return bucketValueComparator.compare(value, val.value);
 		}
 		
 		

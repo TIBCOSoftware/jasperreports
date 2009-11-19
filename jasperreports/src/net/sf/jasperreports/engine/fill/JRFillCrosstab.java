@@ -324,16 +324,21 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 	private BucketingService createService(byte evaluation) throws JRException
 	{
+		boolean hasOrderByExpression = false;
 		List rowBuckets = new ArrayList(rowGroups.length);
 		for (int i = 0; i < rowGroups.length; ++i)
 		{
-			rowBuckets.add(createServiceBucket(rowGroups[i], evaluation));
+			JRFillCrosstabRowGroup group = rowGroups[i];
+			rowBuckets.add(createServiceBucket(group, evaluation));
+			hasOrderByExpression |= group.getBucket().getOrderByExpression() != null;
 		}
 
 		List colBuckets = new ArrayList(columnGroups.length);
 		for (int i = 0; i < columnGroups.length; ++i)
 		{
-			colBuckets.add(createServiceBucket(columnGroups[i], evaluation));
+			JRFillCrosstabColumnGroup group = columnGroups[i];
+			colBuckets.add(createServiceBucket(group, evaluation));
+			hasOrderByExpression |= group.getBucket().getOrderByExpression() != null;
 		}
 
 		percentage = false;
@@ -344,13 +349,16 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			percentage |= measures[i].getPercentageOfType() == JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL;
 		}
 
-		if (percentage)
+		// if a group has order by expression, compute totals as they might be used
+		// in the expression
+		// TODO refine this
+		if (percentage || hasOrderByExpression)
 		{
 			((BucketDefinition) rowBuckets.get(0)).setComputeTotal();
 			((BucketDefinition) colBuckets.get(0)).setComputeTotal();
 		}
 		
-		return new BucketingService(rowBuckets, colBuckets, measureList, dataset.isDataPreSorted(), retrieveTotal);
+		return new BucketingService(this, rowBuckets, colBuckets, measureList, dataset.isDataPreSorted(), retrieveTotal);
 	}
 
 	private BucketDefinition createServiceBucket(JRCrosstabGroup group, byte evaluation) throws JRException
@@ -365,7 +373,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 
 		byte totalPosition = group.getTotalPosition();
-		return new BucketDefinition(bucket.getExpression().getValueClass(), comparator, bucket.getOrder(), totalPosition);
+		return new BucketDefinition(bucket.getExpression().getValueClass(),
+				bucket.getOrderByExpression(), comparator, bucket.getOrder(), 
+				totalPosition);
 	}
 
 	private MeasureDefinition createServiceMeasure(JRFillCrosstabMeasure measure)
@@ -376,6 +386,18 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				measure.getIncrementerFactory()); 
 	}
 
+	public Object evaluateExpression(JRExpression expression, MeasureValue[] measureValues)
+			throws JRException
+	{
+		for (int i = 0; i < measures.length; i++)
+		{
+			Object value = measureValues[i].getValue();
+			measures[i].getFillVariable().setValue(value);
+		}
+		
+		return crosstabEvaluator.evaluate(expression, JRExpression.EVALUATION_DEFAULT);
+	}
+	
 	protected void reset()
 	{
 		super.reset();
