@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.TextRenderer;
+import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
@@ -237,7 +238,15 @@ public class TextMeasurer implements JRTextMeasurer
 	public TextMeasurer(JRCommonText textElement)
 	{
 		this.textElement = textElement;
-		this.propertiesHolder = textElement instanceof JRPropertiesHolder ? (JRPropertiesHolder) textElement : null;
+		this.propertiesHolder = textElement instanceof JRPropertiesHolder ? (JRPropertiesHolder) textElement : null;//FIXMENOW all elements are now properties holders, so interfaces might be rearranged
+		if (textElement.getDefaultStyleProvider() instanceof JRPropertiesHolder)
+		{
+			this.propertiesHolder = 
+				new DelegatePropertiesHolder(
+					propertiesHolder, 
+					(JRPropertiesHolder)textElement.getDefaultStyleProvider()
+					);
+		}
 	}
 	
 	/**
