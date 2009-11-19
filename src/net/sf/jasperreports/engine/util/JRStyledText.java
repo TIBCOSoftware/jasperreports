@@ -410,7 +410,7 @@ public class JRStyledText implements Cloneable
 			sbuffer.getChars(prevOffset, offset, buffer, 0);
 			newText.append(buffer, 0, charCount);
 			
-			//append insterted text
+			//append inserted text
 			newText.append(str);
 			
 			//adjust runs
