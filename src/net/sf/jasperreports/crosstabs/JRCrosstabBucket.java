@@ -66,8 +66,28 @@ public interface JRCrosstabBucket extends JRCloneable
 	 * <p>
 	 * The result of this expression is used to sort the buckets, in ascending or
 	 * descending order (given by {@link #getOrder() getOrder()}.
+	 * If the bucket has an order by expression, the comparator will be used to
+	 * compare values as produced by that expression.
+	 * If no comparator expression is specified, the natural order will be used.
+	 * </p>
 	 * 
 	 * @return the comparator expression
+	 * @see #getOrderByExpression()
 	 */
 	public JRExpression getComparatorExpression();
+	
+	
+	/**
+	 * Returns an expression that provides order by values for group buckets.
+	 * If not set, the bucket values as returned by {@link #getExpression()}
+	 * are used to order the buckets.
+	 * 
+	 * <p>
+	 * The expression is evaluated in the context of the crosstab group and can
+	 * reference measure variables, which evaluate to group totals.
+	 * </p>
+	 * 
+	 * @return the order by value expression for the group bucket
+	 */
+	public JRExpression getOrderByExpression();
 }

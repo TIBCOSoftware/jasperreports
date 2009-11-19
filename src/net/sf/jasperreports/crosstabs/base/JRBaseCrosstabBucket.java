@@ -45,6 +45,7 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 
 	protected byte order = BucketDefinition.ORDER_ASCENDING;
 	protected JRExpression expression;
+	protected JRExpression orderByExpression;
 	protected JRExpression comparatorExpression;
 
 	protected JRBaseCrosstabBucket()
@@ -57,6 +58,7 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 		
 		this.order = bucket.getOrder();
 		this.expression = factory.getExpression(bucket.getExpression());
+		this.orderByExpression = factory.getExpression(bucket.getOrderByExpression());
 		this.comparatorExpression = factory.getExpression(bucket.getComparatorExpression());
 	}
 
@@ -70,6 +72,11 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 		return expression;
 	}
 
+	public JRExpression getOrderByExpression()
+	{
+		return orderByExpression;
+	}
+
 	public JRExpression getComparatorExpression()
 	{
 		return comparatorExpression;
@@ -81,6 +88,7 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 		{
 			JRBaseCrosstabBucket clone = (JRBaseCrosstabBucket) super.clone();
 			clone.expression = (JRExpression) JRCloneUtils.nullSafeClone(expression);
+			clone.orderByExpression = (JRExpression) JRCloneUtils.nullSafeClone(orderByExpression);
 			clone.comparatorExpression = (JRExpression) JRCloneUtils.nullSafeClone(comparatorExpression);
 			return clone;
 		}

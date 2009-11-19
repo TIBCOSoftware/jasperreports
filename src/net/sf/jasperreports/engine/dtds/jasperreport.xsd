@@ -6243,6 +6243,7 @@ property.
   <complexType>
    <sequence>
     <element ref="jr:bucketExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:orderByExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:comparatorExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="order" use="optional" default="Ascending">
@@ -6276,12 +6277,29 @@ property.
   </complexType>
  </element>
 
+ <element name="orderByExpression">
+  <annotation>
+   <documentation>
+   Expression that provides order by values for group buckets.
+   If not set, the bucket values as returned by bucketExpression are used to order the buckets.
+   <p>
+   The expression is evaluated in the context of the crosstab group and can reference measure variables, which evaluate to group totals.
+   </p>
+   </documentation>
+  </annotation>
+  <complexType mixed="true">
+   <attribute name="class" type="string" use="optional"/>
+  </complexType>
+ </element>
+
  <element name="comparatorExpression">
   <annotation>
    <documentation>Crosstab group bucket comparator expression.
-    <p/>
+    <p>
      The result of this expression is used to sort the buckets, in ascending or descending order.
+     If the bucket has an order by expression, the comparator will be used to compare values as produced by that expression.
      If no comparator expression is specified, the natural order will be used.
+    </p>
    </documentation>
   </annotation>
   <complexType mixed="true">

@@ -25,12 +25,14 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Map.Entry;
 
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
@@ -40,6 +42,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.JRCalculable;
+import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
@@ -58,6 +61,8 @@ public class BucketingService
 	protected static final byte DIMENSION_COLUMN = 1;
 
 	protected static final int DIMENSIONS = 2;
+
+	private final JRFillCrosstab fillCrosstab;
 
 	protected final BucketDefinition[] allBuckets;
 	protected final BucketDefinition[][] buckets;
@@ -93,14 +98,17 @@ public class BucketingService
 	/**
 	 * Creates a crosstab bucketing engine.
 	 * 
+	 * @param fillCrosstab 
 	 * @param rowBuckets the row bucket definitions
 	 * @param columnBuckets the column bucket definitions
 	 * @param measures the measure definitions
 	 * @param sorted whether the data is presorted
 	 * @param retrieveTotal totals to retrieve along with the cell values
 	 */
-	public BucketingService(List rowBuckets, List columnBuckets, List measures, boolean sorted, boolean[][] retrieveTotal)
+	public BucketingService(JRFillCrosstab fillCrosstab, List rowBuckets, List columnBuckets, List measures, boolean sorted, boolean[][] retrieveTotal)
 	{
+		this.fillCrosstab = fillCrosstab;
+		
 		this.sorted = sorted;
 
 		buckets = new BucketDefinition[DIMENSIONS][];
@@ -1031,9 +1039,20 @@ public class BucketingService
 	}
 	
 	
-	protected CollectedList createHeadersList(byte dimension, BucketMap bucketMap, int level, boolean total)
+	protected CollectedList createHeadersList(byte dimension, BucketMap bucketMap, int level, boolean total) 
+			throws JRException
 	{
-		CollectedList headers = new CollectedList();
+		BucketDefinition bucketDefinition = allBuckets[bucketMap.level];
+		byte totalPosition = bucketDefinition.getTotalPosition();
+		CollectedList headers;
+		if (bucketDefinition.hasOrderValues())
+		{
+			headers = new OrderedCollectedList(bucketDefinition);
+		}
+		else
+		{
+			headers = new SequentialCollectedList(totalPosition);
+		}
 
 		for (Iterator it = bucketMap.entryIterator(); it.hasNext();)
 		{
@@ -1041,7 +1060,6 @@ public class BucketingService
 			Bucket bucketValue = (Bucket) entry.getKey();
 
 			boolean totalBucket = bucketValue.isTotal();
-			byte totalPosition = allBuckets[bucketMap.level].getTotalPosition();
 			boolean createHeader = !totalBucket || total || totalPosition != BucketDefinition.TOTAL_POSITION_NONE;
 
 			if (createHeader)
@@ -1054,26 +1072,16 @@ public class BucketingService
 				}
 				else
 				{
-					nextHeaders = new CollectedList();
+					nextHeaders = new SequentialCollectedList(BucketDefinition.TOTAL_POSITION_NONE);
 					nextHeaders.span = 1;
 				}
 				nextHeaders.key = bucketValue;
-
-				if (totalBucket)
+				if (bucketDefinition.hasOrderValues())
 				{
-					if (totalPosition == BucketDefinition.TOTAL_POSITION_START)
-					{
-						headers.addFirst(nextHeaders);
-					}
-					else
-					{
-						headers.add(nextHeaders);
-					}
+					Object orderValue = evaluateOrderValue(bucketMap, bucketValue);
+					nextHeaders.orderValue = orderValue;
 				}
-				else
-				{
-					headers.add(nextHeaders);
-				}
+				headers.add(nextHeaders);
 			}
 		}
 
@@ -1085,6 +1093,23 @@ public class BucketingService
 		return headers;
 	}
 	
+	
+	protected Object evaluateOrderValue(BucketMap bucketMap, Bucket bucket) throws JRException
+	{
+		Object bucketValue = bucketMap.get(bucket);
+		for (int idx = bucketMap.level + 1; idx < rowBucketCount + colBucketCount; ++idx)
+		{
+			bucketValue = ((BucketMap) bucketValue).getTotalEntry().getValue();
+		}
+		MeasureValue[] totals = (MeasureValue[]) bucketValue;
+		
+		MeasureValue[] userTotals = getUserMeasureValues(totals);
+		return fillCrosstab.evaluateExpression(
+				allBuckets[bucketMap.level].getOrderByExpression(), 
+				userTotals);
+	}
+
+
 	protected HeaderCell[][] createHeaders(byte dimension, CollectedList[] headersLists)
 	{
 		HeaderCell[][] headers = new HeaderCell[buckets[dimension].length][headersLists[dimension].span];
@@ -1150,38 +1175,20 @@ public class BucketingService
 				
 		CollectedList collectedList = collectedHeaders[dimension];
 		
-		Iterator bucketIt = bucketMap == null ? null : bucketMap.entryIterator();
-		Map.Entry bucketItEntry = bucketIt != null && bucketIt.hasNext() ? (Map.Entry) bucketIt.next() : null;
 		for (Iterator it = collectedList.iterator(); it.hasNext();)
 		{
 			CollectedList list = (CollectedList) it.next();
-			
-			Map.Entry bucketEntry = null;
-			if (list.key.isTotal())
-			{
-				if (bucketMap != null)
-				{
-					bucketEntry = bucketMap.getTotalEntry();
-				}
-			}
-			else
-			{
-				if (bucketItEntry != null && bucketItEntry.getKey().equals(list.key))
-				{
-					bucketEntry = bucketItEntry;
-					bucketItEntry = bucketIt.hasNext() ? (Map.Entry) bucketIt.next() : null;
-				}
-			}
+			Object bucketValue = bucketMap == null ? null : bucketMap.get(list.key);
 			
 			vals.add(list.key);
 			if (last)
 			{
-				fillCell(pos, vals, bucketMaps, bucketEntry);
+				fillCell(pos, vals, bucketMaps, (MeasureValue[]) bucketValue);
 			}
 			else
 			{				
 				nextCollected[dimension] = list;
-				BucketMap nextMap = bucketEntry == null ? null : (BucketMap) bucketEntry.getValue();
+				BucketMap nextMap = bucketValue == null ? null : (BucketMap) bucketValue;
 				
 				fillCells(nextCollected, nextMap, level + 1, pos, vals, bucketMaps);
 			}
@@ -1198,7 +1205,7 @@ public class BucketingService
 	}
 
 
-	protected void fillCell(int[] pos, List vals, List bucketMaps, Map.Entry bucketEntry)
+	protected void fillCell(int[] pos, List vals, List bucketMaps, MeasureValue[] values)
 	{
 		Iterator valsIt = vals.iterator();
 		Bucket[] rowValues = new Bucket[buckets[BucketingService.DIMENSION_ROW].length];
@@ -1213,7 +1220,7 @@ public class BucketingService
 			columnValues[i] = (Bucket) valsIt.next();
 		}
 		
-		MeasureValue[] measureVals = bucketEntry == null ? zeroUserMeasureValues : getUserMeasureValues((MeasureValue[]) bucketEntry.getValue());
+		MeasureValue[] measureVals = values == null ? zeroUserMeasureValues : getUserMeasureValues(values);
 		MeasureValue[][][] totals = retrieveTotals(vals, bucketMaps);
 		cells[pos[0]][pos[1]] = new CrosstabCell(rowValues, columnValues, measureVals, totals);
 		++pos[1];
@@ -1295,48 +1302,34 @@ public class BucketingService
 		return totals;
 	}
 	
-	protected static class CollectedList extends LinkedList
+	protected static abstract class CollectedList
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 		int span;
 		Bucket key;
+		Object orderValue;
 		
 		CollectedList()
 		{
-			super();
-			
 			span = 0;
 		}
 
-		public boolean add(Object o)
+		public abstract Iterator iterator();
+		
+		public void add(CollectedList sublist)
 		{
-			boolean added = super.add(o);
-			
-			incrementSpan(o);
-			
-			return added;
+			addSublist(sublist);
+			incrementSpan(sublist);
 		}
 
-		public void addFirst(Object o)
-		{
-			super.addFirst(o);
-			
-			incrementSpan(o);
-		}
+		protected abstract void addSublist(CollectedList sublist);
 
-		public void addLast(Object o)
+		private void incrementSpan(CollectedList sublist)
 		{
-			super.add(o);
-
-			incrementSpan(o);
-		}
-
-		private void incrementSpan(Object o)
-		{
-			if (o != null && o instanceof CollectedList)
+			if (sublist != null)
 			{
-				span += ((CollectedList) o).span;
+				span += sublist.span;
 			}
 			else
 			{
@@ -1348,5 +1341,117 @@ public class BucketingService
 		{
 			return key + "/" + span + ": " + super.toString();
 		}
+	}
+	
+	protected static class SequentialCollectedList extends CollectedList
+	{
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+		final byte totalPosition;
+		final LinkedList list;
+		
+		SequentialCollectedList(byte totalPosition)
+		{
+			this.totalPosition = totalPosition;
+			
+			list = new LinkedList();
+		}
+
+		public Iterator iterator()
+		{
+			return list.iterator();
+		}
+
+		protected void addSublist(CollectedList sublist)
+		{
+			if (sublist.key.isTotal() && totalPosition == BucketDefinition.TOTAL_POSITION_START)
+			{
+				list.addFirst(sublist);
+			}
+			else
+			{
+				list.add(sublist);
+			}
+		}
+	}
+	
+	protected static class OrderedCollectedList extends CollectedList
+	{
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+		final TreeSet list;
+		
+		OrderedCollectedList(BucketDefinition bucketDefinition)
+		{
+			super();
+			
+			CollectedListComparator comparator = 
+				new CollectedListComparator(bucketDefinition);
+			list = new TreeSet(comparator);
+		}
+
+		public Iterator iterator()
+		{
+			return list.iterator();
+		}
+
+		protected void addSublist(CollectedList sublist)
+		{
+			list.add(sublist);
+		}
+	}
+	
+	protected static class CollectedListComparator implements Comparator
+	{
+		final BucketDefinition bucketDefinition;
+		final boolean totalFirst;
+		
+		CollectedListComparator(BucketDefinition bucketDefinition)
+		{
+			this.bucketDefinition = bucketDefinition;
+			this.totalFirst = bucketDefinition.getTotalPosition() 
+					== BucketDefinition.TOTAL_POSITION_START;
+		}
+
+		public int compare(Object o1, Object o2)
+		{
+			if (o1 == o2)
+			{
+				return 0;
+			}
+			
+			CollectedList l1 = (CollectedList) o1;
+			CollectedList l2 = (CollectedList) o2;
+			
+			int order;
+			if (l1.key.isTotal())
+			{
+				if (l2.key.isTotal())
+				{
+					// this should not happen
+					throw new JRRuntimeException("Two total keys in the same list");
+				}
+				
+				order = totalFirst ? -1 : 1;
+			}
+			else if (l2.key.isTotal())
+			{
+				order = totalFirst ? 1 : -1;
+			}
+			else
+			{
+				// first compare the order values
+				order = bucketDefinition.compareOrderValues(
+						l1.orderValue, l2.orderValue);
+				
+				if (order == 0)
+				{
+					// if order values are equal, fallback to bucket value order
+					order = l1.key.compareTo(l2.key);
+				}
+			}
+			
+			return order;
+		}		
 	}
 }

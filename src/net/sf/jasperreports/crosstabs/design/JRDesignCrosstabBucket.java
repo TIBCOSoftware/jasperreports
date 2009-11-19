@@ -41,6 +41,8 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_ORDER_BY_EXPRESSION = "orderByExpression";
+
 	public static final String PROPERTY_COMPARATOR_EXPRESSION = "comparatorExpression";
 
 	public static final String PROPERTY_EXPRESSION = "expression";
@@ -54,6 +56,22 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 	public JRDesignCrosstabBucket()
 	{
 		super();
+	}
+
+	
+	/**
+	 * Sets the expression that provides order by values for group buckets.
+	 * 
+	 * @param orderByExpression the expression that provides order by values
+	 * for group buckets
+	 * @see #getOrderByExpression()
+	 */
+	public void setOrderByExpression(JRExpression orderByExpression)
+	{
+		Object old = this.orderByExpression;
+		this.orderByExpression = orderByExpression;
+		getEventSupport().firePropertyChange(PROPERTY_ORDER_BY_EXPRESSION, 
+				old, this.orderByExpression);
 	}
 
 	

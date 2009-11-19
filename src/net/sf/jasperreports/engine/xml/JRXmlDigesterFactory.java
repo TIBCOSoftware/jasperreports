@@ -1207,12 +1207,20 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/crosstab/columnGroup/crosstabTotalColumnHeader/cellContents", JRCellContentsFactory.class.getName());
 		digester.addSetNext("*/crosstab/columnGroup/crosstabTotalColumnHeader/cellContents", "setTotalHeader", JRDesignCellContents.class.getName());
 
-		digester.addFactoryCreate("*/bucket", JRCrosstabBucketFactory.class.getName());
-		digester.addSetNext("*/bucket", "setBucket", JRDesignCrosstabBucket.class.getName());
+		String bucketPattern = "*/" + JRCrosstabBucketFactory.ELEMENT_bucket;
+		digester.addFactoryCreate(bucketPattern, JRCrosstabBucketFactory.class.getName());
+		digester.addSetNext(bucketPattern, "setBucket", JRDesignCrosstabBucket.class.getName());
 
 		digester.addFactoryCreate("*/bucket/bucketExpression", JRCrosstabBucketExpressionFactory.class.getName());
 		digester.addSetNext("*/bucket/bucketExpression", "setExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/bucket/bucketExpression", "setText", 0);
+
+		String orderByPattern = bucketPattern 
+				+ "/" + JRCrosstabBucketFactory.ELEMENT_orderByExpression;
+		digester.addFactoryCreate(orderByPattern, 
+				new JRExpressionFactory.ArbitraryExpressionFactory(Object.class));
+		digester.addSetNext(orderByPattern, "setOrderByExpression", JRExpression.class.getName());
+		digester.addCallMethod(orderByPattern, "setText", 0);
 
 		digester.addFactoryCreate("*/bucket/comparatorExpression", JRExpressionFactory.ComparatorExpressionFactory.class.getName());
 		digester.addSetNext("*/bucket/comparatorExpression", "setComparatorExpression", JRExpression.class.getName());
