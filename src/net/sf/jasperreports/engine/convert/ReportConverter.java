@@ -477,7 +477,8 @@ public class ReportConverter
 	 */	
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
-		return jasperPrint.getDefaultStyleProvider();
+		//return jasperPrint.getDefaultStyleProvider();
+		return report;
 	}
 
 	

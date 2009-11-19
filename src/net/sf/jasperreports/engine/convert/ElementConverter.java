@@ -34,7 +34,9 @@ package net.sf.jasperreports.engine.convert;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintGraphicElement;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -56,6 +58,8 @@ public abstract class ElementConverter
 	protected void copyElement(ReportConverter reportConverter, JRElement element, JRPrintElement printElement)
 	{
 		reportConverter.copyBaseAttributes(element, printElement);
+		
+		JRProperties.transferProperties(element, printElement, JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 	}
 
 	
