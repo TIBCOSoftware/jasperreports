@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JROrigin;
@@ -65,6 +66,25 @@ public class JRTemplateGenericElement extends JRTemplateElement
 	{
 		super(origin, defaultStyleProvider);
 		
+		setGenericType(genericType);
+	}
+
+	/**
+	 * Creates a generic print element template.
+	 * 
+	 * @param origin the origin of the elements that will use the template
+	 * @param defaultStyleProvider the style provider to be used for the elements
+	 * @param element an element to copy basic elements from
+	 * @param genericType the type of the generic elements
+	 */
+	public JRTemplateGenericElement(JROrigin origin, 
+			JRDefaultStyleProvider defaultStyleProvider,
+			JRElement element,
+			JRGenericElementType genericType)
+	{
+		super(origin, defaultStyleProvider);
+		
+		setElement(element);
 		setGenericType(genericType);
 	}
 	
