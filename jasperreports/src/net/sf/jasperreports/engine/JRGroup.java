@@ -139,6 +139,16 @@ public interface JRGroup extends JRCloneable
 	public void setFooterPosition(byte footerPosition);
 		
 	/**
+	 * Gets the flag that signals if the group should be prevented from splitting on first break attempt.
+	 */
+	public boolean isKeepTogether();
+		
+	/**
+	 * Sets the flag that signals if the group should be prevented from splitting on first break attempt.
+	 */
+	public void setKeepTogether(boolean keepTogether);
+		
+	/**
 	 * Gets the expression that defines what records in the group have in common.
 	 */
 	public JRExpression getExpression();

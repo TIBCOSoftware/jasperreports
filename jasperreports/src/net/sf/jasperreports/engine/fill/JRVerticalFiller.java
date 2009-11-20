@@ -516,15 +516,16 @@ public class JRVerticalFiller extends JRBaseFiller
 		{
 			for(int i = 0; i < groups.length; i++)
 			{
-				if(isFillAll)
+				JRFillGroup group = groups[i];
+
+				if(isFillAll || group.hasChanged())
 				{
-					fillGroupHeader(groups[i]);
-				}
-				else
-				{
-					if (groups[i].hasChanged())
+					SavePoint newSavePoint = fillGroupHeader(group);
+					newSavePoint.groupIndex = i;
+					
+					if (keepTogetherSavePoint == null && group.isKeepTogether())
 					{
-						fillGroupHeader(groups[i]);
+						keepTogetherSavePoint = newSavePoint;
 					}
 				}
 			}
@@ -535,8 +536,10 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	private void fillGroupHeader(JRFillGroup group) throws JRException
+	private SavePoint fillGroupHeader(JRFillGroup group) throws JRException
 	{
+		SavePoint savePoint = null;
+		
 		JRFillSection groupHeaderSection = (JRFillSection)group.getGroupHeaderSection();
 
 		if (log.isDebugEnabled() && !groupHeaderSection.isEmpty())
@@ -595,7 +598,9 @@ public class JRVerticalFiller extends JRBaseFiller
 
 				if (groupHeaderBand.isToPrint())
 				{
-					fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
+					SavePoint newSavePoint = fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
+					
+					savePoint = advanceSavePoint(savePoint, newSavePoint);
 
 					isFirstPageBand = false;
 					isFirstColumnBand = false;
@@ -606,6 +611,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		group.setHeaderPrinted(true);
 
 		isNewGroup = true;
+		
+		return savePoint;
 	}
 
 
@@ -808,7 +815,7 @@ public class JRVerticalFiller extends JRBaseFiller
 									
 									if (savePoint.footerPosition == JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM)
 									{
-										savePoint.save(newSavePoint.heightOffset);
+										savePoint.saveHeightOffset(newSavePoint.heightOffset);
 									}
 									else
 									{
@@ -830,6 +837,14 @@ public class JRVerticalFiller extends JRBaseFiller
 								// only "ForceAtBottom" save points could get here, but they are already null
 								savePoint = null;
 							}
+						}
+					}
+					
+					if (keepTogetherSavePoint != null)
+					{
+						if (keepTogetherSavePoint.groupIndex >= i)
+						{
+							keepTogetherSavePoint = null;
 						}
 					}
 				}
@@ -1853,6 +1868,11 @@ public class JRVerticalFiller extends JRBaseFiller
 			throw new JRException("Infinite loop creating new page.");
 		}
 
+		if (keepTogetherSavePoint != null)
+		{
+			keepTogetherSavePoint.saveEndOffsetY(offsetY);
+		}
+		
 		isCreatingNewPage = true;
 
 		fillColumnFooter(evalPrevPage);
@@ -1872,9 +1892,16 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		fillColumnHeader(evalNextPage);
 
-		if (isReprintGroupHeaders)
+		if (keepTogetherSavePoint != null)
 		{
-			fillGroupHeadersReprint(evalNextPage);
+			moveKeepTogetherSavePointContent();
+		}
+		else
+		{
+			if (isReprintGroupHeaders)
+			{
+				fillGroupHeadersReprint(evalNextPage);
+			}
 		}
 
 		isCreatingNewPage = false;
@@ -1895,6 +1922,11 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 		else
 		{
+			if (keepTogetherSavePoint != null)
+			{
+				keepTogetherSavePoint.saveEndOffsetY(offsetY);
+			}
+			
 			fillColumnFooter(evalPrevPage);
 
 			resolveGroupBoundElements(evalPrevPage, false);
@@ -1910,6 +1942,11 @@ public class JRVerticalFiller extends JRBaseFiller
 			setColumnNumberVar();
 
 			fillColumnHeader(evalNextPage);
+
+			if (keepTogetherSavePoint != null)
+			{
+				moveKeepTogetherSavePointContent();
+			}
 		}
 	}
 
@@ -1963,12 +2000,12 @@ public class JRVerticalFiller extends JRBaseFiller
 			printBand = band.refill(columnFooterOffsetY - offsetY);
 		}
 
-		SavePoint savePoint = new SavePoint(getCurrentPage(), columnIndex);
+		SavePoint savePoint = new SavePoint(getCurrentPage(), columnIndex, offsetY);
 		
 		fillBand(printBand);
 		offsetY += printBand.getHeight();
 		
-		savePoint.save(columnFooterOffsetY - offsetY);
+		savePoint.saveHeightOffset(columnFooterOffsetY - offsetY);
 		// we mark the save point here, because overflow content beyond this point
 		// should be rendered normally, not moved in any way 
 

@@ -219,6 +219,21 @@ public class JRFillGroup implements JRGroup
 	}
 		
 	/**
+	 *
+	 */
+	public boolean isKeepTogether()
+	{
+		return parent.isKeepTogether();
+	}
+		
+	/**
+	 *
+	 */
+	public void setKeepTogether(boolean keepTogether)
+	{
+	}
+		
+	/**
 	 * @deprecated Replaced by {@link #getGroupHeaderSection()}.
 	 */
 	public JRBand getGroupHeader()

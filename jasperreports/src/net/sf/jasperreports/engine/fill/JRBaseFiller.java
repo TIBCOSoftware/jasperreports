@@ -327,6 +327,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	private JRSubreportRunner subreportRunner;
 
+	protected SavePoint keepTogetherSavePoint = null;
+	
 
 	/**
 	 *
@@ -2100,7 +2102,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				// if the new save point is on the same page/column, 
 				// we just move the marker on the existing save point 
-				savePoint.save(newSavePoint.heightOffset);
+				savePoint.saveHeightOffset(newSavePoint.heightOffset);
 			}
 			else
 			{
@@ -2132,6 +2134,50 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 	
 
+	/**
+	 *
+	 */
+	protected void moveKeepTogetherSavePointContent()
+	{
+		if (keepTogetherSavePoint != null)
+		{
+			if (keepTogetherSavePoint.page == getCurrentPage())
+			{
+				// it's a column break
+
+				for(int i = keepTogetherSavePoint.startElementIndex; i < keepTogetherSavePoint.endElementIndex; i++)
+				{
+					JRPrintElement printElement = (JRPrintElement)keepTogetherSavePoint.page.getElements().get(i);
+					printElement.setX(printElement.getX() + columnSpacing + columnWidth);
+					printElement.setY(offsetY + printElement.getY() - keepTogetherSavePoint.startOffsetY);
+				}
+			}
+			else
+			{
+				// it's a page break
+
+				for(int i = keepTogetherSavePoint.startElementIndex; i < keepTogetherSavePoint.endElementIndex; i++)
+				{
+					JRPrintElement printElement = (JRPrintElement)keepTogetherSavePoint.page.getElements().get(i);
+					
+					printElement.setX(printElement.getX() + (columnIndex - keepTogetherSavePoint.columnIndex) * (columnSpacing + columnWidth));
+					printElement.setY(offsetY + printElement.getY() - keepTogetherSavePoint.startOffsetY);
+
+					printPage.addElement(printElement);
+				}
+				for(int i = keepTogetherSavePoint.endElementIndex - 1; i >= keepTogetherSavePoint.startElementIndex; i--)
+				{
+					keepTogetherSavePoint.page.getElements().remove(i);
+				}
+			}
+			
+			offsetY = offsetY + keepTogetherSavePoint.endOffsetY - keepTogetherSavePoint.startOffsetY;
+			
+			keepTogetherSavePoint = null;
+		}
+	}
+	
+
 }
 
 
@@ -2139,14 +2185,18 @@ class SavePoint
 {
 	protected JRPrintPage page = null;
 	protected int columnIndex = 0;
-	protected int heightOffset = 0;
+	protected int startOffsetY = 0;
+	protected int endOffsetY = 0;
 	protected int startElementIndex = 0;
 	protected int endElementIndex = 0;
+	protected int heightOffset = 0;
+	protected int groupIndex = 0;
 	protected byte footerPosition = JRGroup.FOOTER_POSITION_NORMAL;
 	
 	protected SavePoint(
 		JRPrintPage page,
-		int columnIndex
+		int columnIndex,
+		int startOffsetY
 		)
 	{
 		this.page = page;
@@ -2154,11 +2204,26 @@ class SavePoint
 
 		this.startElementIndex = page.getElements().size();
 		this.endElementIndex = startElementIndex;
+		
+		this.startOffsetY = startOffsetY;
 	}
 	
-	protected void save(int heightOffset)
+	protected void saveHeightOffset(int heightOffset)
 	{
 		this.heightOffset = heightOffset;
+		
+		save();
+	}
+	
+	protected void saveEndOffsetY(int endOffsetY)
+	{
+		this.endOffsetY = endOffsetY;
+		
+		save();
+	}
+	
+	protected void save()
+	{
 		this.endElementIndex = page.getElements().size();
 	}
 	

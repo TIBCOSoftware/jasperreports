@@ -1384,6 +1384,25 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="keepTogether" use="optional" default="false">
+ 	<annotation>
+  	 <documentation>Flag that prevents the group from splitting on two separate pages/columns, but only on the first break attempt.</documentation>
+ 	</annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true">
+	  	<annotation>
+	   	 <documentation>Group can split accross two separate pages/column at any moment.</documentation>
+	  	</annotation>
+	  </enumeration> 
+      <enumeration value="false">
+	  	<annotation>
+	   	 <documentation>Group is moved onto a new new page/column, before being split.</documentation>
+	  	</annotation>
+	  </enumeration> 
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 

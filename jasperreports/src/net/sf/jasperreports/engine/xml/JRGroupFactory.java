@@ -80,6 +80,12 @@ public class JRGroupFactory extends JRBaseFactory
 			group.setFooterPosition(footerPosition.byteValue());
 		}
 		
+		String keepTogether = atts.getValue(JRXmlConstants.ATTRIBUTE_keepTogether);
+		if (keepTogether != null && keepTogether.length() > 0)
+		{
+			group.setKeepTogether(Boolean.valueOf(keepTogether).booleanValue());
+		}
+
 		return group;
 	}
 

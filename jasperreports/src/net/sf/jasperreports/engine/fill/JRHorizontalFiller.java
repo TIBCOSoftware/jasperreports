@@ -871,7 +871,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 									
 									if (savePoint.footerPosition == JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM)
 									{
-										savePoint.save(newSavePoint.heightOffset);
+										savePoint.saveHeightOffset(newSavePoint.heightOffset);
 									}
 									else
 									{
@@ -2040,12 +2040,12 @@ public class JRHorizontalFiller extends JRBaseFiller
 			printBand = band.refill(columnFooterOffsetY - offsetY);
 		}
 
-		SavePoint savePoint = new SavePoint(getCurrentPage(), columnIndex);
+		SavePoint savePoint = new SavePoint(getCurrentPage(), columnIndex, offsetY);
 		
 		fillBand(printBand);
 		offsetY += printBand.getHeight();
 		
-		savePoint.save(columnFooterOffsetY - offsetY);
+		savePoint.saveHeightOffset(columnFooterOffsetY - offsetY);
 		// we mark the save point here, because overflow content beyond this point
 		// should be rendered normally, not moved in any way 
 
