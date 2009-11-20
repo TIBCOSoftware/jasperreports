@@ -521,7 +521,10 @@ public class JRVerticalFiller extends JRBaseFiller
 				if(isFillAll || group.hasChanged())
 				{
 					SavePoint newSavePoint = fillGroupHeader(group);
-					newSavePoint.groupIndex = i;
+					if (newSavePoint != null)
+					{
+						newSavePoint.groupIndex = i;
+					}
 					
 					if (keepTogetherSavePoint == null && group.isKeepTogether())
 					{
