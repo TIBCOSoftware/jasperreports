@@ -55,6 +55,8 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_FOOTER_POSITION = "footerPosition";
 	
+	public static final String PROPERTY_KEEP_TOGETHER = "keepTogether";
+	
 	public static final String PROPERTY_RESET_PAGE_NUMBER = "resetPageNumber";
 	
 	public static final String PROPERTY_REPRINT_HEADER_ON_EACH_PAGE = "reprintHeaderOnEachPage";
@@ -73,6 +75,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	protected boolean isReprintHeaderOnEachPage = false;
 	protected int minHeightToStartNewPage = 0;
 	protected byte footerPosition = FOOTER_POSITION_NORMAL;
+	protected boolean keepTogether = false;
 
 	/**
 	 *
@@ -105,6 +108,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		isReprintHeaderOnEachPage = group.isReprintHeaderOnEachPage();
 		minHeightToStartNewPage = group.getMinHeightToStartNewPage();
 		footerPosition = group.getFooterPosition();
+		keepTogether = group.isKeepTogether();
 		
 		expression = factory.getExpression(group.getExpression());
 
@@ -228,6 +232,24 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		int old = this.footerPosition;
 		this.footerPosition = footerPosition;
 		getEventSupport().firePropertyChange(PROPERTY_FOOTER_POSITION, old, this.footerPosition);
+	}
+		
+	/**
+	 *
+	 */
+	public boolean isKeepTogether()
+	{
+		return this.keepTogether;
+	}
+		
+	/**
+	 *
+	 */
+	public void setKeepTogether(boolean keepTogether)
+	{
+		boolean old = this.keepTogether;
+		this.keepTogether = keepTogether;
+		getEventSupport().firePropertyChange(PROPERTY_KEEP_TOGETHER, old, this.keepTogether);
 	}
 		
 	/**

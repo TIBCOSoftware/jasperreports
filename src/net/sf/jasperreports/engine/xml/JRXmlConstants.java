@@ -1858,6 +1858,7 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_isReprintHeaderOnEachPage = "isReprintHeaderOnEachPage";
 	public static final String ATTRIBUTE_minHeightToStartNewPage = "minHeightToStartNewPage";
 	public static final String ATTRIBUTE_footerPosition = "footerPosition";
+	public static final String ATTRIBUTE_keepTogether = "keepTogether";
 
 	/**
 	 * JRHyperlinkFactory associated constants

@@ -626,6 +626,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isReprintHeaderOnEachPage, group.isReprintHeaderOnEachPage(), false);
 		writer.addAttributePositive(JRXmlConstants.ATTRIBUTE_minHeightToStartNewPage, group.getMinHeightToStartNewPage());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_footerPosition, group.getFooterPosition(), JRXmlConstants.getFooterPositionMap(), JRGroup.FOOTER_POSITION_NORMAL);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_keepTogether, group.isKeepTogether(), false);
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_groupExpression, group.getExpression(), false);
 
