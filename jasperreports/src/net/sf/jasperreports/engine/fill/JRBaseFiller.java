@@ -2091,7 +2091,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		{
 			savePoint = newSavePoint;
 		}
-		else
+		else if (newSavePoint != null)
 		{
 			// check to see if the new save point is on the same page/column as the previous one
 			
@@ -2122,7 +2122,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 */
 	protected void moveSavePointContent(SavePoint savePoint)
 	{
-		if (savePoint != null && savePoint.footerPosition != JRGroup.FOOTER_POSITION_NORMAL)
+		if (savePoint != null && savePoint.footerPosition != JRGroup.FOOTER_POSITION_NORMAL)//FIXME is footerPosition testing required here?
 		{
 			//no page/column break occurred
 			for(int i = savePoint.startElementIndex; i < savePoint.endElementIndex; i++)

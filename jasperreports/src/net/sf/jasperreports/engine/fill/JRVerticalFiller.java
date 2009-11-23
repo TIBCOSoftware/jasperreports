@@ -521,10 +521,9 @@ public class JRVerticalFiller extends JRBaseFiller
 				if(isFillAll || group.hasChanged())
 				{
 					SavePoint newSavePoint = fillGroupHeader(group);
-					if (newSavePoint != null)
-					{
-						newSavePoint.groupIndex = i;
-					}
+					// fillGroupHeader never returns null, because we need a save point 
+					// regardless of the group header printing or not
+					newSavePoint.groupIndex = i;
 					
 					if (keepTogetherSavePoint == null && group.isKeepTogether())
 					{
@@ -614,6 +613,13 @@ public class JRVerticalFiller extends JRBaseFiller
 		group.setHeaderPrinted(true);
 
 		isNewGroup = true;
+
+		if (savePoint == null)
+		{
+			// fillGroupHeader never returns null, because we need a save point 
+			// regardless of the group header printing or not
+			savePoint = new SavePoint(getCurrentPage(), columnIndex, offsetY);
+		}
 		
 		return savePoint;
 	}
@@ -765,90 +771,96 @@ public class JRVerticalFiller extends JRBaseFiller
 				if (isFillAll || group.hasChanged())
 				{
 					SavePoint newSavePoint = fillGroupFooter(group, evaluation);
-					
-					switch (group.getFooterPosition())
+					// fillGroupFooter might return null, because if the group footer does not print, 
+					// its footer position is completely irrelevant
+					if (newSavePoint != null)
 					{
-						case JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM:
+						switch (group.getFooterPosition())
 						{
-							savePoint = advanceSavePoint(savePoint, newSavePoint);
-
-							if (savePoint != null)
+							case JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM:
 							{
-								savePoint.footerPosition = JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM;
-							}
+								savePoint = advanceSavePoint(savePoint, newSavePoint);
 
-							break;
-						}
-						case JRGroup.FOOTER_POSITION_FORCE_AT_BOTTOM:
-						{
-							savePoint = advanceSavePoint(savePoint, newSavePoint);
-
-							if (savePoint != null)
-							{
-								moveSavePointContent(savePoint);
-								offsetY = columnFooterOffsetY;
-							}
-
-							savePoint = null;
-
-							break;
-						}
-						case JRGroup.FOOTER_POSITION_COLLATE_AT_BOTTOM:
-						{
-							savePoint = advanceSavePoint(savePoint, newSavePoint);
-
-							break;
-						}
-						case JRGroup.FOOTER_POSITION_NORMAL:
-						default:
-						{
-							if (savePoint != null)
-							{
-								//only "StackAtBottom" and "CollateAtBottom" save points could get here
-								
-								// check to see if the new save point is on the same page/column as the previous one
-								if (
-									savePoint.page == newSavePoint.page
-									&& savePoint.columnIndex == newSavePoint.columnIndex
-									)
+								if (savePoint != null)
 								{
-									// if the new save point is on the same page/column, 
-									// we just move the marker on the existing save point,
-									// but only if was a "StackAtBottom" one
+									savePoint.footerPosition = JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM;
+								}
+
+								break;
+							}
+							case JRGroup.FOOTER_POSITION_FORCE_AT_BOTTOM:
+							{
+								savePoint = advanceSavePoint(savePoint, newSavePoint);
+
+								if (savePoint != null)
+								{
+									moveSavePointContent(savePoint);
+									offsetY = columnFooterOffsetY;
+								}
+
+								savePoint = null;
+
+								break;
+							}
+							case JRGroup.FOOTER_POSITION_COLLATE_AT_BOTTOM:
+							{
+								savePoint = advanceSavePoint(savePoint, newSavePoint);
+
+								break;
+							}
+							case JRGroup.FOOTER_POSITION_NORMAL:
+							default:
+							{
+								if (savePoint != null)
+								{
+									//only "StackAtBottom" and "CollateAtBottom" save points could get here
 									
-									if (savePoint.footerPosition == JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM)
+									// check to see if the new save point is on the same page/column as the previous one
+									if (
+										savePoint.page == newSavePoint.page
+										&& savePoint.columnIndex == newSavePoint.columnIndex
+										)
 									{
-										savePoint.saveHeightOffset(newSavePoint.heightOffset);
+										// if the new save point is on the same page/column, 
+										// we just move the marker on the existing save point,
+										// but only if was a "StackAtBottom" one
+										
+										if (savePoint.footerPosition == JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM)
+										{
+											savePoint.saveHeightOffset(newSavePoint.heightOffset);
+										}
+										else
+										{
+											// we cancel the "CollateAtBottom" save point
+											savePoint = null;
+										}
 									}
 									else
 									{
-										// we cancel the "CollateAtBottom" save point
+										// page/column break occurred, so the move operation 
+										// must be performed on the previous save point, regardless 
+										// whether it was a "StackAtBottom" or a "CollateAtBottom"
+										moveSavePointContent(savePoint);
 										savePoint = null;
 									}
 								}
 								else
 								{
-									// page/column break occurred, so the move operation 
-									// must be performed on the previous save point, regardless 
-									// whether it was a "StackAtBottom" or a "CollateAtBottom"
-									moveSavePointContent(savePoint);
+									// only "ForceAtBottom" save points could get here, but they are already null
 									savePoint = null;
 								}
-							}
-							else
-							{
-								// only "ForceAtBottom" save points could get here, but they are already null
-								savePoint = null;
 							}
 						}
 					}
 					
-					if (keepTogetherSavePoint != null)
+					// regardless of whether the fillGroupFooter returned a save point or not 
+					// (footer was printed or not), we just need to mark the end of the group 
+					if (
+						keepTogetherSavePoint != null
+						&& i <= keepTogetherSavePoint.groupIndex
+						)
 					{
-						if (keepTogetherSavePoint.groupIndex >= i)
-						{
-							keepTogetherSavePoint = null;
-						}
+						keepTogetherSavePoint = null;
 					}
 				}
 			}
@@ -1899,12 +1911,9 @@ public class JRVerticalFiller extends JRBaseFiller
 		{
 			moveKeepTogetherSavePointContent();
 		}
-		else
+		else if (isReprintGroupHeaders)
 		{
-			if (isReprintGroupHeaders)
-			{
-				fillGroupHeadersReprint(evalNextPage);
-			}
+			fillGroupHeadersReprint(evalNextPage);
 		}
 
 		isCreatingNewPage = false;
