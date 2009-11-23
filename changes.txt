@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.6.2 (2009-11-23, SVN xxxx)
+JasperReports 3.6.2 (2009-11-23, SVN 3213)
 ---------------------------------------------
 
 - new "footerPosition" attribute added to report groups to control the rendering
