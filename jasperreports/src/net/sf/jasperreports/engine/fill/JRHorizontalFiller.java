@@ -2089,7 +2089,10 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		JRPrintBand printBand = band.fill(columnFooterOffsetY - offsetY);
 
-		if (band.willOverflow() && band.isSplitPrevented())
+		if (
+			band.willOverflow() 
+			&& (band.isSplitPrevented() || keepTogetherSavePoint != null)
+			)
 		{
 			fillPageBreak(false, evaluation, evaluation, true);
 
