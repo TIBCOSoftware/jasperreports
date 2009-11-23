@@ -2012,7 +2012,10 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		JRPrintBand printBand = band.fill(columnFooterOffsetY - offsetY);
 
-		if (band.willOverflow() && band.isSplitPrevented())
+		if (
+			band.willOverflow() 
+			&& (band.isSplitPrevented() || keepTogetherSavePoint != null)
+			)
 		{
 			fillColumnBreak(evaluation, evaluation);
 
