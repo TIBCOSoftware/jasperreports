@@ -40,6 +40,9 @@ import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -47,6 +50,8 @@ import net.sf.jasperreports.extensions.ExtensionsEnvironment;
  */
 public class JRFontUtil
 {
+	private static final Log log = LogFactory.getLog(JRFontUtil.class);
+
 	/**
 	 *
 	 */
@@ -275,10 +280,7 @@ public class JRFontUtil
 			{
 				// The font family does not specify any font face, not even a normal one.
 				// In such case, we take the family name and consider it as JVM available font name.
-				if (!ignoreMissingFont && !JRGraphEnvInitializer.isAwtFontAvailable(family.getName()))
-				{
-					throw new JRFontNotFoundException(family.getName());
-				}
+				checkAwtFont(family.getName(), ignoreMissingFont);
 				
 				awtFont = new Font(family.getName(), style, size);
 			}
@@ -297,6 +299,28 @@ public class JRFontUtil
 		}
 		
 		return awtFont;
+	}
+
+	
+	/**
+	 *
+	 */
+	public static void checkAwtFont(String name, boolean ignoreMissingFont)
+	{
+		if (!JRGraphEnvInitializer.isAwtFontAvailable(name))
+		{
+			if (ignoreMissingFont)
+			{
+				if (log.isWarnEnabled())
+				{
+					log.warn("Font '" + name + "' is not available to the JVM. For more details, see http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRFontNotFoundException.html");
+				}
+			}
+			else
+			{
+				throw new JRFontNotFoundException(name);
+			}
+		}
 	}
 
 	
