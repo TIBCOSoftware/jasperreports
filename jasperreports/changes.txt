@@ -2,8 +2,21 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.6.2 (2009-11-xx, SVN xxxx)
+JasperReports 3.6.2 (2009-11-23, SVN xxxx)
 ---------------------------------------------
+
+- new "footerPosition" attribute added to report groups to control the rendering
+position of the group footer sections;
+
+- new "keepTogether" boolean flag added to report groups to prevent groups from
+splitting accross two pages or columns, but only on their first break attempt;
+
+- new <orderByExpression> tag added to crosstab group definitions to allow
+sorting the crosstab by measure totals;
+
+- axis tick labels in charts can now be rotated using the new "verticalTickLabels"
+flag (for numeric or datetime axis) or at an angle, using the new "labelRotation" 
+numeric attribute (for category axis);
 
 - minor bug fixes and improvements;
 

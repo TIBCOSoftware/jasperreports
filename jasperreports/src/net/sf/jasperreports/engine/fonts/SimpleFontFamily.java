@@ -30,8 +30,7 @@ import java.util.Set;
 
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.engine.util.JRFontNotFoundException;
-import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -318,13 +317,7 @@ public class SimpleFontFamily implements FontFamily
 			}
 			else
 			{
-				if (
-					!JRProperties.getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT) 
-					&& !JRGraphEnvInitializer.isAwtFontAvailable(value)
-					)
-				{
-					throw new JRFontNotFoundException(value);
-				}
+				JRFontUtil.checkAwtFont(value, JRProperties.getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT));
 				
 				fontFace = new SimpleFontFace(new Font(value, Font.PLAIN, JRProperties.getIntegerProperty(JRFont.DEFAULT_FONT_SIZE)));
 			}
