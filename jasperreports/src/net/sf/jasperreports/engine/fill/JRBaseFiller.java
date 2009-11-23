@@ -2145,33 +2145,41 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				// it's a column break
 
-				for(int i = keepTogetherSavePoint.startElementIndex; i < keepTogetherSavePoint.endElementIndex; i++)
+				if (!keepTogetherSavePoint.isNewColumn)
 				{
-					JRPrintElement printElement = (JRPrintElement)keepTogetherSavePoint.page.getElements().get(i);
-					printElement.setX(printElement.getX() + columnSpacing + columnWidth);
-					printElement.setY(offsetY + printElement.getY() - keepTogetherSavePoint.startOffsetY);
+					for(int i = keepTogetherSavePoint.startElementIndex; i < keepTogetherSavePoint.endElementIndex; i++)
+					{
+						JRPrintElement printElement = (JRPrintElement)keepTogetherSavePoint.page.getElements().get(i);
+						printElement.setX(printElement.getX() + columnSpacing + columnWidth);
+						printElement.setY(offsetY + printElement.getY() - keepTogetherSavePoint.startOffsetY);
+					}
+
+					offsetY = offsetY + keepTogetherSavePoint.endOffsetY - keepTogetherSavePoint.startOffsetY;
 				}
 			}
 			else
 			{
 				// it's a page break
 
-				for(int i = keepTogetherSavePoint.startElementIndex; i < keepTogetherSavePoint.endElementIndex; i++)
+				if (!keepTogetherSavePoint.isNewPage)
 				{
-					JRPrintElement printElement = (JRPrintElement)keepTogetherSavePoint.page.getElements().get(i);
-					
-					printElement.setX(printElement.getX() + (columnIndex - keepTogetherSavePoint.columnIndex) * (columnSpacing + columnWidth));
-					printElement.setY(offsetY + printElement.getY() - keepTogetherSavePoint.startOffsetY);
+					for(int i = keepTogetherSavePoint.startElementIndex; i < keepTogetherSavePoint.endElementIndex; i++)
+					{
+						JRPrintElement printElement = (JRPrintElement)keepTogetherSavePoint.page.getElements().get(i);
+						
+						printElement.setX(printElement.getX() + (columnIndex - keepTogetherSavePoint.columnIndex) * (columnSpacing + columnWidth));
+						printElement.setY(offsetY + printElement.getY() - keepTogetherSavePoint.startOffsetY);
 
-					printPage.addElement(printElement);
-				}
-				for(int i = keepTogetherSavePoint.endElementIndex - 1; i >= keepTogetherSavePoint.startElementIndex; i--)
-				{
-					keepTogetherSavePoint.page.getElements().remove(i);
+						printPage.addElement(printElement);
+					}
+					for(int i = keepTogetherSavePoint.endElementIndex - 1; i >= keepTogetherSavePoint.startElementIndex; i--)
+					{
+						keepTogetherSavePoint.page.getElements().remove(i);
+					}
+
+					offsetY = offsetY + keepTogetherSavePoint.endOffsetY - keepTogetherSavePoint.startOffsetY;
 				}
 			}
-			
-			offsetY = offsetY + keepTogetherSavePoint.endOffsetY - keepTogetherSavePoint.startOffsetY;
 			
 			keepTogetherSavePoint = null;
 		}
@@ -2185,6 +2193,8 @@ class SavePoint
 {
 	protected JRPrintPage page = null;
 	protected int columnIndex = 0;
+	protected boolean isNewPage = false;
+	protected boolean isNewColumn = false;
 	protected int startOffsetY = 0;
 	protected int endOffsetY = 0;
 	protected int startElementIndex = 0;
@@ -2196,11 +2206,15 @@ class SavePoint
 	protected SavePoint(
 		JRPrintPage page,
 		int columnIndex,
+		boolean isNewPage,
+		boolean isNewColumn,
 		int startOffsetY
 		)
 	{
 		this.page = page;
 		this.columnIndex = columnIndex;
+		this.isNewPage = isNewPage;
+		this.isNewColumn = isNewColumn;
 
 		this.startElementIndex = page.getElements().size();
 		this.endElementIndex = startElementIndex;

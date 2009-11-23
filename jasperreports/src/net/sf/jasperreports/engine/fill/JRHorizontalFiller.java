@@ -627,7 +627,14 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			// fillGroupHeader never returns null, because we need a save point 
 			// regardless of the group header printing or not
-			savePoint = new SavePoint(getCurrentPage(), columnIndex, offsetY);
+			savePoint = 
+				new SavePoint(
+					getCurrentPage(), 
+					columnIndex,
+					isNewPage,
+					isNewColumn,
+					offsetY
+					);
 		}
 		
 		return savePoint;
@@ -2089,7 +2096,14 @@ public class JRHorizontalFiller extends JRBaseFiller
 			printBand = band.refill(columnFooterOffsetY - offsetY);
 		}
 
-		SavePoint savePoint = new SavePoint(getCurrentPage(), columnIndex, offsetY);
+		SavePoint savePoint = 
+			new SavePoint(
+				getCurrentPage(), 
+				columnIndex,
+				isNewPage,
+				isNewColumn,
+				offsetY
+				);
 		
 		fillBand(printBand);
 		offsetY += printBand.getHeight();
