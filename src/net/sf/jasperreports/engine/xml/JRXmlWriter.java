@@ -1667,13 +1667,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	/**
 	 * Writes out the category axis format block.
 	 *
-	 * @param axisFormatElementName the name of the axis format element being written
 	 * @param axisLabelFont font to use for the axis label
 	 * @param axisLabelColor color to use for the axis label
 	 * @param axisTickLabelFont font to use for the label of each tick mark
 	 * @param axisTickLabelColor color to use for the label of each tick mark
 	 * @param axisTickLabelMask formatting mask to use for the label of each tick mark
 	 * @param axisVerticalTickLabels flag to render tick labels at 90 degrees
+	 * @param labelRotation label rotation angle
 	 * @param axisLineColor the color to use for the axis line and any tick marks
 	 *
 	 */
@@ -1757,7 +1757,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	/**
 	 * Writes out the axis format block for a chart axis.
 	 *
-	 * @param axisFormatElementName the name of the axis format element being written
 	 * @param axisLabelFont font to use for the axis label
 	 * @param axisLabelColor color to use for the axis label
 	 * @param axisTickLabelFont font to use for the label of each tick mark
