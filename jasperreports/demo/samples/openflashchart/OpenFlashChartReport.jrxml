@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OpenFlashChartReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="net.sf.jasperreports.export.pdf.version" value="7"/>
+	<queryString>
+		<![CDATA[SELECT ShipCountry, Freight, OrderDate FROM Orders Where ShipCountry LIKE '%r%' ORDER BY ShipCountry, OrderDate]]>
+	</queryString>
+	<field name="ShipCountry" class="java.lang.String"/>
+	<field name="Freight" class="java.lang.Float"/>
+	<field name="OrderDate" class="java.util.Date"/>
+	<variable name="YearFormatter" class="java.text.DateFormat" calculation="System">
+  		<initialValueExpression>new java.text.SimpleDateFormat("yyyy")</initialValueExpression>
+	</variable>
+	<variable name="OrderYear">
+		<variableExpression>$V{YearFormatter}.format($F{OrderDate})</variableExpression>
+	</variable>
+	<variable name="CountryFreight" class="java.lang.Float" resetType="Group" resetGroup="Country" calculation="Sum">
+		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
+	</variable>
+	<variable name="CountryYearFreight" class="java.lang.Float" resetType="Group" resetGroup="Year" calculation="Sum">
+		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
+	</variable>
+	<group name="Country">
+		<groupExpression><![CDATA[$F{ShipCountry}]]></groupExpression>
+	</group>
+	<group name="Year">
+		<groupExpression><![CDATA[$V{OrderYear}]]></groupExpression>
+	</group>
+	<summary>
+		<band height="800">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="350"/>
+				<ofc:pieChart xmlns:ofc="http://jasperreports.sourceforge.net/openflashchart"
+						xsi:schemaLocation="http://jasperreports.sourceforge.net/openflashchart http://jasperreports.sourceforge.net/xsd/openflashchart.xsd"
+						evaluationTime="Report">
+					<ofc:pieDataset>
+						<dataset incrementType="Group" incrementGroup="Country"/>
+						<ofc:keyExpression>$F{ShipCountry}</ofc:keyExpression>
+						<ofc:valueExpression>$V{CountryFreight}</ofc:valueExpression>
+					</ofc:pieDataset>
+					<ofc:titleExpression>"Pie Chart"</ofc:titleExpression>
+				</ofc:pieChart>
+			</componentElement>
+			<componentElement>
+				<reportElement x="0" y="400" width="555" height="350"/>
+				<ofc:barChart xmlns:ofc="http://jasperreports.sourceforge.net/openflashchart"
+						xsi:schemaLocation="http://jasperreports.sourceforge.net/openflashchart http://jasperreports.sourceforge.net/xsd/openflashchart.xsd"
+						evaluationTime="Report">
+					<ofc:barDataset>
+						<dataset incrementType="Group" incrementGroup="Year"/>
+						<ofc:barSeries>
+							<ofc:seriesExpression>$F{ShipCountry}</ofc:seriesExpression>
+							<ofc:categoryExpression>$V{OrderYear}</ofc:categoryExpression>
+							<ofc:valueExpression>$V{CountryYearFreight}</ofc:valueExpression>
+						</ofc:barSeries>
+					</ofc:barDataset>
+					<ofc:titleExpression>"Bar Chart"</ofc:titleExpression>
+				</ofc:barChart>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>
