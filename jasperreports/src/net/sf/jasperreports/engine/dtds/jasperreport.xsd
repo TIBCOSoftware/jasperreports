@@ -1392,7 +1392,7 @@
      <restriction base="string">
       <enumeration value="true">
 	  	<annotation>
-	   	 <documentation>Group can split accross two separate pages/column at any moment.</documentation>
+	   	 <documentation>Group can split across two separate pages/column at any moment.</documentation>
 	  	</annotation>
 	  </enumeration> 
       <enumeration value="false">
