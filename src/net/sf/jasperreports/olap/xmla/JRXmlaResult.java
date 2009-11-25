@@ -58,17 +58,17 @@ public class JRXmlaResult implements JROlapResult
 	public JROlapCell getCell(int[] axisPositions)
 	{
 		int cellOrdinal = getCellOrdinal(axisPositions);
-		JROlapCell cell;
-		if (cellOrdinal < cells.size())
-		{
-			cell = (JROlapCell) cells.get(cellOrdinal);
+                // Mpenningroth Nov 14th 2008
+                // Modified to check size of array.  Was throwing index exception
+                // for queries that return fewer cells than expected.
+                // The xmla spec (version 1.1 CellData section page 26) indicates that cell elements
+                // can be missing.
+                if (cellOrdinal < cells.size()) {
+                    return (JROlapCell) cells.get(cellOrdinal);
 		}
-		else
-		{
-			// no cell with that ordinal
-			cell = null;
+                else {
+                    return null;
 		}
-		return cell;
 	}
 	
 	protected int getCellOrdinal(int[] axisPositions)

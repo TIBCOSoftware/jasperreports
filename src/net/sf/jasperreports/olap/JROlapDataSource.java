@@ -56,6 +56,8 @@ import net.sf.jasperreports.olap.result.JROlapResultAxis;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import antlr.ANTLRException;
 
@@ -84,6 +86,12 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	protected int[] axisPositions;
 	protected boolean first;
 	protected int[][] maxDepths;
+        private DateFormat dateFormat = new SimpleDateFormat();
+        // Mpenningroth 21-Nov-2008 added to deal with empty results.
+        // Sometimes non empty can cause no results, but the init was
+        // causing an error trying to locate a mapping to a tuple (there are
+        // no tuples.)  This deals with that situation.
+        private boolean noTuples; 
 
 	public JROlapDataSource(JRDataset dataset, JROlapResult result)
 	{
@@ -94,8 +102,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 		fieldsMaxDepths = new int[axes.length][];
 		maxDepths = new int[axes.length][];
 		int hCount = 0;
+        noTuples = false;
 		for (int i = 0; i < axes.length; i++)
 		{
+            noTuples = (noTuples || axes[i].getTupleCount() == 0);
 			queryHierarchies[i] = axes[i].getHierarchiesOnAxis();
 			
 			hCount += queryHierarchies[i].length;
@@ -106,13 +116,20 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
 		axisPositions = new int[axes.length];		
 
-		init(dataset);
+        if (!noTuples) 
+        {
+		    init(dataset);
+	    }
 	}
 
 	public boolean next() throws JRException
 	{
 		boolean next;
 		boolean matchMaxLevel;
+        if (noTuples) 
+        {
+            return false;
+        }
 		do
 		{
 			if (iterate)
@@ -203,10 +220,62 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 		next = i < axes.length;
 		return next;
 	}
+    /**
+     * convertValue()
+     * Helper method to convert the value of the data type of the Field
+     * @param JFRield the Field whose type has to be converted
+     * @return JRField with modified type
+     * 
+     */
+    private  Object convertValue(JRField jrField, String fieldValue) throws net.sf.jasperreports.engine.JRException {
+        Class valueClass = jrField.getValueClass();
+
+        if (fieldValue == null) return null;
+        if (Number.class.isAssignableFrom(valueClass)){
+            fieldValue = fieldValue.trim();
+        }
+        if (fieldValue.length() == 0){
+           fieldValue = "0";
+        }
+        
+        try {
+            if (valueClass.equals(String.class)) {
+                return fieldValue;
+            } else if (valueClass.equals(Boolean.class)) {
+                return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;
+            } else if (valueClass.equals(Byte.class)) {
+                return new Byte(fieldValue);
+            } else if (valueClass.equals(Integer.class)) {
+                return new Integer(fieldValue);
+            } else if (valueClass.equals(Long.class)) {
+                return new Long(fieldValue);
+            } else if (valueClass.equals(Short.class)) {
+                return new Short(fieldValue);
+            } else if (valueClass.equals(Double.class)) {
+                return new Double(fieldValue);
+            } else if (valueClass.equals(Float.class)) {
+                return new Float(fieldValue);
+            } else if (valueClass.equals(java.math.BigDecimal.class)) {
+                return new java.math.BigDecimal(fieldValue);
+            } else if (valueClass.equals(java.util.Date.class)) {
+                return dateFormat.parse(fieldValue);
+            } else if (valueClass.equals(java.sql.Timestamp.class)) {
+                return new java.sql.Timestamp(dateFormat.parse(fieldValue).getTime());
+            } else if (valueClass.equals(java.sql.Time.class)) {
+                return new java.sql.Time(dateFormat.parse(fieldValue).getTime());
+            } else if (valueClass.equals(java.lang.Number.class)) {
+                return new Double(fieldValue);
+            } else{
+                throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and can not be converted");
+            } 
+        } catch (Exception e) {
+            throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
+        }
+    }
 
 	public Object getFieldValue(JRField jrField) throws JRException
 	{
-		return fieldValues.get(jrField.getName());
+		return convertValue(jrField,(String)fieldValues.get(jrField.getName()));
 	}
 
 
@@ -345,6 +414,18 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 				dimensionIndex = i;
 			}
 		}
+        // MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
+        if (dimensionIndex == -1 && dimension.indexOf(".")!= -1 ) {
+            String hierName = "[" + dimension + "]";
+            for (int i = 0; i < hierarchies.length; i++)
+            {
+                JROlapHierarchy hierarchy = hierarchies[i];
+                if (hierName.equals(hierarchy.getHierarchyUniqueName()))
+                {
+                    dimensionIndex = i;
+                }
+            }
+        }
 		
 		if (dimensionIndex == -1)
 		{
@@ -444,7 +525,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			{
 				value = member.getName();
 			}
-			return value;
+			return value.toString();
 		}
 	}
 	
@@ -544,13 +625,9 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			{
 				value = null;
 			}
-			else if (formatted)
-			{
-				value = cell.getFormattedValue();
-			}
 			else
 			{
-				value = cell.getValue();
+				value = cell.getValue().toString();
 			}
 			
 			return value;

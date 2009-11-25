@@ -32,6 +32,9 @@ public interface JROlapHierarchy
 {
 	
 	String getDimensionName();
+
+    // MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
+    String getHierarchyUniqueName();
 	
 	JROlapHierarchyLevel[] getLevels();
 	
