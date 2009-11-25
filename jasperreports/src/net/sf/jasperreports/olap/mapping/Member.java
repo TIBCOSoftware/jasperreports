@@ -83,7 +83,7 @@ public class Member
 		else if (depth.getDepth() <= memberDepth)
 		{
 			ancestor = member;
-			for (int i = depth.getDepth(); i < memberDepth; ++i)
+			for (int i = depth.getDepth(); i < memberDepth && ancestor != null; ++i)
 			{
 				ancestor = ancestor.getParentMember();
 			}

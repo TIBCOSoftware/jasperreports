@@ -89,6 +89,11 @@ public class JRXmlaHierarchy implements JROlapHierarchy
 		
 		resetLevelArray();
 	}
+    // MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
+    public String getHierarchyUniqueName()
+    {
+        return dimensionName;
+    }
 
 	protected JRXmlaHierarchyLevel[] ensureLevelArray()
 	{
