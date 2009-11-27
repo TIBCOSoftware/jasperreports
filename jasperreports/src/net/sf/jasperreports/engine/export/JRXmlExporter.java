@@ -608,42 +608,45 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		if (elements != null && elements.size() > 0)
 		{
-			JRPrintElement element;
 			for(Iterator it = elements.iterator(); it.hasNext();)
 			{
-				element = (JRPrintElement)it.next();
-				
-				if (filter == null || filter.isToExport(element))
-				{
-					if (element instanceof JRPrintLine)
-					{
-						exportLine((JRPrintLine)element);
-					}
-					else if (element instanceof JRPrintRectangle)
-					{
-						exportRectangle((JRPrintRectangle)element);
-					}
-					else if (element instanceof JRPrintEllipse)
-					{
-						exportEllipse((JRPrintEllipse)element);
-					}
-					else if (element instanceof JRPrintImage)
-					{
-						exportImage((JRPrintImage)element);
-					}
-					else if (element instanceof JRPrintText)
-					{
-						exportText((JRPrintText)element);
-					}
-					else if (element instanceof JRPrintFrame)
-					{
-						exportFrame((JRPrintFrame) element);
-					}
-					else if (element instanceof JRGenericPrintElement)
-					{
-						exportGenericElement((JRGenericPrintElement) element);
-					}
-				}
+				exportElement((JRPrintElement)it.next());
+			}
+		}
+	}
+
+
+	public void exportElement(JRPrintElement element) throws IOException, JRException
+	{
+		if (filter == null || filter.isToExport(element))
+		{
+			if (element instanceof JRPrintLine)
+			{
+				exportLine((JRPrintLine)element);
+			}
+			else if (element instanceof JRPrintRectangle)
+			{
+				exportRectangle((JRPrintRectangle)element);
+			}
+			else if (element instanceof JRPrintEllipse)
+			{
+				exportEllipse((JRPrintEllipse)element);
+			}
+			else if (element instanceof JRPrintImage)
+			{
+				exportImage((JRPrintImage)element);
+			}
+			else if (element instanceof JRPrintText)
+			{
+				exportText((JRPrintText)element);
+			}
+			else if (element instanceof JRPrintFrame)
+			{
+				exportFrame((JRPrintFrame) element);
+			}
+			else if (element instanceof JRGenericPrintElement)
+			{
+				exportGenericElement((JRGenericPrintElement) element);
 			}
 		}
 	}
