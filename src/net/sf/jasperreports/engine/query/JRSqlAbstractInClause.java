@@ -136,7 +136,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 		}
 		else
 		{
-			throw new JRRuntimeException("Invalid type + " + paramValue.getClass().getName() + 
+			throw new JRRuntimeException("Invalid type " + paramValue.getClass().getName() + 
 					" for parameter " + paramName + " used in an IN clause; the value must be an array or a collection.");
 		}
 		return count;
