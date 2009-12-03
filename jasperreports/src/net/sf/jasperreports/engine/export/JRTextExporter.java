@@ -437,7 +437,6 @@ public class JRTextExporter extends JRAbstractExporter
 			if(isFirstLine && line.equals("\n"))
 			{
 				rows[rowIndex].append("");
-				isFirstLine = false;
 				rowIndex++;
 				if(rowIndex == rowSpan || !lfTokenizer.hasMoreTokens())
 					break label;
@@ -445,6 +444,9 @@ public class JRTextExporter extends JRAbstractExporter
 				rows[rowIndex] = new StringBuffer();
 				line = lfTokenizer.nextToken();
 			}
+
+			isFirstLine = false;
+			
 			// if there is a series of new lines:
 			int emptyLinesCount = 0;
 			while(line.equals("\n") && lfTokenizer.hasMoreTokens())
