@@ -5,8 +5,16 @@ JasperReports Change Log
 JasperReports 3.7.0 (2009-12-07, SVN xxxx)
 ---------------------------------------------
 
+- generic element export handler support was added to all built-in exporters;
+
+- fixes were made in the text exporter and new configuration properties were added
+to help configure the text exporter globally, or at report level;
+
 - custom property "net.sf.jasperreports.export.html.id" added at element level
 to allow specifying the ID attribute for elements when exported to HTML and XHTML/CSS format;
+
+- new export parameter and configuration property added to ignore cell background
+color in the XLS/XLSX exporters;  
 
 - minor bug fixes and improvements;
 
