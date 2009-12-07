@@ -2,8 +2,11 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.0 (2009-12-xx, SVN xxxx)
+JasperReports 3.7.0 (2009-12-07, SVN xxxx)
 ---------------------------------------------
+
+- custom property "net.sf.jasperreports.export.html.id" added at element level
+to allow specifying the ID attribute for elements when exported to HTML and XHTML/CSS format;
 
 - minor bug fixes and improvements;
 

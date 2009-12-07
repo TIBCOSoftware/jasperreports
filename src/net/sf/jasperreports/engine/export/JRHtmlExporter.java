@@ -127,6 +127,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	public static final String PROPERTY_HTML_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "id";
+	
+	/**
+	 *
+	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 
 	/**
@@ -982,6 +987,18 @@ public class JRHtmlExporter extends JRAbstractExporter
 		if (gridCell.getRowSpan() > 1)
 		{
 			writer.write(" rowspan=\"" + gridCell.getRowSpan() + "\"");
+		}
+		if (gridCell.getWrapper() != null)
+		{
+			JRPrintElement element = gridCell.getWrapper().getElement();
+			if (element != null)
+			{
+				String id = JRProperties.getProperty(element, PROPERTY_HTML_ID);
+				if (id != null)
+				{
+					writer.write(" id=\"" + id +"\"");
+				}
+			}
 		}
 	}
 

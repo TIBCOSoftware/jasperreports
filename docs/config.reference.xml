@@ -120,6 +120,7 @@
       <property ref="net.sf.jasperreports.export.graphics2d.min.job.size"/>
       <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
       <property ref="net.sf.jasperreports.export.html.frames.as.nested.tables"/>
+      <property ref="net.sf.jasperreports.export.html.id"/>
       <property ref="net.sf.jasperreports.export.html.remove.emtpy.space.between.rows"/>
       <property ref="net.sf.jasperreports.export.html.size.unit"/>
       <property ref="net.sf.jasperreports.export.html.using.images.to.align"/>
@@ -1493,6 +1494,19 @@ If set to <code>false</code>, the frame content will be integrated into the mast
     <default>true</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.html.id -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.id">
+    <description>
+Property used to specify the value of the <code>ID</code> attribute of elements when exported to HTML and XHTML formats. The value of this property will be used as the value for the <code>id</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML and/or the <code>id</code> attribute of the <code>&lt;span&gt;</code> or <code>&lt;div&gt;</code> tag for the element, when exported to XHTML/CSS.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporter.html#PROPERTY_HTML_ID</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>3.7.0</since>
   </configProperty>
   
   

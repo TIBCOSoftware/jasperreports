@@ -678,6 +678,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	{
 		writer.write("<span");
 
+		appendId(line);
+
 		StringBuffer styleBuffer = new StringBuffer();
 
 		appendPositionStyle(line, styleBuffer);
@@ -732,6 +734,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected void exportRectangle(JRPrintGraphicElement element) throws IOException
 	{
 		writer.write("<span");
+
+		appendId(element);
 
 		StringBuffer styleBuffer = new StringBuffer();
 
@@ -941,6 +945,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 
 		writer.write("<span");//FIXME why dealing with cell style if no text to print (textLength == 0)?
+
+		appendId(text);
 
 		if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
 		{
@@ -1388,6 +1394,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected void exportImage(JRPrintImage image) throws JRException, IOException
 	{
 		writer.write("<span");
+
+		appendId(image);
 
 		float xAlignFactor = 0f;
 
@@ -1961,6 +1969,19 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	private void appendId(JRPrintElement element) throws IOException
+	{
+		String id = JRProperties.getProperty(element, JRHtmlExporter.PROPERTY_HTML_ID);
+		if (id != null)
+		{
+			writer.write(" id=\"" + id + "\"");
+		}
+	}
+	
+		
+	/**
+	 *
+	 */
 	public static String getImageName(JRPrintElementIndex printElementIndex)
 	{
 		return IMAGE_NAME_PREFIX + printElementIndex.toString();
@@ -1984,6 +2005,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected void exportFrame(JRPrintFrame frame) throws IOException, JRException
 	{
 		writer.write("<div");
+		
+		appendId(frame);
 
 		StringBuffer styleBuffer = new StringBuffer();
 		appendPositionStyle(frame, styleBuffer);
