@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.0 (2009-12-07, SVN xxxx)
+JasperReports 3.7.0 (2009-12-08, SVN 3227)
 ---------------------------------------------
 
 - generic element export handler support was added to all built-in exporters;
