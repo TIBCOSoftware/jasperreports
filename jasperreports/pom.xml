@@ -20,12 +20,14 @@
 		<tag>jr-3-7-0</tag>
 		<url>http://jasperforge.org/scm/viewvc.php/?root=jasperreports</url>
 	</scm>
+	<!--
 	<repositories>
 		<repository>
 			<id>jasperreports</id>
 			<url>http://jasperreports.sourceforge.net/maven2</url>
 		</repository>
 	</repositories>
+	-->
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -147,7 +149,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.2-FINAL</version>
+			<version>3.5-FINAL</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
