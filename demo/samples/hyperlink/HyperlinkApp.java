@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperRunManager;
@@ -43,6 +44,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRApiWriter;
 
 
 /**
@@ -73,6 +75,7 @@ public class HyperlinkApp
 	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_RUN = "run";
 	private static final String TASK_WRITE_XML = "writeXml";
+	private static final String TASK_WRITE_API = "writeApi";
 	
 	
 	/**
@@ -289,6 +292,19 @@ public class HyperlinkApp
 				JasperCompileManager.writeReportToXmlFile(fileName);
 				System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
 			}
+			else if (TASK_WRITE_API.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+				
+				JRReport report = (JRReport)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), report.getName() + ".jasper.java");
+				String destFileName = destFile.toString();
+
+				JRApiWriter.writeReport(report, destFileName);
+				
+				System.err.println("API design creation time : " + (System.currentTimeMillis() - start));
+			}
 			else
 			{
 				usage();
@@ -312,7 +328,7 @@ public class HyperlinkApp
 	{
 		System.out.println( "HyperlinkApp usage:" );
 		System.out.println( "\tjava HyperlinkApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run | writeXml" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run | writeXml | writeApi" );
 	}
 
 
