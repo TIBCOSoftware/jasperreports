@@ -111,7 +111,7 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
         if (ck != null)
         {
             PdfChunk chunk = ck[Math.min(current, ck.length - 1)];
-			currentCh = chunk.getUnicodeEquivalent(currentCh);
+			currentCh = (char)chunk.getUnicodeEquivalent(currentCh);
         }
         return currentCh;
 	}
