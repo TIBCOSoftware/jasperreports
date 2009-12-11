@@ -40,7 +40,7 @@ public class JRXlsExporterNature extends JRXlsAbstractExporterNature
 	/**
 	 * 
 	 */
-	protected JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
+	public JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
 	{
 		super(filter, isIgnoreGraphics);
 	}
@@ -48,7 +48,7 @@ public class JRXlsExporterNature extends JRXlsAbstractExporterNature
 	/**
 	 * 
 	 */
-	protected JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
+	public JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
 	{
 		super(filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
