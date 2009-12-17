@@ -134,6 +134,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 
+	protected static final float DEFAULT_ZOOM = 1f;
+
 	/**
 	 *
 	 */
@@ -189,6 +191,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected boolean isWhitePageBackground;
 	protected String encoding;
 	protected String sizeUnit = null;
+	protected float zoom = DEFAULT_ZOOM;
 	protected boolean isUsingImagesToAlign;
 	protected boolean isWrapBreakWord;
 	protected boolean isIgnorePageMargins;
@@ -327,6 +330,20 @@ public class JRHtmlExporter extends JRAbstractExporter
 					JRHtmlExporterParameter.PROPERTY_SIZE_UNIT
 					);
 	
+			Float zoomRatio = (Float)parameters.get(JRHtmlExporterParameter.ZOOM_RATIO);
+			if (zoomRatio != null)
+			{
+				zoom = zoomRatio.floatValue();
+				if (zoom <= 0)
+				{
+					throw new JRException("Invalid zoom ratio : " + zoom);
+				}
+			}
+			else
+			{
+				zoom = DEFAULT_ZOOM;
+			}
+	
 			isUsingImagesToAlign = 
 				getBooleanParameter(
 					JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
@@ -339,9 +356,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 				emptyCellStringProvider =
 					new StringProvider()
 					{
-						public String getStringForCollapsedTD(Object value, int width, int height, String sizeUnit)
+						public String getStringForCollapsedTD(Object value, int width, int height)
 						{
-							return "><img alt=\"\" src=\"" + value + "px\" style=\"width: " + width + sizeUnit + "; height: " + height + sizeUnit + ";\"/>";
+							return "><img alt=\"\" src=\"" + value + "px\" style=\"width: " + toSizeUnit(width) + "; height: " + toSizeUnit(height) + ";\"/>";
 						}
 						public String getStringForEmptyTD(Object value)
 						{
@@ -361,9 +378,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 				emptyCellStringProvider =
 					new StringProvider()
 					{
-						public String getStringForCollapsedTD(Object value, int width, int height, String sizeUnit)
+						public String getStringForCollapsedTD(Object value, int width, int height)
 						{
-							return " style=\"width: " + width + sizeUnit + "; height: " + height + sizeUnit + ";\">";
+							return " style=\"width: " + toSizeUnit(width) + "; height: " + toSizeUnit(height) + ";\">";
 						}
 						public String getStringForEmptyTD(Object value)
 						{
@@ -768,7 +785,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
-		String tableStyle = "width: " + gridLayout.getWidth() + sizeUnit + "; border-collapse: collapse";
+		String tableStyle = "width: " + toSizeUnit(gridLayout.getWidth()) + "; border-collapse: collapse";
 		String additionalTableStyle = emptyCellStringProvider.getReportTableStyle();
 		if (additionalTableStyle != null)
 		{
@@ -792,7 +809,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		for(int i = 1; i < xCuts.size(); i++)
 		{
 			width = xCuts.getCut(i) - xCuts.getCut(i - 1);
-			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI, width, 1, sizeUnit) + "</td>\n");
+			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI, width, 1) + "</td>\n");
 		}
 		writer.write("</tr>\n");
 		
@@ -809,7 +826,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				writer.write("<tr valign=\"top\"");
 				if (!hasEmptyCell)
 				{
-					writer.write(" style=\"height:" + rowHeight + sizeUnit + "\"");
+					writer.write(" style=\"height:" + toSizeUnit(rowHeight) + "\"");
 				}
 				writer.write(">\n");
 
@@ -912,7 +929,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("\"");
 		}
 
-		writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI, cell.getWidth(), rowHeight, sizeUnit));
+		writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI, cell.getWidth(), rowHeight));
 		writer.write("</td>\n");
 	}
 
@@ -1148,8 +1165,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 
 		writer.write("font-size: ");
-		writer.write(String.valueOf(attributes.get(TextAttribute.SIZE)));
-		writer.write(sizeUnit);
+		writer.write(toSizeUnit(((Float)attributes.get(TextAttribute.SIZE)).intValue()));
 		writer.write(";");
 
 		/*
@@ -1302,7 +1318,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (isWrapBreakWord)
 		{
-			styleBuffer.append("width: " + gridCell.getWidth() + sizeUnit + "; ");
+			styleBuffer.append("width: " + toSizeUnit(gridCell.getWidth()) + "; ");
 			styleBuffer.append("word-wrap: break-word; ");
 		}
 		
@@ -1804,11 +1820,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 				case JRImage.SCALE_IMAGE_FILL_FRAME :
 				{
 					writer.write(" style=\"width: ");
-					writer.write(String.valueOf(imageWidth));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit(imageWidth));
 					writer.write("; height: ");
-					writer.write(String.valueOf(imageHeight));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit(imageHeight));
 					writer.write("\"");
 		
 					break;
@@ -1841,15 +1855,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 						if( ratio > (double)imageWidth / (double)imageHeight )
 						{
 							writer.write(" style=\"width: ");
-							writer.write(String.valueOf(imageWidth));
-							writer.write(sizeUnit);
+							writer.write(toSizeUnit(imageWidth));
 							writer.write("\"");
 						}
 						else
 						{
 							writer.write(" style=\"height: ");
-							writer.write(String.valueOf(imageHeight));
-							writer.write(sizeUnit);
+							writer.write(toSizeUnit(imageHeight));
 							writer.write("\"");
 						}
 					}
@@ -2000,7 +2012,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		/**
 		 *
 		 */
-		public String getStringForCollapsedTD(Object value, int width, int height, String sizeUnit);
+		public String getStringForCollapsedTD(Object value, int width, int height);
 
 		/**
 		 *
@@ -2027,8 +2039,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				sb.append(side);
 			}
 			sb.append(": ");
-			sb.append(padding);
-			sb.append(sizeUnit);
+			sb.append(toSizeUnit(padding.intValue()));
 			sb.append("; ");
 
 			addedToStyle = true;
@@ -2096,8 +2107,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				sb.append(side);
 			}
 			sb.append("-width: ");
-			sb.append((int)borderWidth);
-			sb.append(sizeUnit);
+			sb.append(toSizeUnit((int)borderWidth));
 			sb.append("; ");
 
 			sb.append("border");
@@ -2252,6 +2262,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 	public JasperPrint getExportedReport()
 	{
 		return jasperPrint;
+	}
+
+	public String toSizeUnit(int size)
+	{
+		return String.valueOf((int)(zoom * (float)size)) + sizeUnit;
 	}
 
 

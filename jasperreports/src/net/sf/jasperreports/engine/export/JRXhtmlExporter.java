@@ -122,6 +122,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 
+	protected static final float DEFAULT_ZOOM = 1f;
+
 	/**
 	 *
 	 */
@@ -176,6 +178,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected boolean isWhitePageBackground;
 	protected String encoding;
 	protected String sizeUnit = null;
+	protected float zoom = DEFAULT_ZOOM;
 	protected boolean isWrapBreakWord;
 	protected boolean isIgnorePageMargins;
 
@@ -288,6 +291,20 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					JRHtmlExporterParameter.PROPERTY_SIZE_UNIT
 					);
 			
+			Float zoomRatio = (Float)parameters.get(JRHtmlExporterParameter.ZOOM_RATIO);
+			if (zoomRatio != null)
+			{
+				zoom = zoomRatio.floatValue();
+				if (zoom <= 0)
+				{
+					throw new JRException("Invalid zoom ratio : " + zoom);
+				}
+			}
+			else
+			{
+				zoom = DEFAULT_ZOOM;
+			}
+	
 			isIgnorePageMargins = 
 				getBooleanParameter(
 					JRExporterParameter.IGNORE_PAGE_MARGINS,
@@ -605,7 +622,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		writer.write("<div style=\"position:relative;width:" + jasperPrint.getPageWidth() + sizeUnit + ";height:" + jasperPrint.getPageHeight() + sizeUnit + ";\">\n");
+		writer.write("<div style=\"position:relative;width:" + toSizeUnit(jasperPrint.getPageWidth()) + ";height:" + toSizeUnit(jasperPrint.getPageHeight()) + ";\">\n");
 
 		frameIndexStack = new ArrayList();
 		
@@ -865,8 +882,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 
 		writer.write("font-size: ");
-		writer.write(String.valueOf(attributes.get(TextAttribute.SIZE)));
-		writer.write(sizeUnit);
+		writer.write(toSizeUnit(((Float)attributes.get(TextAttribute.SIZE)).intValue()));
 		writer.write(";");
 
 		/*
@@ -1030,7 +1046,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		if (isWrapBreakWord)
 		{
-			styleBuffer.append("width: " + text.getWidth() + sizeUnit + "; ");
+			styleBuffer.append("width: " + toSizeUnit(text.getWidth()) + "; ");
 			styleBuffer.append("word-wrap: break-word; ");
 		}
 		
@@ -1331,13 +1347,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 		
 		styleBuffer.append("width:");
-		styleBuffer.append(element.getWidth() - widthDiff);
-		styleBuffer.append(sizeUnit);
+		styleBuffer.append(toSizeUnit(element.getWidth() - widthDiff));
 		styleBuffer.append(";");
 
 		styleBuffer.append("height:");
-		styleBuffer.append(element.getHeight() - heightDiff);
-		styleBuffer.append(sizeUnit);
+		styleBuffer.append(toSizeUnit(element.getHeight() - heightDiff));
 		styleBuffer.append(";");
 	}
 
@@ -1352,13 +1366,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 		
 		styleBuffer.append("width:");
-		styleBuffer.append(element.getWidth() - diff);
-		styleBuffer.append(sizeUnit);
+		styleBuffer.append(toSizeUnit(element.getWidth() - diff));
 		styleBuffer.append(";");
 
 		styleBuffer.append("height:");
-		styleBuffer.append(element.getHeight() - diff);
-		styleBuffer.append(sizeUnit);
+		styleBuffer.append(toSizeUnit(element.getHeight() - diff));
 		styleBuffer.append(";");
 	}
 
@@ -1367,12 +1379,10 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	{
 		styleBuffer.append("position:absolute;");
 		styleBuffer.append("left:");
-		styleBuffer.append(element.getX());
-		styleBuffer.append(sizeUnit);
+		styleBuffer.append(toSizeUnit(element.getX()));
 		styleBuffer.append(";");
 		styleBuffer.append("top:");
-		styleBuffer.append(element.getY());
-		styleBuffer.append(sizeUnit);
+		styleBuffer.append(toSizeUnit(element.getY()));
 		styleBuffer.append(";");
 	}
 
@@ -1582,17 +1592,13 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					}
 					
 					writer.write(" style=\"position:absolute;left:");
-					writer.write(String.valueOf(leftDiff));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit(leftDiff));
 					writer.write(";top:");
-					writer.write(String.valueOf(topDiff));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit(topDiff));
 					writer.write(";width:");
-					writer.write(String.valueOf(availableImageWidth - widthDiff));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit(availableImageWidth - widthDiff));
 					writer.write(";height:");
-					writer.write(String.valueOf(availableImageHeight - heightDiff));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit(availableImageHeight - heightDiff));
 					writer.write("\"");
 		
 					break;
@@ -1635,29 +1641,21 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					}
 					
 					writer.write(" style=\"position:absolute;left:");
-					writer.write(String.valueOf(leftDiff + xAlignFactor * (availableImageWidth - widthDiff - normalWidth)));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit((int)(leftDiff + xAlignFactor * (availableImageWidth - widthDiff - normalWidth))));
 					writer.write(";top:");
-					writer.write(String.valueOf(topDiff + yAlignFactor * (availableImageHeight - heightDiff - normalHeight)));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit((int)(topDiff + yAlignFactor * (availableImageHeight - heightDiff - normalHeight))));
 					writer.write(";width:");
-					writer.write(String.valueOf(normalWidth));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit((int)normalWidth));
 					writer.write(";height:");
-					writer.write(String.valueOf(normalHeight));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit((int)normalHeight));
 					writer.write(";clip:rect(");
-					writer.write(String.valueOf(yAlignFactor * (normalHeight - availableImageHeight + heightDiff)));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit((int)(yAlignFactor * (normalHeight - availableImageHeight + heightDiff))));
 					writer.write(",");
-					writer.write(String.valueOf(xAlignFactor * normalWidth + (1 - xAlignFactor) * (availableImageWidth - widthDiff)));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit((int)(xAlignFactor * normalWidth + (1 - xAlignFactor) * (availableImageWidth - widthDiff))));
 					writer.write(",");
-					writer.write(String.valueOf(yAlignFactor * normalHeight + (1 - yAlignFactor) * (availableImageHeight - heightDiff)));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit((int)(yAlignFactor * normalHeight + (1 - yAlignFactor) * (availableImageHeight - heightDiff))));
 					writer.write(",");
-					writer.write(String.valueOf(xAlignFactor * (normalWidth - availableImageWidth + widthDiff)));
-					writer.write(sizeUnit);
+					writer.write(toSizeUnit((int)(xAlignFactor * (normalWidth - availableImageWidth + widthDiff))));
 					writer.write(")\"");
 
 					break;
@@ -1707,28 +1705,22 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						if( ratio > (double)availableImageWidth / (double)availableImageHeight )
 						{
 							writer.write(" style=\"position:absolute;left:");
-							writer.write(String.valueOf(leftDiff));
-							writer.write(sizeUnit);
+							writer.write(toSizeUnit(leftDiff));
 							writer.write(";top:");
-							writer.write(String.valueOf(topDiff + yAlignFactor * (availableImageHeight - heightDiff - (availableImageWidth - widthDiff) / ratio)));
-							writer.write(sizeUnit);
+							writer.write(toSizeUnit((int)(topDiff + yAlignFactor * (availableImageHeight - heightDiff - (availableImageWidth - widthDiff) / ratio))));
 							writer.write(";width:");
-							writer.write(String.valueOf(availableImageWidth - widthDiff));
-							writer.write(sizeUnit);
+							writer.write(toSizeUnit(availableImageWidth - widthDiff));
 							writer.write("\"");
 						}
 						else
 						{
 							writer.write(" style=\"position:absolute;left:");
 							//writer.write(String.valueOf(leftDiff));
-							writer.write(String.valueOf(leftDiff + xAlignFactor * (availableImageWidth - widthDiff - ratio * (availableImageHeight - heightDiff))));
-							writer.write(sizeUnit);
+							writer.write(toSizeUnit((int)(leftDiff + xAlignFactor * (availableImageWidth - widthDiff - ratio * (availableImageHeight - heightDiff)))));
 							writer.write(";top:");
-							writer.write(String.valueOf(topDiff));
-							writer.write(sizeUnit);
+							writer.write(toSizeUnit(topDiff));
 							writer.write(";height:");
-							writer.write(String.valueOf(availableImageHeight - heightDiff));
-							writer.write(sizeUnit);
+							writer.write(toSizeUnit(availableImageHeight - heightDiff));
 							writer.write("\"");
 						}
 					}
@@ -1876,8 +1868,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				sb.append(side);
 			}
 			sb.append(": ");
-			sb.append(padding);
-			sb.append(sizeUnit);
+			sb.append(toSizeUnit(padding.intValue()));
 			sb.append("; ");
 
 			addedToStyle = true;
@@ -1945,8 +1936,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				sb.append(side);
 			}
 			sb.append("-width: ");
-			sb.append((int)borderWidth);
-			sb.append(sizeUnit);
+			sb.append(toSizeUnit((int)borderWidth));
 			sb.append("; ");
 
 			sb.append("border");
@@ -2089,6 +2079,12 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	public JasperPrint getExportedReport()
 	{
 		return jasperPrint;
+	}
+
+
+	public String toSizeUnit(int size)
+	{
+		return String.valueOf((int)(zoom * (float)size)) + sizeUnit;
 	}
 
 
