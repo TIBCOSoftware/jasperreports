@@ -215,6 +215,11 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 
 	
 	/**
+	 * The zoom ratio used for the export. The default value is 1.
+	 */
+	public static final JRHtmlExporterParameter ZOOM_RATIO = new JRHtmlExporterParameter("Zoom Ratio");
+
+	/**
 	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested HTML tables.
 	 * <p>
 	 * The type of the parameter is <code>java.lang.Boolean</code>.
