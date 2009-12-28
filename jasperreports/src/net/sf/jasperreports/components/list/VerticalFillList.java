@@ -70,7 +70,7 @@ public class VerticalFillList extends BaseFillList
 				}
 				
 				hadData = true;
-				fillContents(availableHeight);
+				overflow = fillContents(availableHeight);
 			}
 			else
 			{
@@ -99,7 +99,7 @@ public class VerticalFillList extends BaseFillList
 				hadData = true;
 				
 				listContents.evaluateContents();
-				fillContents(availableHeight);
+				overflow = fillContents(availableHeight);
 			}
 
 			if (overflow)
