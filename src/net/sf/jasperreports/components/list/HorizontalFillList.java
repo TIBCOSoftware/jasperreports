@@ -115,14 +115,9 @@ public class HorizontalFillList extends BaseFillList
 			boolean overflow = false;
 			int columnIndex = 0;
 			
-			while(!overflow
-					// we still have overflowed cells to refill
-					&& (columnIndex < overflowColumnIndex
-							// or there are more records
-							|| datasetRun.next()))
+			// also breaks when there are no more records, see below
+			while(!overflow)
 			{
-				hadData = true;
-				
 				int contentsAvailableHeight = availableHeight 
 						- printFrame.getHeight();
 				if (contentsAvailableHeight < contentsHeight)
@@ -137,8 +132,16 @@ public class HorizontalFillList extends BaseFillList
 				}
 				else
 				{
+					boolean refillOverflowed = columnIndex < overflowColumnIndex;
+					if (!refillOverflowed && !datasetRun.next())
+					{
+						// no more records
+						break;
+					}
+					
 					FillListContents listContents = getContents(columnIndex);
-					if (columnIndex < overflowColumnIndex)
+					// we still have overflowed cells to refill
+					if (refillOverflowed)
 					{
 						// refilling an overflowed cell
 						if (log.isDebugEnabled())
@@ -151,6 +154,8 @@ public class HorizontalFillList extends BaseFillList
 					}
 					else
 					{
+						hadData = true;
+						
 						// reset the overflow counter as we render a new cell
 						overflowStartPage = 0;
 
