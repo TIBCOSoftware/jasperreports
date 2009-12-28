@@ -132,6 +132,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	private boolean percentage;
 
 	private CrosstabFiller crosstabFiller;
+	private int overflowStartPage;
 	
 	private List fillElements;
 	
@@ -439,7 +440,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				}
 
 				crosstabFiller.initCrosstab();
-			}			
+			}
+			
+			overflowStartPage = 0;
 		}
 	}
 
@@ -530,6 +533,26 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 
 		crosstabFiller.fill(availableHeight - getRelativeY());
+
+		if (crosstabFiller.hasFilledRows())
+		{
+			// crosstab content has been filled, rest overflowPage
+			overflowStartPage = 0;
+		}
+		else
+		{
+			int pageCount = filler.getCurrentPageCount();
+			if (overflowStartPage == 0)
+			{
+				// first empty page
+				overflowStartPage = pageCount;
+			}
+			else if (pageCount >= overflowStartPage + 2)
+			{
+				throw new JRRuntimeException("Crosstab has not printed anything on 3 consecutive pages, "
+						+ "likely infinite loop");
+			}
+		}
 		
 		boolean willOverflow = crosstabFiller.willOverflow();
 		setStretchHeight(willOverflow ? availableHeight - getRelativeY() : crosstabFiller.getUsedHeight());
@@ -619,6 +642,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	protected void rewind()
 	{
 		crosstabFiller.initCrosstab();
+		
+		overflowStartPage = 0;
 	}
 
 	protected List getPrintElements()
@@ -923,6 +948,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			willOverflow = false;
 			
 			fillVerticalCrosstab(availableHeight);
+		}
+		
+		protected boolean hasFilledRows()
+		{
+			return !printRows.isEmpty();
 		}
 		
 		protected boolean willOverflow()
