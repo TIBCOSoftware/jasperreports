@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -541,7 +542,21 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
 				loadedImagesMap = new HashMap();
-				document.setPageSize(new Rectangle(jasperPrint.getPageWidth(), jasperPrint.getPageHeight()));
+				
+				Rectangle pageSize;
+				switch (jasperPrint.getOrientation())
+				{
+				case JRReport.ORIENTATION_LANDSCAPE:
+					// using rotate to indicate landscape page
+					pageSize = new Rectangle(jasperPrint.getPageHeight(),
+							jasperPrint.getPageWidth()).rotate();
+					break;
+				default:
+					pageSize = new Rectangle(jasperPrint.getPageWidth(), 
+							jasperPrint.getPageHeight());
+					break;
+				}
+				document.setPageSize(pageSize);
 				
 				BorderOffset.setLegacy(
 					JRProperties.getBooleanProperty(jasperPrint, BorderOffset.PROPERTY_LEGACY_BORDER_OFFSET, false)
