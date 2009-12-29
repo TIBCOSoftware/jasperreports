@@ -195,6 +195,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected boolean isUsingImagesToAlign;
 	protected boolean isWrapBreakWord;
 	protected boolean isIgnorePageMargins;
+	protected boolean flushOutput;
 
 	/**
 	 *
@@ -417,6 +418,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 			
 			nature = new JRHtmlExporterNature(filter, deepGrid, isIgnorePageMargins);
 	
+			flushOutput = getBooleanParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, 
+					JRHtmlExporterParameter.PROPERTY_FLUSH_OUTPUT, 
+					true);
+			
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 			if (sb != null)
 			{
@@ -749,7 +754,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(htmlFooter);
 		}
 
-		writer.flush();
+		if (flushOutput)
+		{
+			writer.flush();
+		}
 	}
 
 
