@@ -390,6 +390,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 						public String getReportTableStyle()
 						{
 							// required for lines and rectangles, but doesn't work in IE
+							// border-collapse: collapse seems to take care of this though
 							return "empty-cells: show";
 						}
 					};
