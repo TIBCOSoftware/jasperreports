@@ -1548,11 +1548,19 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				for (int j = 0; j < rowGroups.length; j++)
 				{
 					HeaderCell cell = rowHeadersData[j][rowIdx + startRowIndex];
-					
-					boolean overflow = false;
+					int vSpan = 0;
 					if (cell == null)
 					{
-						overflow = prepareClosingRowHeader(j, availableHeight);
+						// if we have a span header
+						if (toCloseRowHeader(j))
+						{
+							cell = spanHeaders[j];
+							vSpan = cell.getLevelSpan();
+							if (spanHeadersStart[j] < startRowIndex)//continuing from the prev page
+							{
+								vSpan += spanHeadersStart[j] - startRowIndex;
+							}
+						}
 					}
 					else
 					{
@@ -1562,14 +1570,30 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 							spanHeadersStart[j] = rowIdx + startRowIndex;
 							continue;
 						}
-
-						overflow = prepareRowHeader(j, cell, 1, availableHeight);
+						
+						vSpan = 1;
 					}
 					
-					if (overflow)
+					if (cell != null)
 					{
-						willOverflow = true;
-						return;
+						boolean overflow = prepareRowHeader(j, cell, vSpan, availableHeight);						
+						if (overflow)
+						{
+							willOverflow = true;
+							return;
+						}
+					}
+				}
+				
+				// successfully prepared a row, reset the span headers
+				for (int j = 0; j < rowGroups.length; j++)
+				{
+					// if we have a span header
+					if (rowHeadersData[j][rowIdx + startRowIndex] == null 
+							&& toCloseRowHeader(j))
+					{
+						// reset it
+						spanHeaders[j] = null;
 					}
 				}
 				
@@ -1694,24 +1718,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			return headerOverflow;
 		}
 
-		private boolean prepareClosingRowHeader(int rowGroup, int availableHeight) throws JRException
+		protected boolean toCloseRowHeader(int rowGroup)
 		{
-			if (rowGroup < rowGroups.length - 1 && 
+			return rowGroup < rowGroups.length - 1 && 
 					spanHeaders[rowGroup] != null && 
-					spanHeaders[rowGroup].getLevelSpan() + spanHeadersStart[rowGroup] == rowIdx + startRowIndex + 1)
-			{
-				HeaderCell cell = spanHeaders[rowGroup];
-				int vSpan = cell.getLevelSpan();
-				if (spanHeadersStart[rowGroup] < startRowIndex)//continuing from the prev page
-				{
-					vSpan += spanHeadersStart[rowGroup] - startRowIndex;
-				}
-				spanHeaders[rowGroup] = null;
-				
-				return prepareRowHeader(rowGroup, cell, vSpan, availableHeight);
-			}
-			
-			return false;
+					spanHeaders[rowGroup].getLevelSpan() + spanHeadersStart[rowGroup] == 
+						rowIdx + startRowIndex + 1;
 		}
 
 		private void removeExceedingSpanHeaders()
