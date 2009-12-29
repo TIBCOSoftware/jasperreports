@@ -244,4 +244,27 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRProperties.PROPERTY_PREFIX + "export.html.frames.as.nested.tables";
 	
 
+	/**
+	 * A parameter that determines whether the HTML exporter should flush the
+	 * output stream after writing the HTML content to it.
+	 * 
+	 * <p>
+	 * The default value is given by the {@link #PROPERTY_FLUSH_OUTPUT} property.
+	 * </p>
+	 */
+	public static final JRHtmlExporterParameter FLUSH_OUTPUT = 
+		new JRHtmlExporterParameter("Flush Output");
+	
+	/**
+	 * Property that provides the default value for the {@link #FLUSH_OUTPUT}
+	 * parameter.
+	 * 
+	 * <p>
+	 * The property can be set at report level or globally.
+	 * By default, the HTML exporter performs a flush on the output stream
+	 * after export.
+	 * </p>
+	 */
+	public static final String PROPERTY_FLUSH_OUTPUT = 
+		JRProperties.PROPERTY_PREFIX + "export.html.flush.output";
 }
