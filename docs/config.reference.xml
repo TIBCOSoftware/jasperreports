@@ -40,6 +40,7 @@
   <category>
     <name>Report Design</name>
     <content>
+      <property ref="net.sf.jasperreports.allow.element.negative.width"/>
       <property ref="net.sf.jasperreports.allow.element.overlap"/>
     </content>
   </category>
@@ -520,6 +521,26 @@ as report parser factory.
     <default><code>net.sf.jasperreports.engine.xml.JRReportSaxParserFactory</code></default>
     <scope>Global</scope>
     <since>3.1.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.allow.element.negative.width -->
+  
+  <configProperty name="net.sf.jasperreports.allow.element.negative.width">
+    <description>
+A property that determines whether elements having negative width values are allowed.
+<br/>
+If this value is set to <code>false</code>, the report is verified not
+to contain elements with negative width values. This is useful when the report is
+meant to be exported to grid-based formats such as HTML, XLS or CSV, which might enter
+an infinite loop. Having elements with negative widths does not make sense, but allowing 
+this is a workaround in case older report templates still need to pass validation
+at report compile time.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>3.7.1</since>
   </configProperty>
   
   
