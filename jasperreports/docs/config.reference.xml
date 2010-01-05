@@ -117,6 +117,7 @@
       <property ref="net.sf.jasperreports.export.legacy.border.offset"/>
       <property ref="net.sf.jasperreports.export.csv.field.delimiter"/>
       <property ref="net.sf.jasperreports.export.csv.record.delimiter"/>
+      <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.graphics2d.min.job.size"/>
       <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
