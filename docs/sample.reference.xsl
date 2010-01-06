@@ -167,6 +167,17 @@
     <td colspan="2"><span class="description"><xsl:value-of select="since"/></span></td>
   </tr>
   </xsl:for-each>
+  <tr>
+    <td colspan="5"><br/><br/></td>
+  </tr>
+  <tr>
+    <td colspan="5"><hr size="1"/></td>
+  </tr>
+  <tr>
+    <td colspan="5" align="center">
+      <span style="font-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&#169; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
+    </td>
+  </tr>
 </table>
 
 </body>
@@ -197,7 +208,7 @@
 
 
 <xsl:template match="sample">
-  <span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="text()"/>/index.html</xsl:attribute><xsl:value-of select="concat('/demo/samples/', text())"/></xsl:element></span>
+  <span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="text()"/>/index.html</xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="concat('/demo/samples/', text())"/></xsl:element></span>
 </xsl:template>
 
 
