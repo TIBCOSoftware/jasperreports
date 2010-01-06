@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <title>Alter Design Sample</title>
+  <description>Shows how compiled report templates can be modified on-the-fly without requiring recompilation.</description>
+
+  <mainFeature ref="alterdesign"/>
+  <secondaryFeature ref="reportcompilers" title="Report Compilers"/>
+  
+  <!-- alterdesign -->
+  
+  <feature name="alterdesign" title="Altering Compiled Report Templates">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <since>1.2.3</since>
+    <content>
+    </content>
+  </feature>
+
+</sample>
