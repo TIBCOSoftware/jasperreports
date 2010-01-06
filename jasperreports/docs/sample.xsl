@@ -218,7 +218,7 @@
   <tr>
     <td></td>
     <td>
-      <span class="element"><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@ref"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
+      <span class="element"><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@ref"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="@title"/> (FIXME)</xsl:element></span>
     </td>
   </tr>
 </xsl:template>

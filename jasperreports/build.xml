@@ -332,8 +332,8 @@
 				excludepackagenames="org.w3c.tools.codec"
 				maxmemory="128m"
 				encoding="ISO-8859-1">
-			<doctitle><![CDATA[<span style="font-family:verdana,arial,helvetica,sans-serif;font-size:16pt;font-style:normal;color:#000000;"><b><font color="#808080">Jasper</font><font color="#990000">Reports</font></b></span><br><span style="font-family:verdana,arial,helvetica,sans-serif;font-size:10pt;font-weight:bold;color:#000000;">version ${version}</span>]]></doctitle>
-			<bottom><![CDATA[<span style="font-decoration:none;font-family:verdana,arial,helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&copy; 2001-2009 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>]]></bottom>
+			<doctitle><![CDATA[<img src="resources/jasperreports.png" border="0"/><span style=font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;font-weight:normal;color:#000000;><br><br>The JasperReports API Version ${version}</span>]]></doctitle>
+			<bottom><![CDATA[<span style="font-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&copy; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>]]></bottom>
 			<classpath>
 				<fileset dir="./lib">
 					<include name="**/*.jar"/>
@@ -341,6 +341,11 @@
 				<pathelement location="./build/classes"/>
 			</classpath>
 		</javadoc>
+		<copy todir="./dist/javadoc/resources">
+			<fileset dir="./docs">
+				<include name="**/*.png"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="schemaref" description="Generates the Schema Reference.">
