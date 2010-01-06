@@ -65,6 +65,65 @@
 	</target>
 
 
+	<target name="docs" description="Generates all the sample documentation.">
+		<ant dir="alterdesign" target="docs" />
+		<!--
+		<ant dir="antcompile" target="docs" />
+		<ant dir="barbecue" target="docs" />
+		<ant dir="barcode4j" target="docs" />
+		<ant dir="batchexport" target="docs" />
+		<ant dir="beanshell" target="docs" />
+		<ant dir="charts" target="docs" />
+		<ant dir="chartthemes" target="docs" />
+		<ant dir="crosstabs" target="docs" />
+		<ant dir="csvdatasource" target="docs" />
+		<ant dir="datasource" target="docs" />
+		<ant dir="ejbql" target="docs" />
+		<ant dir="fonts" target="docs" />
+		<ant dir="genericelement" target="docs" />
+		<ant dir="groovy" target="docs" />
+		<ant dir="hibernate" target="docs" />
+		<ant dir="horizontal" target="docs" />
+		<ant dir="hyperlink" target="docs" />
+		<ant dir="i18n" target="docs" />
+		<ant dir="images" target="docs" />
+		<ant dir="jasper" target="docs" />
+		<ant dir="java1.5" target="docs" />
+		<ant dir="javascript" target="docs" />
+		<ant dir="jcharts" target="docs" />
+		<ant dir="jchartscomponent" target="docs" />
+		<ant dir="jfreechart" target="docs" />
+		<ant dir="landscape" target="docs" />
+		<ant dir="list" target="docs" />
+		<ant dir="markup" target="docs" />
+		<ant dir="mondrian" target="docs" />
+		<ant dir="nopagebreak" target="docs" />
+		<ant dir="noreport" target="docs" />
+		<ant dir="noxmldesign" target="docs" />
+		<ant dir="openflashchart" target="docs" />
+		<ant dir="pdfencrypt" target="docs" />
+		<ant dir="printservice" target="docs" />
+		<ant dir="query" target="docs" />
+		<ant dir="rotation" target="docs" />
+		<ant dir="scriptlet" target="docs" />
+		<ant dir="shapes" target="docs" />
+		<ant dir="stretch" target="docs" />
+		<ant dir="styledtext" target="docs" />
+		<ant dir="subreport" target="docs" />
+		<ant dir="table" target="docs" />
+		<ant dir="tableofcontents" target="docs" />
+		<ant dir="templates" target="docs" />
+		<ant dir="text" target="docs" />
+		<ant dir="unicode" target="docs" />
+		<ant dir="virtualizer" target="docs" />
+		<ant dir="webapp" target="docs" />
+		<ant dir="xlsdatasource" target="docs" />
+		<ant dir="xlsformula" target="docs" />
+		<ant dir="xmldatasource" target="docs" />
+		-->
+	</target>
+
+
 	<target name="clean" description="Clean all the samples.">
 		<ant dir="alterdesign" target="clean" />
 		<ant dir="antcompile" target="clean" />
