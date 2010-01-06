@@ -380,6 +380,13 @@
 				<pathelement location="./build/classes"/>
 			</classpath>
 		</style>
+		<ant dir="demo/samples" target="docs" />
+		<mkdir dir="./dist/sample-reference"/> 
+		<copy todir="./dist/sample-reference">
+			<fileset dir="./demo/samples">
+				<include name="**/build/docs/*.*"/>
+			</fileset>
+		</copy>
 	</target>
 	
 	<target name="docs" depends="javadoc, schemaref, configref" description="Generates all documentation."/>
