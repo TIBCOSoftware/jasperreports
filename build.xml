@@ -369,6 +369,19 @@
 		</style>
 	</target>
 	
+	<target name="sampleref" description="Generates the Sample Reference.">
+		<mkdir dir="./dist"/> 
+		<style basedir="docs" in="docs/sample.reference.xml" destdir="dist" style="docs/sample.reference.xsl" out="./dist/jasperreports-${version}-sample.reference.html">
+			<param name="version" expression="${version}"/>
+			<classpath>
+				<fileset dir="./lib">
+					<include name="**/*.jar"/>
+				</fileset>
+				<pathelement location="./build/classes"/>
+			</classpath>
+		</style>
+	</target>
+	
 	<target name="docs" depends="javadoc, schemaref, configref" description="Generates all documentation."/>
 
 </project>
