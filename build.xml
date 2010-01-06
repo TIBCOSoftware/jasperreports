@@ -383,7 +383,7 @@
 		<ant dir="demo/samples" target="docs" />
 		<mkdir dir="./dist/sample-reference"/> 
 		<copy todir="./dist/sample-reference">
-			<regexpmapper from="^(.*)/build/docs/(.*)$$" to="\1/\2"/>
+			<regexpmapper from="^(.*)/build/docs/(.*)$$" to="\1/\2" handledirsep="true"/>
 			<fileset dir="./demo/samples">
 				<include name="**/build/docs/*.*"/>
 			</fileset>
