@@ -6,6 +6,11 @@
     <name>Report Compilation</name>
     <content>
       <feature ref="antcompile"/>
+      <feature ref="beanshell"/>
+      <feature ref="groovy"/>
+      <feature ref="java1.5"/>
+      <feature ref="javascript"/>
+      <feature ref="reportcompilers"/>
     </content>
   </category>
 
@@ -16,6 +21,13 @@
       <feature ref="barbecue"/>
       <feature ref="barcode4j"/>
       <feature ref="barcodes"/>
+      <feature ref="charts"/>
+      <feature ref="chartcustomizers"/>
+      <feature ref="chartthemes"/>
+      <feature ref="jcharts"/>
+      <feature ref="jchartscomponent"/>
+      <feature ref="jfreechart"/>
+      <feature ref="openflashchart"/>
     </content>
   </category>
   
@@ -26,6 +38,13 @@
       <feature ref="csvdatasource"/>
       <feature ref="customdatasource"/>
       <feature ref="datasource"/>
+    </content>
+  </category>
+  
+  <category>
+    <name>Report Export</name>
+    <content>
+      <feature ref="batchexport"/>
     </content>
   </category>
   
@@ -74,7 +93,7 @@ Properties with this prefix introduce JPA implementation specific EJBQL query hi
   
   <!-- barcode4j -->
   
-  <feature name="barcode4j" title="Barcodes (Barcode4j Custom Component)">
+  <feature name="barcode4j" title="Barcodes (Barcode4J Custom Component)">
     <description>
 Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
 <api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
@@ -101,6 +120,20 @@ Properties with this prefix introduce JPA implementation specific EJBQL query hi
   </feature>
   
   
+  <!-- barcodes -->
+  
+  <feature name="batchexport" title="Exporting Multiple Reports into a Single Output File (Batch Export)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>batchexport</sample>
+    </main>
+    <since>1.2.3</since>
+  </feature>
+  
+  
   <!-- beandatasource -->
   
   <feature name="beandatasource" title="Bean Data Sources">
@@ -115,6 +148,72 @@ Properties with this prefix introduce JPA implementation specific EJBQL query hi
   </feature>
   
   
+  <!-- beanshell -->
+  
+  <feature name="beanshell" title="Using the BeanShell Scripting Language for Report Expressions (BeanShell Report Compiler)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>beanshell</sample>
+    </main>
+    <since>1.2.3</since>
+  </feature>
+  
+  
+  <!-- charts -->
+  
+  <feature name="charts" title="Charts">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>charts</sample>
+    </main>
+    <secondary>
+      <sample>chartthemes</sample>
+      <sample>jcharts</sample>
+      <sample>jchartscomponent</sample>
+      <sample>jfreechart</sample>
+      <sample>openflashchart</sample>
+    </secondary>
+    <since>1.2.3</since>
+  </feature>
+  
+  
+  <!-- chartcustomizers -->
+  
+  <feature name="chartcustomizers" title="Altering Charts (Chart Customizers)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>charts</sample>
+    </main>
+    <since>1.2.3</since>
+  </feature>
+  
+  
+  <!-- chartthemes -->
+  
+  <feature name="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>chartthemes</sample>
+    </main>
+    <secondary>
+      <sample>charts</sample>
+    </secondary>
+    <since>1.2.3</since>
+  </feature>
+  
+  
   <!-- csvdatasource -->
   
   <feature name="csvdatasource" title="CSV Data Source">
@@ -125,9 +224,6 @@ Properties with this prefix introduce JPA implementation specific EJBQL query hi
     <main>
       <sample>csvdatasource</sample>
     </main>
-    <secondary>
-      <sample>datasource</sample>
-    </secondary>
     <since>1.2.3</since>
   </feature>
   
@@ -163,6 +259,121 @@ Properties with this prefix introduce JPA implementation specific EJBQL query hi
       <sample>xlsdatasource</sample>
       <sample>xmldatasource</sample>
     </secondary>
+    <since>1.2.3</since>
+  </feature>
+  
+  
+  <!-- groovy -->
+  
+  <feature name="groovy" title="Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>groovy</sample>
+    </main>
+    <since>1.2.3</since>
+  </feature>
+  
+  
+  <!-- java1.5 -->
+  
+  <feature name="java1.5" title="Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>java1.5</sample>
+    </main>
+    <since>1.2.3</since>
+  </feature>
+  
+  
+  <!-- javascript -->
+  
+  <feature name="javascript" title="Using the Javascript Language for Report Expressions (Javascript Report Compiler)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>javascript</sample>
+    </main>
+    <since>1.2.3</since>
+  </feature>
+  
+  
+  <!-- jcharts -->
+  
+  <feature name="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>jcharts</sample>
+    </main>
+    <since>1.2.3</since>
+  </feature>
+  
+  
+  <!-- jchartscomponent -->
+  
+  <feature name="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>jcharts</sample>
+    </main>
+    <since>1.2.3</since>
+  </feature>
+  
+  
+  <!-- jfreechart -->
+  
+  <feature name="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>jfreechart</sample>
+    </main>
+    <since>1.2.3</since>
+  </feature>
+  
+  
+  <!-- openflashchart -->
+  
+  <feature name="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>openflashchart</sample>
+    </main>
+    <since>1.2.3</since>
+  </feature>
+  
+  
+  <!-- reportcompilers -->
+  
+  <feature name="reportcompilers" title="Report Compilers">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <main>
+      <sample>beanshell</sample>
+      <sample>groovy</sample>
+      <sample>java1.5</sample>
+      <sample>javascript</sample>
+    </main>
     <since>1.2.3</since>
   </feature>
   
