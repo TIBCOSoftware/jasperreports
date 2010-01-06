@@ -381,8 +381,8 @@
 			</classpath>
 		</style>
 		<ant dir="demo/samples" target="docs" />
-		<mkdir dir="./dist/sample-reference"/> 
-		<copy todir="./dist/sample-reference">
+		<mkdir dir="./dist/sample.reference"/> 
+		<copy todir="./dist/sample.reference">
 			<regexpmapper from="^(.*)/build/docs/(.*)$$" to="\1/\2" handledirsep="true"/>
 			<fileset dir="./demo/samples">
 				<include name="**/build/docs/*.*"/>
@@ -390,6 +390,6 @@
 		</copy>
 	</target>
 	
-	<target name="docs" depends="javadoc, schemaref, configref" description="Generates all documentation."/>
+	<target name="docs" depends="javadoc, schemaref, configref, sampleref" description="Generates all documentation."/>
 
 </project>

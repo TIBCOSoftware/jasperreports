@@ -197,7 +197,7 @@
 
 
 <xsl:template match="sample">
-  <span class="element"><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="text()"/></xsl:attribute><xsl:value-of select="concat('/demo/samples/', text())"/></xsl:element></span>
+  <span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="text()"/>/index.html</xsl:attribute><xsl:value-of select="concat('/demo/samples/', text())"/></xsl:element></span>
 </xsl:template>
 
 
