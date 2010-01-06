@@ -128,6 +128,7 @@
       <property ref="net.sf.jasperreports.export.html.using.images.to.align"/>
       <property ref="net.sf.jasperreports.export.html.white.page.background"/>
       <property ref="net.sf.jasperreports.export.html.wrap.break.word"/>
+      <property ref="net.sf.jasperreports.export.html.flush.output"/>
       <property ref="net.sf.jasperreports.export.parameters.override.report.hints"/>
       <property ref="net.sf.jasperreports.export.pdf.128.bit.key"/>
       <property ref="net.sf.jasperreports.export.pdf.compressed"/>
@@ -2387,6 +2388,20 @@ Important note: this property is only effective when Java 1.5 or newer is used. 
     <default>16</default>
     <scope>Global</scope>
     <since>3.5.4</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.html.flush.output -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.flush.output">
+    <description>
+A boolean property that determines whether the HTML exporter should flush the output stream after writing the HTML content to it.
+It serves as default value for the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#FLUSH_OUTPUT">FLUSH_OUTPUT</api> export parameter.
+    </description>
+    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_FLUSH_OUTPUT</api>
+    <default>true</default>
+    <scope>Global | Report</scope>
+    <since>3.7.1</since>
   </configProperty>
   
   
