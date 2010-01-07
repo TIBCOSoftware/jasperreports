@@ -328,12 +328,24 @@
 				author="true"
 				version="true"
 				use="true"
-				windowtitle="JasperReports API version ${version}"
+				windowtitle="JasperReports ${version} API"
 				excludepackagenames="org.w3c.tools.codec"
 				maxmemory="128m"
 				encoding="ISO-8859-1">
-			<doctitle><![CDATA[<img src="resources/jasperreports.png" border="0"/><span style=font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;font-weight:normal;color:#000000;><br><br>The JasperReports API Version ${version}</span>]]></doctitle>
-			<bottom><![CDATA[<span style="font-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&copy; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>]]></bottom>
+			<doctitle>
+<![CDATA[
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr valign="middle">
+<td nowrap="true"><span style="font-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:28px;font-weight:normal;color:#000000;">JasperReports API (version 3.7.1)</span></td><td align="right"><img border="0" src="resources/jasperreports.png"></td>
+</tr>
+</table>
+]]>
+      </doctitle>
+			<bottom>
+<![CDATA[
+<span style="font-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&copy; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
+]]>
+      </bottom>
 			<classpath>
 				<fileset dir="./lib">
 					<include name="**/*.jar"/>
