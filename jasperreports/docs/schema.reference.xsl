@@ -14,8 +14,8 @@
 <style type="text/css">
 .title {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 32px;
-	font-weight: bold;
+	font-size: 28px;
+	font-weight: normal;
 }
 
 .toc {
@@ -66,8 +66,21 @@
 
 <a name="top"/>
 <br/>
-<span class="title">JasperReports <xsl:value-of select="$version"/> - Schema Reference</span>
-<br/>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr valign="middle">
+    <td nowrap="true">
+<span class="title">JasperReports - Sample Reference (version <xsl:value-of select="$version"/>)</span>
+    </td>
+    <td align="right">
+<img src="resources/jasperreports.png" border="0"/>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <hr size="1"/>
+    </td>
+  </tr>
+</table>
 <br/>
 
 <span class="description">This document describes the structure of the JRXML report template files for the JasperReports library.</span>
@@ -75,13 +88,19 @@
 <br/>
 <br/>
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="5" border="0">
+  <tr valign="top">
+    <td>
   <xsl:for-each select="xsd:schema/xsd:element">
   <xsl:sort select="@name"/>
-  <tr>
-    <td><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@name"/></xsl:attribute><span class="toc"><xsl:value-of select="@name"/></span></xsl:element></td>
-  </tr>
+    <xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@name"/></xsl:attribute><span class="toc"><xsl:value-of select="@name"/></span></xsl:element>
+    <br/>
+<xsl:if test="position() mod 45 = 0">
+    <xsl:text disable-output-escaping="yes">&lt;/td&gt;&lt;td&gt;</xsl:text>
+</xsl:if>
   </xsl:for-each>
+    </td>
+  </tr>
 </table>
 
 

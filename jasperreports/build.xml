@@ -354,15 +354,20 @@
 			</classpath>
 		</javadoc>
 		<copy todir="./dist/javadoc/resources">
-			<fileset dir="./docs">
-				<include name="**/*.png"/>
+			<fileset dir="./docs/resources">
+				<include name="**/jasperreports.png"/>
 			</fileset>
 		</copy>
 	</target>
 
 	<target name="schemaref" description="Generates the Schema Reference.">
-		<mkdir dir="./dist"/> 
-		<style basedir="src/net/sf/jasperreports/engine/dtds" in="src/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist" style="docs/schema.reference.xsl" out="./dist/jasperreports-${version}-schema.reference.html">
+		<mkdir dir="./dist/docs"/> 
+    <copy todir="./dist/docs">
+      <fileset dir="docs">
+        <include name="resources/*.*"/>
+      </fileset>
+    </copy>
+		<style basedir="src/net/sf/jasperreports/engine/dtds" in="src/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist/docs" style="docs/schema.reference.xsl" out="./dist/docs/schema.reference.html">
 			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
@@ -374,8 +379,13 @@
 	</target>
 	
 	<target name="configref" description="Generates the Configuration Reference.">
-		<mkdir dir="./dist"/> 
-		<style basedir="docs" in="docs/config.reference.xml" destdir="dist" style="docs/config.reference.xsl" out="./dist/jasperreports-${version}-config.reference.html">
+		<mkdir dir="./dist/docs"/> 
+    <copy todir="./dist/docs">
+      <fileset dir="docs">
+        <include name="resources/*.*"/>
+      </fileset>
+    </copy>
+		<style basedir="docs" in="docs/config.reference.xml" destdir="dist/docs" style="docs/config.reference.xsl" out="./dist/docs/config.reference.html">
 			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
@@ -387,8 +397,13 @@
 	</target>
 	
 	<target name="sampleref" description="Generates the Sample Reference.">
-		<mkdir dir="./dist"/> 
-		<style basedir="docs" in="docs/sample.reference.xml" destdir="dist" style="docs/sample.reference.xsl" out="./dist/jasperreports-${version}-sample.reference.html">
+		<mkdir dir="./dist/docs"/> 
+    <copy todir="./dist/docs">
+      <fileset dir="docs">
+        <include name="resources/*.*"/>
+      </fileset>
+    </copy>
+		<style basedir="docs" in="docs/sample.reference.xml" destdir="dist/docs" style="docs/sample.reference.xsl" out="./dist/docs/sample.reference.html">
 			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
@@ -398,8 +413,8 @@
 			</classpath>
 		</style>
 		<ant dir="demo/samples" target="docs" />
-		<mkdir dir="./dist/sample.reference"/> 
-		<copy todir="./dist/sample.reference">
+		<mkdir dir="./dist/docs/sample.reference"/> 
+		<copy todir="./dist/docs/sample.reference">
 			<regexpmapper from="^(.*)/build/docs/(.*)$$" to="\1/\2" handledirsep="true"/>
 			<fileset dir="./demo/samples">
 				<include name="**/build/docs/*.*"/>
