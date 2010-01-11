@@ -14,8 +14,8 @@
 <style type="text/css">
 .title {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 32px;
-	font-weight: bold;
+	font-size: 28px;
+	font-weight: normal;
 }
 
 .toc {
@@ -66,8 +66,21 @@
 
 <a name="top"/>
 <br/>
-<span class="title">JasperReports <xsl:value-of select="$version"/> - Configuration Reference</span>
-<br/>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr valign="middle">
+    <td nowrap="true">
+<span class="title">JasperReports - Configuration Reference (version <xsl:value-of select="$version"/>)</span>
+    </td>
+    <td align="right">
+<img src="resources/jasperreports.png" border="0"/>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <hr size="1"/>
+    </td>
+  </tr>
+</table>
 <br/>
 
 <span class="description">This document lists all the configuration properties available for the JasperReports library.</span>
