@@ -1,4 +1,4 @@
-<project name="antcompile" default="compile1" basedir=".">
+<project name="antcompile" default="test" basedir=".">
 
 	<description>Shows how multiple JRXML files can be compiled in batch mode using ANT.</description>
 
