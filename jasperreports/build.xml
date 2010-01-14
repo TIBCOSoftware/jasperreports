@@ -340,12 +340,12 @@
 </tr>
 </table>
 ]]>
-      </doctitle>
+			</doctitle>
 			<bottom>
 <![CDATA[
 <span style="font-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&copy; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
 ]]>
-      </bottom>
+			</bottom>
 			<classpath>
 				<fileset dir="./lib">
 					<include name="**/*.jar"/>
@@ -362,11 +362,11 @@
 
 	<target name="schemaref" description="Generates the Schema Reference.">
 		<mkdir dir="./dist/docs"/> 
-    <copy todir="./dist/docs">
-      <fileset dir="docs">
-        <include name="resources/*.*"/>
-      </fileset>
-    </copy>
+		<copy todir="./dist/docs">
+			<fileset dir="docs">
+				<include name="resources/*.*"/>
+			</fileset>
+		</copy>
 		<style basedir="src/net/sf/jasperreports/engine/dtds" in="src/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist/docs" style="docs/schema.reference.xsl" out="./dist/docs/schema.reference.html">
 			<param name="version" expression="${version}"/>
 			<classpath>
@@ -380,11 +380,11 @@
 	
 	<target name="configref" description="Generates the Configuration Reference.">
 		<mkdir dir="./dist/docs"/> 
-    <copy todir="./dist/docs">
-      <fileset dir="docs">
-        <include name="resources/*.*"/>
-      </fileset>
-    </copy>
+		<copy todir="./dist/docs">
+			<fileset dir="docs">
+				<include name="resources/*.*"/>
+			</fileset>
+		</copy>
 		<style basedir="docs" in="docs/config.reference.xml" destdir="dist/docs" style="docs/config.reference.xsl" out="./dist/docs/config.reference.html">
 			<param name="version" expression="${version}"/>
 			<classpath>
@@ -398,11 +398,11 @@
 	
 	<target name="sampleref" description="Generates the Sample Reference.">
 		<mkdir dir="./dist/docs"/> 
-    <copy todir="./dist/docs">
-      <fileset dir="docs">
-        <include name="resources/*.*"/>
-      </fileset>
-    </copy>
+		<copy todir="./dist/docs">
+			<fileset dir="docs">
+				<include name="resources/*.*"/>
+			</fileset>
+		</copy>
 		<style basedir="docs" in="docs/sample.reference.xml" destdir="dist/docs" style="docs/sample.reference.xsl" out="./dist/docs/sample.reference.html">
 			<param name="version" expression="${version}"/>
 			<classpath>
@@ -412,7 +412,7 @@
 				<pathelement location="./build/classes"/>
 			</classpath>
 		</style>
-		<ant dir="demo/samples" target="docs" />
+		<ant dir="demo/samples" target="docs"/>
 		<mkdir dir="./dist/docs/sample.reference"/> 
 		<copy todir="./dist/docs/sample.reference">
 			<regexpmapper from="^(.*)/build/docs/(.*)$$" to="\1/\2" handledirsep="true"/>

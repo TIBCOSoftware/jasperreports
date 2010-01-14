@@ -2,8 +2,10 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.1 (20xx-xx-xx, SVN xxxx)
+JasperReports 3.7.1 (2010-0x-xx, SVN xxxx)
 ---------------------------------------------
+
+- zoom ratio for html/xhtml;
 
 - minor bug fixes and improvements;
 
