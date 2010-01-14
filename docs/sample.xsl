@@ -5,7 +5,7 @@
 	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
 
 <xsl:output method = "html" />
-<xsl:param name="version" />
+<xsl:param name="version"/>
 
 <xsl:template match="/">
 <html>
@@ -69,7 +69,7 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
   <tr valign="middle">
     <td nowrap="true">
-<span class="title">JasperReports - <xsl:value-of select="sample/title"/> (version <xsl:value-of select="$version"/>)</span>
+<span class="title">JasperReports - <xsl:value-of select="sample/title"/><xsl:if test="$version != ''"> (version <xsl:value-of select="$version"/>)</xsl:if></span>
     </td>
     <td align="right">
 <img src="../../resources/jasperreports.png" border="0"/>
