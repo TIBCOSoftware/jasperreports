@@ -4,7 +4,7 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
 
-<xsl:output method = "html" />
+<xsl:output method="html"/>
 <xsl:param name="version"/>
 <xsl:param name="svn"/>
 
@@ -60,6 +60,12 @@
 	font-family: Courier New, Courier, serif;
 	font-size: 12px;
 	font-weight: bold;
+}
+
+.code {
+	font-family: Courier New, Courier, serif;
+	font-size: 12px;
+	font-weight: normal;
 }
 </style>
 </head>
@@ -138,11 +144,11 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
-    <td style="width: 20px;"><br/></td>
-    <td style="width: 20px;"><br/></td>
-    <td style="width: 20px;"><br/></td>
-    <td style="width: 20px;"><br/></td>
-    <td><br/></td>
+    <td><img src="../../resources/px.gif" border="0" width="20" height="1"/></td>
+    <td><img src="../../resources/px.gif" border="0" width="20" height="1"/></td>
+    <td><img src="../../resources/px.gif" border="0" width="20" height="1"/></td>
+    <td><img src="../../resources/px.gif" border="0" width="20" height="1"/></td>
+    <td width="100%"><br/></td>
   </tr>
   <xsl:for-each select="sample/feature">
   <xsl:sort select="@title"/>
@@ -155,20 +161,14 @@
   <tr>
     <td colspan="5"><span class="name"><xsl:value-of select="@title"/></span></td>
   </tr>
-  <!-- 
-  <tr>
-    <td></td>
-    <td>
-<xsl:apply-templates select="deprecation"/>
-    </td>
-  </tr>
-  -->
-  <tr>
-    <td><br/></td>
-    <td colspan="4"><xsl:apply-templates select="description"/></td>
-  </tr>
   <tr>
     <td colspan="5"><br/></td>
+  </tr>
+  <tr>
+    <td><br/></td>
+    <td nowrap="true" valign="top"><span class="label">Description / Goal</span></td>
+    <td><br/></td>
+    <td colspan="2"><xsl:apply-templates select="description"/></td>
   </tr>
   <tr>
     <td><br/></td>
@@ -184,9 +184,6 @@
     <td colspan="2">
       <table width="100%" cellspacing="0" cellpadding="0" border="1">
 <xsl:for-each select="otherSample">
-<!--
-<xsl:sort select="@"/>
--->
         <tr>
           <td><xsl:apply-templates select="."/></td>
         </tr>
@@ -227,11 +224,12 @@
 
 
 <xsl:template match="content">
-  <xsl:apply-templates/>
+<span class="description"><xsl:apply-templates/></span>
 </xsl:template>
 
+
 <xsl:template match="description">
-  <xsl:apply-templates/>
+<span class="description"><xsl:apply-templates/></span>
 </xsl:template>
 
 
@@ -265,6 +263,7 @@
 </xsl:template>
 
 
+<!--
 <xsl:template match="*" mode="copy">
   <span class="description"><xsl:copy-of select="."/></span>
 </xsl:template>
@@ -278,25 +277,48 @@
 <xsl:template match="p/text()">
   <p><span class="description"><xsl:value-of select="." disable-output-escaping="yes" /></span></p>
 </xsl:template>
+-->
+
+
+<xsl:template match="p/text()">
+<p>
+<xsl:value-of select="." disable-output-escaping="yes"/>
+</p>
+</xsl:template>
 
 
 <xsl:template match="br">
-  <br/>
+<br/>
 </xsl:template>
 
 
 <xsl:template match="a">
-  <span class="element"><xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="./@href"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="."/></xsl:element></span>
+<span class="element"><xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="./@href"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="."/></xsl:element></span>
+</xsl:template>
+
+
+<xsl:template match="elem">
+  <span class="element"><xsl:element name="a"><xsl:attribute name="href">../../schema.reference.html#<xsl:value-of select="."/></xsl:attribute>&lt;<xsl:value-of select="."/>&gt;</xsl:element></span>
 </xsl:template>
 
 
 <xsl:template match="api">
-  <span class="element"><xsl:element name="a"><xsl:attribute name="href">http://jasperreports.sourceforge.net/api/<xsl:value-of select="./@href"/></xsl:attribute><xsl:value-of select="."/></xsl:element></span>
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">http://jasperreports.sourceforge.net/api/<xsl:value-of select="./@href"/></xsl:attribute><xsl:value-of select="."/></xsl:element></span>
+</xsl:template>
+
+
+<xsl:template match="sample">
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">../<xsl:value-of select="text()"/>/index.html</xsl:attribute>/demo/samples/<xsl:value-of select="."/></xsl:element></span>
 </xsl:template>
 
 
 <xsl:template match="code">
-  <xsl:element name="code"><xsl:apply-templates/></xsl:element>
+<xsl:element name="code"><xsl:apply-templates/></xsl:element>
+</xsl:template>
+
+
+<xsl:template match="pre">
+<xsl:element name="pre"><xsl:apply-templates/></xsl:element>
 </xsl:template>
 
 
