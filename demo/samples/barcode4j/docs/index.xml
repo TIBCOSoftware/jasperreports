@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>barcode4j</name>
+  <title>Barcode4J Sample</title>
+  <description>Shows how barcodes could be included in reports using the Barcode4J component.</description>
+
+  <mainFeature ref="barcodes"/>
+  <mainFeature ref="barcode4j"/>
+  
+  <!-- barcodes -->
+  
+  <feature name="barcodes" title="Barcodes">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <since>1.2.3</since>
+  	<otherSample ref="barbecue"/>
+    <content>
+    </content>
+  </feature>
+
+  <!-- barcode4j -->
+  
+  <feature name="barcode4j" title="Barcodes (Barcode4J Custom Component)">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <since>1.2.3</since>
+    <content>
+    </content>
+  </feature>
+
+</sample>

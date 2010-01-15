@@ -65,8 +65,24 @@
 <body>
 
 <a name="top"/>
-<br/>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+    <td colspan="2" align="right">
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">api/index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
+<br/>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <hr size="1"/>
+    </td>
+  </tr>
   <tr valign="middle">
     <td nowrap="true">
 <span class="title">JasperReports - Configuration Reference (version <xsl:value-of select="$version"/>)</span>
@@ -147,7 +163,7 @@
 	    </xsl:when>
 	    <xsl:otherwise>
 	      <span class="element">
-	        <xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="api"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="substring-after(./api,'#')"/></xsl:element>
+	        <xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="api"/></xsl:attribute><xsl:value-of select="substring-after(./api,'#')"/></xsl:element>
 	      </span>
 	    </xsl:otherwise>
 	  </xsl:choose>
@@ -234,7 +250,7 @@
 
 
 <xsl:template match="api">
-  <span class="element"><xsl:element name="a"><xsl:attribute name="href">http://jasperreports.sourceforge.net/api/<xsl:value-of select="./@href"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="."/></xsl:element></span>
+  <span class="element"><xsl:element name="a"><xsl:attribute name="href">http://jasperreports.sourceforge.net/api/<xsl:value-of select="./@href"/></xsl:attribute><xsl:value-of select="."/></xsl:element></span>
 </xsl:template>
 
 

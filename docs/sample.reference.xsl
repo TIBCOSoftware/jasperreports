@@ -65,8 +65,24 @@
 <body>
 
 <a name="top"/>
-<br/>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+    <td colspan="2" align="right">
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">api/index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
+<br/>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <hr size="1"/>
+    </td>
+  </tr>
   <tr valign="middle">
     <td nowrap="true">
 <span class="title">JasperReports - Sample Reference (version <xsl:value-of select="$version"/>)</span>
@@ -107,87 +123,13 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
-    <td style="width: 20px;"><br/></td>
-    <td style="width: 20px;"><br/></td>
-    <td style="width: 20px;"><br/></td>
-    <td style="width: 20px;"><br/></td>
-    <td><br/></td>
-  </tr>
-  <xsl:for-each select="sampleReference/feature">
-  <xsl:sort select="@title"/>
-  <tr>
-    <td colspan="5" align="right"><br/><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
+    <td><br/><br/></td>
   </tr>
   <tr>
-    <td colspan="5"><hr size="1"/></td>
+    <td><hr size="1"/></td>
   </tr>
   <tr>
-    <td colspan="5"><span class="name"><xsl:value-of select="@title"/></span></td>
-  </tr>
-  <!-- 
-  <tr>
-    <td></td>
-    <td>
-<xsl:apply-templates select="deprecation"/>
-    </td>
-  </tr>
-  -->
-  <tr>
-    <td></td>
-    <td colspan="4"><xsl:apply-templates select="description"/></td>
-  </tr>
-  <tr>
-    <td colspan="5"><br/></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td colspan="1" nowrap="true" valign="top"><span class="label">Main Samples</span></td>
-    <td></td>
-    <td colspan="2">
-      <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<xsl:for-each select="main/sample">
-<!--
-<xsl:sort select="@"/>
--->
-        <tr>
-          <td><xsl:apply-templates select="."/></td>
-        </tr>
-</xsl:for-each>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td></td>
-    <td colspan="1" nowrap="true" valign="top"><span class="label">Secondary Samples</span></td>
-    <td></td>
-    <td colspan="2">
-      <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<xsl:for-each select="secondary/sample">
-<!--
-<xsl:sort select="@"/>
--->
-        <tr>
-          <td><xsl:apply-templates select="."/></td>
-        </tr>
-</xsl:for-each>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td></td>
-    <td colspan="1"><span class="label">Since</span></td>
-    <td></td>
-    <td colspan="2"><span class="description"><xsl:value-of select="since"/></span></td>
-  </tr>
-  </xsl:for-each>
-  <tr>
-    <td colspan="5"><br/><br/></td>
-  </tr>
-  <tr>
-    <td colspan="5"><hr size="1"/></td>
-  </tr>
-  <tr>
-    <td colspan="5" align="center">
+    <td align="center">
       <span style="font-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&#169; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
     </td>
   </tr>
@@ -200,16 +142,10 @@
 
 <xsl:template match="content">
   <xsl:for-each select="feature">
-    <xsl:sort select="@ref"/>
-    <xsl:variable name="ref" select="@ref"/>
   <tr>
     <td></td>
     <td>
-    <xsl:for-each select="/sampleReference/feature">
-      <xsl:if test="@name=$ref">
-    <span class="element"><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@name"/></xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
-	    </xsl:if>
-    </xsl:for-each>
+      <span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
     </td>
   </tr>
   </xsl:for-each>
@@ -221,7 +157,7 @@
 
 
 <xsl:template match="sample">
-  <span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="text()"/>/index.html</xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="concat('/demo/samples/', text())"/></xsl:element></span>
+  <span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="text()"/>/index.html</xsl:attribute><xsl:value-of select="concat('/demo/samples/', text())"/></xsl:element></span>
 </xsl:template>
 
 
@@ -251,7 +187,7 @@
 
 
 <xsl:template match="api">
-  <span class="element"><xsl:element name="a"><xsl:attribute name="href">http://jasperreports.sourceforge.net/api/<xsl:value-of select="./@href"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="."/></xsl:element></span>
+  <span class="element"><xsl:element name="a"><xsl:attribute name="href">http://jasperreports.sourceforge.net/api/<xsl:value-of select="./@href"/></xsl:attribute><xsl:value-of select="."/></xsl:element></span>
 </xsl:template>
 
 

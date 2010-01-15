@@ -6,6 +6,7 @@
 
 <xsl:output method = "html" />
 <xsl:param name="version"/>
+<xsl:param name="svn"/>
 
 <xsl:template match="/">
 <html>
@@ -65,8 +66,24 @@
 <body>
 
 <a name="top"/>
-<br/>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+    <td colspan="2" align="right">
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">../../sample.reference.html</xsl:attribute>Sample Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">../../schema.reference.html</xsl:attribute>Schema Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">../../config.reference.html</xsl:attribute>Configuration Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">../../api/index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
+<br/>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <hr size="1"/>
+    </td>
+  </tr>
   <tr valign="middle">
     <td nowrap="true">
 <span class="title">JasperReports - <xsl:value-of select="sample/title"/><xsl:if test="$version != ''"> (version <xsl:value-of select="$version"/>)</xsl:if></span>
@@ -84,6 +101,11 @@
 <br/>
 
 <span class="description"><xsl:apply-templates select="sample/description"/></span>
+<br/>
+<br/>
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">http://sourceforge.net/projects/jasperreports/files/1.jasperreports/JasperReports%20<xsl:value-of select="$version"/>/jasperreports-<xsl:value-of select="$version"/>-project.zip/download</xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Download All Sample Source Files</xsl:element></span>
+<br/>
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">http://jasperforge.org/scm/viewvc.php/tags/<xsl:value-of select="$svn"/>/jasperreports/demo/samples/<xsl:value-of select="sample/name"/>/?root=jasperreports</xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Browse Sample Source Files on SVN</xsl:element></span>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
@@ -144,43 +166,33 @@
   </tr>
   <tr>
     <td></td>
-    <td colspan="1" nowrap="true" valign="top"><span class="label">Main Samples</span></td>
-    <td></td>
-    <td colspan="2">
-      <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<xsl:for-each select="main/sample">
-<!--
-<xsl:sort select="@"/>
--->
-        <tr>
-          <td><xsl:apply-templates select="."/></td>
-        </tr>
-</xsl:for-each>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td></td>
-    <td colspan="1" nowrap="true" valign="top"><span class="label">Secondary Samples</span></td>
-    <td></td>
-    <td colspan="2">
-      <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<xsl:for-each select="secondary/sample">
-<!--
-<xsl:sort select="@"/>
--->
-        <tr>
-          <td><xsl:apply-templates select="."/></td>
-        </tr>
-</xsl:for-each>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td></td>
     <td colspan="1"><span class="label">Since</span></td>
     <td></td>
     <td colspan="2"><span class="description"><xsl:value-of select="since"/></span></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="1" nowrap="true" valign="top"><span class="label">Other Samples</span></td>
+    <td></td>
+    <td colspan="2">
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+<xsl:for-each select="otherSample">
+<!--
+<xsl:sort select="@"/>
+-->
+        <tr>
+          <td><xsl:apply-templates select="."/></td>
+        </tr>
+</xsl:for-each>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5"><br/><br/></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="4"><xsl:apply-templates select="content"/></td>
   </tr>
   </xsl:for-each>
   <tr>
@@ -202,20 +214,7 @@
 
 
 <xsl:template match="content">
-  <xsl:for-each select="feature">
-    <xsl:sort select="@ref"/>
-    <xsl:variable name="ref" select="@ref"/>
-  <tr>
-    <td></td>
-    <td>
-    <xsl:for-each select="/sample/feature">
-      <xsl:if test="@name=$ref">
-    <span class="element"><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@name"/></xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
-	    </xsl:if>
-    </xsl:for-each>
-    </td>
-  </tr>
-  </xsl:for-each>
+  <xsl:apply-templates/>
 </xsl:template>
 
 <xsl:template match="description">
@@ -242,14 +241,14 @@
   <tr>
     <td></td>
     <td>
-      <span class="element"><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@ref"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="@title"/> (FIXME)</xsl:element></span>
+      <span class="element"><xsl:element name="a"><xsl:attribute name="href">../<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
     </td>
   </tr>
 </xsl:template>
 
 
-<xsl:template match="sample">
-  <span class="element"><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="text()"/></xsl:attribute><xsl:value-of select="concat('/demo/samples/', text())"/></xsl:element></span>
+<xsl:template match="otherSample">
+  <span class="element"><xsl:element name="a"><xsl:attribute name="href">../<xsl:value-of select="@ref"/>/index.html</xsl:attribute><xsl:value-of select="concat('/demo/samples/', @ref)"/></xsl:element></span>
 </xsl:template>
 
 
@@ -279,7 +278,7 @@
 
 
 <xsl:template match="api">
-  <span class="element"><xsl:element name="a"><xsl:attribute name="href">http://jasperreports.sourceforge.net/api/<xsl:value-of select="./@href"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="."/></xsl:element></span>
+  <span class="element"><xsl:element name="a"><xsl:attribute name="href">http://jasperreports.sourceforge.net/api/<xsl:value-of select="./@href"/></xsl:attribute><xsl:value-of select="."/></xsl:element></span>
 </xsl:template>
 
 

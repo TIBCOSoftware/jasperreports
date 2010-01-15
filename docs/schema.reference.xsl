@@ -65,8 +65,24 @@
 <body>
 
 <a name="top"/>
-<br/>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+    <td colspan="2" align="right">
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element></span>
+-
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">api/index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
+<br/>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <hr size="1"/>
+    </td>
+  </tr>
   <tr valign="middle">
     <td nowrap="true">
 <span class="title">JasperReports - Sample Reference (version <xsl:value-of select="$version"/>)</span>

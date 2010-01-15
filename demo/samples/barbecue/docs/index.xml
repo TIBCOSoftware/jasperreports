@@ -2,23 +2,23 @@
 
 <sample>
 
-  <name>alterdesign</name>
-  <title>Alter Design Sample</title>
-  <description>Shows how compiled report templates can be modified on-the-fly without requiring recompilation.</description>
+  <name>barbecue</name>
+  <title>Barbecue Sample</title>
+  <description>Shows how barcodes could be included in reports using the Barbecue component.</description>
 
-  <mainFeature ref="alterdesign"/>
+  <mainFeature ref="barbecue"/>
+  <secondaryFeature name="barcodes" sample="barcode4j" title="Barcodes"/>
   
-  <!-- alterdesign -->
+  <!-- barbecue -->
   
-  <feature name="alterdesign" title="Altering Compiled Report Templates">
+  <feature name="barbecue" title="Barcodes (Barbecue Custom Component)">
     <description>
 Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
 <api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
     </description>
-    <since>0.5.1</since>
+    <since>1.2.3</since>
     <content>
-This is the content.
-	</content>
+    </content>
   </feature>
 
 </sample>
