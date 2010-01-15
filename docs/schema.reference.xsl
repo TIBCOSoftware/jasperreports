@@ -62,19 +62,17 @@
 }
 </style>
 </head>
-<body>
+<body bgcolor="#FFFFFF">
 
 <a name="top"/>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
   <tr>
     <td colspan="2" align="right">
-<span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element></span>
--
-<span class="element"><xsl:element name="a"><xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element></span>
--
-<span class="element"><xsl:element name="a"><xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element></span>
--
-<span class="element"><xsl:element name="a"><xsl:attribute name="href">api/index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
+<span class="element"><xsl:element name="a">
+<xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">api/index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
 <br/>
     </td>
   </tr>
@@ -97,6 +95,7 @@
     </td>
   </tr>
 </table>
+
 <br/>
 
 <span class="description">This document describes the structure of the JRXML report template files for the JasperReports library.</span>

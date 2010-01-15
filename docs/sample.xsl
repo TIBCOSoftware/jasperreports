@@ -63,19 +63,17 @@
 }
 </style>
 </head>
-<body>
+<body bgcolor="#FFFFFF">
 
 <a name="top"/>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
   <tr>
     <td colspan="2" align="right">
-<span class="element"><xsl:element name="a"><xsl:attribute name="href">../../sample.reference.html</xsl:attribute>Sample Reference</xsl:element></span>
--
-<span class="element"><xsl:element name="a"><xsl:attribute name="href">../../schema.reference.html</xsl:attribute>Schema Reference</xsl:element></span>
--
-<span class="element"><xsl:element name="a"><xsl:attribute name="href">../../config.reference.html</xsl:attribute>Configuration Reference</xsl:element></span>
--
-<span class="element"><xsl:element name="a"><xsl:attribute name="href">../../api/index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
+<span class="element"><xsl:element name="a">
+<xsl:attribute name="href">../../sample.reference.html</xsl:attribute>Sample Reference</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">../../schema.reference.html</xsl:attribute>Schema Reference</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">../../config.reference.html</xsl:attribute>Configuration Reference</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">../../api/index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
 <br/>
     </td>
   </tr>
@@ -98,6 +96,7 @@
     </td>
   </tr>
 </table>
+
 <br/>
 
 <span class="description"><xsl:apply-templates select="sample/description"/></span>
@@ -112,22 +111,29 @@
     <td style="width: 20px;"><br/></td>
     <td><br/></td>
   </tr>
+  <xsl:if test="count(sample/mainFeature) > 0">
   <tr>
     <td colspan="2">
-      <span class="label"><br/>Main Features</span>
+      <span class="label">Main Features in This Sample</span>
     </td>
   </tr>
   <xsl:for-each select="sample/mainFeature">
     <xsl:apply-templates select="."/>
   </xsl:for-each>
+  </xsl:if>
+  <xsl:if test="count(sample/secondaryFeature) > 0">
+  <tr>
+    <td colspan="2"><br/></td>
+  </tr>
   <tr>
     <td colspan="2">
-      <span class="label"><br/>Secondary Features</span>
+      <span class="label">Secondary Features</span>
     </td>
   </tr>
   <xsl:for-each select="sample/secondaryFeature">
     <xsl:apply-templates select="."/>
   </xsl:for-each>
+  </xsl:if>
 </table>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -141,7 +147,7 @@
   <xsl:for-each select="sample/feature">
   <xsl:sort select="@title"/>
   <tr>
-    <td colspan="5" align="right"><br/><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
+    <td colspan="5" align="right"><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
   </tr>
   <tr>
     <td colspan="5"><hr size="1"/></td>
@@ -158,24 +164,25 @@
   </tr>
   -->
   <tr>
-    <td></td>
+    <td><br/></td>
     <td colspan="4"><xsl:apply-templates select="description"/></td>
   </tr>
   <tr>
     <td colspan="5"><br/></td>
   </tr>
   <tr>
-    <td></td>
+    <td><br/></td>
     <td colspan="1"><span class="label">Since</span></td>
-    <td></td>
+    <td><br/></td>
     <td colspan="2"><span class="description"><xsl:value-of select="since"/></span></td>
   </tr>
+  <xsl:if test="count(otherSample) > 0">
   <tr>
-    <td></td>
+    <td><br/></td>
     <td colspan="1" nowrap="true" valign="top"><span class="label">Other Samples</span></td>
-    <td></td>
+    <td><br/></td>
     <td colspan="2">
-      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+      <table width="100%" cellspacing="0" cellpadding="0" border="1">
 <xsl:for-each select="otherSample">
 <!--
 <xsl:sort select="@"/>
@@ -187,24 +194,30 @@
       </table>
     </td>
   </tr>
+  </xsl:if>
   <tr>
-    <td colspan="5"><br/><br/></td>
+    <td colspan="5"><br/></td>
   </tr>
   <tr>
-    <td></td>
+    <td><br/></td>
     <td colspan="4"><xsl:apply-templates select="content"/></td>
   </tr>
+  <tr>
+    <td colspan="5"><br/></td>
+  </tr>
   </xsl:for-each>
+</table>
+
+<br/>
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
   <tr>
-    <td colspan="5"><br/><br/></td>
+    <td><hr size="1"/></td>
   </tr>
   <tr>
-    <td colspan="5"><hr size="1"/></td>
-  </tr>
-  <tr>
-    <td colspan="5" align="center">
-      <span style="font-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&#169; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
-    </td>
+    <td align="center">
+<span style="font-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&#169; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
+	</td>
   </tr>
 </table>
 
@@ -225,7 +238,7 @@
 <xsl:template match="mainFeature">
   <xsl:variable name="ref" select="@ref"/>
   <tr>
-    <td></td>
+    <td><br/></td>
     <td>
     <xsl:for-each select="/sample/feature">
       <xsl:if test="@name=$ref">
