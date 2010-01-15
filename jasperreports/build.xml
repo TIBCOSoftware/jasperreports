@@ -317,14 +317,14 @@
 	</target>
 
 	<target name="javadoc" depends="compile" description="Compiles the library API documentation.">
-		<mkdir dir="./dist/javadoc"/> 
-		<delete dir="./dist/javadoc/net"/>
+		<mkdir dir="./dist/docs/api"/> 
+		<delete dir="./dist/docs/api/net"/>
 		<delete>
-			<fileset dir="./dist/javadoc" includes="**/*.*" />
+			<fileset dir="./dist/docs/api" includes="**/*.*" />
 		</delete>
 		<javadoc packagenames="net.sf.jasperreports.*, org.w3c.tools.codec.*"
 				sourcepath="./src"
-				destdir="./dist/javadoc"
+				destdir="./dist/docs/api"
 				author="true"
 				version="true"
 				use="true"
@@ -353,7 +353,7 @@
 				<pathelement location="./build/classes"/>
 			</classpath>
 		</javadoc>
-		<copy todir="./dist/javadoc/resources">
+		<copy todir="./dist/docs/api/resources">
 			<fileset dir="./docs/resources">
 				<include name="**/jasperreports.png"/>
 			</fileset>
@@ -367,7 +367,7 @@
 				<include name="resources/*.*"/>
 			</fileset>
 		</copy>
-		<style basedir="src/net/sf/jasperreports/engine/dtds" in="src/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist/docs" style="docs/schema.reference.xsl" out="./dist/docs/schema.reference.html">
+		<xslt basedir="src/net/sf/jasperreports/engine/dtds" in="src/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist/docs" style="docs/schema.reference.xsl" out="./dist/docs/schema.reference.html">
 			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
@@ -375,7 +375,7 @@
 				</fileset>
 				<pathelement location="./build/classes"/>
 			</classpath>
-		</style>
+		</xslt>
 	</target>
 	
 	<target name="configref" description="Generates the Configuration Reference.">
@@ -385,7 +385,7 @@
 				<include name="resources/*.*"/>
 			</fileset>
 		</copy>
-		<style basedir="docs" in="docs/config.reference.xml" destdir="dist/docs" style="docs/config.reference.xsl" out="./dist/docs/config.reference.html">
+		<xslt basedir="docs" in="docs/config.reference.xml" destdir="dist/docs" style="docs/config.reference.xsl" out="./dist/docs/config.reference.html">
 			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
@@ -393,7 +393,7 @@
 				</fileset>
 				<pathelement location="./build/classes"/>
 			</classpath>
-		</style>
+		</xslt>
 	</target>
 	
 	<target name="sampleref" description="Generates the Sample Reference.">
@@ -403,7 +403,7 @@
 				<include name="resources/*.*"/>
 			</fileset>
 		</copy>
-		<style basedir="docs" in="docs/sample.reference.xml" destdir="dist/docs" style="docs/sample.reference.xsl" out="./dist/docs/sample.reference.html">
+		<xslt basedir="docs" in="docs/sample.reference.xml" destdir="dist/docs" style="docs/sample.reference.xsl" out="./dist/docs/sample.reference.html">
 			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
@@ -411,13 +411,23 @@
 				</fileset>
 				<pathelement location="./build/classes"/>
 			</classpath>
-		</style>
-		<ant dir="demo/samples" target="docs"/>
+		</xslt>
 		<mkdir dir="./dist/docs/sample.reference"/> 
+		<xslt basedir="demo/samples" destdir="dist/docs/sample.reference" style="./docs/sample.xsl">
+			<param name="version" expression="3.7.0"/>
+			<param name="svn" expression="jr-3-7-0"/>
+			<regexpmapper from="^(.*)/docs/(.*).xml$$" to="\1/\2.html" handledirsep="true"/>
+			<classpath>
+				<fileset dir="./lib">
+					<include name="**/*.jar"/>
+				</fileset>
+				<pathelement location="./build/classes"/>
+			</classpath>
+		</xslt>
 		<copy todir="./dist/docs/sample.reference">
-			<regexpmapper from="^(.*)/build/docs/(.*)$$" to="\1/\2" handledirsep="true"/>
+			<regexpmapper from="^(.*)/docs/(.*)$$" to="\1/\2" handledirsep="true"/>
 			<fileset dir="./demo/samples">
-				<include name="**/build/docs/*.*"/>
+				<exclude name="**/docs/*.xml"/>
 			</fileset>
 		</copy>
 	</target>

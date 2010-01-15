@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>antcompile</name>
+  <title>Ant Compile Sample</title>
+  <description>Shows how multiple JRXML files can be compiled in batch mode using ANT.</description>
+
+  <mainFeature ref="antcompile"/>
+  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  
+  <!-- antcompile -->
+  
+  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+    <since>1.2.3</since>
+  	<otherSample ref="beanshell"/>
+  	<otherSample ref="groovy"/>
+  	<otherSample ref="java1.5"/>
+  	<otherSample ref="javascript"/>
+    <content>This is the content
+    </content>
+  </feature>
+
+</sample>

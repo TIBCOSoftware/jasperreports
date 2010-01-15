@@ -15,65 +15,6 @@
 	</target>
 
 
-	<target name="docs" description="Generates all the sample documentation.">
-		<ant dir="alterdesign" target="docs" />
-		<!--
-		<ant dir="antcompile" target="docs" />
-		<ant dir="barbecue" target="docs" />
-		<ant dir="barcode4j" target="docs" />
-		<ant dir="batchexport" target="docs" />
-		<ant dir="beanshell" target="docs" />
-		<ant dir="charts" target="docs" />
-		<ant dir="chartthemes" target="docs" />
-		<ant dir="crosstabs" target="docs" />
-		<ant dir="csvdatasource" target="docs" />
-		<ant dir="datasource" target="docs" />
-		<ant dir="ejbql" target="docs" />
-		<ant dir="fonts" target="docs" />
-		<ant dir="genericelement" target="docs" />
-		<ant dir="groovy" target="docs" />
-		<ant dir="hibernate" target="docs" />
-		<ant dir="horizontal" target="docs" />
-		<ant dir="hyperlink" target="docs" />
-		<ant dir="i18n" target="docs" />
-		<ant dir="images" target="docs" />
-		<ant dir="jasper" target="docs" />
-		<ant dir="java1.5" target="docs" />
-		<ant dir="javascript" target="docs" />
-		<ant dir="jcharts" target="docs" />
-		<ant dir="jchartscomponent" target="docs" />
-		<ant dir="jfreechart" target="docs" />
-		<ant dir="landscape" target="docs" />
-		<ant dir="list" target="docs" />
-		<ant dir="markup" target="docs" />
-		<ant dir="mondrian" target="docs" />
-		<ant dir="nopagebreak" target="docs" />
-		<ant dir="noreport" target="docs" />
-		<ant dir="noxmldesign" target="docs" />
-		<ant dir="openflashchart" target="docs" />
-		<ant dir="pdfencrypt" target="docs" />
-		<ant dir="printservice" target="docs" />
-		<ant dir="query" target="docs" />
-		<ant dir="rotation" target="docs" />
-		<ant dir="scriptlet" target="docs" />
-		<ant dir="shapes" target="docs" />
-		<ant dir="stretch" target="docs" />
-		<ant dir="styledtext" target="docs" />
-		<ant dir="subreport" target="docs" />
-		<ant dir="table" target="docs" />
-		<ant dir="tableofcontents" target="docs" />
-		<ant dir="templates" target="docs" />
-		<ant dir="text" target="docs" />
-		<ant dir="unicode" target="docs" />
-		<ant dir="virtualizer" target="docs" />
-		<ant dir="webapp" target="docs" />
-		<ant dir="xlsdatasource" target="docs" />
-		<ant dir="xlsformula" target="docs" />
-		<ant dir="xmldatasource" target="docs" />
-		-->
-	</target>
-
-
 	<target name="clean" description="Clean all the samples.">
 		<subant target="clean">
 			<fileset dir="." includes="*/build.xml"/>
@@ -92,14 +33,14 @@
 		</fileset>
 	</path>
 
-	<target name="javac" description="Compiles the java source files of the test application.">
+	<target name="javac">
 		<mkdir dir="${sample.dir}/build/classes"/> 
 		<javac srcdir="${sample.dir}/src" destdir="${sample.dir}/build/classes" debug="true" optimize="false" deprecation="false">
 			<classpath refid="classpath"/>
 		</javac>
 	</target>
 
-	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+	<target name="compile">
 		<mkdir dir="${sample.dir}/build/reports"/> 
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
@@ -114,7 +55,7 @@
 		</jrc> 
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+	<target name="fill">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fill"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jasper"/>
@@ -122,21 +63,21 @@
 		</java>
 	</target>
 
-	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+	<target name="view">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
+	<target name="viewXML">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrpxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="print" description="Sends the report in the .jrprint file to the printer.">
+	<target name="print">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="print"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -144,7 +85,7 @@
 		</java>
 	</target>
 
-	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+	<target name="pdf">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="pdf"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -152,7 +93,7 @@
 		</java>
 	</target>
 
-	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
+	<target name="xml">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="xml"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -160,7 +101,7 @@
 		</java>
 	</target>
 
-	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
+	<target name="xmlEmbed">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="xmlEmbed"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -168,7 +109,7 @@
 		</java>
 	</target>
 
-	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+	<target name="html">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="html"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -176,7 +117,7 @@
 		</java>
 	</target>
 
-	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+	<target name="rtf">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="rtf"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -184,7 +125,7 @@
 		</java>
 	</target>
 	
-	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
+	<target name="xls">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="xls"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -192,7 +133,7 @@
 		</java>
 	</target>
 
-	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+	<target name="jxl">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="jxl"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -200,7 +141,7 @@
 		</java>
 	</target>
 
-	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
+	<target name="csv">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="csv"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -208,7 +149,7 @@
 		</java>
 	</target>
 
-	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
+	<target name="odt">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="odt"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -216,7 +157,7 @@
 		</java>
 	</target>
 
-	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
+	<target name="ods">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="ods"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -224,7 +165,7 @@
 		</java>
 	</target>
 
-	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
+	<target name="docx">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="docx"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -232,7 +173,7 @@
 		</java>
 	</target>
 
-	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
+	<target name="xlsx">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="xlsx"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -240,7 +181,7 @@
 		</java>
 	</target>
 
-	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
+	<target name="xhtml">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="xhtml"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
@@ -248,7 +189,7 @@
 		</java>
 	</target>
 
-	<target name="run" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
+	<target name="run">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="run"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jasper"/>
@@ -256,37 +197,21 @@
 		</java>
 	</target>
 
-	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
+	<target name="viewDesignXML">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${sample.dir}/reports/${sample.report.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+	<target name="viewDesign">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="docs-sample" description="Generates the sample's documentation.">
-		<delete dir="./build/docs" />
-		<mkdir dir="./build/docs"/>
-		<if test="same test condition here">
-			<copy todir="./build/docs">
-				<fileset dir="../../../docs">
-					<include name="resources/*.*"/>
-				</fileset>
-			</copy>
-		</if>
-		<style basedir="docs" in="docs/index.xml" destdir="./build/docs" style="../../../docs/sample.xsl" out="./build/docs/index.html">
-			<param name="version" expression="${version}"/>
-			<classpath refid="classpath"/>
-		</style>
-	</target>
-
-	<target name="clean-sample" description="Deletes all the generated files.">
+	<target name="clean-sample">
 		<delete dir="${sample.dir}/build" />
 	</target>
 
