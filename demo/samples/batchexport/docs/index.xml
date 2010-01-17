@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>batchexport</name>
+  <title>Batch Export Sample</title>
+  <description>Shows how multiple reports could be concatenated during export.</description>
+
+  <mainFeature ref="batchexport"/>
+  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  
+  <!-- batchexport -->
+  
+  <feature name="batchexport" title="Exporting Multiple Reports into a Single Output File (Batch Export)">
+    <description>
+FIXME
+    </description>
+    <since>0.5.1</since>
+    <content>
+FIXME
+    </content>
+  </feature>
+
+</sample>
