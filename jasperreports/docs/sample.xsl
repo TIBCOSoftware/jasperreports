@@ -164,25 +164,25 @@
   <tr>
     <td colspan="5"><br/></td>
   </tr>
-  <tr>
+  <tr valign="top">
     <td><br/></td>
-    <td nowrap="true" valign="top"><span class="label">Description / Goal</span></td>
+    <td nowrap="true"><span class="label">Description / Goal</span></td>
     <td><br/></td>
     <td colspan="2"><xsl:apply-templates select="description"/></td>
   </tr>
-  <tr>
+  <tr valign="top">
     <td><br/></td>
     <td colspan="1"><span class="label">Since</span></td>
     <td><br/></td>
     <td colspan="2"><span class="description"><xsl:value-of select="since"/></span></td>
   </tr>
   <xsl:if test="count(otherSample) > 0">
-  <tr>
+  <tr valign="top">
     <td><br/></td>
-    <td colspan="1" nowrap="true" valign="top"><span class="label">Other Samples</span></td>
+    <td colspan="1" nowrap="true"><span class="label">Other Samples</span></td>
     <td><br/></td>
     <td colspan="2">
-      <table width="100%" cellspacing="0" cellpadding="0" border="1">
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <xsl:for-each select="otherSample">
         <tr>
           <td><xsl:apply-templates select="."/></td>
