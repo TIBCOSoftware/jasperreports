@@ -1,4 +1,4 @@
-<project name="batchexport" default="javac" basedir=".">
+<project name="batchexport" default="test" basedir=".">
 
 	<description>Shows how multiple reports could be concatenated during export.</description>
 
