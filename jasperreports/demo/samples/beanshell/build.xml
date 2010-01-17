@@ -1,4 +1,4 @@
-<project name="beanshell" default="javac" basedir=".">
+<project name="beanshell" default="test" basedir=".">
 
 	<description>Shows how reports could be compiled using a customized compiler that relies on BeanShell for expressions evalution.</description>
 
