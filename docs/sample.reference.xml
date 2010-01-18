@@ -9,6 +9,7 @@
       <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)"/>
       <feature name="barcode4j" sample="barcode4j" title="Barcodes (Barcode4J Custom Component)"/>
 	  <feature name="barcodes" sample="barcode4j" title="Barcodes"/>
+	  <!--
       <feature name="charts" sample="charts" title="Charts"/>
       <feature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
       <feature name="chartthemes" sample="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)"/>
@@ -16,28 +17,31 @@
       <feature name="jchartscomponent" sample="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)"/>
       <feature name="jfreechart" sample="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)"/>
       <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)"/>
+      -->
     </content>
   </category>
   
   <category>
     <name>Report Compilation</name>
     <content>
+      <feature name="reportcompilers" sample="groovy" title="Report Compilers"/>
       <feature name="antcompile" sample="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool"/>
       <feature name="beanshell" sample="beanshell" title="Using the BeanShell Scripting Language for Report Expressions (BeanShell Report Compiler)"/>
       <feature name="groovy" sample="groovy" title="Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)"/>
       <feature name="java1.5" sample="java1.5" title="Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)"/>
-      <feature name="javascript" sample="javascript" title="Using the Javascript Language for Report Expressions (Javascript Report Compiler)"/>
-      <feature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+      <feature name="javascript" sample="javascript" title="Using the JavaScript Language for Report Expressions (JavaScript Report Compiler)"/>
     </content>
   </category>
 
   <category>
     <name>Data Source / Query Executer</name>
     <content>
+	  <!--
       <feature name="beandatasource" sample="datasource" title="Bean Data Sources"/>
       <feature name="csvdatasource" sample="csvdatasource" title="CSV Data Source"/>
       <feature name="customdatasource" sample="datasource" title="Custom Data Source"/>
       <feature name="datasource" sample="datasource" title="Data Sources"/>
+      -->
     </content>
   </category>
   

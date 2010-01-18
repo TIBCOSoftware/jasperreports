@@ -1,6 +1,6 @@
-<project name="javascript" default="javac" basedir=".">
+<project name="javascript" default="test" basedir=".">
 
-	<description>Shows how the JavaScript languagee could be used inside report templates.</description>
+	<description>Shows how the JavaScript language could be used inside report templates.</description>
 
 	<property name="class.name" value="JavaScriptApp" />
 	<property name="file.name" value="${basedir}/JavaScriptReport" />

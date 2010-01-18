@@ -2,23 +2,23 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>java1.5</name>
+  <title>Java 1.5 Sample</title>
+  <description>Shows how Java 1.5 could be used inside report templates.</description>
 
-  <mainFeature ref="antcompile"/>
+  <mainFeature ref="java1.5"/>
   <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
   
-  <!-- antcompile -->
+  <!-- java1.5 -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="java1.5" title="Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)">
     <description>
 FIXME
     </description>
     <since>0.5.1</since>
+  	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
   	<otherSample ref="javascript"/>
     <content>
 FIXME

@@ -4,8 +4,8 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
 
-<xsl:output method = "html" />
-<xsl:param name="version" />
+<xsl:output method="html"/>
+<xsl:param name="version"/>
 
 <xsl:template match="/">
 <html>
