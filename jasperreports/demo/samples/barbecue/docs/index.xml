@@ -13,11 +13,11 @@
   
   <feature name="barbecue" title="Barcodes (Barbecue Custom Component)">
     <description>
-Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
-<api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+FIXME
     </description>
-    <since>1.2.3</since>
+    <since>3.5.2</since>
     <content>
+FIXME
     </content>
   </feature>
 

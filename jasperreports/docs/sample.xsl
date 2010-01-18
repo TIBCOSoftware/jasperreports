@@ -158,8 +158,9 @@
   <tr>
     <td colspan="5"><hr size="1"/></td>
   </tr>
-  <tr>
-    <td colspan="5"><span class="name"><xsl:value-of select="@title"/></span></td>
+  <tr valign="middle">
+    <td><img src="../../resources/jr-16x16.png" border="0"/></td>
+    <td colspan="4"><span class="name"><xsl:value-of select="@title"/></span></td>
   </tr>
   <tr>
     <td colspan="5"><br/></td>
