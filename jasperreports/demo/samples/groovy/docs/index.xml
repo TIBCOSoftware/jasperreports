@@ -2,22 +2,38 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>groovy</name>
+  <title>Groovy Sample</title>
+  <description>Shows how the Groovy scripting languages could be used inside report templates.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="reportcompilers"/>
+  <mainFeature ref="groovy"/>
   
-  <!-- antcompile -->
+  <!-- reportcompilers -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="reportcompilers" title="Report Compilers">
     <description>
 FIXME
     </description>
     <since>0.5.1</since>
+  	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
+  	<otherSample ref="java1.5"/>
+  	<otherSample ref="javascript"/>
+    <content>
+FIXME
+    </content>
+  </feature>
+
+  <!-- groovy -->
+  
+  <feature name="groovy" title="Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)">
+    <description>
+FIXME
+    </description>
+    <since>0.5.1</since>
+  	<otherSample ref="antcompile"/>
+  	<otherSample ref="beanshell"/>
   	<otherSample ref="java1.5"/>
   	<otherSample ref="javascript"/>
     <content>

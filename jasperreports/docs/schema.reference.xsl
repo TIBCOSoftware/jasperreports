@@ -83,7 +83,7 @@
   </tr>
   <tr valign="middle">
     <td nowrap="true">
-<span class="title">JasperReports - Sample Reference (version <xsl:value-of select="$version"/>)</span>
+<span class="title">JasperReports - Schema Reference (version <xsl:value-of select="$version"/>)</span>
     </td>
     <td align="right">
 <img src="resources/jasperreports.png" border="0"/>

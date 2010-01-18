@@ -1,4 +1,4 @@
-<project name="java1.5" default="javac" basedir=".">
+<project name="java1.5" default="test" basedir=".">
 
 	<description>Shows how Java 1.5 could be used inside report templates.</description>
 

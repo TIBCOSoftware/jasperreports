@@ -2,24 +2,24 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>javascript</name>
+  <title>JavaScript Sample</title>
+  <description>Shows how the JavaScript language could be used inside report templates.</description>
 
-  <mainFeature ref="antcompile"/>
+  <mainFeature ref="javascript"/>
   <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
   
-  <!-- antcompile -->
+  <!-- javascript -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="javascript" title="Using the JavaScript Language for Report Expressions (JavaScript Report Compiler)">
     <description>
 FIXME
     </description>
     <since>0.5.1</since>
+  	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>
   	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
     <content>
 FIXME
     </content>
