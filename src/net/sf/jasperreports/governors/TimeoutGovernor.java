@@ -71,7 +71,7 @@ public class TimeoutGovernor extends JRDefaultScriptlet
 	/**
 	 *
 	 */
-	public void afterPageInit() throws JRScriptletException
+	public void beforeDetailEval() throws JRScriptletException
 	{
 		long ellapsedTime = System.currentTimeMillis() - startTime;
 		if (timeout < ellapsedTime)
