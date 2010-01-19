@@ -63,7 +63,7 @@ public class DefaultScriptletFactory implements ScriptletFactory
 		JRAbstractScriptlet scriptlet = (JRAbstractScriptlet)context.getParameterValues().get(JRParameter.REPORT_SCRIPTLET);
 		if (scriptlet == null)
 		{
-			String scriptletClassName = context.getJasperReport().getScriptletClass();
+			String scriptletClassName = context.getDataset().getScriptletClass();
 			if (scriptletClassName != null)
 			{
 				scriptlet = getScriptlet(scriptletClassName);
@@ -76,7 +76,7 @@ public class DefaultScriptletFactory implements ScriptletFactory
 			scriptlets.add(scriptlet);
 		}
 		
-		JRScriptlet[] scriptletsArray = context.getJasperReport().getScriptlets();
+		JRScriptlet[] scriptletsArray = context.getDataset().getScriptlets();
 		if (scriptletsArray != null)
 		{
 			for (int i = 0; i < scriptletsArray.length; i++)
