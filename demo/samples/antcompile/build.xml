@@ -24,7 +24,7 @@
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
 	</target> 
 
-	<target name="compile1" description="Compiles report designs specified using the &quot;srcdir&quot; in the &lt;jrc&gt; tag. Generated .jasper files keep their relative location and are placed in directory structure similar to the source files structure."> 
+	<target name="compile1" description="Compiles report designs specified using the &quot;srcdir&quot; in the &lt;jrc&gt; tag."> 
 		<mkdir dir="./build/reports"/> 
 		<jrc 
 				srcdir="./reports"
@@ -37,7 +37,7 @@
 		</jrc>
 	</target> 
 
-	<target name="compile2" description="Compiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag. Generated .jasper files lose their relative location and are placed in the same output directory.">
+	<target name="compile2" description="Compiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
 		<mkdir dir="./build/reports"/> 
 		<jrc 
 				destdir="./build/reports"
