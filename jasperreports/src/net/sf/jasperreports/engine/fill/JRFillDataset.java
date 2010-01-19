@@ -450,7 +450,7 @@ public class JRFillDataset implements JRDataset
 	 */
 	protected List createScriptlets(Map parameterValues) throws JRException
 	{
-		ScriptletFactoryContext context = new ScriptletFactoryContext(parameterValues);
+		ScriptletFactoryContext context = new ScriptletFactoryContext(parameterValues, this);
 		
 		scriptlets = new ArrayList();
 		
@@ -1200,7 +1200,8 @@ public class JRFillDataset implements JRDataset
 	
 	public JRPropertiesHolder getParentProperties()
 	{
-		return null;
+		// report properties propagate to subdatasets
+		return isMain ? null : filler.getJasperReport();
 	}
 
 

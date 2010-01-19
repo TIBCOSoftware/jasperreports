@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.scriptlets;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReport;
 
@@ -40,19 +41,30 @@ public class ScriptletFactoryContext
 	 *
 	 */
 	private JasperReport jasperReport = null;
+	private JRDataset dataset = null;
 	private Map parameterValues = null;
 
 	/**
 	 *
 	 */
-	public ScriptletFactoryContext(Map parameterValues)
+	public ScriptletFactoryContext(Map parameterValues, JRDataset dataset)
 	{
 		this.jasperReport = (JasperReport)parameterValues.get(JRParameter.JASPER_REPORT);
+		this.dataset = dataset;
 		this.parameterValues = parameterValues;
 	}
-	
+
 	/**
-	 *
+	 * Returns the {@link JasperReport} object for this context.
+	 * 
+	 * <p>
+	 * Note that this context might correspond to a subdataset in the report.
+	 * Use {@link #getDataset()} to retrieve the dataset for which scriptlets
+	 * are to be created
+	 * </p>
+	 * 
+	 * @return the current {@link JasperReport} object
+	 * @see #getDataset()
 	 */
 	public JasperReport getJasperReport()
 	{
@@ -67,4 +79,13 @@ public class ScriptletFactoryContext
 		return parameterValues;
 	}
 	
+	/**
+	 * Returns the dataset for which scriptlets are to be created.
+	 * 
+	 * @return a dataset
+	 */
+	public JRDataset getDataset()
+	{
+		return dataset;
+	}
 }
