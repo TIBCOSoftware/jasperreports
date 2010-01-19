@@ -340,34 +340,35 @@ public class JRApiWriter
 		if(report.getResourceBundle() != null)
 			write(indent + "jasperDesign.setgetResourceBundle(\"" + JRStringUtil.escapeJavaStringLiteral(report.getResourceBundle()) + "\");\n");
 		write(indent + "jasperDesign.setWhenResourceMissingType((byte)" + (report.getWhenResourceMissingType() > 0 ? report.getWhenResourceMissingType() : JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL) + ");\n");
-		write(indent + "jasperDesign.setIgnorePagination(" + (report.isIgnorePagination() ? report.isIgnorePagination() : false) + ");\n");
-		write("\n");
+		write(indent + "jasperDesign.setIgnorePagination(" + (report.isIgnorePagination() ? report.isIgnorePagination() : false) + ");\n\n");
+
 		writeProperties(indent, report, "jasperDesign");
 		write("\n");
 		writeTemplates(indent);
 
 		write("\n");
-		write(indent + "//report fonts\n");
 		
 		JRReportFont[] fonts = report.getFonts();
 		if (fonts != null && fonts.length > 0)
 		{	
+			write(indent + "//report fonts\n\n");
 			for(int i = 0; i < fonts.length; i++)
 			{
 				writeReportFont(indent, fonts[i], "reportFontStyle"+i);
-				write(indent + "jasperDesign.addStyle(reportFontStyle" + i + ");\n");
-				write("\n");
+				write(indent + "jasperDesign.addStyle(reportFontStyle" + i + ");\n\n");
+				flush();
 			}
 		}
 
-		write(indent + "//styles\n");
 		JRStyle[] styles = report.getStyles();
 		if (styles != null && styles.length > 0)
 		{	
+			write(indent + "//styles\n");
+
 			for(int i = 0; i < styles.length; i++)
 			{
 				writeStyle(indent, styles[i], "reportStyle" + i);
-				write(indent + "jasperDesign.addStyle(reportStyle" + i + ");\n");
+				write(indent + "jasperDesign.addStyle(reportStyle" + i + ");\n\n");
 
 				if (toWriteConditionalStyles())
 				{
@@ -378,24 +379,26 @@ public class JRApiWriter
 						{
 							String conditionalStyleName = "reportStyle" + i + "Conditional" + j;
 							writeConditionalStyle(indent, conditionalStyles[j],conditionalStyleName);
-							write(indent + "jasperDesign.addStyle(" + conditionalStyleName + ");\n");
+							write(indent + "jasperDesign.addStyle(" + conditionalStyleName + ");\n\n");
 						}
+						flush();
 					}
 				}
-
 			}
+			flush();
 		}
 		
 		JRDataset[] datasets = report.getDatasets();
 		if (datasets != null && datasets.length > 0)
 		{
-			write("\n");
 			write(indent + "//datasets\n");
 			for (int i = 0; i < datasets.length; ++i)
 			{
 				writeDataset(indent, datasets[i], "reportDataset" + i);
 				write(indent + "jasperDesign.addDataset(reportDataset" + i + ");\n");
 			}
+			write("\n");
+			flush();
 		}
 
 //		writeDatasetContents(indent, report.getMainDataset(), "reportMainDataset");
@@ -404,34 +407,33 @@ public class JRApiWriter
 		{
 			write(indent + "//background\n\n");
 			writeBand(indent, report.getBackground(), "backgroundBand");
-			write(indent + "jasperDesign.setBackground(backgroundBand);\n");
+			write(indent + "jasperDesign.setBackground(backgroundBand);\n\n");
 		}
 
 		if (report.getTitle() != null)
 		{
 			write(indent + "//title\n\n");
 			writeBand(indent, report.getTitle(), "titleBand");
-			write(indent + "jasperDesign.setTitle(titleBand);\n");
+			write(indent + "jasperDesign.setTitle(titleBand);\n\n");
 		}
 
 		if (report.getPageHeader() != null)
 		{
 			write(indent + "//page header\n\n");
 			writeBand(indent, report.getPageHeader(), "pageHeaderBand");
-			write(indent + "jasperDesign.setPageHeader(pageHeaderBand);\n");
+			write(indent + "jasperDesign.setPageHeader(pageHeaderBand);\n\n");
 		}
 
 		if (report.getColumnHeader() != null)
 		{
 			write(indent + "//column header\n\n");
 			writeBand(indent, report.getColumnHeader(), "columnHeaderBand");
-			write(indent + "jasperDesign.setColumnHeader(columnHeaderBand);\n");
+			write(indent + "jasperDesign.setColumnHeader(columnHeaderBand);\n\n");
 		}
 
 		JRSection detail = report.getDetailSection();
-		if (detail != null)
+		if (detail != null && detail.getBands() != null && detail.getBands().length > 0)
 		{
-			write(indent + "//detail\n\n");
 			writeSection(
 					indent, 
 					detail, 
@@ -444,35 +446,35 @@ public class JRApiWriter
 		{
 			write(indent + "//column footer\n\n");
 			writeBand(indent, report.getColumnFooter(), "columnFooterBand");
-			write(indent + "jasperDesign.setColumnFooter(columnFooterBand);\n");
+			write(indent + "jasperDesign.setColumnFooter(columnFooterBand);\n\n");
 		}
 
 		if (report.getPageFooter() != null)
 		{
 			write(indent + "//page footer\n\n");
 			writeBand(indent, report.getPageFooter(), "pageFooterBand");
-			write(indent + "jasperDesign.setPageFooter(pageFooterBand);\n");
+			write(indent + "jasperDesign.setPageFooter(pageFooterBand);\n\n");
 		}
 
 		if (report.getLastPageFooter() != null)
 		{
 			write(indent + "//last page footer\n\n");
 			writeBand(indent, report.getLastPageFooter(), "lastPageFooterBand");
-			write(indent + "jasperDesign.setLastPageFooter(lastPageFooterBand);\n");
+			write(indent + "jasperDesign.setLastPageFooter(lastPageFooterBand);\n\n");
 		}
 
 		if (report.getSummary() != null)
 		{
 			write(indent + "//summary\n\n");
 			writeBand(indent, report.getSummary(), "summaryBand");
-			write(indent + "jasperDesign.setSummary(summaryBand);\n");
+			write(indent + "jasperDesign.setSummary(summaryBand);\n\n");
 		}
 
 		if (report.getNoData() != null)
 		{
 			write(indent + "//no data\n\n");
 			writeBand(indent, report.getNoData(), "noDataBand");
-			write(indent + "jasperDesign.setNoData(noDataBand);\n");
+			write(indent + "jasperDesign.setNoData(noDataBand);\n\n");
 		}
 
 		write(indent + "return jasperDesign;\n");
@@ -493,11 +495,11 @@ public class JRApiWriter
 	{
 		if (propertiesHolder.hasProperties())
 		{
-			write(indent + "//properties\n");
 			JRPropertiesMap propertiesMap = propertiesHolder.getPropertiesMap();
 			String[] propertyNames = propertiesMap.getPropertyNames();
 			if (propertyNames != null && propertyNames.length > 0)
 			{
+				write(indent + "//properties\n");
 				for(int i = 0; i < propertyNames.length; i++)
 				{
 					String value = propertiesMap.getProperty(propertyNames[i]);
@@ -506,6 +508,7 @@ public class JRApiWriter
 						write(indent + propertiesHolderName + ".setProperty(\"" + propertyNames[i] + "\", \"" + JRStringUtil.escapeJavaStringLiteral(value) + "\");\n");
 					}
 				}
+				write("\n");
 			}
 			flush();
 		}
@@ -527,6 +530,8 @@ public class JRApiWriter
 				writeTemplate(indent, template, "reportTemplate" + i);
 				write(indent + "jasperDesign.addTemplate(reportTemplate" + i + ");\n");
 			}
+			write("\n");
+			flush();
 		}
 	}
 
@@ -758,10 +763,11 @@ public class JRApiWriter
 			JRBand[] bands = section.getBands();
 			if (bands != null && bands.length > 0)
 			{
+				write(indent + "//" + sectionName + "\n\n");
 				for(int i = 0; i < bands.length; i++)
 				{
 					writeBand(indent, bands[i], sectionName + i);
-					write(indent + sectionBandListGetterName + ".add(" + i + ", " + sectionName + i + ");\n");
+					write(indent + sectionBandListGetterName + ".add(" + i + ", " + sectionName + i + ");\n\n");
 				}
 			}
 			flush();
@@ -776,6 +782,8 @@ public class JRApiWriter
 	{
 		if(band != null)
 		{
+			
+			write(indent + "//band name = " + bandName +"\n\n");
 			write(indent + "JRDesignBand " + bandName + " = new JRDesignBand();\n");
 			write(indent + bandName + ".setHeight(" + band.getHeight() + ");\n");
 			write(indent + bandName + ".setSplitType(Byte.valueOf(" + band.getSplitType() + "));\n");
