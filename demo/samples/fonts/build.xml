@@ -204,6 +204,14 @@
 		</java>
 	</target>
 
+	<target name="api" description="Generates a .java version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="api"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="clean" description="Deletes all the generated files.">
 		<delete dir="./build" />
 	</target>
@@ -229,6 +237,7 @@
 		<antcall target="docx" />
 		<antcall target="xlsx" />
 		<antcall target="xhtml" />
+		<antcall target="api" />
 	</target>
 
 </project>

@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
@@ -46,6 +47,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.util.JRApiWriter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -64,6 +66,7 @@ public class FontsApp
 	private static final String TASK_PRINT = "print";
 	private static final String TASK_PDF = "pdf";
 	private static final String TASK_XML = "xml";
+	private static final String TASK_API = "api";
 	private static final String TASK_XML_EMBED = "xmlEmbed";
 	private static final String TASK_HTML = "html";
 	private static final String TASK_RTF = "rtf";
@@ -124,6 +127,18 @@ public class FontsApp
 			{
 				JasperExportManager.exportReportToHtmlFile(fileName);
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if (TASK_API.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperReport.getName() + "_Generator.java");
+				
+				JRApiWriter.writeReport(jasperReport, destFile.toString() );
+				
+				System.err.println("API creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_RTF.equals(taskName))
 			{
