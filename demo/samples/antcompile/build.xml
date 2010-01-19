@@ -11,6 +11,7 @@
 	
 	<path id="runClasspath">
 		<path refid="classpath"/>
+		<pathelement location="../../fonts"/>
 		<pathelement location="./build/classes"/>
 	</path>
 
@@ -63,6 +64,7 @@
 		<antcall target="clean" />
 		<antcall target="javac" />
 		<antcall target="compile1" />
+		<antcall target="compile2" />
 	</target>
 
 </project>
