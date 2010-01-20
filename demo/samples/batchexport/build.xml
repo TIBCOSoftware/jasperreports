@@ -146,7 +146,7 @@
 	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="xlsx"/>
-			<arg value="${file.name}.docx"/>
+			<arg value="${file.name}.xlsx"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
