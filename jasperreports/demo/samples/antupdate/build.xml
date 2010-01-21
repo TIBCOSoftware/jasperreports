@@ -28,7 +28,7 @@
 			<classpath refid="runClasspath"/>
 			<include name="**/*.jrxml"/>
 			<!--
-			<updater>net.sf.jasperreports.update.LegacyBorderOffsetUpdater</updater>
+			<updater>net.sf.jasperreports.engine.util.LegacyBorderOffsetUpdater</updater>
 			-->
 		</jru>
 	</target> 

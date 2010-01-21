@@ -35,7 +35,7 @@ package net.sf.jasperreports.ant;
 
 import org.apache.tools.ant.BuildException;
 
-import net.sf.jasperreports.update.Updater;
+import net.sf.jasperreports.engine.util.ReportUpdater;
 
 
 /**
@@ -49,7 +49,7 @@ public class UpdaterElement
 	/**
 	 *
 	 */
-	private Updater updater = null;
+	private ReportUpdater updater = null;
 
 
 	/**
@@ -62,7 +62,7 @@ public class UpdaterElement
 			try
 			{
 				Class clazz = JRAntCompileTask.class.getClassLoader().loadClass(className);
-				updater = (Updater)clazz.newInstance();
+				updater = (ReportUpdater)clazz.newInstance();
 			}
 			catch (ClassNotFoundException e)
 			{
@@ -82,7 +82,7 @@ public class UpdaterElement
 	/**
 	 * 
 	 */
-	public Updater getUpdater()
+	public ReportUpdater getUpdater()
 	{
 		return updater;
 	}
