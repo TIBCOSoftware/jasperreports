@@ -6,6 +6,7 @@
     <name>Report Design</name>
     <content>
       <feature name="alterdesign" sample="alterdesign" title="Altering Compiled Report Templates"/>
+      <feature name="antupdate" sample="antupdate" title="Updating Multiple Report Template Files Using the Ant Build Tool"/>
       <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)"/>
       <feature name="barcode4j" sample="barcode4j" title="Barcodes (Barcode4J Custom Component)"/>
 	  <feature name="barcodes" sample="barcode4j" title="Barcodes"/>
@@ -26,6 +27,7 @@
     <content>
       <feature name="reportcompilers" sample="groovy" title="Report Compilers"/>
       <feature name="antcompile" sample="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool"/>
+      <feature name="antdecompile" sample="antcompile" title="Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)"/>
       <feature name="beanshell" sample="beanshell" title="Using the BeanShell Scripting Language for Report Expressions (BeanShell Report Compiler)"/>
       <feature name="groovy" sample="groovy" title="Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)"/>
       <feature name="java1.5" sample="java1.5" title="Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)"/>
