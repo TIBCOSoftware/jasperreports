@@ -1,6 +1,6 @@
-<project name="antupdate" default="update1" basedir=".">
+<project name="antupdate" default="test" basedir=".">
 
-	<description>Shows how multiple JRXML files can be updated in batch mode using ANT.</description>
+	<description>Shows how multiple JRXML files can be updated in batch mode using the ANT build tool.</description>
 
 	<path id="classpath">
 		<pathelement location="../../../build/classes"/>
@@ -11,6 +11,7 @@
 	
 	<path id="runClasspath">
 		<path refid="classpath"/>
+		<pathelement location="../../fonts"/>
 		<pathelement location="./build/classes"/>
 	</path>
 
@@ -18,7 +19,7 @@
 		<classpath refid="classpath"/>
 	</taskdef>
 
-	<target name="update1" description="Updates report designs specified using the &quot;srcdir&quot; in the &lt;jru&gt; tag. Generated .jrxml files keep their relative location and are placed in directory structure similar to the source files structure."> 
+	<target name="update1" description="Updates report designs specified using the &quot;srcdir&quot; in the &lt;jru&gt; tag."> 
 		<mkdir dir="./build/reports"/> 
 		<jru 
 				srcdir="./reports"
@@ -32,7 +33,7 @@
 		</jru>
 	</target> 
 
-	<target name="update2" description="Updates report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag. Generated .jrxml files lose their relative location and are placed in the same output directory.">
+	<target name="update2" description="Updates report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
 		<mkdir dir="./build/reports"/> 
 		<jru 
 				destdir="./build/reports"
@@ -48,6 +49,15 @@
 
 	<target name="clean" description="Deletes all the generated files.">
 		<delete dir="./build" />
+	</target>
+
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Ant Update Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="update1" />
+		<antcall target="update2" />
 	</target>
 
 </project>
