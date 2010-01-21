@@ -38,6 +38,15 @@
 		<javac srcdir="${sample.dir}/src" destdir="${sample.dir}/build/classes" debug="true" optimize="false" deprecation="false">
 			<classpath refid="classpath"/>
 		</javac>
+		<copy todir="${sample.dir}/build/classes">
+			<fileset dir="${sample.dir}/src">
+				<include name="**/*.properties"/>
+				<include name="**/*.xml"/>
+				<include name="**/*.TTF"/>
+				<include name="**/*.ttf"/>
+				<include name="**/*.txt"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="compile">
@@ -206,6 +215,14 @@
 
 	<target name="viewDesign">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="${sample.dir}/build/reports/${sample.report.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="api">
+		<java classname="${sample.app.name}" fork="true">
+			<arg value="api"/>
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
