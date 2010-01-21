@@ -53,6 +53,8 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.taskdefs.MatchingTask;
 import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.Resource;
+import org.apache.tools.ant.types.resources.FileResource;
 import org.apache.tools.ant.util.RegexpPatternMapper;
 import org.apache.tools.ant.util.SourceFileScanner;
 
@@ -263,33 +265,30 @@ public class JRAntUpdateTask extends MatchingTask
 	 */
 	protected void scanSrc() throws BuildException
 	{
-		String[] list = src.list();
-		for (int i = 0; i < list.length; i++) 
+		for(Iterator it = src.iterator(); it.hasNext();)
 		{
-			File srcdir = project.resolveFile(list[i]);
-			if (!srcdir.exists()) 
+			Resource resource = (Resource)it.next();
+			FileResource fileResource = resource instanceof FileResource ? (FileResource)resource : null;
+			if (fileResource == null)
 			{
-				throw 
-					new BuildException(
-						"The srcdir \""
-							+ srcdir.getPath() 
-							+ "\" does not exist.", 
-						location
-						);
-			}
-
-			if (srcdir.isDirectory())
-			{
-				DirectoryScanner ds = getDirectoryScanner(srcdir);
-				String[] files = ds.getIncludedFiles();
-				
-				scanDir(srcdir, destdir != null ? destdir : srcdir, files);
+				//FIXME what to do?
 			}
 			else
 			{
-				String[] files = new String[]{srcdir.getName()};
-				
-				scanDir(srcdir.getParentFile(), destdir != null ? destdir : srcdir.getParentFile(), files);
+				File file = fileResource.getFile();
+				if (file.isDirectory())
+				{
+					DirectoryScanner ds = getDirectoryScanner(file);
+					String[] files = ds.getIncludedFiles();
+					
+					scanDir(file, destdir != null ? destdir : file, files);
+				}
+				else
+				{
+					String[] files = new String[]{fileResource.getName()};
+
+					scanDir(fileResource.getBaseDir(), destdir != null ? destdir : fileResource.getBaseDir(), files);
+				}
 			}
 		}
 	}
