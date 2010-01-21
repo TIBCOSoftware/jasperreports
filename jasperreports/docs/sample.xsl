@@ -170,7 +170,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   <tr>
     <td colspan="5"><hr size="1"/></td>
   </tr>
-  <tr valign="middle">
+  <tr valign="top">
     <td><img src="../../resources/jr-16x16.png" border="0"/></td>
     <td colspan="4"><span class="name"><xsl:value-of select="@title"/></span></td>
   </tr>
