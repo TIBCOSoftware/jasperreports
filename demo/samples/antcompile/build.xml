@@ -53,6 +53,20 @@
 		</jrc> 
 	</target> 
 
+	<target name="decompile" description="Decompiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
+		<taskdef name="jrdc" classname="net.sf.jasperreports.ant.JRAntDecompileTask"> 
+			<classpath refid="classpath"/>
+		</taskdef>
+		<jrdc destdir="./build/reports">
+			<src>
+				<fileset dir="./build/reports">
+					<include name="**/*.jasper"/>
+				</fileset>
+			</src>
+			<classpath refid="runClasspath"/>
+		</jrdc> 
+	</target> 
+
 	<target name="clean" description="Deletes all the generated files.">
 		<delete dir="./build" />
 	</target>
@@ -65,6 +79,7 @@
 		<antcall target="javac" />
 		<antcall target="compile1" />
 		<antcall target="compile2" />
+		<antcall target="decompile" />
 	</target>
 
 </project>

@@ -7,8 +7,8 @@
   <description>Shows how multiple JRXML files can be updated in batch mode using the ANT build tool.</description>
 
   <mainFeature ref="antupdate"/>
-  <mainFeature ref="antwrite"/>
   <secondaryFeature name="antcompile" sample="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool"/>
+  <secondaryFeature name="antdecompile" sample="antcompile" title="Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)"/>
   
   <!-- antupdate -->
   
@@ -144,20 +144,6 @@ Depending on the report expression language they are mapped to, other report com
 for report expression evaluation. The <code>keepjava</code> and the <code>tempdir</code> attributes will still work for them, except that the files 
 that will be kept into the temporary location will not be Java source files but script files, also helpful for debugging.
 -->
-    </content>
-  </feature>
-
-  <!-- antwrite -->
-  
-  <feature name="antwrite" title="Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool">
-    <description>
-How to re-create the JRXML source files for multiple compiled report templates using the Ant build tool. 
-This is useful in cases where only the compiled <code>*.jasper</code> files of older reports are available, 
-the initial <code>*.jrxml</code> source files being lost.
-    </description>
-    <since>3.7.1</since>
-    <content>
-    FIXME
     </content>
   </feature>
 
