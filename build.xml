@@ -414,7 +414,7 @@
 		</xslt>
 		<mkdir dir="./dist/docs/sample.reference"/> 
 		<xslt basedir="demo/samples" destdir="dist/docs/sample.reference" style="./docs/sample.xsl">
-			<param name="version" expression="3.7.0"/>
+			<param name="version" expression="${version}"/>
 			<param name="svn" expression="jr-3-7-0"/>
 			<regexpmapper from="^(.*)/docs/(.*).xml$$" to="\1/\2.html" handledirsep="true"/>
 			<classpath>
