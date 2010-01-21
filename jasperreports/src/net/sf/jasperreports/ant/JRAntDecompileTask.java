@@ -24,18 +24,15 @@
 package net.sf.jasperreports.ant;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.ReportUpdater;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.apache.tools.ant.AntClassLoader;
@@ -50,7 +47,7 @@ import org.apache.tools.ant.util.SourceFileScanner;
 
 
 /**
- * Ant task for batch-updating JRXML report design files.
+ * Ant task for batch-generating the source JRXML report design files, from compiled report template files.
  * Works like the built-in <code>javac</code> Ant task.
  * <p>
  * This task can take the following arguments:
@@ -60,15 +57,16 @@ import org.apache.tools.ant.util.SourceFileScanner;
  * </ul>
  * Of these arguments, the <code>src</code> and <code>destdir</code> are required.
  * When this task executes, it will recursively scan the <code>src</code> and 
- * <code>destdir</code> looking for JRXML report design files to update. 
- * This task makes its update decision based on timestamp and only JRXML files 
- * that have no corresponding file in the target directory or where the destination report 
- * design file is older than the source file will be updated.
+ * <code>destdir</code> looking for compiled report template files and it will recreate 
+ * the source JRXML file for each of them. 
+ * This task makes its file creation decision based on timestamp and only input files 
+ * that have no corresponding file in the target directory or where the destination JRXML file 
+ * is older than the input file will be processed.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRAntCompileTask.java 1606 2007-02-28 08:21:12Z lucianc $
  */
-public class JRAntUpdateTask extends MatchingTask
+public class JRAntDecompileTask extends MatchingTask
 {
 
 
@@ -78,9 +76,6 @@ public class JRAntUpdateTask extends MatchingTask
 	private Path src = null;
 	private File destdir = null;
 	private Path classpath = null;
-	private boolean xmlvalidation = true;
-	
-	private List updaters = null;
 
 	private Map reportFilesMap = null;
 
@@ -147,35 +142,6 @@ public class JRAntUpdateTask extends MatchingTask
 	
 	
 	/**
-	 * Instructs the XML parser to validate the XML report design file during update. 
-	 * 
-	 * @param xmlvalidation flag for enabling/disabling the validation feature of the XML parser 
-	 */
-	public void setXmlvalidation(boolean xmlvalidation)
-	{
-		this.xmlvalidation = xmlvalidation;
-	}
-
-
-	/**
-	 * Adds an updater.
-	 */
-	public UpdaterElement createUpdater()
-	{
-		UpdaterElement updaterElement = new UpdaterElement();
-
-		if (updaters == null)
-		{
-			updaters = new ArrayList();
-		}
-		
-		updaters.add(updaterElement);
-		
-		return updaterElement;
-	}
-	
-	
-	/**
 	 * Executes the task.
 	 */
 	public void execute() throws BuildException
@@ -188,8 +154,6 @@ public class JRAntUpdateTask extends MatchingTask
 		
 		try
 		{
-			JRProperties.setProperty(JRProperties.COMPILER_XML_VALIDATION, xmlvalidation);//FIXME is this needed?
-
 			AntClassLoader classLoader = null;
 			if (classpath != null)
 			{
@@ -345,21 +309,9 @@ public class JRAntUpdateTask extends MatchingTask
 				{
 					System.out.print("File : " + srcFileName + " ... ");
 
-					JasperDesign jasperDesign = JRXmlLoader.load(srcFileName);
+					JasperReport jasperReport = (JasperReport)JRLoader.loadObject(srcFileName);
 					
-					if (updaters != null)
-					{
-						for(int i = 0; i < updaters.size(); i++)
-						{
-							ReportUpdater updater = ((UpdaterElement)updaters.get(i)).getUpdater();
-							if (updater != null)
-							{
-								jasperDesign = updater.update(jasperDesign);
-							}
-						}
-					}
-					
-					JRXmlWriter.writeReport(jasperDesign, destFileName, "UTF-8");
+					JRXmlWriter.writeReport(jasperReport, destFileName, "UTF-8");
 					
 					System.out.println("OK.");
 				}
