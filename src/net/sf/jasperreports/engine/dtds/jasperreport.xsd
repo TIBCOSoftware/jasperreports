@@ -303,6 +303,9 @@
   </complexType>
  </element>
 
+ <complexType name="expression" mixed="true">
+ </complexType>
+
  <element name="property">
   <annotation>
    <documentation>Allows the creation of a name-value pair property for a report object (e.g. the report itself, a field, a parameter, etc).</documentation>
@@ -840,12 +843,10 @@
   </complexType>
  </element>
 
- <element name="conditionExpression">
+ <element name="conditionExpression" type="jr:expression">
   <annotation>
    <documentation>A boolean expression which indicates if the style properties associated with it should be applied to the parent style.</documentation>
   </annotation>  
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="subDataset">
@@ -974,12 +975,10 @@
   </complexType>
  </element>
 
- <element name="defaultValueExpression">
+ <element name="defaultValueExpression" type="jr:expression">
   <annotation>
    <documentation>Specifies the parameter default value to use when not supplied by the parent application at runtime.</documentation>
   </annotation>  
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="queryString">
@@ -1226,23 +1225,19 @@
   </complexType>
  </element>
 
- <element name="variableExpression">
+ <element name="variableExpression" type="jr:expression">
   <annotation>
    <documentation>Definition of the expression associated with the variable. The value of this expression will be calculated at runtime and will represent the value of the corresponding variable or it will be used in calculation to obtain the value of the calculated variable.</documentation>
   </annotation>  
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="initialValueExpression">
+ <element name="initialValueExpression" type="jr:expression">
   <annotation>
    <documentation>Definition of the expression that will be used to calculate the initial value of the variable, before any calculations are made.</documentation>
   </annotation>  
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="filterExpression">
+ <element name="filterExpression" type="jr:expression">
   <annotation>
    <documentation>Boolean expression used to filter the rows of a data source.
 	 <p>
@@ -1255,8 +1250,6 @@
 	 When the result is null or <code>Boolean.FALSE</code>, the current row will be skipped and the datasource will be asked for the next row.
 	 ]]></p></documentation>
   </annotation>  
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="group">
@@ -1406,144 +1399,94 @@
   </complexType>
  </element>
 
- <element name="groupExpression">
+ <element name="groupExpression" type="jr:expression">
   <annotation>
    <documentation>Specifies the expression that will be evaluated at runtime to determine the group ruptures.</documentation>
   </annotation>  
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="groupHeader">
+ <complexType name="band">
+  <sequence>
+   <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
+  </sequence>
+ </complexType>
+
+ <complexType name="section">
+  <sequence>
+   <element ref="jr:band" minOccurs="0" maxOccurs="unbounded"/>
+  </sequence>
+ </complexType>
+
+ <element name="groupHeader" type="jr:section">
   <annotation>
    <documentation>Contains the definition of the header section for this group.</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="unbounded"/>
-   </sequence>
-  </complexType>
  </element>
 
- <element name="groupFooter">
+ <element name="groupFooter" type="jr:section">
   <annotation>
    <documentation>Contains the definition of the footer section for this group.</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="unbounded"/>
-   </sequence>
-  </complexType>
  </element>
 
- <element name="background">
+ <element name="background" type="jr:band">
   <annotation>
    <documentation>Definition of the page background section for this report. The background section is displayed on every page and cannot overflow to the next page. Elements placed on this section are evaluated at page initialization time and are displayed in the back. All other page elements are displayed on top of the background elements. This section allows creating watermark or other similar effects in documents.</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
-   </sequence>
-  </complexType>
  </element>
 
- <element name="title">
+ <element name="title" type="jr:band">
   <annotation>
    <documentation>Definition of the title section for this report. The title section appears only once at the beginning of the report.</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
-   </sequence>
-  </complexType>
  </element>
 
- <element name="pageHeader">
+ <element name="pageHeader" type="jr:band">
   <annotation>
    <documentation>Definition of the page header section for this report. The page header is printed at the beginning of each page on the report.</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
-   </sequence>
-  </complexType>
  </element>
 
- <element name="columnHeader">
+ <element name="columnHeader" type="jr:band">
   <annotation>
    <documentation>Definition of the column header section for this report. The column header is printed at the beginning of each column on the report. If the report's column count is 1, column  header and footer sections are ignored.</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
-   </sequence>
-  </complexType>
  </element>
 
- <element name="detail">
+ <element name="detail" type="jr:section">
   <annotation>
    <documentation>Definition of a detail band for this report. A detail band is repeated for each line of data supplied by the report's data source. There can be multiple detail bands in a report.</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="unbounded"/>
-   </sequence>
-  </complexType>
  </element>
 
- <element name="columnFooter">
+ <element name="columnFooter" type="jr:band">
   <annotation>
    <documentation>Definition of the column footer section for this report. The column footer is printed at the bottom of each column on the report. If the report's column count is 1, column header   and footer sections are ignored.</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
-   </sequence>
-  </complexType>
  </element>
 
- <element name="pageFooter">
+ <element name="pageFooter" type="jr:band">
   <annotation>
    <documentation>Definition of the page footer section for this report. The page footer is printed at the bottom of each page on the report.</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
-   </sequence>
-  </complexType>
  </element>
 
- <element name="lastPageFooter">
+ <element name="lastPageFooter" type="jr:band">
   <annotation>
    <documentation>The page footer section to use on the last page instead of the normal page footer. This might not be the very last page of the document in case the summary section is also present. This section is sometimes useful when summary information has to be displayed at the bottom of the last page.</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
-   </sequence>
-  </complexType>
  </element>
 
- <element name="summary">
+ <element name="summary" type="jr:band">
   <annotation>
    <documentation>Definition of the summary section for this report. The summary section is printed only once at the end of the report.</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
-   </sequence>
-  </complexType>
  </element>
 
- <element name="noData">
+ <element name="noData" type="jr:band">
   <annotation>
    <documentation>Definition of the noData section for this report. The noData section is printed only if whenNoDataType attribute is set to "NoDataSection".</documentation>
   </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:band" minOccurs="0" maxOccurs="1"/>
-   </sequence>
-  </complexType>
  </element>
 
  <element name="band">
@@ -1903,12 +1846,10 @@
   </complexType>
  </element>
 
- <element name="printWhenExpression">
+ <element name="printWhenExpression" type="jr:expression">
   <annotation>
    <documentation>Definition of a Boolean expression that will determine if the element or the band should be printed or not.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="graphicElement">
@@ -2744,44 +2685,34 @@ This can be useful when, for instance, a border has to be drawn around the image
   </complexType>
  </element>
 
- <element name="anchorNameExpression">
+ <element name="anchorNameExpression" type="jr:expression">
   <annotation>
    <documentation>If specified, it will supply the name of the local anchor that will mark to the corresponding element.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="hyperlinkReferenceExpression">
+ <element name="hyperlinkReferenceExpression" type="jr:expression">
   <annotation>
    <documentation>Used in hyperlink elements to point to external documents and resources.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="hyperlinkAnchorExpression">
+ <element name="hyperlinkAnchorExpression" type="jr:expression">
   <annotation>
    <documentation>Used in hyperlink elements to point to document anchors.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="hyperlinkPageExpression">
+ <element name="hyperlinkPageExpression" type="jr:expression">
   <annotation>
    <documentation>Used in hyperlink elements to point to document pages.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="hyperlinkTooltipExpression">
+ <element name="hyperlinkTooltipExpression" type="jr:expression">
   <annotation>
    <documentation>Used in hyperlink elements to generate a tooltip for the hyperlink.  The type of the expression should be <code>java.lang.String</code>.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="hyperlinkParameter">
@@ -3365,12 +3296,10 @@ This can be useful when, for instance, a border has to be drawn around the image
   </complexType>
  </element>
 
- <element name="parametersMapExpression">
+ <element name="parametersMapExpression" type="jr:expression">
   <annotation>
    <documentation>Allows bulk passing the parameters to the subreport/subdataset into a <code>java.lang.Map</code> object. There are cases when we want to pass to the subreport/subdataset the same parameters that the master report has received. This can be achieved by passing the system-defined parameter called REPORT_PARAMETERS_MAP and maybe adding to or overriding those parameters using additional <elem>subreportParameter</elem> elements.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="subreportParameter">
@@ -3389,12 +3318,10 @@ This can be useful when, for instance, a border has to be drawn around the image
   </complexType>
  </element>
 
- <element name="subreportParameterExpression">
+ <element name="subreportParameterExpression" type="jr:expression">
   <annotation>
    <documentation>Definition of the expression associated with the subreport parameter.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="returnValue">
@@ -3479,20 +3406,16 @@ This can be useful when, for instance, a border has to be drawn around the image
   </complexType>
  </element>
 
- <element name="connectionExpression">
+ <element name="connectionExpression" type="jr:expression">
   <annotation>
    <documentation>If present, it is used to pass the <code>java.sql.Connection</code> object to the subreport filling or subdataset iteration routines.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="dataSourceExpression">
+ <element name="dataSourceExpression" type="jr:expression">
   <annotation>
    <documentation>If present, it is used to pass the <code>net.sf.jasperreports.engine.JRDataSource</code> object to the subreport filling or subdataset iteration routines.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="subreportExpression">
@@ -3735,12 +3658,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="titleExpression">
+ <element name="titleExpression" type="jr:expression">
   <annotation>
    <documentation>Title expression of the chart</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="chartSubtitle">
@@ -3760,12 +3681,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="subtitleExpression">
+ <element name="subtitleExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression for the chart subtitle</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="chartLegend">
@@ -3888,44 +3807,34 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="keyExpression">
+ <element name="keyExpression" type="jr:expression">
   <annotation>
    <documentation>Defines a key in a <elem>pieDataset</elem> or <elem>pieSeries</elem></documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="valueExpression">
+ <element name="valueExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression for the value of a point in a chart.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="labelExpression">
+ <element name="labelExpression" type="jr:expression">
   <annotation>
    <documentation>Defines a label in a <elem>pieDataset</elem> or <elem>pieSeries</elem>.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="otherKeyExpression">
+ <element name="otherKeyExpression" type="jr:expression">
   <annotation>
    <documentation></documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="otherLabelExpression">
+ <element name="otherLabelExpression" type="jr:expression">
   <annotation>
    <documentation></documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="sectionHyperlink">
@@ -4113,7 +4022,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="incrementWhenExpression">
+ <element name="incrementWhenExpression" type="jr:expression">
   <annotation>
    <documentation>Boolean expression that determines whether a chart or crosstab dataset will be incremented or not.
 	  <p><![CDATA[
@@ -4122,8 +4031,6 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 	  ]]></p>
    </documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="datasetRun">
@@ -4163,12 +4070,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="datasetParameterExpression">
+ <element name="datasetParameterExpression" type="jr:expression">
   <annotation>
    <documentation>Definition of the expression associated with the subdataset parameter.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="plot">
@@ -4346,20 +4251,16 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="seriesExpression">
+ <element name="seriesExpression" type="jr:expression">
   <annotation>
    <documentation>Defines a series expression in a dataset</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="categoryExpression">
+ <element name="categoryExpression" type="jr:expression">
   <annotation>
    <documentation>Defines a category expression in a dataset.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="itemHyperlink">
@@ -4466,52 +4367,40 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="categoryAxisLabelExpression">
+ <element name="categoryAxisLabelExpression" type="jr:expression">
   <annotation>
    <documentation>Expression that will be displayed on category axis</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="valueAxisLabelExpression">
+ <element name="valueAxisLabelExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression for the value axis of the chart</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="domainAxisMinValueExpression">
+ <element name="domainAxisMinValueExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression for the minimum value on the domain axis.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="domainAxisMaxValueExpression">
+ <element name="domainAxisMaxValueExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression for the maximum value on the domain axis.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="rangeAxisMinValueExpression">
+ <element name="rangeAxisMinValueExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression for the minimum value on the range axis.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="rangeAxisMaxValueExpression">
+ <element name="rangeAxisMaxValueExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression for the maximum value on the range axis.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="categoryAxisFormat">
@@ -4718,20 +4607,16 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="startDateExpression">
+ <element name="startDateExpression" type="jr:expression">
   <annotation>
    <documentation></documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="endDateExpression">
+ <element name="endDateExpression" type="jr:expression">
   <annotation>
    <documentation></documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="stackedBarChart">
@@ -4867,20 +4752,16 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="xValueExpression">
+ <element name="xValueExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression for the value of the X axis of the chart.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="yValueExpression">
+ <element name="yValueExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the value for the Y axis.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="areaChart">
@@ -4982,20 +4863,16 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="xAxisLabelExpression">
+ <element name="xAxisLabelExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression for the label of the  X axis of the chart</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="yAxisLabelExpression">
+ <element name="yAxisLabelExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression for the Y axis label of the chart</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="xAxisFormat">
@@ -5097,12 +4974,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="zValueExpression">
+ <element name="zValueExpression" type="jr:expression">
   <annotation>
    <documentation>Expression that defines the value for the Z axis in an <elem>xyzSeries</elem></documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="timeSeriesDataset">
@@ -5150,12 +5025,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="timePeriodExpression">
+ <element name="timePeriodExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression used for a time period</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="timeSeriesChart">
@@ -5212,12 +5085,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="timeAxisLabelExpression">
+ <element name="timeAxisLabelExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the expression used for the time axis label</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="timeAxisFormat">
@@ -5307,52 +5178,40 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
- <element name="dateExpression">
+ <element name="dateExpression" type="jr:expression">
   <annotation>
    <documentation>Represents a date expression used in <elem>timeSeriesChart</elem></documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="highExpression">
+ <element name="highExpression" type="jr:expression">
   <annotation>
    <documentation>High expresion in a <elem>highLowchart</elem>.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="lowExpression">
+ <element name="lowExpression" type="jr:expression">
   <annotation>
    <documentation>Low expresion in a <elem>highLowchart</elem>.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="openExpression">
+ <element name="openExpression" type="jr:expression">
   <annotation>
    <documentation>Open expression for a <elem>candlestickChart</elem></documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="closeExpression">
+ <element name="closeExpression" type="jr:expression">
   <annotation>
    <documentation>Expression for the close value for <elem>candlestickChart</elem></documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="volumeExpression">
+ <element name="volumeExpression" type="jr:expression">
   <annotation>
    <documentation>Defines the volumeExpression for a <elem>highLowDataset</elem></documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="candlestickChart">
@@ -5945,12 +5804,10 @@ property.
   </complexType>
  </element>
 
- <element name="parameterValueExpression">
+ <element name="parameterValueExpression" type="jr:expression">
   <annotation>
    <documentation>Crosstab parameter value expression.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="crosstabDataset">
@@ -6311,7 +6168,7 @@ property.
   </complexType>
  </element>
 
- <element name="comparatorExpression">
+ <element name="comparatorExpression" type="jr:expression">
   <annotation>
    <documentation>Crosstab group bucket comparator expression.
     <p>
@@ -6321,8 +6178,6 @@ property.
     </p>
    </documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="measure">
@@ -6460,12 +6315,10 @@ property.
   </complexType>
  </element>
 
- <element name="measureExpression">
+ <element name="measureExpression" type="jr:expression">
   <annotation>
    <documentation>Crosstab measure expression.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="crosstabCell">
@@ -6708,28 +6561,22 @@ property.
   </complexType>
  </element>
  
- <element name="taskExpression">
+ <element name="taskExpression" type="jr:expression">
   <annotation>
    <documentation>Specifies the expression used to determine tasks in a <elem>ganttSeries</elem>.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="subtaskExpression">
+ <element name="subtaskExpression" type="jr:expression">
   <annotation>
    <documentation>Specifies the expression used to determine subtasks in a <elem>ganttSeries</elem>.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
- <element name="percentExpression">
+ <element name="percentExpression" type="jr:expression">
   <annotation>
    <documentation>Specifies the expression used to determine the percent in a <elem>ganttSeries</elem>.</documentation>
   </annotation>
-  <complexType mixed="true">
-  </complexType>
  </element>
 
  <element name="componentElement">
