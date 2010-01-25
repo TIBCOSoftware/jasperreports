@@ -1584,66 +1584,11 @@
   </complexType>
  </element>
 
- <element name="break">
-  <annotation>
-   <documentation>Introduces a page break or column break</documentation>
-  </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:reportElement"/>
-   </sequence>
-   <attribute name="type" use="optional" default="Page">
-	<annotation>
-	 <documentation>Specifies the type of the break element.</documentation>
-	</annotation>  
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Page">
-		<annotation>
-		 <documentation>Page break.</documentation>
-		</annotation> 
-	  </enumeration> 
-      <enumeration value="Column">
-		<annotation>
-		 <documentation>Column break.</documentation>
-		</annotation> 
-	  </enumeration> 
-     </restriction>
-    </simpleType>
-   </attribute>
-  </complexType>
- </element>
-
- <element name="line">
-  <annotation>
-   <documentation>Definition of a line object.</documentation>
-  </annotation>  
-  <complexType>
-   <sequence>
-    <element ref="jr:reportElement"/>
-    <element ref="jr:graphicElement" minOccurs="0" maxOccurs="1"/>
-   </sequence>
-   <attribute name="direction" use="optional" default="TopDown">
-	<annotation>
-	 <documentation>Lines are drawn as diagonals of the rectangle defined by the report element properties. This attribute specifies which of the two diagonals should be drawn.</documentation>
-	</annotation>  
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="TopDown">
-		<annotation>
-		 <documentation>The diagonal that starts in the top-left corner of the rectangle will be drawn.</documentation>
-		</annotation> 
-	  </enumeration> 
-      <enumeration value="BottomUp">
-		<annotation>
-		 <documentation>The diagonal that starts in the bottom-left corner of the rectangle will be drawn.</documentation>
-		</annotation> 
-	  </enumeration> 
-     </restriction>
-    </simpleType>
-   </attribute>
-  </complexType>
- </element>
+ <complexType name="element">
+  <sequence>
+   <element ref="jr:reportElement"/>
+  </sequence>
+ </complexType>
 
  <element name="reportElement">
   <annotation>
@@ -1852,6 +1797,16 @@
   </annotation>
  </element>
 
+ <complexType name="graphicElement">
+  <complexContent>
+   <extension base="jr:element">
+    <sequence>
+     <element ref="jr:graphicElement" minOccurs="0" maxOccurs="1"/>
+    </sequence>
+   </extension>
+  </complexContent>
+ </complexType>
+
  <element name="graphicElement">
   <annotation>
    <documentation>Element used to specify the common properties of a graphic object on the report (line, rectangle, ellipse or image).</documentation>
@@ -1928,20 +1883,82 @@
   </complexType>
  </element>
 
+ <element name="break">
+  <annotation>
+   <documentation>Introduces a page break or column break</documentation>
+  </annotation>  
+  <complexType>
+   <complexContent>
+    <extension base="jr:element">
+     <attribute name="type" use="optional" default="Page">
+	  <annotation>
+	   <documentation>Specifies the type of the break element.</documentation>
+	  </annotation>  
+      <simpleType>
+       <restriction base="string">
+        <enumeration value="Page">
+  	      <annotation>
+		   <documentation>Page break.</documentation>
+		  </annotation> 
+	    </enumeration> 
+        <enumeration value="Column">
+	 	  <annotation>
+		   <documentation>Column break.</documentation>
+		  </annotation> 
+	    </enumeration> 
+       </restriction>
+      </simpleType>
+     </attribute>
+    </extension>
+   </complexContent>
+  </complexType>
+ </element>
+
+ <element name="line">
+  <annotation>
+   <documentation>Definition of a line object.</documentation>
+  </annotation>  
+  <complexType>
+   <complexContent>
+    <extension base="jr:graphicElement">
+     <attribute name="direction" use="optional" default="TopDown">
+	  <annotation>
+	   <documentation>Lines are drawn as diagonals of the rectangle defined by the report element properties. This attribute specifies which of the two diagonals should be drawn.</documentation>
+	  </annotation>  
+      <simpleType>
+       <restriction base="string">
+        <enumeration value="TopDown">
+  		  <annotation>
+		   <documentation>The diagonal that starts in the top-left corner of the rectangle will be drawn.</documentation>
+		  </annotation> 
+	    </enumeration> 
+        <enumeration value="BottomUp">
+		  <annotation>
+		   <documentation>The diagonal that starts in the bottom-left corner of the rectangle will be drawn.</documentation>
+		  </annotation> 
+	    </enumeration> 
+       </restriction>
+      </simpleType>
+     </attribute>
+    </extension>
+   </complexContent>
+  </complexType>
+ </element>
+
  <element name="rectangle">
   <annotation>
    <documentation>Definition of a rectangle object.</documentation>
   </annotation>
   <complexType>
-   <sequence>
-    <element ref="jr:reportElement"/>
-    <element ref="jr:graphicElement" minOccurs="0" maxOccurs="1"/>
-   </sequence>
-   <attribute name="radius" type="NMTOKEN" use="optional">
-	<annotation>
-	 <documentation>The radius of the arc corner.</documentation>
-	</annotation>
-   </attribute>
+   <complexContent>
+    <extension base="jr:graphicElement">
+     <attribute name="radius" type="NMTOKEN" use="optional">
+	  <annotation>
+	   <documentation>The radius of the arc corner.</documentation>
+	  </annotation>
+     </attribute>
+    </extension>
+   </complexContent>
   </complexType>
  </element>
 
@@ -1950,10 +1967,10 @@
    <documentation>Definition of an ellipse object.</documentation>
   </annotation>
   <complexType>
-   <sequence>
-    <element ref="jr:reportElement"/>
-    <element ref="jr:graphicElement" minOccurs="0" maxOccurs="1"/>
-   </sequence>
+   <complexContent>
+    <extension base="jr:graphicElement">
+    </extension>
+   </complexContent>
   </complexType>
  </element>
 
@@ -1962,10 +1979,10 @@
    <documentation>Definition of an image object.</documentation>
   </annotation>
   <complexType>
+   <complexContent>
+    <extension base="jr:graphicElement">
    <sequence>
-    <element ref="jr:reportElement"/>
     <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:graphicElement" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:imageExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
@@ -2187,6 +2204,8 @@ This can be useful when, for instance, a border has to be drawn around the image
 	 </documentation>
 	</annotation>
    </attribute>
+    </extension>
+   </complexContent>
   </complexType>
  </element>
 
@@ -2744,17 +2763,29 @@ This can be useful when, for instance, a border has to be drawn around the image
   </complexType>
  </element>
 
+ <complexType name="textElement">
+  <complexContent>
+   <extension base="jr:element">
+    <sequence>
+     <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
+     <element ref="jr:textElement" minOccurs="0" maxOccurs="1"/>
+    </sequence>
+   </extension>
+  </complexContent>
+ </complexType>
+
  <element name="staticText">
   <annotation>
    <documentation>Definition of a static text object.</documentation>
   </annotation>
   <complexType>
-   <sequence>
-    <element ref="jr:reportElement"/>
-    <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:textElement" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:text" minOccurs="0" maxOccurs="1"/>
-   </sequence>
+   <complexContent>
+    <extension base="jr:textElement">
+     <sequence>
+      <element ref="jr:text" minOccurs="0" maxOccurs="1"/>
+     </sequence>
+    </extension>
+   </complexContent>
   </complexType>
  </element>
 
@@ -3043,10 +3074,9 @@ This can be useful when, for instance, a border has to be drawn around the image
    <documentation>Definition of a text field object.</documentation>
   </annotation>
   <complexType>
+   <complexContent>
+    <extension base="jr:textElement">
    <sequence>
-    <element ref="jr:reportElement"/>
-    <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:textElement" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:textFieldExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
@@ -3154,6 +3184,8 @@ This can be useful when, for instance, a border has to be drawn around the image
 	 </documentation>
     </annotation>
    </attribute>
+    </extension>
+   </complexContent>
   </complexType>
  </element>
 
@@ -3244,6 +3276,8 @@ This can be useful when, for instance, a border has to be drawn around the image
    <documentation>Definition of a subreport object.</documentation>
   </annotation>
   <complexType>
+   <complexContent>
+    <extension base="jr:element">
    <sequence>
     <element ref="jr:reportElement"/>
     <element ref="jr:parametersMapExpression" minOccurs="0" maxOccurs="1"/>
@@ -3293,6 +3327,8 @@ This can be useful when, for instance, a border has to be drawn around the image
      </restriction>
     </simpleType>
    </attribute>
+    </extension>
+   </complexContent>
   </complexType>
  </element>
 
@@ -3514,8 +3550,9 @@ This can be useful when, for instance, a border has to be drawn around the image
    <documentation>Defines a chart report element</documentation>
   </annotation>
   <complexType>
+   <complexContent>
+    <extension base="jr:element">
    <sequence>
-    <element ref="jr:reportElement"/>
     <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:chartTitle" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:chartSubtitle" minOccurs="0" maxOccurs="1"/>
@@ -3625,6 +3662,8 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
      <documentation>The chart theme used to draw the chart.</documentation>
     </annotation>
    </attribute>
+    </extension>
+   </complexContent>
   </complexType>
  </element>
 
@@ -5675,8 +5714,9 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    </documentation>
   </annotation>
   <complexType>
+   <complexContent>
+    <extension base="jr:element">
    <sequence>
-    <element ref="jr:reportElement"/>
     <element ref="jr:crosstabParameter" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:parametersMapExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:crosstabDataset" minOccurs="0" maxOccurs="1"/>
@@ -5780,6 +5820,8 @@ property.
    	 </documentation>
   	</annotation>
    </attribute>
+    </extension>
+   </complexContent>
   </complexType>
  </element>
 
@@ -6477,8 +6519,9 @@ property.
    </documentation>
   </annotation>
   <complexType>
+   <complexContent>
+    <extension base="jr:element">
    <sequence>
-    <element ref="jr:reportElement"/>
     <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
     <choice minOccurs="0" maxOccurs="unbounded">
      <element ref="jr:break"/>
@@ -6517,6 +6560,8 @@ property.
      <element ref="jr:genericElement"/>
     </choice>
    </sequence>
+    </extension>
+   </complexContent>
   </complexType>
  </element>
  
@@ -6584,10 +6629,13 @@ property.
    <documentation></documentation>
   </annotation>
   <complexType>
-   <sequence>
-    <element ref="jr:reportElement"/>
-    <element ref="jr:component"/>
-   </sequence>
+   <complexContent>
+    <extension base="jr:element">
+     <sequence>
+      <element ref="jr:component"/>
+     </sequence>
+    </extension>
+   </complexContent>
   </complexType>
  </element>
 
@@ -6637,21 +6685,24 @@ property.
    <documentation></documentation>
   </annotation>
   <complexType>
-   <sequence>
-    <element ref="jr:reportElement"/>
-    <element ref="jr:genericElementType"/>
-    <element ref="jr:genericElementParameter" minOccurs="0" maxOccurs="unbounded"/>
-   </sequence>
-   <attribute name="evaluationTime" use="optional" default="Now" type="jr:complexEvaluationTime">
-	<annotation>
-	 <documentation></documentation>
-	</annotation>
-   </attribute>
-   <attribute name="evaluationGroup" type="string" use="optional">
-	<annotation>
-	 <documentation></documentation>
-	</annotation>
-   </attribute>
+   <complexContent>
+    <extension base="jr:element">
+     <sequence>
+      <element ref="jr:genericElementType"/>
+      <element ref="jr:genericElementParameter" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute name="evaluationTime" use="optional" default="Now" type="jr:complexEvaluationTime">
+	  <annotation>
+	   <documentation></documentation>
+	  </annotation>
+     </attribute>
+     <attribute name="evaluationGroup" type="string" use="optional">
+	  <annotation>
+	   <documentation></documentation>
+	  </annotation>
+     </attribute>
+    </extension>
+   </complexContent>
   </complexType>
  </element>
 
