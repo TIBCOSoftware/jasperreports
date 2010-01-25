@@ -404,20 +404,10 @@
    </attribute>
    <attribute name="forecolor" type="string" use="optional"/>
    <attribute name="backcolor" type="string" use="optional"/>
-   <attribute name="pen" use="optional">
+   <attribute name="pen" type="jr:border" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>pen</elem>.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None"/>
-      <enumeration value="Thin"/>
-      <enumeration value="1Point"/>
-      <enumeration value="2Point"/>
-      <enumeration value="4Point"/>
-      <enumeration value="Dotted"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="fill" use="optional">
     <simpleType>
@@ -457,20 +447,10 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="border" use="optional">
+   <attribute name="border" type="jr:border" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None"/>
-      <enumeration value="Thin"/>
-      <enumeration value="1Point"/>
-      <enumeration value="2Point"/>
-      <enumeration value="4Point"/>
-      <enumeration value="Dotted"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="borderColor" type="string" use="optional">
 	<annotation>
@@ -482,20 +462,10 @@
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>   
-   <attribute name="topBorder" use="optional">
+   <attribute name="topBorder" type="jr:border" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None"/>
-      <enumeration value="Thin"/>
-      <enumeration value="1Point"/>
-      <enumeration value="2Point"/>
-      <enumeration value="4Point"/>
-      <enumeration value="Dotted"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="topBorderColor" type="string" use="optional">
 	<annotation>
@@ -507,20 +477,10 @@
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="leftBorder" use="optional">
+   <attribute name="leftBorder" type="jr:border" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None"/>
-      <enumeration value="Thin"/>
-      <enumeration value="1Point"/>
-      <enumeration value="2Point"/>
-      <enumeration value="4Point"/>
-      <enumeration value="Dotted"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="leftBorderColor" type="string" use="optional">
 	<annotation>
@@ -532,20 +492,10 @@
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="bottomBorder" use="optional">
+   <attribute name="bottomBorder" type="string" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None"/>
-      <enumeration value="Thin"/>
-      <enumeration value="1Point"/>
-      <enumeration value="2Point"/>
-      <enumeration value="4Point"/>
-      <enumeration value="Dotted"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="bottomBorderColor" type="string" use="optional">
 	<annotation>
@@ -557,20 +507,10 @@
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="rightBorder" use="optional">
+   <attribute name="rightBorder" type="string" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None"/>
-      <enumeration value="Thin"/>
-      <enumeration value="1Point"/>
-      <enumeration value="2Point"/>
-      <enumeration value="4Point"/>
-      <enumeration value="Dotted"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="rightBorderColor" type="string" use="optional">
 	<annotation>
@@ -1501,6 +1441,41 @@
   </complexContent>
  </complexType>
 
+ <simpleType name="border">
+  <restriction base="string">
+   <enumeration value="None">
+    <annotation>
+     <documentation>No line.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="Thin">
+    <annotation>
+     <documentation>Thin line.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="1Point">
+    <annotation>
+     <documentation>Normal line.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="2Point">
+    <annotation>
+     <documentation>Medium line.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="4Point">
+    <annotation>
+     <documentation>Thick line.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="Dotted">
+    <annotation>
+     <documentation>Dotted line.</documentation>
+    </annotation>
+   </enumeration>
+  </restriction>
+ </simpleType>
+
  <element name="graphicElement">
   <annotation>
    <documentation>Element used to specify the common properties of a graphic object on the report (line, rectangle, ellipse or image).</documentation>
@@ -1521,44 +1496,10 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="pen" use="optional">
+   <attribute name="pen" type="jr:border" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>pen</elem>.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None">
-		<annotation>
-		 <documentation>No line.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Thin">
-		<annotation>
-		 <documentation>Thin line.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="1Point">
-		<annotation>
-		 <documentation>Normal line.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="2Point">
-		<annotation>
-		 <documentation>Medium line.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="4Point">
-		<annotation>
-		 <documentation>Thick line.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Dotted">
-		<annotation>
-		 <documentation>Dotted line.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="fill" use="optional">
 	<annotation>
@@ -1934,44 +1875,10 @@ This can be useful when, for instance, a border has to be drawn around the image
     <element ref="jr:bottomPen" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:rightPen" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="border" use="optional">
+   <attribute name="border" type="jr:border" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>pen</elem></documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None">
-		<annotation>
-		 <documentation>No border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Thin">
-		<annotation>
-		 <documentation>Thin border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="1Point">
-		<annotation>
-		 <documentation>Normal border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="2Point">
-		<annotation>
-		 <documentation>Medium border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="4Point">
-		<annotation>
-		 <documentation>Thick border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Dotted">
-		<annotation>
-		 <documentation>Dotted border.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="borderColor" type="string" use="optional">
 	<annotation>
@@ -1983,44 +1890,10 @@ This can be useful when, for instance, a border has to be drawn around the image
 	 <documentation>The amount of empty space between the border and the element's content.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="topBorder" use="optional">
+   <attribute name="topBorder" type="jr:border" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>topPen</elem></documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None">
-		<annotation>
-		 <documentation>No top border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Thin">
-		<annotation>
-		 <documentation>Thin top border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="1Point">
-		<annotation>
-		 <documentation>Normal top border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="2Point">
-		<annotation>
-		 <documentation>Medium top border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="4Point">
-		<annotation>
-		 <documentation>Thick top border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Dotted">
-		<annotation>
-		 <documentation>Dotted top border.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="topBorderColor" type="string" use="optional">
 	<annotation>
@@ -2032,44 +1905,10 @@ This can be useful when, for instance, a border has to be drawn around the image
 	 <documentation>The amount of empty space between the top border and the element's content.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="leftBorder" use="optional">
+   <attribute name="leftBorder" type="jr:border" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>leftPen</elem></documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None">
-		<annotation>
-		 <documentation>No left border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Thin">
-		<annotation>
-		 <documentation>Thin left border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="1Point">
-		<annotation>
-		 <documentation>Normal left border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="2Point">
-		<annotation>
-		 <documentation>Medium left border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="4Point">
-		<annotation>
-		 <documentation>Thick left border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Dotted">
-		<annotation>
-		 <documentation>Dotted left border.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="leftBorderColor" type="string" use="optional">
 	<annotation>
@@ -2081,44 +1920,10 @@ This can be useful when, for instance, a border has to be drawn around the image
 	 <documentation>The amount of empty space between the left border and the element's content.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="bottomBorder" use="optional">
+   <attribute name="bottomBorder" type="jr:border" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>bottomPen</elem></documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None">
-		<annotation>
-		 <documentation>No bottom border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Thin">
-		<annotation>
-		 <documentation>Thin bottom border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="1Point">
-		<annotation>
-		 <documentation>Normal bottom border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="2Point">
-		<annotation>
-		 <documentation>Medium bottom border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="4Point">
-		<annotation>
-		 <documentation>Thick bottom border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Dotted">
-		<annotation>
-		 <documentation>Dotted bottom border.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="bottomBorderColor" type="string" use="optional">
 	<annotation>
@@ -2130,44 +1935,10 @@ This can be useful when, for instance, a border has to be drawn around the image
 	 <documentation>The amount of empty space between the bottom border and the element's content.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="rightBorder" use="optional">
+   <attribute name="rightBorder" type="jr:border" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>rightPen</elem></documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="None">
-		<annotation>
-		 <documentation>No right border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Thin">
-		<annotation>
-		 <documentation>Thin right border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="1Point">
-		<annotation>
-		 <documentation>Normal right border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="2Point">
-		<annotation>
-		 <documentation>Medium right border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="4Point">
-		<annotation>
-		 <documentation>Thick right border.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Dotted">
-		<annotation>
-		 <documentation>Dotted right border.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="rightBorderColor" type="string" use="optional">
 	<annotation>
@@ -3179,6 +2950,15 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
+ <simpleType name="position">
+  <restriction base="string">
+   <enumeration value="Top"/>
+   <enumeration value="Bottom"/>
+   <enumeration value="Left"/>
+   <enumeration value="Right"/>
+  </restriction>
+ </simpleType>
+
  <element name="chartTitle">
   <annotation>
    <documentation>Title text of the chart.</documentation>
@@ -3188,18 +2968,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:titleExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="position" use="optional">
+   <attribute name="position" type="jr:position" use="optional">
     <annotation>
      <documentation>Position of the title</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Top"/>
-      <enumeration value="Bottom"/>
-      <enumeration value="Left"/>
-      <enumeration value="Right"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="color" type="string" use="optional">
     <annotation>
@@ -3256,18 +3028,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
      <documentation>The color of the background of the legend.</documentation>
     </annotation>
    </attribute>
-   <attribute name="position" use="optional">
+   <attribute name="position" type="jr:position" use="optional">
     <annotation>
      <documentation>Position of the legend.</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Top"/>
-      <enumeration value="Bottom"/>
-      <enumeration value="Left"/>
-      <enumeration value="Right"/>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -5062,6 +4826,28 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
 
+ <!-- FIXME check docs for all custom types -->
+ <simpleType name="axisPosition">
+  <restriction base="string">
+   <enumeration value="leftOrTop">
+    <annotation>
+     <documentation>Display the axis to the left (for charts with
+                    a Vertical orientation) or top (for charts with a
+                    Horizontal orientation.)
+     </documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="rightOrBottom">
+    <annotation>
+     <documentation>Display the axis to the right (for charts with
+                    a Vertical orientation) or bottom (for charts with a
+                    Horizontal orientation.)
+     </documentation>
+    </annotation>
+   </enumeration>
+  </restriction>
+ </simpleType>
+
  <element name="axis">
   <annotation>
    <documentation>Describes a range axis to use in a <elem>multiAxisChart</elem>. Each axis has its own range indicator and a data plot.
@@ -5086,30 +4872,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:stackedAreaChart"/>
     <element ref="jr:ganttChart"/>
    </choice>
-   <attribute name="position" use="optional">
+   <attribute name="position" type="jr:axisPosition" use="optional">
   	<annotation>
    	 <documentation>Indicates where relative to the chart to display the range axis for this chart</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="leftOrTop">
-		<annotation>
-		 <documentation>Display the axis to the left (for charts with
-                    a Vertical orientation) or top (for charts with a
-                    Horizontal orientation.)
-         </documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="rightOrBottom">
-		<annotation>
-		 <documentation>Display the axis to the right (for charts with
-                    a Vertical orientation) or bottom (for charts with a
-                    Horizontal orientation.)
-         </documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
