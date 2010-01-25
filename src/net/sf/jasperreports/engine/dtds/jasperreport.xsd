@@ -159,81 +159,25 @@
    		<documentation>Bottom margin.</documentation>
    	</annotation>
    </attribute>
-   <attribute name="isTitleNewPage" use="optional" default="false">
+   <attribute name="isTitleNewPage" type="boolean" use="optional" default="false">
    	<annotation>
-   		<documentation>Flag used to specify if the title section should be printed on a separate initial page.</documentation>
+   		<documentation>Flag used to specify if the title section should be printed on a separate initial page. If set to true, the title section will be printed on a separate initial page, otherwise, the title section will be printed on the first page of the report, along with the other sections.</documentation>
    	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-	   	<annotation>
-	   		<documentation>Title section will be printed on a separate initial page</documentation>
-	   	</annotation>
-      </enumeration>
-      <enumeration value="false">
-	   	<annotation>
-	   		<documentation>Title section will be printed on the first page of the report, along with the other sections.</documentation>
-	   	</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isSummaryNewPage" use="optional" default="false">
+   <attribute name="isSummaryNewPage" type="boolean" use="optional" default="false">
    	<annotation>
-   		<documentation>Flag used to specify if the summary section should be printed on a separate last page.</documentation>
+   		<documentation>Flag used to specify if the summary section should be printed on a separate last page. If set to true, the summary section will be printed on a separate last page, otherwise, the summary section will be printed on the last page of the report, along with the other sections, if there is enough space.</documentation>
    	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-	   	<annotation>
-	   		<documentation>Summary section will be printed on a separate last page.</documentation>
-	   	</annotation>
-      </enumeration>
-      <enumeration value="false">
-	   	<annotation>
-	   		<documentation>Summary section will be printed on the last page of the report, along with the other sections, if there is enough space.</documentation>
-	   	</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isSummaryWithPageHeaderAndFooter" use="optional" default="false">
+   <attribute name="isSummaryWithPageHeaderAndFooter" type="boolean" use="optional" default="false">
    	<annotation>
-   		<documentation>Flag used to specify if the summary section should be accompanied by the page header and footer.</documentation>
+   		<documentation>Flag used to specify if the summary section should be accompanied by the page header and footer. If set to true, the summary section will be printed along with the page header and footer, otherwise, the summary section will be printed without page header and footer.</documentation>
    	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-	   	<annotation>
-	   		<documentation>Summary section will be printed along with the page header and footer.</documentation>
-	   	</annotation>
-      </enumeration>
-      <enumeration value="false">
-	   	<annotation>
-	   		<documentation>Summary section will be printed without page header and footer.</documentation>
-	   	</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isFloatColumnFooter" use="optional" default="false">
+   <attribute name="isFloatColumnFooter" type="boolean" use="optional" default="false">
    	<annotation>
-   		<documentation>Flag used to specify if the column footer section should be printed at the bottom of the column or if it should immediately follow the last detail or group footer printed on the current column.</documentation>
+   		<documentation>Flag used to specify if the column footer section should be printed at the bottom of the column or if it should immediately follow the last detail or group footer printed on the current column.If set to true, the column footer section is printed immediately after the last detail or group footer printed on the current column, otherwise, the column footer section is printed at the bottom of the current column.</documentation>
    	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-	   	<annotation>
-	   		<documentation>The column footer section is printed immediately after the last detail or group footer printed on the current column.</documentation>
-	   	</annotation>
-      </enumeration>
-      <enumeration value="false">
-	   	<annotation>
-	   		<documentation>The column footer section is printed at the bottom of the current column.</documentation>
-	   	</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="scriptletClass" type="string" use="optional">
    	<annotation>
@@ -274,26 +218,12 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isIgnorePagination" use="optional" default="false">
+   <attribute name="isIgnorePagination" type="boolean" use="optional" default="false">
    	<annotation>
-   		<documentation>Flag used to specify whether to use pagination.
+   		<documentation>Flag used to specify whether to use pagination. If set to true, the report will be generated on one long page. The specified page height will still be used for report design. When set to false, the report will be paginated according to the pageHeight attribute.
 	  <p/>
 	  This attribute can be overridden at fill time by the IS_IGNORE_PAGINATION parameter.</documentation>
    	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-	   	<annotation>
-	   		<documentation>The report will be generated on one long page.  The specified page height will still be used for report design.</documentation>
-	   	</annotation>
-      </enumeration>
-      <enumeration value="false">
-	   	<annotation>
-	   		<documentation>The report will be paginated according to the pageHeight attribute.</documentation>
-	   	</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="formatFactoryClass" type="string" use="optional">
 	 <annotation>
@@ -386,16 +316,10 @@
 	 <documentation>Name of the report font definition.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="isDefault" use="optional" default="false">
+   <attribute name="isDefault" type="boolean" use="optional" default="false">
 	<annotation>
 	 <documentation>The default report font is used as base font for all the font definitions that do not explicitly reference a report font definition.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="fontName" type="string" use="optional">
 	<annotation>
@@ -407,49 +331,25 @@
 	 <documentation>Size of the font.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="isBold" use="optional">
+   <attribute name="isBold" type="boolean" use="optional">
 	<annotation>
 	 <documentation>Flag indicating if the font weight is bold</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isItalic" use="optional">
+   <attribute name="isItalic" type="boolean" use="optional">
 	<annotation>
 	 <documentation>Flag indicating if the font is italic</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isUnderline" use="optional">
+   <attribute name="isUnderline" type="boolean" use="optional">
 	<annotation>
 	 <documentation>Flag indicating if the font is underlined</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isStrikeThrough" use="optional">
+   <attribute name="isStrikeThrough" type="boolean" use="optional">
 	<annotation>
 	 <documentation>Flag indicating if the font is strikethrough</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="pdfFontName" type="string" use="optional">
 	<annotation>
@@ -461,16 +361,10 @@
 	 <documentation>Encoding type to use with the PDF font.</documentation>
 	</annotation>
    </attribute>   
-   <attribute name="isPdfEmbedded" use="optional">
+   <attribute name="isPdfEmbedded" type="boolean" use="optional">
 	<annotation>
 	 <documentation>Specifies if the PDF font should be embedded in the document.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -490,16 +384,10 @@
 	 <documentation>Name of the report style definition.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="isDefault" use="optional" default="false">
+   <attribute name="isDefault" type="boolean" use="optional" default="false">
 	<annotation>
 	 <documentation>The default report style is used as base style for all the elements that do not explicitly reference a report style definition.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="style" type="string" use="optional">
 	<annotation>
@@ -713,71 +601,23 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isStyledText" use="optional">
+   <attribute name="isStyledText" type="boolean" use="optional">
 	<annotation>
 	 <documentation><i>Deprecated</i>. Replaced by attribute <code>markup</code>.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="markup" type="string" use="optional"/>
    <attribute name="fontName" type="string" use="optional"/>
    <attribute name="fontSize" type="NMTOKEN" use="optional"/>
-   <attribute name="isBold" use="optional">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
-   </attribute>
-   <attribute name="isItalic" use="optional">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
-   </attribute>
-   <attribute name="isUnderline" use="optional">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
-   </attribute>
-   <attribute name="isStrikeThrough" use="optional">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
-   </attribute>
+   <attribute name="isBold" type="boolean" use="optional"/>
+   <attribute name="isItalic" type="boolean" use="optional"/>
+   <attribute name="isUnderline" type="boolean" use="optional"/>
+   <attribute name="isStrikeThrough" type="boolean" use="optional"/>
    <attribute name="pdfFontName" type="string" use="optional"/>
    <attribute name="pdfEncoding" type="string" use="optional"/>
-   <attribute name="isPdfEmbedded" use="optional">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
-   </attribute>
+   <attribute name="isPdfEmbedded" type="boolean" use="optional"/>
    <attribute name="pattern" type="string" use="optional"/>
-   <attribute name="isBlankWhenNull" use="optional">
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
-   </attribute>
+   <attribute name="isBlankWhenNull" type="boolean" use="optional"/>
   </complexType>
  </element>
 
@@ -953,16 +793,10 @@
    	 <documentation>Type of the nested elements, if the parameter's value is a collection</documentation>
   	</annotation>  
    </attribute>
-   <attribute name="isForPrompting" use="optional" default="true">
+   <attribute name="isForPrompting" type="boolean" use="optional" default="true">
   	<annotation>
    	 <documentation>Optional flag that might be used by the parent application to prompt the user for the parameter value.</documentation>
   	</annotation>  
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -1267,81 +1101,25 @@
   	 <documentation>Name of the group.</documentation>
  	</annotation>
    </attribute> 
-   <attribute name="isStartNewColumn" use="optional" default="false">
+   <attribute name="isStartNewColumn" type="boolean" use="optional" default="false">
  	<annotation>
-  	 <documentation>Flag that signals if the group header should be printed always on a new column.</documentation>
+  	 <documentation>Flag that signals if the group header should be printed always on a new column.If set to true, the group header section is printed always on a new column, otherwise, the group header section is printed on the current column, if there is enough space.</documentation>
  	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-	  	<annotation>
-	   	 <documentation>Group header section is printed always on a new column.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="false">
-	  	<annotation>
-	   	 <documentation>Group header section is printed on the current column, if there is enough space.</documentation>
-	  	</annotation>
-	  </enumeration> 
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isStartNewPage" use="optional" default="false">
+   <attribute name="isStartNewPage" type="boolean" use="optional" default="false">
  	<annotation>
-  	 <documentation>Flag that signals if the group header should be printed always on a new page.</documentation>
+  	 <documentation>Flag that signals if the group header should be printed always on a new page.If set to true, the group header section is printed always on a new page, otherwise, the group header section is printed on the current page, if there is enough space.</documentation>
  	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-	  	<annotation>
-	   	 <documentation>Group header section is printed always on a new page.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="false">
-	  	<annotation>
-	   	 <documentation>Group header section is printed on the current page, if there is enough space.</documentation>
-	  	</annotation>
-	  </enumeration> 
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isResetPageNumber" use="optional" default="false">
+   <attribute name="isResetPageNumber" type="boolean" use="optional" default="false">
  	<annotation>
-  	 <documentation>Flag that signals if the group header should be printed always on a new page, along with the re-initialization of the page number.</documentation>
+  	 <documentation>Flag that signals if the group header should be printed always on a new page, along with the re-initialization of the page number. If set to true, the group header section is printed always on a new page and the page number is reinitialized, otherwise, the group header section is printed accordingly with the <code>isStartNewPage</code> attribute and the page number is not affected.</documentation>
  	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-	  	<annotation>
-	   	 <documentation>Group header section is printed always on a new page and the page number is reinitialized.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="false">
-	  	<annotation>
-	   	 <documentation>Group header section is printed accordingly with the <code>isStartNewPage</code> attribute and the page number is not affected.</documentation>
-	  	</annotation>
-	  </enumeration> 
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isReprintHeaderOnEachPage" use="optional" default="false">
+   <attribute name="isReprintHeaderOnEachPage" type="boolean" use="optional" default="false">
  	<annotation>
-  	 <documentation>Flag that signals if the group header should be reprinted at the beginning of each page.</documentation>
+  	 <documentation>Flag that signals if the group header should be reprinted at the beginning of each page.If set to true, the group header section is reprinted always at the beginning of a new page. otherwise, the group header section is not reprinted at the beginning of a new page.</documentation>
  	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-	  	<annotation>
-	   	 <documentation>Group header section is reprinted always at the beginning of a new page.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="false">
-	  	<annotation>
-	   	 <documentation>Group header section is not reprinted at the beginning of a new page.</documentation>
-	  	</annotation>
-	  </enumeration> 
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="minHeightToStartNewPage" type="NMTOKEN" use="optional" default="0">
  	<annotation>
@@ -1377,24 +1155,10 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="keepTogether" use="optional" default="false">
+   <attribute name="keepTogether" type="boolean" use="optional" default="false">
  	<annotation>
-  	 <documentation>Flag that prevents the group from splitting on two separate pages/columns, but only on the first break attempt.</documentation>
+  	 <documentation>Flag that prevents the group from splitting on two separate pages/columns, but only on the first break attempt. If set to true, the group can split across two separate pages/column at any moment, otherwse, the group is moved onto a new new page/column, before being split.</documentation>
  	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-	  	<annotation>
-	   	 <documentation>Group can split across two separate pages/column at any moment.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="false">
-	  	<annotation>
-	   	 <documentation>Group is moved onto a new new page/column, before being split.</documentation>
-	  	</annotation>
-	  </enumeration> 
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -1538,24 +1302,10 @@
 	 <documentation>Height of the band.</documentation>
 	</annotation>  
    </attribute>
-   <attribute name="isSplitAllowed" use="optional">
+   <attribute name="isSplitAllowed" type="boolean" use="optional">
 	<annotation>
-	 <documentation><i>Deprecated</i>. Replaced by attribute <code>splitType</code>. Flag that indicates if the band is allowed to split when it stretches.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by attribute <code>splitType</code>. Flag that indicates if the band is allowed to split when it stretches.If set to true, the page breaks are accepted within this band, otherwise, when the band stretches and it does not fit on the current page, the content of the band will be transferred on the next new page. On this new page the flag will be ignored since the band has to be displayed even there is not enough space to acquire the stretch.</documentation>
 	</annotation>  
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation>Page breaks are accepted within this band.</documentation>
-		</annotation> 
-	  </enumeration> 
-      <enumeration value="false">
-		<annotation>
-		 <documentation>When the band stretches and it does not fit on the current page, the content of the band will be transferred on the next new page. On this new page the flag will be ignored since the band has to be displayed even there is not enough space to acquire the stretch.</documentation>
-		</annotation> 
-	  </enumeration> 
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="splitType" use="optional">
 	<annotation>
@@ -1658,24 +1408,10 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isPrintRepeatedValues" use="optional" default="true">
+   <attribute name="isPrintRepeatedValues" type="boolean" use="optional" default="true">
 	<annotation>
-	 <documentation>This flag allows suppressing the repeating values for the dynamic elements such as text fields and image fields and to fully customize the behavior of the static elements like rectangles, lines, ellipses and static texts.</documentation>
+	 <documentation>This flag allows suppressing the repeating values for the dynamic elements such as text fields and image fields and to fully customize the behavior of the static elements like rectangles, lines, ellipses and static texts.If set to true, the dynamic elements will print even if their values repeat. Static elements will appear every time the band that contains them is started. If set to false, it suppresses the repeated values for the dynamic elements. The static elements will print only according to the other 3 attributes: <code>isPrintInFirstWholeBand</code>, <code>isPrintWhenDetailOverflows</code>, <code>printWhenGroupChanges</code>.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation>Dynamic elements will print even if their values repeat. Static elements will appear every time the band that contains them is started.</documentation>
-		</annotation>
-	  </enumeration>  
-      <enumeration value="false">
-		<annotation>
-		 <documentation>Suppresses the repeated values for the dynamic elements. The static elements will print only according to the other 3 attributes: <code>isPrintInFirstWholeBand</code>, <code>isPrintWhenDetailOverflows</code>, <code>printWhenGroupChanges</code>.</documentation>
-		</annotation>
-	  </enumeration>  
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="mode" use="optional">
 	<annotation>
@@ -1716,62 +1452,20 @@
 	 <documentation>Height of the object.</documentation>
 	</annotation>
    </attribute>  
-   <attribute name="isRemoveLineWhenBlank" use="optional" default="false">
+   <attribute name="isRemoveLineWhenBlank" type="boolean" use="optional" default="false">
 	<annotation>
 	 <documentation>Collapses the band if the element is not printing and no other element is occupying the same horizontal space.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>  
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>  
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isPrintInFirstWholeBand" use="optional" default="false">
+   <attribute name="isPrintInFirstWholeBand" type="boolean" use="optional" default="false">
 	<annotation>
 	 <documentation>The element gets printed in the first band of a new page or column that is not an overflow from a previous page or column.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>  
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>  
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isPrintWhenDetailOverflows" use="optional" default="false">
+   <attribute name="isPrintWhenDetailOverflows" type="boolean" use="optional" default="false">
 	<annotation>
 	 <documentation>The element will be printed when the band overflows to a new page or a new column.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>  
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>  
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="printWhenGroupChanges" type="string" use="optional">
 	<annotation>
@@ -2086,43 +1780,15 @@ This can be useful when, for instance, a border has to be drawn around the image
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isUsingCache" use="optional">
+   <attribute name="isUsingCache" type="boolean" use="optional">
 	<annotation>
 	 <documentation>If true, tells the report engine to cache the images that are loaded from the same location.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isLazy" use="optional" default="false">
+   <attribute name="isLazy" type="boolean" use="optional" default="false">
 	<annotation>
-	 <documentation>Gives control over when the images are retrieved from their specified location.</documentation>
+	 <documentation>Gives control over when the images are retrieved from their specified location. If set to true, the image is loaded from the specified location only when the document is viewed or exported to other formats, otherwise, the image is loaded during the report filling process and stored in the resulting document.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation>The image is loaded from the specified location only when the document is viewed or exported to other formats.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation>The image is loaded during the report filling process and stored in the resulting document.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="onErrorType" use="optional" default="Error">
 	<annotation>
@@ -2911,27 +2577,13 @@ This can be useful when, for instance, a border has to be drawn around the image
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isStyledText" use="optional">
+   <attribute name="isStyledText" type="boolean" use="optional">
     <annotation>
      <documentation><i>Deprecated</i>. Replaced by attribute <code>markup</code>.
      <p/>
      When set to <code>true</code>, this attribute signals to the rendering engine that the text element contains preformatted text. Style information can be introduced in the text content using nested <code>&lt;style&gt;</code> tags that support the folowing attributes : <code>fontName, size, isBold, isItalic, isUnderline, isStrikeThrough, pdfFontName, pdfEncoding, isPdfEmbedded, forecolor, backcolor</code>.
      </documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation>The text element contains text formatted using nested <code>&lt;style&gt;</code> tags.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation>The text element has a pure text content, without style information.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="markup" type="string" use="optional">
     <annotation>
@@ -2961,81 +2613,25 @@ This can be useful when, for instance, a border has to be drawn around the image
      <documentation>Size of the font.</documentation>
     </annotation>
    </attribute>
-   <attribute name="isBold" use="optional">
+   <attribute name="isBold" type="boolean" use="optional">
     <annotation>
      <documentation></documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isItalic" use="optional">
+   <attribute name="isItalic" type="boolean" use="optional">
     <annotation>
      <documentation></documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isUnderline" use="optional">
+   <attribute name="isUnderline" type="boolean" use="optional">
     <annotation>
      <documentation></documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isStrikeThrough" use="optional">
+   <attribute name="isStrikeThrough" type="boolean" use="optional">
     <annotation>
      <documentation></documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="pdfFontName" type="string" use="optional">
     <annotation>
@@ -3047,24 +2643,10 @@ This can be useful when, for instance, a border has to be drawn around the image
      <documentation>Encoding type to use with the PDF font.</documentation>
     </annotation>
    </attribute>
-   <attribute name="isPdfEmbedded" use="optional">
+   <attribute name="isPdfEmbedded" type="boolean" use="optional">
     <annotation>
      <documentation>Specifies if the PDF font should be embedded in the document.</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -3085,24 +2667,10 @@ This can be useful when, for instance, a border has to be drawn around the image
     <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
-   <attribute name="isStretchWithOverflow" use="optional" default="false">
+   <attribute name="isStretchWithOverflow" type="boolean" use="optional" default="false">
     <annotation>
      <documentation>Instructs the report engine to allow the text field to stretch downwards in order to display all its text when it doesn't fit in the defined text field height.</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="evaluationTime" use="optional" default="Now" type="jr:complexEvaluationTime">
     <annotation>
@@ -3119,24 +2687,10 @@ This can be useful when, for instance, a border has to be drawn around the image
      <documentation>Pattern to use when formatting the output of the text field expression.</documentation>
     </annotation>
    </attribute>
-   <attribute name="isBlankWhenNull" use="optional">
+   <attribute name="isBlankWhenNull" type="boolean" use="optional">
     <annotation>
      <documentation>Specifies that the text field should display a blank character instead of "null" when the text field expression evaluates to <code>null</code>.</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="hyperlinkType" type="string" use="optional">
     <annotation>
@@ -3289,43 +2843,15 @@ This can be useful when, for instance, a border has to be drawn around the image
     <element ref="jr:returnValue" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:subreportExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isUsingCache" use="optional">
+   <attribute name="isUsingCache" type="boolean" use="optional">
     <annotation>
      <documentation>If true, tells the report engine to cache the report definition objects that are loaded from the same location.</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="runToBottom" use="optional">
+   <attribute name="runToBottom" type="boolean" use="optional">
     <annotation>
      <documentation>Flag to specify if the subreport should consume all the available space on the current page. When this flag is set, the subreport would consume the entire vertical space available on the master page, and its column and page footers will be printed at the bottom of this space.</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
     </extension>
    </complexContent>
@@ -3564,24 +3090,10 @@ This can be useful when, for instance, a border has to be drawn around the image
     <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
-   <attribute name="isShowLegend" use="optional">
+   <attribute name="isShowLegend" type="boolean" use="optional">
     <annotation>
      <documentation>Show legend flag</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="evaluationTime" use="optional" default="Now" type="jr:basicEvaluationTime">
     <annotation>
@@ -3987,16 +3499,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:plot"/>
     <element ref="jr:itemLabel" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isCircular" use="optional">
+   <attribute name="isCircular" type="boolean" use="optional">
     <annotation>
      <documentation>Indicates whether the pie chart is circular, or stretched into an elliptical shape</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="labelFormat" type="string" use="optional">
     <annotation>
@@ -4226,16 +3732,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
  	 <documentation>Depth factor for a pie chart plot.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="isCircular" use="optional">
+   <attribute name="isCircular" type="boolean" use="optional">
 	<annotation>
  	 <documentation>Indicates whether the pie chart is circular, or stretched into an elliptical shape</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="labelFormat" type="string" use="optional">
 	<annotation>
@@ -4370,38 +3870,20 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowLabels" use="optional">
+   <attribute name="isShowLabels" type="boolean" use="optional">
     <annotation>
      <documentation>Show labels flag.</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isShowTickMarks" use="optional">
+   <attribute name="isShowTickMarks" type="boolean" use="optional">
     <annotation>
      <documentation>Show tick marks on the value axis</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isShowTickLabels" use="optional">
+   <attribute name="isShowTickLabels" type="boolean" use="optional">
     <annotation>
      <documentation>Show tick labels on the value axis</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -4577,16 +4059,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowLabels" use="optional">
+   <attribute name="isShowLabels" type="boolean" use="optional">
     <annotation>
      <documentation>Show labels flag.</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="xOffset" type="string" use="optional">
     <annotation>
@@ -4726,27 +4202,15 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowLines" use="optional">
+   <attribute name="isShowLines" type="boolean" use="optional">
 	<annotation>
  	 <documentation>Show lines flag.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isShowShapes" use="optional">
+   <attribute name="isShowShapes" type="boolean" use="optional">
 	<annotation>
  	 <documentation>Show shapes flag.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -4877,27 +4341,15 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowLines" use="optional">
+   <attribute name="isShowLines" type="boolean" use="optional">
   	<annotation>
    	 <documentation>Show lines flag</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isShowShapes" use="optional">
+   <attribute name="isShowShapes" type="boolean" use="optional">
   	<annotation>
    	 <documentation>Show shapes flag</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -5099,27 +4551,15 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowLines" use="optional">
+   <attribute name="isShowLines" type="boolean" use="optional">
   	<annotation>
    	 <documentation>Show lines flag.</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isShowShapes" use="optional">
+   <attribute name="isShowShapes" type="boolean" use="optional">
   	<annotation>
    	 <documentation>Show shapes flag.</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -5192,27 +4632,15 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowCloseTicks" use="optional">
+   <attribute name="isShowCloseTicks" type="boolean" use="optional">
   	<annotation>
    	 <documentation>Show close tick flag.</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isShowOpenTicks" use="optional">
+   <attribute name="isShowOpenTicks" type="boolean" use="optional">
   	<annotation>
    	 <documentation>Show open tick flag.</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -5282,16 +4710,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:rangeAxisMinValueExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:rangeAxisMaxValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isShowVolume" use="optional">
+   <attribute name="isShowVolume" type="boolean" use="optional">
   	<annotation>
    	 <documentation>Flag that enables showing volume values for a <elem>candlestickChart</elem>.</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true"/>
-      <enumeration value="false"/>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -5546,24 +4968,10 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="isShowValueLines" use="optional" default="false">
+   <attribute name="isShowValueLines" type="boolean" use="optional" default="false">
   	<annotation>
    	 <documentation>Defines whether or not lines are drawn showing values on the thermometer.</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation>Value lines are drawn.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation>Value lines are not drawn.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="mercuryColor" type="string" use="optional">
   	<annotation>
@@ -5727,43 +5135,15 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:crosstabCell" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:whenNoDataCell" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isRepeatColumnHeaders" use="optional" default="true">
+   <attribute name="isRepeatColumnHeaders" type="boolean" use="optional" default="true">
   	<annotation>
    	 <documentation>Flag that indicates whether the column headers will be reprinted after a page break.</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation>The column headers will be reprinted after a page break.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation>The column headers will be printed only on the page where the crosstab starts.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
-   <attribute name="isRepeatRowHeaders" use="optional" default="true">
+   <attribute name="isRepeatRowHeaders" type="boolean" use="optional" default="true">
   	<annotation>
-   	 <documentation>Flag that indicates whether the row headers will be reprinted after a crosstab column break.</documentation>
+   	 <documentation>Flag that indicates whether the row headers will be reprinted after a crosstab column break. If set to true, the row headers will be reprinted after a crosstab column break, otherwise, the column headers will be printed for all rows only for the first set of columns and not after a column break.</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation>The row headers will be reprinted after a crosstab column break.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation>The column headers will be printed for all rows only for the first set of columns and not after a column break.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="columnBreakOffset" type="NMTOKEN" use="optional" default="10">
   	<annotation>
@@ -5860,28 +5240,16 @@ property.
    <sequence>
     <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="isDataPreSorted" use="optional" default="false">
+   <attribute name="isDataPreSorted" type="boolean" use="optional" default="false">
   	<annotation>
    	 <documentation>Flag that indicates whether the crosstab data is already sorted according to the row bucket expressions and group bucket expressions (in this order).
       <p/>
       The crosstab calculation engine can optimize the calculations if the data is sorted by the row groups and column groups.
       For example, if there are two row groups R1 and R2 (subgroup of R1) and three column groups C1, C2 and C3 the data should be sorted  by R1, R2, C1, C2, C3.
+      <p/>
+      If set to true, the calculation engine will assume that the data is presorted. If the data is not presorted, the outcome is undefined.
      </documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="true">
-		<annotation>
-		 <documentation>The calculation engine will assume that the data is presorted.  If the data is not presorted, the outcome is undefined.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="false">
-		<annotation>
-		 <documentation>The crosstab dataset data is not presorted.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
