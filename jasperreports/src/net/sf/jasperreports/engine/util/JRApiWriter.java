@@ -142,6 +142,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
+import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
@@ -395,13 +396,18 @@ public class JRApiWriter
 			for (int i = 0; i < datasets.length; ++i)
 			{
 				writeDataset(indent, datasets[i], "reportDataset" + i);
-				write(indent + "jasperDesign.addDataset(reportDataset" + i + ");\n");
+				if(datasets[i] != null)
+					write(indent + "jasperDesign.addDataset(reportDataset" + i + ");\n");
 			}
 			write("\n");
 			flush();
 		}
 
-//		writeDatasetContents(indent, report.getMainDataset(), "reportMainDataset");
+		if(report.getMainDataset() != null)
+		{
+			writeDataset(indent, report.getMainDataset(), "reportMainDataset");
+			write(indent + "jasperDesign.setMainDataset(reportMainDataset);\n");
+		}
 
 		if (report.getBackground() != null)
 		{
