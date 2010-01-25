@@ -830,6 +830,66 @@
   </complexType>
  </element>
 
+ <simpleType name="calculation">
+  <restriction base="string">
+   <enumeration value="Nothing">
+    <annotation>
+     <documentation>No calculations are performed.</documentation>
+    </annotation>
+   </enumeration> 
+   <enumeration value="Count">
+    <annotation>
+     <documentation>Variable stores the number of the not null values encountered for the variable expression.</documentation>
+    </annotation>
+   </enumeration> 
+   <enumeration value="DistinctCount">
+    <annotation>
+     <documentation>Variable stores the number of distinct not null values encountered for the variable expression.</documentation>
+    </annotation>
+   </enumeration> 
+   <enumeration value="Sum">
+  	<annotation>
+   	 <documentation>Variable stores the sum of the not null values encountered for the variable expression. Numeric variables only.</documentation>
+  	</annotation>
+   </enumeration> 
+   <enumeration value="Average">
+  	<annotation>
+   	 <documentation>Variable stores the average of the not null values encountered for the variable expression. Numeric variables only.</documentation>
+  	</annotation>
+   </enumeration> 
+   <enumeration value="Lowest">
+  	<annotation>
+   	 <documentation>Variable stores the lowest value encountered for the variable expression.</documentation>
+  	</annotation>
+   </enumeration> 
+   <enumeration value="Highest">
+  	<annotation>
+   	 <documentation>Variable stores the highest value encountered for the variable expression.</documentation>
+  	</annotation>
+   </enumeration> 
+   <enumeration value="StandardDeviation">
+  	<annotation>
+   	 <documentation>Variable stores the standard deviation of the not null values encountered for the variable expression. Numeric variables only.</documentation>
+  	</annotation>
+   </enumeration> 
+   <enumeration value="Variance">
+  	<annotation>
+   	 <documentation>Variable stores the variance of the not null values encountered for the variable expression. Numeric variables only.</documentation>
+  	</annotation>
+   </enumeration> 
+   <enumeration value="System">
+  	<annotation>
+   	 <documentation>Variable stores a system (custom) calculated value.</documentation>
+  	</annotation>
+   </enumeration> 
+   <enumeration value="First">
+  	<annotation>
+   	 <documentation>Variable stores the first value encountered and ignores subsequent values.</documentation>
+  	</annotation>
+   </enumeration> 
+  </restriction>
+ </simpleType>
+
  <element name="variable">
   <annotation>
    <documentation>Represents the definition of a report variable. Variables are objects that store the values of their associated expressions or perform various calculations on those expression values. Expressions are java expressions build on top of fields and variables declared in the report. They are evaluated at runtime, when filling the report.</documentation>
@@ -927,69 +987,10 @@
    	 <documentation>Name of the group at which the variable is incremented, when <code>incrementType</code> is "Group".</documentation>
   	</annotation>
    </attribute>  
-   <attribute name="calculation" use="optional" default="Nothing">
+   <attribute name="calculation" type="jr:calculation" use="optional" default="Nothing">
   	<annotation>
    	 <documentation>Calculation to perform on the variable expression when filling the report.</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Nothing">
-	  	<annotation>
-	   	 <documentation>No calculations are performed.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="Count">
-	  	<annotation>
-	   	 <documentation>Variable stores the number of the not null values encountered for the variable expression.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="DistinctCount">
-	  	<annotation>
-	   	 <documentation>Variable stores the number of distinct not null values encountered for the variable expression.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="Sum">
-	  	<annotation>
-	   	 <documentation>Variable stores the sum of the not null values encountered for the variable expression. Numeric variables only.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="Average">
-	  	<annotation>
-	   	 <documentation>Variable stores the average of the not null values encountered for the variable expression. Numeric variables only.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="Lowest">
-	  	<annotation>
-	   	 <documentation>Variable stores the lowest value encountered for the variable expression.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="Highest">
-	  	<annotation>
-	   	 <documentation>Variable stores the highest value encountered for the variable expression.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="StandardDeviation">
-	  	<annotation>
-	   	 <documentation>Variable stores the standard deviation of the not null values encountered for the variable expression. Numeric variables only.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="Variance">
-	  	<annotation>
-	   	 <documentation>Variable stores the variance of the not null values encountered for the variable expression. Numeric variables only.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="System">
-	  	<annotation>
-	   	 <documentation>Variable stores a system (custom) calculated value.</documentation>
-	  	</annotation>
-	  </enumeration> 
-      <enumeration value="First">
-	  	<annotation>
-	   	 <documentation>Variable stores the first value encountered and ignores subsequent values.</documentation>
-	  	</annotation>
-	  </enumeration> 
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="incrementerFactoryClass" type="string" use="optional">
  	<annotation>
@@ -2672,64 +2673,10 @@ This can be useful when, for instance, a border has to be drawn around the image
      <documentation>Name of the master report variable to which the value is returned. This should be a variable with <code>calculation="System"</code></documentation>
     </annotation>
    </attribute>
-   <attribute name="calculation" use="optional" default="Nothing">
+   <attribute name="calculation" type="jr:calculation" use="optional" default="Nothing">
     <annotation>
      <documentation>Calculation to perform on the master report variable when returning the value from the subreport.</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Nothing">
-		<annotation>
-		 <documentation>No calculations are performed.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Count">
-		<annotation>
-		 <documentation>Variable stores the number of the not null values returned from the subreport.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="DistinctCount">
-		<annotation>
-		 <documentation>Variable stores the number of distinct not null values returned from the subreport.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Sum">
-		<annotation>
-		 <documentation>Variable stores the sum of the not null values returned from the subreport. Numeric variables only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Average">
-		<annotation>
-		 <documentation>Variable stores the average of the not null values returned from the subreport. Numeric variables only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Lowest">
-		<annotation>
-		 <documentation>Variable stores the lowest value returned from the subreport.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Highest">
-		<annotation>
-		 <documentation>Variable stores the highest value returned from the subreport.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="StandardDeviation">
-		<annotation>
-		 <documentation>Variable stores the standard deviation of the not null values returned from the subreport. Numeric variables only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Variance">
-		<annotation>
-		 <documentation>Variable stores the variance of the not null values returned from the subreport. Numeric variables only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="First">
-		<annotation>
-		 <documentation>Variable stores the first value encountered and ignores subsequent values.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="incrementerFactoryClass" type="string" use="optional">
     <annotation>
@@ -5393,64 +5340,10 @@ property.
    	 <documentation>The measure values class.</documentation>
   	</annotation>
    </attribute>
-   <attribute name="calculation" use="optional" default="Nothing">
+   <attribute name="calculation" type="jr:calculation" use="optional" default="Nothing">
   	<annotation>
    	 <documentation>The calculation type to be performed on the measure values.</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Nothing">
-		<annotation>
-		 <documentation>No calculations are performed.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Count">
-		<annotation>
-		 <documentation>The measure stores the number of the not null values.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="DistinctCount">
-		<annotation>
-		 <documentation>The measure stores the number of distinct not null values.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Sum">
-		<annotation>
-		 <documentation>The measure stores the sum of the not null values.  Numeric measures only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Average">
-		<annotation>
-		 <documentation>The measure stores the average of the not null values.  Numeric measures only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Lowest">
-		<annotation>
-		 <documentation>The measure stores the lowest value.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Highest">
-		<annotation>
-		 <documentation>The measure stores the highest value.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="StandardDeviation">
-		<annotation>
-		 <documentation>The measure stores the standard deviation of the not null values.  Numeric measures only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Variance">
-		<annotation>
-		 <documentation>The measure stores the variance of the not null values.  Numeric measures only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="First">
-		<annotation>
-		 <documentation>The measure stores the first value encountered and ignores subsequent values.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="incrementerFactoryClass" type="string" use="optional">
   	<annotation>
