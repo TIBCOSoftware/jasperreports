@@ -89,7 +89,7 @@
 		</java>
 	</target>
 
-	<target name="writeXml" if="using.jdk.1.5" description="Generates a report design XML files from a .jasper files.">
+	<target name="writeXml" if="using.jdk.1.5" description="Generates a report design XML file from a .jasper file.">
 		<ant dir="../" target="writeXml"/>
 	</target>
 
@@ -97,7 +97,7 @@
 		<ant dir="../" target="viewDesignXML"/>
 	</target>
 
-	<target name="writeApi" description="Generates a .java version of the reports by converting the .jrxml files.">
+	<target name="writeApi" description="Generates a .java version of the report by converting the .jrxml file.">
 		<ant dir="../" target="writeApi"/>
 	</target>
 
