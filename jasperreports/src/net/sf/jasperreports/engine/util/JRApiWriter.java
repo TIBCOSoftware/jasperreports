@@ -101,6 +101,7 @@ import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRField;
@@ -216,7 +217,10 @@ public class JRApiWriter
 		try
 		{
 			fos = new FileOutputStream(destFileName);
-			Writer out = new OutputStreamWriter(fos, "UTF-8");//FIXME should we have encoding as parameter? or use default encoding? check all here
+			String encoding = report.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING) != null
+			? report.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING)
+			: "UTF-8";
+			Writer out = new OutputStreamWriter(fos, encoding);
 			JRApiWriter writer = new JRApiWriter(report);
 			writer.writeReport(out);
 		}
@@ -250,7 +254,11 @@ public class JRApiWriter
 	{
 		try
 		{
-			Writer out = new OutputStreamWriter(outputStream, "UTF-8");
+			String encoding = report.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING) != null
+			? report.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING)
+			: "UTF-8";
+			
+			Writer out = new OutputStreamWriter(outputStream, encoding);
 			JRApiWriter writer = new JRApiWriter(report);
 			writer.writeReport(out);
 		}
@@ -1522,7 +1530,6 @@ public class JRApiWriter
 		{
 			String categorySeriesName = parentName + "CategorySeries" + index;
 			//TODO: instantiate categorySeries
-//			writer.startElement(JRXmlConstants.ELEMENT_categorySeries);
 			write(indent + "JRDesignCategorySeries " + categorySeriesName + " = " + parentName + ".getSeries()[" + index + "];\n");
 
 			writeExpression(indent, categorySeries.getSeriesExpression(), categorySeriesName, "SeriesExpression");
