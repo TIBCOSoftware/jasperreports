@@ -56,7 +56,6 @@ public class ApiWriterVisitor implements JRVisitor
 {
 	
 	private JRApiWriter apiWriter;
-	private String indent;
 	private String name;
 	
 	/**
@@ -72,7 +71,7 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitBreak(JRBreak breakElement)
 	{
-		apiWriter.writeBreak(indent, breakElement, name);
+		apiWriter.writeBreak(breakElement, name);
 	}
 
 	/**
@@ -80,7 +79,7 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitChart(JRChart chart)
 	{
-		apiWriter.writeChartTag(indent, chart, name);
+		apiWriter.writeChartTag(chart, name);
 	}
 
 	/**
@@ -88,7 +87,7 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitCrosstab(JRCrosstab crosstab)
 	{
-		apiWriter.writeCrosstab(indent, crosstab, name);
+		apiWriter.writeCrosstab(crosstab, name);
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitElementGroup(JRElementGroup elementGroup)
 	{
-		apiWriter.writeElementGroup(indent, elementGroup, name);
+		apiWriter.writeElementGroup(elementGroup, name);
 	}
 
 	/**
@@ -104,7 +103,7 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitEllipse(JREllipse ellipse)
 	{
-		apiWriter.writeEllipse(indent, ellipse, name);
+		apiWriter.writeEllipse(ellipse, name);
 	}
 
 	/**
@@ -112,7 +111,7 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitFrame(JRFrame frame)
 	{
-		apiWriter.writeFrame(indent, frame, name);
+		apiWriter.writeFrame(frame, name);
 	}
 
 	/**
@@ -120,7 +119,7 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitImage(JRImage image)
 	{
-		apiWriter.writeImage(indent, image, name);
+		apiWriter.writeImage(image, name);
 	}
 
 	/**
@@ -128,7 +127,7 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitLine(JRLine line)
 	{
-		apiWriter.writeLine(indent, line, name);
+		apiWriter.writeLine(line, name);
 	}
 
 	/**
@@ -136,7 +135,7 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitRectangle(JRRectangle rectangle)
 	{
-		apiWriter.writeRectangle(indent, rectangle, name);
+		apiWriter.writeRectangle(rectangle, name);
 	}
 
 	/**
@@ -144,7 +143,7 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitStaticText(JRStaticText staticText)
 	{
-		apiWriter.writeStaticText(indent, staticText, name);
+		apiWriter.writeStaticText(staticText, name);
 	}
 
 	/**
@@ -152,7 +151,7 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitSubreport(JRSubreport subreport)
 	{
-		apiWriter.writeSubreport(indent, subreport, name);
+		apiWriter.writeSubreport(subreport, name);
 	}
 
 	/**
@@ -160,34 +159,18 @@ public class ApiWriterVisitor implements JRVisitor
 	 */
 	public void visitTextField(JRTextField textField)
 	{
-		apiWriter.writeTextField(indent, textField, name);
+		apiWriter.writeTextField(textField, name);
 	}
 	
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
-		apiWriter.writeComponentElement(indent, componentElement, name);
+		apiWriter.writeComponentElement(componentElement, name);
 	}
 
 	public void visitGenericElement(JRGenericElement element)
 	{
-		apiWriter.writeGenericElement(indent, element, name);
+		apiWriter.writeGenericElement(element, name);
 	}
-
-	/**
-     * @return the indent
-     */
-    public String getIndent()
-    {
-    	return indent;
-    }
-
-	/**
-     * @param indent the indent to set
-     */
-    public void setIndent(String indent)
-    {
-    	this.indent = indent;
-    }
 
 	/**
      * @return the name
