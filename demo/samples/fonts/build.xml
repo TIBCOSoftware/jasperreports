@@ -95,8 +95,8 @@
 		<ant dir="../" target="viewDesign"/>
 	</target>
 
-	<target name="api" description="Generates a .java version of the report by converting the .jrprint file.">
-		<ant dir="../" target="api"/>
+	<target name="writeApi" description="Generates a .java version of the report by converting the .jrxml file.">
+		<ant dir="../" target="writeApi"/>
 	</target>
 
 	<target name="clean" description="Deletes all the generated files.">
@@ -124,7 +124,7 @@
 		<antcall target="docx" />
 		<antcall target="xlsx" />
 		<antcall target="xhtml" />
-		<antcall target="api" />
+		<antcall target="writeApi" />
 	</target>
 
 </project>

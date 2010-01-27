@@ -220,12 +220,20 @@
 		</java>
 	</target>
 
-	<target name="api">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="api"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jasper"/>
+	<target name="writeApi">
+		<mkdir dir="${sample.dir}/build/reports"/> 
+		<taskdef name="jraw" classname="net.sf.jasperreports.ant.JRAntApiWriteTask"> 
 			<classpath refid="classpath"/>
-		</java>
+		</taskdef>
+		<jraw destdir="${sample.dir}/build/reports">
+			<src>
+				<fileset dir="${sample.dir}/reports">
+					<include name="**/*.jasper"/>
+					<include name="**/*.jrxml"/>
+				</fileset>
+			</src>
+			<classpath refid="classpath"/>
+		</jraw> 
 	</target>
 
 	<target name="clean-sample">

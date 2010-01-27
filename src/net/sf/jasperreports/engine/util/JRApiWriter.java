@@ -219,7 +219,7 @@ public class JRApiWriter
 			fos = new FileOutputStream(destFileName);
 			String encoding = report.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING) != null
 			? report.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING)
-			: "UTF-8";
+			: "UTF-8";//FIXME this is an export time config property
 			Writer out = new OutputStreamWriter(fos, encoding);
 			JRApiWriter writer = new JRApiWriter(report);
 			writer.writeReport(out);
@@ -316,7 +316,7 @@ public class JRApiWriter
 		String indent = "";
 		write("\n");
 		write("\n");
-		write("public class " + JRStringUtil.escapeJavaStringLiteral(report.getName()) + "_Generator\n");
+		write("public class " + JRStringUtil.escapeJavaStringLiteral(report.getName()));
 		write("{\n");
 		write("\n");
 		indent += "  ";
