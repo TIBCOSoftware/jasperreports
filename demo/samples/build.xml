@@ -220,6 +220,21 @@
 		</java>
 	</target>
 
+	<target name="writeXml">
+		<mkdir dir="${sample.dir}/build/reports"/> 
+		<taskdef name="jrdc" classname="net.sf.jasperreports.ant.JRAntDecompileTask"> 
+			<classpath refid="classpath"/>
+		</taskdef>
+		<jrdc destdir="${sample.dir}/build/reports">
+			<src>
+				<fileset dir="${sample.dir}/build/reports">
+					<include name="**/*.jasper"/>
+				</fileset>
+			</src>
+			<classpath refid="classpath"/>
+		</jrdc> 
+	</target>
+
 	<target name="writeApi">
 		<mkdir dir="${sample.dir}/build/reports"/> 
 		<taskdef name="jraw" classname="net.sf.jasperreports.ant.JRAntApiWriteTask"> 
