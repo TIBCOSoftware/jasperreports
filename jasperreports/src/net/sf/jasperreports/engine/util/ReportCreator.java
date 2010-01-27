@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 
@@ -30,12 +31,12 @@ import net.sf.jasperreports.engine.design.JasperDesign;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRAntCompileTask.java 1606 2007-02-28 08:21:12Z lucianc $
  */
-public interface ReportUpdater
+public interface ReportCreator
 {
 
 	/**
 	 * 
 	 */
-	public JasperDesign update(JasperDesign jasperDesign);
+	public JasperDesign create() throws JRException;
 
 }
