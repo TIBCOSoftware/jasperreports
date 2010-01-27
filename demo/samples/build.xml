@@ -251,6 +251,18 @@
 		</jraw> 
 	</target>
 
+	<target name="writeApiXml">
+		<mkdir dir="${sample.dir}/build/classes"/> 
+		<javac srcdir="${sample.dir}/build/reports" destdir="${sample.dir}/build/classes" debug="true" optimize="false" deprecation="false">
+			<classpath refid="classpath"/>
+		</javac>
+		<java classname="net.sf.jasperreports.engine.util.JRApiWriter" fork="true">
+			<arg value="${sample.report.name}"/>
+			<arg value="${sample.dir}/build/reports/${sample.report.name}.api.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="clean-sample">
 		<delete dir="${sample.dir}/build" />
 	</target>
