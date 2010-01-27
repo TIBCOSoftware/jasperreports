@@ -5,7 +5,7 @@
 	<property name="sample.dir" value="charts"/>
 	<property name="sample.base.name" value="Charts" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
-	<property name="sample.report.name" value="${sample.base.name}Report" />
+	<property name="sample.report.name" value="AreaChartReport" />
 	
 	<property name="class.name" value="ChartsApp" />
 	<property name="classes.dir" value="../../../build/classes" />
@@ -89,27 +89,20 @@
 		</java>
 	</target>
 
-	<target name="writeXml" if="using.jdk.1.5" description="Generates a report design XML file from a .jasper file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="writeXml"/>
-			<arg value="${basedir}/build/reports"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="writeXml" if="using.jdk.1.5" description="Generates a report design XML files from a .jasper files.">
+		<ant dir="../" target="writeXml"/>
 	</target>
 
 	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design.">
-		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="${basedir}/reports/AreaChartReport.jrxml"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="viewDesignXML"/>
 	</target>
 
-	<target name="writeApi" description="Generates a .java version of the report by converting the .jrxml file.">
+	<target name="writeApi" description="Generates a .java version of the reports by converting the .jrxml files.">
 		<ant dir="../" target="writeApi"/>
 	</target>
 
 	<target name="clean" description="Deletes all the generated files.">
-		<delete dir="./build" />
+		<ant dir="../" target="clean-sample"/>
 	</target>
 	
 	<target name="test" description="Runs the sample.">
