@@ -388,15 +388,11 @@ public class JRAntCompileTask extends MatchingTask
 		
 			System.out.println("Compiling " + files.size() + " report design files.");
 
-			String srcFileName = null;
-			String destFileName = null;
-			File destFileParent = null;
-
 			for (Iterator it = files.iterator(); it.hasNext();)
 			{
-				srcFileName = (String)it.next();
-				destFileName = (String)reportFilesMap.get(srcFileName);
-				destFileParent = new File(destFileName).getParentFile();
+				String srcFileName = (String)it.next();
+				String destFileName = (String)reportFilesMap.get(srcFileName);
+				File destFileParent = new File(destFileName).getParentFile();
 				if(!destFileParent.exists())
 				{
 					destFileParent.mkdirs();
