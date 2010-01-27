@@ -195,7 +195,7 @@ public class JRAntDecompileTask extends MatchingTask
 		{
 			throw 
 				new BuildException(
-					"The srcdir attribute must be set.", 
+					"The srcdir attribute must be set.", //FIXME this message is misleading in case the fileset filters do not match any file
 					location
 					);
 		}

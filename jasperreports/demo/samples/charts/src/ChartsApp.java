@@ -50,7 +50,6 @@ public class ChartsApp
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PDF = "pdf";
 	private static final String TASK_HTML = "html";
-	private static final String TASK_WRITE_XML = "writeXml";
 
 	private static final String[] reportNames = 
 		{
@@ -132,18 +131,6 @@ public class ChartsApp
 						new File(new File(fileName), reportNames[i] + ".jrprint").getAbsolutePath()
 						);
 					System.err.println("Report : " + reportNames[i] + ". Html export time : " + (System.currentTimeMillis() - start));
-				}
-			}
-			else if (TASK_WRITE_XML.equals(taskName))
-			{
-				for(int i = 0; i < reportNames.length; i++)
-				{
-					long start = System.currentTimeMillis();
-					JasperCompileManager.writeReportToXmlFile(
-						new File(new File(fileName), reportNames[i] + ".jasper").getAbsolutePath(), 
-						new File(new File(fileName), reportNames[i] + ".jasper.jrxml").getAbsolutePath()
-						);
-					System.err.println("Report : " + reportNames[i] + ". XML write time : " + (System.currentTimeMillis() - start));
 				}
 			}
 			else
