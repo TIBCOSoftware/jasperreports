@@ -819,7 +819,6 @@ public class JRApiWriter
 		List children = elementContainer.getChildren();
 		if (children != null && children.size() > 0)
 		{
-			apiWriterVisitor.setIndent(indent);
 			for(int i = 0; i < children.size(); i++)
 			{
 				apiWriterVisitor.setName(parentName + i);
