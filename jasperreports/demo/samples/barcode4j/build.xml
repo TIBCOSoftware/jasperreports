@@ -95,6 +95,14 @@
 		<ant dir="../" target="viewDesign"/>
 	</target>
 
+	<target name="writeXml" description="Generates a report design XML file from a .jasper file.">
+		<ant dir="../" target="writeXml"/>
+	</target>
+
+	<target name="writeApi" description="Generates a .java version of the report by converting the .jrxml file.">
+		<ant dir="../" target="writeApi"/>
+	</target>
+
 	<target name="clean" description="Deletes all the generated files.">
 		<ant dir="../" target="clean-sample"/>
 	</target>
