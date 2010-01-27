@@ -89,8 +89,8 @@
 		</java>
 	</target>
 
-	<target name="writeXml" if="using.jdk.1.5" description="Generates a report design XML file from a .jasper file.">
-		<ant dir="../" target="writeXml"/>
+	<target name="decompile" description="Decompiles a .jasper file into a .jrxml file.">
+		<ant dir="../" target="decompile"/>
 	</target>
 
 	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design.">
