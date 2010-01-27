@@ -99,6 +99,10 @@
 		<ant dir="../" target="writeApi"/>
 	</target>
 
+	<target name="writeApiXml" description="Generates a .jrxml version of the report by executing the API version of the report design.">
+		<ant dir="../" target="writeApiXml"/>
+	</target>
+
 	<target name="clean" description="Deletes all the generated files.">
 		<ant dir="../" target="clean-sample"/>
 	</target>

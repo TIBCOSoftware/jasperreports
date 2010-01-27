@@ -147,6 +147,7 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
@@ -3838,4 +3839,35 @@ public class JRApiWriter
 			throw new JRRuntimeException(e);
 		}
 	}
+	
+	
+	/**
+	 * 
+	 */
+	public static void main(String[] args) 
+	{
+		if(args.length < 2)
+		{
+			System.out.println( "JRApiWriter usage:" );
+			System.out.println( "\tjava JRApiWriter reportCreatorClassName file" );
+			return;
+		}
+				
+		String reportCreatorClassName = args[0];
+		String destFileName = args[1];
+		
+		try
+		{
+			Class reportCreatorClass = Class.forName(reportCreatorClassName);
+			ReportCreator reportCreator = (ReportCreator)reportCreatorClass.newInstance();
+			JasperDesign jasperDesign = reportCreator.create();
+			JRXmlWriter.writeReport(jasperDesign, destFileName, "UTF-8");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	
 }
