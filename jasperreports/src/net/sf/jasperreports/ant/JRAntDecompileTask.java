@@ -81,7 +81,7 @@ public class JRAntDecompileTask extends MatchingTask
 
 
 	/**
-	 * Sets the source directories to find the XML report design files.
+	 * Sets the source directories to find the compiled report design files.
 	 * 
 	 * @param srcdir source path
 	 */
@@ -291,15 +291,11 @@ public class JRAntDecompileTask extends MatchingTask
 		
 			System.out.println("Updating " + files.size() + " report design files.");
 
-			String srcFileName = null;
-			String destFileName = null;
-			File destFileParent = null;
-
 			for (Iterator it = files.iterator(); it.hasNext();)
 			{
-				srcFileName = (String)it.next();
-				destFileName = (String)reportFilesMap.get(srcFileName);
-				destFileParent = new File(destFileName).getParentFile();
+				String srcFileName = (String)it.next();
+				String destFileName = (String)reportFilesMap.get(srcFileName);
+				File destFileParent = new File(destFileName).getParentFile();
 				if(!destFileParent.exists())
 				{
 					destFileParent.mkdirs();
@@ -318,7 +314,7 @@ public class JRAntDecompileTask extends MatchingTask
 				catch(JRException e)
 				{
 					System.out.println("FAILED.");
-					System.out.println("Error updating report design : " + srcFileName);
+					System.out.println("Error decompiling report design : " + srcFileName);
 					e.printStackTrace(System.out);
 					isError = true;
 				}
@@ -326,7 +322,7 @@ public class JRAntDecompileTask extends MatchingTask
 		
 			if(isError)
 			{
-				throw new BuildException("Errors were encountered when updating report designs.");
+				throw new BuildException("Errors were encountered when decompiling report designs.");
 			}
 		}
 	}
