@@ -25,12 +25,6 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-
-/*
- * Contributors:
- * Henri Chen - henrichen@users.sourceforge.net
- * Kees Kuip  - keeskuip@users.sourceforge.net
- */
 package net.sf.jasperreports.ant;
 
 import org.apache.tools.ant.BuildException;
