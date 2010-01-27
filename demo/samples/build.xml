@@ -220,7 +220,7 @@
 		</java>
 	</target>
 
-	<target name="writeXml">
+	<target name="decompile">
 		<mkdir dir="${sample.dir}/build/reports"/> 
 		<taskdef name="jrdc" classname="net.sf.jasperreports.ant.JRAntDecompileTask"> 
 			<classpath refid="classpath"/>

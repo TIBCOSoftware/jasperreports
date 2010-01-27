@@ -260,7 +260,7 @@ public class JRAntDecompileTask extends MatchingTask
 	{
 		RegexpPatternMapper mapper = new RegexpPatternMapper();
 		mapper.setFrom("^(.*)\\.(.*)$");
-		mapper.setTo("\\1.jrxml");
+		mapper.setTo("\\1.jasper.jrxml");
 
 		SourceFileScanner scanner = new SourceFileScanner(this);
 		String[] newFiles = scanner.restrict(files, srcdir, destdir, mapper);
