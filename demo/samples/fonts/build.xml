@@ -124,7 +124,6 @@
 		<antcall target="docx" />
 		<antcall target="xlsx" />
 		<antcall target="xhtml" />
-		<antcall target="writeApi" />
 	</target>
 
 </project>

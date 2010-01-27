@@ -2,6 +2,11 @@
 
 	<description>Shows how the chart element could be used to render different types of charts.</description>
 
+	<property name="sample.dir" value="charts"/>
+	<property name="sample.base.name" value="Charts" />
+	<property name="sample.app.name" value="${sample.base.name}App" />
+	<property name="sample.report.name" value="${sample.base.name}Report" />
+	
 	<property name="class.name" value="ChartsApp" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
@@ -97,6 +102,10 @@
 			<arg value="${basedir}/reports/AreaChartReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
+	</target>
+
+	<target name="writeApi" description="Generates a .java version of the report by converting the .jrxml file.">
+		<ant dir="../" target="writeApi"/>
 	</target>
 
 	<target name="clean" description="Deletes all the generated files.">
