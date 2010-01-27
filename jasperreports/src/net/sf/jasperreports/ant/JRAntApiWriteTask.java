@@ -30,10 +30,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.util.JRApiWriter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
@@ -47,7 +48,8 @@ import org.apache.tools.ant.util.SourceFileScanner;
 
 
 /**
- * Ant task for batch-generating the source JRXML report design files, from compiled report template files.
+ * Ant task for batch-generating the Java source file that uses the JR API to create the report design, 
+ * from compiled report template files or from source JRXML files.
  * Works like the built-in <code>javac</code> Ant task.
  * <p>
  * This task can take the following arguments:
@@ -57,16 +59,16 @@ import org.apache.tools.ant.util.SourceFileScanner;
  * </ul>
  * Of these arguments, the <code>src</code> and <code>destdir</code> are required.
  * When this task executes, it will recursively scan the <code>src</code> and 
- * <code>destdir</code> looking for compiled report template files and it will recreate 
- * the source JRXML file for each of them. 
+ * <code>destdir</code> looking for compiled report template files or for source 
+ * JRXML report template files and it will recreate the Java source file for each of them. 
  * This task makes its file creation decision based on timestamp and only input files 
- * that have no corresponding file in the target directory or where the destination JRXML file 
+ * that have no corresponding file in the target directory or where the destination Java file 
  * is older than the input file will be processed.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRAntCompileTask.java 1606 2007-02-28 08:21:12Z lucianc $
  */
-public class JRAntDecompileTask extends MatchingTask
+public class JRAntApiWriteTask extends MatchingTask
 {
 
 
@@ -81,7 +83,7 @@ public class JRAntDecompileTask extends MatchingTask
 
 
 	/**
-	 * Sets the source directories to find the compiled report design files.
+	 * Sets the source directories to find the source files.
 	 * 
 	 * @param srcdir source path
 	 */
@@ -99,7 +101,7 @@ public class JRAntDecompileTask extends MatchingTask
 
 
 	/**
-	 * Adds a path for decompilation source.
+	 * Adds a path for source report templates.
 	 * 
 	 * @return source path
 	 */
@@ -115,7 +117,7 @@ public class JRAntDecompileTask extends MatchingTask
 	
 	
 	/**
-	 * Sets the destination directory into which the report design files should be decompilated.
+	 * Sets the destination directory into which the Java report design files should be generated.
 	 * 
 	 * @param destdir destination directory
 	 */
@@ -128,7 +130,7 @@ public class JRAntDecompileTask extends MatchingTask
 	/**
 	 * Adds a path to the classpath.
 	 * 
-	 * @return classpath to use when decompiling the report
+	 * @return classpath to use when updating the report
 	 */
 	public Path createClasspath()
 	{
@@ -215,7 +217,7 @@ public class JRAntDecompileTask extends MatchingTask
 	
 	
 	/**
-	 * Scans the source directories looking for source files to be decompiled. 
+	 * Scans the source directories looking for source report design files to be processed. 
 	 */
 	protected void scanSrc() throws BuildException
 	{
@@ -249,7 +251,7 @@ public class JRAntDecompileTask extends MatchingTask
 	
 	
 	/**
-	 * Scans the directory looking for source files to be decompiled. 
+	 * Scans the directory looking for source report design files to be processed. 
 	 * The results are returned in the instance variable <code>reportFilesMap</code>.
 	 * 
 	 * @param srcdir source directory
@@ -260,7 +262,7 @@ public class JRAntDecompileTask extends MatchingTask
 	{
 		RegexpPatternMapper mapper = new RegexpPatternMapper();
 		mapper.setFrom("^(.*)\\.(.*)$");
-		mapper.setTo("\\1.jrxml");
+		mapper.setTo("\\1.java");
 
 		SourceFileScanner scanner = new SourceFileScanner(this);
 		String[] newFiles = scanner.restrict(files, srcdir, destdir, mapper);
@@ -279,7 +281,7 @@ public class JRAntDecompileTask extends MatchingTask
 	
 	
 	/**
-	 * Performs the decompilation of the selected report design files.
+	 * Performs the API code generation for the selected report design files.
 	 */
 	protected void update() throws BuildException
 	{
@@ -289,7 +291,7 @@ public class JRAntDecompileTask extends MatchingTask
 		{
 			boolean isError = false;
 		
-			System.out.println("Decompiling " + files.size() + " report design files.");
+			System.out.println("Processing " + files.size() + " report design files.");
 
 			for (Iterator it = files.iterator(); it.hasNext();)
 			{
@@ -301,20 +303,47 @@ public class JRAntDecompileTask extends MatchingTask
 					destFileParent.mkdirs();
 				}
 
+				String srcFileExtension = null;
+				int srcFileExtensionStart = srcFileName.lastIndexOf('.');
+				if (srcFileExtensionStart >= 0)
+				{
+					srcFileExtension = srcFileName.substring(srcFileExtensionStart);
+				}
+				
 				try
 				{
 					System.out.print("File : " + srcFileName + " ... ");
 
-					JasperReport jasperReport = (JasperReport)JRLoader.loadObject(srcFileName);
+					JRReport report = null;
+
+					if ("jrxml".equalsIgnoreCase(srcFileExtension))
+					{
+						report = JRXmlLoader.load(srcFileName);
+					}
+					else if ("jasper".equalsIgnoreCase(srcFileExtension))
+					{
+						report = (JRReport)JRLoader.loadObject(srcFileName);
+					}
+					else
+					{
+						try
+						{
+							report = (JRReport)JRLoader.loadObject(srcFileName);
+						}
+						catch (JRException e)
+						{
+							report = JRXmlLoader.load(srcFileName);
+						}
+					}
 					
-					JRXmlWriter.writeReport(jasperReport, destFileName, "UTF-8");
+					JRApiWriter.writeReport(report, destFileName);
 					
 					System.out.println("OK.");
 				}
 				catch(JRException e)
 				{
 					System.out.println("FAILED.");
-					System.out.println("Error decompiling report design : " + srcFileName);
+					System.out.println("Error generating API report design : " + srcFileName);
 					e.printStackTrace(System.out);
 					isError = true;
 				}
@@ -322,7 +351,7 @@ public class JRAntDecompileTask extends MatchingTask
 		
 			if(isError)
 			{
-				throw new BuildException("Errors were encountered when decompiling report designs.");
+				throw new BuildException("Errors were encountered when generating API report designs.");
 			}
 		}
 	}
