@@ -395,7 +395,7 @@ public class JRApiWriter
 						{
 							String conditionalStyleName = "reportStyle" + i + "Conditional" + j;
 							writeConditionalStyle( conditionalStyles[j],conditionalStyleName);
-							write( "jasperDesign.addStyle(" + conditionalStyleName + ");\n\n");
+							write( "reportStyle" + i + ".addConditionalStyle(" + conditionalStyleName + ");\n\n");
 						}
 						flush();
 					}
@@ -3559,7 +3559,7 @@ public class JRApiWriter
 			write( styleName + ".setMarkup(\"" + JRStringUtil.escapeJavaStringLiteral(style.getMarkup()) + "\");\n");
 			write( styleName + ".setPattern(\"" + JRStringUtil.escapeJavaStringLiteral(style.getPattern()) + "\");\n");
 			write( styleName + ".setBlankWhenNull(" + style.isBlankWhenNull() + ");\n");
-			
+
 			flush();
 		}
 	}
