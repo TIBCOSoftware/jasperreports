@@ -1582,7 +1582,7 @@ public class JRApiWriter
 		{
 			String xyzSeriesName = parentName + "XyzSeries" + index;
 			//TODO: instantiate xyzSeries
-//			writer.startElement(JRXmlConstants.ELEMENT_categorySeries);
+//			writer.startElement(JRApiConstants.ELEMENT_categorySeries);
 			write( "JRDesignXyzSeries " + xyzSeriesName + " = " + parentName + ".getSeries()[" + index + "];\n");
 	
 			writeExpression( series.getSeriesExpression(), xyzSeriesName, "SeriesExpression");
@@ -1873,8 +1873,8 @@ public class JRApiWriter
 //			JRSeriesColor s; s.getSeriesOrder() 
 //			write( seriesColorName + ".setPosition(Byte.valueOf((byte)" + chartAxis.getPositionByte() + "));\n");
 //
-//			writer.addAttribute(JRXmlConstants.ATTRIBUTE_seriesOrder, colors[i].getSeriesOrder());
-//			writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, colors[i].getColor());
+//			writer.addAttribute(JRApiConstants.ATTRIBUTE_seriesOrder, colors[i].getSeriesOrder());
+//			writer.addAttribute(JRApiConstants.ATTRIBUTE_color, colors[i].getColor());
 //			JRDesignAreaPlot p;
 //			p.addSeriesColor(seriesColor)
 //			write( parentName + ".addSeriesColor(" + seriesColorName + ");\n");
@@ -3473,16 +3473,16 @@ public class JRApiWriter
 		{
 			writer.startElement(tagName, namespace);
 
-			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, hyperlink.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
-			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, hyperlink.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
+			writer.addEncodedAttribute(JRApiConstants.ATTRIBUTE_hyperlinkType, hyperlink.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
+			writer.addEncodedAttribute(JRApiConstants.ATTRIBUTE_hyperlinkTarget, hyperlink.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
 
-			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, JASPERREPORTS_NAMESPACE,
+			writer.writeExpression(JRApiConstants.ELEMENT_hyperlinkReferenceExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkReferenceExpression(), false);
-			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, JASPERREPORTS_NAMESPACE,
+			writer.writeExpression(JRApiConstants.ELEMENT_hyperlinkAnchorExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkAnchorExpression(), false);
-			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, JASPERREPORTS_NAMESPACE,
+			writer.writeExpression(JRApiConstants.ELEMENT_hyperlinkPageExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkPageExpression(), false);
-			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, JASPERREPORTS_NAMESPACE,
+			writer.writeExpression(JRApiConstants.ELEMENT_hyperlinkTooltipExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkTooltipExpression(), false);
 			writeHyperlinkParameters(hyperlink.getHyperlinkParameters());
 
@@ -3653,13 +3653,13 @@ public class JRApiWriter
 //			String paramName =  elementName + "Parameter" + i;
 //			write( "JRBaseGenericElementParameter " + paramName + " = new JRBaseGenericElementParameter();\n");
 //			write( paramName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(params[i].getName()) + "\");\n");
-//			writer.addAttribute(JRXmlConstants.ATTRIBUTE_skipWhenNull, 
+//			writer.addAttribute(JRApiConstants.ATTRIBUTE_skipWhenNull, 
 //					param.isSkipWhenEmpty(), false);
 //			
 //			JRExpression valueExpression = param.getValueExpression();
 //			if (valueExpression != null)
 //			{
-//				writer.writeExpression(JRXmlConstants.ELEMENT_genericElementParameter_valueExpression, 
+//				writer.writeExpression(JRApiConstants.ELEMENT_genericElementParameter_valueExpression, 
 //						valueExpression, true, Object.class.getName());
 //			}
 //			
@@ -3800,7 +3800,10 @@ public class JRApiWriter
 	{
 		try
 		{
-			writer.write(indent + text);
+			if(text.indexOf("null") < 0)
+			{
+				writer.write(indent + text);
+			}
 		}
 		catch(IOException e)
 		{
