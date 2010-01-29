@@ -332,8 +332,8 @@ public class JRApiWriter
 		write1( "{\n");
 		indent += "  ";
 		write1( "JasperDesign jasperDesign = new JasperDesign();\n");
-		write1( "jasperDesign.setName(\"" + report.getName() + "\");\n");
-		write( "jasperDesign.setLanguage(\"{0}\");\n", report.getLanguage());
+		write1( "jasperDesign.setName(\"" + JRStringUtil.escapeJavaStringLiteral(report.getName()) + "\");\n");
+		write( "jasperDesign.setLanguage(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getLanguage()));
 		write( "jasperDesign.setColumnCount({0});\n", report.getColumnCount(), 1);
 		write( "jasperDesign.setPrintOrder((byte){0});\n", report.getPrintOrder(), JRReport.PRINT_ORDER_VERTICAL);
 		write( "jasperDesign.setPageWidth({0});\n", report.getPageWidth());
@@ -357,19 +357,19 @@ public class JRApiWriter
 		write( "jasperDesign.setIgnorePagination({0});\n\n", report.isIgnorePagination(), false);
 
 		writeProperties( report, "jasperDesign");
-		write("\n");
+		write1("\n");
 		writeTemplates(indent);
 
-		write("\n");
+		write1("\n");
 		
 		JRReportFont[] fonts = report.getFonts();
 		if (fonts != null && fonts.length > 0)
 		{	
-			write( "//report fonts\n\n");
+			write1( "//report fonts\n\n");
 			for(int i = 0; i < fonts.length; i++)
 			{
 				writeReportFont( fonts[i], "reportFontStyle"+i);
-				write( "jasperDesign.addStyle(reportFontStyle" + i + ");\n\n");
+				write1( "jasperDesign.addStyle(reportFontStyle" + i + ");\n\n");
 				flush();
 			}
 		}
@@ -377,12 +377,12 @@ public class JRApiWriter
 		JRStyle[] styles = report.getStyles();
 		if (styles != null && styles.length > 0)
 		{	
-			write( "//styles\n");
+			write1( "//styles\n");
 
 			for(int i = 0; i < styles.length; i++)
 			{
 				writeStyle( styles[i], "reportStyle" + i);
-				write( "jasperDesign.addStyle(reportStyle" + i + ");\n\n");
+				write1( "jasperDesign.addStyle(reportStyle" + i + ");\n\n");
 
 				if (toWriteConditionalStyles())
 				{
@@ -393,7 +393,7 @@ public class JRApiWriter
 						{
 							String conditionalStyleName = "reportStyle" + i + "Conditional" + j;
 							writeConditionalStyle( conditionalStyles[j],conditionalStyleName);
-							write( "reportStyle" + i + ".addConditionalStyle(" + conditionalStyleName + ");\n\n");
+							write1( "reportStyle" + i + ".addConditionalStyle(" + conditionalStyleName + ");\n\n");
 						}
 						flush();
 					}
@@ -405,49 +405,49 @@ public class JRApiWriter
 		JRDataset[] datasets = report.getDatasets();
 		if (datasets != null && datasets.length > 0)
 		{
-			write( "//datasets\n");
+			write1( "//datasets\n");
 			for (int i = 0; i < datasets.length; ++i)
 			{
 				writeDataset( datasets[i], "reportDataset" + i);
 				if(datasets[i] != null)
-					write( "jasperDesign.addDataset(reportDataset" + i + ");\n");
+					write1( "jasperDesign.addDataset(reportDataset" + i + ");\n");
 			}
-			write("\n");
+			write1("\n");
 			flush();
 		}
 
 		if(report.getMainDataset() != null)
 		{
 			writeDataset( report.getMainDataset(), "reportMainDataset");
-			write( "jasperDesign.setMainDataset(reportMainDataset);\n");
+			write1( "jasperDesign.setMainDataset(reportMainDataset);\n");
 		}
 
 		if (report.getBackground() != null)
 		{
-			write( "//background\n\n");
+			write1( "//background\n\n");
 			writeBand( report.getBackground(), "backgroundBand");
-			write( "jasperDesign.setBackground(backgroundBand);\n\n");
+			write1( "jasperDesign.setBackground(backgroundBand);\n\n");
 		}
 
 		if (report.getTitle() != null)
 		{
-			write( "//title\n\n");
+			write1( "//title\n\n");
 			writeBand( report.getTitle(), "titleBand");
-			write( "jasperDesign.setTitle(titleBand);\n\n");
+			write1( "jasperDesign.setTitle(titleBand);\n\n");
 		}
 
 		if (report.getPageHeader() != null)
 		{
-			write( "//page header\n\n");
+			write1( "//page header\n\n");
 			writeBand( report.getPageHeader(), "pageHeaderBand");
-			write( "jasperDesign.setPageHeader(pageHeaderBand);\n\n");
+			write1( "jasperDesign.setPageHeader(pageHeaderBand);\n\n");
 		}
 
 		if (report.getColumnHeader() != null)
 		{
-			write( "//column header\n\n");
+			write1( "//column header\n\n");
 			writeBand( report.getColumnHeader(), "columnHeaderBand");
-			write( "jasperDesign.setColumnHeader(columnHeaderBand);\n\n");
+			write1( "jasperDesign.setColumnHeader(columnHeaderBand);\n\n");
 		}
 
 		JRSection detail = report.getDetailSection();
@@ -462,43 +462,43 @@ public class JRApiWriter
 
 		if (report.getColumnFooter() != null)
 		{
-			write( "//column footer\n\n");
+			write1( "//column footer\n\n");
 			writeBand( report.getColumnFooter(), "columnFooterBand");
-			write( "jasperDesign.setColumnFooter(columnFooterBand);\n\n");
+			write1( "jasperDesign.setColumnFooter(columnFooterBand);\n\n");
 		}
 
 		if (report.getPageFooter() != null)
 		{
-			write( "//page footer\n\n");
+			write1( "//page footer\n\n");
 			writeBand( report.getPageFooter(), "pageFooterBand");
-			write( "jasperDesign.setPageFooter(pageFooterBand);\n\n");
+			write1( "jasperDesign.setPageFooter(pageFooterBand);\n\n");
 		}
 
 		if (report.getLastPageFooter() != null)
 		{
-			write( "//last page footer\n\n");
+			write1( "//last page footer\n\n");
 			writeBand( report.getLastPageFooter(), "lastPageFooterBand");
-			write( "jasperDesign.setLastPageFooter(lastPageFooterBand);\n\n");
+			write1( "jasperDesign.setLastPageFooter(lastPageFooterBand);\n\n");
 		}
 
 		if (report.getSummary() != null)
 		{
-			write( "//summary\n\n");
+			write1( "//summary\n\n");
 			writeBand( report.getSummary(), "summaryBand");
-			write( "jasperDesign.setSummary(summaryBand);\n\n");
+			write1( "jasperDesign.setSummary(summaryBand);\n\n");
 		}
 
 		if (report.getNoData() != null)
 		{
-			write( "//no data\n\n");
+			write1( "//no data\n\n");
 			writeBand( report.getNoData(), "noDataBand");
-			write( "jasperDesign.setNoData(noDataBand);\n\n");
+			write1( "jasperDesign.setNoData(noDataBand);\n\n");
 		}
 
-		write( "return jasperDesign;\n");
-		write( "}\n\n");
+		write1( "return jasperDesign;\n");
+		write1( "}\n\n");
 		indent = ""; 
-		write("}\n");
+		write1("}\n");
 		
 		flush();//FIXME is this necessary?
 		close();
@@ -517,16 +517,16 @@ public class JRApiWriter
 			String[] propertyNames = propertiesMap.getPropertyNames();
 			if (propertyNames != null && propertyNames.length > 0)
 			{
-				write( "//properties\n");
+				write1( "//properties\n");
 				for(int i = 0; i < propertyNames.length; i++)
 				{
 					String value = propertiesMap.getProperty(propertyNames[i]);
 					if (value != null)
 					{
-						write( propertiesHolderName + ".setProperty(\"" + propertyNames[i] + "\", \"" + JRStringUtil.escapeJavaStringLiteral(value) + "\");\n");
+						write1( propertiesHolderName + ".setProperty(\"" + propertyNames[i] + "\", \"" + JRStringUtil.escapeJavaStringLiteral(value) + "\");\n");
 					}
 				}
-				write("\n");
+				write1("\n");
 			}
 			flush();
 		}
@@ -546,9 +546,9 @@ public class JRApiWriter
 			{
 				JRReportTemplate template = templates[i];
 				writeTemplate( template, "reportTemplate" + i);
-				write( "jasperDesign.addTemplate(reportTemplate" + i + ");\n");
+				write1( "jasperDesign.addTemplate(reportTemplate" + i + ");\n");
 			}
-			write("\n");
+			write1("\n");
 			flush();
 		}
 	}
@@ -559,7 +559,7 @@ public class JRApiWriter
 	 */
 	protected void writeTemplate( JRReportTemplate template, String templateName)
 	{
-		write( "JRDesignReportTemplate " + templateName + " = new JRDesignReportTemplate();\n");
+		write1( "JRDesignReportTemplate " + templateName + " = new JRDesignReportTemplate();\n");
 		writeExpression( template.getSourceExpression(), templateName, "SourceExpression", String.class.getName());
 		flush();
 	}
@@ -572,17 +572,17 @@ public class JRApiWriter
 	{
 		if (font != null && stylesMap.get(font.getName()) == null)
 		{
-			write( styleName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(font.getName()) + "\");\n");
-			write( styleName + ".setDefault(" + font.isDefault() + ");\n");
-			write( styleName + ".setFontName(\"" + JRStringUtil.escapeJavaStringLiteral(font.getFontName()) + "\");\n");
-			write( styleName + ".setFontSize(" + font.getFontSize() + ");\n");
+			write1( styleName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(font.getName()) + "\");\n");
+			write( styleName + ".setDefault({0});\n", font.isDefault(), false);
+			write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(font.getOwnFontName()));
+			write( styleName + ".setFontSize({0});\n", font.getOwnFontSize());
 			write( styleName + ".setBold({0});\n", font.isOwnBold());
-			write( styleName + ".setItalic(" + font.isItalic() + ");\n");
-			write( styleName + ".setUnderline(" + font.isUnderline() + ");\n");
-			write( styleName + ".setStrikeThrough(" + font.isStrikeThrough() + ");\n");
-			write( styleName + ".setPdfFontName(\"" + JRStringUtil.escapeJavaStringLiteral(font.getPdfFontName()) + "\");\n");
-			write( styleName + ".setPdfEncoding(\"" + font.getPdfEncoding() + "\");\n");
-			write( styleName + ".setPdfEmbedded(" + font.isPdfEmbedded() + ");\n");
+			write( styleName + ".setItalic({0});\n", font.isOwnItalic());
+			write( styleName + ".setUnderline({0});\n", font.isOwnUnderline());
+			write( styleName + ".setStrikeThrough({0});\n", font.isOwnStrikeThrough());
+			write( styleName + ".setPdfFontName(\"{0}", JRStringUtil.escapeJavaStringLiteral(font.getOwnPdfFontName()));
+			write( styleName + ".setPdfEncoding(\"{0}\");\n", font.getOwnPdfEncoding());
+			write( styleName + ".setPdfEmbedded({0});\n", font.isOwnPdfEmbedded());
 			stylesMap.put(font.getName(), styleName);
 			flush();
 		}
@@ -596,13 +596,10 @@ public class JRApiWriter
 	{
 		if(scriptlet != null)
 		{
-			write( "JRDesignScriptlet " + scriptletName + " = new JRDesignScriptlet();\n");
-			write( scriptletName + ".setDescription(\"" + JRStringUtil.escapeJavaStringLiteral(scriptlet.getDescription()) + "\");\n");
-			write( scriptletName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(scriptlet.getName()) + "\");\n");
-			if(scriptlet.getValueClass() != null)
-				write( scriptletName + ".setValueClass(Class.forName(\"" + JRStringUtil.escapeJavaStringLiteral(scriptlet.getValueClass().getName()) + "\"));\n");
-			else if(scriptlet.getValueClassName() != null)
-				write( scriptletName + ".setValueClassName(\"" + JRStringUtil.escapeJavaStringLiteral(scriptlet.getValueClassName()) + "\");\n");
+			write1( "JRDesignScriptlet " + scriptletName + " = new JRDesignScriptlet();\n");
+			write( scriptletName + ".setDescription(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(scriptlet.getDescription()));
+			write( scriptletName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(scriptlet.getName()));
+			write( scriptletName + ".setValueClassName(\"{0}\");\n", scriptlet.getValueClassName());
 	
 			writeProperties( scriptlet, scriptletName);
 			flush();
@@ -617,21 +614,14 @@ public class JRApiWriter
 	{
 		if(parameter != null)
 		{
-			write( "JRDesignParameter " + parameterName + " = new JRDesignParameter();\n");
-			write( parameterName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(parameter.getName()) + "\");\n");
-			write( parameterName + ".setDescription(\"" + JRStringUtil.escapeJavaStringLiteral(parameter.getDescription()) + "\");\n");
+			write1( "JRDesignParameter " + parameterName + " = new JRDesignParameter();\n");
+			write( parameterName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getName()));
+			write( parameterName + ".setDescription(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getDescription()));
+			write( parameterName + ".setValueClassName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getValueClassName()));
 			
-			if(parameter.getValueClass() != null)
-				write( parameterName + ".setValueClass(Class.forName(\"" + JRStringUtil.escapeJavaStringLiteral(parameter.getValueClass().getName()) + "\"));\n");
-			else if(parameter.getValueClassName() != null)
-				write( parameterName + ".setValueClassName(\"" + JRStringUtil.escapeJavaStringLiteral(parameter.getValueClassName()) + "\");\n");
+			write( parameterName + ".setNestedTypeName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getNestedTypeName()));
 			
-			if(parameter.getNestedType() != null)
-				write( parameterName + ".setNestedType(Class.forName(\"" + JRStringUtil.escapeJavaStringLiteral(parameter.getNestedType().getName()) + "\"));\n");
-			else if(parameter.getNestedTypeName() != null)
-				write( parameterName + ".setNestedTypeName(\"" + JRStringUtil.escapeJavaStringLiteral(parameter.getNestedTypeName()) + "\");\n");
-			
-			write( parameterName + ".setForPrompting(" + parameter.isForPrompting() + ");\n");
+			write( parameterName + ".setForPrompting({0});\n", parameter.isForPrompting(), true);
 	
 			writeProperties( parameter, parameterName);
 	
