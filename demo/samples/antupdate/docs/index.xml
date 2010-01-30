@@ -19,7 +19,7 @@ or to bring them up-to-date with respect to the JasperReports Schema Reference.
     </description>
     <since>3.7.1</since>
     <content>
-    FIXME
+[Under Construction]
 	<!--
 The JRXML files represent the source files for static report templates. These report templates need to be 
 prepared for use at runtime by compiling them into <code>*.jasper</code> files, which are basically serialized 

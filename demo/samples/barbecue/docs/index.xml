@@ -13,11 +13,11 @@
   
   <feature name="barbecue" title="Barcodes (Barbecue Custom Component)">
     <description>
-FIXME
+Shows how to render barcodes in a report, using the barcode component based on the <a href="http://barbecue.sourceforge.net/">Barbecue</a> library.
     </description>
     <since>3.5.2</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
