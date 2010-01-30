@@ -4,7 +4,7 @@
 
   <name>beanshell</name>
   <title>BeanShell Sample</title>
-  <description>Shows how reports could be compiled using a customized compiler that relies on BeanShell for expressions evalution.</description>
+  <description>Shows how reports could be compiled using a customized compiler that relies on BeanShell for expressions evaluation.</description>
 
   <mainFeature ref="beanshell"/>
   <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
@@ -13,7 +13,7 @@
   
   <feature name="beanshell" title="Using the BeanShell Scripting Language for Report Expressions (BeanShell Report Compiler)">
     <description>
-FIXME
+How to use BeanShell scripting for report expressions.
     </description>
     <since>0.6.6</since>
   	<otherSample ref="antcompile"/>
@@ -21,7 +21,7 @@ FIXME
   	<otherSample ref="java1.5"/>
   	<otherSample ref="javascript"/>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
