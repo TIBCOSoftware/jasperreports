@@ -617,7 +617,7 @@ public class JRApiWriter
 			write1( "JRDesignParameter " + parameterName + " = new JRDesignParameter();\n");
 			write( parameterName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getName()));
 			write( parameterName + ".setDescription(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getDescription()));
-			write( parameterName + ".setValueClassName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getValueClassName()));
+			write( parameterName + ".setValueClassName(\"{0}\");\n", parameter.getValueClassName());
 			
 			write( parameterName + ".setNestedTypeName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getNestedTypeName()));
 			
@@ -656,10 +656,7 @@ public class JRApiWriter
 			write( "JRDesignField " + fieldName + " = new JRDesignField();\n");
 			write( fieldName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(field.getName()) + "\");\n");
 			write( fieldName + ".setDescription(\"" + JRStringUtil.escapeJavaStringLiteral(field.getDescription()) + "\");\n");
-			if(field.getValueClass() != null)
-				write( fieldName + ".setValueClass(Class.forName(\"" + JRStringUtil.escapeJavaStringLiteral(field.getValueClass().getName()) + "\"));\n");
-			else if(field.getValueClassName() != null)
-				write( fieldName + ".setValueClassName(\"" + JRStringUtil.escapeJavaStringLiteral(field.getValueClassName()) + "\");\n");
+			write( fieldName + ".setValueClassName(\"{0}\");\n", field.getValueClassName());
 			writeProperties( field, fieldName);
 			flush();
 		}
@@ -693,10 +690,7 @@ public class JRApiWriter
 			
 			write( "JRDesignVariable " + variableName + " = new JRDesignVariable();\n");
 			write( variableName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(variable.getName()) + "\");\n");
-			if(variable.getValueClass() != null)
-				write( variableName + ".setValueClass(Class.forName(\"" + JRStringUtil.escapeJavaStringLiteral(variable.getValueClass().getName()) + "\"));\n");
-			else if(variable.getValueClassName() != null)
-				write( variableName + ".setValueClassName(\"" + JRStringUtil.escapeJavaStringLiteral(variable.getValueClassName()) + "\");\n");
+			write( variableName + ".setValueClassName(\"{0}\");\n", variable.getValueClassName());
 			write( variableName + ".setResetType((byte)" + (variable.getResetType() < 1 ?  JRVariable.RESET_TYPE_REPORT : variable.getResetType()) + ");\n");
 			if (resetGroupName != null)
 			{
@@ -1107,7 +1101,16 @@ public class JRApiWriter
 		{
 			write( "JRDesignStyle " + styleName + " = new JRDesignStyle();\n");
 			write( styleName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(style.getName()) + "\");\n");
-			writeStyleReferenceAttr( style, styleName);
+
+			if (style.getStyle() != null)//FIXME double check which one to use; style or styleNameReference?
+			{
+				//write( styleName + ".setParentStyle(\"" + JRStringUtil.escapeJavaStringLiteral(style.getStyle().getName()) + "\");\n");
+			}
+			else if (style.getStyleNameReference() != null)
+			{
+				write( styleName + ".setParentStyleNameReference(" + style.getStyleNameReference() + ");\n");
+			}
+			
 			write( styleName + ".setDefault(" + style.isDefault() + ");\n");
 			if(style.getMode() != null)
 				write( styleName + ".setMode((byte)" + style.getMode().byteValue() + ");\n");
@@ -1165,7 +1168,7 @@ public class JRApiWriter
 			write( textFieldName + ".setBookmarkLevel(" + (textField.getBookmarkLevel() > 0 ? textField.getBookmarkLevel() : JRAnchor.NO_BOOKMARK) + ");\n");
 			
 			writeReportElement( textField, textFieldName);
-			writeBox( textField.getLineBox(), textFieldName + ".getLineBox");
+			writeBox( textField.getLineBox(), textFieldName + ".getLineBox()");
 			writeTextElement( textField, textFieldName);
 	
 			writeExpression( textField.getExpression(), textFieldName, "Expression");
@@ -3170,10 +3173,7 @@ public class JRApiWriter
 			write( "JRDesignCrosstabMeasure " + measureName + " = new JRDesignCrosstabMeasure();\n");
 			write( measureName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(measure.getName()) + "\");\n");
 
-			if(measure.getValueClass() != null)
-				write( measureName + ".setValueClass(Class.forName(\"" + JRStringUtil.escapeJavaStringLiteral(measure.getValueClass().getName()) + "\"));\n");
-			else if(measure.getValueClassName() != null)
-				write( measureName + ".setValueClassName(\"" + JRStringUtil.escapeJavaStringLiteral(measure.getValueClassName()) + "\");\n");
+			write( measureName + ".setValueClassName(\"{0}\");\n", measure.getValueClassName());
 			
 			write( measureName + ".setCalculation((byte)" + (measure.getCalculation() > 0 ? measure.getCalculation() : JRVariable.CALCULATION_NOTHING) + ");\n");
 			write( measureName + ".setPercentageOfType((byte)" + (measure.getPercentageOfType() > 0 ? measure.getPercentageOfType() : JRCrosstabMeasure.PERCENTAGE_TYPE_NONE) + ");\n");
@@ -3238,12 +3238,7 @@ public class JRApiWriter
 			write( parameterName + ".setDescription(" + parameter.getDescription() + ");\n");
 			write( parameterName + ".setName(" + parameter.getName() + ");\n");
 			
-			if(parameter.getValueClass() != null)
-				write( parameterName + ".setValueClass(Class.forName(\"" + JRStringUtil.escapeJavaStringLiteral(parameter.getValueClass().getName()) + "\"));\n");
-			else if(parameter.getValueClassName() != null)
-				write( parameterName + ".setValueClassName(\"" + JRStringUtil.escapeJavaStringLiteral(parameter.getValueClassName()) + "\");\n");
-			else
-				write( parameterName + ".setValueClassName(\"java.lang.String\");\n");
+			write( parameterName + ".setValueClassName(\"{0}\");\n", parameter.getValueClassName(), "java.lang.String");
 			
 			writeExpression( parameter.getExpression(), parameterName, "Expression");
 			flush();
@@ -3675,13 +3670,13 @@ public class JRApiWriter
 	
 	protected void writeStyleReferenceAttr( JRStyleContainer styleContainer, String styleName)
 	{
-		if (styleContainer.getStyle() != null)
+		if (styleContainer.getStyle() != null)//FIXME use only styleNameReference?
 		{
-			write( styleName + ".setParentStyle(\"" + JRStringUtil.escapeJavaStringLiteral(styleContainer.getStyle().getName()) + "\");\n");
+			//write( styleName + ".setStyle(\"" + JRStringUtil.escapeJavaStringLiteral(styleContainer.getStyle().getName()) + "\");\n");
 		}
 		else if (styleContainer.getStyleNameReference() != null)
 		{
-			write( styleName + ".setParentStyleNameReference(" + styleContainer.getStyleNameReference() + ");\n");
+			write( styleName + ".setStyleNameReference(" + styleContainer.getStyleNameReference() + ");\n");
 		}
 		flush();
 	}
@@ -3742,12 +3737,7 @@ public class JRApiWriter
 			write( "JRDesignExpression " + expressionName + " = new JRDesignExpression();\n");
 			write( expressionName + ".setId(" + expression.getId() + ");\n");
 			write( expressionName + ".setText(\"" + JRStringUtil.escapeJavaStringLiteral(expression.getText()) + "\");\n");
-			if(expression.getValueClass() != null)
-				write( expressionName + ".setValueClass(Class.forName(\"" + (expression.getValueClass().getName()) + "\"));\n");
-			else if(expression.getValueClassName() != null)
-				write( expressionName + ".setValueClassName(\"" + JRStringUtil.escapeJavaStringLiteral(expression.getValueClassName()) + "\");\n");
-			else if(defaultClassName != null)
-				write( expressionName + ".setValueClassName(\"" + JRStringUtil.escapeJavaStringLiteral(defaultClassName) + "\");\n");
+			write( expressionName + ".setValueClassName(\"{0}\");\n", expression.getValueClassName(), defaultClassName);
 
 			JRExpressionChunk[] chunks = expression.getChunks();
 			if(chunks != null && chunks.length >0)
@@ -3824,6 +3814,21 @@ public class JRApiWriter
 	protected void write(String pattern, Object value)
 	{
 		if (value != null)
+		{
+			MessageFormat.format(pattern, new Object[]{value});
+		}
+	}
+
+	
+	/**
+	 *
+	 */
+	protected void write(String pattern, Object value, Object defaultValue)
+	{
+		if (
+			(defaultValue == null && value != null)
+			|| (defaultValue != null && !defaultValue.equals(value))
+			)
 		{
 			MessageFormat.format(pattern, new Object[]{value});
 		}
