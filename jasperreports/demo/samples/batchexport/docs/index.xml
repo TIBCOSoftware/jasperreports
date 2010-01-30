@@ -7,17 +7,16 @@
   <description>Shows how multiple reports could be concatenated during export.</description>
 
   <mainFeature ref="batchexport"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
   
   <!-- batchexport -->
   
   <feature name="batchexport" title="Exporting Multiple Reports into a Single Output File (Batch Export)">
     <description>
-FIXME
+Several reports can be exported together to form a single resulting document.
     </description>
-    <since>0.5.1</since>
+    <since>0.6.0</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
