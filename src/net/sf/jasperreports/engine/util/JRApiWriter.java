@@ -703,7 +703,7 @@ public class JRApiWriter
 				write( variableName + ".setResetGroup(" + incrementGroupName + ");\n");
 			}
 
-			write( variableName + ".setCalculation(" + (variable.getCalculation() < 0 ?  JRVariable.CALCULATION_NOTHING : variable.getCalculation()) + ");\n");
+			write( variableName + ".setCalculation((byte)" + (variable.getCalculation() < 0 ?  JRVariable.CALCULATION_NOTHING : variable.getCalculation()) + ");\n");
 			write( variableName + ".setIncrementerFactoryClass(Class.forName(\"" + JRStringUtil.escapeJavaStringLiteral(variable.getIncrementerFactoryClassName()) + "\"));\n");
 			writeExpression( variable.getExpression(), variableName, "Expression");
 			writeExpression( variable.getInitialValueExpression(), variableName, "InitialValueExpression");
