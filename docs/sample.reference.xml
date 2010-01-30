@@ -12,8 +12,8 @@
 	  <feature name="barcodes" sample="barcode4j" title="Barcodes"/>
       <feature name="charts" sample="charts" title="Charts"/>
       <feature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
-	  <!--
       <feature name="chartthemes" sample="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)"/>
+	  <!--
       <feature name="jcharts" sample="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)"/>
       <feature name="jchartscomponent" sample="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)"/>
       <feature name="jfreechart" sample="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)"/>

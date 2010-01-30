@@ -2,26 +2,23 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>chartthemes</name>
+  <title>Chart Themes Sample</title>
+  <description>Shows how the chart themes could be used to change the look and feel of all chart types.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="chartthemes"/>
+  <secondaryFeature name="charts" sample="charts" title="Charts"/>
+  <secondaryFeature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
   
-  <!-- antcompile -->
+  <!-- chartthemes -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)">
     <description>
-FIXME
+Customizing the appearance of all charts created using the chart element, across an entire application. 
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>3.1.0</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
