@@ -5,7 +5,15 @@
 	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
 
 <xsl:output method="html"/>
+<xsl:param name="sf.net"/>
 <xsl:param name="version"/>
+
+<xsl:variable name="api.url">
+ <xsl:choose>
+  <xsl:when test="$sf.net = 'true'">api/</xsl:when>
+  <xsl:otherwise>http://jasperreports.sourceforge.net/api/</xsl:otherwise>
+ </xsl:choose>
+</xsl:variable>
 
 <xsl:template match="/">
 <html>
@@ -63,6 +71,7 @@
 </style>
 </head>
 <body bgcolor="#FFFFFF">
+<xsl:if test="$sf.net = 'true'">
 <!-- Piwik -->
 <script type="text/javascript">
 var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/jasperreports/" : "http://sourceforge.net/apps/piwik/jasperreports/");
@@ -75,6 +84,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 </script>
 <object><noscript><p><img src="http://sourceforge.net/apps/piwik/jasperreports/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
 <!-- End Piwik Tag -->
+</xsl:if>
 
 <a name="top"/>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -84,7 +94,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 <xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element> - <xsl:element name="a">
-<xsl:attribute name="href">api/index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
+<xsl:attribute name="href"><xsl:value-of select="$api.url"/>index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
 <br/>
     </td>
   </tr>
@@ -198,7 +208,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 
 
 <xsl:template match="api">
-  <span class="element"><xsl:element name="a"><xsl:attribute name="href">http://jasperreports.sourceforge.net/api/<xsl:value-of select="./@href"/></xsl:attribute><xsl:value-of select="."/></xsl:element></span>
+  <span class="element"><xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="$api.url"/><xsl:value-of select="./@href"/></xsl:attribute><xsl:value-of select="."/></xsl:element></span>
 </xsl:template>
 
 

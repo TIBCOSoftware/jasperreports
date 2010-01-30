@@ -214,7 +214,7 @@
 Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
 <api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#PROPERTY_JPA_QUERY_HINT_PREFIX</api>
+    <api>net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#PROPERTY_JPA_QUERY_HINT_PREFIX</api>
     <default>N/A</default>
     <scope>Dataset</scope>
     <since>1.2.3</since>
@@ -230,7 +230,7 @@ Property specifying the number of result rows to be retrieved at once. Result pa
 <br/>
 By default, all the rows are retrieved (no result pagination is performed).
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#PROPERTY_JPA_QUERY_PAGE_SIZE</api>
+    <api>net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#PROPERTY_JPA_QUERY_PAGE_SIZE</api>
     <default>0</default>
     <scope>Global | Dataset</scope>
     <since>1.2.3</since>
@@ -245,7 +245,7 @@ Property specifying whether Hibernate session cache should be cleared between tw
 <br/>
 By default, the cache cleanup is not performed.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_CLEAR_CACHE</api>
+    <api>net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_CLEAR_CACHE</api>
     <default>false</default>
     <scope>Global | Dataset</scope>
     <since>1.3.1</since>
@@ -260,7 +260,7 @@ Property specifying whether field descriptions should be used to determine the m
 <br/>
 By default, field description are used.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS</api>
+    <api>net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS</api>
     <default>true</default>
     <scope>Global | Dataset</scope>
     <since>1.2.0</since>
@@ -275,7 +275,7 @@ Property specifying the number of result rows to be retrieved at once when the e
 Result pagination is implemented by <code>org.hibernate.Query.setFirstResult()</code> and  <code>org.hibernate.Query.setMaxResults()</code>.
 By default, all the rows are retrieved (no result pagination is performed).
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE</api>
+    <api>net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE</api>
     <default>0</default>
     <scope>Global | Dataset</scope>
     <since>1.2.0</since>
@@ -293,7 +293,7 @@ Property specifying the Hibernate query execution type. Possible values are:
   <li><code>scroll</code> - the query will be run by calling <code>org.hibernate.Query.scroll()</code></li>
 </ul>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_QUERY_RUN_TYPE</api>
+    <api>net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_QUERY_RUN_TYPE</api>
     <default>list</default>
     <scope>Global | Dataset</scope>
     <since>1.2.0</since>
@@ -308,7 +308,7 @@ Property specifying the fetch size for the <code>java.sql.ResultSet</code> creat
 <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api> and the 
 <api href="net/sf/jasperreports/engine/query/JRHibernateQueryExecuter.html">JRHibernateQueryExecuter</api>.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_FETCH_SIZE</api>
+    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_FETCH_SIZE</api>
     <default>0</default>
     <scope>Global | Dataset</scope>
     <since>1.2.0</since>
@@ -326,7 +326,7 @@ Property specifying the type for the <code>java.sql.ResultSet</code> created by 
   <li><code>scrollSensitive</code> - the result set is scrollable and generally sensitive to changes made by others.</li>
 </ul>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_RESULT_SET_TYPE</api>
+    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_RESULT_SET_TYPE</api>
     <default>forwardOnly</default>
     <scope>Global | Dataset</scope>
     <since>3.5.3</since>
@@ -343,7 +343,7 @@ Property specifying the concurrency rule for the <code>java.sql.ResultSet</code>
   <li><code>updatable</code> - the concurrency mode for a <code>ResultSet</code> object that may be updated.</li>
 </ul>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_CONCURRENCY</api>
+    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_CONCURRENCY</api>
     <default>readOnly</default>
     <scope>Global | Dataset</scope>
     <since>3.5.3</since>
@@ -360,7 +360,7 @@ Property specifying the cursor holdability after commit for the <code>java.sql.R
   <li><code>close</code> - indicates that <code>ResultSet</code> objects should be closed when the method <code>Connection.commit()</code> is called.</li>
 </ul>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_HOLDABILITY</api>
+    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_HOLDABILITY</api>
     <default>hold</default>
     <scope>Global | Dataset</scope>
     <since>3.5.3</since>
@@ -374,7 +374,7 @@ Property specifying the limit for the maximum number of bytes in a <code>ResultS
 storing character or binary values created by the 
 <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api>.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_MAX_FIELD_SIZE</api>
+    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_MAX_FIELD_SIZE</api>
     <default>N/A</default>
     <scope>Global | Dataset</scope>
     <since>3.5.3</since>
@@ -386,7 +386,7 @@ storing character or binary values created by the
     <description>
 Property that specifies the list of token separators characters for <api href="net/sf/jasperreports/engine/JRQueryChunk.html#TYPE_CLAUSE_TOKENS">TYPE_CLAUSE_TOKENS</api> tokenized query clauses.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRQueryChunk.html#PROPERTY_CHUNK_TOKEN_SEPARATOR</api>
+    <api>net/sf/jasperreports/engine/JRQueryChunk.html#PROPERTY_CHUNK_TOKEN_SEPARATOR</api>
     <default>, ; |</default>
     <scope>Global</scope>
     <since>2.0.5</since>
@@ -400,7 +400,7 @@ Property that specifies the list of token separators characters for <api href="n
 Properties with this prefix associate a query executer factory implementation with a query language.
 To obtain query executer factories, a property having the query language appended to this prefix is used to get the query executer factory name.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRQueryExecuterFactory.html#QUERY_EXECUTER_FACTORY_PREFIX</api>
+    <api>net/sf/jasperreports/engine/query/JRQueryExecuterFactory.html#QUERY_EXECUTER_FACTORY_PREFIX</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>1.2.0</since>
@@ -416,7 +416,7 @@ Property specifying the
 <api href="net/sf/jasperreports/engine/util/xml/XalanXPathExecuterFactory.html">XalanXPathExecuterFactory</api> and 
 <api href="net/sf/jasperreports/engine/util/xml/JaxenXPathExecuter.html">JaxenXPathExecuter</api>.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/xml/JRXPathExecuterUtils.html#PROPERTY_XPATH_EXECUTER_FACTORY</api>
+    <api>net/sf/jasperreports/engine/util/xml/JRXPathExecuterUtils.html#PROPERTY_XPATH_EXECUTER_FACTORY</api>
     <default><code>net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory</code></default>
     <scope>Global</scope>
     <since>2.0.0</since>
@@ -432,7 +432,7 @@ Prefix for properties that map report compilers to expression languages.
 Properties having this prefix indicate the JRCompiler implementation to be used when compiling
 report designs that rely on the expression language specified as property suffix.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JRCompiler.html#COMPILER_PREFIX</api>
+    <api>net/sf/jasperreports/engine/design/JRCompiler.html#COMPILER_PREFIX</api>
     <default><code>net.sf.jasperreports.engine.design.JRJdtCompiler</code>, if available; <code>net.sf.jasperreports.engine.design.JRJdk13Compiler</code> otherwise. <br/>Java is considered the default expression language.</default>
     <scope>Global</scope>
     <since>2.0.1</since>
@@ -445,7 +445,7 @@ report designs that rely on the expression language specified as property suffix
     <description>
 Property specifying the classpath used by the report compiler during the compilation process.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_CLASSPATH</api>
+    <api>net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_CLASSPATH</api>
     <default><code>System.getProperty("java.class.path")</code></default>
     <scope>Global</scope>
     <since>1.0.0</since>
@@ -458,7 +458,7 @@ Property specifying the classpath used by the report compiler during the compila
     <description>
 Property specifying whether the temporary source file created by the report compiler should be kept or deleted after the report compilation process ended.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_KEEP_JAVA_FILE</api>
+    <api>net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_KEEP_JAVA_FILE</api>
     <default>false</default>
     <scope>Global</scope>
     <since>1.0.0</since>
@@ -471,7 +471,7 @@ Property specifying whether the temporary source file created by the report comp
     <description>
 Property specifying the temporary working directory to be used by the report compiler.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_TEMP_DIR</api>
+    <api>net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_TEMP_DIR</api>
     <default><code>System.getProperty("user.dir")</code></default>
     <scope>Global</scope>
     <since>1.0.0</since>
@@ -484,7 +484,7 @@ Property specifying the temporary working directory to be used by the report com
     <description>
 Property that forces the XML validation of the report template file before compiling.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_XML_VALIDATION</api>
+    <api>net/sf/jasperreports/engine/util/JRProperties.html#COMPILER_XML_VALIDATION</api>
     <default>true</default>
     <scope>Global</scope>
     <since>1.0.0</since>
@@ -502,7 +502,7 @@ Currently, setting this property is only effective when a Xerces XML
 parser is used (either a stock one from Apache or one embedded into a 
 SUN JDK).
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/xml/JRReportSaxParserFactory.html#PROPERTY_CACHE_SCHEMAS</api>
+    <api>net/sf/jasperreports/engine/xml/JRReportSaxParserFactory.html#PROPERTY_CACHE_SCHEMAS</api>
     <default>true</default>
     <scope>Global</scope>
     <since>3.1.0</since>
@@ -519,7 +519,7 @@ for parsing JRXMLs.
 By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/JRReportSaxParserFactory.html">JRReportSaxParserFactory</api> 
 as report parser factory.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/xml/JRSaxParserFactory.html#PROPERTY_REPORT_PARSER_FACTORY</api>
+    <api>net/sf/jasperreports/engine/xml/JRSaxParserFactory.html#PROPERTY_REPORT_PARSER_FACTORY</api>
     <default><code>net.sf.jasperreports.engine.xml.JRReportSaxParserFactory</code></default>
     <scope>Global</scope>
     <since>3.1.0</since>
@@ -539,7 +539,7 @@ an infinite loop. Having elements with negative widths does not make sense, but 
 this is a workaround in case older report templates still need to pass validation
 at report compile time.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH</api>
+    <api>net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.7.1</since>
@@ -591,7 +591,7 @@ or if export filters are in place to exclude one of the elements,
 one of them should be explicitly marked to allow element overlap
 when the report is configured to check for overlaps.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_OVERLAP</api>
+    <api>net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_OVERLAP</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>3.5.0</since>
@@ -604,7 +604,7 @@ when the report is configured to check for overlaps.
     <description>
 Specifies the default split type for bands. See the splitType attribute of the report band. 
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRBand.html#PROPERTY_SPLIT_TYPE</api>
+    <api>net/sf/jasperreports/engine/JRBand.html#PROPERTY_SPLIT_TYPE</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.5.2</since>
@@ -617,7 +617,7 @@ Specifies the default split type for bands. See the splitType attribute of the r
     <description>
 Specifies the default render type for charts. See the <code>renderType</code> attribute of the chart elements.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_RENDER_TYPE</api>
+    <api>net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_RENDER_TYPE</api>
     <default>draw</default>
     <scope>Global | Report</scope>
     <since>2.0.5</since>
@@ -633,7 +633,7 @@ Prefix for properties that map chart renderers.
 Properties having this prefix indicate the JRRenderable implementation to be used when rendering
 a chart element having a rendering type specified in the property suffix.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_RENDER_TYPE</api>
+    <api>net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_RENDER_TYPE</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>2.0.5</since>
@@ -646,7 +646,7 @@ a chart element having a rendering type specified in the property suffix.
     <description>
 Property used to specify the chart theme name.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_THEME</api>
+    <api>net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_THEME</api>
     <default>default</default>
     <scope>Global | Report</scope>
     <since>3.1.0</since>
@@ -659,7 +659,7 @@ Property used to specify the chart theme name.
     <description>
 Specifies the default font name when no default font is explicitly given in a report.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRFont.html#DEFAULT_FONT_NAME</api>
+    <api>net/sf/jasperreports/engine/JRFont.html#DEFAULT_FONT_NAME</api>
     <default>SansSerif</default>
     <scope>Global</scope>
     <since>1.3.0</since>
@@ -672,7 +672,7 @@ Specifies the default font name when no default font is explicitly given in a re
     <description>
 Specifies the default font size when no default font size is explicitly given in a report.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRFont.html#DEFAULT_FONT_SIZE</api>
+    <api>net/sf/jasperreports/engine/JRFont.html#DEFAULT_FONT_SIZE</api>
     <default>10</default>
     <scope>Global</scope>
     <since>1.3.0</since>
@@ -687,7 +687,7 @@ Property specifying the name of the class implementing the
 <api href="net/sf/jasperreports/engine/util/JRImageEncoder.html">JRImageEncoder</api> interface to be used by the engine. 
 If not set, the engine will try to an image encoder implementation that corresponds to the JVM version.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRImageLoader.html#PROPERTY_IMAGE_ENCODER</api>
+    <api>net/sf/jasperreports/engine/util/JRImageLoader.html#PROPERTY_IMAGE_ENCODER</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>2.0.5</since>
@@ -702,7 +702,7 @@ Property specifying the name of the class implementing the
 <api href="net/sf/jasperreports/engine/util/JRImageReader.html">JRImageReader</api> interface to be used by the engine. 
 If not set, the engine will try to an image reader implementation that corresponds to the JVM version.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRImageLoader.html#PROPERTY_IMAGE_READER</api>
+    <api>net/sf/jasperreports/engine/util/JRImageLoader.html#PROPERTY_IMAGE_READER</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>2.0.5</since>
@@ -718,7 +718,7 @@ Prefix for properties that map markup text processors.
 Properties having this prefix indicate the MarkupProcessor implementation to be used when parsing 
 a given styled text having the markup type specified in the property suffix.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/MarkupProcessorFactory.html#PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX</api>
+    <api>net/sf/jasperreports/engine/util/MarkupProcessorFactory.html#PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>2.0.5</since>
@@ -732,7 +732,7 @@ a given styled text having the markup type specified in the property suffix.
 Property used to determine whether the fill process must preserve the original text for text elements that are not able to fit their entire contents.
 When this property is set, the engine saves the original text in the <api href="net/sf/jasperreports/engine/JRPrintText.html">JRPrintText</api> print text object, along with the index at which the text is to be truncated by the print object.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_PRINT_KEEP_FULL_TEXT</api>
+    <api>net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_PRINT_KEEP_FULL_TEXT</api>
     <default>false</default>
     <scope>Global | Report | Text Element</scope>
     <since>2.0.3</since>
@@ -746,7 +746,7 @@ When this property is set, the engine saves the original text in the <api href="
 Boolean property that determines whether text elements are to be truncated at the last character that fits.
 By default, when the entire text of a text element does not fit the element's area, the text is truncated at the last word that fits the area.<br/>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_TRUNCATE_AT_CHAR</api>
+    <api>net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_TRUNCATE_AT_CHAR</api>
     <default>false</default>
     <scope>Global | Report | Text Element</scope>
     <since>2.0.3</since>
@@ -761,7 +761,7 @@ Property whose value is used as a suffix for the truncated text.
 The suffix is appended to the text when truncation occurs.
 If the property is not defined or empty (which is the case by default), no suffix will be used when the text is truncated.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_TRUNCATE_SUFFIX</api>
+    <api>net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_TRUNCATE_SUFFIX</api>
     <default>empty string</default>
     <scope>Global | Report | Text Element</scope>
     <since>2.0.3</since>
@@ -779,7 +779,7 @@ Then one can define an alias of the text measurer factory implementation by decl
 The <code>net.sf.jasperreports.text.measurer.factory</code> property is set to a defined alias or a full factory class name. 
 The factory class is used to instantiate text measurers for report text elements, which are then used to compute the text layout attributes. 
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRTextMeasurerUtil.html#PROPERTY_TEXT_MEASURER_FACTORY</api>
+    <api>net/sf/jasperreports/engine/util/JRTextMeasurerUtil.html#PROPERTY_TEXT_MEASURER_FACTORY</api>
     <default><code>net.sf.jasperreports.engine.fill.TextMeasurerFactory</code></default>
     <scope>Global | Report | Text Element</scope>
     <since>2.0.3</since>
@@ -808,7 +808,7 @@ measurement at fill time.
 Currently, the HTML exporter will make use of the saved line break
 positions by introducing explicit line breaks.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_SAVE_LINE_BREAKS</api>
+    <api>net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_SAVE_LINE_BREAKS</api>
     <default><code>false</code></default>
     <scope>Global | Report | Text Element</scope>
     <since>3.5.1</since>
@@ -822,7 +822,7 @@ positions by introducing explicit line breaks.
 Property used to decide whether <code>java.io.File#deleteOnExit()</code> should be requested for temporary files created by the virtualizer.
 Temporary files will be deleted by explicitly calling <code>cleanup()</code> or from the virtualizer <code>finalize()</code> method.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/JRFileVirtualizer.html#PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT</api>
+    <api>net/sf/jasperreports/engine/fill/JRFileVirtualizer.html#PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT</api>
     <default>true</default>
     <scope>Global</scope>
     <since>1.2.3</since>
@@ -835,7 +835,7 @@ Temporary files will be deleted by explicitly calling <code>cleanup()</code> or 
     <description>
 Property specifying the <api href="net/sf/jasperreports/engine/fill/JRSubreportRunnerFactory.html">JRSubreportRunnerFactory</api> implementation to use for creating subreport runners.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/JRSubreportRunnerFactory.html#SUBREPORT_RUNNER_FACTORY</api>
+    <api>net/sf/jasperreports/engine/fill/JRSubreportRunnerFactory.html#SUBREPORT_RUNNER_FACTORY</api>
     <default><code>net.sf.jasperreports.engine.fill<br/>.JRThreadSubreportRunnerFactory</code></default>
     <scope>Global</scope>
     <since>1.2.2</since>
@@ -857,7 +857,7 @@ loaded by different classloaders, e.g. when JasperReports is part of
 the classpath of a web application which is often reloaded.  In such
 scenarios, set this property to false.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html#PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED</api>
+    <api>net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html#PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED</api>
     <default>true</default>
     <scope>Global</scope>
     <since>3.0.0</since>
@@ -878,7 +878,7 @@ This applies to report elements that can have delayed evaluations times
 associated with the element are evaluated at the moment the element is
 set to evaluate, and the resulting style to the generated print element.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRStyle.html#PROPERTY_EVALUATION_TIME_ENABLED</api>
+    <api>net/sf/jasperreports/engine/JRStyle.html#PROPERTY_EVALUATION_TIME_ENABLED</api>
     <default>false</default>
     <scope>Global | Report | Element</scope>
     <since>3.5.2</since>
@@ -893,7 +893,7 @@ A flag indicating whether the governor that checks if a report exceeds a specifi
 With this property enabled, the JR engine will stop the report execution if the number of pages becomes greater than a 
 custom given value. 
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/governors/MaxPagesGovernor.html#PROPERTY_MAX_PAGES_ENABLED</api>
+    <api>net/sf/jasperreports/governors/MaxPagesGovernor.html#PROPERTY_MAX_PAGES_ENABLED</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.1.4</since>
@@ -908,7 +908,7 @@ If the governor that checks if a report exceeds a specified limit of pages is tu
 maximum number of pages allowed to be ran, in order to prevent a memory overflow error. If the number of pages in the report 
 becomes greater than this value, the report execution will be stopped. 
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/governors/MaxPagesGovernor.html#PROPERTY_MAX_PAGES</api>
+    <api>net/sf/jasperreports/governors/MaxPagesGovernor.html#PROPERTY_MAX_PAGES</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.4</since>
@@ -927,7 +927,7 @@ becomes greater than the limit value.
 <br/>
 By default it should be turned off.  
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/governors/TimeoutGovernor.html#PROPERTY_TIMEOUT_ENABLED</api>
+    <api>net/sf/jasperreports/governors/TimeoutGovernor.html#PROPERTY_TIMEOUT_ENABLED</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.1.4</since>
@@ -943,7 +943,7 @@ exceeds a specified amount of time is turned on, this property will indicate the
 maximum allowed amount of time, in order to prevent a memory overflow error. If this value  
 becomes exceeded, the report execution will be stopped. 
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/governors/TimeoutGovernor.html#PROPERTY_TIMEOUT</api>
+    <api>net/sf/jasperreports/governors/TimeoutGovernor.html#PROPERTY_TIMEOUT</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.4</since>
@@ -956,7 +956,7 @@ becomes exceeded, the report execution will be stopped.
     <description>
 Property that limits the number of buckets in a crosstab, to avoid out of memory errors.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/fill/calculation/BucketingService.html#PROPERTY_BUCKET_MEASURE_LIMIT</api>
+    <api>net/sf/jasperreports/crosstabs/fill/calculation/BucketingService.html#PROPERTY_BUCKET_MEASURE_LIMIT</api>
     <default>0</default>
     <scope>Global</scope>
     <since>1.3.4</since>
@@ -978,7 +978,7 @@ The property value is one of
 	<li><api href="net/sf/jasperreports/crosstabs/JRCellContents.html#TYPE_NO_DATA_CELL">TYPE_NO_DATA_CELL</api></li>
 </ul>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_TYPE</api>
+    <api>net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_TYPE</api>
     <default>N/A</default>
     <scope>Element</scope>
     <since>3.1.2</since>
@@ -991,7 +991,7 @@ The property value is one of
     <description>
 Property that provides the crosstab row span of a print frame. (FIXME not a user defined property)
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_ROW_SPAN</api>
+    <api>net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_ROW_SPAN</api>
     <default>N/A</default>
     <scope>Element</scope>
     <since>3.1.2</since>
@@ -1004,7 +1004,7 @@ Property that provides the crosstab row span of a print frame. (FIXME not a user
     <description>
 Property that provides the crosstab column span of a print frame. (FIXME not a user defined property)
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_COLUMN_SPAN</api>
+    <api>net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_COLUMN_SPAN</api>
     <default>N/A</default>
     <scope>Element</scope>
     <since>3.1.2</since>
@@ -1017,7 +1017,7 @@ Property that provides the crosstab column span of a print frame. (FIXME not a u
     <description>
 Property that provides the default value for the crosstab <code>ignoreWidth</code> attribute.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCrosstab.html#PROPERTY_IGNORE_WIDTH</api>
+    <api>net/sf/jasperreports/crosstabs/JRCrosstab.html#PROPERTY_IGNORE_WIDTH</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.5.3</since>
@@ -1030,7 +1030,7 @@ Property that provides the default value for the crosstab <code>ignoreWidth</cod
     <description>
 Property specifying whether the measured value should be rendered visible on a meter or thermometer chart's display zone.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE</api>
+    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE</api>
     <default>false</default>
     <scope>Element</scope>
     <since>3.5.0</since>
@@ -1043,7 +1043,7 @@ Property specifying whether the measured value should be rendered visible on a m
     <description>
 Property containing the label text attached to the measured value in a meter or thermometer chart.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DIAL_LABEL</api>
+    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DIAL_LABEL</api>
     <default>N/A</default>
     <scope>Element</scope>
     <since>3.5.0</since>
@@ -1056,7 +1056,7 @@ Property containing the label text attached to the measured value in a meter or 
     <description>
 Property specifying the number of ticks on a domain value axis. If it is not set, the JFreeCharts engine will use its own defaults to instantiate the axis.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DOMAIN_AXIS_TICK_COUNT</api>
+    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DOMAIN_AXIS_TICK_COUNT</api>
     <default>N/A</default>
     <scope>Element</scope>
     <since>3.5.0</since>
@@ -1074,7 +1074,7 @@ If it is not set, the JFreeCharts engine will use its own defaults to instantiat
 <br/>
 By default it is not set.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DOMAIN_AXIS_TICK_INTERVAL</api>
+    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DOMAIN_AXIS_TICK_INTERVAL</api>
     <default>N/A</default>
     <scope>Element</scope>
     <since>3.1.4</since>
@@ -1089,7 +1089,7 @@ Property specifying the number of ticks on a range value axis. If it is not set,
 <br/>
 By default it is not set.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_RANGE_AXIS_TICK_COUNT</api>
+    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_RANGE_AXIS_TICK_COUNT</api>
     <default>N/A</default>
     <scope>Element</scope>
     <since>3.5.0</since>
@@ -1107,7 +1107,7 @@ If it is not set, the JFreeCharts engine will use its own defaults to instantiat
 <br/>
 By default it is not set.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_RANGE_AXIS_TICK_INTERVAL</api>
+    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_RANGE_AXIS_TICK_INTERVAL</api>
     <default>N/A</default>
     <scope>Element</scope>
     <since>3.1.4</since>
@@ -1125,7 +1125,7 @@ instantiate sub extensions registries. Each such property contains the fixed pro
 which is used as registry ID when instantiating. The property should have as value the name of a 
  <api href="net/sf/jasperreports/extensions/ExtensionsRegistryFactory.html">ExtensionsRegistryFactory</api> implementation.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/extensions/DefaultExtensionsRegistry.html#PROPERTY_REGISTRY_FACTORY_PREFIX</api>
+    <api>net/sf/jasperreports/extensions/DefaultExtensionsRegistry.html#PROPERTY_REGISTRY_FACTORY_PREFIX</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>3.1.0</since>
@@ -1143,7 +1143,7 @@ For example:
 the <code>net.sf.jasperreports.extension.chart.theme.spring.beans.resource</code> contains the spring beans resource bundle location 
 for the spring-based extensions registry class with the <code>"chart.theme"</code> registry ID.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/extensions/DefaultExtensionsRegistry.html#PROPERTY_REGISTRY_PREFIX</api>
+    <api>net/sf/jasperreports/extensions/DefaultExtensionsRegistry.html#PROPERTY_REGISTRY_PREFIX</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>3.1.0</since>
@@ -1160,7 +1160,7 @@ implementation class.
 This property is only read at initialization time, therefore changing
 the property value at a later time will have no effect. 
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/extensions/ExtensionsEnvironment.html#PROPERTY_EXTENSIONS_REGISTRY_CLASS</api>
+    <api>net/sf/jasperreports/extensions/ExtensionsEnvironment.html#PROPERTY_EXTENSIONS_REGISTRY_CLASS</api>
     <default><code>net.sf.jasperreports.extensions.DefaultExtensionsRegistry</code></default>
     <scope>Global</scope>
     <since>3.1.0</since>
@@ -1174,7 +1174,7 @@ the property value at a later time will have no effect.
 Property specifying the maximum in-memory buffer length that triggers the creation of a temporary file on disk to store further content sent to a 
 <api href="net/sf/jasperreports/engine/util/FileBufferedOutputStream.html">FileBufferedOutputStream</api> instance.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/FileBufferedOutputStream.html#PROPERTY_MEMORY_THRESHOLD</api>
+    <api>net/sf/jasperreports/engine/util/FileBufferedOutputStream.html#PROPERTY_MEMORY_THRESHOLD</api>
     <default>262144</default>
     <scope>Global</scope>
     <since>1.3.4</since>
@@ -1189,7 +1189,7 @@ The name of the system property that specifies the properties file name.
 If the system property <code>net.sf.jasperreports.properties</code> has been set then the specified properties file is loaded. 
 Otherwise the <code>jasperreports.properties</code> file is loaded, if found in the classpath.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#PROPERTIES_FILE</api>
+    <api>net/sf/jasperreports/engine/util/JRProperties.html#PROPERTIES_FILE</api>
     <default>jasperreports.properties</default>
     <scope>System</scope>
     <since>1.0.0</since>
@@ -1204,7 +1204,7 @@ Maximum size (in pixels) of a buffered image that would be used by <api href="ne
 If rendering a report page would require an image larger than this threshold (i.e. image width x image height > maximum size), the report page will be rendered directly on the viewer component.
 If this property is zero or negative, buffered images will never be used to render a report page.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/view/JRViewer.html#VIEWER_RENDER_BUFFER_MAX_SIZE</api>
+    <api>net/sf/jasperreports/view/JRViewer.html#VIEWER_RENDER_BUFFER_MAX_SIZE</api>
     <default>0</default>
     <scope>Global</scope>
     <since>1.2.8</since>
@@ -1218,7 +1218,7 @@ If this property is zero or negative, buffered images will never be used to rend
 A property that specifies the number of times the measurer should attempt 
 to measure a single text element before giving up.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_ATTEMPTS</api>
+    <api>net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_ATTEMPTS</api>
     <default>20</default>
     <scope>Global</scope>
     <since>3.0.0</since>
@@ -1235,7 +1235,7 @@ measuring reattempts.
 The default value is 0, which means that the measurer will not pause 
 between reattempts (see <api href="net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#DEFAULT_ATTEMPT_SLEEP">DEFAULT_ATTEMPT_SLEEP</api>).
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_ATTEMPT_SLEEP</api>
+    <api>net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_ATTEMPT_SLEEP</api>
     <default>0</default>
     <scope>Global</scope>
     <since>3.0.0</since>
@@ -1252,7 +1252,7 @@ should be caught.
 This is useful when running on a Sun server JVM (java -server), which might omit 
 exception stacktraces in some cases.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_CATCH_EMPTY_STACKTRACE</api>
+    <api>net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_CATCH_EMPTY_STACKTRACE</api>
     <default>false</default>
     <scope>Global</scope>
     <since>3.0.0</since>
@@ -1265,7 +1265,7 @@ exception stacktraces in some cases.
     <description>
 Property that forces the XML validation, when a document exported to XML format is loaded.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#EXPORT_XML_VALIDATION</api>
+    <api>net/sf/jasperreports/engine/util/JRProperties.html#EXPORT_XML_VALIDATION</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>1.0.0</since>
@@ -1278,7 +1278,7 @@ Property that forces the XML validation, when a document exported to XML format 
     <description>
 Property indicating the default PDF font, if not specified in the report template or at export time.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_FONT_NAME</api>
+    <api>net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_FONT_NAME</api>
     <default>Helvetica</default>
     <scope>Global</scope>
     <since>1.3.0</since>
@@ -1291,7 +1291,7 @@ Property indicating the default PDF font, if not specified in the report templat
     <description>
 Property indicating the default PDF encoding, if not specified in the report template or at export time.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_ENCODING</api>
+    <api>net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_ENCODING</api>
     <default>Cp1252</default>
     <scope>Global</scope>
     <since>1.3.0</since>
@@ -1304,7 +1304,7 @@ Property indicating the default PDF encoding, if not specified in the report tem
     <description>
 Property indicating the default PDF font embedding behavior, if not specified in the report template or at export time.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_EMBEDDED</api>
+    <api>net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_EMBEDDED</api>
     <default>false</default>
     <scope>Global</scope>
     <since>1.3.0</since>
@@ -1355,7 +1355,7 @@ A set of properties that are used to register filter factories. They all contain
 <br/>
 For example: <code>net.sf.jasperreports.export.filter.factory.origin</code> indicates an element origin filter factory.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/DefaultExporterFilterFactory.html#PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX</api>
+    <api>net/sf/jasperreports/engine/export/DefaultExporterFilterFactory.html#PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.0.1</since>
@@ -1367,7 +1367,7 @@ For example: <code>net.sf.jasperreports.export.filter.factory.origin</code> indi
   <configProperty name="net.sf.jasperreports.export.default.filter.factory">
     <description>
 A property that gives the generic default filter factory class name.    </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_DEFAULT_FILTER_FACTORY</api>
+    <api>net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_DEFAULT_FILTER_FACTORY</api>
     <default><code>net.sf.jasperreports.engine.export.DefaultExporterFilterFactory</code></default>
     <scope>Global | Report</scope>
     <since>3.0.1</since>
@@ -1387,7 +1387,7 @@ For instance, the default filter factory for XLS exporters is
 If this property is not defined for a specific exporter, the generic
  exporter factory given by <api href="net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_DEFAULT_FILTER_FACTORY">PROPERTY_DEFAULT_FILTER_FACTORY</api> is used.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY</api>
+    <api>net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY</api>
     <default><api href="net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_DEFAULT_FILTER_FACTORY">PROPERTY_DEFAULT_FILTER_FACTORY</api> 's default value.</default>
     <scope>Global</scope>
     <since>3.0.1</since>
@@ -1400,7 +1400,7 @@ If this property is not defined for a specific exporter, the generic
     <description>
 Property whose value is used as default for the <api href="net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_CHARACTER_ENCODING">CHARACTER_ENCODING</api> export parameter, meaning the character encoding used for export.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_CHARACTER_ENCODING</api>
+    <api>net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_CHARACTER_ENCODING</api>
     <default>UTF-8</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1414,7 +1414,7 @@ Property whose value is used as default for the <api href="net/sf/jasperreports/
 Property which allows rendering element borders in older reports using the legacy border offset
 technique that that was used in versions prior to the 2.0.3 release.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/legacy/BorderOffset.html#PROPERTY_LEGACY_BORDER_OFFSET</api>
+    <api>net/sf/jasperreports/engine/export/legacy/BorderOffset.html#PROPERTY_LEGACY_BORDER_OFFSET</api>
     <default><api href="net/sf/jasperreports/engine/export/legacy/BorderOffset.html#DEFAULT">net.sf.jasperreports.export.legacy.BorderOffset.DEFAULT</api></default>
     <scope>Global | Report</scope>
     <since>3.0.0</since>
@@ -1428,7 +1428,7 @@ technique that that was used in versions prior to the 2.0.3 release.
 Property whose value is used as default for the <api href="net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#FIELD_DELIMITER">FIELD_DELIMITER</api> CSV export parameter.
 Contains the character or sequence of characters used to delimit two fields on the same record.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#PROPERTY_FIELD_DELIMITER</api>
+    <api>net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#PROPERTY_FIELD_DELIMITER</api>
     <default>,</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1442,7 +1442,7 @@ Contains the character or sequence of characters used to delimit two fields on t
 Property whose value is used as default for the <api href="net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#RECORD_DELIMITER">RECORD_DELIMITER</api> CSV export parameter.
 Contains the character or sequence of characters used to delimit two records.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#PROPERTY_RECORD_DELIMITER</api>
+    <api>net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#PROPERTY_RECORD_DELIMITER</api>
     <default>\n</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1456,7 +1456,7 @@ Contains the character or sequence of characters used to delimit two records.
 Property that provides a default value for the <api href="net/sf/jasperreports/engine/export/JRGraphics2DExporterParameter.html#MINIMIZE_PRINTER_JOB_SIZE">MINIMIZE_PRINTER_JOB_SIZE</api> Graphics2D exporter parameter.
 This flag controls the use of an AWT rendering fix which causes the printer job size to be reduced when the exporter draws onto a printer graphic context.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRGraphics2DExporter.html#MINIMIZE_PRINTER_JOB_SIZE</api>
+    <api>net/sf/jasperreports/engine/export/JRGraphics2DExporter.html#MINIMIZE_PRINTER_JOB_SIZE</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>1.2.8</since>
@@ -1471,7 +1471,7 @@ This property serves as default value for the <api href="net/sf/jasperreports/en
 Specifies whether page margins should be ignored when the report is exported using a grid-based exporter
 If the property is <code>true</code>, any page in the document will be exported without taking into account its margins.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_IGNORE_PAGE_MARGINS</api>
+    <api>net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_IGNORE_PAGE_MARGINS</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.5</since>
@@ -1485,7 +1485,7 @@ If the property is <code>true</code>, any page in the document will be exported 
 This property serves as default value for the <api href="net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#FRAMES_AS_NESTED_TABLES">FRAMES_AS_NESTED_TABLES</api> export parameter.
 If set to <code>false</code>, the frame content will be integrated into the master/page table.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
+    <api>net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>3.5.3</since>
@@ -1499,7 +1499,7 @@ If set to <code>false</code>, the frame content will be integrated into the mast
 This property serves as default value for the <api href="net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#FLEXIBLE_ROW_HEIGHT">FLEXIBLE_ROW_HEIGHT</api> export parameter.
 If set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
+    <api>net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
@@ -1513,7 +1513,7 @@ If set to <code>false</code>, the table rows do not increase in height automatic
 This property serves as default value for the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#FRAMES_AS_NESTED_TABLES">FRAMES_AS_NESTED_TABLES</api> export parameter.
 If set to <code>false</code>, the frame content will be integrated into the master/page HTML table.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
+    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1526,7 +1526,7 @@ If set to <code>false</code>, the frame content will be integrated into the mast
     <description>
 Property used to specify the value of the <code>ID</code> attribute of elements when exported to HTML and XHTML formats. The value of this property will be used as the value for the <code>id</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML and/or the <code>id</code> attribute of the <code>&lt;span&gt;</code> or <code>&lt;div&gt;</code> tag for the element, when exported to XHTML/CSS.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporter.html#PROPERTY_HTML_ID</api>
+    <api>net/sf/jasperreports/engine/export/JRHtmlExporter.html#PROPERTY_HTML_ID</api>
     <default>N/A</default>
     <scope>Element</scope>
     <since>3.7.0</since>
@@ -1540,7 +1540,7 @@ Property used to specify the value of the <code>ID</code> attribute of elements 
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS">IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api> export flag.
 If set to <code>true</code>, blank lines that sometimes appear between rows as spacers, should be collapsed.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
+    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1554,7 +1554,7 @@ If set to <code>true</code>, blank lines that sometimes appear between rows as s
 Property whose value is used as default for the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#SIZE_UNIT">SIZE_UNIT</api> export parameter.
 A String value specifying the unit to use when measuring lengths or font size. 
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_SIZE_UNIT</api>
+    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_SIZE_UNIT</api>
     <default>px</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1568,7 +1568,7 @@ A String value specifying the unit to use when measuring lengths or font size.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#IS_USING_IMAGES_TO_ALIGN">IS_USING_IMAGES_TO_ALIGN</api> export flag.
 It specifies whether the export engine should use small transparent spacer images for aligning content.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_USING_IMAGES_TO_ALIGN</api>
+    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_USING_IMAGES_TO_ALIGN</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1582,7 +1582,7 @@ It specifies whether the export engine should use small transparent spacer image
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#IS_WHITE_PAGE_BACKGROUND">IS_WHITE_PAGE_BACKGROUND</api> export parameter.
 It specifies whether the report page background should be forced to white.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
+    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1596,7 +1596,7 @@ It specifies whether the report page background should be forced to white.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#IS_WRAP_BREAK_WORD">IS_WRAP_BREAK_WORD</api> export parameter.
 It specifies whether the export engine should force text wrapping by breaking words (CSS <code>word-wrap: break-word</code>).
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_WRAP_BREAK_WORD</api>
+    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_WRAP_BREAK_WORD</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1610,7 +1610,7 @@ It specifies whether the export engine should force text wrapping by breaking wo
 Property that establishes the priority of export parameters against report hints.
 If the property is <code>true</code>, export parameters override report hints; this is the default behavior.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS</api>
+    <api>net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS</api>
     <default>true</default>
     <scope>Global</scope>
   </configProperty>
@@ -1623,7 +1623,7 @@ If the property is <code>true</code>, export parameters override report hints; t
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_128_BIT_KEY">IS_128_BIT_KEY</api> export parameter.
 It specifies whether the encryption key is 128 bits.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_128_BIT_KEY</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_128_BIT_KEY</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1637,7 +1637,7 @@ It specifies whether the encryption key is 128 bits.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_COMPRESSED">IS_COMPRESSED</api> export flag.
 It specifies whether the PDF document should be compressed.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_COMPRESSED</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_COMPRESSED</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1651,7 +1651,7 @@ It specifies whether the PDF document should be compressed.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_CREATING_BATCH_MODE_BOOKMARKS">IS_CREATING_BATCH_MODE_BOOKMARKS</api> export flag.
 It specifies whether the PDF document should contain an outline section.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_CREATE_BATCH_MODE_BOOKMARKS</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_CREATE_BATCH_MODE_BOOKMARKS</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1665,7 +1665,7 @@ It specifies whether the PDF document should contain an outline section.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_ENCRYPTED">IS_ENCRYPTED</api> export flag.
 It specifies  whether the final PDF document should be encrypted.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_ENCRYPTED</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_ENCRYPTED</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1678,7 +1678,7 @@ It specifies  whether the final PDF document should be encrypted.
     <description>
 Prefix of properties that specify font files for the PDF exporter.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#PDF_FONT_FILES_PREFIX</api>
+    <api>net/sf/jasperreports/engine/util/JRProperties.html#PDF_FONT_FILES_PREFIX</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>1.0.0</since>
@@ -1691,7 +1691,7 @@ Prefix of properties that specify font files for the PDF exporter.
     <description>
 Prefix of properties that specify font directories for the PDF exporter.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRProperties.html#PDF_FONT_DIRS_PREFIX</api>
+    <api>net/sf/jasperreports/engine/util/JRProperties.html#PDF_FONT_DIRS_PREFIX</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>1.0.0</since>
@@ -1705,7 +1705,7 @@ Prefix of properties that specify font directories for the PDF exporter.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#FORCE_LINEBREAK_POLICY">FORCE_LINEBREAK_POLICY</api> export flag.
 It specifies whether the PDF exporter should use a <a href="http://itext.ugent.be/library/api/com/lowagie/text/SplitCharacter.html">SplitCharacter</a> implementation to ensure that PDF text wrap behavior is the same as in AWT.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_FORCE_LINEBREAK_POLICY</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_FORCE_LINEBREAK_POLICY</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1719,7 +1719,7 @@ It specifies whether the PDF exporter should use a <a href="http://itext.ugent.b
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#FORCE_SVG_SHAPES">FORCE_SVG_SHAPES</api> export flag.
 It specifies whether the rendering of SVG images using shapes on the PDF Graphics2D context should be forced.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_FORCE_SVG_SHAPES</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_FORCE_SVG_SHAPES</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1733,7 +1733,7 @@ It specifies whether the rendering of SVG images using shapes on the PDF Graphic
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PDF_JAVASCRIPT">PDF_JAVASCRIPT</api> export parameter.
 Contains the user defined JavaScript piece of code to be inserted into the generated PDF document.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_JAVASCRIPT</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_JAVASCRIPT</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1747,7 +1747,7 @@ Contains the user defined JavaScript piece of code to be inserted into the gener
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#OWNER_PASSWORD">OWNER_PASSWORD</api> export parameter.
 Contains the password belonging to the owner of the document, if it is encrypted. If the owner password is not specified, but the PDF is encrypted, then the password will be a random string.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_OWNER_PASSWORD</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_OWNER_PASSWORD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1761,7 +1761,7 @@ Contains the password belonging to the owner of the document, if it is encrypted
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PRINT_SCALING">PRINT_SCALING</api> export parameter.
 Possible values are <code>default</code> and <code>none</code>.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PRINT_SCALING</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PRINT_SCALING</api>
     <default>default</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
@@ -1775,7 +1775,7 @@ Possible values are <code>default</code> and <code>none</code>.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#USER_PASSWORD">USER_PASSWORD</api> export parameter.
 Contains the user password needed to open the document, if it is encrypted.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_USER_PASSWORD</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_USER_PASSWORD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1789,7 +1789,7 @@ Contains the user password needed to open the document, if it is encrypted.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PDF_VERSION">PDF_VERSION</api> export parameter.
 Contains a <code>Character</code> instance representing the version of the generated PDF.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_VERSION</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_VERSION</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1803,7 +1803,7 @@ Contains a <code>Character</code> instance representing the version of the gener
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_TAGGED">IS_TAGGED</api> export flag.
 Specifies whether the exporter should put structure tags in the generated PDF.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_TAGGED</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_TAGGED</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -1817,7 +1817,7 @@ Specifies whether the exporter should put structure tags in the generated PDF.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#TAG_LANGUAGE">TAG_LANGUAGE</api> export parameter.
 Specifies the language that the exporter should put in the language tag of the generated PDF.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_TAG_LANGUAGE</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_TAG_LANGUAGE</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -1830,7 +1830,7 @@ Specifies the language that the exporter should put in the language tag of the g
     <description>
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#CHARACTER_WIDTH">CHARACTER_WIDTH</api> export parameter.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_CHARACTER_WIDTH</api>
+    <api>net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_CHARACTER_WIDTH</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
@@ -1843,7 +1843,7 @@ Property whose value is used as default state of the <api href="net/sf/jasperrep
     <description>
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#CHARACTER_HEIGHT">CHARACTER_HEIGHT</api> export parameter.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_CHARACTER_HEIGHT</api>
+    <api>net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_CHARACTER_HEIGHT</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
@@ -1856,7 +1856,7 @@ Property whose value is used as default state of the <api href="net/sf/jasperrep
     <description>
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PAGE_WIDTH">PAGE_WIDTH</api> export parameter.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_PAGE_WIDTH</api>
+    <api>net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_PAGE_WIDTH</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
@@ -1869,7 +1869,7 @@ Property whose value is used as default state of the <api href="net/sf/jasperrep
     <description>
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PAGE_HEIGHT">PAGE_HEIGHT</api> export parameter.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_PAGE_HEIGHT</api>
+    <api>net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_PAGE_HEIGHT</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
@@ -1883,7 +1883,7 @@ Property whose value is used as default state of the <api href="net/sf/jasperrep
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_COLLAPSE_ROW_SPAN">IS_COLLAPSE_ROW_SPAN</api> export flag.
 Specifies whether row spans should be collapsed and merging cells across rows should be inhibited.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_COLLAPSE_ROW_SPAN</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_COLLAPSE_ROW_SPAN</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1897,7 +1897,7 @@ Specifies whether row spans should be collapsed and merging cells across rows sh
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JExcelApiExporterParameter.html#CREATE_CUSTOM_PALETTE">CREATE_CUSTOM_PALETTE</api> export flag.
 This property is by default not set (<code>false</code>).
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JExcelApiExporterParameter.html#PROPERTY_CREATE_CUSTOM_PALETTE</api>
+    <api>net/sf/jasperreports/engine/export/JExcelApiExporterParameter.html#PROPERTY_CREATE_CUSTOM_PALETTE</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.0</since>
@@ -1911,7 +1911,7 @@ This property is by default not set (<code>false</code>).
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_DETECT_CELL_TYPE">IS_DETECT_CELL_TYPE</api> export flag.
 Specifies whether the exporter should take into consideration the type of the original text field expressions and set the cell types and values accordingly.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_DETECT_CELL_TYPE</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_DETECT_CELL_TYPE</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1925,7 +1925,7 @@ Specifies whether the exporter should take into consideration the type of the or
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_FONT_SIZE_FIX_ENABLED">IS_FONT_SIZE_FIX_ENABLED</api> export flag.
 Specifies whether the font size should be decreased so that texts fit into the specified cell height.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_FONT_SIZE_FIX_ENABLED</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_FONT_SIZE_FIX_ENABLED</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1939,7 +1939,7 @@ Specifies whether the font size should be decreased so that texts fit into the s
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_IGNORE_CELL_BACKGROUND">IS_IGNORE_CELL_BACKGROUND</api> export flag.
 Specifies whether cell background color should be ignored.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_IGNORE_CELL_BACKGROUND</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_IGNORE_CELL_BACKGROUND</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.6.2</since>
@@ -1953,7 +1953,7 @@ Specifies whether cell background color should be ignored.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_IGNORE_CELL_BORDER">IS_IGNORE_CELL_BORDER</api> export flag.
 Specifies whether cell borders should be ignored.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_IGNORE_CELL_BORDER</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_IGNORE_CELL_BORDER</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1967,7 +1967,7 @@ Specifies whether cell borders should be ignored.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_IGNORE_GRAPHICS">IS_IGNORE_GRAPHICS</api> export flag.
 Specifies whether graphic elements should be ignored and only text elements be exported.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_IGNORE_GRAPHICS</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_IGNORE_GRAPHICS</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1981,7 +1981,7 @@ Specifies whether graphic elements should be ignored and only text elements be e
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#MAXIMUM_ROWS_PER_SHEET">MAXIMUM_ROWS_PER_SHEET</api> export parameter.
 Specifies the maximum number of rows allowed to be exported to the same sheet. Negative values or zero means that no limit has been set.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_MAXIMUM_ROWS_PER_SHEET</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_MAXIMUM_ROWS_PER_SHEET</api>
     <default>0</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -1995,7 +1995,7 @@ Specifies the maximum number of rows allowed to be exported to the same sheet. N
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_ONE_PAGE_PER_SHEET">IS_ONE_PAGE_PER_SHEET</api> export flag.
 Specifies whether each report page should be written in a different XLS sheet.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_ONE_PAGE_PER_SHEET</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_ONE_PAGE_PER_SHEET</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2009,7 +2009,7 @@ Specifies whether each report page should be written in a different XLS sheet.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS">IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS</api> export flag.
 Specifies whether the empty spacer columns should be removed or not.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2023,7 +2023,7 @@ Specifies whether the empty spacer columns should be removed or not.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS">IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api> export flag.
 Specifies whether the empty spacer rows should be removed or not.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2037,7 +2037,7 @@ Specifies whether the empty spacer rows should be removed or not.
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_WHITE_PAGE_BACKGROUND">IS_WHITE_PAGE_BACKGROUND</api> export flag.
 Specifies whether the page background should be white or the default XLS background color.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2050,7 +2050,7 @@ Specifies whether the page background should be white or the default XLS backgro
     <description>
 Property that stores the formula which has to be applied to a given cell in an Excel sheet.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_CELL_FORMULA</api>
+    <api>net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_CELL_FORMULA</api>
     <default>N/A</default>
     <scope>Text Element</scope>
     <since>3.0.0</since>
@@ -2067,7 +2067,7 @@ Contains a String value representing the password in case of password protected 
 <br/>
 This property is by default not set (<code>null</code>).                      
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRAbstractXlsExporterParameter.html#PROPERTY_PASSWORD</api>
+    <api>net/sf/jasperreports/engine/export/JRAbstractXlsExporterParameter.html#PROPERTY_PASSWORD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.0.1</since>
@@ -2081,7 +2081,7 @@ This property is by default not set (<code>null</code>).
 Custom element property specifying if a sheet will break before the row displaying that element. 
 It is very useful especially when displaying each report's group on a separate sheet is intended.             
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterNature.html#PROPERTY_BREAK_BEFORE_ROW</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterNature.html#PROPERTY_BREAK_BEFORE_ROW</api>
     <default>false</default>
     <scope>Element</scope>
     <since>3.0.0</since>
@@ -2095,7 +2095,7 @@ It is very useful especially when displaying each report's group on a separate s
 Custom element property specifying if a sheet will break after the row displaying that element. 
 It is very useful especially when displaying each report's group on a separate sheet is intended.             
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterNature.html#PROPERTY_BREAK_AFTER_ROW</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterNature.html#PROPERTY_BREAK_AFTER_ROW</api>
     <default>false</default>
     <scope>Element</scope>
     <since>3.0.0</since>
@@ -2201,7 +2201,7 @@ default as "Page y", where y is the current page number.
 <br/>
 These properties are by default not set.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_NAMES_PREFIX</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_NAMES_PREFIX</api>
     <default>N/A</default>
     <scope>Report</scope>
     <since>3.5.2</since>
@@ -2214,7 +2214,7 @@ These properties are by default not set.
     <description>When set to <code>false</code>, it forces the engine to check if the font used as value for the <code>fontName</code> attribute inside 
 the report template is available either through the JasperReports font extension mechanism or as a JVM accesible font, 
 and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.html">JRFontNotFoundException</api> exception, if this font is not available.</description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRStyledText.html#PROPERTY_AWT_IGNORE_MISSING_FONT</api>
+    <api>net/sf/jasperreports/engine/util/JRStyledText.html#PROPERTY_AWT_IGNORE_MISSING_FONT</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
@@ -2226,7 +2226,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.awt.superscript.fix.enabled">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRStyledText.html#PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED</api>
+    <api>net/sf/jasperreports/engine/util/JRStyledText.html#PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>3.1.3</since>
@@ -2238,7 +2238,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.xml.start.page.index">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_START_PAGE_INDEX</api>
+    <api>net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_START_PAGE_INDEX</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.0.1</since>
@@ -2250,7 +2250,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.xml.end.page.index">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_END_PAGE_INDEX</api>
+    <api>net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_END_PAGE_INDEX</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.0.1</since>
@@ -2262,7 +2262,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.xml.page.count">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_PAGE_COUNT</api>
+    <api>net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_PAGE_COUNT</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.0.0</since>
@@ -2274,7 +2274,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.table">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -2286,7 +2286,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.tr">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -2298,7 +2298,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.th">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -2310,7 +2310,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.td">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -2322,7 +2322,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h1">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -2334,7 +2334,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h2">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -2346,7 +2346,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h3">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -2358,7 +2358,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.colspan">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -2370,7 +2370,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.rowspan">
     <description>
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN</api>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -2384,7 +2384,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
 An integer property that provides the minimum precision to be used for <code>java.math.BigDecimal</code> division operations.
 Important note: this property is only effective when Java 1.5 or newer is used.  See <api href="net/sf/jasperreports/engine/util/BigDecimalUtils.html">BigDecimalUtils</api> for details.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/Java15BigDecimalHandler.html#PROPERTY_MINIMUM_PRECISION</api>
+    <api>net/sf/jasperreports/engine/util/Java15BigDecimalHandler.html#PROPERTY_MINIMUM_PRECISION</api>
     <default>16</default>
     <scope>Global</scope>
     <since>3.5.4</since>
@@ -2398,7 +2398,7 @@ Important note: this property is only effective when Java 1.5 or newer is used. 
 A boolean property that determines whether the HTML exporter should flush the output stream after writing the HTML content to it.
 It serves as default value for the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#FLUSH_OUTPUT">FLUSH_OUTPUT</api> export parameter.
     </description>
-    <api>http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_FLUSH_OUTPUT</api>
+    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_FLUSH_OUTPUT</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>3.7.1</since>
