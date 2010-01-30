@@ -23,8 +23,7 @@
 		<mkdir dir="./build/reports"/> 
 		<jru 
 				srcdir="./reports"
-				destdir="./build/reports"
-				xmlvalidation="true">
+				destdir="./build/reports">
 			<classpath refid="runClasspath"/>
 			<include name="**/*.jrxml"/>
 			<!--
@@ -35,9 +34,7 @@
 
 	<target name="update2" description="Updates report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
 		<mkdir dir="./build/reports"/> 
-		<jru 
-				destdir="./build/reports"
-				xmlvalidation="true">
+		<jru destdir="./build/reports">
 			<src>
 				<fileset dir="./reports">
 					<include name="**/*.jrxml"/>
@@ -45,6 +42,41 @@
 			</src>
 			<classpath refid="runClasspath"/>
 		</jru> 
+	</target> 
+
+	<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+		<classpath refid="classpath"/>
+	</taskdef>
+
+	<target name="javac" description="Compiles the Java source files used in the report designs.">
+		<mkdir dir="./build/classes"/> 
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
+	</target> 
+
+	<target name="compile" depends="javac" description="Compiles the initial report designs."> 
+		<mkdir dir="./build/reports"/> 
+		<delete dir="./build">
+			<include name="**/*.jasper"/>
+		</delete>
+		<jrc 
+				srcdir="./reports"
+				destdir="./build/reports">
+			<classpath refid="runClasspath"/>
+			<include name="**/*.jrxml"/>
+		</jrc>
+	</target> 
+
+	<target name="compileUpdated" depends="javac" description="Compiles the updated report designs."> 
+		<mkdir dir="./build/reports"/> 
+		<delete dir="./build">
+			<include name="**/*.jasper"/>
+		</delete>
+		<jrc 
+				srcdir="./build/reports"
+				destdir="./build/reports">
+			<classpath refid="runClasspath"/>
+			<include name="**/*.jrxml"/>
+		</jrc>
 	</target> 
 
 	<target name="clean" description="Deletes all the generated files.">
