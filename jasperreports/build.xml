@@ -360,6 +360,9 @@
 		</copy>
 	</target>
 
+	<property name="sf.net" value="false"/>
+	<property name="svn" value="jr-3-7-0"/>
+
 	<target name="schemaref" description="Generates the Schema Reference.">
 		<mkdir dir="./dist/docs"/> 
 		<copy todir="./dist/docs">
@@ -368,6 +371,7 @@
 			</fileset>
 		</copy>
 		<xslt basedir="src/net/sf/jasperreports/engine/dtds" in="src/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist/docs" style="docs/schema.reference.xsl" out="./dist/docs/schema.reference.html">
+			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
@@ -386,6 +390,7 @@
 			</fileset>
 		</copy>
 		<xslt basedir="docs" in="docs/config.reference.xml" destdir="dist/docs" style="docs/config.reference.xsl" out="./dist/docs/config.reference.html">
+			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
@@ -404,6 +409,7 @@
 			</fileset>
 		</copy>
 		<xslt basedir="docs" in="docs/sample.reference.xml" destdir="dist/docs" style="docs/sample.reference.xsl" out="./dist/docs/sample.reference.html">
+			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
@@ -414,8 +420,9 @@
 		</xslt>
 		<mkdir dir="./dist/docs/sample.reference"/> 
 		<xslt basedir="demo/samples" destdir="dist/docs/sample.reference" style="./docs/sample.xsl">
+			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
-			<param name="svn" expression="jr-3-7-0"/>
+			<param name="svn" expression="${svn}"/>
 			<regexpmapper from="^(.*)/docs/(.*).xml$$" to="\1/\2.html" handledirsep="true"/>
 			<classpath>
 				<fileset dir="./lib">
