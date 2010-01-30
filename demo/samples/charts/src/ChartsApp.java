@@ -100,37 +100,55 @@ public class ChartsApp
 				Map parameters = new HashMap();
 				parameters.put("MaxOrderID", new Integer(12500));
 				
-				for(int i = 0; i < reportNames.length; i++)
+				File parentFile = new File(fileName).getParentFile();
+				String[] files = parentFile.list();
+				for(int i = 0; i < files.length; i++)
 				{
-					long start = System.currentTimeMillis();
-					JasperFillManager.fillReportToFile(
-						new File(new File(fileName), reportNames[i] + ".jasper").getAbsolutePath(), 
-						parameters, 
-						getConnection()
-						);
-					System.err.println("Report : " + reportNames[i] + ". Filling time : " + (System.currentTimeMillis() - start));
+					String reportFile = files[i];
+					if (reportFile.endsWith(".jasper"))
+					{
+						long start = System.currentTimeMillis();
+						JasperFillManager.fillReportToFile(
+							new File(parentFile, reportFile).getAbsolutePath(), 
+							parameters, 
+							getConnection()
+							);
+						System.err.println("Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start));
+					}
 				}
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
-				for(int i = 0; i < reportNames.length; i++)
+				File parentFile = new File(fileName).getParentFile();
+				String[] files = parentFile.list();
+				for(int i = 0; i < files.length; i++)
 				{
-					long start = System.currentTimeMillis();
-					JasperExportManager.exportReportToPdfFile(
-						new File(new File(fileName), reportNames[i] + ".jrprint").getAbsolutePath()
-						);
-					System.err.println("Report : " + reportNames[i] + ". PDF export time : " + (System.currentTimeMillis() - start));
+					String reportFile = files[i];
+					if (reportFile.endsWith(".jrprint"))
+					{
+						long start = System.currentTimeMillis();
+						JasperExportManager.exportReportToPdfFile(
+							new File(parentFile, reportFile).getAbsolutePath()
+							);
+						System.err.println("Report : " + reportFile + ". PDF export time : " + (System.currentTimeMillis() - start));
+					}
 				}
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-				for(int i = 0; i < reportNames.length; i++)
+				File parentFile = new File(fileName).getParentFile();
+				String[] files = parentFile.list();
+				for(int i = 0; i < files.length; i++)
 				{
-					long start = System.currentTimeMillis();
-					JasperExportManager.exportReportToHtmlFile(
-						new File(new File(fileName), reportNames[i] + ".jrprint").getAbsolutePath()
-						);
-					System.err.println("Report : " + reportNames[i] + ". Html export time : " + (System.currentTimeMillis() - start));
+					String reportFile = files[i];
+					if (reportFile.endsWith(".jrprint"))
+					{
+						long start = System.currentTimeMillis();
+						JasperExportManager.exportReportToHtmlFile(
+							new File(parentFile, reportFile).getAbsolutePath()
+							);
+						System.err.println("Report : " + reportFile + ". Html export time : " + (System.currentTimeMillis() - start));
+					}
 				}
 			}
 			else
