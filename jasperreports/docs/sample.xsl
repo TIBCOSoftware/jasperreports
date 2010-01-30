@@ -130,7 +130,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 <span class="description"><xsl:apply-templates select="sample/description"/></span>
 <br/>
 <br/>
-<span class="element"><xsl:element name="a"><xsl:attribute name="href">http://sourceforge.net/projects/jasperreports/files/1.jasperreports/JasperReports%20<xsl:value-of select="$version"/>/jasperreports-<xsl:value-of select="$version"/>-project.zip/download</xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Download All Sample Source Files</xsl:element></span>
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">http://sourceforge.net/projects/jasperreports/files/jasperreports/JasperReports%20<xsl:value-of select="$version"/>/jasperreports-<xsl:value-of select="$version"/>-project.zip/download</xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Download All Sample Source Files</xsl:element></span>
 <br/>
 <span class="element"><xsl:element name="a"><xsl:attribute name="href">http://jasperforge.org/scm/viewvc.php/tags/<xsl:value-of select="$svn"/>/jasperreports/demo/samples/<xsl:value-of select="sample/name"/>/?root=jasperreports</xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Browse Sample Source Files on SVN</xsl:element></span>
 
