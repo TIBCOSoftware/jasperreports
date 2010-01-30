@@ -51,34 +51,6 @@ public class ChartsApp
 	private static final String TASK_PDF = "pdf";
 	private static final String TASK_HTML = "html";
 
-	private static final String[] reportNames = 
-		{
-		"PieChartReport",
-		"Pie3DChartReport",
-		"BarChartReport",
-		"Bar3DChartReport",
-		"StackedBarChartReport",
-		"StackedBar3DChartReport",
-		"XYBarChartTimePeriodReport",
-		"XYBarChartTimeSeriesReport",
-		"XYBarChartReport",
-		"AreaChartReport",
-		"XYAreaChartReport",
-		"ScatterChartReport",
-		"LineChartReport",
-		"XYLineChartReport",
-		"TimeSeriesChartReport",
-		"BubbleChartReport",
-		"SubDatasetChartReport",
-		"MeterChartReport",
-		"MultipleAxisChartReport",
-		"ThermometerChartReport",
-		"HighLowChartReport",
-		"CandlestickChartReport",
-		"StackedAreaChartReport",
-		"GanttChartReport"
-		};
-	
 	/**
 	 *
 	 */

@@ -8,6 +8,7 @@
 
   <mainFeature ref="charts"/>
   <mainFeature ref="chartcustomizers"/>
+  <secondaryFeature name="datasets" sample="crosstabs" title="Datasets"/>
   
   <!-- charts -->
   
