@@ -65,9 +65,8 @@
 	</target>
 
 	<target name="fill">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="fill"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -87,121 +86,106 @@
 	</target>
 
 	<target name="print">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="print"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="pdf">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="pdf"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="xml">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xml"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="xmlEmbed">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xmlEmbed"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="html">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="html"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="rtf">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="rtf"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 	
 	<target name="xls">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xls"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="jxl">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="jxl"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="csv">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="csv"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="odt">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="odt"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="ods">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="ods"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="docx">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="docx"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="xlsx">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xlsx"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="xhtml">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xhtml"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="run">
-		<java classname="${sample.app.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="run"/>
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

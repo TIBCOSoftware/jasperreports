@@ -23,6 +23,8 @@
  */
 import java.awt.Color;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -43,16 +45,29 @@ import net.sf.jasperreports.engine.util.JRSaver;
  */
 public class AlterDesignApp
 {
-
-
+	
+	
 	/**
 	 *
 	 */
-	private static final String TASK_FILL = "fill";
-	private static final String TASK_PRINT = "print";
-	private static final String TASK_PDF = "pdf";
+	public void executeTask(String taskName)
+	{
+		try
+		{
+			Method method = getClass().getMethod(taskName, new Class[]{});
+			method.invoke(this, new Object[]{});
+		}
+		catch (InvocationTargetException e)
+		{
+			e.getCause().printStackTrace();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
-	
+
 	/**
 	 *
 	 */
@@ -64,73 +79,74 @@ public class AlterDesignApp
 			return;
 		}
 				
-		String taskName = args[0];
-		String fileName = args[1];
+		new AlterDesignApp().executeTask(args[0]);
+	}
 
-		try
-		{
-			long start = System.currentTimeMillis();
-			if (TASK_FILL.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-				JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-				
-				JRRectangle rectangle = (JRRectangle)jasperReport.getTitle().getElementByKey("first.rectangle");
-				rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
-				rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
+	
+	/**
+	 *
+	 */
+	public void fill() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/AlterDesignReport.jasper");
+		System.err.println(" : " + sourceFile.getAbsolutePath());
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+		
+		JRRectangle rectangle = (JRRectangle)jasperReport.getTitle().getElementByKey("first.rectangle");
+		rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
+		rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
 
-				rectangle = (JRRectangle)jasperReport.getTitle().getElementByKey("second.rectangle");
-				rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
-				rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
+		rectangle = (JRRectangle)jasperReport.getTitle().getElementByKey("second.rectangle");
+		rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
+		rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
 
-				rectangle = (JRRectangle)jasperReport.getTitle().getElementByKey("third.rectangle");
-				rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
-				rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
+		rectangle = (JRRectangle)jasperReport.getTitle().getElementByKey("third.rectangle");
+		rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
+		rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
 
-				JRStyle style = jasperReport.getStyles()[0];
-				style.setFontSize(16);
-				style.setItalic(true);
+		JRStyle style = jasperReport.getStyles()[0];
+		style.setFontSize(16);
+		style.setItalic(true);
 
-				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, (JRDataSource)null);
-				
-				File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
-				JRSaver.saveObject(jasperPrint, destFile);
-				
-				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_PRINT.equals(taskName))
-			{
-				JasperPrintManager.printReport(fileName, true);
-				System.err.println("Printing time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_PDF.equals(taskName))
-			{
-				JasperExportManager.exportReportToPdfFile(fileName);
-				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-			}
-			else
-			{
-				usage();
-			}
-		}
-		catch (JRException e)
-		{
-			e.printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, (JRDataSource)null);
+		
+		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
+		JRSaver.saveObject(jasperPrint, destFile);
+		
+		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 
 
 	/**
 	 *
 	 */
+	public void print() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperPrintManager.printReport("build/reports/AlterDesignReport.jrprint", true);
+		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
+	}
+
+	
+	/**
+	 *
+	 */
+	public void pdf() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperExportManager.exportReportToPdfFile("build/reports/AlterDesignReport.jrprint");
+		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+	}
+
+	
+	/**
+	 *
+	 */
 	private static void usage()
 	{
 		System.out.println( "AlterDesignApp usage:" );
-		System.out.println( "\tjava AlterDesignApp task file" );
+		System.out.println( "\tjava AlterDesignApp task" );
 		System.out.println( "\tTasks : fill | print | pdf" );
 	}
 

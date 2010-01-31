@@ -22,6 +22,8 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -31,7 +33,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 
@@ -47,9 +48,23 @@ public class ChartsApp
 	/**
 	 *
 	 */
-	private static final String TASK_FILL = "fill";
-	private static final String TASK_PDF = "pdf";
-	private static final String TASK_HTML = "html";
+	public void executeTask(String taskName)
+	{
+		try
+		{
+			Method method = getClass().getMethod(taskName, new Class[]{});
+			method.invoke(this, new Object[]{});
+		}
+		catch (InvocationTargetException e)
+		{
+			e.getCause().printStackTrace();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 
 	/**
 	 *
@@ -62,79 +77,77 @@ public class ChartsApp
 			return;
 		}
 				
-		String taskName = args[0];
-		String fileName = args[1];
-
-		try
+		new ChartsApp().executeTask(args[0]);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void fill() throws JRException, ClassNotFoundException, SQLException
+	{
+		Map parameters = new HashMap();
+		parameters.put("MaxOrderID", new Integer(12500));
+		
+		File parentFile = new File("build/reports");
+		String[] files = parentFile.list();
+		for(int i = 0; i < files.length; i++)
 		{
-			if (TASK_FILL.equals(taskName))
+			String reportFile = files[i];
+			if (reportFile.endsWith(".jasper"))
 			{
-				Map parameters = new HashMap();
-				parameters.put("MaxOrderID", new Integer(12500));
-				
-				File parentFile = new File(fileName).getParentFile();
-				String[] files = parentFile.list();
-				for(int i = 0; i < files.length; i++)
-				{
-					String reportFile = files[i];
-					if (reportFile.endsWith(".jasper"))
-					{
-						long start = System.currentTimeMillis();
-						JasperFillManager.fillReportToFile(
-							new File(parentFile, reportFile).getAbsolutePath(), 
-							parameters, 
-							getConnection()
-							);
-						System.err.println("Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start));
-					}
-				}
-			}
-			else if (TASK_PDF.equals(taskName))
-			{
-				File parentFile = new File(fileName).getParentFile();
-				String[] files = parentFile.list();
-				for(int i = 0; i < files.length; i++)
-				{
-					String reportFile = files[i];
-					if (reportFile.endsWith(".jrprint"))
-					{
-						long start = System.currentTimeMillis();
-						JasperExportManager.exportReportToPdfFile(
-							new File(parentFile, reportFile).getAbsolutePath()
-							);
-						System.err.println("Report : " + reportFile + ". PDF export time : " + (System.currentTimeMillis() - start));
-					}
-				}
-			}
-			else if (TASK_HTML.equals(taskName))
-			{
-				File parentFile = new File(fileName).getParentFile();
-				String[] files = parentFile.list();
-				for(int i = 0; i < files.length; i++)
-				{
-					String reportFile = files[i];
-					if (reportFile.endsWith(".jrprint"))
-					{
-						long start = System.currentTimeMillis();
-						JasperExportManager.exportReportToHtmlFile(
-							new File(parentFile, reportFile).getAbsolutePath()
-							);
-						System.err.println("Report : " + reportFile + ". Html export time : " + (System.currentTimeMillis() - start));
-					}
-				}
-			}
-			else
-			{
-				usage();
+				long start = System.currentTimeMillis();
+				JasperFillManager.fillReportToFile(
+					new File(parentFile, reportFile).getAbsolutePath(), 
+					parameters, 
+					getConnection()
+					);
+				System.err.println("Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start));
 			}
 		}
-		catch (JRException e)
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void pdf() throws JRException
+	{
+		File parentFile = new File("build/reports");
+		String[] files = parentFile.list();
+		for(int i = 0; i < files.length; i++)
 		{
-			e.printStackTrace();
+			String reportFile = files[i];
+			if (reportFile.endsWith(".jrprint"))
+			{
+				long start = System.currentTimeMillis();
+				JasperExportManager.exportReportToPdfFile(
+					new File(parentFile, reportFile).getAbsolutePath()
+					);
+				System.err.println("Report : " + reportFile + ". PDF export time : " + (System.currentTimeMillis() - start));
+			}
 		}
-		catch (Exception e)
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void html() throws JRException
+	{
+		File parentFile = new File("build/reports");
+		String[] files = parentFile.list();
+		for(int i = 0; i < files.length; i++)
 		{
-			e.printStackTrace();
+			String reportFile = files[i];
+			if (reportFile.endsWith(".jrprint"))
+			{
+				long start = System.currentTimeMillis();
+				JasperExportManager.exportReportToHtmlFile(
+					new File(parentFile, reportFile).getAbsolutePath()
+					);
+				System.err.println("Report : " + reportFile + ". Html export time : " + (System.currentTimeMillis() - start));
+			}
 		}
 	}
 
