@@ -42,10 +42,12 @@
       <feature name="datasets" sample="crosstabs" title="Datasets"/>
 	  <!--
       <feature name="beandatasource" sample="datasource" title="Bean Data Sources"/>
-      <feature name="csvdatasource" sample="csvdatasource" title="CSV Data Source"/>
-      <feature name="customdatasource" sample="datasource" title="Custom Data Source"/>
-      <feature name="datasource" sample="datasource" title="Data Sources"/>
       -->
+      <feature name="csvdatasource" sample="csvdatasource" title="CSV Data Source"/>
+	  <!--
+      <feature name="customdatasource" sample="datasource" title="Custom Data Source"/>
+      -->
+      <feature name="datasources" sample="datasource" title="Data Sources"/>
     </content>
   </category>
   

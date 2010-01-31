@@ -412,7 +412,7 @@ public class ChartThemesApp
 	public void run() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperRunManager.runReportToPdfFile("build/reports/AllChartsReport.jrprint", new HashMap(), new JREmptyDataSource());
+		JasperRunManager.runReportToPdfFile("build/reports/AllChartsReport.jasper", new HashMap(), new JREmptyDataSource());
 		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
 	}
 
