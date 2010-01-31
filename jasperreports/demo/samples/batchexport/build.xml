@@ -19,17 +19,13 @@
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
-		
+
 	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
 		<ant dir="../" target="compile"/>
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="fill"/>
-			<arg value="./build/reports"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="fill"/>
 	</target>
 
 	<target name="view1" description="Launches the report viewer to preview the first report stored in the .jrprint file.">
@@ -54,91 +50,47 @@
 	</target>
 
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="pdf"/>
-			<arg value="./build/reports/${sample.report.name}.pdf"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="pdf"/>
 	</target>
 
-	<target name="html" description="HTML">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="html"/>
-			<arg value="./build/reports/${sample.report.name}.html"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="html"/>
 	</target>
 
 	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="rtf"/>
-			<arg value="./build/reports/${sample.report.name}.rtf"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="rtf"/>
 	</target>
-
+	
 	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="xls"/>
-			<arg value="./build/reports/${sample.report.name}.xls"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="xls"/>
 	</target>
 
 	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="jxl"/>
-			<arg value="./build/reports/${sample.report.name}.jxl.xls"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="jxl"/>
 	</target>
 
 	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="csv"/>
-			<arg value="./build/reports/${sample.report.name}.csv"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="csv"/>
 	</target>
 
 	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="odt"/>
-			<arg value="./build/reports/${sample.report.name}.odt"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="odt"/>
 	</target>
 
 	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="ods"/>
-			<arg value="./build/reports/${sample.report.name}.ods"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="ods"/>
 	</target>
 
 	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="docx"/>
-			<arg value="./build/reports/${sample.report.name}.docx"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="docx"/>
 	</target>
 
 	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="xlsx"/>
-			<arg value="./build/reports/${sample.report.name}.xlsx"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="xlsx"/>
 	</target>
 
 	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="xhtml"/>
-			<arg value="./build/reports/${sample.report.name}.x.html"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="xhtml"/>
 	</target>
 
 	<target name="viewDesignXML1" description="Launches the design viewer to preview the first XML report design.">

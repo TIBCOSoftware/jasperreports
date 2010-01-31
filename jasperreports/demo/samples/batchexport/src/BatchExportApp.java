@@ -22,7 +22,8 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,6 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
@@ -40,8 +40,8 @@ import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -58,20 +58,24 @@ public class BatchExportApp
 	/**
 	 *
 	 */
-	private static final String TASK_FILL = "fill";
-	private static final String TASK_PDF = "pdf";
-	private static final String TASK_HTML = "html";
-	private static final String TASK_RTF = "rtf";
-	private static final String TASK_XLS = "xls";
-	private static final String TASK_JXL = "jxl";
-	private static final String TASK_CSV = "csv";
-	private static final String TASK_ODT = "odt";
-	private static final String TASK_ODS = "ods";
-	private static final String TASK_DOCX = "docx";
-	private static final String TASK_XLSX = "xlsx";
-	private static final String TASK_XHTML = "xhtml";
+	public void executeTask(String taskName)
+	{
+		try
+		{
+			Method method = getClass().getMethod(taskName, new Class[]{});
+			method.invoke(this, new Object[]{});
+		}
+		catch (InvocationTargetException e)
+		{
+			e.getCause().printStackTrace();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
-	
+
 	/**
 	 *
 	 */
@@ -83,225 +87,279 @@ public class BatchExportApp
 			return;
 		}
 				
-		String taskName = args[0];
-		String fileName = args[1];
+		new BatchExportApp().executeTask(args[0]);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void fill() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperFillManager.fillReportToFile(
+			"build/reports/Report1.jasper",
+			null, 
+			new JREmptyDataSource(2)
+			);
+		JasperFillManager.fillReportToFile(
+			"build/reports/Report2.jasper",
+			null, 
+			new JREmptyDataSource(2)
+			);
+		JasperFillManager.fillReportToFile(
+			"build/reports/Report3.jasper",
+			null, 
+			new JREmptyDataSource(2)
+			);
+		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void pdf() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		List jasperPrintList = new ArrayList();
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		
+		JRPdfExporter exporter = new JRPdfExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.pdf");
+		exporter.setParameter(JRPdfExporterParameter.IS_CREATING_BATCH_MODE_BOOKMARKS, Boolean.TRUE);
+		
+		exporter.exportReport();
+		
+		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void html() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		List jasperPrintList = new ArrayList();
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		
+		JRHtmlExporter exporter = new JRHtmlExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.html");
+		
+		exporter.exportReport();
+		
+		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void rtf() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		List jasperPrintList = new ArrayList();
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		
+		JRRtfExporter exporter = new JRRtfExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.rtf");
+		
+		exporter.exportReport();
 
-		try
-		{
-			long start = System.currentTimeMillis();
-			if (TASK_FILL.equals(taskName))
-			{
-				JasperFillManager.fillReportToFile(
-					new File(new File(fileName), "Report1.jasper").getAbsolutePath(),
-					null, 
-					new JREmptyDataSource(2)
-					);
-				JasperFillManager.fillReportToFile(
-					new File(new File(fileName), "Report2.jasper").getAbsolutePath(),
-					null, 
-					new JREmptyDataSource(2)
-					);
-				JasperFillManager.fillReportToFile(
-					new File(new File(fileName), "Report3.jasper").getAbsolutePath(),
-					null, 
-					new JREmptyDataSource(2)
-					);
-				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_PDF.equals(taskName))
-			{
-				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report1.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report2.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report3.jrprint")));
-				
-				JRPdfExporter exporter = new JRPdfExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
-				exporter.setParameter(JRPdfExporterParameter.IS_CREATING_BATCH_MODE_BOOKMARKS, Boolean.TRUE);
-				
-				exporter.exportReport();
-				
-				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_HTML.equals(taskName))
-			{
-				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report1.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report2.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report3.jrprint")));
-				
-				JRHtmlExporter exporter = new JRHtmlExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
-				
-				exporter.exportReport();
-				
-				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_RTF.equals(taskName))
-			{
-				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report1.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report2.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report3.jrprint")));
-				
-				JRRtfExporter exporter = new JRRtfExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
-				
-				exporter.exportReport();
+		System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xls() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		List jasperPrintList = new ArrayList();
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		
+		JRXlsExporter exporter = new JRXlsExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.xls");
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+		
+		exporter.exportReport();
 
-				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_XLS.equals(taskName))
-			{
-				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report1.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report2.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report3.jrprint")));
-				
-				JRXlsExporter exporter = new JRXlsExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
-				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-				
-				exporter.exportReport();
+		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void jxl() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		List jasperPrintList = new ArrayList();
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		
+		JExcelApiExporter exporter = new JExcelApiExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.jxl.xls");
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+		
+		exporter.exportReport();
 
-				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_JXL.equals(taskName))
-			{
-				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report1.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report2.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report3.jrprint")));
-				
-				JExcelApiExporter exporter = new JExcelApiExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
-				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-				
-				exporter.exportReport();
+		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void csv() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		List jasperPrintList = new ArrayList();
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		
+		JRCsvExporter exporter = new JRCsvExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.csv");
+		
+		exporter.exportReport();
 
-				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_CSV.equals(taskName))
-			{
-				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report1.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report2.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report3.jrprint")));
-				
-				JRCsvExporter exporter = new JRCsvExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
-				
-				exporter.exportReport();
+		System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void odt() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		List jasperPrintList = new ArrayList();
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		
+		JROdtExporter exporter = new JROdtExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.odt");
+		
+		exporter.exportReport();
 
-				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_ODT.equals(taskName))
-			{
-				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report1.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report2.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report3.jrprint")));
-				
-				JROdtExporter exporter = new JROdtExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
-				
-				exporter.exportReport();
+		System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void ods() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		List jasperPrintList = new ArrayList();
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		
+		JROdsExporter exporter = new JROdsExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.ods");
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+		
+		exporter.exportReport();
 
-				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_ODS.equals(taskName))
-			{
-				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report1.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report2.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report3.jrprint")));
-				
-				JROdsExporter exporter = new JROdsExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
-				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-				
-				exporter.exportReport();
+		System.err.println("ODS creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void docx() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		List jasperPrintList = new ArrayList();
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		
+		JRDocxExporter exporter = new JRDocxExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.docx");
+		
+		exporter.exportReport();
 
-				System.err.println("ODS creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_DOCX.equals(taskName))
-			{
-				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report1.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report2.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report3.jrprint")));
-				
-				JRDocxExporter exporter = new JRDocxExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
-				
-				exporter.exportReport();
+		System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xlsx() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		List jasperPrintList = new ArrayList();
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		
+		JRXlsxExporter exporter = new JRXlsxExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.xlsx");
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+		
+		exporter.exportReport();
 
-				System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_XLSX.equals(taskName))
-			{
-				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report1.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report2.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report3.jrprint")));
-				
-				JRXlsxExporter exporter = new JRXlsxExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
-				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-				
-				exporter.exportReport();
+		System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xhtml() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		List jasperPrintList = new ArrayList();
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		
+		JRXhtmlExporter exporter = new JRXhtmlExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.xhtml");
+		
+		exporter.exportReport();
 
-				System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_XHTML.equals(taskName))
-			{
-				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report1.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report2.jrprint")));
-				jasperPrintList.add(JRLoader.loadObject(new File(new File(fileName).getParentFile(), "Report3.jrprint")));
-				
-				JRXhtmlExporter exporter = new JRXhtmlExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
-				
-				exporter.exportReport();
-
-				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
-			}
-			else
-			{
-				usage();
-			}
-		}
-		catch (JRException e)
-		{
-			e.printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
 	}
 
 
@@ -311,7 +369,7 @@ public class BatchExportApp
 	private static void usage()
 	{
 		System.out.println( "BatchExportApp usage:" );
-		System.out.println( "\tjava BatchExportApp task file" );
+		System.out.println( "\tjava BatchExportApp task" );
 		System.out.println( "\tTasks : fill | pdf | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml" );
 	}
 
