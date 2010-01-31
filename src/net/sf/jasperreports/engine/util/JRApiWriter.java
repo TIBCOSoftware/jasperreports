@@ -146,6 +146,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
+import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -639,8 +640,8 @@ public class JRApiWriter
 		if(query != null)
 		{
 			write( "JRDesignQuery " + queryName + " = new JRDesignQuery();\n");
-			write( queryName + ".setLanguage(\"" + JRStringUtil.escapeJavaStringLiteral(query.getLanguage() != null ? query.getLanguage() : JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL) + "\");\n");
-			write( queryName + ".setText(\"" + JRStringUtil.escapeJavaStringLiteral(query.getText()) + "\");\n");
+			write( queryName + ".setLanguage(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getLanguage()), JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL);
+			write( queryName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getText()));
 			flush();
 		}
 	}
@@ -654,8 +655,8 @@ public class JRApiWriter
 		if(field != null)
 		{
 			write( "JRDesignField " + fieldName + " = new JRDesignField();\n");
-			write( fieldName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(field.getName()) + "\");\n");
-			write( fieldName + ".setDescription(\"" + JRStringUtil.escapeJavaStringLiteral(field.getDescription()) + "\");\n");
+			write( fieldName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(field.getName()));
+			write( fieldName + ".setDescription(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(field.getDescription()));
 			write( fieldName + ".setValueClassName(\"{0}\");\n", field.getValueClassName());
 			writeProperties( field, fieldName);
 			flush();
@@ -671,8 +672,8 @@ public class JRApiWriter
 		if(sortField != null)
 		{
 			write( "JRDesignSortField " + sortFieldName + " = new JRDesignSortField();\n");
-			write( sortFieldName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(sortField.getName()) + "\");\n");
-			write( sortFieldName + ".setOrder((byte)" + sortField.getOrder() + ");\n");
+			write( sortFieldName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(sortField.getName()));
+			write( sortFieldName + ".setOrder({0});\n", JRApiConstants.getSortOrder(new Byte (sortField.getOrder())));
 			flush();
 		}
 	}
@@ -689,22 +690,15 @@ public class JRApiWriter
 			String incrementGroupName = getGroupName( variable.getIncrementGroup());
 			
 			write( "JRDesignVariable " + variableName + " = new JRDesignVariable();\n");
-			write( variableName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(variable.getName()) + "\");\n");
+			write( variableName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(variable.getName()));
 			write( variableName + ".setValueClassName(\"{0}\");\n", variable.getValueClassName());
-			write( variableName + ".setResetType((byte)" + (variable.getResetType() < 1 ?  JRVariable.RESET_TYPE_REPORT : variable.getResetType()) + ");\n");
-			if (resetGroupName != null)
-			{
-				write( variableName + ".setResetGroup(" + resetGroupName + ");\n");
-				
-			}
-			write( variableName + ".setIncrementType((byte)" + (variable.getIncrementType() < 1 ?  JRVariable.RESET_TYPE_NONE : variable.getIncrementType()) + ");\n");
-			if (incrementGroupName != null)
-			{
-				write( variableName + ".setResetGroup(" + incrementGroupName + ");\n");
-			}
-
-			write( variableName + ".setCalculation((byte)" + (variable.getCalculation() < 0 ?  JRVariable.CALCULATION_NOTHING : variable.getCalculation()) + ");\n");
-			write( variableName + ".setIncrementerFactoryClass(Class.forName(\"" + JRStringUtil.escapeJavaStringLiteral(variable.getIncrementerFactoryClassName()) + "\"));\n");
+			write( variableName + ".setResetType({0});\n", JRApiConstants.getResetType(new Byte (variable.getResetType())), "JRVariable.RESET_TYPE_REPORT");
+			write( variableName + ".setResetGroup({0});\n", resetGroupName);
+			write( variableName + ".setIncrementType({0});\n", JRApiConstants.getResetType(new Byte (variable.getIncrementType())), "JRVariable.RESET_TYPE_NONE");
+			write( variableName + ".setIncrementGroup({0});\n", incrementGroupName);
+			
+			write( variableName + ".setCalculation({0});\n", JRApiConstants.getCalculation(new Byte (variable.variable.getCalculation())), "JRVariable.CALCULATION_NOTHING");
+			write( variableName + ".setIncrementerFactoryClass(Class.forName(\"{0}\"));\n", JRStringUtil.escapeJavaStringLiteral(variable.getIncrementerFactoryClassName()));
 			writeExpression( variable.getExpression(), variableName, "Expression");
 			writeExpression( variable.getInitialValueExpression(), variableName, "InitialValueExpression");
 			flush();
@@ -3776,7 +3770,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String text)
+	protected void write2(String text)
 	{
 		try
 		{
