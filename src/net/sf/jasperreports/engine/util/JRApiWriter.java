@@ -711,15 +711,16 @@ public class JRApiWriter
 	 */
 	private void writeGroup( JRGroup group)
 	{
-		write( "JRDesignGroup " + group.getName() + "ResetGroup = new JRDesignGroup();\n");
 		String groupName = group.getName();
+		write( "JRDesignGroup " + groupName + "ResetGroup = new JRDesignGroup();\n");
 		write( groupName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(groupName) + "\");\n");
-		write( groupName + ".setStartNewColumn(" + group.isStartNewColumn() + ");\n");
-		write( groupName + ".setStartNewPage(" + group.isStartNewPage() + ");\n");
-		write( groupName + ".setReprintHeaderOnEachPage(" + group.isReprintHeaderOnEachPage() + ");\n");
-		write( groupName + ".setMinHeightToStartNewPage(" + group.getMinHeightToStartNewPage() + ");\n");
-		write( groupName + ".setFooterPosition(" + (group.getFooterPosition() < 1 ? JRGroup.FOOTER_POSITION_NORMAL : group.getFooterPosition()) + ");\n");
-		write( groupName + ".setKeepTogether(" + group.isKeepTogether() + ");\n");
+		write( groupName + ".setStartNewColumn({0});\n", group.isStartNewColumn());
+		write( groupName + ".setStartNewPage({0});\n", group.isStartNewPage());
+		write( groupName + ".setReprintHeaderOnEachPage({0});\n", group.isReprintHeaderOnEachPage());
+		write( groupName + ".setMinHeightToStartNewPage({0});\n", group.getMinHeightToStartNewPage());
+		write( groupName + ".setFooterPosition({0});\n", JRApiConstants.getFooterPosition(new Byte(group.getFooterPosition())), "JRGroup.FOOTER_POSITION_NORMAL");
+		
+		write( groupName + ".setKeepTogether({0});\n", group.isKeepTogether());
 
 		writeExpression( group.getExpression(), groupName, "Expression");
 
@@ -729,7 +730,7 @@ public class JRApiWriter
 			writeSection(
 					groupHeader, 
 					groupName+"Header", 
-					indent + "((JRDesignSection)" + groupName + ".getGroupHeaderSection()).getBandsList()"
+					"((JRDesignSection)" + groupName + ".getGroupHeaderSection()).getBandsList()"
 					);
 		}
 
@@ -739,7 +740,7 @@ public class JRApiWriter
 			writeSection(
 					groupFooter, 
 					groupName+"Footer", 
-					indent + "((JRDesignSection)" + groupName + ".getGroupFooterSection()).getBandsList()"
+					"((JRDesignSection)" + groupName + ".getGroupFooterSection()).getBandsList()"
 					);
 		}
 
@@ -779,8 +780,8 @@ public class JRApiWriter
 			
 			write( "//band name = " + bandName +"\n\n");
 			write( "JRDesignBand " + bandName + " = new JRDesignBand();\n");
-			write( bandName + ".setHeight(" + band.getHeight() + ");\n");
-			write( bandName + ".setSplitType(Byte.valueOf(" + band.getSplitType() + "));\n");
+			write( bandName + ".setHeight({0});\n", band.getHeight());
+			write( bandName + ".setSplitType({0});\n", JRApiConstants.getSplitType(band.getSplitType()));
 			writeExpression( band.getPrintWhenExpression(), bandName, "PrintWhenExpression");
 
 			writeChildElements( band, bandName);
@@ -802,9 +803,12 @@ public class JRApiWriter
 		{
 			for(int i = 0; i < children.size(); i++)
 			{
-				apiWriterVisitor.setName(parentName + i);
-				((JRChild) children.get(i)).visit(apiWriterVisitor);
-				write( parentName +".addElement(" + parentName + i + ");\n\n");
+				if(children.get(i) != null)
+				{
+					apiWriterVisitor.setName(parentName + i);
+					((JRChild) children.get(i)).visit(apiWriterVisitor);
+					write( parentName +".addElement(" + parentName + i + ");\n\n");
+				}
 			}
 		}
 	}
@@ -831,7 +835,7 @@ public class JRApiWriter
 		if(breakElement != null)
 		{
 			write( "JRDesignBreak " + breakName + " = new JRDesignBreak(jasperDesign);\n");
-			write( breakName + ".setType((byte)" + (breakElement.getType() > 0 ? breakElement.getType() : JRBreak.TYPE_PAGE) + ");\n");
+			write( breakName + ".setType({0});\n", JRApiConstants.getBreakType(new Byte(breakElement.getType())), "JRBreak.TYPE_PAGE");
 			writeReportElement( breakElement, breakName);
 			flush();
 		}
@@ -846,7 +850,7 @@ public class JRApiWriter
 		if(line != null)
 		{
 			write( "JRDesignLine " + lineName + " = new JRDesignLine(jasperDesign);\n");
-			write( lineName + ".setDirection((byte)" + (line.getDirection() > 0 ? line.getDirection() : JRLine.DIRECTION_TOP_DOWN) + ");\n");
+			write( breakName + ".setDirection({0});\n", JRApiConstants.getDirection(new Byte(line.getDirection())), "JRLine.DIRECTION_TOP_DOWN");
 			writeReportElement( line, lineName);
 			writeGraphicElement( line, lineName);
 			flush();
