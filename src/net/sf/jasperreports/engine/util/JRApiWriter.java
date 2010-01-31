@@ -697,7 +697,7 @@ public class JRApiWriter
 			write( variableName + ".setIncrementType({0});\n", JRApiConstants.getResetType(new Byte (variable.getIncrementType())), "JRVariable.RESET_TYPE_NONE");
 			write( variableName + ".setIncrementGroup({0});\n", incrementGroupName);
 			
-			write( variableName + ".setCalculation({0});\n", JRApiConstants.getCalculation(new Byte (variable.variable.getCalculation())), "JRVariable.CALCULATION_NOTHING");
+			write( variableName + ".setCalculation({0});\n", JRApiConstants.getCalculation(new Byte (variable.getCalculation())), "JRVariable.CALCULATION_NOTHING");
 			write( variableName + ".setIncrementerFactoryClass(Class.forName(\"{0}\"));\n", JRStringUtil.escapeJavaStringLiteral(variable.getIncrementerFactoryClassName()));
 			writeExpression( variable.getExpression(), variableName, "Expression");
 			writeExpression( variable.getInitialValueExpression(), variableName, "InitialValueExpression");
@@ -850,7 +850,7 @@ public class JRApiWriter
 		if(line != null)
 		{
 			write( "JRDesignLine " + lineName + " = new JRDesignLine(jasperDesign);\n");
-			write( breakName + ".setDirection({0});\n", JRApiConstants.getDirection(new Byte(line.getDirection())), "JRLine.DIRECTION_TOP_DOWN");
+			write( lineName + ".setDirection({0});\n", JRApiConstants.getDirection(new Byte(line.getDirection())), "JRLine.DIRECTION_TOP_DOWN");
 			writeReportElement( line, lineName);
 			writeGraphicElement( line, lineName);
 			flush();
@@ -3774,7 +3774,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write2(String text)
+	protected void write(String text)
 	{
 		try
 		{
