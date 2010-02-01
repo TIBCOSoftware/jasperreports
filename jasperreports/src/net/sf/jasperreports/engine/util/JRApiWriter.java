@@ -920,7 +920,7 @@ public class JRApiWriter
 		if(propertyExpression != null)
 		{
 			write( "JRDesignPropertyExpression " + propertyExpressionName + " = new JRDesignPropertyExpression();\n");
-			write( propertyExpressionName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(propertyExpression.getName()) + "\");\n");
+			write( propertyExpressionName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(propertyExpression.getName()));
 			writeExpression( propertyExpression.getValueExpression(), propertyExpressionName, "ValueExpression");
 			
 			flush();
@@ -950,7 +950,7 @@ public class JRApiWriter
 		if(rectangle != null)
 		{
 			write( "JRDesignRectangle " + rectangleName + " = new JRDesignRectangle(jasperDesign);\n");
-			write( rectangleName + ".setRadius(" + rectangle.getRadius() + ");\n");
+			write( rectangleName + ".setRadius({0});\n", rectangle.getRadius());
 			writeReportElement( rectangle, rectangleName);
 			writeGraphicElement( rectangle, rectangleName);
 			flush();
