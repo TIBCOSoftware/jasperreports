@@ -14,6 +14,8 @@
       <feature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
       <feature name="chartthemes" sample="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)"/>
       <feature name="crosstabs" sample="crosstabs" title="Crosstabs"/>
+      <feature name="fonts" sample="fonts" title="Fonts"/>
+      <feature name="fontextensions" sample="fonts" title="Font Extensions"/>
 	  <!--
       <feature name="jcharts" sample="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)"/>
       <feature name="jchartscomponent" sample="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)"/>
