@@ -2,10 +2,22 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.1 (2010-0x-xx, SVN xxxx)
+JasperReports 3.7.1 (2010-02-01, SVN 3366)
 ---------------------------------------------
 
-- zoom ratio for html/xhtml;
+- new JRHtmlExporterParameter.ZOOM_RATIO exporter added to allow scaling the content generated
+by the HTML and the XHTML/CSS exporters;
+
+- upgrade to POI 3.5 and iText 2.1.7;
+
+- the custom Ant task for batch updating report template files was moved from community project 
+to core library;
+
+- new custom Ant task for decompiling report templates; it allows regenerating the source JRXML 
+files from compiled report templates files.
+
+- added support for documenting the samples and automatically create the Sample Reference document,
+as part of the project build process;
 
 - minor bug fixes and improvements;
 
