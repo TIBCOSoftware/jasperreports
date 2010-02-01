@@ -17,6 +17,7 @@
       <feature name="fonts" sample="fonts" title="Fonts"/>
       <feature name="fontextensions" sample="fonts" title="Font Extensions"/>
       <feature name="genericelements" sample="genericelement" title="Generic Elements"/>
+      <feature name="horizontal" sample="horizontal" title="Creating Horizontally-Filled, Multi-Column Reports"/>
 	  <!--
       <feature name="jcharts" sample="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)"/>
       <feature name="jchartscomponent" sample="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)"/>
@@ -32,6 +33,7 @@
       <feature name="reportcompilers" sample="groovy" title="Report Compilers"/>
       <feature name="antcompile" sample="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool"/>
       <feature name="antdecompile" sample="antcompile" title="Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)"/>
+      <feature name="xmlwrite" sample="hyperlink" title="Generating the JRXML Source File for an In-Memory Report Report Template Object"/>
       <feature name="beanshell" sample="beanshell" title="Using the BeanShell Scripting Language for Report Expressions (BeanShell Report Compiler)"/>
       <feature name="groovy" sample="groovy" title="Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)"/>
       <feature name="java1.5" sample="java1.5" title="Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)"/>
@@ -48,7 +50,9 @@
       <feature name="customdatasource" sample="datasource" title="Custom Data Source"/>
       <feature name="tablemodeldatasource" sample="datasource" title="TableModel Data Source"/>
       <feature name="datasources" sample="datasource" title="Data Sources"/>
+      <feature name="queryexecuters" sample="hibernate" title="Query Executers"/>
       <feature name="ejbql" sample="ejbql" title="EJBQL Query Executer"/>
+      <feature name="hibernate" sample="hibernate" title="Hibernate (HQL) Query Executer"/>
     </content>
   </category>
   
