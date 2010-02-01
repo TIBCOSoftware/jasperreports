@@ -865,20 +865,19 @@ public class JRApiWriter
 	{
 		if(element != null)
 		{
-			if(element.getKey() != null)
-				write( elementName + ".setKey(\"" + JRStringUtil.escapeJavaStringLiteral(element.getKey()) + "\");\n");
+			write( elementName + ".setKey(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(element.getKey()));
 			writeStyleReferenceAttr( element, elementName);
-			write( elementName + ".setPositionType((byte)" + (element.getPositionType() > 0 ? element.getPositionType() : JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP) + ");\n");
-			write( elementName + ".setStretchType((byte)" + (element.getStretchType() > -1 ? element.getStretchType() : JRElement.STRETCH_TYPE_NO_STRETCH) + ");\n");
-			write( elementName + ".setPrintRepeatedValues(" + element.isPrintRepeatedValues() + ");\n");
-			write( elementName + ".setMode((byte)" + element.getMode() + ");\n");
-			write( elementName + ".setX(" + element.getX() + ");\n");
-			write( elementName + ".setY(" + element.getY() + ");\n");
-			write( elementName + ".setWidth(" + element.getWidth() + ");\n");
-			write( elementName + ".setHeight(" + element.getHeight() + ");\n");
-			write( elementName + ".setRemoveLineWhenBlank(" + element.isRemoveLineWhenBlank() + ");\n");
-			write( elementName + ".setPrintInFirstWholeBand(" + element.isPrintInFirstWholeBand() + ");\n");
-			write( elementName + ".setPrintWhenDetailOverflows(" + element.isPrintWhenDetailOverflows() + ");\n");
+			write( elementName + ".setPositionType({0});\n", JRApiConstants.getPositionType(new Byte(element.getPositionType())), "JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP");
+			write( elementName + ".setStretchType({0});\n", JRApiConstants.getStretchType(new Byte(element.getStretchType())), "JRElement.STRETCH_TYPE_NO_STRETCH");
+			write( elementName + ".setPrintRepeatedValues({0});\n", element.isPrintRepeatedValues());
+			write( elementName + ".setMode({0});\n", JRApiConstants.getMode(new Byte(element.getOwnMode())));
+			write( elementName + ".setX({0});\n", element.getX());
+			write( elementName + ".setY({0});\n", element.getY());
+			write( elementName + ".setWidth({0});\n", element.getWidth());
+			write( elementName + ".setHeight({0});\n", element.getHeight());
+			write( elementName + ".setRemoveLineWhenBlank({0});\n", element.isRemoveLineWhenBlank());
+			write( elementName + ".setPrintInFirstWholeBand({0});\n", element.isPrintInFirstWholeBand());
+			write( elementName + ".setPrintWhenDetailOverflows({0});\n", element.isPrintWhenDetailOverflows());
 
 			if (element.getPrintWhenGroupChanges() != null)
 			{
@@ -886,8 +885,8 @@ public class JRApiWriter
 				write( elementName + ".setPrintWhenGroupChanges(" + groupName + ");\n");
 			}
 			
-			write( elementName + ".setForecolor(" + getColorText(element.getForecolor()) + ");\n");
-			write( elementName + ".setBackcolor(" + getColorText(element.getBackcolor()) + ");\n");
+			write( elementName + ".setForecolor({0});\n", getColorText(element.getOwnForecolor()));
+			write( elementName + ".setBackcolor({0});\n", getColorText(element.getOwnBackcolor()));
 	
 			writeProperties( element, elementName + ".getPropertiesMap()");
 			writePropertyExpressions( element.getPropertyExpressions(), elementName);
