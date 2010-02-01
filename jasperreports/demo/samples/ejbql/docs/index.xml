@@ -2,26 +2,25 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>ejbql</name>
+  <title>EJBQL Sample</title>
+  <description>Shows how EJBQL could be used in reports.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="ejbql"/>
+  <secondaryFeature name="queryexecuters" sample="hibernate" title="Query Executers"/>
   
-  <!-- antcompile -->
+  <!-- ejbql -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="ejbql" title="EJBQL Query Executer">
     <description>
-FIXME
+How to fill reports using embedded EJBQL queries.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>1.2.3</since>
+  	<otherSample ref="hibernate"/>
+  	<otherSample ref="xmldatasource"/>
+  	<otherSample ref="mondrian"/>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 

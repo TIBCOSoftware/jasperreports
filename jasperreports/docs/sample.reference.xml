@@ -45,6 +45,7 @@
       <feature name="customdatasource" sample="datasource" title="Custom Data Source"/>
       <feature name="tablemodeldatasource" sample="datasource" title="TableModel Data Source"/>
       <feature name="datasources" sample="datasource" title="Data Sources"/>
+      <feature name="ejbql" sample="ejbql" title="EJBQL Query Executer"/>
     </content>
   </category>
   
