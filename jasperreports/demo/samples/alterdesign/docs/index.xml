@@ -15,7 +15,7 @@
 Altering a compiled report template means making modifications on the report template prior to sending it for 
 filling with data and without the need to revalidate or recompile it.
     </description>
-    <since>0.5.1</since>
+    <since>0.4.5</since>
     <content>
 Not all runtime information can be passed to a report as a report fill-time parameter. 
 For instance, the background color of a rectangle element, cannot be provided at runtime as a parameter value.

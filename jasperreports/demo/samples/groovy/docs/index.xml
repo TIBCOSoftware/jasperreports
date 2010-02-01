@@ -13,15 +13,15 @@
   
   <feature name="reportcompilers" title="Report Compilers">
     <description>
-FIXME
+How to implement a custom report compiler and how to register it with a custom defined report expression language.
     </description>
-    <since>0.5.1</since>
+    <since>0.6.6</since>
   	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="java1.5"/>
   	<otherSample ref="javascript"/>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
@@ -29,15 +29,15 @@ FIXME
   
   <feature name="groovy" title="Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)">
     <description>
-FIXME
+How to use Groovy scripting for report expressions.
     </description>
-    <since>0.5.1</since>
+    <since>1.2.2</since>
   	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="java1.5"/>
   	<otherSample ref="javascript"/>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
