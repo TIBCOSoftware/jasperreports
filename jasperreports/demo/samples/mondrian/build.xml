@@ -1,4 +1,4 @@
-<project name="jasper" default="javac" basedir=".">
+<project name="mondrian" default="test" basedir=".">
 
 	<description>Shows how MDX queries could be used to generate a report.</description>
 	

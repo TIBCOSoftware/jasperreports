@@ -2,26 +2,34 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>markup</name>
+  <title>Markup Sample</title>
+  <description>Shows how the text markup feature works in static and dynamic text elements.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="markup"/>
+  <mainFeature ref="styledtext"/>
   
-  <!-- antcompile -->
+  <!-- markup -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="markup" title="Creating Styled Text Using a Markup Language">
     <description>
-FIXME
+How to format text using a markup language such as HTML and/or RTF.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>2.0.5</since>
     <content>
-FIXME
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- styledtext -->
+  
+  <feature name="styledtext" title="Styled Text">
+    <description>
+How to format text using a styled text tags as markup language.
+    </description>
+    <since>2.0.5</since>
+    <content>
+[Under Construction]
     </content>
   </feature>
 
