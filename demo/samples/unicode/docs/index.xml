@@ -2,26 +2,24 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>unicode</name>
+  <title>Unicode Sample</title>
+  <description>Shows how text in different languages could be used inside reports.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="unicode"/>
+  <secondaryFeature name="fontextensions" sample="fonts" title="Font Extensions"/>
   
-  <!-- antcompile -->
+  <!-- unicode -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="unicode" title="Creating Reports in Any Language Using Unicode Support">
     <description>
-FIXME
+How to create reports in any language using unicode support.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>0.1.0</since>
+  	<otherSample ref="fonts"/>
+  	<otherSample ref="i18n"/>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 

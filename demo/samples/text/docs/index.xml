@@ -2,26 +2,21 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>text</name>
+  <title>Text Export Sample</title>
+  <description>Shows how the pure text exporter could be used to export reports to simple text files.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="textexport"/>
   
-  <!-- antcompile -->
+  <!-- textexport -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="textexport" title="Exporting to Pure Text Format">
     <description>
-FIXME
+How to export reports to plain text files.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>1.0.1</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
