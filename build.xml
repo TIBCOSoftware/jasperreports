@@ -361,7 +361,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="svn" value="jr-3-7-0"/>
+	<property name="svn" value="jr-3-7-1"/>
 
 	<target name="schemaref" description="Generates the Schema Reference.">
 		<mkdir dir="./dist/docs"/> 
