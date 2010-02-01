@@ -234,7 +234,7 @@
 	
 	<target name="test" description="Runs the sample.">
 		<echo message="==================================="/>
-		<echo message=" XmlDataSource Sample"/>
+		<echo message=" XML Data Source Sample"/>
 		<echo message="==================================="/>
 		<antcall target="clean" />
 		<antcall target="javac" />
