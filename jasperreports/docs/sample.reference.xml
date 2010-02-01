@@ -3,10 +3,18 @@
 <sampleReference>
 
   <category>
+    <name>General</name>
+    <content>
+      <feature name="webapp" sample="webapp" title="Deploying Reports in Web Applications"/>
+      <feature name="antupdate" sample="antupdate" title="Updating Multiple Report Template Files Using the Ant Build Tool"/>
+      <feature name="antdecompile" sample="antcompile" title="Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)"/>
+    </content>
+  </category>
+  
+  <category>
     <name>Report Design</name>
     <content>
       <feature name="alterdesign" sample="alterdesign" title="Altering Compiled Report Templates"/>
-      <feature name="antupdate" sample="antupdate" title="Updating Multiple Report Template Files Using the Ant Build Tool"/>
       <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)"/>
       <feature name="barcode4j" sample="barcode4j" title="Barcodes (Barcode4J Custom Component)"/>
 	  <feature name="barcodes" sample="barcode4j" title="Barcodes"/>
@@ -45,7 +53,6 @@
     <content>
       <feature name="reportcompilers" sample="groovy" title="Report Compilers"/>
       <feature name="antcompile" sample="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool"/>
-      <feature name="antdecompile" sample="antcompile" title="Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)"/>
       <feature name="xmlwrite" sample="hyperlink" title="Generating the JRXML Source File for an In-Memory Report Report Template Object"/>
       <feature name="beanshell" sample="beanshell" title="Using the BeanShell Scripting Language for Report Expressions (BeanShell Report Compiler)"/>
       <feature name="groovy" sample="groovy" title="Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)"/>
@@ -68,6 +75,7 @@
       <feature name="hibernate" sample="hibernate" title="Hibernate (HQL) Query Executer"/>
       <feature name="mondrian" sample="mondrian" title="Mondrian (MDX) Query Executer"/>
       <feature name="query" sample="query" title="Parameterized Queries (Dynamic Queries)"/>
+      <feature name="xlsdatasource" sample="xlsdatasource" title="XLS Data Source"/>
     </content>
   </category>
   
