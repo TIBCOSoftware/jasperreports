@@ -13,15 +13,15 @@
   
   <feature name="java1.5" title="Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)">
     <description>
-FIXME
+How to use Java 1.5 language specific features inside report expressions.
     </description>
-    <since>0.5.1</since>
+    <since>1.1.1</since>
   	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>
   	<otherSample ref="javascript"/>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
