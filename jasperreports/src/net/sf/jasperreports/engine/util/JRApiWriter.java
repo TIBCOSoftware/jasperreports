@@ -871,7 +871,7 @@ public class JRApiWriter
 			writeStyleReferenceAttr( element, elementName);
 			write( elementName + ".setPositionType({0});\n", JRApiConstants.getPositionType(new Byte(element.getPositionType())), "JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP");
 			write( elementName + ".setStretchType({0});\n", JRApiConstants.getStretchType(new Byte(element.getStretchType())), "JRElement.STRETCH_TYPE_NO_STRETCH");
-			write( elementName + ".setPrintRepeatedValues({0});\n", element.isPrintRepeatedValues(), false);
+			write( elementName + ".setPrintRepeatedValues({0});\n", element.isPrintRepeatedValues(),true);
 			write( elementName + ".setMode({0});\n", JRApiConstants.getMode(element.getOwnMode()));
 			write( elementName + ".setX({0});\n", element.getX());
 			write( elementName + ".setY({0});\n", element.getY());
@@ -984,13 +984,14 @@ public class JRApiWriter
 		if(image != null)
 		{
 			write( "JRDesignImage " + imageName + " = new JRDesignImage(jasperDesign);\n");
-			write( imageName + ".setScaleImage(" + image.getScaleImage() + ");\n");
-			write( imageName + ".setHorizontalAlignment((byte)" + image.getHorizontalAlignment() + ");\n");
-			write( imageName + ".setVerticalAlignment((byte)" + image.getVerticalAlignment() + ");\n");
-			write( imageName + ".setUsingCache(" + image.isUsingCache() + ");\n");
-			write( imageName + ".setLazy(" + image.isLazy() + ");\n");
-			write( imageName + ".setOnErrorType((byte)" + (image.getOnErrorType() > 0 ? image.getOnErrorType() : JRImage.ON_ERROR_TYPE_ERROR) + ");\n");
-			write( imageName + ".setEvaluationTime((byte)" + (image.getEvaluationTime() > 0 ? image.getEvaluationTime() : JRExpression.EVALUATION_TIME_NOW) + ");\n");
+			write( imageName + ".setScaleImage({0});\n", JRApiConstants.getScaleImage(image.getOwnScaleImage()));
+			write( imageName + ".setHorizontalAlignment({0});\n", JRApiConstants.getHorizontalAlign(image.getOwnHorizontalAlignment()));
+			write( imageName + ".setVerticalAlignment({0});\n", JRApiConstants.getHorizontalAlign(image.getOwnVerticalAlignment()));
+			write( imageName + ".setUsingCache({0});\n", image.isOwnUsingCache());
+			write( imageName + ".setLazy({0});\n", image.isLazy(), false);
+			write( imageName + ".setOnErrorType({0});\n", JRApiConstants.getOnErrorType(new Byte(image.getOnErrorType())), "JRImage.ON_ERROR_TYPE_ERROR");
+			write( imageName + ".setEvaluationTime({0});\n", JRApiConstants.getEvaluationTime(new Byte(image.getEvaluationTime())), "JRExpression.EVALUATION_TIME_NOW");
+
 			if (image.getEvaluationGroup() != null)
 			{
 				String groupName = getGroupName( image.getEvaluationGroup());
