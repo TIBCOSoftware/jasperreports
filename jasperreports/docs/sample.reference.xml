@@ -36,6 +36,7 @@
       <feature name="table" sample="table" title="Creating Table-like Structures"/>
       <feature name="tableofcontents" sample="tableofcontents" title="Creating Table-Of-Contents Structures"/>
       <feature name="templates" sample="templates" title="Style Templates"/>
+      <feature name="unicode" sample="unicode" title="Creating Reports in Any Language Using Unicode Support"/>
     </content>
   </category>
   
@@ -76,6 +77,7 @@
       <feature name="nopagebreak" sample="nopagebreak" title="Suppress Pagination"/>
       <feature name="noreport" sample="noreport" title="Creating Final Documents Using the API Directly (No Report Filling)"/>
       <feature name="scriptlet" sample="scriptlet" title="Scriptlets"/>
+      <feature name="virtualizer" sample="virtualizer" title="Generating Very Large Documents Using Report Virtualizers"/>
     </content>
   </category>
   
@@ -85,6 +87,7 @@
       <feature name="batchexport" sample="batchexport" title="Exporting Multiple Reports into a Single Output File (Batch Export)"/>
       <feature name="pdfencrypt" sample="pdfencrypt" title="Encrypted PDF"/>
       <feature name="printservice" sample="printservice" title="Printing Reports Using the Java Print Service API"/>
+      <feature name="textexport" sample="text" title="Exporting to Pure Text Format"/>
     </content>
   </category>
   
