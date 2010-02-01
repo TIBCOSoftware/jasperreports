@@ -28,9 +28,7 @@
 
 	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
-		<!--
-		<copy todir="./build" file="db.script"/>
-		-->
+		<copy todir="./build" file="data/db.script"/>
 	</target>
 
 	<target name="compile" if="using.jdk.1.5" description="Compiles the XML report design and produces the .jasper file.">

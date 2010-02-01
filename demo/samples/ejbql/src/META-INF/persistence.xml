@@ -10,7 +10,7 @@
 		<properties>
 			<!-- Provider-specific connection properties -->
 			<property name="toplink.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
-			<property name="toplink.jdbc.url" value="jdbc:hsqldb:db"/>
+			<property name="toplink.jdbc.url" value="jdbc:hsqldb:file:build/db"/>
 			<property name="toplink.jdbc.user" value="sa"/>
 			<property name="toplink.jdbc.password" value=""/>
 			<!-- Provider-specific settings -->
