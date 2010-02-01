@@ -7,25 +7,13 @@
   <description>Shows how the text markup feature works in static and dynamic text elements.</description>
 
   <mainFeature ref="markup"/>
-  <mainFeature ref="styledtext"/>
+  <secondaryFeature name="styledtext" sample="styledtext" title="Styled Text"/>
   
   <!-- markup -->
   
   <feature name="markup" title="Creating Styled Text Using a Markup Language">
     <description>
 How to format text using a markup language such as HTML and/or RTF.
-    </description>
-    <since>2.0.5</since>
-    <content>
-[Under Construction]
-    </content>
-  </feature>
-
-  <!-- styledtext -->
-  
-  <feature name="styledtext" title="Styled Text">
-    <description>
-How to format text using a styled text tags as markup language.
     </description>
     <since>2.0.5</since>
     <content>
