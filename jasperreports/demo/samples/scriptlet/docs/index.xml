@@ -2,26 +2,21 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>scriptlet</name>
+  <title>Scriptlet Sample</title>
+  <description>Shows how the scriptlets could be used to manipulate data during report filling.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="scriptlet"/>
   
-  <!-- antcompile -->
+  <!-- scriptlet -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="scriptlet" title="Scriptlets">
     <description>
-FIXME
+How to perform custom calculation and tailor the report filling process using report scriptlets implementations.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>0.2.5</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
