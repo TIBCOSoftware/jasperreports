@@ -16,7 +16,7 @@
     <description>
 How to compile all your JRXML report source files at application build time using the Ant build tool.
     </description>
-    <since>0.5.1</since>
+    <since>0.4.6</since>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>
   	<otherSample ref="java1.5"/>
