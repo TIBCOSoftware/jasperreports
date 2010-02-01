@@ -27,7 +27,6 @@
       <feature name="landscape" sample="landscape" title="Creating Landscape Orientation Report Templates"/>
       <feature name="list" sample="list" title="Using the Built-in List Component"/>
       <feature name="markup" sample="markup" title="Creating Styled Text Using a Markup Language"/>
-      <feature name="mondrian" sample="mondrian" title="Mondrian (MDX) Query Executer"/>
 	  <!--
       <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)"/>
       -->
@@ -60,6 +59,15 @@
       <feature name="queryexecuters" sample="hibernate" title="Query Executers"/>
       <feature name="ejbql" sample="ejbql" title="EJBQL Query Executer"/>
       <feature name="hibernate" sample="hibernate" title="Hibernate (HQL) Query Executer"/>
+      <feature name="mondrian" sample="mondrian" title="Mondrian (MDX) Query Executer"/>
+    </content>
+  </category>
+  
+  <category>
+    <name>Report Filling</name>
+    <content>
+      <feature name="nopagebreak" sample="nopagebreak" title="Suppress Pagination"/>
+      <feature name="noreport" sample="noreport" title="Creating Final Documents Using the API Directly (No Report Filling)"/>
     </content>
   </category>
   
