@@ -18,10 +18,13 @@
       <feature name="fontextensions" sample="fonts" title="Font Extensions"/>
       <feature name="genericelements" sample="genericelement" title="Generic Elements"/>
       <feature name="horizontal" sample="horizontal" title="Creating Horizontally-Filled, Multi-Column Reports"/>
-	  <!--
+      <feature name="i18n" sample="i18n" title="Internationalized Report Templates"/>
+      <feature name="images" sample="images" title="Images"/>
+      <feature name="groups" sample="jasper" title="Data Grouping"/>
       <feature name="jcharts" sample="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)"/>
       <feature name="jchartscomponent" sample="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)"/>
       <feature name="jfreechart" sample="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)"/>
+	  <!--
       <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)"/>
       -->
     </content>
