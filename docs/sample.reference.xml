@@ -40,13 +40,10 @@
     <name>Data Source / Query Executer</name>
     <content>
       <feature name="datasets" sample="crosstabs" title="Datasets"/>
-	  <!--
-      <feature name="beandatasource" sample="datasource" title="Bean Data Sources"/>
-      -->
+      <feature name="javabeandatasources" sample="datasource" title="JavaBean Data Sources"/>
       <feature name="csvdatasource" sample="csvdatasource" title="CSV Data Source"/>
-	  <!--
       <feature name="customdatasource" sample="datasource" title="Custom Data Source"/>
-      -->
+      <feature name="tablemodeldatasource" sample="datasource" title="TableModel Data Source"/>
       <feature name="datasources" sample="datasource" title="Data Sources"/>
     </content>
   </category>
