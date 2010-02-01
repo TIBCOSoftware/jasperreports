@@ -1,6 +1,6 @@
 <project name="jasper" default="javac" basedir=".">
 
-	<description>Shows how different feautures of the library could be used to generate a complex document.</description>
+	<description>Shows how different features of the library could be used to generate a complex document.</description>
 
 	<property name="class.name" value="JasperApp" />
 	<property name="file.name" value="${basedir}/FirstJasper" />
