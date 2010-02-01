@@ -71,7 +71,7 @@ public class ChartsApp
 	 */
 	public static void main(String[] args)
 	{
-		if(args.length == 0)
+		if(args.length != 1)
 		{
 			usage();
 			return;
