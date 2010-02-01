@@ -711,6 +711,9 @@ public class JRApiWriter
 	private void writeGroup( JRGroup group)
 	{
 		String groupName = group.getName();
+		
+		groupsMap.put(groupName, groupName);
+
 		write( "JRDesignGroup " + groupName + "ResetGroup = new JRDesignGroup();\n");
 		write( groupName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(groupName) + "\");\n");
 		write( groupName + ".setStartNewColumn({0});\n", group.isStartNewColumn(), false);
@@ -868,15 +871,15 @@ public class JRApiWriter
 			writeStyleReferenceAttr( element, elementName);
 			write( elementName + ".setPositionType({0});\n", JRApiConstants.getPositionType(new Byte(element.getPositionType())), "JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP");
 			write( elementName + ".setStretchType({0});\n", JRApiConstants.getStretchType(new Byte(element.getStretchType())), "JRElement.STRETCH_TYPE_NO_STRETCH");
-			write( elementName + ".setPrintRepeatedValues({0});\n", element.isPrintRepeatedValues());
-			write( elementName + ".setMode({0});\n", JRApiConstants.getMode(new Byte(element.getOwnMode())));
+			write( elementName + ".setPrintRepeatedValues({0});\n", element.isPrintRepeatedValues(), false);
+			write( elementName + ".setMode({0});\n", JRApiConstants.getMode(element.getOwnMode()));
 			write( elementName + ".setX({0});\n", element.getX());
 			write( elementName + ".setY({0});\n", element.getY());
 			write( elementName + ".setWidth({0});\n", element.getWidth());
 			write( elementName + ".setHeight({0});\n", element.getHeight());
-			write( elementName + ".setRemoveLineWhenBlank({0});\n", element.isRemoveLineWhenBlank());
-			write( elementName + ".setPrintInFirstWholeBand({0});\n", element.isPrintInFirstWholeBand());
-			write( elementName + ".setPrintWhenDetailOverflows({0});\n", element.isPrintWhenDetailOverflows());
+			write( elementName + ".setRemoveLineWhenBlank({0});\n", element.isRemoveLineWhenBlank(), false);
+			write( elementName + ".setPrintInFirstWholeBand({0});\n", element.isPrintInFirstWholeBand(), false);
+			write( elementName + ".setPrintWhenDetailOverflows({0});\n", element.isPrintWhenDetailOverflows(), false);
 
 			if (element.getPrintWhenGroupChanges() != null)
 			{
@@ -3761,7 +3764,6 @@ public class JRApiWriter
 			if(groupsMap.get(group.getName()) == null)
 			{
 				writeGroup( group);
-				groupsMap.put(group.getName(), group.getName());
 			}
 			return group.getName();
 		}
