@@ -146,7 +146,6 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
-import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -714,13 +713,13 @@ public class JRApiWriter
 		String groupName = group.getName();
 		write( "JRDesignGroup " + groupName + "ResetGroup = new JRDesignGroup();\n");
 		write( groupName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(groupName) + "\");\n");
-		write( groupName + ".setStartNewColumn({0});\n", group.isStartNewColumn());
-		write( groupName + ".setStartNewPage({0});\n", group.isStartNewPage());
-		write( groupName + ".setReprintHeaderOnEachPage({0});\n", group.isReprintHeaderOnEachPage());
+		write( groupName + ".setStartNewColumn({0});\n", group.isStartNewColumn(), false);
+		write( groupName + ".setStartNewPage({0});\n", group.isStartNewPage(), false);
+		write( groupName + ".setReprintHeaderOnEachPage({0});\n", group.isReprintHeaderOnEachPage(), false);
 		write( groupName + ".setMinHeightToStartNewPage({0});\n", group.getMinHeightToStartNewPage());
 		write( groupName + ".setFooterPosition({0});\n", JRApiConstants.getFooterPosition(new Byte(group.getFooterPosition())), "JRGroup.FOOTER_POSITION_NORMAL");
 		
-		write( groupName + ".setKeepTogether({0});\n", group.isKeepTogether());
+		write( groupName + ".setKeepTogether({0});\n", group.isKeepTogether(), false);
 
 		writeExpression( group.getExpression(), groupName, "Expression");
 
