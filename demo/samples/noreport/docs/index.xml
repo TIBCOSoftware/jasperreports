@@ -14,7 +14,7 @@
     <description>
 How to create final in-memory documents without using the report generation process, but rather the object model of the JasperReports API.
     </description>
-    <since>0.1.0</since>
+    <since>0.4.2</since>
     <content>
 [Under Construction]
     </content>

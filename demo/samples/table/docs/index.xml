@@ -2,26 +2,21 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>table</name>
+  <title>Table Sample</title>
+  <description>Shows how a table structure could be created using simple text elements and their border.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="table"/>
   
-  <!-- antcompile -->
+  <!-- table -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="table" title="Creating Table-like Structures">
     <description>
-FIXME
+How to create tables using text elements and their border.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>0.6.3</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 

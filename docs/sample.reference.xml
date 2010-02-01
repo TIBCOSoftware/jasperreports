@@ -33,6 +33,9 @@
       <feature name="stretch" sample="stretch" title="Stretching Text Fields"/>
       <feature name="styledtext" sample="styledtext" title="Styled Text"/>
       <feature name="subreports" sample="subreport" title="Subreports"/>
+      <feature name="table" sample="table" title="Creating Table-like Structures"/>
+      <feature name="tableofcontents" sample="tableofcontents" title="Creating Table-Of-Contents Structures"/>
+      <feature name="templates" sample="templates" title="Style Templates"/>
     </content>
   </category>
   

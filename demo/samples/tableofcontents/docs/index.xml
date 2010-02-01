@@ -2,26 +2,21 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>tableofcontents</name>
+  <title>Table of Contents Sample</title>
+  <description>Shows how table-of-contents structures could be created for the generated reports.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="tableofcontents"/>
   
-  <!-- antcompile -->
+  <!-- tableofcontents -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="tableofcontents" title="Creating Table-Of-Contents Structures">
     <description>
-FIXME
+How to create an table of contents type of index with hyperlinks at the beginning of a document.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>0.4.2</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
