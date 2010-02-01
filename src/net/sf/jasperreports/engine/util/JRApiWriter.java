@@ -1029,7 +1029,7 @@ public class JRApiWriter
 			writeReportElement( staticText, staticTextName);
 			writeBox( staticText.getLineBox(), staticTextName + ".getLineBox()");
 			writeTextElement( staticText, staticTextName);
-			write( staticTextName + ".setText(\"" + JRStringUtil.escapeJavaStringLiteral(staticText.getText()) + "\");\n");
+			write( staticTextName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(staticText.getText()));
 			flush();
 		}
 	}
@@ -1042,11 +1042,11 @@ public class JRApiWriter
 	{
 		if(textElement != null)
 		{
-			write( textElementName + ".setHorizontalAlignment((byte)" + textElement.getHorizontalAlignment() + ");\n");
-			write( textElementName + ".setVerticalAlignment((byte)" + textElement.getVerticalAlignment() + ");\n");
-			write( textElementName + ".setRotation((byte)" + textElement.getRotation() + ");\n");
-			write( textElementName + ".setLineSpacing((byte)" + textElement.getLineSpacing() + ");\n");
-			write( textElementName + ".setMarkup(\"" + JRStringUtil.escapeJavaStringLiteral(textElement.getMarkup()) + "\");\n");
+			write( textElementName + ".setHorizontalAlignment({0});\n", JRApiConstants.getHorizontalAlign(textElement.getOwnHorizontalAlignment()));
+			write( textElementName + ".setVerticalAlignment({0});\n", JRApiConstants.getHorizontalAlign(textElement.getOwnVerticalAlignment()));
+			write( textElementName + ".setRotation({0});\n", JRApiConstants.getRotation(textElement.getOwnRotation()));
+			write( textElementName + ".setLineSpacing({0});\n", JRApiConstants.getLineSpacing(textElement.getOwnLineSpacing()));
+			write( textElementName + ".setMarkup(\"{0}\");\n", textElement.getMarkup());
 			writeFont( textElement, textElementName);
 			flush();
 		}
@@ -1079,15 +1079,15 @@ public class JRApiWriter
 				}
 			}
 			
-			write( fontHolderName + ".setFontName(\"" + JRStringUtil.escapeJavaStringLiteral(font.getFontName()) + "\");\n");
-			write( fontHolderName + ".setFontSize(" + font.getFontSize() + ");\n");
-			write( fontHolderName + ".setBold(" + font.isBold() + ");\n");
-			write( fontHolderName + ".setItalic(" + font.isItalic() + ");\n");
-			write( fontHolderName + ".setUnderline(" + font.isUnderline() + ");\n");
-			write( fontHolderName + ".setStrikeThrough(" + font.isStrikeThrough() + ");\n");
-			write( fontHolderName + ".setPdfFontName(\"" + JRStringUtil.escapeJavaStringLiteral(font.getPdfFontName()) + "\");\n");
-			write( fontHolderName + ".setPdfEncoding(\"" + JRStringUtil.escapeJavaStringLiteral(font.getPdfEncoding()) + "\");\n");
-			write( fontHolderName + ".setPdfEmbedded(" + font.isPdfEmbedded() + ");\n");
+			write( fontHolderName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(font.getOwnFontName()));
+			write( fontHolderName + ".setFontSize({0});\n", font.getOwnFontSize());
+			write( fontHolderName + ".setBold({0});\n", font.isOwnBold());
+			write( fontHolderName + ".setItalic({0});\n", font.isOwnItalic());
+			write( fontHolderName + ".setUnderline({0});\n", font.isOwnUnderline());
+			write( fontHolderName + ".setStrikeThrough({0});\n", font.isOwnStrikeThrough());
+			write( fontHolderName + ".setPdfFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(font.getOwnPdfFontName()));
+			write( fontHolderName + ".setPdfEncoding(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(font.getOwnPdfEncoding()));
+			write( fontHolderName + ".setPdfEmbedded({0});\n", font.isOwnPdfEmbedded());
 			flush();
 		}
 	}
