@@ -2,26 +2,37 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>hibernate</name>
+  <title>Hibernate Sample</title>
+  <description>Shows how HQL could be used in reports.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="hibernate"/>
+  <mainFeature ref="queryexecuters"/>
   
-  <!-- antcompile -->
+  <!-- queryexecuters -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="queryexecuters" title="Query Executers">
     <description>
-FIXME
+How to implement a custom query executer and how to associate it with a custom report query language.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>1.2.0</since>
+  	<otherSample ref="ejbql"/>
+  	<otherSample ref="xmldatasource"/>
+  	<otherSample ref="mondrian"/>
     <content>
-FIXME
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- hibernate -->
+  
+  <feature name="hibernate" title="Hibernate (HQL) Query Executer">
+    <description>
+How to fill reports using embedded Hibernate (HQL) queries.
+    </description>
+    <since>1.2.0</since>
+    <content>
+[Under Construction]
     </content>
   </feature>
 
