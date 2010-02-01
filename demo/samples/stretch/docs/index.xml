@@ -2,26 +2,21 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>stretch</name>
+  <title>Stretch Sample</title>
+  <description>Shows how dynamic text fields can stretch to display their entire content and different ways to put a border around such text fields.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="stretch"/>
   
-  <!-- antcompile -->
+  <!-- stretch -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="stretch" title="Stretching Text Fields">
     <description>
-FIXME
+How to make text fields resize dynamically and render all their runtime text content.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>0.1.0</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 

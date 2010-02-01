@@ -2,26 +2,22 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>subreport</name>
+  <title>Subreport Sample</title>
+  <description>Shows how subreport could be used to create complex document layouts.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="subreports"/>
   
-  <!-- antcompile -->
+  <!-- subreports -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="subreports" title="Subreports">
     <description>
-FIXME
+How to use the built-in subreport element to create nested content.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>0.3.0</since>
+  	<otherSample ref="xmldatasource"/>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
