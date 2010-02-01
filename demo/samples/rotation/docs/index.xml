@@ -2,26 +2,21 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>rotation</name>
+  <title>Rotation Sample</title>
+  <description>Shows how rotated text could be used in report templates.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="rotation"/>
   
-  <!-- antcompile -->
+  <!-- rotation -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="rotation" title="Rotated Text">
     <description>
-FIXME
+How to rotate text elements.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>0.5.2</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 

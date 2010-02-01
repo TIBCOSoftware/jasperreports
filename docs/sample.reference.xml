@@ -28,6 +28,8 @@
       <feature name="list" sample="list" title="Using the Built-in List Component"/>
       <feature name="markup" sample="markup" title="Creating Styled Text Using a Markup Language"/>
       <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)"/>
+      <feature name="rotation" sample="rotation" title="Rotated Text"/>
+      <feature name="shapes" sample="shapes" title="Lines, Rectangles, Ellipses (Shapes)"/>
     </content>
   </category>
   
@@ -58,6 +60,7 @@
       <feature name="ejbql" sample="ejbql" title="EJBQL Query Executer"/>
       <feature name="hibernate" sample="hibernate" title="Hibernate (HQL) Query Executer"/>
       <feature name="mondrian" sample="mondrian" title="Mondrian (MDX) Query Executer"/>
+      <feature name="query" sample="query" title="Parameterized Queries (Dynamic Queries)"/>
     </content>
   </category>
   
@@ -66,6 +69,7 @@
     <content>
       <feature name="nopagebreak" sample="nopagebreak" title="Suppress Pagination"/>
       <feature name="noreport" sample="noreport" title="Creating Final Documents Using the API Directly (No Report Filling)"/>
+      <feature name="scriptlet" sample="scriptlet" title="Scriptlets"/>
     </content>
   </category>
   

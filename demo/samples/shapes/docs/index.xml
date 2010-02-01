@@ -2,26 +2,21 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>shapes</name>
+  <title>Shapes Sample</title>
+  <description>Shows how various graphic elements could be used inside report templates.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="shapes"/>
   
-  <!-- antcompile -->
+  <!-- shapes -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="shapes" title="Lines, Rectangles, Ellipses (Shapes)">
     <description>
-FIXME
+How to use shape elements such as rectangles, ellipses and lines.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>0.1.0</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
