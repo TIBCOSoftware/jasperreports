@@ -997,9 +997,9 @@ public class JRApiWriter
 				String groupName = getGroupName( image.getEvaluationGroup());
 				write( imageName + ".setEvaluationGroup(" + groupName + ");\n");
 			}
-			write( imageName + ".setLinkType(\"" + JRStringUtil.escapeJavaStringLiteral(image.getLinkType() != null ? image.getLinkType() : JRHyperlinkHelper.HYPERLINK_TYPE_NONE) + "\");\n");
-			write( imageName + ".setLinkTarget(\"" + JRStringUtil.escapeJavaStringLiteral(image.getLinkTarget() != null ? image.getLinkTarget() : JRHyperlinkHelper.HYPERLINK_TARGET_SELF) + "\");\n");
-			write( imageName + ".setBookmarkLevel(" + (image.getBookmarkLevel() > 0 ? image.getBookmarkLevel() : JRAnchor.NO_BOOKMARK) + ");\n");
+			write( imageName + ".setLinkType({0});\n", JRStringUtil.escapeJavaStringLiteral(image.getLinkType()), "JRHyperlinkHelper.HYPERLINK_TYPE_NONE");
+			write( imageName + ".setLinkTarget({0});\n", JRStringUtil.escapeJavaStringLiteral(image.getLinkTarget()), "JRHyperlinkHelper.HYPERLINK_TARGET_SELF");
+			write( imageName + ".setBookmarkLevel({0});\n", image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 			
 			writeReportElement( image, imageName);
 			writeBox( image.getLineBox(), imageName + ".getLineBox()");
