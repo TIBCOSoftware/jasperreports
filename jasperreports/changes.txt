@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.1 (2010-02-01, SVN 3366)
+JasperReports 3.7.1 (2010-02-01, SVN 3367)
 ---------------------------------------------
 
 - new JRHtmlExporterParameter.ZOOM_RATIO exporter added to allow scaling the content generated
