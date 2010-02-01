@@ -76,6 +76,8 @@
       <feature name="mondrian" sample="mondrian" title="Mondrian (MDX) Query Executer"/>
       <feature name="query" sample="query" title="Parameterized Queries (Dynamic Queries)"/>
       <feature name="xlsdatasource" sample="xlsdatasource" title="XLS Data Source"/>
+      <feature name="xmldatasource" sample="xmldatasource" title="XML Data Source"/>
+      <feature name="xpathqueryexecuter" sample="xmldatasource" title="XPath Query Executer"/>
     </content>
   </category>
   
@@ -96,6 +98,7 @@
       <feature name="pdfencrypt" sample="pdfencrypt" title="Encrypted PDF"/>
       <feature name="printservice" sample="printservice" title="Printing Reports Using the Java Print Service API"/>
       <feature name="textexport" sample="text" title="Exporting to Pure Text Format"/>
+      <feature name="xlsformula" sample="xlsformula" title="Exporting XLS Formulas"/>
     </content>
   </category>
   

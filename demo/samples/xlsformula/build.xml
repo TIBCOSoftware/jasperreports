@@ -1,6 +1,6 @@
-<project name="styledtext" default="javac" basedir=".">
+<project name="xlsformula" default="test" basedir=".">
 
-	<description>Shows how forumulas could be introduced in reports exported to XLS format.</description>
+	<description>Shows how formulas could be introduced in reports exported to XLS format.</description>
 
 	<property name="class.name" value="XlsFormulaApp" />
 	<property name="file.name" value="${basedir}/XlsFormulaReport" />
