@@ -27,9 +27,7 @@
       <feature name="landscape" sample="landscape" title="Creating Landscape Orientation Report Templates"/>
       <feature name="list" sample="list" title="Using the Built-in List Component"/>
       <feature name="markup" sample="markup" title="Creating Styled Text Using a Markup Language"/>
-	  <!--
       <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)"/>
-      -->
     </content>
   </category>
   
@@ -75,6 +73,8 @@
     <name>Report Export</name>
     <content>
       <feature name="batchexport" sample="batchexport" title="Exporting Multiple Reports into a Single Output File (Batch Export)"/>
+      <feature name="pdfencrypt" sample="pdfencrypt" title="Encrypted PDF"/>
+      <feature name="printservice" sample="printservice" title="Printing Reports Using the Java Print Service API"/>
     </content>
   </category>
   

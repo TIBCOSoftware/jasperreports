@@ -2,26 +2,21 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>pdfencrypt</name>
+  <title>PDF Encrypt Sample</title>
+  <description>Shows how reports could be encrypted when exported to PDF.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="pdfencrypt"/>
   
-  <!-- antcompile -->
+  <!-- pdfencrypt -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="pdfencrypt" title="Encrypted PDF">
     <description>
-FIXME
+How to produce encrypted PDF reports.
     </description>
     <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
