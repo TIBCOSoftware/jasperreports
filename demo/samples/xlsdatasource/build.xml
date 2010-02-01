@@ -1,4 +1,4 @@
-<project name="datasource" default="javac" basedir=".">
+<project name="xlsdatasource" default="test" basedir=".">
 
 	<description>Shows how the XLS data source implementation could be used to fill reports.</description>
 
