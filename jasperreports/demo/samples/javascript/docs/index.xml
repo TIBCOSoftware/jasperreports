@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>javascript</name>
+  <title>JavaScript Sample</title>
+  <description>Shows how the JavaScript language could be used inside report templates.</description>
+
+  <mainFeature ref="javascript"/>
+  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  
+  <!-- javascript -->
+  
+  <feature name="javascript" title="Using the JavaScript Language for Report Expressions (JavaScript Report Compiler)">
+    <description>
+How to use Javascript to write report expressions.
+    </description>
+    <since>3.1.2</since>
+  	<otherSample ref="antcompile"/>
+  	<otherSample ref="beanshell"/>
+  	<otherSample ref="groovy"/>
+  	<otherSample ref="java1.5"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

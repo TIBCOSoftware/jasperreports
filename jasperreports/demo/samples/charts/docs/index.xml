@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>charts</name>
+  <title>Charts Sample</title>
+  <description>Shows how the chart element could be used to render different types of charts.</description>
+
+  <mainFeature ref="charts"/>
+  <mainFeature ref="chartcustomizers"/>
+  <secondaryFeature name="datasets" sample="crosstabs" title="Datasets"/>
+  
+  <!-- charts -->
+  
+  <feature name="charts" title="Charts">
+    <description>
+How to render different types of charts using the built-in chart element.
+    </description>
+    <since>1.0.0</since>
+  	<otherSample ref="chartthemes"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- chartcustomizers -->
+  
+  <feature name="chartcustomizers" title="Altering Charts (Chart Customizers)">
+    <description>
+How to make various changes to a generated chart using the <a href="http://jfree.org/jfreechart/">JFreeChart API</a>,
+which is used by JasperReports to draw the charts created with the built-in chart element.
+    </description>
+    <since>1.1.1</since>
+  	<otherSample ref="chartthemes"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

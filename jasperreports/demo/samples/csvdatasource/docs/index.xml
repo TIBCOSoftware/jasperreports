@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>csvdatasource</name>
+  <title>CSV Data Source Sample</title>
+  <description>Shows how the CSV data source implementation could be used to fill reports.</description>
+
+  <mainFeature ref="csvdatasource"/>
+  <secondaryFeature name="datasources" sample="datasource" title="Data Sources"/>
+  
+  <!-- csvdatasource -->
+  
+  <feature name="csvdatasource" title="CSV Data Source">
+    <description>
+How to fill a report using data from a CSV file.
+    </description>
+    <since>1.2.0</since>
+  	<otherSample ref="datasource"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

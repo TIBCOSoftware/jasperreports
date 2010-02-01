@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>tableofcontents</name>
+  <title>Table of Contents Sample</title>
+  <description>Shows how table-of-contents structures could be created for the generated reports.</description>
+
+  <mainFeature ref="tableofcontents"/>
+  
+  <!-- tableofcontents -->
+  
+  <feature name="tableofcontents" title="Creating Table-Of-Contents Structures">
+    <description>
+How to create an table of contents type of index with hyperlinks at the beginning of a document.
+    </description>
+    <since>0.4.2</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>query</name>
+  <title>Query Sample</title>
+  <description>Shows how the report query can be build dynamically using report parameters.</description>
+
+  <mainFeature ref="query"/>
+  
+  <!-- query -->
+  
+  <feature name="query" title="Parameterized Queries (Dynamic Queries)">
+    <description>
+How to pass parameter references to report queries and how to change the report query at runtime.
+    </description>
+    <since>0.1.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>chartthemes</name>
+  <title>Chart Themes Sample</title>
+  <description>Shows how the chart themes could be used to change the look and feel of all chart types.</description>
+
+  <mainFeature ref="chartthemes"/>
+  <secondaryFeature name="charts" sample="charts" title="Charts"/>
+  <secondaryFeature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
+  
+  <!-- chartthemes -->
+  
+  <feature name="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)">
+    <description>
+Customizing the appearance of all charts created using the chart element, across an entire application. 
+    </description>
+    <since>3.1.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

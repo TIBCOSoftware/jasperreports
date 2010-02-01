@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>stretch</name>
+  <title>Stretch Sample</title>
+  <description>Shows how dynamic text fields can stretch to display their entire content and different ways to put a border around such text fields.</description>
+
+  <mainFeature ref="stretch"/>
+  
+  <!-- stretch -->
+  
+  <feature name="stretch" title="Stretching Text Fields">
+    <description>
+How to make text fields resize dynamically and render all their runtime text content.
+    </description>
+    <since>0.1.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>fonts</name>
+  <title>Fonts Sample</title>
+  <description>Shows how to work with fonts.</description>
+
+  <mainFeature ref="fonts"/>
+  <mainFeature ref="fontextensions"/>
+  
+  <!-- fonts -->
+  
+  <feature name="fonts" title="Fonts">
+    <description>
+How to format texts using fonts properties.
+    </description>
+    <since>0.1.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- fontextensions -->
+  
+  <feature name="fontextensions" title="Font Extensions">
+    <description>
+How to ship the required fonts with your report templates when deploying them in the target application, using font extensions.
+    </description>
+    <since>3.1.3</since>
+    <otherSample ref="unicode"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

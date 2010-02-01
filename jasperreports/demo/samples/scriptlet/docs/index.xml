@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>scriptlet</name>
+  <title>Scriptlet Sample</title>
+  <description>Shows how the scriptlets could be used to manipulate data during report filling.</description>
+
+  <mainFeature ref="scriptlet"/>
+  
+  <!-- scriptlet -->
+  
+  <feature name="scriptlet" title="Scriptlets">
+    <description>
+How to perform custom calculation and tailor the report filling process using report scriptlets implementations.
+    </description>
+    <since>0.2.5</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

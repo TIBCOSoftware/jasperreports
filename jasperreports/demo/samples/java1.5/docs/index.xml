@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>java1.5</name>
+  <title>Java 1.5 Sample</title>
+  <description>Shows how Java 1.5 could be used inside report templates.</description>
+
+  <mainFeature ref="java1.5"/>
+  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  
+  <!-- java1.5 -->
+  
+  <feature name="java1.5" title="Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)">
+    <description>
+How to use Java 1.5 language specific features inside report expressions.
+    </description>
+    <since>1.1.1</since>
+  	<otherSample ref="antcompile"/>
+  	<otherSample ref="beanshell"/>
+  	<otherSample ref="groovy"/>
+  	<otherSample ref="javascript"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>noreport</name>
+  <title>No Report Sample</title>
+  <description>Shows how final documents can be created without using the reporting engine, but only the API directly.</description>
+
+  <mainFeature ref="noreport"/>
+  
+  <!-- noreport -->
+  
+  <feature name="noreport" title="Creating Final Documents Using the API Directly (No Report Filling)">
+    <description>
+How to create final in-memory documents without using the report generation process, but rather the object model of the JasperReports API.
+    </description>
+    <since>0.4.2</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

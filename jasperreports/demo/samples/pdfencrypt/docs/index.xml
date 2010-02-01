@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>pdfencrypt</name>
+  <title>PDF Encrypt Sample</title>
+  <description>Shows how reports could be encrypted when exported to PDF.</description>
+
+  <mainFeature ref="pdfencrypt"/>
+  
+  <!-- pdfencrypt -->
+  
+  <feature name="pdfencrypt" title="Encrypted PDF">
+    <description>
+How to produce encrypted PDF reports.
+    </description>
+    <since>0.5.1</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

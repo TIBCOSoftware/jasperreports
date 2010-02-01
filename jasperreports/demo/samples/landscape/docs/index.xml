@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>landscape</name>
+  <title>Landscape Sample</title>
+  <description>Shows how reports can be generated and printed in "Landscape" page format.</description>
+
+  <mainFeature ref="landscape"/>
+  
+  <!-- landscape -->
+  
+  <feature name="landscape" title="Creating Landscape Orientation Report Templates">
+    <description>
+How to create landscape orientation reports.
+    </description>
+    <since>0.1.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>xlsdatasource</name>
+  <title>XLS Data Source Sample</title>
+  <description>Shows how the XLS data source implementation could be used to fill reports.</description>
+
+  <mainFeature ref="xlsdatasource"/>
+  <secondaryFeature name="datasources" sample="datasource" title="Data Sources"/>
+  
+  <!-- xlsdatasource -->
+  
+  <feature name="xlsdatasource" title="XLS Data Source">
+    <description>
+How to fill a report using data from an XLS file.
+    </description>
+    <since>3.6.1</since>
+  	<otherSample ref="datasource"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

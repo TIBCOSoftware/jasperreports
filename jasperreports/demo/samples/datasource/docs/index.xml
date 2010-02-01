@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>datasource</name>
+  <title>Data Source Sample</title>
+  <description>Shows how custom or JavaBean-based data source implementations could be used to fill reports.</description>
+
+  <mainFeature ref="datasources"/>
+  <mainFeature ref="customdatasource"/>
+  <mainFeature ref="javabeandatasources"/>
+  <mainFeature ref="tablemodeldatasource"/>
+  
+  <!-- datasources -->
+  
+  <feature name="datasources" title="Data Sources">
+    <description>
+How to fill reports using data source objects.
+    </description>
+    <since>0.1.0</since>
+  	<otherSample ref="csvdatasource"/>
+  	<otherSample ref="xlsdatasource"/>
+  	<otherSample ref="xmldatasource"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- customdatasource -->
+  
+  <feature name="customdatasource" title="Custom Data Source">
+    <description>
+How to implement a custom data source from scratch.
+    </description>
+    <since>0.1.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- javabeandatasources -->
+  
+  <feature name="javabeandatasources" title="JavaBean Data Sources">
+    <description>
+How to fill reports with collections or arrays of JavaBean objects.
+    </description>
+    <since>0.1.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- tablemodeldatasource -->
+  
+  <feature name="tablemodeldatasource" title="TableModel Data Source">
+    <description>
+How to wrap a custom TableModel implementation into a report data source. 
+    </description>
+    <since>0.3.3</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

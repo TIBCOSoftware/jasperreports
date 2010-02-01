@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>shapes</name>
+  <title>Shapes Sample</title>
+  <description>Shows how various graphic elements could be used inside report templates.</description>
+
+  <mainFeature ref="shapes"/>
+  
+  <!-- shapes -->
+  
+  <feature name="shapes" title="Lines, Rectangles, Ellipses (Shapes)">
+    <description>
+How to use shape elements such as rectangles, ellipses and lines.
+    </description>
+    <since>0.1.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

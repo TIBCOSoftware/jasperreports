@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>jasper</name>
+  <title>Jasper Sample</title>
+  <description>Shows how different features of the library could be used to generate a complex document.</description>
+
+  <mainFeature ref="groups"/>
+  
+  <!-- groups -->
+  
+  <feature name="groups" title="Data Grouping">
+    <description>
+How to group data at different levels and perform aggregate calculations using report groups.
+    </description>
+    <since>0.1.0</since>
+  	<otherSample ref="datasource"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

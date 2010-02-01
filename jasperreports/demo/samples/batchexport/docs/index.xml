@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>batchexport</name>
+  <title>Batch Export Sample</title>
+  <description>Shows how multiple reports could be concatenated during export.</description>
+
+  <mainFeature ref="batchexport"/>
+  
+  <!-- batchexport -->
+  
+  <feature name="batchexport" title="Exporting Multiple Reports into a Single Output File (Batch Export)">
+    <description>
+Several reports can be exported together to form a single resulting document.
+    </description>
+    <since>0.6.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>hyperlink</name>
+  <title>Hyperlink Sample</title>
+  <description>Shows how hypelink and anchors could be used in report templates.</description>
+
+  <mainFeature ref="hyperlinks"/>
+  <mainFeature ref="xmlwriter"/>
+  
+  <!-- hyperlinks -->
+  
+  <feature name="hyperlinks" title="Hyperlinks">
+    <description>
+How to use hyperlinks and anchors for text elements and image elements.
+    </description>
+    <since>0.3.2</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  
+  <!-- xmlwriter -->
+  
+  <feature name="xmlwriter" title="Generating the JRXML Source File for an In-Memory Report Report Template Object">
+    <description>
+How to generate the JRXML representation of an in-memory report template object.
+    </description>
+    <since>0.3.2</since>
+  	<otherSample ref="noxmldesign"/>
+  	<otherSample ref="antcompile"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

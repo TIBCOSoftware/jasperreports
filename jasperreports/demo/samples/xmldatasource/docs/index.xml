@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>xmldatasource</name>
+  <title>XML Data Source Sample</title>
+  <description>Shows how the built-in XPath-based data source could be used for reporting out of XML data.</description>
+
+  <mainFeature ref="xmldatasource"/>
+  <mainFeature ref="xpathqueryexecuter"/>
+  <secondaryFeature name="queryexecuters" sample="hibernate" title="Query Executers"/>
+  <secondaryFeature name="datasources" sample="datasource" title="Data Sources"/>
+  <secondaryFeature name="subreports" sample="subreport" title="Subreports"/>
+  
+  <!-- xmldatasource -->
+  
+  <feature name="xmldatasource" title="XML Data Source">
+    <description>
+How to fill a report using data from an XML file.
+    </description>
+    <since>0.6.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- xpathqueryexecuter -->
+  
+  <feature name="xpathqueryexecuter" title="XPath Query Executer">
+    <description>
+How to fill reports using embedded XPath queries.
+    </description>
+    <since>1.2.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

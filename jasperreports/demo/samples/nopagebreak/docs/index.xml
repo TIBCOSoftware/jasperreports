@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>nopagebreak</name>
+  <title>No Page Break Sample</title>
+  <description>Shows how reports can be designed and exported in a way that hides the existence of page breaks.</description>
+
+  <mainFeature ref="nopagebreak"/>
+  
+  <!-- nopagebreak -->
+  
+  <feature name="nopagebreak" title="Suppress Pagination">
+    <description>
+How to suppress pagination in generated documents.
+    </description>
+    <since>1.0.1</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>
