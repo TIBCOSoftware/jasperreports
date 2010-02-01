@@ -38,7 +38,7 @@
 	</target>
 
 	<target name="fill" if="using.jdk.1.5" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${sample.app.name}" fork="true">
 			<jvmarg value="-javaagent:lib/toplink-essentials-agent.jar"/>
 			<arg value="fill"/>
 			<classpath refid="classpath"/>
