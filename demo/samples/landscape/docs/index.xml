@@ -2,26 +2,21 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>landscape</name>
+  <title>Landscape Sample</title>
+  <description>Shows how reports can be generated and printed in "Landscape" page format.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="landscape"/>
   
-  <!-- antcompile -->
+  <!-- landscape -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="landscape" title="Creating Landscape Orientation Report Templates">
     <description>
-FIXME
+How to create landscape orientation reports.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>0.1.0</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 

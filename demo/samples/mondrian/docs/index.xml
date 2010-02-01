@@ -2,26 +2,25 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>mondrian</name>
+  <title>Mondrian Sample</title>
+  <description>Shows how MDX queries could be used to generate a report.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="mondrian"/>
+  <secondaryFeature name="queryexecuters" sample="hibernate" title="Query Executers"/>
   
-  <!-- antcompile -->
+  <!-- mondrian -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="mondrian" title="Mondrian (MDX) Query Executer">
     <description>
-FIXME
+How to fill reports using embedded MDX queries.
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>1.2.3</since>
+  	<otherSample ref="ejbql"/>
+  	<otherSample ref="hibernate"/>
+  	<otherSample ref="xmldatasource"/>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
