@@ -2,26 +2,21 @@
 
 <sample>
 
-  <name>antcompile</name>
-  <title>Ant Compile Sample</title>
-  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+  <name>openflashchart</name>
+  <title>Open Flash Chart Component Sample</title>
+  <description>Shows how Open Flash Charts could be included in HTML and PDF reports using a specially designed component.</description>
 
-  <mainFeature ref="antcompile"/>
-  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  <mainFeature ref="openflashchart"/>
   
-  <!-- antcompile -->
+  <!-- openflashchart -->
   
-  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+  <feature name="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)">
     <description>
-FIXME
+How to implement a custom component to wrap charts rendered by the <a href="http://teethgrinder.co.uk/open-flash-chart/">Open Flash Chart</a> library. 
     </description>
-    <since>0.5.1</since>
-  	<otherSample ref="beanshell"/>
-  	<otherSample ref="groovy"/>
-  	<otherSample ref="java1.5"/>
-  	<otherSample ref="javascript"/>
+    <since>3.1.2</since>
     <content>
-FIXME
+[Under Construction]
     </content>
   </feature>
 
