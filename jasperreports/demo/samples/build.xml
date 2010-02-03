@@ -40,11 +40,7 @@
 		</javac>
 		<copy todir="${sample.dir}/build/classes">
 			<fileset dir="${sample.dir}/src">
-				<include name="**/*.properties"/>
-				<include name="**/*.xml"/>
-				<include name="**/*.TTF"/>
-				<include name="**/*.ttf"/>
-				<include name="**/*.txt"/>
+				<exclude name="**/*.java"/>
 			</fileset>
 		</copy>
 	</target>
@@ -186,6 +182,13 @@
 	<target name="run">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="run"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="writeXml">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+			<arg value="writeXml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
