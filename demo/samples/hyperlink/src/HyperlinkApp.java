@@ -21,19 +21,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Panel;
-import java.awt.Toolkit;
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -55,9 +48,9 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: HorizontalApp.java 3148 2009-10-23 14:57:10Z shertage $
+ * @version $Id: HyperlinkApp.java 3230 2009-12-11 10:49:26Z teodord $
  */
-public class HorizontalApp extends AbstractSampleApp
+public class HyperlinkApp extends AbstractSampleApp
 {
 
 
@@ -66,9 +59,9 @@ public class HorizontalApp extends AbstractSampleApp
 	 */
 	public static void main(String[] args)
 	{
-		main(new HorizontalApp(), args);
+		main(new HyperlinkApp(), args);
 	}
-
+	
 	
 	/**
 	 *
@@ -76,40 +69,19 @@ public class HorizontalApp extends AbstractSampleApp
 	public String usage()
 	{
 		return
-			"HorizontalApp usage:" +
-			"\n\tjava HorizontalApp task" +
-			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run";
+			"HyperlinkApp usage:" +
+			"\n\tjava HyperlinkApp task" +
+			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run | writeXml | writeApi";
 	}
 
 
 	/**
 	 *
 	 */
-	public void fill() throws JRException, ClassNotFoundException, SQLException
+	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		//Preparing parameters
-		Image image = 
-			Toolkit.getDefaultToolkit().createImage(
-				JRLoader.loadBytesFromLocation("dukesign.jpg")
-				);
-		MediaTracker traker = new MediaTracker(new Panel());
-		traker.addImage(image, 0);
-		try
-		{
-			traker.waitForID(0);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		
-		Map parameters = new HashMap();
-		parameters.put("ReportTitle", "The Horizontal Report");
-		parameters.put("MaxOrderID", new Integer(10500));
-		parameters.put("SummaryImage", image);
-		
-		JasperFillManager.fillReportToFile("build/reports/HorizontalReport.jasper", parameters, getConnection());
+		JasperFillManager.fillReportToFile("build/reports/HyperlinkReport.jasper", null, new JREmptyDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -120,7 +92,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/HorizontalReport.jrprint", true);
+		JasperPrintManager.printReport("build/reports/HyperlinkReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -131,7 +103,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/HorizontalReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("build/reports/HyperlinkReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -142,7 +114,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/HorizontalReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("build/reports/HyperlinkReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -153,7 +125,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/HorizontalReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("build/reports/HyperlinkReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -164,7 +136,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/HorizontalReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("build/reports/HyperlinkReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -175,7 +147,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void rtf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HorizontalReport.jrprint");
+		File sourceFile = new File("build/reports/HyperlinkReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -198,7 +170,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HorizontalReport.jrprint");
+		File sourceFile = new File("build/reports/HyperlinkReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -208,7 +180,7 @@ public class HorizontalApp extends AbstractSampleApp
 		
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
 		
 		exporter.exportReport();
 
@@ -222,7 +194,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void jxl() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HorizontalReport.jrprint");
+		File sourceFile = new File("build/reports/HyperlinkReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -246,7 +218,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HorizontalReport.jrprint");
+		File sourceFile = new File("build/reports/HyperlinkReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -269,7 +241,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void odt() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HorizontalReport.jrprint");
+		File sourceFile = new File("build/reports/HyperlinkReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -292,7 +264,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HorizontalReport.jrprint");
+		File sourceFile = new File("build/reports/HyperlinkReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -316,7 +288,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void docx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HorizontalReport.jrprint");
+		File sourceFile = new File("build/reports/HyperlinkReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -339,7 +311,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HorizontalReport.jrprint");
+		File sourceFile = new File("build/reports/HyperlinkReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -349,7 +321,7 @@ public class HorizontalApp extends AbstractSampleApp
 		
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
 		
 		exporter.exportReport();
 
@@ -363,7 +335,7 @@ public class HorizontalApp extends AbstractSampleApp
 	public void xhtml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HorizontalReport.jrprint");
+		File sourceFile = new File("build/reports/HyperlinkReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -383,28 +355,10 @@ public class HorizontalApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void run() throws JRException, ClassNotFoundException, SQLException
+	public void run() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		//Preparing parameters
-		Image image = Toolkit.getDefaultToolkit().createImage("dukesign.jpg");
-		MediaTracker traker = new MediaTracker(new Panel());
-		traker.addImage(image, 0);
-		try
-		{
-			traker.waitForID(0);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		
-		Map parameters = new HashMap();
-		parameters.put("ReportTitle", "The First Jasper Report Ever");
-		parameters.put("MaxOrderID", new Integer(10500));
-		parameters.put("SummaryImage", image);
-		
-		JasperRunManager.runReportToPdfFile("build/reports/HorizontalReport.jasper", parameters, getConnection());
+		JasperRunManager.runReportToPdfFile("build/reports/HyperlinkReport.jasper", null, new JREmptyDataSource());
 		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -412,18 +366,11 @@ public class HorizontalApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	private static Connection getConnection() throws ClassNotFoundException, SQLException
+	public void writeXml() throws JRException
 	{
-		//Change these settings according to your local configuration
-		String driver = "org.hsqldb.jdbcDriver";
-		String connectString = "jdbc:hsqldb:hsql://localhost";
-		String user = "sa";
-		String password = "";
-
-
-		Class.forName(driver);
-		Connection conn = DriverManager.getConnection(connectString, user, password);
-		return conn;
+		long start = System.currentTimeMillis();
+		JasperCompileManager.writeReportToXmlFile("build/reports/HyperlinkReport.jasper");
+		System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
 	}
 
 
