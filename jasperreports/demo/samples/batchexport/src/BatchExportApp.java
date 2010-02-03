@@ -22,8 +22,6 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +42,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -51,46 +50,31 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class BatchExportApp
+public class BatchExportApp extends AbstractSampleApp
 {
 
 
 	/**
 	 *
 	 */
-	public void executeTask(String taskName)
+	public static void main(String[] args)
 	{
-		try
-		{
-			Method method = getClass().getMethod(taskName, new Class[]{});
-			method.invoke(this, new Object[]{});
-		}
-		catch (InvocationTargetException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		main(new BatchExportApp(), args);
 	}
 	
-
+	
 	/**
 	 *
 	 */
-	public static void main(String[] args)
+	public String usage()
 	{
-		if(args.length != 1)
-		{
-			usage();
-			return;
-		}
-				
-		new BatchExportApp().executeTask(args[0]);
+		return
+			"BatchExportApp usage:" +
+			"\n\tjava BatchExportApp task" +
+			"\n\tTasks : fill | pdf | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml";
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -360,17 +344,6 @@ public class BatchExportApp
 		exporter.exportReport();
 
 		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
-	private static void usage()
-	{
-		System.out.println( "BatchExportApp usage:" );
-		System.out.println( "\tjava BatchExportApp task" );
-		System.out.println( "\tTasks : fill | pdf | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml" );
 	}
 
 

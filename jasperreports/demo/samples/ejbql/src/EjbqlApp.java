@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -58,45 +59,30 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author Marcel Overdijk (marceloverdijk@hotmail.com)
  * @version $Id: EjbqlApp.java 3148 2009-10-23 14:57:10Z shertage $
  */
-public class EjbqlApp 
+public class EjbqlApp extends AbstractSampleApp
 {
 
 
 	/**
 	 *
 	 */
-	public void executeTask(String taskName)
-	{
-		try
-		{
-			Method method = getClass().getMethod(taskName, new Class[]{});
-			method.invoke(this, new Object[]{});
-		}
-		catch (InvocationTargetException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-
-	/**
-	 *
-	 */
 	public static void main(String[] args)
 	{
-		if(args.length != 1)
-		{
-			usage();
-			return;
-		}
-				
-		new EjbqlApp().executeTask(args[0]);
+		main(new EjbqlApp(), args);
 	}
 	
+	
+	/**
+	 * 
+	 */
+	public String usage() 
+	{
+		return
+			"EjbqlApp usage:" +
+			"\n\tjava EjbqlApp task" +
+			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | odt | ods | docx | xlsx | xhtml | run";
+	}
+
 	
 	/**
 	 *
@@ -425,6 +411,9 @@ public class EjbqlApp
 	}
 
 	
+	/**
+	 * 
+	 */
 	private static Map getParameters(EntityManager em) {
 		Map parameters = new HashMap();
 		parameters.put(JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER, em);
@@ -438,9 +427,5 @@ public class EjbqlApp
 		return parameters;
 	}
 
-	private static void usage() {
-		System.out.println( "EjbqlApp usage:" );
-		System.out.println( "\tjava EjbqlApp task" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | odt | ods | docx | xlsx | xhtml | run" );
-	}
+
 }

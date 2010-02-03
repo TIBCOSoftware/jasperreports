@@ -23,8 +23,6 @@
  */
 import java.awt.Color;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -35,6 +33,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
 
@@ -43,43 +42,28 @@ import net.sf.jasperreports.engine.util.JRSaver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: AlterDesignApp.java 3030 2009-08-27 11:12:48Z teodord $
  */
-public class AlterDesignApp
+public class AlterDesignApp extends AbstractSampleApp
 {
 	
 	
 	/**
 	 *
 	 */
-	public void executeTask(String taskName)
+	public static void main(String[] args)
 	{
-		try
-		{
-			Method method = getClass().getMethod(taskName, new Class[]{});
-			method.invoke(this, new Object[]{});
-		}
-		catch (InvocationTargetException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		main(new AlterDesignApp(), args);
 	}
-	
 
+	
 	/**
 	 *
 	 */
-	public static void main(String[] args)
+	public String usage()
 	{
-		if(args.length != 1)
-		{
-			usage();
-			return;
-		}
-				
-		new AlterDesignApp().executeTask(args[0]);
+		return
+			"AlterDesignApp usage:" +
+			"\n\tjava AlterDesignApp task" +
+			"\n\tTasks : fill | print | pdf";
 	}
 
 	
@@ -140,15 +124,4 @@ public class AlterDesignApp
 	}
 
 	
-	/**
-	 *
-	 */
-	private static void usage()
-	{
-		System.out.println( "AlterDesignApp usage:" );
-		System.out.println( "\tjava AlterDesignApp task" );
-		System.out.println( "\tTasks : fill | print | pdf" );
-	}
-
-
 }

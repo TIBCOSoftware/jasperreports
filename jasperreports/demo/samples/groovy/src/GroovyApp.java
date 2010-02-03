@@ -22,59 +22,42 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.util.AbstractSampleApp;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: GroovyApp.java 3030 2009-08-27 11:12:48Z teodord $
  */
-public class GroovyApp
+public class GroovyApp extends AbstractSampleApp
 {
 
 
 	/**
 	 *
 	 */
-	public void executeTask(String taskName)
+	public static void main(String[] args)
 	{
-		try
-		{
-			Method method = getClass().getMethod(taskName, new Class[]{});
-			method.invoke(this, new Object[]{});
-		}
-		catch (InvocationTargetException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		main(new GroovyApp(), args);
 	}
 	
-
+	
 	/**
 	 *
 	 */
-	public static void main(String[] args)
+	public String usage()
 	{
-		if(args.length != 1)
-		{
-			usage();
-			return;
-		}
-				
-		new GroovyApp().executeTask(args[0]);
+		return
+			"GroovyApp usage:" +
+			"\n\tjava GroovyApp task" +
+			"\n\tTasks : fill | pdf";
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -94,17 +77,6 @@ public class GroovyApp
 		long start = System.currentTimeMillis();
 		JasperExportManager.exportReportToPdfFile("build/reports/GroovyReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
-	private static void usage()
-	{
-		System.out.println( "GroovyApp usage:" );
-		System.out.println( "\tjava GroovyApp task" );
-		System.out.println( "\tTasks : fill | pdf" );
 	}
 
 

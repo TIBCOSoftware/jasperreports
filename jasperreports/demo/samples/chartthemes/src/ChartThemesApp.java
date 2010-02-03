@@ -23,8 +23,6 @@
  */
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +50,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -59,46 +58,31 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class ChartThemesApp
+public class ChartThemesApp extends AbstractSampleApp
 {
 
 
 	/**
 	 *
 	 */
-	public void executeTask(String taskName)
+	public static void main(String[] args)
 	{
-		try
-		{
-			Method method = getClass().getMethod(taskName, new Class[]{});
-			method.invoke(this, new Object[]{});
-		}
-		catch (InvocationTargetException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		main(new ChartThemesApp(), args);
 	}
 	
-
+	
 	/**
 	 *
 	 */
-	public static void main(String[] args)
+	public String usage()
 	{
-		if(args.length != 1)
-		{
-			usage();
-			return;
-		}
-				
-		new ChartThemesApp().executeTask(args[0]);
+		return
+			"ChartThemesApp usage:" +
+			"\n\tjava ChartThemesApp task" +
+			"\n\tTasks : themes | fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run";
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -414,17 +398,6 @@ public class ChartThemesApp
 		long start = System.currentTimeMillis();
 		JasperRunManager.runReportToPdfFile("build/reports/AllChartsReport.jasper", new HashMap(), new JREmptyDataSource());
 		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
-	private static void usage()
-	{
-		System.out.println( "ChartThemesApp usage:" );
-		System.out.println( "\tjava ChartThemesApp task" );
-		System.out.println( "\tTasks : themes | fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run" );
 	}
 
 
