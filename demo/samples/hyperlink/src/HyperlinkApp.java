@@ -71,7 +71,7 @@ public class HyperlinkApp extends AbstractSampleApp
 		return
 			"HyperlinkApp usage:" +
 			"\n\tjava HyperlinkApp task" +
-			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run | writeXml | writeApi";
+			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run | writeXml";
 	}
 
 
