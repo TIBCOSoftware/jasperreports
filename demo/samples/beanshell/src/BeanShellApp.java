@@ -22,59 +22,42 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.util.AbstractSampleApp;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class BeanShellApp
+public class BeanShellApp extends AbstractSampleApp
 {
 
 
 	/**
 	 *
 	 */
-	public void executeTask(String taskName)
+	public static void main(String[] args)
 	{
-		try
-		{
-			Method method = getClass().getMethod(taskName, new Class[]{});
-			method.invoke(this, new Object[]{});
-		}
-		catch (InvocationTargetException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		main(new BeanShellApp(), args);
 	}
 	
-
+	
 	/**
 	 *
 	 */
-	public static void main(String[] args)
+	public String usage()
 	{
-		if(args.length != 1)
-		{
-			usage();
-			return;
-		}
-				
-		new BeanShellApp().executeTask(args[0]);
+		return
+			"BeanShellApp usage:" +
+			"\n\tjava BeanShellApp task" +
+			"\n\tTasks : fill | pdf";
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -94,17 +77,6 @@ public class BeanShellApp
 		long start = System.currentTimeMillis();
 		JasperExportManager.exportReportToPdfFile("build/reports/BeanShellReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
-	private static void usage()
-	{
-		System.out.println( "BeanShellApp usage:" );
-		System.out.println( "\tjava BeanShellApp task" );
-		System.out.println( "\tTasks : fill | pdf" );
 	}
 
 

@@ -22,8 +22,6 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -35,52 +33,38 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.util.AbstractSampleApp;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id:ChartsApp.java 2317 2008-08-27 09:06:42Z teodord $
  */
-public class ChartsApp
+public class ChartsApp extends AbstractSampleApp
 {
 
 
 	/**
 	 *
 	 */
-	public void executeTask(String taskName)
+	public static void main(String[] args)
 	{
-		try
-		{
-			Method method = getClass().getMethod(taskName, new Class[]{});
-			method.invoke(this, new Object[]{});
-		}
-		catch (InvocationTargetException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		main(new ChartsApp(), args);
 	}
 	
-
+	
 	/**
 	 *
 	 */
-	public static void main(String[] args)
+	public String usage()
 	{
-		if(args.length != 1)
-		{
-			usage();
-			return;
-		}
-				
-		new ChartsApp().executeTask(args[0]);
+		return
+			"ChartsApp usage:" +
+			"\n\tjava ChartsApp task" +
+			"\n\tTasks : fill | pdf | html";
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -89,21 +73,17 @@ public class ChartsApp
 		Map parameters = new HashMap();
 		parameters.put("MaxOrderID", new Integer(12500));
 		
-		File parentFile = new File("build/reports");
-		String[] files = parentFile.list();
+		File[] files = getFiles(new File("build/reports"), "jasper");
 		for(int i = 0; i < files.length; i++)
 		{
-			String reportFile = files[i];
-			if (reportFile.endsWith(".jasper"))
-			{
-				long start = System.currentTimeMillis();
-				JasperFillManager.fillReportToFile(
-					new File(parentFile, reportFile).getAbsolutePath(), 
-					parameters, 
-					getConnection()
-					);
-				System.err.println("Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start));
-			}
+			File reportFile = files[i];
+			long start = System.currentTimeMillis();
+			JasperFillManager.fillReportToFile(
+				reportFile.getAbsolutePath(), 
+				parameters, 
+				getConnection()
+				);
+			System.err.println("Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	
@@ -113,19 +93,15 @@ public class ChartsApp
 	 */
 	public void pdf() throws JRException
 	{
-		File parentFile = new File("build/reports");
-		String[] files = parentFile.list();
+		File[] files = getFiles(new File("build/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
-			String reportFile = files[i];
-			if (reportFile.endsWith(".jrprint"))
-			{
-				long start = System.currentTimeMillis();
-				JasperExportManager.exportReportToPdfFile(
-					new File(parentFile, reportFile).getAbsolutePath()
-					);
-				System.err.println("Report : " + reportFile + ". PDF export time : " + (System.currentTimeMillis() - start));
-			}
+			File reportFile = files[i];
+			long start = System.currentTimeMillis();
+			JasperExportManager.exportReportToPdfFile(
+				reportFile.getAbsolutePath()
+				);
+			System.err.println("Report : " + reportFile + ". PDF export time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	
@@ -135,31 +111,16 @@ public class ChartsApp
 	 */
 	public void html() throws JRException
 	{
-		File parentFile = new File("build/reports");
-		String[] files = parentFile.list();
+		File[] files = getFiles(new File("build/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
-			String reportFile = files[i];
-			if (reportFile.endsWith(".jrprint"))
-			{
-				long start = System.currentTimeMillis();
-				JasperExportManager.exportReportToHtmlFile(
-					new File(parentFile, reportFile).getAbsolutePath()
-					);
-				System.err.println("Report : " + reportFile + ". Html export time : " + (System.currentTimeMillis() - start));
-			}
+			File reportFile = files[i];
+			long start = System.currentTimeMillis();
+			JasperExportManager.exportReportToHtmlFile(
+				reportFile.getAbsolutePath()
+				);
+			System.err.println("Report : " + reportFile + ". Html export time : " + (System.currentTimeMillis() - start));
 		}
-	}
-
-
-	/**
-	 *
-	 */
-	private static void usage()
-	{
-		System.out.println( "ChartsApp usage:" );
-		System.out.println( "\tjava ChartsApp task" );
-		System.out.println( "\tTasks : fill | pdf | html" );
 	}
 
 
@@ -181,7 +142,9 @@ public class ChartsApp
 	}
 
 	
-	
+	/**
+	 *
+	 */
 	public static final Date truncateToMonth(Date date)
 	{
 		Calendar calendar = Calendar.getInstance();

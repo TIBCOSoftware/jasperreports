@@ -22,8 +22,6 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +45,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -54,46 +53,31 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: DataSourceApp.java 3086 2009-10-04 17:40:40Z teodord $
  */
-public class DataSourceApp
+public class DataSourceApp extends AbstractSampleApp
 {
 
 
 	/**
 	 *
 	 */
-	public void executeTask(String taskName)
+	public static void main(String[] args)
 	{
-		try
-		{
-			Method method = getClass().getMethod(taskName, new Class[]{});
-			method.invoke(this, new Object[]{});
-		}
-		catch (InvocationTargetException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		main(new DataSourceApp(), args);
 	}
 	
-
+	
 	/**
 	 *
 	 */
-	public static void main(String[] args)
+	public String usage()
 	{
-		if(args.length != 1)
-		{
-			usage();
-			return;
-		}
-				
-		new DataSourceApp().executeTask(args[0]);
+		return
+			"DataSourceApp usage:" +
+			"\n\tjava DataSourceApp task" +
+			"\n\tTasks : fill1 | fill2 | fill3 | fill4 | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run";
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -434,17 +418,6 @@ public class DataSourceApp
 		
 		JasperRunManager.runReportToPdfFile("build/reports/DataSourceReport.jasper", parameters, new CustomDataSource());
 		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
-	private static void usage()
-	{
-		System.out.println( "DataSourceApp usage:" );
-		System.out.println( "\tjava DataSourceApp task" );
-		System.out.println( "\tTasks : fill1 | fill2 | fill3 | fill4 | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run" );
 	}
 
 

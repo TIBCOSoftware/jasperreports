@@ -23,8 +23,6 @@
  */
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -48,6 +46,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -55,29 +54,8 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: CsvDataSourceApp.java 3148 2009-10-23 14:57:10Z shertage $
  */
-public class CsvDataSourceApp
+public class CsvDataSourceApp extends AbstractSampleApp
 {
-
-
-	/**
-	 *
-	 */
-	public void executeTask(String taskName)
-	{
-		try
-		{
-			Method method = getClass().getMethod(taskName, new Class[]{});
-			method.invoke(this, new Object[]{});
-		}
-		catch (InvocationTargetException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
 	
 
 	/**
@@ -85,16 +63,22 @@ public class CsvDataSourceApp
 	 */
 	public static void main(String[] args)
 	{
-		if(args.length != 1)
-		{
-			usage();
-			return;
-		}
-				
-		new CsvDataSourceApp().executeTask(args[0]);
+		main(new CsvDataSourceApp(), args);
 	}
 	
 	
+	/**
+	 *
+	 */
+	public String usage()
+	{
+		return
+			"CsvDataSourceApp usage:" +
+			"\n\tjava CsvDataSourceApp task" +
+			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xlsx | xhtml | run";
+	}
+
+
 	/**
 	 *
 	 */
@@ -411,17 +395,6 @@ public class CsvDataSourceApp
 //		ds.setUseFirstRowAsHeader(true);
 		ds.setColumnNames(columnNames);
 		return ds;
-	}
-
-
-	/**
-	 *
-	 */
-	private static void usage()
-	{
-		System.out.println( "CsvDataSourceApp usage:" );
-		System.out.println( "\tjava CsvDataSourceApp task" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xlsx | xhtml | run" );
 	}
 
 

@@ -23,8 +23,6 @@
  */
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -34,6 +32,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
+import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -41,46 +40,31 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: GenericElementApp.java 3030 2009-08-27 11:12:48Z teodord $
  */
-public class GenericElementApp
+public class GenericElementApp extends AbstractSampleApp
 {
 
 
 	/**
 	 *
 	 */
-	public void executeTask(String taskName)
+	public static void main(String[] args)
 	{
-		try
-		{
-			Method method = getClass().getMethod(taskName, new Class[]{});
-			method.invoke(this, new Object[]{});
-		}
-		catch (InvocationTargetException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		main(new GenericElementApp(), args);
 	}
 	
-
+	
 	/**
 	 *
 	 */
-	public static void main(String[] args)
+	public String usage()
 	{
-		if(args.length != 1)
-		{
-			usage();
-			return;
-		}
-				
-		new GenericElementApp().executeTask(args[0]);
+		return
+			"GenericElementApp usage:" +
+			"\n\tjava GenericElementApp task" +
+			"\n\tTasks : fill | print | xml | xmlEmbed | html | xhtml | run";
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -156,17 +140,6 @@ public class GenericElementApp
 		long start = System.currentTimeMillis();
 		JasperRunManager.runReportToHtmlFile("build/reports/GenericElementReport.jasper", null, new JREmptyDataSource());
 		System.err.println("HTML running time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
-	private static void usage()
-	{
-		System.out.println( "GenericElementApp usage:" );
-		System.out.println( "\tjava GenericElementApp task" );
-		System.out.println( "\tTasks : fill | print | xml | xmlEmbed | html | xhtml | run" );
 	}
 
 
