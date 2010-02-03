@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+
+<jasperReport 
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="AddressesReport" 
+		pageWidth="595" 
+		pageHeight="842" 
+		columnWidth="515" 
+		columnSpacing="0" 
+		leftMargin="40" 
+		rightMargin="40" 
+		topMargin="50" 
+		bottomMargin="50"
+		whenNoDataType="AllSectionsNoDetail"
+		isTitleNewPage="false"
+		isSummaryNewPage="false">
+	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12"/>
+	<style name="Sans_Normal_Small" fontName="DejaVu Sans" fontSize="9"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="true"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="12" isItalic="true"/>
+	<parameter name="ReportTitle" class="java.lang.String"/>
+	<parameter name="CityFilter" class="java.util.List"/>
+	<queryString language="hql">
+		<![CDATA[
+			select address as address, document.id as documentId, document.total as documentTotal
+			from Address as address join address.documents as document
+			where city not in ($P{CityFilter})
+			order by address.city, address.lastName, address.firstName, address.id]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription>address.id</fieldDescription>
+	</field>
+	<field name="firstName" class="java.lang.String">
+		<fieldDescription>address.firstName</fieldDescription>
+	</field>
+	<field name="lastName" class="java.lang.String">
+		<fieldDescription>address.lastName</fieldDescription>
+	</field>
+	<field name="street" class="java.lang.String">
+		<fieldDescription>address.street</fieldDescription>
+	</field>
+	<field name="city" class="java.lang.String">
+		<fieldDescription>address.city</fieldDescription>
+	</field>
+	<field name="documentId" class="java.lang.Long"/>
+	<field name="documentTotal" class="java.lang.Double"/>
+	<variable name="addressTotal"  class="java.lang.Double" resetType="Group" resetGroup="AddressGroup" calculation="Sum">
+		<variableExpression>$F{documentTotal}</variableExpression>
+	</variable>
+	<group name="AddressGroup">
+		<groupExpression>
+			$F{id}
+		</groupExpression>
+		<groupHeader>
+			<band height="25">
+				<frame>
+					<reportElement x="0" y="0" width="375" height="21" mode="Opaque" backcolor="#E0E0E0"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement x="5" y="3" width="160" height="15"/>
+						<textFieldExpression class="java.lang.String">
+							$F{firstName} + " " + $F{lastName} + " (ID: " + $F{id} + ")"
+						</textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true">
+						<reportElement x="210" y="3" width="160" height="15"/>
+						<textElement textAlignment="Right"/>
+						<textFieldExpression class="java.lang.String">
+							$F{street} + "," + $F{city}
+						</textFieldExpression>
+					</textField>
+				</frame>
+		</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="25">
+				<line>
+					<reportElement x="20" y="0" width="475" height="1" forecolor="#808080"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="20" y="2" width="70" height="15" style="Sans_Normal_Small"/>
+					<text>Total</text>
+				</staticText>
+				<textField>
+					<reportElement x="100" y="2" width="50" height="15" style="Sans_Normal_Small"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Integer">
+						$V{AddressGroup_COUNT}
+					</textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#.00">
+					<reportElement x="255" y="2" width="100" height="15" style="Sans_Normal_Small"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Double">
+						$V{addressTotal}
+					</textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="50">
+			<line>
+				<reportElement x="0" y="0" width="515" height="0" forecolor="black"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="10" width="515" height="30" style="Sans_Normal"/>
+				<textElement textAlignment="Center" lineSpacing="Single">
+					<font size="22"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String">$P{ReportTitle}</textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="13">
+			<staticText>
+				<reportElement x="20" y="0" width="70" height="12" style="Sans_Normal_Small" isPrintRepeatedValues="false" isPrintInFirstWholeBand="true" printWhenGroupChanges="AddressGroup"/>
+				<text>Document ID</text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="0" width="50" height="12" style="Sans_Normal_Small"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Long">
+					$F{documentId}
+				</textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="0" width="70" height="12" style="Sans_Normal_Small" isPrintRepeatedValues="false" isPrintInFirstWholeBand="true" printWhenGroupChanges="AddressGroup"/>
+				<text>Document Total</text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#.00">
+				<reportElement x="255" y="0" width="100" height="12" style="Sans_Normal_Small"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double">
+					$F{documentTotal}
+				</textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="40">
+			<printWhenExpression>$P{IS_IGNORE_PAGINATION}.booleanValue()?Boolean.FALSE:Boolean.TRUE</printWhenExpression>
+			<line>
+				<reportElement x="0" y="10" width="515" height="0"/>
+			</line>
+			<textField>
+				<reportElement x="200" y="20" width="80" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String">
+					"Page " + String.valueOf($V{PAGE_NUMBER}) + " of"
+				</textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="20" width="75" height="15"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression class="java.lang.String">
+					" " + String.valueOf($V{PAGE_NUMBER})
+				</textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -22,13 +22,10 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -47,15 +44,21 @@ import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: CrosstabApp.java 3148 2009-10-23 14:57:10Z shertage $
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: HibernateApp.java 3148 2009-10-23 14:57:10Z shertage $
  */
-public class CrosstabApp extends AbstractSampleApp
+public class HibernateApp extends AbstractSampleApp
 {
 
 
@@ -64,7 +67,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public static void main(String[] args)
 	{
-		main(new CrosstabApp(), args);
+		main(new HibernateApp(), args);
 	}
 	
 	
@@ -74,29 +77,33 @@ public class CrosstabApp extends AbstractSampleApp
 	public String usage()
 	{
 		return 
-			"CrosstabApp usage:" +
-			"\n\tjava CrosstabApp task" +
-			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xls | xhtml | run";
+			"HibernateApp usage:" +
+			"\n\tjava HibernateApp task" +
+			"\n\tTasks : compile | fill | fillIgnorePagination | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run";
 	}
 
-
+	
 	/**
 	 *
 	 */
-	public void fill() throws JRException, ClassNotFoundException, SQLException
+	public void fill() throws JRException
 	{
+		Session session = createSession();
+		Transaction transaction = session.beginTransaction();
+
+		Map params = getParameters(session);
+		
 		File[] files = getFiles(new File("build/reports"), "jasper");
 		for(int i = 0; i < files.length; i++)
 		{
 			File reportFile = files[i];
 			long start = System.currentTimeMillis();
-			JasperFillManager.fillReportToFile(
-				reportFile.getAbsolutePath(), 
-				null, 
-				getConnection()
-				);
+			JasperFillManager.fillReportToFile(reportFile.getAbsolutePath(), params);
 			System.err.println("Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start));
 		}
+		
+		transaction.rollback();
+		session.close();
 	}
 	
 	
@@ -110,10 +117,7 @@ public class CrosstabApp extends AbstractSampleApp
 		{
 			File reportFile = files[i];
 			long start = System.currentTimeMillis();
-			JasperPrintManager.printReport(
-				reportFile.getAbsolutePath(), 
-				true
-				);
+			JasperPrintManager.printReport(reportFile.getAbsolutePath(), true);
 			System.err.println("Report : " + reportFile + ". Printing time : " + (System.currentTimeMillis() - start));
 		}
 	}
@@ -129,66 +133,8 @@ public class CrosstabApp extends AbstractSampleApp
 		{
 			File reportFile = files[i];
 			long start = System.currentTimeMillis();
-			JasperExportManager.exportReportToPdfFile(
-				reportFile.getAbsolutePath()
-				);
+			JasperExportManager.exportReportToPdfFile(reportFile.getAbsolutePath());
 			System.err.println("Report : " + reportFile + ". PDF creation time : " + (System.currentTimeMillis() - start));
-		}
-	}
-	
-	
-	/**
-	 *
-	 */
-	public void xml() throws JRException
-	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
-		for(int i = 0; i < files.length; i++)
-		{
-			File reportFile = files[i];
-			long start = System.currentTimeMillis();
-			JasperExportManager.exportReportToXmlFile(
-				reportFile.getAbsolutePath(),
-				false
-				);
-			System.err.println("Report : " + reportFile + ". XML creation time : " + (System.currentTimeMillis() - start));
-		}
-	}
-	
-	
-	/**
-	 *
-	 */
-	public void xmlEmbed() throws JRException
-	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
-		for(int i = 0; i < files.length; i++)
-		{
-			File reportFile = files[i];
-			long start = System.currentTimeMillis();
-			JasperExportManager.exportReportToXmlFile(
-				reportFile.getAbsolutePath(), 
-				true
-				);
-			System.err.println("Report : " + reportFile + ". XML creation time : " + (System.currentTimeMillis() - start));
-		}
-	}
-	
-	
-	/**
-	 *
-	 */
-	public void html() throws JRException
-	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
-		for(int i = 0; i < files.length; i++)
-		{
-			File reportFile = files[i];
-			long start = System.currentTimeMillis();
-			JasperExportManager.exportReportToHtmlFile(
-				reportFile.getAbsolutePath()
-				);
-			System.err.println("Report : " + reportFile + ". HTML creation time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	
@@ -216,6 +162,54 @@ public class CrosstabApp extends AbstractSampleApp
 			exporter.exportReport();
 
 			System.err.println("Report : " + sourceFile + ". RTF creation time : " + (System.currentTimeMillis() - start));
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xml() throws JRException
+	{
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			File reportFile = files[i];
+			long start = System.currentTimeMillis();
+			JasperExportManager.exportReportToXmlFile(reportFile.getAbsolutePath(), false);
+			System.err.println("Report : " + reportFile + ". XML creation time : " + (System.currentTimeMillis() - start));
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xmlEmbed() throws JRException
+	{
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			File reportFile = files[i];
+			long start = System.currentTimeMillis();
+			JasperExportManager.exportReportToXmlFile(reportFile.getAbsolutePath(), true);
+			System.err.println("Report : " + reportFile + ". XML creation time : " + (System.currentTimeMillis() - start));
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void html() throws JRException
+	{
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			File reportFile = files[i];
+			long start = System.currentTimeMillis();
+			JasperExportManager.exportReportToHtmlFile(reportFile.getAbsolutePath());
+			System.err.println("Report : " + reportFile + ". HTML creation time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	
@@ -262,13 +256,13 @@ public class CrosstabApp extends AbstractSampleApp
 			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
 			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
-		
+
 			JExcelApiExporter exporter = new JExcelApiExporter();
-		
+
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
-		
+
 			exporter.exportReport();
 
 			System.err.println("Report : " + sourceFile + ". XLS creation time : " + (System.currentTimeMillis() - start));
@@ -353,7 +347,7 @@ public class CrosstabApp extends AbstractSampleApp
 		
 			exporter.exportReport();
 
-			System.err.println("Report : " + sourceFile + ". ODT creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". ODS creation time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	
@@ -443,68 +437,45 @@ public class CrosstabApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void run() throws JRException, ClassNotFoundException, SQLException
+	public void run() throws JRException
 	{
+		Session session = createSession();
+		Transaction transaction = session.beginTransaction();
+		
+		Map params = getParameters(session);
+
 		File[] files = getFiles(new File("build/reports"), "jasper");
-		for(int i = 0; i < files.length; i++)
+		for(int i = 0; i< files.length; i++)
 		{
 			File reportFile = files[i];
 			long start = System.currentTimeMillis();
-			JasperRunManager.runReportToPdfFile(
-				reportFile.getAbsolutePath(), 
-				null, 
-				getConnection()
-				);
+			JasperRunManager.runReportToPdfFile(reportFile.getAbsolutePath(), params);
 			System.err.println("Report : " + reportFile + ". PDF running time : " + (System.currentTimeMillis() - start));
 		}
+
+		transaction.rollback();
+		session.close();
 	}
 
-
-	/**
-	 *
-	 */
-	private static Connection getConnection() throws ClassNotFoundException, SQLException
+	private static Map getParameters(Session session)
 	{
-		//Change these settings according to your local configuration
-		String driver = "org.hsqldb.jdbcDriver";
-		String connectString = "jdbc:hsqldb:hsql://localhost";
-		String user = "sa";
-		String password = "";
-
-
-		Class.forName(driver);
-		Connection conn = DriverManager.getConnection(connectString, user, password);
-		return conn;
+		Map parameters = new HashMap();
+		parameters.put(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_SESSION, session);
+		parameters.put("ReportTitle", "Address Report");
+		List cityFilter = new ArrayList(3);
+		cityFilter.add("Boston");
+		cityFilter.add("Chicago");
+		cityFilter.add("Oslo");
+		parameters.put("CityFilter", cityFilter);
+		parameters.put("OrderClause", "city");
+		return parameters;
 	}
 
-	
-	/**
-	 *
-	 */
-	public static final Date truncateToMonth(Date date)
+	private static Session createSession()
 	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH);
-		calendar.clear();
-		calendar.set(Calendar.YEAR, year);
-		calendar.set(Calendar.MONTH, month);
-		return calendar.getTime();
-	}
-	
-	
-	/**
-	 *
-	 */
-	public static final Date truncateToYear(Date date)
-	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		int year = calendar.get(Calendar.YEAR);
-		calendar.clear();
-		calendar.set(Calendar.YEAR, year);
-		return calendar.getTime();
+		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+		
+		return sessionFactory.openSession();
 	}
 
 }
