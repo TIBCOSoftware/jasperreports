@@ -92,8 +92,7 @@ public class JRReportSaxParserFactory implements JRSaxParserFactory
 		"http://apache.org/xml/properties/internal/grammar-pool";
 	
 	private final static Object GRAMMAR_POOL_CACHE_NULL_KEY = new String("Null context classloader");
-	private final static ReferenceMap GRAMMAR_POOL_CACHE = 
-		new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
+	private final static ThreadLocal GRAMMAR_POOL_CACHE = new ThreadLocal();
 	
 	public SAXParser createParser()
 	{
@@ -217,22 +216,28 @@ public class JRReportSaxParserFactory implements JRSaxParserFactory
 		try
 		{
 			Object cacheKey = getGrammerPoolCacheKey();
-			Object grammarPool;
-			synchronized (GRAMMAR_POOL_CACHE)
+			
+			// we're using thread local caches to avoid thread safety problems
+			ReferenceMap cacheMap = (ReferenceMap) GRAMMAR_POOL_CACHE.get();
+			if (cacheMap == null)
 			{
-				grammarPool = GRAMMAR_POOL_CACHE.get(cacheKey);
-				if (grammarPool == null)
-				{
-					if (log.isDebugEnabled())
-					{
-						log.debug("Instantiating grammar pool of type " + poolClassName
-								+ " for cache key " + cacheKey);
-					}
-
-					grammarPool = ClassUtils.instantiateClass(poolClassName, Object.class);
-					GRAMMAR_POOL_CACHE.put(cacheKey, grammarPool);
-				}
+				cacheMap = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
+				GRAMMAR_POOL_CACHE.set(cacheMap);
 			}
+			
+			Object grammarPool = cacheMap.get(cacheKey);
+			if (grammarPool == null)
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Instantiating grammar pool of type " + poolClassName
+							+ " for cache key " + cacheKey);
+				}
+
+				grammarPool = ClassUtils.instantiateClass(poolClassName, Object.class);
+				cacheMap.put(cacheKey, grammarPool);
+			}
+			
 			parser.setProperty(XERCES_PARSER_PROPERTY_GRAMMAR_POOL, grammarPool);
 		}
 		catch (Exception e)
@@ -244,6 +249,7 @@ public class JRReportSaxParserFactory implements JRSaxParserFactory
 		}
 	}
 
+	//TODO fix typo
 	protected Object getGrammerPoolCacheKey()
 	{
 		Object key = Thread.currentThread().getContextClassLoader();
