@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 
 /**
@@ -128,6 +129,8 @@ public abstract class JRAbstractExporter implements JRExporter
 	{
 		String getStringParameter(JRExporterParameter parameter, String property);
 		
+		String[] getStringArrayParameter(JRExporterParameter parameter, String propertyPrefix);
+
 		String getStringParameterOrDefault(JRExporterParameter parameter, String property);
 		
 		boolean getBooleanParameter(JRExporterParameter parameter, String property, boolean defaultValue);
@@ -137,8 +140,6 @@ public abstract class JRAbstractExporter implements JRExporter
 		float getFloatParameter(JRExporterParameter parameter, String property, float defaultValue);
 
 		Character getCharacterParameter(JRExporterParameter parameter, String property);
-		
-		Object getParameters(JRExporterParameter parameter, String property);
 	}
 	
 	protected class ParameterOverrideResolver implements ParameterResolver
@@ -158,6 +159,28 @@ public abstract class JRAbstractExporter implements JRExporter
 						property
 						);
 			}
+		}
+
+		public String[] getStringArrayParameter(JRExporterParameter parameter, String propertyPrefix)
+		{
+			String[] values = null; 
+			if (parameters.containsKey(parameter))
+			{
+				values = (String[])parameters.get(parameter);
+			}
+			else
+			{
+				List properties = JRProperties.getProperties(jasperPrint.getPropertiesMap(), propertyPrefix);
+				if (properties != null)
+				{
+					values = new String[properties.size()];
+					for(int i = 0; i < values.length; i++)
+					{
+						values[i] = ((PropertySuffix)properties.get(i)).getValue();
+					}
+				}
+			}
+			return values;
 		}
 
 		public String getStringParameterOrDefault(JRExporterParameter parameter, String property)
@@ -272,20 +295,6 @@ public abstract class JRAbstractExporter implements JRExporter
 						jasperPrint.getPropertiesMap(), property);
 			}
 		}
-		
-		public Object getParameters(JRExporterParameter parameter, 
-				String propertyPrefix)
-		{
-			if (parameters.containsKey(parameter))
-			{
-				return parameters.get(parameter);
-			}
-			else
-			{
-				return JRProperties.getProperties(
-						jasperPrint.getPropertiesMap(), propertyPrefix);
-			}
-		}
 	}
 	
 	protected class ParameterOverriddenResolver implements ParameterResolver
@@ -309,6 +318,29 @@ public abstract class JRAbstractExporter implements JRExporter
 				}
 			}
 			return value;
+		}
+
+		public String[] getStringArrayParameter(JRExporterParameter parameter, String propertyPrefix)
+		{
+			String[] values = null;
+			JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
+			if (hintsMap != null)
+			{
+				List properties = JRProperties.getProperties(hintsMap, propertyPrefix);
+				if (properties != null)
+				{
+					values = new String[properties.size()];
+					for(int i = 0; i < values.length; i++)
+					{
+						values[i] = ((PropertySuffix)properties.get(i)).getValue();
+					}
+				}
+			}
+			else
+			{
+				values = (String[])parameters.get(parameter);
+			}
+			return values;
 		}
 
 		public String getStringParameterOrDefault(JRExporterParameter parameter, String property)
@@ -446,21 +478,6 @@ public abstract class JRAbstractExporter implements JRExporter
 			return value;
 		}
 		
-		public Object getParameters(JRExporterParameter parameter, String propertyPrefix)
-		{
-			Object value;
-			JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
-			if (hintsMap != null)
-			{
-				value = JRProperties.getProperties(hintsMap, propertyPrefix);
-			}
-			else
-			{
-				value = parameters.get(parameter);
-			}
-			return value;
-		}
-
 	}
 	
 	// this would make the applet require logging library
@@ -602,6 +619,15 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
+	public String[] getStringArrayParameter(JRExporterParameter parameter, String property)
+	{
+		return getParameterResolver().getStringArrayParameter(parameter, property);
+	}
+
+	
+	/**
+	 *
+	 */
 	public String getStringParameterOrDefault(JRExporterParameter parameter, String property)
 	{
 		return getParameterResolver().getStringParameterOrDefault(parameter, property);
@@ -635,14 +661,12 @@ public abstract class JRAbstractExporter implements JRExporter
 	}
 
 	
+	/**
+	 *
+	 */
 	public Character getCharacterParameter(JRExporterParameter parameter, String property)
 	{
 		return getParameterResolver().getCharacterParameter(parameter, property);
-	}
-
-	public Object getParameters(JRExporterParameter parameter, String property)
-	{
-		return getParameterResolver().getParameters(parameter, property);
 	}
 
 	
