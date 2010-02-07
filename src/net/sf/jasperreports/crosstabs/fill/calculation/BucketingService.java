@@ -24,8 +24,8 @@
 package net.sf.jasperreports.crosstabs.fill.calculation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -662,8 +662,6 @@ public class BucketingService
 			addTotalEntry(nextMap);
 			return nextMap;
 		}
-		
-		abstract void set(Bucket key, Object value);
 
 		abstract void clear();
 
@@ -756,16 +754,14 @@ public class BucketingService
 		{
 			return map.toString();
 		}
-
-		void set(Bucket key, Object value)
-		{
-			map.put(key, value);
-		}
 	}
 
 	protected class BucketListMap extends BucketMap
 	{
 		List entries;
+		// we maintain a map as well in order to have fast search by key
+		// TODO implement this in a single structure
+		Map entryMap;
 
 		BucketListMap(int level, boolean linked)
 		{
@@ -779,11 +775,14 @@ public class BucketingService
 			{
 				entries = new ArrayList();
 			}
+			
+			entryMap = new HashMap();
 		}
 
 		void clear()
 		{
 			entries.clear();
+			entryMap.clear();
 		}
 		
 		Iterator entryIterator()
@@ -794,12 +793,12 @@ public class BucketingService
 		private void add(Bucket key, Object value)
 		{
 			entries.add(new MapEntry(key, value));
+			entryMap.put(key, value);
 		}
 
 		Object get(Bucket key)
 		{
-			int idx = Collections.binarySearch(entries, new MapEntry(key, null));
-			return idx >= 0 ? ((MapEntry) entries.get(idx)).value : null;
+			return entryMap.get(key);
 		}
 
 		MeasureValue[] insertMeasureValues(Bucket[] bucketValues)
@@ -868,14 +867,6 @@ public class BucketingService
 			return null;
 		}
 
-		void set(Bucket key, Object value)
-		{
-			MapEntry mapEntry = new MapEntry(key, value);
-			int idx = Collections.binarySearch(entries, mapEntry);
-			int ins = -idx - 1;
-			entries.add(ins, mapEntry);
-		}
-
 		
 		void collectVals(BucketMap map, boolean sum) throws JRException
 		{
@@ -927,7 +918,10 @@ public class BucketingService
 						{
 							totalIt.previous();
 						}
+						
 						totalIt.add(new MapEntry(key, addVal));
+						entryMap.put(key, addVal);
+						
 						if (totalItEntry != null)
 						{
 							totalIt.next();
