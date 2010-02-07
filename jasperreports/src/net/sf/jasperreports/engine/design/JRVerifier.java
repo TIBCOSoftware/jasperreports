@@ -34,9 +34,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRGanttDataset;
@@ -120,6 +117,9 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * A report verifier.
@@ -185,6 +185,9 @@ public class JRVerifier
 	 */
 	public static final String PROPERTY_ALLOW_ELEMENT_OVERLAP = 
 		JRProperties.PROPERTY_PREFIX + "allow.element.overlap";
+	
+	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH =
+		JRProperties.PROPERTY_PREFIX + "allow.element.negative.width";
 
 	/**
 	 *
@@ -206,6 +209,8 @@ public class JRVerifier
 	private JRExpressionCollector expressionCollector;
 
 	private LinkedList currentComponentElementStack = new LinkedList();
+	
+	private boolean allowElementNegativeWidth = false;
 
 	/**
 	 *
@@ -229,6 +234,8 @@ public class JRVerifier
 		{
 			this.expressionCollector = JRExpressionCollector.collector(jasperDesign);
 		}
+		
+		allowElementNegativeWidth = JRProperties.getBooleanProperty(jasperDesign, PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH, false);
 	}
 
 	public JasperDesign getReportDesign()
@@ -3088,7 +3095,17 @@ public class JRVerifier
 	{
 		if (element.getWidth() < 0)
 		{
-			addBrokenRule("Element cannot have negative width.", element);
+			if (allowElementNegativeWidth)
+			{
+				if (log.isWarnEnabled())
+				{
+					log.warn("Element has negative width: " + element.getWidth());
+				}
+			}
+			else
+			{
+				addBrokenRule("Element cannot have negative width.", element);
+			}
 		}
 
 		verifyProperyExpressions(element.getPropertyExpressions());
