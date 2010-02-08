@@ -32,6 +32,7 @@ import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.crosstabs.JRCellContents;
+import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.engine.JRAlignment;
@@ -40,6 +41,7 @@ import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -291,6 +293,26 @@ public class JRApiConstants
 	public static String getRunDirection(Byte key)
 	{
 		return (String)getRunDirectionMap().get(key);
+	}
+	
+	private static Map crosstabRunDirectionMap = null;
+
+	public static Map getCrosstabRunDirectionMap()
+	{
+		if (crosstabRunDirectionMap == null)
+		{
+			Map map = new HashMap(6);
+			map.put(new Byte(JRCrosstab.RUN_DIRECTION_LTR), "JRCrosstab.RUN_DIRECTION_LTR");
+			map.put(new Byte(JRCrosstab.RUN_DIRECTION_RTL), "JRCrosstab.RUN_DIRECTION_RTL");
+			crosstabRunDirectionMap = Collections.unmodifiableMap(map);
+		}
+
+		return crosstabRunDirectionMap;
+	}
+
+	public static String getCrosstabRunDirection(Byte key)
+	{
+		return (String)getCrosstabRunDirectionMap().get(key);
 	}
 	
 	private static Map lineSpacingMap = null;
@@ -1078,6 +1100,36 @@ public class JRApiConstants
 	public static String getFooterPosition(Byte key)
 	{
 		return (String)getFooterPositionMap().get(key);
+	}
+	
+	private static Map chunkTypeMap = null;
+	
+	public static Map getChunkTypeMap()
+	{
+		if (chunkTypeMap == null)
+		{
+			Map map = new HashMap(8);
+			map.put(new Byte(JRExpressionChunk.TYPE_FIELD), 			"JRExpressionChunk.TYPE_FIELD");
+			map.put(new Byte(JRExpressionChunk.TYPE_PARAMETER), 		"JRExpressionChunk.TYPE_PARAMETER");
+			map.put(new Byte(JRExpressionChunk.TYPE_RESOURCE), 			"JRExpressionChunk.JRExpressionChunk.TYPE_RESOURCE");
+			map.put(new Byte(JRExpressionChunk.TYPE_TEXT), 				"JRExpressionChunk.TYPE_TEXT");
+			map.put(new Byte(JRExpressionChunk.TYPE_VARIABLE), 			"JRExpressionChunk.TYPE_VARIABLE");
+			chunkTypeMap = Collections.unmodifiableMap(map);
+		}
+
+		return chunkTypeMap;
+	}
+
+	public static String getChunkType(Byte key)
+	{
+		return (String)getChunkTypeMap().get(key);
+	}
+	
+	public static String getBooleanText(Boolean key)
+	{
+		return key == null 
+			? null 
+			: (key.booleanValue() ? "Boolean.TRUE" : "Boolean.FALSE");
 	}
 	
 	
