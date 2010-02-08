@@ -519,4 +519,16 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 					&& getPrintWhenExpression() == null);
 	}
 
+	protected boolean isPageBreakInhibited()
+	{
+		boolean isPageBreakInhibited = filler.isFirstPageBand && firstYElement == null;
+		
+		while(isPageBreakInhibited && filler.isSubreport())
+		{
+			isPageBreakInhibited = filler.parentElement.getBand().isPageBreakInhibited();
+		}
+		
+		return isPageBreakInhibited;
+	}
+
 }
