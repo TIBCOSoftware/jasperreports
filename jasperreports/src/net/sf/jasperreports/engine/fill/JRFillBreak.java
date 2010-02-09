@@ -209,6 +209,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 		{
 			if (getType() == JRBreak.TYPE_COLUMN)
 			{
+				//column break
 				if (!filler.isFirstColumnBand || band.firstYElement != null)
 				{
 					setStretchHeight(availableHeight - getRelativeY());
@@ -216,7 +217,8 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 			}
 			else
 			{
-				if (!filler.isFirstPageBand || band.firstYElement != null)
+				//page break
+				if (!band.isPageBreakInhibited())
 				{
 					setStretchHeight(availableHeight - getRelativeY());
 					filler.columnIndex = filler.columnCount - 1;
