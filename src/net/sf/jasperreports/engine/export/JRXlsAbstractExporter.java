@@ -322,13 +322,33 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				JRXlsAbstractExporterParameter.SHEET_NAMES,
 				JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAMES_PREFIX
 				);
+		
+		int pageCount = 0;
+		for(int i = 0; i < jasperPrintList.size(); i++)
+		{
+			JasperPrint jrPrint = (JasperPrint)jasperPrintList.get(i);
+			if(jrPrint.getPages() != null)
+			{
+				pageCount += jrPrint.getPages().size();
+			}
+		}
+
 		if (sheetNamesArray != null)
 		{
-			sheetNames = new String[jasperPrint.getPages().size()];//FIXME this is not correct, as there might be more sheets than pages
-			int j = 0;
+			List sheetNamesList = new ArrayList();
+			int sheetsCount = 0;
 			for(int i = 0; i < sheetNamesArray.length; i++)
 			{
 				String[] currentSheetNamesArray = sheetNamesArray[i].split("/");
+				sheetNamesList.add(i, currentSheetNamesArray);
+				sheetsCount += currentSheetNamesArray.length;
+			}
+
+			sheetNames = new String[Math.max( pageCount, sheetsCount)];
+			int j = 0;
+			for(int i = 0; i < sheetNamesList.size(); i++)
+			{
+				String[] currentSheetNamesArray = (String[])sheetNamesList.get(i);
 				for(int k = 0; k < currentSheetNamesArray.length && j < sheetNames.length ; k++, j++)
 				{
 					sheetNames[j] = currentSheetNamesArray[k];
@@ -337,6 +357,14 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			while(j < sheetNames.length)
 			{
 				sheetNames[j] = "Page "+ (++j);
+			}
+		}
+		else
+		{
+			sheetNames = new String[pageCount];
+			for(int i = 0; i < pageCount; i++)
+			{
+				sheetNames[i] = "Page "+ i;
 			}
 		}
 
@@ -373,7 +401,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		{
 			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
 			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
-
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
@@ -385,6 +412,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 				if (isOnePagePerSheet)
 				{
+
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
 						if (Thread.interrupted())
@@ -393,7 +421,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						}
 
 						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
-
 						if (sheetNames != null && sheetIndex < sheetNames.length)
 						{
 							createSheet(getSheetName(sheetNames[sheetIndex]));
