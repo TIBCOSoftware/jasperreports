@@ -323,17 +323,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAMES_PREFIX
 				);
 		
-		int pageCount = 0;
-		for(int i = 0; i < jasperPrintList.size(); i++)
-		{
-			JasperPrint jrPrint = (JasperPrint)jasperPrintList.get(i);
-			if(jrPrint.getPages() != null)
-			{
-				pageCount += jrPrint.getPages().size();
-			}
-		}
-
-		if (sheetNamesArray != null)
+		if (sheetNamesArray != null && sheetNamesArray.length > 0)
 		{
 			List sheetNamesList = new ArrayList();
 			int sheetsCount = 0;
@@ -344,7 +334,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				sheetsCount += currentSheetNamesArray.length;
 			}
 
-			sheetNames = new String[Math.max( pageCount, sheetsCount)];
+			sheetNames = new String[sheetsCount];
 			int j = 0;
 			for(int i = 0; i < sheetNamesList.size(); i++)
 			{
@@ -353,18 +343,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				{
 					sheetNames[j] = currentSheetNamesArray[k];
 				}
-			}
-			while(j < sheetNames.length)
-			{
-				sheetNames[j] = "Page "+ (++j);
-			}
-		}
-		else
-		{
-			sheetNames = new String[pageCount];
-			for(int i = 0; i < pageCount; i++)
-			{
-				sheetNames[i] = "Page "+ i;
 			}
 		}
 
