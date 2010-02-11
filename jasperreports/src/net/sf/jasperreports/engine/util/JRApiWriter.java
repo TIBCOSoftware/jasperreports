@@ -211,7 +211,6 @@ public class JRApiWriter
 		) throws JRException
 	{
 		FileOutputStream fos = null;
-		System.out.println("destFileName = "+ destFileName);
 		
 		try
 		{
@@ -344,9 +343,6 @@ public class JRApiWriter
 				}
 			}
 		}
-		System.out.println("****** report name = "+ report.getName());
-		System.out.println("****** report escaped name = "+ JRStringUtil.escapeJavaStringLiteral(report.getName()));
-
 		write("\n\n");
 		write("public class {0} implements ReportCreator", JRStringUtil.escapeJavaStringLiteral(report.getName()));
 		write("{\n\n");
@@ -638,7 +634,6 @@ public class JRApiWriter
 		if(parameter != null)
 		{
 			write( "JRDesignParameter " + parameterName + " = new JRDesignParameter();\n");
-System.out.println("UITEEEEEEEEEEEEEEE:"+JRStringUtil.escapeJavaStringLiteral(parameter.getName()));
 			write( parameterName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getName()));
 			write( parameterName + ".setDescription(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getDescription()));
 			write( parameterName + ".setValueClassName(\"{0}\");\n", parameter.getValueClassName());
