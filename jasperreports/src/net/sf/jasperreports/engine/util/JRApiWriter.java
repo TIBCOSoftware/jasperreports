@@ -617,6 +617,7 @@ public class JRApiWriter
 		if(parameter != null)
 		{
 			write1( "JRDesignParameter " + parameterName + " = new JRDesignParameter();\n");
+System.out.println("UITEEEEEEEEEEEEEEE:"+JRStringUtil.escapeJavaStringLiteral(parameter.getName()));
 			write( parameterName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getName()));
 			write( parameterName + ".setDescription(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(parameter.getDescription()));
 			write( parameterName + ".setValueClassName(\"{0}\");\n", parameter.getValueClassName());
@@ -3809,7 +3810,7 @@ public class JRApiWriter
 	{
 		if (value != null)
 		{
-			MessageFormat.format(pattern, new Object[]{value});
+			write1(MessageFormat.format(pattern, new Object[]{value}));
 		}
 	}
 
@@ -3824,7 +3825,7 @@ public class JRApiWriter
 			|| (defaultValue != null && !defaultValue.equals(value))
 			)
 		{
-			MessageFormat.format(pattern, new Object[]{value});
+			write1(MessageFormat.format(pattern, new Object[]{value}));
 		}
 	}
 
@@ -3834,7 +3835,7 @@ public class JRApiWriter
 	 */
 	protected void write(String pattern, int value)
 	{
-		MessageFormat.format(pattern, new Object[]{new Integer(value)});
+		write1(MessageFormat.format(pattern, new Object[]{new Integer(value)}));
 	}
 
 	
@@ -3845,7 +3846,7 @@ public class JRApiWriter
 	{
 		if (value != defaultValue)
 		{
-			MessageFormat.format(pattern, new Object[]{new Integer(value)});
+			write1(MessageFormat.format(pattern, new Object[]{new Integer(value)}));
 		}
 	}
 
@@ -3857,7 +3858,7 @@ public class JRApiWriter
 	{
 		if (value != defaultValue)
 		{
-			MessageFormat.format(pattern, new Object[]{value ? Boolean.TRUE : Boolean.FALSE});
+			write1(MessageFormat.format(pattern, new Object[]{value ? Boolean.TRUE : Boolean.FALSE}));
 		}
 	}
 
@@ -3869,7 +3870,7 @@ public class JRApiWriter
 	{
 		if (value != defaultValue)
 		{
-			MessageFormat.format(pattern, new Object[]{new Byte(value)});
+			write1(MessageFormat.format(pattern, new Object[]{new Byte(value)}));
 		}
 	}
 
