@@ -142,6 +142,8 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
+import net.sf.jasperreports.engine.type.AbstractEnum;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -891,7 +893,7 @@ public class JRApiWriter
 			write( elementName + ".setPositionType({0});\n", JRApiConstants.getPositionType(new Byte(element.getPositionType())), "JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP");
 			write( elementName + ".setStretchType({0});\n", JRApiConstants.getStretchType(new Byte(element.getStretchType())), "JRElement.STRETCH_TYPE_NO_STRETCH");
 			write( elementName + ".setPrintRepeatedValues({0});\n", element.isPrintRepeatedValues(),true);
-			write( elementName + ".setMode({0});\n", JRApiConstants.getMode(element.getOwnMode()));
+			write( elementName + ".setMode({0});\n", AbstractEnum.get(ModeEnum.class, element.getOwnMode()));
 			write( elementName + ".setX({0});\n", element.getX());
 			write( elementName + ".setY({0});\n", element.getY());
 			write( elementName + ".setWidth({0});\n", element.getWidth());
@@ -1128,7 +1130,7 @@ public class JRApiWriter
 			write( styleName + ".setParentStyleNameReference(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getStyleNameReference()));
 			
 			write( styleName + ".setDefault({0});\n", style.isDefault(), false);
-			write( styleName + ".setMode({0});\n", JRApiConstants.getMode(style.getOwnMode()));
+			write( styleName + ".setMode({0});\n", AbstractEnum.get(ModeEnum.class, style.getOwnMode()));
 			write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnFontName()));
 			write( styleName + ".setFontSize({0});\n", style.getOwnFontSize());
 			write( styleName + ".setBold({0});\n", style.isOwnBold());
@@ -3225,7 +3227,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignCellContents " + cellName + " = new JRDesignCellContents();\n");
 			write( cellName + ".setBackcolor({0});\n", getColorText(contents.getBackcolor()));
-			write( cellName + ".setMode({0});\n", JRApiConstants.getMode(contents.getMode()));
+			write( cellName + ".setMode({0});\n", AbstractEnum.get(ModeEnum.class, contents.getMode()));
 			writeStyleReferenceAttr( contents, cellName);
 
 			writeBox( contents.getLineBox(), cellName + ".getLineBox()");
@@ -3531,7 +3533,7 @@ public class JRApiWriter
 			write( styleName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getName()));
 			writeStyleReferenceAttr( style, styleName);
 			write( styleName + ".setDefault({0});\n", style.isDefault(), false);
-			write( styleName + ".setMode({0});\n", JRApiConstants.getMode(style.getOwnMode()));
+			write( styleName + ".setMode({0});\n", AbstractEnum.get(ModeEnum.class, style.getOwnMode()));
 			write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnFontName()));
 			write( styleName + ".setFontSize({0});\n", style.getOwnFontSize());
 			write( styleName + ".setBold({0});\n", style.isOwnBold());

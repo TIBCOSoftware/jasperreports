@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.awt.Color;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,19 +54,9 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
-import org.jfree.data.time.Day;
-import org.jfree.data.time.Hour;
-import org.jfree.data.time.Millisecond;
-import org.jfree.data.time.Minute;
-import org.jfree.data.time.Month;
-import org.jfree.data.time.Quarter;
-import org.jfree.data.time.Second;
-import org.jfree.data.time.Week;
-import org.jfree.data.time.Year;
 
 
 
@@ -97,26 +86,6 @@ public class JRApiConstants
 	public static String getPositionType(Byte key)
 	{
 		return (String)getPositionTypeMap().get(key);
-	}
-	
-	private static Map modeMap = null;
-
-	public static Map getModeMap()
-	{
-		if (modeMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(JRElement.MODE_OPAQUE),      "JRElement.MODE_OPAQUE");
-			map.put(new Byte(JRElement.MODE_TRANSPARENT), "JRElement.MODE_TRANSPARENT");
-			modeMap = Collections.unmodifiableMap(map);
-		}
-
-		return modeMap;
-	}
-
-	public static String getMode(Byte key)
-	{
-		return (String)getModeMap().get(key);
 	}
 	
 	/**

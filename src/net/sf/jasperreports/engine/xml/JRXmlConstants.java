@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -104,13 +105,22 @@ public class JRXmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link ModeEnum#OPAQUE}.
 	 */
 	private static final String MODE_OPAQUE = "Opaque";
+	/**
+	 * @deprecated Replaced by {@link ModeEnum#TRANSPARENT}.
+	 */
 	private static final String MODE_TRANSPARENT = "Transparent";
 
+	/**
+	 * @deprecated Replaced by {@link ModeEnum}.
+	 */
 	private static Map modeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link ModeEnum}.
+	 */
 	public static Map getModeMap()
 	{
 		if (modeMap == null)

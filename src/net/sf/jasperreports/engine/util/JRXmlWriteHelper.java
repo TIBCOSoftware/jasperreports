@@ -36,6 +36,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.type.AbstractEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -597,6 +598,15 @@ public class JRXmlWriteHelper
 		if (value != null)
 		{
 			String xmlValue = (String) xmlValues.get(value);
+			writeAttribute(name, xmlValue);
+		}
+	}
+	
+	public void addAttribute(String name, Byte value, Class clazz)
+	{
+		if (value != null)
+		{
+			String xmlValue = AbstractEnum.get(clazz, value).getName();
 			writeAttribute(name, xmlValue);
 		}
 	}

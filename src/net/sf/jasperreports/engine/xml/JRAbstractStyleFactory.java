@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.xml;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.design.JRDesignStyle;
+import net.sf.jasperreports.engine.type.AbstractEnum;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
@@ -65,10 +67,10 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 
 		// get JRElement attributes
-		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
+		AbstractEnum mode = AbstractEnum.get(ModeEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
 		if (mode != null)
 		{
-			style.setMode(mode);
+			style.setMode(mode.getValueByte());
 		}
 
 		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);
