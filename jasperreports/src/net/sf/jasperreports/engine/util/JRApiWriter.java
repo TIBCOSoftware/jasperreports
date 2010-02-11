@@ -827,7 +827,8 @@ public class JRApiWriter
 		{
 			for(int i = 0; i < children.size(); i++)
 			{
-				if(children.get(i) != null)
+				//FIXME: find a way to write component and generic element
+				if(children.get(i) != null && !(children.get(i) instanceof JRComponentElement || children.get(i) instanceof JRGenericElement))
 				{
 					apiWriterVisitor.setName(parentName + i);
 					((JRChild) children.get(i)).visit(apiWriterVisitor);
