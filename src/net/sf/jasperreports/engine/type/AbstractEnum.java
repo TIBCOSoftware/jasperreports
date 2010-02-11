@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.type;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -152,5 +153,45 @@ public abstract class AbstractEnum implements Serializable
 			}
 		}
 		return null;
+	}
+
+	/**
+	 *
+	 */
+	public static String getApi(Class clazz, Byte value)
+	{
+		if (value != null)
+		{
+			Field[] fields = clazz.getFields();
+			for(int i = 0; i < fields.length; i++)
+			{
+				Field field = fields[i];
+				if (AbstractEnum.class.isAssignableFrom(field.getDeclaringClass()))
+				{
+					AbstractEnum enum = null;
+					try
+					{
+						enum = (AbstractEnum)field.get(null);
+					}
+					catch (Exception e) 
+					{
+						// TODO: handle exception
+					}
+					if (value.equals(enum.getValueByte()))
+					{
+						return field.getDeclaringClass().getName() + "." + field.getName() + ".getValue()";
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public static String getApi(Class clazz, byte value)
+	{
+		return getApi(clazz, new Byte(value));
 	}
 }

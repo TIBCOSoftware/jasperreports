@@ -67,27 +67,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 public class JRApiConstants
 {
 
-	private static Map positionTypeMap = null;
-
-	public static Map getPositionTypeMap()
-	{
-		if (positionTypeMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(JRElement.POSITION_TYPE_FLOAT),                  "JRElement.POSITION_TYPE_FLOAT");
-			map.put(new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP),    "JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP");
-			map.put(new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM), "JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM");
-			positionTypeMap = Collections.unmodifiableMap(map);
-		}
-
-		return positionTypeMap;
-	}
-
-	public static String getPositionType(Byte key)
-	{
-		return (String)getPositionTypeMap().get(key);
-	}
-	
 	/**
 	 *
 	 *

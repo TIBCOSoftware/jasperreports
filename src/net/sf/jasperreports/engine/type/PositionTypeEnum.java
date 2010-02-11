@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.JRConstants;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JasperCompileManager.java 3033 2009-08-27 11:46:22Z teodord $
  */
-public class ModeEnum extends AbstractEnum
+public class PositionTypeEnum extends AbstractEnum
 {
 	/**
 	 *
@@ -40,17 +40,25 @@ public class ModeEnum extends AbstractEnum
 
 
 	/**
-	 * Specifies that the element is opaque.
-	 */ 
-	public static final ModeEnum OPAQUE = new ModeEnum((byte)1, "Opaque");
-	
-	/**
-	 * Specifies that the element is transparent.
-	 */ 
-	public static final ModeEnum TRANSPARENT = new ModeEnum((byte)2, "Transparent");
-	
+	 * The element will float in its parent section if it is pushed downwards by other elements fount above it.
+	 * It will try to conserve the distance between it and the neighboring elements placed immediately above.
+	 */
+	public static final PositionTypeEnum POSITION_TYPE_FLOAT = new PositionTypeEnum((byte)1, "Float");
 
-	private ModeEnum(byte value, String xml)
+	/**
+	 * The element will simply ignore what happens to the other section elements and tries to
+	 * conserve the y offset measured from the top of its parent report section.
+	 */
+	public static final PositionTypeEnum POSITION_TYPE_FIX_RELATIVE_TO_TOP = new PositionTypeEnum((byte)2, "FixRelativeToTop");
+
+	/**
+	 * If the height of the parent report section is affected by elements that stretch, the current element will try to
+	 * conserve the original distance between its bottom margin and the bottom of the band.
+	 */
+	public static final PositionTypeEnum POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM = new PositionTypeEnum((byte)3, "FixRelativeToBottom");
+
+
+	private PositionTypeEnum(byte value, String xml)
 	{
 		super(value, xml);
 	}
