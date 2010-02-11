@@ -144,6 +144,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.AbstractEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -890,10 +891,10 @@ public class JRApiWriter
 		{
 			write( elementName + ".setKey(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(element.getKey()));
 			writeStyleReferenceAttr( element, elementName);
-			write( elementName + ".setPositionType({0});\n", JRApiConstants.getPositionType(new Byte(element.getPositionType())), "JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP");
+			write( elementName + ".setPositionType({0});\n", AbstractEnum.getApi(PositionTypeEnum.class, element.getPositionType()));
 			write( elementName + ".setStretchType({0});\n", JRApiConstants.getStretchType(new Byte(element.getStretchType())), "JRElement.STRETCH_TYPE_NO_STRETCH");
 			write( elementName + ".setPrintRepeatedValues({0});\n", element.isPrintRepeatedValues(),true);
-			write( elementName + ".setMode({0});\n", AbstractEnum.get(ModeEnum.class, element.getOwnMode()));
+			write( elementName + ".setMode({0});\n", AbstractEnum.getApi(ModeEnum.class, element.getOwnMode()));
 			write( elementName + ".setX({0});\n", element.getX());
 			write( elementName + ".setY({0});\n", element.getY());
 			write( elementName + ".setWidth({0});\n", element.getWidth());

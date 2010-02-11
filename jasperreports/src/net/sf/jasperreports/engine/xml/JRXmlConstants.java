@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -79,14 +80,26 @@ public class JRXmlConstants
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link PositionTypeEnum#OPAQUE#getName()}.
 	 */
-	private static final String POSITION_TYPE_FLOAT = "Float";
-	private static final String POSITION_TYPE_FIX_RELATIVE_TO_TOP = "FixRelativeToTop";
-	private static final String POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM = "FixRelativeToBottom";
+	private static final String POSITION_TYPE_FLOAT = PositionTypeEnum.POSITION_TYPE_FLOAT.getName();
+	/**
+	 * @deprecated Replaced by {@link PositionTypeEnum#POSITION_TYPE_FIX_RELATIVE_TO_TOP#getName()}.
+	 */
+	private static final String POSITION_TYPE_FIX_RELATIVE_TO_TOP = PositionTypeEnum.POSITION_TYPE_FIX_RELATIVE_TO_TOP.getName();
+	/**
+	 * @deprecated Replaced by {@link PositionTypeEnum#POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM#getName()}.
+	 */
+	private static final String POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM = PositionTypeEnum.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM.getName();
 
+	/**
+	 * @deprecated Replaced by {@link PositionTypeEnum}.
+	 */
 	private static Map positionTypeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link PositionTypeEnum}.
+	 */
 	public static Map getPositionTypeMap()
 	{
 		if (positionTypeMap == null)
@@ -105,11 +118,11 @@ public class JRXmlConstants
 	}
 
 	/**
-	 * @deprecated Replaced by {@link ModeEnum#OPAQUE}.
+	 * @deprecated Replaced by {@link ModeEnum#OPAQUE#getName()}.
 	 */
 	private static final String MODE_OPAQUE = "Opaque";
 	/**
-	 * @deprecated Replaced by {@link ModeEnum#TRANSPARENT}.
+	 * @deprecated Replaced by {@link ModeEnum#TRANSPARENT#getName()}.
 	 */
 	private static final String MODE_TRANSPARENT = "Transparent";
 
