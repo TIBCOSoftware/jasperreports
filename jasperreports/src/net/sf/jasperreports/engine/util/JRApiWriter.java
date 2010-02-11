@@ -518,6 +518,7 @@ public class JRApiWriter
 		}
 
 		write( "return jasperDesign;\n");
+		indent = "  ";
 		write( "}\n\n");
 		indent = ""; 
 		write("}\n");
