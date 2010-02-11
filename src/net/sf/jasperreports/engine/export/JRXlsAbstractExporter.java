@@ -322,28 +322,18 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				JRXlsAbstractExporterParameter.SHEET_NAMES,
 				JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAMES_PREFIX
 				);
-		
-		if (sheetNamesArray != null && sheetNamesArray.length > 0)
+		if (sheetNamesArray != null)
 		{
 			List sheetNamesList = new ArrayList();
-			int sheetsCount = 0;
 			for(int i = 0; i < sheetNamesArray.length; i++)
 			{
 				String[] currentSheetNamesArray = sheetNamesArray[i].split("/");
-				sheetNamesList.add(i, currentSheetNamesArray);
-				sheetsCount += currentSheetNamesArray.length;
-			}
-
-			sheetNames = new String[sheetsCount];
-			int j = 0;
-			for(int i = 0; i < sheetNamesList.size(); i++)
-			{
-				String[] currentSheetNamesArray = (String[])sheetNamesList.get(i);
-				for(int k = 0; k < currentSheetNamesArray.length && j < sheetNames.length ; k++, j++)
+				for(int j = 0; j < currentSheetNamesArray.length; j++)
 				{
-					sheetNames[j] = currentSheetNamesArray[k];
+					sheetNamesList.add(currentSheetNamesArray[j]);
 				}
 			}
+			sheetNames = (String[]) sheetNamesList.toArray(new String[sheetNamesList.size()]);
 		}
 
 		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
