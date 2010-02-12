@@ -106,14 +106,6 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	
 
 	/**
-	 * Sets the image scale type.
-	 * @param scaleImage one of the scale constants in this class
-	 */
-	public void setScaleImage(byte scaleImage);
-
-	public void setScaleImage(Byte scaleImage);
-
-	/**
 	 * Indicates if the engine is loading the current image from cache.
 	 * Implementations of this method rely on default values that depend on the type of the image expression
 	 * if a value was not explicitly set of this flag.

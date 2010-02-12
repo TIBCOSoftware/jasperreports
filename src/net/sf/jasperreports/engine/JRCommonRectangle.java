@@ -41,5 +41,12 @@ public interface JRCommonRectangle extends JRStyleContainer
 
 	public Integer getOwnRadius();
 
+	/**
+	 * Sets the corner radius for rectangles with round corners.
+	 */
+	public void setRadius(int radius);
+
+	public void setRadius(Integer radius);
+
 	
 }

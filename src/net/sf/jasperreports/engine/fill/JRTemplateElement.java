@@ -161,6 +161,22 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	/**
 	 *
 	 */
+	public int getWidth()
+	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 *
+	 */
+	public int getHeight()
+	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 *
+	 */
 	public byte getMode()
 	{
 		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE.getValue());
@@ -177,7 +193,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	/**
 	 *
 	 */
-	protected void setMode(byte mode)
+	public void setMode(byte mode)
 	{
 		this.mode = new Byte(mode);
 	}
@@ -185,7 +201,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	/**
 	 *
 	 */
-	protected void setMode(Byte mode)
+	public void setMode(Byte mode)
 	{
 		this.mode = mode;
 	}
@@ -209,7 +225,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	/**
 	 *
 	 */
-	protected void setForecolor(Color forecolor)
+	public void setForecolor(Color forecolor)
 	{
 		this.forecolor = forecolor;
 	}
@@ -233,7 +249,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	/**
 	 *
 	 */
-	protected void setBackcolor(Color backcolor)
+	public void setBackcolor(Color backcolor)
 	{
 		this.backcolor = backcolor;
 	}
