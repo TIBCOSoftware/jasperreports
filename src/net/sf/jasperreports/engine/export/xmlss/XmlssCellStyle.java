@@ -29,12 +29,12 @@ import java.io.Writer;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -96,22 +96,21 @@ public class XmlssCellStyle extends XmlssBorderStyle
 		this.pattern = pattern;
 		this.shrinkToFit = String.valueOf(getBitValue(isShrinkToFit));
 		
-		switch (element.getMode())
+		if (ModeEnum.OPAQUE.getValue() == element.getMode())
 		{
-			case JRElement.MODE_OPAQUE: 
-				if(element.getBackcolor() != null)
-				{
-					backcolor = "#" + JRColorUtil.getColorHexa(element.getBackcolor());
-				}
-				else if(style.getBackcolor() != null)
-				{
-					backcolor = "#" + JRColorUtil.getColorHexa(style.getBackcolor());
-				}
-				break;
-			case JRElement.MODE_TRANSPARENT:
-			default:
-				if(cellBackground != null)
-					backcolor = "#" + JRColorUtil.getColorHexa(cellBackground);
+			if(element.getBackcolor() != null)
+			{
+				backcolor = "#" + JRColorUtil.getColorHexa(element.getBackcolor());
+			}
+			else if(style.getBackcolor() != null)
+			{
+				backcolor = "#" + JRColorUtil.getColorHexa(style.getBackcolor());
+			}
+		}
+		else
+		{
+			if(cellBackground != null)
+				backcolor = "#" + JRColorUtil.getColorHexa(cellBackground);
 		}
 		
 		if(element.getForecolor() != null)

@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -427,7 +428,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		{
 			if (isOverflow)
 			{
-				if (getPositionType() == JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM)
+				if (getPositionType() == PositionTypeEnum.FIX_RELATIVE_TO_BOTTOM.getValue())
 				{
 					// the content of the band bottom text fields is not
 					// consumed during overflows, because they only appear on the last overflow

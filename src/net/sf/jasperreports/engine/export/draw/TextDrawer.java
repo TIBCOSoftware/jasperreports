@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.TextRenderer;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 
@@ -143,7 +144,7 @@ public class TextDrawer extends ElementDrawer
 		
 		grx.rotate(angle, x, y);
 
-		if (text.getMode() == JRElement.MODE_OPAQUE)
+		if (text.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			grx.setColor(text.getBackcolor());
 			grx.fillRect(x, y, width, height); 

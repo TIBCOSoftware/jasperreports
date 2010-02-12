@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.base.JRBasePrintRectangle;
+import net.sf.jasperreports.engine.type.ModeEnum;
 
 
 /**
@@ -263,7 +264,7 @@ public class ConvertVisitor implements JRVisitor
 				rectangle.getLinePen().setLineWidth(0.1f);
 				rectangle.getLinePen().setLineStyle(JRPen.LINE_STYLE_DASHED);
 				rectangle.getLinePen().setLineColor(ReportConverter.GRID_LINE_COLOR);
-				rectangle.setMode(JRElement.MODE_TRANSPARENT);
+				rectangle.setMode(ModeEnum.TRANSPARENT.getValue());
 				frame.addElement(rectangle);
 			}
 		}

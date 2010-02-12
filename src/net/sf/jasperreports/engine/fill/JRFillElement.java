@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -266,7 +267,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, MODE_OPAQUE);
+		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE.getValue());
 	}
 
 	/**

@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -258,7 +259,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, MODE_OPAQUE);
+		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE.getValue());
 	}
 
 	/**

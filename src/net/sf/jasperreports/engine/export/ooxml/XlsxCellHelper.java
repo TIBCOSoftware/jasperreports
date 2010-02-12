@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -144,7 +145,7 @@ public class XlsxCellHelper extends BaseHelper
 	 *
 	public void exportProps(JRExporterGridCell gridCell)
 	{
-		exportBackcolor(JRElement.MODE_OPAQUE, gridCell.getBackcolor());//FIXMEDOCX check this
+		exportBackcolor(ModeEnum.OPAQUE.getValue(), gridCell.getBackcolor());//FIXMEDOCX check this
 		
 		borderHelper.export(gridCell.getBox());
 	}
@@ -155,7 +156,7 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	private void exportBackcolor(byte mode, Color backcolor)
 	{
-		if (mode == JRElement.MODE_OPAQUE && backcolor != null)
+		if (mode == ModeEnum.OPAQUE.getValue() && backcolor != null)
 		{
 			write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" />\n");
 		}

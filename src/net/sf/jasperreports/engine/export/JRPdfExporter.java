@@ -88,6 +88,7 @@ import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -966,7 +967,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		float lineWidth = rectangle.getLinePen().getLineWidth().floatValue();
 		float lineOffset = BorderOffset.getOffset(rectangle.getLinePen());
 		
-		if (rectangle.getMode() == JRElement.MODE_OPAQUE)
+		if (rectangle.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			pdfContentByte.roundRectangle(
 				rectangle.getX() + getOffsetX(),
@@ -1037,7 +1038,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		float lineWidth = ellipse.getLinePen().getLineWidth().floatValue();
 		float lineOffset = BorderOffset.getOffset(ellipse.getLinePen());
 		
-		if (ellipse.getMode() == JRElement.MODE_OPAQUE)
+		if (ellipse.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			pdfContentByte.ellipse(
 				ellipse.getX() + getOffsetX(),
@@ -1093,7 +1094,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void exportImage(JRPrintImage printImage) throws DocumentException, IOException,  JRException
 	{
-		if (printImage.getMode() == JRElement.MODE_OPAQUE)
+		if (printImage.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			pdfContentByte.setRGBColorFill(
 				printImage.getBackcolor().getRed(),
@@ -1193,7 +1194,7 @@ public class JRPdfExporter extends JRAbstractExporter
 							new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_ARGB);
 
 						Graphics2D g = bi.createGraphics();
-						if (printImage.getMode() == JRElement.MODE_OPAQUE)
+						if (printImage.getMode() == ModeEnum.OPAQUE.getValue())
 						{
 							g.setColor(printImage.getBackcolor());
 							g.fillRect(0, 0, minWidth, minHeight);
@@ -1387,7 +1388,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					g.setClip(clip);
 				}
 				
-				if (printImage.getMode() == JRElement.MODE_OPAQUE)
+				if (printImage.getMode() == ModeEnum.OPAQUE.getValue())
 				{
 					g.setColor(printImage.getBackcolor());
 					g.fillRect(0, 0, (int)displayWidth, (int)displayHeight);
@@ -2007,7 +2008,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		atrans.rotate(angle, x, jasperPrint.getPageHeight() - y);
 		pdfContentByte.transform(atrans);
 
-		if (text.getMode() == JRElement.MODE_OPAQUE)
+		if (text.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			Color backcolor = text.getBackcolor();
 			pdfContentByte.setRGBColorFill(
@@ -2592,7 +2593,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	protected void exportFrame(JRPrintFrame frame) throws DocumentException, IOException, JRException
 	{
-		if (frame.getMode() == JRElement.MODE_OPAQUE)
+		if (frame.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			int x = frame.getX() + getOffsetX();
 			int y = frame.getY() + getOffsetY();

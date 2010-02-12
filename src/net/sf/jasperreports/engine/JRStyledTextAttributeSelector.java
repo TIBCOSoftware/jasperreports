@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
@@ -75,7 +76,7 @@ public abstract class JRStyledTextAttributeSelector
 			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
 			JRFontUtil.getAttributesWithoutAwtFont(attributes, printText);
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
-			if (printText.getMode() == JRElement.MODE_OPAQUE)
+			if (printText.getMode() == ModeEnum.OPAQUE.getValue())
 			{
 				attributes.put(TextAttribute.BACKGROUND, printText.getBackcolor());
 			}

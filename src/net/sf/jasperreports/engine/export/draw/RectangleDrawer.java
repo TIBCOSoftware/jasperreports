@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
@@ -61,7 +62,7 @@ public class RectangleDrawer extends ElementDrawer
 		int width = rectangle.getWidth();
 		int height = rectangle.getHeight();
 		
-		if (rectangle.getMode() == JRElement.MODE_OPAQUE)
+		if (rectangle.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			grx.setColor(rectangle.getBackcolor());
 			if (rectangle.getRadius() > 0)

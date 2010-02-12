@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
 
@@ -102,7 +103,7 @@ public class ImageServlet extends BaseHttpServlet
 					new JRWrappingSvgRenderer(
 						renderer, 
 						new Dimension(image.getWidth(), image.getHeight()),
-						JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
+						ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
 						);
 			}
 

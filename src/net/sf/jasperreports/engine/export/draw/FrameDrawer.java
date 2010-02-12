@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.TextRenderer;
+import net.sf.jasperreports.engine.type.ModeEnum;
 
 
 /**
@@ -132,7 +133,7 @@ public class FrameDrawer extends ElementDrawer
 				);
 		}
 		
-		if (frame.getMode() == JRElement.MODE_OPAQUE)
+		if (frame.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			grx.setColor(frame.getBackcolor());
 			grx.fillRect(
