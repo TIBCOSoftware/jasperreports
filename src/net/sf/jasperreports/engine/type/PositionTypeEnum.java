@@ -43,23 +43,23 @@ public class PositionTypeEnum extends AbstractEnum
 	 * The element will float in its parent section if it is pushed downwards by other elements fount above it.
 	 * It will try to conserve the distance between it and the neighboring elements placed immediately above.
 	 */
-	public static final PositionTypeEnum POSITION_TYPE_FLOAT = new PositionTypeEnum((byte)1, "Float");
+	public static final PositionTypeEnum FLOAT = new PositionTypeEnum((byte)1, "Float");
 
 	/**
 	 * The element will simply ignore what happens to the other section elements and tries to
 	 * conserve the y offset measured from the top of its parent report section.
 	 */
-	public static final PositionTypeEnum POSITION_TYPE_FIX_RELATIVE_TO_TOP = new PositionTypeEnum((byte)2, "FixRelativeToTop");
+	public static final PositionTypeEnum FIX_RELATIVE_TO_TOP = new PositionTypeEnum((byte)2, "FixRelativeToTop");
 
 	/**
 	 * If the height of the parent report section is affected by elements that stretch, the current element will try to
 	 * conserve the original distance between its bottom margin and the bottom of the band.
 	 */
-	public static final PositionTypeEnum POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM = new PositionTypeEnum((byte)3, "FixRelativeToBottom");
+	public static final PositionTypeEnum FIX_RELATIVE_TO_BOTTOM = new PositionTypeEnum((byte)3, "FixRelativeToBottom");
 
 
-	private PositionTypeEnum(byte value, String xml)
+	private PositionTypeEnum(byte value, String name)
 	{
-		super(value, xml);
+		super(value, name);
 	}
 }

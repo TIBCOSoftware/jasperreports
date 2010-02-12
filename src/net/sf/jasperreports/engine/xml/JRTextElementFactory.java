@@ -24,6 +24,9 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
+import net.sf.jasperreports.engine.type.AbstractEnum;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,16 +48,16 @@ public class JRTextElementFactory extends JRBaseFactory
 	{
 		JRDesignTextElement textElement = (JRDesignTextElement)digester.peek();
 
-		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_textAlignment));
+		AbstractEnum horizontalAlignment = AbstractEnum.get(HorizontalAlignEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
 		{
-			textElement.setHorizontalAlignment(horizontalAlignment);
+			textElement.setHorizontalAlignment(horizontalAlignment.getValueByte());
 		}
 
-		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_verticalAlignment));
+		AbstractEnum verticalAlignment = AbstractEnum.get(VerticalAlignEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_verticalAlignment));
 		if (verticalAlignment != null)
 		{
-			textElement.setVerticalAlignment(verticalAlignment);
+			textElement.setVerticalAlignment(verticalAlignment.getValueByte());
 		}
 
 		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_rotation));

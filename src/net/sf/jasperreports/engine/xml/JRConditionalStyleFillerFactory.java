@@ -27,7 +27,9 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.design.JRDesignConditionalStyle;
 import net.sf.jasperreports.engine.type.AbstractEnum;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
@@ -98,16 +100,16 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 			style.setScaleImage(scaleImage);
 		}
 
-		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
+		AbstractEnum horizontalAlignment = AbstractEnum.get(HorizontalAlignEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
-			style.setHorizontalAlignment(horizontalAlignment);
+			style.setHorizontalAlignment(horizontalAlignment.getValueByte());
 		}
 
-		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
+		AbstractEnum verticalAlignment = AbstractEnum.get(VerticalAlignEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
-			style.setVerticalAlignment(verticalAlignment);
+			style.setVerticalAlignment(verticalAlignment.getValueByte());
 		}
 
 

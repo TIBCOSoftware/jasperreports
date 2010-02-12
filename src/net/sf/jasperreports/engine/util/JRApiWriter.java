@@ -103,7 +103,6 @@ import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
@@ -143,8 +142,10 @@ import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.AbstractEnum;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -1009,8 +1010,8 @@ public class JRApiWriter
 		{
 			write( "JRDesignImage " + imageName + " = new JRDesignImage(jasperDesign);\n");
 			write( imageName + ".setScaleImage({0});\n", JRApiConstants.getScaleImage(image.getOwnScaleImage()));
-			write( imageName + ".setHorizontalAlignment({0});\n", JRApiConstants.getHorizontalAlign(image.getOwnHorizontalAlignment()));
-			write( imageName + ".setVerticalAlignment({0});\n", JRApiConstants.getHorizontalAlign(image.getOwnVerticalAlignment()));
+			write( imageName + ".setHorizontalAlignment({0});\n", AbstractEnum.getApi(HorizontalAlignEnum.class, image.getOwnHorizontalAlignment()));
+			write( imageName + ".setVerticalAlignment({0});\n", AbstractEnum.getApi(VerticalAlignEnum.class, image.getOwnVerticalAlignment()));
 			write( imageName + ".setUsingCache({0});\n", image.isOwnUsingCache());
 			write( imageName + ".setLazy({0});\n", image.isLazy(), false);
 			write( imageName + ".setOnErrorType({0});\n", JRApiConstants.getOnErrorType(new Byte(image.getOnErrorType())), "JRImage.ON_ERROR_TYPE_ERROR");
@@ -1066,8 +1067,8 @@ public class JRApiWriter
 	{
 		if(textElement != null)
 		{
-			write( textElementName + ".setHorizontalAlignment({0});\n", JRApiConstants.getHorizontalAlign(textElement.getOwnHorizontalAlignment()));
-			write( textElementName + ".setVerticalAlignment({0});\n", JRApiConstants.getHorizontalAlign(textElement.getOwnVerticalAlignment()));
+			write( textElementName + ".setHorizontalAlignment({0});\n", AbstractEnum.getApi(HorizontalAlignEnum.class, textElement.getOwnHorizontalAlignment()));
+			write( textElementName + ".setVerticalAlignment({0});\n", AbstractEnum.getApi(VerticalAlignEnum.class, textElement.getOwnVerticalAlignment()));
 			write( textElementName + ".setRotation({0});\n", JRApiConstants.getRotation(textElement.getOwnRotation()));
 			write( textElementName + ".setLineSpacing({0});\n", JRApiConstants.getLineSpacing(textElement.getOwnLineSpacing()));
 			write( textElementName + ".setMarkup(\"{0}\");\n", textElement.getMarkup());
@@ -1133,7 +1134,7 @@ public class JRApiWriter
 			write( styleName + ".setParentStyleNameReference(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getStyleNameReference()));
 			
 			write( styleName + ".setDefault({0});\n", style.isDefault(), false);
-			write( styleName + ".setMode({0});\n", AbstractEnum.get(ModeEnum.class, style.getOwnMode()));
+			write( styleName + ".setMode({0});\n", AbstractEnum.getApi(ModeEnum.class, style.getOwnMode()));
 			write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnFontName()));
 			write( styleName + ".setFontSize({0, number, #});\n", style.getOwnFontSize());
 			write( styleName + ".setBold({0});\n", style.isOwnBold());
@@ -1148,8 +1149,8 @@ public class JRApiWriter
 			write( styleName + ".setFill({0});\n", JRApiConstants.getFill(style.getOwnFill()));
 			write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
 			write( styleName + ".setScaleImage({0});\n", JRApiConstants.getScaleImage(style.getOwnScaleImage()));
-			write( styleName + ".setHorizontalAlignment({0});\n", JRApiConstants.getHorizontalAlign(style.getOwnHorizontalAlignment()));
-			write( styleName + ".setVerticalAlignment({0});\n", JRApiConstants.getVerticalAlign(style.getOwnVerticalAlignment()));
+			write( styleName + ".setHorizontalAlignment({0});\n", AbstractEnum.getApi(HorizontalAlignEnum.class, style.getOwnHorizontalAlignment()));
+			write( styleName + ".setVerticalAlignment({0});\n", AbstractEnum.getApi(VerticalAlignEnum.class, style.getOwnVerticalAlignment()));
 			write( styleName + ".setRotation({0});\n", JRApiConstants.getRotation(style.getOwnRotation()));
 			write( styleName + ".setLineSpacing({0});\n", JRApiConstants.getLineSpacing(style.getOwnLineSpacing()));
 
@@ -3230,7 +3231,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignCellContents " + cellName + " = new JRDesignCellContents();\n");
 			write( cellName + ".setBackcolor({0});\n", getColorText(contents.getBackcolor()));
-			write( cellName + ".setMode({0});\n", AbstractEnum.get(ModeEnum.class, contents.getMode()));
+			write( cellName + ".setMode({0});\n", AbstractEnum.getApi(ModeEnum.class, contents.getMode()));
 			writeStyleReferenceAttr( contents, cellName);
 
 			writeBox( contents.getLineBox(), cellName + ".getLineBox()");
@@ -3536,7 +3537,7 @@ public class JRApiWriter
 			write( styleName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getName()));
 			writeStyleReferenceAttr( style, styleName);
 			write( styleName + ".setDefault({0});\n", style.isDefault(), false);
-			write( styleName + ".setMode({0});\n", AbstractEnum.get(ModeEnum.class, style.getOwnMode()));
+			write( styleName + ".setMode({0});\n", AbstractEnum.getApi(ModeEnum.class, style.getOwnMode()));
 			write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnFontName()));
 			write( styleName + ".setFontSize({0, number, #});\n", style.getOwnFontSize());
 			write( styleName + ".setBold({0});\n", style.isOwnBold());
@@ -3551,8 +3552,8 @@ public class JRApiWriter
 			write( styleName + ".setFill({0});\n", JRApiConstants.getFill(style.getOwnFill()));
 			write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
 			write( styleName + ".setScaleImage({0});\n", JRApiConstants.getScaleImage(style.getOwnScaleImage()));
-			write( styleName + ".setHorizontalAlignment({0});\n", JRApiConstants.getHorizontalAlign(style.getOwnHorizontalAlignment()));
-			write( styleName + ".setVerticalAlignment({0});\n", JRApiConstants.getVerticalAlign(style.getOwnVerticalAlignment()));
+			write( styleName + ".setHorizontalAlignment({0});\n", AbstractEnum.getApi(HorizontalAlignEnum.class, style.getOwnHorizontalAlignment()));
+			write( styleName + ".setVerticalAlignment({0});\n", AbstractEnum.getApi(VerticalAlignEnum.class, style.getOwnVerticalAlignment()));
 			write( styleName + ".setRotation({0});\n", JRApiConstants.getRotation(style.getOwnRotation()));
 			write( styleName + ".setLineSpacing({0});\n", JRApiConstants.getLineSpacing(style.getOwnLineSpacing()));
 
