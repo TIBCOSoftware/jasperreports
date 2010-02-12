@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -499,7 +500,7 @@ public class NoXmlDesignApp
 		textField.setWidth(515);
 		textField.setHeight(15);
 		textField.setBackcolor(new Color(0xC0, 0xC0, 0xC0));
-		textField.setMode(JRElement.MODE_OPAQUE);
+		textField.setMode(ModeEnum.OPAQUE.getValue());
 		textField.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_LEFT);
 		textField.setStyle(boldStyle);
 		expression = new JRDesignExpression();
@@ -583,7 +584,7 @@ public class NoXmlDesignApp
 		frame.setHeight(15);
 		frame.setForecolor(new Color(0x33, 0x33, 0x33));
 		frame.setBackcolor(new Color(0x33, 0x33, 0x33));
-		frame.setMode(JRElement.MODE_OPAQUE);
+		frame.setMode(ModeEnum.OPAQUE.getValue());
 		band.addElement(frame);
 		staticText = new JRDesignStaticText();
 		staticText.setX(0);
@@ -592,7 +593,7 @@ public class NoXmlDesignApp
 		staticText.setHeight(15);
 		staticText.setForecolor(Color.white);
 		staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
-		staticText.setMode(JRElement.MODE_OPAQUE);
+		staticText.setMode(ModeEnum.OPAQUE.getValue());
 		staticText.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_CENTER);
 		staticText.setStyle(boldStyle);
 		staticText.setText("ID");
@@ -604,7 +605,7 @@ public class NoXmlDesignApp
 		staticText.setHeight(15);
 		staticText.setForecolor(Color.white);
 		staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
-		staticText.setMode(JRElement.MODE_OPAQUE);
+		staticText.setMode(ModeEnum.OPAQUE.getValue());
 		staticText.setStyle(boldStyle);
 		staticText.setText("Name");
 		frame.addElement(staticText);
@@ -615,7 +616,7 @@ public class NoXmlDesignApp
 		staticText.setHeight(15);
 		staticText.setForecolor(Color.white);
 		staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
-		staticText.setMode(JRElement.MODE_OPAQUE);
+		staticText.setMode(ModeEnum.OPAQUE.getValue());
 		staticText.setStyle(boldStyle);
 		staticText.setText("Street");
 		frame.addElement(staticText);

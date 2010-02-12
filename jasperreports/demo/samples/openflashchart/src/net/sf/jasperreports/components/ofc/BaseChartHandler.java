@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.export.ElementWrapper;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.JRExporterContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.type.ModeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -60,7 +61,7 @@ public class BaseChartHandler implements GenericElementHandler
 		text.setWidth(element.getWidth());
 		text.setHeight(element.getHeight());
 		text.setText("[Open Flash Chart Component]");
-		text.setMode(JRElement.MODE_OPAQUE);
+		text.setMode(ModeEnum.OPAQUE.getValue());
 		text.setBackcolor(Color.lightGray);
 		text.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_CENTER);
 		text.setVerticalAlignment(JRAlignment.VERTICAL_ALIGN_MIDDLE);
