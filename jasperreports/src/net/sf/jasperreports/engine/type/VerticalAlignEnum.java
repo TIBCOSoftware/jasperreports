@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.JRConstants;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JasperCompileManager.java 3033 2009-08-27 11:46:22Z teodord $
  */
-public class ModeEnum extends AbstractEnum
+public class VerticalAlignEnum extends AbstractEnum
 {
 	/**
 	 *
@@ -40,17 +40,27 @@ public class ModeEnum extends AbstractEnum
 
 
 	/**
-	 * Specifies that the element is opaque.
+	 *
 	 */ 
-	public static final ModeEnum OPAQUE = new ModeEnum((byte)1, "Opaque");
+	public static final VerticalAlignEnum TOP = new VerticalAlignEnum((byte)1, "Top");
 	
 	/**
-	 * Specifies that the element is transparent.
+	 *
 	 */ 
-	public static final ModeEnum TRANSPARENT = new ModeEnum((byte)2, "Transparent");
+	public static final VerticalAlignEnum MIDDLE = new VerticalAlignEnum((byte)2, "Middle");
+	
+	/**
+	 *
+	 */ 
+	public static final VerticalAlignEnum BOTTOM = new VerticalAlignEnum((byte)3, "Bottom");
+	
+	/**
+	 *
+	 */ 
+	public static final VerticalAlignEnum JUSTIFIED = new VerticalAlignEnum((byte)4, "Justified");//FIXMEENUM this is not used, right?
 	
 
-	private ModeEnum(byte value, String name)
+	private VerticalAlignEnum(byte value, String name)
 	{
 		super(value, name);
 	}

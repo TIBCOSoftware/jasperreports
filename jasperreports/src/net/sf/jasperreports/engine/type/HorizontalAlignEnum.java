@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.JRConstants;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JasperCompileManager.java 3033 2009-08-27 11:46:22Z teodord $
  */
-public class ModeEnum extends AbstractEnum
+public class HorizontalAlignEnum extends AbstractEnum
 {
 	/**
 	 *
@@ -40,17 +40,27 @@ public class ModeEnum extends AbstractEnum
 
 
 	/**
-	 * Specifies that the element is opaque.
+	 *
 	 */ 
-	public static final ModeEnum OPAQUE = new ModeEnum((byte)1, "Opaque");
+	public static final HorizontalAlignEnum LEFT = new HorizontalAlignEnum((byte)1, "Left");
 	
 	/**
-	 * Specifies that the element is transparent.
+	 *
 	 */ 
-	public static final ModeEnum TRANSPARENT = new ModeEnum((byte)2, "Transparent");
+	public static final HorizontalAlignEnum CENTER = new HorizontalAlignEnum((byte)2, "Center");
+	
+	/**
+	 *
+	 */ 
+	public static final HorizontalAlignEnum RIGHT = new HorizontalAlignEnum((byte)3, "Right");
+	
+	/**
+	 *
+	 */ 
+	public static final HorizontalAlignEnum JUSTIFIED = new HorizontalAlignEnum((byte)4, "Justified");
 	
 
-	private ModeEnum(byte value, String name)
+	private HorizontalAlignEnum(final byte value, String name)
 	{
 		super(value, name);
 	}

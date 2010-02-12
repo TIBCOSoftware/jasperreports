@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+
 /**
  * An interface that defines constants useful for alignment. All report elements that can be aligned in some way
  * implement this interface.
@@ -35,19 +36,37 @@ public interface JRAlignment extends JRStyleContainer
 {
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#LEFT#getValue()}.
 	 */
 	public static final byte HORIZONTAL_ALIGN_LEFT = 1;
+	/**
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#CENTER#getValue()}.
+	 */
 	public static final byte HORIZONTAL_ALIGN_CENTER = 2;
+	/**
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#RIGHT#getValue()}.
+	 */
 	public static final byte HORIZONTAL_ALIGN_RIGHT = 3;
+	/**
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#JUSTIFIED#getValue()}.
+	 */
 	public static final byte HORIZONTAL_ALIGN_JUSTIFIED = 4;
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link VerticalAlignEnum#TOP#getValue()}.
 	 */
 	public static final byte VERTICAL_ALIGN_TOP = 1;
+	/**
+	 * @deprecated Replaced by {@link VerticalAlignEnum#MIDDLE#getValue()}.
+	 */
 	public static final byte VERTICAL_ALIGN_MIDDLE = 2;
+	/**
+	 * @deprecated Replaced by {@link VerticalAlignEnum#BOTTOM#getValue()}.
+	 */
 	public static final byte VERTICAL_ALIGN_BOTTOM = 3;
+	/**
+	 * @deprecated Replaced by {@link VerticalAlignEnum#JUSTIFIED#getValue()}.
+	 */
 	public static final byte VERTICAL_ALIGN_JUSTIFIED = 4;
 
 

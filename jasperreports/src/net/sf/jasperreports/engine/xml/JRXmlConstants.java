@@ -53,8 +53,10 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -82,15 +84,15 @@ public class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link PositionTypeEnum#OPAQUE#getName()}.
 	 */
-	private static final String POSITION_TYPE_FLOAT = PositionTypeEnum.POSITION_TYPE_FLOAT.getName();
+	private static final String POSITION_TYPE_FLOAT = PositionTypeEnum.FLOAT.getName();
 	/**
 	 * @deprecated Replaced by {@link PositionTypeEnum#POSITION_TYPE_FIX_RELATIVE_TO_TOP#getName()}.
 	 */
-	private static final String POSITION_TYPE_FIX_RELATIVE_TO_TOP = PositionTypeEnum.POSITION_TYPE_FIX_RELATIVE_TO_TOP.getName();
+	private static final String POSITION_TYPE_FIX_RELATIVE_TO_TOP = PositionTypeEnum.FIX_RELATIVE_TO_TOP.getName();
 	/**
 	 * @deprecated Replaced by {@link PositionTypeEnum#POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM#getName()}.
 	 */
-	private static final String POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM = PositionTypeEnum.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM.getName();
+	private static final String POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM = PositionTypeEnum.FIX_RELATIVE_TO_BOTTOM.getName();
 
 	/**
 	 * @deprecated Replaced by {@link PositionTypeEnum}.
@@ -120,11 +122,11 @@ public class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link ModeEnum#OPAQUE#getName()}.
 	 */
-	private static final String MODE_OPAQUE = "Opaque";
+	private static final String MODE_OPAQUE = ModeEnum.OPAQUE.getName();
 	/**
 	 * @deprecated Replaced by {@link ModeEnum#TRANSPARENT#getName()}.
 	 */
-	private static final String MODE_TRANSPARENT = "Transparent";
+	private static final String MODE_TRANSPARENT = ModeEnum.TRANSPARENT.getName();
 
 	/**
 	 * @deprecated Replaced by {@link ModeEnum}.
@@ -206,15 +208,30 @@ public class JRXmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#HORIZONTAL_ALIGN_LEFT#getName()}.
 	 */
-	private static final String HORIZONTAL_ALIGN_LEFT = "Left";
-	private static final String HORIZONTAL_ALIGN_CENTER = "Center";
-	private static final String HORIZONTAL_ALIGN_RIGHT = "Right";
-	private static final String HORIZONTAL_ALIGN_JUSTIFIED = "Justified";
+	private static final String HORIZONTAL_ALIGN_LEFT = HorizontalAlignEnum.LEFT.getName();
+	/**
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#HORIZONTAL_ALIGN_CENTER#getName()}.
+	 */
+	private static final String HORIZONTAL_ALIGN_CENTER = HorizontalAlignEnum.CENTER.getName();
+	/**
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#HORIZONTAL_ALIGN_RIGHT#getName()}.
+	 */
+	private static final String HORIZONTAL_ALIGN_RIGHT = HorizontalAlignEnum.RIGHT.getName();
+	/**
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#HORIZONTAL_ALIGN_JUSTIFIED#getName()}.
+	 */
+	private static final String HORIZONTAL_ALIGN_JUSTIFIED = HorizontalAlignEnum.JUSTIFIED.getName();
 
+	/**
+	 * @deprecated Replaced by {@link HorizontalAlignEnum}.
+	 */
 	private static Map horizontalAlignMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link HorizontalAlignEnum}.
+	 */
 	public static Map getHorizontalAlignMap()
 	{
 		if (horizontalAlignMap == null)
@@ -235,7 +252,7 @@ public class JRXmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link HorizontalAlignEnum}.
 	 */
 	public static Map getTextAlignMap()
 	{
@@ -243,14 +260,26 @@ public class JRXmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link VerticalAlignEnum#TOP#getName()}.
 	 */
-	private static final String VERTICAL_ALIGN_TOP = "Top";
-	private static final String VERTICAL_ALIGN_MIDDLE = "Middle";
-	private static final String VERTICAL_ALIGN_BOTTOM = "Bottom";
+	private static final String VERTICAL_ALIGN_TOP = VerticalAlignEnum.TOP.getName();
+	/**
+	 * @deprecated Replaced by {@link VerticalAlignEnum#MIDDLE#getName()}.
+	 */
+	private static final String VERTICAL_ALIGN_MIDDLE = VerticalAlignEnum.MIDDLE.getName();
+	/**
+	 * @deprecated Replaced by {@link VerticalAlignEnum#BOTTOM#getName()}.
+	 */
+	private static final String VERTICAL_ALIGN_BOTTOM = VerticalAlignEnum.BOTTOM.getName();
 
+	/**
+	 * @deprecated Replaced by {@link VerticalAlignEnum}.
+	 */
 	private static Map verticalAlignMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link VerticalAlignEnum}.
+	 */
 	public static Map getVerticalAlignMap()
 	{
 		if (verticalAlignMap == null)

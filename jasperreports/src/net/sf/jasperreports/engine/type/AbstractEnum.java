@@ -50,13 +50,13 @@ public abstract class AbstractEnum implements Serializable
 	private static final Map globalValueMap = new HashMap();
 	private static final Map globalNameMap = new HashMap();
 
-	private final byte value;
+	public final byte value;
 	private final transient String name;
 	
 	/**
 	 *
 	 */
-	protected AbstractEnum(byte value, String name)
+	protected AbstractEnum(final byte value, String name)
 	{
 		this.value = value;
 		this.name = name;
@@ -90,7 +90,7 @@ public abstract class AbstractEnum implements Serializable
 	/**
 	 *
 	 */
-	public byte getValue()
+	public final byte getValue()
 	{
 		return value;
 	}
@@ -168,16 +168,16 @@ public abstract class AbstractEnum implements Serializable
 				Field field = fields[i];
 				if (AbstractEnum.class.isAssignableFrom(field.getDeclaringClass()))
 				{
-					AbstractEnum enum = null;
+					AbstractEnum enumInstance = null;
 					try
 					{
-						enum = (AbstractEnum)field.get(null);
+						enumInstance = (AbstractEnum)field.get(null);
 					}
 					catch (Exception e) 
 					{
 						// TODO: handle exception
 					}
-					if (value.equals(enum.getValueByte()))
+					if (value.equals(enumInstance.getValueByte()))
 					{
 						return field.getDeclaringClass().getName() + "." + field.getName() + ".getValue()";
 					}
