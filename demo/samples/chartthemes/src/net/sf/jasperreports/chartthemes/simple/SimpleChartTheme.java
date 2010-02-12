@@ -74,6 +74,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
@@ -2107,7 +2108,7 @@ public class SimpleChartTheme implements ChartTheme
 
 		if (getChart().getOwnMode() != null)
 		{
-			if(getChart().getOwnMode().byteValue() == JRElement.MODE_OPAQUE)
+			if(getChart().getOwnMode().byteValue() == ModeEnum.OPAQUE.getValue())
 			{
 				if(getChart().getOwnBackcolor() != null || backgroundPaint == null)
 				{
@@ -2147,7 +2148,7 @@ public class SimpleChartTheme implements ChartTheme
 				jfreeChart.setBackgroundImageAlignment(backgroundImageAlignment.intValue());
 			}
 			Float backgroundImageAlpha = chartSettings.getBackgroundImageAlpha();
-//			if(getChart().getOwnMode() != null && getChart().getOwnMode().byteValue() == JRElement.MODE_TRANSPARENT)
+//			if(getChart().getOwnMode() != null && getChart().getOwnMode().byteValue() == ModeEnum.TRANSPARENT.getValue())
 //			{
 //				backgroundImageAlpha = new Float(0);
 //			}

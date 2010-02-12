@@ -74,6 +74,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
@@ -1954,7 +1955,7 @@ public class GenericChartTheme implements ChartTheme
 
 		if (getChart().getOwnMode() != null)
 		{
-			if(getChart().getOwnMode().byteValue() == JRElement.MODE_OPAQUE)
+			if(getChart().getOwnMode().byteValue() == ModeEnum.OPAQUE.getValue())
 			{
 				if(getChart().getOwnBackcolor() == null && defaultBackgroundPaint != null)
 				{
