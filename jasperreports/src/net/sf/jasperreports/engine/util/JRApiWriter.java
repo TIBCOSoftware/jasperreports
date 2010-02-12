@@ -356,18 +356,18 @@ public class JRApiWriter
 		write( "JasperDesign jasperDesign = new JasperDesign();\n");
 		write( "jasperDesign.setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getName()));
 		write( "jasperDesign.setLanguage(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getLanguage()));
-		write( "jasperDesign.setColumnCount({0});\n", report.getColumnCount(), 1);
+		write( "jasperDesign.setColumnCount({0, number, #});\n", report.getColumnCount(), 1);
 		write( "jasperDesign.setPrintOrder((byte){0});\n", report.getPrintOrder(), JRReport.PRINT_ORDER_VERTICAL);
-		write( "jasperDesign.setPageWidth({0});\n", report.getPageWidth());
-		write( "jasperDesign.setPageHeight({0});\n", report.getPageHeight());
+		write( "jasperDesign.setPageWidth({0, number, #});\n", report.getPageWidth());
+		write( "jasperDesign.setPageHeight({0, number, #});\n", report.getPageHeight());
 		write( "jasperDesign.setOrientation((byte){0});\n", report.getOrientation(), JRReport.ORIENTATION_PORTRAIT);
 		write( "jasperDesign.setWhenNoDataType((byte){0});\n", report.getWhenNoDataType(), JRReport.WHEN_NO_DATA_TYPE_NO_PAGES);
-		write( "jasperDesign.setColumnWidth({0});\n", report.getColumnWidth());
-		write( "jasperDesign.setColumnSpacing({0});\n", report.getColumnSpacing());
-		write( "jasperDesign.setLeftMargin({0});\n", report.getLeftMargin());
-		write( "jasperDesign.setRightMargin({0});\n", report.getRightMargin());
-		write( "jasperDesign.setTopMargin({0});\n", report.getTopMargin());
-		write( "jasperDesign.setBottomMargin({0});\n", report.getBottomMargin());
+		write( "jasperDesign.setColumnWidth({0, number, #});\n", report.getColumnWidth());
+		write( "jasperDesign.setColumnSpacing({0, number, #});\n", report.getColumnSpacing());
+		write( "jasperDesign.setLeftMargin({0, number, #});\n", report.getLeftMargin());
+		write( "jasperDesign.setRightMargin({0, number, #});\n", report.getRightMargin());
+		write( "jasperDesign.setTopMargin({0, number, #});\n", report.getTopMargin());
+		write( "jasperDesign.setBottomMargin({0, number, #});\n", report.getBottomMargin());
 		write( "jasperDesign.setTitleNewPage({0});\n", report.isTitleNewPage(), false);
 		write( "jasperDesign.setSummaryNewPage({0});\n", report.isSummaryNewPage(), false);
 		write( "jasperDesign.setSummaryWithPageHeaderAndFooter({0});\n", report.isSummaryWithPageHeaderAndFooter(), false);
@@ -598,7 +598,7 @@ public class JRApiWriter
 			write( styleName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(font.getName()) + "\");\n");
 			write( styleName + ".setDefault({0});\n", font.isDefault(), false);
 			write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(font.getOwnFontName()));
-			write( styleName + ".setFontSize({0});\n", font.getOwnFontSize());
+			write( styleName + ".setFontSize({0, number, #});\n", font.getOwnFontSize());
 			write( styleName + ".setBold({0});\n", font.isOwnBold());
 			write( styleName + ".setItalic({0});\n", font.isOwnItalic());
 			write( styleName + ".setUnderline({0});\n", font.isOwnUnderline());
@@ -805,7 +805,7 @@ public class JRApiWriter
 			
 			write( "//band name = " + bandName +"\n\n");
 			write( "JRDesignBand " + bandName + " = new JRDesignBand();\n");
-			write( bandName + ".setHeight({0});\n", band.getHeight());
+			write( bandName + ".setHeight({0, number, #});\n", band.getHeight());
 			write( bandName + ".setSplitType({0});\n", JRApiConstants.getSplitType(band.getSplitType()));
 			writeExpression( band.getPrintWhenExpression(), bandName, "PrintWhenExpression");
 
@@ -897,10 +897,10 @@ public class JRApiWriter
 			write( elementName + ".setStretchType({0});\n", JRApiConstants.getStretchType(new Byte(element.getStretchType())), "JRElement.STRETCH_TYPE_NO_STRETCH");
 			write( elementName + ".setPrintRepeatedValues({0});\n", element.isPrintRepeatedValues(),true);
 			write( elementName + ".setMode({0});\n", AbstractEnum.getApi(ModeEnum.class, element.getOwnMode()));
-			write( elementName + ".setX({0});\n", element.getX());
-			write( elementName + ".setY({0});\n", element.getY());
-			write( elementName + ".setWidth({0});\n", element.getWidth());
-			write( elementName + ".setHeight({0});\n", element.getHeight());
+			write( elementName + ".setX({0, number, #});\n", element.getX());
+			write( elementName + ".setY({0, number, #});\n", element.getY());
+			write( elementName + ".setWidth({0, number, #});\n", element.getWidth());
+			write( elementName + ".setHeight({0, number, #});\n", element.getHeight());
 			write( elementName + ".setRemoveLineWhenBlank({0});\n", element.isRemoveLineWhenBlank(), false);
 			write( elementName + ".setPrintInFirstWholeBand({0});\n", element.isPrintInFirstWholeBand(), false);
 			write( elementName + ".setPrintWhenDetailOverflows({0});\n", element.isPrintWhenDetailOverflows(), false);
@@ -977,7 +977,7 @@ public class JRApiWriter
 		if(rectangle != null)
 		{
 			write( "JRDesignRectangle " + rectangleName + " = new JRDesignRectangle(jasperDesign);\n");
-			write( rectangleName + ".setRadius({0});\n", rectangle.getRadius());
+			write( rectangleName + ".setRadius({0, number, #});\n", rectangle.getRadius());
 			writeReportElement( rectangle, rectangleName);
 			writeGraphicElement( rectangle, rectangleName);
 			flush();
@@ -1023,7 +1023,7 @@ public class JRApiWriter
 			}
 			write( imageName + ".setLinkType({0});\n", JRStringUtil.escapeJavaStringLiteral(image.getLinkType()), "JRHyperlinkHelper.HYPERLINK_TYPE_NONE");
 			write( imageName + ".setLinkTarget({0});\n", JRStringUtil.escapeJavaStringLiteral(image.getLinkTarget()), "JRHyperlinkHelper.HYPERLINK_TARGET_SELF");
-			write( imageName + ".setBookmarkLevel({0});\n", image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
+			write( imageName + ".setBookmarkLevel({0, number, #});\n", image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 			
 			writeReportElement( image, imageName);
 			writeBox( image.getLineBox(), imageName + ".getLineBox()");
@@ -1104,7 +1104,7 @@ public class JRApiWriter
 			}
 			
 			write( fontHolderName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(font.getOwnFontName()));
-			write( fontHolderName + ".setFontSize({0});\n", font.getOwnFontSize());
+			write( fontHolderName + ".setFontSize({0, number, #});\n", font.getOwnFontSize());
 			write( fontHolderName + ".setBold({0});\n", font.isOwnBold());
 			write( fontHolderName + ".setItalic({0});\n", font.isOwnItalic());
 			write( fontHolderName + ".setUnderline({0});\n", font.isOwnUnderline());
@@ -1135,7 +1135,7 @@ public class JRApiWriter
 			write( styleName + ".setDefault({0});\n", style.isDefault(), false);
 			write( styleName + ".setMode({0});\n", AbstractEnum.get(ModeEnum.class, style.getOwnMode()));
 			write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnFontName()));
-			write( styleName + ".setFontSize({0});\n", style.getOwnFontSize());
+			write( styleName + ".setFontSize({0, number, #});\n", style.getOwnFontSize());
 			write( styleName + ".setBold({0});\n", style.isOwnBold());
 			write( styleName + ".setItalic({0});\n", style.isOwnItalic());
 			write( styleName + ".setUnderline({0});\n", style.isOwnUnderline());
@@ -1146,7 +1146,7 @@ public class JRApiWriter
 			write( styleName + ".setForecolor({0});\n", getColorText(style.getOwnForecolor()));
 			write( styleName + ".setBackcolor({0});\n", getColorText(style.getOwnBackcolor()));
 			write( styleName + ".setFill({0});\n", JRApiConstants.getFill(style.getOwnFill()));
-			write( styleName + ".setRadius({0});\n", style.getOwnRadius());
+			write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
 			write( styleName + ".setScaleImage({0});\n", JRApiConstants.getScaleImage(style.getOwnScaleImage()));
 			write( styleName + ".setHorizontalAlignment({0});\n", JRApiConstants.getHorizontalAlign(style.getOwnHorizontalAlignment()));
 			write( styleName + ".setVerticalAlignment({0});\n", JRApiConstants.getVerticalAlign(style.getOwnVerticalAlignment()));
@@ -1182,7 +1182,7 @@ public class JRApiWriter
 
 			write( textFieldName + ".setLinkType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getLinkType()), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
 			write( textFieldName + ".setLinkTarget(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getLinkTarget()), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
-			write( textFieldName + ".setBookmarkLevel({0});\n", textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
+			write( textFieldName + ".setBookmarkLevel({0, number, #});\n", textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 			writeReportElement( textField, textFieldName);
 			writeBox( textField.getLineBox(), textFieldName + ".getLineBox()");
@@ -1298,7 +1298,7 @@ public class JRApiWriter
 	
 			write( chartName + ".setLinkType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chart.getLinkType()), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
 			write( chartName + ".setLinkTarget(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chart.getLinkTarget()), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
-			write( chartName + ".setBookmarkLevel({0});\n", chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
+			write( chartName + ".setBookmarkLevel({0, number, #});\n", chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 			if(chart.getCustomizerClass() != null)
 			{
@@ -1720,7 +1720,7 @@ public class JRApiWriter
 		{
 			String datasetName = parentName + datasetNameSuffix;
 			write( "JRDesignPieDataset " + datasetName + " = (JRDesignPieDataset)" + parentName + ".getDataset();\n");
-			write( datasetName + ".setMaxCount(new Integer({0}));\n", dataset.getMaxCount());
+			write( datasetName + ".setMaxCount(new Integer({0, number, #}));\n", dataset.getMaxCount());
 			write( datasetName + ".setMinPercentage(new Float({0}f));\n", dataset.getMinPercentage());
 	
 			writeElementDataset( dataset, datasetName);
@@ -2138,7 +2138,7 @@ public class JRApiWriter
 		{
 			String plotName = chartName + "BubblePlot";
 			write( "JRDesignBubblePlot " + plotName + " = (JRDesignBubblePlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setScaleType({0});\n", plot.getScaleTypeInteger());
+			write( plotName + ".setScaleType({0, number, #});\n", plot.getScaleTypeInteger());
 			writePlot( plot, plotName);
 			
 			writeExpression( plot.getXAxisLabelExpression(), plotName, "XAxisLabelExpression");
@@ -2732,7 +2732,7 @@ public class JRApiWriter
 				
 				write( "JRDesignMeterPlot " + plotName + " = (JRDesignMeterPlot)" + chartName + ".getPlot();\n");
 				write( plotName + ".setShape({0});\n", JRApiConstants.getMeterShape(plot.getShapeByte()));
-				write( plotName + ".setMeterAngle(new Integer({0}));\n", plot.getMeterAngleInteger());
+				write( plotName + ".setMeterAngle(new Integer({0, number, #}));\n", plot.getMeterAngleInteger());
 				
 				write( plotName + ".setUnits(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getUnits()));
 				write( plotName + ".setTickInterval(new Double({0}));\n", plot.getTickIntervalDouble());
@@ -2957,7 +2957,7 @@ public class JRApiWriter
 			write( "JRDesignCrosstab " + crosstabName + " = new JRDesignCrosstab(jasperDesign);\n");
 			write( crosstabName + ".setRepeatColumnHeaders({0});\n", crosstab.isRepeatColumnHeaders(), true);
 			write( crosstabName + ".setRepeatRowHeaders({0});\n", crosstab.isRepeatRowHeaders(), true);
-			write( crosstabName + ".setColumnBreakOffset({0});\n", crosstab.getColumnBreakOffset(), JRCrosstab.DEFAULT_COLUMN_BREAK_OFFSET);
+			write( crosstabName + ".setColumnBreakOffset({0, number, #});\n", crosstab.getColumnBreakOffset(), JRCrosstab.DEFAULT_COLUMN_BREAK_OFFSET);
 			write( crosstabName + ".setRunDirection({0});\n", JRApiConstants.getCrosstabRunDirection(new Byte(crosstab.getRunDirection())), "JRCrosstab.RUN_DIRECTION_LTR");
 			write( crosstabName + ".setIgnoreWidth({0});\n", JRApiConstants.getBooleanText(crosstab.getIgnoreWidth()));
 	
@@ -3096,7 +3096,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignCrosstabRowGroup " + groupName + " = new JRDesignCrosstabRowGroup();\n");
 			write( groupName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(group.getName()));
-			write( groupName + ".setWidth({0});\n", group.getWidth());
+			write( groupName + ".setWidth({0, number, #});\n", group.getWidth());
 			write( groupName + ".setTotalPosition({0});\n", JRApiConstants.getCrosstabTotalPosition(new Byte (group.getTotalPosition())), "BucketDefinition.TOTAL_POSITION_NONE");
 			write( groupName + ".setPosition({0});\n", JRApiConstants.getCrosstabRowPosition(new Byte (group.getPosition())), "JRCellContents.POSITION_Y_TOP");
 	
@@ -3131,7 +3131,7 @@ public class JRApiWriter
 			write( "JRDesignColumnRowGroup " + groupName + " = new JRDesignCrosstabColumnGroup();\n");
 
 			write( groupName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(group.getName()));
-			write( groupName + ".setHeight({0});\n", group.getHeight());
+			write( groupName + ".setHeight({0, number, #});\n", group.getHeight());
 			write( groupName + ".setTotalPosition({0});\n", JRApiConstants.getCrosstabTotalPosition(new Byte (group.getTotalPosition())), "BucketDefinition.TOTAL_POSITION_NONE");
 			write( groupName + ".setPosition({0});\n", JRApiConstants.getCrosstabColumnPosition(new Byte (group.getPosition())), "JRCellContents.POSITION_X_LEFT");
 			
@@ -3208,8 +3208,8 @@ public class JRApiWriter
 		if(cell != null)
 		{
 			write( "JRDesignCrosstabCell " + cellName + " = new JRDesignCrosstabCell();\n");
-			write( cellName + ".setWidth({0});\n", cell.getWidth());
-			write( cellName + ".setHeight({0});\n", cell.getHeight());
+			write( cellName + ".setWidth({0, number, #});\n", cell.getWidth());
+			write( cellName + ".setHeight({0, number, #});\n", cell.getHeight());
 			write( cellName + ".setRowTotalGroup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(cell.getRowTotalGroup()));
 			write( cellName + ".setColumnTotalGroup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(cell.getColumnTotalGroup()));
 		
@@ -3538,7 +3538,7 @@ public class JRApiWriter
 			write( styleName + ".setDefault({0});\n", style.isDefault(), false);
 			write( styleName + ".setMode({0});\n", AbstractEnum.get(ModeEnum.class, style.getOwnMode()));
 			write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnFontName()));
-			write( styleName + ".setFontSize({0});\n", style.getOwnFontSize());
+			write( styleName + ".setFontSize({0, number, #});\n", style.getOwnFontSize());
 			write( styleName + ".setBold({0});\n", style.isOwnBold());
 			write( styleName + ".setItalic({0});\n", style.isOwnItalic());
 			write( styleName + ".setUnderline({0});\n", style.isOwnUnderline());
@@ -3549,7 +3549,7 @@ public class JRApiWriter
 			write( styleName + ".setForecolor({0});\n", getColorText(style.getOwnForecolor()));
 			write( styleName + ".setBackcolor({0});\n", getColorText(style.getOwnBackcolor()));
 			write( styleName + ".setFill({0});\n", JRApiConstants.getFill(style.getOwnFill()));
-			write( styleName + ".setRadius({0});\n", style.getOwnRadius());
+			write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
 			write( styleName + ".setScaleImage({0});\n", JRApiConstants.getScaleImage(style.getOwnScaleImage()));
 			write( styleName + ".setHorizontalAlignment({0});\n", JRApiConstants.getHorizontalAlign(style.getOwnHorizontalAlignment()));
 			write( styleName + ".setVerticalAlignment({0});\n", JRApiConstants.getVerticalAlign(style.getOwnVerticalAlignment()));
@@ -3722,11 +3722,11 @@ public class JRApiWriter
 	{
 		if (box != null)
 		{
-			write( boxHolder + ".setPadding(new Integer({0}));\n", box.getPadding());
-			write( boxHolder + ".setTopPadding(new Integer({0}));\n", box.getTopPadding());
-			write( boxHolder + ".setLeftPadding(new Integer({0}));\n", box.getLeftPadding());
-			write( boxHolder + ".setBottomPadding(new Integer({0}));\n", box.getBottomPadding());
-			write( boxHolder + ".setRightPadding(new Integer({0}));\n", box.getRightPadding());
+			write( boxHolder + ".setPadding(new Integer({0, number, #}));\n", box.getPadding());
+			write( boxHolder + ".setTopPadding(new Integer({0, number, #}));\n", box.getTopPadding());
+			write( boxHolder + ".setLeftPadding(new Integer({0, number, #}));\n", box.getLeftPadding());
+			write( boxHolder + ".setBottomPadding(new Integer({0, number, #}));\n", box.getBottomPadding());
+			write( boxHolder + ".setRightPadding(new Integer({0, number, #}));\n", box.getRightPadding());
 			
 
 			writePen( box.getPen(), boxHolder + ".getPen()");
@@ -3752,7 +3752,7 @@ public class JRApiWriter
 		{
 			String expressionName = parentName +  expressionSuffix;
 			write( "JRDesignExpression " + expressionName + " = new JRDesignExpression();\n");
-			write( expressionName + ".setId({0});\n", expression.getId());
+			write( expressionName + ".setId({0, number, #});\n", expression.getId());
 			write( expressionName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(expression.getText()));
 			write( expressionName + ".setValueClassName(\"{0}\");\n", expression.getValueClassName(), defaultClassName);
 
