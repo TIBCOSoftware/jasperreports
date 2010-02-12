@@ -1721,7 +1721,7 @@ public class JRApiWriter
 			String datasetName = parentName + datasetNameSuffix;
 			write( "JRDesignPieDataset " + datasetName + " = (JRDesignPieDataset)" + parentName + ".getDataset();\n");
 			write( datasetName + ".setMaxCount(new Integer({0, number, #}));\n", dataset.getMaxCount());
-			write( datasetName + ".setMinPercentage(new Float({0}f));\n", dataset.getMinPercentage());
+			write( datasetName + ".setMinPercentage(new Float({0, number, #}f));\n", dataset.getMinPercentage());
 	
 			writeElementDataset( dataset, datasetName);
 	
@@ -1844,7 +1844,7 @@ public class JRApiWriter
 			write( "JRMeterInterval " + meterIntervalName + " = new JRMeterInterval();\n");
 			write( meterIntervalName + ".setLabel(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(interval.getLabel()));
 			write( meterIntervalName + ".setBackgroundColor({0});\n", getColorText(interval.getBackgroundColor()));
-			write( meterIntervalName + ".setAlpha(new Double({0}));\n", interval.getAlphaDouble());
+			write( meterIntervalName + ".setAlpha(new Double({0, number, #}));\n", interval.getAlphaDouble());
 			writeDataRange( interval.getDataRange(), meterIntervalName, "DataRange");
 			write( parentName + ".addInterval(" + meterIntervalName + ");\n");
 			flush();
@@ -1907,8 +1907,8 @@ public class JRApiWriter
 			write( plotName + ".setBackcolor({0});\n", getColorText(plot.getBackcolor()));
 			String orientation = PlotOrientation.HORIZONTAL.equals(plot.getOrientation()) ? "PlotOrientation.HORIZONTAL" : "PlotOrientation.VERTICAL" ; 
 			write( plotName + ".setOrientation(" + orientation + ");\n");
-			write( plotName + ".setBackgroundAlpha(new Float({0}f));\n", plot.getBackgroundAlphaFloat());
-			write( plotName + ".setForegroundAlpha(new Float({0}f));\n", plot.getForegroundAlphaFloat());
+			write( plotName + ".setBackgroundAlpha(new Float({0, number, #}f));\n", plot.getBackgroundAlphaFloat());
+			write( plotName + ".setForegroundAlpha(new Float({0, number, #}f));\n", plot.getForegroundAlphaFloat());
 			writeSeriesColors( plot.getSeriesColors(), plotName);
 			flush();
 		}
@@ -1963,7 +1963,7 @@ public class JRApiWriter
 				write( plotName + ".setCircular({0});\n", JRApiConstants.getBooleanText(plot.getCircular()));
 				write( plotName + ".setLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLabelFormat()));
 				write( plotName + ".setLegendLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLegendLabelFormat()));
-				write( plotName + ".setDepthFactor(new Double({0}));\n", plot.getDepthFactorDouble());
+				write( plotName + ".setDepthFactor(new Double({0, number, #}));\n", plot.getDepthFactorDouble());
 				
 				writePlot( plot, plotName);
 				writeItemLabel( plot.getItemLabel(),plotName, "ItemLabel");
@@ -2007,7 +2007,7 @@ public class JRApiWriter
 		String axisName = parentName + axisNameSuffix;
 		//TODO: instantiate categoryAxis
 //		write( "JRCategoryAxisFormat " + axisName + " = new JRCategoryAxisFormat();\n");
-		write( axisName + ".setCategoryAxisTickLabelRotation(new Double({0}));\n", labelRotation);
+		write( axisName + ".setCategoryAxisTickLabelRotation(new Double({0, number, #}));\n", labelRotation);
 
 		writeAxisFormat(
 			indent,
@@ -2258,8 +2258,8 @@ public class JRApiWriter
 			String plotName = chartName + "Bar3DPlot";
 			write( "JRDesignBar3DPlot " + plotName + " = (JRDesignBar3DPlot)" + chartName + ".getPlot();\n");
 			write( plotName + ".setShowLabels({0});\n", JRApiConstants.getBooleanText(plot.getShowLabels()));
-			write( plotName + ".setXOffset(new Double({0}));\n", plot.getXOffsetDouble());
-			write( plotName + ".setYOffset(new Double({0}));\n", plot.getYOffsetDouble());
+			write( plotName + ".setXOffset(new Double({0, number, #}));\n", plot.getXOffsetDouble());
+			write( plotName + ".setYOffset(new Double({0, number, #}));\n", plot.getYOffsetDouble());
 			writePlot( plot, plotName);
 			
 			writeItemLabel( plot.getItemLabel(), plotName, "ItemLabel");
@@ -2735,7 +2735,7 @@ public class JRApiWriter
 				write( plotName + ".setMeterAngle(new Integer({0, number, #}));\n", plot.getMeterAngleInteger());
 				
 				write( plotName + ".setUnits(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getUnits()));
-				write( plotName + ".setTickInterval(new Double({0}));\n", plot.getTickIntervalDouble());
+				write( plotName + ".setTickInterval(new Double({0, number, #}));\n", plot.getTickIntervalDouble());
 				write( plotName + ".setMeterBackgroundColor({0});\n", getColorText(plot.getMeterBackgroundColor()));
 				write( plotName + ".setNeedleColor({0});\n", getColorText(plot.getNeedleColor()));
 				write( plotName + ".setTickColor({0});\n", getColorText(plot.getTickColor()));
@@ -3708,7 +3708,7 @@ public class JRApiWriter
 	{
 		if(pen != null)
 		{
-			write( penHolder + ".setLineWidth(new Float({0}f));\n", pen.getLineWidth());
+			write( penHolder + ".setLineWidth(new Float({0, number, #}f));\n", pen.getLineWidth());
 			write( penHolder + ".setLineStyle({0});\n", JRApiConstants.getLineStyle(pen.getLineStyle()));
 			write( penHolder + ".setLineColor({0});\n", getColorText(pen.getLineColor()));
 			flush();
