@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
@@ -111,7 +112,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
 	}
 
 	/**

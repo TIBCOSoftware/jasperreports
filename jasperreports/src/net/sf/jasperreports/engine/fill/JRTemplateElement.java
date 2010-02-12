@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -162,7 +163,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, JRElement.MODE_OPAQUE);
+		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE.getValue());
 	}
 		
 	/**

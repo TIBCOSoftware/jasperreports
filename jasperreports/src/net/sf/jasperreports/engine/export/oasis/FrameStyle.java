@@ -28,6 +28,7 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -50,7 +51,7 @@ public class FrameStyle extends BorderStyle
 	{
 		super(styleWriter);
 		
-		if (element.getMode() == JRElement.MODE_OPAQUE)
+		if (element.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			fill = "solid";
 			backcolor = JRColorUtil.getColorHexa(element.getBackcolor());

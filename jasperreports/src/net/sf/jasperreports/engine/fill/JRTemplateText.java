@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -226,7 +227,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, JRElement.MODE_TRANSPARENT);
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
 	}
 		
 	/**

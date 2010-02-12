@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.type.ModeEnum;
 
 
 /**
@@ -60,7 +61,7 @@ public class ImageDrawer extends ElementDrawer
 	{
 		JRPrintImage printImage = (JRPrintImage)element;
 		
-		if (printImage.getMode() == JRElement.MODE_OPAQUE)
+		if (printImage.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			grx.setColor(printImage.getBackcolor());
 

@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -77,7 +78,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
 	}
 
 

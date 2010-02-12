@@ -88,6 +88,7 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -603,7 +604,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 								new JRWrappingSvgRenderer(
 									renderer,
 									new Dimension(image.getWidth(), image.getHeight()),
-									JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
+									ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
 									);
 						}
 	
@@ -1768,7 +1769,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 									new JRWrappingSvgRenderer(
 										renderer,
 										new Dimension(image.getWidth(), image.getHeight()),
-										JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
+										ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
 										);
 							}
 							imageNameToImageDataMap.put(imageName, renderer.getImageData());

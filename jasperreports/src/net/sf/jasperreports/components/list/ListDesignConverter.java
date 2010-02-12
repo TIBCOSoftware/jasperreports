@@ -30,13 +30,13 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.component.ComponentDesignConverter;
 import net.sf.jasperreports.engine.convert.ConvertVisitor;
 import net.sf.jasperreports.engine.convert.ReportConverter;
+import net.sf.jasperreports.engine.type.ModeEnum;
 
 /**
  * List preview converter.
@@ -69,7 +69,7 @@ public class ListDesignConverter implements ComponentDesignConverter
 			contentsFrame.setY(0);
 			contentsFrame.setWidth(element.getWidth());			
 			contentsFrame.setHeight(contents.getHeight());
-			contentsFrame.setMode(JRElement.MODE_TRANSPARENT);
+			contentsFrame.setMode(ModeEnum.TRANSPARENT.getValue());
 			
 			List children = contents.getChildren();
 			if (children != null)
@@ -100,7 +100,7 @@ public class ListDesignConverter implements ComponentDesignConverter
 				image.setWidth(element.getWidth());
 				image.setY(0);
 				image.setHeight(element.getHeight());
-				image.setMode(JRElement.MODE_TRANSPARENT);
+				image.setMode(ModeEnum.TRANSPARENT.getValue());
 				
 				// clip out the list contents area
 				Area clip = new Area(new Rectangle(

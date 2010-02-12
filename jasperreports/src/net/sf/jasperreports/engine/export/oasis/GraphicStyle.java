@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -58,7 +59,7 @@ public class GraphicStyle extends Style
 	{
 		super(styleWriter);
 
-		if (element.getMode() == JRElement.MODE_OPAQUE)
+		if (element.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			//fill = "solid";
 			backcolor = JRColorUtil.getColorHexa(element.getBackcolor());

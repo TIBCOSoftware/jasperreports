@@ -27,7 +27,7 @@
  *
  * Contributors:
  * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
+ * Frank Schï¿½nheit - Frank.Schoenheit@Sun.COM
  */
 package net.sf.jasperreports.engine.export.oasis;
 
@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -365,7 +366,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 						new JRWrappingSvgRenderer(
 							renderer,
 							new Dimension(image.getWidth(), image.getHeight()),
-							JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
+							ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
 							);
 				}
 
@@ -900,7 +901,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		boolean appendBackcolor =
-			frame.getMode() == JRElement.MODE_OPAQUE
+			frame.getMode() == ModeEnum.OPAQUE.getValue()
 			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
 
 		if (appendBackcolor)

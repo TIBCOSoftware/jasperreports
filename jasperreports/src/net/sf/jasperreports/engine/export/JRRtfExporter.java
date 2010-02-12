@@ -79,6 +79,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -474,7 +475,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		Color bgcolor = element.getBackcolor();
 
-		if (element.getMode() == JRElement.MODE_OPAQUE)
+		if (element.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			writer.write("{\\sp{\\sn fFilled}{\\sv 1}}");
 			writer.write("{\\sp{\\sn fillColor}{\\sv ");
@@ -1039,7 +1040,7 @@ public class JRRtfExporter extends JRAbstractExporter
 					new JRWrappingSvgRenderer(
 						renderer,
 						new Dimension(printImage.getWidth(), printImage.getHeight()),
-						JRElement.MODE_OPAQUE == printImage.getMode() ? printImage.getBackcolor() : null
+						ModeEnum.OPAQUE.getValue() == printImage.getMode() ? printImage.getBackcolor() : null
 						);
 			}
 

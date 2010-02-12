@@ -79,6 +79,7 @@ import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -381,7 +382,7 @@ public class JRDocxExporter extends JRAbstractExporter
 						new JRWrappingSvgRenderer(
 							renderer,
 							new Dimension(image.getWidth(), image.getHeight()),
-							JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
+							ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
 							);
 				}
 
@@ -1148,7 +1149,7 @@ public class JRDocxExporter extends JRAbstractExporter
 //		tableHelper.getCellHelper().exportProps(gridCell);
 
 		boolean appendBackcolor =
-			frame.getMode() == JRElement.MODE_OPAQUE
+			frame.getMode() == ModeEnum.OPAQUE.getValue()
 			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
 
 		if (appendBackcolor)

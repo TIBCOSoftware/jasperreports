@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRCommonImage;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
@@ -43,6 +42,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBasePen;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -196,7 +196,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, JRElement.MODE_TRANSPARENT);
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
 	}
 		
 	/**

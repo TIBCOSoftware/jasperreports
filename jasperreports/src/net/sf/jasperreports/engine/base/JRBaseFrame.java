@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -106,7 +107,7 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame //FIXMECLONE w
 	
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
 	}
 
 

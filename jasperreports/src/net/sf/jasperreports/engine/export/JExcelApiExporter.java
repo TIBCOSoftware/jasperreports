@@ -107,6 +107,7 @@ import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -1008,7 +1009,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				background = getWorkbookColour(gridCell.getCellBackcolor(), true);
 			}
 
-			if(element.getMode() == JRElement.MODE_OPAQUE )
+			if(element.getMode() == ModeEnum.OPAQUE.getValue() )
 			{
 				background = getWorkbookColour(element.getBackcolor(), true);
 			}
@@ -1886,7 +1887,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		Colour backcolor = WHITE;
 		Pattern mode = backgroundMode;
 
-		if (frame.getMode() == JRElement.MODE_OPAQUE)
+		if (frame.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			mode = Pattern.SOLID;
 			backcolor = getWorkbookColour(frame.getBackcolor(), true);

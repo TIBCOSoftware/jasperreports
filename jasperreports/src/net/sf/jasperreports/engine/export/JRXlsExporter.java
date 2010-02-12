@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -1185,7 +1186,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 				short forecolor = getNearestColor(element.getLineBox().getPen().getLineColor()).getIndex();
 
-				if(element.getMode() == JRElement.MODE_OPAQUE ){
+				if(element.getMode() == ModeEnum.OPAQUE.getValue() ){
 					backcolor = getNearestColor(element.getBackcolor()).getIndex();
 				}
 
@@ -1231,7 +1232,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		if (frame.getMode() == JRElement.MODE_OPAQUE)
+		if (frame.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getNearestColor(frame.getBackcolor()).getIndex();

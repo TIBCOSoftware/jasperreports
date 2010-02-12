@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -130,7 +131,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, JRElement.MODE_TRANSPARENT);
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
 	}
 
 	/**
@@ -788,7 +789,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			//JRFontUtil.getAttributes(styledTextAttributes, this, filler.getLocale());
 			JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, this);
 			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
-			if (getMode() == JRElement.MODE_OPAQUE)
+			if (getMode() == ModeEnum.OPAQUE.getValue())
 			{
 				styledTextAttributes.put(TextAttribute.BACKGROUND, getBackcolor());
 			}

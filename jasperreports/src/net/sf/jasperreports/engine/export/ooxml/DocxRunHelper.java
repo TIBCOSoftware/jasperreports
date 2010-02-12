@@ -32,12 +32,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -107,7 +107,7 @@ public class DocxRunHelper extends BaseHelper
 		Map styledTextAttributes = new HashMap(); 
 		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (style.getMode() == null || style.getMode().byteValue() == JRElement.MODE_OPAQUE)
+		if (style.getMode() == null || style.getMode().byteValue() == ModeEnum.OPAQUE.getValue())
 		{
 			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getBackcolor());
 		}
@@ -243,7 +243,7 @@ public class DocxRunHelper extends BaseHelper
 		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
 		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (text.getMode() == JRElement.MODE_OPAQUE)
+		if (text.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			styledTextAttributes.put(TextAttribute.BACKGROUND, text.getBackcolor());
 		}

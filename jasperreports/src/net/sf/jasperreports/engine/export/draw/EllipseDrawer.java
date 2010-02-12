@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
@@ -61,7 +62,7 @@ public class EllipseDrawer extends ElementDrawer
 		int width = ellipse.getWidth();
 		int height = ellipse.getHeight();
 		
-		if (ellipse.getMode() == JRElement.MODE_OPAQUE)
+		if (ellipse.getMode() == ModeEnum.OPAQUE.getValue())
 		{
 			grx.setColor(ellipse.getBackcolor());
 			grx.fillOval(
