@@ -94,14 +94,6 @@ public interface JRGraphicElement extends JRElement, JRCommonGraphicElement
 	 * @deprecated Replaced by {@link #getLinePen()}
 	 */
 	public void setPen(Byte pen);
-
-	/**
-	 * Sets the fill type used for this element.
-	 * @param fill one of the pen constants in this class
-	 */
-	public void setFill(byte fill);
-	
-	public void setFill(Byte fill);
 	
 
 }

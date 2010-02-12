@@ -39,4 +39,12 @@ public interface JRCommonImage extends JRCommonGraphicElement, JRBoxContainer
 
 	public Byte getOwnScaleImage();
 
+	/**
+	 * Sets the image scale type.
+	 * @param scaleImage one of the scale constants in this class
+	 */
+	public void setScaleImage(byte scaleImage);
+
+	public void setScaleImage(Byte scaleImage);
+
 }

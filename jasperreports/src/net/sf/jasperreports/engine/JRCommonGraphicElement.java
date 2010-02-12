@@ -47,4 +47,12 @@ public interface JRCommonGraphicElement extends JRCommonElement, JRPenContainer
 
 	public Byte getOwnFill();
 	
+	/**
+	 * Sets the fill type used for this element.
+	 * @param fill one of the pen constants in this class
+	 */
+	public void setFill(byte fill);
+	
+	public void setFill(Byte fill);
+
 }

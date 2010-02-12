@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import java.awt.Color;
 
 
 /**
@@ -134,13 +133,6 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 
 
 	/**
-	 * Sets the element transparency mode.
-	 */
-	public void setMode(byte mode);//FIXMENOW move these setters to the JRCommonElement too?
-	
-	public void setMode(Byte mode);
-	
-	/**
 	 * Gets the the section relative horizontal offset of the element top left corner.
 	 */
 	public int getX();
@@ -158,17 +150,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	/**
 	 *
 	 */
-	public int getWidth();
-	
-	/**
-	 *
-	 */
 	public void setWidth(int width);
-	
-	/**
-	 *
-	 */
-	public int getHeight();
 	
 	/**
 	 * Returns true if the remaining blank space appearing when the value is not printed will be removed. Under certain
@@ -213,16 +195,6 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	 * those elements that fitted in the current page and have <i>isPrintWhenDetailOverflow</i> set to false.
 	 */
 	public void setPrintWhenDetailOverflows(boolean isPrintWhenDetailOverflows);
-	
-	/**
-	 *
-	 */
-	public void setForecolor(Color forecolor);
-	
-	/**
-	 *
-	 */
-	public void setBackcolor(Color backcolor);
 	
 	/**
 	 * Gets the the expression that is evaluated in order to decide if the element should be displayed. The print

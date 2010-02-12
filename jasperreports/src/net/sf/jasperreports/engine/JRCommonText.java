@@ -36,10 +36,6 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer
 	public static final String MARKUP_HTML = "html";
 	public static final String MARKUP_RTF = "rtf";
 
-	int getWidth();
-	
-	int getHeight();
-	
 	/**
 	 * Gets the text rotation.
 	 * @return a value representing one of the rotation constants in this class
@@ -47,6 +43,14 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer
 	byte getRotation();
 	
 	public Byte getOwnRotation();
+	
+	/**
+	 * Sets the text rotation.
+	 * @param rotation a value representing one of the rotation constants in this class
+	 */
+	public void setRotation(byte rotation);
+		
+	public void setRotation(Byte rotation);
 
 	/**
 	 * Gets the line spacing.
@@ -55,6 +59,14 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer
 	byte getLineSpacing();
 
 	public Byte getOwnLineSpacing();
+
+	/**
+	 * Sets the line spacing.
+	 * @param lineSpacing a value representing one of the line spacing constants in this class
+	 */
+	public void setLineSpacing(byte lineSpacing);
+		
+	public void setLineSpacing(Byte lineSpacing);
 	
 	/**
 	 * Returns true if the text can contain style tags.
@@ -70,10 +82,12 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer
 	/**
 	 * Returns the text markup.
 	 */
-	String getMarkup();
+	public String getMarkup();
 
 	public String getOwnMarkup();
 	
+	public void setMarkup(String markup);
+
 	int getFontSize();
 	
 }

@@ -36,6 +36,10 @@ import java.awt.Color;
 public interface JRCommonElement extends JRStyleContainer
 {
 
+	public int getWidth();
+	
+	public int getHeight();
+	
 	/**
 	 * Returns the string value that uniquely identifies the element.
 	 */
@@ -53,6 +57,13 @@ public interface JRCommonElement extends JRStyleContainer
 	public Byte getOwnMode();
 
 	/**
+	 * Sets the element transparency mode.
+	 */
+	public void setMode(byte mode);
+	
+	public void setMode(Byte mode);
+	
+	/**
 	 *
 	 */
 	public Color getForecolor();
@@ -62,6 +73,12 @@ public interface JRCommonElement extends JRStyleContainer
 	 */
 	public Color getOwnForecolor();
 
+	
+	/**
+	 *
+	 */
+	public void setForecolor(Color forecolor);
+	
 	/**
 	 *
 	 */
@@ -72,4 +89,9 @@ public interface JRCommonElement extends JRStyleContainer
 	 */
 	public Color getOwnBackcolor();
 	
+	/**
+	 *
+	 */
+	public void setBackcolor(Color backcolor);
+
 }

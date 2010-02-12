@@ -32,14 +32,4 @@ package net.sf.jasperreports.engine;
  */
 public interface JRRectangle extends JRGraphicElement, JRCommonRectangle
 {
-
-	
-	/**
-	 * Sets the corner radius for rectangles with round corners.
-	 */
-	public void setRadius(int radius);
-
-	public void setRadius(Integer radius);
-
-	
 }

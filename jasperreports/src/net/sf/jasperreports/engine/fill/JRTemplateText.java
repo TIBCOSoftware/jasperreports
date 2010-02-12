@@ -32,14 +32,12 @@ import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRReportFont;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
@@ -206,22 +204,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		return null;
 	}
 	
-	/**
-	 *
-	 */
-	public int getWidth()
-	{
-		throw new JRRuntimeException("This method should never be called.");//FIXMENOW make a constant
-	}
-		
-	/**
-	 *
-	 */
-	public int getHeight()
-	{
-		throw new JRRuntimeException("This method should never be called.");
-	}
-		
 	/**
 	 *
 	 */

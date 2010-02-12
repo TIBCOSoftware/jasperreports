@@ -190,26 +190,14 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	public void setTextAlignment(byte horizontalAlignment);
 
 	/**
-	 * Sets the text rotation.
-	 * @param rotation a value representing one of the rotation constants in this class
-	 */
-	public void setRotation(byte rotation);
-		
-	public void setRotation(Byte rotation);
-
-	/**
-	 * Sets the line spacing.
-	 * @param lineSpacing a value representing one of the line spacing constants in this class
-	 */
-	public void setLineSpacing(byte lineSpacing);
-		
-	public void setLineSpacing(Byte lineSpacing);
-
-	/**
 	 * Specifies whether the text can contain style tags.
+	 * @deprecated Replaced by {@link #setMarkup(String)}.
 	 */
 	public void setStyledText(boolean isStyledText);
 		
+	/**
+	 * @deprecated Replaced by {@link #setMarkup(String)}.
+	 */
 	public void setStyledText(Boolean isStyledText);
 	
 	/**
