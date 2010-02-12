@@ -3757,19 +3757,6 @@ public class JRApiWriter
 			write( expressionName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(expression.getText()));
 			write( expressionName + ".setValueClassName(\"{0}\");\n", expression.getValueClassName(), defaultClassName);
 
-//			JRExpressionChunk[] chunks = expression.getChunks();
-//			if(chunks != null && chunks.length >0)
-//			{
-//				String chunksName = "chunks_" + expressionName;
-//				write( "JRDesignExpressionChunk[] " + chunksName + " = new JRDesignExpressionChunk[" + chunks.length + "];\n");
-//				for(int i=0; i<chunks.length; i++)
-//				{
-//					write( chunksName + "[" + i + "] = new JRDesignExpressionChunk();\n");
-//					write( chunksName + "[" + i + "].setType({0});\n", JRApiConstants.getChunkType(new Byte (chunks[i].getType())) );
-//					write( chunksName + "[" + i + "].setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chunks[i].getText()));
-//					write( expressionName + ".addChunk(" +chunksName + "[" + i + "]);\n");
-//				}
-//			}
 			write( parentName + ".set" + expressionSuffix + "(" + expressionName + ");\n");
 			
 			flush();
