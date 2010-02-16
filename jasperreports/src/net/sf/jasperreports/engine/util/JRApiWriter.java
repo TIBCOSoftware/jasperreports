@@ -664,7 +664,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignQuery " + queryName + " = new JRDesignQuery();\n");
 			write( queryName + ".setLanguage(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getLanguage()), JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL);
-			write( queryName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getText()));
+			write( queryName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getText().replaceAll("\n", "\\n")));
 			flush();
 		}
 	}
@@ -738,7 +738,7 @@ public class JRApiWriter
 		
 		groupsMap.put(groupName, groupName);
 
-		write( "JRDesignGroup " + groupName + "ResetGroup = new JRDesignGroup();\n");
+		write( "JRDesignGroup " + groupName + " = new JRDesignGroup();\n");
 		write( groupName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(groupName) + "\");\n");
 		write( groupName + ".setStartNewColumn({0});\n", group.isStartNewColumn(), false);
 		write( groupName + ".setStartNewPage({0});\n", group.isStartNewPage(), false);
@@ -3315,6 +3315,7 @@ public class JRApiWriter
 		if(dataset.getQuery() != null)
 		{
 			writeQuery( dataset.getQuery(), datasetName + "Query");
+			write( datasetName +".setQuery(" + datasetName + "Query);\n");
 		}
 
 		JRField[] fields = dataset.getFields();
