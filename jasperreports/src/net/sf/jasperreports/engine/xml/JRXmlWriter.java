@@ -761,7 +761,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_positionType, element.getPositionType(), JRXmlConstants.getPositionTypeMap(), JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_stretchType, element.getStretchType(), JRXmlConstants.getStretchTypeMap(), JRElement.STRETCH_TYPE_NO_STRETCH);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPrintRepeatedValues, element.isPrintRepeatedValues(), true);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mode, element.getOwnMode(), ModeEnum.class);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mode, element.getOwnModeValue());
 
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_x, element.getX());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_y, element.getY());
@@ -855,8 +855,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_image, getNamespace());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalAlignment(), HorizontalAlignEnum.class);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalAlignment(), VerticalAlignEnum.class);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, HorizontalAlignEnum.getByValue(image.getOwnHorizontalAlignment()));
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, VerticalAlignEnum.getByValue(image.getOwnVerticalAlignment()));
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUsingCache, image.isOwnUsingCache());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isLazy, image.isLazy(), false);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorType(), JRXmlConstants.getOnErrorTypeMap(), JRImage.ON_ERROR_TYPE_ERROR);
@@ -912,8 +912,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeTextElement(JRTextElement textElement) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_textElement);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, textElement.getOwnHorizontalAlignment(), HorizontalAlignEnum.class);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, textElement.getOwnVerticalAlignment(), VerticalAlignEnum.class);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, HorizontalAlignEnum.getByValue(textElement.getOwnHorizontalAlignment()));
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, VerticalAlignEnum.getByValue(textElement.getOwnVerticalAlignment()));
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, textElement.getOwnRotation(), JRXmlConstants.getRotationMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, textElement.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_markup, textElement.getOwnMarkup());
@@ -2722,7 +2722,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			writer.startElement(JRCellContentsFactory.ELEMENT_cellContents);
 			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_backcolor, contents.getBackcolor());
-			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_mode, contents.getMode(), ModeEnum.class);
+			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_mode, ModeEnum.getByValue(contents.getMode()));
 			writeStyleReferenceAttr(contents);
 
 			writeBox(contents.getLineBox());

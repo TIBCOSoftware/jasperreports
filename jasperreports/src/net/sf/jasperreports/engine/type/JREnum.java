@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
+import java.io.Serializable;
 
 
 
@@ -31,87 +31,22 @@ import net.sf.jasperreports.engine.JRConstants;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JasperCompileManager.java 3033 2009-08-27 11:46:22Z teodord $
  */
-public enum ModeEnum implements JREnum
+public interface JREnum extends Serializable
 {
-	/**
-	 * Specifies that the element is opaque.
-	 */ 
-	OPAQUE((byte)1, "Opaque"),
-	
-	/**
-	 * Specifies that the element is transparent.
-	 */ 
-	TRANSPARENT((byte)2, "Transparent");
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
-	private final transient String name;
-
-	private ModeEnum(byte value, String name)
-	{
-		this.value = value;
-		this.name = name;
-	}
-
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
+	public Byte getValueByte();
 	
 	/**
 	 *
 	 */
-	public final byte getValue()
-	{
-		return value;
-	}
+	public byte getValue();
 	
 	/**
 	 *
 	 */
-	public String getName()
-	{
-		return name;
-	}
-	
-	/**
-	 *
-	 */
-	public static ModeEnum getByName(String name)
-	{
-		return (ModeEnum)EnumUtil.getByName(values(), name);
-	}
-	
-	/**
-	 *
-	 */
-	public static ModeEnum getByValue(Byte value)
-	{
-		if (value != null)
-		{
-			for(ModeEnum e:values())
-			{
-				if (value.equals(e.getValueByte()))
-				{
-					return e;
-				}
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 *
-	 */
-	public static ModeEnum getByValue(byte value)
-	{
-		return (ModeEnum)getByValue(new Byte(value));
-	}
+	public String getName();
 	
 }

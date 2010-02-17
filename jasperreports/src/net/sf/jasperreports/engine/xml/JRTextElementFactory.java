@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
-import net.sf.jasperreports.engine.type.AbstractEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
@@ -48,13 +47,13 @@ public class JRTextElementFactory extends JRBaseFactory
 	{
 		JRDesignTextElement textElement = (JRDesignTextElement)digester.peek();
 
-		AbstractEnum horizontalAlignment = AbstractEnum.get(HorizontalAlignEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_textAlignment));
+		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
 		{
 			textElement.setHorizontalAlignment(horizontalAlignment.getValueByte());
 		}
 
-		AbstractEnum verticalAlignment = AbstractEnum.get(VerticalAlignEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_verticalAlignment));
+		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_verticalAlignment));
 		if (verticalAlignment != null)
 		{
 			textElement.setVerticalAlignment(verticalAlignment.getValueByte());

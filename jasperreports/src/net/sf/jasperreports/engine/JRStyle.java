@@ -25,6 +25,9 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
@@ -64,15 +67,24 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public boolean isDefault();
 
 	/**
+	 * @deprecated Replaced by {@link #getModeValue()}.
+	 */
+	public Byte getMode();
+
+	/**
+	 * @deprecated Replaced by {@link #getOwnModeValue()}.
+	 */
+	public Byte getOwnMode();
+
+	/**
 	 * Returns the element transparency mode.
 	 * The default value depends on the type of the report element. Graphic elements like rectangles and lines are
 	 * opaque by default, but the images are transparent. Both static texts and text fields are transparent
 	 * by default, and so are the subreport elements.
-	 * @return MODE_OPAQUE or MODE_TRANSPARENT
 	 */
-	public Byte getMode();
+	public ModeEnum getModeValue();
 
-	public Byte getOwnMode();
+	public ModeEnum getOwnModeValue();
 
 	public Color getForecolor();
 
@@ -123,20 +135,40 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public Byte getOwnScaleImage();
 
 	/**
-	 * Gets the horizontal alignment of the element.
-	 * @return one of the alignment values defined in {@link JRAlignment}
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
 	 */
 	public Byte getHorizontalAlignment();
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
+	 */
 	public Byte getOwnHorizontalAlignment();
+
+	/**
+	 * Gets the horizontal alignment of the element.
+	 * @return one of the alignment values defined in {@link HorizontalAlignEnum}
+	 */
+	public HorizontalAlignEnum getHorizontalAlignmentValue();
+
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue();
+
+	/**
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
+	 */
+	public Byte getVerticalAlignment();
+
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
+	 */
+	public Byte getOwnVerticalAlignment();
 
 	/**
 	 * Gets the vertical alignment of the element.
 	 * @return one of the alignment values defined in {@link JRAlignment}
 	 */
-	public Byte getVerticalAlignment();
+	public VerticalAlignEnum getVerticalAlignmentValue();
 
-	public Byte getOwnVerticalAlignment();
+	public VerticalAlignEnum getOwnVerticalAlignmentValue();
 
 	/**
 	 * 

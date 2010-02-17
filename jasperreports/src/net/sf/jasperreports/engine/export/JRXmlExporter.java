@@ -48,7 +48,6 @@ import java.util.Set;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
@@ -544,14 +543,14 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 		}
 	
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_mode, style.getOwnMode(), ModeEnum.class);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_mode, style.getOwnModeValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, style.getOwnForecolor());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, style.getOwnBackcolor());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_fill, style.getOwnFill(), JRXmlConstants.getFillMap());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_radius, style.getOwnRadius());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignment(), HorizontalAlignEnum.class);
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignment(), VerticalAlignEnum.class);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, HorizontalAlignEnum.getByValue(style.getOwnHorizontalAlignment()));
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, VerticalAlignEnum.getByValue(style.getOwnVerticalAlignment()));
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotation(), JRXmlConstants.getRotationMap());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, style.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_markup, style.getOwnMarkup());
@@ -684,7 +683,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		{
 			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, style.getName());
 		}
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_mode, element.getOwnMode(), ModeEnum.class);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_mode, element.getOwnModeValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_x, element.getX() + getOffsetX());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_y, element.getY() + getOffsetY());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_width, element.getWidth());
@@ -780,8 +779,8 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_image);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalAlignment(), HorizontalAlignEnum.class);
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalAlignment(), VerticalAlignEnum.class);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, HorizontalAlignEnum.getByValue(image.getOwnHorizontalAlignment()));
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, VerticalAlignEnum.getByValue(image.getOwnVerticalAlignment()));
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isLazy, image.isLazy(), false);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorType(), JRXmlConstants.getOnErrorTypeMap(), JRImage.ON_ERROR_TYPE_ERROR);
 		
@@ -887,8 +886,8 @@ public class JRXmlExporter extends JRAbstractExporter
 	public void exportText(JRPrintText text) throws IOException
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_text);
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, text.getOwnHorizontalAlignment(), HorizontalAlignEnum.class);
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, text.getOwnVerticalAlignment(), VerticalAlignEnum.class);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, HorizontalAlignEnum.getByValue(text.getOwnHorizontalAlignment()));
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, VerticalAlignEnum.getByValue(text.getOwnVerticalAlignment()));
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_textHeight, text.getTextHeight());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, text.getOwnRotation(), JRXmlConstants.getRotationMap());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_runDirection, text.getRunDirection(), JRXmlConstants.getRunDirectionMap(), JRPrintText.RUN_DIRECTION_LTR);

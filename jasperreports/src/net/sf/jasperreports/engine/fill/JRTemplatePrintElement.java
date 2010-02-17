@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.type.ModeEnum;
 
 
 /**
@@ -116,32 +117,55 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getModeValue()}.
 	 */
 	public byte getMode()
 	{
-		return this.template.getMode();
+		return getModeValue().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getOwnModeValue()}.
+	 */
+	public Byte getOwnMode()
+	{
+		return getOwnModeValue() == null ? null : getOwnModeValue().getValueByte();
+	}
+
+	/**
+	 *
+	 */
+	public ModeEnum getModeValue()
+	{
+		return this.template.getModeValue();
 	}
 	
 	/**
 	 *
 	 */
-	public Byte getOwnMode()
+	public ModeEnum getOwnModeValue()
 	{
-		return this.template.getOwnMode();
+		return this.template.getOwnModeValue();
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
 	 */
 	public void setMode(byte mode)
 	{
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
 	 */
 	public void setMode(Byte mode)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public void setMode(ModeEnum modeValue)
 	{
 	}
 	

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
-import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 
@@ -69,14 +68,14 @@ public abstract class JRXmlBaseWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, style.getName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, style.isDefault());
 		writeStyleReferenceAttr(style);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mode, style.getOwnMode(), ModeEnum.class);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mode, style.getOwnModeValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, style.getOwnForecolor());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, style.getOwnBackcolor());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_fill, style.getOwnFill(), JRXmlConstants.getFillMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_radius, style.getOwnRadius());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignment(), HorizontalAlignEnum.class);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignment(), VerticalAlignEnum.class);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, HorizontalAlignEnum.getByValue(style.getOwnHorizontalAlignment()));
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, VerticalAlignEnum.getByValue(style.getOwnVerticalAlignment()));
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotation(), JRXmlConstants.getRotationMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, style.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_markup, style.getOwnMarkup());

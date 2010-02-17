@@ -56,7 +56,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 	{
 		this.parentStyle = parentStyle;
 
-		mode = style.getOwnMode();
+		modeValue = style.getOwnModeValue();
 		forecolor = style.getOwnForecolor();
 		backcolor = style.getOwnBackcolor();
 
@@ -66,8 +66,8 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 		radius = style.getOwnRadius();
 
 		scaleImage = style.getOwnScaleImage();
-		horizontalAlignment = style.getOwnHorizontalAlignment();
-		verticalAlignment = style.getOwnVerticalAlignment();
+		horizontalAlignmentValue = style.getOwnHorizontalAlignmentValue();
+		verticalAlignmentValue = style.getOwnVerticalAlignmentValue();
 
 		lineBox = style.getLineBox().clone(this);
 

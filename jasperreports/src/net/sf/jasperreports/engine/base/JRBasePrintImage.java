@@ -40,7 +40,9 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -66,8 +68,8 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected JRRenderable renderer = null;
 	protected Byte scaleImage = null;
 	protected Boolean isUsingCache = Boolean.TRUE;
-	protected Byte horizontalAlignment = null;
-	protected Byte verticalAlignment = null;
+	protected HorizontalAlignEnum horizontalAlignmentValue = null;
+	protected VerticalAlignEnum verticalAlignmentValue = null;
 	protected boolean isLazy = false;
 	protected byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
 	protected JRLineBox lineBox = null;
@@ -101,9 +103,9 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 *
 	 */
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 		
 	/**
@@ -171,67 +173,115 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
 	 */
 	public byte getHorizontalAlignment()
 	{
-		return JRStyleResolver.getHorizontalAlignment(this);
+		return getHorizontalAlignmentValue().getValue();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
 	 */
 	public Byte getOwnHorizontalAlignment()
 	{
-		return horizontalAlignment;
+		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
 	}
 		
 	/**
 	 *
+	 */
+	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	{
+		return JRStyleResolver.getHorizontalAlignmentValue(this);
+	}
+		
+	/**
+	 *
+	 */
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	{
+		return horizontalAlignmentValue;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
-		this.horizontalAlignment = new Byte(horizontalAlignment);
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
-		this.horizontalAlignment = horizontalAlignment;
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
 	}
 
 	/**
 	 *
+	 */
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
+	{
+		this.horizontalAlignmentValue = horizontalAlignmentValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
 	 */
 	public byte getVerticalAlignment()
 	{
-		return JRStyleResolver.getVerticalAlignment(this);
+		return getVerticalAlignmentValue().getValue();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
 	 */
 	public Byte getOwnVerticalAlignment()
 	{
-		return verticalAlignment;
+		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 		
 	/**
 	 *
 	 */
+	public VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return JRStyleResolver.getVerticalAlignmentValue(this);
+	}
+		
+	/**
+	 *
+	 */
+	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return verticalAlignmentValue;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
-		this.verticalAlignment = new Byte(verticalAlignment);
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment)
+	{
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
 	}
 
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
 	{
-		this.verticalAlignment = verticalAlignment;
+		this.verticalAlignmentValue = verticalAlignmentValue;
 	}
 
 	/**
@@ -950,6 +1000,9 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte horizontalAlignment = null;
+	private Byte verticalAlignment = null;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -972,6 +1025,15 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	{
 		in.defaultReadObject();
 
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
+			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+
+			horizontalAlignment = null;
+			verticalAlignment = null;
+		}
+		
 		if (lineBox == null)
 		{
 			lineBox = new JRBaseLineBox(this);

@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.engine.type.ModeEnum;
+
 
 /**
  * An abstract representation of a report element. All report elements implement this interface. The interface contains
@@ -46,22 +48,39 @@ public interface JRCommonElement extends JRStyleContainer
 	public String getKey();
 
 	/**
+	 * @deprecated Replaced by {@link #getModeValue()}.
+	 */
+	public byte getMode();
+	
+	/**
+	 * @deprecated Replaced by {@link #getOwnModeValue()}.
+	 */
+	public Byte getOwnMode();
+	
+	/**
 	 * Returns the element transparency mode.
 	 * The default value depends on the type of the report element. Graphic elements like rectangles and lines are
 	 * opaque by default, but the images are transparent. Both static texts and text fields are transparent
 	 * by default, and so are the subreport elements.
-	 * @return MODE_OPAQUE or MODE_TRANSPARENT
 	 */
-	public byte getMode();
+	public ModeEnum getModeValue();
 	
-	public Byte getOwnMode();
+	public ModeEnum getOwnModeValue();
 
 	/**
-	 * Sets the element transparency mode.
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
 	 */
 	public void setMode(byte mode);
 	
+	/**
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
+	 */
 	public void setMode(Byte mode);
+	
+	/**
+	 * Sets the element transparency mode.
+	 */
+	public void setMode(ModeEnum mode);
 	
 	/**
 	 *

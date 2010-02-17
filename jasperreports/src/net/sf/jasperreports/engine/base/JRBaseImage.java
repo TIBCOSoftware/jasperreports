@@ -40,7 +40,9 @@ import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -76,8 +78,8 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 *
 	 */
 	protected Byte scaleImage;
-	protected Byte horizontalAlignment;
-	protected Byte verticalAlignment;
+	protected HorizontalAlignEnum horizontalAlignmentValue;
+	protected VerticalAlignEnum verticalAlignmentValue;
 	protected Boolean isUsingCache = null;
 	protected boolean isLazy = false;
 	protected byte onErrorType = ON_ERROR_TYPE_ERROR;
@@ -130,8 +132,8 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		super(image, factory);
 		
 		scaleImage = image.getOwnScaleImage();
-		horizontalAlignment = image.getOwnHorizontalAlignment();
-		verticalAlignment = image.getOwnVerticalAlignment();
+		horizontalAlignmentValue = image.getOwnHorizontalAlignmentValue();
+		verticalAlignmentValue = image.getOwnVerticalAlignmentValue();
 		isUsingCache = image.isOwnUsingCache();
 		isLazy = image.isLazy();
 		onErrorType = image.getOnErrorType();
@@ -193,34 +195,58 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
 	 */
 	public byte getHorizontalAlignment()
 	{
-		return JRStyleResolver.getHorizontalAlignment(this);
+		return getHorizontalAlignmentValue().getValue();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
+	 */
 	public Byte getOwnHorizontalAlignment()
 	{
-		return horizontalAlignment;
+		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
 	}
 
 	/**
 	 *
 	 */
+	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	{
+		return JRStyleResolver.getHorizontalAlignmentValue(this);
+	}
+
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	{
+		return horizontalAlignmentValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
+	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
-		setHorizontalAlignment(new Byte(horizontalAlignment));
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
+	 */
+	public void setHorizontalAlignment(Byte horizontalAlignment)
+	{
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
 	}
 		
 	/**
 	 *
 	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment)
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
 	{
-		Object old = this.horizontalAlignment;
-		this.horizontalAlignment = horizontalAlignment;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignment);
+		Object old = this.horizontalAlignmentValue;
+		this.horizontalAlignmentValue = horizontalAlignmentValue;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignmentValue);
 	}
 		
 	/**
@@ -234,6 +260,19 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	public Byte getOwnVerticalAlignment()
 	{
 		return verticalAlignment;
+	}
+
+	/**
+	 *
+	 */
+	public VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return JRStyleResolver.getVerticalAlignmentValue(this);
+	}
+
+	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return verticalAlignmentValue;
 	}
 
 	/**
@@ -984,6 +1023,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte horizontalAlignment;
+	private Byte verticalAlignment;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1006,6 +1048,15 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	{
 		in.defaultReadObject();
 
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
+			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+
+			horizontalAlignment = null;
+			verticalAlignment = null;
+		}
+		
 		if (lineBox == null)
 		{
 			lineBox = new JRBaseLineBox(this);
