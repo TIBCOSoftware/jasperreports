@@ -141,11 +141,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
-import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.PositionTypeEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.type.*;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
@@ -154,7 +150,7 @@ import org.jfree.data.time.Day;
  * A writer that generates the Java code required to produce a given report template programmatically, using the JasperReports API.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRXmlWriter.java 3211 2009-11-23 17:34:54Z teodord $
+ * @version $Id$
  */
 public class JRApiWriter
 {
@@ -330,6 +326,7 @@ public class JRApiWriter
 		write("import net.sf.jasperreports.engine.JRTextElement;\n");
 		write("import net.sf.jasperreports.engine.JRVariable;\n");
 		write("import net.sf.jasperreports.engine.design.*;\n");
+		write("import net.sf.jasperreports.engine.type.*;\n");
 		write("import net.sf.jasperreports.engine.util.ReportCreator;\n");
 		write("\n");
 		
@@ -663,7 +660,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignQuery " + queryName + " = new JRDesignQuery();\n");
 			write( queryName + ".setLanguage(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getLanguage()), JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL);
-			write( queryName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getText().replaceAll("\n", "\\n")));
+			write( queryName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getText()));
 			flush();
 		}
 	}
@@ -1785,7 +1782,7 @@ public class JRApiWriter
 			write( valueDisplayName + ".setMask(\"{0}\");\n", valueDisplay.getMask());
 	
 			writeFont( valueDisplay.getFont(), valueDisplayName + ".getFont()");
-			write( parentName + "setValueDisplay(" + valueDisplayName + ");\n");
+			write( parentName + ".setValueDisplay(" + valueDisplayName + ");\n");
 			
 			flush();
 		}
@@ -3929,7 +3926,7 @@ public class JRApiWriter
 			Class reportCreatorClass = Class.forName(reportCreatorClassName);
 			ReportCreator reportCreator = (ReportCreator)reportCreatorClass.newInstance();
 			JasperDesign jasperDesign = reportCreator.create();
-			JRXmlWriter.writeReport(jasperDesign, destFileName, "UTF-8");
+			JRApiWriter.writeReport(jasperDesign, destFileName);
 			
 		}
 		catch (Exception e)
