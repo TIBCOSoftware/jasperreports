@@ -28,7 +28,6 @@ import java.util.Map;
 import net.sf.jasperreports.crosstabs.design.JRDesignCellContents;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.type.AbstractEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
@@ -58,7 +57,7 @@ public class JRCellContentsFactory extends JRBaseFactory
 			cell.setBackcolor(JRColorUtil.getColor(backcolor, null));
 		}
 		
-		AbstractEnum mode = AbstractEnum.get(ModeEnum.class, attributes.getValue(ATTRIBUTE_mode));
+		ModeEnum mode = ModeEnum.getByName(attributes.getValue(ATTRIBUTE_mode));
 		if (mode != null)
 		{
 			cell.setMode(mode.getValueByte());

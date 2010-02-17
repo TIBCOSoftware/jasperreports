@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -61,7 +63,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	 *
 	 */
 	private String key;
-	private Byte mode = null;
+	private ModeEnum modeValue = null;
 	private Color forecolor = null;
 	private Color backcolor = null;
 
@@ -117,7 +119,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 		
 		setKey(element.getKey());
 		
-		mode = element.getOwnMode();
+		modeValue = element.getOwnModeValue();
 		forecolor = element.getOwnForecolor();
 		backcolor = element.getOwnBackcolor();
 	}
@@ -175,37 +177,61 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getModeValue()}.
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE.getValue());
+		return getModeValue().getValue();
 	}
-		
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnModeValue()}.
 	 */
 	public Byte getOwnMode()
 	{
-		return mode;
+		return getOwnModeValue() == null ? null : getOwnModeValue().getValueByte();
 	}
-	
+
 	/**
 	 *
+	 */
+	public ModeEnum getModeValue()
+	{
+		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE);
+	}
+
+	/**
+	 *
+	 */
+	public ModeEnum getOwnModeValue()
+	{
+		return modeValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
 	 */
 	public void setMode(byte mode)
 	{
-		this.mode = new Byte(mode);
+		setMode(ModeEnum.getByValue(mode));
 	}
-	
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
 	 */
 	public void setMode(Byte mode)
 	{
-		this.mode = mode;
+		setMode(ModeEnum.getByValue(mode));
 	}
-	
+
+	/**
+	 *
+	 */
+	public void setMode(ModeEnum modeValue)
+	{
+		this.modeValue = modeValue;
+	}
+
 	/**
 	 *
 	 */
@@ -312,4 +338,23 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	{
 		this.parentStyle = style;
 	}
+
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte mode;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			modeValue = ModeEnum.getByValue(mode);
+			
+			mode = null;
+		}
+	}
+
 }

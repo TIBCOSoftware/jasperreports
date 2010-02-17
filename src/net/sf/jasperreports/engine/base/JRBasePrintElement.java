@@ -24,13 +24,14 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
@@ -57,7 +58,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	/**
 	 *
 	 */
-	protected Byte mode = null;
+	protected ModeEnum modeValue = null;
 	protected int x = 0;
 	protected int y = 0;
 	protected int width = 0;
@@ -121,37 +122,61 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getModeValue()}.
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE.getValue());
+		return getModeValue().getValue();
 	}
-	
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnModeValue()}.
 	 */
 	public Byte getOwnMode()
 	{
-		return mode;
+		return getOwnModeValue() == null ? null : getOwnModeValue().getValueByte();
 	}
-	
+
 	/**
 	 *
+	 */
+	public ModeEnum getModeValue()
+	{
+		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE);
+	}
+
+	/**
+	 *
+	 */
+	public ModeEnum getOwnModeValue()
+	{
+		return modeValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
 	 */
 	public void setMode(byte mode)
 	{
-		this.mode = new Byte(mode);
+		setMode(ModeEnum.getByValue(mode));
 	}
-	
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
 	 */
 	public void setMode(Byte mode)
 	{
-		this.mode = mode;
+		setMode(ModeEnum.getByValue(mode));
 	}
-	
+
+	/**
+	 *
+	 */
+	public void setMode(ModeEnum modeValue)
+	{
+		this.modeValue = modeValue;
+	}
+
 	/**
 	 *
 	 */
@@ -310,6 +335,25 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
+	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte mode;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			modeValue = ModeEnum.getByValue(mode);
+			
+			mode = null;
+		}
 	}
 
 }

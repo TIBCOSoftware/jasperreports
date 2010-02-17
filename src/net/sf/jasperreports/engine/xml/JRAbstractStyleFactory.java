@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.xml;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.design.JRDesignStyle;
-import net.sf.jasperreports.engine.type.AbstractEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
@@ -69,7 +68,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 
 		// get JRElement attributes
-		AbstractEnum mode = AbstractEnum.get(ModeEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
+		ModeEnum mode = ModeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
 		if (mode != null)
 		{
 			style.setMode(mode.getValueByte());
@@ -114,13 +113,13 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.setScaleImage(scaleImage);
 		}
 
-		AbstractEnum horizontalAlignment = AbstractEnum.get(HorizontalAlignEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
+		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
 			style.setHorizontalAlignment(horizontalAlignment.getValueByte());
 		}
 
-		AbstractEnum verticalAlignment = AbstractEnum.get(VerticalAlignEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
+		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
 			style.setVerticalAlignment(verticalAlignment.getValueByte());

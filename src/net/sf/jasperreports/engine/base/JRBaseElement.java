@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -82,7 +84,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	protected byte positionType;
 	protected byte stretchType;
 	protected boolean isPrintRepeatedValues = true;
-	protected Byte mode;
+	protected ModeEnum modeValue;
 	protected int x = 0;
 	protected int y = 0;
 	protected int width = 0;
@@ -137,7 +139,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		positionType = element.getPositionType();
 		stretchType = element.getStretchType();
 		isPrintRepeatedValues = element.isPrintRepeatedValues();
-		mode = element.getOwnMode();
+		modeValue = element.getOwnModeValue();
 		x = element.getX();
 		y = element.getY();
 		width = element.getWidth();
@@ -255,37 +257,61 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getModeValue()}.
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE.getValue());
+		return getModeValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnModeValue()}.
 	 */
 	public Byte getOwnMode()
 	{
-		return mode;
+		return getOwnModeValue() == null ? null : getOwnModeValue().getValueByte();
 	}
 
 	/**
 	 *
+	 */
+	public ModeEnum getModeValue()
+	{
+		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE);
+	}
+
+	/**
+	 *
+	 */
+	public ModeEnum getOwnModeValue()
+	{
+		return modeValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
 	 */
 	public void setMode(byte mode)
 	{
-		setMode(new Byte(mode));
+		setMode(ModeEnum.getByValue(mode));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
+	 */
+	public void setMode(Byte mode)
+	{
+		setMode(ModeEnum.getByValue(mode));
 	}
 
 	/**
 	 *
 	 */
-	public void setMode(Byte mode)
+	public void setMode(ModeEnum modeValue)
 	{
-		Object old = this.mode;
-		this.mode = mode;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.mode);
+		Object old = this.modeValue;
+		this.modeValue = modeValue;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.modeValue);
 	}
 
 	/**
@@ -556,5 +582,24 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	{
 		return propertyExpressions;
 	}
+
 	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte mode;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			modeValue = ModeEnum.getByValue(mode);
+			
+			mode = null;
+		}
+	}
+
 }

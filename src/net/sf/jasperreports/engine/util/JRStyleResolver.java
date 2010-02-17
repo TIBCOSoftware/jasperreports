@@ -50,6 +50,9 @@ import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBoxPen;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 
 /**
@@ -94,20 +97,37 @@ public class JRStyleResolver
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getMode(JRCommonElement, ModeEnum)}.
 	 */
 	public static byte getMode(JRCommonElement element, byte defaultMode)
 	{
-		Byte ownMode = element.getOwnMode();
+		return getMode(element, ModeEnum.getByValue(defaultMode)).getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getModeValue(JRStyle)}.
+	 */
+	public static Byte getMode(JRStyle style)
+	{
+		ModeEnum mode = getModeValue(style);
+		return mode == null ? null : mode.getValueByte();
+	}
+
+	/**
+	 *
+	 */
+	public static ModeEnum getMode(JRCommonElement element, ModeEnum defaultMode)
+	{
+		ModeEnum ownMode = element.getOwnModeValue();
 		if (ownMode != null) 
-			return ownMode.byteValue();
+			return ownMode;
 		JRStyle style = getBaseStyle(element);
 		if (style != null)
 		{
-			Byte mode = style.getMode();
+			ModeEnum mode = style.getModeValue();
 			if (mode != null)
 			{
-				return mode.byteValue();
+				return mode;
 			}
 		}
 		return defaultMode;
@@ -116,14 +136,14 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static Byte getMode(JRStyle style)
+	public static ModeEnum getModeValue(JRStyle style)
 	{
-		Byte ownMode = style.getOwnMode();
+		ModeEnum ownMode = style.getOwnModeValue();
 		if (ownMode != null)
 			return ownMode;
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
-			return baseStyle.getMode();
+			return baseStyle.getModeValue();
 		return null;
 	}
 
@@ -452,57 +472,82 @@ public class JRStyleResolver
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue(JRAlignment)}.
 	 */
 	public static byte getHorizontalAlignment(JRAlignment alignment)
 	{
-		Byte ownHorizontalAlignment = alignment.getOwnHorizontalAlignment();
-		if (ownHorizontalAlignment != null)
-			return ownHorizontalAlignment.byteValue();
-		JRStyle baseStyle = getBaseStyle(alignment);
-		if (baseStyle != null)
-		{
-			Byte horizontalAlignment = baseStyle.getHorizontalAlignment();
-			if (horizontalAlignment != null)
-			{
-				return horizontalAlignment.byteValue();
-			}
-		}
-		return JRAlignment.HORIZONTAL_ALIGN_LEFT;
+		return getHorizontalAlignmentValue(alignment).getValue();
 	}
 
 	/**
 	 *
 	 */
+	public static HorizontalAlignEnum getHorizontalAlignmentValue(JRAlignment alignment)
+	{
+		HorizontalAlignEnum ownHorizontalAlignment = alignment.getOwnHorizontalAlignmentValue();
+		if (ownHorizontalAlignment != null)
+			return ownHorizontalAlignment;
+		JRStyle baseStyle = getBaseStyle(alignment);
+		if (baseStyle != null)
+		{
+			HorizontalAlignEnum horizontalAlignment = baseStyle.getHorizontalAlignmentValue();
+			if (horizontalAlignment != null)
+			{
+				return horizontalAlignment;
+			}
+		}
+		return HorizontalAlignEnum.LEFT;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue(JRStyle)}.
+	 */
 	public static Byte getHorizontalAlignment(JRStyle style)
 	{
-		Byte ownHorizontalAlignment = style.getOwnHorizontalAlignment();
+		HorizontalAlignEnum horizontalAlign = getHorizontalAlignmentValue(style); 
+		return horizontalAlign == null ? null : horizontalAlign.getValueByte();
+	}
+
+	/**
+	 *
+	 */
+	public static HorizontalAlignEnum getHorizontalAlignmentValue(JRStyle style)
+	{
+		HorizontalAlignEnum ownHorizontalAlignment = style.getOwnHorizontalAlignmentValue();
 		if (ownHorizontalAlignment != null)
 			return ownHorizontalAlignment;
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
-			return baseStyle.getHorizontalAlignment();
+			return baseStyle.getHorizontalAlignmentValue();
 		return null;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue(JRAlignment)}.
+	 */
+	public static byte getVerticalAlignment(JRAlignment alignment)
+	{
+		return getVerticalAlignmentValue(alignment).getValue();
 	}
 
 	/**
 	 *
 	 */
-	public static byte getVerticalAlignment(JRAlignment alignment)
+	public static VerticalAlignEnum getVerticalAlignmentValue(JRAlignment alignment)
 	{
-		Byte ownVerticalAlignment = alignment.getOwnVerticalAlignment();
+		VerticalAlignEnum ownVerticalAlignment = alignment.getOwnVerticalAlignmentValue();
 		if (ownVerticalAlignment != null)
-			return ownVerticalAlignment.byteValue();
+			return ownVerticalAlignment;
 		JRStyle baseStyle = getBaseStyle(alignment);
 		if (baseStyle != null)
 		{
-			Byte verticalAlignment = baseStyle.getVerticalAlignment();
+			VerticalAlignEnum verticalAlignment = baseStyle.getVerticalAlignmentValue();
 			if (verticalAlignment != null)
 			{
-				return verticalAlignment.byteValue();
+				return verticalAlignment;
 			}
 		}
-		return JRAlignment.VERTICAL_ALIGN_TOP;
+		return VerticalAlignEnum.TOP;
 	}
 
 	/**
@@ -510,12 +555,21 @@ public class JRStyleResolver
 	 */
 	public static Byte getVerticalAlignment(JRStyle style)
 	{
-		Byte ownVerticalAlignment = style.getOwnVerticalAlignment();
+		VerticalAlignEnum verticalAlignment =getVerticalAlignmentValue(style);
+		return verticalAlignment == null ? null : verticalAlignment.getValueByte();
+	}
+
+	/**
+	 *
+	 */
+	public static VerticalAlignEnum getVerticalAlignmentValue(JRStyle style)
+	{
+		VerticalAlignEnum ownVerticalAlignment = style.getOwnVerticalAlignmentValue();
 		if (ownVerticalAlignment != null)
 			return ownVerticalAlignment;
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
-			return baseStyle.getVerticalAlignment();
+			return baseStyle.getVerticalAlignmentValue();
 		return null;
 	}
 

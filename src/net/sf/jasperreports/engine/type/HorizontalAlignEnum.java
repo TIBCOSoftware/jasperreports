@@ -31,37 +31,97 @@ import net.sf.jasperreports.engine.JRConstants;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JasperCompileManager.java 3033 2009-08-27 11:46:22Z teodord $
  */
-public class HorizontalAlignEnum extends AbstractEnum
+public enum HorizontalAlignEnum implements JREnum
 {
+	/**
+	 *
+	 */ 
+	LEFT((byte)1, "Left"),
+	
+	/**
+	 *
+	 */ 
+	CENTER((byte)2, "Center"),
+	
+	/**
+	 *
+	 */ 
+	RIGHT((byte)3, "Right"),
+	
+	/**
+	 *
+	 */ 
+	JUSTIFIED((byte)4, "Justified");
+	
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	private final transient byte value;
+	private final transient String name;
 
-
-	/**
-	 *
-	 */ 
-	public static final HorizontalAlignEnum LEFT = new HorizontalAlignEnum((byte)1, "Left");
-	
-	/**
-	 *
-	 */ 
-	public static final HorizontalAlignEnum CENTER = new HorizontalAlignEnum((byte)2, "Center");
-	
-	/**
-	 *
-	 */ 
-	public static final HorizontalAlignEnum RIGHT = new HorizontalAlignEnum((byte)3, "Right");
-	
-	/**
-	 *
-	 */ 
-	public static final HorizontalAlignEnum JUSTIFIED = new HorizontalAlignEnum((byte)4, "Justified");
-	
-
-	private HorizontalAlignEnum(final byte value, String name)
+	private HorizontalAlignEnum(byte value, String name)
 	{
-		super(value, name);
+		this.value = value;
+		this.name = name;
 	}
+
+	/**
+	 *
+	 */
+	public Byte getValueByte()
+	{
+		return new Byte(value);
+	}
+	
+	/**
+	 *
+	 */
+	public final byte getValue()
+	{
+		return value;
+	}
+	
+	/**
+	 *
+	 */
+	public String getName()
+	{
+		return name;
+	}
+	
+	/**
+	 *
+	 */
+	public static HorizontalAlignEnum getByName(String name)
+	{
+		return (HorizontalAlignEnum)EnumUtil.getByName(values(), name);
+	}
+	
+	/**
+	 *
+	 */
+	public static HorizontalAlignEnum getByValue(Byte value)
+	{
+		if (value != null)
+		{
+			for(HorizontalAlignEnum e:values())
+			{
+				if (value.equals(e.getValueByte()))
+				{
+					return e;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 *
+	 */
+	public static HorizontalAlignEnum getByValue(byte value)
+	{
+		return (HorizontalAlignEnum)getByValue(new Byte(value));
+	}
+
 }

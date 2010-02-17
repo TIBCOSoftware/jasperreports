@@ -31,35 +31,95 @@ import net.sf.jasperreports.engine.JRConstants;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JasperCompileManager.java 3033 2009-08-27 11:46:22Z teodord $
  */
-public class PositionTypeEnum extends AbstractEnum
+public enum PositionTypeEnum implements JREnum
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-
 	/**
 	 * The element will float in its parent section if it is pushed downwards by other elements fount above it.
 	 * It will try to conserve the distance between it and the neighboring elements placed immediately above.
 	 */
-	public static final PositionTypeEnum FLOAT = new PositionTypeEnum((byte)1, "Float");
+	FLOAT((byte)1, "Float"),
 
 	/**
 	 * The element will simply ignore what happens to the other section elements and tries to
 	 * conserve the y offset measured from the top of its parent report section.
 	 */
-	public static final PositionTypeEnum FIX_RELATIVE_TO_TOP = new PositionTypeEnum((byte)2, "FixRelativeToTop");
+	FIX_RELATIVE_TO_TOP((byte)2, "FixRelativeToTop"),
 
 	/**
 	 * If the height of the parent report section is affected by elements that stretch, the current element will try to
 	 * conserve the original distance between its bottom margin and the bottom of the band.
 	 */
-	public static final PositionTypeEnum FIX_RELATIVE_TO_BOTTOM = new PositionTypeEnum((byte)3, "FixRelativeToBottom");
+	FIX_RELATIVE_TO_BOTTOM((byte)3, "FixRelativeToBottom");
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	private final transient byte value;
+	private final transient String name;
 
 	private PositionTypeEnum(byte value, String name)
 	{
-		super(value, name);
+		this.value = value;
+		this.name = name;
 	}
+
+	/**
+	 *
+	 */
+	public Byte getValueByte()
+	{
+		return new Byte(value);
+	}
+	
+	/**
+	 *
+	 */
+	public final byte getValue()
+	{
+		return value;
+	}
+	
+	/**
+	 *
+	 */
+	public String getName()
+	{
+		return name;
+	}
+	
+	/**
+	 *
+	 */
+	public static PositionTypeEnum getByName(String name)
+	{
+		return (PositionTypeEnum)EnumUtil.getByName(values(), name);
+	}
+	
+	/**
+	 *
+	 */
+	public static PositionTypeEnum getByValue(Byte value)
+	{
+		if (value != null)
+		{
+			for(PositionTypeEnum e:values())
+			{
+				if (value.equals(e.getValueByte()))
+				{
+					return e;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 *
+	 */
+	public static PositionTypeEnum getByValue(byte value)
+	{
+		return (PositionTypeEnum)getByValue(new Byte(value));
+	}
+	
 }

@@ -34,12 +34,13 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRReportFont;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -66,8 +67,8 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	/**
 	 *
 	 */
-	protected Byte horizontalAlignment;
-	protected Byte verticalAlignment;
+	protected HorizontalAlignEnum horizontalAlignmentValue;
+	protected VerticalAlignEnum verticalAlignmentValue;
 	protected Byte rotation;
 	protected Byte lineSpacing;
 	protected String markup;
@@ -116,9 +117,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	/**
 	 *
 	 */
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 
@@ -127,13 +128,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public byte getTextAlignment()
 	{
-		if (horizontalAlignment == null) {
-			JRStyle style = getBaseStyle();
-			if (style != null && style.getHorizontalAlignment() != null)
-				return style.getHorizontalAlignment().byteValue();
-			return HORIZONTAL_ALIGN_LEFT;
-		}
-		return horizontalAlignment.byteValue();
+		return getHorizontalAlignment();
 	}
 
 	/**
@@ -145,47 +140,84 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
 	 */
 	public byte getHorizontalAlignment()
 	{
-		return JRStyleResolver.getHorizontalAlignment(this);
+		return getHorizontalAlignmentValue().getValue();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
+	 */
 	public Byte getOwnHorizontalAlignment()
 	{
-		return horizontalAlignment;
+		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
 	}
 
 	/**
 	 *
+	 */
+	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	{
+		return JRStyleResolver.getHorizontalAlignmentValue(this);
+	}
+
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	{
+		return horizontalAlignmentValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
-		setHorizontalAlignment(new Byte(horizontalAlignment));
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
-		Object old = this.horizontalAlignment;
-		this.horizontalAlignment = horizontalAlignment;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignment);
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
 	}
 
 	/**
 	 *
 	 */
-	public byte getVerticalAlignment()
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
 	{
-		return JRStyleResolver.getVerticalAlignment(this);
+		Object old = this.horizontalAlignmentValue;
+		this.horizontalAlignmentValue = horizontalAlignmentValue;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignmentValue);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
+	 */
+	public byte getVerticalAlignment()
+	{
+		return getVerticalAlignmentValue().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
+	 */
 	public Byte getOwnVerticalAlignment()
 	{
-		return verticalAlignment;
+		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
+	}
+
+	public VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return JRStyleResolver.getVerticalAlignmentValue(this);
+	}
+
+	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return verticalAlignmentValue;
 	}
 
 	/**
@@ -1188,6 +1220,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte horizontalAlignment;
+	private Byte verticalAlignment;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1209,6 +1244,15 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	{
 		in.defaultReadObject();
 
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
+			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+
+			horizontalAlignment = null;
+			verticalAlignment = null;
+		}
+		
 		if (lineBox == null)
 		{
 			lineBox = new JRBaseLineBox(this);

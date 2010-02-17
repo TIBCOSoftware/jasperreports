@@ -43,7 +43,9 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -69,8 +71,8 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 *
 	 */
-	private Byte horizontalAlignment = null;
-	private Byte verticalAlignment = null;
+	private HorizontalAlignEnum horizontalAlignmentValue = null;
+	private VerticalAlignEnum verticalAlignmentValue = null;
 	private Byte rotation = null;
 	private Byte lineSpacing = null;
 	private String markup = null;
@@ -174,8 +176,8 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		pdfEncoding = textElement.getOwnPdfEncoding();
 		isPdfEmbedded = textElement.isOwnPdfEmbedded();
 
-		horizontalAlignment = textElement.getOwnHorizontalAlignment();
-		verticalAlignment = textElement.getOwnVerticalAlignment();
+		horizontalAlignmentValue = textElement.getOwnHorizontalAlignmentValue();
+		verticalAlignmentValue = textElement.getOwnVerticalAlignmentValue();
 		rotation = textElement.getOwnRotation();
 		lineSpacing = textElement.getOwnLineSpacing();
 		markup = textElement.getOwnMarkup();
@@ -207,9 +209,9 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 *
 	 */
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 		
 	/**
@@ -221,67 +223,115 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
 	 */
 	public byte getHorizontalAlignment()
 	{
-		return JRStyleResolver.getHorizontalAlignment(this);
+		return getHorizontalAlignmentValue().getValue();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
 	 */
 	public Byte getOwnHorizontalAlignment()
 	{
-		return horizontalAlignment;
+		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
 	}
 		
 	/**
 	 *
+	 */
+	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	{
+		return JRStyleResolver.getHorizontalAlignmentValue(this);
+	}
+		
+	/**
+	 *
+	 */
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	{
+		return horizontalAlignmentValue;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
-		this.horizontalAlignment = new Byte(horizontalAlignment);
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
 	}
-
+		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
-		this.horizontalAlignment = horizontalAlignment;
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
 	}
-
+		
 	/**
 	 *
+	 */
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
+	{
+		this.horizontalAlignmentValue = horizontalAlignmentValue;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
 	 */
 	public byte getVerticalAlignment()
 	{
-		return JRStyleResolver.getVerticalAlignment(this);
+		return getVerticalAlignmentValue().getValue();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
 	 */
 	public Byte getOwnVerticalAlignment()
 	{
-		return verticalAlignment;
+		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 		
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(byte verticalAlignment)
+	public VerticalAlignEnum getVerticalAlignmentValue()
 	{
-		this.verticalAlignment = new Byte(verticalAlignment);
+		return JRStyleResolver.getVerticalAlignmentValue(this);
 	}
-
+		
 	/**
 	 *
 	 */
+	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return verticalAlignmentValue;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
+	public void setVerticalAlignment(byte verticalAlignment)
+	{
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
 	public void setVerticalAlignment(Byte verticalAlignment)
 	{
-		this.verticalAlignment = verticalAlignment;
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
+	}
+		
+	/**
+	 *
+	 */
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
+	{
+		this.verticalAlignmentValue = verticalAlignmentValue;
 	}
 
 	/**
@@ -1391,6 +1441,9 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte horizontalAlignment = null;
+	private Byte verticalAlignment = null;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1414,6 +1467,15 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	{
 		in.defaultReadObject();
 
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
+			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+
+			horizontalAlignment = null;
+			verticalAlignment = null;
+		}
+		
 		if (lineBox == null)
 		{
 			lineBox = new JRBaseLineBox(this);

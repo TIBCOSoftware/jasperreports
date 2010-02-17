@@ -263,32 +263,55 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getModeValue()}.
 	 */
 	public byte getMode()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE.getValue());
+		return getModeValue().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getOwnModeValue()}.
+	 */
+	public Byte getOwnMode()
+	{
+		return getOwnModeValue() == null ? null : getOwnModeValue().getValueByte();
 	}
 
 	/**
 	 *
 	 */
-	public Byte getOwnMode()
+	public ModeEnum getModeValue()
 	{
-		return parent.getOwnMode();
+		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE);
 	}
 
 	/**
 	 *
+	 */
+	public ModeEnum getOwnModeValue()
+	{
+		return parent.getOwnModeValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
 	 */
 	public void setMode(byte mode)
 	{
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
 	 */
 	public void setMode(Byte mode)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setMode(ModeEnum modeValue)
 	{
 	}
 

@@ -31,6 +31,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConditionalStyle;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -39,6 +40,9 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -120,7 +124,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	protected Byte positionType = null;
 	protected Byte stretchType = null;
-	protected Byte mode = null;
+	protected ModeEnum modeValue = null;
 	protected Color forecolor = null;
 	protected Color backcolor = null;
 
@@ -130,8 +134,8 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	protected Integer radius = null;
 
 	protected Byte scaleImage = null;
-	protected Byte horizontalAlignment = null;
-	protected Byte verticalAlignment = null;
+	protected HorizontalAlignEnum horizontalAlignmentValue = null;
+	protected VerticalAlignEnum verticalAlignmentValue = null;
 
 	protected JRLineBox lineBox = null;
 
@@ -197,7 +201,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		
 		isDefault = style.isDefault();
 
-		mode = style.getOwnMode();
+		modeValue = style.getOwnModeValue();
 		forecolor = style.getOwnForecolor();
 		backcolor = style.getOwnBackcolor();
 
@@ -207,8 +211,8 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		radius = style.getOwnRadius();
 
 		scaleImage = style.getOwnScaleImage();
-		horizontalAlignment = style.getOwnHorizontalAlignment();
-		verticalAlignment = style.getOwnVerticalAlignment();
+		horizontalAlignmentValue = style.getOwnHorizontalAlignmentValue();
+		verticalAlignmentValue = style.getOwnVerticalAlignmentValue();
 
 		lineBox = style.getLineBox().clone(this);
 		
@@ -395,24 +399,56 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		return scaleImage;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
+	 */
 	public Byte getHorizontalAlignment()
 	{
-		return JRStyleResolver.getHorizontalAlignment(this);
+		return getHorizontalAlignmentValue().getValue();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
+	 */
 	public Byte getOwnHorizontalAlignment()
 	{
-		return horizontalAlignment;
+		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
 	}
 
+	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	{
+		return JRStyleResolver.getHorizontalAlignmentValue(this);
+	}
+
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	{
+		return horizontalAlignmentValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
+	 */
 	public Byte getVerticalAlignment()
 	{
 		return JRStyleResolver.getVerticalAlignment(this);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
+	 */
 	public Byte getOwnVerticalAlignment()
 	{
 		return verticalAlignment;
+	}
+
+	public VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return JRStyleResolver.getVerticalAlignmentValue(this);
+	}
+
+	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return verticalAlignmentValue;
 	}
 
 	/**
@@ -822,14 +858,36 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		return pattern;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getModeValue()}.
+	 */
 	public Byte getMode()
 	{
-		return JRStyleResolver.getMode(this);
+		return getModeValue().getValueByte();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnModeValue()}.
+	 */
 	public Byte getOwnMode()
 	{
-		return mode;
+		return getOwnModeValue() == null ? null : getOwnModeValue().getValueByte();
+	}
+
+	/**
+	 *
+	 */
+	public ModeEnum getModeValue()
+	{
+		return JRStyleResolver.getModeValue(this);
+	}
+
+	/**
+	 *
+	 */
+	public ModeEnum getOwnModeValue()
+	{
+		return modeValue;
 	}
 
 	/**
@@ -853,21 +911,29 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
 	 */
 	public void setMode(byte mode)
 	{
-		setMode(new Byte(mode));
+		setMode(ModeEnum.getByValue(mode));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
+	 */
+	public void setMode(Byte mode)
+	{
+		setMode(ModeEnum.getByValue(mode));
 	}
 
 	/**
 	 *
 	 */
-	public void setMode(Byte mode)
+	public void setMode(ModeEnum modeValue)
 	{
-		Object old = this.mode;
-		this.mode = mode;
-		getEventSupport().firePropertyChange(PROPERTY_MODE, old, this.mode);
+		Object old = this.modeValue;
+		this.modeValue = modeValue;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.modeValue);
 	}
 
 	/**
@@ -1444,6 +1510,10 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte mode = null;
+	private Byte horizontalAlignment = null;
+	private Byte verticalAlignment = null;
 	private Byte pen;
 	private Byte border = null;
 	private Byte topBorder = null;
@@ -1466,6 +1536,17 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	{
 		in.defaultReadObject();
 		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			modeValue = ModeEnum.getByValue(mode);
+			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
+			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+			
+			mode = null;
+			horizontalAlignment = null;
+			verticalAlignment = null;
+		}
+
 		if (linePen == null)
 		{
 			linePen = new JRBasePen(this);

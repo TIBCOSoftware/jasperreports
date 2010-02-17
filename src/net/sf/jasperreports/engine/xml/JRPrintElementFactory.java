@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
-import net.sf.jasperreports.engine.type.AbstractEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -58,7 +57,7 @@ public class JRPrintElementFactory extends JRBaseFactory
 			element.setKey(key);
 		}
 		
-		AbstractEnum mode = AbstractEnum.get(ModeEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
+		ModeEnum mode = ModeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
 		if (mode != null)
 		{
 			element.setMode(mode.getValueByte());

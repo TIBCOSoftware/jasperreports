@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.type.AbstractEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -74,7 +73,7 @@ public class JRElementFactory extends JRBaseFactory
 			element.setPrintRepeatedValues(Boolean.valueOf(isPrintRepeatedValues).booleanValue());
 		}
 		
-		AbstractEnum mode = AbstractEnum.get(ModeEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
+		ModeEnum mode = ModeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
 		if (mode != null)
 		{
 			element.setMode(mode.getValueByte());

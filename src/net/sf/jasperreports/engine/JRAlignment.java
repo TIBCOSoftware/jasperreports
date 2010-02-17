@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+
 
 /**
  * An interface that defines constants useful for alignment. All report elements that can be aligned in some way
@@ -71,28 +74,56 @@ public interface JRAlignment extends JRStyleContainer
 
 
 	/**
-	 * Gets the text horizontal alignment.
-	 * @return a value representing one of the horizontal alignment constants in {@link JRAlignment}
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
 	 */
 	public byte getHorizontalAlignment();
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
+	 */
 	public Byte getOwnHorizontalAlignment();
 
 	/**
-	 * Sets the text horizontal alignment.
-	 * @param horizontalAlignment a value representing one of the horizontal alignment constants in {@link JRAlignment}
+	 * Gets the text horizontal alignment.
+	 * @return a value representing one of the horizontal alignment constants in {@link HorizontalAlignEnum}
+	 */
+	public HorizontalAlignEnum getHorizontalAlignmentValue();
+
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue();
+
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment);
 
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
+	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment);
 
 	/**
-	 * Gets the text vertical alignment.
-	 * @return a value representing one of the vertical alignment constants in {@link JRAlignment}
+	 * Sets the text horizontal alignment.
+	 * @param horizontalAlignment a value representing one of the horizontal alignment constants in {@link HorizontalAlignEnum}
+	 */
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment);
+
+	/**
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
 	 */
 	public byte getVerticalAlignment();
 		
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
+	 */
 	public Byte getOwnVerticalAlignment();
+
+	/**
+	 * Gets the text vertical alignment.
+	 * @return a value representing one of the vertical alignment constants in {@link VerticalAlignEnum}
+	 */
+	public VerticalAlignEnum getVerticalAlignmentValue();
+	
+	public VerticalAlignEnum getOwnVerticalAlignmentValue();
 
 	/**
 	 * Gets the text vertical alignment.

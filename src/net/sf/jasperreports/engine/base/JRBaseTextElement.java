@@ -35,7 +35,9 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -61,8 +63,8 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 *
 	 */
-	protected Byte horizontalAlignment;
-	protected Byte verticalAlignment;
+	protected HorizontalAlignEnum horizontalAlignmentValue;
+	protected VerticalAlignEnum verticalAlignmentValue;
 	protected Byte rotation;
 	protected Byte lineSpacing;
 	protected String markup;
@@ -96,8 +98,8 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	{
 		super(textElement, factory);
 
-		horizontalAlignment = textElement.getOwnHorizontalAlignment();
-		verticalAlignment = textElement.getOwnVerticalAlignment();
+		horizontalAlignmentValue = textElement.getOwnHorizontalAlignmentValue();
+		verticalAlignmentValue = textElement.getOwnVerticalAlignmentValue();
 		rotation = textElement.getOwnRotation();
 		lineSpacing = textElement.getOwnLineSpacing();
 		markup = textElement.getOwnMarkup();
@@ -154,65 +156,110 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
 	 */
 	public byte getHorizontalAlignment()
 	{
-		return JRStyleResolver.getHorizontalAlignment(this);
+		return getHorizontalAlignmentValue().getValue();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
+	 */
 	public Byte getOwnHorizontalAlignment()
 	{
-		return horizontalAlignment;
+		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
 	}
 
 	/**
 	 *
+	 */
+	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	{
+		return JRStyleResolver.getHorizontalAlignmentValue(this);
+	}
+
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	{
+		return horizontalAlignmentValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
-		setHorizontalAlignment(new Byte(horizontalAlignment));
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
-		Object old = this.horizontalAlignment;
-		this.horizontalAlignment = horizontalAlignment;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignment);
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
 	}
 
 	/**
 	 *
+	 */
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
+	{
+		Object old = this.horizontalAlignmentValue;
+		this.horizontalAlignmentValue = horizontalAlignmentValue;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignmentValue);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
 	 */
 	public byte getVerticalAlignment()
 	{
-		return JRStyleResolver.getVerticalAlignment(this);
-	}
-
-	public Byte getOwnVerticalAlignment()
-	{
-		return verticalAlignment;
+		return getVerticalAlignmentValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
+	 */
+	public Byte getOwnVerticalAlignment()
+	{
+		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
+	}
+
+	public VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return JRStyleResolver.getVerticalAlignmentValue(this);
+	}
+
+	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return verticalAlignmentValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
 	 */
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
-		setVerticalAlignment(new Byte(verticalAlignment));
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment)
+	{
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
 	}
 
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
 	{
-		Object old = this.verticalAlignment;
-		this.verticalAlignment = verticalAlignment;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignment);
+		Object old = this.verticalAlignmentValue;
+		this.verticalAlignmentValue = verticalAlignmentValue;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignmentValue);
 	}
 
 	/**
@@ -367,9 +414,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 *
 	 */
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	/**
@@ -1178,6 +1225,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte horizontalAlignment;
+	private Byte verticalAlignment;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1199,6 +1249,15 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	{
 		in.defaultReadObject();
 
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
+			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+
+			horizontalAlignment = null;
+			verticalAlignment = null;
+		}
+		
 		if (lineBox == null)
 		{
 			lineBox = new JRBaseLineBox(this);

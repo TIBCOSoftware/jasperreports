@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.type.AbstractEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
@@ -60,13 +59,13 @@ public class JRImageFactory extends JRBaseFactory
 			image.setScaleImage(scaleImage);
 		}
 
-		AbstractEnum horizontalAlignment = AbstractEnum.get(HorizontalAlignEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
+		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
 			image.setHorizontalAlignment(horizontalAlignment.getValueByte());
 		}
 
-		AbstractEnum verticalAlignment = AbstractEnum.get(VerticalAlignEnum.class, atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
+		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
 			image.setVerticalAlignment(verticalAlignment.getValueByte());

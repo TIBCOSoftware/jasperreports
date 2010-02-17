@@ -45,7 +45,9 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
@@ -143,57 +145,109 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
 	 */
 	public byte getHorizontalAlignment()
 	{
-		return JRStyleResolver.getHorizontalAlignment(this);
+		return getHorizontalAlignmentValue().getValue();
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
+	 */
 	public Byte getOwnHorizontalAlignment()
 	{
-		return ((JRImage)this.parent).getOwnHorizontalAlignment();
+		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
 	}
 
 	/**
 	 *
+	 */
+	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	{
+		return JRStyleResolver.getHorizontalAlignmentValue(this);
+	}
+		
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	{
+		return ((JRImage)this.parent).getOwnHorizontalAlignmentValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
 	 *
 	 */
-	public byte getVerticalAlignment()
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
 	{
-		return JRStyleResolver.getVerticalAlignment(this);
+		throw new UnsupportedOperationException();
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
+	 */
+	public byte getVerticalAlignment()
+	{
+		return getVerticalAlignmentValue().getValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
+	 */
 	public Byte getOwnVerticalAlignment()
 	{
-		return ((JRImage)this.parent).getOwnVerticalAlignment();
+		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 
 	/**
 	 *
 	 */
+	public VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return JRStyleResolver.getVerticalAlignmentValue(this);
+	}
+		
+	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return ((JRImage)this.parent).getOwnVerticalAlignmentValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment)
+	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment)
 	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**

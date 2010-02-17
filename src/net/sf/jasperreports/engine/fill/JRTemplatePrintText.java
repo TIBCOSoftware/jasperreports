@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
@@ -262,60 +264,115 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
 	 */
 	public byte getHorizontalAlignment()
 	{
-		return ((JRTemplateText)template).getHorizontalAlignment();
+		return getHorizontalAlignmentValue().getValue();
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
+	 */
 	public Byte getOwnHorizontalAlignment()
 	{
-		return ((JRTemplateText)template).getOwnHorizontalAlignment();
+		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
 	}
-
+		
 	/**
 	 *
+	 */
+	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	{
+		return ((JRTemplateText)this.template).getHorizontalAlignmentValue();
+	}
+		
+	/**
+	 *
+	 */
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	{
+		return ((JRTemplateText)this.template).getOwnHorizontalAlignmentValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
 	 *
+	 */
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
+	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
 	 */
 	public byte getVerticalAlignment()
 	{
-		return ((JRTemplateText)template).getVerticalAlignment();
+		return getVerticalAlignmentValue().getValue();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
 	 */
 	public Byte getOwnVerticalAlignment()
 	{
-		return ((JRTemplateText)template).getOwnVerticalAlignment();
-	}
-
-	/**
-	 *
-	 */
-	public void setVerticalAlignment(byte verticalAlignment)
-	{
+		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 		
 	/**
 	 *
 	 */
+	public VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return ((JRTemplateText)this.template).getVerticalAlignmentValue();
+	}
+		
+	/**
+	 *
+	 */
+	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return ((JRTemplateText)this.template).getOwnVerticalAlignmentValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
+	public void setVerticalAlignment(byte verticalAlignment)
+	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
 	public void setVerticalAlignment(Byte verticalAlignment)
 	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 *
+	 */
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment)
+	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
