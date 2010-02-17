@@ -36,13 +36,31 @@ public class EnumUtil
 	/**
 	 *
 	 */
+	public static JREnum getByValue(JREnum[] values, Byte value)
+	{
+		if (values != null && value != null)
+		{
+			for(JREnum e:values)
+			{
+				if (value.equals(e.getValueByte()))
+				{
+					return e;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 *
+	 */
 	public static JREnum getByName(JREnum[] values, String name)
 	{
 		if (values != null && name != null)
 		{
 			for(JREnum e:values)
 			{
-				if (e.getName().equals(name))
+				if (name.equals(e.getName()))
 				{
 					return e;
 				}
