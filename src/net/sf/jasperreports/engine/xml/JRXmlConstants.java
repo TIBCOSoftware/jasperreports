@@ -298,15 +298,30 @@ public class JRXmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RotationEnum#NONE#getName()}.
 	 */
 	private static final String ROTATION_NONE = "None";
+	/**
+	 * @deprecated Replaced by {@link RotationEnum#LEFT#getName()}.
+	 */
 	private static final String ROTATION_LEFT = "Left";
+	/**
+	 * @deprecated Replaced by {@link RotationEnum#RIGHT#getName()}.
+	 */
 	private static final String ROTATION_RIGHT = "Right";
+	/**
+	 * @deprecated Replaced by {@link RotationEnum#UPSIDE_DOWN#getName()}.
+	 */
 	private static final String ROTATION_UPSIDE_DOWN = "UpsideDown";
 
+	/**
+	 * @deprecated Replaced by {@link RotationEnum}.
+	 */
 	private static Map rotationMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link RotationEnum}.
+	 */
 	public static Map getRotationMap()
 	{
 		if (rotationMap == null)
