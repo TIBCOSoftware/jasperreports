@@ -1065,7 +1065,7 @@ public class JRApiWriter
 		{
 			write( textElementName + ".setHorizontalAlignment({0});\n", HorizontalAlignEnum.getByValue(textElement.getOwnHorizontalAlignment()));
 			write( textElementName + ".setVerticalAlignment({0});\n", VerticalAlignEnum.getByValue(textElement.getOwnVerticalAlignment()));
-			write( textElementName + ".setRotation({0});\n", JRApiConstants.getRotation(textElement.getOwnRotation()));
+			write( textElementName + ".setRotation({0});\n", RotationEnum.getByValue(textElement.getOwnRotation()));
 			write( textElementName + ".setLineSpacing({0});\n", JRApiConstants.getLineSpacing(textElement.getOwnLineSpacing()));
 			write( textElementName + ".setMarkup(\"{0}\");\n", textElement.getMarkup());
 			writeFont( textElement, textElementName);
@@ -1147,7 +1147,7 @@ public class JRApiWriter
 			write( styleName + ".setScaleImage({0});\n", JRApiConstants.getScaleImage(style.getOwnScaleImage()));
 			write( styleName + ".setHorizontalAlignment({0});\n", HorizontalAlignEnum.getByValue(style.getOwnHorizontalAlignment()));
 			write( styleName + ".setVerticalAlignment({0});\n", VerticalAlignEnum.getByValue(style.getOwnVerticalAlignment()));
-			write( styleName + ".setRotation({0});\n", JRApiConstants.getRotation(style.getOwnRotation()));
+			write( styleName + ".setRotation({0});\n", RotationEnum.getByValue(style.getOwnRotation()));
 			write( styleName + ".setLineSpacing({0});\n", JRApiConstants.getLineSpacing(style.getOwnLineSpacing()));
 
 			write( styleName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnMarkup()));
@@ -3551,7 +3551,7 @@ public class JRApiWriter
 			write( styleName + ".setScaleImage({0});\n", JRApiConstants.getScaleImage(style.getOwnScaleImage()));
 			write( styleName + ".setHorizontalAlignment({0});\n", HorizontalAlignEnum.getByValue(style.getOwnHorizontalAlignment()));
 			write( styleName + ".setVerticalAlignment({0});\n", VerticalAlignEnum.getByValue(style.getOwnVerticalAlignment()));
-			write( styleName + ".setRotation({0});\n", JRApiConstants.getRotation(style.getOwnRotation()));
+			write( styleName + ".setRotation({0});\n", RotationEnum.getByValue(style.getOwnRotation()));
 			write( styleName + ".setLineSpacing({0});\n", JRApiConstants.getLineSpacing(style.getOwnLineSpacing()));
 
 			write( styleName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnMarkup()));
