@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 
@@ -140,22 +141,22 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	public static final byte TEXT_ALIGN_JUSTIFIED = HORIZONTAL_ALIGN_JUSTIFIED;
 
 	/**
-	 * Constant useful for displaying the text without rotating it
+	 * @deprecated Replaced by {@link RotationEnum#NONE}.
 	 */
 	public static final byte ROTATION_NONE = 0;
 
 	/**
-	 * Constant useful for rotating the text 90 degrees counter clockwise.
+	 * @deprecated Replaced by {@link RotationEnum#LEFT}.
 	 */
 	public static final byte ROTATION_LEFT = 1;
 
 	/**
-	 * Constant useful for rotating the text 90 degrees clockwise.
+	 * @deprecated Replaced by {@link RotationEnum#RIGHT}.
 	 */
 	public static final byte ROTATION_RIGHT = 2;
 
 	/**
-	 * Constant useful for rotating the text 180 degrees.
+	 * @deprecated Replaced by {@link RotationEnum#UPSIDE_DOWN}.
 	 */
 	public static final byte ROTATION_UPSIDE_DOWN = 3;
 
