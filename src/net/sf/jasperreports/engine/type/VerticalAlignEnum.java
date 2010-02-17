@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.type;
 import net.sf.jasperreports.engine.JRConstants;
 
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JasperCompileManager.java 3033 2009-08-27 11:46:22Z teodord $
@@ -103,17 +102,7 @@ public enum VerticalAlignEnum implements JREnum
 	 */
 	public static VerticalAlignEnum getByValue(Byte value)
 	{
-		if (value != null)
-		{
-			for(VerticalAlignEnum e:values())
-			{
-				if (value.equals(e.getValueByte()))
-				{
-					return e;
-				}
-			}
-		}
-		return null;
+		return (VerticalAlignEnum)EnumUtil.getByValue(values(), value);
 	}
 	
 	/**

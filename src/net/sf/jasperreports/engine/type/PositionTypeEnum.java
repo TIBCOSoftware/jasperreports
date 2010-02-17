@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.type;
 import net.sf.jasperreports.engine.JRConstants;
 
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JasperCompileManager.java 3033 2009-08-27 11:46:22Z teodord $
@@ -101,17 +100,7 @@ public enum PositionTypeEnum implements JREnum
 	 */
 	public static PositionTypeEnum getByValue(Byte value)
 	{
-		if (value != null)
-		{
-			for(PositionTypeEnum e:values())
-			{
-				if (value.equals(e.getValueByte()))
-				{
-					return e;
-				}
-			}
-		}
-		return null;
+		return (PositionTypeEnum)EnumUtil.getByValue(values(), value);
 	}
 	
 	/**
