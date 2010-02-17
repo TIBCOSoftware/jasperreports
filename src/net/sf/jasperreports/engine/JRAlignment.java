@@ -39,36 +39,36 @@ public interface JRAlignment extends JRStyleContainer
 {
 
 	/**
-	 * @deprecated Replaced by {@link HorizontalAlignEnum#LEFT#getValue()}.
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#LEFT}.
 	 */
 	public static final byte HORIZONTAL_ALIGN_LEFT = 1;
 	/**
-	 * @deprecated Replaced by {@link HorizontalAlignEnum#CENTER#getValue()}.
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#CENTER}.
 	 */
 	public static final byte HORIZONTAL_ALIGN_CENTER = 2;
 	/**
-	 * @deprecated Replaced by {@link HorizontalAlignEnum#RIGHT#getValue()}.
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#RIGHT}.
 	 */
 	public static final byte HORIZONTAL_ALIGN_RIGHT = 3;
 	/**
-	 * @deprecated Replaced by {@link HorizontalAlignEnum#JUSTIFIED#getValue()}.
+	 * @deprecated Replaced by {@link HorizontalAlignEnum#JUSTIFIED}.
 	 */
 	public static final byte HORIZONTAL_ALIGN_JUSTIFIED = 4;
 
 	/**
-	 * @deprecated Replaced by {@link VerticalAlignEnum#TOP#getValue()}.
+	 * @deprecated Replaced by {@link VerticalAlignEnum#TOP}.
 	 */
 	public static final byte VERTICAL_ALIGN_TOP = 1;
 	/**
-	 * @deprecated Replaced by {@link VerticalAlignEnum#MIDDLE#getValue()}.
+	 * @deprecated Replaced by {@link VerticalAlignEnum#MIDDLE}.
 	 */
 	public static final byte VERTICAL_ALIGN_MIDDLE = 2;
 	/**
-	 * @deprecated Replaced by {@link VerticalAlignEnum#BOTTOM#getValue()}.
+	 * @deprecated Replaced by {@link VerticalAlignEnum#BOTTOM}.
 	 */
 	public static final byte VERTICAL_ALIGN_BOTTOM = 3;
 	/**
-	 * @deprecated Replaced by {@link VerticalAlignEnum#JUSTIFIED#getValue()}.
+	 * @deprecated Replaced by {@link VerticalAlignEnum#JUSTIFIED}.
 	 */
 	public static final byte VERTICAL_ALIGN_JUSTIFIED = 4;
 

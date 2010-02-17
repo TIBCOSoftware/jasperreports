@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.PositionTypeEnum;
 
 
 /**
@@ -39,7 +41,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	/**
 	 * The element will float in its parent section if it is pushed downwards by other elements fount above it.
 	 * It will try to conserve the distance between it and the neighboring elements placed immediately above.
-	 * @deprecated Replaced by {@link  PositionTypeEnum#POSITION_TYPE_FLOAT#getValue()}.
+	 * @deprecated Replaced by {@link  PositionTypeEnum#FLOAT}.
 	 */
 	public static final byte POSITION_TYPE_FLOAT = 1;
 
@@ -47,7 +49,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	/**
 	 * The element will simply ignore what happens to the other section elements and tries to
 	 * conserve the y offset measured from the top of its parent report section.
-	 * @deprecated Replaced by {@link  PositionTypeEnum#POSITION_TYPE_FIX_RELATIVE_TO_TOP#getValue()}.
+	 * @deprecated Replaced by {@link  PositionTypeEnum#FIX_RELATIVE_TO_TOP}.
 	 */
 	public static final byte POSITION_TYPE_FIX_RELATIVE_TO_TOP = 2;
 
@@ -55,20 +57,20 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	/**
 	 * If the height of the parent report section is affected by elements that stretch, the current element will try to
 	 * conserve the original distance between its bottom margin and the bottom of the band.
-	 * @deprecated Replaced by {@link  PositionTypeEnum#POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM#getValue()}.
+	 * @deprecated Replaced by {@link  PositionTypeEnum#FIX_RELATIVE_TO_BOTTOM}.
 	 */
 	public static final byte POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM = 3;
 
 	/**
 	 * Specifies that the element is opaque.
-	 * @deprecated Replaced by {@link  ModeEnum#OPAQUE#getValue()}.
+	 * @deprecated Replaced by {@link  ModeEnum#OPAQUE}.
 	 */
 	public static final byte MODE_OPAQUE = 1;
 
 
 	/**
 	 * Specifies that the element is transparent.
-	 * @deprecated Replaced by {@link  ModeEnum#TRANSPARENT#getValue()}.
+	 * @deprecated Replaced by {@link  ModeEnum#TRANSPARENT}.
 	 */
 	public static final byte MODE_TRANSPARENT = 2;
 
