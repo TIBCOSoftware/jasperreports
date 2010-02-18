@@ -167,7 +167,7 @@
 			</staticText>
 			<componentElement>
 				<reportElement style="Barcode" x="130" y="530" width="400" height="20"/>
-				<c:POSTNET xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" checksumMode="add" shortBarHeight="10">
+				<c:POSTNET xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" shortBarHeight="10.0" checksumMode="add">
 					<c:codeExpression><![CDATA["01234"]]></c:codeExpression>
 				</c:POSTNET>
 			</componentElement>
@@ -178,7 +178,7 @@
 			</staticText>
 			<componentElement>
 				<reportElement style="Barcode" x="130" y="555" width="400" height="30"/>
-				<c:PDF417 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="4">
+				<c:PDF417 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="4.0">
 					<c:codeExpression><![CDATA["JasperReports"]]></c:codeExpression>
 				</c:PDF417>
 			</componentElement>
