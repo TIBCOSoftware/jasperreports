@@ -1,45 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
-<jasperReport
-		xmlns="http://jasperreports.sourceforge.net/jasperreports"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-		name="SubDatasetChartReport" language="java" pageWidth="595" pageHeight="842" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubDatasetChartReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
 	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Serif_Bold" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<subDataset name="Country_Orders">
-		<parameter name="Country" class="java.lang.String">
-		</parameter>
-		<queryString><![CDATA[
-			SELECT OrderDate, Freight 
-			FROM Orders 
-			WHERE 
-				ShipCountry = $P{Country} AND 
+		<parameter name="Country" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT OrderDate, Freight
+			FROM Orders
+			WHERE
+				ShipCountry = $P{Country} AND
 				OrderDate IS NOT NULL
-			ORDER BY OrderDate
-		]]></queryString>
-		<field name="OrderDate" class="java.sql.Timestamp">
-		</field>
-		<field name="Freight" class="java.lang.Double">
-		</field>
+			ORDER BY OrderDate]]>
+		</queryString>
+		<field name="OrderDate" class="java.sql.Timestamp"/>
+		<field name="Freight" class="java.lang.Double"/>
 		<variable name="OrderMonth" class="java.util.Date">
-			<variableExpression>ChartsApp.truncateToMonth($F{OrderDate})</variableExpression>
+			<variableExpression><![CDATA[ChartsApp.truncateToMonth($F{OrderDate})]]></variableExpression>
 		</variable>
 		<variable name="FreightSum" class="java.lang.Double" resetType="Group" resetGroup="MonthGroup" calculation="Sum">
-			<variableExpression>$F{Freight}</variableExpression>
+			<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 		</variable>
 		<group name="MonthGroup">
-			<groupExpression>$V{OrderMonth}</groupExpression>			
+			<groupExpression><![CDATA[$V{OrderMonth}]]></groupExpression>
 		</group>
 	</subDataset>
-	<queryString><![CDATA[
-		SELECT DISTINCT ShipCountry 
-		FROM Orders 
-		ORDER BY ShipCountry
-	]]></queryString>
-	<field name="ShipCountry" class="java.lang.String">
-	</field>
+	<queryString>
+		<![CDATA[SELECT DISTINCT ShipCountry
+		FROM Orders
+		ORDER BY ShipCountry]]>
+	</queryString>
+	<field name="ShipCountry" class="java.lang.String"/>
 	<title>
 		<band height="50">
 			<staticText>
@@ -58,7 +48,6 @@
 		<band height="230">
 			<line>
 				<reportElement x="0" y="19" width="550" height="1"/>
-				<graphicElement/>
 			</line>
 			<textField>
 				<reportElement style="Sans_Bold" x="10" y="2" width="150" height="16"/>
@@ -70,6 +59,9 @@
 			<timeSeriesChart>
 				<chart>
 					<reportElement positionType="Float" x="0" y="25" width="550" height="190"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
 				</chart>
 				<timeSeriesDataset timePeriod="Month">
 					<dataset incrementType="Group" incrementGroup="MonthGroup">
@@ -94,15 +86,26 @@
 				</timeSeriesDataset>
 				<timeSeriesPlot isShowLines="true" isShowShapes="true">
 					<plot/>
+					<timeAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</timeAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</valueAxisFormat>
 				</timeSeriesPlot>
 			</timeSeriesChart>
-		 </band>		
+		</band>
 	</detail>
 	<pageFooter>
 		<band height="30">
 			<rectangle>
 				<reportElement mode="Transparent" x="0" y="5" width="555" height="25"/>
-				<graphicElement/>
 			</rectangle>
 			<textField>
 				<reportElement x="200" y="10" width="75" height="20"/>
