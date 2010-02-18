@@ -602,7 +602,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 								new JRWrappingSvgRenderer(
 									renderer,
 									new Dimension(image.getWidth(), image.getHeight()),
-									ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
+									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 									);
 						}
 	
@@ -1767,7 +1767,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 									new JRWrappingSvgRenderer(
 										renderer,
 										new Dimension(image.getWidth(), image.getHeight()),
-										ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
+										ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 										);
 							}
 							imageNameToImageDataMap.put(imageName, renderer.getImageData());

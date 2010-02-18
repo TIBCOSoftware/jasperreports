@@ -106,9 +106,9 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	/**
 	 *
 	 */
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 	
 	private void copyParameters(JRCrosstab crosstab, JRBaseObjectFactory factory)

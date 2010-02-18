@@ -66,9 +66,9 @@ public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 	/**
 	 *
 	 */
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 		
 	/**

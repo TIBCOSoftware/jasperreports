@@ -144,9 +144,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 *
 	 */
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	/**

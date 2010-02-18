@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRStyleContainer;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
@@ -205,10 +206,16 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	
 	
 	/**
+	 * @deprecated Replaced by {@link #getModeValue()}.
+	 */
+	public Byte getMode();
+	
+	
+	/**
 	 * Returns the cell transparency mode.
 	 * 
 	 * @return {@link net.sf.jasperreports.engine.JRElement#MODE_OPAQUE MODE_OPAQUE}
 	 * or {@link net.sf.jasperreports.engine.JRElement#MODE_TRANSPARENT MODE_TRANSPARENT}
 	 */
-	public Byte getMode();
+	public ModeEnum getModeValue();
 }

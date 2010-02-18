@@ -473,7 +473,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		Color bgcolor = element.getBackcolor();
 
-		if (element.getMode() == ModeEnum.OPAQUE.getValue())
+		if (element.getModeValue() == ModeEnum.OPAQUE)
 		{
 			writer.write("{\\sp{\\sn fFilled}{\\sv 1}}");
 			writer.write("{\\sp{\\sn fillColor}{\\sv ");
@@ -1038,7 +1038,7 @@ public class JRRtfExporter extends JRAbstractExporter
 					new JRWrappingSvgRenderer(
 						renderer,
 						new Dimension(printImage.getWidth(), printImage.getHeight()),
-						ModeEnum.OPAQUE.getValue() == printImage.getMode() ? printImage.getBackcolor() : null
+						ModeEnum.OPAQUE == printImage.getModeValue() ? printImage.getBackcolor() : null
 						);
 			}
 

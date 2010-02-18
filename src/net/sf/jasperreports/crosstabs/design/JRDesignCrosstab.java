@@ -1325,9 +1325,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	}
 	
 	
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	public JRCellContents getHeaderCell()

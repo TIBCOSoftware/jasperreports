@@ -843,7 +843,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			//JRFontUtil.getAttributes(styledTextAttributes, this, filler.getLocale());
 			JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, this);
 			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
-			if (getMode() == ModeEnum.OPAQUE.getValue())
+			if (getModeValue() == ModeEnum.OPAQUE)
 			{
 				styledTextAttributes.put(TextAttribute.BACKGROUND, getBackcolor());
 			}

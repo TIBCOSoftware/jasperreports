@@ -30,9 +30,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -40,6 +37,9 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseGenericPrintElement;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Utility class that creates generic print elements of Flash type.
@@ -131,7 +131,7 @@ public class FlashPrintElement
 		flashEl.setWidth(template.getWidth());
 		flashEl.setHeight(template.getHeight());
 		flashEl.setStyle(template.getStyle());
-		flashEl.setMode(template.getOwnMode());
+		flashEl.setMode(template.getOwnModeValue());
 		flashEl.setBackcolor(template.getOwnBackcolor());
 		flashEl.setForecolor(template.getOwnForecolor());
 		flashEl.setOrigin(template.getOrigin());

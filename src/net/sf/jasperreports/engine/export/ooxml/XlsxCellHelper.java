@@ -115,7 +115,7 @@ public class XlsxCellHelper extends BaseHelper
 	 *
 	public void exportProps(JRPrintElement element, JRExporterGridCell gridCell)
 	{
-		exportBackcolor(element.getMode(), element.getBackcolor());
+		exportBackcolor(element.getModeValue(), element.getBackcolor());
 		
 		borderHelper.export(gridCell.getBox());
 
@@ -144,7 +144,7 @@ public class XlsxCellHelper extends BaseHelper
 	 *
 	public void exportProps(JRExporterGridCell gridCell)
 	{
-		exportBackcolor(ModeEnum.OPAQUE.getValue(), gridCell.getBackcolor());//FIXMEDOCX check this
+		exportBackcolor(ModeEnum.OPAQUE, gridCell.getBackcolor());//FIXMEDOCX check this
 		
 		borderHelper.export(gridCell.getBox());
 	}
@@ -153,9 +153,9 @@ public class XlsxCellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportBackcolor(byte mode, Color backcolor)
+	private void exportBackcolor(ModeEnum mode, Color backcolor)
 	{
-		if (mode == ModeEnum.OPAQUE.getValue() && backcolor != null)
+		if (mode == ModeEnum.OPAQUE && backcolor != null)
 		{
 			write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" />\n");
 		}

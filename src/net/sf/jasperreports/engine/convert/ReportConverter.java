@@ -540,7 +540,7 @@ public class ReportConverter
 		converted.setBackcolor(source.getOwnBackcolor());
 		converted.setForecolor(source.getOwnForecolor());
 		//printElement.setKey(element.getKey());
-		converted.setMode(source.getOwnMode());
+		converted.setMode(source.getOwnModeValue());
 		converted.setStyle(resolveStyle(source));
 	}
 	

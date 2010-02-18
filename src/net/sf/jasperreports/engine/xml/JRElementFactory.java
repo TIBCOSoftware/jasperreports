@@ -76,7 +76,7 @@ public class JRElementFactory extends JRBaseFactory
 		ModeEnum mode = ModeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
 		if (mode != null)
 		{
-			element.setMode(mode.getValueByte());
+			element.setMode(mode);
 		}
 		
 		String x = atts.getValue(JRXmlConstants.ATTRIBUTE_x);

@@ -913,9 +913,9 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	/**

@@ -1184,7 +1184,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 				short forecolor = getNearestColor(element.getLineBox().getPen().getLineColor()).getIndex();
 
-				if(element.getMode() == ModeEnum.OPAQUE.getValue() ){
+				if(element.getModeValue() == ModeEnum.OPAQUE ){
 					backcolor = getNearestColor(element.getBackcolor()).getIndex();
 				}
 
@@ -1230,7 +1230,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		if (frame.getMode() == ModeEnum.OPAQUE.getValue())
+		if (frame.getModeValue() == ModeEnum.OPAQUE)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getNearestColor(frame.getBackcolor()).getIndex();

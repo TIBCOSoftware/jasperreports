@@ -55,7 +55,7 @@ public class XlsxStyleInfo
 		
 		JRPrintElement element = gridCell.getElement();
 		
-		if (element != null && element.getMode() == ModeEnum.OPAQUE.getValue())
+		if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
 		{
 			this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
 		}

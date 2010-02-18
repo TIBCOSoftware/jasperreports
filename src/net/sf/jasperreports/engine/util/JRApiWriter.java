@@ -141,8 +141,8 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
-import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
@@ -3228,7 +3228,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignCellContents " + cellName + " = new JRDesignCellContents();\n");
 			write( cellName + ".setBackcolor({0});\n", getColorText(contents.getBackcolor()));
-			write( cellName + ".setMode({0});\n", ModeEnum.getByValue(contents.getMode()));
+			write( cellName + ".setMode({0});\n", contents.getModeValue());
 			writeStyleReferenceAttr( contents, cellName);
 
 			writeBox( contents.getLineBox(), cellName + ".getLineBox()");
@@ -3563,27 +3563,27 @@ public class JRApiWriter
 		}
 	}
 
-	/**
-	 * Returns the XML write helper used by this report writer.
-	 * 
-	 * The helper can be used to output XML elements and attributes.
-	 * 
-	 * @return the XML write helper used by this report writer
-	 *
-	public JRXmlWriteHelper getXmlWriteHelper()
-	{
-		return writer;
-	}
-
-	/**
-	 * Returns the underlying stream to which this writer outputs to.
-	 * 
-	 * @return the underlying stream used by this writer
-	 *
-	public Writer getUnderlyingWriter()
-	{
-		return writer.getUnderlyingWriter();
-	}
+//	/**
+//	 * Returns the XML write helper used by this report writer.
+//	 * 
+//	 * The helper can be used to output XML elements and attributes.
+//	 * 
+//	 * @return the XML write helper used by this report writer
+//	 */
+//	public JRXmlWriteHelper getXmlWriteHelper()
+//	{
+//		return writer;
+//	}
+//
+//	/**
+//	 * Returns the underlying stream to which this writer outputs to.
+//	 * 
+//	 * @return the underlying stream used by this writer
+//	 */
+//	public Writer getUnderlyingWriter()
+//	{
+//		return writer.getUnderlyingWriter();
+//	}
 
 	/**
 	 * 

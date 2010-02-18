@@ -463,7 +463,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 								new JRWrappingSvgRenderer(
 									renderer,
 									new Dimension(image.getWidth(), image.getHeight()),
-									ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
+									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 									);
 						}
 	
@@ -1388,7 +1388,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 	protected void appendBackcolorStyle(JRPrintElement element, StringBuffer styleBuffer)
 	{
-		if (element.getMode() == ModeEnum.OPAQUE.getValue())
+		if (element.getModeValue() == ModeEnum.OPAQUE)
 		{
 			styleBuffer.append("background-color: #");
 			styleBuffer.append(JRColorUtil.getColorHexa(element.getBackcolor()));

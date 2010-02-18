@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -574,7 +573,7 @@ public class JRGridLayout
 
 	protected void setFrameCellsStyle(JRPrintFrame frame, int row1, int col1, int row2, int col2)
 	{
-		Color backcolor = frame.getMode() == ModeEnum.OPAQUE.getValue() ? frame.getBackcolor() : null;
+		Color backcolor = frame.getModeValue() == ModeEnum.OPAQUE ? frame.getBackcolor() : null;
 
 		for (int row = row1; row < row2; row++)
 		{
@@ -584,7 +583,7 @@ public class JRGridLayout
 
 				if (cell.getBackcolor() == null)
 				{
-					if (frame.getMode() == ModeEnum.OPAQUE.getValue())
+					if (frame.getModeValue() == ModeEnum.OPAQUE)
 					{
 						cell.setBackcolor(backcolor);
 					}

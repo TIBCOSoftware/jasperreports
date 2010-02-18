@@ -60,7 +60,7 @@ public class JRCellContentsFactory extends JRBaseFactory
 		ModeEnum mode = ModeEnum.getByName(attributes.getValue(ATTRIBUTE_mode));
 		if (mode != null)
 		{
-			cell.setMode(mode.getValueByte());
+			cell.setMode(mode);
 		}
 		
 		String styleName = attributes.getValue(ATTRIBUTE_style);

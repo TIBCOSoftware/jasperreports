@@ -823,7 +823,7 @@ public class JRXmlExporter extends JRAbstractExporter
 					new JRWrappingSvgRenderer(
 						renderer, 
 						new Dimension(image.getWidth(), image.getHeight()),
-						ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
+						ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 						);
 			}
 				

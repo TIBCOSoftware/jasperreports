@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-import org.jfree.chart.renderer.category.BarRenderer3D;
-
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.base.JRBaseDataRange;
 import net.sf.jasperreports.engine.JRCloneable;

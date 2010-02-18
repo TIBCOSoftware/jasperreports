@@ -34,7 +34,6 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;

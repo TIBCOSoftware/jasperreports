@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
@@ -68,7 +67,7 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox, JRBoxCo
 		parentStyle = cell.getStyle();
 		
 		setBackcolor(cell.getBackcolor());
-		setMode(cell.getMode());
+		setMode(cell.getModeValue());
 		copyBox(cell.getLineBox());
 	}
 	
@@ -136,9 +135,9 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox, JRBoxCo
 	/**
 	 *
 	 */
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	/**

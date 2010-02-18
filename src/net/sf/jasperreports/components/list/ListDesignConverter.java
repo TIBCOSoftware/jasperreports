@@ -69,7 +69,7 @@ public class ListDesignConverter implements ComponentDesignConverter
 			contentsFrame.setY(0);
 			contentsFrame.setWidth(element.getWidth());			
 			contentsFrame.setHeight(contents.getHeight());
-			contentsFrame.setMode(ModeEnum.TRANSPARENT.getValue());
+			contentsFrame.setMode(ModeEnum.TRANSPARENT);
 			
 			List children = contents.getChildren();
 			if (children != null)
@@ -100,7 +100,7 @@ public class ListDesignConverter implements ComponentDesignConverter
 				image.setWidth(element.getWidth());
 				image.setY(0);
 				image.setHeight(element.getHeight());
-				image.setMode(ModeEnum.TRANSPARENT.getValue());
+				image.setMode(ModeEnum.TRANSPARENT);
 				
 				// clip out the list contents area
 				Area clip = new Area(new Rectangle(

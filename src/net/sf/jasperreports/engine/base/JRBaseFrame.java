@@ -105,9 +105,9 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame //FIXMECLONE w
 		return JRBaseElementGroup.getElementByKey(getElements(), elementKey);
 	}
 	
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 

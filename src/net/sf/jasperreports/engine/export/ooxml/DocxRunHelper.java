@@ -107,7 +107,7 @@ public class DocxRunHelper extends BaseHelper
 		Map styledTextAttributes = new HashMap(); 
 		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (style.getMode() == null || style.getMode().byteValue() == ModeEnum.OPAQUE.getValue())
+		if (style.getModeValue() == null || style.getModeValue() == ModeEnum.OPAQUE)
 		{
 			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getBackcolor());
 		}

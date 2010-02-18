@@ -662,7 +662,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 							new JRWrappingSvgRenderer(
 								renderer,
 								new Dimension(image.getWidth(), image.getHeight()),
-								ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
+								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 								);
 					}
 
@@ -759,7 +759,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 //		boolean appendBackcolor =
-//			frame.getMode() == ModeEnum.OPAQUE.getValue()
+//			frame.getModeValue() == ModeEnum.OPAQUE
 //			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
 //
 //		if (appendBackcolor)

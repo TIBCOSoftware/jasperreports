@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
@@ -924,7 +923,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(frame, gridCell.getBackcolor(), null, isFontSizeFixEnabled, defaultFont, fontMap), gridCell.getColSpan(), gridCell.getRowSpan(), null, null, null);
 
 		boolean appendBackcolor =
-			frame.getMode() == ModeEnum.OPAQUE.getValue()
+			frame.getModeValue() == ModeEnum.OPAQUE
 			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
 
 		if (appendBackcolor)
