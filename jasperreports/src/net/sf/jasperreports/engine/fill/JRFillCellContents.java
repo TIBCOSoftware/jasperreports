@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -682,9 +683,17 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		collectConditionalStyle(initStyle);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getModeValue()}.
+	 */
 	public Byte getMode()
 	{
-		return parentCell.getMode();
+		return getModeValue() == null ? null : getModeValue().getValueByte();
+	}
+
+	public ModeEnum getModeValue()
+	{
+		return parentCell.getModeValue();
 	}
 
 	public String getStyleNameReference()

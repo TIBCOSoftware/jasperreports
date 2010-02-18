@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -184,7 +183,7 @@ public abstract class JRExporterGridCell
 	{
 		Color color;
 		JRPrintElement element = getElement();
-		if (element != null && element.getMode() == ModeEnum.OPAQUE.getValue())
+		if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
 		{
 			color = element.getBackcolor();
 		}

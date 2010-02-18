@@ -57,7 +57,7 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		ModeEnum mode = ModeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
 		if (mode != null)
 		{
-			style.setMode(mode.getValueByte());
+			style.setMode(mode);
 		}
 
 		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);

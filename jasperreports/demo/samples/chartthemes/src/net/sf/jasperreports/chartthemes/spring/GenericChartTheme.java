@@ -1955,7 +1955,7 @@ public class GenericChartTheme implements ChartTheme
 
 		if (getChart().getOwnMode() != null)
 		{
-			if(getChart().getOwnMode().byteValue() == ModeEnum.OPAQUE.getValue())
+			if(getChart().getOwnMode().byteValue() == ModeEnum.OPAQUE)
 			{
 				if(getChart().getOwnBackcolor() == null && defaultBackgroundPaint != null)
 				{

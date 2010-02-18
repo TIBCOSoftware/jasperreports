@@ -154,7 +154,6 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
-import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 
@@ -2720,7 +2719,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			writer.startElement(JRCellContentsFactory.ELEMENT_cellContents);
 			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_backcolor, contents.getBackcolor());
-			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_mode, ModeEnum.getByValue(contents.getMode()));
+			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_mode, contents.getModeValue());
 			writeStyleReferenceAttr(contents);
 
 			writeBox(contents.getLineBox());

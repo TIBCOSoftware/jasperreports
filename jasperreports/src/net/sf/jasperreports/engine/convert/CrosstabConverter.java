@@ -196,7 +196,7 @@ public class CrosstabConverter extends FrameConverter
 		frame.setWidth(cell.getWidth());
 		frame.setHeight(cell.getHeight());
 		
-		frame.setMode(cell.getMode());
+		frame.setMode(cell.getModeValue());
 		frame.setBackcolor(cell.getBackcolor());
 		frame.setStyle(reportConverter.resolveStyle(cell));
 		

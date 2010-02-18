@@ -2106,9 +2106,9 @@ public class SimpleChartTheme implements ChartTheme
 	{
 		Paint backgroundPaint = getChartSettings().getBackgroundPaint() == null ? null : getChartSettings().getBackgroundPaint().getPaint();
 
-		if (getChart().getOwnMode() != null)
+		if (getChart().getOwnModeValue() != null)
 		{
-			if(getChart().getOwnMode().byteValue() == ModeEnum.OPAQUE.getValue())
+			if(getChart().getOwnModeValue() == ModeEnum.OPAQUE)
 			{
 				if(getChart().getOwnBackcolor() != null || backgroundPaint == null)
 				{
@@ -2148,7 +2148,7 @@ public class SimpleChartTheme implements ChartTheme
 				jfreeChart.setBackgroundImageAlignment(backgroundImageAlignment.intValue());
 			}
 			Float backgroundImageAlpha = chartSettings.getBackgroundImageAlpha();
-//			if(getChart().getOwnMode() != null && getChart().getOwnMode().byteValue() == ModeEnum.TRANSPARENT.getValue())
+//			if(getChart().getOwnMode() != null && getChart().getOwnMode().byteValue() == ModeEnum.TRANSPARENT)
 //			{
 //				backgroundImageAlpha = new Float(0);
 //			}

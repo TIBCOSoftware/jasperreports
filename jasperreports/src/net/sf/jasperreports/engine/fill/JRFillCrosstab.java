@@ -181,9 +181,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	/**
 	 *
 	 */
-	public byte getMode()
+	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT.getValue());
+		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	private void copyRowGroups(JRCrosstab crosstab, JRFillCrosstabObjectFactory factory)
@@ -623,7 +623,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		rectangle.setKey(getKey());
 		rectangle.setPositionType(getPositionType());
 		// rectangle.setPrintRepeatedValues(isPrintRepeatedValues());
-		rectangle.setMode(getMode());
+		rectangle.setMode(getModeValue());
 		rectangle.setX(getX());
 		rectangle.setY(getY());
 		rectangle.setWidth(getWidth());

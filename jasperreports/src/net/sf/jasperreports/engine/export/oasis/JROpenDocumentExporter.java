@@ -364,7 +364,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 						new JRWrappingSvgRenderer(
 							renderer,
 							new Dimension(image.getWidth(), image.getHeight()),
-							ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
+							ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 							);
 				}
 
@@ -899,7 +899,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		boolean appendBackcolor =
-			frame.getMode() == ModeEnum.OPAQUE.getValue()
+			frame.getModeValue() == ModeEnum.OPAQUE
 			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
 
 		if (appendBackcolor)

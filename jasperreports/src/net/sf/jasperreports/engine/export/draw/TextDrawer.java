@@ -143,7 +143,7 @@ public class TextDrawer extends ElementDrawer
 		
 		grx.rotate(angle, x, y);
 
-		if (text.getMode() == ModeEnum.OPAQUE.getValue())
+		if (text.getModeValue() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(text.getBackcolor());
 			grx.fillRect(x, y, width, height); 

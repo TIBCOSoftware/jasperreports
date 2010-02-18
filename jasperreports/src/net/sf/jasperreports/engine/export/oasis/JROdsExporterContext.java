@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.export.oasis;
 
 import net.sf.jasperreports.engine.export.JRExporterContext;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 
 
 /**

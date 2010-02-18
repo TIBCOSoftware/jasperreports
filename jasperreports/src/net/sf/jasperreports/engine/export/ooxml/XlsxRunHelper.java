@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
@@ -94,7 +93,7 @@ public class XlsxRunHelper extends BaseHelper
 		Map styledTextAttributes = new HashMap(); 
 		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (style.getMode() == null || style.getMode().byteValue() == ModeEnum.OPAQUE.getValue())
+		if (style.getModeValue() == null || style.getModeValue() == ModeEnum.OPAQUE)
 		{
 			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getBackcolor());
 		}
@@ -230,7 +229,7 @@ public class XlsxRunHelper extends BaseHelper
 		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
 		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (text.getMode() == ModeEnum.OPAQUE.getValue())
+		if (text.getModeValue() == ModeEnum.OPAQUE)
 		{
 			styledTextAttributes.put(TextAttribute.BACKGROUND, text.getBackcolor());
 		}

@@ -34,9 +34,10 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
@@ -54,7 +55,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	protected JRStyle style;
 	protected String styleNameReference;
 	
-	protected Byte mode;
+	protected ModeEnum modeValue;
 	protected Color backcolor;
 	protected JRLineBox lineBox;
 	protected int width;
@@ -67,7 +68,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		this.defaultStyleProvider = factory.getDefaultStyleProvider();
 		style = factory.getStyle(cell.getStyle());
 		styleNameReference = cell.getStyleNameReference();
-		mode = cell.getMode();
+		modeValue = cell.getModeValue();
 		backcolor = cell.getBackcolor();
 		lineBox = cell.getLineBox().clone(this);
 		width = cell.getWidth();
@@ -112,9 +113,17 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		return style;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getModeValue()}.
+	 */
 	public Byte getMode()
 	{
-		return mode;
+		return getModeValue() == null ? null : getModeValue().getValueByte() ;
+	}
+
+	public ModeEnum getModeValue()
+	{
+		return modeValue;
 	}
 
 	public String getStyleNameReference()
@@ -134,11 +143,20 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte mode;
 	private JRBox box = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			modeValue = ModeEnum.getByValue(mode);
+			
+			mode = null;
+		}
 
 		if (lineBox == null)
 		{

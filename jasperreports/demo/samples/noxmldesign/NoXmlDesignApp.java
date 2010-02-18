@@ -500,7 +500,7 @@ public class NoXmlDesignApp
 		textField.setWidth(515);
 		textField.setHeight(15);
 		textField.setBackcolor(new Color(0xC0, 0xC0, 0xC0));
-		textField.setMode(ModeEnum.OPAQUE.getValue());
+		textField.setMode(ModeEnum.OPAQUE);
 		textField.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_LEFT);
 		textField.setStyle(boldStyle);
 		expression = new JRDesignExpression();
@@ -584,7 +584,7 @@ public class NoXmlDesignApp
 		frame.setHeight(15);
 		frame.setForecolor(new Color(0x33, 0x33, 0x33));
 		frame.setBackcolor(new Color(0x33, 0x33, 0x33));
-		frame.setMode(ModeEnum.OPAQUE.getValue());
+		frame.setMode(ModeEnum.OPAQUE);
 		band.addElement(frame);
 		staticText = new JRDesignStaticText();
 		staticText.setX(0);
@@ -593,7 +593,7 @@ public class NoXmlDesignApp
 		staticText.setHeight(15);
 		staticText.setForecolor(Color.white);
 		staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
-		staticText.setMode(ModeEnum.OPAQUE.getValue());
+		staticText.setMode(ModeEnum.OPAQUE);
 		staticText.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_CENTER);
 		staticText.setStyle(boldStyle);
 		staticText.setText("ID");
@@ -605,7 +605,7 @@ public class NoXmlDesignApp
 		staticText.setHeight(15);
 		staticText.setForecolor(Color.white);
 		staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
-		staticText.setMode(ModeEnum.OPAQUE.getValue());
+		staticText.setMode(ModeEnum.OPAQUE);
 		staticText.setStyle(boldStyle);
 		staticText.setText("Name");
 		frame.addElement(staticText);
@@ -616,7 +616,7 @@ public class NoXmlDesignApp
 		staticText.setHeight(15);
 		staticText.setForecolor(Color.white);
 		staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
-		staticText.setMode(ModeEnum.OPAQUE.getValue());
+		staticText.setMode(ModeEnum.OPAQUE);
 		staticText.setStyle(boldStyle);
 		staticText.setText("Street");
 		frame.addElement(staticText);

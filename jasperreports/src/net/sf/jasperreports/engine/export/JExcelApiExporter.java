@@ -1009,7 +1009,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				background = getWorkbookColour(gridCell.getCellBackcolor(), true);
 			}
 
-			if(element.getMode() == ModeEnum.OPAQUE.getValue() )
+			if (element.getModeValue() == ModeEnum.OPAQUE)
 			{
 				background = getWorkbookColour(element.getBackcolor(), true);
 			}
@@ -1887,7 +1887,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		Colour backcolor = WHITE;
 		Pattern mode = backgroundMode;
 
-		if (frame.getMode() == ModeEnum.OPAQUE.getValue())
+		if (frame.getModeValue() == ModeEnum.OPAQUE)
 		{
 			mode = Pattern.SOLID;
 			backcolor = getWorkbookColour(frame.getBackcolor(), true);

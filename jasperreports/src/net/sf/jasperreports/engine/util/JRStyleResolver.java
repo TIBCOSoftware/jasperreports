@@ -1223,8 +1223,8 @@ public class JRStyleResolver
 	 */
 	public static void appendStyle(JRStyle destStyle, JRStyle srcStyle)
 	{
-		if (srcStyle.getOwnMode() != null)
-			destStyle.setMode(srcStyle.getOwnMode());
+		if (srcStyle.getOwnModeValue() != null)
+			destStyle.setMode(srcStyle.getOwnModeValue());
 		if (srcStyle.getOwnForecolor() != null)
 			destStyle.setForecolor(srcStyle.getOwnForecolor());
 		if (srcStyle.getOwnBackcolor() != null)

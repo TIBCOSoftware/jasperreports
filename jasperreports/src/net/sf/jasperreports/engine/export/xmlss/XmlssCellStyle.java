@@ -98,7 +98,7 @@ public class XmlssCellStyle extends XmlssBorderStyle
 		this.pattern = pattern;
 		this.shrinkToFit = String.valueOf(getBitValue(isShrinkToFit));
 		
-		if (ModeEnum.OPAQUE.getValue() == element.getMode())
+		if (ModeEnum.OPAQUE == element.getModeValue())
 		{
 			if(element.getBackcolor() != null)
 			{

@@ -611,8 +611,8 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 	protected IProblem[] getJavaCompilationErrors(CompilationResult result) {
 		try {
-			Method getErrorsMethod = result.getClass().getMethod("getErrors", null);
-			return (IProblem[]) getErrorsMethod.invoke(result, null);
+			Method getErrorsMethod = result.getClass().getMethod("getErrors", (Class[])null);
+			return (IProblem[]) getErrorsMethod.invoke(result, (Object[])null);
 		} catch (SecurityException e) {
 			throw new JRRuntimeException("Error resolving JDT methods", e);
 		} catch (NoSuchMethodException e) {

@@ -36,7 +36,6 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
@@ -62,7 +61,7 @@ public class RectangleDrawer extends ElementDrawer
 		int width = rectangle.getWidth();
 		int height = rectangle.getHeight();
 		
-		if (rectangle.getMode() == ModeEnum.OPAQUE.getValue())
+		if (rectangle.getModeValue() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(rectangle.getBackcolor());
 			if (rectangle.getRadius() > 0)

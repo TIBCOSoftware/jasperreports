@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
@@ -60,7 +61,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	protected JRStyle style;
 	protected String styleNameReference;
 	
-	protected Byte mode;
+	protected ModeEnum modeValue;
 	private Color backcolor;
 	private JRLineBox lineBox;
 	private int width = JRCellContents.NOT_CALCULATED;
@@ -179,23 +180,39 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		getEventSupport().firePropertyChange(PROPERTY_STYLE, old, this.style);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getModeValue()}.
+	 */
 	public Byte getMode()
 	{
-		return mode;
+		return getModeValue() == null ? null : getModeValue().getValueByte();
+	}
+
+	public ModeEnum getModeValue()
+	{
+		return modeValue;
 	}
 
 	
 	/**
-	 * Sets the cell transparency mode.
-	 * 
-	 * @param mode the transparency mode
-	 * @see JRCellContents#getMode()
+	 * @deprecated Replaced by
 	 */
 	public void setMode(Byte mode)
 	{
-		Object old = this.mode;
-		this.mode = mode;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.mode);
+		setMode(ModeEnum.getByValue(mode));
+	}
+
+	/**
+	 * Sets the cell transparency mode.
+	 * 
+	 * @param modeValue the transparency mode
+	 * @see JRCellContents#getModeValue()
+	 */
+	public void setMode(ModeEnum modeValue)
+	{
+		Object old = this.modeValue;
+		this.modeValue = modeValue;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.modeValue);
 	}
 
 	public String getStyleNameReference()
@@ -253,11 +270,20 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte mode;
 	private JRBox box = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			modeValue = ModeEnum.getByValue(mode);
+			
+			mode = null;
+		}
 
 		if (lineBox == null)
 		{

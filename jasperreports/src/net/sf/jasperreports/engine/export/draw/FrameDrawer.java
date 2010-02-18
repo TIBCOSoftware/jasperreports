@@ -38,7 +38,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -133,7 +132,7 @@ public class FrameDrawer extends ElementDrawer
 				);
 		}
 		
-		if (frame.getMode() == ModeEnum.OPAQUE.getValue())
+		if (frame.getModeValue() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(frame.getBackcolor());
 			grx.fillRect(

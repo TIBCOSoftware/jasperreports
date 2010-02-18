@@ -61,7 +61,7 @@ public class BaseChartHandler implements GenericElementHandler
 		text.setWidth(element.getWidth());
 		text.setHeight(element.getHeight());
 		text.setText("[Open Flash Chart Component]");
-		text.setMode(ModeEnum.OPAQUE.getValue());
+		text.setMode(ModeEnum.OPAQUE);
 		text.setBackcolor(Color.lightGray);
 		text.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_CENTER);
 		text.setVerticalAlignment(JRAlignment.VERTICAL_ALIGN_MIDDLE);

@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import java.awt.Color;
 
 
 /**
@@ -42,16 +41,6 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder
 	 *
 	 */
 	public void setStyle(JRStyle style);
-	
-	/**
-	 *
-	 */
-	public void setMode(byte mode);//FIXMENOW move these setters to the JRCommonElement too?
-	
-	/**
-	 *
-	 */
-	public void setMode(Byte mode);
 	
 	/**
 	 *
@@ -92,16 +81,6 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder
 	 *
 	 */
 	public void setHeight(int height);
-	
-	/**
-	 *
-	 */
-	public void setForecolor(Color color);
-	
-	/**
-	 *
-	 */
-	public void setBackcolor(Color color);
 	
 	
 	/**

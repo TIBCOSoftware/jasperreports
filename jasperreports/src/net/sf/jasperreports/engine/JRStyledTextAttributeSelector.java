@@ -76,7 +76,7 @@ public abstract class JRStyledTextAttributeSelector
 			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
 			JRFontUtil.getAttributesWithoutAwtFont(attributes, printText);
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
-			if (printText.getMode() == ModeEnum.OPAQUE.getValue())
+			if (printText.getModeValue() == ModeEnum.OPAQUE)
 			{
 				attributes.put(TextAttribute.BACKGROUND, printText.getBackcolor());
 			}

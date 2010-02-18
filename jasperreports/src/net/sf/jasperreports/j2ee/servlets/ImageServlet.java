@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -103,7 +102,7 @@ public class ImageServlet extends BaseHttpServlet
 					new JRWrappingSvgRenderer(
 						renderer, 
 						new Dimension(image.getWidth(), image.getHeight()),
-						ModeEnum.OPAQUE.getValue() == image.getMode() ? image.getBackcolor() : null
+						ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 						);
 			}
 
