@@ -98,20 +98,30 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	public String getKey();
 
 	/**
-	 * Returns the position type for the element
-	 * @return a byte value representing one of the position type constants in this class
+	 * @deprecated Replaced by {@link #getPositionTypeValue()}.
 	 */
 	public byte getPositionType();
 
 	/**
-	 * Sets the position type for the element.
-	 * @param positionType a byte value that must be one of the position type constants in this class
+	 * Returns the position type for the element
+	 * @return the position type
+	 */
+	public PositionTypeEnum getPositionTypeValue();
+
+	/**
+	 * @deprecated Replaced by {@link #setPositionType(PositionTypeEnum)}.
 	 */
 	public void setPositionType(byte positionType);
 
 	/**
+	 * Sets the position type for the element.
+	 * @param positionType the position type
+	 */
+	public void setPositionType(PositionTypeEnum positionType);
+
+	/**
 	 * Returns the stretch type for the element
-	 * @return a byte value representing one of the strech type constants in this class
+	 * @return a byte value representing one of the stretch type constants in this class
 	 */
 	public byte getStretchType();
 

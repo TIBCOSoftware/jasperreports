@@ -427,7 +427,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		{
 			if (isOverflow)
 			{
-				if (getPositionType() == PositionTypeEnum.FIX_RELATIVE_TO_BOTTOM.getValue())
+				if (getPositionTypeValue() == PositionTypeEnum.FIX_RELATIVE_TO_BOTTOM)
 				{
 					// the content of the band bottom text fields is not
 					// consumed during overflows, because they only appear on the last overflow

@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRPrintElementContainer;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -148,7 +149,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 				JRFillElement element = elements[i];
 				sortedElemsList.add(element);
 				
-				if (element.getPositionType() == JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM)
+				if (element.getPositionTypeValue() == PositionTypeEnum.FIX_RELATIVE_TO_BOTTOM)
 				{
 					bandBottomElemsList.add(element);
 				}
@@ -211,7 +212,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 					int right = Math.max(iElem.getX() + iElem.getWidth(), jElem.getX() + jElem.getWidth());
 					
 					if (
-						((isBreakElem && jElem.getPositionType() == JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP) || jElem.getPositionType() == JRElement.POSITION_TYPE_FLOAT) &&
+						((isBreakElem && jElem.getPositionTypeValue() == PositionTypeEnum.FIX_RELATIVE_TO_TOP) || jElem.getPositionTypeValue() == PositionTypeEnum.FLOAT) &&
 						iElem.getY() + iElem.getHeight() <= jElem.getY() &&
 						iElem.getWidth() + jElem.getWidth() > right - left // FIXME band bottom elements should not have dependent elements
 						)

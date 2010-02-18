@@ -52,6 +52,7 @@ import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -218,18 +219,35 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getPositionTypeValue()}.
 	 */
 	public byte getPositionType()
 	{
-		return parent.getPositionType();//FIXME optimize this by consolidating style properties
+		return getPositionTypeValue().getValue();
 	}
 
 	/**
 	 *
 	 */
+	public PositionTypeEnum getPositionTypeValue()
+	{
+		return parent.getPositionTypeValue();//FIXME optimize this by consolidating style properties
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setPositionType(PositionTypeEnum)}.
+	 */
 	public void setPositionType(byte positionType)
 	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 *
+	 */
+	public void setPositionType(PositionTypeEnum positionType)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**

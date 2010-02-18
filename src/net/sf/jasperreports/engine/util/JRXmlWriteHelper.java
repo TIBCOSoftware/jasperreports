@@ -505,6 +505,14 @@ public class JRXmlWriteHelper
 		}
 	}
 	
+	public void addAttribute(String name, JREnum value, JREnum defaultValue)
+	{
+		if (value != null && !value.equals(defaultValue))
+		{
+			writeAttribute(name, value.getName());
+		}
+	}
+	
 	public void addAttribute(String name, int value)
 	{
 		writeAttribute(name, String.valueOf(value));
@@ -581,18 +589,27 @@ public class JRXmlWriteHelper
 		}
 	}
 	
+	/**
+	 * @deprecated To be removed. 
+	 */
 	public void addAttribute(String name, byte value, Map xmlValues)
 	{
 		String xmlValue = (String) xmlValues.get(new Byte(value));
 		writeAttribute(name, xmlValue);
 	}
 	
+	/**
+	 * @deprecated To be removed. 
+	 */
 	public void addAttribute(String name, int value, Map xmlValues)
 	{
 		String xmlValue = (String) xmlValues.get(new Integer(value));
 		writeAttribute(name, xmlValue);
 	}
 	
+	/**
+	 * @deprecated To be removed. 
+	 */
 	public void addAttribute(String name, byte value, Map xmlValues, byte defaultValue)
 	{
 		if (value != defaultValue)
@@ -601,6 +618,9 @@ public class JRXmlWriteHelper
 		}
 	}
 	
+	/**
+	 * @deprecated To be removed. 
+	 */
 	public void addAttribute(String name, Object value, Map xmlValues)
 	{
 		if (value != null)
@@ -610,6 +630,9 @@ public class JRXmlWriteHelper
 		}
 	}
 	
+	/**
+	 * @deprecated To be removed. 
+	 */
 	public void addAttribute(String name, Object value, Map xmlValues, Object defaultValue)
 	{
 		if (!value.equals(defaultValue))

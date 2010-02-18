@@ -31,13 +31,13 @@ import java.util.ListIterator;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseElement;
+import net.sf.jasperreports.engine.type.PositionTypeEnum;
 
 
 /**
@@ -83,7 +83,7 @@ public abstract class JRDesignElement extends JRBaseElement
 	{
 		super(defaultStyleProvider);
 		
-		positionType = JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP;
+		positionTypeValue = PositionTypeEnum.FIX_RELATIVE_TO_TOP;
 	}
 
 
