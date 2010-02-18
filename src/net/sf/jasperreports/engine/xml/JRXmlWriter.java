@@ -154,6 +154,7 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
+import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
@@ -626,7 +627,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isResetPageNumber, group.isResetPageNumber(), false);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isReprintHeaderOnEachPage, group.isReprintHeaderOnEachPage(), false);
 		writer.addAttributePositive(XmlConstants.ATTRIBUTE_minHeightToStartNewPage, group.getMinHeightToStartNewPage());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_footerPosition, group.getFooterPosition(), JRXmlConstants.getFooterPositionMap(), JRGroup.FOOTER_POSITION_NORMAL);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_footerPosition, group.getFooterPositionValue(), FooterPositionEnum.NORMAL);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_keepTogether, group.isKeepTogether(), false);
 
 		writer.writeExpression(XmlConstants.ELEMENT_groupExpression, group.getExpression(), false);

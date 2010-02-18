@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.type.FooterPositionEnum;
 
 import org.xml.sax.Attributes;
 
@@ -74,10 +75,10 @@ public class JRGroupFactory extends JRBaseFactory
 			group.setMinHeightToStartNewPage(Integer.parseInt(minHeightToStartNewPage));
 		}
 
-		Byte footerPosition = (Byte)JRXmlConstants.getFooterPositionMap().get(atts.getValue(XmlConstants.ATTRIBUTE_footerPosition));
+		FooterPositionEnum footerPosition = FooterPositionEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_footerPosition));
 		if (footerPosition != null)
 		{
-			group.setFooterPosition(footerPosition.byteValue());
+			group.setFooterPosition(footerPosition);
 		}
 		
 		String keepTogether = atts.getValue(XmlConstants.ATTRIBUTE_keepTogether);

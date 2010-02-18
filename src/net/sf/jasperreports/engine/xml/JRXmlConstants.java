@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
+import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
@@ -1445,15 +1446,30 @@ public class JRXmlConstants extends XmlConstants
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link FooterPositionEnum#NORMAL#getName()}.
 	 */
 	private static final String FOOTER_POSITION_NORMAL = "Normal";
+	/**
+	 * @deprecated Replaced by {@link FooterPositionEnum#STACK_AT_BOTTOM#getName()}.
+	 */
 	private static final String FOOTER_POSITION_STACK_AT_BOTTOM = "StackAtBottom";
+	/**
+	 * @deprecated Replaced by {@link FooterPositionEnum#FORCE_AT_BOTTOM#getName()}.
+	 */
 	private static final String FOOTER_POSITION_FORCE_AT_BOTTOM = "ForceAtBottom";
+	/**
+	 * @deprecated Replaced by {@link FooterPositionEnum#COLLATE_AT_BOTTOM#getName()}.
+	 */
 	private static final String FOOTER_POSITION_COLLATE_AT_BOTTOM = "CollateAtBottom";
 
+	/**
+	 * @deprecated Replaced by {@link FooterPositionEnum}.
+	 */
 	private static Map footerPositionMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link FooterPositionEnum}.
+	 */
 	public static Map getFooterPositionMap()
 	{
 		if (footerPositionMap == null)

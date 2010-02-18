@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.FooterPositionEnum;
+
 
 /**
  * Groups represent a flexible way to organize data on a report. A report group is represented by sequence
@@ -41,6 +43,7 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * The group footer section is rendered at normal position, just right after the last detail 
 	 * or right after the nested group footer section.
+	 * @deprecated Replaced by {@link FooterPositionEnum#NORMAL}.
 	 */
 	public static final byte FOOTER_POSITION_NORMAL = 1;
 
@@ -49,6 +52,7 @@ public interface JRGroup extends JRCloneable
 	 * The group footer section is rendered at bottom of the current page, provided that an inner group 
 	 * having this value would force outer group footers to stack at the bottom of the current page, 
 	 * regardless of the outer group footer setting.
+	 * @deprecated Replaced by {@link FooterPositionEnum#STACK_AT_BOTTOM}.
 	 */
 	public static final byte FOOTER_POSITION_STACK_AT_BOTTOM = 2;
 
@@ -57,6 +61,7 @@ public interface JRGroup extends JRCloneable
 	 * The group footer section is rendered at bottom of the current page, provided that an inner group 
 	 * having this value would render its footer right at the bottom of the page, forcing the outer group 
 	 * footers to render on the next page.
+	 * @deprecated Replaced by {@link FooterPositionEnum#FORCE_AT_BOTTOM}.
 	 */
 	public static final byte FOOTER_POSITION_FORCE_AT_BOTTOM = 3;
 
@@ -65,6 +70,7 @@ public interface JRGroup extends JRCloneable
 	 * The group footer section is rendered at bottom of the current page, provided that the outer footers
 	 * have a similar footer display option to render at the page bottom as well, because otherwise, they cannot
 	 * be forced to change their behavior in any way.
+	 * @deprecated Replaced by {@link FooterPositionEnum#COLLATE_AT_BOTTOM}.
 	 */
 	public static final byte FOOTER_POSITION_COLLATE_AT_BOTTOM = 4;
 
@@ -129,14 +135,24 @@ public interface JRGroup extends JRCloneable
 	public void setMinHeightToStartNewPage(int minHeight);
 		
 	/**
-	 * Specifies how the group footer section behaves with regards to its position on the current page.
+	 * @deprecated Replaced by {@link #getFooterPositionValue()}.
 	 */
 	public byte getFooterPosition();
 
 	/**
-	 * Specifies the group footer section behavior with regards to its position on the current page.
+	 * Specifies how the group footer section behaves with regards to its position on the current page.
+	 */
+	public FooterPositionEnum getFooterPositionValue();
+
+	/**
+	 * @deprecated Replaced by {@link #setFooterPosition(FooterPositionEnum)}.
 	 */
 	public void setFooterPosition(byte footerPosition);
+		
+	/**
+	 * Specifies the group footer section behavior with regards to its position on the current page.
+	 */
+	public void setFooterPosition(FooterPositionEnum footerPosition);
 		
 	/**
 	 * Gets the flag that signals if the group should be prevented from splitting on first break attempt.
