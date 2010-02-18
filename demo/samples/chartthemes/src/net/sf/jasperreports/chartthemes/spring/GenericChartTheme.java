@@ -1953,9 +1953,9 @@ public class GenericChartTheme implements ChartTheme
 		Integer defaultBackgroundImageAlignment = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE_ALIGNMENT);
 		Float defaultBackgroundImageAlpha = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE_ALPHA);
 
-		if (getChart().getOwnMode() != null)
+		if (getChart().getOwnModeValue() != null)
 		{
-			if(getChart().getOwnMode().byteValue() == ModeEnum.OPAQUE)
+			if(getChart().getOwnModeValue() == ModeEnum.OPAQUE)
 			{
 				if(getChart().getOwnBackcolor() == null && defaultBackgroundPaint != null)
 				{
