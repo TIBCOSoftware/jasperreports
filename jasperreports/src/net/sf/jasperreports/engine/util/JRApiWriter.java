@@ -140,7 +140,6 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
-import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -890,7 +889,7 @@ public class JRApiWriter
 		{
 			write( elementName + ".setKey(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(element.getKey()));
 			writeStyleReferenceAttr( element, elementName);
-			write( elementName + ".setPositionType({0});\n", PositionTypeEnum.getByValue(element.getPositionType()));
+			write( elementName + ".setPositionType({0});\n", element.getPositionTypeValue());
 			write( elementName + ".setStretchType({0});\n", JRApiConstants.getStretchType(new Byte(element.getStretchType())), "JRElement.STRETCH_TYPE_NO_STRETCH");
 			write( elementName + ".setPrintRepeatedValues({0});\n", element.isPrintRepeatedValues(),true);
 			write( elementName + ".setMode({0});\n", element.getOwnModeValue());

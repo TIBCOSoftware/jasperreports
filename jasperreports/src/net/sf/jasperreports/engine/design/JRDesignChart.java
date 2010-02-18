@@ -354,7 +354,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setTitlePosition(Byte)}.
 	 */
 	public void setTitlePosition(byte titlePosition)
 	{

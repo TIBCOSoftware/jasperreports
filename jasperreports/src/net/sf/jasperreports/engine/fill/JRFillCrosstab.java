@@ -621,7 +621,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		JRDesignRectangle rectangle = new JRDesignRectangle();
 
 		rectangle.setKey(getKey());
-		rectangle.setPositionType(getPositionType());
+		rectangle.setPositionType(getPositionTypeValue());
 		// rectangle.setPrintRepeatedValues(isPrintRepeatedValues());
 		rectangle.setMode(getModeValue());
 		rectangle.setX(getX());

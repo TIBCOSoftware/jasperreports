@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRReportFont;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -138,13 +137,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public byte getTextAlignment()
 	{
-		if (horizontalAlignment == null) {
-			JRStyle style = getBaseStyle();
-			if (style != null && style.getHorizontalAlignment() != null)
-				return style.getHorizontalAlignment().byteValue();
-			return HORIZONTAL_ALIGN_LEFT;
-		}
-		return horizontalAlignment.byteValue();
+		return getHorizontalAlignment();
 	}
 
 	/**

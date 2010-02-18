@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -81,7 +82,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 *
 	 */
 	protected String key = null;
-	protected byte positionType;
+	protected PositionTypeEnum positionTypeValue;
 	protected byte stretchType;
 	protected boolean isPrintRepeatedValues = true;
 	protected ModeEnum modeValue;
@@ -136,7 +137,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		parentStyleNameReference = element.getStyleNameReference();
 
 		key = element.getKey();
-		positionType = element.getPositionType();
+		positionTypeValue = element.getPositionTypeValue();
 		stretchType = element.getStretchType();
 		isPrintRepeatedValues = element.isPrintRepeatedValues();
 		modeValue = element.getOwnModeValue();
@@ -203,21 +204,37 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getPositionTypeValue()}.
 	 */
 	public byte getPositionType()
 	{
-		return positionType;
+		return getPositionTypeValue().getValue();
 	}
 
 	/**
 	 *
 	 */
+	public PositionTypeEnum getPositionTypeValue()
+	{
+		return positionTypeValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setPositionType(PositionTypeEnum)}.
+	 */
 	public void setPositionType(byte positionType)
 	{
-		byte old = this.positionType;
-		this.positionType = positionType;
-		getEventSupport().firePropertyChange(PROPERTY_POSITION_TYPE, old, this.positionType);
+		setPositionType(PositionTypeEnum.getByValue(positionType));
+	}
+
+	/**
+	 *
+	 */
+	public void setPositionType(PositionTypeEnum positionTypeValue)
+	{
+		PositionTypeEnum old = this.positionTypeValue;
+		this.positionTypeValue = positionTypeValue;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION_TYPE, old, this.positionTypeValue);
 	}
 
 	/**
@@ -589,6 +606,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
 	private Byte mode;
+	private byte positionType;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -597,6 +615,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			modeValue = ModeEnum.getByValue(mode);
+			positionTypeValue = PositionTypeEnum.getByValue(positionType);
 			
 			mode = null;
 		}
