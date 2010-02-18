@@ -41,7 +41,7 @@ public class JRHyperlinkParameterFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRDesignHyperlinkParameter parameter = new JRDesignHyperlinkParameter();
-		parameter.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));		
+		parameter.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));		
 		return parameter;
 	}	
 

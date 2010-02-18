@@ -54,75 +54,75 @@ public class JRElementFactory extends JRBaseFactory
 
 		JRDesignElement element = (JRDesignElement)digester.peek();
 
-		element.setKey(atts.getValue(JRXmlConstants.ATTRIBUTE_key));
+		element.setKey(atts.getValue(XmlConstants.ATTRIBUTE_key));
 
-		PositionTypeEnum positionType = PositionTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_positionType));
+		PositionTypeEnum positionType = PositionTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_positionType));
 		if (positionType != null)
 		{
 			element.setPositionType(positionType);
 		}
 
-		Byte stretchType = (Byte)JRXmlConstants.getStretchTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_stretchType));
+		Byte stretchType = (Byte)JRXmlConstants.getStretchTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_stretchType));
 		if (stretchType != null)
 		{
 			element.setStretchType(stretchType.byteValue());
 		}
 
-		String isPrintRepeatedValues = atts.getValue(JRXmlConstants.ATTRIBUTE_isPrintRepeatedValues);
+		String isPrintRepeatedValues = atts.getValue(XmlConstants.ATTRIBUTE_isPrintRepeatedValues);
 		if (isPrintRepeatedValues != null && isPrintRepeatedValues.length() > 0)
 		{
 			element.setPrintRepeatedValues(Boolean.valueOf(isPrintRepeatedValues).booleanValue());
 		}
 		
-		ModeEnum mode = ModeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
+		ModeEnum mode = ModeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_mode));
 		if (mode != null)
 		{
 			element.setMode(mode);
 		}
 		
-		String x = atts.getValue(JRXmlConstants.ATTRIBUTE_x);
+		String x = atts.getValue(XmlConstants.ATTRIBUTE_x);
 		if (x != null && x.length() > 0)
 		{
 			element.setX(Integer.parseInt(x));
 		}
 
-		String y = atts.getValue(JRXmlConstants.ATTRIBUTE_y);
+		String y = atts.getValue(XmlConstants.ATTRIBUTE_y);
 		if (y != null && y.length() > 0)
 		{
 			element.setY(Integer.parseInt(y));
 		}
 
-		String width = atts.getValue(JRXmlConstants.ATTRIBUTE_width);
+		String width = atts.getValue(XmlConstants.ATTRIBUTE_width);
 		if (width != null && width.length() > 0)
 		{
 			element.setWidth(Integer.parseInt(width));
 		}
 
-		String height = atts.getValue(JRXmlConstants.ATTRIBUTE_height);
+		String height = atts.getValue(XmlConstants.ATTRIBUTE_height);
 		if (height != null && height.length() > 0)
 		{
 			element.setHeight(Integer.parseInt(height));
 		}
 
-		String isRemoveLineWhenBlank = atts.getValue(JRXmlConstants.ATTRIBUTE_isRemoveLineWhenBlank);
+		String isRemoveLineWhenBlank = atts.getValue(XmlConstants.ATTRIBUTE_isRemoveLineWhenBlank);
 		if (isRemoveLineWhenBlank != null && isRemoveLineWhenBlank.length() > 0)
 		{
 			element.setRemoveLineWhenBlank(Boolean.valueOf(isRemoveLineWhenBlank).booleanValue());
 		}
 
-		String isPrintInFirstWholeBand = atts.getValue(JRXmlConstants.ATTRIBUTE_isPrintInFirstWholeBand);
+		String isPrintInFirstWholeBand = atts.getValue(XmlConstants.ATTRIBUTE_isPrintInFirstWholeBand);
 		if (isPrintInFirstWholeBand != null && isPrintInFirstWholeBand.length() > 0)
 		{
 			element.setPrintInFirstWholeBand(Boolean.valueOf(isPrintInFirstWholeBand).booleanValue());
 		}
 
-		String isPrintWhenDetailOverflows = atts.getValue(JRXmlConstants.ATTRIBUTE_isPrintWhenDetailOverflows);
+		String isPrintWhenDetailOverflows = atts.getValue(XmlConstants.ATTRIBUTE_isPrintWhenDetailOverflows);
 		if (isPrintWhenDetailOverflows != null && isPrintWhenDetailOverflows.length() > 0)
 		{
 			element.setPrintWhenDetailOverflows(Boolean.valueOf(isPrintWhenDetailOverflows).booleanValue());
 		}
 
-		String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_printWhenGroupChanges);
+		String groupName = atts.getValue(XmlConstants.ATTRIBUTE_printWhenGroupChanges);
 		if (groupName != null)
 		{
 			JRDesignGroup group = new JRDesignGroup();
@@ -131,19 +131,19 @@ public class JRElementFactory extends JRBaseFactory
 			groupReprintedElements.add(element);
 		}
 
-		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);
+		String forecolor = atts.getValue(XmlConstants.ATTRIBUTE_forecolor);
 		if (forecolor != null && forecolor.length() > 0)
 		{
 			element.setForecolor(JRColorUtil.getColor(forecolor, null));
 		}
 
-		String backcolor = atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor);
+		String backcolor = atts.getValue(XmlConstants.ATTRIBUTE_backcolor);
 		if (backcolor != null && backcolor.length() > 0)
 		{
 			element.setBackcolor(JRColorUtil.getColor(backcolor, null));
 		}
 		
-		String styleName = atts.getValue(JRXmlConstants.ATTRIBUTE_style);
+		String styleName = atts.getValue(XmlConstants.ATTRIBUTE_style);
 		if (styleName != null)
 		{
 			JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);

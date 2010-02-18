@@ -25,7 +25,7 @@ package net.sf.jasperreports.components.ofc;
 
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.xml.XmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -40,7 +40,7 @@ public class PieChartXmlFactory extends JRBaseFactory
 	{
 		PieChartComponent chart = new PieChartComponent();
 		
-		String evaluationAttr = attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime);
+		String evaluationAttr = attrs.getValue(XmlConstants.ATTRIBUTE_evaluationTime);
 		if (evaluationAttr != null)
 		{
 			Byte evaluationTime = (Byte) JRXmlConstants.getEvaluationTimeMap().get(evaluationAttr);
@@ -49,7 +49,7 @@ public class PieChartXmlFactory extends JRBaseFactory
 
 		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
 		{
-			String groupName = attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
+			String groupName = attrs.getValue(XmlConstants.ATTRIBUTE_evaluationGroup);
 			chart.setEvaluationGroup(groupName);
 		}
 		

@@ -42,7 +42,7 @@ public class JRSubreportParameterFactory extends JRBaseFactory
 	{
 		JRDesignSubreportParameter subreportParameter = new JRDesignSubreportParameter();
 		
-		subreportParameter.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
+		subreportParameter.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
 
 		return subreportParameter;
 	}

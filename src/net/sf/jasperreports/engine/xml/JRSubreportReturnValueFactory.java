@@ -53,23 +53,23 @@ public class JRSubreportReturnValueFactory extends JRBaseFactory
 		
 		JRDesignSubreportReturnValue returnValue = new JRDesignSubreportReturnValue();
 
-		String variableName = atts.getValue(JRXmlConstants.ATTRIBUTE_toVariable);
+		String variableName = atts.getValue(XmlConstants.ATTRIBUTE_toVariable);
 		JRVariable variable = (JRVariable) design.getVariablesMap().get(variableName);
 		if (variable == null)
 		{
 			xmlLoader.addError(new JRValidationException("Unknown variable " + variableName, returnValue));
 		}
 		
-		returnValue.setSubreportVariable(atts.getValue(JRXmlConstants.ATTRIBUTE_subreportVariable));
+		returnValue.setSubreportVariable(atts.getValue(XmlConstants.ATTRIBUTE_subreportVariable));
 		returnValue.setToVariable(variableName);
 
-		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_calculation));
+		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(XmlConstants.ATTRIBUTE_calculation));
 		if (calculation != null)
 		{
 			returnValue.setCalculation(calculation.byteValue());
 		}
 		
-		String incrementerFactoryClass = atts.getValue(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass);
+		String incrementerFactoryClass = atts.getValue(XmlConstants.ATTRIBUTE_incrementerFactoryClass);
 		if (incrementerFactoryClass != null)
 		{
 			returnValue.setIncrementerFactoryClassName(incrementerFactoryClass);

@@ -28,6 +28,7 @@ import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.xml.XmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -73,7 +74,7 @@ public class JRCrosstabFactory extends JRBaseFactory
 			crosstab.setRepeatRowHeaders(Boolean.valueOf(repeatRowHeadersAttr).booleanValue());
 		}
 		
-		String runDirectionAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_runDirection);
+		String runDirectionAttr = atts.getValue(XmlConstants.ATTRIBUTE_runDirection);
 		if (runDirectionAttr != null)
 		{
 			Byte runDir = (Byte) JRXmlConstants.getRunDirectionMap().get(runDirectionAttr);

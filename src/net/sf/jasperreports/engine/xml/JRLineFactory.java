@@ -45,7 +45,7 @@ public class JRLineFactory extends JRBaseFactory
 
 		JRDesignLine line = new JRDesignLine(jasperDesign);
 
-		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_direction));
+		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue(XmlConstants.ATTRIBUTE_direction));
 		if (direction != null)
 		{
 			line.setDirection(direction.byteValue());

@@ -41,8 +41,8 @@ public class JRPropertyDigesterRule extends Rule
 	public void begin(String namespace, String name, Attributes attributes)
 	{
 		JRPropertiesHolder propertiesHolder = (JRPropertiesHolder) digester.peek();
-		String key = attributes.getValue(JRXmlConstants.ATTRIBUTE_name);
-		String value = attributes.getValue(JRXmlConstants.ATTRIBUTE_value);
+		String key = attributes.getValue(XmlConstants.ATTRIBUTE_name);
+		String value = attributes.getValue(XmlConstants.ATTRIBUTE_value);
 		propertiesHolder.getPropertiesMap().setProperty(key, value);
 	}
 

@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.xml.XmlConstants;
 
 /**
  * 
@@ -78,11 +79,11 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 	{
 		if (barcode.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
 		{
-			xmlWriteHelper.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
+			xmlWriteHelper.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, 
 					barcode.getEvaluationTime(),
 					JRXmlConstants.getEvaluationTimeMap());
 		}
-		xmlWriteHelper.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
+		xmlWriteHelper.addAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, 
 				barcode.getEvaluationGroup());
 		
 		xmlWriteHelper.addAttribute("orientation", barcode.getOrientation(), 0);

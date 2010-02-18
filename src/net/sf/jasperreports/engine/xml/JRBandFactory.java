@@ -46,13 +46,13 @@ public class JRBandFactory extends JRBaseFactory
 	{
 		JRDesignBand band = new JRDesignBand();
 		
-		String height = atts.getValue(JRXmlConstants.ATTRIBUTE_height);
+		String height = atts.getValue(XmlConstants.ATTRIBUTE_height);
 		if (height != null && height.length() > 0)
 		{
 			band.setHeight(Integer.parseInt(height));
 		}
 
-		String isSplitAllowed = atts.getValue(JRXmlConstants.ATTRIBUTE_isSplitAllowed);
+		String isSplitAllowed = atts.getValue(XmlConstants.ATTRIBUTE_isSplitAllowed);
 		if (isSplitAllowed != null && isSplitAllowed.length() > 0)
 		{
 			if (log.isWarnEnabled())
@@ -68,7 +68,7 @@ public class JRBandFactory extends JRBaseFactory
 			}
 		}
 
-		Byte splitType = (Byte)JRXmlConstants.getSplitTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_splitType));
+		Byte splitType = (Byte)JRXmlConstants.getSplitTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_splitType));
 		if (splitType != null)
 		{
 			band.setSplitType(splitType);
