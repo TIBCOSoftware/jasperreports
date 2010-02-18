@@ -407,14 +407,26 @@ public class JRXmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link LineSpacingEnum#SINGLE#getName()}.
 	 */
 	private static final String LINE_SPACING_SINGLE = "Single";
+	/**
+	 * @deprecated Replaced by {@link LineSpacingEnum#ONE_AND_HALF#getName()}.
+	 */
 	private static final String LINE_SPACING_1_1_2 = "1_1_2";
+	/**
+	 * @deprecated Replaced by {@link LineSpacingEnum#DOUBLE#getName()}.
+	 */
 	private static final String LINE_SPACING_DOUBLE = "Double";
 
+	/**
+	 * @deprecated Replaced by {@link LineSpacingEnum}.
+	 */
 	private static Map lineSpacingMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link LineSpacingEnum}.
+	 */
 	public static Map getLineSpacingMap()
 	{
 		if (lineSpacingMap == null)

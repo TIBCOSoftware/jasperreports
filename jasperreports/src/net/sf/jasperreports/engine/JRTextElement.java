@@ -161,17 +161,17 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	public static final byte ROTATION_UPSIDE_DOWN = 3;
 
 	/**
-	 * Constant for setting normal spacing between lines.
+	 * @deprecated Replaced by {@link LineSpacingEnum#SINGLE}.
 	 */
 	public static final byte LINE_SPACING_SINGLE = 0;
 
 	/**
-	 * Constant for setting spacing between lines to 50% more than normal.
+	 * @deprecated Replaced by {@link LineSpacingEnum#ONE_AND_HALF}.
 	 */
 	public static final byte LINE_SPACING_1_1_2 = 1;
 
 	/**
-	 * Constant for setting spacing between lines to double size.
+	 * @deprecated Replaced by {@link LineSpacingEnum#DOUBLE}.
 	 */
 	public static final byte LINE_SPACING_DOUBLE = 2;
 
