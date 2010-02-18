@@ -2,7 +2,7 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="3.7.1"/>
+	<property name="version" value="3.7.2"/>
 
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
@@ -336,7 +336,7 @@
 <![CDATA[
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr valign="middle">
-<td nowrap="true"><span style="font-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:28px;font-weight:normal;color:#000000;">JasperReports API (version 3.7.1)</span></td><td align="right"><img border="0" src="resources/jasperreports.png"></td>
+<td nowrap="true"><span style="font-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:28px;font-weight:normal;color:#000000;">JasperReports API (version ${version})</span></td><td align="right"><img border="0" src="resources/jasperreports.png"></td>
 </tr>
 </table>
 ]]>
@@ -361,7 +361,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="svn" value="jr-3-7-1"/>
+	<property name="svn" value="jr-3-7-2"/>
 
 	<target name="schemaref" description="Generates the Schema Reference.">
 		<mkdir dir="./dist/docs"/> 
