@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.FooterPositionEnum;
 
 
 /**
@@ -74,7 +75,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	protected boolean isResetPageNumber = false;
 	protected boolean isReprintHeaderOnEachPage = false;
 	protected int minHeightToStartNewPage = 0;
-	protected byte footerPosition = FOOTER_POSITION_NORMAL;
+	protected FooterPositionEnum footerPositionValue = FooterPositionEnum.NORMAL;
 	protected boolean keepTogether = false;
 
 	/**
@@ -107,7 +108,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		isResetPageNumber = group.isResetPageNumber();
 		isReprintHeaderOnEachPage = group.isReprintHeaderOnEachPage();
 		minHeightToStartNewPage = group.getMinHeightToStartNewPage();
-		footerPosition = group.getFooterPosition();
+		footerPositionValue = group.getFooterPositionValue();
 		keepTogether = group.isKeepTogether();
 		
 		expression = factory.getExpression(group.getExpression());
@@ -217,21 +218,37 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getFooterPositionValue()}.
 	 */
 	public byte getFooterPosition()
 	{
-		return this.footerPosition;
+		return getFooterPositionValue().getValue();
 	}
 
 	/**
 	 *
 	 */
+	public FooterPositionEnum getFooterPositionValue()
+	{
+		return this.footerPositionValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setFooterPosition(FooterPositionEnum)}.
+	 */
 	public void setFooterPosition(byte footerPosition)
 	{
-		int old = this.footerPosition;
-		this.footerPosition = footerPosition;
-		getEventSupport().firePropertyChange(PROPERTY_FOOTER_POSITION, old, this.footerPosition);
+		setFooterPosition(FooterPositionEnum.getByValue(footerPosition));
+	}
+		
+	/**
+	 *
+	 */
+	public void setFooterPosition(FooterPositionEnum footerPositionValue)
+	{
+		FooterPositionEnum old = this.footerPositionValue;
+		this.footerPositionValue = footerPositionValue;
+		getEventSupport().firePropertyChange(PROPERTY_FOOTER_POSITION, old, this.footerPositionValue);
 	}
 		
 	/**
@@ -367,6 +384,8 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte footerPosition;
 	private JRBand groupHeader = null;
 	private JRBand groupFooter = null;
 	
@@ -374,6 +393,11 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	{
 		in.defaultReadObject();
 		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			footerPositionValue = FooterPositionEnum.getByValue(footerPosition);
+		}
+
 		if (groupHeader != null)
 		{
 			groupHeaderSection = new JRBaseSection(groupHeader);

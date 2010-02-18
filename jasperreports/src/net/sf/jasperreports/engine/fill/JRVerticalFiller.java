@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.type.FooterPositionEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -782,20 +783,20 @@ public class JRVerticalFiller extends JRBaseFiller
 					// its footer position is completely irrelevant
 					if (newSavePoint != null)
 					{
-						switch (group.getFooterPosition())
+						switch (group.getFooterPositionValue())
 						{
-							case JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM:
+							case STACK_AT_BOTTOM:
 							{
 								savePoint = advanceSavePoint(savePoint, newSavePoint);
 
 								if (savePoint != null)
 								{
-									savePoint.footerPosition = JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM;
+									savePoint.footerPosition = FooterPositionEnum.STACK_AT_BOTTOM;
 								}
 
 								break;
 							}
-							case JRGroup.FOOTER_POSITION_FORCE_AT_BOTTOM:
+							case FORCE_AT_BOTTOM:
 							{
 								savePoint = advanceSavePoint(savePoint, newSavePoint);
 
@@ -809,13 +810,13 @@ public class JRVerticalFiller extends JRBaseFiller
 
 								break;
 							}
-							case JRGroup.FOOTER_POSITION_COLLATE_AT_BOTTOM:
+							case COLLATE_AT_BOTTOM:
 							{
 								savePoint = advanceSavePoint(savePoint, newSavePoint);
 
 								break;
 							}
-							case JRGroup.FOOTER_POSITION_NORMAL:
+							case NORMAL:
 							default:
 							{
 								if (savePoint != null)
@@ -832,7 +833,7 @@ public class JRVerticalFiller extends JRBaseFiller
 										// we just move the marker on the existing save point,
 										// but only if was a "StackAtBottom" one
 										
-										if (savePoint.footerPosition == JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM)
+										if (savePoint.footerPosition == FooterPositionEnum.STACK_AT_BOTTOM)
 										{
 											savePoint.saveHeightOffset(newSavePoint.heightOffset);
 										}
@@ -914,7 +915,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					}
 
 					SavePoint newSavePoint = fillColumnBand(groupFooterBand, evaluation);
-					newSavePoint.footerPosition = group.getFooterPosition();
+					newSavePoint.footerPosition = group.getFooterPositionValue();
 					
 					savePoint = advanceSavePoint(savePoint, newSavePoint);
 					

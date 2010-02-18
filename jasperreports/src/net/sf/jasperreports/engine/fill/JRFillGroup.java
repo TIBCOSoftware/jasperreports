@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.FooterPositionEnum;
 
 
 /**
@@ -204,18 +205,35 @@ public class JRFillGroup implements JRGroup
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getFooterPositionValue()}.
 	 */
 	public byte getFooterPosition()
 	{
-		return parent.getFooterPosition();
+		return getFooterPositionValue().getValue();
 	}
 		
 	/**
 	 *
 	 */
+	public FooterPositionEnum getFooterPositionValue()
+	{
+		return parent.getFooterPositionValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setFooterPosition(FooterPositionEnum)}.
+	 */
 	public void setFooterPosition(byte footerPosition)
 	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 *
+	 */
+	public void setFooterPosition(FooterPositionEnum footerPosition)
+	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**

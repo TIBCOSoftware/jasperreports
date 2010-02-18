@@ -140,6 +140,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
+import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -739,7 +740,7 @@ public class JRApiWriter
 		write( groupName + ".setStartNewPage({0});\n", group.isStartNewPage(), false);
 		write( groupName + ".setReprintHeaderOnEachPage({0});\n", group.isReprintHeaderOnEachPage(), false);
 		write( groupName + ".setMinHeightToStartNewPage({0});\n", group.getMinHeightToStartNewPage());
-		write( groupName + ".setFooterPosition({0});\n", JRApiConstants.getFooterPosition(new Byte(group.getFooterPosition())), "JRGroup.FOOTER_POSITION_NORMAL");
+		write( groupName + ".setFooterPosition({0});\n", group.getFooterPositionValue(), FooterPositionEnum.NORMAL);
 		
 		write( groupName + ".setKeepTogether({0});\n", group.isKeepTogether(), false);
 

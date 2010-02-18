@@ -71,6 +71,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
+import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
@@ -2122,7 +2123,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 */
 	protected void moveSavePointContent(SavePoint savePoint)
 	{
-		if (savePoint != null && savePoint.footerPosition != JRGroup.FOOTER_POSITION_NORMAL)//FIXME is footerPosition testing required here?
+		if (savePoint != null && savePoint.footerPosition != FooterPositionEnum.NORMAL)//FIXME is footerPosition testing required here?
 		{
 			//no page/column break occurred
 			for(int i = savePoint.startElementIndex; i < savePoint.endElementIndex; i++)
@@ -2201,7 +2202,7 @@ class SavePoint
 	protected int endElementIndex = 0;
 	protected int heightOffset = 0;
 	protected int groupIndex = 0;
-	protected byte footerPosition = JRGroup.FOOTER_POSITION_NORMAL;
+	protected FooterPositionEnum footerPosition = FooterPositionEnum.NORMAL;
 	
 	protected SavePoint(
 		JRPrintPage page,
