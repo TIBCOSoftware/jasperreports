@@ -266,7 +266,7 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setScaleType(Integer)}.
 	 */
 	public void setScaleType( int scaleType ){
 	}

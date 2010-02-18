@@ -379,7 +379,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setShowTickMarks(Boolean)}.
 	 */
 	public void setShowTickMarks(boolean isShowTickMarks)
 	{
@@ -409,7 +409,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setShowTickLabels(Boolean)}.
 	 */
 	public void setShowTickLabels(boolean isShowTickLabels)
 	{
@@ -437,7 +437,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setShowLabels(Boolean)}.
 	 */
 	public void setShowLabels( boolean isShowLabels ){
 	}

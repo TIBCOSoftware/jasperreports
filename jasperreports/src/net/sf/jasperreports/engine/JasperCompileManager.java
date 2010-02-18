@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
- * Façade class for compiling report designs into the ready-to-fill form
+ * Faï¿½ade class for compiling report designs into the ready-to-fill form
  * and for getting the XML representation of report design objects for
  * storage or network transfer.
  * 
@@ -488,7 +488,7 @@ public class JasperCompileManager
 	{
 		JRCompiler compiler = null;
 
-		String compilerClassName = JRProperties.getProperty(JRProperties.COMPILER_CLASS);
+		String compilerClassName = getCompilerClassProperty();
 		if (compilerClassName == null || compilerClassName.trim().length() == 0)
 		{
 			String language = jasperDesign.getLanguage();
@@ -517,6 +517,16 @@ public class JasperCompileManager
 		}
 		
 		return compiler;
+	}
+
+	
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	private static String getCompilerClassProperty()
+	{
+		return JRProperties.getProperty(JRProperties.COMPILER_CLASS);
 	}
 
 	

@@ -232,10 +232,7 @@ public class JRAntCompileTask extends MatchingTask
 
 			JRProperties.setProperty(JRProperties.COMPILER_KEEP_JAVA_FILE, keepjava);
 
-			if (compiler != null)
-			{
-				JRProperties.setProperty(JRProperties.COMPILER_CLASS, compiler);
-			}
+			setCompilerClass(compiler);
 
 			JRProperties.setProperty(JRProperties.COMPILER_XML_VALIDATION, xmlvalidation);
 
@@ -271,6 +268,16 @@ public class JRAntCompileTask extends MatchingTask
 	}
 	
 	
+	@SuppressWarnings("deprecation")
+	private void setCompilerClass(String compile)
+	{
+		if (compiler != null)
+		{
+			JRProperties.setProperty(JRProperties.COMPILER_CLASS, compiler);
+		}
+	}
+	
+	
 	/**
 	 * Checks that all required attributes have been set and that the supplied values are valid. 
 	 */
@@ -281,7 +288,7 @@ public class JRAntCompileTask extends MatchingTask
 			throw 
 				new BuildException(
 					"The srcdir attribute must be set.", 
-					location
+					getLocation()
 					);
 		}
 		
@@ -293,7 +300,7 @@ public class JRAntCompileTask extends MatchingTask
 						+ destdir 
 						+ "\" does not exist "
 						+ "or is not a directory.", 
-					location
+					getLocation()
 					);
 		}
 
@@ -305,7 +312,7 @@ public class JRAntCompileTask extends MatchingTask
 						+ tempdir 
 						+ "\" does not exist "
 						+ "or is not a directory.", 
-					location
+					getLocation()
 					);
 		}
 	}
