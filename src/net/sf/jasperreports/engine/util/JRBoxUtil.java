@@ -41,7 +41,7 @@ public class JRBoxUtil
 	 */
 	public static JRLineBox clone(JRLineBox box, boolean keepLeft, boolean keepRight, boolean keepTop, boolean keepBottom, JRLineBox complementaryBox)
 	{
-		JRLineBox clone = (JRLineBox)box.clone(box.getBoxContainer());
+		JRLineBox clone = box.clone(box.getBoxContainer());
 		
 		//FIXMEBORDER does not copy padding correctly, if we only test line width
 		if (!keepLeft || box.getLeftPen().getLineWidth().floatValue() <= 0f)

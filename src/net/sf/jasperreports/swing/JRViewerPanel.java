@@ -758,7 +758,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		transform.scale(realZoom, realZoom);
 		grx.transform(transform);
 
-		drawPageError((Graphics2D) grx);
+		drawPageError(grx);
 		
 		return image;
 	}

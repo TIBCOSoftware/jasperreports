@@ -103,7 +103,7 @@ public class XlsxSheetHelper extends BaseHelper
 	{
 		try
 		{
-			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\" width=\"" + (3f * (float)colWidth / 18f) + "\"/>\n");
+			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\" width=\"" + (3f * colWidth / 18f) + "\"/>\n");
 		}
 		catch (IOException e)
 		{

@@ -47,7 +47,6 @@ import net.sf.jasperreports.charts.design.JRDesignPieDataset;
 import net.sf.jasperreports.charts.design.JRDesignPiePlot;
 import net.sf.jasperreports.charts.design.JRDesignScatterPlot;
 import net.sf.jasperreports.charts.design.JRDesignThermometerPlot;
-import net.sf.jasperreports.charts.design.JRDesignTimePeriodDataset;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeriesDataset;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeriesPlot;
 import net.sf.jasperreports.charts.design.JRDesignValueDataset;
@@ -823,35 +822,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	public void setDataset(JRChartDataset ds)
 	{
 		Object old = this.dataset;
-		switch( ds.getDatasetType() ){
-			case JRChartDataset.CATEGORY_DATASET:
-				dataset = (JRDesignCategoryDataset)ds;
-				break;
-			case JRChartDataset.HIGHLOW_DATASET:
-				dataset = (JRDesignHighLowDataset)ds;
-				break;
-			case JRChartDataset.PIE_DATASET:
-				dataset = (JRDesignPieDataset)ds;
-				break;
-			case JRChartDataset.TIMEPERIOD_DATASET:
-				dataset = (JRDesignTimePeriodDataset)ds;
-				break;
-			case JRChartDataset.TIMESERIES_DATASET:
-				dataset = (JRDesignTimeSeriesDataset)ds;
-				break;
-			case JRChartDataset.VALUE_DATASET:
-				dataset = (JRDesignValueDataset)ds;
-				break;
-			case JRChartDataset.XY_DATASET:
-				dataset = (JRDesignXyDataset)ds;
-				break;
-			case JRChartDataset.XYZ_DATASET:
-				dataset = (JRDesignXyzDataset)ds;
-				break;
-			case JRChartDataset.GANTT_DATASET:
-				dataset = (JRDesignGanttDataset)ds;
-				break;
-		}
+		dataset = ds;
 		getEventSupport().firePropertyChange(PROPERTY_DATASET, old, this.dataset);		
 	}
 
@@ -1537,7 +1508,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	{
 		JRDesignChart clone = (JRDesignChart)super.clone();
 		
-		clone.lineBox = (JRLineBox)lineBox.clone(clone);
+		clone.lineBox = lineBox.clone(clone);
 
 		if (hyperlinkParameters != null)
 		{

@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignXyzDataset;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
@@ -37,7 +36,7 @@ public class JRXyzDatasetFactory extends JRBaseFactory {
 	
 	public Object createObject( Attributes attrs ){
 		JRChart chart = (JRChart)digester.peek();
-		return (JRDesignXyzDataset)chart.getDataset();
+		return chart.getDataset();
 	}
 
 }

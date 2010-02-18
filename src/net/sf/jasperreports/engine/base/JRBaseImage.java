@@ -991,7 +991,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	{
 		JRBaseImage clone = (JRBaseImage)super.clone();
 		
-		clone.lineBox = (JRLineBox)lineBox.clone(clone);
+		clone.lineBox = lineBox.clone(clone);
 
 		if (hyperlinkParameters != null)
 		{

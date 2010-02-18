@@ -912,7 +912,7 @@ public class JRDocxExporter extends JRAbstractExporter
 				{
 					if (availableImageHeight > 0)
 					{
-						double ratio = (double)normalWidth / (double)normalHeight;
+						double ratio = normalWidth / normalHeight;
 
 						if( ratio > availableImageWidth / (double)availableImageHeight )
 						{

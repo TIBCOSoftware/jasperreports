@@ -27,7 +27,7 @@
  *
  * Contributors:
  * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
+ * Frank Schï¿½nheit - Frank.Schoenheit@Sun.COM
  */
 package net.sf.jasperreports.engine.export.oasis;
 
@@ -300,7 +300,7 @@ public class JROdsExporter extends JROpenDocumentExporter
 
 					if (availableImageHeight > 0)
 					{
-						double ratio = (double)normalWidth / (double)normalHeight;
+						double ratio = normalWidth / normalHeight;
 
 						if( ratio > availableImageWidth / (double)availableImageHeight )
 						{

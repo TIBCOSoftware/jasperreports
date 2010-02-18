@@ -166,7 +166,7 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	{
 		JRDesignGraphicElement clone = (JRDesignGraphicElement)super.clone();
 		
-		clone.linePen = (JRPen)linePen.clone(clone);
+		clone.linePen = linePen.clone(clone);
 		
 		return clone;
 	}

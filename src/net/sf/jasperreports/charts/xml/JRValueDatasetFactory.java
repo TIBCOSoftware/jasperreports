@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignValueDataset;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
@@ -43,7 +42,7 @@ public class JRValueDatasetFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignValueDataset) chart.getDataset();
+		return chart.getDataset();
 	}
 
 }

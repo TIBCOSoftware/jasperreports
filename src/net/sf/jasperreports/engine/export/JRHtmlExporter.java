@@ -2274,7 +2274,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	public String toSizeUnit(int size)
 	{
-		return String.valueOf((int)(zoom * (float)size)) + sizeUnit;
+		return String.valueOf((int)(zoom * size)) + sizeUnit;
 	}
 
 
