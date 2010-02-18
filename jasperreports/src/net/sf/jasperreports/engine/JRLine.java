@@ -34,12 +34,12 @@ public interface JRLine extends JRGraphicElement
 
 
 	/**
-	 * Constant used for specifying that the line starts from the top and goes towards the bottom.
+	 * @deprecated Replaced by {@link LineDirectionEnum#TOP_DOWN}.
 	 */
 	public static final byte DIRECTION_TOP_DOWN = 1;
 
 	/**
-	 * Constant used for specifying that the line starts from the top and goes towards the bottom.
+	 * @deprecated Replaced by {@link LineDirectionEnum#BOTTOM_UP}.
 	 */
 	public static final byte DIRECTION_BOTTOM_UP = 2;
 
@@ -48,13 +48,33 @@ public interface JRLine extends JRGraphicElement
 	 * Gets the line direction.
 	 * @return one of the direction constants
 	 */
+	/**
+	 * @deprecated Replaced by {@link getDirectionValue()}.
+	 */
 	public byte getDirection();
 
 	/**
 	 * Sets the line direction.
 	 * @param direction one of the direction constants
 	 */
+	/**
+	 * @deprecated Replaced by {@link setDirection(LineDirectionEnum)}.
+	 */
 	public void setDirection(byte direction);
 
+	//TODO: uncomment these below
+
+//	/**
+//	 * Gets the line direction.
+//	 * @return a value representing one of the line direction constants in {@link LineDirectionEnum}
+//	 */
+//	public LineDirectionEnum getDirectionValue();
+//	
+//	/**
+//	 * Sets the line direction.
+//	 * @param lineDirectionEnum a value representing one of the line direction constants in {@link LineDirectionEnum}
+//	 */
+//	public void setDirection(LineDirectionEnum lineDirectionEnum);
+	
 
 }
