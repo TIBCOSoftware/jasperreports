@@ -171,20 +171,34 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setTextAlignment(byte horizontalAlignment);
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link getOwnRotationValue()}.
 	 */
 	public Byte getOwnRotation();
-		
+	
 	/**
-	 *
+	 * @deprecated Replaced by {@link setRotation(RotationEnum)}.
 	 */
 	public void setRotation(byte rotation);
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link setRotation(RotationEnum)}.
 	 */
 	public void setRotation(Byte rotation);
-		
+
+	//TODO: uncomment these below
+
+//	/**
+//	 * Gets the text own rotation.
+//	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
+//	 */
+//	public RotationEnum getOwnRotationValue();
+//	
+//	/**
+//	 * Sets the text rotation.
+//	 * @param rotationEnum a value representing one of the text rotation constants in {@link RotationEnum}
+//	 */
+//	public void setRotation(RotationEnum rotationEnum);
+	
 	/**
 	 * @deprecated Replaced by {@link getRunDirectionValue()}.
 	 */
