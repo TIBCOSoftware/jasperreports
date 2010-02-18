@@ -40,10 +40,10 @@ public class JRGenericElementParameterFactory extends JRBaseFactory
 	{
 		JRDesignGenericElementParameter param = new JRDesignGenericElementParameter();
 		
-		String name = attrs.getValue(JRXmlConstants.ATTRIBUTE_name);
+		String name = attrs.getValue(XmlConstants.ATTRIBUTE_name);
 		param.setName(name);
 		
-		String skipWhenNullAttr = attrs.getValue(JRXmlConstants.ATTRIBUTE_skipWhenNull);
+		String skipWhenNullAttr = attrs.getValue(XmlConstants.ATTRIBUTE_skipWhenNull);
 		if (skipWhenNullAttr != null)
 		{
 			param.setSkipWhenEmpty(Boolean.valueOf(skipWhenNullAttr).booleanValue());

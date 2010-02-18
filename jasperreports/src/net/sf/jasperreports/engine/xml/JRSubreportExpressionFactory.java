@@ -43,7 +43,7 @@ public class JRSubreportExpressionFactory extends JRBaseFactory
 	{
 		JRDesignExpression expression = new JRDesignExpression();
 
-		String value = atts.getValue(JRXmlConstants.ATTRIBUTE_class);
+		String value = atts.getValue(XmlConstants.ATTRIBUTE_class);
 		
 		if (value != null)
 		{

@@ -265,20 +265,20 @@ public class JRPrintXmlLoader implements ErrorHandler
 		digester.addSetNext("*/text", "addElement", JRPrintElement.class.getName());
 		SetNestedPropertiesRule textRule = new SetNestedPropertiesRule(
 				new String[]{"textContent", "textTruncateSuffix", "reportElement", "box", "font",
-						JRXmlConstants.ELEMENT_lineBreakOffsets}, 
+						XmlConstants.ELEMENT_lineBreakOffsets}, 
 				new String[]{"text", "textTruncateSuffix"});
 		textRule.setTrimData(false);
 		textRule.setAllowUnknownChildElements(true);
 		digester.addRule("*/text", textRule);
 
 		digester.addRule("*/text/textContent", 
-				new SetPropertiesRule(JRXmlConstants.ATTRIBUTE_truncateIndex, "textTruncateIndex"));
+				new SetPropertiesRule(XmlConstants.ATTRIBUTE_truncateIndex, "textTruncateIndex"));
 		
 		/*   */
 		digester.addFactoryCreate("*/text/font", JRPrintFontFactory.class.getName());
 		digester.addSetNext("*/text/font", "setFont", JRFont.class.getName());
 		
-		digester.addRule("*/text/" + JRXmlConstants.ELEMENT_lineBreakOffsets,
+		digester.addRule("*/text/" + XmlConstants.ELEMENT_lineBreakOffsets,
 				new TextLineBreakOffsetsRule());
 		
 		addFrameRules(digester);
@@ -300,11 +300,11 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 	protected void addHyperlinkParameterRules(JRXmlDigester digester)
 	{
-		String parameterPattern = "*/" + JRXmlConstants.ELEMENT_hyperlinkParameter;
+		String parameterPattern = "*/" + XmlConstants.ELEMENT_hyperlinkParameter;
 		digester.addFactoryCreate(parameterPattern, JRPrintHyperlinkParameterFactory.class);
 		digester.addSetNext(parameterPattern, "addHyperlinkParameter", JRPrintHyperlinkParameter.class.getName());
 		
-		String parameterValuePattern = parameterPattern + "/" + JRXmlConstants.ELEMENT_hyperlinkParameterValue;
+		String parameterValuePattern = parameterPattern + "/" + XmlConstants.ELEMENT_hyperlinkParameterValue;
 		digester.addFactoryCreate(parameterValuePattern, JRPrintHyperlinkParameterValueFactory.class);
 		digester.addCallMethod(parameterValuePattern, "setData", 0);
 	}
@@ -312,26 +312,26 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 	protected void addGenericElementRules(JRXmlDigester digester)
 	{
-		String elementPattern = "*/" + JRXmlConstants.ELEMENT_genericElement;
+		String elementPattern = "*/" + XmlConstants.ELEMENT_genericElement;
 		digester.addFactoryCreate(elementPattern, 
 				JRGenericPrintElementFactory.class);
 		digester.addSetNext(elementPattern, "addElement", 
 				JRPrintElement.class.getName());
 		
 		String elementTypePattern = elementPattern + "/" 
-				+ JRXmlConstants.ELEMENT_genericElementType;
+				+ XmlConstants.ELEMENT_genericElementType;
 		digester.addFactoryCreate(elementTypePattern, 
 				JRGenericElementTypeFactory.class);
 		digester.addSetNext(elementTypePattern, "setGenericType");
 		
 		String elementParameterPattern = elementPattern + "/" 
-				+ JRXmlConstants.ELEMENT_genericElementParameter;
+				+ XmlConstants.ELEMENT_genericElementParameter;
 		digester.addFactoryCreate(elementParameterPattern, 
 				JRGenericPrintElementParameterFactory.class);
 		digester.addCallMethod(elementParameterPattern, "addParameter");
 		
 		String elementParameterValuePattern = elementParameterPattern + "/"
-				+ JRXmlConstants.ELEMENT_genericElementParameterValue;
+				+ XmlConstants.ELEMENT_genericElementParameterValue;
 		digester.addFactoryCreate(elementParameterValuePattern, 
 				JRGenericPrintElementParameterFactory.ParameterValueFactory.class);
 		digester.addSetNext(elementParameterValuePattern, "setValue");

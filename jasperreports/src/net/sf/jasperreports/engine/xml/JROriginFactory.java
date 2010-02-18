@@ -43,9 +43,9 @@ public class JROriginFactory extends JRBaseFactory
 	{
 		return 
 			new JROrigin(
-				atts.getValue(JRXmlConstants.ATTRIBUTE_report),
-				atts.getValue(JRXmlConstants.ATTRIBUTE_group),
-				((Byte)JRXmlConstants.getBandTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_band))).byteValue()
+				atts.getValue(XmlConstants.ATTRIBUTE_report),
+				atts.getValue(XmlConstants.ATTRIBUTE_group),
+				((Byte)JRXmlConstants.getBandTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_band))).byteValue()
 				);
 	}
 	

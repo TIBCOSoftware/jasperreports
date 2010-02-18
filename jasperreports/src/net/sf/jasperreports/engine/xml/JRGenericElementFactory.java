@@ -44,7 +44,7 @@ public class JRGenericElementFactory extends JRBaseFactory
 		JRDesignGenericElement element = new JRDesignGenericElement(jasperDesign);
 		
 		String evaluationTimeAttr = attrs.getValue(
-				JRXmlConstants.ATTRIBUTE_evaluationTime);
+				XmlConstants.ATTRIBUTE_evaluationTime);
 		if (evaluationTimeAttr != null)
 		{
 			Byte evaluationTime = (Byte) JRXmlConstants.getEvaluationTimeMap().get(
@@ -54,7 +54,7 @@ public class JRGenericElementFactory extends JRBaseFactory
 		
 		if (element.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
 		{
-			String groupName = attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
+			String groupName = attrs.getValue(XmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)
 			{
 				element.setEvaluationGroupName(groupName);

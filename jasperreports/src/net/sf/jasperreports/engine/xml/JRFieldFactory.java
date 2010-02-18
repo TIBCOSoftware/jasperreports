@@ -42,11 +42,11 @@ public class JRFieldFactory extends JRBaseFactory
 	{
 		JRDesignField field = new JRDesignField();
 		
-		field.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
+		field.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
+		if (atts.getValue(XmlConstants.ATTRIBUTE_class) != null)
 		{
-			field.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
+			field.setValueClassName(atts.getValue(XmlConstants.ATTRIBUTE_class));
 		}
 
 		return field;

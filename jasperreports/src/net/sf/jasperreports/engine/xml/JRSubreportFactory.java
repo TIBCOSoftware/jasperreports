@@ -45,13 +45,13 @@ public class JRSubreportFactory extends JRBaseFactory
 
 		JRDesignSubreport subreport = new JRDesignSubreport(jasperDesign);
 
-		String isUsingCache = atts.getValue(JRXmlConstants.ATTRIBUTE_isUsingCache);
+		String isUsingCache = atts.getValue(XmlConstants.ATTRIBUTE_isUsingCache);
 		if (isUsingCache != null && isUsingCache.length() > 0)
 		{
 			subreport.setUsingCache(Boolean.valueOf(isUsingCache));
 		}
 		
-		String runToBottomAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_runToBottom);
+		String runToBottomAttr = atts.getValue(XmlConstants.ATTRIBUTE_runToBottom);
 		if (runToBottomAttr != null)
 		{
 			subreport.setRunToBottom(Boolean.valueOf(runToBottomAttr));

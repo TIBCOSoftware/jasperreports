@@ -42,7 +42,7 @@ public class JRDatasetRunParameterFactory extends JRBaseFactory
 	{
 		JRDesignDatasetParameter datasetParameter = new JRDesignDatasetParameter();
 		
-		datasetParameter.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
+		datasetParameter.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
 
 		return datasetParameter;
 	}

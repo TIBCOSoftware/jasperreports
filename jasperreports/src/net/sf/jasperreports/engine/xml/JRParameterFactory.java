@@ -49,20 +49,20 @@ public class JRParameterFactory extends JRBaseFactory
 
 	protected void setParameterAttributes(JRDesignParameter parameter, Attributes atts)
 	{
-		parameter.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
+		parameter.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
 		
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
+		if (atts.getValue(XmlConstants.ATTRIBUTE_class) != null)
 		{
-			parameter.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
+			parameter.setValueClassName(atts.getValue(XmlConstants.ATTRIBUTE_class));
 		}
 		
-		String nestedType = atts.getValue(JRXmlConstants.ATTRIBUTE_nestedType);
+		String nestedType = atts.getValue(XmlConstants.ATTRIBUTE_nestedType);
 		if (nestedType != null)
 		{
 			parameter.setNestedTypeName(nestedType);
 		}
 
-		String isForPrompting = atts.getValue(JRXmlConstants.ATTRIBUTE_isForPrompting);
+		String isForPrompting = atts.getValue(XmlConstants.ATTRIBUTE_isForPrompting);
 		if (isForPrompting != null && isForPrompting.length() > 0)
 		{
 			parameter.setForPrompting(Boolean.valueOf(isForPrompting).booleanValue());

@@ -42,7 +42,7 @@ public class JRQueryFactory extends JRBaseFactory
 	{
 		JRDesignQuery query = new JRDesignQuery();
 
-		String language = atts.getValue(JRXmlConstants.ATTRIBUTE_language);
+		String language = atts.getValue(XmlConstants.ATTRIBUTE_language);
 		if (language != null)
 		{
 			query.setLanguage(language);

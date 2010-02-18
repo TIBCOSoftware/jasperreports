@@ -52,38 +52,38 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 		JRDesignStyle style = new JRDesignStyle();
 
 		// get style name
-		style.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
+		style.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
 
-		String isDefault = atts.getValue(JRXmlConstants.ATTRIBUTE_isDefault);
+		String isDefault = atts.getValue(XmlConstants.ATTRIBUTE_isDefault);
 		if (isDefault != null && isDefault.length() > 0)
 		{
 			style.setDefault(Boolean.valueOf(isDefault).booleanValue());
 		}
 
 		// get parent style
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_style) != null)
+		if (atts.getValue(XmlConstants.ATTRIBUTE_style) != null)
 		{
-			setParentStyle(style, atts.getValue(JRXmlConstants.ATTRIBUTE_style));
+			setParentStyle(style, atts.getValue(XmlConstants.ATTRIBUTE_style));
 		}
 
 
 		// get JRElement attributes
-		ModeEnum mode = ModeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
+		ModeEnum mode = ModeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_mode));
 		if (mode != null)
 		{
 			style.setMode(mode);
 		}
 
-		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);
+		String forecolor = atts.getValue(XmlConstants.ATTRIBUTE_forecolor);
 		style.setForecolor(JRColorUtil.getColor(forecolor, null));
 
-		String backcolor = atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor);
+		String backcolor = atts.getValue(XmlConstants.ATTRIBUTE_backcolor);
 		style.setBackcolor(JRColorUtil.getColor(backcolor, null));
 
 
 
 		// get graphic element attributes
-		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_pen));
+		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_pen));
 		if (pen != null)
 		{
 			if (log.isWarnEnabled())
@@ -92,13 +92,13 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(pen, style.getLinePen());
 		}
 
-		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_fill));
+		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(XmlConstants.ATTRIBUTE_fill));
 		style.setFill(fill);
 
 
 
 		// get rectangle attributes
-		String radius = atts.getValue(JRXmlConstants.ATTRIBUTE_radius);
+		String radius = atts.getValue(XmlConstants.ATTRIBUTE_radius);
 		if (radius != null && radius.length() > 0)
 		{
 			style.setRadius(Integer.parseInt(radius));
@@ -107,19 +107,19 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 
 		// get image attributes
-		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_scaleImage));
+		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(XmlConstants.ATTRIBUTE_scaleImage));
 		if (scaleImage != null)
 		{
 			style.setScaleImage(scaleImage);
 		}
 
-		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
+		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
 			style.setHorizontalAlignment(horizontalAlignment);
 		}
 
-		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
+		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
 			style.setVerticalAlignment(verticalAlignment);
@@ -127,7 +127,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 
 		// get box attributes
-		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_border));
+		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_border));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -136,7 +136,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getPen());
 		}
 
-		Color borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_borderColor), null);
+		Color borderColor = JRColorUtil.getColor(atts.getValue(XmlConstants.ATTRIBUTE_borderColor), null);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -145,7 +145,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().getPen().setLineColor(borderColor);
 		}
 
-		String padding = atts.getValue(JRXmlConstants.ATTRIBUTE_padding);
+		String padding = atts.getValue(XmlConstants.ATTRIBUTE_padding);
 		if (padding != null && padding.length() > 0)
 		{
 			if (log.isWarnEnabled())
@@ -154,7 +154,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().setPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorder));
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_topBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -163,7 +163,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getTopPen());
 		}
 
-		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(XmlConstants.ATTRIBUTE_topBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -172,7 +172,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().getTopPen().setLineColor(borderColor);
 		}
 
-		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_topPadding);
+		padding = atts.getValue(XmlConstants.ATTRIBUTE_topPadding);
 		if (padding != null && padding.length() > 0)
 		{
 			if (log.isWarnEnabled())
@@ -181,7 +181,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().setTopPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorder));
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_leftBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -190,7 +190,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getLeftPen());
 		}
 
-		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(XmlConstants.ATTRIBUTE_leftBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -199,7 +199,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().getLeftPen().setLineColor(borderColor);
 		}
 
-		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_leftPadding);
+		padding = atts.getValue(XmlConstants.ATTRIBUTE_leftPadding);
 		if (padding != null && padding.length() > 0)
 		{
 			if (log.isWarnEnabled())
@@ -208,7 +208,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().setLeftPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorder));
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_bottomBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -217,7 +217,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getBottomPen());
 		}
 
-		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(XmlConstants.ATTRIBUTE_bottomBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -226,7 +226,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().getBottomPen().setLineColor(borderColor);
 		}
 
-		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_bottomPadding);
+		padding = atts.getValue(XmlConstants.ATTRIBUTE_bottomPadding);
 		if (padding != null && padding.length() > 0)
 		{
 			if (log.isWarnEnabled())
@@ -235,7 +235,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().setBottomPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorder));
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_rightBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -244,7 +244,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getRightPen());
 		}
 
-		borderColor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorderColor), Color.black);
+		borderColor = JRColorUtil.getColor(atts.getValue(XmlConstants.ATTRIBUTE_rightBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
@@ -253,7 +253,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().getRightPen().setLineColor(borderColor);
 		}
 
-		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_rightPadding);
+		padding = atts.getValue(XmlConstants.ATTRIBUTE_rightPadding);
 		if (padding != null && padding.length() > 0)
 		{
 			if (log.isWarnEnabled())
@@ -264,21 +264,21 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 
 
-		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_rotation));
+		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(XmlConstants.ATTRIBUTE_rotation));
 		if (rotation != null)
 		{
 			style.setRotation(rotation);
 		}
 
-		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_lineSpacing));
+		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(XmlConstants.ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
 			style.setLineSpacing(lineSpacing);
 		}
 
-		style.setMarkup(atts.getValue(JRXmlConstants.ATTRIBUTE_markup));
+		style.setMarkup(atts.getValue(XmlConstants.ATTRIBUTE_markup));
 
-		String isStyledText = atts.getValue(JRXmlConstants.ATTRIBUTE_isStyledText);
+		String isStyledText = atts.getValue(XmlConstants.ATTRIBUTE_isStyledText);
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
 			if (log.isWarnEnabled())
@@ -288,40 +288,40 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.setStyledText(Boolean.valueOf(isStyledText));
 		}
 
-		style.setPattern(atts.getValue(JRXmlConstants.ATTRIBUTE_pattern));
+		style.setPattern(atts.getValue(XmlConstants.ATTRIBUTE_pattern));
 
-		String isBlankWhenNull = atts.getValue(JRXmlConstants.ATTRIBUTE_isBlankWhenNull);
+		String isBlankWhenNull = atts.getValue(XmlConstants.ATTRIBUTE_isBlankWhenNull);
 		if (isBlankWhenNull != null && isBlankWhenNull.length() > 0)
 		{
 			style.setBlankWhenNull(Boolean.valueOf(isBlankWhenNull));
 		}
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_fontName) != null)
-			style.setFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_fontName));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_fontName) != null)
+			style.setFontName(atts.getValue(XmlConstants.ATTRIBUTE_fontName));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isBold) != null)
-			style.setBold(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isBold)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_isBold) != null)
+			style.setBold(Boolean.valueOf(atts.getValue(XmlConstants.ATTRIBUTE_isBold)));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic) != null)
-			style.setItalic(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_isItalic) != null)
+			style.setItalic(Boolean.valueOf(atts.getValue(XmlConstants.ATTRIBUTE_isItalic)));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isUnderline) != null)
-			style.setUnderline(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isUnderline)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_isUnderline) != null)
+			style.setUnderline(Boolean.valueOf(atts.getValue(XmlConstants.ATTRIBUTE_isUnderline)));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isStrikeThrough) != null)
-			style.setStrikeThrough(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isStrikeThrough)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_isStrikeThrough) != null)
+			style.setStrikeThrough(Boolean.valueOf(atts.getValue(XmlConstants.ATTRIBUTE_isStrikeThrough)));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_fontSize) != null)
-			style.setFontSize(Integer.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_fontSize)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_fontSize) != null)
+			style.setFontSize(Integer.valueOf(atts.getValue(XmlConstants.ATTRIBUTE_fontSize)));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName) != null)
-			style.setPdfFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_pdfFontName) != null)
+			style.setPdfFontName(atts.getValue(XmlConstants.ATTRIBUTE_pdfFontName));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfEncoding) != null)
-			style.setPdfEncoding(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfEncoding));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_pdfEncoding) != null)
+			style.setPdfEncoding(atts.getValue(XmlConstants.ATTRIBUTE_pdfEncoding));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded) != null)
-			style.setPdfEmbedded(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_isPdfEmbedded) != null)
+			style.setPdfEmbedded(Boolean.valueOf(atts.getValue(XmlConstants.ATTRIBUTE_isPdfEmbedded)));
 
 
 		return style;

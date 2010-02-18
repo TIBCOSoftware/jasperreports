@@ -45,7 +45,7 @@ public class JRBreakFactory extends JRBaseFactory
 
 		JRDesignBreak breakElement = new JRDesignBreak(jasperDesign);
 
-		Byte type = (Byte)JRXmlConstants.getBreakTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_type));
+		Byte type = (Byte)JRXmlConstants.getBreakTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_type));
 		if (type != null)
 		{
 			breakElement.setType(type.byteValue());

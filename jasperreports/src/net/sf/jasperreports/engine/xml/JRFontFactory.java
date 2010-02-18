@@ -56,44 +56,44 @@ public abstract class JRFontFactory extends JRBaseFactory
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont) != null)
+		if (atts.getValue(XmlConstants.ATTRIBUTE_reportFont) != null)
 		{
 			Map fontsMap = jasperDesign.getFontsMap();
 
-			if ( !fontsMap.containsKey(atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)) )
+			if ( !fontsMap.containsKey(atts.getValue(XmlConstants.ATTRIBUTE_reportFont)) )
 			{
-				xmlLoader.addError(new JRValidationException("Unknown report font : " + atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont), font));
+				xmlLoader.addError(new JRValidationException("Unknown report font : " + atts.getValue(XmlConstants.ATTRIBUTE_reportFont), font));
 			}
 
-			font.setReportFont((JRReportFont)fontsMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)));
+			font.setReportFont((JRReportFont)fontsMap.get(atts.getValue(XmlConstants.ATTRIBUTE_reportFont)));
 		}
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_fontName) != null)
-			font.setFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_fontName));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_fontName) != null)
+			font.setFontName(atts.getValue(XmlConstants.ATTRIBUTE_fontName));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isBold) != null)
-			font.setBold(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isBold)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_isBold) != null)
+			font.setBold(Boolean.valueOf(atts.getValue(XmlConstants.ATTRIBUTE_isBold)));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic) != null)
-			font.setItalic(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_isItalic) != null)
+			font.setItalic(Boolean.valueOf(atts.getValue(XmlConstants.ATTRIBUTE_isItalic)));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isUnderline) != null)
-			font.setUnderline(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isUnderline)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_isUnderline) != null)
+			font.setUnderline(Boolean.valueOf(atts.getValue(XmlConstants.ATTRIBUTE_isUnderline)));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isStrikeThrough) != null)
-			font.setStrikeThrough(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isStrikeThrough)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_isStrikeThrough) != null)
+			font.setStrikeThrough(Boolean.valueOf(atts.getValue(XmlConstants.ATTRIBUTE_isStrikeThrough)));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_size) != null)
-			font.setFontSize(Integer.parseInt(atts.getValue(JRXmlConstants.ATTRIBUTE_size)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_size) != null)
+			font.setFontSize(Integer.parseInt(atts.getValue(XmlConstants.ATTRIBUTE_size)));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName) != null)
-			font.setPdfFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_pdfFontName) != null)
+			font.setPdfFontName(atts.getValue(XmlConstants.ATTRIBUTE_pdfFontName));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfEncoding) != null)
-			font.setPdfEncoding(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfEncoding));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_pdfEncoding) != null)
+			font.setPdfEncoding(atts.getValue(XmlConstants.ATTRIBUTE_pdfEncoding));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded) != null)
-			font.setPdfEmbedded(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded)));
+		if (atts.getValue(XmlConstants.ATTRIBUTE_isPdfEmbedded) != null)
+			font.setPdfEmbedded(Boolean.valueOf(atts.getValue(XmlConstants.ATTRIBUTE_isPdfEmbedded)));
 
 		return font;
 	}

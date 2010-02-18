@@ -42,45 +42,45 @@ public class JRGroupFactory extends JRBaseFactory
 	{
 		JRDesignGroup group = new JRDesignGroup();
 		
-		group.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
+		group.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
 		
-		String isStartNewColumn = atts.getValue(JRXmlConstants.ATTRIBUTE_isStartNewColumn);
+		String isStartNewColumn = atts.getValue(XmlConstants.ATTRIBUTE_isStartNewColumn);
 		if (isStartNewColumn != null && isStartNewColumn.length() > 0)
 		{
 			group.setStartNewColumn(Boolean.valueOf(isStartNewColumn).booleanValue());
 		}
 
-		String isStartNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isStartNewPage);
+		String isStartNewPage = atts.getValue(XmlConstants.ATTRIBUTE_isStartNewPage);
 		if (isStartNewPage != null && isStartNewPage.length() > 0)
 		{
 			group.setStartNewPage(Boolean.valueOf(isStartNewPage).booleanValue());
 		}
 
-		String isResetPageNumber = atts.getValue(JRXmlConstants.ATTRIBUTE_isResetPageNumber);
+		String isResetPageNumber = atts.getValue(XmlConstants.ATTRIBUTE_isResetPageNumber);
 		if (isResetPageNumber != null && isResetPageNumber.length() > 0)
 		{
 			group.setResetPageNumber(Boolean.valueOf(isResetPageNumber).booleanValue());
 		}
 
-		String isReprintHeaderOnEachPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isReprintHeaderOnEachPage);
+		String isReprintHeaderOnEachPage = atts.getValue(XmlConstants.ATTRIBUTE_isReprintHeaderOnEachPage);
 		if (isReprintHeaderOnEachPage != null && isReprintHeaderOnEachPage.length() > 0)
 		{
 			group.setReprintHeaderOnEachPage(Boolean.valueOf(isReprintHeaderOnEachPage).booleanValue());
 		}
 
-		String minHeightToStartNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_minHeightToStartNewPage);
+		String minHeightToStartNewPage = atts.getValue(XmlConstants.ATTRIBUTE_minHeightToStartNewPage);
 		if (minHeightToStartNewPage != null && minHeightToStartNewPage.length() > 0)
 		{
 			group.setMinHeightToStartNewPage(Integer.parseInt(minHeightToStartNewPage));
 		}
 
-		Byte footerPosition = (Byte)JRXmlConstants.getFooterPositionMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_footerPosition));
+		Byte footerPosition = (Byte)JRXmlConstants.getFooterPositionMap().get(atts.getValue(XmlConstants.ATTRIBUTE_footerPosition));
 		if (footerPosition != null)
 		{
 			group.setFooterPosition(footerPosition.byteValue());
 		}
 		
-		String keepTogether = atts.getValue(JRXmlConstants.ATTRIBUTE_keepTogether);
+		String keepTogether = atts.getValue(XmlConstants.ATTRIBUTE_keepTogether);
 		if (keepTogether != null && keepTogether.length() > 0)
 		{
 			group.setKeepTogether(Boolean.valueOf(keepTogether).booleanValue());

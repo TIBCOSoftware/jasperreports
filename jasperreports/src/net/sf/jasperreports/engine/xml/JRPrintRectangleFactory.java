@@ -45,7 +45,7 @@ public class JRPrintRectangleFactory extends JRBaseFactory
 
 		JRBasePrintRectangle rectangle = new JRBasePrintRectangle(jasperPrint.getDefaultStyleProvider());
 		
-		String radius = atts.getValue(JRXmlConstants.ATTRIBUTE_radius);
+		String radius = atts.getValue(XmlConstants.ATTRIBUTE_radius);
 		if (radius != null && radius.length() > 0)
 		{
 			rectangle.setRadius(Integer.parseInt(radius));

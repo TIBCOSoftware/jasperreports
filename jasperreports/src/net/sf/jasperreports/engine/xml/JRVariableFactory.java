@@ -43,20 +43,20 @@ public class JRVariableFactory extends JRBaseFactory
 	{
 		JRDesignVariable variable = new JRDesignVariable();
 		
-		variable.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
+		variable.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
+		if (atts.getValue(XmlConstants.ATTRIBUTE_class) != null)
 		{
-			variable.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
+			variable.setValueClassName(atts.getValue(XmlConstants.ATTRIBUTE_class));
 		}
 
-		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_resetType));
+		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_resetType));
 		if (resetType != null)
 		{
 			variable.setResetType(resetType.byteValue());
 		}
 		
-		String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_resetGroup);
+		String groupName = atts.getValue(XmlConstants.ATTRIBUTE_resetGroup);
 		if (groupName != null)
 		{
 			JRDesignGroup group = new JRDesignGroup();
@@ -64,13 +64,13 @@ public class JRVariableFactory extends JRBaseFactory
 			variable.setResetGroup(group);
 		}
 
-		Byte incrementType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_incrementType));
+		Byte incrementType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_incrementType));
 		if (incrementType != null)
 		{
 			variable.setIncrementType(incrementType.byteValue());
 		}
 		
-		groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_incrementGroup);
+		groupName = atts.getValue(XmlConstants.ATTRIBUTE_incrementGroup);
 		if (groupName != null)
 		{
 			JRDesignGroup group = new JRDesignGroup();
@@ -78,15 +78,15 @@ public class JRVariableFactory extends JRBaseFactory
 			variable.setIncrementGroup(group);
 		}
 
-		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_calculation));
+		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(XmlConstants.ATTRIBUTE_calculation));
 		if (calculation != null)
 		{
 			variable.setCalculation(calculation.byteValue());
 		}
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass) != null)
+		if (atts.getValue(XmlConstants.ATTRIBUTE_incrementerFactoryClass) != null)
 		{
-			variable.setIncrementerFactoryClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass));
+			variable.setIncrementerFactoryClassName(atts.getValue(XmlConstants.ATTRIBUTE_incrementerFactoryClass));
 		}
 
 		return variable;

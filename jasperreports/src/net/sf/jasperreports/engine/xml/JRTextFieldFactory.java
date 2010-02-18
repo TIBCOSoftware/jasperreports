@@ -51,13 +51,13 @@ public class JRTextFieldFactory extends JRBaseFactory
 
 		JRDesignTextField textField = new JRDesignTextField(jasperDesign);
 
-		String isStretchWithOverflow = atts.getValue(JRXmlConstants.ATTRIBUTE_isStretchWithOverflow);
+		String isStretchWithOverflow = atts.getValue(XmlConstants.ATTRIBUTE_isStretchWithOverflow);
 		if (isStretchWithOverflow != null && isStretchWithOverflow.length() > 0)
 		{
 			textField.setStretchWithOverflow(Boolean.valueOf(isStretchWithOverflow).booleanValue());
 		}
 
-		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));
+		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
 			textField.setEvaluationTime(evaluationTime.byteValue());
@@ -66,7 +66,7 @@ public class JRTextFieldFactory extends JRBaseFactory
 		{
 			groupEvaluatedTextFields.add(textField);
 			
-			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
+			String groupName = atts.getValue(XmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)
 			{
 				JRDesignGroup group = new JRDesignGroup();
@@ -75,18 +75,18 @@ public class JRTextFieldFactory extends JRBaseFactory
 			}
 		}
 		
-		textField.setPattern(atts.getValue(JRXmlConstants.ATTRIBUTE_pattern));
+		textField.setPattern(atts.getValue(XmlConstants.ATTRIBUTE_pattern));
 
-		String isBlankWhenNull = atts.getValue(JRXmlConstants.ATTRIBUTE_isBlankWhenNull);
+		String isBlankWhenNull = atts.getValue(XmlConstants.ATTRIBUTE_isBlankWhenNull);
 		if (isBlankWhenNull != null && isBlankWhenNull.length() > 0)
 		{
 			textField.setBlankWhenNull(Boolean.valueOf(isBlankWhenNull));
 		}
 
-		textField.setLinkType(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType));
-		textField.setLinkTarget(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
+		textField.setLinkType(atts.getValue(XmlConstants.ATTRIBUTE_hyperlinkType));
+		textField.setLinkTarget(atts.getValue(XmlConstants.ATTRIBUTE_hyperlinkTarget));
 		
-		String bookmarkLevelAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_bookmarkLevel);
+		String bookmarkLevelAttr = atts.getValue(XmlConstants.ATTRIBUTE_bookmarkLevel);
 		if (bookmarkLevelAttr != null)
 		{
 			textField.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));

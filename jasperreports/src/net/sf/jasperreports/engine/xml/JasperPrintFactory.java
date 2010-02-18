@@ -42,39 +42,39 @@ public class JasperPrintFactory extends JRBaseFactory
 	{
 		JasperPrint jasperPrint = new JasperPrint();
 		
-		jasperPrint.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
+		jasperPrint.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
 
-		String pageWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_pageWidth);
+		String pageWidth = atts.getValue(XmlConstants.ATTRIBUTE_pageWidth);
 		if (pageWidth != null && pageWidth.length() > 0)
 		{
 			jasperPrint.setPageWidth(Integer.parseInt(pageWidth));
 		}
 
-		String pageHeight = atts.getValue(JRXmlConstants.ATTRIBUTE_pageHeight);
+		String pageHeight = atts.getValue(XmlConstants.ATTRIBUTE_pageHeight);
 		if (pageHeight != null && pageHeight.length() > 0)
 		{
 			jasperPrint.setPageHeight(Integer.parseInt(pageHeight));
 		}
 
-		Byte orientation = (Byte)JRXmlConstants.getOrientationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_orientation));
+		Byte orientation = (Byte)JRXmlConstants.getOrientationMap().get(atts.getValue(XmlConstants.ATTRIBUTE_orientation));
 		if (orientation != null)
 		{
 			jasperPrint.setOrientation(orientation.byteValue());
 		}
 		
-		String formatFactoryClass = atts.getValue(JRXmlConstants.ATTRIBUTE_formatFactoryClass);
+		String formatFactoryClass = atts.getValue(XmlConstants.ATTRIBUTE_formatFactoryClass);
 		if (formatFactoryClass != null)
 		{
 			jasperPrint.setFormatFactoryClass(formatFactoryClass);
 		}
 		
-		String locale = atts.getValue(JRXmlConstants.ATTRIBUTE_locale);
+		String locale = atts.getValue(XmlConstants.ATTRIBUTE_locale);
 		if (locale != null)
 		{
 			jasperPrint.setLocaleCode(locale);
 		}
 		
-		String timezone = atts.getValue(JRXmlConstants.ATTRIBUTE_timezone);
+		String timezone = atts.getValue(XmlConstants.ATTRIBUTE_timezone);
 		if (timezone != null)
 		{
 			jasperPrint.setTimeZoneId(timezone);

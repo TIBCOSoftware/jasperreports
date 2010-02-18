@@ -42,9 +42,9 @@ public class JRSortFieldFactory extends JRBaseFactory
 	{
 		JRDesignSortField sortField = new JRDesignSortField();
 		
-		sortField.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
+		sortField.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
 
-		Byte order = (Byte)JRXmlConstants.getSortOrderMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_order));
+		Byte order = (Byte)JRXmlConstants.getSortOrderMap().get(atts.getValue(XmlConstants.ATTRIBUTE_order));
 		if (order != null)
 		{
 			sortField.setOrder(order.byteValue());

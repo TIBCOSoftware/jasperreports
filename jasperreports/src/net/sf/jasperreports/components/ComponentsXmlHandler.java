@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
+import net.sf.jasperreports.engine.xml.XmlConstants;
 
 import org.apache.commons.digester.Digester;
 
@@ -101,11 +102,11 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addObjectCreate(barcodePattern, StandardBarbecueComponent.class);
 		digester.addSetProperties(barcodePattern,
 				//properties to be ignored by this rule
-				new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime}, 
+				new String[]{XmlConstants.ATTRIBUTE_evaluationTime}, 
 				new String[0]);
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
-						JRXmlConstants.ATTRIBUTE_evaluationTime,
+						XmlConstants.ATTRIBUTE_evaluationTime,
 						JRXmlConstants.getEvaluationTimeMap()));
 
 		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
@@ -169,12 +170,12 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addObjectCreate(barcodePattern, barcodeComponentClass);
 		digester.addSetProperties(barcodePattern,
 				//properties to be ignored by this rule
-				new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime}, 
+				new String[]{XmlConstants.ATTRIBUTE_evaluationTime}, 
 				new String[0]);
 		//rule to set evaluation time
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
-						JRXmlConstants.ATTRIBUTE_evaluationTime,
+						XmlConstants.ATTRIBUTE_evaluationTime,
 						JRXmlConstants.getEvaluationTimeMap()));
 		
 		String codeExpressionPattern = barcodePattern + "/codeExpression";
@@ -259,11 +260,11 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.addAttribute("barHeight", barcode.getBarHeight());
 		if (barcode.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
 		{
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
+			writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, 
 					barcode.getEvaluationTime(),
 					JRXmlConstants.getEvaluationTimeMap());
 		}
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
+		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, 
 				barcode.getEvaluationGroup());
 
 		writer.writeExpression("codeExpression", 
