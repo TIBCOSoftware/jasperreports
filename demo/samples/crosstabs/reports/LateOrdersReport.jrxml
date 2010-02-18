@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
-<jasperReport
-		xmlns="http://jasperreports.sourceforge.net/jasperreports"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-		name="LateOrdersReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LateOrdersReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Title" style="Sans_Bold" fontSize="12"/>
-	<style name="ColumnHeader" style="Sans_Bold" forecolor="white"/>
-	<style name="CellStyle" mode="Opaque">
+	<style name="Title" isDefault="false" style="Sans_Bold" fontSize="12"/>
+	<style name="ColumnHeader" isDefault="false" style="Sans_Bold" forecolor="#FFFFFF"/>
+	<style name="CellStyle" isDefault="false" mode="Opaque">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
-			<style backcolor="#E0E0E0"/>
+			<style isDefault="false" style="CellStyle" backcolor="#E0E0E0"/>
 		</conditionalStyle>
 	</style>
-	<style name="Detail">
+	<style name="Detail" isDefault="false">
 		<conditionalStyle>
-			<conditionExpression>$V{REPORT_COUNT}.intValue() % 2 == 0 ? Boolean.TRUE : Boolean.FALSE</conditionExpression>
-			<style mode="Opaque" backcolor="#E0E0E0"/>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}.intValue() % 2 == 0 ? Boolean.TRUE : Boolean.FALSE]]></conditionExpression>
+			<style isDefault="false" style="Detail" mode="Opaque" backcolor="#E0E0E0"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression>$V{DeliveryDelay} != null ? Boolean.TRUE : Boolean.FALSE</conditionExpression>
-			<style>
-				<pen lineWidth="0.5" lineColor="red"/>
+			<conditionExpression><![CDATA[$V{DeliveryDelay} != null ? Boolean.TRUE : Boolean.FALSE]]></conditionExpression>
+			<style isDefault="false" style="Detail">
+				<pen lineWidth="0.5" lineColor="#FF0000"/>
 			</style>
 		</conditionalStyle>
 	</style>
-	<queryString><![CDATA[SELECT OrderId, ShipCountry, Freight, OrderDate, RequiredDate, ShippedDate FROM Orders WHERE ShippedDate IS NOT NULL]]></queryString>
+	<queryString>
+		<![CDATA[SELECT OrderId, ShipCountry, Freight, OrderDate, RequiredDate, ShippedDate FROM Orders WHERE ShippedDate IS NOT NULL]]>
+	</queryString>
 	<field name="OrderId" class="java.lang.Integer"/>
 	<field name="ShipCountry" class="java.lang.String"/>
 	<field name="Freight" class="java.lang.Float"/>
@@ -36,61 +32,57 @@
 	<field name="RequiredDate" class="java.sql.Timestamp"/>
 	<field name="ShippedDate" class="java.sql.Timestamp"/>
 	<variable name="DeliveryDelay" class="java.lang.Integer">
-		<variableExpression>
-			<![CDATA[
-				$F{ShippedDate}.after($F{RequiredDate}) ? 
-					new Integer(1 + (int) (($F{ShippedDate}.getTime() - $F{RequiredDate}.getTime() - 1) / 3600000)) : 
-					null
-			]]>
-		</variableExpression>
+		<variableExpression><![CDATA[$F{ShippedDate}.after($F{RequiredDate}) ?
+					new Integer(1 + (int) (($F{ShippedDate}.getTime() - $F{RequiredDate}.getTime() - 1) / 3600000)) :
+					null]]></variableExpression>
 	</variable>
 	<title>
 		<band height="40">
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="20" style="Title"/>
-				<textElement verticalAlignment="Middle" textAlignment="Center"/>
-				<text>Shipped Orders</text>
+				<reportElement style="Title" x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Shipped Orders]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="15">
 			<frame>
-				<reportElement x="0" y="0" width="555" height="15" mode="Opaque" backcolor="black"/>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="15" backcolor="#000000"/>
 				<staticText>
-					<reportElement x="5" y="0" width="55" height="15" style="ColumnHeader"/>
-					<textElement verticalAlignment="Middle" textAlignment="Right"/>
-					<text>Order ID</text>
+					<reportElement style="ColumnHeader" x="5" y="0" width="55" height="15"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Order ID]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="65" y="0" width="100" height="15" style="ColumnHeader"/>
+					<reportElement style="ColumnHeader" x="65" y="0" width="100" height="15"/>
 					<textElement verticalAlignment="Middle"/>
-					<text>Country</text>
+					<text><![CDATA[Country]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="170" y="0" width="60" height="15" style="ColumnHeader"/>
-					<textElement verticalAlignment="Middle" textAlignment="Right"/>
-					<text>Freight</text>
+					<reportElement style="ColumnHeader" x="170" y="0" width="60" height="15"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Freight]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="235" y="0" width="80" height="15" style="ColumnHeader"/>
-					<textElement verticalAlignment="Middle" textAlignment="Center"/>
-					<text>Order date</text>
+					<reportElement style="ColumnHeader" x="235" y="0" width="80" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Order date]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="320" y="0" width="80" height="15" style="ColumnHeader"/>
-					<textElement verticalAlignment="Middle" textAlignment="Center"/>
-					<text>Required date</text>
+					<reportElement style="ColumnHeader" x="320" y="0" width="80" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Required date]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="405" y="0" width="80" height="15" style="ColumnHeader"/>
-					<textElement verticalAlignment="Middle" textAlignment="Center"/>
-					<text>Shipped date</text>
+					<reportElement style="ColumnHeader" x="405" y="0" width="80" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Shipped date]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="490" y="0" width="60" height="15" style="ColumnHeader"/>
-					<textElement verticalAlignment="Middle" textAlignment="Right"/>
-					<text>Late (hrs)</text>
+					<reportElement style="ColumnHeader" x="490" y="0" width="60" height="15"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Late (hrs)]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -98,41 +90,41 @@
 	<detail>
 		<band height="15">
 			<frame>
-				<reportElement x="0" y="0" width="555" height="15" style="Detail"/>
+				<reportElement style="Detail" x="0" y="0" width="555" height="15"/>
 				<textField>
 					<reportElement x="5" y="0" width="55" height="15"/>
-					<textElement verticalAlignment="Middle" textAlignment="Right"/>
-					<textFieldExpression>$F{OrderId}.toString()</textFieldExpression>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{OrderId}.toString()]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="65" y="0" width="100" height="15"/>
 					<textElement verticalAlignment="Middle"/>
-					<textFieldExpression>$F{ShipCountry}</textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,###.00">
 					<reportElement x="170" y="0" width="60" height="15"/>
-					<textElement verticalAlignment="Middle" textAlignment="Right"/>
-					<textFieldExpression class="java.lang.Float">$F{Freight}</textFieldExpression>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.Float"><![CDATA[$F{Freight}]]></textFieldExpression>
 				</textField>
 				<textField pattern="medium,hide">
 					<reportElement x="235" y="0" width="80" height="15"/>
-					<textElement verticalAlignment="Middle" textAlignment="Center"/>
-					<textFieldExpression class="java.util.Date">$F{OrderDate}</textFieldExpression>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{OrderDate}]]></textFieldExpression>
 				</textField>
 				<textField pattern="medium,hide">
 					<reportElement x="320" y="0" width="80" height="15"/>
-					<textElement verticalAlignment="Middle" textAlignment="Center"/>
-					<textFieldExpression class="java.util.Date">$F{RequiredDate}</textFieldExpression>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{RequiredDate}]]></textFieldExpression>
 				</textField>
 				<textField pattern="medium,hide">
 					<reportElement x="405" y="0" width="80" height="15"/>
-					<textElement verticalAlignment="Middle" textAlignment="Center"/>
-					<textFieldExpression class="java.util.Date">$F{ShippedDate}</textFieldExpression>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{ShippedDate}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement x="490" y="0" width="60" height="15"/>
-					<textElement verticalAlignment="Middle" textAlignment="Right"/>
-					<textFieldExpression>$V{DeliveryDelay}.toString()</textFieldExpression>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$V{DeliveryDelay}.toString()]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
@@ -140,149 +132,150 @@
 	<summary>
 		<band height="100">
 			<staticText>
-				<reportElement x="0" y="20" width="555" height="20" style="Title"/>
-				<text>Late deliveries summary (count and total delay) by country and freight range</text>
+				<reportElement style="Title" x="0" y="20" width="555" height="20"/>
+				<textElement/>
+				<text><![CDATA[Late deliveries summary (count and total delay) by country and freight range]]></text>
 			</staticText>
 			<crosstab isRepeatColumnHeaders="false">
 				<reportElement x="0" y="40" width="555" height="60"/>
 				<crosstabDataset>
 					<dataset>
-						<incrementWhenExpression>$V{DeliveryDelay} == null ? Boolean.FALSE : Boolean.TRUE</incrementWhenExpression>
+						<incrementWhenExpression><![CDATA[$V{DeliveryDelay} == null ? Boolean.FALSE : Boolean.TRUE]]></incrementWhenExpression>
 					</dataset>
 				</crosstabDataset>
 				<rowGroup name="CountryRow" width="80" totalPosition="End">
 					<bucket>
-						<bucketExpression class="java.lang.String">$F{ShipCountry}</bucketExpression>
+						<bucketExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents style="CellStyle">
 							<box>
-								<pen lineWidth="1" lineColor="black"/>
+								<pen lineWidth="1.0" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement x="5" y="0" width="75" height="20" style="Sans_Bold"/>
+								<reportElement style="Sans_Bold" x="5" y="0" width="75" height="20"/>
 								<textElement verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$V{CountryRow}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{CountryRow}]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabRowHeader>
 					<crosstabTotalRowHeader>
 						<cellContents>
 							<box>
-								<pen lineWidth="1" lineColor="black"/>
+								<pen lineWidth="1.0" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement x="5" y="0" width="75" height="20" style="Sans_Bold"/>
+								<reportElement style="Sans_Bold" x="5" y="0" width="75" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="12"/>
 								</textElement>
-								<text>TOTAL</text>
+								<text><![CDATA[TOTAL]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalRowHeader>
 				</rowGroup>
 				<columnGroup name="FreightColumn" height="20" totalPosition="End">
 					<bucket>
-						<bucketExpression class="java.lang.Integer">new Integer($F{Freight}.intValue()/100)</bucketExpression>
+						<bucketExpression class="java.lang.Integer"><![CDATA[new Integer($F{Freight}.intValue()/100)]]></bucketExpression>
 					</bucket>
 					<crosstabColumnHeader>
 						<cellContents>
 							<box>
-								<pen lineWidth="1" lineColor="black"/>
+								<pen lineWidth="1.0" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement x="0" y="0" width="60" height="20" style="Sans_Bold"/>
+								<reportElement style="Sans_Bold" x="0" y="0" width="60" height="20"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[String.valueOf($V{FreightColumn}.intValue() * 100) + "-" + String.valueOf(($V{FreightColumn}.intValue() + 1) * 100)]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[String.valueOf($V{FreightColumn}.intValue() * 100) + "-" + String.valueOf(($V{FreightColumn}.intValue() + 1) * 100)]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabColumnHeader>
 					<crosstabTotalColumnHeader>
 						<cellContents>
 							<box>
-								<pen lineWidth="1" lineColor="black"/>
+								<pen lineWidth="1.0" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="60" height="20" style="Sans_Bold"/>
+								<reportElement style="Sans_Bold" x="0" y="0" width="60" height="20"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12"/>
 								</textElement>
-								<text>TOTAL</text>
+								<text><![CDATA[TOTAL]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalColumnHeader>
 				</columnGroup>
 				<measure name="OrderCount" class="java.lang.Integer" calculation="Count">
-					<measureExpression>$F{Freight}</measureExpression>
+					<measureExpression><![CDATA[$F{Freight}]]></measureExpression>
 				</measure>
 				<measure name="Delay" class="java.lang.Integer" calculation="Sum">
-					<measureExpression>$V{DeliveryDelay}</measureExpression>
+					<measureExpression><![CDATA[$V{DeliveryDelay}]]></measureExpression>
 				</measure>
 				<crosstabCell width="60" height="20">
 					<cellContents style="CellStyle">
 						<box>
-							<pen lineWidth="1" lineColor="black"/>
+							<pen lineWidth="1.0" lineColor="#000000"/>
 						</box>
 						<textField>
 							<reportElement x="0" y="0" width="60" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer">$V{OrderCount}</textFieldExpression>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
 						</textField>
 						<textField isBlankWhenNull="true">
 							<reportElement x="0" y="10" width="60" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer">$V{Delay}</textFieldExpression>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{Delay}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
 				<crosstabCell width="60" height="20" rowTotalGroup="CountryRow">
-					<cellContents backcolor="yellow" mode="Opaque">
+					<cellContents backcolor="#FFFF00" mode="Opaque">
 						<box>
-							<pen lineWidth="1" lineColor="black"/>
+							<pen lineWidth="1.0" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement x="0" y="0" width="60" height="10" style="Sans_Bold"/>
+							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer">$V{OrderCount}</textFieldExpression>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
 						</textField>
 						<textField isBlankWhenNull="true">
-							<reportElement x="0" y="10" width="60" height="10" style="Sans_Bold"/>
+							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer">$V{Delay}</textFieldExpression>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{Delay}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
 				<crosstabCell width="60" height="20" columnTotalGroup="FreightColumn">
-					<cellContents backcolor="green" mode="Opaque">
+					<cellContents backcolor="#00FF00" mode="Opaque">
 						<box>
-							<pen lineWidth="1" lineColor="black"/>
+							<pen lineWidth="1.0" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement x="0" y="0" width="60" height="10" style="Sans_Bold"/>
+							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer">$V{OrderCount}</textFieldExpression>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
 						</textField>
 						<textField isBlankWhenNull="true">
-							<reportElement x="0" y="10" width="60" height="10" style="Sans_Bold"/>
+							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer">$V{Delay}</textFieldExpression>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{Delay}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
 				<crosstabCell width="60" height="20" rowTotalGroup="CountryRow" columnTotalGroup="FreightColumn">
-					<cellContents backcolor="gray" mode="Opaque">
+					<cellContents backcolor="#808080" mode="Opaque">
 						<box>
-							<pen lineWidth="1" lineColor="black"/>
+							<pen lineWidth="1.0" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement x="0" y="0" width="60" height="10" style="Sans_Bold"/>
+							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer">$V{OrderCount}</textFieldExpression>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
 						</textField>
 						<textField isBlankWhenNull="true">
-							<reportElement x="0" y="10" width="60" height="10" style="Sans_Bold"/>
+							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer">$V{Delay}</textFieldExpression>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{Delay}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
