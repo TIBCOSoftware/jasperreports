@@ -110,7 +110,7 @@ public enum HorizontalAlignEnum implements JREnum
 	 */
 	public static HorizontalAlignEnum getByValue(byte value)
 	{
-		return (HorizontalAlignEnum)getByValue(new Byte(value));
+		return getByValue(new Byte(value));
 	}
 
 }

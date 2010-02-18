@@ -110,7 +110,7 @@ public enum RotationEnum implements JREnum
 	 */
 	public static RotationEnum getByValue(byte value)
 	{
-		return (RotationEnum)getByValue(new Byte(value));
+		return getByValue(new Byte(value));
 	}
 
 }
