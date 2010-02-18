@@ -26,7 +26,6 @@ package net.sf.jasperreports.charts.xml;
 import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.XmlConstants;
 
 import org.xml.sax.Attributes;
