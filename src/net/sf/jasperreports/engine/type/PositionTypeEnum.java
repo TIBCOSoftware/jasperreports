@@ -108,7 +108,7 @@ public enum PositionTypeEnum implements JREnum
 	 */
 	public static PositionTypeEnum getByValue(byte value)
 	{
-		return (PositionTypeEnum)getByValue(new Byte(value));
+		return getByValue(new Byte(value));
 	}
 	
 }

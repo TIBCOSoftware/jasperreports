@@ -100,7 +100,7 @@ public enum ModeEnum implements JREnum
 	 */
 	public static ModeEnum getByValue(byte value)
 	{
-		return (ModeEnum)getByValue(new Byte(value));
+		return getByValue(new Byte(value));
 	}
 	
 }
