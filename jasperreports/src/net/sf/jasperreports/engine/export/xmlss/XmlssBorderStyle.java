@@ -67,7 +67,7 @@ public abstract class XmlssBorderStyle extends XmlssStyle
 	/**
 	 *
 	 */
-	public void setBox(JRLineBox box) throws IOException
+	public void setBox(JRLineBox box)
 	{
 		appendBorder(box.getTopPen(), TOP_BORDER);
 //		borderPadding[TOP_BORDER] = String.valueOf(box.getTopPadding());
@@ -82,7 +82,7 @@ public abstract class XmlssBorderStyle extends XmlssStyle
 	/**
 	 *
 	 */
-	public void setPen(JRPen pen) throws IOException
+	public void setPen(JRPen pen)
 	{
 		if (
 			borderWidth[TOP_BORDER] == null
@@ -131,7 +131,7 @@ public abstract class XmlssBorderStyle extends XmlssStyle
 	/**
 	 *
 	 */
-	private void appendBorder(JRPen pen, int side) throws IOException
+	private void appendBorder(JRPen pen, int side)
 	{
 		float width = pen.getLineWidth().floatValue();
 		

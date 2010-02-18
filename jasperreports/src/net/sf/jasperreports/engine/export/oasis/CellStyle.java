@@ -53,7 +53,7 @@ public class CellStyle extends BorderStyle
 	/**
 	 *
 	 */
-	public CellStyle(Writer styleWriter, JRExporterGridCell gridCell) throws IOException
+	public CellStyle(Writer styleWriter, JRExporterGridCell gridCell)
 	{
 		super(styleWriter);
 

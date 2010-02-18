@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
 import java.awt.font.TextAttribute;
-import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Locale;
@@ -86,7 +85,7 @@ public class XlsxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportProps(JRStyle style, Locale locale) throws IOException
+	public void exportProps(JRStyle style, Locale locale)
 	{
 		JRPrintText text = new JRBasePrintText(null);
 		text.setStyle(style);

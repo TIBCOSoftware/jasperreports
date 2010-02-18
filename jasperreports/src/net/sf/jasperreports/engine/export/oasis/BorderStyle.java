@@ -62,7 +62,7 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	public void setBox(JRLineBox box) throws IOException
+	public void setBox(JRLineBox box)
 	{
 		if (box != null)
 		{
@@ -80,7 +80,7 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	public void setPen(JRPen pen) throws IOException
+	public void setPen(JRPen pen)
 	{
 		if (
 			borderWidth[TOP_BORDER] == null
@@ -139,7 +139,7 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	private void appendBorder(JRPen pen, int side) throws IOException
+	private void appendBorder(JRPen pen, int side)
 	{
 		double width = pen.getLineWidth().doubleValue();
 		String style = null;
