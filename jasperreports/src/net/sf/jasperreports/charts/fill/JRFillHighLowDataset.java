@@ -260,70 +260,29 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 			return date;
 		}
 
-
-		public void setDate(Date date)
-		{
-			this.date = date;
-		}
-
-
 		public Number getHigh()
 		{
 			return high;
 		}
-
-
-		public void setHigh(Number high)
-		{
-			this.high = high;
-		}
-
 
 		public Number getLow()
 		{
 			return low;
 		}
 
-
-		public void setLow(Number low)
-		{
-			this.low = low;
-		}
-
-
 		public Number getOpen()
 		{
 			return open;
 		}
-
-
-		public void setOpen(Number open)
-		{
-			this.open = open;
-		}
-
 
 		public Number getClose()
 		{
 			return close;
 		}
 
-
-		public void setClose(Number close)
-		{
-			this.close = close;
-		}
-
-
 		public Number getVolume()
 		{
 			return volume;
-		}
-
-
-		public void setVolume(Number volume)
-		{
-			this.volume = volume;
 		}
 	}
 
