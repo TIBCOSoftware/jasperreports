@@ -232,7 +232,7 @@ public class JRAntUpdateTask extends MatchingTask
 			throw 
 				new BuildException(
 					"The srcdir attribute must be set.", 
-					location
+					getLocation()
 					);
 		}
 		
@@ -244,7 +244,7 @@ public class JRAntUpdateTask extends MatchingTask
 						+ destdir 
 						+ "\" does not exist "
 						+ "or is not a directory.", 
-					location
+					getLocation()
 					);
 		}
 	}

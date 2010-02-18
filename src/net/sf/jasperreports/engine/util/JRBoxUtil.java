@@ -176,6 +176,7 @@ public class JRBoxUtil
 	/**
 	 * 
 	 */
+	@SuppressWarnings("deprecation")
 	public static void setBoxToLineBox(
 		JRBox box,
 		JRLineBox lineBox

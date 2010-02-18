@@ -196,7 +196,7 @@ public class JRAntDecompileTask extends MatchingTask
 			throw 
 				new BuildException(
 					"The srcdir attribute must be set.", //FIXME this message is misleading in case the fileset filters do not match any file
-					location
+					getLocation()
 					);
 		}
 		
@@ -208,7 +208,7 @@ public class JRAntDecompileTask extends MatchingTask
 						+ destdir 
 						+ "\" does not exist "
 						+ "or is not a directory.", 
-					location
+					getLocation()
 					);
 		}
 	}

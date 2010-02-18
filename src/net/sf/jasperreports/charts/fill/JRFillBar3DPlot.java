@@ -356,7 +356,7 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setXOffset(Double)}.
 	 */
 	public void setXOffset( double xOffset ){
 	}
@@ -382,7 +382,7 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setYOffset(Double)}.
 	 */
 	public void setYOffset( double yOffset ){
 	}
@@ -421,7 +421,7 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setShowLabels(Boolean)}.
 	 */
 	public void setShowLabels( boolean isShowLabels ){
 	}
