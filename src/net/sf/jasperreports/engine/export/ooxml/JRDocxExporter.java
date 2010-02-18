@@ -428,7 +428,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportPage(JRPrintPage page) throws JRException, IOException
+	protected void exportPage(JRPrintPage page) throws JRException
 	{
 		startPage = true;
 		JRGridLayout layout =
@@ -1182,7 +1182,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportGenericElement(DocxTableHelper tableHelper, JRGenericPrintElement element, JRExporterGridCell gridCell) throws JRException
+	protected void exportGenericElement(DocxTableHelper tableHelper, JRGenericPrintElement element, JRExporterGridCell gridCell)
 	{
 		GenericElementDocxHandler handler = (GenericElementDocxHandler) 
 		GenericElementHandlerEnviroment.getHandler(

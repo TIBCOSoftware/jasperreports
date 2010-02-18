@@ -918,7 +918,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportFrame(XmlssTableBuilder tableBuilder, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
+	protected void exportFrame(XmlssTableBuilder tableBuilder, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException
 	{
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(frame, gridCell.getBackcolor(), null, isFontSizeFixEnabled, defaultFont, fontMap), gridCell.getColSpan(), gridCell.getRowSpan(), null, null, null);
 
