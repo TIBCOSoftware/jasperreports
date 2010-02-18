@@ -25,23 +25,16 @@
  */
 package net.sf.jasperreports.olap.mapping;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import net.sf.jasperreports.olap.mapping.*;
-
-import antlr.TokenBuffer;
-import antlr.TokenStreamException;
-import antlr.TokenStreamIOException;
-import antlr.ANTLRException;
-import antlr.LLkParser;
-import antlr.Token;
-import antlr.TokenStream;
-import antlr.RecognitionException;
 import antlr.NoViableAltException;
-import antlr.MismatchedTokenException;
-import antlr.SemanticException;
 import antlr.ParserSharedInputState;
+import antlr.RecognitionException;
+import antlr.Token;
+import antlr.TokenBuffer;
+import antlr.TokenStream;
+import antlr.TokenStreamException;
 import antlr.collections.impl.BitSet;
 
 /**

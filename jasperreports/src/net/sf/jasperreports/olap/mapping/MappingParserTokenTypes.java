@@ -25,10 +25,6 @@
  */
 package net.sf.jasperreports.olap.mapping;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import net.sf.jasperreports.olap.mapping.*;
 
 public interface MappingParserTokenTypes {
 	int EOF = 1;
