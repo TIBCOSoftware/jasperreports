@@ -42,8 +42,10 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializable
 {
-	
-	//FIXME no serial UID
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7685014062058258277L;//it's OK to have calculated UID here, because we missed it when first releasing this class
 	
 	protected String name;
 	protected byte totalPosition = BucketDefinition.TOTAL_POSITION_NONE;

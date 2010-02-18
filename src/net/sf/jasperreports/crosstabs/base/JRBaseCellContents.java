@@ -26,7 +26,6 @@ package net.sf.jasperreports.crosstabs.base;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRBox;
@@ -47,7 +46,7 @@ import net.sf.jasperreports.engine.util.LineBoxWrapper;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseCellContents extends JRBaseElementGroup implements JRCellContents, Serializable
+public class JRBaseCellContents extends JRBaseElementGroup implements JRCellContents
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 

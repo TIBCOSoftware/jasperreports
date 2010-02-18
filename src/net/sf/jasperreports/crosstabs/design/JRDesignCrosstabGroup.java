@@ -38,6 +38,10 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  */
 public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implements JRChangeEventsSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3142244933088846956L;//it's OK to have calculated UID here, because we missed it when first releasing this class
 
 	public static final String PROPERTY_BUCKET = "bucket";
 

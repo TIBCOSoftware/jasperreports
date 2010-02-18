@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRStyle;
@@ -33,7 +32,7 @@ import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignConditionalStyle extends JRBaseConditionalStyle implements JRConditionalStyle
+public class JRDesignConditionalStyle extends JRBaseConditionalStyle
 {
 
 	/**
