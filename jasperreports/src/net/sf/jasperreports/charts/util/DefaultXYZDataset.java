@@ -30,13 +30,12 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRConstants;
 
 import org.jfree.data.xy.AbstractXYZDataset;
-import org.jfree.data.xy.XYZDataset;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset 
+public class DefaultXYZDataset extends AbstractXYZDataset 
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	

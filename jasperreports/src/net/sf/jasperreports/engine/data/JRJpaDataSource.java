@@ -30,7 +30,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.query.JRJpaQueryExecuter;
 
@@ -53,7 +52,7 @@ import net.sf.jasperreports.engine.query.JRJpaQueryExecuter;
  * @version $Id$
  * @see net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PROPERTY_JPA_QUERY_PAGE_SIZE
  */
-public class JRJpaDataSource extends JRAbstractBeanDataSource implements JRRewindableDataSource {
+public class JRJpaDataSource extends JRAbstractBeanDataSource {
 	private static final String MAPPING_INDEX_PREFIX = "COLUMN_";
 	private static final int MAPPING_INDEX_PREFIX_LENGTH = MAPPING_INDEX_PREFIX.length();
 	private static final String MAPPING_INDEX_PROPERTY_SEP = ".";
