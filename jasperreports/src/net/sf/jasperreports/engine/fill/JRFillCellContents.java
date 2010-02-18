@@ -225,7 +225,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		{
 			boxContents = (JRFillCellContents) createClone();
 			
-			JRLineBox newBox = (JRLineBox)lineBox.clone(this);
+			JRLineBox newBox = lineBox.clone(this);
 			
 			if (copyLeft)
 			{

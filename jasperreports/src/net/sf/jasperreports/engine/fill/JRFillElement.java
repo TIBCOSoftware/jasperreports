@@ -734,7 +734,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected JRTemplateElement getElementTemplate()
 	{
 		JRStyle style = getStyle();
-		JRTemplateElement template = (JRTemplateElement) getTemplate(style);
+		JRTemplateElement template = getTemplate(style);
 		if (template == null)
 		{
 			template = createElementTemplate();

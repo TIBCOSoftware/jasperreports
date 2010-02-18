@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
@@ -43,7 +42,7 @@ public class JRHighLowDatasetFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignHighLowDataset)chart.getDataset();
+		return chart.getDataset();
 	}
 
 }

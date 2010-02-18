@@ -179,7 +179,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	{
 		JRBaseGraphicElement clone = (JRBaseGraphicElement)super.clone();
 		
-		clone.linePen = (JRPen)linePen.clone(clone);
+		clone.linePen = linePen.clone(clone);
 		
 		return clone;
 	}

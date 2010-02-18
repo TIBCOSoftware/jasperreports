@@ -50,7 +50,7 @@ public class JRFloatLocaleConverter extends DecimalLocaleConverter
 	{
 		final Number parsed = (Number) super.parse(value, pattern);
 		double doubleValue = parsed.doubleValue();
-		double posDouble = (doubleValue >= (double)0) ? doubleValue : (doubleValue * (double)-1);
+		double posDouble = (doubleValue >= 0) ? doubleValue : (doubleValue * -1);
 		if ((posDouble > 0 && posDouble < Float.MIN_VALUE) || posDouble > Float.MAX_VALUE)
 		{
 			throw new ConversionException("Supplied number is not of type Float: "+parsed);

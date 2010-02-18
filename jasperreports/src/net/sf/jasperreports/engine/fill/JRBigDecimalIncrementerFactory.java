@@ -518,7 +518,7 @@ class JRBigDecimalVarianceIncrementer extends JRAbstractExtendedIncrementer
 		}
 		else if (value == null || calculable.isInitialized())
 		{
-			return (BigDecimal) calculableValue.getIncrementedValue();
+			return calculableValue.getIncrementedValue();
 		}
 
 		BigDecimal v1 = value;
