@@ -343,13 +343,22 @@ public class JRXmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link BreakTypeEnum#PAGE#getName()}.
 	 */
 	private static final String BREAK_TYPE_PAGE = "Page";
+	/**
+	 * @deprecated Replaced by {@link BreakTypeEnum#COLUMN#getName()}.
+	 */
 	private static final String BREAK_TYPE_COLUMN = "Column";
 
+	/**
+	 * @deprecated Replaced by {@link BreakTypeEnum}.
+	 */
 	private static Map breakTypeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link BreakTypeEnum}.
+	 */
 	public static Map getBreakTypeMap()
 	{
 		if (breakTypeMap == null)

@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.BreakTypeEnum;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+
 
 /**
  * An abstract representation of a break element.
@@ -34,27 +39,39 @@ public interface JRBreak extends JRElement
 
 
 	/**
-	 * Constant used for specifying that the break type.
+	 * @deprecated Replaced by {@link BreakTypeEnum#PAGE}.
 	 */
 	public static final byte TYPE_PAGE = 1;
 
 	/**
-	 * Constant used for specifying that the break type.
+	 * @deprecated Replaced by {@link BreakTypeEnum#COLUMN}.
 	 */
 	public static final byte TYPE_COLUMN = 2;
 
 
 	/**
-	 * Gets the break type.
-	 * @return one of the type constants
+	 * @deprecated Replaced by {@link getTypeValue()}.
 	 */
 	public byte getType();
 
 	/**
-	 * Sets the break type.
-	 * @param type one of the type constants
+	 * @deprecated Replaced by {@link setType(BreakTypeEnum)}.
 	 */
 	public void setType(byte type);
+	
+	//TODO: uncomment these below
 
+//	/**
+//	 * Gets the break type.
+//	 * @return a value representing one of the break type constants in {@link BreakTypeEnum}
+//	 */
+//	public VerticalAlignEnum getTypeValue();
+//	
+//	/**
+//	 * Sets the break type.
+//	 * @param breakTypeEnum a value representing one of the break type constants in {@link BreakTypeEnum}
+//	 */
+//	public void setType(BreakTypeEnum breakTypeEnum);
+	
 
 }
