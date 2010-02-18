@@ -445,13 +445,22 @@ public class JRXmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link LineDirectionEnum#TOP_DOWN#getName()}.
 	 */
 	private static final String DIRECTION_TOP_DOWN = "TopDown";
+	/**
+	 * @deprecated Replaced by {@link LineDirectionEnum#BOTTOM_UP#getName()}.
+	 */
 	private static final String DIRECTION_BOTTOM_UP = "BottomUp";
 
+	/**
+	 * @deprecated Replaced by {@link LineDirectionEnum}.
+	 */
 	private static Map directionMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link LineDirectionEnum}.
+	 */
 	public static Map getDirectionMap()
 	{
 		if (directionMap == null)
