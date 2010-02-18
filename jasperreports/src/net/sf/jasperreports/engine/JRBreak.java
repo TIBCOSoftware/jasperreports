@@ -65,7 +65,7 @@ public interface JRBreak extends JRElement
 //	 * Gets the break type.
 //	 * @return a value representing one of the break type constants in {@link BreakTypeEnum}
 //	 */
-//	public VerticalAlignEnum getTypeValue();
+//	public BreakTypeEnum getTypeValue();
 //	
 //	/**
 //	 * Sets the break type.
