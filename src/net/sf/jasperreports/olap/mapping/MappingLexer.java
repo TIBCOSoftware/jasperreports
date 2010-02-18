@@ -25,34 +25,25 @@
  */
 package net.sf.jasperreports.olap.mapping;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import net.sf.jasperreports.olap.mapping.*;
-
 import java.io.InputStream;
+import java.io.Reader;
+import java.util.Hashtable;
+
+import antlr.ANTLRHashString;
+import antlr.ByteBuffer;
+import antlr.CharBuffer;
+import antlr.CharStreamException;
+import antlr.CharStreamIOException;
+import antlr.InputBuffer;
+import antlr.LexerSharedInputState;
+import antlr.NoViableAltForCharException;
+import antlr.RecognitionException;
+import antlr.Token;
+import antlr.TokenStream;
 import antlr.TokenStreamException;
 import antlr.TokenStreamIOException;
 import antlr.TokenStreamRecognitionException;
-import antlr.CharStreamException;
-import antlr.CharStreamIOException;
-import antlr.ANTLRException;
-import java.io.Reader;
-import java.util.Hashtable;
-import antlr.CharScanner;
-import antlr.InputBuffer;
-import antlr.ByteBuffer;
-import antlr.CharBuffer;
-import antlr.Token;
-import antlr.CommonToken;
-import antlr.RecognitionException;
-import antlr.NoViableAltForCharException;
-import antlr.MismatchedCharException;
-import antlr.TokenStream;
-import antlr.ANTLRHashString;
-import antlr.LexerSharedInputState;
 import antlr.collections.impl.BitSet;
-import antlr.SemanticException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
