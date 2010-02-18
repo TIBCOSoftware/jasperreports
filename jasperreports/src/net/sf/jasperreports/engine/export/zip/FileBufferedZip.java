@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.zip;
 
-import java.io.IOException;
 
 
 /**
@@ -36,7 +35,7 @@ public class FileBufferedZip extends AbstractZip
 	/**
 	 * 
 	 */
-	public FileBufferedZip() throws IOException
+	public FileBufferedZip()
 	{
 		super();
 	}

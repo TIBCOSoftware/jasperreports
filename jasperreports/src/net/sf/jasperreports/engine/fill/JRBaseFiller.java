@@ -2085,7 +2085,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
-	protected SavePoint advanceSavePoint(SavePoint savePoint, SavePoint newSavePoint) throws JRException
+	protected SavePoint advanceSavePoint(SavePoint savePoint, SavePoint newSavePoint)
 	{
 		if (savePoint == null)
 		{
