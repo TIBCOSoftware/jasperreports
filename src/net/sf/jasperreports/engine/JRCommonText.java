@@ -37,36 +37,84 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer
 	public static final String MARKUP_RTF = "rtf";
 
 	/**
-	 * Gets the text rotation.
-	 * @return a value representing one of the rotation constants in this class
+	 * @deprecated Replaced by {@link getRotationValue()}.
 	 */
 	byte getRotation();
 	
+	/**
+	 * @deprecated Replaced by {@link getOwnRotationValue()}.
+	 */
 	public Byte getOwnRotation();
 	
 	/**
-	 * Sets the text rotation.
-	 * @param rotation a value representing one of the rotation constants in this class
+	 * @deprecated Replaced by {@link setRotation(RotationEnum)}.
 	 */
 	public void setRotation(byte rotation);
 		
+	/**
+	 * @deprecated Replaced by {@link setRotation(RotationEnum)}.
+	 */
 	public void setRotation(Byte rotation);
 
+	//TODO: uncomment these below
+
+//	/**
+//	 * Gets the text rotation.
+//	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
+//	 */
+//	public RotationEnum getRotationValue();
+//	
+//	/**
+//	 * Gets the text own rotation.
+//	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
+//	 */
+//	public RotationEnum getOwnRotationValue();
+//	
+//	/**
+//	 * Sets the text rotation.
+//	 * @param rotationEnum a value representing one of the text rotation constants in {@link RotationEnum}
+//	 */
+//	public void setRotation(RotationEnum rotationEnum);
+	
 	/**
-	 * Gets the line spacing.
-	 * @return a value representing one of the line spacing constants in this class
+	 * @deprecated Replaced by {@link getLineSpacingValue()}.
 	 */
 	byte getLineSpacing();
 
+	/**
+	 * @deprecated Replaced by {@link getOwnLineSpacingValue()}.
+	 */
 	public Byte getOwnLineSpacing();
 
 	/**
-	 * Sets the line spacing.
-	 * @param lineSpacing a value representing one of the line spacing constants in this class
+	 * @deprecated Replaced by {@link setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing);
 		
+	/**
+	 * @deprecated Replaced by {@link setLineSpacing(LineSpacingEnum)}.
+	 */
 	public void setLineSpacing(Byte lineSpacing);
+	
+	//TODO: uncomment these below
+
+//	/**
+//	 * Gets the text line spacing.
+//	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
+//	 */
+//	public LineSpacingEnum getLineSpacingValue();
+//	
+//	/**
+//	 * Gets the text own line spacing.
+//	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
+//	 */
+//	public LineSpacingEnum getOwnLineSpacingValue();
+//	
+//	/**
+//	 * Sets the text line spacing.
+//	 * @param lineSpacingEnum a value representing one of the line spacing constants in {@link LineSpacingEnum}
+//	 */
+//	public void setLineSpacing(LineSpacingEnum lineSpacingEnum);
 	
 	/**
 	 * Returns true if the text can contain style tags.
