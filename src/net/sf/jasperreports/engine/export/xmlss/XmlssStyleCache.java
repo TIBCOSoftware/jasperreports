@@ -48,7 +48,7 @@ public class XmlssStyleCache
 	 *
 	 */
 	private Writer styleWriter = null;
-	private Map fontMap = null;
+//	private Map fontMap = null;
 	private Set fontFaces = new HashSet();
 
 	/**
@@ -72,7 +72,7 @@ public class XmlssStyleCache
 	public XmlssStyleCache(Writer styleWriter, Map fontMap)
 	{
 		this.styleWriter = styleWriter;
-		this.fontMap = fontMap;
+//		this.fontMap = fontMap;
 	}
 
 

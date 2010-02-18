@@ -37,10 +37,10 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 public class XmlssTableBuilder 
 {
 
-	private int reportIndex = 0;
+//	private int reportIndex = 0;
 	private Writer bodyWriter = null;
-	private Writer styleWriter = null;
-	private boolean isFrame = false;
+//	private Writer styleWriter = null;
+//	private boolean isFrame = false;
 	
 
 	protected XmlssTableBuilder(
@@ -49,10 +49,10 @@ public class XmlssTableBuilder
 		Writer styleWriter
 		) 
 	{
-		isFrame = true;
+//		isFrame = true;
 		
 		this.bodyWriter = bodyWriter;
-		this.styleWriter = styleWriter;
+//		this.styleWriter = styleWriter;
 
 	}
 
@@ -63,11 +63,11 @@ public class XmlssTableBuilder
 		Writer styleWriter
 		) 
 	{
-		isFrame = false;
+//		isFrame = false;
 		
-		this.reportIndex = reportIndex;
+//		this.reportIndex = reportIndex;
 		this.bodyWriter = bodyWriter;
-		this.styleWriter = styleWriter;
+//		this.styleWriter = styleWriter;
 
 	}
 	

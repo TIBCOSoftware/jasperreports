@@ -53,7 +53,7 @@ import org.apache.commons.collections.ReferenceMap;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillCellContents extends JRFillElementContainer implements JRCellContents, JRFillCloneable, JRStyleSetter
+public class JRFillCellContents extends JRFillElementContainer implements JRCellContents, JRStyleSetter
 {
 	private final Map transformedContentsCache;
 	private final Map boxContentsCache;

@@ -588,10 +588,10 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 //	}
 
 
-	private void exportOccupiedCells(JRExporterGridCell gridCell) throws IOException
-	{
-		exportOccupiedCells(gridCell.getColSpan());
-	}
+//	private void exportOccupiedCells(JRExporterGridCell gridCell) throws IOException
+//	{
+//		exportOccupiedCells(gridCell.getColSpan());
+//	}
 
 
 	private void exportOccupiedCells(int count) throws IOException

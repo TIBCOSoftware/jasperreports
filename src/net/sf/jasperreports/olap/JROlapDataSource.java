@@ -24,6 +24,8 @@
 package net.sf.jasperreports.olap;
 
 import java.io.StringReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -56,8 +58,6 @@ import net.sf.jasperreports.olap.result.JROlapResultAxis;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import antlr.ANTLRException;
 
@@ -532,14 +532,14 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	
 	protected class DataFieldMatcher extends FieldMatcher
 	{
-		private final boolean formatted;
+//		private final boolean formatted;
 		private final int[] dataPositions;
 		private final net.sf.jasperreports.olap.mapping.Member[] members;
 		private int[] positions;
 
 		public DataFieldMatcher(DataMapping mapping)
 		{
-			this.formatted = mapping.isFormatted();
+//			this.formatted = mapping.isFormatted();
 			
 			List mappingPositions = mapping.getPositions();
 			if (mappingPositions == null)

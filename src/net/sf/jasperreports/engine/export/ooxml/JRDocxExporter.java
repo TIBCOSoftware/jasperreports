@@ -468,7 +468,6 @@ public class JRDocxExporter extends JRAbstractExporter
 			new DocxTableHelper(
 				docWriter, 
 				xCuts,
-				runHelper,
 				frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex)
 				);
 
@@ -1222,56 +1221,56 @@ public class JRDocxExporter extends JRAbstractExporter
 	}
 
 
-	private float getXAlignFactor(JRPrintImage image)
-	{
-		float xalignFactor = 0f;
-		switch (image.getHorizontalAlignmentValue())
-		{
-			case RIGHT :
-			{
-				xalignFactor = 1f;
-				break;
-			}
-			case CENTER :
-			{
-				xalignFactor = 0.5f;
-				break;
-			}
-			case LEFT :
-			default :
-			{
-				xalignFactor = 0f;
-				break;
-			}
-		}
-		return xalignFactor;
-	}
+//	private float getXAlignFactor(JRPrintImage image)
+//	{
+//		float xalignFactor = 0f;
+//		switch (image.getHorizontalAlignmentValue())
+//		{
+//			case RIGHT :
+//			{
+//				xalignFactor = 1f;
+//				break;
+//			}
+//			case CENTER :
+//			{
+//				xalignFactor = 0.5f;
+//				break;
+//			}
+//			case LEFT :
+//			default :
+//			{
+//				xalignFactor = 0f;
+//				break;
+//			}
+//		}
+//		return xalignFactor;
+//	}
 
 
-	private float getYAlignFactor(JRPrintImage image)
-	{
-		float yalignFactor = 0f;
-		switch (image.getVerticalAlignmentValue())
-		{
-			case BOTTOM :
-			{
-				yalignFactor = 1f;
-				break;
-			}
-			case MIDDLE :
-			{
-				yalignFactor = 0.5f;
-				break;
-			}
-			case TOP :
-			default :
-			{
-				yalignFactor = 0f;
-				break;
-			}
-		}
-		return yalignFactor;
-	}
+//	private float getYAlignFactor(JRPrintImage image)
+//	{
+//		float yalignFactor = 0f;
+//		switch (image.getVerticalAlignmentValue())
+//		{
+//			case BOTTOM :
+//			{
+//				yalignFactor = 1f;
+//				break;
+//			}
+//			case MIDDLE :
+//			{
+//				yalignFactor = 0.5f;
+//				break;
+//			}
+//			case TOP :
+//			default :
+//			{
+//				yalignFactor = 0f;
+//				break;
+//			}
+//		}
+//		return yalignFactor;
+//	}
 
 	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText)
 	{

@@ -29,6 +29,7 @@ import java.util.List;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperPrint;
 
 
@@ -38,8 +39,9 @@ import net.sf.jasperreports.engine.JasperPrint;
  */
 public abstract class BaseHttpServlet extends HttpServlet
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-
+	
 	/**
 	 *
 	 */

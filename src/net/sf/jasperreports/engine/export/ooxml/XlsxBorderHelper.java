@@ -136,15 +136,15 @@ public class XlsxBorderHelper extends BaseHelper
 		write("</" + DocxBorderInfo.BORDER[side] + ">");
 	}
 	
-	/**
-	 *
-	 */
-	private void exportPadding(XlsxBorderInfo info, int side)//FIXMEXLSX padding
-	{
-		if (info.borderPadding[side] != null)
-		{
-			write("       <w:" + DocxBorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" />\n");
-		}
-	}
+//	/**
+//	 *
+//	 */
+//	private void exportPadding(XlsxBorderInfo info, int side)//FIXMEXLSX padding
+//	{
+//		if (info.borderPadding[side] != null)
+//		{
+//			write("       <w:" + DocxBorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" />\n");
+//		}
+//	}
 
 }

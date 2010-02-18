@@ -100,7 +100,7 @@ public enum BreakTypeEnum implements JREnum
 	 */
 	public static BreakTypeEnum getByValue(byte value)
 	{
-		return (BreakTypeEnum)getByValue(new Byte(value));
+		return getByValue(new Byte(value));
 	}
 
 }

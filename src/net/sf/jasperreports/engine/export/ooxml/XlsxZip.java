@@ -141,48 +141,6 @@ public class XlsxZip extends FileBufferedZip
 	/**
 	 * 
 	 */
-	private void createContentTypesEntry() throws IOException
-	{
-		ExportZipEntry contentTypesEntry = createEntry("[Content_Types].xml");
-		Writer ctWriter = null;
-		try
-		{
-			ctWriter = contentTypesEntry.getWriter();
-			ctWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-			ctWriter.write("<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\">\n");
-			ctWriter.write("  <Default Extension=\"gif\" ContentType=\"image/gif\"/>\n");
-			ctWriter.write("  <Default Extension=\"jpeg\" ContentType=\"image/jpeg\"/>\n");
-			ctWriter.write("  <Default Extension=\"png\" ContentType=\"image/png\"/>\n");
-			ctWriter.write("  <Default Extension=\"tiff\" ContentType=\"image/tiff\"/>\n");
-			ctWriter.write("  <Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/>\n");
-			ctWriter.write("  <Default Extension=\"xml\" ContentType=\"application/xml\"/>\n");
-			ctWriter.write("  <Override PartName=\"/xl/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml\"/>\n");
-			ctWriter.write("  <Override PartName=\"/xl/workbook.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml\"/>\n");
-			ctWriter.write("  <Override PartName=\"/xl/worksheets/sheet1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml\"/>\n");
-			ctWriter.write("  <Override PartName=\"/xl/worksheets/sheet2.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml\"/>\n");
-			ctWriter.write("  <Override PartName=\"/xl/worksheets/sheet3.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml\"/>\n");
-			ctWriter.write("</Types>\n");
-			ctWriter.flush();
-			exportZipEntries.add(contentTypesEntry);
-		}
-		finally
-		{
-			if (ctWriter != null)
-			{
-				try
-				{
-					ctWriter.close();
-				}
-				catch (IOException e)
-				{
-				}
-			}
-		}
-	}
-	
-	/**
-	 * 
-	 */
 	public ExportZipEntry addSheet(int index)
 	{
 		ExportZipEntry sheetEntry = createEntry("xl/worksheets/sheet" + index + ".xml");
