@@ -55,6 +55,7 @@ public interface JRCrosstab extends JRElement
 
 	/**
 	 * Crosstab left to right run direction.
+	 * @deprecated Replaced by {@link RunDirectionEnum#LTR}.
 	 */
 	public static final byte RUN_DIRECTION_LTR = JRPrintText.RUN_DIRECTION_LTR;
 
@@ -65,6 +66,7 @@ public interface JRCrosstab extends JRElement
 	 * When a crosstab is filled from right to left, the crosstab contents will start
 	 * from the right extremity of the crosstab element area and grow towards the left.
 	 * </p>
+	 * @deprecated Replaced by {@link RunDirectionEnum#RTL}.
 	 */
 	public static final byte RUN_DIRECTION_RTL = JRPrintText.RUN_DIRECTION_RTL;
 
@@ -282,25 +284,33 @@ public interface JRCrosstab extends JRElement
 	
 	
 	/**
-	 * Retrieves the run direction of this crosstab.
-	 * 
-	 * @return the run direction of this crosstab
-	 * @see #setRunDirection(byte)
+	 * @deprecated Replaced by {@link getRunDirectionValue()}.
 	 */
 	public byte getRunDirection();
 	
 	
 	/**
-	 * Sets the run direction of the crosstab.
-	 * <p>
-	 * Crosstabs can either be filled from left to right (the default)
-	 * or from right to left (mainly for reports in RTL languages).
-	 * </p>
-	 * 
-	 * @param direction one of {@link #RUN_DIRECTION_LTR RUN_DIRECTION_LTR}
-	 * and {@link #RUN_DIRECTION_RTL RUN_DIRECTION_RTL}
+	 * @deprecated Replaced by {@link setRunDirection(RunDirectionEnum)}.
 	 */
 	public void setRunDirection(byte direction);
+
+	//TODO: uncomment these below
+
+//	/**
+//	 * Retrieves the run direction of this crosstab
+//	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}
+//	 */
+//	public RunDirectionEnum getRunDirectionValue();
+//	
+//	/**
+//	 * Sets the run direction of the crosstab.
+//	 * <p>
+//	 * Crosstabs can either be filled from left to right (the default)
+//	 * or from right to left (mainly for reports in RTL languages).
+//	 * </p>
+//	 * @param runDirectionEnum a value representing one of the run direction constants in {@link RunDirectionEnum}
+//	 */
+//	public void setRunDirection(RunDirectionEnum runDirectionEnum);
 
 	/**
 	 * Returns the ignore width flag for the crosstab.
