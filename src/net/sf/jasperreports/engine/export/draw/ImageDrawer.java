@@ -36,8 +36,6 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -61,7 +59,7 @@ public class ImageDrawer extends ElementDrawer
 	{
 		JRPrintImage printImage = (JRPrintImage)element;
 		
-		if (printImage.getMode() == ModeEnum.OPAQUE.getValue())
+		if (printImage.getModeValue() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(printImage.getBackcolor());
 
@@ -121,19 +119,19 @@ public class ImageDrawer extends ElementDrawer
 			}
 	
 			float xalignFactor = 0f;
-			switch (printImage.getHorizontalAlignment())
+			switch (printImage.getHorizontalAlignmentValue())
 			{
-				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+				case RIGHT :
 				{
 					xalignFactor = 1f;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+				case CENTER :
 				{
 					xalignFactor = 0.5f;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+				case LEFT :
 				default :
 				{
 					xalignFactor = 0f;
@@ -142,19 +140,19 @@ public class ImageDrawer extends ElementDrawer
 			}
 
 			float yalignFactor = 0f;
-			switch (printImage.getVerticalAlignment())
+			switch (printImage.getVerticalAlignmentValue())
 			{
-				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+				case BOTTOM :
 				{
 					yalignFactor = 1f;
 					break;
 				}
-				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+				case MIDDLE :
 				{
 					yalignFactor = 0.5f;
 					break;
 				}
-				case JRAlignment.VERTICAL_ALIGN_TOP :
+				case TOP :
 				default :
 				{
 					yalignFactor = 0f;

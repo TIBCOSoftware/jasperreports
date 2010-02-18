@@ -55,8 +55,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -1250,19 +1248,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
-		switch (text.getVerticalAlignment())
+		switch (text.getVerticalAlignmentValue())
 		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+			case BOTTOM :
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+			case MIDDLE :
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_TOP :
+			case TOP :
 			default :
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
@@ -1289,24 +1287,24 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (textLength > 0)
 		{
-			switch (text.getHorizontalAlignment())
+			switch (text.getHorizontalAlignmentValue())
 			{
-				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+				case RIGHT :
 				{
 					horizontalAlignment = CSS_TEXT_ALIGN_RIGHT;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+				case CENTER :
 				{
 					horizontalAlignment = CSS_TEXT_ALIGN_CENTER;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+				case JUSTIFIED :
 				{
 					horizontalAlignment = CSS_TEXT_ALIGN_JUSTIFY;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+				case LEFT :
 				default :
 				{
 					horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
@@ -1631,19 +1629,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 
-		switch (image.getHorizontalAlignment())
+		switch (image.getHorizontalAlignmentValue())
 		{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+			case RIGHT :
 			{
 				horizontalAlignment = CSS_TEXT_ALIGN_RIGHT;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+			case CENTER :
 			{
 				horizontalAlignment = CSS_TEXT_ALIGN_CENTER;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+			case LEFT :
 			default :
 			{
 				horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
@@ -1659,19 +1657,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
-		switch (image.getVerticalAlignment())
+		switch (image.getVerticalAlignmentValue())
 		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+			case BOTTOM :
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+			case MIDDLE :
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_TOP :
+			case TOP :
 			default :
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;

@@ -26,9 +26,10 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 
 /**
@@ -72,8 +73,8 @@ public class ParagraphStyle extends Style
 	{
 		super(styleWriter);
 		
-		horizontalAlignment = getHorizontalAlignment(text.getHorizontalAlignment(), text.getVerticalAlignment(), text.getRotation());
-		verticalAlignment = getVerticalAlignment(text.getHorizontalAlignment(), text.getVerticalAlignment(), text.getRotation());
+		horizontalAlignment = getHorizontalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotation());
+		verticalAlignment = getVerticalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotation());
 		
 		switch(text.getRotation())
 		{
@@ -106,8 +107,8 @@ public class ParagraphStyle extends Style
 	 *
 	 */
 	public static String getVerticalAlignment(
-		byte horizontalAlignment, 
-		byte verticalAlignment, 
+		HorizontalAlignEnum horizontalAlignment, 
+		VerticalAlignEnum verticalAlignment, 
 		byte rotation
 		)
 	{
@@ -117,13 +118,13 @@ public class ParagraphStyle extends Style
 			{
 				switch (horizontalAlignment)
 				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+					case RIGHT :
 						return VERTICAL_ALIGN_TOP;
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+					case CENTER :
 						return VERTICAL_ALIGN_MIDDLE;
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+					case JUSTIFIED :
 						return HORIZONTAL_ALIGN_JUSTIFY;//FIXMEODT ?????????????????
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					case LEFT :
 					default :
 						return VERTICAL_ALIGN_BOTTOM;
 				}
@@ -132,13 +133,13 @@ public class ParagraphStyle extends Style
 			{
 				switch (horizontalAlignment)
 				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+					case RIGHT :
 						return VERTICAL_ALIGN_BOTTOM;
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+					case CENTER :
 						return VERTICAL_ALIGN_MIDDLE;
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+					case JUSTIFIED :
 						return HORIZONTAL_ALIGN_JUSTIFY;//?????????????????
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					case LEFT :
 					default :
 						return VERTICAL_ALIGN_TOP;
 				}
@@ -149,11 +150,11 @@ public class ParagraphStyle extends Style
 			{
 				switch (verticalAlignment)
 				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+					case BOTTOM :
 						return VERTICAL_ALIGN_BOTTOM;
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+					case MIDDLE :
 						return VERTICAL_ALIGN_MIDDLE;
-					case JRAlignment.VERTICAL_ALIGN_TOP :
+					case TOP :
 					default :
 						return VERTICAL_ALIGN_TOP;
 				}
@@ -165,8 +166,8 @@ public class ParagraphStyle extends Style
 	 *
 	 */
 	public static String getHorizontalAlignment(
-		byte horizontalAlignment, 
-		byte verticalAlignment, 
+		HorizontalAlignEnum horizontalAlignment, 
+		VerticalAlignEnum verticalAlignment, 
 		byte rotation
 		)
 	{
@@ -176,11 +177,11 @@ public class ParagraphStyle extends Style
 			{
 				switch (verticalAlignment)
 				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+					case BOTTOM :
 						return HORIZONTAL_ALIGN_RIGHT;
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+					case MIDDLE :
 						return HORIZONTAL_ALIGN_CENTER;
-					case JRAlignment.VERTICAL_ALIGN_TOP :
+					case TOP :
 					default :
 						return HORIZONTAL_ALIGN_LEFT;
 				}
@@ -189,11 +190,11 @@ public class ParagraphStyle extends Style
 			{
 				switch (verticalAlignment)
 				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+					case BOTTOM :
 						return HORIZONTAL_ALIGN_LEFT;
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+					case MIDDLE :
 						return HORIZONTAL_ALIGN_CENTER;
-					case JRAlignment.VERTICAL_ALIGN_TOP :
+					case TOP :
 					default :
 						return HORIZONTAL_ALIGN_RIGHT;
 				}
@@ -204,13 +205,13 @@ public class ParagraphStyle extends Style
 			{
 				switch (horizontalAlignment)
 				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+					case RIGHT :
 						return HORIZONTAL_ALIGN_RIGHT;
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+					case CENTER :
 						return HORIZONTAL_ALIGN_CENTER;
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+					case JUSTIFIED :
 						return HORIZONTAL_ALIGN_JUSTIFY;
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					case LEFT :
 					default :
 						return HORIZONTAL_ALIGN_LEFT;
 				}

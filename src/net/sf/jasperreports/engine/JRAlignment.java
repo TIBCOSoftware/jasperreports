@@ -126,11 +126,19 @@ public interface JRAlignment extends JRStyleContainer
 	public VerticalAlignEnum getOwnVerticalAlignmentValue();
 
 	/**
-	 * Gets the text vertical alignment.
-	 * @param verticalAlignment a value representing one of the vertical alignment constants in {@link JRAlignment}
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
 	 */
 	public void setVerticalAlignment(byte verticalAlignment);
 		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
 	public void setVerticalAlignment(Byte verticalAlignment);
 	
+	/**
+	 * Gets the text vertical alignment.
+	 * @param verticalAlignment a value representing one of the vertical alignment constants in {@link VerticalAlignEnum}
+	 */
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment);
+
 }

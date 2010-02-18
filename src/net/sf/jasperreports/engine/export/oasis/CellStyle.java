@@ -27,12 +27,13 @@ import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -58,7 +59,7 @@ public class CellStyle extends BorderStyle
 
 		JRPrintElement element = gridCell.getElement();
 		
-		if (element != null && element.getMode() == ModeEnum.OPAQUE.getValue())
+		if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
 		{
 			//fill = "solid";
 			backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
@@ -73,14 +74,14 @@ public class CellStyle extends BorderStyle
 		}
 
 		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotation() : JRTextElement.ROTATION_NONE;
-		byte vAlign = JRAlignment.VERTICAL_ALIGN_TOP;
-		byte hAlign = JRAlignment.HORIZONTAL_ALIGN_LEFT;
+		VerticalAlignEnum vAlign = VerticalAlignEnum.TOP;
+		HorizontalAlignEnum hAlign = HorizontalAlignEnum.LEFT;
 
 		JRAlignment alignment = element instanceof JRAlignment ? (JRAlignment)element : null;
 		if (alignment != null)
 		{
-			vAlign = alignment.getVerticalAlignment();
-			hAlign = alignment.getHorizontalAlignment();
+			vAlign = alignment.getVerticalAlignmentValue();
+			hAlign = alignment.getHorizontalAlignmentValue();
 		}
 		
 		horizontalAlignment = ParagraphStyle.getHorizontalAlignment(hAlign, vAlign, rotation);

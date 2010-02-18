@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -68,8 +67,8 @@ public class XlsxStyleInfo
 		JRAlignment align = element instanceof JRAlignment ? (JRAlignment)element : null;
 		if (align != null)
 		{
-			this.horizontalAlign = XlsxParagraphHelper.getHorizontalAlignment(new Byte(align.getHorizontalAlignment()));//FIXMEXLSX use common util
-			this.verticalAlign = DocxCellHelper.getVerticalAlignment(new Byte(align.getVerticalAlignment()));//FIXMEXLSX use common util
+			this.horizontalAlign = XlsxParagraphHelper.getHorizontalAlignment(align.getHorizontalAlignmentValue());//FIXMEXLSX use common util
+			this.verticalAlign = DocxCellHelper.getVerticalAlignment(align.getVerticalAlignmentValue());//FIXMEXLSX use common util
 		}
 	}
 	

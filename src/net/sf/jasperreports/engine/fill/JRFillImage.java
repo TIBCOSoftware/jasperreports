@@ -30,7 +30,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -1113,7 +1112,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					boolean imageOverflowAllowed = 
 							filler.isBandOverFlowAllowed() && !reprinted && !hasOverflowed;
 					boolean fits = fitImage(availableHeight - getRelativeY() - padding, imageOverflowAllowed, 
-							getHorizontalAlignment());
+							getHorizontalAlignmentValue());
 					if (fits)
 					{
 						if (imageHeight != null)
@@ -1184,7 +1183,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	protected boolean fitImage(int availableHeight, boolean overflowAllowed,
-			byte hAlign) throws JRException
+			HorizontalAlignEnum hAlign) throws JRException
 	{
 		imageHeight = null;
 		imageWidth = null;
@@ -1237,10 +1236,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		{
 			switch (hAlign)
 			{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
+			case RIGHT:
 				imageX = new Integer(getX() + getWidth() - imageWidth.intValue());
 				break;
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER:
+			case CENTER:
 				imageX = new Integer(getX() + (getWidth() - imageWidth.intValue()) / 2);
 				break;
 			default:
@@ -1342,7 +1341,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		int padding = printImage.getLineBox().getBottomPadding().intValue() 
 				+ printImage.getLineBox().getTopPadding().intValue();
 		fitImage(getHeight() - padding, false, 
-				printImage.getHorizontalAlignment());
+				printImage.getHorizontalAlignmentValue());
 		
 		copy(printImage);
 	}

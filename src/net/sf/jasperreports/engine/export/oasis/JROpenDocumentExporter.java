@@ -48,8 +48,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -958,19 +956,19 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	protected float getXAlignFactor(JRPrintImage image)
 	{
 		float xalignFactor = 0f;
-		switch (image.getHorizontalAlignment())
+		switch (image.getHorizontalAlignmentValue())
 		{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+			case RIGHT :
 			{
 				xalignFactor = 1f;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+			case CENTER :
 			{
 				xalignFactor = 0.5f;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+			case LEFT :
 			default :
 			{
 				xalignFactor = 0f;
@@ -984,19 +982,19 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	protected float getYAlignFactor(JRPrintImage image)
 	{
 		float yalignFactor = 0f;
-		switch (image.getVerticalAlignment())
+		switch (image.getVerticalAlignmentValue())
 		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+			case BOTTOM :
 			{
 				yalignFactor = 1f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+			case MIDDLE :
 			{
 				yalignFactor = 0.5f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_TOP :
+			case TOP :
 			default :
 			{
 				yalignFactor = 0f;

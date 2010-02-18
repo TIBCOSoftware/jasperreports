@@ -41,7 +41,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -842,21 +841,21 @@ public class JRDocxExporter extends JRAbstractExporter
 				{
 					if (normalWidth > availableImageWidth)
 					{
-						switch (image.getHorizontalAlignment())
+						switch (image.getHorizontalAlignmentValue())
 						{
-							case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+							case RIGHT :
 							{
 								cropLeft = 65536 * (normalWidth - availableImageWidth) / normalWidth;
 								cropRight = 0;
 								break;
 							}
-							case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+							case CENTER :
 							{
 								cropLeft = 65536 * (- availableImageWidth + normalWidth) / normalWidth / 2;
 								cropRight = cropLeft;
 								break;
 							}
-							case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+							case LEFT :
 							default :
 							{
 								cropLeft = 0;
@@ -875,21 +874,21 @@ public class JRDocxExporter extends JRAbstractExporter
 
 					if (normalHeight > availableImageHeight)
 					{
-						switch (image.getVerticalAlignment())
+						switch (image.getVerticalAlignmentValue())
 						{
-							case JRAlignment.VERTICAL_ALIGN_TOP :
+							case TOP :
 							{
 								cropTop = 0;
 								cropBottom = 65536 * (normalHeight - availableImageHeight) / normalHeight;
 								break;
 							}
-							case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+							case MIDDLE :
 							{
 								cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight / 2;
 								cropBottom = cropTop;
 								break;
 							}
-							case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+							case BOTTOM :
 							default :
 							{
 								cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight;
@@ -1226,19 +1225,19 @@ public class JRDocxExporter extends JRAbstractExporter
 	private float getXAlignFactor(JRPrintImage image)
 	{
 		float xalignFactor = 0f;
-		switch (image.getHorizontalAlignment())
+		switch (image.getHorizontalAlignmentValue())
 		{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+			case RIGHT :
 			{
 				xalignFactor = 1f;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+			case CENTER :
 			{
 				xalignFactor = 0.5f;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+			case LEFT :
 			default :
 			{
 				xalignFactor = 0f;
@@ -1252,19 +1251,19 @@ public class JRDocxExporter extends JRAbstractExporter
 	private float getYAlignFactor(JRPrintImage image)
 	{
 		float yalignFactor = 0f;
-		switch (image.getVerticalAlignment())
+		switch (image.getVerticalAlignmentValue())
 		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+			case BOTTOM :
 			{
 				yalignFactor = 1f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+			case MIDDLE :
 			{
 				yalignFactor = 0.5f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_TOP :
+			case TOP :
 			default :
 			{
 				yalignFactor = 0f;

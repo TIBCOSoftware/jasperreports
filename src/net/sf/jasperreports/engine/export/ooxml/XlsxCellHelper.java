@@ -26,11 +26,10 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.awt.Color;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -228,17 +227,17 @@ public class XlsxCellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public static String getVerticalAlignment(Byte verticalAlignment)
+	public static String getVerticalAlignment(VerticalAlignEnum verticalAlignment)
 	{
 		if (verticalAlignment != null)
 		{
-			switch (verticalAlignment.byteValue())
+			switch (verticalAlignment)
 			{
-				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+				case BOTTOM :
 					return VERTICAL_ALIGN_BOTTOM;
-				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+				case MIDDLE :
 					return VERTICAL_ALIGN_MIDDLE;
-				case JRAlignment.VERTICAL_ALIGN_TOP :
+				case TOP :
 				default :
 					return VERTICAL_ALIGN_TOP;
 			}

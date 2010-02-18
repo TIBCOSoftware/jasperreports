@@ -1240,10 +1240,10 @@ public class JRStyleResolver
 
 		if (srcStyle.getOwnScaleImage() != null)
 			destStyle.setScaleImage(srcStyle.getOwnScaleImage());
-		if (srcStyle.getOwnHorizontalAlignment() != null)
-			destStyle.setHorizontalAlignment(srcStyle.getOwnHorizontalAlignment());
-		if (srcStyle.getOwnVerticalAlignment() != null)
-			destStyle.setVerticalAlignment(srcStyle.getOwnVerticalAlignment());
+		if (srcStyle.getOwnHorizontalAlignmentValue() != null)
+			destStyle.setHorizontalAlignment(srcStyle.getOwnHorizontalAlignmentValue());
+		if (srcStyle.getOwnVerticalAlignmentValue() != null)
+			destStyle.setVerticalAlignment(srcStyle.getOwnVerticalAlignmentValue());
 
 		appendBox(destStyle.getLineBox(), srcStyle.getLineBox());
 

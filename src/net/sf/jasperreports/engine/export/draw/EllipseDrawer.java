@@ -36,7 +36,6 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -62,7 +61,7 @@ public class EllipseDrawer extends ElementDrawer
 		int width = ellipse.getWidth();
 		int height = ellipse.getHeight();
 		
-		if (ellipse.getMode() == ModeEnum.OPAQUE.getValue())
+		if (ellipse.getModeValue() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(ellipse.getBackcolor());
 			grx.fillOval(

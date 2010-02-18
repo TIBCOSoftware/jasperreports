@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -527,10 +526,19 @@ public class JRTextExporter extends JRAbstractExporter
 		int colOffset = 0;
 		int rowOffset = 0;
 
-		if (element.getVerticalAlignment() == JRAlignment.VERTICAL_ALIGN_BOTTOM)
-			rowOffset = rowSpan - rowIndex;
-		if (element.getVerticalAlignment() == JRAlignment.VERTICAL_ALIGN_MIDDLE)
-			rowOffset = (rowSpan - rowIndex) / 2;
+		switch (element.getVerticalAlignmentValue())
+		{
+			case BOTTOM :
+			{
+				rowOffset = rowSpan - rowIndex;
+				break;
+			}
+			case MIDDLE :
+			{
+				rowOffset = (rowSpan - rowIndex) / 2;
+				break;
+			}
+		}
 
 		for (int i = 0; i < rowIndex; i++) {
 			String line = rows[i].toString();
@@ -538,16 +546,28 @@ public class JRTextExporter extends JRAbstractExporter
 			while (pos >= 0 && line.charAt(pos) == ' ')
 				pos--;
 			line = line.substring(0, pos + 1);
-			if (element.getHorizontalAlignment() == JRAlignment.HORIZONTAL_ALIGN_RIGHT)
-				colOffset = colSpan - line.length();
-			if (element.getHorizontalAlignment() == JRAlignment.HORIZONTAL_ALIGN_CENTER)
-				colOffset = (colSpan - line.length()) / 2;
-
-			// if text is justified, there is no offset, but the line text is modified
-			// the last line in the paragraph is not justified.
-			if (element.getHorizontalAlignment() == JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED)
-				if (i < rowIndex -1)
-					line = justifyText(line, colSpan);
+			switch (element.getHorizontalAlignmentValue())
+			{
+				case RIGHT :
+				{
+					colOffset = colSpan - line.length();
+					break;
+				}
+				case CENTER :
+				{
+					colOffset = (colSpan - line.length()) / 2;
+					break;
+				}
+	
+				// if text is justified, there is no offset, but the line text is modified
+				// the last line in the paragraph is not justified.
+				case JUSTIFIED :
+				{
+					if (i < rowIndex -1)
+						line = justifyText(line, colSpan);
+					break;
+				}
+			}
 
 			char[] chars = line.toCharArray();
 			System.arraycopy(chars, 0, pageData[row + rowOffset + i], col + colOffset, chars.length);

@@ -481,14 +481,19 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setBackcolor(Color backcolor);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}
 	 */
 	public void setMode(byte mode);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMode(ModeEnum)}
 	 */
 	public void setMode(Byte mode);
+
+	/**
+	 *
+	 */
+	public void setMode(ModeEnum mode);
 
 	/**
 	 * @deprecated Replaced by {@link #getLinePen()}
@@ -531,24 +536,34 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setScaleImage(Byte scaleImage);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment);
 
 	/**
 	 *
 	 */
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment);
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
 	public void setVerticalAlignment(byte verticalAlignment);
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment);
 
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(Byte verticalAlignment);
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment);
 
 	/**
 	 *

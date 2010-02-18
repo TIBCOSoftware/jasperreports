@@ -25,9 +25,9 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 
 
 /**
@@ -68,7 +68,7 @@ public class XlsxParagraphHelper extends BaseHelper
 
 		exportAlignment(
 			getHorizontalAlignment(
-				style.getOwnHorizontalAlignment() 
+				style.getOwnHorizontalAlignmentValue() 
 				)
 			);
 
@@ -84,7 +84,7 @@ public class XlsxParagraphHelper extends BaseHelper
 
 		exportAlignment(
 			getHorizontalAlignment(
-				text.getOwnHorizontalAlignment()
+				text.getOwnHorizontalAlignmentValue()
 				)
 			);
 		
@@ -148,19 +148,19 @@ public class XlsxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public static String getHorizontalAlignment(Byte horizontalAlignment)
+	public static String getHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
 	{
 		if (horizontalAlignment != null)
 		{
-			switch (horizontalAlignment.byteValue())
+			switch (horizontalAlignment)
 			{
-				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+				case RIGHT :
 					return HORIZONTAL_ALIGN_RIGHT;
-				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+				case CENTER :
 					return HORIZONTAL_ALIGN_CENTER;
-				case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+				case JUSTIFIED :
 					return HORIZONTAL_ALIGN_JUSTIFY;
-				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+				case LEFT :
 				default :
 					return HORIZONTAL_ALIGN_LEFT;
 			}
