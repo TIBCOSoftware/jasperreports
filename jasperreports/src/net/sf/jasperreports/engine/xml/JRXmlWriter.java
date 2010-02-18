@@ -154,9 +154,7 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 
@@ -855,8 +853,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_image, getNamespace());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, HorizontalAlignEnum.getByValue(image.getOwnHorizontalAlignment()));
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, VerticalAlignEnum.getByValue(image.getOwnVerticalAlignment()));
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalAlignmentValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalAlignmentValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUsingCache, image.isOwnUsingCache());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isLazy, image.isLazy(), false);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorType(), JRXmlConstants.getOnErrorTypeMap(), JRImage.ON_ERROR_TYPE_ERROR);
@@ -912,8 +910,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeTextElement(JRTextElement textElement) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_textElement);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, HorizontalAlignEnum.getByValue(textElement.getOwnHorizontalAlignment()));
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, VerticalAlignEnum.getByValue(textElement.getOwnVerticalAlignment()));
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, textElement.getOwnHorizontalAlignmentValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, textElement.getOwnVerticalAlignmentValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, textElement.getOwnRotation(), JRXmlConstants.getRotationMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, textElement.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_markup, textElement.getOwnMarkup());

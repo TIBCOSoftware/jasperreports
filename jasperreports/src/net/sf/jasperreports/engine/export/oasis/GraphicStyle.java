@@ -26,12 +26,12 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -59,7 +59,7 @@ public class GraphicStyle extends Style
 	{
 		super(styleWriter);
 
-		if (element.getMode() == ModeEnum.OPAQUE.getValue())
+		if (element.getModeValue() == ModeEnum.OPAQUE)
 		{
 			//fill = "solid";
 			backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
@@ -96,34 +96,34 @@ public class GraphicStyle extends Style
 		}
 
 		width = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(doubleWidth));
-		byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
-		byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
+		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.LEFT;
+		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.TOP;
 
 		if(element instanceof JRPrintImage)
 		{
 			JRPrintImage imageElement = (JRPrintImage)element;
-			horizontalAlignment = imageElement.getHorizontalAlignment();
-			verticalAlignment = imageElement.getVerticalAlignment();
+			horizontalAlignment = imageElement.getHorizontalAlignmentValue();
+			verticalAlignment = imageElement.getVerticalAlignmentValue();
 		}
 
 		switch(horizontalAlignment)
 		{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
+			case RIGHT:
 			{
 				hAlign = "right";
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED:
+			case JUSTIFIED:
 			{
 				hAlign = "justified";
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER:
+			case CENTER:
 			{
 				hAlign = "center";
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT:
+			case LEFT:
 			default:
 			{
 				hAlign = "left";
@@ -133,17 +133,17 @@ public class GraphicStyle extends Style
 
 		switch(verticalAlignment)
 		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+			case BOTTOM:
 			{
 				vAlign = "bottom";
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+			case MIDDLE:
 			{
 				vAlign = "middle";
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_TOP:
+			case TOP:
 			default:
 			{
 				vAlign = "top";

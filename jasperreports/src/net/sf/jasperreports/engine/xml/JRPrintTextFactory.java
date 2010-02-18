@@ -53,13 +53,13 @@ public class JRPrintTextFactory extends JRBaseFactory
 		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
 		{
-			text.setHorizontalAlignment(horizontalAlignment.getValueByte());
+			text.setHorizontalAlignment(horizontalAlignment);
 		}
 
 		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_verticalAlignment));
 		if (verticalAlignment != null)
 		{
-			text.setVerticalAlignment(verticalAlignment.getValueByte());
+			text.setVerticalAlignment(verticalAlignment);
 		}
 
 		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_rotation));

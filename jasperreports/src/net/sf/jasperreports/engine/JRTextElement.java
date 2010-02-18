@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 

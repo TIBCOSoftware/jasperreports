@@ -50,8 +50,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
@@ -721,18 +719,18 @@ public class JRRtfExporter extends JRAbstractExporter
 		{
 			case JRTextElement.ROTATION_LEFT :
 			{
-				switch (text.getVerticalAlignment())
+				switch (text.getVerticalAlignmentValue())
 				{
-					case JRAlignment.VERTICAL_ALIGN_TOP:
+					case TOP:
 					{
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+					case MIDDLE:
 					{
 						leftPadding = Math.max(leftPadding, (width - rightPadding - textHeight) / 2);
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+					case BOTTOM:
 					{
 						leftPadding = Math.max(leftPadding, width - rightPadding - textHeight);
 						break;
@@ -743,18 +741,18 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 			case JRTextElement.ROTATION_RIGHT :
 			{
-				switch (text.getVerticalAlignment())
+				switch (text.getVerticalAlignmentValue())
 				{
-					case JRAlignment.VERTICAL_ALIGN_TOP:
+					case TOP:
 					{
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+					case MIDDLE:
 					{
 						rightPadding = Math.max(rightPadding, (width - leftPadding - textHeight) / 2);
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+					case BOTTOM:
 					{
 						rightPadding = Math.max(rightPadding, width - leftPadding - textHeight);
 						break;
@@ -765,19 +763,19 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 			case JRTextElement.ROTATION_UPSIDE_DOWN :
 			{
-				switch (text.getVerticalAlignment())
+				switch (text.getVerticalAlignmentValue())
 				{
-					case JRAlignment.VERTICAL_ALIGN_TOP:
+					case TOP:
 					{
 						topPadding = Math.max(topPadding, height - bottomPadding - textHeight);
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+					case MIDDLE:
 					{
 						topPadding = Math.max(topPadding, (height - bottomPadding - textHeight) / 2);
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+					case BOTTOM:
 					{
 						break;
 					}
@@ -788,18 +786,18 @@ public class JRRtfExporter extends JRAbstractExporter
 			case JRTextElement.ROTATION_NONE :
 			default :
 			{
-				switch (text.getVerticalAlignment())
+				switch (text.getVerticalAlignmentValue())
 				{
-					case JRAlignment.VERTICAL_ALIGN_TOP:
+					case TOP:
 					{
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+					case MIDDLE:
 					{
 						topPadding = Math.max(topPadding, (height - bottomPadding - textHeight) / 2);
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+					case BOTTOM:
 					{
 						topPadding = Math.max(topPadding, height - bottomPadding - textHeight);
 						break;
@@ -849,18 +847,18 @@ public class JRRtfExporter extends JRAbstractExporter
 //		writer.write("\\fs");
 //		writer.write(String.valueOf(font.getFontSize() * 2));
 
-		switch (text.getHorizontalAlignment())
+		switch (text.getHorizontalAlignmentValue())
 		{
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT:
+			case LEFT:
 				writer.write("\\ql");
 				break;
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER:
+			case CENTER:
 				writer.write("\\qc");
 				break;
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
+			case RIGHT:
 				writer.write("\\qr");
 				break;
-			case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED:
+			case JUSTIFIED:
 				writer.write("\\qj");
 				break;
 			default:
@@ -1071,21 +1069,21 @@ public class JRRtfExporter extends JRAbstractExporter
 			{
 				case JRImage.SCALE_IMAGE_CLIP:
 				{
-					switch (printImage.getHorizontalAlignment())
+					switch (printImage.getHorizontalAlignmentValue())
 					{
-						case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+						case RIGHT :
 						{
 							cropLeft = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth;
 							cropRight = 0;
 							break;
 						}
-						case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+						case CENTER :
 						{
 							cropLeft = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth / 2;
 							cropRight = cropLeft;
 							break;
 						}
-						case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+						case LEFT :
 						default :
 						{
 							cropLeft = 0;
@@ -1093,21 +1091,21 @@ public class JRRtfExporter extends JRAbstractExporter
 							break;
 						}
 					}
-					switch (printImage.getVerticalAlignment())
+					switch (printImage.getVerticalAlignmentValue())
 					{
-						case JRAlignment.VERTICAL_ALIGN_TOP :
+						case TOP :
 						{
 							cropTop = 0;
 							cropBottom = 65536 * (- availableImageHeight + normalHeight) / normalHeight;
 							break;
 						}
-						case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+						case MIDDLE :
 						{
 							cropTop = 65536 * (- availableImageHeight + normalHeight) / normalHeight / 2;
 							cropBottom = cropTop;
 							break;
 						}
-						case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+						case BOTTOM :
 						default :
 						{
 							cropTop = 65536 * (- availableImageHeight + normalHeight) / normalHeight;
@@ -1566,19 +1564,19 @@ public class JRRtfExporter extends JRAbstractExporter
 	private float getXAlignFactor(JRPrintImage image)
 	{
 		float xalignFactor = 0f;
-		switch (image.getHorizontalAlignment())
+		switch (image.getHorizontalAlignmentValue())
 		{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+			case RIGHT :
 			{
 				xalignFactor = 1f;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+			case CENTER :
 			{
 				xalignFactor = 0.5f;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+			case LEFT :
 			default :
 			{
 				xalignFactor = 0f;
@@ -1591,19 +1589,19 @@ public class JRRtfExporter extends JRAbstractExporter
 	private float getYAlignFactor(JRPrintImage image)
 	{
 		float yalignFactor = 0f;
-		switch (image.getVerticalAlignment())
+		switch (image.getVerticalAlignmentValue())
 		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+			case BOTTOM :
 			{
 				yalignFactor = 1f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+			case MIDDLE :
 			{
 				yalignFactor = 0.5f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_TOP :
+			case TOP :
 			default :
 			{
 				yalignFactor = 0f;

@@ -250,16 +250,19 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
 	 */
 	public byte getVerticalAlignment()
 	{
-		return JRStyleResolver.getVerticalAlignment(this);
+		return getVerticalAlignmentValue().getValue();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
+	 */
 	public Byte getOwnVerticalAlignment()
 	{
-		return verticalAlignment;
+		return getOwnVerticalAlignmentValue() == null ? null : getVerticalAlignmentValue().getValueByte();
 	}
 
 	/**
@@ -276,21 +279,29 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
 	 */
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
-		setVerticalAlignment(new Byte(verticalAlignment));
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment)
+	{
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
 	}
 		
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
 	{
-		Object old = this.verticalAlignment;
-		this.verticalAlignment = verticalAlignment;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignment);
+		Object old = this.verticalAlignmentValue;
+		this.verticalAlignmentValue = verticalAlignmentValue;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignmentValue);
 	}
 		
 	/**

@@ -54,7 +54,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -979,24 +978,24 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		if (textLength > 0)
 		{
-			switch (text.getHorizontalAlignment())
+			switch (text.getHorizontalAlignmentValue())
 			{
-				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+				case RIGHT :
 				{
 					horizontalAlignment = CSS_TEXT_ALIGN_RIGHT;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+				case CENTER :
 				{
 					horizontalAlignment = CSS_TEXT_ALIGN_CENTER;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+				case JUSTIFIED :
 				{
 					horizontalAlignment = CSS_TEXT_ALIGN_JUSTIFY;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+				case LEFT :
 				default :
 				{
 					horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
@@ -1017,19 +1016,19 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 			String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
-			switch (text.getVerticalAlignment())
+			switch (text.getVerticalAlignmentValue())
 			{
-				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+				case BOTTOM :
 				{
 					verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
 					break;
 				}
-				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+				case MIDDLE :
 				{
 					verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
 					break;
 				}
-				case JRAlignment.VERTICAL_ALIGN_TOP :
+				case TOP :
 				default :
 				{
 					verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
@@ -1409,19 +1408,19 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		float xAlignFactor = 0f;
 
-		switch (image.getHorizontalAlignment())
+		switch (image.getHorizontalAlignmentValue())
 		{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+			case RIGHT :
 			{
 				xAlignFactor = 1f;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+			case CENTER :
 			{
 				xAlignFactor = 0.5f;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+			case LEFT :
 			default :
 			{
 				xAlignFactor = 0f;
@@ -1430,19 +1429,19 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		float yAlignFactor = 0f;
 
-		switch (image.getVerticalAlignment())
+		switch (image.getVerticalAlignmentValue())
 		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+			case BOTTOM :
 			{
 				yAlignFactor = 1f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+			case MIDDLE :
 			{
 				yAlignFactor = 0.5f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_TOP :
+			case TOP :
 			default :
 			{
 				yAlignFactor = 0f;

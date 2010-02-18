@@ -34,7 +34,9 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -132,8 +134,8 @@ public class XmlssCellStyle extends XmlssBorderStyle
 		JRAlignment alignment = element instanceof JRAlignment ? (JRAlignment)element : null;
 		if (alignment != null)
 		{
-			horizontalAlignment = getHorizontalAlignment(alignment.getHorizontalAlignment(), alignment.getVerticalAlignment(), rotation);
-			verticalAlignment = getVerticalAlignment(alignment.getHorizontalAlignment(), alignment.getVerticalAlignment(), rotation);
+			horizontalAlignment = getHorizontalAlignment(alignment.getHorizontalAlignmentValue(), alignment.getVerticalAlignmentValue(), rotation);
+			verticalAlignment = getVerticalAlignment(alignment.getHorizontalAlignmentValue(), alignment.getVerticalAlignmentValue(), rotation);
 		}
 		
 		if(style!= null)
@@ -264,8 +266,8 @@ public class XmlssCellStyle extends XmlssBorderStyle
 	 *
 	 */
 	public static String getVerticalAlignment(
-		byte horizontalAlignment, 
-		byte verticalAlignment, 
+		HorizontalAlignEnum horizontalAlignment, 
+		VerticalAlignEnum verticalAlignment, 
 		byte rotation
 		)
 	{
@@ -275,12 +277,12 @@ public class XmlssCellStyle extends XmlssBorderStyle
 			{
 				switch (horizontalAlignment)
 				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+					case RIGHT :
 						return XmlssCellStyle.ALIGNMENT_TOP;
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+					case CENTER :
 						return XmlssCellStyle.ALIGNMENT_CENTER;
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					case JUSTIFIED :
+					case LEFT :
 					default :
 						return XmlssCellStyle.ALIGNMENT_BOTTOM;
 				}
@@ -289,12 +291,12 @@ public class XmlssCellStyle extends XmlssBorderStyle
 			{
 				switch (horizontalAlignment)
 				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+					case RIGHT :
 						return XmlssCellStyle.ALIGNMENT_BOTTOM;
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+					case CENTER :
 						return XmlssCellStyle.ALIGNMENT_CENTER;
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					case JUSTIFIED :
+					case LEFT :
 					default :
 						return XmlssCellStyle.ALIGNMENT_TOP;
 				}
@@ -305,11 +307,11 @@ public class XmlssCellStyle extends XmlssBorderStyle
 			{
 				switch (verticalAlignment)
 				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+					case BOTTOM :
 						return XmlssCellStyle.ALIGNMENT_BOTTOM;
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+					case MIDDLE :
 						return XmlssCellStyle.ALIGNMENT_CENTER;
-					case JRAlignment.VERTICAL_ALIGN_TOP :
+					case TOP :
 					default :
 						return XmlssCellStyle.ALIGNMENT_TOP;
 				}
@@ -321,8 +323,8 @@ public class XmlssCellStyle extends XmlssBorderStyle
 	 *
 	 */
 	public static String getHorizontalAlignment(
-		byte horizontalAlignment, 
-		byte verticalAlignment, 
+		HorizontalAlignEnum horizontalAlignment, 
+		VerticalAlignEnum verticalAlignment, 
 		byte rotation
 		)
 	{
@@ -332,11 +334,11 @@ public class XmlssCellStyle extends XmlssBorderStyle
 			{
 				switch (verticalAlignment)
 				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+					case BOTTOM :
 						return XmlssCellStyle.ALIGNMENT_RIGHT;
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+					case MIDDLE :
 						return XmlssCellStyle.ALIGNMENT_CENTER;
-					case JRAlignment.VERTICAL_ALIGN_TOP :
+					case TOP :
 					default :
 						return XmlssCellStyle.ALIGNMENT_LEFT;
 				}
@@ -345,11 +347,11 @@ public class XmlssCellStyle extends XmlssBorderStyle
 			{
 				switch (verticalAlignment)
 				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+					case BOTTOM :
 						return XmlssCellStyle.ALIGNMENT_LEFT;
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+					case MIDDLE :
 						return XmlssCellStyle.ALIGNMENT_CENTER;
-					case JRAlignment.VERTICAL_ALIGN_TOP :
+					case TOP :
 					default :
 						return XmlssCellStyle.ALIGNMENT_RIGHT;
 				}
@@ -360,12 +362,12 @@ public class XmlssCellStyle extends XmlssBorderStyle
 			{
 				switch (horizontalAlignment)
 				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+					case RIGHT :
 						return XmlssCellStyle.ALIGNMENT_RIGHT;
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+					case CENTER :
 						return XmlssCellStyle.ALIGNMENT_CENTER;
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					case JUSTIFIED :
+					case LEFT :
 					default :
 						return XmlssCellStyle.ALIGNMENT_LEFT;
 				}

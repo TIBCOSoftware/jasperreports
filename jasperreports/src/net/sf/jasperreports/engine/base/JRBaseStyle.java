@@ -991,39 +991,55 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
-		setHorizontalAlignment(new Byte(horizontalAlignment));
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
-		Object old = this.horizontalAlignment;
-		this.horizontalAlignment = horizontalAlignment;
-		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignment);
+		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
 	}
 
 	/**
 	 *
+	 */
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
+	{
+		Object old = this.horizontalAlignmentValue;
+		this.horizontalAlignmentValue = horizontalAlignmentValue;
+		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignmentValue);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
 	 */
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
-		setVerticalAlignment(new Byte(verticalAlignment));
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment)
+	{
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
 	}
 
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
 	{
-		Object old = this.verticalAlignment;
-		this.verticalAlignment = verticalAlignment;
-		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignment);
+		Object old = this.verticalAlignmentValue;
+		this.verticalAlignmentValue = verticalAlignmentValue;
+		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignmentValue);
 	}
 
 	/**

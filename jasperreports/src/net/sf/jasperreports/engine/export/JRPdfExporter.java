@@ -53,9 +53,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRAnchor;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
@@ -1479,19 +1477,19 @@ public class JRPdfExporter extends JRAbstractExporter
 	private float getXAlignFactor(JRPrintImage printImage)
 	{
 		float xalignFactor = 0f;
-		switch (printImage.getHorizontalAlignment())
+		switch (printImage.getHorizontalAlignmentValue())
 		{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+			case RIGHT :
 			{
 				xalignFactor = 1f;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+			case CENTER :
 			{
 				xalignFactor = 0.5f;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+			case LEFT :
 			default :
 			{
 				xalignFactor = 0f;
@@ -1505,19 +1503,19 @@ public class JRPdfExporter extends JRAbstractExporter
 	private float getYAlignFactor(JRPrintImage printImage)
 	{
 		float yalignFactor = 0f;
-		switch (printImage.getVerticalAlignment())
+		switch (printImage.getVerticalAlignmentValue())
 		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+			case BOTTOM :
 			{
 				yalignFactor = 1f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+			case MIDDLE :
 			{
 				yalignFactor = 0.5f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_TOP :
+			case TOP :
 			default :
 			{
 				yalignFactor = 0f;
@@ -2028,9 +2026,9 @@ public class JRPdfExporter extends JRAbstractExporter
 		if (textLength > 0)
 		{
 			int horizontalAlignment = Element.ALIGN_LEFT;
-			switch (text.getHorizontalAlignment())
+			switch (text.getHorizontalAlignmentValue())
 			{
-				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+				case LEFT :
 				{
 					if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR)
 					{
@@ -2042,12 +2040,12 @@ public class JRPdfExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+				case CENTER :
 				{
 					horizontalAlignment = Element.ALIGN_CENTER;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+				case RIGHT :
 				{
 					if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR)
 					{
@@ -2059,7 +2057,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+				case JUSTIFIED :
 				{
 					horizontalAlignment = Element.ALIGN_JUSTIFIED;
 					break;
@@ -2071,19 +2069,19 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 
 			float verticalOffset = 0f;
-			switch (text.getVerticalAlignment())
+			switch (text.getVerticalAlignmentValue())
 			{
-				case JRAlignment.VERTICAL_ALIGN_TOP :
+				case TOP :
 				{
 					verticalOffset = 0f;
 					break;
 				}
-				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+				case MIDDLE :
 				{
 					verticalOffset = (height - topPadding - bottomPadding - text.getTextHeight()) / 2f;
 					break;
 				}
-				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+				case BOTTOM :
 				{
 					verticalOffset = height - topPadding - bottomPadding - text.getTextHeight();
 					break;

@@ -56,13 +56,13 @@ public class JRPrintImageFactory extends JRBaseFactory
 		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
-			image.setHorizontalAlignment(horizontalAlignment.getValueByte());
+			image.setHorizontalAlignment(horizontalAlignment);
 		}
 
 		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
-			image.setVerticalAlignment(verticalAlignment.getValueByte());
+			image.setVerticalAlignment(verticalAlignment);
 		}
 
 		String isLazy = atts.getValue(JRXmlConstants.ATTRIBUTE_isLazy);

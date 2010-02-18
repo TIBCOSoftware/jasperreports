@@ -34,7 +34,6 @@ package net.sf.jasperreports.engine.export.draw;
 import java.awt.Graphics2D;
 
 import net.sf.jasperreports.engine.JRCommonText;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
@@ -174,8 +173,8 @@ public class TextDrawer extends ElementDrawer
 				bottomPadding,
 				rightPadding,
 				text.getTextHeight(), 
-				text.getHorizontalAlignment(), 
-				text.getVerticalAlignment(), 
+				text.getHorizontalAlignmentValue(), 
+				text.getVerticalAlignmentValue(), 
 				text.getLineSpacingFactor(),
 				text.getLeadingOffset(),
 				text.getFontSize(),

@@ -243,7 +243,7 @@ public class DocxRunHelper extends BaseHelper
 		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
 		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (text.getMode() == ModeEnum.OPAQUE.getValue())
+		if (text.getModeValue() == ModeEnum.OPAQUE)
 		{
 			styledTextAttributes.put(TextAttribute.BACKGROUND, text.getBackcolor());
 		}

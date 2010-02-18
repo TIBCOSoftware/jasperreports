@@ -390,19 +390,27 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
 	 */
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
-		this.verticalAlignment = new Byte(verticalAlignment);
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment)
+	{
+		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
 	}
 
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
 	{
-		this.verticalAlignment = verticalAlignment;
+		this.verticalAlignmentValue = verticalAlignmentValue;
 	}
 
 	/**

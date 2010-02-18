@@ -31,7 +31,8 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.StringTokenizer;
 
-import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
@@ -58,7 +59,7 @@ public class TextRenderer
 	private float drawPosY = 0;
 	private float drawPosX = 0;
 	private boolean isMaxHeightReached = false;
-	private byte horizontalAlignment = 0;
+	private HorizontalAlignEnum horizontalAlignment = null;
 	private int fontSize = 0;
 	
 	/**
@@ -113,8 +114,8 @@ public class TextRenderer
 		int initBottomPadding,
 		int initRightPadding,
 		float initTextHeight,
-		byte initHorizontalAlignment,
-		byte initVerticalAlignment,
+		HorizontalAlignEnum initHorizontalAlignment,
+		VerticalAlignEnum initVerticalAlignment,
 		float initLineSpacingFactor,
 		float initLeadingOffset,
 		int initFontSize,
@@ -193,8 +194,8 @@ public class TextRenderer
 		int initBottomPadding,
 		int initRightPadding,
 		float initTextHeight,
-		byte initHorizontalAlignment,
-		byte initVerticalAlignment,
+		HorizontalAlignEnum initHorizontalAlignment,
+		VerticalAlignEnum initVerticalAlignment,
 		float initLineSpacingFactor,
 		float initLeadingOffset,
 		int initFontSize,
@@ -208,17 +209,17 @@ public class TextRenderer
 		verticalOffset = 0f;
 		switch (initVerticalAlignment)
 		{
-			case JRAlignment.VERTICAL_ALIGN_TOP :
+			case TOP :
 			{
 				verticalOffset = 0f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+			case MIDDLE :
 			{
 				verticalOffset = (initHeight - initTopPadding - initBottomPadding - initTextHeight) / 2f;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+			case BOTTOM :
 			{
 				verticalOffset = initHeight - initTopPadding - initBottomPadding - initTextHeight;
 				break;
@@ -321,7 +322,7 @@ public class TextRenderer
 				
 				switch (horizontalAlignment)
 				{
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+					case JUSTIFIED :
 					{
 						if (layout.isLeftToRight())
 						{
@@ -338,17 +339,17 @@ public class TextRenderer
 
 						break;
 					}
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+					case RIGHT :
 					{
 						drawPosX = formatWidth - layout.getAdvance();
 						break;
 					}
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+					case CENTER :
 					{
 						drawPosX = (formatWidth - layout.getAdvance()) / 2;
 						break;
 					}
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					case LEFT :
 					default :
 					{
 						drawPosX = 0;

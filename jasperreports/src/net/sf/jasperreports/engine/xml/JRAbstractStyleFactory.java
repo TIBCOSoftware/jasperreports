@@ -116,13 +116,13 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
-			style.setHorizontalAlignment(horizontalAlignment.getValueByte());
+			style.setHorizontalAlignment(horizontalAlignment);
 		}
 
 		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
-			style.setVerticalAlignment(verticalAlignment.getValueByte());
+			style.setVerticalAlignment(verticalAlignment);
 		}
 
 

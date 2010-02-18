@@ -61,7 +61,6 @@ import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -319,7 +318,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected void configureChart(JFreeChart jfreeChart) throws JRException
 	{
-		if (getChart().getMode() == ModeEnum.OPAQUE.getValue())
+		if (getChart().getModeValue() == ModeEnum.OPAQUE)
 		{
 			jfreeChart.setBackgroundPaint(getChart().getBackcolor());
 		}

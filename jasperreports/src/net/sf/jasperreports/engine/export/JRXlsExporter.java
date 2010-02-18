@@ -46,10 +46,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRCommonText;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -677,13 +675,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		switch (alignment.horizontalAlignment)
 		{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
+			case RIGHT:
 				return HSSFCellStyle.ALIGN_RIGHT;
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER:
+			case CENTER:
 				return HSSFCellStyle.ALIGN_CENTER;
-			case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED:
+			case JUSTIFIED:
 				return HSSFCellStyle.ALIGN_JUSTIFY;
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT:
+			case LEFT:
 			default:
 				return HSSFCellStyle.ALIGN_LEFT;
 		}
@@ -693,13 +691,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		switch (alignment.verticalAlignment)
 		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+			case BOTTOM:
 				return HSSFCellStyle.VERTICAL_BOTTOM;
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+			case MIDDLE:
 				return HSSFCellStyle.VERTICAL_CENTER;
-			case JRAlignment.VERTICAL_ALIGN_JUSTIFIED:
+			case JUSTIFIED:
 				return HSSFCellStyle.VERTICAL_JUSTIFY;
-			case JRAlignment.VERTICAL_ALIGN_TOP:
+			case TOP:
 			default:
 				return HSSFCellStyle.VERTICAL_TOP;
 		}
@@ -1045,19 +1043,19 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				}
 
 				float xalignFactor = 0f;
-				switch (element.getHorizontalAlignment())
+				switch (element.getHorizontalAlignmentValue())
 				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
+					case RIGHT:
 					{
 						xalignFactor = 1f;
 						break;
 					}
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER:
+					case CENTER:
 					{
 						xalignFactor = 0.5f;
 						break;
 					}
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT:
+					case LEFT:
 					default:
 					{
 						xalignFactor = 0f;
@@ -1066,19 +1064,19 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				}
 
 				float yalignFactor = 0f;
-				switch (element.getVerticalAlignment())
+				switch (element.getVerticalAlignmentValue())
 				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+					case BOTTOM:
 					{
 						yalignFactor = 1f;
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+					case MIDDLE:
 					{
 						yalignFactor = 0.5f;
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_TOP:
+					case TOP:
 					default:
 					{
 						yalignFactor = 0f;

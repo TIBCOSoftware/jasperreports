@@ -39,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
@@ -58,6 +57,8 @@ import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -73,11 +74,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected static class TextAlignHolder
 	{
-		public final short horizontalAlignment;
-		public final short verticalAlignment;
+		public final HorizontalAlignEnum horizontalAlignment;
+		public final VerticalAlignEnum verticalAlignment;
 		public final short rotation;
 
-		public TextAlignHolder(short horizontalAlignment, short verticalAlignment, short rotation)
+		public TextAlignHolder(HorizontalAlignEnum horizontalAlignment, VerticalAlignEnum verticalAlignment, short rotation)
 		{
 			this.horizontalAlignment = horizontalAlignment;
 			this.verticalAlignment = verticalAlignment;
@@ -677,62 +678,62 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	protected static TextAlignHolder getTextAlignHolder(JRPrintText textElement)
 	{
-		short horizontalAlignment;
-		short verticalAlignment;
+		HorizontalAlignEnum horizontalAlignment;
+		VerticalAlignEnum verticalAlignment;
 		short rotation = textElement.getRotation();
 
 		switch (textElement.getRotation())
 		{
 			case JRTextElement.ROTATION_LEFT :
 			{
-				switch (textElement.getHorizontalAlignment())
+				switch (textElement.getHorizontalAlignmentValue())
 				{
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					case LEFT :
 					{
-						verticalAlignment = JRAlignment.VERTICAL_ALIGN_BOTTOM;
+						verticalAlignment = VerticalAlignEnum.BOTTOM;
 						break;
 					}
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+					case CENTER :
 					{
-						verticalAlignment = JRAlignment.VERTICAL_ALIGN_MIDDLE;
+						verticalAlignment = VerticalAlignEnum.MIDDLE;
 						break;
 					}
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+					case RIGHT :
 					{
-						verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
+						verticalAlignment = VerticalAlignEnum.TOP;
 						break;
 					}
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+					case JUSTIFIED :
 					{
-						verticalAlignment = JRAlignment.VERTICAL_ALIGN_JUSTIFIED;
+						verticalAlignment = VerticalAlignEnum.JUSTIFIED;
 						break;
 					}
 					default :
 					{
-						verticalAlignment = JRAlignment.VERTICAL_ALIGN_BOTTOM;
+						verticalAlignment = VerticalAlignEnum.BOTTOM;
 					}
 				}
 
-				switch (textElement.getVerticalAlignment())
+				switch (textElement.getVerticalAlignmentValue())
 				{
-					case JRAlignment.VERTICAL_ALIGN_TOP :
+					case TOP :
 					{
-						horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
+						horizontalAlignment = HorizontalAlignEnum.LEFT;
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+					case MIDDLE :
 					{
-						horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_CENTER;
+						horizontalAlignment = HorizontalAlignEnum.CENTER;
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+					case BOTTOM :
 					{
-						horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_RIGHT;
+						horizontalAlignment = HorizontalAlignEnum.RIGHT;
 						break;
 					}
 					default :
 					{
-						horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
+						horizontalAlignment = HorizontalAlignEnum.LEFT;
 					}
 				}
 
@@ -740,54 +741,54 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			}
 			case JRTextElement.ROTATION_RIGHT :
 			{
-				switch (textElement.getHorizontalAlignment())
+				switch (textElement.getHorizontalAlignmentValue())
 				{
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					case LEFT :
 					{
-						verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
+						verticalAlignment = VerticalAlignEnum.TOP;
 						break;
 					}
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+					case CENTER :
 					{
-						verticalAlignment = JRAlignment.VERTICAL_ALIGN_MIDDLE;
+						verticalAlignment = VerticalAlignEnum.MIDDLE;
 						break;
 					}
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+					case RIGHT :
 					{
-						verticalAlignment = JRAlignment.VERTICAL_ALIGN_BOTTOM;
+						verticalAlignment = VerticalAlignEnum.BOTTOM;
 						break;
 					}
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+					case JUSTIFIED :
 					{
-						verticalAlignment = JRAlignment.VERTICAL_ALIGN_JUSTIFIED;
+						verticalAlignment = VerticalAlignEnum.JUSTIFIED;
 						break;
 					}
 					default :
 					{
-						verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
+						verticalAlignment = VerticalAlignEnum.TOP;
 					}
 				}
 
-				switch (textElement.getVerticalAlignment())
+				switch (textElement.getVerticalAlignmentValue())
 				{
-					case JRAlignment.VERTICAL_ALIGN_TOP :
+					case TOP :
 					{
-						horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_RIGHT;
+						horizontalAlignment = HorizontalAlignEnum.RIGHT;
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+					case MIDDLE :
 					{
-						horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_CENTER;
+						horizontalAlignment = HorizontalAlignEnum.CENTER;
 						break;
 					}
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+					case BOTTOM :
 					{
-						horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
+						horizontalAlignment = HorizontalAlignEnum.LEFT;
 						break;
 					}
 					default :
 					{
-						horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_RIGHT;
+						horizontalAlignment = HorizontalAlignEnum.RIGHT;
 					}
 				}
 
@@ -797,8 +798,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			case JRTextElement.ROTATION_NONE :
 			default :
 			{
-				horizontalAlignment = textElement.getHorizontalAlignment();
-				verticalAlignment = textElement.getVerticalAlignment();
+				horizontalAlignment = textElement.getHorizontalAlignmentValue();
+				verticalAlignment = textElement.getVerticalAlignmentValue();
 			}
 		}
 

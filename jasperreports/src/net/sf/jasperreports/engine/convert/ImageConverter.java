@@ -88,11 +88,11 @@ public class ImageConverter extends ElementConverter
 		
 		printImage.setAnchorName(JRExpressionUtil.getExpressionText(image.getAnchorNameExpression()));
 		printImage.setBookmarkLevel(image.getBookmarkLevel());
-		printImage.setHorizontalAlignment(image.getOwnHorizontalAlignment());
+		printImage.setHorizontalAlignment(image.getOwnHorizontalAlignmentValue());
 		printImage.setLazy(image.isLazy());
 		printImage.setLinkType(image.getLinkType());
 		printImage.setOnErrorType(JRImage.ON_ERROR_TYPE_ICON);
-		printImage.setVerticalAlignment(image.getOwnVerticalAlignment());
+		printImage.setVerticalAlignment(image.getOwnVerticalAlignmentValue());
 		printImage.setRenderer(getRenderer(image, printImage));
 		printImage.setScaleImage(image.getOwnScaleImage());
 		

@@ -27,12 +27,12 @@ import java.awt.Color;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -109,7 +109,7 @@ public class DocxCellHelper extends BaseHelper
 	 */
 	public void exportProps(JRPrintElement element, JRExporterGridCell gridCell)
 	{
-		exportBackcolor(element.getMode(), element.getBackcolor());
+		exportBackcolor(element.getModeValue(), element.getBackcolor());
 		
 		borderHelper.export(gridCell.getBox());
 
@@ -124,7 +124,7 @@ public class DocxCellHelper extends BaseHelper
 			
 			String verticalAlignment = 
 				getVerticalAlignment(
-					align.getOwnVerticalAlignment() 
+					align.getOwnVerticalAlignmentValue() 
 					);
 			String textRotation = getTextDirection(ownRotation);
 
@@ -138,7 +138,7 @@ public class DocxCellHelper extends BaseHelper
 	 */
 	public void exportProps(JRExporterGridCell gridCell)
 	{
-		exportBackcolor(ModeEnum.OPAQUE.getValue(), gridCell.getBackcolor());//FIXMEDOCX check this
+		exportBackcolor(ModeEnum.OPAQUE, gridCell.getBackcolor());//FIXMEDOCX check this
 		
 		borderHelper.export(gridCell.getBox());
 	}
@@ -147,9 +147,9 @@ public class DocxCellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportBackcolor(byte mode, Color backcolor)
+	private void exportBackcolor(ModeEnum mode, Color backcolor)
 	{
-		if (mode == ModeEnum.OPAQUE.getValue() && backcolor != null)
+		if (mode == ModeEnum.OPAQUE && backcolor != null)
 		{
 			write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" />\n");
 		}
@@ -221,17 +221,17 @@ public class DocxCellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public static String getVerticalAlignment(Byte verticalAlignment)
+	public static String getVerticalAlignment(VerticalAlignEnum verticalAlignment)
 	{
 		if (verticalAlignment != null)
 		{
-			switch (verticalAlignment.byteValue())
+			switch (verticalAlignment)
 			{
-				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+				case BOTTOM :
 					return VERTICAL_ALIGN_BOTTOM;
-				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+				case MIDDLE :
 					return VERTICAL_ALIGN_MIDDLE;
-				case JRAlignment.VERTICAL_ALIGN_TOP :
+				case TOP :
 				default :
 					return VERTICAL_ALIGN_TOP;
 			}
