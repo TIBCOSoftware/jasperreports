@@ -8,7 +8,7 @@
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
 	<path id="classpath">
-		<pathelement location="./"/>
+		<pathelement location="./build/classes"/>
 		<pathelement location="../../../build/classes" />
 		<pathelement location="../../fonts" />
 		<fileset dir="../../../lib">
