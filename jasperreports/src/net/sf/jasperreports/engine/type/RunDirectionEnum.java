@@ -100,7 +100,7 @@ public enum RunDirectionEnum implements JREnum
 	 */
 	public static RunDirectionEnum getByValue(byte value)
 	{
-		return (RunDirectionEnum)getByValue(new Byte(value));
+		return getByValue(new Byte(value));
 	}
 
 }

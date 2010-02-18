@@ -237,8 +237,8 @@ public class JROdsExporter extends JROpenDocumentExporter
 		int width = availableImageWidth;
 		int height = availableImageHeight;
 
-		int xoffset = 0;
-		int yoffset = 0;
+//		int xoffset = 0;
+//		int yoffset = 0;
 
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
@@ -264,8 +264,8 @@ public class JROdsExporter extends JROpenDocumentExporter
 
 		if (renderer != null)
 		{
-			float xalignFactor = getXAlignFactor(image);
-			float yalignFactor = getYAlignFactor(image);
+//			float xalignFactor = getXAlignFactor(image);
+//			float yalignFactor = getYAlignFactor(image);
 
 			switch (image.getScaleImage())
 			{
@@ -273,8 +273,8 @@ public class JROdsExporter extends JROpenDocumentExporter
 				{
 					width = availableImageWidth;
 					height = availableImageHeight;
-					xoffset = 0;
-					yoffset = 0;
+//					xoffset = 0;
+//					yoffset = 0;
 					break;
 				}
 				case JRImage.SCALE_IMAGE_CLIP :
@@ -315,8 +315,8 @@ public class JROdsExporter extends JROpenDocumentExporter
 						}
 					}
 
-					xoffset = (int)(xalignFactor * (availableImageWidth - width));
-					yoffset = (int)(yalignFactor * (availableImageHeight - height));
+//					xoffset = (int)(xalignFactor * (availableImageWidth - width));
+//					yoffset = (int)(yalignFactor * (availableImageHeight - height));
 				}
 			}
 

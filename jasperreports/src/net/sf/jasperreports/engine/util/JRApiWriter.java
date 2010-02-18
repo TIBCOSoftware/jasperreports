@@ -138,7 +138,6 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
@@ -3406,8 +3405,6 @@ public class JRApiWriter
 	{
 		if(frame != null)
 		{
-			JRDesignFrame f = new JRDesignFrame(jasperDesign);
-			
 			write( "JRDesignFrame " + frameName + " = new JRDesignFrame(jasperDesign);\n");
 	
 			writeReportElement( frame, frameName);

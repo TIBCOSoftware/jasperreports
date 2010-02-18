@@ -23,14 +23,10 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.awt.Color;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
-import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
@@ -150,16 +146,16 @@ public class XlsxCellHelper extends BaseHelper
 	}
 
 	
-	/**
-	 *
-	 */
-	private void exportBackcolor(ModeEnum mode, Color backcolor)
-	{
-		if (mode == ModeEnum.OPAQUE && backcolor != null)
-		{
-			write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" />\n");
-		}
-	}
+//	/**
+//	 *
+//	 */
+//	private void exportBackcolor(ModeEnum mode, Color backcolor)
+//	{
+//		if (mode == ModeEnum.OPAQUE && backcolor != null)
+//		{
+//			write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" />\n");
+//		}
+//	}
 
 //	/**
 //	 *
@@ -169,20 +165,20 @@ public class XlsxCellHelper extends BaseHelper
 //		write("      <w:tcPr>\n");
 //	}
 	
-	/**
-	 *
-	 */
-	private void exportAlignmentAndRotation(String verticalAlignment, String textRotation)
-	{
-		if (verticalAlignment != null)
-		{
-			write("      <w:vAlign w:val=\"" + verticalAlignment +"\" />\n");
-		}
-		if (textRotation != null)
-		{
-			write("   <w:textDirection w:val=\"" + textRotation + "\" />\n");
-		}
-	}
+//	/**
+//	 *
+//	 */
+//	private void exportAlignmentAndRotation(String verticalAlignment, String textRotation)
+//	{
+//		if (verticalAlignment != null)
+//		{
+//			write("      <w:vAlign w:val=\"" + verticalAlignment +"\" />\n");
+//		}
+//		if (textRotation != null)
+//		{
+//			write("   <w:textDirection w:val=\"" + textRotation + "\" />\n");
+//		}
+//	}
 	
 //	/**
 //	 *
@@ -192,37 +188,37 @@ public class XlsxCellHelper extends BaseHelper
 //		write("      </w:tcPr>\n");
 //	}
 	
-	/**
-	 *
-	 */
-	private static String getTextDirection(Byte rotation)
-	{
-		String textDirection = null;
-		
-		if (rotation != null)
-		{
-			switch(rotation.byteValue())
-			{
-				case JRTextElement.ROTATION_LEFT:
-				{
-					textDirection = "btLr";
-					break;
-				}
-				case JRTextElement.ROTATION_RIGHT:
-				{
-					textDirection = "tbRl";
-					break;
-				}
-				case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEDOCX possible?
-				case JRTextElement.ROTATION_NONE:
-				default:
-				{
-				}
-			}
-		}
-
-		return textDirection;
-	}
+//	/**
+//	 *
+//	 */
+//	private static String getTextDirection(Byte rotation)
+//	{
+//		String textDirection = null;
+//		
+//		if (rotation != null)
+//		{
+//			switch(rotation.byteValue())
+//			{
+//				case JRTextElement.ROTATION_LEFT:
+//				{
+//					textDirection = "btLr";
+//					break;
+//				}
+//				case JRTextElement.ROTATION_RIGHT:
+//				{
+//					textDirection = "tbRl";
+//					break;
+//				}
+//				case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEDOCX possible?
+//				case JRTextElement.ROTATION_NONE:
+//				default:
+//				{
+//				}
+//			}
+//		}
+//
+//		return textDirection;
+//	}
 
 	/**
 	 *

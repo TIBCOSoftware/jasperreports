@@ -41,7 +41,6 @@ public class DocxTableHelper extends BaseHelper
 	private CutsInfo xCuts = null;
 	private DocxCellHelper cellHelper = null;
 	private DocxParagraphHelper paragraphHelper = null;
-	private DocxRunHelper runHelper = null;
 
 
 	/**
@@ -50,7 +49,6 @@ public class DocxTableHelper extends BaseHelper
 	protected DocxTableHelper(
 		Writer writer,
 		CutsInfo xCuts,
-		DocxRunHelper runHelper,
 		boolean pageBreak
 		) 
 	{
@@ -59,7 +57,6 @@ public class DocxTableHelper extends BaseHelper
 		this.xCuts = xCuts;
 		this.cellHelper = new DocxCellHelper(writer);
 		this.paragraphHelper = new DocxParagraphHelper(writer, pageBreak);
-		this.runHelper = runHelper;
 	}
 
 
