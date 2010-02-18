@@ -53,10 +53,15 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -477,16 +482,34 @@ public class JRXmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link ScaleImageEnum#CLIP#getName()}.
 	 */
 	private static final String SCALE_IMAGE_CLIP = "Clip";
+	/**
+	 * @deprecated Replaced by {@link ScaleImageEnum#FILL_FRAME#getName()}.
+	 */
 	private static final String SCALE_IMAGE_FILL_FRAME = "FillFrame";
+	/**
+	 * @deprecated Replaced by {@link ScaleImageEnum#RETAIN_SHAPE#getName()}.
+	 */
 	private static final String SCALE_IMAGE_RETAIN_SHAPE = "RetainShape";
+	/**
+	 * @deprecated Replaced by {@link ScaleImageEnum#REAL_HEIGHT#getName()}.
+	 */
 	private static final String SCALE_IMAGE_REAL_HEIGT = "RealHeight";
+	/**
+	 * @deprecated Replaced by {@link ScaleImageEnum#REAL_SIZE#getName()}.
+	 */
 	private static final String SCALE_IMAGE_REAL_SIZE = "RealSize";
 
+	/**
+	 * @deprecated Replaced by {@link ScaleImageEnum}.
+	 */
 	private static Map scaleImageMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link ScaleImageEnum}.
+	 */
 	public static Map getScaleImageMap()
 	{
 		if (scaleImageMap == null)

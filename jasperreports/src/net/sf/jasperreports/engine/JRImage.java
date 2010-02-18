@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
+
 
 /**
  * An abstract representation of a graphic element representing an image. Images can be aligned and scaled. They can
@@ -36,55 +38,27 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 
 
 	/**
-	 * A constant value specifying that if the actual image is larger than the image element size, it will be cut off so
-	 * that it keeps its original resolution, and only the region that fits the specified size will be displayed.
+	 * @deprecated Replaced by {@link ScaleImageEnum#CLIP}.
 	 */
 	public static final byte SCALE_IMAGE_CLIP = 1;
 
 	/**
-	 * A constant value specifying that if the dimensions of the actual image do not fit those specified for the
-	 * image element that displays it, the image can be forced to obey them and stretch itself so that it fits
-	 * in the designated output area.
+	 * @deprecated Replaced by {@link ScaleImageEnum#FILL_FRAME}.
 	 */
 	public static final byte SCALE_IMAGE_FILL_FRAME = 2;
 
 	/**
-	 * A constant value specifying that if the actual image does not fit into the image element, it can be adapted
-	 * to those dimensions without needing to change its original proportions.
+	 * @deprecated Replaced by {@link ScaleImageEnum#RETAIN_SHAPE}.
 	 */
 	public static final byte SCALE_IMAGE_RETAIN_SHAPE = 3;
 	
 	/**
-	 * A scale image type that instructs the engine to stretch the image height
-	 * to fit the actual height of the image.
-	 * 
-	 * <p>
-	 * Several restrictions apply to the image stretching mechanism:
-	 * <ul>
-	 * 	<li>It only works when the image renderer implements
-	 *  {@link JRRenderable#getDimension()}.</li>
-	 *  <li>If the actual image width exceeds the declared image element width,
-	 * the image is proportionally stretched to fit the declared width.</li>
-	 * 	<li>Images with delayed evaluation (see {@link #getEvaluationTime()}) 
-	 * do not stretch and is proportionally shrunk to fit the declared
-	 * height/width.</li>
-	 * 	<li>An image overflows (to the next page/column) only once, after this
-	 * the image gets rendered on the available space by proportionally
-	 * shrinking its size.</li>
-	 * </ul>
-	 * </p>
-	 * 
-	 * @see #SCALE_IMAGE_REAL_SIZE
+	 * @deprecated Replaced by {@link ScaleImageEnum#REAL_HEIGHT}.
 	 */
 	public static final byte SCALE_IMAGE_REAL_HEIGHT = 4;
 	
 	/**
-	 * A scale image type that stretches the images height in the same way as 
-	 * {@link #SCALE_IMAGE_REAL_HEIGHT}, and in addition it changes the image
-	 * width to the actual with of the image.
-	 * 
-	 * This can be useful when, for instance, a border has to be drawn around
-	 * the image, respecting its actual size.
+	 * @deprecated Replaced by {@link ScaleImageEnum#REAL_SIZE}.
 	 */
 	public static final byte SCALE_IMAGE_REAL_SIZE = 5;
 
