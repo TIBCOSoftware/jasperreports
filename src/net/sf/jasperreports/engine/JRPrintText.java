@@ -40,9 +40,12 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public static final short[] ZERO_LINE_BREAK_OFFSETS = new short[0];
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RunDirectionEnum#LTR}.
 	 */
 	public static final byte RUN_DIRECTION_LTR = 0;
+	/**
+	 * @deprecated Replaced by {@link RunDirectionEnum#RTL}.
+	 */
 	public static final byte RUN_DIRECTION_RTL = 1;
 
 	
@@ -183,15 +186,29 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setRotation(Byte rotation);
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link getRunDirectionValue()}.
 	 */
 	public byte getRunDirection();
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link setRunDirection(RunDirectionEnum)}.
 	 */
 	public void setRunDirection(byte rotation);
 		
+	//TODO: uncomment these below
+
+//	/**
+//	 * Gets the text run direction.
+//	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}
+//	 */
+//	public RunDirectionEnum getRunDirectionValue();
+//	
+//	/**
+//	 * Sets the text run direction.
+//	 * @param runDirectionEnum a value representing one of the text run direction constants in {@link RunDirectionEnum}
+//	 */
+//	public void setRunDirection(RunDirectionEnum runDirectionEnum);
+	
 	/**
 	 *
 	 */

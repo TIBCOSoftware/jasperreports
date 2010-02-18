@@ -375,13 +375,22 @@ public class JRXmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RunDirectionEnum#LTR#getName()}.
 	 */
 	private static final String RUN_DIRECTION_LTR = "LTR";
+	/**
+	 * @deprecated Replaced by {@link RunDirectionEnum#RTL#getName()}.
+	 */
 	private static final String RUN_DIRECTION_RTL = "RTL";
 
+	/**
+	 * @deprecated Replaced by {@link RunDirectionEnum}.
+	 */
 	private static Map runDirectionMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link RunDirectionEnum}.
+	 */
 	public static Map getRunDirectionMap()
 	{
 		if (runDirectionMap == null)
