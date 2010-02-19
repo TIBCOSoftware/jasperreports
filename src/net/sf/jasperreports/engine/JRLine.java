@@ -45,18 +45,10 @@ public interface JRLine extends JRGraphicElement
 
 
 	/**
-	 * Gets the line direction.
-	 * @return one of the direction constants
-	 */
-	/**
 	 * @deprecated Replaced by {@link getDirectionValue()}.
 	 */
 	public byte getDirection();
 
-	/**
-	 * Sets the line direction.
-	 * @param direction one of the direction constants
-	 */
 	/**
 	 * @deprecated Replaced by {@link setDirection(LineDirectionEnum)}.
 	 */
