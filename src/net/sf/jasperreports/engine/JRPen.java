@@ -85,21 +85,45 @@ public interface JRPen
 	public void setLineWidth(Float lineWidth);
 
 	/**
-	 * Gets the line style used for this pen.
-	 * @return one of the line style constants in this class
+	 * @deprecated Replaced by {@link getLineStyleValue()}.
 	 */
 	public Byte getLineStyle();
 
+	/**
+	 * @deprecated Replaced by {@link getOwnLineStyleValue()}.
+	 */
 	public Byte getOwnLineStyle();
 
 	/**
-	 * Sets the line style.
-	 * @param lineStyle one of the line style constants in this class
+	 * @deprecated Replaced by {@link setLineStyle(LineStyleEnum)}.
 	 */
 	public void setLineStyle(byte lineStyle);
 
+	/**
+	 * @deprecated Replaced by {@link setLineStyle(LineStyleEnum)}.
+	 */
 	public void setLineStyle(Byte lineStyle);
 
+	//TODO: uncomment these below
+
+//	/**
+//	 * Indicates the line style used for this pen.
+//	 * @return a value representing one of the line style constants in {@link LineStyleEnum}
+//	 */
+//	public LineStyleEnum getLineStyleValue();
+//	
+//	/**
+//	 * Indicates the line style used for this pen.
+//	 * @return a value representing one of the line style constants in {@link LineStyleEnum}
+//	 */
+//	public LineStyleEnum getOwnLineStyleValue();
+//	
+//	/**
+//	 * Specifies the line style.
+//	 * @param lineStyleEnum a value representing one of the line style constants in {@link LineStyleEnum}
+//	 */
+//	public void setLineStyle(LineStyleEnum lineStyleEnum);
+	
 	/**
 	 * Gets the line color.
 	 */
