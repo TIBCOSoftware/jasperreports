@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
@@ -611,15 +612,30 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link LineStyleEnum#SOLID#getName()}.
 	 */
 	private static final String LINE_STYLE_SOLID = "Solid";
+	/**
+	 * @deprecated Replaced by {@link LineStyleEnum#DASHED#getName()}.
+	 */
 	private static final String LINE_STYLE_DASHED = "Dashed";
+	/**
+	 * @deprecated Replaced by {@link LineStyleEnum#DOTTED#getName()}.
+	 */
 	private static final String LINE_STYLE_DOTTED = "Dotted";
+	/**
+	 * @deprecated Replaced by {@link LineStyleEnum#DOUBLE#getName()}.
+	 */
 	private static final String lINE_STYLE_DOUBLE = "Double";
 
+	/**
+	 * @deprecated Replaced by {@link LineStyleEnum}.
+	 */
 	private static Map lineStyleMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link LineStyleEnum}.
+	 */
 	public static Map getLineStyleMap()
 	{
 		if (lineStyleMap == null)
