@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
 
@@ -64,17 +65,17 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 
 
 	/**
-	 * A constant used for specifying that the engine should raise an exception if the image is not found.
+	 * @deprecated Replaced by {@link OnErrorTypeEnum#ERROR}.
 	 */
 	public static final byte ON_ERROR_TYPE_ERROR = 1;
 
 	/**
-	 * A constant used for specifying that the engine should display blank space if the image is not found.
+	 * @deprecated Replaced by {@link OnErrorTypeEnum#BLANK}.
 	 */
 	public static final byte ON_ERROR_TYPE_BLANK = 2;
 
 	/**
-	 * A constant used for specifying that the engine should display a replacement icon if the image is not found.
+	 * @deprecated Replaced by {@link OnErrorTypeEnum#ICON}.
 	 */
 	public static final byte ON_ERROR_TYPE_ICON = 3;
 	
@@ -130,17 +131,29 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	public void setLazy(boolean isLazy);
 
 	/**
-	 * Indicates how the engine will treat a missing image.
-	 * @return one of the constants for missing image error types
+	 * @deprecated Replaced by {@link getOnErrorTypeValue()}.
 	 */
 	public byte getOnErrorType();
 
 	/**
-	 * Specifies how the engine should treat a missing image.
-	 * @param onErrorType one of the constants for missing image error types
+	 * @deprecated Replaced by {@link setOnErrorType(OnErrorTypeEnum)}.
 	 */
 	public void setOnErrorType(byte onErrorType);
 
+	//TODO: uncomment these below
+
+//	/**
+//	 * Indicates how the engine will treat a missing image.
+//	 * @return a value representing one of the missing image handling constants in {@link OnErrorTypeEnum}
+//	 */
+//	public OnErrorTypeEnum getOnErrorTypeValue();
+//	
+//	/**
+//	 * Specifies how the engine should treat a missing image.
+//	 * @param onErrorTypeEnum a value representing one of the missing image handling constants in {@link OnErrorTypeEnum}
+//	 */
+//	public void setOnErrorType(OnErrorTypeEnum onErrorTypeEnum);
+	
 	/**
 	 * Indicates the evaluation time for this image.
 	 * @return one of the evaluation time constants in {@link JRExpression}
