@@ -34,22 +34,22 @@ public interface JRPen
 {
 
 	/**
-	 * Contant useful for specifying solid line style.
+	 * @deprecated Replaced by {@link LineStyleEnum#SOLID}.
 	 */
 	public static final byte LINE_STYLE_SOLID = 0;
 
 	/**
-	 * Contant useful for specifying dashed line style.
+	 * @deprecated Replaced by {@link LineStyleEnum#DASHED}.
 	 */
 	public static final byte LINE_STYLE_DASHED = 1;
 
 	/**
-	 * Contant useful for specifying dotted line style.
+	 * @deprecated Replaced by {@link LineStyleEnum#DOTTED}.
 	 */
 	public static final byte LINE_STYLE_DOTTED = 2;
 
 	/**
-	 * Contant useful for specifying double line style.
+	 * @deprecated Replaced by {@link LineStyleEnum#DOUBLE}.
 	 */
 	public static final byte LINE_STYLE_DOUBLE = 3;
 

@@ -33,22 +33,22 @@ import net.sf.jasperreports.engine.JRConstants;
 public enum LineStyleEnum implements JREnum
 {
 	/**
-	 * Constant useful for displaying the text without rotating it
+	 * Constant useful for specifying solid line style.
 	 */
 	SOLID((byte)0, "Solid"),
 
 	/**
-	 * Constant useful for rotating the text 90 degrees counter clockwise.
+	 * Constant useful for specifying dashed line style.
 	 */
 	DASHED((byte)1, "Dashed"),
 	
 	/**
-	 * Constant useful for rotating the text 90 degrees clockwise.
+	 * Constant useful for specifying dotted line style.
 	 */
 	DOTTED((byte)2, "Dotted"),
 	
 	/**
-	 * Constant useful for rotating the text 180 degrees.
+	 * Constant useful for specifying double line style.
 	 */
 	DOUBLE((byte)3, "Double");
 	
