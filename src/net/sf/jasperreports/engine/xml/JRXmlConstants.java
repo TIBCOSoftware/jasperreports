@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -533,14 +534,26 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link OnErrorTypeEnum#ERROR}.
 	 */
 	private static final String ON_ERROR_TYPE_ERROR = "Error";
+	/**
+	 * @deprecated Replaced by {@link OnErrorTypeEnum#BLANK}.
+	 */
 	private static final String ON_ERROR_TYPE_BLANK = "Blank";
+	/**
+	 * @deprecated Replaced by {@link OnErrorTypeEnum#ICON}.
+	 */
 	private static final String ON_ERROR_TYPE_ICON = "Icon";
 
+	/**
+	 * @deprecated Replaced by {@link OnErrorTypeEnum}.
+	 */
 	private static Map onErrorTypeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link OnErrorTypeEnum}.
+	 */
 	public static Map getOnErrorTypeMap()
 	{
 		if (onErrorTypeMap == null)
