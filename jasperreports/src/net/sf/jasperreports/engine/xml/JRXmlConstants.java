@@ -61,6 +61,7 @@ import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.PenEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -656,17 +657,38 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link PenEnum#NONE#getName()}.
 	 */
 	private static final String PEN_NONE = "None";
+	/**
+	 * @deprecated Replaced by {@link PenEnum#THIN#getName()}.
+	 */
 	private static final String PEN_THIN = "Thin";
+	/**
+	 * @deprecated Replaced by {@link PenEnum#ONE_POINT#getName()}.
+	 */
 	private static final String PEN_1_POINT = "1Point";
+	/**
+	 * @deprecated Replaced by {@link PenEnum#TWO_POINT#getName()}.
+	 */
 	private static final String PEN_2_POINT = "2Point";
+	/**
+	 * @deprecated Replaced by {@link PenEnum#FOUR_POINT#getName()}.
+	 */
 	private static final String PEN_4_POINT = "4Point";
+	/**
+	 * @deprecated Replaced by {@link PenEnum#DOTTED#getName()}.
+	 */
 	private static final String PEN_DOTTED = "Dotted";
 
+	/**
+	 * @deprecated Replaced by {@link PenEnum}.
+	 */
 	private static Map penMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link PenEnum}.
+	 */
 	public static Map getPenMap()
 	{
 		if (penMap == null)
