@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -534,15 +535,15 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 * @deprecated Replaced by {@link OnErrorTypeEnum#ERROR}.
+	 * @deprecated Replaced by {@link OnErrorTypeEnum#ERROR#getName()}.
 	 */
 	private static final String ON_ERROR_TYPE_ERROR = "Error";
 	/**
-	 * @deprecated Replaced by {@link OnErrorTypeEnum#BLANK}.
+	 * @deprecated Replaced by {@link OnErrorTypeEnum#BLANK#getName()}.
 	 */
 	private static final String ON_ERROR_TYPE_BLANK = "Blank";
 	/**
-	 * @deprecated Replaced by {@link OnErrorTypeEnum#ICON}.
+	 * @deprecated Replaced by {@link OnErrorTypeEnum#ICON#getName()}.
 	 */
 	private static final String ON_ERROR_TYPE_ICON = "Icon";
 
@@ -572,14 +573,26 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link StretchTypeEnum#NO_STRETCH#getName()}.
 	 */
 	private static final String STRETCH_TYPE_NO_STRETCH = "NoStretch";
+	/**
+	 * @deprecated Replaced by {@link StretchTypeEnum#RELATIVE_TO_TALLEST_OBJECT#getName()}.
+	 */
 	private static final String STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT = "RelativeToTallestObject";
+	/**
+	 * @deprecated Replaced by {@link StretchTypeEnum#RELATIVE_TO_BAND_HEIGHT#getName()}.
+	 */
 	private static final String STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT = "RelativeToBandHeight";
 
+	/**
+	 * @deprecated Replaced by {@link StretchTypeEnum}.
+	 */
 	private static Map stretchTypeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link StretchTypeEnum}.
+	 */
 	public static Map getStretchTypeMap()
 	{
 		if (stretchTypeMap == null)

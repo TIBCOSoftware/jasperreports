@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.StretchTypeEnum;
 
 
 /**
@@ -76,18 +77,21 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 
 	/**
 	 * The element preserves its original specified height.
+	 * @deprecated Replaced by {@link  StretchTypeEnum#NO_STRETCH}.
 	 */
 	public static final byte STRETCH_TYPE_NO_STRETCH = 0;
 
 	/**
 	 * Users have the possibility to group the elements of a report section in multiple imbricate groups. The only
 	 * reason one might have for grouping your report elements is to be able to stretch them to fit the tallest object.
+	 * @deprecated Replaced by {@link  StretchTypeEnum#RELATIVE_TO_TALLEST_OBJECT}.
 	 */
 	public static final byte STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT = 1;
 
 	/**
 	 * The graphic element will adapt its height to match the new height of the report section it placed on, which
 	 * has been affected by stretch.
+	 * @deprecated Replaced by {@link  StretchTypeEnum#RELATIVE_TO_BAND_HEIGHT}.
 	 */
 	public static final byte STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT = 2;
 
@@ -120,17 +124,29 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	public void setPositionType(PositionTypeEnum positionType);
 
 	/**
-	 * Returns the stretch type for the element
-	 * @return a byte value representing one of the stretch type constants in this class
+	 * @deprecated Replaced by {@link #getStretchTypeValue()}.
 	 */
 	public byte getStretchType();
 
 	/**
-	 * Sets the stretch type for the element.
-	 * @param stretchType a byte value that must be one of the stretch type constants in this class
+	 * @deprecated Replaced by {@link #setStretchType(StretchTypeEnum)}.
 	 */
 	public void setStretchType(byte stretchType);
 		
+	//TODO: uncomment these below
+
+//	/**
+//	 * Indicates the stretch type for the element
+//	 * @return a value representing one of the stretch type constants in {@link StretchTypeEnum}
+//	 */
+//	public StretchTypeEnum getStretchTypeValue();
+//	
+//	/**
+//	 * Specifies how the engine should treat a missing image.
+//	 * @param stretchTypeEnum a value representing one of the stretch type constants in {@link StretchTypeEnum}
+//	 */
+//	public void setStretchType(StretchTypeEnum stretchTypeEnum);
+	
 	/**
 	 * Specifies if the element value will be printed for every iteration, even if its value has not changed.
 	 * @see JRElement#isRemoveLineWhenBlank()
