@@ -581,7 +581,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.startElement(XmlConstants.ELEMENT_origin);
 		xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_report, origin.getReportName());
 		xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_group, origin.getGroupName());
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_band, origin.getBandType(), JRXmlConstants.getBandTypeMap());
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_band, origin.getBandTypeValue());
 		xmlWriter.closeElement();
 	}
 

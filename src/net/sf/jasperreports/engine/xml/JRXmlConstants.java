@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -1452,25 +1453,67 @@ public class JRXmlConstants extends XmlConstants
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link BandTypeEnum#UNKNOWN#getName()}.
 	 */
 	private static final String UNKNOWN = "unknown";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#BACKGROUND#getName()}.
+	 */
 	private static final String BACKGROUND = "background";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#PAGE_HEADER#getName()}.
+	 */
 	private static final String TITLE = "title";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#PAGE_HEADER#getName()}.
+	 */
 	private static final String PAGE_HEADER = "pageHeader";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#COLUMN_HEADER#getName()}.
+	 */
 	private static final String COLUMN_HEADER = "columnHeader";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#GROUP_HEADER#getName()}.
+	 */
 	private static final String GROUP_HEADER = "groupHeader";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#GROUP_FOOTER#getName()}.
+	 */
 	private static final String DETAIL = "detail";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#GROUP_FOOTER#getName()}.
+	 */
 	private static final String GROUP_FOOTER = "groupFooter";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#COLUMN_FOOTER#getName()}.
+	 */
 	private static final String COLUMN_FOOTER = "columnFooter";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#PAGE_FOOTER#getName()}.
+	 */
 	private static final String PAGE_FOOTER = "pageFooter";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#LAST_PAGE_FOOTER#getName()}.
+	 */
 	private static final String LAST_PAGE_FOOTER = "lastPageFooter";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#SUMMARY#getName()}.
+	 */
 	private static final String SUMMARY = "summary";
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#NO_DATA#getName()}.
+	 */
 	private static final String NO_DATA = "noData";
 
 	
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum}.
+	 */
 	private static Map bandTypeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum}.
+	 */
 	public static Map getBandTypeMap()
 	{
 		if (bandTypeMap == null)

@@ -71,6 +71,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FileResolver;
@@ -453,7 +454,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			background.setOrigin(
 				new JROrigin(
 					reportName,
-					JROrigin.BACKGROUND
+					BandTypeEnum.BACKGROUND
 					)
 				);
 		}
@@ -464,7 +465,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			title.setOrigin(
 				new JROrigin(
 					reportName,
-					JROrigin.TITLE
+					BandTypeEnum.TITLE
 					)
 				);
 		}
@@ -475,7 +476,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			pageHeader.setOrigin(
 				new JROrigin(
 					reportName,
-					JROrigin.PAGE_HEADER
+					BandTypeEnum.PAGE_HEADER
 					)
 				);
 		}
@@ -486,7 +487,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			columnHeader.setOrigin(
 				new JROrigin(
 					reportName,
-					JROrigin.COLUMN_HEADER
+					BandTypeEnum.COLUMN_HEADER
 					)
 				);
 		}
@@ -497,7 +498,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			detailSection.setOrigin(
 				new JROrigin(
 					reportName,
-					JROrigin.DETAIL
+					BandTypeEnum.DETAIL
 					)
 				);
 		}
@@ -508,7 +509,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			columnFooter.setOrigin(
 				new JROrigin(
 					reportName,
-					JROrigin.COLUMN_FOOTER
+					BandTypeEnum.COLUMN_FOOTER
 					)
 				);
 		}
@@ -519,7 +520,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			pageFooter.setOrigin(
 				new JROrigin(
 					reportName,
-					JROrigin.PAGE_FOOTER
+					BandTypeEnum.PAGE_FOOTER
 					)
 				);
 		}
@@ -530,7 +531,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			lastPageFooter.setOrigin(
 				new JROrigin(
 					reportName,
-					JROrigin.LAST_PAGE_FOOTER
+					BandTypeEnum.LAST_PAGE_FOOTER
 					)
 				);
 		}
@@ -545,7 +546,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			summary.setOrigin(
 				new JROrigin(
 					reportName,
-					JROrigin.SUMMARY
+					BandTypeEnum.SUMMARY
 					)
 				);
 		}
@@ -556,7 +557,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			noData.setOrigin(
 				new JROrigin(
 					reportName,
-					JROrigin.NO_DATA
+					BandTypeEnum.NO_DATA
 					)
 				);
 		}

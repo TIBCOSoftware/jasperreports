@@ -41,12 +41,10 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGraphicElement;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
-import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReport;
@@ -879,59 +877,6 @@ public class JRApiConstants
 	public static String getSplitType(Byte key)
 	{
 		return (String)getSplitTypeMap().get(key);
-	}
-	
-	private static Map bandTypeMap = null;
-
-	public static Map getBandTypeMap()
-	{
-		if (bandTypeMap == null)
-		{
-			Map map = new HashMap(20);
-			map.put(new Byte(JROrigin.UNKNOWN),          "JROrigin.UNKNOWN");
-			map.put(new Byte(JROrigin.BACKGROUND),       "JROrigin.BACKGROUND");
-			map.put(new Byte(JROrigin.TITLE),            "JROrigin.TITLE");
-			map.put(new Byte(JROrigin.PAGE_HEADER),      "JROrigin.PAGE_HEADER");
-			map.put(new Byte(JROrigin.COLUMN_HEADER),    "JROrigin.COLUMN_HEADER");
-			map.put(new Byte(JROrigin.GROUP_HEADER),     "JROrigin.GROUP_HEADER");
-			map.put(new Byte(JROrigin.DETAIL),           "JROrigin.DETAIL");
-			map.put(new Byte(JROrigin.GROUP_FOOTER),     "JROrigin.GROUP_FOOTER");
-			map.put(new Byte(JROrigin.COLUMN_FOOTER),    "JROrigin.COLUMN_FOOTER");
-			map.put(new Byte(JROrigin.PAGE_FOOTER),      "JROrigin.PAGE_FOOTER");
-			map.put(new Byte(JROrigin.LAST_PAGE_FOOTER), "JROrigin.LAST_PAGE_FOOTER");
-			map.put(new Byte(JROrigin.SUMMARY),          "JROrigin.SUMMARY");
-			map.put(new Byte(JROrigin.NO_DATA),          "JROrigin.NO_DATA");
-			bandTypeMap = Collections.unmodifiableMap(map);
-		}
-
-		return bandTypeMap;
-	}
-
-	public static String getBandType(Byte key)
-	{
-		return (String)getBandTypeMap().get(key);
-	}
-	
-	private static Map footerPositionMap = null;
-
-	public static Map getFooterPositionMap()
-	{
-		if (footerPositionMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(JRGroup.FOOTER_POSITION_NORMAL), 			"JRGroup.FOOTER_POSITION_NORMAL");
-			map.put(new Byte(JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM), 	"JRGroup.FOOTER_POSITION_STACK_AT_BOTTOM");
-			map.put(new Byte(JRGroup.FOOTER_POSITION_FORCE_AT_BOTTOM), 	"JRGroup.FOOTER_POSITION_FORCE_AT_BOTTOM");
-			map.put(new Byte(JRGroup.FOOTER_POSITION_COLLATE_AT_BOTTOM),"JRGroup.FOOTER_POSITION_COLLATE_AT_BOTTOM");
-			footerPositionMap = Collections.unmodifiableMap(map);
-		}
-
-		return footerPositionMap;
-	}
-
-	public static String getFooterPosition(Byte key)
-	{
-		return (String)getFooterPositionMap().get(key);
 	}
 	
 	private static Map chunkTypeMap = null;

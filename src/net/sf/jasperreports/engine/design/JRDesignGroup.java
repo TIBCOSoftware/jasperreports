@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseGroup;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
 
 
 /**
@@ -61,8 +62,8 @@ public class JRDesignGroup extends JRBaseGroup
 	 */
 	public JRDesignGroup() 
 	{
-		groupHeaderSection = new JRDesignSection(new JROrigin(null, getName(), JROrigin.GROUP_HEADER));
-		groupFooterSection = new JRDesignSection(new JROrigin(null, getName(), JROrigin.GROUP_FOOTER));
+		groupHeaderSection = new JRDesignSection(new JROrigin(null, getName(), BandTypeEnum.GROUP_HEADER));
+		groupFooterSection = new JRDesignSection(new JROrigin(null, getName(), BandTypeEnum.GROUP_FOOTER));
 	}
 	
 	/**
@@ -172,7 +173,23 @@ public class JRDesignGroup extends JRBaseGroup
 		getEventSupport().firePropertyChange(PROPERTY_COUNT_VARIABLE, old, this.countVariable);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setSectionOrigin(JRSection, BandTypeEnum)}
+	 */
 	protected void setSectionOrigin(JRSection section, byte type)
+	{
+		setSectionOrigin(section, BandTypeEnum.getByValue(type));
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setBandOrigin(JRBand, BandTypeEnum)}.
+s	 */
+	protected void setBandOrigin(JRBand band, byte type)
+	{
+		setBandOrigin(band, BandTypeEnum.getByValue(type));
+	}
+	
+	protected void setSectionOrigin(JRSection section, BandTypeEnum type)
 	{
 		if (section instanceof JRDesignSection)
 		{
@@ -181,7 +198,7 @@ public class JRDesignGroup extends JRBaseGroup
 		}
 	}
 	
-	protected void setBandOrigin(JRBand band, byte type)
+	protected void setBandOrigin(JRBand band, BandTypeEnum type)
 	{
 		if (band instanceof JRDesignBand)
 		{
@@ -192,8 +209,8 @@ public class JRDesignGroup extends JRBaseGroup
 	
 	protected void updateSectionOrigins()
 	{
-		setSectionOrigin(getGroupHeaderSection(), JROrigin.GROUP_HEADER);
-		setSectionOrigin(getGroupFooterSection(), JROrigin.GROUP_FOOTER);
+		setSectionOrigin(getGroupHeaderSection(), BandTypeEnum.GROUP_HEADER);
+		setSectionOrigin(getGroupFooterSection(), BandTypeEnum.GROUP_FOOTER);
 	}
 
 }
