@@ -60,53 +60,10 @@ public class SimpleFontExtensionsRegistryFactory implements ExtensionsRegistryFa
 			JRProperties.PropertySuffix fontFamiliesProp = (JRProperties.PropertySuffix) it.next();
 			//String fontFamiliesName = fontFamiliesProp.getSuffix();
 			String fontFamiliesLocation = fontFamiliesProp.getValue();
-			fontFamilies.addAll(SimpleFontExtensionParser.getInstance().loadFontFamilies(fontFamiliesLocation));
+			fontFamilies.addAll(SimpleFontExtensionHelper.getInstance().loadFontFamilies(fontFamiliesLocation));
 		}
 		
 		return new FontExtensionsRegistry(fontFamilies);
 	}
-
-	/**
-	 * 
-	 *
-	public static void saveToJar(ChartThemeSettings settings, String themeName, File file) throws IOException
-	{
-		FileOutputStream fos = null;
-
-		try
-		{
-			fos = new FileOutputStream(file);
-			ZipOutputStream zipos = new ZipOutputStream(fos);
-			zipos.setMethod(ZipOutputStream.DEFLATED);
-			
-			ZipEntry propsEntry = new ZipEntry("jasperreports_extension.properties");
-			zipos.putNextEntry(propsEntry);
-			Properties props = new Properties();
-			props.put(PROPERTY_XML_CHART_THEME_REGISTRY_FACTORY, SimpleFontExtensionsRegistryFactory2.class.getName());
-			props.put(XML_CHART_THEME_PROPERTY_PREFIX + themeName, themeName + ".jrctx");
-			props.store(zipos, null);
-
-			ZipEntry jrctxEntry = new ZipEntry(themeName + ".jrctx");
-			zipos.putNextEntry(jrctxEntry);
-			XmlChartTheme.saveSettings(settings, new OutputStreamWriter(zipos));
-
-			zipos.flush();
-			zipos.finish();
-		}
-		finally
-		{
-			if (fos != null)
-			{
-				try
-				{
-					fos.close();
-				}
-				catch (IOException e)
-				{
-				}
-			}
-		}
-	}
-	*/
 
 }

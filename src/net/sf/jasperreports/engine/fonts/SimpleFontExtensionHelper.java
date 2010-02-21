@@ -28,7 +28,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -54,9 +58,9 @@ import org.xml.sax.SAXParseException;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRStyledTextParser.java 3082 2009-10-02 12:11:22Z teodord $
  */
-public class SimpleFontExtensionParser implements ErrorHandler
+public class SimpleFontExtensionHelper implements ErrorHandler
 {
-	private static final Log log = LogFactory.getLog(SimpleFontExtensionParser.class);
+	private static final Log log = LogFactory.getLog(SimpleFontExtensionHelper.class);
 
 	/**
 	 *
@@ -68,7 +72,12 @@ public class SimpleFontExtensionParser implements ErrorHandler
 	private static final String NODE_boldItalic = "boldItalic";
 	private static final String NODE_pdfEncoding = "pdfEncoding";
 	private static final String NODE_pdfEmbedded = "pdfEmbedded";
+	private static final String NODE_exportFonts = "exportFonts";
+	private static final String NODE_export = "export";
+	private static final String NODE_locales = "locales";
+	private static final String NODE_locale = "locale";
 	private static final String ATTRIBUTE_name = "name";
+	private static final String ATTRIBUTE_key = "key";
 
 	/**
 	 * Thread local soft cache of instances.
@@ -80,17 +89,17 @@ public class SimpleFontExtensionParser implements ErrorHandler
 	 * 
 	 * @return a cached instance
 	 */
-	public static SimpleFontExtensionParser getInstance()
+	public static SimpleFontExtensionHelper getInstance()
 	{
-		SimpleFontExtensionParser instance = null;
+		SimpleFontExtensionHelper instance = null;
 		SoftReference instanceRef = (SoftReference) threadInstances.get();
 		if (instanceRef != null)
 		{
-			instance = (SimpleFontExtensionParser) instanceRef.get();
+			instance = (SimpleFontExtensionHelper) instanceRef.get();
 		}
 		if (instance == null)
 		{
-			instance = new SimpleFontExtensionParser();
+			instance = new SimpleFontExtensionHelper();
 			threadInstances.set(new SoftReference(instance));
 		}
 		return instance;
@@ -105,7 +114,7 @@ public class SimpleFontExtensionParser implements ErrorHandler
 	/**
 	 *
 	 */
-	private SimpleFontExtensionParser()
+	private SimpleFontExtensionHelper()
 	{
 		try
 		{
@@ -243,10 +252,69 @@ public class SimpleFontExtensionParser implements ErrorHandler
 				{
 					fontFamily.setPdfEmbedded(Boolean.valueOf(node.getTextContent()));
 				}
+				else if (NODE_exportFonts.equals(node.getNodeName()))
+				{
+					fontFamily.setExportFonts(parseExportFonts(node));
+				}
+				else if (NODE_locales.equals(node.getNodeName()))
+				{
+					fontFamily.setLocales(parseLocales(node));
+				}
 			}
 		}
 		
 		return fontFamily;
+	}
+
+	/**
+	 *
+	 */
+	private Map parseExportFonts(Node exportFontsNode) throws SAXException
+	{
+		Map exportFonts = new HashMap();
+		
+		NodeList nodeList = exportFontsNode.getChildNodes();
+		for(int i = 0; i < nodeList.getLength(); i++)
+		{
+			Node node = nodeList.item(i);
+			if (
+				node.getNodeType() == Node.ELEMENT_NODE
+				&& NODE_export.equals(node.getNodeName())
+				)
+			{
+				NamedNodeMap nodeAttrs = node.getAttributes();
+				
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_key) != null)
+				{
+					exportFonts.put(nodeAttrs.getNamedItem(ATTRIBUTE_key).getNodeValue(), node.getTextContent());
+				}
+			}
+		}
+		
+		return exportFonts;
+	}
+
+	/**
+	 *
+	 */
+	private Set parseLocales(Node localesNode) throws SAXException
+	{
+		Set locales = new HashSet();
+		
+		NodeList nodeList = localesNode.getChildNodes();
+		for(int i = 0; i < nodeList.getLength(); i++)
+		{
+			Node node = nodeList.item(i);
+			if (
+				node.getNodeType() == Node.ELEMENT_NODE
+				&& NODE_locale.equals(node.getNodeName())
+				)
+			{
+				locales.add(node.getTextContent());
+			}
+		}
+		
+		return locales;
 	}
 
 

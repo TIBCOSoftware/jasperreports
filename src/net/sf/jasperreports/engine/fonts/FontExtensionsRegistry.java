@@ -41,12 +41,6 @@ public class FontExtensionsRegistry implements ExtensionsRegistry
 		this.fontFamilies = fontFamilies;
 	}
 	
-//	public FontExtensionsRegistry(FontFamily fontFamily)
-//	{
-//		this.fontFamilies = new ArrayList(1);
-//		this.fontFamilies.add(fontFamily);
-//	}
-	
 	public List getExtensions(Class extensionType)
 	{
 		if (FontFamily.class.equals(extensionType)) {
