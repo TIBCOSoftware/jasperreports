@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<fontFamilies>
 
-	<bean id="gentiumFamily" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
-		<property name="name" value="Gentium"/>
-		<property name="normal" value="gentium/GenR102.TTF"/>
-		<property name="italic" value="gentium/GenI102.TTF"/>
-		<property name="pdfEncoding" value="Identity-H"/>
-		<property name="pdfEmbedded" value="true"/>
-		<property name="exportFonts">
-			<map>
-				<entry key="net.sf.jasperreports.html">
-					<value>Gentium, 'Times New Roman', Times, serif</value>
-				</entry>
-			</map>
-		</property>
-	</bean>
+	<fontFamily name="Gentium">
+		<normal>gentium/GenR102.TTF</normal>
+		<italic>gentium/GenI102.TTF</italic>
+		<pdfEncoding>Identity-H</pdfEncoding>
+		<pdfEmbedded>true</pdfEmbedded>
+		<exportFonts>
+			<export key="net.sf.jasperreports.html">Gentium, 'Times New Roman', Times, serif</export>
+			<export key="net.sf.jasperreports.xhtml">Gentium, 'Times New Roman', Times, serif</export>
+		</exportFonts>
+	</fontFamily>
 
-</beans>
+</fontFamilies>
