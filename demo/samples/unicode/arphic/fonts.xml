@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<fontFamilies>
 
-	<bean id="AR_PL_KaitiM_GB_Family" class="net.sf.jasperreports.engine.fonts.SimpleFontFamily">
-		<property name="name" value="AR PL KaitiM GB"/>
-		<property name="normal" value="arphic/gkai00mp.ttf"/>
-		<property name="pdfEncoding" value="Identity-H"/>
-		<property name="pdfEmbedded" value="true"/>
-		<property name="exportFonts">
-			<map>
-				<entry key="net.sf.jasperreports.html">
-					<value>'AR PL KaitiM GB', 'Times New Roman', Times, serif</value>
-				</entry>
-			</map>
-		</property>
-	</bean>
+	<fontFamily name="AR PL KaitiM GB">
+		<normal>arphic/gkai00mp.ttf</normal>
+		<pdfEncoding>Identity-H"</pdfEncoding>
+		<pdfEmbedded>true"</pdfEmbedded>
+		<exportFonts>
+			<export key="net.sf.jasperreports.html">'AR PL KaitiM GB', 'Times New Roman', Times, serif</export>
+		</exportFonts>
+	</fontFamily>
 
-</beans>
+</fontFamilies>
