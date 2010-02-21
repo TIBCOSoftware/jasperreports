@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 
 
@@ -85,7 +86,7 @@ public class JRFillGroup implements JRGroup
 				new JROrigin(
 					reportName,
 					group.getName(),
-					JROrigin.GROUP_HEADER
+					BandTypeEnum.GROUP_HEADER
 					)
 				);
 		}
@@ -97,7 +98,7 @@ public class JRFillGroup implements JRGroup
 				new JROrigin(
 					reportName,
 					group.getName(),
-					JROrigin.GROUP_FOOTER
+					BandTypeEnum.GROUP_FOOTER
 					)
 				);
 		}

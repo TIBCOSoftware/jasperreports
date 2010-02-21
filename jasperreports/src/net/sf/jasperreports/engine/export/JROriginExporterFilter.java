@@ -38,9 +38,9 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintElement;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -136,8 +136,8 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 			{
 				PropertySuffix propertySuffix = (PropertySuffix)it.next();
 				String suffix = propertySuffix.getSuffix();
-				Byte bandType = 
-					(Byte)JRXmlConstants.getBandTypeMap().get(
+				BandTypeEnum bandType = 
+					BandTypeEnum.getByName(
 						JRProperties.getProperty(propertiesMap, propertySuffix.getKey())
 						);
 				if (bandType != null)
@@ -146,7 +146,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 						new JROrigin(
 							JRProperties.getProperty(propertiesMap, originFilterPrefix + REPORT_PREFIX + suffix),
 							JRProperties.getProperty(propertiesMap, originFilterPrefix + GROUP_PREFIX + suffix),
-							bandType.byteValue()
+							bandType
 							),
 						keepFirst
 						);

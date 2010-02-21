@@ -23,7 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.type.BandTypeEnum;
 
 
 /**
@@ -39,23 +43,59 @@ public class JROrigin implements JRCloneable, Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link BandTypeEnum#UNKNOWN}.
 	 */
 	public static final byte UNKNOWN = 0;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#BACKGROUND}.
+	 */
 	public static final byte BACKGROUND = 1;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#UNKNOWN}.
+	 */
 	public static final byte TITLE = 2;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#PAGE_HEADER}.
+	 */
 	public static final byte PAGE_HEADER = 3;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#COLUMN_HEADER}.
+	 */
 	public static final byte COLUMN_HEADER = 4;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#GROUP_HEADER}.
+	 */
 	public static final byte GROUP_HEADER = 5;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#DETAIL}.
+	 */
 	public static final byte DETAIL = 6;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#GROUP_FOOTER}.
+	 */
 	public static final byte GROUP_FOOTER = 7;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#COLUMN_FOOTER}.
+	 */
 	public static final byte COLUMN_FOOTER = 8;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#PAGE_FOOTER}.
+	 */
 	public static final byte PAGE_FOOTER = 9;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#LAST_PAGE_FOOTER}.
+	 */
 	public static final byte LAST_PAGE_FOOTER = 10;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#SUMMARY}.
+	 */
 	public static final byte SUMMARY = 11;
+	/**
+	 * @deprecated Replaced by {@link BandTypeEnum#NO_DATA}.
+	 */
 	public static final byte NO_DATA = 12;
 
-	private byte bandType = UNKNOWN;
+	private BandTypeEnum bandTypeValue = BandTypeEnum.UNKNOWN;
 	private String groupName = null;
 	private String reportName = null;
 	
@@ -65,7 +105,7 @@ public class JROrigin implements JRCloneable, Serializable
 	 * 
 	 */
 	public JROrigin(
-		byte bandType
+		BandTypeEnum bandType
 		)
 	{
 		this(null, null, bandType);
@@ -76,7 +116,7 @@ public class JROrigin implements JRCloneable, Serializable
 	 */
 	public JROrigin(
 		String reportName,
-		byte bandType
+		BandTypeEnum bandType
 		)
 	{
 		this(reportName, null, bandType);
@@ -88,18 +128,51 @@ public class JROrigin implements JRCloneable, Serializable
 	public JROrigin(
 		String reportName,
 		String groupName,
-		byte bandType
+		BandTypeEnum bandTypeValue
 		)
 	{
 		this.reportName = reportName;
 		this.groupName = groupName;
-		this.bandType = bandType;
+		this.bandTypeValue = bandTypeValue;
 
 		int hash = 17;
 		hash = 31 * hash + (reportName == null ? 0 : reportName.hashCode());
 		hash = 31 * hash + (groupName == null ? 0 : groupName.hashCode());
-		hash = 31 * hash + bandType;
+		hash = 31 * hash + bandTypeValue.hashCode();
 		hashCode = hash;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JROrigin(BandTypeEnum)}.
+	 */
+	public JROrigin(
+		byte bandType
+		)
+	{
+		this(null, null, BandTypeEnum.getByValue(bandType));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JROrigin(String, BandTypeEnum)}.
+	 */
+	public JROrigin(
+		String reportName,
+		byte bandType
+		)
+	{
+		this(reportName, null, BandTypeEnum.getByValue(bandType));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JROrigin(String, String, BandTypeEnum)}.
+	 */
+	public JROrigin(
+		String reportName,
+		String groupName,
+		byte bandType
+		)
+	{
+		this(reportName, groupName, BandTypeEnum.getByValue(bandType));
 	}
 
 	/**
@@ -119,11 +192,19 @@ public class JROrigin implements JRCloneable, Serializable
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getBandTypeValue()}. 
 	 */
 	public byte getBandType()
 	{
-		return bandType;
+		return getBandTypeValue().getValue();
+	}
+	
+	/**
+	 * 
+	 */
+	public BandTypeEnum getBandTypeValue()
+	{
+		return bandTypeValue;
 	}
 	
 	/**
@@ -137,7 +218,7 @@ public class JROrigin implements JRCloneable, Serializable
 			String groupName2 = origin.getGroupName();
 			String reportName2 = origin.getReportName();
 			return
-				origin.getBandType() == bandType
+				origin.getBandTypeValue() == bandTypeValue
 				&& ((groupName == null && groupName2 == null) || (groupName.equals(groupName2)))
 				&& ((reportName == null && reportName2 == null) || (reportName.equals(reportName2)));
 		}
@@ -167,4 +248,21 @@ public class JROrigin implements JRCloneable, Serializable
 			throw new JRRuntimeException(e);
 		}
 	}
+
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte bandType;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			bandTypeValue = BandTypeEnum.getByValue(bandType);
+		}
+	}
+
 }

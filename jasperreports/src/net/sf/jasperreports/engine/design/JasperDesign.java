@@ -52,6 +52,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseReport;
 import net.sf.jasperreports.engine.design.events.PropagationChangeListener;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.util.JRElementsVisitor;
 import net.sf.jasperreports.engine.util.JRVisitorSupport;
 
@@ -177,7 +178,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		setMainDataset(new JRDesignDataset(true));
 		
-		detailSection = new JRDesignSection(new JROrigin(JROrigin.DETAIL));
+		detailSection = new JRDesignSection(new JROrigin(BandTypeEnum.DETAIL));
 	}
 
 
@@ -337,7 +338,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		Object old = this.background;
 		this.background = background;
-		setBandOrigin(this.background, JROrigin.BACKGROUND);
+		setBandOrigin(this.background, BandTypeEnum.BACKGROUND);
 		getEventSupport().firePropertyChange(PROPERTY_BACKGROUND, old, this.background);
 	}
 
@@ -349,7 +350,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		Object old = this.title;
 		this.title = title;
-		setBandOrigin(this.title, JROrigin.TITLE);
+		setBandOrigin(this.title, BandTypeEnum.TITLE);
 		getEventSupport().firePropertyChange(PROPERTY_TITLE, old, this.title);
 	}
 
@@ -375,7 +376,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		Object old = this.summary;
 		this.summary = summary;
-		setBandOrigin(this.summary, JROrigin.SUMMARY);
+		setBandOrigin(this.summary, BandTypeEnum.SUMMARY);
 		getEventSupport().firePropertyChange(PROPERTY_SUMMARY, old, this.summary);
 	}
 
@@ -386,7 +387,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		Object old = this.noData;
 		this.noData = noData;
-		setBandOrigin(this.noData, JROrigin.NO_DATA);
+		setBandOrigin(this.noData, BandTypeEnum.NO_DATA);
 		getEventSupport().firePropertyChange(PROPERTY_NO_DATA, old, this.noData);
 	}
 
@@ -438,7 +439,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		Object old = this.pageHeader;
 		this.pageHeader = pageHeader;
-		setBandOrigin(this.pageHeader, JROrigin.PAGE_HEADER);
+		setBandOrigin(this.pageHeader, BandTypeEnum.PAGE_HEADER);
 		getEventSupport().firePropertyChange(PROPERTY_PAGE_HEADER, old, this.pageHeader);
 	}
 
@@ -450,7 +451,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		Object old = this.pageFooter;
 		this.pageFooter = pageFooter;
-		setBandOrigin(this.pageFooter, JROrigin.PAGE_FOOTER);
+		setBandOrigin(this.pageFooter, BandTypeEnum.PAGE_FOOTER);
 		getEventSupport().firePropertyChange(PROPERTY_PAGE_FOOTER, old, this.pageFooter);
 	}
 
@@ -462,7 +463,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		Object old = this.lastPageFooter;
 		this.lastPageFooter = lastPageFooter;
-		setBandOrigin(this.lastPageFooter, JROrigin.LAST_PAGE_FOOTER);
+		setBandOrigin(this.lastPageFooter, BandTypeEnum.LAST_PAGE_FOOTER);
 		getEventSupport().firePropertyChange(PROPERTY_LAST_PAGE_FOOTER, old, this.lastPageFooter);
 	}
 
@@ -474,7 +475,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		Object old = this.columnHeader;
 		this.columnHeader = columnHeader;
-		setBandOrigin(this.columnHeader, JROrigin.COLUMN_HEADER);
+		setBandOrigin(this.columnHeader, BandTypeEnum.COLUMN_HEADER);
 		getEventSupport().firePropertyChange(PROPERTY_COLUMN_HEADER, old, this.columnHeader);
 	}
 
@@ -486,7 +487,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		Object old = this.columnFooter;
 		this.columnFooter = columnFooter;
-		setBandOrigin(this.columnFooter, JROrigin.COLUMN_FOOTER);
+		setBandOrigin(this.columnFooter, BandTypeEnum.COLUMN_FOOTER);
 		getEventSupport().firePropertyChange(PROPERTY_COLUMN_FOOTER, old, this.columnFooter);
 	}
 
@@ -1293,7 +1294,23 @@ public class JasperDesign extends JRBaseReport
 		return (JRReportTemplate[]) templateList.toArray(new JRReportTemplate[templateList.size()]);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setBandOrigin(JRBand, BandTypeEnum)}.
+	 */
 	protected void setBandOrigin(JRBand band, byte type)
+	{
+		setBandOrigin(band, BandTypeEnum.getByValue(type));
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setSectionOrigin(JRBand, BandTypeEnum)}.
+	 */
+	protected void setSectionOrigin(JRSection section, byte type)
+	{
+		setSectionOrigin(section, BandTypeEnum.getByValue(type));
+	}
+	
+	protected void setBandOrigin(JRBand band, BandTypeEnum type)
 	{
 		if (band instanceof JRDesignBand)
 		{
@@ -1302,7 +1319,7 @@ public class JasperDesign extends JRBaseReport
 		}
 	}
 	
-	protected void setSectionOrigin(JRSection section, byte type)
+	protected void setSectionOrigin(JRSection section, BandTypeEnum type)
 	{
 		if (section instanceof JRDesignSection)
 		{

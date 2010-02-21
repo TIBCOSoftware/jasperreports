@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
 
 import org.xml.sax.Attributes;
 
@@ -45,7 +46,7 @@ public class JROriginFactory extends JRBaseFactory
 			new JROrigin(
 				atts.getValue(XmlConstants.ATTRIBUTE_report),
 				atts.getValue(XmlConstants.ATTRIBUTE_group),
-				((Byte)JRXmlConstants.getBandTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_band))).byteValue()
+				BandTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_band))
 				);
 	}
 	
