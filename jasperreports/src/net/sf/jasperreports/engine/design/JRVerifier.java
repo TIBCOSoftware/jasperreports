@@ -112,6 +112,7 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -3273,7 +3274,7 @@ public class JRVerifier
 			breakHeight = band.getHeight();
 			JRElement[] elements = band.getElements();
 			if (
-				JRBand.SPLIT_TYPE_IMMEDIATE.equals(band.getSplitType())
+				SplitTypeEnum.IMMEDIATE == band.getSplitTypeValue()
 				&& elements != null && elements.length > 0
 				)
 			{

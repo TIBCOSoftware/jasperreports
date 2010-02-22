@@ -7,6 +7,8 @@ JasperReports 3.7.2 (2010-03-xx, SVN xxxx)
 
 - Java 5.0 and type enums;
 
+- non-Spring font extension support;
+
 - minor bug fixes and improvements;
 
 

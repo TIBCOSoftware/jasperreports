@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.base.JRBaseBand;
+import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
 
 /**
@@ -54,7 +55,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 *
 	 */
 	protected int height = 0;
-	protected Byte splitType = null;
+	protected SplitTypeEnum splitTypeValue = null;
 
 	/**
 	 *
@@ -98,21 +99,37 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getSplitTypeValue()}.
 	 */
 	public Byte getSplitType()
 	{
-		return splitType;
+		return getSplitTypeValue() == null ? null : getSplitTypeValue().getValueByte();
 	}
 
 	/**
 	 *
 	 */
+	public SplitTypeEnum getSplitTypeValue()
+	{
+		return splitTypeValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setSplitType(SplitTypeEnum)}.
+	 */
 	public void setSplitType(Byte splitType)
 	{
-		Byte old = this.splitType;
-		this.splitType = splitType;
-		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_SPLIT_TYPE, old, this.splitType);
+		setSplitType(SplitTypeEnum.getByValue(splitType));
+	}
+
+	/**
+	 *
+	 */
+	public void setSplitType(SplitTypeEnum splitTypeValue)
+	{
+		SplitTypeEnum old = this.splitTypeValue;
+		this.splitTypeValue = splitTypeValue;
+		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_SPLIT_TYPE, old, this.splitTypeValue);
 	}
 
 	/**
@@ -176,9 +193,11 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_5_2;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
 	private boolean isSplitAllowed = true;
+	private Byte splitType = null;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
@@ -186,6 +205,13 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_5_2)
 		{
 			splitType = isSplitAllowed ? JRBand.SPLIT_TYPE_STRETCH : JRBand.SPLIT_TYPE_PREVENT;
+		}
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)//FIXMEENUM check order of ifs for all
+		{
+			splitTypeValue = SplitTypeEnum.getByValue(splitType);
+			
+			splitType = null;
 		}
 	}
 

@@ -35,8 +35,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -73,7 +73,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 
 	protected JROrigin origin = null;
 	
-	private Byte splitType = null;
+	private SplitTypeEnum splitType = null;
 	private int breakHeight = 0;
 
 	
@@ -98,18 +98,18 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 			}
 		}
 
-		splitType = (parent == null ? null : parent.getSplitType());
+		splitType = (parent == null ? null : parent.getSplitTypeValue());
 		if (splitType == null)
 		{
 			splitType = 
-				(Byte)JRXmlConstants.getSplitTypeMap().get(
+				SplitTypeEnum.getByName(
 					JRProperties.getProperty(filler.getJasperReport(), JRBand.PROPERTY_SPLIT_TYPE)
 					);
 		}
 		
 		breakHeight = getHeight();
 		if (
-			JRBand.SPLIT_TYPE_IMMEDIATE.equals(getSplitType())
+			SplitTypeEnum.IMMEDIATE == getSplitTypeValue()
 			&& elements != null && elements.length > 0
 			)
 		{
@@ -234,18 +234,35 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getSplitTypeValue()}.
 	 */
 	public Byte getSplitType()
 	{
-		return splitType;
+		return getSplitTypeValue() == null ? null : getSplitTypeValue().getValueByte();
 	}
 
 	/**
 	 *
 	 */
+	public SplitTypeEnum getSplitTypeValue()
+	{
+		return splitType;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setSplitType(SplitTypeEnum)}.
+	 */
 	public void setSplitType(Byte splitType)
 	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 *
+	 */
+	public void setSplitType(SplitTypeEnum splitType)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -261,7 +278,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	protected boolean isSplitPrevented()
 	{
-		return JRBand.SPLIT_TYPE_PREVENT.equals(getSplitType());
+		return SplitTypeEnum.PREVENT == getSplitTypeValue();
 	}
 
 	/**
