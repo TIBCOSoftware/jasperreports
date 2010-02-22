@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 
@@ -45,18 +46,21 @@ public interface JRBand extends JRElementGroup
 	/**
 	 * The band is allowed to split, but never within its declared height. 
 	 * This means the band splits only when its content stretches.
+	 * @deprecated Replaced by {@link SplitTypeEnum#STRETCH}.
 	 */
 	public static final Byte SPLIT_TYPE_STRETCH = new Byte((byte)1);
 
 	/**
 	 * Prevents the band from splitting on first break attempt. 
 	 * On subsequent pages/columns, the band is allowed to split, to avoid infinite loops.
+	 * @deprecated Replaced by {@link SplitTypeEnum#PREVENT}.
 	 */
 	public static final Byte SPLIT_TYPE_PREVENT = new Byte((byte)2);
 
 	/**
 	 * The band is allowed to split anywhere, as early as needed, 
 	 * but not before at least one element being printed on the current page/column.
+	 * @deprecated Replaced by {@link SplitTypeEnum#IMMEDIATE}.
 	 */
 	public static final Byte SPLIT_TYPE_IMMEDIATE = new Byte((byte)3);
 
@@ -79,13 +83,24 @@ public interface JRBand extends JRElementGroup
 
 	/**
 	 * Specifies the band split behavior.
+	 * @deprecated Replaced by {@link #getSplitTypeValue()}.
 	 */
 	public Byte getSplitType();
 
 	/**
-	 *
+	 * Specifies the band split behavior.
+	 */
+	public SplitTypeEnum getSplitTypeValue();
+
+	/**
+	 * @deprecated Replaced by {@link #setSplitType(SplitTypeEnum)}.
 	 */
 	public void setSplitType(Byte splitType);
+
+	/**
+	 *
+	 */
+	public void setSplitType(SplitTypeEnum splitType);
 
 	/**
 	 * Returns the boolean expression that specifies if the band will be displayed.

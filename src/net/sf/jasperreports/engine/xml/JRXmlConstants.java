@@ -72,6 +72,7 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -1508,15 +1509,27 @@ public class JRXmlConstants extends XmlConstants
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link SplitTypeEnum#STRETCH#getName()}.
 	 */
 	private static final String SPLIT_TYPE_STRETCH = "Stretch";
+	/**
+	 * @deprecated Replaced by {@link SplitTypeEnum#PREVENT#getName()}.
+	 */
 	private static final String SPLIT_TYPE_PREVENT = "Prevent";
+	/**
+	 * @deprecated Replaced by {@link SplitTypeEnum#IMMEDIATE#getName()}.
+	 */
 	private static final String SPLIT_TYPE_IMMEDIATE = "Immediate";
 
 	
+	/**
+	 * @deprecated Replaced by {@link SplitTypeEnum}.
+	 */
 	private static Map splitTypeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link SplitTypeEnum}.
+	 */
 	public static Map getSplitTypeMap()
 	{
 		if (splitTypeMap == null)

@@ -23,8 +23,8 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.design.JRDesignBand;
+import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,15 +60,15 @@ public class JRBandFactory extends JRBaseFactory
 				
 			if (Boolean.valueOf(isSplitAllowed).booleanValue())
 			{
-				band.setSplitType(JRBand.SPLIT_TYPE_STRETCH);
+				band.setSplitType(SplitTypeEnum.STRETCH);
 			}
 			else
 			{
-				band.setSplitType(JRBand.SPLIT_TYPE_PREVENT);
+				band.setSplitType(SplitTypeEnum.PREVENT);
 			}
 		}
 
-		Byte splitType = (Byte)JRXmlConstants.getSplitTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_splitType));
+		SplitTypeEnum splitType = SplitTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_splitType));
 		if (splitType != null)
 		{
 			band.setSplitType(splitType);

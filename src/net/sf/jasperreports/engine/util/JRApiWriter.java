@@ -803,7 +803,7 @@ public class JRApiWriter
 			write( "//band name = " + bandName +"\n\n");
 			write( "JRDesignBand " + bandName + " = new JRDesignBand();\n");
 			write( bandName + ".setHeight({0, number, #});\n", band.getHeight());
-			write( bandName + ".setSplitType({0});\n", JRApiConstants.getSplitType(band.getSplitType()));
+			write( bandName + ".setSplitType({0});\n", band.getSplitTypeValue());
 			writeExpression( band.getPrintWhenExpression(), bandName, "PrintWhenExpression");
 
 			writeChildElements( band, bandName);
