@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.PenEnum;
 
 
@@ -70,10 +71,8 @@ public interface JRGraphicElement extends JRElement, JRCommonGraphicElement
 	 */
 	public static final byte PEN_THIN = 5;
 
-
 	/**
-	 * Constant useful for specifying that the inside of an element should be drawn using the background color. It
-	 * is ignored if the element draw mode is transparent.
+	 * @deprecated Replaced by {@link FillEnum#SOLID}.
 	 */
 	public static final byte FILL_SOLID = 1;
 
