@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 
@@ -104,93 +105,67 @@ public interface JRVariable extends JRCloneable
 
 
 	/**
-	 * The value is calculated by simply evaluating the variable expression.
+	 * @deprecated Replaced by {@link CalculationEnum#NOTHING}.
 	 */
 	public static final byte CALCULATION_NOTHING = 0;
 
 
 	/**
-	 * The value is calculated by counting the non-null values of the variable expression with every iteration in the data source.
-	 * The count variable must be numeric, but the variable expression needs not, since its value is not important.
-	 * On the other hand, the initial value expression must be numeric since it will be the count variable initial value.
+	 * @deprecated Replaced by {@link CalculationEnum#COUNT}.
 	 */
 	public static final byte CALCULATION_COUNT = 1;
 
 
 	/**
-	 * The value is calculated by summing up the values returned by the variable's expression. Both the main expression and initial
-	 * expression must have numeric type.
-	 *
+	 * @deprecated Replaced by {@link CalculationEnum#SUM}.
 	 */
 	public static final byte CALCULATION_SUM = 2;
 
 
 	/**
-	 * The value is obtained by calculating the average for the series of values obtained by evaluating the variable's
-	 * expression for each record in the data source. Both the main expression and initial expression must have numeric type.
-	 * <p>
-	 * In order to calculate the average, the engine creates behind the scenes a helper report variable that calculates
-	 * the sum of the values and uses it to calculate the average for those values. This helper sum variable gets its
-	 * name from the corresponding average variable suffixed with "_SUM" sequence. This helper variable can be used
-	 * in other report expressions just like any normal variable.
+	 * @deprecated Replaced by {@link CalculationEnum#AVERAGE}.
 	 */
 	public static final byte CALCULATION_AVERAGE = 3;
 
 
 	/**
-	 * The value of the variable represents the lowest in the series of values obtained by evaluating the variable's
-	 * expression for each data source record.
+	 * @deprecated Replaced by {@link CalculationEnum#LOWEST}.
 	 */
 	public static final byte CALCULATION_LOWEST = 4;
 
 
 	/**
-	 * The value of the variable represents the highest in the series of values obtained by evaluating the variable's
-	 * expression for each data source record.
+	 * @deprecated Replaced by {@link CalculationEnum#HIGHEST}.
 	 */
 	public static final byte CALCULATION_HIGHEST = 5;
 
 
 	/**
-	 * The value is obtained by calculating the standard deviation for the series of values returned by evaluating the
-	 * variable's expression.
-	 * <p>
-	 * Just like for the variables that calculate the average, the engine creates and uses helper report variables
-	 * for first obtaining the sum and the count that correspond to your current series of values. The name for
-	 * those helper variables that are created behind the scenes is obtained by suffixing the user variable with
-	 * the "_SUM" or "_COUNT" suffix and they can be used in other report expressions like any other report variable.
-	 * <p>
-	 * For variables that calculate the standard deviation, there is always a helper variable present, that first
-	 * calculates the variance for the series of values and it has the "_VARIANCE" suffix added to its name.
+	 * @deprecated Replaced by {@link CalculationEnum#STANDARD_DEVIATION}.
 	 */
 	public static final byte CALCULATION_STANDARD_DEVIATION = 6;
 
 
 	/**
-	 * The value is obtained by calculating the variance for the series of values returned by evaluating the
-	 * variable's expression.
+	 * @deprecated Replaced by {@link CalculationEnum#VARIANCE}.
 	 */
 	public static final byte CALCULATION_VARIANCE = 7;
 
 
 	/**
-	 * The value is not calculated by JasperReports. The user must calculate the value of the variable, almost
-	 * certainly using the scriptlets functionality. For this type of calculation, the only thing the engine does is
-	 * to conserve the value users have calculated, from one iteration in the data source to the next.
+	 * @deprecated Replaced by {@link CalculationEnum#SYSTEM}.
 	 */
 	public static final byte CALCULATION_SYSTEM = 8;
 	
 	
 	/**
-	 * The variable keeps the first value and does not increment it on subsequent iterations.
+	 * @deprecated Replaced by {@link CalculationEnum#FIRST}.
 	 */
 	public static final byte CALCULATION_FIRST = 9;
 
 
 	/**
-	 * The value is calculated by counting the distinct non-null values of the variable expression with every iteration in the data source.
-	 * The count variable must be numeric, but the variable expression needs not, since its value is not important.
-	 * On the other hand, the initial value expression must be numeric since it will be the count variable initial value.
+	 * @deprecated Replaced by {@link CalculationEnum#DISTINCT_COUNT}.
 	 */
 	public static final byte CALCULATION_DISTINCT_COUNT = 10;
 
