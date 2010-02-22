@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 
 
@@ -60,13 +61,13 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 
 
 	/**
-	 * Specifies a portrait orientation. This is used mostly to inform printers of page layouts.
+	 * @deprecated Replaced by {@link OrientationEnum#PORTRAIT}.
 	 */
 	public static final byte ORIENTATION_PORTRAIT = 1;
 
 
 	/**
-	 * Specifies a landscape orientation. This is used mostly to inform printers of page layouts.
+	 * @deprecated Replaced by {@link OrientationEnum#LANDSCAPE}.
 	 */
 	public static final byte ORIENTATION_LANDSCAPE = 2;
 
@@ -155,9 +156,17 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public int getPageHeight();
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link getOrientationValue()}.
 	 */
 	public byte getOrientation();
+
+	//TODO: uncomment these below
+	
+//	/**
+//	 * Specifies whether document pages will be rendered in a portrait or landscape layout.
+//	 * @return a value representing one of the orientation constants in {@link OrientationEnum}
+//	 */
+//	public OrientationEnum getOrientationValue();
 
 	/**
 	 * Specifies the report behavior in case of empty datasources.

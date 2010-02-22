@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PenEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
@@ -912,13 +913,22 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link OrientationEnum#PORTRAIT#getName()}.
 	 */
 	private static final String ORIENTATION_PORTRAIT = "Portrait";
+	/**
+	 * @deprecated Replaced by {@link OrientationEnum#LANDSCAPE#getName()}.
+	 */
 	private static final String ORIENTATION_LANDSCAPE = "Landscape";
 
+	/**
+	 * @deprecated Replaced by {@link OrientationEnum}.
+	 */
 	private static Map orientationMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link OrientationEnum}.
+	 */
 	public static Map getOrientationMap()
 	{
 		if (orientationMap == null)
