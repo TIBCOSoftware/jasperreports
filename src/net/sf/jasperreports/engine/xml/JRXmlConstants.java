@@ -66,6 +66,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.PenEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -879,13 +880,22 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link PrintOrderEnum#VERTICAL#getName()}.
 	 */
 	private static final String PRINT_ORDER_VERTICAL = "Vertical";
+	/**
+	 * @deprecated Replaced by {@link PrintOrderEnum#HORIZONTAL#getName()}.
+	 */
 	private static final String PRINT_ORDER_HORIZONTAL = "Horizontal";
 
+	/**
+	 * @deprecated Replaced by {@link PrintOrderEnum}.
+	 */
 	private static Map printOrderMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link PrintOrderEnum}.
+	 */
 	public static Map getPrintOrderMap()
 	{
 		if (printOrderMap == null)
