@@ -55,6 +55,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -714,12 +715,18 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link FillEnum#SOLID#getName()}.
 	 */
 	private static final String FILL_SOLID = "Solid";
 
+	/**
+	 * @deprecated Replaced by {@link FillEnum}.
+	 */
 	private static Map fillMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link FillEnum}.
+	 */
 	public static Map getFillMap()
 	{
 		if (fillMap == null)

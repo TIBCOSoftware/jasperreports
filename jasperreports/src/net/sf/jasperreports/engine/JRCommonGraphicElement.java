@@ -48,19 +48,43 @@ public interface JRCommonGraphicElement extends JRCommonElement, JRPenContainer
 //	public PenEnum getLinePenValue();
 
 	/**
-	 * Indicates the fill type used for this element.
-	 * @return one of the pen constants in this class
+	 * @deprecated Replaced by {@link getFillValue()}.
 	 */
 	public byte getFill();
 
+	/**
+	 * @deprecated Replaced by {@link getOwnFillValue()}.
+	 */
 	public Byte getOwnFill();
 	
 	/**
-	 * Sets the fill type used for this element.
-	 * @param fill one of the pen constants in this class
+	 * @deprecated Replaced by {@link setFill(FillEnum)}.
 	 */
 	public void setFill(byte fill);
 	
+	/**
+	 * @deprecated Replaced by {@link setFill(FillEnum)}.
+	 */
 	public void setFill(Byte fill);
 
+	//TODO: uncomment these below
+	
+//	/**
+//	 * Indicates the fill type used for this element.
+//	 * @return a value representing one of the fill type constants in {@link FillEnum}
+//	 */
+//	public FillEnum getFillValue();
+//	
+//	/**
+//	 * Indicates the own fill type used for this element.
+//	 * @return a value representing one of the fill type constants in {@link FillEnum}
+//	 */
+//	public FillEnum getOwnFillValue();
+//	
+//	/**
+//	 * Sets the fill type used for this element.
+//	 * @param fillEnum a value representing one of the line direction constants in {@link FillEnum}
+//	 */
+//	public void setDirection(FillEnum fillEnum);
+	
 }
