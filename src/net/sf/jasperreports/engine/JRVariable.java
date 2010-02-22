@@ -239,21 +239,29 @@ public interface JRVariable extends JRCloneable
 	//TODO: uncomment these below
 	
 //	/**
-//	 * Returns the variable reset type.
+//	 * Gets the variable reset type.
 //	 * @return a value representing one of the reset type constants in {@link ResetTypeEnum}
 //	 */
 //	public ResetTypeEnum getResetTypeValue();
 //	
 //	/**
-//	 * Returns the variable increment type.
+//	 * Gets the variable increment type.
 //	 * @return a value representing one of the reset type constants in {@link ResetTypeEnum}
 //	 */
 //	public ResetTypeEnum getIncrementTypeValue();
 	
 	/**
-	 * Returns the variable calculation type. This value must be one of the calculation constants declared in this class.
+	 * @deprecated Replaced by {@link getCalculationValue()}.
 	 */
 	public byte getCalculation();
+
+	//TODO: uncomment these below
+	
+//	/**
+//	 * Gets the variable calculation type.
+//	 * @return a value representing one of the calculation type constants in {@link CalculationEnum}
+//	 */
+//	public CalculationEnum getCalculationValue();
 
 	/**
 	 * Returns <code>true</code> if the variable calculation type is system defined.

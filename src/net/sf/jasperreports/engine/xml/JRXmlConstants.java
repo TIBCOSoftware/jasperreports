@@ -55,6 +55,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -792,22 +793,58 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link CalculationEnum#NOTHING#getName()}.
 	 */
 	private static final String CALCULATION_NOTHING = "Nothing";
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum#COUNT#getName()}.
+	 */
 	private static final String CALCULATION_COUNT = "Count";
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum#SUM#getName()}.
+	 */
 	private static final String CALCULATION_SUM = "Sum";
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum#AVERAGE#getName()}.
+	 */
 	private static final String CALCULATION_AVERAGE = "Average";
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum#LOWEST#getName()}.
+	 */
 	private static final String CALCULATION_LOWEST = "Lowest";
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum#HIGHEST#getName()}.
+	 */
 	private static final String CALCULATION_HIGHEST = "Highest";
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum#STANDARD_DEVIATION#getName()}.
+	 */
 	private static final String CALCULATION_STANDARD_DEVIATION = "StandardDeviation";
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum#VARIANCE#getName()}.
+	 */
 	private static final String CALCULATION_VARIANCE = "Variance";
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum#SYSTEM#getName()}.
+	 */
 	private static final String CALCULATION_SYSTEM = "System";
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum#FIRST#getName()}.
+	 */
 	private static final String CALCULATION_FIRST = "First";
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum#DISTINCT_COUNT#getName()}.
+	 */
 	private static final String CALCULATION_DISTINCT_COUNT = "DistinctCount";
 
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum}.
+	 */
 	private static Map calculationMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link CalculationEnum}.
+	 */
 	public static Map getCalculationMap()
 	{
 		if (calculationMap == null)
