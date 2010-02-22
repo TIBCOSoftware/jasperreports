@@ -65,6 +65,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.PenEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -741,16 +742,34 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link ResetTypeEnum#NONE#getName()}.
 	 */
 	private static final String RESET_TYPE_NONE = "None";
+	/**
+	 * @deprecated Replaced by {@link ResetTypeEnum#REPORT#getName()}.
+	 */
 	private static final String RESET_TYPE_REPORT = "Report";
+	/**
+	 * @deprecated Replaced by {@link ResetTypeEnum#PAGE#getName()}.
+	 */
 	private static final String RESET_TYPE_PAGE = "Page";
+	/**
+	 * @deprecated Replaced by {@link ResetTypeEnum#COLUMN#getName()}.
+	 */
 	private static final String RESET_TYPE_COLUMN = "Column";
+	/**
+	 * @deprecated Replaced by {@link ResetTypeEnum#GROUP#getName()}.
+	 */
 	private static final String RESET_TYPE_GROUP = "Group";
 
+	/**
+	 * @deprecated Replaced by {@link ResetTypeEnum}.
+	 */
 	private static Map resetTypeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link ResetTypeEnum}.
+	 */
 	public static Map getResetTypeMap()
 	{
 		if (resetTypeMap == null)

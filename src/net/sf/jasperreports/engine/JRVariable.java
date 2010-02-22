@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
+
 
 /**
  * An interface for implementing classes that deal with report variables. This interface defines constants for names of
@@ -71,41 +73,34 @@ public interface JRVariable extends JRCloneable
 	public static final String COLUMN_NUMBER = "COLUMN_NUMBER";
 
 
-
-
 	/**
-	 * The variable is initialized only once, at the beginning of the report filling process, with the value returned by
-	 * the variable's initial value expression.
+	 * @deprecated Replaced by {@link ResetTypeEnum#REPORT}.
 	 */
 	public static final byte RESET_TYPE_REPORT = 1;
 
 
 	/**
-	 * The variable is reinitialized at the beginning of each new page.
+	 * @deprecated Replaced by {@link ResetTypeEnum#PAGE}.
 	 */
 	public static final byte RESET_TYPE_PAGE = 2;
 
 
 	/**
-	 * The variable is reinitialized at the beginning of each new column.
+	 * @deprecated Replaced by {@link ResetTypeEnum#COLUMN}.
 	 */
 	public static final byte RESET_TYPE_COLUMN = 3;
 
 
 	/**
-	 * The variable is reinitialized every time the group specified by the {@link JRVariable#getResetGroup()} method breaks.
+	 * @deprecated Replaced by {@link ResetTypeEnum#GROUP}.
 	 */
 	public static final byte RESET_TYPE_GROUP = 4;
 
 
 	/**
-	 * The variable will never be initialized using its initial value expression and will only contain values obtained by
-	 * evaluating the variable's expression.
+	 * @deprecated Replaced by {@link ResetTypeEnum#NONE}.
 	 */
 	public static final byte RESET_TYPE_NONE = 5;
-
-
-
 
 
 	/**
@@ -232,16 +227,29 @@ public interface JRVariable extends JRCloneable
 	public String getIncrementerFactoryClassName();
 		
 	/**
-	 *  Returns the variable reset type. This value must be one of the reset type constants declared in this class.
+	 * @deprecated Replaced by {@link getResetTypeValue()}.
 	 */
 	public byte getResetType();
 		
 	/**
-	 * Returns the variable increment type. This value must be one of the reset type constants declared in this class, since the
-	 * increment type uses the same constants as the reset type.
+	 * @deprecated Replaced by {@link getIncrementTypeValue()}.
 	 */
 	public byte getIncrementType();
 		
+	//TODO: uncomment these below
+	
+//	/**
+//	 * Returns the variable reset type.
+//	 * @return a value representing one of the reset type constants in {@link ResetTypeEnum}
+//	 */
+//	public ResetTypeEnum getResetTypeValue();
+//	
+//	/**
+//	 * Returns the variable increment type.
+//	 * @return a value representing one of the reset type constants in {@link ResetTypeEnum}
+//	 */
+//	public ResetTypeEnum getIncrementTypeValue();
+	
 	/**
 	 * Returns the variable calculation type. This value must be one of the calculation constants declared in this class.
 	 */
