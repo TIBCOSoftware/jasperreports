@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
+
 
 /**
  * An abstract representation of a Jasper report. This interface is inherited by all report implementations
@@ -46,14 +48,13 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public static final String LANGUAGE_GROOVY = "groovy";
 
 	/**
-	 * Specifies that columns in a report should be filled vertically (fill an entire column and then go to the
-	 * next one).
+	 * @deprecated Replaced by {@link PrintOrderEnum#VERTICAL}.
 	 */
 	public static final byte PRINT_ORDER_VERTICAL = 1;
 
 
 	/**
-	 * Specifies that columns in a report should be filled horizontally (columns are filled proportionally).
+	 * @deprecated Replaced by {@link PrintOrderEnum#HORIZONTAL}.
 	 */
 	public static final byte PRINT_ORDER_HORIZONTAL = 2;
 
@@ -132,12 +133,17 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public int getColumnCount();
 
 	/**
-	 * Specifies whether columns will be filled horizontally or vertically.
-	 * @see JRReport PRINT_ORDER_VERTICAL,
-	 * @see JRReport PRINT_ORDER_HORIZONTAL
+	 * @deprecated Replaced by {@link getPrintOrderValue()}.
 	 */
 	public byte getPrintOrder();
 
+	//TODO: uncomment these below
+	
+//	/**
+//	 * Specifies whether columns will be filled horizontally or vertically.
+//	 * @return a value representing one of the print order constants in {@link PrintOrderEnum}
+//	 */
+//	public PrintOrderEnum getPrintOrderValue();
 	/**
 	 *
 	 */
