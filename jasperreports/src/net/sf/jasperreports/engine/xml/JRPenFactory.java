@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.xml.sax.Attributes;
@@ -58,7 +59,7 @@ public class JRPenFactory extends JRBaseFactory
 			pen.setLineWidth(Float.parseFloat(lineWidth));
 		}
 
-		Byte lineStyle = (Byte)JRXmlConstants.getLineStyleMap().get(atts.getValue(XmlConstants.ATTRIBUTE_lineStyle));
+		LineStyleEnum lineStyle = LineStyleEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_lineStyle));
 		if (lineStyle != null)
 		{
 			pen.setLineStyle(lineStyle);

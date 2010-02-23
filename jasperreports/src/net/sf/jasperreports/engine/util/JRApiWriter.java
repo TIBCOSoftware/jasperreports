@@ -3705,7 +3705,7 @@ public class JRApiWriter
 		if(pen != null)
 		{
 			write( penHolder + ".setLineWidth(new Float({0, number, #}f));\n", pen.getLineWidth());
-			write( penHolder + ".setLineStyle({0});\n", JRApiConstants.getLineStyle(pen.getLineStyle()));
+			write( penHolder + ".setLineStyle({0});\n", pen.getLineStyleValue());
 			write( penHolder + ".setLineColor({0});\n", getColorText(pen.getLineColor()));
 			flush();
 		}

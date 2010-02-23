@@ -2071,24 +2071,24 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 
 		String borderStyle = null;
-		switch (pen.getLineStyle().byteValue())
+		switch (pen.getLineStyleValue())
 		{
-			case JRPen.LINE_STYLE_DOUBLE :
+			case DOUBLE :
 			{
 				borderStyle = "double";
 				break;
 			}
-			case JRPen.LINE_STYLE_DOTTED :
+			case DOTTED :
 			{
 				borderStyle = "dotted";
 				break;
 			}
-			case JRPen.LINE_STYLE_DASHED :
+			case DASHED :
 			{
 				borderStyle = "dashed";
 				break;
 			}
-			case JRPen.LINE_STYLE_SOLID :
+			case SOLID :
 			default :
 			{
 				borderStyle = "solid";

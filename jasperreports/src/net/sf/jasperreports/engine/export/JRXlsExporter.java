@@ -942,17 +942,17 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		if (lineWidth > 0f)
 		{
-			switch (pen.getLineStyle().byteValue())
+			switch (pen.getLineStyleValue())
 			{
-				case JRPen.LINE_STYLE_DOUBLE :
+				case DOUBLE :
 				{
 					return HSSFCellStyle.BORDER_DOUBLE;
 				}
-				case JRPen.LINE_STYLE_DOTTED :
+				case DOTTED :
 				{
 					return HSSFCellStyle.BORDER_DOTTED;
 				}
-				case JRPen.LINE_STYLE_DASHED :
+				case DASHED :
 				{
 					if (lineWidth >= 1f)
 					{
@@ -961,7 +961,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 					return HSSFCellStyle.BORDER_DASHED;
 				}
-				case JRPen.LINE_STYLE_SOLID :
+				case SOLID :
 				default :
 				{
 					if (lineWidth >= 2f)

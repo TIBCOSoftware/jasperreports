@@ -36,9 +36,9 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 
 import net.sf.jasperreports.engine.JRLine;
-import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
@@ -75,7 +75,7 @@ public class LineDrawer extends ElementDrawer
 				else
 				{
 					//Vertical line
-					if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+					if (line.getLinePen().getLineStyleValue() ==LineStyleEnum.DOUBLE)
 					{
 						grx.translate(0.5 - lineWidth / 3, 0);
 						grx.drawLine(
@@ -111,7 +111,7 @@ public class LineDrawer extends ElementDrawer
 				if (line.getHeight() == 1)
 				{
 					//Horizontal line
-					if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+					if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 					{
 						grx.translate(0, 0.5 - lineWidth / 3);
 						grx.drawLine(
@@ -146,7 +146,7 @@ public class LineDrawer extends ElementDrawer
 					//Oblique line
 					if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
 					{
-						if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+						if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 						{
 							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
 							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
@@ -178,7 +178,7 @@ public class LineDrawer extends ElementDrawer
 					}
 					else
 					{
-						if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+						if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 						{
 							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
 							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 

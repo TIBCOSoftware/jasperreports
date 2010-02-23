@@ -617,7 +617,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
 		pen.setLineColor(rectangle.getLinePen().getLineColor());
-		pen.setLineStyle(rectangle.getLinePen().getLineStyle());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
 		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box

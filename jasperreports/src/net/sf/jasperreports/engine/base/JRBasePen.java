@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -33,6 +35,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -64,7 +67,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	 *
 	 */
 	protected Float lineWidth = null;
-	protected Byte lineStyle = null;
+	protected LineStyleEnum lineStyleValue = null;
 	protected Color lineColor = null;
 
 	
@@ -122,37 +125,61 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLineStyleValue()}.
 	 */
 	public Byte getLineStyle()
 	{
-		return JRStyleResolver.getLineStyle(this);
+		return getLineStyleValue().getValueByte();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnLineStyleValue()}.
 	 */
 	public Byte getOwnLineStyle()
 	{
-		return lineStyle;
+		return getOwnLineStyleValue() == null ? null : getOwnLineStyleValue().getValueByte();
 	}
 
 	/**
 	 *
+	 */
+	public LineStyleEnum getLineStyleValue()
+	{
+		return JRStyleResolver.getLineStyleValue(this);
+	}
+
+	/**
+	 *
+	 */
+	public LineStyleEnum getOwnLineStyleValue()
+	{
+		return lineStyleValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setLineStyle(LineStyleEnum)}.
 	 */
 	public void setLineStyle(byte lineStyle)
 	{
-		setLineStyle(new Byte(lineStyle));
+		setLineStyle(LineStyleEnum.getByValue(lineStyle));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setLineStyle(LineStyleEnum)}.
+	 */
+	public void setLineStyle(Byte lineStyle)
+	{
+		setLineStyle(LineStyleEnum.getByValue(lineStyle));
 	}
 
 	/**
 	 *
 	 */
-	public void setLineStyle(Byte lineStyle)
+	public void setLineStyle(LineStyleEnum lineStyleValue)
 	{
-		Object old = this.lineStyle;
-		this.lineStyle = lineStyle;
-		getEventSupport().firePropertyChange(PROPERTY_LINE_STYLE, old, this.lineStyle);
+		Object old = this.lineStyleValue;
+		this.lineStyleValue = lineStyleValue;
+		getEventSupport().firePropertyChange(PROPERTY_LINE_STYLE, old, this.lineStyleValue);
 	}
 
 	/**
@@ -221,4 +248,24 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 		
 		return eventSupport;
 	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private Byte lineStyle = null;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			lineStyleValue = LineStyleEnum.getByValue(lineStyle);
+			
+			lineStyle = null;
+		}
+	}
+
 }

@@ -36,10 +36,10 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
-import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
@@ -96,7 +96,7 @@ public class RectangleDrawer extends ElementDrawer
 			
 			AffineTransform oldTx = grx.getTransform();
 
-			if (rectangle.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			if (rectangle.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
 				float lineWidth = rectangle.getLinePen().getLineWidth().floatValue();
 				

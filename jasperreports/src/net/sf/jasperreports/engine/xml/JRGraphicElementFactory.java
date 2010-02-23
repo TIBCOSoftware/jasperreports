@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignGraphicElement;
+import net.sf.jasperreports.engine.type.PenEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
 import org.apache.commons.logging.Log;
@@ -52,7 +53,7 @@ public class JRGraphicElementFactory extends JRBaseFactory
 			graphicElement.setStretchType(stretchType.byteValue());
 		}
 
-		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_pen));
+		PenEnum pen = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_pen));
 		if (pen != null)
 		{
 			if (log.isWarnEnabled())

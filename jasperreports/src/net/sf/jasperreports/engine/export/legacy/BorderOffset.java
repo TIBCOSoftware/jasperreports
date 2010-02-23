@@ -32,6 +32,7 @@
 package net.sf.jasperreports.engine.export.legacy;
 
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
@@ -66,19 +67,19 @@ public abstract class BorderOffset
 			public float getValue(JRPen pen)
 			{
 				float lineWidth = pen.getLineWidth().floatValue();
-				byte lineStyle = pen.getLineStyle().byteValue();
+				LineStyleEnum lineStyle = pen.getLineStyleValue();
 				
 				if (
 					lineWidth == 0.5f 
-					&& lineStyle == JRPen.LINE_STYLE_SOLID
+					&& lineStyle == LineStyleEnum.SOLID
 					)
 				{
 					return 0.25f;
 				}
 				else if (
 						lineWidth == 1.0f 
-					&& (lineStyle == JRPen.LINE_STYLE_SOLID 
-						|| lineStyle == JRPen.LINE_STYLE_DASHED)
+					&& (lineStyle == LineStyleEnum.SOLID 
+						|| lineStyle == LineStyleEnum.DASHED)
 					)
 				{
 					return 0.5f;

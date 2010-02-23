@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -62,6 +61,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
@@ -401,9 +401,9 @@ public class ReportConverter
 		printFrame.setWidth(width);
 		printFrame.setHeight(1);
 		printFrame.getLineBox().getPen().setLineWidth(0);
-		printFrame.getLineBox().getPen().setLineStyle(JRPen.LINE_STYLE_SOLID);
+		printFrame.getLineBox().getPen().setLineStyle(LineStyleEnum.SOLID);
 		printFrame.getLineBox().getTopPen().setLineWidth(0.1f);
-		printFrame.getLineBox().getTopPen().setLineStyle(JRPen.LINE_STYLE_DASHED);
+		printFrame.getLineBox().getTopPen().setLineStyle(LineStyleEnum.DASHED);
 		printFrame.getLineBox().getTopPen().setLineColor(GRID_LINE_COLOR);
 		pageElements.add(0, printFrame);
 	}
@@ -419,9 +419,9 @@ public class ReportConverter
 		printFrame.setWidth(1);
 		printFrame.setHeight(height);
 		printFrame.getLineBox().getPen().setLineWidth(0);
-		printFrame.getLineBox().getPen().setLineStyle(JRPen.LINE_STYLE_SOLID);
+		printFrame.getLineBox().getPen().setLineStyle(LineStyleEnum.SOLID);
 		printFrame.getLineBox().getLeftPen().setLineWidth(0.1f);
-		printFrame.getLineBox().getLeftPen().setLineStyle(JRPen.LINE_STYLE_DASHED);
+		printFrame.getLineBox().getLeftPen().setLineStyle(LineStyleEnum.DASHED);
 		printFrame.getLineBox().getLeftPen().setLineColor(GRID_LINE_COLOR);
 		pageElements.add(0, printFrame);
 	}

@@ -95,19 +95,19 @@ public class XlsxBorderInfo
 
 		if (width > 0f)
 		{
-			switch (pen.getLineStyle().byteValue())
+			switch (pen.getLineStyleValue())
 			{
-				case JRPen.LINE_STYLE_DOUBLE :
+				case DOUBLE :
 				{
 					style = "double";
 					break;
 				}
-				case JRPen.LINE_STYLE_DOTTED :
+				case DOTTED :
 				{
 					style = "dotted";
 					break;
 				}
-				case JRPen.LINE_STYLE_DASHED :
+				case DASHED :
 				{
 					if (width >= 1f)
 					{
@@ -119,7 +119,7 @@ public class XlsxBorderInfo
 					}
 					break;
 				}
-				case JRPen.LINE_STYLE_SOLID :
+				case SOLID :
 				default :
 				{
 					if (width >= 2f)

@@ -146,19 +146,19 @@ public abstract class BorderStyle extends Style
 
 		if (width > 0f)
 		{
-			switch (pen.getLineStyle().byteValue())//FIXMEBORDER is this working? deal with double border too.
+			switch (pen.getLineStyleValue())//FIXMEBORDER is this working? deal with double border too.
 			{
-				case JRPen.LINE_STYLE_DOTTED :
+				case DOTTED :
 				{
 					style = "dotted";
 					break;
 				}
-				case JRPen.LINE_STYLE_DASHED :
+				case DASHED :
 				{
 					style = "dashed";
 					break;
 				}
-				case JRPen.LINE_STYLE_SOLID :
+				case SOLID :
 				default :
 				{
 					style = "solid";

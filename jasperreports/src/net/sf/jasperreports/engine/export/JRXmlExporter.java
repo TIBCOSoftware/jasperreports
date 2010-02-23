@@ -732,7 +732,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		xmlWriter.startElement(element);
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineWidth, pen.getOwnLineWidth());
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineStyle, pen.getOwnLineStyle(), JRXmlConstants.getLineStyleMap());
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineStyle, pen.getOwnLineStyleValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineColor, pen.getOwnLineColor());
 		xmlWriter.closeElement(true);
 	}

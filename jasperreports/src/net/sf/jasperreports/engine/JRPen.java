@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.engine.type.LineStyleEnum;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -104,25 +106,23 @@ public interface JRPen
 	 */
 	public void setLineStyle(Byte lineStyle);
 
-	//TODO: uncomment these below
-
-//	/**
-//	 * Indicates the line style used for this pen.
-//	 * @return a value representing one of the line style constants in {@link LineStyleEnum}
-//	 */
-//	public LineStyleEnum getLineStyleValue();
-//	
-//	/**
-//	 * Indicates the line style used for this pen.
-//	 * @return a value representing one of the line style constants in {@link LineStyleEnum}
-//	 */
-//	public LineStyleEnum getOwnLineStyleValue();
-//	
-//	/**
-//	 * Specifies the line style.
-//	 * @param lineStyleEnum a value representing one of the line style constants in {@link LineStyleEnum}
-//	 */
-//	public void setLineStyle(LineStyleEnum lineStyleEnum);
+	/**
+	 * Indicates the line style used for this pen.
+	 * @return a value representing one of the line style constants in {@link LineStyleEnum}
+	 */
+	public LineStyleEnum getLineStyleValue();
+	
+	/**
+	 * Indicates the line style used for this pen.
+	 * @return a value representing one of the line style constants in {@link LineStyleEnum}
+	 */
+	public LineStyleEnum getOwnLineStyleValue();
+	
+	/**
+	 * Specifies the line style.
+	 * @param lineStyleEnum a value representing one of the line style constants in {@link LineStyleEnum}
+	 */
+	public void setLineStyle(LineStyleEnum lineStyleEnum);
 	
 	/**
 	 * Gets the line color.

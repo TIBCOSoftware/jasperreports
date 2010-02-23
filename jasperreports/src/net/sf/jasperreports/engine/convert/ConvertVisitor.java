@@ -46,7 +46,6 @@ import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRLineBox;
-import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRRectangle;
@@ -57,6 +56,7 @@ import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.base.JRBasePrintRectangle;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 
 
@@ -261,7 +261,7 @@ public class ConvertVisitor implements JRVisitor
 				rectangle.setWidth(element.getWidth());
 				rectangle.setHeight(element.getHeight());
 				rectangle.getLinePen().setLineWidth(0.1f);
-				rectangle.getLinePen().setLineStyle(JRPen.LINE_STYLE_DASHED);
+				rectangle.getLinePen().setLineStyle(LineStyleEnum.DASHED);
 				rectangle.getLinePen().setLineColor(ReportConverter.GRID_LINE_COLOR);
 				rectangle.setMode(ModeEnum.TRANSPARENT);
 				frame.addElement(rectangle);
