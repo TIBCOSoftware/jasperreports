@@ -27,6 +27,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.type.PenEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
@@ -57,7 +58,7 @@ public class JRBoxFactory extends JRBaseFactory
 
 	public static void setBoxAttributes(Attributes atts, JRLineBox box)
 	{
-		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_border));
+		PenEnum border = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_border));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -81,7 +82,7 @@ public class JRBoxFactory extends JRBaseFactory
 			box.setPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_topBorder));
+		border = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_topBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -105,7 +106,7 @@ public class JRBoxFactory extends JRBaseFactory
 			box.setTopPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_leftBorder));
+		border = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_leftBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -129,7 +130,7 @@ public class JRBoxFactory extends JRBaseFactory
 			box.setLeftPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_bottomBorder));
+		border = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_bottomBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -153,7 +154,7 @@ public class JRBoxFactory extends JRBaseFactory
 			box.setBottomPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_rightBorder));
+		border = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_rightBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())

@@ -28,6 +28,7 @@ import java.awt.Color;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.PenEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -83,7 +84,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 
 		// get graphic element attributes
-		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_pen));
+		PenEnum pen = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_pen));
 		if (pen != null)
 		{
 			if (log.isWarnEnabled())
@@ -127,7 +128,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 
 		// get box attributes
-		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_border));
+		PenEnum border = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_border));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -154,7 +155,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().setPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_topBorder));
+		border = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_topBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -181,7 +182,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().setTopPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_leftBorder));
+		border = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_leftBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -208,7 +209,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().setLeftPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_bottomBorder));
+		border = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_bottomBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
@@ -235,7 +236,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.getLineBox().setBottomPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(XmlConstants.ATTRIBUTE_rightBorder));
+		border = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_rightBorder));
 		if (border != null)
 		{
 			if (log.isWarnEnabled())

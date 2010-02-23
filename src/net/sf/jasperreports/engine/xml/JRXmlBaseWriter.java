@@ -156,7 +156,7 @@ public abstract class JRXmlBaseWriter
 	{
 		writer.startElement(element);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_lineWidth, pen.getOwnLineWidth());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_lineStyle, pen.getOwnLineStyle(), JRXmlConstants.getLineStyleMap());
+		writer.addAttribute(XmlConstants.ATTRIBUTE_lineStyle, pen.getOwnLineStyleValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_lineColor, pen.getOwnLineColor());
 		writer.closeElement(true);
 	}

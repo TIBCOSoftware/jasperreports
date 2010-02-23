@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -78,15 +77,15 @@ public class GraphicStyle extends Style
 		}
 		else
 		{
-			switch (element.getLinePen().getLineStyle().byteValue())
+			switch (element.getLinePen().getLineStyleValue())
 			{
-				case JRPen.LINE_STYLE_DOTTED : //FIXMEBORDER
-				case JRPen.LINE_STYLE_DASHED :
+				case DOTTED : //FIXMEBORDER
+				case DASHED :
 				{
 					style = "dash";
 					break;
 				}
-				case JRPen.LINE_STYLE_SOLID :
+				case SOLID :
 				default :
 				{
 					style = "solid";

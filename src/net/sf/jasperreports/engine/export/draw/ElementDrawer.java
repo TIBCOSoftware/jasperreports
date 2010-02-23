@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
@@ -139,7 +140,7 @@ public abstract class ElementDrawer
 	
 			AffineTransform oldTx = grx.getTransform();
 
-			if (topPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			if (topPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
 				float topPenWidth = topPen.getLineWidth().floatValue();
 
@@ -229,7 +230,7 @@ public abstract class ElementDrawer
 	
 			AffineTransform oldTx = grx.getTransform();
 
-			if (leftPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			if (leftPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
 				float leftPenWidth = leftPen.getLineWidth().floatValue();
 
@@ -320,7 +321,7 @@ public abstract class ElementDrawer
 	
 			AffineTransform oldTx = grx.getTransform();
 
-			if (bottomPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			if (bottomPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
 				float bottomPenWidth = bottomPen.getLineWidth().floatValue();
 
@@ -411,7 +412,7 @@ public abstract class ElementDrawer
 	
 			AffineTransform oldTx = grx.getTransform();
 
-			if (rightPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			if (rightPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
 				float rightPenWidth = rightPen.getLineWidth().floatValue();
 

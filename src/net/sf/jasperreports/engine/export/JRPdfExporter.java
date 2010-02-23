@@ -86,6 +86,7 @@ import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -783,7 +784,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				else
 				{
 					//Vertical line
-					if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+					if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 					{
 						pdfContentByte.moveTo(
 							line.getX() + getOffsetX() + 0.5f - lineWidth / 3,
@@ -823,7 +824,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				if (line.getHeight() == 1)
 				{
 					//Horizontal line
-					if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+					if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 					{
 						pdfContentByte.moveTo(
 							line.getX() + getOffsetX(),
@@ -862,7 +863,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					//Oblique line
 					if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
 					{
-						if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+						if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 						{
 							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
 							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
@@ -901,7 +902,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					}
 					else
 					{
-						if (line.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+						if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 						{
 							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
 							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
@@ -980,7 +981,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		if (lineWidth > 0f)
 		{
-			if (rectangle.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			if (rectangle.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
 				pdfContentByte.roundRectangle(
 					rectangle.getX() + getOffsetX() - lineWidth / 3,
@@ -1050,7 +1051,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		if (lineWidth > 0f)
 		{
-			if (ellipse.getLinePen().getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			if (ellipse.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
 				pdfContentByte.ellipse(
 					ellipse.getX() + getOffsetX() - lineWidth / 3,
@@ -2182,7 +2183,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			
 			preparePen(pdfContentByte, topPen, PdfContentByte.LINE_CAP_BUTT);
 			
-			if (topPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			if (topPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
 				float topOffset = topPen.getLineWidth().floatValue();
 
@@ -2235,7 +2236,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			preparePen(pdfContentByte, leftPen, PdfContentByte.LINE_CAP_BUTT);
 
-			if (leftPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			if (leftPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
 				float leftOffset = leftPen.getLineWidth().floatValue();
 
@@ -2288,7 +2289,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			
 			preparePen(pdfContentByte, bottomPen, PdfContentByte.LINE_CAP_BUTT);
 			
-			if (bottomPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			if (bottomPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
 				float bottomOffset = bottomPen.getLineWidth().floatValue();
 
@@ -2341,7 +2342,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			preparePen(pdfContentByte, rightPen, PdfContentByte.LINE_CAP_BUTT);
 
-			if (rightPen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DOUBLE)
+			if (rightPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
 				float rightOffset = rightPen.getLineWidth().floatValue();
 
@@ -2404,15 +2405,15 @@ public class JRPdfExporter extends JRAbstractExporter
 			color.getBlue()
 			);
 
-		switch (pen.getLineStyle().byteValue())
+		switch (pen.getLineStyleValue())
 		{
-			case JRPen.LINE_STYLE_DOUBLE :
+			case DOUBLE :
 			{
 				pdfContentByte.setLineWidth(lineWidth / 3);
 				pdfContentByte.setLineDash(0f);
 				break;
 			}
-			case JRPen.LINE_STYLE_DOTTED :
+			case DOTTED :
 			{
 				switch (lineCap)
 				{
@@ -2429,7 +2430,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				break;
 			}
-			case JRPen.LINE_STYLE_DASHED :
+			case DASHED :
 			{
 				switch (lineCap)
 				{
@@ -2446,7 +2447,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				break;
 			}
-			case JRPen.LINE_STYLE_SOLID :
+			case SOLID :
 			default :
 			{
 				pdfContentByte.setLineDash(0f);

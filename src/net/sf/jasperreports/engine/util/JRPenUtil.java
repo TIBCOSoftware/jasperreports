@@ -26,8 +26,9 @@ package net.sf.jasperreports.engine.util;
 import java.awt.BasicStroke;
 import java.awt.Stroke;
 
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
+import net.sf.jasperreports.engine.type.PenEnum;
 
 
 /**
@@ -38,11 +39,11 @@ public class JRPenUtil
 {
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #setLinePenFromPen(PenEnum, JRPen)}. 
 	 */
 	public static void setLinePenFromPen(byte pen, JRPen linePen)
 	{
-		setLinePenFromPen(new Byte(pen), linePen);
+		setLinePenFromPen(PenEnum.getByValue(pen), linePen);
 	}
 	
 	/**
@@ -50,44 +51,52 @@ public class JRPenUtil
 	 */
 	public static void setLinePenFromPen(Byte pen, JRPen linePen)
 	{
+		setLinePenFromPen(PenEnum.getByValue(pen), linePen);
+	}
+
+	/**
+	 * 
+	 */
+	public static void setLinePenFromPen(PenEnum pen, JRPen linePen)
+	{
 		if (pen != null)
 		{
-			switch (pen.byteValue())
+			switch (pen)
 			{
-				case JRGraphicElement.PEN_THIN :
+				case THIN :
 				{
 					linePen.setLineWidth(0.5f);
-					linePen.setLineStyle(JRPen.LINE_STYLE_SOLID);
+					linePen.setLineStyle(LineStyleEnum.SOLID);
 					break;
 				}
-				case JRGraphicElement.PEN_1_POINT :
+				case ONE_POINT :
 				{
 					linePen.setLineWidth(1f);
-					linePen.setLineStyle(JRPen.LINE_STYLE_SOLID);
+					linePen.setLineStyle(LineStyleEnum.SOLID);
 					break;
 				}
-				case JRGraphicElement.PEN_2_POINT :
+				case TWO_POINT :
 				{
 					linePen.setLineWidth(2f);
-					linePen.setLineStyle(JRPen.LINE_STYLE_SOLID);
+					linePen.setLineStyle(LineStyleEnum.SOLID);
 					break;
 				}
-				case JRGraphicElement.PEN_4_POINT :
+				case FOUR_POINT :
 				{
 					linePen.setLineWidth(4f);
-					linePen.setLineStyle(JRPen.LINE_STYLE_SOLID);
+					linePen.setLineStyle(LineStyleEnum.SOLID);
 					break;
 				}
-				case JRGraphicElement.PEN_DOTTED :
+				case DOTTED :
 				{
 					linePen.setLineWidth(1f);
-					linePen.setLineStyle(JRPen.LINE_STYLE_DASHED);
+					linePen.setLineStyle(LineStyleEnum.DASHED);
 					break;
 				}
-				case JRGraphicElement.PEN_NONE :
+				case NONE :
 				{
 					linePen.setLineWidth(0f);
-					linePen.setLineStyle(JRPen.LINE_STYLE_SOLID);
+					linePen.setLineStyle(LineStyleEnum.SOLID);
 					break;
 				}
 			}
@@ -102,29 +111,29 @@ public class JRPenUtil
 		float lineWidth = linePen.getLineWidth().floatValue();
 		if (lineWidth <= 0f)
 		{
-			return JRGraphicElement.PEN_NONE;
+			return PenEnum.NONE.getValue();
 		}
 		else if (0f < lineWidth && lineWidth < 1f)
 		{
-			return JRGraphicElement.PEN_THIN;
+			return PenEnum.THIN.getValue();
 		}
 		else if (1f <= lineWidth && lineWidth < 2f)
 		{
-			if (linePen.getLineStyle().byteValue() == JRPen.LINE_STYLE_DASHED)
+			if (linePen.getLineStyleValue() == LineStyleEnum.DASHED)
 			{
-				return JRGraphicElement.PEN_DOTTED;
+				return PenEnum.DOTTED.getValue();
 			}
 			else
 			{
-				return JRGraphicElement.PEN_1_POINT;
+				return PenEnum.ONE_POINT.getValue();
 			}
 		}
 		else if (2f <= lineWidth && lineWidth < 4f)
 		{
-			return JRGraphicElement.PEN_2_POINT;
+			return PenEnum.TWO_POINT.getValue();
 		}
 
-		return JRGraphicElement.PEN_4_POINT;
+		return PenEnum.FOUR_POINT.getValue();
 	}
 
 	/**
@@ -132,7 +141,7 @@ public class JRPenUtil
 	 */
 	public static Byte getOwnPenFromLinePen(JRPen linePen)
 	{
-		if (linePen.getOwnLineWidth() == null && linePen.getOwnLineStyle() == null)
+		if (linePen.getOwnLineWidth() == null && linePen.getOwnLineStyleValue() == null)
 		{
 			return null;
 		}
@@ -149,11 +158,11 @@ public class JRPenUtil
 		
 		if (lineWidth > 0f)
 		{
-			byte lineStyle = pen.getLineStyle().byteValue();
+			LineStyleEnum lineStyle = pen.getLineStyleValue();
 			
 			switch (lineStyle)
 			{
-				case JRPen.LINE_STYLE_DOUBLE :
+				case DOUBLE :
 				{
 					return 
 						new BasicStroke(
@@ -162,7 +171,7 @@ public class JRPenUtil
 							BasicStroke.JOIN_MITER
 							);
 				}
-				case JRPen.LINE_STYLE_DOTTED :
+				case DOTTED :
 				{
 					switch (lineCap)
 					{
@@ -192,7 +201,7 @@ public class JRPenUtil
 						}
 					}
 				}
-				case JRPen.LINE_STYLE_DASHED :
+				case DASHED :
 				{
 					switch (lineCap)
 					{
@@ -222,7 +231,7 @@ public class JRPenUtil
 						}
 					}
 				}
-				case JRPen.LINE_STYLE_SOLID :
+				case SOLID :
 				default :
 				{
 					return 

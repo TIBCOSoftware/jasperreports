@@ -1612,17 +1612,17 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		
 		if (lineWidth > 0f)
 		{
-			switch (pen.getLineStyle().byteValue())
+			switch (pen.getLineStyleValue())
 			{
-				case JRPen.LINE_STYLE_DOUBLE :
+				case DOUBLE :
 				{
 					return BorderLineStyle.DOUBLE;
 				}
-				case JRPen.LINE_STYLE_DOTTED :
+				case DOTTED :
 				{
 					return BorderLineStyle.DOTTED;
 				}
-				case JRPen.LINE_STYLE_DASHED :
+				case DASHED :
 				{
 					if (lineWidth >= 1f)
 					{
@@ -1631,7 +1631,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 					return BorderLineStyle.DASHED;
 				}
-				case JRPen.LINE_STYLE_SOLID :
+				case SOLID :
 				default :
 				{
 					if (lineWidth >= 2f)

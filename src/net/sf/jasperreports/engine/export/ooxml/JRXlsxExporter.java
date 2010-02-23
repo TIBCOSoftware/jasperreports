@@ -1067,7 +1067,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			}
 		}
 		pen.setLineColor(line.getLinePen().getLineColor());
-		pen.setLineStyle(line.getLinePen().getLineStyle());
+		pen.setLineStyle(line.getLinePen().getLineStyleValue());
 		pen.setLineWidth(line.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
@@ -1088,7 +1088,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
 		pen.setLineColor(rectangle.getLinePen().getLineColor());
-		pen.setLineStyle(rectangle.getLinePen().getLineStyle());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
 		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box

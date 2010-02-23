@@ -35,17 +35,9 @@ public interface JRCommonGraphicElement extends JRCommonElement, JRPenContainer
 
 
 	/**
-	 * @deprecated Replaced by {@link getLinePenValue()}.
+	 *
 	 */
 	public JRPen getLinePen();
-
-	//TODO: uncomment these below
-
-//	/**
-//	 * Indicates the line style used for the pen in this element.
-//	 * @return a value representing one of the line style constants in {@link PenEnum}
-//	 */
-//	public PenEnum getLinePenValue();
 
 	/**
 	 * @deprecated Replaced by {@link getFillValue()}.

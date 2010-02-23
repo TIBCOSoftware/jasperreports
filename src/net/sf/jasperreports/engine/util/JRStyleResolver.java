@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBoxPen;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
@@ -284,46 +285,62 @@ public class JRStyleResolver
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLineStyleValue(JRPen)}.
 	 */
 	public static Byte getLineStyle(JRPen pen)
 	{
-		Byte ownLineStyle = pen.getOwnLineStyle();
-		if (ownLineStyle != null)
-			return ownLineStyle;
-		JRStyle baseStyle = getBaseStyle(pen.getStyleContainer());
-		if (baseStyle != null)
-		{
-			Byte lineStyle = baseStyle.getLinePen().getLineStyle();
-			if (lineStyle != null)
-			{
-				return lineStyle;
-			}
-		}
-		return new Byte(JRPen.LINE_STYLE_SOLID);
+		return getLineStyleValue(pen).getValueByte();
 	}
 
 	/**
 	 *
 	 */
-	public static Byte getLineStyle(JRBoxPen boxPen)
+	public static LineStyleEnum getLineStyleValue(JRPen pen)
 	{
-		Byte ownLineStyle = boxPen.getOwnLineStyle();
+		LineStyleEnum ownLineStyle = pen.getOwnLineStyleValue();
 		if (ownLineStyle != null)
 			return ownLineStyle;
-		Byte penLineStyle = boxPen.getBox().getPen().getOwnLineStyle();
-		if (penLineStyle != null)
-			return penLineStyle;
-		JRStyle baseStyle = getBaseStyle(boxPen.getStyleContainer());
+		JRStyle baseStyle = getBaseStyle(pen.getStyleContainer());
 		if (baseStyle != null)
 		{
-			Byte lineStyle = boxPen.getPen(baseStyle.getLineBox()).getLineStyle();
+			LineStyleEnum lineStyle = baseStyle.getLinePen().getLineStyleValue();
 			if (lineStyle != null)
 			{
 				return lineStyle;
 			}
 		}
-		return new Byte(JRPen.LINE_STYLE_SOLID);
+		return LineStyleEnum.SOLID;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getLineStyleValue(JRBoxPen)}
+	 */
+	public static Byte getLineStyle(JRBoxPen boxPen)
+	{
+		return getLineStyleValue(boxPen).getValueByte();
+	}
+
+	/**
+	 *
+	 */
+	public static LineStyleEnum getLineStyleValue(JRBoxPen boxPen)
+	{
+		LineStyleEnum ownLineStyle = boxPen.getOwnLineStyleValue();
+		if (ownLineStyle != null)
+			return ownLineStyle;
+		LineStyleEnum penLineStyle = boxPen.getBox().getPen().getOwnLineStyleValue();
+		if (penLineStyle != null)
+			return penLineStyle;
+		JRStyle baseStyle = getBaseStyle(boxPen.getStyleContainer());
+		if (baseStyle != null)
+		{
+			LineStyleEnum lineStyle = boxPen.getPen(baseStyle.getLineBox()).getLineStyleValue();
+			if (lineStyle != null)
+			{
+				return lineStyle;
+			}
+		}
+		return LineStyleEnum.SOLID;
 	}
 
 	/**
@@ -1284,8 +1301,8 @@ public class JRStyleResolver
 	{
 		if (srcPen.getOwnLineWidth() != null)
 			destPen.setLineWidth(srcPen.getOwnLineWidth());
-		if (srcPen.getOwnLineStyle() != null)
-			destPen.setLineStyle(srcPen.getOwnLineStyle());
+		if (srcPen.getOwnLineStyleValue() != null)
+			destPen.setLineStyle(srcPen.getOwnLineStyleValue());
 		if (srcPen.getOwnLineColor() != null)
 			destPen.setLineColor(srcPen.getOwnLineColor());
 	}

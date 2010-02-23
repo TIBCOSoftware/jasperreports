@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
-import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSortField;
@@ -249,52 +248,6 @@ public class JRApiConstants
 	public static String getStretchType(Byte key)
 	{
 		return (String)getStretchTypeMap().get(key);
-	}
-	
-	private static Map lineStyleMap = null;
-
-	public static Map getLineStyleMap()
-	{
-		if (lineStyleMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(JRPen.LINE_STYLE_SOLID),  "JRPen.LINE_STYLE_SOLID");
-			map.put(new Byte(JRPen.LINE_STYLE_DASHED), "JRPen.LINE_STYLE_DASHED");
-			map.put(new Byte(JRPen.LINE_STYLE_DOTTED), "JRPen.LINE_STYLE_DOTTED");
-			map.put(new Byte(JRPen.LINE_STYLE_DOUBLE), "JRPen.LINE_STYLE_DOUBLE");
-			lineStyleMap = Collections.unmodifiableMap(map);
-		}
-
-		return lineStyleMap;
-	}
-
-	public static String getLineStyle(Byte key)
-	{
-		return (String)getLineStyleMap().get(key);
-	}
-	
-	private static Map penMap = null;
-
-	public static Map getPenMap()
-	{
-		if (penMap == null)
-		{
-			Map map = new HashMap(10);
-			map.put(new Byte(JRGraphicElement.PEN_NONE),     "JRGraphicElement.PEN_NONE");
-			map.put(new Byte(JRGraphicElement.PEN_THIN),     "JRGraphicElement.PEN_THIN");
-			map.put(new Byte(JRGraphicElement.PEN_1_POINT),  "JRGraphicElement.PEN_1_POINT");
-			map.put(new Byte(JRGraphicElement.PEN_2_POINT),  "JRGraphicElement.PEN_2_POINT");
-			map.put(new Byte(JRGraphicElement.PEN_4_POINT),  "JRGraphicElement.PEN_4_POINT");
-			map.put(new Byte(JRGraphicElement.PEN_DOTTED),   "JRGraphicElement.PEN_DOTTED");
-			penMap = Collections.unmodifiableMap(map);
-		}
-
-		return penMap;
-	}
-
-	public static String getPen(Byte key)
-	{
-		return (String)getPenMap().get(key);
 	}
 	
 	private static Map fillMap = null;
