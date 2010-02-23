@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -120,7 +121,7 @@ public class DocxCellHelper extends BaseHelper
 		if (align != null)
 		{
 			JRPrintText text = element instanceof JRPrintText ? (JRPrintText)element : null;
-			Byte ownRotation = text == null ? null : text.getOwnRotationValue().getValueByte();
+			RotationEnum ownRotation = text == null ? null : text.getOwnRotationValue();
 			
 			String verticalAlignment = 
 				getVerticalAlignment(
@@ -189,26 +190,26 @@ public class DocxCellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private static String getTextDirection(Byte rotation)
+	private static String getTextDirection(RotationEnum rotation)
 	{
 		String textDirection = null;
 		
 		if (rotation != null)
 		{
-			switch(rotation.byteValue())
+			switch(rotation)
 			{
-				case JRTextElement.ROTATION_LEFT:
+				case LEFT:
 				{
 					textDirection = "btLr";
 					break;
 				}
-				case JRTextElement.ROTATION_RIGHT:
+				case RIGHT:
 				{
 					textDirection = "tbRl";
 					break;
 				}
-				case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEDOCX possible?
-				case JRTextElement.ROTATION_NONE:
+				case UPSIDE_DOWN://FIXMEDOCX possible?
+				case NONE:
 				default:
 				{
 				}

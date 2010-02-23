@@ -29,10 +29,10 @@ import java.io.Writer;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -73,7 +73,7 @@ public class CellStyle extends BorderStyle
 			}
 		}
 
-		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotationValue().getValue() : JRTextElement.ROTATION_NONE;
+		RotationEnum rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotationValue() : RotationEnum.NONE;
 		VerticalAlignEnum vAlign = VerticalAlignEnum.TOP;
 		HorizontalAlignEnum hAlign = HorizontalAlignEnum.LEFT;
 

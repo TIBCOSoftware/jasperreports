@@ -54,10 +54,10 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -76,9 +76,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		public final HorizontalAlignEnum horizontalAlignment;
 		public final VerticalAlignEnum verticalAlignment;
-		public final short rotation;
+		public final RotationEnum rotation;
 
-		public TextAlignHolder(HorizontalAlignEnum horizontalAlignment, VerticalAlignEnum verticalAlignment, short rotation)
+		public TextAlignHolder(HorizontalAlignEnum horizontalAlignment, VerticalAlignEnum verticalAlignment, RotationEnum rotation)
 		{
 			this.horizontalAlignment = horizontalAlignment;
 			this.verticalAlignment = verticalAlignment;
@@ -680,7 +680,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		HorizontalAlignEnum horizontalAlignment;
 		VerticalAlignEnum verticalAlignment;
-		short rotation = textElement.getRotationValue().getValue();
+		RotationEnum rotation = textElement.getRotationValue();
 
 		switch (textElement.getRotationValue())
 		{

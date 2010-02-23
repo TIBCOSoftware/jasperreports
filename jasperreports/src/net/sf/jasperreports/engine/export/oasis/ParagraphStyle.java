@@ -29,6 +29,7 @@ import java.io.Writer;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 
@@ -73,8 +74,8 @@ public class ParagraphStyle extends Style
 	{
 		super(styleWriter);
 		
-		horizontalAlignment = getHorizontalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue().getValue());
-		verticalAlignment = getVerticalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue().getValue());
+		horizontalAlignment = getHorizontalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue());
+		verticalAlignment = getVerticalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue());
 		
 		switch(text.getRotationValue())
 		{
@@ -109,12 +110,12 @@ public class ParagraphStyle extends Style
 	public static String getVerticalAlignment(
 		HorizontalAlignEnum horizontalAlignment, 
 		VerticalAlignEnum verticalAlignment, 
-		byte rotation
+		RotationEnum rotation
 		)
 	{
 		switch(rotation)
 		{
-			case JRTextElement.ROTATION_LEFT:
+			case LEFT:
 			{
 				switch (horizontalAlignment)
 				{
@@ -129,7 +130,7 @@ public class ParagraphStyle extends Style
 						return VERTICAL_ALIGN_BOTTOM;
 				}
 			}
-			case JRTextElement.ROTATION_RIGHT:
+			case RIGHT:
 			{
 				switch (horizontalAlignment)
 				{
@@ -144,8 +145,8 @@ public class ParagraphStyle extends Style
 						return VERTICAL_ALIGN_TOP;
 				}
 			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEODT possible?
-			case JRTextElement.ROTATION_NONE:
+			case UPSIDE_DOWN://FIXMEODT possible?
+			case NONE:
 			default:
 			{
 				switch (verticalAlignment)
@@ -168,12 +169,12 @@ public class ParagraphStyle extends Style
 	public static String getHorizontalAlignment(
 		HorizontalAlignEnum horizontalAlignment, 
 		VerticalAlignEnum verticalAlignment, 
-		byte rotation
+		RotationEnum rotation
 		)
 	{
 		switch(rotation)
 		{
-			case JRTextElement.ROTATION_LEFT:
+			case LEFT:
 			{
 				switch (verticalAlignment)
 				{
@@ -186,7 +187,7 @@ public class ParagraphStyle extends Style
 						return HORIZONTAL_ALIGN_LEFT;
 				}
 			}
-			case JRTextElement.ROTATION_RIGHT:
+			case RIGHT:
 			{
 				switch (verticalAlignment)
 				{
@@ -199,8 +200,8 @@ public class ParagraphStyle extends Style
 						return HORIZONTAL_ALIGN_RIGHT;
 				}
 			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEODT possible?
-			case JRTextElement.ROTATION_NONE:
+			case UPSIDE_DOWN://FIXMEODT possible?
+			case NONE:
 			default:
 			{
 				switch (horizontalAlignment)
