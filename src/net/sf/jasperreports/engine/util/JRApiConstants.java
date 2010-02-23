@@ -62,28 +62,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map rotationMap = null;
-
-	public static Map getRotationMap()
-	{
-		if (rotationMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(JRTextElement.ROTATION_NONE),  		"JRTextElement.ROTATION_NONE");
-			map.put(new Byte(JRTextElement.ROTATION_LEFT),  		"JRTextElement.ROTATION_LEFT");
-			map.put(new Byte(JRTextElement.ROTATION_RIGHT), 		"JRTextElement.ROTATION_RIGHT");
-			map.put(new Byte(JRTextElement.ROTATION_UPSIDE_DOWN), 	"JRTextElement.ROTATION_UPSIDE_DOWN");
-			rotationMap = Collections.unmodifiableMap(map);
-		}
-
-		return rotationMap;
-	}
-
-	public static String getRotation(Byte key)
-	{
-		return (String)getRotationMap().get(key);
-	}
-	
 	private static Map breakTypeMap = null;
 
 	public static Map getBreakTypeMap()

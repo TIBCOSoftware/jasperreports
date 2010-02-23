@@ -33,9 +33,9 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -124,7 +124,7 @@ public class XmlssCellStyle extends XmlssBorderStyle
 			forecolor = "#" + JRColorUtil.getColorHexa(style.getForecolor());
 		}
 		
-		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotationValue().getValue() : JRTextElement.ROTATION_NONE;
+		RotationEnum rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotationValue() : RotationEnum.NONE;
 		rotate = getRotation(rotation);
 		
 		
@@ -268,12 +268,12 @@ public class XmlssCellStyle extends XmlssBorderStyle
 	public static String getVerticalAlignment(
 		HorizontalAlignEnum horizontalAlignment, 
 		VerticalAlignEnum verticalAlignment, 
-		byte rotation
+		RotationEnum rotation
 		)
 	{
 		switch(rotation)
 		{
-			case JRTextElement.ROTATION_LEFT:
+			case LEFT:
 			{
 				switch (horizontalAlignment)
 				{
@@ -287,7 +287,7 @@ public class XmlssCellStyle extends XmlssBorderStyle
 						return XmlssCellStyle.ALIGNMENT_BOTTOM;
 				}
 			}
-			case JRTextElement.ROTATION_RIGHT:
+			case RIGHT:
 			{
 				switch (horizontalAlignment)
 				{
@@ -301,8 +301,8 @@ public class XmlssCellStyle extends XmlssBorderStyle
 						return XmlssCellStyle.ALIGNMENT_TOP;
 				}
 			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN:
-			case JRTextElement.ROTATION_NONE:
+			case UPSIDE_DOWN:
+			case NONE:
 			default:
 			{
 				switch (verticalAlignment)
@@ -325,12 +325,12 @@ public class XmlssCellStyle extends XmlssBorderStyle
 	public static String getHorizontalAlignment(
 		HorizontalAlignEnum horizontalAlignment, 
 		VerticalAlignEnum verticalAlignment, 
-		byte rotation
+		RotationEnum rotation
 		)
 	{
 		switch(rotation)
 		{
-			case JRTextElement.ROTATION_LEFT:
+			case LEFT:
 			{
 				switch (verticalAlignment)
 				{
@@ -343,7 +343,7 @@ public class XmlssCellStyle extends XmlssBorderStyle
 						return XmlssCellStyle.ALIGNMENT_LEFT;
 				}
 			}
-			case JRTextElement.ROTATION_RIGHT:
+			case RIGHT:
 			{
 				switch (verticalAlignment)
 				{
@@ -356,8 +356,8 @@ public class XmlssCellStyle extends XmlssBorderStyle
 						return XmlssCellStyle.ALIGNMENT_RIGHT;
 				}
 			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN:
-			case JRTextElement.ROTATION_NONE:
+			case UPSIDE_DOWN:
+			case NONE:
 			default:
 			{
 				switch (horizontalAlignment)
@@ -376,15 +376,15 @@ public class XmlssCellStyle extends XmlssBorderStyle
 	}
 	
 	
-	private String getRotation(byte rotation)
+	private String getRotation(RotationEnum rotation)
 	{
 		switch (rotation)
 		{
-			case JRTextElement.ROTATION_LEFT:
+			case LEFT:
 				return XmlssCellStyle.ROTATE_LEFT;
-			case JRTextElement.ROTATION_RIGHT:
+			case RIGHT:
 				return XmlssCellStyle.ROTATE_RIGHT;
-			case JRTextElement.ROTATION_NONE:
+			case NONE:
 			default:
 				return XmlssCellStyle.ROTATE_NONE;
 		}

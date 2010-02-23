@@ -1096,7 +1096,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		isLeftToRight = measuredText.isLeftToRight();
 		setTextHeight(measuredText.getTextHeight());
-		if (getRotation() == ROTATION_NONE)
+		if (getRotationValue().equals(RotationEnum.NONE))
 		{
 			setStretchHeight((int)getTextHeight() + getLineBox().getTopPadding().intValue() + getLineBox().getBottomPadding().intValue());
 		}

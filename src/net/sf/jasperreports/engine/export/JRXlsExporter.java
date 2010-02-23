@@ -707,12 +707,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		switch (alignment.rotation)
 		{
-			case JRTextElement.ROTATION_LEFT:
+			case LEFT:
 				return 90;
-			case JRTextElement.ROTATION_RIGHT:
+			case RIGHT:
 				return -90;
-			case JRTextElement.ROTATION_UPSIDE_DOWN:
-			case JRTextElement.ROTATION_NONE:
+			case UPSIDE_DOWN:
+			case NONE:
 			default:
 				return 0;
 		}

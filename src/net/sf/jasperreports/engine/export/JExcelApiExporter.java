@@ -95,7 +95,6 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
@@ -107,6 +106,7 @@ import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
@@ -802,12 +802,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		switch (alignment.rotation)
 		{
-			case JRTextElement.ROTATION_LEFT:
+			case LEFT:
 				return Orientation.PLUS_90.getValue();
-			case JRTextElement.ROTATION_RIGHT:
+			case RIGHT:
 				return Orientation.MINUS_90.getValue();
-			case JRTextElement.ROTATION_UPSIDE_DOWN:
-			case JRTextElement.ROTATION_NONE:
+			case UPSIDE_DOWN:
+			case NONE:
 			default:
 				return Orientation.HORIZONTAL.getValue();
 		}
@@ -1753,7 +1753,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		HorizontalAlignEnum horizontalAlignment;
 		VerticalAlignEnum verticalAlignment;
-		short rotation = textElement.getRotationValue().getValue();
+		RotationEnum rotation = textElement.getRotationValue();
 
 		switch (textElement.getRotationValue())
 		{
