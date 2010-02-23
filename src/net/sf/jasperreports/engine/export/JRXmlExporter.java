@@ -550,7 +550,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignmentValue());
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_rotation, style.getOwnRotation(), JRXmlConstants.getRotationMap());
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineSpacing, style.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_markup, style.getOwnMarkup());
 		//xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_pattern, style.getOwnPattern());//FIXME if pattern in text field is equal to this, then it should be removed there (inheritance)
@@ -888,7 +888,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_textAlignment, text.getOwnHorizontalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_verticalAlignment, text.getOwnVerticalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_textHeight, text.getTextHeight());
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_rotation, text.getOwnRotation(), JRXmlConstants.getRotationMap());
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_rotation, text.getOwnRotationValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_runDirection, text.getRunDirection(), JRXmlConstants.getRunDirectionMap(), JRPrintText.RUN_DIRECTION_LTR);
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineSpacing, text.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_markup, text.getOwnMarkup());

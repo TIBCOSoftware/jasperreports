@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.base.JRBoxPen;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 
@@ -591,36 +592,53 @@ public class JRStyleResolver
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getRotationValue(JRCommonText)}.
 	 */
 	public static byte getRotation(JRCommonText element)
 	{
-		Byte ownRotation = element.getOwnRotation();
-		if (ownRotation != null)
-			return ownRotation.byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null)
-		{
-			Byte rotation = baseStyle.getRotation();
-			if (rotation != null)
-			{
-				return rotation.byteValue();
-			}
-		}
-		return JRTextElement.ROTATION_NONE;
+		return getRotationValue(element).getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getRotationValue(JRStyle)}.
+	 */
+	public static Byte getRotation(JRStyle style)
+	{
+		RotationEnum rotation = getRotationValue(style);
+		return rotation == null ? null : rotation.getValueByte();
 	}
 
 	/**
 	 *
 	 */
-	public static Byte getRotation(JRStyle style)
+	public static RotationEnum getRotationValue(JRCommonText element)
 	{
-		Byte ownRotation = style.getOwnRotation();
+		RotationEnum ownRotation = element.getOwnRotationValue();
+		if (ownRotation != null) 
+			return ownRotation;
+		JRStyle style = getBaseStyle(element);
+		if (style != null)
+		{
+			RotationEnum rotation = style.getRotationValue();
+			if (rotation != null)
+			{
+				return rotation;
+			}
+		}
+		return RotationEnum.NONE;
+	}
+
+	/**
+	 *
+	 */
+	public static RotationEnum getRotationValue(JRStyle style)
+	{
+		RotationEnum ownRotation = style.getOwnRotationValue();
 		if (ownRotation != null)
 			return ownRotation;
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
-			return baseStyle.getRotation();
+			return baseStyle.getRotationValue();
 		return null;
 	}
 
@@ -1264,8 +1282,8 @@ public class JRStyleResolver
 
 		appendBox(destStyle.getLineBox(), srcStyle.getLineBox());
 
-		if (srcStyle.getOwnRotation() != null)
-			destStyle.setRotation(srcStyle.getOwnRotation());
+		if (srcStyle.getOwnRotationValue() != null)
+			destStyle.setRotation(srcStyle.getOwnRotationValue());
 		if (srcStyle.getOwnLineSpacing() != null)
 			destStyle.setLineSpacing(srcStyle.getOwnLineSpacing());
 		if (srcStyle.getOwnMarkup() != null)

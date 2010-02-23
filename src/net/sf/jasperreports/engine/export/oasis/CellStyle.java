@@ -73,7 +73,7 @@ public class CellStyle extends BorderStyle
 			}
 		}
 
-		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotation() : JRTextElement.ROTATION_NONE;
+		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotationValue().getValue() : JRTextElement.ROTATION_NONE;
 		VerticalAlignEnum vAlign = VerticalAlignEnum.TOP;
 		HorizontalAlignEnum hAlign = HorizontalAlignEnum.LEFT;
 

@@ -45,12 +45,10 @@ public class JRBaseStaticText extends JRBaseTextElement implements JRStaticText
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_TEXT = "text";
-
 	/**
 	 *
 	 */
 	protected String text = null;
-
 
 	/**
 	 * Initializes the element properties. 

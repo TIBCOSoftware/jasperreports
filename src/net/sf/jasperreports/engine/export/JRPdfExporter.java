@@ -1954,9 +1954,9 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		double angle = 0;
 
-		switch (text.getRotation())
+		switch (text.getRotationValue())
 		{
-			case JRTextElement.ROTATION_LEFT :
+			case LEFT :
 			{
 				y = text.getY() + getOffsetY() + text.getHeight();
 				xFillCorrection = 1;
@@ -1970,7 +1970,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				angle = Math.PI / 2;
 				break;
 			}
-			case JRTextElement.ROTATION_RIGHT :
+			case RIGHT :
 			{
 				x = text.getX() + getOffsetX() + text.getWidth();
 				yFillCorrection = -1;
@@ -1984,7 +1984,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				angle = - Math.PI / 2;
 				break;
 			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN :
+			case UPSIDE_DOWN :
 			{
 				x = text.getX() + getOffsetX() + text.getWidth();
 				y = text.getY() + getOffsetY() + text.getHeight();
@@ -1997,7 +1997,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				angle = Math.PI;
 				break;
 			}
-			case JRTextElement.ROTATION_NONE :
+			case NONE :
 			default :
 			{
 			}

@@ -27,6 +27,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -327,13 +328,27 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 
 
 	/**
-	 * Gets the text rotation.
-	 * @return a value representing one of the rotation constants in this class
+	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
 	public Byte getRotation();
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
+	 */
 	public Byte getOwnRotation();
 
+	/**
+	 * Gets the text rotation.
+	 * @return a value representing one of the rotation values in the {@link RotationEnum}.
+	 */
+	public RotationEnum getRotationValue();
+	
+	/**
+	 * Gets the text own rotation.
+	 * @return a value representing one of the rotation values in the {@link RotationEnum}.
+	 */
+	public RotationEnum getOwnRotationValue();
+	
 	/**
 	 * Gets the line spacing.
 	 * @return a value representing one of the line spacing constants in this class
@@ -691,14 +706,16 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setRightPadding(Integer rightPadding);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
 	 */
 	public void setRotation(byte rotation);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
 	 */
 	public void setRotation(Byte rotation);
+
+	public void setRotation(RotationEnum rotation);
 
 	/**
 	 *

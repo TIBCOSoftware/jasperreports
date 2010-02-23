@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -258,32 +259,58 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
 	public byte getRotation()
 	{
-		return JRStyleResolver.getRotation(this);
+		return getRotationValue().getValue();
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getRotationValue()}.
+	 */
 	public Byte getOwnRotation()
 	{
-		return ((JRTextElement)parent).getOwnRotation();
+		return getOwnRotationValue() == null ? null : getOwnRotationValue().getValueByte();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
+	 */
+	public void setRotation(byte rotation)
+	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
+	 */
+	public void setRotation(Byte rotation)
+	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 *
+	 */
+	public RotationEnum getRotationValue()
+	{
+		return JRStyleResolver.getRotationValue(this);
+	}
+		
+	public RotationEnum getOwnRotationValue()
+	{
+		return ((JRTextElement)this.parent).getOwnRotationValue();
 	}
 
 	/**
 	 *
 	 */
-	public void setRotation(byte rotation)
+	public void setRotation(RotationEnum rotation)
 	{
+		throw new UnsupportedOperationException();
 	}
-		
-	/**
-	 *
-	 */
-	public void setRotation(Byte rotation)
-	{
-	}
-		
+
 	/**
 	 *
 	 */

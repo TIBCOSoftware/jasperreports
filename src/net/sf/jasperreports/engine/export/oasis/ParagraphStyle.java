@@ -73,23 +73,23 @@ public class ParagraphStyle extends Style
 	{
 		super(styleWriter);
 		
-		horizontalAlignment = getHorizontalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotation());
-		verticalAlignment = getVerticalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotation());
+		horizontalAlignment = getHorizontalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue().getValue());
+		verticalAlignment = getVerticalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue().getValue());
 		
-		switch(text.getRotation())
+		switch(text.getRotationValue())
 		{
-			case JRTextElement.ROTATION_LEFT:
+			case LEFT:
 			{
 				textRotation = "90";
 				break;
 			}
-			case JRTextElement.ROTATION_RIGHT:
+			case RIGHT:
 			{
 				textRotation = "270";
 				break;
 			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEODT possible?
-			case JRTextElement.ROTATION_NONE:
+			case UPSIDE_DOWN://FIXMEODT possible?
+			case NONE:
 			default:
 			{
 				textRotation = "0";

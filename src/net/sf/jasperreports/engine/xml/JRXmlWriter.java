@@ -913,7 +913,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(XmlConstants.ELEMENT_textElement);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_textAlignment, textElement.getOwnHorizontalAlignmentValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_verticalAlignment, textElement.getOwnVerticalAlignmentValue());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_rotation, textElement.getOwnRotation(), JRXmlConstants.getRotationMap());
+		writer.addAttribute(XmlConstants.ATTRIBUTE_rotation, textElement.getOwnRotationValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_lineSpacing, textElement.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_markup, textElement.getOwnMarkup());
 
