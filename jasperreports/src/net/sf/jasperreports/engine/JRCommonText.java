@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.RotationEnum;
+
 /**
  * Common interface of design and print text elements.
  * 
@@ -56,25 +58,23 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer
 	 */
 	public void setRotation(Byte rotation);
 
-	//TODO: uncomment these below
-
-//	/**
-//	 * Gets the text rotation.
-//	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
-//	 */
-//	public RotationEnum getRotationValue();
-//	
-//	/**
-//	 * Gets the text own rotation.
-//	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
-//	 */
-//	public RotationEnum getOwnRotationValue();
-//	
-//	/**
-//	 * Sets the text rotation.
-//	 * @param rotationEnum a value representing one of the text rotation constants in {@link RotationEnum}
-//	 */
-//	public void setRotation(RotationEnum rotationEnum);
+	/**
+	 * Gets the text rotation.
+	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
+	 */
+	public RotationEnum getRotationValue();
+	
+	/**
+	 * Gets the text own rotation.
+	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
+	 */
+	public RotationEnum getOwnRotationValue();
+	
+	/**
+	 * Sets the text rotation.
+	 * @param rotationEnum a value representing one of the text rotation constants in {@link RotationEnum}
+	 */
+	public void setRotation(RotationEnum rotationEnum);
 	
 	/**
 	 * @deprecated Replaced by {@link getLineSpacingValue()}.

@@ -264,9 +264,9 @@ public class TextMeasurer implements JRTextMeasurer
 		bottomPadding = textElement.getLineBox().getBottomPadding().intValue();
 		rightPadding = textElement.getLineBox().getRightPadding().intValue();
 
-		switch (textElement.getRotation())
+		switch (textElement.getRotationValue())
 		{
-			case JRTextElement.ROTATION_LEFT :
+			case LEFT :
 			{
 				width = textElement.getHeight();
 				height = textElement.getWidth();
@@ -277,7 +277,7 @@ public class TextMeasurer implements JRTextMeasurer
 				rightPadding = tmpPadding;
 				break;
 			}
-			case JRTextElement.ROTATION_RIGHT :
+			case RIGHT :
 			{
 				width = textElement.getHeight();
 				height = textElement.getWidth();
@@ -288,7 +288,7 @@ public class TextMeasurer implements JRTextMeasurer
 				leftPadding = tmpPadding;
 				break;
 			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN :
+			case UPSIDE_DOWN :
 			{
 				int tmpPadding = topPadding;
 				topPadding = bottomPadding;
@@ -298,7 +298,7 @@ public class TextMeasurer implements JRTextMeasurer
 				rightPadding = tmpPadding;
 				break;
 			}
-			case JRTextElement.ROTATION_NONE :
+			case NONE :
 			default :
 			{
 			}

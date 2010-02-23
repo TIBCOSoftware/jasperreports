@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PenEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -265,7 +266,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 
 
-		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(XmlConstants.ATTRIBUTE_rotation));
+		RotationEnum rotation = RotationEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_rotation));
 		if (rotation != null)
 		{
 			style.setRotation(rotation);

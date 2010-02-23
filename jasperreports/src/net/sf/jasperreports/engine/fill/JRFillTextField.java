@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -437,7 +438,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				if (
 					getTextEnd() >= getText().length()
 					|| !isStretchWithOverflow()
-					|| getRotation() != ROTATION_NONE
+					|| !getRotationValue().equals(RotationEnum.NONE)
 					)
 				{
 					// there is no more text left in the text field to overflow
@@ -516,7 +517,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 						if (
 							isStretchWithOverflow()
-							&& getRotation() == ROTATION_NONE
+							&& getRotationValue().equals(RotationEnum.NONE)
 							)
 						{
 							// the text field is allowed to stretch downwards in order to
@@ -809,7 +810,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	protected boolean canOverflow()
 	{
 		return isStretchWithOverflow()
-				&& getRotation() == ROTATION_NONE
+				&& getRotationValue().equals(RotationEnum.NONE)
 				&& isEvaluateNow()
 				&& filler.isBandOverFlowAllowed();
 	}

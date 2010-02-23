@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -77,7 +78,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected float leadingOffset = 0;
 	protected HorizontalAlignEnum horizontalAlignmentValue = null;
 	protected VerticalAlignEnum verticalAlignmentValue = null;
-	protected Byte rotation = null;
+	protected RotationEnum rotationValue;
 	protected byte runDirection = RUN_DIRECTION_LTR;
 	protected float textHeight = 0;
 	protected Byte lineSpacing = null;
@@ -414,20 +415,36 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
 	public byte getRotation()
 	{
-		return JRStyleResolver.getRotation(this);
+		return getRotationValue().getValue();
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
+	 */
 	public Byte getOwnRotation()
 	{
-		return rotation;
+		return getOwnRotationValue() == null ? null : getOwnRotationValue().getValueByte();
 	}
 
 	/**
 	 *
+	 */
+	public RotationEnum getRotationValue()
+	{
+		return JRStyleResolver.getRotationValue(this);
+	}
+		
+	public RotationEnum getOwnRotationValue()
+	{
+		return rotationValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
 	 */
 	public void setRotation(byte rotation)
 	{
@@ -435,11 +452,19 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
 	 */
 	public void setRotation(Byte rotation)
 	{
 		this.rotation = rotation;
+	}
+
+	/**
+	 *
+	 */
+	public void setRotation(RotationEnum rotationValue)
+	{
+		this.rotationValue = rotationValue;
 	}
 
 	/**
@@ -1660,6 +1685,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
 	private Byte horizontalAlignment = null;
 	private Byte verticalAlignment = null;
+	private Byte rotation = null;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1687,9 +1713,11 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		{
 			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+			rotationValue = RotationEnum.getByValue(rotation);
 
 			horizontalAlignment = null;
 			verticalAlignment = null;
+			rotation = null;
 		}
 		
 		if (lineBox == null)

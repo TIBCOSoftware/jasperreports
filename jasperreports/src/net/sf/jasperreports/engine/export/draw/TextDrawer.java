@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -94,9 +93,9 @@ public class TextDrawer extends ElementDrawer
 		
 		double angle = 0;
 		
-		switch (text.getRotation())
+		switch (text.getRotationValue())
 		{
-			case JRTextElement.ROTATION_LEFT :
+			case LEFT :
 			{
 				y = text.getY() + offsetY + text.getHeight();
 				width = text.getHeight();
@@ -109,7 +108,7 @@ public class TextDrawer extends ElementDrawer
 				angle = - Math.PI / 2;
 				break;
 			}
-			case JRTextElement.ROTATION_RIGHT :
+			case RIGHT :
 			{
 				x = text.getX() + offsetX + text.getWidth();
 				width = text.getHeight();
@@ -122,7 +121,7 @@ public class TextDrawer extends ElementDrawer
 				angle = Math.PI / 2;
 				break;
 			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN :
+			case UPSIDE_DOWN :
 			{
 				int tmpPadding = topPadding;
 				x = text.getX() + offsetX + text.getWidth();
@@ -135,7 +134,7 @@ public class TextDrawer extends ElementDrawer
 				angle = Math.PI;
 				break;
 			}
-			case JRTextElement.ROTATION_NONE :
+			case NONE :
 			default :
 			{
 			}

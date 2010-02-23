@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -376,30 +377,59 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
 	public byte getRotation()
 	{
-		return ((JRTemplateText)template).getRotation();
+		return getRotationValue().getValue();
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
+	 */
 	public Byte getOwnRotation()
 	{
-		return ((JRTemplateText)template).getOwnRotation();
+		return getOwnRotationValue() == null ? null : getOwnRotationValue().getValueByte();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
 	 */
 	public void setRotation(byte rotation)
 	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
+	 */
+	public void setRotation(Byte rotation)
+	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
 	 *
 	 */
-	public void setRotation(Byte rotation)
+	public RotationEnum getRotationValue()
 	{
+		return ((JRTemplateText)this.template).getRotationValue();
+	}
+		
+	/**
+	 *
+	 */
+	public RotationEnum getOwnRotationValue()
+	{
+		return ((JRTemplateText)this.template).getOwnRotationValue();
+	}
+		
+	/**
+	 *
+	 */
+	public void setRotation(RotationEnum rotation)
+	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**

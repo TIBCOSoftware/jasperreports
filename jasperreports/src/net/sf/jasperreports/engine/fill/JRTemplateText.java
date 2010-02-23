@@ -43,8 +43,10 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -73,7 +75,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 */
 	private HorizontalAlignEnum horizontalAlignmentValue = null;
 	private VerticalAlignEnum verticalAlignmentValue = null;
-	private Byte rotation = null;
+	private RotationEnum rotationValue = null;
 	private Byte lineSpacing = null;
 	private String markup = null;
 	private String linkType;
@@ -178,7 +180,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 
 		horizontalAlignmentValue = textElement.getOwnHorizontalAlignmentValue();
 		verticalAlignmentValue = textElement.getOwnVerticalAlignmentValue();
-		rotation = textElement.getOwnRotation();
+		rotationValue = textElement.getOwnRotationValue();
 		lineSpacing = textElement.getOwnLineSpacing();
 		markup = textElement.getOwnMarkup();
 	}
@@ -335,52 +337,71 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
 	public byte getRotation()
 	{
-		return JRStyleResolver.getRotation(this);
+		return getRotationValue().getValue();
 	}
-		
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
 	 */
 	public Byte getOwnRotation()
 	{
-		return rotation;
+		return getOwnRotationValue() == null? null : getOwnRotationValue().getValueByte();
 	}
-	
+
+	/**
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
+	 */
+	public void setRotation(byte rotation)
+	{
+		setRotation(RotationEnum.getByValue(rotation));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
+	 */
+	public void setRotation(Byte rotation)
+	{
+		setRotation(RotationEnum.getByValue(rotation));
+	}
+
+	/**
+	 *
+	 */
+	public RotationEnum getRotationValue()
+	{
+		return JRStyleResolver.getRotationValue(this);
+	}
+
+	/**
+	 *
+	 */
+	public RotationEnum getOwnRotationValue()
+	{
+		return this.rotationValue;
+	}
+
 	/**
 	 * Sets the text rotation.
 	 * 
 	 * @param rotation one of
 	 * 	<ul>
-	 * 		<li>{@link JRTextElement#ROTATION_NONE}</li>
-	 * 		<li>{@link JRTextElement#ROTATION_LEFT}</li>
-	 * 		<li>{@link JRTextElement#ROTATION_RIGHT}</li>
-	 * 		<li>{@link JRTextElement#ROTATION_UPSIDE_DOWN}</li>
+	 * 		<li>{@link RotationEnum#NONE}</li>
+	 * 		<li>{@link RotationEnum#LEFT}</li>
+	 * 		<li>{@link RotationEnum#RIGHT}</li>
+	 * 		<li>{@link RotationEnum#UPSIDE_DOWN}</li>
 	 * 	</ul>
-	 */
-	public void setRotation(byte rotation)
-	{
-		setRotation(new Byte(rotation));
-	}
-	
-	/**
-	 * Sets the text rotation.
-	 * 
-	 * Unlike {@link #setRotation(byte)}, this methods allows <code>null</code>
-	 * to be set.  In this case, the rotation is inherited from the report style
-	 * associated with the template. 
-	 * 
-	 * @param rotation the text rotation, or <code>null</code> if this template
+	 * values, or <code>null</code> if this template
 	 * should not specify a rotation attribute of its own
 	 */
-	public void setRotation(Byte rotation)
+	public void setRotation(RotationEnum rotationValue)
 	{
-		this.rotation = rotation;
+		this.rotationValue = rotationValue;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -1444,6 +1465,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
 	private Byte horizontalAlignment = null;
 	private Byte verticalAlignment = null;
+	private Byte rotation = null;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1471,9 +1493,11 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		{
 			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+			rotationValue = RotationEnum.getByValue(rotation);
 
 			horizontalAlignment = null;
 			verticalAlignment = null;
+			rotation = null;
 		}
 		
 		if (lineBox == null)

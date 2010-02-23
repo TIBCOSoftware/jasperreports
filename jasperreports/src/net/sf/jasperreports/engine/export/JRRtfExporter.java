@@ -715,9 +715,9 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		String rotation = null;
 
-		switch (text.getRotation())
+		switch (text.getRotationValue())
 		{
-			case JRTextElement.ROTATION_LEFT :
+			case LEFT :
 			{
 				switch (text.getVerticalAlignmentValue())
 				{
@@ -739,7 +739,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				rotation = "{\\sp{\\sn txflTextFlow}{\\sv 2}}";
 				break;
 			}
-			case JRTextElement.ROTATION_RIGHT :
+			case RIGHT :
 			{
 				switch (text.getVerticalAlignmentValue())
 				{
@@ -761,7 +761,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				rotation = "{\\sp{\\sn txflTextFlow}{\\sv 3}}";
 				break;
 			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN :
+			case UPSIDE_DOWN :
 			{
 				switch (text.getVerticalAlignmentValue())
 				{
@@ -783,7 +783,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				rotation = "";
 				break;
 			}
-			case JRTextElement.ROTATION_NONE :
+			case NONE :
 			default :
 			{
 				switch (text.getVerticalAlignmentValue())

@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -149,7 +150,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	protected String pdfEncoding = null;
 	protected Boolean isPdfEmbedded = null;
 
-	protected Byte rotation = null;
+	protected RotationEnum rotationValue = null;
 	protected Byte lineSpacing = null;
 	protected String markup = null;
 
@@ -216,7 +217,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 		lineBox = style.getLineBox().clone(this);
 		
-		rotation = style.getOwnRotation();
+		rotationValue = style.getOwnRotationValue();
 		lineSpacing = style.getOwnLineSpacing();
 		markup = style.getOwnMarkup();
 
@@ -699,14 +700,62 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		return lineBox.getOwnRightPadding();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getRotationValue()}.
+	 */
 	public Byte getRotation()
 	{
-		return JRStyleResolver.getRotation(this);
+		return getRotationValue() == null ? null : getRotationValue().getValueByte();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
+	 */
 	public Byte getOwnRotation()
 	{
-		return rotation;
+		return getOwnRotationValue() == null? null : getOwnRotationValue().getValueByte();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
+	 */
+	public void setRotation(byte rotation)
+	{
+		setRotation(RotationEnum.getByValue(rotation));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
+	 */
+	public void setRotation(Byte rotation)
+	{
+		setRotation(RotationEnum.getByValue(rotation));
+	}
+
+	/**
+	 *
+	 */
+	public RotationEnum getRotationValue()
+	{
+		return JRStyleResolver.getRotationValue(this);
+	}
+
+	/**
+	 *
+	 */
+	public RotationEnum getOwnRotationValue()
+	{
+		return this.rotationValue;
+	}
+
+	/**
+	 *
+	 */
+	public void setRotation(RotationEnum rotationValue)
+	{
+		Object old = this.rotationValue;
+		this.rotationValue = rotationValue;
+		getEventSupport().firePropertyChange(PROPERTY_ROTATION, old, this.rotationValue);
 	}
 
 	public Byte getLineSpacing()
@@ -1245,24 +1294,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	public void setRotation(byte rotation)
-	{
-		setRotation(new Byte(rotation));
-	}
-
-	/**
-	 *
-	 */
-	public void setRotation(Byte rotation)
-	{
-		Object old = this.rotation;
-		this.rotation = rotation;
-		getEventSupport().firePropertyChange(PROPERTY_ROTATION, old, this.rotation);
-	}
-
-	/**
-	 *
-	 */
 	public void setFontName(String fontName)
 	{
 		Object old = this.fontName;
@@ -1530,6 +1561,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	private Byte mode = null;
 	private Byte horizontalAlignment = null;
 	private Byte verticalAlignment = null;
+	protected Byte rotation = null;
 	private Byte pen;
 	private Byte border = null;
 	private Byte topBorder = null;
@@ -1557,10 +1589,12 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 			modeValue = ModeEnum.getByValue(mode);
 			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+			rotationValue = RotationEnum.getByValue(rotation);
 			
 			mode = null;
 			horizontalAlignment = null;
 			verticalAlignment = null;
+			rotation = null;
 		}
 
 		if (linePen == null)

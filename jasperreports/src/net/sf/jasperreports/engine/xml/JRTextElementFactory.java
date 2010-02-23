@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 import org.apache.commons.logging.Log;
@@ -59,7 +60,7 @@ public class JRTextElementFactory extends JRBaseFactory
 			textElement.setVerticalAlignment(verticalAlignment);
 		}
 
-		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(XmlConstants.ATTRIBUTE_rotation));
+		RotationEnum rotation = RotationEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_rotation));
 		if (rotation != null)
 		{
 			textElement.setRotation(rotation);

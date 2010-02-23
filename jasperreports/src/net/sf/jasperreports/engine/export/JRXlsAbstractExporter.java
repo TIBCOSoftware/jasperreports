@@ -680,11 +680,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		HorizontalAlignEnum horizontalAlignment;
 		VerticalAlignEnum verticalAlignment;
-		short rotation = textElement.getRotation();
+		short rotation = textElement.getRotationValue().getValue();
 
-		switch (textElement.getRotation())
+		switch (textElement.getRotationValue())
 		{
-			case JRTextElement.ROTATION_LEFT :
+			case LEFT :
 			{
 				switch (textElement.getHorizontalAlignmentValue())
 				{
@@ -739,7 +739,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 				break;
 			}
-			case JRTextElement.ROTATION_RIGHT :
+			case RIGHT :
 			{
 				switch (textElement.getHorizontalAlignmentValue())
 				{
@@ -794,8 +794,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 				break;
 			}
-			case JRTextElement.ROTATION_UPSIDE_DOWN:
-			case JRTextElement.ROTATION_NONE :
+			case UPSIDE_DOWN:
+			case NONE :
 			default :
 			{
 				horizontalAlignment = textElement.getHorizontalAlignmentValue();

@@ -124,7 +124,7 @@ public class XmlssCellStyle extends XmlssBorderStyle
 			forecolor = "#" + JRColorUtil.getColorHexa(style.getForecolor());
 		}
 		
-		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotation() : JRTextElement.ROTATION_NONE;
+		byte rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotationValue().getValue() : JRTextElement.ROTATION_NONE;
 		rotate = getRotation(rotation);
 		
 		
