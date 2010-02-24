@@ -1721,7 +1721,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	private Boolean isStyledText = null;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
-	private byte runDirection = RunDirectionEnum.LTR.getValue();
+	private byte runDirection;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
