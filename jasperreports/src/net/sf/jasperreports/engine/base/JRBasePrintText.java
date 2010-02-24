@@ -448,7 +448,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public void setRotation(byte rotation)
 	{
-		this.rotation = new Byte(rotation);
+		setRotation(RotationEnum.getByValue(rotation));
 	}
 
 	/**
@@ -456,7 +456,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public void setRotation(Byte rotation)
 	{
-		this.rotation = rotation;
+		setRotation(RotationEnum.getByValue(rotation));
 	}
 
 	/**
