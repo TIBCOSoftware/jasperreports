@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 
@@ -209,19 +210,17 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 */
 	public void setRunDirection(byte rotation);
 		
-	//TODO: uncomment these below
-
-//	/**
-//	 * Gets the text run direction.
-//	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}
-//	 */
-//	public RunDirectionEnum getRunDirectionValue();
-//	
-//	/**
-//	 * Sets the text run direction.
-//	 * @param runDirectionEnum a value representing one of the text run direction constants in {@link RunDirectionEnum}
-//	 */
-//	public void setRunDirection(RunDirectionEnum runDirectionEnum);
+	/**
+	 * Gets the text run direction.
+	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}
+	 */
+	public RunDirectionEnum getRunDirectionValue();
+	
+	/**
+	 * Sets the text run direction.
+	 * @param runDirectionEnum a value representing one of the text run direction constants in {@link RunDirectionEnum}
+	 */
+	public void setRunDirection(RunDirectionEnum runDirectionEnum);
 	
 	/**
 	 *

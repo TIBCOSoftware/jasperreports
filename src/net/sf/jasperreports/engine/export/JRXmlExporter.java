@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
@@ -889,7 +890,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_verticalAlignment, text.getOwnVerticalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_textHeight, text.getTextHeight());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_rotation, text.getOwnRotationValue());
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_runDirection, text.getRunDirection(), JRXmlConstants.getRunDirectionMap(), JRPrintText.RUN_DIRECTION_LTR);
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_runDirection, text.getRunDirectionValue(), RunDirectionEnum.LTR);
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineSpacing, text.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_markup, text.getOwnMarkup());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineSpacingFactor, text.getLineSpacingFactor());

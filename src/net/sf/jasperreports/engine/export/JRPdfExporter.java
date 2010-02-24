@@ -88,6 +88,7 @@ import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -2031,7 +2032,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				case LEFT :
 				{
-					if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR)
+					if (text.getRunDirectionValue() == RunDirectionEnum.LTR)
 					{
 						horizontalAlignment = Element.ALIGN_LEFT;
 					}
@@ -2048,7 +2049,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				case RIGHT :
 				{
-					if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR)
+					if (text.getRunDirectionValue() == RunDirectionEnum.LTR)
 					{
 						horizontalAlignment = Element.ALIGN_RIGHT;
 					}
@@ -2116,7 +2117,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
 			colText.setRunDirection(
-				text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR
+				text.getRunDirectionValue() == RunDirectionEnum.LTR
 				? PdfWriter.RUN_DIRECTION_LTR : PdfWriter.RUN_DIRECTION_RTL
 				);
 

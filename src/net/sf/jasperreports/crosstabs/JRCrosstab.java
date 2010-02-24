@@ -295,23 +295,21 @@ public interface JRCrosstab extends JRElement
 	 */
 	public void setRunDirection(byte direction);
 
-	//TODO: uncomment these below
-
-//	/**
-//	 * Retrieves the run direction of this crosstab
-//	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}
-//	 */
-//	public RunDirectionEnum getRunDirectionValue();
-//	
-//	/**
-//	 * Sets the run direction of the crosstab.
-//	 * <p>
-//	 * Crosstabs can either be filled from left to right (the default)
-//	 * or from right to left (mainly for reports in RTL languages).
-//	 * </p>
-//	 * @param runDirectionEnum a value representing one of the run direction constants in {@link RunDirectionEnum}
-//	 */
-//	public void setRunDirection(RunDirectionEnum runDirectionEnum);
+	/**
+	 * Retrieves the run direction of this crosstab
+	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}
+	 */
+	public RunDirectionEnum getRunDirectionValue();
+	
+	/**
+	 * Sets the run direction of the crosstab.
+	 * <p>
+	 * Crosstabs can either be filled from left to right (the default)
+	 * or from right to left (mainly for reports in RTL languages).
+	 * </p>
+	 * @param runDirectionEnum a value representing one of the run direction constants in {@link RunDirectionEnum}
+	 */
+	public void setRunDirection(RunDirectionEnum runDirectionEnum);
 
 	/**
 	 * Returns the ignore width flag for the crosstab.

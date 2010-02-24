@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 import org.apache.commons.logging.Log;
@@ -69,10 +70,10 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setRotation(rotation);
 		}
 
-		Byte runDirection = (Byte)JRXmlConstants.getRunDirectionMap().get(atts.getValue(XmlConstants.ATTRIBUTE_runDirection));
+		RunDirectionEnum runDirection = RunDirectionEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_runDirection));
 		if (runDirection != null)
 		{
-			text.setRunDirection(runDirection.byteValue());
+			text.setRunDirection(runDirection);
 		}
 
 		String textHeight = atts.getValue(XmlConstants.ATTRIBUTE_textHeight);

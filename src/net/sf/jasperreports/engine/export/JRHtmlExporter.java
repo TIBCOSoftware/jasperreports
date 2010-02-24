@@ -87,6 +87,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -1274,7 +1275,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("\"");
 		}
 
-		if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
+		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
 		{
 			writer.write(" dir=\"rtl\"");
 		}
@@ -1312,9 +1313,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 
 			if (
-				(text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR
+				(text.getRunDirectionValue() == RunDirectionEnum.LTR
 				 && !horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
-				|| (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL
+				|| (text.getRunDirectionValue() == RunDirectionEnum.RTL
 					&& !horizontalAlignment.equals(CSS_TEXT_ALIGN_RIGHT))
 				)
 			{

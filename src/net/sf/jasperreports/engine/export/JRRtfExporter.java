@@ -71,13 +71,13 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -824,7 +824,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("{\\shptxt{\\pard");
 
 		JRFont font = text;
-		if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
+		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
 		{
 			writer.write("\\rtlch");
 		}

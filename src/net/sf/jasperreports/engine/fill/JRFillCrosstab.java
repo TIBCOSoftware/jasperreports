@@ -76,6 +76,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -581,7 +582,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			{
 				// increase the rectangle width
 				printRectangle.setWidth(xLimit);
-				if (getRunDirection() == RUN_DIRECTION_RTL)
+				if (getRunDirectionValue() == RunDirectionEnum.RTL)
 				{
 					// if RTL filling, move the rectangle to the left
 					printRectangle.setX(getX() + getWidth() - xLimit);
@@ -589,7 +590,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 		}
 		
-		if (getRunDirection() == RUN_DIRECTION_RTL)
+		if (getRunDirectionValue() == RunDirectionEnum.RTL)
 		{
 			mirrorPrintElements(fillElements);
 		}
@@ -1318,8 +1319,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				contents = contents.getTransformedContents(width, height, group.getPosition(), JRCellContents.POSITION_Y_TOP);
 				boolean firstOnRow = columnIdx == startColumnIndex && (!printRowHeaders || headerCell == null);
 				contents = contents.getBoxContents(
-						firstOnRow && getRunDirection() == RUN_DIRECTION_LTR,
-						firstOnRow && getRunDirection() == RUN_DIRECTION_RTL,
+						firstOnRow && getRunDirectionValue() == RunDirectionEnum.LTR,
+						firstOnRow && getRunDirectionValue() == RunDirectionEnum.RTL,
 						false);
 				contents = contents.getWorkingClone();
 
@@ -1626,8 +1627,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				
 				boolean firstOnRow = leftEmpty && column == startColumnIndex;
 				contents = contents.getBoxContents(
-						firstOnRow && getRunDirection() == RUN_DIRECTION_LTR,
-						firstOnRow && getRunDirection() == RUN_DIRECTION_RTL,
+						firstOnRow && getRunDirectionValue() == RunDirectionEnum.LTR,
+						firstOnRow && getRunDirectionValue() == RunDirectionEnum.RTL,
 						topEmpty && rowIdx == 0);
 				contents = contents.getWorkingClone();
 				
@@ -2077,14 +2078,36 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return variables;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
+	 */
 	public byte getRunDirection()
 	{
-		return parentCrosstab.getRunDirection();
+		return parentCrosstab.getRunDirectionValue().getValue();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setRunDirection(RunDirectionEnum)}.
+	 */
 	public void setRunDirection(byte direction)
 	{
-		// nothing
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 *
+	 */
+	public RunDirectionEnum getRunDirectionValue()
+	{
+		return parentCrosstab.getRunDirectionValue();
+	}
+
+	/**
+	 *
+	 */
+	public void setRunDirection(RunDirectionEnum runDirection)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	public JROrigin getOrigin()

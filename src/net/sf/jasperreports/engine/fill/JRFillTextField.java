@@ -636,7 +636,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 //		{
 //			text.setHeight(getHeight());
 //		}
-		text.setRunDirection(getRunDirection());
+		text.setRunDirection(getRunDirectionValue());
 
 		if (isEvaluateNow())
 		{
