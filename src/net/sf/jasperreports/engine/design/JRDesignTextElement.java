@@ -1259,7 +1259,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
 	private Byte horizontalAlignment;
 	private Byte verticalAlignment;
-	protected Byte rotation;
+	private Byte rotation;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
