@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.xml;
 import net.sf.jasperreports.engine.design.JRDesignBreak;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
-import net.sf.jasperreports.engine.type.RotationEnum;
 
 import org.xml.sax.Attributes;
 
