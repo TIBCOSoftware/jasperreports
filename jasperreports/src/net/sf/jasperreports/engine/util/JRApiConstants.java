@@ -62,46 +62,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 public class JRApiConstants
 {
 	
-	private static Map runDirectionMap = null;
-
-	public static Map getRunDirectionMap()
-	{
-		if (runDirectionMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(JRPrintText.RUN_DIRECTION_LTR), "JRPrintText.RUN_DIRECTION_LTR");
-			map.put(new Byte(JRPrintText.RUN_DIRECTION_RTL), "JRPrintText.RUN_DIRECTION_RTL");
-			runDirectionMap = Collections.unmodifiableMap(map);
-		}
-
-		return runDirectionMap;
-	}
-
-	public static String getRunDirection(Byte key)
-	{
-		return (String)getRunDirectionMap().get(key);
-	}
-	
-	private static Map crosstabRunDirectionMap = null;
-
-	public static Map getCrosstabRunDirectionMap()
-	{
-		if (crosstabRunDirectionMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(JRCrosstab.RUN_DIRECTION_LTR), "JRCrosstab.RUN_DIRECTION_LTR");
-			map.put(new Byte(JRCrosstab.RUN_DIRECTION_RTL), "JRCrosstab.RUN_DIRECTION_RTL");
-			crosstabRunDirectionMap = Collections.unmodifiableMap(map);
-		}
-
-		return crosstabRunDirectionMap;
-	}
-
-	public static String getCrosstabRunDirection(Byte key)
-	{
-		return (String)getCrosstabRunDirectionMap().get(key);
-	}
-	
 	private static Map lineSpacingMap = null;
 
 	public static Map getLineSpacingMap()

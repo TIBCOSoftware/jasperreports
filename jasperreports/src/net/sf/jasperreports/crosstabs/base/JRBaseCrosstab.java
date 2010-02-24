@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,6 +47,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -72,7 +75,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	protected int columnBreakOffset;
 	protected boolean repeatColumnHeaders = true;
 	protected boolean repeatRowHeaders = true;
-	protected byte runDirection;
+	protected RunDirectionEnum runDirectionValue;
 	protected JRCrosstabCell[][] cells;
 	protected JRCellContents whenNoDataCell;
 	protected JRCellContents headerCell;
@@ -87,7 +90,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		this.columnBreakOffset = crosstab.getColumnBreakOffset();
 		this.repeatColumnHeaders = crosstab.isRepeatColumnHeaders();
 		this.repeatRowHeaders = crosstab.isRepeatRowHeaders();
-		this.runDirection = crosstab.getRunDirection();
+		this.runDirectionValue = crosstab.getRunDirectionValue();
 		this.ignoreWidth = crosstab.getIgnoreWidth();
 		
 		this.dataset = factory.getCrosstabDataset(crosstab.getDataset());
@@ -358,17 +361,39 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	}
 
 	
+	/**
+	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
+	 */
 	public byte getRunDirection()
 	{
-		return runDirection;
+		return getRunDirectionValue().getValue();
 	}
 
 	
+	/**
+	 * @deprecated Replaced by {@link #setRunDirection(RunDirectionEnum)}.
+	 */
 	public void setRunDirection(byte runDirection)
 	{
-		byte old = this.runDirection;
-		this.runDirection = runDirection;
-		getEventSupport().firePropertyChange(PROPERTY_RUN_DIRECTION, old, this.runDirection);
+		setRunDirection(RunDirectionEnum.getByValue(runDirection));
+	}
+
+	/**
+	 *
+	 */
+	public RunDirectionEnum getRunDirectionValue()
+	{
+		return this.runDirectionValue;
+	}
+
+	/**
+	 *
+	 */
+	public void setRunDirection(RunDirectionEnum runDirectionValue)
+	{
+		RunDirectionEnum old = this.runDirectionValue;
+		this.runDirectionValue = runDirectionValue;
+		getEventSupport().firePropertyChange(PROPERTY_RUN_DIRECTION, old, this.runDirectionValue);
 	}
 
 	/**
@@ -396,5 +421,22 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	{
 		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
 	}
+	
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte runDirection;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			runDirectionValue = RunDirectionEnum.getByValue(runDirection);
+		}
+	}
+
 
 }

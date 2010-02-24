@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 
 
 /**
@@ -156,7 +157,7 @@ public class CrosstabConverter extends FrameConverter
 			crosstabElements
 			);
 		
-		if (crosstab.getRunDirection() == JRCrosstab.RUN_DIRECTION_RTL)
+		if (crosstab.getRunDirectionValue() == RunDirectionEnum.RTL)
 		{
 			mirrorElements(crosstabElements, crosstab.getX(), crosstab.getWidth());
 		}
@@ -282,8 +283,8 @@ public class CrosstabConverter extends FrameConverter
 							totalHeader, 
 							rowHeadersXOffset + x, 
 							y, 
-							firstOnRow && crosstab.getRunDirection() == JRCrosstab.RUN_DIRECTION_LTR,
-							firstOnRow && crosstab.getRunDirection() == JRCrosstab.RUN_DIRECTION_RTL,
+							firstOnRow && crosstab.getRunDirectionValue() == RunDirectionEnum.LTR,
+							firstOnRow && crosstab.getRunDirectionValue() == RunDirectionEnum.RTL,
 							false
 							));
 	
@@ -300,8 +301,8 @@ public class CrosstabConverter extends FrameConverter
 						header, 
 						rowHeadersXOffset + x, 
 						y, 
-						firstOnRow && crosstab.getRunDirection() == JRCrosstab.RUN_DIRECTION_LTR,
-						firstOnRow && crosstab.getRunDirection() == JRCrosstab.RUN_DIRECTION_RTL,
+						firstOnRow && crosstab.getRunDirectionValue() == RunDirectionEnum.LTR,
+						firstOnRow && crosstab.getRunDirectionValue() == RunDirectionEnum.RTL,
 						false
 						));
 			}

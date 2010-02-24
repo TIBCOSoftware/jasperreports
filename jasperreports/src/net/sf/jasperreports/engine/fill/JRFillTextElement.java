@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -913,11 +914,19 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
 	 */
 	protected byte getRunDirection()
 	{
-		return isLeftToRight ? JRPrintText.RUN_DIRECTION_LTR : JRPrintText.RUN_DIRECTION_RTL;
+		return getRunDirectionValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public RunDirectionEnum getRunDirectionValue()
+	{
+		return isLeftToRight ? RunDirectionEnum.LTR : RunDirectionEnum.RTL;
 	}
 		
 	/**

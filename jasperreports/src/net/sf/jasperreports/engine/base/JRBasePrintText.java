@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -79,7 +80,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected HorizontalAlignEnum horizontalAlignmentValue = null;
 	protected VerticalAlignEnum verticalAlignmentValue = null;
 	protected RotationEnum rotationValue;
-	protected byte runDirection = RUN_DIRECTION_LTR;
+	protected RunDirectionEnum runDirectionValue;
 	protected float textHeight = 0;
 	protected Byte lineSpacing = null;
 	protected String markup = null;
@@ -468,21 +469,37 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
 	 */
 	public byte getRunDirection()
 	{
-		return runDirection;
+		return getRunDirectionValue().getValue();
 	}
-		
+
+	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setRunDirection(RunDirectionEnum)}.
 	 */
 	public void setRunDirection(byte runDirection)
 	{
-		this.runDirection = runDirection;
+		setRunDirection(RunDirectionEnum.getByValue(runDirection));
 	}
 
+	/**
+	 *
+	 */
+	public RunDirectionEnum getRunDirectionValue()
+	{
+		return this.runDirectionValue;
+	}
+
+	/**
+	 *
+	 */
+	public void setRunDirection(RunDirectionEnum runDirectionValue)
+	{
+		this.runDirectionValue = runDirectionValue;
+	}
 	/**
 	 *
 	 */
@@ -1704,6 +1721,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	private Boolean isStyledText = null;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private byte runDirection = RunDirectionEnum.LTR.getValue();
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1714,6 +1732,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
 			rotationValue = RotationEnum.getByValue(rotation);
+			runDirectionValue = RunDirectionEnum.getByValue(runDirection);
 
 			horizontalAlignment = null;
 			verticalAlignment = null;

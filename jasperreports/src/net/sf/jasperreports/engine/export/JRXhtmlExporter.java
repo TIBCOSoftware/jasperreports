@@ -87,6 +87,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -963,7 +964,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		appendId(text);
 
-		if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
+		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
 		{
 			writer.write(" dir=\"rtl\"");
 		}

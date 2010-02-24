@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -128,7 +129,7 @@ public class XmlssCellStyle extends XmlssBorderStyle
 		rotate = getRotation(rotation);
 		
 		
-		if(element instanceof JRPrintText && ((JRPrintText)element).getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
+		if(element instanceof JRPrintText && ((JRPrintText)element).getRunDirectionValue() == RunDirectionEnum.RTL)
 			readingOrder = XmlssCellStyle.READING_ORDER_RTL;
 			
 		JRAlignment alignment = element instanceof JRAlignment ? (JRAlignment)element : null;

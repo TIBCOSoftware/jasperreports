@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
@@ -37,6 +39,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -71,7 +74,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private transient String truncatedText;
 	private float lineSpacingFactor = 0;
 	private float leadingOffset = 0;
-	private byte runDirection = RUN_DIRECTION_LTR;
+	private RunDirectionEnum runDirectionValue;
 	private float textHeight = 0;
 	private String anchorName = null;
 	private String hyperlinkReference = null;
@@ -433,21 +436,37 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
 	 */
 	public byte getRunDirection()
 	{
-		return runDirection;
+		return getRunDirectionValue().getValue();
 	}
-		
+
+	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setRunDirection(RunDirectionEnum)}.
 	 */
 	public void setRunDirection(byte runDirection)
 	{
-		this.runDirection = runDirection;
+		setRunDirection(RunDirectionEnum.getByValue(runDirection));
 	}
-		
+
+	/**
+	 *
+	 */
+	public RunDirectionEnum getRunDirectionValue()
+	{
+		return this.runDirectionValue;
+	}
+
+	/**
+	 *
+	 */
+	public void setRunDirection(RunDirectionEnum runDirectionValue)
+	{
+		this.runDirectionValue = runDirectionValue;
+	}
 	/**
 	 *
 	 */
@@ -1510,6 +1529,21 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public void setHyperlinkTooltip(String hyperlinkTooltip)
 	{
 		this.hyperlinkTooltip = hyperlinkTooltip;
+	}
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte runDirection = RunDirectionEnum.LTR.getValue();
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			runDirectionValue = RunDirectionEnum.getByValue(runDirection);
+		}
 	}
 	
 }

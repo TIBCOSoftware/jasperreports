@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 
@@ -98,7 +99,7 @@ public class ParagraphStyle extends Style
 		}
 
 		runDirection = null;
-		if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
+		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
 		{
 			runDirection = "rl";
 		}
