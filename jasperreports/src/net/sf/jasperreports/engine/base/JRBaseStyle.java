@@ -1561,7 +1561,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	private Byte mode = null;
 	private Byte horizontalAlignment = null;
 	private Byte verticalAlignment = null;
-	protected Byte rotation = null;
+	private Byte rotation = null;
 	private Byte pen;
 	private Byte border = null;
 	private Byte topBorder = null;
