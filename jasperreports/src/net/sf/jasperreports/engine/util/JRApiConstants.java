@@ -35,7 +35,6 @@ import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
@@ -62,25 +61,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map breakTypeMap = null;
-
-	public static Map getBreakTypeMap()
-	{
-		if (breakTypeMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(JRBreak.TYPE_PAGE),   "JRBreak.TYPE_PAGE");
-			map.put(new Byte(JRBreak.TYPE_COLUMN), "JRBreak.TYPE_COLUMN");
-			breakTypeMap = Collections.unmodifiableMap(map);
-		}
-
-		return breakTypeMap;
-	}
-
-	public static String getBreakType(Byte key)
-	{
-		return (String)getBreakTypeMap().get(key);
-	}
 	
 	private static Map runDirectionMap = null;
 

@@ -140,6 +140,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
+import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -857,7 +858,7 @@ public class JRApiWriter
 		if(breakElement != null)
 		{
 			write( "JRDesignBreak " + breakName + " = new JRDesignBreak(jasperDesign);\n");
-			write( breakName + ".setType({0});\n", JRApiConstants.getBreakType(new Byte(breakElement.getType())), "JRBreak.TYPE_PAGE");
+			write( breakName + ".setType({0});\n", breakElement.getTypeValue(), BreakTypeEnum.PAGE);
 			writeReportElement( breakElement, breakName);
 			flush();
 		}

@@ -154,6 +154,7 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
+import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
@@ -726,7 +727,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public void writeBreak(JRBreak breakElement) throws IOException
 	{
 		writer.startElement(XmlConstants.ELEMENT_break, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_type, breakElement.getType(), JRXmlConstants.getBreakTypeMap(), JRBreak.TYPE_PAGE);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_type, breakElement.getTypeValue(), BreakTypeEnum.PAGE);
 
 		writeReportElement(breakElement);
 

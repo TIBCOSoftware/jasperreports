@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.BreakTypeEnum;
 
 
 /**
@@ -63,9 +64,9 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 	public int getWidth()
 	{
 		int width;
-		switch (getType())
+		switch (getTypeValue())
 		{
-			case JRBreak.TYPE_PAGE:
+			case PAGE:
 				width = filler.pageWidth - filler.leftMargin - filler.rightMargin;
 				break;
 			default:
@@ -76,18 +77,32 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getTypeValue()}.
 	 */
 	public byte getType()
 	{
-		return ((JRBreak)parent).getType();
+		return ((JRBreak)parent).getTypeValue().getValue();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setType(BreakTypeEnum)}.
 	 */
 	public void setType(byte type)
 	{
+		throw new UnsupportedOperationException();
+	}
+
+	public BreakTypeEnum getTypeValue()
+	{
+		return ((JRBreak)parent).getTypeValue();
+	}
+
+	/**
+	 *
+	 */
+	public void setType(BreakTypeEnum type)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 
@@ -207,7 +222,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 		
 		if (isToPrint)
 		{
-			if (getType() == JRBreak.TYPE_COLUMN)
+			if (getTypeValue() == BreakTypeEnum.COLUMN)
 			{
 				//column break
 				if (!filler.isFirstColumnBand || band.firstYElement != null)
