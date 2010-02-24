@@ -55,20 +55,18 @@ public interface JRBreak extends JRElement
 	 * @deprecated Replaced by {@link setType(BreakTypeEnum)}.
 	 */
 	public void setType(byte type);
-	
-	//TODO: uncomment these below
 
-//	/**
-//	 * Gets the break type.
-//	 * @return a value representing one of the break type constants in {@link BreakTypeEnum}
-//	 */
-//	public BreakTypeEnum getTypeValue();
-//	
-//	/**
-//	 * Sets the break type.
-//	 * @param breakTypeEnum a value representing one of the break type constants in {@link BreakTypeEnum}
-//	 */
-//	public void setType(BreakTypeEnum breakTypeEnum);
+	/**
+	 * Gets the break type.
+	 * @return a value representing one of the break type constants in {@link BreakTypeEnum}
+	 */
+	public BreakTypeEnum getTypeValue();
+	
+	/**
+	 * Sets the break type.
+	 * @param breakTypeEnum a value representing one of the break type constants in {@link BreakTypeEnum}
+	 */
+	public void setType(BreakTypeEnum breakTypeEnum);
 	
 
 }

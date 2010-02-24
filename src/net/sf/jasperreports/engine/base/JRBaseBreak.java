@@ -23,10 +23,14 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.BreakTypeEnum;
 
 
 /**
@@ -45,10 +49,7 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 	
 	public static final String PROPERTY_TYPE = "type";
 
-	/**
-	 *
-	 */
-	protected byte type = TYPE_PAGE;
+	protected BreakTypeEnum typeValue = BreakTypeEnum.PAGE;
 
 
 	/**
@@ -63,7 +64,7 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 	{
 		super(breakElement, factory);
 		
-		type = breakElement.getType();
+		typeValue = breakElement.getTypeValue();
 	}
 		
 
@@ -84,21 +85,37 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getTypeValue()}.
 	 */
 	public byte getType()
 	{
-		return type;
+		return getTypeValue().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setType(BreakTypeEnum)}.
+	 */
+	public void setType(byte type)
+	{
+		setType(BreakTypeEnum.getByValue(type));
 	}
 
 	/**
 	 *
 	 */
-	public void setType(byte type)
+	public BreakTypeEnum getTypeValue()
 	{
-		byte old = this.type;
-		this.type = type;
-		getEventSupport().firePropertyChange(PROPERTY_TYPE, old, this.type);
+		return this.typeValue;
+	}
+
+	/**
+	 *
+	 */
+	public void setType(BreakTypeEnum typeValue)
+	{
+		Object old = this.typeValue;
+		this.typeValue = typeValue;
+		getEventSupport().firePropertyChange(PROPERTY_TYPE, old, this.typeValue);
 	}
 
 	/**
@@ -117,4 +134,21 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 		visitor.visitBreak(this);
 	}
 
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte type;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			typeValue = BreakTypeEnum.getByValue(type);
+
+			type = BreakTypeEnum.PAGE.getValue();
+		}
+	}
 }

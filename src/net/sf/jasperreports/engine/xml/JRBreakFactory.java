@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignBreak;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.BreakTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 
 import org.xml.sax.Attributes;
 
@@ -45,10 +47,10 @@ public class JRBreakFactory extends JRBaseFactory
 
 		JRDesignBreak breakElement = new JRDesignBreak(jasperDesign);
 
-		Byte type = (Byte)JRXmlConstants.getBreakTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_type));
+		BreakTypeEnum type = BreakTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_type));
 		if (type != null)
 		{
-			breakElement.setType(type.byteValue());
+			breakElement.setType(type);
 		}
 
 		return breakElement;
