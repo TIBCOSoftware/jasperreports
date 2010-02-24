@@ -138,7 +138,7 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
-	private byte type;
+	private byte type = BreakTypeEnum.PAGE.getValue();
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -147,8 +147,6 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			typeValue = BreakTypeEnum.getByValue(type);
-
-			type = BreakTypeEnum.PAGE.getValue();
 		}
 	}
 }
