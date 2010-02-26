@@ -47,10 +47,10 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBoxPen;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -643,36 +643,53 @@ public class JRStyleResolver
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLineSpacingValue(JRCommonText)}.
 	 */
 	public static byte getLineSpacing(JRCommonText element)
 	{
-		Byte ownLineSpacing = element.getOwnLineSpacing();
-		if (ownLineSpacing != null)
-			return ownLineSpacing.byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null)
-		{
-			Byte lineSpacing = baseStyle.getLineSpacing();
-			if (lineSpacing != null)
-			{
-				return lineSpacing.byteValue();
-			}
-		}
-		return JRTextElement.LINE_SPACING_SINGLE;
+		return getLineSpacingValue(element).getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLineSpacingValue(JRStyle)}.
 	 */
 	public static Byte getLineSpacing(JRStyle style)
 	{
-		Byte ownLineSpacing = style.getOwnLineSpacing();
+		LineSpacingEnum lineSpacing = getLineSpacingValue(style);
+		return lineSpacing == null ? null : lineSpacing.getValueByte();
+	}
+
+	/**
+	 * 
+	 */
+	public static LineSpacingEnum getLineSpacingValue(JRCommonText element)
+	{
+		LineSpacingEnum ownLineSpacing = element.getOwnLineSpacingValue();
+		if (ownLineSpacing != null)
+			return ownLineSpacing;
+		JRStyle baseStyle = getBaseStyle(element);
+		if (baseStyle != null)
+		{
+			LineSpacingEnum lineSpacing = baseStyle.getLineSpacingValue();
+			if (lineSpacing != null)
+			{
+				return lineSpacing;
+			}
+		}
+		return LineSpacingEnum.SINGLE;
+	}
+
+	/**
+	 * 
+	 */
+	public static LineSpacingEnum getLineSpacingValue(JRStyle style)
+	{
+		LineSpacingEnum ownLineSpacing = style.getOwnLineSpacingValue();
 		if (ownLineSpacing != null)
 			return ownLineSpacing;
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
-			return baseStyle.getLineSpacing();
+			return baseStyle.getLineSpacingValue();
 		return null;
 	}
 

@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
@@ -350,12 +351,22 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public RotationEnum getOwnRotationValue();
 	
 	/**
-	 * Gets the line spacing.
-	 * @return a value representing one of the line spacing constants in this class
+	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
 	 */
 	public Byte getLineSpacing();
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
+	 */
 	public Byte getOwnLineSpacing();
+
+	/**
+	 * Gets the line spacing.
+	 * @return a value representing one of the line spacing constants in the {@link LineSpacingEnum}.
+	 */
+	public LineSpacingEnum getLineSpacingValue();
+
+	public LineSpacingEnum getOwnLineSpacingValue();
 
 	/**
 	 * Returns true if the text can contain style tags.

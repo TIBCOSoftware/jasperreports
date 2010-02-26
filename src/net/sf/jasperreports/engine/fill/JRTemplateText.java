@@ -43,8 +43,8 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
-import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
@@ -76,7 +76,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private HorizontalAlignEnum horizontalAlignmentValue = null;
 	private VerticalAlignEnum verticalAlignmentValue = null;
 	private RotationEnum rotationValue = null;
-	private Byte lineSpacing = null;
+	private LineSpacingEnum lineSpacingValue = null;
 	private String markup = null;
 	private String linkType;
 	private String linkTarget;
@@ -181,7 +181,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		horizontalAlignmentValue = textElement.getOwnHorizontalAlignmentValue();
 		verticalAlignmentValue = textElement.getOwnVerticalAlignmentValue();
 		rotationValue = textElement.getOwnRotationValue();
-		lineSpacing = textElement.getOwnLineSpacing();
+		lineSpacingValue = textElement.getOwnLineSpacingValue();
 		markup = textElement.getOwnMarkup();
 	}
 
@@ -403,49 +403,70 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
 	 */
 	public byte getLineSpacing()
 	{
-		return JRStyleResolver.getLineSpacing(this);
+		return getLineSpacingValue().getValue();
 	}
-		
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
 	 */
 	public Byte getOwnLineSpacing()
 	{
-		return lineSpacing;
+		return getOwnLineSpacingValue() == null? null : getOwnLineSpacingValue().getValueByte();
 	}
-	
+
 	/**
-	 * Sets the text line spacing.
-	 * 
-	 * @param lineSpacing one of
-	 * 	<ul>
-	 * 		<li>{@link JRTextElement#LINE_SPACING_SINGLE}</li>
-	 * 		<li>{@link JRTextElement#LINE_SPACING_1_1_2}</li>
-	 * 		<li>{@link JRTextElement#LINE_SPACING_DOUBLE}</li>
-	 * 	</ul>
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
-		setLineSpacing(new Byte(lineSpacing));
+		setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
 	}
-		
+
 	/**
-	 * Sets the text line spacing.
-	 * 
-	 * Unlike {@link #setLineSpacing(byte)}, this methods allows <code>null</code>
-	 * to be set.  In this case, the line spacing is inherited from the report
-	 * style associated with the template. 
-	 * 
-	 * @param lineSpacing the text line spacing, or <code>null</code> if this template
-	 * should not specify a line spacing attribute of its own
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing)
 	{
-		this.lineSpacing = lineSpacing;
+		setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
+	}
+
+	/**
+	 *
+	 */
+	public LineSpacingEnum getLineSpacingValue()
+	{
+		return JRStyleResolver.getLineSpacingValue(this);
+	}
+
+	/**
+	 *
+	 */
+	public LineSpacingEnum getOwnLineSpacingValue()
+	{
+		return this.lineSpacingValue;
+	}
+
+	/**
+	 * Sets the text line spacing.
+	 * 
+	 * This methods allows <code>null</code>
+	 * to be set.  In this case, the line spacing is inherited from the report
+	 * style associated with the template. 
+	 * 
+	 * @param lineSpacing a <code>null</code> value or one of 
+	 * 	<ul>
+	 * 		<li>{@link LineSpacingEnum#SINGLE}</li>
+	 * 		<li>{@link LineSpacingEnum#ONE_AND_HALF}</li>
+	 * 		<li>{@link LineSpacingEnum#DOUBLE}</li>
+	 * 	</ul>
+	 */
+	public void setLineSpacing(LineSpacingEnum lineSpacingValue)
+	{
+		this.lineSpacingValue = lineSpacingValue;
 	}
 
 	/**
@@ -1466,6 +1487,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private Byte horizontalAlignment = null;
 	private Byte verticalAlignment = null;
 	private Byte rotation = null;
+	private Byte lineSpacing = null;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1494,10 +1516,12 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
 			rotationValue = RotationEnum.getByValue(rotation);
+			lineSpacingValue = LineSpacingEnum.getByValue(lineSpacing);
 
 			horizontalAlignment = null;
 			verticalAlignment = null;
 			rotation = null;
+			lineSpacing = null;
 		}
 		
 		if (lineBox == null)

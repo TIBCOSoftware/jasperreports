@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -313,30 +314,59 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
 	 */
 	public byte getLineSpacing()
 	{
 		return JRStyleResolver.getLineSpacing(this);
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
+	 */
 	public Byte getOwnLineSpacing()
 	{
 		return ((JRTextElement)parent).getOwnLineSpacing();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing)
 	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 * 
+	 */
+	public LineSpacingEnum getLineSpacingValue()
+	{
+		return JRStyleResolver.getLineSpacingValue(this);
+	}
+		
+	/**
+	 * 
+	 */
+	public LineSpacingEnum getOwnLineSpacingValue()
+	{
+		return ((JRTextElement)parent).getOwnLineSpacingValue();
+	}
+
+	/**
+	 * 
+	 */
+	public void setLineSpacing(LineSpacingEnum lineSpacing)
+	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
