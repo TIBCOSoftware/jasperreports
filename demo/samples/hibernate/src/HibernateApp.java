@@ -86,6 +86,27 @@ public class HibernateApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	public void test() throws JRException
+	{
+		pdf();
+		xmlEmbed();
+		xml();
+		html();
+		rtf();
+		xls();
+		jxl();
+		csv();
+		odt();
+		ods();
+		docx();
+		xlsx();
+		xhtml();
+	}
+
+	
+	/**
+	 *
+	 */
 	public void fill() throws JRException
 	{
 		Session session = createSession();

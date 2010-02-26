@@ -78,6 +78,29 @@ public class HyperlinkApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	public void test() throws JRException
+	{
+		writeXml();
+		fill();
+		pdf();
+		xmlEmbed();
+		xml();
+		html();
+		rtf();
+		xls();
+		jxl();
+		csv();
+		odt();
+		ods();
+		docx();
+		xlsx();
+		xhtml();
+	}
+
+
+	/**
+	 *
+	 */
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();

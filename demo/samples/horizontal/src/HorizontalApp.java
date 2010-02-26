@@ -85,7 +85,29 @@ public class HorizontalApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void fill() throws JRException, ClassNotFoundException, SQLException
+	public void test() throws JRException
+	{
+		fill();
+		pdf();
+		xmlEmbed();
+		xml();
+		html();
+		rtf();
+		xls();
+		jxl();
+		csv();
+		odt();
+		ods();
+		docx();
+		xlsx();
+		xhtml();
+	}
+
+
+	/**
+	 *
+	 */
+	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
@@ -383,7 +405,7 @@ public class HorizontalApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void run() throws JRException, ClassNotFoundException, SQLException
+	public void run() throws JRException
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
@@ -412,17 +434,32 @@ public class HorizontalApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	private static Connection getConnection() throws ClassNotFoundException, SQLException
+	private static Connection getConnection() throws JRException
 	{
-		//Change these settings according to your local configuration
-		String driver = "org.hsqldb.jdbcDriver";
-		String connectString = "jdbc:hsqldb:hsql://localhost";
-		String user = "sa";
-		String password = "";
+		Connection conn;
+
+		try
+		{
+			//Change these settings according to your local configuration
+			String driver = "org.hsqldb.jdbcDriver";
+			String connectString = "jdbc:hsqldb:hsql://localhost";
+			String user = "sa";
+			String password = "";
 
 
-		Class.forName(driver);
-		Connection conn = DriverManager.getConnection(connectString, user, password);
+			Class.forName(driver);
+			conn = DriverManager.getConnection(connectString, user, password);
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new JRException(e);
+		}
+		catch (SQLException e)
+		{
+			throw new JRException(e);
+			
+		}
+
 		return conn;
 	}
 

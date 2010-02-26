@@ -122,21 +122,7 @@
 		<antcall target="clean" />
 		<antcall target="javac" />
 		<antcall target="compile" />
-		<antcall target="writeXml" />
-		<antcall target="fill" />
-		<antcall target="pdf" />
-		<antcall target="xmlEmbed" />
-		<antcall target="xml" />
-		<antcall target="html" />
-		<antcall target="rtf" />
-		<antcall target="xls" />
-		<antcall target="jxl" />
-		<antcall target="csv" />
-		<antcall target="odt" />
-		<antcall target="ods" />
-		<antcall target="docx" />
-		<antcall target="xlsx" />
-		<antcall target="xhtml" />
+		<ant dir="../" target="test"/>
 	</target>
 
 </project>
