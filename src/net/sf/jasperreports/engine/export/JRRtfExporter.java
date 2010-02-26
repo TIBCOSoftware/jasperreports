@@ -1446,7 +1446,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		{
 			if (log.isDebugEnabled())
 			{
-				log.debug("No PDF generic element handler for " 
+				log.debug("No RTF generic element handler for " 
 						+ element.getGenericType());
 			}
 		}
