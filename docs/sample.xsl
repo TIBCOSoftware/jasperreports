@@ -320,6 +320,11 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 </xsl:template>
 
 
+<xsl:template match="img">
+<span class="element"><xsl:element name="img"><xsl:attribute name="src"><xsl:value-of select="./@src"/></xsl:attribute><xsl:attribute name="border">0</xsl:attribute></xsl:element></span>
+</xsl:template>
+
+
 <xsl:template match="elem">
   <span class="element"><xsl:element name="a"><xsl:attribute name="href">../../schema.reference.html#<xsl:value-of select="."/></xsl:attribute>&lt;<xsl:value-of select="."/>&gt;</xsl:element></span>
 </xsl:template>

@@ -19,6 +19,12 @@ How to render images in reports using the build-in image element.
   	<otherSample ref="jasper"/>
     <content>
 [Under Construction]
+<br/>
+Below is an image.
+<br/>
+<img src="dukesign.jpg"/>
+<br/>
+Above is an image.
     </content>
   </feature>
 
