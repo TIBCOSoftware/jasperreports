@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
@@ -67,7 +68,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	protected VerticalAlignEnum verticalAlignmentValue;
 	protected RotationEnum rotationValue;
 	
-	protected Byte lineSpacing;
+	protected LineSpacingEnum lineSpacingValue;
 	protected String markup;
 
 	/**
@@ -102,7 +103,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		horizontalAlignmentValue = textElement.getOwnHorizontalAlignmentValue();
 		verticalAlignmentValue = textElement.getOwnVerticalAlignmentValue();
 		rotationValue = textElement.getOwnRotationValue();
-		lineSpacing = textElement.getOwnLineSpacing();
+		lineSpacingValue = textElement.getOwnLineSpacingValue();
 		markup = textElement.getOwnMarkup();
 
 		lineBox = textElement.getLineBox().clone(this);
@@ -316,34 +317,61 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
 	 */
 	public byte getLineSpacing()
 	{
-		return JRStyleResolver.getLineSpacing(this);
-	}
-
-	public Byte getOwnLineSpacing()
-	{
-		return lineSpacing;
+		return getLineSpacingValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
+	 */
+	public Byte getOwnLineSpacing()
+	{
+		return getOwnLineSpacingValue() == null? null : getOwnLineSpacingValue().getValueByte();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
-		setLineSpacing(new Byte(lineSpacing));
+		setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 */
+	public void setLineSpacing(Byte lineSpacing)
+	{
+		setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
 	}
 
 	/**
 	 *
 	 */
-	public void setLineSpacing(Byte lineSpacing)
+	public LineSpacingEnum getLineSpacingValue()
 	{
-		Object old = this.lineSpacing;
-		this.lineSpacing = lineSpacing;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_LINE_SPACING, old, this.lineSpacing);
+		return JRStyleResolver.getLineSpacingValue(this);
+	}
+
+	/**
+	 *
+	 */
+	public LineSpacingEnum getOwnLineSpacingValue()
+	{
+		return this.lineSpacingValue;
+	}
+
+	/**
+	 * 
+	 */
+	public void setLineSpacing(LineSpacingEnum lineSpacingValue)
+	{
+		Object old = this.lineSpacingValue;
+		this.lineSpacingValue = lineSpacingValue;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_LINE_SPACING, old, this.lineSpacingValue);
 	}
 
 	/**
@@ -1251,6 +1279,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	private Byte horizontalAlignment;
 	private Byte verticalAlignment;
 	private Byte rotation;	
+	private Byte lineSpacing;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1277,10 +1306,12 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
 			rotationValue = RotationEnum.getByValue(rotation);
+			lineSpacingValue = LineSpacingEnum.getByValue(lineSpacing);
 
 			horizontalAlignment = null;
 			verticalAlignment = null;
 			rotation = null;
+			lineSpacing = null;
 		}
 		
 		if (lineBox == null)

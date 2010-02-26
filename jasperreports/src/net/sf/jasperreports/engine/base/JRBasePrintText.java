@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -82,7 +83,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected RotationEnum rotationValue;
 	protected RunDirectionEnum runDirectionValue;
 	protected float textHeight = 0;
-	protected Byte lineSpacing = null;
+	protected LineSpacingEnum lineSpacingValue = null;
 	protected String markup = null;
 	protected String anchorName = null;
 	protected String linkType;
@@ -517,32 +518,59 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
 	 */
 	public byte getLineSpacing()
 	{
-		return JRStyleResolver.getLineSpacing(this);
-	}
-		
-	public Byte getOwnLineSpacing()
-	{
-		return lineSpacing;
+		return getLineSpacingValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
+	 */
+	public Byte getOwnLineSpacing()
+	{
+		return getOwnLineSpacingValue() == null? null : getOwnLineSpacingValue().getValueByte();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
-		this.lineSpacing = new Byte(lineSpacing);
+		setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 */
+	public void setLineSpacing(Byte lineSpacing)
+	{
+		setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
 	}
 
 	/**
 	 *
 	 */
-	public void setLineSpacing(Byte lineSpacing)
+	public LineSpacingEnum getLineSpacingValue()
 	{
-		this.lineSpacing = lineSpacing;
+		return JRStyleResolver.getLineSpacingValue(this);
+	}
+
+	/**
+	 *
+	 */
+	public LineSpacingEnum getOwnLineSpacingValue()
+	{
+		return this.lineSpacingValue;
+	}
+
+	/**
+	 * 
+	 */
+	public void setLineSpacing(LineSpacingEnum lineSpacingValue)
+	{
+		this.lineSpacingValue = lineSpacingValue;
 	}
 
 	/**
@@ -1703,6 +1731,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	private Byte horizontalAlignment = null;
 	private Byte verticalAlignment = null;
 	private Byte rotation = null;
+	private Byte lineSpacing = null;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1733,10 +1762,12 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
 			rotationValue = RotationEnum.getByValue(rotation);
 			runDirectionValue = RunDirectionEnum.getByValue(runDirection);
+			lineSpacingValue = LineSpacingEnum.getByValue(lineSpacing);
 
 			horizontalAlignment = null;
 			verticalAlignment = null;
 			rotation = null;
+			lineSpacing = null;
 		}
 		
 		if (lineBox == null)

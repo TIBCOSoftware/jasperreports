@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 
 /**
@@ -96,25 +97,23 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer
 	 */
 	public void setLineSpacing(Byte lineSpacing);
 	
-	//TODO: uncomment these below
-
-//	/**
-//	 * Gets the text line spacing.
-//	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
-//	 */
-//	public LineSpacingEnum getLineSpacingValue();
-//	
-//	/**
-//	 * Gets the text own line spacing.
-//	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
-//	 */
-//	public LineSpacingEnum getOwnLineSpacingValue();
-//	
-//	/**
-//	 * Sets the text line spacing.
-//	 * @param lineSpacingEnum a value representing one of the line spacing constants in {@link LineSpacingEnum}
-//	 */
-//	public void setLineSpacing(LineSpacingEnum lineSpacingEnum);
+	/**
+	 * Gets the text line spacing.
+	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
+	 */
+	public LineSpacingEnum getLineSpacingValue();
+	
+	/**
+	 * Gets the text own line spacing.
+	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
+	 */
+	public LineSpacingEnum getOwnLineSpacingValue();
+	
+	/**
+	 * Sets the text line spacing.
+	 * @param lineSpacingEnum a value representing one of the line spacing constants in {@link LineSpacingEnum}
+	 */
+	public void setLineSpacing(LineSpacingEnum lineSpacingEnum);
 	
 	/**
 	 * Returns true if the text can contain style tags.
