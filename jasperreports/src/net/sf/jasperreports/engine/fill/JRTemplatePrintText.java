@@ -37,14 +37,12 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
@@ -452,7 +450,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public void setRunDirection(byte runDirection)
 	{
-		throw new UnsupportedOperationException();
+		setRunDirection(RunDirectionEnum.getByValue(runDirection));
 	}
 
 	/**
@@ -468,7 +466,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public void setRunDirection(RunDirectionEnum runDirectionValue)
 	{
-		throw new UnsupportedOperationException();
+		this.runDirectionValue = runDirectionValue;
 	}
 	/**
 	 *
