@@ -799,14 +799,19 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setUnderline(Boolean underline);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}
 	 */
 	public void setLineSpacing(byte lineSpacing);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}
 	 */
 	public void setLineSpacing(Byte lineSpacing);
+
+	/**
+	 *
+	 */
+	public void setLineSpacing(LineSpacingEnum lineSpacing);
 
 	/**
 	 *

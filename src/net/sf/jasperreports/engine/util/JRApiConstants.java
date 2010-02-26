@@ -61,28 +61,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	
-	private static Map lineSpacingMap = null;
-
-	public static Map getLineSpacingMap()
-	{
-		if (lineSpacingMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(JRTextElement.LINE_SPACING_SINGLE), "JRTextElement.LINE_SPACING_SINGLE");
-			map.put(new Byte(JRTextElement.LINE_SPACING_1_1_2),  "JRTextElement.LINE_SPACING_1_1_2");
-			map.put(new Byte(JRTextElement.LINE_SPACING_DOUBLE), "JRTextElement.LINE_SPACING_DOUBLE");
-			lineSpacingMap = Collections.unmodifiableMap(map);
-		}
-
-		return lineSpacingMap;
-	}
-
-	public static String getLineSpacing(Byte key)
-	{
-		return (String)getLineSpacingMap().get(key);
-	}
-	
 	private static Map directionMap = null;
 
 	public static Map getDirectionMap()

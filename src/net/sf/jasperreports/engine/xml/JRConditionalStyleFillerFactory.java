@@ -27,6 +27,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.design.JRDesignConditionalStyle;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PenEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -258,7 +259,7 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 			style.setRotation(rotation);
 		}
 
-		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(XmlConstants.ATTRIBUTE_lineSpacing));
+		LineSpacingEnum lineSpacing = LineSpacingEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
 			style.setLineSpacing(lineSpacing);

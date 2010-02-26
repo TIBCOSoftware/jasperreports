@@ -305,19 +305,19 @@ public class TextMeasurer implements JRTextMeasurer
 		}
 		
 		/*   */
-		switch (textElement.getLineSpacing())
+		switch (textElement.getLineSpacingValue())
 		{
-			case JRTextElement.LINE_SPACING_SINGLE : 
+			case SINGLE : 
 			{
 				lineSpacing = 1f;
 				break;
 			}
-			case JRTextElement.LINE_SPACING_1_1_2 : 
+			case ONE_AND_HALF : 
 			{
 				lineSpacing = 1.5f;
 				break;
 			}
-			case JRTextElement.LINE_SPACING_DOUBLE : 
+			case DOUBLE : 
 			{
 				lineSpacing = 2f;
 				break;

@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
@@ -66,7 +67,7 @@ public class JRTextElementFactory extends JRBaseFactory
 			textElement.setRotation(rotation);
 		}
 
-		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(XmlConstants.ATTRIBUTE_lineSpacing));
+		LineSpacingEnum lineSpacing = LineSpacingEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
 			textElement.setLineSpacing(lineSpacing);

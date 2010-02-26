@@ -1301,8 +1301,8 @@ public class JRStyleResolver
 
 		if (srcStyle.getOwnRotationValue() != null)
 			destStyle.setRotation(srcStyle.getOwnRotationValue());
-		if (srcStyle.getOwnLineSpacing() != null)
-			destStyle.setLineSpacing(srcStyle.getOwnLineSpacing());
+		if (srcStyle.getOwnLineSpacingValue() != null)
+			destStyle.setLineSpacing(srcStyle.getOwnLineSpacingValue());
 		if (srcStyle.getOwnMarkup() != null)
 			destStyle.setMarkup(srcStyle.getOwnMarkup());
 

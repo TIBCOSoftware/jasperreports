@@ -1067,7 +1067,7 @@ public class JRApiWriter
 			write( textElementName + ".setHorizontalAlignment({0});\n", textElement.getOwnHorizontalAlignmentValue());
 			write( textElementName + ".setVerticalAlignment({0});\n", textElement.getOwnVerticalAlignmentValue());
 			write( textElementName + ".setRotation({0});\n", textElement.getOwnRotationValue());
-			write( textElementName + ".setLineSpacing({0});\n", JRApiConstants.getLineSpacing(textElement.getOwnLineSpacing()));
+			write( textElementName + ".setLineSpacing({0});\n", textElement.getOwnLineSpacingValue());
 			write( textElementName + ".setMarkup(\"{0}\");\n", textElement.getMarkup());
 			writeFont( textElement, textElementName);
 			flush();
@@ -1149,7 +1149,7 @@ public class JRApiWriter
 			write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
 			write( styleName + ".setVerticalAlignment({0});\n", style.getOwnVerticalAlignmentValue());
 			write( styleName + ".setRotation({0});\n", style.getOwnRotationValue());
-			write( styleName + ".setLineSpacing({0});\n", JRApiConstants.getLineSpacing(style.getOwnLineSpacing()));
+			write( styleName + ".setLineSpacing({0});\n", style.getOwnLineSpacingValue());
 
 			write( styleName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnMarkup()));
 			write( styleName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPattern()));
@@ -3551,7 +3551,7 @@ public class JRApiWriter
 			write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
 			write( styleName + ".setVerticalAlignment({0});\n", style.getOwnVerticalAlignmentValue());
 			write( styleName + ".setRotation({0});\n", style.getOwnRotationValue());
-			write( styleName + ".setLineSpacing({0});\n", JRApiConstants.getLineSpacing(style.getOwnLineSpacing()));
+			write( styleName + ".setLineSpacing({0});\n", style.getOwnLineSpacingValue());
 
 			write( styleName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnMarkup()));
 			write( styleName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPattern()));
