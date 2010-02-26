@@ -336,7 +336,7 @@ public class ChartThemesApp extends AbstractSampleApp
 
 		exporter.exportReport();
 
-		System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("ODS creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	
