@@ -78,11 +78,7 @@
 		<antcall target="clean" />
 		<antcall target="javac" />
 		<antcall target="compile" />
-		<antcall target="fill" />
-		<antcall target="xmlEmbed" />
-		<antcall target="xml" />
-		<antcall target="html" />
-		<antcall target="xhtml" />
+		<ant dir="../" target="test"/>
 	</target>
 	
 </project>
