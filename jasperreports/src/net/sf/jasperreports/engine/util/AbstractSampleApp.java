@@ -29,6 +29,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRException;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -42,6 +44,12 @@ public abstract class AbstractSampleApp
 	 *
 	 */
 	public abstract String usage();
+
+	
+	/**
+	 *
+	 */
+	public abstract void test() throws JRException;
 
 	
 	/**

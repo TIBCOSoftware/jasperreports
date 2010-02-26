@@ -254,4 +254,11 @@
 		<delete dir="${sample.dir}/build" />
 	</target>
 
+	<target name="test">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+			<arg value="test"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 </project>
