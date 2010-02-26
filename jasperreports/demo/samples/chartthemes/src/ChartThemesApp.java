@@ -86,6 +86,28 @@ public class ChartThemesApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	public void test() throws JRException
+	{
+		fill();
+		pdf();
+		xmlEmbed();
+		xml();
+		html();
+		rtf();
+		xls();
+		jxl();
+		csv();
+		odt();
+		ods();
+		docx();
+		xlsx();
+		xhtml();
+	}
+
+
+	/**
+	 *
+	 */
 	public void themes() throws JRException
 	{
 		long start = System.currentTimeMillis();
@@ -108,7 +130,7 @@ public class ChartThemesApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void fill() throws JRException, UnsupportedEncodingException
+	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
 		Map parameters = new HashMap();
@@ -404,100 +426,107 @@ public class ChartThemesApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public static final void putDataSources(Map parameters) throws UnsupportedEncodingException, JRException
+	public static final void putDataSources(Map parameters) throws JRException
 	{
-		JRCsvDataSource cds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
-		cds1.setRecordDelimiter("\r\n");
-		cds1.setUseFirstRowAsHeader(true);
-		parameters.put("categoryDatasource1", cds1);
-		
-		JRCsvDataSource cds2 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
-		cds2.setRecordDelimiter("\r\n");
-		cds2.setUseFirstRowAsHeader(true);
-		parameters.put("categoryDatasource2", cds2);
-		
-		JRCsvDataSource cds3 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
-		cds3.setRecordDelimiter("\r\n");
-		cds3.setUseFirstRowAsHeader(true);
-		parameters.put("categoryDatasource3", cds3);
-		
-		JRCsvDataSource cds4 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
-		cds4.setRecordDelimiter("\r\n");
-		cds4.setUseFirstRowAsHeader(true);
-		parameters.put("categoryDatasource4", cds4);
-		
-		JRCsvDataSource cds5 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
-		cds5.setRecordDelimiter("\r\n");
-		cds5.setUseFirstRowAsHeader(true);
-		parameters.put("categoryDatasource5", cds5);
-		
-		JRCsvDataSource cds6 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
-		cds6.setRecordDelimiter("\r\n");
-		cds6.setUseFirstRowAsHeader(true);
-		parameters.put("categoryDatasource6", cds6);
-		
-		JRCsvDataSource cds7 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
-		cds7.setRecordDelimiter("\r\n");
-		cds7.setUseFirstRowAsHeader(true);
-		parameters.put("categoryDatasource7", cds7);
-		
-		JRCsvDataSource pds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/pieDatasource.csv"), "UTF-8");
-		pds1.setRecordDelimiter("\r\n");
-		pds1.setUseFirstRowAsHeader(true);
-		parameters.put("pieDatasource1", pds1);
-		
-		JRCsvDataSource pds2 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/pieDatasource.csv"), "UTF-8");
-		pds2.setRecordDelimiter("\r\n");
-		pds2.setUseFirstRowAsHeader(true);
-		parameters.put("pieDatasource2", pds2);
-		
-		JRCsvDataSource tpds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/timePeriodDatasource.csv"), "UTF-8");
-		tpds1.setRecordDelimiter("\r\n");
-		tpds1.setUseFirstRowAsHeader(true);
-		parameters.put("timePeriodDatasource1", tpds1);
-		
-		JRCsvDataSource tsds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/timeSeriesDatasource.csv"), "UTF-8");
-		tsds1.setRecordDelimiter("\r\n");
-		tsds1.setUseFirstRowAsHeader(true);
-		tsds1.setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
-		parameters.put("timeSeriesDatasource1", tsds1);
-		
-		JRCsvDataSource tsds2 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/timeSeriesDatasource.csv"), "UTF-8");
-		tsds2.setRecordDelimiter("\r\n");
-		tsds2.setUseFirstRowAsHeader(true);
-		tsds2.setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
-		parameters.put("timeSeriesDatasource2", tsds2);
-		
-		JRCsvDataSource tsds3 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/timeSeriesDatasource.csv"), "UTF-8");
-		tsds3.setRecordDelimiter("\r\n");
-		tsds3.setUseFirstRowAsHeader(true);
-		tsds3.setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
-		parameters.put("timeSeriesDatasource3", tsds3);
-		
-		JRCsvDataSource xyds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/xyDatasource.csv"), "UTF-8");
-		xyds1.setRecordDelimiter("\r\n");
-		xyds1.setUseFirstRowAsHeader(true);
-		parameters.put("xyDatasource1", xyds1);
-		
-		JRCsvDataSource xyds2 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/xyDatasource.csv"), "UTF-8");
-		xyds2.setRecordDelimiter("\r\n");
-		xyds2.setUseFirstRowAsHeader(true);
-		parameters.put("xyDatasource2", xyds2);
-		
-		JRCsvDataSource xyds3 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/xyDatasource.csv"), "UTF-8");
-		xyds3.setRecordDelimiter("\r\n");
-		xyds3.setUseFirstRowAsHeader(true);
-		parameters.put("xyDatasource3", xyds3);
-		
-		JRCsvDataSource xyds4 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/xyDatasource.csv"), "UTF-8");
-		xyds4.setRecordDelimiter("\r\n");
-		xyds4.setUseFirstRowAsHeader(true);
-		parameters.put("xyDatasource4", xyds4);
-		
-		JRCsvDataSource xyds5 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/xyDatasource.csv"), "UTF-8");
-		xyds5.setRecordDelimiter("\r\n");
-		xyds5.setUseFirstRowAsHeader(true);
-		parameters.put("xyDatasource5", xyds5);
+		try
+		{
+			JRCsvDataSource cds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
+			cds1.setRecordDelimiter("\r\n");
+			cds1.setUseFirstRowAsHeader(true);
+			parameters.put("categoryDatasource1", cds1);
+			
+			JRCsvDataSource cds2 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
+			cds2.setRecordDelimiter("\r\n");
+			cds2.setUseFirstRowAsHeader(true);
+			parameters.put("categoryDatasource2", cds2);
+			
+			JRCsvDataSource cds3 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
+			cds3.setRecordDelimiter("\r\n");
+			cds3.setUseFirstRowAsHeader(true);
+			parameters.put("categoryDatasource3", cds3);
+			
+			JRCsvDataSource cds4 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
+			cds4.setRecordDelimiter("\r\n");
+			cds4.setUseFirstRowAsHeader(true);
+			parameters.put("categoryDatasource4", cds4);
+			
+			JRCsvDataSource cds5 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
+			cds5.setRecordDelimiter("\r\n");
+			cds5.setUseFirstRowAsHeader(true);
+			parameters.put("categoryDatasource5", cds5);
+			
+			JRCsvDataSource cds6 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
+			cds6.setRecordDelimiter("\r\n");
+			cds6.setUseFirstRowAsHeader(true);
+			parameters.put("categoryDatasource6", cds6);
+			
+			JRCsvDataSource cds7 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/categoryDatasource.csv"), "UTF-8");
+			cds7.setRecordDelimiter("\r\n");
+			cds7.setUseFirstRowAsHeader(true);
+			parameters.put("categoryDatasource7", cds7);
+			
+			JRCsvDataSource pds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/pieDatasource.csv"), "UTF-8");
+			pds1.setRecordDelimiter("\r\n");
+			pds1.setUseFirstRowAsHeader(true);
+			parameters.put("pieDatasource1", pds1);
+			
+			JRCsvDataSource pds2 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/pieDatasource.csv"), "UTF-8");
+			pds2.setRecordDelimiter("\r\n");
+			pds2.setUseFirstRowAsHeader(true);
+			parameters.put("pieDatasource2", pds2);
+			
+			JRCsvDataSource tpds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/timePeriodDatasource.csv"), "UTF-8");
+			tpds1.setRecordDelimiter("\r\n");
+			tpds1.setUseFirstRowAsHeader(true);
+			parameters.put("timePeriodDatasource1", tpds1);
+			
+			JRCsvDataSource tsds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/timeSeriesDatasource.csv"), "UTF-8");
+			tsds1.setRecordDelimiter("\r\n");
+			tsds1.setUseFirstRowAsHeader(true);
+			tsds1.setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
+			parameters.put("timeSeriesDatasource1", tsds1);
+			
+			JRCsvDataSource tsds2 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/timeSeriesDatasource.csv"), "UTF-8");
+			tsds2.setRecordDelimiter("\r\n");
+			tsds2.setUseFirstRowAsHeader(true);
+			tsds2.setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
+			parameters.put("timeSeriesDatasource2", tsds2);
+			
+			JRCsvDataSource tsds3 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/timeSeriesDatasource.csv"), "UTF-8");
+			tsds3.setRecordDelimiter("\r\n");
+			tsds3.setUseFirstRowAsHeader(true);
+			tsds3.setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
+			parameters.put("timeSeriesDatasource3", tsds3);
+			
+			JRCsvDataSource xyds1 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/xyDatasource.csv"), "UTF-8");
+			xyds1.setRecordDelimiter("\r\n");
+			xyds1.setUseFirstRowAsHeader(true);
+			parameters.put("xyDatasource1", xyds1);
+			
+			JRCsvDataSource xyds2 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/xyDatasource.csv"), "UTF-8");
+			xyds2.setRecordDelimiter("\r\n");
+			xyds2.setUseFirstRowAsHeader(true);
+			parameters.put("xyDatasource2", xyds2);
+			
+			JRCsvDataSource xyds3 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/xyDatasource.csv"), "UTF-8");
+			xyds3.setRecordDelimiter("\r\n");
+			xyds3.setUseFirstRowAsHeader(true);
+			parameters.put("xyDatasource3", xyds3);
+			
+			JRCsvDataSource xyds4 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/xyDatasource.csv"), "UTF-8");
+			xyds4.setRecordDelimiter("\r\n");
+			xyds4.setUseFirstRowAsHeader(true);
+			parameters.put("xyDatasource4", xyds4);
+			
+			JRCsvDataSource xyds5 = new JRCsvDataSource(JRLoader.getLocationInputStream("data/xyDatasource.csv"), "UTF-8");
+			xyds5.setRecordDelimiter("\r\n");
+			xyds5.setUseFirstRowAsHeader(true);
+			parameters.put("xyDatasource5", xyds5);
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			throw new JRException(e);
+		}
 	}
 
 }

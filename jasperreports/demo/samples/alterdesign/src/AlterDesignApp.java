@@ -70,6 +70,16 @@ public class AlterDesignApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	public void test() throws JRException
+	{
+		fill();
+		pdf();
+	}
+	
+	
+	/**
+	 *
+	 */
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();

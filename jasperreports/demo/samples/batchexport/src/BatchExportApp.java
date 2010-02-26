@@ -78,6 +78,26 @@ public class BatchExportApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	public void test() throws JRException
+	{
+		fill();
+		pdf();
+		html();
+		rtf();
+		xls();
+		jxl();
+		csv();
+		odt();
+		ods();
+		docx();
+		xlsx();
+		xhtml();
+	}
+
+
+	/**
+	 *
+	 */
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
