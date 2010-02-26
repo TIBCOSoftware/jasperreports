@@ -83,7 +83,28 @@ public class CrosstabApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void fill() throws JRException, ClassNotFoundException, SQLException
+	public void test() throws JRException
+	{
+		fill();
+		pdf();
+		html();
+		rtf();
+		xls();
+		jxl();
+		odt();
+		ods();
+		docx();
+		xlsx();
+		xhtml();
+		xmlEmbed();
+		xml();
+	}
+
+
+	/**
+	 *
+	 */
+	public void fill() throws JRException
 	{
 		File[] files = getFiles(new File("build/reports"), "jasper");
 		for(int i = 0; i < files.length; i++)
@@ -443,7 +464,7 @@ public class CrosstabApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void run() throws JRException, ClassNotFoundException, SQLException
+	public void run() throws JRException
 	{
 		File[] files = getFiles(new File("build/reports"), "jasper");
 		for(int i = 0; i < files.length; i++)
@@ -463,17 +484,32 @@ public class CrosstabApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	private static Connection getConnection() throws ClassNotFoundException, SQLException
+	private static Connection getConnection() throws JRException
 	{
-		//Change these settings according to your local configuration
-		String driver = "org.hsqldb.jdbcDriver";
-		String connectString = "jdbc:hsqldb:hsql://localhost";
-		String user = "sa";
-		String password = "";
+		Connection conn;
+
+		try
+		{
+			//Change these settings according to your local configuration
+			String driver = "org.hsqldb.jdbcDriver";
+			String connectString = "jdbc:hsqldb:hsql://localhost";
+			String user = "sa";
+			String password = "";
 
 
-		Class.forName(driver);
-		Connection conn = DriverManager.getConnection(connectString, user, password);
+			Class.forName(driver);
+			conn = DriverManager.getConnection(connectString, user, password);
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new JRException(e);
+		}
+		catch (SQLException e)
+		{
+			throw new JRException(e);
+			
+		}
+
 		return conn;
 	}
 
