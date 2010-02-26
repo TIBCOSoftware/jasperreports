@@ -58,8 +58,7 @@
 		<antcall target="clean" />
 		<antcall target="javac" />
 		<antcall target="compile" />
-		<antcall target="fill" />
-		<antcall target="pdf" />
+		<ant dir="../" target="test"/>
 	</target>
 
 </project>

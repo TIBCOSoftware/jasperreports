@@ -82,7 +82,29 @@ public class CsvDataSourceApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void fill() throws JRException, IOException
+	public void test() throws JRException
+	{
+		fill();
+		pdf();
+		xmlEmbed();
+		xml();
+		html();
+		rtf();
+		xls();
+		jxl();
+		csv();
+		odt();
+		ods();
+		docx();
+		xlsx();
+		xhtml();
+	}
+
+
+	/**
+	 *
+	 */
+	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
@@ -368,7 +390,7 @@ public class CsvDataSourceApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void run() throws JRException, IOException
+	public void run() throws JRException
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
@@ -387,12 +409,12 @@ public class CsvDataSourceApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	private static JRCsvDataSource getDataSource() throws JRException, IOException
+	private static JRCsvDataSource getDataSource() throws JRException
 	{
 		String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
 		JRCsvDataSource ds = new JRCsvDataSource(JRLoader.getLocationInputStream("data/CsvDataSource.txt"));
 		ds.setRecordDelimiter("\r\n");
-//		ds.setUseFirstRowAsHeader(true);
+//			ds.setUseFirstRowAsHeader(true);
 		ds.setColumnNames(columnNames);
 		return ds;
 	}

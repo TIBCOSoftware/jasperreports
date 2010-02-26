@@ -81,6 +81,30 @@ public class DataSourceApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	public void test() throws JRException
+	{
+		fill1();
+		fill2();
+		fill3();
+		fill4();
+		pdf();
+		xmlEmbed();
+		xml();
+		html();
+		rtf();
+		xls();
+		jxl();
+		csv();
+		odt();
+		ods();
+		docx();
+		xhtml();
+	}
+
+
+	/**
+	 *
+	 */
 	public void fill1() throws JRException
 	{
 		long start = System.currentTimeMillis();
