@@ -27,6 +27,6 @@
     <Measure name="Quantity" column="QUANTITY"
         aggregator="sum" formatString="#,###"/>
     <Measure name="Unit Price" column="PRICE"
-        aggregator="avg" formatString="$#,###.##"/>
+        aggregator="avg" formatString="$#,###.00"/>
   </Cube>
 </Schema>
