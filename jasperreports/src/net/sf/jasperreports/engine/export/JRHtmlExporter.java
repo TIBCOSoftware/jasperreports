@@ -81,11 +81,11 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -1331,7 +1331,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			styleBuffer.append("word-wrap: break-word; ");
 		}
 		
-		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
+		if (text.getLineSpacingValue() != LineSpacingEnum.SINGLE)
 		{
 			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
 		}

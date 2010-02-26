@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.xml;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
@@ -82,7 +83,7 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setTextHeight(Float.parseFloat(textHeight));
 		}
 
-		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(XmlConstants.ATTRIBUTE_lineSpacing));
+		LineSpacingEnum lineSpacing = LineSpacingEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
 			text.setLineSpacing(lineSpacing);

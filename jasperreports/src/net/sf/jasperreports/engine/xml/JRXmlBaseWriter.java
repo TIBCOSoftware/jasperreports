@@ -75,7 +75,7 @@ public abstract class JRXmlBaseWriter
 		writer.addAttribute(XmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignmentValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_lineSpacing, style.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
+		writer.addAttribute(XmlConstants.ATTRIBUTE_lineSpacing, style.getOwnLineSpacingValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_markup, style.getOwnMarkup());
 		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_pattern, style.getOwnPattern());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isBlankWhenNull, style.isOwnBlankWhenNull());

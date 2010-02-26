@@ -552,7 +552,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineSpacing, style.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineSpacing, style.getOwnLineSpacingValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_markup, style.getOwnMarkup());
 		//xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_pattern, style.getOwnPattern());//FIXME if pattern in text field is equal to this, then it should be removed there (inheritance)
 		//xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_isBlankWhenNull, style.isOwnBlankWhenNull());
@@ -891,7 +891,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_textHeight, text.getTextHeight());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_rotation, text.getOwnRotationValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_runDirection, text.getRunDirectionValue(), RunDirectionEnum.LTR);
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineSpacing, text.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineSpacing, text.getOwnLineSpacingValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_markup, text.getOwnMarkup());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_lineSpacingFactor, text.getLineSpacingFactor());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_leadingOffset, text.getLeadingOffset());

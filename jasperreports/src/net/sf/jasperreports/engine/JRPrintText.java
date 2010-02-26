@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -185,20 +187,18 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 * @deprecated Replaced by {@link setRotation(RotationEnum)}.
 	 */
 	public void setRotation(Byte rotation);
-
-	//TODO: uncomment these below
-
-//	/**
-//	 * Gets the text own rotation.
-//	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
-//	 */
-//	public RotationEnum getOwnRotationValue();
-//	
-//	/**
-//	 * Sets the text rotation.
-//	 * @param rotationEnum a value representing one of the text rotation constants in {@link RotationEnum}
-//	 */
-//	public void setRotation(RotationEnum rotationEnum);
+	
+	/**
+	 * Gets the text own rotation.
+	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
+	 */
+	public RotationEnum getOwnRotationValue();
+	
+	/**
+	 * Sets the text rotation.
+	 * @param rotationEnum a value representing one of the text rotation constants in {@link RotationEnum}
+	 */
+	public void setRotation(RotationEnum rotationEnum);
 	
 	/**
 	 * @deprecated Replaced by {@link getRunDirectionValue()}.
@@ -233,19 +233,29 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setTextHeight(float textHeight);
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link getOwnLineSpacingValue()}.
 	 */
 	public Byte getOwnLineSpacing();
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing);
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing);
+		
+	/**
+	 * 
+	 */
+	public LineSpacingEnum getOwnLineSpacingValue();
+		
+	/**
+	 *
+	 */
+	public void setLineSpacing(LineSpacingEnum lineSpacing);
 		
 	/**
 	 * @deprecated Replaced by {@link #setMarkup(String)}
