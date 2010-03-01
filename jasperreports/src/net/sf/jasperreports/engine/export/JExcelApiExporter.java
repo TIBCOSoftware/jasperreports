@@ -84,7 +84,6 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -105,6 +104,7 @@ import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
@@ -384,7 +384,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		float ratio = line.getWidth() / line.getHeight();
 		if (ratio > 1)
 		{
-			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				side = BoxStyle.TOP;
 			}
@@ -395,7 +395,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 		else
 		{
-			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				side = BoxStyle.LEFT;
 			}

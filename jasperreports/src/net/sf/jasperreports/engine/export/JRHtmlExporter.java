@@ -62,7 +62,6 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -85,6 +84,7 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -958,7 +958,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		float ratio = line.getWidth() / line.getHeight();
 		if (ratio > 1)
 		{
-			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				side = "top";
 			}
@@ -969,7 +969,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		else
 		{
-			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				side = "left";
 			}

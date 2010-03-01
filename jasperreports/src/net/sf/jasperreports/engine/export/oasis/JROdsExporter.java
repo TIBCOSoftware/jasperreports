@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -50,6 +49,7 @@ import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
@@ -122,7 +122,7 @@ public class JROdsExporter extends JROpenDocumentExporter
 		float ratio = line.getWidth() / line.getHeight();
 		if (ratio > 1)
 		{
-			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				pen = box.getTopPen();
 			}
@@ -133,7 +133,7 @@ public class JROdsExporter extends JROpenDocumentExporter
 		}
 		else
 		{
-			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				pen = box.getLeftPen();
 			}

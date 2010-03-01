@@ -67,6 +67,7 @@ import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -1046,7 +1047,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		float ratio = line.getWidth() / line.getHeight();
 		if (ratio > 1)
 		{
-			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				pen = box.getTopPen();
 			}
@@ -1057,7 +1058,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		}
 		else
 		{
-			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				pen = box.getLeftPen();
 			}

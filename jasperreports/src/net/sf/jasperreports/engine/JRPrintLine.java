@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -33,14 +35,25 @@ public interface JRPrintLine extends JRPrintGraphicElement
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link getDirectionValue()}.
 	 */
 	public byte getDirection();
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link setDirection(LineDirectionEnum)}.
 	 */
 	public void setDirection(byte direction);
 
+	/**
+	 * Gets the line direction.
+	 * @return a value representing one of the line direction constants in {@link LineDirectionEnum}
+	 */
+	public LineDirectionEnum getDirectionValue();
+	
+	/**
+	 * Sets the line direction.
+	 * @param lineDirectionEnum a value representing one of the line direction constants in {@link LineDirectionEnum}
+	 */
+	public void setDirection(LineDirectionEnum lineDirectionEnum);
 
 }

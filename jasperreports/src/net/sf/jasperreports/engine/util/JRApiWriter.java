@@ -142,6 +142,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -874,7 +875,7 @@ public class JRApiWriter
 		if(line != null)
 		{
 			write( "JRDesignLine " + lineName + " = new JRDesignLine(jasperDesign);\n");
-			write( lineName + ".setDirection({0});\n", JRApiConstants.getDirection(new Byte(line.getDirection())), "JRLine.DIRECTION_TOP_DOWN");
+			write( lineName + ".setDirection({0});\n", line.getDirectionValue(), LineDirectionEnum.TOP_DOWN);
 			writeReportElement( line, lineName);
 			writeGraphicElement( line, lineName);
 			flush();

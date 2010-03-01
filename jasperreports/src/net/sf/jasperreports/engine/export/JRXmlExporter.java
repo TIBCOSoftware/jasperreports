@@ -80,6 +80,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -661,7 +662,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportLine(JRPrintLine line) throws IOException
 	{
 		xmlWriter.startElement(XmlConstants.ELEMENT_line);
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_direction, line.getDirection(), JRXmlConstants.getDirectionMap(), JRLine.DIRECTION_TOP_DOWN);
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_direction, line.getDirectionValue(), LineDirectionEnum.TOP_DOWN);
 
 		exportReportElement(line);
 		exportGraphicElement(line);

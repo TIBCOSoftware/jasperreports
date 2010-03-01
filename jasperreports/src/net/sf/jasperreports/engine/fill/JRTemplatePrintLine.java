@@ -24,7 +24,9 @@
 package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 
 
 /**
@@ -55,21 +57,34 @@ public class JRTemplatePrintLine extends JRTemplatePrintGraphicElement implement
 		super(line);
 	}
 	
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link getDirectionValue()}.
 	 */
 	public byte getDirection()
 	{
-		return ((JRTemplateLine)this.template).getDirection();
+		return getDirectionValue().getValue();
 	}
-
+		
 	/**
-	 *
+	 * @deprecated Replaced by {@link setDirection(LineDirectionEnum)}.
 	 */
 	public void setDirection(byte direction)
 	{
 	}
 
+	/**
+	 * 
+	 */
+	public LineDirectionEnum getDirectionValue()
+	{
+		return ((JRTemplateLine)this.template).getDirectionValue();
+	}
+		
+	/**
+	 * 
+	 */
+	public void setDirection(LineDirectionEnum direction)
+	{
+	}
 
 }

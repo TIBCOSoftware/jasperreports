@@ -57,7 +57,6 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -76,6 +75,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
@@ -599,7 +599,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		exportPen(line.getLinePen());
 		
-		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+		if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 		{
 			writer.write("{\\sp{\\sn fFlipV}{\\sv 0}}");
 		}

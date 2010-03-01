@@ -35,9 +35,9 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
@@ -144,7 +144,7 @@ public class LineDrawer extends ElementDrawer
 				else
 				{
 					//Oblique line
-					if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+					if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 					{
 						if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 						{

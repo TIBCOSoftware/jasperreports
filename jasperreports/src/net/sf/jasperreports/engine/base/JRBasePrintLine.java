@@ -23,10 +23,13 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 
 
 /**
@@ -45,7 +48,7 @@ public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrin
 	/**
 	 *
 	 */
-	protected byte direction = JRLine.DIRECTION_TOP_DOWN;
+	protected LineDirectionEnum directionValue = LineDirectionEnum.TOP_DOWN;
 
 
 	/**
@@ -84,19 +87,52 @@ public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrin
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link getDirectionValue()}.
 	 */
 	public byte getDirection()
 	{
-		return this.direction;
+		return getDirectionValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link setDirection(LineDirectionEnum)}.
 	 */
 	public void setDirection(byte direction)
 	{
-		this.direction = direction;
+		setDirection(LineDirectionEnum.getByValue(direction));
+	}
+
+	/**
+	 * 
+	 */
+	public LineDirectionEnum getDirectionValue()
+	{
+		return this.directionValue;
+	}
+
+	/**
+	 * 
+	 */
+	public void setDirection(LineDirectionEnum directionValue)
+	{
+		this.directionValue = directionValue;
+	}
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte direction;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			directionValue = LineDirectionEnum.getByValue(direction);
+		}
+		
 	}
 
 
