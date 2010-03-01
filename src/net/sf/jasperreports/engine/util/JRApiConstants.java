@@ -57,29 +57,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map scaleImageMap = null;
-
-	public static Map getScaleImageMap()
-	{
-		if (scaleImageMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(JRImage.SCALE_IMAGE_CLIP),         "JRImage.SCALE_IMAGE_CLIP");
-			map.put(new Byte(JRImage.SCALE_IMAGE_FILL_FRAME),   "JRImage.SCALE_IMAGE_FILL_FRAME");
-			map.put(new Byte(JRImage.SCALE_IMAGE_RETAIN_SHAPE), "JRImage.SCALE_IMAGE_RETAIN_SHAPE");
-			map.put(new Byte(JRImage.SCALE_IMAGE_REAL_HEIGHT), "JRImage.SCALE_IMAGE_REAL_HEIGHT");
-			map.put(new Byte(JRImage.SCALE_IMAGE_REAL_SIZE), "JRImage.SCALE_IMAGE_REAL_SIZE");
-			scaleImageMap = Collections.unmodifiableMap(map);
-		}
-
-		return scaleImageMap;
-	}
-
-	public static String getScaleImage(Byte key)
-	{
-		return (String)getScaleImageMap().get(key);
-	}
-	
 	private static Map onErrorTypeMap = null;
 
 	public static Map getOnErrorTypeMap()

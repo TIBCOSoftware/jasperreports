@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
@@ -117,30 +118,56 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getScaleImageValue()}.
 	 */
 	public byte getScaleImage()
 	{
-		return JRStyleResolver.getScaleImage(this);
+		return getScaleImageValue().getValue();
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
+	 */
 	public Byte getOwnScaleImage()
 	{
-		return ((JRImage)this.parent).getOwnScaleImage();
+		return getOwnScaleImageValue().getValueByte();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
 	 */
 	public void setScaleImage(byte scaleImage)
 	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
+	 */
+	public void setScaleImage(Byte scaleImage)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 
+	 */
+	public ScaleImageEnum getScaleImageValue()
+	{
+		return JRStyleResolver.getScaleImageValue(this);
+	}
+		
+	public ScaleImageEnum getOwnScaleImageValue()
+	{
+		return ((JRImage)this.parent).getOwnScaleImageValue();
 	}
 
 	/**
 	 *
 	 */
-	public void setScaleImage(Byte scaleImage)
+	public void setScaleImage(ScaleImageEnum scaleImage)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -910,10 +937,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				this
 				);
 		
-		if (getScaleImage() == JRImage.SCALE_IMAGE_REAL_HEIGHT
-				|| getScaleImage() == JRImage.SCALE_IMAGE_REAL_SIZE)
+		if (getScaleImageValue() == ScaleImageEnum.REAL_HEIGHT
+				|| getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
 		{
-			template.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
+			template.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
 		}
 		
 		return template;
@@ -1100,8 +1127,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					isToPrint = false;
 					willOverflow = true;
 				}
-				else if (!isLazy() && (getScaleImage() == JRImage.SCALE_IMAGE_REAL_HEIGHT
-						|| getScaleImage() == JRImage.SCALE_IMAGE_REAL_SIZE))
+				else if (!isLazy() && (getScaleImageValue() == ScaleImageEnum.REAL_HEIGHT
+						|| getScaleImageValue() == ScaleImageEnum.REAL_SIZE))
 				{
 					int padding = getLineBox().getBottomPadding().intValue() 
 							+ getLineBox().getTopPadding().intValue();
@@ -1211,7 +1238,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		if (reducedHeight <= availableHeight)
 		{
 			imageHeight = new Integer(reducedHeight);
-			if (getScaleImage() == JRImage.SCALE_IMAGE_REAL_SIZE)
+			if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
 			{
 				imageWidth = new Integer(reducedWidth);
 			}
@@ -1224,7 +1251,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		else
 		{
 			imageHeight = new Integer(availableHeight);
-			if (getScaleImage() == JRImage.SCALE_IMAGE_REAL_SIZE)
+			if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
 			{
 				double hRatio = ((double) availableHeight) / realHeight;
 				imageWidth = new Integer((int) (hRatio * realWidth));

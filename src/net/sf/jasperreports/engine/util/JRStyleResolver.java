@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 
@@ -456,7 +457,7 @@ public class JRStyleResolver
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getScaleImageValue(JRCommonImage)}
 	 */
 	public static byte getScaleImage(JRCommonImage image)
 	{
@@ -476,7 +477,7 @@ public class JRStyleResolver
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getScaleImageValue(JRStyle)}
 	 */
 	public static Byte getScaleImage(JRStyle style)
 	{
@@ -486,6 +487,40 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null )
 			return baseStyle.getScaleImage();
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public static ScaleImageEnum getScaleImageValue(JRCommonImage image)
+	{
+		ScaleImageEnum ownScaleImage = image.getOwnScaleImageValue();
+		if (ownScaleImage != null)
+			return ownScaleImage;
+		JRStyle baseStyle = getBaseStyle(image);
+		if (baseStyle != null)
+		{
+			ScaleImageEnum scaleImage = baseStyle.getScaleImageValue();
+			if (scaleImage != null)
+			{
+				return scaleImage;
+			}
+		}
+		return ScaleImageEnum.RETAIN_SHAPE;
+	}
+
+	/**
+	 *
+	 */
+	public static ScaleImageEnum getScaleImageValue(JRStyle style)
+	{
+		ScaleImageEnum ownScaleImage = style.getOwnScaleImageValue();
+		if (ownScaleImage != null)
+			return ownScaleImage;
+		JRStyle baseStyle = getBaseStyle(style);
+		if (baseStyle != null )
+			return baseStyle.getScaleImageValue();
 		return null;
 	}
 
@@ -1290,8 +1325,8 @@ public class JRStyleResolver
 		if (srcStyle.getOwnRadius() != null)
 			destStyle.setRadius(srcStyle.getOwnRadius());
 
-		if (srcStyle.getOwnScaleImage() != null)
-			destStyle.setScaleImage(srcStyle.getOwnScaleImage());
+		if (srcStyle.getOwnScaleImageValue() != null)
+			destStyle.setScaleImage(srcStyle.getOwnScaleImageValue());
 		if (srcStyle.getOwnHorizontalAlignmentValue() != null)
 			destStyle.setHorizontalAlignment(srcStyle.getOwnHorizontalAlignmentValue());
 		if (srcStyle.getOwnVerticalAlignmentValue() != null)

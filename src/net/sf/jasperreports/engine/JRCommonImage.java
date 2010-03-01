@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -32,19 +34,41 @@ public interface JRCommonImage extends JRCommonGraphicElement, JRBoxContainer
 {
 
 	/**
-	 * Gets the image scale type.
-	 * @return one of the scale constants in this class
+	 * @deprecated Replaced by {@link getScaleImageValue()}.
 	 */
 	public byte getScaleImage();
-
-	public Byte getOwnScaleImage();
-
+	
 	/**
-	 * Sets the image scale type.
-	 * @param scaleImage one of the scale constants in this class
+	 * @deprecated Replaced by {@link getOwnScaleImageValue()}.
+	 */
+	public Byte getOwnScaleImage();
+	
+	/**
+	 * @deprecated Replaced by {@link setScaleImage(ScaleImageEnum)}.
 	 */
 	public void setScaleImage(byte scaleImage);
-
+		
+	/**
+	 * @deprecated Replaced by {@link setScaleImage(ScaleImageEnum)}.
+	 */
 	public void setScaleImage(Byte scaleImage);
+
+	/**
+	 * Gets the image scale type.
+	 * @return a value representing one of the scale type constants in {@link ScaleImageEnum}
+	 */
+	public ScaleImageEnum getScaleImageValue();
+	
+	/**
+	 * Gets the image own scale type.
+	 * @return a value representing one of the scale type constants in {@link ScaleImageEnum}
+	 */
+	public ScaleImageEnum getOwnScaleImageValue();
+	
+	/**
+	 * Sets the image scale type.
+	 * @param scaleImageEnum a value representing one of the scale type constants in {@link ScaleImageEnum}
+	 */
+	public void setScaleImage(ScaleImageEnum scaleImageEnum);
 
 }

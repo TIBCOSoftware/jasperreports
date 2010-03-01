@@ -913,9 +913,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			BufferedImage bi = new BufferedImage(element.getWidth(), element.getHeight(), BufferedImage.TYPE_INT_ARGB);
 			Graphics2D grx = bi.createGraphics();
 			
-			switch (element.getScaleImage())
+			switch (element.getScaleImageValue())
 			{
-				case JRImage.SCALE_IMAGE_CLIP:
+				case CLIP:
 				{
 					int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
 					int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
@@ -950,7 +950,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 					break;
 				}
-				case JRImage.SCALE_IMAGE_FILL_FRAME:
+				case FILL_FRAME:
 				{
 					renderer.render(
 						grx, 
@@ -964,7 +964,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 					break;
 				}
-				case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
+				case RETAIN_SHAPE:
 				default:
 				{
 					if (element.getHeight() > 0)

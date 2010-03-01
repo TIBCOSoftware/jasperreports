@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.xml;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 import org.xml.sax.Attributes;
@@ -47,7 +48,8 @@ public class JRPrintImageFactory extends JRBaseFactory
 
 		JRBasePrintImage image = new JRBasePrintImage(jasperPrint.getDefaultStyleProvider());
 
-		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(XmlConstants.ATTRIBUTE_scaleImage));
+		// get image attributes
+		ScaleImageEnum scaleImage = ScaleImageEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_scaleImage));
 		if (scaleImage != null)
 		{
 			image.setScaleImage(scaleImage);

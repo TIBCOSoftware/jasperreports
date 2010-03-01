@@ -37,7 +37,6 @@ import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -160,9 +159,9 @@ public class ImageDrawer extends ElementDrawer
 				}
 			}
 
-			switch (printImage.getScaleImage())// FIXME maybe put this in JRFiller
+			switch (printImage.getScaleImageValue())// FIXME maybe put this in JRFiller
 			{
-				case JRImage.SCALE_IMAGE_CLIP :
+				case CLIP :
 				{
 					int xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
 					int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
@@ -197,7 +196,7 @@ public class ImageDrawer extends ElementDrawer
 	
 					break;
 				}
-				case JRImage.SCALE_IMAGE_FILL_FRAME :
+				case FILL_FRAME :
 				{
 					renderer.render(
 						grx,
@@ -211,7 +210,7 @@ public class ImageDrawer extends ElementDrawer
 	
 					break;
 				}
-				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+				case RETAIN_SHAPE :
 				default :
 				{
 					if (printImage.getHeight() > 0)

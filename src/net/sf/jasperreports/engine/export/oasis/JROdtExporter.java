@@ -36,7 +36,6 @@ import java.io.IOException;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -224,9 +223,9 @@ public class JROdtExporter extends JROpenDocumentExporter
 			float xalignFactor = getXAlignFactor(image);
 			float yalignFactor = getYAlignFactor(image);
 
-			switch (image.getScaleImage())
+			switch (image.getScaleImageValue())
 			{
-				case JRImage.SCALE_IMAGE_FILL_FRAME :
+				case FILL_FRAME :
 				{
 					width = availableImageWidth;
 					height = availableImageHeight;
@@ -234,8 +233,8 @@ public class JROdtExporter extends JROpenDocumentExporter
 					yoffset = 0;
 					break;
 				}
-				case JRImage.SCALE_IMAGE_CLIP :
-				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+				case CLIP :
+				case RETAIN_SHAPE :
 				default :
 				{
 					double normalWidth = availableImageWidth;

@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -70,7 +71,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 *
 	 */
-	private Byte scaleImage = null;
+	private ScaleImageEnum scaleImageValue = null;
 	private Boolean isUsingCache = Boolean.TRUE;
 	private HorizontalAlignEnum horizontalAlignmentValue = null;
 	private VerticalAlignEnum verticalAlignmentValue = null;
@@ -130,7 +131,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		
 		lineBox = image.getLineBox().clone(this);
 
-		setScaleImage(image.getScaleImage());
+		setScaleImage(image.getScaleImageValue());
 		setUsingCache(image.isUsingCache());
 		setHorizontalAlignment(image.getHorizontalAlignmentValue());
 		setVerticalAlignment(image.getVerticalAlignmentValue());
@@ -202,35 +203,59 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getScaleImageValue()}.
 	 */
 	public byte getScaleImage()
 	{
-		return JRStyleResolver.getScaleImage(this);
-	}
-		
-	/**
-	 *
-	 */
-	public Byte getOwnScaleImage()
-	{
-		return scaleImage;
-	}
-		
-	/**
-	 *
-	 */
-	public void setScaleImage(byte scaleImage)
-	{
-		this.scaleImage = new Byte(scaleImage);
+		return getScaleImageValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
+	 */
+	public Byte getOwnScaleImage()
+	{
+		return getOwnScaleImageValue().getValueByte();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
+	 */
+	public void setScaleImage(byte scaleImage)
+	{
+		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
 	 */
 	public void setScaleImage(Byte scaleImage)
 	{
-		this.scaleImage = scaleImage;
+		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
+	}
+
+	/**
+	 * 
+	 */
+	public ScaleImageEnum getScaleImageValue()
+	{
+		return JRStyleResolver.getScaleImageValue(this);
+	}
+
+	/**
+	 * 
+	 */
+	public ScaleImageEnum getOwnScaleImageValue()
+	{
+		return this.scaleImageValue;
+	}
+
+	/**
+	 * 
+	 */
+	public void setScaleImage(ScaleImageEnum scaleImageValue)
+	{
+		this.scaleImageValue = scaleImageValue;
 	}
 
 	/**
@@ -989,6 +1014,8 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	private Integer rightPadding = null;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private Byte scaleImage = null;
+
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -998,9 +1025,11 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		{
 			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
 
 			horizontalAlignment = null;
 			verticalAlignment = null;
+			scaleImage = null;
 		}
 		
 		if (lineBox == null)

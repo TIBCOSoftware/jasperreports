@@ -65,7 +65,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 
 		radius = style.getOwnRadius();
 
-		scaleImage = style.getOwnScaleImage();
+		scaleImageValue = style.getOwnScaleImageValue();
 		horizontalAlignmentValue = style.getOwnHorizontalAlignmentValue();
 		verticalAlignmentValue = style.getOwnVerticalAlignmentValue();
 

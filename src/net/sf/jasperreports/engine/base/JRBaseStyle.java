@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -135,7 +136,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	protected Integer radius = null;
 
-	protected Byte scaleImage = null;
+	protected ScaleImageEnum scaleImageValue;
 	protected HorizontalAlignEnum horizontalAlignmentValue = null;
 	protected VerticalAlignEnum verticalAlignmentValue = null;
 
@@ -212,7 +213,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 		radius = style.getOwnRadius();
 
-		scaleImage = style.getOwnScaleImage();
+		scaleImageValue = style.getOwnScaleImageValue();
 		horizontalAlignmentValue = style.getOwnHorizontalAlignmentValue();
 		verticalAlignmentValue = style.getOwnVerticalAlignmentValue();
 
@@ -391,14 +392,36 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		return radius;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getScaleImageValue()}.
+	 */
 	public Byte getScaleImage()
 	{
-		return JRStyleResolver.getScaleImage(this);
+		return getScaleImageValue().getValueByte();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
+	 */
 	public Byte getOwnScaleImage()
 	{
-		return scaleImage;
+		return getOwnScaleImageValue().getValueByte();
+	}
+
+	/**
+	 * 
+	 */
+	public ScaleImageEnum getScaleImageValue()
+	{
+		return JRStyleResolver.getScaleImageValue(this);
+	}
+
+	/**
+	 * 
+	 */
+	public ScaleImageEnum getOwnScaleImageValue()
+	{
+		return this.scaleImageValue;
 	}
 
 	/**
@@ -1045,21 +1068,29 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
 	 */
 	public void setScaleImage(byte scaleImage)
 	{
-		setScaleImage(new Byte(scaleImage));
+		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
+	 */
+	public void setScaleImage(Byte scaleImage)
+	{
+		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
 	}
 
 	/**
 	 *
 	 */
-	public void setScaleImage(Byte scaleImage)
+	public void setScaleImage(ScaleImageEnum scaleImageValue)
 	{
-		Object old = this.scaleImage;
-		this.scaleImage = scaleImage;
-		getEventSupport().firePropertyChange(PROPERTY_SCALE_IMAGE, old, this.scaleImage);
+		Object old = this.scaleImageValue;
+		this.scaleImageValue = scaleImageValue;
+		getEventSupport().firePropertyChange(PROPERTY_SCALE_IMAGE, old, this.scaleImageValue);
 	}
 
 	/**
@@ -1611,6 +1642,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
 	private Boolean isStyledText = null;
+	private Byte scaleImage = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1623,12 +1655,14 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
 			rotationValue = RotationEnum.getByValue(rotation);
 			lineSpacingValue = LineSpacingEnum.getByValue(lineSpacing);
+			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
 			
 			mode = null;
 			horizontalAlignment = null;
 			verticalAlignment = null;
 			rotation = null;
 			lineSpacing = null;
+			scaleImage = null;
 		}
 
 		if (linePen == null)

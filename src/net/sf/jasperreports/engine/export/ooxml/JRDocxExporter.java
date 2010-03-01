@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -828,15 +827,15 @@ public class JRDocxExporter extends JRAbstractExporter
 			double cropBottom = 0;
 			double cropRight = 0;
 			
-			switch (image.getScaleImage())
+			switch (image.getScaleImageValue())
 			{
-				case JRImage.SCALE_IMAGE_FILL_FRAME :
+				case FILL_FRAME :
 				{
 					width = availableImageWidth;
 					height = availableImageHeight;
 					break;
 				}
-				case JRImage.SCALE_IMAGE_CLIP :
+				case CLIP :
 				{
 					if (normalWidth > availableImageWidth)
 					{
@@ -906,7 +905,7 @@ public class JRDocxExporter extends JRAbstractExporter
 
 					break;
 				}
-				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+				case RETAIN_SHAPE :
 				default :
 				{
 					if (availableImageHeight > 0)

@@ -23,17 +23,17 @@
  */
 package net.sf.jasperreports.components.barbecue;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.component.ComponentDesignConverter;
 import net.sf.jasperreports.engine.convert.ReportConverter;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sourceforge.barbecue.Barcode;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * 
@@ -61,7 +61,7 @@ public class BarbecueDesignConverter implements ComponentDesignConverter
 			JRBasePrintImage image = new JRBasePrintImage(
 					reportConverter.getDefaultStyleProvider());
 			reportConverter.copyBaseAttributes(element, image);
-			image.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
+			image.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
 			
 			String code = null;
 			if (component.getCodeExpression() != null)

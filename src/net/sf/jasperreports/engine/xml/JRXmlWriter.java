@@ -856,7 +856,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public void writeImage(JRImage image) throws IOException
 	{
 		writer.startElement(XmlConstants.ELEMENT_image, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
+		writer.addAttribute(XmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImageValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalAlignmentValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalAlignmentValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isUsingCache, image.isOwnUsingCache());

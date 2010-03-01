@@ -1007,7 +1007,7 @@ public class JRApiWriter
 		if(image != null)
 		{
 			write( "JRDesignImage " + imageName + " = new JRDesignImage(jasperDesign);\n");
-			write( imageName + ".setScaleImage({0});\n", JRApiConstants.getScaleImage(image.getOwnScaleImage()));
+			write( imageName + ".setScaleImage({0});\n", image.getOwnScaleImageValue());
 			write( imageName + ".setHorizontalAlignment({0});\n", image.getOwnHorizontalAlignmentValue());
 			write( imageName + ".setVerticalAlignment({0});\n", image.getOwnVerticalAlignmentValue());
 			write( imageName + ".setUsingCache({0});\n", image.isOwnUsingCache());
@@ -1146,7 +1146,7 @@ public class JRApiWriter
 			write( styleName + ".setBackcolor({0});\n", getColorText(style.getOwnBackcolor()));
 			write( styleName + ".setFill({0});\n", JRApiConstants.getFill(style.getOwnFill()));
 			write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
-			write( styleName + ".setScaleImage({0});\n", JRApiConstants.getScaleImage(style.getOwnScaleImage()));
+			write( styleName + ".setScaleImage({0});\n", style.getOwnScaleImageValue());
 			write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
 			write( styleName + ".setVerticalAlignment({0});\n", style.getOwnVerticalAlignmentValue());
 			write( styleName + ".setRotation({0});\n", style.getOwnRotationValue());
@@ -3548,7 +3548,7 @@ public class JRApiWriter
 			write( styleName + ".setBackcolor({0});\n", getColorText(style.getOwnBackcolor()));
 			write( styleName + ".setFill({0});\n", JRApiConstants.getFill(style.getOwnFill()));
 			write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
-			write( styleName + ".setScaleImage({0});\n", JRApiConstants.getScaleImage(style.getOwnScaleImage()));
+			write( styleName + ".setScaleImage({0});\n", style.getOwnScaleImageValue());
 			write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
 			write( styleName + ".setVerticalAlignment({0});\n", style.getOwnVerticalAlignmentValue());
 			write( styleName + ".setRotation({0});\n", style.getOwnRotationValue());
