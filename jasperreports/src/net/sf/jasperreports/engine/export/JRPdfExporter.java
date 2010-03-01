@@ -1157,9 +1157,9 @@ public class JRPdfExporter extends JRAbstractExporter
 				float xalignFactor = getXAlignFactor(printImage);
 				float yalignFactor = getYAlignFactor(printImage);
 
-				switch(printImage.getScaleImage())
+				switch(printImage.getScaleImageValue())
 				{
-					case JRImage.SCALE_IMAGE_CLIP :
+					case CLIP :
 					{
 						// Image load might fail, from given image data. 
 						// Better to test and replace the renderer now, in case of lazy load error.
@@ -1219,7 +1219,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 						break;
 					}
-					case JRImage.SCALE_IMAGE_FILL_FRAME :
+					case FILL_FRAME :
 					{
 						if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer))
 						{
@@ -1256,7 +1256,7 @@ public class JRPdfExporter extends JRAbstractExporter
 						image.scaleAbsolute(availableImageWidth, availableImageHeight);
 						break;
 					}
-					case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+					case RETAIN_SHAPE :
 					default :
 					{
 						if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer))
@@ -1335,9 +1335,9 @@ public class JRPdfExporter extends JRAbstractExporter
 					float xalignFactor = getXAlignFactor(printImage);
 					float yalignFactor = getYAlignFactor(printImage);
 
-					switch (printImage.getScaleImage())
+					switch (printImage.getScaleImageValue())
 					{
-						case JRImage.SCALE_IMAGE_CLIP:
+						case CLIP:
 						{
 							xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
 							yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
@@ -1350,7 +1350,7 @@ public class JRPdfExporter extends JRAbstractExporter
 									);
 							break;
 						}
-						case JRImage.SCALE_IMAGE_FILL_FRAME:
+						case FILL_FRAME:
 						{
 							ratioX = availableImageWidth / normalWidth;
 							ratioY = availableImageHeight / normalHeight;
@@ -1360,7 +1360,7 @@ public class JRPdfExporter extends JRAbstractExporter
 							yoffset = 0;
 							break;
 						}
-						case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
+						case RETAIN_SHAPE:
 						default:
 						{
 							ratioX = availableImageWidth / normalWidth;

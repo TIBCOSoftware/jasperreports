@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
@@ -100,34 +101,59 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getScaleImageValue()}.
 	 */
 	public byte getScaleImage()
 	{
-		return ((JRTemplateImage)this.template).getScaleImage();
+		return getScaleImageValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
 	 */
 	public Byte getOwnScaleImage()
 	{
-		return ((JRTemplateImage)this.template).getOwnScaleImage();
+		return getOwnScaleImageValue().getValueByte();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
 	 */
 	public void setScaleImage(byte scaleImage)
 	{
-		//FIXMENOW throw exception on all empty setters to enforce read-only?
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
+	 */
+	public void setScaleImage(Byte scaleImage)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 *
 	 */
-	public void setScaleImage(Byte scaleImage)
+	public ScaleImageEnum getScaleImageValue()
 	{
+		return ((JRTemplateImage)this.template).getScaleImageValue();
+	}
+
+	/**
+	 *
+	 */
+	public ScaleImageEnum getOwnScaleImageValue()
+	{
+		return ((JRTemplateImage)this.template).getOwnScaleImageValue();
+	}
+
+	/**
+	 *
+	 */
+	public void setScaleImage(ScaleImageEnum scaleImage)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**

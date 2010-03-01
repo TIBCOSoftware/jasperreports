@@ -59,7 +59,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -88,6 +87,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -1738,7 +1738,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 			String imageMapName = null;
 			List imageMapAreas = null;
 	
-			byte scaleImage = image.getScaleImage();
+			ScaleImageEnum scaleImage = image.getScaleImageValue();
+			
 			if (renderer != null)
 			{
 				if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
@@ -1804,7 +1805,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			{
 				loadPxImage();
 				imagePath = imagesURI + "px";
-				scaleImage = JRImage.SCALE_IMAGE_FILL_FRAME;
+				scaleImage = ScaleImageEnum.FILL_FRAME;
 			}
 	
 			writer.write(" src=\"");
@@ -1826,7 +1827,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 			switch (scaleImage)
 			{
-				case JRImage.SCALE_IMAGE_FILL_FRAME :
+				case FILL_FRAME :
 				{
 					writer.write(" style=\"width: ");
 					writer.write(toSizeUnit(imageWidth));
@@ -1836,8 +1837,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 					break;
 				}
-				case JRImage.SCALE_IMAGE_CLIP : //FIXMEIMAGE image clip could be achieved by cutting the image and preserving the image type
-				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+				case CLIP : //FIXMEIMAGE image clip could be achieved by cutting the image and preserving the image type
+				case RETAIN_SHAPE :
 				default :
 				{
 					double normalWidth = imageWidth;

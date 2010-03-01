@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -68,7 +69,7 @@ public class ElementIconConverter extends ElementConverter
 		copyElement(reportConverter, element, printImage);
 		
 		printImage.getLineBox().setPadding(3);
-		printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
+		printImage.setScaleImage(ScaleImageEnum.CLIP);
 		
 		printImage.setRenderer(getRenderer());
 		return printImage;

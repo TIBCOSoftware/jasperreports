@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 import org.xml.sax.Attributes;
@@ -53,7 +54,8 @@ public class JRImageFactory extends JRBaseFactory
 
 		JRDesignImage image = new JRDesignImage(jasperDesign);
 
-		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(XmlConstants.ATTRIBUTE_scaleImage));
+		// get image attributes
+		ScaleImageEnum scaleImage = ScaleImageEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_scaleImage));
 		if (scaleImage != null)
 		{
 			image.setScaleImage(scaleImage);

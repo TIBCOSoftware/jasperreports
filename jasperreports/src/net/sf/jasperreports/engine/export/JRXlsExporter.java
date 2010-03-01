@@ -51,7 +51,6 @@ import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -1086,9 +1085,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				BufferedImage bi = new BufferedImage(element.getWidth(), element.getHeight(), BufferedImage.TYPE_INT_ARGB);
 				Graphics2D grx = bi.createGraphics();
 
-				switch (element.getScaleImage())
+				switch (element.getScaleImageValue())
 				{
-					case JRImage.SCALE_IMAGE_CLIP:
+					case CLIP:
 					{
 						int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
 						int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
@@ -1123,7 +1122,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 						break;
 					}
-					case JRImage.SCALE_IMAGE_FILL_FRAME:
+					case FILL_FRAME:
 					{
 						renderer.render(
 							grx,
@@ -1137,7 +1136,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 						break;
 					}
-					case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
+					case RETAIN_SHAPE:
 					default:
 					{
 						if (element.getHeight() > 0)

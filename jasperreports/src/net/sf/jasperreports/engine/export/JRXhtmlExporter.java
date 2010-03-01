@@ -89,6 +89,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -1506,7 +1507,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			String imageMapName = null;
 			List imageMapAreas = null;
 	
-			byte scaleImage = image.getScaleImage();
+			ScaleImageEnum scaleImage = image.getScaleImageValue();
+			
 			if (renderer != null)
 			{
 				if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
@@ -1572,7 +1574,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		
 			switch (scaleImage)
 			{
-				case JRImage.SCALE_IMAGE_FILL_FRAME :
+				case FILL_FRAME :
 				{
 					int leftDiff = 0;
 					int topDiff = 0;
@@ -1604,7 +1606,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		
 					break;
 				}
-				case JRImage.SCALE_IMAGE_CLIP :
+				case CLIP :
 				{
 					double normalWidth = availableImageWidth;
 					double normalHeight = availableImageHeight;
@@ -1661,7 +1663,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 					break;
 				}
-				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+				case RETAIN_SHAPE :
 				default :
 				{
 					double normalWidth = availableImageWidth;

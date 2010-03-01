@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -129,12 +130,26 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public Integer getOwnRadius();
 
 	/**
-	 * Gets the image scale type.
-	 * @return one of the scale constants in this class
+	 * @deprecated Replaced by {@link #getScaleImageValue()}.
 	 */
 	public Byte getScaleImage();
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
+	 */
 	public Byte getOwnScaleImage();
+
+	/**
+	 * Gets the image scale type.
+	 * @return one of the scale types defined in {@link ScaleImageEnum}
+	 */
+	public ScaleImageEnum getScaleImageValue();
+
+	/**
+	 * Gets the image own scale type.
+	 * @return one of the scale types defined in {@link ScaleImageEnum}
+	 */
+	public ScaleImageEnum getOwnScaleImageValue();
 
 	/**
 	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
@@ -552,14 +567,19 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setRadius(Integer radius);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
 	 */
 	public void setScaleImage(byte scaleImage);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
 	 */
 	public void setScaleImage(Byte scaleImage);
+
+	/**
+	 *
+	 */
+	public void setScaleImage(ScaleImageEnum scaleImage);
 
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.

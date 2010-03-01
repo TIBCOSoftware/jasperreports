@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
@@ -94,7 +95,7 @@ public class ImageConverter extends ElementConverter
 		printImage.setOnErrorType(JRImage.ON_ERROR_TYPE_ICON);
 		printImage.setVerticalAlignment(image.getOwnVerticalAlignmentValue());
 		printImage.setRenderer(getRenderer(image, printImage));
-		printImage.setScaleImage(image.getOwnScaleImage());
+		printImage.setScaleImage(image.getOwnScaleImageValue());
 		
 		return printImage;
 	}
@@ -134,7 +135,7 @@ public class ImageConverter extends ElementConverter
 		
 		try
 		{
-			printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
+			printImage.setScaleImage(ScaleImageEnum.CLIP);
 			return 
 				JRImageRenderer.getInstance(
 					JRImageLoader.NO_IMAGE_RESOURCE, 

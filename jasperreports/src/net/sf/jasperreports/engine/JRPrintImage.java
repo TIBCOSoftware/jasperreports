@@ -30,6 +30,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -50,15 +52,20 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	public void setRenderer(JRRenderable renderer);
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link setScaleImage(ScaleImageEnum)}.
 	 */
 	public void setScaleImage(byte scaleImage);
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link setScaleImage(ScaleImageEnum)}.
 	 */
 	public void setScaleImage(Byte scaleImage);
 	
+	/**
+	 * 
+	 */
+	public void setScaleImage(ScaleImageEnum scaleImage);
+
 	/**
 	 *
 	 */

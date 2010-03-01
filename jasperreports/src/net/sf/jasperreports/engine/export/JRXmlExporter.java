@@ -56,7 +56,6 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPen;
@@ -549,7 +548,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_backcolor, style.getOwnBackcolor());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_fill, style.getOwnFill(), JRXmlConstants.getFillMap());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_radius, style.getOwnRadius());
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImageValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
@@ -779,7 +778,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportImage(JRPrintImage image) throws JRException, IOException
 	{
 		xmlWriter.startElement(XmlConstants.ELEMENT_image);
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImageValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_isLazy, image.isLazy(), false);

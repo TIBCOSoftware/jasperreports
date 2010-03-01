@@ -29,7 +29,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRStyle;
@@ -37,6 +36,7 @@ import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
 
@@ -132,7 +132,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 					fillContext.getElementOrigin(), 
 					fillContext.getDefaultStyleProvider());
 			templateImage.setStyle(elementStyle);
-			templateImage.setScaleImage(JRImage.SCALE_IMAGE_RETAIN_SHAPE);
+			templateImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
 			
 			printTemplates.put(elementStyle, templateImage);
 		}
