@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 
 
 /**
@@ -58,7 +59,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link getDirectionValue()}.
 	 */
 	public byte getDirection()
 	{
@@ -66,10 +67,27 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link setDirection(LineDirectionEnum)}.
 	 */
 	public void setDirection(byte direction)
 	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 
+	 */
+	public LineDirectionEnum getDirectionValue()
+	{
+		return ((JRLine)this.parent).getDirectionValue();
+	}
+		
+	/**
+	 * 
+	 */
+	public void setDirection(LineDirectionEnum direction)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**

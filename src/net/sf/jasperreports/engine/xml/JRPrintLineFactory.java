@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintLine;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 
 import org.xml.sax.Attributes;
 
@@ -45,10 +46,10 @@ public class JRPrintLineFactory extends JRBaseFactory
 
 		JRBasePrintLine line = new JRBasePrintLine(jasperPrint.getDefaultStyleProvider());
 
-		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue(XmlConstants.ATTRIBUTE_direction));
+		LineDirectionEnum direction = LineDirectionEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_direction));
 		if (direction != null)
 		{
-			line.setDirection(direction.byteValue());
+			line.setDirection(direction);
 		}
 
 		return line;

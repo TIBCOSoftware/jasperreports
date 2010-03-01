@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
+
 
 /**
  * An abstract representation of a graphic element representing a straight line.
@@ -54,19 +56,16 @@ public interface JRLine extends JRGraphicElement
 	 */
 	public void setDirection(byte direction);
 
-	//TODO: uncomment these below
-
-//	/**
-//	 * Gets the line direction.
-//	 * @return a value representing one of the line direction constants in {@link LineDirectionEnum}
-//	 */
-//	public LineDirectionEnum getDirectionValue();
-//	
-//	/**
-//	 * Sets the line direction.
-//	 * @param lineDirectionEnum a value representing one of the line direction constants in {@link LineDirectionEnum}
-//	 */
-//	public void setDirection(LineDirectionEnum lineDirectionEnum);
+	/**
+	 * Gets the line direction.
+	 * @return a value representing one of the line direction constants in {@link LineDirectionEnum}
+	 */
+	public LineDirectionEnum getDirectionValue();
 	
+	/**
+	 * Sets the line direction.
+	 * @param lineDirectionEnum a value representing one of the line direction constants in {@link LineDirectionEnum}
+	 */
+	public void setDirection(LineDirectionEnum lineDirectionEnum);
 
 }

@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignLine;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 import org.xml.sax.Attributes;
 
@@ -45,10 +47,10 @@ public class JRLineFactory extends JRBaseFactory
 
 		JRDesignLine line = new JRDesignLine(jasperDesign);
 
-		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue(XmlConstants.ATTRIBUTE_direction));
+		LineDirectionEnum direction = LineDirectionEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_direction));
 		if (direction != null)
 		{
-			line.setDirection(direction.byteValue());
+			line.setDirection(direction);
 		}
 
 		return line;

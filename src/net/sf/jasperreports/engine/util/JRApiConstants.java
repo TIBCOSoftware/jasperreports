@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
@@ -58,26 +57,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map directionMap = null;
-
-	public static Map getDirectionMap()
-	{
-		if (directionMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(JRLine.DIRECTION_TOP_DOWN),  "JRLine.DIRECTION_TOP_DOWN");
-			map.put(new Byte(JRLine.DIRECTION_BOTTOM_UP), "JRLine.DIRECTION_BOTTOM_UP");
-			directionMap = Collections.unmodifiableMap(map);
-		}
-
-		return directionMap;
-	}
-
-	public static String getDirection(Byte key)
-	{
-		return (String)getDirectionMap().get(key);
-	}
-	
 	private static Map scaleImageMap = null;
 
 	public static Map getScaleImageMap()

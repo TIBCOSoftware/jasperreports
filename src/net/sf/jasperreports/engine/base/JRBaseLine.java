@@ -23,10 +23,14 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 
 
 /**
@@ -48,8 +52,7 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	/**
 	 *
 	 */
-	protected byte direction = DIRECTION_TOP_DOWN;
-
+	protected LineDirectionEnum directionValue = LineDirectionEnum.TOP_DOWN;
 
 	/**
 	 * Initializes properties that are specific to lines. Common properties are initialized by its
@@ -63,7 +66,7 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	{
 		super(line, factory);
 		
-		direction = line.getDirection();
+		directionValue = line.getDirectionValue();
 	}
 		
 
@@ -81,21 +84,37 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link getDirectionValue()}.
 	 */
 	public byte getDirection()
 	{
-		return direction;
+		return getDirectionValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link setDirection(LineDirectionEnum)}.
 	 */
 	public void setDirection(byte direction)
 	{
-		byte old = this.direction;
-		this.direction = direction;
-		getEventSupport().firePropertyChange(PROPERTY_DIRECTION, old, this.direction);
+		setDirection(LineDirectionEnum.getByValue(direction));
+	}
+
+	/**
+	 * 
+	 */
+	public LineDirectionEnum getDirectionValue()
+	{
+		return directionValue;
+	}
+
+	/**
+	 * 
+	 */
+	public void setDirection(LineDirectionEnum directionValue)
+	{
+		LineDirectionEnum old = this.directionValue;
+		this.directionValue = directionValue;
+		getEventSupport().firePropertyChange(PROPERTY_DIRECTION, old, this.directionValue);
 	}
 
 	/**
@@ -114,5 +133,21 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 		visitor.visitLine(this);
 	}
 
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte direction;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			directionValue = LineDirectionEnum.getByValue(direction);
+		}
+		
+	}
 
 }

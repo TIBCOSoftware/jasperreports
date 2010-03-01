@@ -156,6 +156,7 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
@@ -742,7 +743,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public void writeLine(JRLine line) throws IOException
 	{
 		writer.startElement(XmlConstants.ELEMENT_line, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_direction, line.getDirection(), JRXmlConstants.getDirectionMap(), JRLine.DIRECTION_TOP_DOWN);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_direction, line.getDirectionValue(), LineDirectionEnum.TOP_DOWN);
 
 		writeReportElement(line);
 		writeGraphicElement(line);
