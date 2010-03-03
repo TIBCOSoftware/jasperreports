@@ -25,6 +25,7 @@ package net.sf.jasperreports.crosstabs.design;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabGroup;
+import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -86,16 +87,25 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 	
 	
 	/**
-	 * Sets the position of the total row/column.
-	 * 
-	 * @param totalPosition the position of the total row/column
-	 * @see net.sf.jasperreports.crosstabs.JRCrosstabGroup#getTotalPosition()
+	 * @deprecated Replaced by {@link #setTotalPosition(CrosstabTotalPositionEnum)}.
 	 */
 	public void setTotalPosition(byte totalPosition)
 	{
-		byte old = this.totalPosition;
-		this.totalPosition = totalPosition;
-		getEventSupport().firePropertyChange(PROPERTY_TOTAL_POSITION, old, this.totalPosition);
+		setTotalPosition(CrosstabTotalPositionEnum.getByValue(totalPosition));
+	}
+	
+	
+	/**
+	 * Sets the position of the total row/column.
+	 * 
+	 * @param totalPosition the position of the total row/column
+	 * @see net.sf.jasperreports.crosstabs.JRCrosstabGroup#getTotalPositionValue()
+	 */
+	public void setTotalPosition(CrosstabTotalPositionEnum totalPositionValue)
+	{
+		Object old = this.totalPositionValue;
+		this.totalPositionValue = totalPositionValue;
+		getEventSupport().firePropertyChange(PROPERTY_TOTAL_POSITION, old, this.totalPositionValue);
 	}
 	
 	

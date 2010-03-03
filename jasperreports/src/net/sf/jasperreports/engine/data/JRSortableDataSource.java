@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 
 /**
@@ -94,7 +95,7 @@ public class JRSortableDataSource implements JRRewindableDataSource
 		{
 			JRSortField sortField = sortFields[i];
 			sortIndexes[i] = ((Integer)fieldIndexMap.get(sortField.getName())).intValue();
-			sortOrders[i] = (JRSortField.SORT_ORDER_ASCENDING == sortField.getOrder() ? 1 : -1);
+			sortOrders[i] = (SortOrderEnum.ASCENDING == sortField.getOrderValue() ? 1 : -1);
 
 			collatorFlags[i] = false;
 			for(int j = 0; j < fields.length; j++)

@@ -23,9 +23,12 @@
  */
 package net.sf.jasperreports.crosstabs.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
+import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -53,7 +56,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 	protected String incrementerFactoryClassName;
 	protected String incrementerFactoryClassRealName;
 	protected Class incrementerFactoryClass;
-	protected byte percentageOfType = JRCrosstabMeasure.PERCENTAGE_TYPE_NONE;
+	protected CrosstabPercentageEnum percentageType = CrosstabPercentageEnum.NONE;
 	protected String percentageCalculatorClassName;
 	protected String percentageCalculatorClassRealName;
 	protected Class percentageCalculatorClass;
@@ -72,7 +75,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 		this.expression = factory.getExpression(measure.getValueExpression());
 		this.calculation = measure.getCalculation();
 		this.incrementerFactoryClassName = measure.getIncrementerFactoryClassName();
-		this.percentageOfType = measure.getPercentageOfType();		
+		this.percentageType = measure.getPercentageType();		
 		this.percentageCalculatorClassName = measure.getPercentageCalculatorClassName();
 		this.variable = factory.getVariable(measure.getVariable());
 	}
@@ -102,9 +105,17 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 		return incrementerFactoryClassName;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getPercentageType()}.
+	 */
 	public byte getPercentageOfType()
 	{
-		return percentageOfType;
+		return getPercentageType().getValue();
+	}
+
+	public CrosstabPercentageEnum getPercentageType()
+	{
+		return percentageType;
 	}
 
 	public Class getIncrementerFactoryClass()
@@ -237,4 +248,22 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 			throw new JRRuntimeException(e);
 		}
 	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte percentageOfType;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			percentageType = CrosstabPercentageEnum.getByValue(percentageOfType);
+		}
+	}
+
 }

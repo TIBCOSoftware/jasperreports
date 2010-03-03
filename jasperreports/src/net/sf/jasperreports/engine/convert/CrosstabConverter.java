@@ -40,7 +40,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabCell;
 import net.sf.jasperreports.crosstabs.JRCrosstabColumnGroup;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
-import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
+import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -271,7 +271,7 @@ public class CrosstabConverter extends FrameConverter
 		{
 			JRCrosstabColumnGroup group = groups[i];
 			
-			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_START)
+			if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.START)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
 				if (totalHeader.getWidth() != 0 && totalHeader.getHeight() != 0)
@@ -307,7 +307,7 @@ public class CrosstabConverter extends FrameConverter
 						));
 			}
 			
-			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_END)
+			if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.END)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
 				if (totalHeader.getWidth() != 0 && totalHeader.getHeight() != 0)
@@ -345,7 +345,7 @@ public class CrosstabConverter extends FrameConverter
 		{
 			JRCrosstabRowGroup group = groups[i];
 			
-			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_START)
+			if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.START)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
 				if (totalHeader.getWidth() != 0 && totalHeader.getHeight() != 0)
@@ -398,7 +398,7 @@ public class CrosstabConverter extends FrameConverter
 					);				
 			}
 			
-			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_END)
+			if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.END)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
 				if (totalHeader.getWidth() != 0 && totalHeader.getHeight() != 0)
@@ -452,7 +452,7 @@ public class CrosstabConverter extends FrameConverter
 			{
 				JRCrosstabColumnGroup group = colGroups[i];
 				
-				if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_START)
+				if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.START)
 				{
 					JRCrosstabCell cell = cells[rowIndex][i];
 					if (cell != null)
@@ -495,7 +495,7 @@ public class CrosstabConverter extends FrameConverter
 					}
 				}
 				
-				if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_END)
+				if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.END)
 				{
 					JRCrosstabCell cell = cells[rowIndex][i];
 					if (cell != null)

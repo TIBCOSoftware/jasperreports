@@ -27,6 +27,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabMeasure;
+import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRVariable;
@@ -134,16 +135,25 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 
 	
 	/**
-	 * Sets the percentage calculation type.
-	 * 
-	 * @param percentageOfType the percentage calculation type
-	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getPercentageOfType()
+	 * @deprecated Replaced by {@link #setPercentageType(CrosstabPercentageEnum)}.
 	 */
 	public void setPercentageOfType(byte percentageOfType)
 	{
-		byte old = this.percentageOfType;
-		this.percentageOfType = percentageOfType;
-		getEventSupport().firePropertyChange(PROPERTY_PERCENTAGE_OF_TYPE, old, this.percentageOfType);
+		setPercentageType(CrosstabPercentageEnum.getByValue(percentageOfType));
+	}
+
+	
+	/**
+	 * Sets the percentage calculation type.
+	 * 
+	 * @param percentageType the percentage calculation type
+	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getPercentageType()
+	 */
+	public void setPercentageType(CrosstabPercentageEnum percentageType)
+	{
+		Object old = this.percentageType;
+		this.percentageType = percentageType;
+		getEventSupport().firePropertyChange(PROPERTY_PERCENTAGE_OF_TYPE, old, this.percentageType);
 	}
 
 	

@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
  * Implementation of {@link net.sf.jasperreports.crosstabs.JRCrosstabBucket corsstab group bucket}
@@ -106,20 +107,28 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 
 	
 	/**
+	 * @deprecated Replaced by {@link #setOrder(SortOrderEnum)}.
+	 */
+	public void setOrder(byte order)
+	{
+		setOrder(SortOrderEnum.getByValue(order));
+	}
+	
+	/**
 	 * Sets the sorting type.
 	 * 
 	 * @param order one of
 	 * <ul>
-	 * 	<li>{@link net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition#ORDER_ASCENDING Bucket.ORDER_ASCENDING}</li>
-	 * 	<li>{@link net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition#ORDER_DESCENDING Bucket.ORDER_DESCENDING}</li>
+	 * 	<li>{@link SortOrderEnum#ASCENDING SortOrderEnum.ASCENDING}</li>
+	 * 	<li>{@link SortOrderEnum#DESCENDING SortOrderEnum.DESCENDING}</li>
 	 * </ul>
-	 * @see net.sf.jasperreports.crosstabs.JRCrosstabBucket#getOrder()
+	 * @see net.sf.jasperreports.crosstabs.JRCrosstabBucket#getOrderValue()
 	 */
-	public void setOrder(byte order)
+	public void setOrder(SortOrderEnum orderValue)
 	{
-		byte old = this.order;
-		this.order = order;
-		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.order);
+		Object old = this.orderValue;
+		this.orderValue = orderValue;
+		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.orderValue);
 	}
 	
 	private transient JRPropertyChangeSupport eventSupport;

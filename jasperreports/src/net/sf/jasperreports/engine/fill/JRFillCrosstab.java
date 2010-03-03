@@ -60,6 +60,7 @@ import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
+import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
@@ -351,7 +352,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		for (int i = 0; i < measures.length; ++i)
 		{
 			measureList.add(createServiceMeasure(measures[i]));
-			percentage |= measures[i].getPercentageOfType() == JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL;
+			percentage |= measures[i].getPercentageType() == CrosstabPercentageEnum.GRAND_TOTAL;
 		}
 
 		// if a group has order by expression, compute totals as they might be used
@@ -377,10 +378,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			comparator = (Comparator) evaluateExpression(comparatorExpression, evaluation);
 		}
 
-		byte totalPosition = group.getTotalPosition();
 		return new BucketDefinition(bucket.getExpression().getValueClass(),
-				bucket.getOrderByExpression(), comparator, bucket.getOrder(), 
-				totalPosition);
+				bucket.getOrderByExpression(), comparator, bucket.getOrderValue(), 
+				group.getTotalPositionValue());
 	}
 
 	private MeasureDefinition createServiceMeasure(JRFillCrosstabMeasure measure)
@@ -1971,7 +1971,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		protected Object measureValue(MeasureValue[] values, int measureIdx)
 		{
 			Object value;
-			if (measures[measureIdx].getPercentageOfType() == JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL)
+			if (measures[measureIdx].getPercentageType() == CrosstabPercentageEnum.GRAND_TOTAL)
 			{
 				if (values[measureIdx].isInitialized())
 				{

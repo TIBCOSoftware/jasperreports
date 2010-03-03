@@ -37,6 +37,7 @@ import java.util.Map.Entry;
 
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
+import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -1037,7 +1038,7 @@ public class BucketingService
 			throws JRException
 	{
 		BucketDefinition bucketDefinition = allBuckets[bucketMap.level];
-		byte totalPosition = bucketDefinition.getTotalPosition();
+		CrosstabTotalPositionEnum totalPosition = bucketDefinition.getTotalPosition();
 		CollectedList headers;
 		if (bucketDefinition.hasOrderValues())
 		{
@@ -1054,7 +1055,7 @@ public class BucketingService
 			Bucket bucketValue = (Bucket) entry.getKey();
 
 			boolean totalBucket = bucketValue.isTotal();
-			boolean createHeader = !totalBucket || total || totalPosition != BucketDefinition.TOTAL_POSITION_NONE;
+			boolean createHeader = !totalBucket || total || totalPosition != CrosstabTotalPositionEnum.NONE;
 
 			if (createHeader)
 			{
@@ -1066,7 +1067,7 @@ public class BucketingService
 				}
 				else
 				{
-					nextHeaders = new SequentialCollectedList(BucketDefinition.TOTAL_POSITION_NONE);
+					nextHeaders = new SequentialCollectedList(CrosstabTotalPositionEnum.NONE);
 					nextHeaders.span = 1;
 				}
 				nextHeaders.key = bucketValue;
@@ -1341,10 +1342,10 @@ public class BucketingService
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-		final byte totalPosition;
+		final CrosstabTotalPositionEnum totalPosition;
 		final LinkedList list;
 		
-		SequentialCollectedList(byte totalPosition)
+		SequentialCollectedList(CrosstabTotalPositionEnum totalPosition)
 		{
 			this.totalPosition = totalPosition;
 			
@@ -1358,7 +1359,7 @@ public class BucketingService
 
 		protected void addSublist(CollectedList sublist)
 		{
-			if (sublist.key.isTotal() && totalPosition == BucketDefinition.TOTAL_POSITION_START)
+			if (sublist.key.isTotal() && totalPosition == CrosstabTotalPositionEnum.START)
 			{
 				list.addFirst(sublist);
 			}
@@ -1404,7 +1405,7 @@ public class BucketingService
 		{
 			this.bucketDefinition = bucketDefinition;
 			this.totalFirst = bucketDefinition.getTotalPosition() 
-					== BucketDefinition.TOTAL_POSITION_START;
+					== CrosstabTotalPositionEnum.START;
 		}
 
 		public int compare(Object o1, Object o2)

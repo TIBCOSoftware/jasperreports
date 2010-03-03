@@ -24,6 +24,7 @@
 package net.sf.jasperreports.crosstabs.xml;
 
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabMeasure;
+import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
@@ -60,11 +61,10 @@ public class JRCrosstabMeasureFactory extends JRBaseFactory
 			measure.setCalculation(calc.byteValue());
 		}
 		
-		String percentageAttr = attributes.getValue(ATTRIBUTE_percentageOf);
-		if (percentageAttr != null)
+		CrosstabPercentageEnum percentage = CrosstabPercentageEnum.getByName(attributes.getValue(ATTRIBUTE_percentageOf));
+		if (percentage != null)
 		{
-			Byte percentageType = (Byte) JRXmlConstants.getCrosstabPercentageMap().get(percentageAttr);
-			measure.setPercentageOfType(percentageType.byteValue());
+			measure.setPercentageType(percentage);
 		}
 		
 		String percentageCalcAttr = attributes.getValue(ATTRIBUTE_percentageCalculatorClass);

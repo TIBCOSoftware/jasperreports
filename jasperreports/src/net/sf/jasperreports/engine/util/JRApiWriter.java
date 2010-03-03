@@ -85,7 +85,9 @@ import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
+import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
+import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
@@ -147,6 +149,7 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
@@ -697,7 +700,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignSortField " + sortFieldName + " = new JRDesignSortField();\n");
 			write( sortFieldName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(sortField.getName()));
-			write( sortFieldName + ".setOrder({0});\n", JRApiConstants.getSortOrder(new Byte (sortField.getOrder())));
+			write( sortFieldName + ".setOrder({0});\n", sortField.getOrderValue(), SortOrderEnum.ASCENDING);
 			flush();
 		}
 	}
@@ -3099,7 +3102,7 @@ public class JRApiWriter
 			write( "JRDesignCrosstabRowGroup " + groupName + " = new JRDesignCrosstabRowGroup();\n");
 			write( groupName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(group.getName()));
 			write( groupName + ".setWidth({0, number, #});\n", group.getWidth());
-			write( groupName + ".setTotalPosition({0});\n", JRApiConstants.getCrosstabTotalPosition(new Byte (group.getTotalPosition())), "BucketDefinition.TOTAL_POSITION_NONE");
+			write( groupName + ".setTotalPosition({0});\n", group.getTotalPositionValue(), CrosstabTotalPositionEnum.NONE);
 			write( groupName + ".setPosition({0});\n", group.getPositionValue(), CrosstabRowPositionEnum.TOP);
 	
 			writeBucket( group.getBucket(), groupName);
@@ -3134,7 +3137,7 @@ public class JRApiWriter
 
 			write( groupName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(group.getName()));
 			write( groupName + ".setHeight({0, number, #});\n", group.getHeight());
-			write( groupName + ".setTotalPosition({0});\n", JRApiConstants.getCrosstabTotalPosition(new Byte (group.getTotalPosition())), "BucketDefinition.TOTAL_POSITION_NONE");
+			write( groupName + ".setTotalPosition({0});\n", group.getTotalPositionValue(), CrosstabTotalPositionEnum.NONE);
 			write( groupName + ".setPosition({0});\n", group.getPositionValue(), CrosstabColumnPositionEnum.LEFT);
 			
 			writeBucket( group.getBucket(), groupName);
@@ -3167,7 +3170,7 @@ public class JRApiWriter
 		{
 			String bucketName = parentName + "Bucket";
 			write( "JRDesignCrosstabBucket " + bucketName + " = new JRDesignCrosstabBucket();\n");
-			write( bucketName + ".setOrder({0});\n", JRApiConstants.getCrosstabBucketOrder(new Byte (bucket.getOrder())), "BucketDefinition.ORDER_ASCENDING");
+			write( bucketName + ".setOrder({0});\n", bucket.getOrderValue(), SortOrderEnum.ASCENDING);
 
 			writeExpression( bucket.getExpression(), bucketName, "Expression");
 
@@ -3192,7 +3195,7 @@ public class JRApiWriter
 			write( measureName + ".setValueClassName(\"{0}\");\n", measure.getValueClassName());
 			
 			write( measureName + ".setCalculation({0});\n", JRApiConstants.getCalculation(new Byte (measure.getCalculation())), "JRVariable.CALCULATION_NOTHING");
-			write( measureName + ".setPercentageOfType({0});\n", JRApiConstants.getCrosstabPercentage(new Byte (measure.getPercentageOfType())), "JRCrosstabMeasure.PERCENTAGE_TYPE_NONE");
+			write( measureName + ".setPercentageType({0});\n", measure.getPercentageType(), CrosstabPercentageEnum.NONE);
 			write( measureName + ".setPercentageCalculatorClassName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(measure.getPercentageCalculatorClassName()));
 
 			writeExpression( measure.getValueExpression(), measureName, "ValueExpression");
