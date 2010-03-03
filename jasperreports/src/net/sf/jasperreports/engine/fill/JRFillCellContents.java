@@ -31,6 +31,8 @@ import java.util.Map;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabObjectFactory;
+import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
+import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
@@ -73,7 +75,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	private int x;
 	private int y;
 	private int verticalSpan;
-	private byte verticalPositionType = JRCellContents.POSITION_Y_TOP;
+	private CrosstabRowPositionEnum verticalPositionType = CrosstabRowPositionEnum.TOP;
 	private int horizontalSpan;
 	
 	private Map templateFrames;
@@ -253,7 +255,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	public JRFillCellContents getTransformedContents(
 			int newWidth, int newHeight,
-			byte xPosition, byte yPosition) throws JRException
+			CrosstabColumnPositionEnum xPosition, CrosstabRowPositionEnum yPosition) throws JRException
 	{
 		if ((getHeight() == newHeight) && 
 				(getWidth() == newWidth))
@@ -281,7 +283,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	}
 	
 	
-	private void transform(int newWidth, int newHeight, byte xPosition, byte yPosition)
+	private void transform(int newWidth, int newHeight, CrosstabColumnPositionEnum xPosition, CrosstabRowPositionEnum yPosition)
 	{
 		transformElements(newWidth, newHeight, xPosition, yPosition);
 		
@@ -289,10 +291,10 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		height = newHeight;
 	}
 
-	private void transformElements(int newWidth, int newHeight, byte xPosition, byte yPosition)
+	private void transformElements(int newWidth, int newHeight, CrosstabColumnPositionEnum xPosition, CrosstabRowPositionEnum yPosition)
 	{
-		if ((height == newHeight || yPosition == JRCellContents.POSITION_Y_TOP) && 
-				(width == newWidth || xPosition == JRCellContents.POSITION_X_LEFT))
+		if ((height == newHeight || yPosition == CrosstabRowPositionEnum.TOP) && 
+				(width == newWidth || xPosition == CrosstabColumnPositionEnum.LEFT))
 		{
 			return;
 		}
@@ -301,13 +303,13 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		int offsetX = 0;
 		switch (xPosition)
 		{
-			case JRCellContents.POSITION_X_CENTER:
+			case CENTER:
 				offsetX = (newWidth - width) / 2;
 				break;
-			case JRCellContents.POSITION_X_RIGHT:
+			case RIGHT:
 				offsetX = newWidth - width;
 				break;
-			case JRCellContents.POSITION_X_STRETCH:
+			case STRETCH:
 				scaleX = ((double) newWidth) / width;
 				break;
 		}
@@ -316,13 +318,13 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		int offsetY = 0;
 		switch (yPosition)
 		{
-			case JRCellContents.POSITION_Y_MIDDLE:
+			case MIDDLE:
 				offsetY = (newHeight - height) / 2;
 				break;
-			case JRCellContents.POSITION_Y_BOTTOM:
+			case BOTTOM:
 				offsetY = newHeight - height;
 				break;
-			case JRCellContents.POSITION_X_STRETCH:
+			case STRETCH:
 				scaleY = ((double) newHeight) / height;
 				break;
 		}
@@ -447,10 +449,10 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		switch (verticalPositionType)
 		{
-			case JRCellContents.POSITION_Y_MIDDLE:
+			case MIDDLE:
 				positionOffset = (getStretchHeight() - getContainerHeight()) / 2;
 				break;
-			case JRCellContents.POSITION_Y_BOTTOM:
+			case BOTTOM:
 				positionOffset = getStretchHeight() - getContainerHeight();
 				break;
 			default:
@@ -534,11 +536,11 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		final int newHeight;
 		final int newWidth;
 		final int hashCode;
-		final byte xPosition;
-		final byte yPosition;
+		final CrosstabColumnPositionEnum xPosition;
+		final CrosstabRowPositionEnum yPosition;
 		
 		StretchedContents(
-				int newWidth, int newHeight, byte xPosition, byte yPosition)
+				int newWidth, int newHeight, CrosstabColumnPositionEnum xPosition, CrosstabRowPositionEnum yPosition)
 		{
 			this.newHeight = newHeight;
 			this.newWidth = newWidth;
@@ -547,8 +549,8 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			
 			int hash = newHeight;
 			hash = 31*hash + newWidth;
-			hash = 31*hash + xPosition;
-			hash = 31*hash + yPosition;
+			hash = 31*hash + xPosition.getValue();
+			hash = 31*hash + yPosition.getValue();
 			hashCode = hash;
 		}
 		
@@ -630,7 +632,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		verticalSpan = span;
 	}
 
-	public void setVerticalPositionType(byte positionType)
+	public void setVerticalPositionType(CrosstabRowPositionEnum positionType)
 	{
 		this.verticalPositionType = positionType;
 	}

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
+
 
 /**
  * Crosstab row group interface.
@@ -43,18 +45,24 @@ public interface JRCrosstabRowGroup extends JRCrosstabGroup
 	
 
 	/**
+	 * @deprecated Replaced by {@link #getPositionValue()}.
+	 */
+	public byte getPosition();
+	
+
+	/**
 	 * Returns the position of the header contents for header stretching.
 	 * <p>
 	 * The row group headers stretch vertically when there are multiple sub group entries.
 	 * The header contents will be adjusted to the new height depending on this attribute:
 	 * <ul>
-	 * 	<li>{@link JRCellContents#POSITION_Y_TOP JRCellContents.POSITION_Y_TOP} - the contents will be rendered at the top of of the header</li>
-	 * 	<li>{@link JRCellContents#POSITION_Y_MIDDLE JRCellContents.POSITION_Y_MIDDLE} - the contents will be rendered on the center of the header</li>
-	 * 	<li>{@link JRCellContents#POSITION_Y_BOTTOM JRCellContents.POSITION_Y_BOTTOM} - the contents will be rendered at the bottom of the header</li>
-	 * 	<li>{@link JRCellContents#POSITION_Y_STRETCH JRCellContents.POSITION_Y_STRETCH} - the contents will be proportionally stretched to the new header size</li>
+	 * 	<li>{@link CrosstabRowPositionEnum#TOP CrosstabRowPositionEnum.TOP} - the contents will be rendered at the top of of the header</li>
+	 * 	<li>{@link CrosstabRowPositionEnum#MIDDLE CrosstabRowPositionEnum.MIDDLE} - the contents will be rendered on the center of the header</li>
+	 * 	<li>{@link CrosstabRowPositionEnum#BOTTOM JCrosstabRowPositionEnum.BOTTOM} - the contents will be rendered at the bottom of the header</li>
+	 * 	<li>{@link CrosstabRowPositionEnum#STRETCH CrosstabRowPositionEnum.STRETCH} - the contents will be proportionally stretched to the new header size</li>
 	 * </ul>
 	 * 
 	 * @return the position of the header contents for header stretching
 	 */
-	public byte getPosition();
+	public CrosstabRowPositionEnum getPositionValue();
 }

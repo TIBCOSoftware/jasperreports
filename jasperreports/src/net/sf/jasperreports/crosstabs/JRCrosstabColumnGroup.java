@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
+
 /**
  * Crosstab column group interface.
  * 
@@ -42,18 +44,24 @@ public interface JRCrosstabColumnGroup extends JRCrosstabGroup
 	
 	
 	/**
+	 * @deprecated Replaced by {@link #getPositionValue()}.
+	 */
+	public byte getPosition();
+	
+	
+	/**
 	 * Returns the position of the header contents for header stretching.
 	 * <p>
 	 * The column group headers stretch horizontally when there are multiple sub group entries.
 	 * The header contents will be adjusted to the new width depending on this attribute:
 	 * <ul>
-	 * 	<li>{@link JRCellContents#POSITION_X_LEFT JRCellContents.POSITION_X_LEFT} - the contents will be rendered on the left side of the header</li>
-	 * 	<li>{@link JRCellContents#POSITION_X_CENTER JRCellContents.POSITION_X_CENTER} - the contents will be rendered on the center of the header</li>
-	 * 	<li>{@link JRCellContents#POSITION_X_RIGHT JRCellContents.POSITION_X_RIGHT} - the contents will be rendered on the right side of the header</li>
-	 * 	<li>{@link JRCellContents#POSITION_X_STRETCH JRCellContents.POSITION_X_STRETCH} - the contents will be proportionally stretched to the new header size</li>
+	 * 	<li>{@link CrosstabColumnPositionEnum#LEFT CrosstabColumnPositionEnum.LEFT} - the contents will be rendered on the left side of the header</li>
+	 * 	<li>{@link CrosstabColumnPositionEnum#CENTER CrosstabColumnPositionEnum.CENTER} - the contents will be rendered on the center of the header</li>
+	 * 	<li>{@link CrosstabColumnPositionEnum#RIGHT CrosstabColumnPositionEnum.RIGHT} - the contents will be rendered on the right side of the header</li>
+	 * 	<li>{@link CrosstabColumnPositionEnum#STRETCH CrosstabColumnPositionEnum.STRETCH} - the contents will be proportionally stretched to the new header size</li>
 	 * </ul>
 	 * 
 	 * @return the position of the header contents for header stretching
 	 */
-	public byte getPosition();
+	public CrosstabColumnPositionEnum getPositionValue();
 }

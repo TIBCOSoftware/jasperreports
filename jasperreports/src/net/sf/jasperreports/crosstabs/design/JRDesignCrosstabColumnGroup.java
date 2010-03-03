@@ -23,8 +23,11 @@
  */
 package net.sf.jasperreports.crosstabs.design;
 
-import net.sf.jasperreports.crosstabs.JRCellContents;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.crosstabs.JRCrosstabColumnGroup;
+import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 import net.sf.jasperreports.engine.JRConstants;
 
 /**
@@ -42,7 +45,7 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 	public static final String PROPERTY_POSITION = "position";
 
 	protected int height;
-	protected byte position = JRCellContents.POSITION_X_LEFT;
+	protected CrosstabColumnPositionEnum positionValue = CrosstabColumnPositionEnum.LEFT;
 
 	
 	/**
@@ -53,23 +56,39 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 		super();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getPositionValue()}.
+	 */
 	public byte getPosition()
 	{
-		return position;
+		return getPositionValue().getValue();
+	}
+
+	public CrosstabColumnPositionEnum getPositionValue()
+	{
+		return positionValue;
 	}
 	
 	
 	/**
-	 * Sets the header contents stretch position.
-	 * 
-	 * @param position the header contents stretch position
-	 * @see JRCrosstabColumnGroup#getPosition()
+	 * @deprecated Replaced by {@link #setPosition(CrosstabColumnPositionEnum)}
 	 */
 	public void setPosition(byte position)
 	{
-		byte old = this.position;
-		this.position = position;
-		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.position);
+		setPosition(CrosstabColumnPositionEnum.getByValue(position));
+	}
+
+	/**
+	 * Sets the header contents stretch position.
+	 * 
+	 * @param positionValue the header contents stretch position
+	 * @see JRCrosstabColumnGroup#getPositionValue()
+	 */
+	public void setPosition(CrosstabColumnPositionEnum positionValue)
+	{
+		Object old = this.positionValue;
+		this.positionValue = positionValue;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.positionValue);
 	}
 
 	public int getHeight()
@@ -120,4 +139,22 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 				new JRCrosstabOrigin(getParent(), JRCrosstabOrigin.TYPE_COLUMN_GROUP_TOTAL_HEADER,
 						null, getName()));
 	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte position;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			positionValue = CrosstabColumnPositionEnum.getByValue(position);
+		}
+	}
+
 }

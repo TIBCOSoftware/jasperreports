@@ -24,7 +24,7 @@
 package net.sf.jasperreports.crosstabs.xml;
 
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabRowGroup;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 
 import org.xml.sax.Attributes;
 
@@ -53,11 +53,10 @@ public class JRCrosstabRowGroupFactory extends JRCrosstabGroupFactory
 			group.setWidth(Integer.parseInt(widthAttr));
 		}
 		
-		String posAttr = attributes.getValue(ATTRIBUTE_headerPosition);
-		if (posAttr != null)
+		CrosstabRowPositionEnum position = CrosstabRowPositionEnum.getByName(attributes.getValue(ATTRIBUTE_headerPosition));
+		if (position != null)
 		{
-			Byte pos = (Byte) JRXmlConstants.getCrosstabRowPositionMap().get(posAttr);
-			group.setPosition(pos.byteValue());
+			group.setPosition(position);
 		}
 		
 		return group;

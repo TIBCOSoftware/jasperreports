@@ -23,8 +23,11 @@
  */
 package net.sf.jasperreports.crosstabs.base;
 
-import net.sf.jasperreports.crosstabs.JRCellContents;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
+import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -39,23 +42,49 @@ public class JRBaseCrosstabRowGroup extends JRBaseCrosstabGroup implements JRCro
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	protected int width;
-	protected byte position = JRCellContents.POSITION_Y_TOP;
+	protected CrosstabRowPositionEnum positionValue = CrosstabRowPositionEnum.TOP;
 
 	public JRBaseCrosstabRowGroup(JRCrosstabRowGroup group, JRBaseObjectFactory factory)
 	{
 		super(group, factory);
 
 		width = group.getWidth();
-		position = group.getPosition();
+		positionValue = group.getPositionValue();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getPositionValue()}.
+	 */
 	public byte getPosition()
 	{
-		return position;
+		return getPositionValue().getValue();
+	}
+
+	public CrosstabRowPositionEnum getPositionValue()
+	{
+		return positionValue;
 	}
 
 	public int getWidth()
 	{
 		return width;
 	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte position;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			positionValue = CrosstabRowPositionEnum.getByValue(position);
+		}
+	}
+
 }

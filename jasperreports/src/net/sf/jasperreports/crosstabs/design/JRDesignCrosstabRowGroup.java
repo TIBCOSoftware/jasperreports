@@ -23,8 +23,11 @@
  */
 package net.sf.jasperreports.crosstabs.design;
 
-import net.sf.jasperreports.crosstabs.JRCellContents;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
+import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRConstants;
 
 /**
@@ -42,30 +45,46 @@ public class JRDesignCrosstabRowGroup extends JRDesignCrosstabGroup implements J
 	public static final String PROPERTY_WIDTH = "width";
 
 	protected int width;
-	protected byte position = JRCellContents.POSITION_Y_TOP;
+	protected CrosstabRowPositionEnum positionValue = CrosstabRowPositionEnum.TOP;
 
 	public JRDesignCrosstabRowGroup()
 	{
 		super();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getPositionValue()}.
+	 */
 	public byte getPosition()
 	{
-		return position;
+		return getPositionValue().getValue();
+	}
+
+	public CrosstabRowPositionEnum getPositionValue()
+	{
+		return positionValue;
 	}
 	
 	
 	/**
-	 * Sets the header contents stretch position.
-	 * 
-	 * @param position the header contents stretch position
-	 * @see JRCrosstabRowGroup#getPosition()
+	 * @deprecated Replaced by {@link #setPosition(CrosstabRowPositionEnum)}.
 	 */
 	public void setPosition(byte position)
 	{
-		byte old = this.position;
-		this.position = position;
-		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.position);
+		setPosition(CrosstabRowPositionEnum.getByValue(position));
+	}
+
+	/**
+	 * Sets the header contents stretch position.
+	 * 
+	 * @param positionValue the header contents stretch position
+	 * @see JRCrosstabRowGroup#getPositionValue()
+	 */
+	public void setPosition(CrosstabRowPositionEnum positionValue)
+	{
+		Object old = this.positionValue;
+		this.positionValue = positionValue;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.positionValue);
 	}
 
 	public int getWidth()
@@ -116,4 +135,22 @@ public class JRDesignCrosstabRowGroup extends JRDesignCrosstabGroup implements J
 				new JRCrosstabOrigin(getParent(), JRCrosstabOrigin.TYPE_ROW_GROUP_TOTAL_HEADER,
 						getName(), null));
 	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte position;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			positionValue = CrosstabRowPositionEnum.getByValue(position);
+		}
+	}
+
 }
