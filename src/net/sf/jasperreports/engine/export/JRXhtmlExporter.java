@@ -1613,7 +1613,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					{
 						// Image load might fail. 
 						JRRenderable tmpRenderer = 
-							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
+							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
 						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
 						// If renderer was replaced, ignore image dimension.
 						if (tmpRenderer == renderer && dimension != null)
@@ -1671,7 +1671,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					{
 						// Image load might fail. 
 						JRRenderable tmpRenderer = 
-							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
+							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
 						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
 						// If renderer was replaced, ignore image dimension.
 						if (tmpRenderer == renderer && dimension != null)

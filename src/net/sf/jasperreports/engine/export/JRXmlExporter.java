@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
@@ -782,7 +783,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalAlignmentValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_isLazy, image.isLazy(), false);
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorType(), JRXmlConstants.getOnErrorTypeMap(), JRImage.ON_ERROR_TYPE_ERROR);
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorTypeValue(), OnErrorTypeEnum.ERROR);
 		
 		if (hyperlinkProducerFactory == null)
 		{

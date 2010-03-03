@@ -30,6 +30,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
 
@@ -87,14 +88,24 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	public void setLazy(boolean isLazy);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link getOnErrorTypeValue()}
 	 */
 	public byte getOnErrorType();
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link setOnErrorType(OnErrorTypeEnum)}
 	 */
 	public void setOnErrorType(byte onErrorType);
+
+	/**
+	 * 
+	 */
+	public OnErrorTypeEnum getOnErrorTypeValue();
+
+	/**
+	 *
+	 */
+	public void setOnErrorType(OnErrorTypeEnum onErrorType);
 
 	/**
 	 * @deprecated Replaced by {@link JRBoxContainer#getLineBox()}

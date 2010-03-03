@@ -159,6 +159,7 @@ import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
@@ -863,7 +864,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(XmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalAlignmentValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isUsingCache, image.isOwnUsingCache());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isLazy, image.isLazy(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorType(), JRXmlConstants.getOnErrorTypeMap(), JRImage.ON_ERROR_TYPE_ERROR);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorTypeValue(), OnErrorTypeEnum.ERROR);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, image.getEvaluationTime(), JRXmlConstants.getEvaluationTimeMap(), JRExpression.EVALUATION_TIME_NOW);
 
 		if (image.getEvaluationGroup() != null)

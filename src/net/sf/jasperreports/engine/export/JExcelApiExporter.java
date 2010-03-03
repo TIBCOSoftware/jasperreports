@@ -843,10 +843,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			{
 				// Image renderers are all asked for their image data and dimension at some point. 
 				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, element.getOnErrorType());
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, element.getOnErrorTypeValue());
 				if (renderer != null)
 				{
-					renderer = JRImageRenderer.getOnErrorRendererForDimension(renderer, element.getOnErrorType());
+					renderer = JRImageRenderer.getOnErrorRendererForDimension(renderer, element.getOnErrorTypeValue());
 				}
 			}
 		}

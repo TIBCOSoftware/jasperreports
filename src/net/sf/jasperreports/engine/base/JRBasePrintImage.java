@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
@@ -42,6 +41,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
@@ -72,7 +72,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected HorizontalAlignEnum horizontalAlignmentValue = null;
 	protected VerticalAlignEnum verticalAlignmentValue = null;
 	protected boolean isLazy = false;
-	protected byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
+	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
 	protected JRLineBox lineBox = null;
 	protected String anchorName = null;
 	protected String linkType;
@@ -326,19 +326,35 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOnErrorTypeValue()}
 	 */
 	public byte getOnErrorType()
 	{
-		return onErrorType;
+		return getOnErrorTypeValue().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setOnErrorType(OnErrorTypeEnum)}
+	 */
+	public void setOnErrorType(byte onErrorType)
+	{
+		setOnErrorType(OnErrorTypeEnum.getByValue(onErrorType));
 	}
 
 	/**
 	 *
 	 */
-	public void setOnErrorType(byte onErrorType)
+	public OnErrorTypeEnum getOnErrorTypeValue()
 	{
-		this.onErrorType = onErrorType;
+		return this.onErrorTypeValue;
+	}
+
+	/**
+	 *
+	 */
+	public void setOnErrorType(OnErrorTypeEnum onErrorTypeValue)
+	{
+		this.onErrorTypeValue = onErrorTypeValue;
 	}
 
 	/**
@@ -1046,6 +1062,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	private Byte scaleImage = null;
+	private byte onErrorType;
 
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
@@ -1057,6 +1074,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
 			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
+			onErrorTypeValue = OnErrorTypeEnum.getByValue(onErrorType);
 
 			horizontalAlignment = null;
 			verticalAlignment = null;
