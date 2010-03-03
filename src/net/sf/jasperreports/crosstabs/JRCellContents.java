@@ -25,6 +25,7 @@ package net.sf.jasperreports.crosstabs;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -52,21 +53,25 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 {
 	/**
 	 * Horizontal stretch position indicating that the contents will be rendered on the left side.
+	 * @deprecated Replaced by {@link CrosstabColumnPositionEnum#LEFT}.
 	 */
 	public static final byte POSITION_X_LEFT = 1;
 	
 	/**
 	 * Horizontal stretch position indicating that the contents will be rendered on the center.
+	 * @deprecated Replaced by {@link CrosstabColumnPositionEnum#CENTER}.
 	 */
 	public static final byte POSITION_X_CENTER = 2;
 	
 	/**
 	 * Horizontal stretch position indicating that the contents will be rendered on the right side.
+	 * @deprecated Replaced by {@link CrosstabColumnPositionEnum#RIGHT}.
 	 */
 	public static final byte POSITION_X_RIGHT = 3;
 	
 	/**
 	 * Horizontal stretch position indicating that the contents will be horizontally stretched.
+	 * @deprecated Replaced by {@link CrosstabColumnPositionEnum#STRETCH}.
 	 */
 	public static final byte POSITION_X_STRETCH = 4;
 	
