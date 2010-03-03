@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
@@ -92,7 +93,7 @@ public class ImageConverter extends ElementConverter
 		printImage.setHorizontalAlignment(image.getOwnHorizontalAlignmentValue());
 		printImage.setLazy(image.isLazy());
 		printImage.setLinkType(image.getLinkType());
-		printImage.setOnErrorType(JRImage.ON_ERROR_TYPE_ICON);
+		printImage.setOnErrorType(OnErrorTypeEnum.ICON);
 		printImage.setVerticalAlignment(image.getOwnVerticalAlignmentValue());
 		printImage.setRenderer(getRenderer(image, printImage));
 		printImage.setScaleImage(image.getOwnScaleImageValue());
@@ -139,7 +140,7 @@ public class ImageConverter extends ElementConverter
 			return 
 				JRImageRenderer.getInstance(
 					JRImageLoader.NO_IMAGE_RESOURCE, 
-					imageElement.getOnErrorType()
+					imageElement.getOnErrorTypeValue()
 					);
 		}
 		catch (JRException e)

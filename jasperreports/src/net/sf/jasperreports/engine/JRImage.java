@@ -140,19 +140,17 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 */
 	public void setOnErrorType(byte onErrorType);
 
-	//TODO: uncomment these below
-
-//	/**
-//	 * Indicates how the engine will treat a missing image.
-//	 * @return a value representing one of the missing image handling constants in {@link OnErrorTypeEnum}
-//	 */
-//	public OnErrorTypeEnum getOnErrorTypeValue();
-//	
-//	/**
-//	 * Specifies how the engine should treat a missing image.
-//	 * @param onErrorTypeEnum a value representing one of the missing image handling constants in {@link OnErrorTypeEnum}
-//	 */
-//	public void setOnErrorType(OnErrorTypeEnum onErrorTypeEnum);
+	/**
+	 * Indicates how the engine will treat a missing image.
+	 * @return a value representing one of the missing image handling constants in {@link OnErrorTypeEnum}
+	 */
+	public OnErrorTypeEnum getOnErrorTypeValue();
+	
+	/**
+	 * Specifies how the engine should treat a missing image.
+	 * @param onErrorTypeEnum a value representing one of the missing image handling constants in {@link OnErrorTypeEnum}
+	 */
+	public void setOnErrorType(OnErrorTypeEnum onErrorTypeEnum);
 	
 	/**
 	 * Indicates the evaluation time for this image.

@@ -93,10 +93,10 @@ public class ImageDrawer extends ElementDrawer
 			{
 				// Image renderers are all asked for their image data and dimension at some point. 
 				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, printImage.getOnErrorType());
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, printImage.getOnErrorTypeValue());
 				if (renderer != null)
 				{
-					renderer = JRImageRenderer.getOnErrorRendererForDimension(renderer, printImage.getOnErrorType());
+					renderer = JRImageRenderer.getOnErrorRendererForDimension(renderer, printImage.getOnErrorTypeValue());
 				}
 			}
 		}

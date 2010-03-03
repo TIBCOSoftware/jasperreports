@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
@@ -56,27 +55,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map onErrorTypeMap = null;
-
-	public static Map getOnErrorTypeMap()
-	{
-		if (onErrorTypeMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(JRImage.ON_ERROR_TYPE_ERROR), "JRImage.ON_ERROR_TYPE_ERROR");
-			map.put(new Byte(JRImage.ON_ERROR_TYPE_BLANK), "JRImage.ON_ERROR_TYPE_BLANK");
-			map.put(new Byte(JRImage.ON_ERROR_TYPE_ICON),  "JRImage.ON_ERROR_TYPE_ICON");
-			onErrorTypeMap = Collections.unmodifiableMap(map);
-		}
-
-		return onErrorTypeMap;
-	}
-
-	public static String getOnErrorType(Byte key)
-	{
-		return (String)getOnErrorTypeMap().get(key);
-	}
-	
 	private static Map stretchTypeMap = null;
 
 	public static Map getStretchTypeMap()

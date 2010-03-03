@@ -39,11 +39,11 @@ import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -93,7 +93,7 @@ public class ChartConverter extends ElementConverter
 		printImage.setAnchorName(JRExpressionUtil.getExpressionText(chart.getAnchorNameExpression()));
 		printImage.setBookmarkLevel(chart.getBookmarkLevel());
 		printImage.setLinkType(chart.getLinkType());
-		printImage.setOnErrorType(JRImage.ON_ERROR_TYPE_ICON);
+		printImage.setOnErrorType(OnErrorTypeEnum.ICON);
 		printImage.setRenderer(getRenderer(reportConverter, chart));
 		printImage.setScaleImage(ScaleImageEnum.CLIP);
 		

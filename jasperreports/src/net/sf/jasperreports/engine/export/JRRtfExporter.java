@@ -1021,7 +1021,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			{
 				// Image renderers are all asked for their image data at some point.
 				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, printImage.getOnErrorType());
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, printImage.getOnErrorTypeValue());
 			}
 		}
 		else
@@ -1046,7 +1046,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 			// Image load might fail.
 			JRRenderable tmpRenderer =
-				JRImageRenderer.getOnErrorRendererForDimension(renderer, printImage.getOnErrorType());
+				JRImageRenderer.getOnErrorRendererForDimension(renderer, printImage.getOnErrorTypeValue());
 			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
 			// If renderer was replaced, ignore image dimension.
 			if (tmpRenderer == renderer && dimension != null)

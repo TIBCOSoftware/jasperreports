@@ -795,7 +795,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			{
 				// Non-lazy image renderers are all asked for their image data at some point.
 				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, image.getOnErrorType());
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, image.getOnErrorTypeValue());
 			}
 		}
 		else
@@ -813,7 +813,7 @@ public class JRDocxExporter extends JRAbstractExporter
 
 			// Image load might fail.
 			JRRenderable tmpRenderer =
-				JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
+				JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
 			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
 			// If renderer was replaced, ignore image dimension.
 			if (tmpRenderer == renderer && dimension != null)

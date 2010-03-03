@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
@@ -76,7 +77,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	private HorizontalAlignEnum horizontalAlignmentValue = null;
 	private VerticalAlignEnum verticalAlignmentValue = null;
 	protected boolean isLazy = false;
-	private byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
+	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
 	private String linkType;
 	private String linkTarget;
 
@@ -136,7 +137,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		setHorizontalAlignment(image.getHorizontalAlignmentValue());
 		setVerticalAlignment(image.getVerticalAlignmentValue());
 		setLazy(image.isLazy());
-		setOnErrorType(image.getOnErrorType());
+		setOnErrorType(image.getOnErrorTypeValue());
 		setLinkType(image.getLinkType());
 		setLinkTarget(image.getLinkTarget());
 	}
@@ -403,19 +404,35 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOnErrorTypeValue()}.
 	 */
 	public byte getOnErrorType()
 	{
-		return onErrorType;
+		return getOnErrorTypeValue().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setOnErrorType(OnErrorTypeEnum)}.
+	 */
+	public void setOnErrorType(byte onErrorType)
+	{
+		setOnErrorType(OnErrorTypeEnum.getByValue(onErrorType));
 	}
 
 	/**
 	 *
 	 */
-	public void setOnErrorType(byte onErrorType)
+	public OnErrorTypeEnum getOnErrorTypeValue()
 	{
-		this.onErrorType = onErrorType;
+		return this.onErrorTypeValue;
+	}
+
+	/**
+	 *
+	 */
+	public void setOnErrorType(OnErrorTypeEnum onErrorTypeValue)
+	{
+		this.onErrorTypeValue = onErrorTypeValue;
 	}
 
 	
@@ -1015,6 +1032,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	private Byte scaleImage = null;
+	private byte onErrorType;
 
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
@@ -1026,6 +1044,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
 			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
+			onErrorTypeValue = OnErrorTypeEnum.getByValue(onErrorType);
 
 			horizontalAlignment = null;
 			verticalAlignment = null;

@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
@@ -85,10 +86,10 @@ public class JRImageFactory extends JRBaseFactory
 			image.setLazy(Boolean.valueOf(isLazy).booleanValue());
 		}
 
-		Byte onErrorType = (Byte)JRXmlConstants.getOnErrorTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_onErrorType));
+		OnErrorTypeEnum onErrorType = OnErrorTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_onErrorType));
 		if (onErrorType != null)
 		{
-			image.setOnErrorType(onErrorType.byteValue());
+			image.setOnErrorType(onErrorType);
 		}
 
 		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_evaluationTime));

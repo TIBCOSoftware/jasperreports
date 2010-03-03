@@ -33,11 +33,11 @@ package net.sf.jasperreports.engine.convert;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
 import org.apache.commons.logging.Log;
@@ -81,7 +81,7 @@ public class ElementIconConverter extends ElementConverter
 		{
 			return JRImageRenderer.getInstance(
 					iconLocation, 
-					JRImage.ON_ERROR_TYPE_ERROR);
+					OnErrorTypeEnum.ERROR);
 		}
 		catch (JRException e)
 		{

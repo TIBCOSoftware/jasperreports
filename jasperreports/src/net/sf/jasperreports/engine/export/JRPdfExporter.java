@@ -1131,7 +1131,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				// Image renderers are all asked for their image data at some point. 
 				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, printImage.getOnErrorType());
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, printImage.getOnErrorTypeValue());
 			}
 		}
 		else
@@ -1165,7 +1165,7 @@ public class JRPdfExporter extends JRAbstractExporter
 						renderer = 
 							JRImageRenderer.getOnErrorRendererForDimension(
 								renderer, 
-								printImage.getOnErrorType()
+								printImage.getOnErrorTypeValue()
 								);
 						if (renderer == null)
 						{
@@ -1236,7 +1236,7 @@ public class JRPdfExporter extends JRAbstractExporter
 								JRImageRenderer tmpRenderer = 
 									JRImageRenderer.getOnErrorRendererForImage(
 										JRImageRenderer.getInstance(renderer.getImageData()), 
-										printImage.getOnErrorType()
+										printImage.getOnErrorTypeValue()
 										);
 								if (tmpRenderer == null)
 								{
@@ -1274,7 +1274,7 @@ public class JRPdfExporter extends JRAbstractExporter
 								JRImageRenderer tmpRenderer = 
 									JRImageRenderer.getOnErrorRendererForImage(
 										JRImageRenderer.getInstance(renderer.getImageData()), 
-										printImage.getOnErrorType()
+										printImage.getOnErrorTypeValue()
 										);
 								if (tmpRenderer == null)
 								{

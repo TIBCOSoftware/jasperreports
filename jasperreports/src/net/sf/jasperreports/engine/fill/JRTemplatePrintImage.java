@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
@@ -299,18 +300,35 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOnErrorTypeValue()}.
 	 */
 	public byte getOnErrorType()
 	{
-		return ((JRTemplateImage)this.template).getOnErrorType();
+		return getOnErrorTypeValue().getValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setOnErrorType(OnErrorTypeEnum)}.
+	 */
+	public void setOnErrorType(byte onErrorType)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 *
 	 */
-	public void setOnErrorType(byte onErrorType)
+	public OnErrorTypeEnum getOnErrorTypeValue()
 	{
+		return ((JRTemplateImage)this.template).getOnErrorTypeValue();
+	}
+		
+	/**
+	 *
+	 */
+	public void setOnErrorType(OnErrorTypeEnum onErrorType)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**

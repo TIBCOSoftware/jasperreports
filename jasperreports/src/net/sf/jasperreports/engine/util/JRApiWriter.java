@@ -145,6 +145,7 @@ import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -1014,7 +1015,7 @@ public class JRApiWriter
 			write( imageName + ".setVerticalAlignment({0});\n", image.getOwnVerticalAlignmentValue());
 			write( imageName + ".setUsingCache({0});\n", image.isOwnUsingCache());
 			write( imageName + ".setLazy({0});\n", image.isLazy(), false);
-			write( imageName + ".setOnErrorType({0});\n", JRApiConstants.getOnErrorType(new Byte(image.getOnErrorType())), "JRImage.ON_ERROR_TYPE_ERROR");
+			write( imageName + ".setOnErrorType({0});\n",image.getOnErrorTypeValue(),  OnErrorTypeEnum.ERROR);
 			write( imageName + ".setEvaluationTime({0});\n", JRApiConstants.getEvaluationTime(new Byte(image.getEvaluationTime())), "JRExpression.EVALUATION_TIME_NOW");
 
 			if (image.getEvaluationGroup() != null)
