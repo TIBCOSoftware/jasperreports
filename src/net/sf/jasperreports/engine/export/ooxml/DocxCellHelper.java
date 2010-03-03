@@ -29,7 +29,6 @@ import java.io.Writer;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
