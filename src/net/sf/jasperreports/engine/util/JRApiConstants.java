@@ -30,18 +30,13 @@ import java.util.Map;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
-import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
-import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
-import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -329,26 +324,6 @@ public class JRApiConstants
 		return (String)getPlotOrientationMap().get(key);
 	}
 	
-	private static Map sortOrderMap = null;
-
-	public static Map getSortOrderMap()
-	{
-		if (sortOrderMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(JRSortField.SORT_ORDER_ASCENDING),  "JRSortField.SORT_ORDER_ASCENDING");
-			map.put(new Byte(JRSortField.SORT_ORDER_DESCENDING), "JRSortField.SORT_ORDER_DESCENDING");
-			sortOrderMap = Collections.unmodifiableMap(map);
-		}
-
-		return sortOrderMap;
-	}
-
-	public static String getSortOrder(Byte key)
-	{
-		return (String)getSortOrderMap().get(key);
-	}
-	
 	private static Map scaleTypeMap = null;
 
 	public static Map  getScaleTypeMap(){
@@ -367,83 +342,7 @@ public class JRApiConstants
 	{
 		return (String)getScaleTypeMap().get(key);
 	}
-	
 
-/*
-	private static final String TIME_PERIOD_YEAR = "Year";
-	private static final String TIME_PERIOD_QUARTER = "Quarter";
-	private static final String TIME_PERIOD_MONTH = "Month";
-	private static final String TIME_PERIOD_WEEK = "Week";
-	private static final String TIME_PERIOD_DAY = "Day";
-	private static final String TIME_PERIOD_HOUR = "Hour";
-	private static final String TIME_PERIOD_MINUTE = "Minute";
-	private static final String TIME_PERIOD_SECOND = "Second";
-	private static final String TIME_PERIOD_MILISECOND = "Milisecond";
-
-
-
-	public static Class getTimePeriod( String timePeriod ) {
-		if( timePeriod.equals( TIME_PERIOD_YEAR ) ){
-			return Year.class;
-		}
-		else if( timePeriod.equals( TIME_PERIOD_QUARTER )){
-			return Quarter.class;
-		}
-		else if( timePeriod.equals( TIME_PERIOD_MONTH )){
-			return Month.class;
-		}
-		else if( timePeriod.equals( TIME_PERIOD_WEEK )){
-			return Week.class;
-		}
-		else if( timePeriod.equals( TIME_PERIOD_DAY )) {
-			return Day.class;
-		}
-		else if( timePeriod.equals( TIME_PERIOD_HOUR )){
-			return Hour.class;
-		}
-		else if( timePeriod.equals( TIME_PERIOD_MINUTE )){
-			return Minute.class;
-		}
-		else if( timePeriod.equals( TIME_PERIOD_SECOND )){
-			return Second.class;
-		}
-		else {
-			return Millisecond.class;
-		}
-
-	}
-
-
-	public static String getTimePeriodName( Class clazz  ){
-		if( clazz.equals( Year.class )){
-			return TIME_PERIOD_YEAR;
-		}
-		else if ( clazz.equals( Quarter.class )){
-			return TIME_PERIOD_QUARTER;
-		}
-		else if( clazz.equals( Month.class )){
-			return TIME_PERIOD_MONTH;
-		}
-		else if( clazz.equals( Week.class )){
-			return TIME_PERIOD_WEEK;
-		}
-		else if( clazz.equals( Day.class )){
-			return TIME_PERIOD_DAY;
-		}
-		else if( clazz.equals( Hour.class )){
-			return TIME_PERIOD_HOUR;
-		}
-		else if( clazz.equals( Minute.class )){
-			return TIME_PERIOD_MINUTE;
-		}
-		else if( clazz.equals( Second.class )){
-			return TIME_PERIOD_SECOND;
-		}
-		else {
-			return TIME_PERIOD_MILISECOND;
-		}
-	}
-*/
 	
 	private static Map whenResourceMissingTypeMap = null;
 
@@ -531,111 +430,6 @@ public class JRApiConstants
 		return (String)getAxisPositionMap().get(key);
 	}
 	
-	private static Map crosstabBucketOrderMap = null;
-
-	public static Map getCrosstabBucketOrderMap()
-	{
-		if (crosstabBucketOrderMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(BucketDefinition.ORDER_ASCENDING), 	"BucketDefinition.ORDER_ASCENDING");
-			map.put(new Byte(BucketDefinition.ORDER_DESCENDING), 	"BucketDefinition.ORDER_DESCENDING");
-			crosstabBucketOrderMap = Collections.unmodifiableMap(map);
-		}
-
-		return crosstabBucketOrderMap;
-	}
-
-	public static String getCrosstabBucketOrder(Byte key)
-	{
-		return (String)getCrosstabBucketOrderMap().get(key);
-	}
-	
-	private static Map crosstabPercentageMap = null;
-
-	public static Map getCrosstabPercentageMap()
-	{
-		if (crosstabPercentageMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_NONE), 		"JRCrosstabMeasure.CROSSTAB_PERCENTAGE_NONE");
-			map.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL),"JRCrosstabMeasure.CROSSTAB_PERCENTAGE_GRAND_TOTAL");
-			crosstabPercentageMap = Collections.unmodifiableMap(map);
-		}
-
-		return crosstabPercentageMap;
-	}
-
-	public static String getCrosstabPercentage(Byte key)
-	{
-		return (String)getCrosstabPercentageMap().get(key);
-	}
-	
-	private static Map crosstabTotalPositionMap = null;
-
-	public static Map getCrosstabTotalPositionMap()
-	{
-		if (crosstabTotalPositionMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(BucketDefinition.TOTAL_POSITION_NONE), 	"BucketDefinition.TOTAL_POSITION_NONE");
-			map.put(new Byte(BucketDefinition.TOTAL_POSITION_START), 	"BucketDefinition.TOTAL_POSITION_START");
-			map.put(new Byte(BucketDefinition.TOTAL_POSITION_END), 		"BucketDefinition.TOTAL_POSITION_END");
-			crosstabTotalPositionMap = Collections.unmodifiableMap(map);
-		}
-
-		return crosstabTotalPositionMap;
-	}
-
-	public static String getCrosstabTotalPosition(Byte key)
-	{
-		return (String)getCrosstabTotalPositionMap().get(key);
-	}
-	
-	private static Map splitTypeMap = null;
-
-	public static Map getSplitTypeMap()
-	{
-		if (splitTypeMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(JRBand.SPLIT_TYPE_STRETCH,   "JRBand.SPLIT_TYPE_STRETCH");
-			map.put(JRBand.SPLIT_TYPE_PREVENT,   "JRBand.SPLIT_TYPE_PREVENT");
-			map.put(JRBand.SPLIT_TYPE_IMMEDIATE, "JRBand.SPLIT_TYPE_IMMEDIATE");
-			splitTypeMap = Collections.unmodifiableMap(map);
-		}
-
-		return splitTypeMap;
-	}
-	
-	public static String getSplitType(Byte key)
-	{
-		return (String)getSplitTypeMap().get(key);
-	}
-	
-	private static Map chunkTypeMap = null;
-	
-	public static Map getChunkTypeMap()
-	{
-		if (chunkTypeMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(JRExpressionChunk.TYPE_FIELD), 			"JRExpressionChunk.TYPE_FIELD");
-			map.put(new Byte(JRExpressionChunk.TYPE_PARAMETER), 		"JRExpressionChunk.TYPE_PARAMETER");
-			map.put(new Byte(JRExpressionChunk.TYPE_RESOURCE), 			"JRExpressionChunk.JRExpressionChunk.TYPE_RESOURCE");
-			map.put(new Byte(JRExpressionChunk.TYPE_TEXT), 				"JRExpressionChunk.TYPE_TEXT");
-			map.put(new Byte(JRExpressionChunk.TYPE_VARIABLE), 			"JRExpressionChunk.TYPE_VARIABLE");
-			chunkTypeMap = Collections.unmodifiableMap(map);
-		}
-
-		return chunkTypeMap;
-	}
-
-	public static String getChunkType(Byte key)
-	{
-		return (String)getChunkTypeMap().get(key);
-	}
-	
 	public static String getBooleanText(Boolean key)
 	{
 		return key == null 
@@ -644,38 +438,4 @@ public class JRApiConstants
 	}
 	
 	
-	/**
-	 * @deprecated Replaced by {@link JRColorUtil#getColor(String, Color)}.
-	 *
-	public static Color getColor(String strColor, Color defaultColor)
-	{
-		Color color = null;
-
-		if (strColor != null && strColor.length() > 0)
-		{
-			char firstChar = strColor.charAt(0);
-			if (firstChar == '#')
-			{
-				color = new Color(Integer.parseInt(strColor.substring(1), 16));
-			}
-			else if ('0' <= firstChar && firstChar <= '9')
-			{
-				color = new Color(Integer.parseInt(strColor));
-			}
-			else
-			{
-				if (JRApiConstants.getColorMap().containsKey(strColor))
-				{
-					color = (Color)JRApiConstants.getColorMap().get(strColor);
-				}
-				else
-				{
-					color = defaultColor;
-				}
-			}
-		}
-
-		return color;
-	}
-	*/
 }

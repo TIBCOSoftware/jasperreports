@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -30,6 +32,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 
 /**
@@ -51,7 +54,7 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	 *
 	 */
 	protected String name = null;
-	protected byte order = SORT_ORDER_ASCENDING;
+	protected SortOrderEnum orderValue = SortOrderEnum.ASCENDING;
 
 
 	/**
@@ -70,7 +73,7 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 		factory.put(sortField, this);
 		
 		name = sortField.getName();
-		order = sortField.getOrder();
+		orderValue = sortField.getOrderValue();
 	}
 		
 
@@ -83,21 +86,37 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOrderValue()}.
 	 */
 	public byte getOrder()
 	{
-		return order;
+		return getOrderValue().getValue();
 	}
 		
 	/**
 	 *
 	 */
+	public SortOrderEnum getOrderValue()
+	{
+		return orderValue;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setOrder(SortOrderEnum)}.
+	 */
 	public void setOrder(byte order)
 	{
-		byte old = this.order;
-		this.order = order;
-		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.order);
+		setOrder(SortOrderEnum.getByValue((byte)(order + 1)));
+	}
+	
+	/**
+	 *
+	 */
+	public void setOrder(SortOrderEnum orderValue)
+	{
+		Object old = this.orderValue;
+		this.orderValue = orderValue;
+		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.orderValue);
 	}
 	
 	/**
@@ -128,6 +147,23 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 		}
 		
 		return eventSupport;
+	}
+
+
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte order;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			orderValue = SortOrderEnum.getByValue((byte)(order + 1));
+		}
 	}
 	
 }

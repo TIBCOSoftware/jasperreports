@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRVariable;
 
@@ -44,6 +45,12 @@ public interface JRCrosstabGroup extends JRCloneable
 	public String getName();
 	
 	/**
+	 * @deprecated Replaced by {@link #getTotalPositionValue()}.
+	 */
+	public byte getTotalPosition();
+	
+	
+	/**
 	 * Returns the position of the total row/column for this group.
 	 * <p>
 	 * A group can have a total row/column summing the values for all the
@@ -54,16 +61,16 @@ public interface JRCrosstabGroup extends JRCloneable
 	 * <p>
 	 * Possible values for this attribute are:
 	 * <ul>
-	 * 	<li>{@link net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition#TOTAL_POSITION_NONE Bucket.TOTAL_POSITION_NONE}
+	 * 	<li>{@link CrosstabTotalPositionEnum#NONE CrosstabTotalPositionEnum.NONE}
 	 * - the group will not display a total row/column</li>
-	 * 	<li>{@link net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition#TOTAL_POSITION_START Bucket.TOTAL_POSITION_START}
+	 * 	<li>{@link CrosstabTotalPositionEnum#START CrosstabTotalPositionEnum.START}
 	 * - the group will display the total row/column before the group rows/columns</li>
-	 * 	<li>{@link net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition#TOTAL_POSITION_END Bucket.TOTAL_POSITION_END}
+	 * 	<li>{@link CrosstabTotalPositionEnum#END CrosstabTotalPositionEnum.END}
 	 * - the group will display the total row/column at the end of the group rows/columns</li>
 	 * 
 	 * @return the position of the total row/column for this group
 	 */
-	public byte getTotalPosition();
+	public CrosstabTotalPositionEnum getTotalPositionValue();
 	
 	
 	/**

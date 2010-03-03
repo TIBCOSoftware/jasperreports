@@ -63,6 +63,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculator;
 import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculatorFactory;
+import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
@@ -2468,7 +2469,7 @@ public class JRVerifier
 			{
 				addBrokenRule("The class of the expression is not compatible with the class of the measure " + measureName + ".", valueExpression);
 			}
-			if (measure.getPercentageOfType() != JRCrosstabMeasure.PERCENTAGE_TYPE_NONE)
+			if (measure.getPercentageType() != CrosstabPercentageEnum.NONE)
 			{
 				Class percentageCalculatorClass = measure.getPercentageCalculatorClass();
 				if (percentageCalculatorClass == null)

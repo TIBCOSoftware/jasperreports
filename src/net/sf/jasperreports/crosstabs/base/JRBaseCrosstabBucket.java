@@ -23,14 +23,16 @@
  */
 package net.sf.jasperreports.crosstabs.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
-import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -43,7 +45,7 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected byte order = BucketDefinition.ORDER_ASCENDING;
+	protected SortOrderEnum orderValue = SortOrderEnum.ASCENDING;
 	protected JRExpression expression;
 	protected JRExpression orderByExpression;
 	protected JRExpression comparatorExpression;
@@ -56,15 +58,23 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 	{
 		factory.put(bucket, this);
 		
-		this.order = bucket.getOrder();
+		this.orderValue = bucket.getOrderValue();
 		this.expression = factory.getExpression(bucket.getExpression());
 		this.orderByExpression = factory.getExpression(bucket.getOrderByExpression());
 		this.comparatorExpression = factory.getExpression(bucket.getComparatorExpression());
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOrderValue()}.
+	 */
 	public byte getOrder()
 	{
-		return order;
+		return getOrderValue().getValue();
+	}
+
+	public SortOrderEnum getOrderValue()
+	{
+		return orderValue;
 	}
 
 	public JRExpression getExpression()
@@ -98,4 +108,22 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 			throw new JRRuntimeException(e);
 		}
 	}
+
+
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte order;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			orderValue = SortOrderEnum.getByValue(order);
+		}
+	}
+	
 }

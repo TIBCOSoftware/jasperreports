@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRVariable;
@@ -41,12 +42,14 @@ public interface JRCrosstabMeasure extends JRCloneable
 	/**
 	 * Percentage type indicating that the value will not be calculated
 	 * as a percentage.
+	 * @deprecated Replaced by {@link CrosstabPercentageEnum#NONE}.
 	 */
 	public static final byte PERCENTAGE_TYPE_NONE = 0;
 	
 	/**
 	 * Percentage type indicating that the value will be calculated as percentage
 	 * of the grand total value.
+	 * @deprecated Replaced by {@link CrosstabPercentageEnum#GRAND_TOTAL}.
 	 */
 	public static final byte PERCENTAGE_TYPE_GRAND_TOTAL = 1;
 
@@ -124,14 +127,20 @@ public interface JRCrosstabMeasure extends JRCloneable
 
 	
 	/**
+	 * @deprecated Replaced by {@link #getPercentageType()}.
+	 */
+	public byte getPercentageOfType();
+	
+	
+	/**
 	 * Returns the percentage calculation type performed on this measure.
 	 * <p>
 	 * Currently, only percentage out of grand total is supported.
 	 * <p>
 	 * The possible values are:
 	 * <ul>
-	 * 	<li>{@link #PERCENTAGE_TYPE_NONE PERCENTAGE_TYPE_NONE}</li>
-	 * 	<li>{@link #PERCENTAGE_TYPE_GRAND_TOTAL PERCENTAGE_TYPE_GRAND_TOTAL}</li>
+	 * 	<li>{@link CrosstabPercentageEnum#NONE CrosstabPercentageEnum.NONE}</li>
+	 * 	<li>{@link CrosstabPercentageEnum#GRAND_TOTAL CrosstabPercentageEnum.GRAND_TOTAL}</li>
 	 * </ul>
 	 * <p>
 	 * If percentage calculation is required, the value class should be one of the built-in supported
@@ -141,7 +150,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * @see net.sf.jasperreports.crosstabs.fill.JRPercentageCalculatorFactory#hasBuiltInCalculator(Class)
 	 * @see #getPercentageCalculatorClassName()
 	 */
-	public byte getPercentageOfType();
+	public CrosstabPercentageEnum getPercentageType();
 	
 	
 	/**
@@ -153,9 +162,9 @@ public interface JRCrosstabMeasure extends JRCloneable
 	
 	
 	/**
-	 * Returns the percentage calcualtor class.
+	 * Returns the percentage calculator class.
 	 * 
-	 * @return the percentage calcualtor class
+	 * @return the percentage calculator class
 	 */
 	public Class getPercentageCalculatorClass();
 	

@@ -23,12 +23,15 @@
  */
 package net.sf.jasperreports.crosstabs.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
 import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
-import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
+import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -48,7 +51,7 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 	private static final long serialVersionUID = 7685014062058258277L;//it's OK to have calculated UID here, because we missed it when first releasing this class
 	
 	protected String name;
-	protected byte totalPosition = BucketDefinition.TOTAL_POSITION_NONE;
+	protected CrosstabTotalPositionEnum totalPositionValue = CrosstabTotalPositionEnum.NONE;
 	protected JRCrosstabBucket bucket;
 	
 	protected JRCellContents header;
@@ -65,7 +68,7 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 		factory.put(group, this);
 		
 		this.name = group.getName();
-		this.totalPosition = group.getTotalPosition();
+		this.totalPositionValue = group.getTotalPositionValue();
 		this.bucket = factory.getCrosstabBucket(group.getBucket());
 		
 		this.header = factory.getCell(group.getHeader());
@@ -84,14 +87,22 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 		return bucket;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getTotalPositionValue()}.
+	 */
 	public byte getTotalPosition()
 	{
-		return totalPosition;
+		return getTotalPositionValue().getValue();
+	}
+
+	public CrosstabTotalPositionEnum getTotalPositionValue()
+	{
+		return totalPositionValue;
 	}
 
 	public boolean hasTotal()
 	{
-		return totalPosition != BucketDefinition.TOTAL_POSITION_NONE;
+		return totalPositionValue != CrosstabTotalPositionEnum.NONE;
 	}
 
 	public JRCellContents getHeader()
@@ -129,4 +140,22 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 			throw new JRRuntimeException(e);
 		}
 	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte totalPosition;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			totalPositionValue = CrosstabTotalPositionEnum.getByValue(totalPosition);
+		}
+	}
+
 }

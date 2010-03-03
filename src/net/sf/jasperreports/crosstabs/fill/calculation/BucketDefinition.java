@@ -25,8 +25,10 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 
 import java.util.Comparator;
 
+import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 import org.apache.commons.collections.comparators.ComparableComparator;
 import org.apache.commons.collections.comparators.ReverseComparator;
@@ -46,26 +48,31 @@ public class BucketDefinition
 	
 	/**
 	 * Ascending order constant.
+	 * @deprecated Replaced by {@link SortOrderEnum#ASCENDING}.
 	 */
 	public static final byte ORDER_ASCENDING = 1;
 	
 	/**
 	 * Descending order constant.
+	 * @deprecated Replaced by {@link SortOrderEnum#DESCENDING}.
 	 */
 	public static final byte ORDER_DESCENDING = 2;
 	
 	/**
 	 * Constant indicating that total are not required for this bucket.
+	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum#NONE}.
 	 */
 	public static final byte TOTAL_POSITION_NONE = 0;
 	
 	/**
 	 * Constants indicating that totals are to be positioned before the other buckets.
+	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum#START}.
 	 */
 	public static final byte TOTAL_POSITION_START = 1;
 	
 	/**
 	 * Constants indicating that totals are to be positioned at the end of the other buckets.
+	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum#END}.
 	 */
 	public static final byte TOTAL_POSITION_END = 2;
 	
@@ -98,7 +105,7 @@ public class BucketDefinition
 
 	protected final JRExpression orderByExpression;
 	protected final Comparator orderValueComparator;
-	private final byte totalPosition;
+	private final CrosstabTotalPositionEnum totalPosition;
 	
 	private boolean computeTotal;
 
@@ -114,8 +121,8 @@ public class BucketDefinition
 	 * @throws JRException
 	 */
 	public BucketDefinition(Class valueClass, 
-			JRExpression orderByExpression, Comparator comparator, byte order, 
-			byte totalPosition) throws JRException
+			JRExpression orderByExpression, Comparator comparator, SortOrderEnum order, 
+			CrosstabTotalPositionEnum totalPosition) throws JRException
 	{
 		if (comparator == null && orderByExpression == null 
 				&& !Comparable.class.isAssignableFrom(valueClass))
@@ -156,16 +163,16 @@ public class BucketDefinition
 		}
 		
 		this.totalPosition = totalPosition;
-		computeTotal = totalPosition != TOTAL_POSITION_NONE;
+		computeTotal = totalPosition != CrosstabTotalPositionEnum.NONE;
 	}
 
 	
-	protected static Comparator createOrderComparator(Comparator comparator, byte order)
+	protected static Comparator createOrderComparator(Comparator comparator, SortOrderEnum order)
 	{
 		Comparator orderComparator;
 		switch (order)
 		{
-			case ORDER_DESCENDING:
+			case DESCENDING:
 			{
 				if (comparator == null)
 				{
@@ -177,7 +184,7 @@ public class BucketDefinition
 				}
 				break;
 			}
-			case ORDER_ASCENDING:				
+			case ASCENDING:				
 			default:
 			{
 				if (comparator == null)
@@ -221,7 +228,7 @@ public class BucketDefinition
 	 * 
 	 * @return the total bucket position
 	 */
-	public byte getTotalPosition()
+	public CrosstabTotalPositionEnum getTotalPosition()
 	{
 		return totalPosition;
 	}

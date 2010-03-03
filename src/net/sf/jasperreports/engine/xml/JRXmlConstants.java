@@ -35,7 +35,9 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
+import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
+import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
@@ -74,6 +76,7 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
@@ -1147,13 +1150,22 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link SortOrderEnum#ASCENDING#getName()}.
 	 */
-	private static final String SORT_ORDER_ASCENDING = "Ascending";
-	private static final String SORT_ORDER_DESCENDING = "Descending";
+	private static final String SORT_ORDER_ASCENDING = SortOrderEnum.ASCENDING.getName();
+	/**
+	 * @deprecated Replaced by {@link SortOrderEnum#DESCENDING#getName()}.
+	 */
+	private static final String SORT_ORDER_DESCENDING = SortOrderEnum.DESCENDING.getName();
 
+	/**
+	 * @deprecated Replaced by {@link SortOrderEnum}.
+	 */
 	private static Map sortOrderMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link SortOrderEnum}.
+	 */
 	public static Map getSortOrderMap()
 	{
 		if (sortOrderMap == null)
@@ -1384,13 +1396,22 @@ public class JRXmlConstants extends XmlConstants
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link SortOrderEnum#ASCENDING#getName()}.
 	 */
-	private static final String CROSSTAB_BUCKET_ORDER_ASCENDING = "Ascending";
-	private static final String CROSSTAB_BUCKET_ORDER_DESCENDING = "Descending";
+	private static final String CROSSTAB_BUCKET_ORDER_ASCENDING = SortOrderEnum.ASCENDING.getName();
+	/**
+	 * @deprecated Replaced by {@link SortOrderEnum#DESCENDING#getName()}.
+	 */
+	private static final String CROSSTAB_BUCKET_ORDER_DESCENDING = SortOrderEnum.DESCENDING.getName();
 
+	/**
+	 * @deprecated Replaced by {@link SortOrderEnum}.
+	 */
 	private static Map crosstabBucketOrderMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link SortOrderEnum}.
+	 */
 	public static Map getCrosstabBucketOrderMap()
 	{
 		if (crosstabBucketOrderMap == null)
@@ -1407,12 +1428,24 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 
-	private static final String CROSSTAB_PERCENTAGE_NONE = "None";
-	private static final String CROSSTAB_PERCENTAGE_GRAND_TOTAL = "GrandTotal";
+	/**
+	 * @deprecated Replaced by {@link CrosstabPercentageEnum#NONE#getName()}.
+	 */
+	private static final String CROSSTAB_PERCENTAGE_NONE = CrosstabPercentageEnum.NONE.getName();
+	/**
+	 * @deprecated Replaced by {@link CrosstabPercentageEnum#GRAND_TOTAL#getName()}.
+	 */
+	private static final String CROSSTAB_PERCENTAGE_GRAND_TOTAL = CrosstabPercentageEnum.GRAND_TOTAL.getName();
 
+	/**
+	 * @deprecated Replaced by {@link CrosstabPercentageEnum}.
+	 */
 	private static Map crosstabPercentageMap = null;
 
 
+	/**
+	 * @deprecated Replaced by {@link CrosstabPercentageEnum}.
+	 */
 	public static Map getCrosstabPercentageMap()
 	{
 		if (crosstabPercentageMap == null)
@@ -1429,13 +1462,28 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 
-	private static final String CROSSTAB_TOTAL_POSITION_NONE = "None";
-	private static final String CROSSTAB_TOTAL_POSITION_START = "Start";
-	private static final String CROSSTAB_TOTAL_POSITION_END = "End";
+	/**
+	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum#NONE#getName()}.
+	 */
+	private static final String CROSSTAB_TOTAL_POSITION_NONE = CrosstabTotalPositionEnum.NONE.getName();
+	/**
+	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum#START#getName()}.
+	 */
+	private static final String CROSSTAB_TOTAL_POSITION_START = CrosstabTotalPositionEnum.START.getName();
+	/**
+	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum#END#getName()}.
+	 */
+	private static final String CROSSTAB_TOTAL_POSITION_END = CrosstabTotalPositionEnum.END.getName();
 
+	/**
+	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum}.
+	 */
 	private static Map crosstabTotalPositionMap = null;
 
 
+	/**
+	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum}.
+	 */
 	public static Map getCrosstabTotalPositionMap()
 	{
 		if (crosstabTotalPositionMap == null)

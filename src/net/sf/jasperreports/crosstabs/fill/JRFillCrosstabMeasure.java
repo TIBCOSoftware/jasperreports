@@ -24,6 +24,7 @@
 package net.sf.jasperreports.crosstabs.fill;
 
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
+import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.JRDefaultIncrementerFactory;
@@ -90,9 +91,17 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 		return parentMeasure.getIncrementerFactoryClass();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getPercentageType()}.
+	 */
 	public byte getPercentageOfType()
 	{
-		return parentMeasure.getPercentageOfType();
+		return getPercentageType().getValue();
+	}
+
+	public CrosstabPercentageEnum getPercentageType()
+	{
+		return parentMeasure.getPercentageType();
 	}
 
 	public JRVariable getVariable()
@@ -139,7 +148,7 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 	{
 		JRPercentageCalculator percentageCalc;
 		
-		if (getPercentageOfType() == JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL)
+		if (getPercentageType() == CrosstabPercentageEnum.GRAND_TOTAL)
 		{
 			percentageCalc = JRPercentageCalculatorFactory.getPercentageCalculator(getPercentageCalculatorClass(), getValueClass());
 		}

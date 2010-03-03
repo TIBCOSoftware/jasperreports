@@ -25,6 +25,7 @@ package net.sf.jasperreports.crosstabs;
 
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
  * Crosstab groups bucketing information interface.
@@ -40,17 +41,23 @@ import net.sf.jasperreports.engine.JRExpression;
 public interface JRCrosstabBucket extends JRCloneable
 {
 	/**
+	 * @deprecated Replaced by {@link #getOrderValue()}.
+	 */
+	public byte getOrder();
+	
+	
+	/**
 	 * Returns the bucket sorting type.
 	 * <p>
 	 * The possible values are:
 	 * <ul>
-	 * 	<li>{@link net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition#ORDER_ASCENDING Bucket.ORDER_ASCENDING}</li>
-	 * 	<li>{@link net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition#ORDER_DESCENDING Bucket.ORDER_DESCENDING}</li>
+	 * 	<li>{@link SortOrderEnum#ASCENDING SortOrderEnum.ASCENDING}</li>
+	 * 	<li>{@link SortOrderEnum#DESCENDING SortOrderEnum.DESCENDING}</li>
 	 * </ul>
 	 * 
 	 * @return the bucket sorting type
 	 */
-	public byte getOrder();
+	public SortOrderEnum getOrderValue();
 	
 	
 	/**

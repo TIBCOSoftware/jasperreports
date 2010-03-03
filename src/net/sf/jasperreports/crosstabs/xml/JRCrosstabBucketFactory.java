@@ -23,11 +23,11 @@
  */
 package net.sf.jasperreports.crosstabs.xml;
 
-import org.xml.sax.Attributes;
-
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
+
+import org.xml.sax.Attributes;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -46,11 +46,10 @@ public class JRCrosstabBucketFactory extends JRBaseFactory
 	{
 		JRDesignCrosstabBucket bucket = new JRDesignCrosstabBucket();
 		
-		String orderAttr = attributes.getValue(ATTRIBUTE_order);
-		if (orderAttr != null)
+		SortOrderEnum order = SortOrderEnum.getByName(attributes.getValue(ATTRIBUTE_order));
+		if (order != null)
 		{
-			Byte order = (Byte) JRXmlConstants.getCrosstabBucketOrderMap().get(orderAttr);
-			bucket.setOrder(order.byteValue());
+			bucket.setOrder(order);
 		}
 		
 		return bucket;

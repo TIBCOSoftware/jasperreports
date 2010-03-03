@@ -26,6 +26,7 @@ package net.sf.jasperreports.crosstabs.fill;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
 import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
+import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.JRFillCellContents;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
@@ -60,9 +61,17 @@ public abstract class JRFillCrosstabGroup implements JRCrosstabGroup
 		return parentGroup.getName();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getTotalPositionValue()}.
+	 */
 	public byte getTotalPosition()
 	{
-		return parentGroup.getTotalPosition();
+		return getTotalPositionValue().getValue();
+	}
+
+	public CrosstabTotalPositionEnum getTotalPositionValue()
+	{
+		return parentGroup.getTotalPositionValue();
 	}
 
 	public boolean hasTotal()
