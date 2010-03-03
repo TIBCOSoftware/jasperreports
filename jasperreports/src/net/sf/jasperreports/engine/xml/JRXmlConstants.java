@@ -318,19 +318,19 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link RotationEnum#NONE#getName()}.
 	 */
-	private static final String ROTATION_NONE = "None";
+	private static final String ROTATION_NONE = RotationEnum.NONE.getName();
 	/**
 	 * @deprecated Replaced by {@link RotationEnum#LEFT#getName()}.
 	 */
-	private static final String ROTATION_LEFT = "Left";
+	private static final String ROTATION_LEFT = RotationEnum.LEFT.getName();
 	/**
 	 * @deprecated Replaced by {@link RotationEnum#RIGHT#getName()}.
 	 */
-	private static final String ROTATION_RIGHT = "Right";
+	private static final String ROTATION_RIGHT = RotationEnum.RIGHT.getName();
 	/**
 	 * @deprecated Replaced by {@link RotationEnum#UPSIDE_DOWN#getName()}.
 	 */
-	private static final String ROTATION_UPSIDE_DOWN = "UpsideDown";
+	private static final String ROTATION_UPSIDE_DOWN = RotationEnum.UPSIDE_DOWN.getName();
 
 	/**
 	 * @deprecated Replaced by {@link RotationEnum}.
@@ -362,11 +362,11 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link BreakTypeEnum#PAGE#getName()}.
 	 */
-	private static final String BREAK_TYPE_PAGE = "Page";
+	private static final String BREAK_TYPE_PAGE = BreakTypeEnum.PAGE.getName();
 	/**
 	 * @deprecated Replaced by {@link BreakTypeEnum#COLUMN#getName()}.
 	 */
-	private static final String BREAK_TYPE_COLUMN = "Column";
+	private static final String BREAK_TYPE_COLUMN = BreakTypeEnum.COLUMN.getName();
 
 	/**
 	 * @deprecated Replaced by {@link BreakTypeEnum}.
@@ -394,11 +394,11 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link RunDirectionEnum#LTR#getName()}.
 	 */
-	private static final String RUN_DIRECTION_LTR = "LTR";
+	private static final String RUN_DIRECTION_LTR = RunDirectionEnum.LTR.getName();
 	/**
 	 * @deprecated Replaced by {@link RunDirectionEnum#RTL#getName()}.
 	 */
-	private static final String RUN_DIRECTION_RTL = "RTL";
+	private static final String RUN_DIRECTION_RTL = RunDirectionEnum.RTL.getName();
 
 	/**
 	 * @deprecated Replaced by {@link RunDirectionEnum}.
@@ -426,15 +426,15 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link LineSpacingEnum#SINGLE#getName()}.
 	 */
-	private static final String LINE_SPACING_SINGLE = "Single";
+	private static final String LINE_SPACING_SINGLE = LineSpacingEnum.SINGLE.getName();
 	/**
 	 * @deprecated Replaced by {@link LineSpacingEnum#ONE_AND_HALF#getName()}.
 	 */
-	private static final String LINE_SPACING_1_1_2 = "1_1_2";
+	private static final String LINE_SPACING_1_1_2 = LineSpacingEnum.ONE_AND_HALF.getName();
 	/**
 	 * @deprecated Replaced by {@link LineSpacingEnum#DOUBLE#getName()}.
 	 */
-	private static final String LINE_SPACING_DOUBLE = "Double";
+	private static final String LINE_SPACING_DOUBLE = LineSpacingEnum.DOUBLE.getName();
 
 	/**
 	 * @deprecated Replaced by {@link LineSpacingEnum}.
@@ -464,11 +464,11 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link LineDirectionEnum#TOP_DOWN#getName()}.
 	 */
-	private static final String DIRECTION_TOP_DOWN = "TopDown";
+	private static final String DIRECTION_TOP_DOWN = LineDirectionEnum.TOP_DOWN.getName();
 	/**
 	 * @deprecated Replaced by {@link LineDirectionEnum#BOTTOM_UP#getName()}.
 	 */
-	private static final String DIRECTION_BOTTOM_UP = "BottomUp";
+	private static final String DIRECTION_BOTTOM_UP = LineDirectionEnum.BOTTOM_UP.getName();
 
 	/**
 	 * @deprecated Replaced by {@link LineDirectionEnum}.
@@ -496,23 +496,23 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link ScaleImageEnum#CLIP#getName()}.
 	 */
-	private static final String SCALE_IMAGE_CLIP = "Clip";
+	private static final String SCALE_IMAGE_CLIP = ScaleImageEnum.CLIP.getName();
 	/**
 	 * @deprecated Replaced by {@link ScaleImageEnum#FILL_FRAME#getName()}.
 	 */
-	private static final String SCALE_IMAGE_FILL_FRAME = "FillFrame";
+	private static final String SCALE_IMAGE_FILL_FRAME = ScaleImageEnum.FILL_FRAME.getName();
 	/**
 	 * @deprecated Replaced by {@link ScaleImageEnum#RETAIN_SHAPE#getName()}.
 	 */
-	private static final String SCALE_IMAGE_RETAIN_SHAPE = "RetainShape";
+	private static final String SCALE_IMAGE_RETAIN_SHAPE = ScaleImageEnum.RETAIN_SHAPE.getName();
 	/**
 	 * @deprecated Replaced by {@link ScaleImageEnum#REAL_HEIGHT#getName()}.
 	 */
-	private static final String SCALE_IMAGE_REAL_HEIGT = "RealHeight";
+	private static final String SCALE_IMAGE_REAL_HEIGT = ScaleImageEnum.REAL_HEIGHT.getName();
 	/**
 	 * @deprecated Replaced by {@link ScaleImageEnum#REAL_SIZE#getName()}.
 	 */
-	private static final String SCALE_IMAGE_REAL_SIZE = "RealSize";
+	private static final String SCALE_IMAGE_REAL_SIZE = ScaleImageEnum.REAL_SIZE.getName();
 
 	/**
 	 * @deprecated Replaced by {@link ScaleImageEnum}.
@@ -546,15 +546,15 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link OnErrorTypeEnum#ERROR#getName()}.
 	 */
-	private static final String ON_ERROR_TYPE_ERROR = "Error";
+	private static final String ON_ERROR_TYPE_ERROR = OnErrorTypeEnum.ERROR.getName();
 	/**
 	 * @deprecated Replaced by {@link OnErrorTypeEnum#BLANK#getName()}.
 	 */
-	private static final String ON_ERROR_TYPE_BLANK = "Blank";
+	private static final String ON_ERROR_TYPE_BLANK = OnErrorTypeEnum.BLANK.getName();
 	/**
 	 * @deprecated Replaced by {@link OnErrorTypeEnum#ICON#getName()}.
 	 */
-	private static final String ON_ERROR_TYPE_ICON = "Icon";
+	private static final String ON_ERROR_TYPE_ICON = OnErrorTypeEnum.ICON.getName();
 
 	/**
 	 * @deprecated Replaced by {@link OnErrorTypeEnum}.
@@ -584,15 +584,15 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link StretchTypeEnum#NO_STRETCH#getName()}.
 	 */
-	private static final String STRETCH_TYPE_NO_STRETCH = "NoStretch";
+	private static final String STRETCH_TYPE_NO_STRETCH = StretchTypeEnum.NO_STRETCH.getName();
 	/**
 	 * @deprecated Replaced by {@link StretchTypeEnum#RELATIVE_TO_TALLEST_OBJECT#getName()}.
 	 */
-	private static final String STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT = "RelativeToTallestObject";
+	private static final String STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT = StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT.getName();
 	/**
 	 * @deprecated Replaced by {@link StretchTypeEnum#RELATIVE_TO_BAND_HEIGHT#getName()}.
 	 */
-	private static final String STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT = "RelativeToBandHeight";
+	private static final String STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT = StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT.getName();
 
 	/**
 	 * @deprecated Replaced by {@link StretchTypeEnum}.
@@ -622,19 +622,19 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link LineStyleEnum#SOLID#getName()}.
 	 */
-	private static final String LINE_STYLE_SOLID = "Solid";
+	private static final String LINE_STYLE_SOLID = LineStyleEnum.SOLID.getName();
 	/**
 	 * @deprecated Replaced by {@link LineStyleEnum#DASHED#getName()}.
 	 */
-	private static final String LINE_STYLE_DASHED = "Dashed";
+	private static final String LINE_STYLE_DASHED = LineStyleEnum.DASHED.getName();
 	/**
 	 * @deprecated Replaced by {@link LineStyleEnum#DOTTED#getName()}.
 	 */
-	private static final String LINE_STYLE_DOTTED = "Dotted";
+	private static final String LINE_STYLE_DOTTED = LineStyleEnum.DOTTED.getName();
 	/**
 	 * @deprecated Replaced by {@link LineStyleEnum#DOUBLE#getName()}.
 	 */
-	private static final String lINE_STYLE_DOUBLE = "Double";
+	private static final String lINE_STYLE_DOUBLE = LineStyleEnum.DOUBLE.getName();
 
 	/**
 	 * @deprecated Replaced by {@link LineStyleEnum}.
@@ -666,27 +666,27 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link PenEnum#NONE#getName()}.
 	 */
-	private static final String PEN_NONE = "None";
+	private static final String PEN_NONE = PenEnum.NONE.getName();
 	/**
 	 * @deprecated Replaced by {@link PenEnum#THIN#getName()}.
 	 */
-	private static final String PEN_THIN = "Thin";
+	private static final String PEN_THIN = PenEnum.THIN.getName();
 	/**
 	 * @deprecated Replaced by {@link PenEnum#ONE_POINT#getName()}.
 	 */
-	private static final String PEN_1_POINT = "1Point";
+	private static final String PEN_1_POINT = PenEnum.ONE_POINT.getName();
 	/**
 	 * @deprecated Replaced by {@link PenEnum#TWO_POINT#getName()}.
 	 */
-	private static final String PEN_2_POINT = "2Point";
+	private static final String PEN_2_POINT = PenEnum.TWO_POINT.getName();
 	/**
 	 * @deprecated Replaced by {@link PenEnum#FOUR_POINT#getName()}.
 	 */
-	private static final String PEN_4_POINT = "4Point";
+	private static final String PEN_4_POINT = PenEnum.FOUR_POINT.getName();
 	/**
 	 * @deprecated Replaced by {@link PenEnum#DOTTED#getName()}.
 	 */
-	private static final String PEN_DOTTED = "Dotted";
+	private static final String PEN_DOTTED = PenEnum.DOTTED.getName();
 
 	/**
 	 * @deprecated Replaced by {@link PenEnum}.
@@ -722,7 +722,7 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link FillEnum#SOLID#getName()}.
 	 */
-	private static final String FILL_SOLID = "Solid";
+	private static final String FILL_SOLID = FillEnum.SOLID.getName();
 
 	/**
 	 * @deprecated Replaced by {@link FillEnum}.
@@ -748,23 +748,23 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link ResetTypeEnum#NONE#getName()}.
 	 */
-	private static final String RESET_TYPE_NONE = "None";
+	private static final String RESET_TYPE_NONE = ResetTypeEnum.NONE.getName();
 	/**
 	 * @deprecated Replaced by {@link ResetTypeEnum#REPORT#getName()}.
 	 */
-	private static final String RESET_TYPE_REPORT = "Report";
+	private static final String RESET_TYPE_REPORT = ResetTypeEnum.REPORT.getName();
 	/**
 	 * @deprecated Replaced by {@link ResetTypeEnum#PAGE#getName()}.
 	 */
-	private static final String RESET_TYPE_PAGE = "Page";
+	private static final String RESET_TYPE_PAGE = ResetTypeEnum.PAGE.getName();
 	/**
 	 * @deprecated Replaced by {@link ResetTypeEnum#COLUMN#getName()}.
 	 */
-	private static final String RESET_TYPE_COLUMN = "Column";
+	private static final String RESET_TYPE_COLUMN = ResetTypeEnum.COLUMN.getName();
 	/**
 	 * @deprecated Replaced by {@link ResetTypeEnum#GROUP#getName()}.
 	 */
-	private static final String RESET_TYPE_GROUP = "Group";
+	private static final String RESET_TYPE_GROUP = ResetTypeEnum.GROUP.getName();
 
 	/**
 	 * @deprecated Replaced by {@link ResetTypeEnum}.
@@ -798,47 +798,47 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum#NOTHING#getName()}.
 	 */
-	private static final String CALCULATION_NOTHING = "Nothing";
+	private static final String CALCULATION_NOTHING = CalculationEnum.NOTHING.getName();
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum#COUNT#getName()}.
 	 */
-	private static final String CALCULATION_COUNT = "Count";
+	private static final String CALCULATION_COUNT = CalculationEnum.COUNT.getName();
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum#SUM#getName()}.
 	 */
-	private static final String CALCULATION_SUM = "Sum";
+	private static final String CALCULATION_SUM = CalculationEnum.SUM.getName();
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum#AVERAGE#getName()}.
 	 */
-	private static final String CALCULATION_AVERAGE = "Average";
+	private static final String CALCULATION_AVERAGE = CalculationEnum.AVERAGE.getName();
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum#LOWEST#getName()}.
 	 */
-	private static final String CALCULATION_LOWEST = "Lowest";
+	private static final String CALCULATION_LOWEST = CalculationEnum.LOWEST.getName();
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum#HIGHEST#getName()}.
 	 */
-	private static final String CALCULATION_HIGHEST = "Highest";
+	private static final String CALCULATION_HIGHEST = CalculationEnum.HIGHEST.getName();
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum#STANDARD_DEVIATION#getName()}.
 	 */
-	private static final String CALCULATION_STANDARD_DEVIATION = "StandardDeviation";
+	private static final String CALCULATION_STANDARD_DEVIATION = CalculationEnum.STANDARD_DEVIATION.getName();
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum#VARIANCE#getName()}.
 	 */
-	private static final String CALCULATION_VARIANCE = "Variance";
+	private static final String CALCULATION_VARIANCE = CalculationEnum.VARIANCE.getName();
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum#SYSTEM#getName()}.
 	 */
-	private static final String CALCULATION_SYSTEM = "System";
+	private static final String CALCULATION_SYSTEM = CalculationEnum.SYSTEM.getName();
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum#FIRST#getName()}.
 	 */
-	private static final String CALCULATION_FIRST = "First";
+	private static final String CALCULATION_FIRST = CalculationEnum.FIRST.getName();
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum#DISTINCT_COUNT#getName()}.
 	 */
-	private static final String CALCULATION_DISTINCT_COUNT = "DistinctCount";
+	private static final String CALCULATION_DISTINCT_COUNT = CalculationEnum.DISTINCT_COUNT.getName();
 
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum}.
@@ -884,11 +884,11 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link PrintOrderEnum#VERTICAL#getName()}.
 	 */
-	private static final String PRINT_ORDER_VERTICAL = "Vertical";
+	private static final String PRINT_ORDER_VERTICAL = PrintOrderEnum.VERTICAL.getName();
 	/**
 	 * @deprecated Replaced by {@link PrintOrderEnum#HORIZONTAL#getName()}.
 	 */
-	private static final String PRINT_ORDER_HORIZONTAL = "Horizontal";
+	private static final String PRINT_ORDER_HORIZONTAL = PrintOrderEnum.HORIZONTAL.getName();
 
 	/**
 	 * @deprecated Replaced by {@link PrintOrderEnum}.
@@ -916,11 +916,11 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link OrientationEnum#PORTRAIT#getName()}.
 	 */
-	private static final String ORIENTATION_PORTRAIT = "Portrait";
+	private static final String ORIENTATION_PORTRAIT = OrientationEnum.PORTRAIT.getName();
 	/**
 	 * @deprecated Replaced by {@link OrientationEnum#LANDSCAPE#getName()}.
 	 */
-	private static final String ORIENTATION_LANDSCAPE = "Landscape";
+	private static final String ORIENTATION_LANDSCAPE = OrientationEnum.LANDSCAPE.getName();
 
 	/**
 	 * @deprecated Replaced by {@link OrientationEnum}.
@@ -1511,15 +1511,15 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link SplitTypeEnum#STRETCH#getName()}.
 	 */
-	private static final String SPLIT_TYPE_STRETCH = "Stretch";
+	private static final String SPLIT_TYPE_STRETCH = SplitTypeEnum.STRETCH.getName();
 	/**
 	 * @deprecated Replaced by {@link SplitTypeEnum#PREVENT#getName()}.
 	 */
-	private static final String SPLIT_TYPE_PREVENT = "Prevent";
+	private static final String SPLIT_TYPE_PREVENT = SplitTypeEnum.PREVENT.getName();
 	/**
 	 * @deprecated Replaced by {@link SplitTypeEnum#IMMEDIATE#getName()}.
 	 */
-	private static final String SPLIT_TYPE_IMMEDIATE = "Immediate";
+	private static final String SPLIT_TYPE_IMMEDIATE = SplitTypeEnum.IMMEDIATE.getName();
 
 	
 	/**
@@ -1551,55 +1551,55 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#UNKNOWN#getName()}.
 	 */
-	private static final String UNKNOWN = "unknown";
+	private static final String UNKNOWN = BandTypeEnum.UNKNOWN.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#BACKGROUND#getName()}.
 	 */
-	private static final String BACKGROUND = "background";
+	private static final String BACKGROUND = BandTypeEnum.BACKGROUND.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#PAGE_HEADER#getName()}.
 	 */
-	private static final String TITLE = "title";
+	private static final String TITLE = BandTypeEnum.PAGE_HEADER.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#PAGE_HEADER#getName()}.
 	 */
-	private static final String PAGE_HEADER = "pageHeader";
+	private static final String PAGE_HEADER = BandTypeEnum.PAGE_HEADER.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#COLUMN_HEADER#getName()}.
 	 */
-	private static final String COLUMN_HEADER = "columnHeader";
+	private static final String COLUMN_HEADER = BandTypeEnum.COLUMN_HEADER.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#GROUP_HEADER#getName()}.
 	 */
-	private static final String GROUP_HEADER = "groupHeader";
+	private static final String GROUP_HEADER = BandTypeEnum.GROUP_HEADER.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#GROUP_FOOTER#getName()}.
 	 */
-	private static final String DETAIL = "detail";
+	private static final String DETAIL = BandTypeEnum.GROUP_FOOTER.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#GROUP_FOOTER#getName()}.
 	 */
-	private static final String GROUP_FOOTER = "groupFooter";
+	private static final String GROUP_FOOTER = BandTypeEnum.GROUP_FOOTER.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#COLUMN_FOOTER#getName()}.
 	 */
-	private static final String COLUMN_FOOTER = "columnFooter";
+	private static final String COLUMN_FOOTER = BandTypeEnum.COLUMN_FOOTER.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#PAGE_FOOTER#getName()}.
 	 */
-	private static final String PAGE_FOOTER = "pageFooter";
+	private static final String PAGE_FOOTER = BandTypeEnum.PAGE_FOOTER.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#LAST_PAGE_FOOTER#getName()}.
 	 */
-	private static final String LAST_PAGE_FOOTER = "lastPageFooter";
+	private static final String LAST_PAGE_FOOTER = BandTypeEnum.LAST_PAGE_FOOTER.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#SUMMARY#getName()}.
 	 */
-	private static final String SUMMARY = "summary";
+	private static final String SUMMARY = BandTypeEnum.SUMMARY.getName();
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum#NO_DATA#getName()}.
 	 */
-	private static final String NO_DATA = "noData";
+	private static final String NO_DATA = BandTypeEnum.NO_DATA.getName();
 
 	
 	/**
@@ -1651,19 +1651,19 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link FooterPositionEnum#NORMAL#getName()}.
 	 */
-	private static final String FOOTER_POSITION_NORMAL = "Normal";
+	private static final String FOOTER_POSITION_NORMAL = FooterPositionEnum.NORMAL.getName();
 	/**
 	 * @deprecated Replaced by {@link FooterPositionEnum#STACK_AT_BOTTOM#getName()}.
 	 */
-	private static final String FOOTER_POSITION_STACK_AT_BOTTOM = "StackAtBottom";
+	private static final String FOOTER_POSITION_STACK_AT_BOTTOM = FooterPositionEnum.STACK_AT_BOTTOM.getName();
 	/**
 	 * @deprecated Replaced by {@link FooterPositionEnum#FORCE_AT_BOTTOM#getName()}.
 	 */
-	private static final String FOOTER_POSITION_FORCE_AT_BOTTOM = "ForceAtBottom";
+	private static final String FOOTER_POSITION_FORCE_AT_BOTTOM = FooterPositionEnum.FORCE_AT_BOTTOM.getName();
 	/**
 	 * @deprecated Replaced by {@link FooterPositionEnum#COLLATE_AT_BOTTOM#getName()}.
 	 */
-	private static final String FOOTER_POSITION_COLLATE_AT_BOTTOM = "CollateAtBottom";
+	private static final String FOOTER_POSITION_COLLATE_AT_BOTTOM = FooterPositionEnum.COLLATE_AT_BOTTOM.getName();
 
 	/**
 	 * @deprecated Replaced by {@link FooterPositionEnum}.
