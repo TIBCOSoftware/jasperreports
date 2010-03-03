@@ -59,6 +59,8 @@ import net.sf.jasperreports.crosstabs.fill.calculation.HeaderCell;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
+import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
+import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -195,7 +197,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		for (int i = 0; i < groups.length; ++i)
 		{
 			JRFillCrosstabRowGroup group = factory.getCrosstabRowGroup(groups[i]);
-			group.getFillHeader().setVerticalPositionType(groups[i].getPosition());
+			group.getFillHeader().setVerticalPositionType(groups[i].getPositionValue());
 
 			rowGroups[i] = group;
 			rowGroupsMap.put(group.getName(), new Integer(i));
@@ -1316,7 +1318,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				setCountVars(-1, columnIdx);
 				setGroupVariables(columnGroups, cell.getBucketValues());
 				
-				contents = contents.getTransformedContents(width, height, group.getPosition(), JRCellContents.POSITION_Y_TOP);
+				contents = contents.getTransformedContents(width, height, group.getPositionValue(), CrosstabRowPositionEnum.TOP);
 				boolean firstOnRow = columnIdx == startColumnIndex && (!printRowHeaders || headerCell == null);
 				contents = contents.getBoxContents(
 						firstOnRow && getRunDirectionValue() == RunDirectionEnum.LTR,
@@ -1673,7 +1675,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			int rowHeight = spanHeight + preparedRowHeight;
 			
-			boolean stretchContents = group.getPosition() == JRCellContents.POSITION_Y_STRETCH;
+			boolean stretchContents = group.getPositionValue() == CrosstabRowPositionEnum.STRETCH;
 			int contentsHeight = stretchContents ? rowHeight : contents.getHeight();
 			
 			boolean headerOverflow = availableHeight <  headerY + contentsHeight || rowHeight < contents.getHeight();
@@ -1685,7 +1687,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 				if (stretchContents)
 				{
-					contents = contents.getTransformedContents(contents.getWidth(), rowHeight, JRCellContents.POSITION_X_LEFT, JRCellContents.POSITION_Y_STRETCH);
+					contents = contents.getTransformedContents(contents.getWidth(), rowHeight, CrosstabColumnPositionEnum.LEFT, CrosstabRowPositionEnum.STRETCH);
 				}
 				contents = contents.getBoxContents(false, false, rowIdx + 1 == vSpan && (!printColumnHeaders || headerCell == null));
 				contents.getWorkingClone();
@@ -1852,7 +1854,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			JRFillCrosstabRowGroup group = rowGroups[rowGroup];
 			JRFillCellContents contents = cell.isTotal() ? group.getFillTotalHeader() : group.getFillHeader();
 			
-			boolean stretchContents = group.getPosition() == JRCellContents.POSITION_Y_STRETCH;
+			boolean stretchContents = group.getPositionValue() == CrosstabRowPositionEnum.STRETCH;
 			int contentsHeight = stretchContents ? headerHeight : contents.getHeight();
 			
 			boolean headerOverflow = availableHeight < headerY + contentsHeight || headerHeight < contents.getHeight();
@@ -1863,7 +1865,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 				if (stretchContents)
 				{
-					contents = contents.getTransformedContents(contents.getWidth(), headerHeight, JRCellContents.POSITION_X_LEFT, JRCellContents.POSITION_Y_STRETCH);
+					contents = contents.getTransformedContents(contents.getWidth(), headerHeight, CrosstabColumnPositionEnum.LEFT, CrosstabRowPositionEnum.STRETCH);
 				}
 				
 				contents = contents.getBoxContents(false, false, rowIdx == vSpan && (!printColumnHeaders || headerCell == null));

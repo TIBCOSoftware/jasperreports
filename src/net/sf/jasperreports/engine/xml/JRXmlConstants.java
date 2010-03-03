@@ -34,6 +34,8 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
+import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
+import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
@@ -1452,14 +1454,32 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 
-	private static final String CROSSTAB_ROW_POSITION_TOP = "Top";
-	private static final String CROSSTAB_ROW_POSITION_MIDDLE = "Middle";
-	private static final String CROSSTAB_ROW_POSITION_BOTTOM = "Bottom";
-	private static final String CROSSTAB_ROW_POSITION_STRETCH = "Stretch";
+	/**
+	 * @deprecated Replaced by {@link CrosstabRowPositionEnum#TOP#getName()}.
+	 */
+	private static final String CROSSTAB_ROW_POSITION_TOP = CrosstabRowPositionEnum.TOP.getName();
+	/**
+	 * @deprecated Replaced by {@link CrosstabRowPositionEnum#MIDDLE#getName()}.
+	 */
+	private static final String CROSSTAB_ROW_POSITION_MIDDLE = CrosstabRowPositionEnum.MIDDLE.getName();
+	/**
+	 * @deprecated Replaced by {@link CrosstabRowPositionEnum#BOTTOM#getName()}.
+	 */
+	private static final String CROSSTAB_ROW_POSITION_BOTTOM = CrosstabRowPositionEnum.BOTTOM.getName();
+	/**
+	 * @deprecated Replaced by {@link CrosstabRowPositionEnum#STRETCH#getName()}.
+	 */
+	private static final String CROSSTAB_ROW_POSITION_STRETCH = CrosstabRowPositionEnum.STRETCH.getName();
 
+	/**
+	 * @deprecated Replaced by {@link CrosstabRowPositionEnum}.
+	 */
 	private static Map crosstabRowPositionMap = null;
 
 
+	/**
+	 * @deprecated Replaced by {@link CrosstabRowPositionEnum}.
+	 */
 	public static Map getCrosstabRowPositionMap()
 	{
 		if (crosstabRowPositionMap == null)
@@ -1480,14 +1500,32 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 
-	private static final String CROSSTAB_COLUMN_POSITION_LEFT = "Left";
-	private static final String CROSSTAB_COLUMN_POSITION_CENTER = "Center";
-	private static final String CROSSTAB_COLUMN_POSITION_RIGHT = "Right";
-	private static final String CROSSTAB_COLUMN_POSITION_STRETCH = "Stretch";
+	/**
+	 * @deprecated Replaced by {@link CrosstabColumnPositionEnum#LEFT#getName()}.
+	 */
+	private static final String CROSSTAB_COLUMN_POSITION_LEFT = CrosstabColumnPositionEnum.LEFT.getName();
+	/**
+	 * @deprecated Replaced by {@link CrosstabColumnPositionEnum#CENTER#getName()}.
+	 */
+	private static final String CROSSTAB_COLUMN_POSITION_CENTER = CrosstabColumnPositionEnum.CENTER.getName();
+	/**
+	 * @deprecated Replaced by {@link CrosstabColumnPositionEnum#RIGHT#getName()}.
+	 */
+	private static final String CROSSTAB_COLUMN_POSITION_RIGHT = CrosstabColumnPositionEnum.RIGHT.getName();
+	/**
+	 * @deprecated Replaced by {@link CrosstabColumnPositionEnum#STRETCH#getName()}.
+	 */
+	private static final String CROSSTAB_COLUMN_POSITION_STRETCH = CrosstabColumnPositionEnum.STRETCH.getName();
 
+	/**
+	 * @deprecated Replaced by {@link CrosstabColumnPositionEnum}.
+	 */
 	private static Map crosstabColumnPositionMap = null;
 
 
+	/**
+	 * @deprecated Replaced by {@link CrosstabColumnPositionEnum}.
+	 */
 	public static Map getCrosstabColumnPositionMap()
 	{
 		if (crosstabColumnPositionMap == null)

@@ -84,6 +84,8 @@ import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
+import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
@@ -3097,7 +3099,7 @@ public class JRApiWriter
 			write( groupName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(group.getName()));
 			write( groupName + ".setWidth({0, number, #});\n", group.getWidth());
 			write( groupName + ".setTotalPosition({0});\n", JRApiConstants.getCrosstabTotalPosition(new Byte (group.getTotalPosition())), "BucketDefinition.TOTAL_POSITION_NONE");
-			write( groupName + ".setPosition({0});\n", JRApiConstants.getCrosstabRowPosition(new Byte (group.getPosition())), "JRCellContents.POSITION_Y_TOP");
+			write( groupName + ".setPosition({0});\n", group.getPositionValue(), CrosstabRowPositionEnum.TOP);
 	
 			writeBucket( group.getBucket(), groupName);
 	
@@ -3132,7 +3134,7 @@ public class JRApiWriter
 			write( groupName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(group.getName()));
 			write( groupName + ".setHeight({0, number, #});\n", group.getHeight());
 			write( groupName + ".setTotalPosition({0});\n", JRApiConstants.getCrosstabTotalPosition(new Byte (group.getTotalPosition())), "BucketDefinition.TOTAL_POSITION_NONE");
-			write( groupName + ".setPosition({0});\n", JRApiConstants.getCrosstabColumnPosition(new Byte (group.getPosition())), "JRCellContents.POSITION_X_LEFT");
+			write( groupName + ".setPosition({0});\n", group.getPositionValue(), CrosstabColumnPositionEnum.LEFT);
 			
 			writeBucket( group.getBucket(), groupName);
 	

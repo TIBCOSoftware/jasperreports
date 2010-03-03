@@ -25,6 +25,7 @@ package net.sf.jasperreports.crosstabs.fill;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
+import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 
 /**
  * Crosstab row group implementation used at fill time.
@@ -41,9 +42,18 @@ public class JRFillCrosstabRowGroup extends JRFillCrosstabGroup implements JRCro
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link #getPositionValue()}.
+	 */
 	public byte getPosition()
 	{
-		return ((JRCrosstabRowGroup) parentGroup).getPosition();
+		return getPositionValue().getValue();
+	}
+
+
+	public CrosstabRowPositionEnum getPositionValue()
+	{
+		return ((JRCrosstabRowGroup) parentGroup).getPositionValue();
 	}
 
 

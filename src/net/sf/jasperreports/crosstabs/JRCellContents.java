@@ -26,6 +26,7 @@ package net.sf.jasperreports.crosstabs;
 import java.awt.Color;
 
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
+import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -77,21 +78,25 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	
 	/**
 	 * Vertical stretch position indicating that the contents will be rendered on the top.
+	 * @deprecated Replaced by {@link CrosstabRowPositionEnum#TOP}.
 	 */
 	public static final byte POSITION_Y_TOP = 1;
 	
 	/**
 	 * Vertical stretch position indicating that the contents will be rendered on the middle.
+	 * @deprecated Replaced by {@link CrosstabRowPositionEnum#MIDDLE}.
 	 */
 	public static final byte POSITION_Y_MIDDLE = 2;
 	
 	/**
 	 * Vertical stretch position indicating that the contents will be rendered on the bottom.
+	 * @deprecated Replaced by {@link CrosstabRowPositionEnum#BOTTOM}.
 	 */
 	public static final byte POSITION_Y_BOTTOM = 3;
 	
 	/**
 	 * Vertical stretch position indicating that the contents will be rendered vertically stretched.
+	 * @deprecated Replaced by {@link CrosstabRowPositionEnum#STRETCH}.
 	 */
 	public static final byte POSITION_Y_STRETCH = 4;
 

@@ -30,7 +30,6 @@ import java.util.Map;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
-import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.engine.JRBand;
@@ -613,51 +612,6 @@ public class JRApiConstants
 	public static String getCrosstabTotalPosition(Byte key)
 	{
 		return (String)getCrosstabTotalPositionMap().get(key);
-	}
-	
-	private static Map crosstabRowPositionMap = null;
-
-	public static Map getCrosstabRowPositionMap()
-	{
-		if (crosstabRowPositionMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(JRCellContents.POSITION_Y_TOP), 	"JRCellContents.POSITION_Y_TOP");
-			map.put(new Byte(JRCellContents.POSITION_Y_MIDDLE), "JRCellContents.POSITION_Y_MIDDLE");
-			map.put(new Byte(JRCellContents.POSITION_Y_BOTTOM), "JRCellContents.POSITION_Y_BOTTOM");
-			map.put(new Byte(JRCellContents.POSITION_Y_STRETCH),"JRCellContents.POSITION_Y_STRETCH");
-			crosstabRowPositionMap = Collections.unmodifiableMap(map);
-		}
-
-		return crosstabRowPositionMap;
-	}
-
-	public static String getCrosstabRowPosition(Byte key)
-	{
-		return (String)getCrosstabRowPositionMap().get(key);
-	}
-	
-	private static Map crosstabColumnPositionMap = null;
-
-
-	public static Map getCrosstabColumnPositionMap()
-	{
-		if (crosstabColumnPositionMap == null)
-		{
-			Map map = new HashMap(11);
-			map.put(new Byte(JRCellContents.POSITION_X_LEFT), 	"JRCellContents.POSITION_X_LEFT");
-			map.put(new Byte(JRCellContents.POSITION_X_CENTER), "JRCellContents.POSITION_X_CENTER");
-			map.put(new Byte(JRCellContents.POSITION_X_RIGHT), 	"JRCellContents.POSITION_X_RIGHT");
-			map.put(new Byte(JRCellContents.POSITION_X_STRETCH),"JRCellContents.POSITION_X_STRETCH");
-			crosstabColumnPositionMap = Collections.unmodifiableMap(map);
-		}
-
-		return crosstabColumnPositionMap;
-	}
-
-	public static String getCrosstabColumnPosition(Byte key)
-	{
-		return (String)getCrosstabColumnPositionMap().get(key);
 	}
 	
 	private static Map splitTypeMap = null;
