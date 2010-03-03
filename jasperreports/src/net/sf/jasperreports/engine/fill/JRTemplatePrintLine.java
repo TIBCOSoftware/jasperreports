@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 

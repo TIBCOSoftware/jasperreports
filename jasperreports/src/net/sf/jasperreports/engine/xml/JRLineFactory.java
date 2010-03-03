@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.xml;
 import net.sf.jasperreports.engine.design.JRDesignLine;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 import org.xml.sax.Attributes;
 
