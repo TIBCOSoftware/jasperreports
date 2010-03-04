@@ -55,6 +55,8 @@ import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 import org.apache.commons.digester.Digester;
 import org.xml.sax.InputSource;
@@ -286,7 +288,7 @@ public class JRXmlLoader
 			for(int i = 0; i < variables.length; i++)
 			{
 				JRDesignVariable variable = (JRDesignVariable)variables[i];
-				if (variable.getResetType() == JRVariable.RESET_TYPE_GROUP)
+				if (variable.getResetTypeValue() == ResetTypeEnum.GROUP)
 				{
 					String groupName = null;
 					JRGroup group = variable.getResetGroup();
@@ -313,7 +315,7 @@ public class JRXmlLoader
 					variable.setResetGroup(null);
 				}
 
-				if (variable.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+				if (variable.getIncrementTypeValue() == IncrementTypeEnum.GROUP)
 				{
 					String groupName = null;
 					JRGroup group = variable.getIncrementGroup();
@@ -483,7 +485,7 @@ public class JRXmlLoader
 				groupsMap = subDataset.getGroupsMap();
 			}
 
-			if (dataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+			if (dataset.getIncrementTypeValue() == IncrementTypeEnum.GROUP)
 			{
 				String groupName = null;
 				JRGroup group = dataset.getIncrementGroup();
@@ -505,7 +507,7 @@ public class JRXmlLoader
 				dataset.setIncrementGroup(null);
 			}
 
-			if (dataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
+			if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
 			{
 				String groupName = null;
 				JRGroup group = dataset.getResetGroup();

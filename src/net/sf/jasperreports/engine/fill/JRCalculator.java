@@ -33,6 +33,8 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 
 /**
@@ -129,7 +131,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 				variable.setValue(newValue);
 				variable.setInitialized(false);
 
-				if (variable.getIncrementType() == JRVariable.RESET_TYPE_NONE)
+				if (variable.getIncrementTypeValue() == IncrementTypeEnum.NONE)
 				{
 					variable.setIncrementedValue(variable.getValue());
 				}
@@ -143,7 +145,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 				JRFillElementDataset elementDataset = datasets[i];
 				elementDataset.evaluate(this);
 
-				if (elementDataset.getIncrementType() == JRVariable.RESET_TYPE_NONE)
+				if (elementDataset.getIncrementTypeValue() == IncrementTypeEnum.NONE)
 				{
 					elementDataset.increment();
 				}
@@ -213,7 +215,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 				for(int i = 0; i < variables.length; i++)
 				{
 					JRFillVariable variable = variables[i];
-					if (variable.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+					if (variable.getIncrementTypeValue() == IncrementTypeEnum.GROUP)
 					{
 						JRFillGroup group = (JRFillGroup)variable.getIncrementGroup();
 						if (group.hasChanged())
@@ -260,13 +262,13 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 *
 	 */
-	public void initializeVariables(byte resetType) throws JRException
+	public void initializeVariables(ResetTypeEnum resetType, IncrementTypeEnum incrementType) throws JRException
 	{
 		if (variables != null && variables.length > 0)
 		{
 			for(int i = 0; i < variables.length; i++)
 			{
-				incrementVariable(variables[i], resetType);
+				incrementVariable(variables[i], incrementType);
 				initializeVariable(variables[i], resetType);
 			}
 		}
@@ -275,7 +277,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 		{
 			for(int i = 0; i < datasets.length; i++)
 			{
-				incrementDataset(datasets[i], resetType);
+				incrementDataset(datasets[i], incrementType);
 				initializeDataset(datasets[i], resetType);
 			}
 		}
@@ -285,42 +287,42 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 *
 	 */
-	private void incrementVariable(JRFillVariable variable, byte incrementType)
+	private void incrementVariable(JRFillVariable variable, IncrementTypeEnum incrementType)
 	{
-		if (variable.getIncrementType() != JRVariable.RESET_TYPE_NONE)
+		if (variable.getIncrementTypeValue() != IncrementTypeEnum.NONE)
 		{
 			boolean toIncrement = false;
 			switch (incrementType)
 			{
-				case JRVariable.RESET_TYPE_REPORT :
+				case REPORT :
 				{
 					toIncrement = true;
 					break;
 				}
-				case JRVariable.RESET_TYPE_PAGE :
+				case PAGE :
 				{
 					toIncrement = 
 						(
-						variable.getIncrementType() == JRVariable.RESET_TYPE_PAGE || 
-						variable.getIncrementType() == JRVariable.RESET_TYPE_COLUMN
+						variable.getIncrementTypeValue() == IncrementTypeEnum.PAGE || 
+						variable.getIncrementTypeValue() == IncrementTypeEnum.COLUMN
 						);
 					break;
 				}
-				case JRVariable.RESET_TYPE_COLUMN :
+				case COLUMN :
 				{
-					toIncrement = (variable.getIncrementType() == JRVariable.RESET_TYPE_COLUMN);
+					toIncrement = (variable.getIncrementTypeValue() == IncrementTypeEnum.COLUMN);
 					break;
 				}
-				case JRVariable.RESET_TYPE_GROUP :
+				case GROUP :
 				{
-					if (variable.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+					if (variable.getIncrementTypeValue() == IncrementTypeEnum.GROUP)
 					{
 						JRFillGroup group = (JRFillGroup)variable.getIncrementGroup();
 						toIncrement = group.hasChanged();
 					}
 					break;
 				}
-				case JRVariable.RESET_TYPE_NONE :
+				case NONE :
 				default :
 				{
 				}
@@ -348,42 +350,42 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 *
 	 */
-	private void incrementDataset(JRFillElementDataset elementDataset, byte incrementType)
+	private void incrementDataset(JRFillElementDataset elementDataset, IncrementTypeEnum incrementType)
 	{
-		if (elementDataset.getIncrementType() != JRVariable.RESET_TYPE_NONE)
+		if (elementDataset.getIncrementTypeValue() != IncrementTypeEnum.NONE)
 		{
 			boolean toIncrement = false;
 			switch (incrementType)
 			{
-				case JRVariable.RESET_TYPE_REPORT :
+				case REPORT :
 				{
 					toIncrement = true;
 					break;
 				}
-				case JRVariable.RESET_TYPE_PAGE :
+				case PAGE :
 				{
 					toIncrement = 
 						(
-						elementDataset.getIncrementType() == JRVariable.RESET_TYPE_PAGE || 
-						elementDataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN
+						elementDataset.getIncrementTypeValue() == IncrementTypeEnum.PAGE || 
+						elementDataset.getIncrementTypeValue() == IncrementTypeEnum.COLUMN
 						);
 					break;
 				}
-				case JRVariable.RESET_TYPE_COLUMN :
+				case COLUMN :
 				{
-					toIncrement = (elementDataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN);
+					toIncrement = (elementDataset.getIncrementTypeValue() == IncrementTypeEnum.COLUMN);
 					break;
 				}
-				case JRVariable.RESET_TYPE_GROUP :
+				case GROUP :
 				{
-					if (elementDataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+					if (elementDataset.getIncrementTypeValue() == IncrementTypeEnum.GROUP)
 					{
 						JRFillGroup group = (JRFillGroup)elementDataset.getIncrementGroup();
 						toIncrement = group.hasChanged();
 					}
 					break;
 				}
-				case JRVariable.RESET_TYPE_NONE :
+				case NONE :
 				default :
 				{
 				}
@@ -400,43 +402,43 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 *
 	 */
-	private void initializeVariable(JRFillVariable variable, byte resetType) throws JRException
+	private void initializeVariable(JRFillVariable variable, ResetTypeEnum resetType) throws JRException
 	{
 		//if (jrVariable.getCalculation() != JRVariable.CALCULATION_NOTHING)
-		if (variable.getResetType() != JRVariable.RESET_TYPE_NONE)
+		if (variable.getResetTypeValue() != ResetTypeEnum.NONE)
 		{
 			boolean toInitialize = false;
 			switch (resetType)
 			{
-				case JRVariable.RESET_TYPE_REPORT :
+				case REPORT :
 				{
 					toInitialize = true;
 					break;
 				}
-				case JRVariable.RESET_TYPE_PAGE :
+				case PAGE :
 				{
 					toInitialize = 
 						(
-						variable.getResetType() == JRVariable.RESET_TYPE_PAGE || 
-						variable.getResetType() == JRVariable.RESET_TYPE_COLUMN
+						variable.getResetTypeValue() == ResetTypeEnum.PAGE || 
+						variable.getResetTypeValue() == ResetTypeEnum.COLUMN
 						);
 					break;
 				}
-				case JRVariable.RESET_TYPE_COLUMN :
+				case COLUMN :
 				{
-					toInitialize = (variable.getResetType() == JRVariable.RESET_TYPE_COLUMN);
+					toInitialize = (variable.getResetTypeValue() == ResetTypeEnum.COLUMN);
 					break;
 				}
-				case JRVariable.RESET_TYPE_GROUP :
+				case GROUP :
 				{
-					if (variable.getResetType() == JRVariable.RESET_TYPE_GROUP)
+					if (variable.getResetTypeValue() == ResetTypeEnum.GROUP)
 					{
 						JRFillGroup group = (JRFillGroup)variable.getResetGroup();
 						toInitialize = group.hasChanged();
 					}
 					break;
 				}
-				case JRVariable.RESET_TYPE_NONE :
+				case NONE :
 				default :
 				{
 				}
@@ -464,40 +466,40 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 *
 	 */
-	private void initializeDataset(JRFillElementDataset elementDataset, byte resetType)
+	private void initializeDataset(JRFillElementDataset elementDataset, ResetTypeEnum resetType)
 	{
 		boolean toInitialize = false;
 		switch (resetType)
 		{
-			case JRVariable.RESET_TYPE_REPORT :
+			case REPORT :
 			{
 				toInitialize = true;
 				break;
 			}
-			case JRVariable.RESET_TYPE_PAGE :
+			case PAGE :
 			{
 				toInitialize = 
 					(
-					elementDataset.getResetType() == JRVariable.RESET_TYPE_PAGE || 
-					elementDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN
+					elementDataset.getResetTypeValue() == ResetTypeEnum.PAGE || 
+					elementDataset.getResetTypeValue() == ResetTypeEnum.COLUMN
 					);
 				break;
 			}
-			case JRVariable.RESET_TYPE_COLUMN :
+			case COLUMN :
 			{
-				toInitialize = (elementDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN);
+				toInitialize = (elementDataset.getResetTypeValue() == ResetTypeEnum.COLUMN);
 				break;
 			}
-			case JRVariable.RESET_TYPE_GROUP :
+			case GROUP :
 			{
-				if (elementDataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
+				if (elementDataset.getResetTypeValue() == ResetTypeEnum.GROUP)
 				{
 					JRFillGroup group = (JRFillGroup)elementDataset.getResetGroup();
 					toInitialize = group.hasChanged();
 				}
 				break;
 			}
-			case JRVariable.RESET_TYPE_NONE :
+			case NONE :
 			default :
 			{
 			}

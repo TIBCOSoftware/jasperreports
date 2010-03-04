@@ -32,9 +32,10 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -134,7 +135,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					}
 
 					scriptlet.callBeforeReportInit();
-					calculator.initializeVariables(JRVariable.RESET_TYPE_REPORT);
+					calculator.initializeVariables(ResetTypeEnum.REPORT, IncrementTypeEnum.REPORT);
 					scriptlet.callAfterReportInit();
 
 					printPage = newPage();
@@ -177,7 +178,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					}
 
 					scriptlet.callBeforeReportInit();
-					calculator.initializeVariables(JRVariable.RESET_TYPE_REPORT);
+					calculator.initializeVariables(ResetTypeEnum.REPORT, IncrementTypeEnum.REPORT);
 					scriptlet.callAfterReportInit();
 
 					printPage = newPage();
@@ -232,7 +233,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	private void fillReportStart() throws JRException
 	{
 		scriptlet.callBeforeReportInit();
-		calculator.initializeVariables(JRVariable.RESET_TYPE_REPORT);
+		calculator.initializeVariables(ResetTypeEnum.REPORT, IncrementTypeEnum.REPORT);
 		scriptlet.callAfterReportInit();
 
 		printPage = newPage();
@@ -265,7 +266,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		resolveGroupBoundElements(JRExpression.EVALUATION_OLD, false);
 		scriptlet.callBeforeGroupInit();
-		calculator.initializeVariables(JRVariable.RESET_TYPE_GROUP);
+		calculator.initializeVariables(ResetTypeEnum.GROUP, IncrementTypeEnum.GROUP);
 		scriptlet.callAfterGroupInit();
 
 		fillGroupHeaders(false);
@@ -316,7 +317,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 
 				addPage(false);
@@ -333,7 +334,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 
 				addPage(false);
@@ -352,7 +353,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 
 				addPage(false);
@@ -391,7 +392,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(evaluation);
 				resolvePageBoundElements(evaluation);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 
 				addPage(false);
@@ -471,7 +472,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					resolveGroupBoundElements(evaluation, false);
 					resolveColumnBoundElements(evaluation);
 					scriptlet.callBeforeColumnInit();
-					calculator.initializeVariables(JRVariable.RESET_TYPE_COLUMN);
+					calculator.initializeVariables(ResetTypeEnum.COLUMN, IncrementTypeEnum.COLUMN);
 					scriptlet.callAfterColumnInit();
 
 					columnIndex += 1;
@@ -487,7 +488,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(evaluation);
 				resolvePageBoundElements(evaluation);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 
 				addPage(false);
@@ -1072,7 +1073,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 
 				addPage(false);
@@ -1102,7 +1103,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 					resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 					scriptlet.callBeforePageInit();
-					calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+					calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 					scriptlet.callAfterPageInit();
 
 					addPage(false);
@@ -1152,7 +1153,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 			resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 			scriptlet.callBeforePageInit();
-			calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+			calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 			scriptlet.callAfterPageInit();
 
 			addPage(false);
@@ -1177,7 +1178,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 
 				addPage(false);
@@ -1230,7 +1231,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 					resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 					scriptlet.callBeforePageInit();
-					calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+					calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 					scriptlet.callAfterPageInit();
 
 					addPage(false);
@@ -1285,7 +1286,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 
 				addPage(false);
@@ -1304,7 +1305,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 					resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 					scriptlet.callBeforePageInit();
-					calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+					calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 					scriptlet.callAfterPageInit();
 
 					addPage(false);
@@ -1343,7 +1344,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 			resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 			scriptlet.callBeforePageInit();
-			calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+			calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 			scriptlet.callAfterPageInit();
 
 			addPage(false);
@@ -1362,7 +1363,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 
 				addPage(false);
@@ -1414,7 +1415,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 					resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 					scriptlet.callBeforePageInit();
-					calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+					calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 					scriptlet.callAfterPageInit();
 
 					addPage(false);
@@ -1476,7 +1477,7 @@ public class JRVerticalFiller extends JRBaseFiller
 						resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 						resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 						scriptlet.callBeforePageInit();
-						calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+						calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 						scriptlet.callAfterPageInit();
 
 						addPage(false);
@@ -1561,7 +1562,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 
 				addPage(false);
@@ -1576,7 +1577,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 					resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 					scriptlet.callBeforePageInit();
-					calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+					calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 					scriptlet.callAfterPageInit();
 
 					addPage(false);
@@ -1603,7 +1604,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 			resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 			scriptlet.callBeforePageInit();
-			calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+			calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 			scriptlet.callAfterPageInit();
 
 			addPage(false);
@@ -1626,7 +1627,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 					resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 					scriptlet.callBeforePageInit();
-					calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+					calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 					scriptlet.callAfterPageInit();
 
 					addPage(false);
@@ -1641,7 +1642,7 @@ public class JRVerticalFiller extends JRBaseFiller
 						resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 						resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 						scriptlet.callBeforePageInit();
-						calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+						calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 						scriptlet.callAfterPageInit();
 
 						addPage(false);
@@ -1676,7 +1677,7 @@ public class JRVerticalFiller extends JRBaseFiller
 						resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 						resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 						scriptlet.callBeforePageInit();
-						calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+						calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 						scriptlet.callAfterPageInit();
 
 						addPage(false);
@@ -1724,7 +1725,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 			resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 			scriptlet.callBeforePageInit();
-			calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+			calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 			scriptlet.callAfterPageInit();
 
 			addPage(false);
@@ -1752,7 +1753,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 
 				addPage(false);
@@ -1906,7 +1907,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		resolveColumnBoundElements(evalPrevPage);
 		resolvePageBoundElements(evalPrevPage);
 		scriptlet.callBeforePageInit();
-		calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+		calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 		scriptlet.callAfterPageInit();
 
 		addPage(isResetPageNumber);
@@ -1952,7 +1953,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			resolveGroupBoundElements(evalPrevPage, false);
 			resolveColumnBoundElements(evalPrevPage);
 			scriptlet.callBeforeColumnInit();
-			calculator.initializeVariables(JRVariable.RESET_TYPE_COLUMN);
+			calculator.initializeVariables(ResetTypeEnum.COLUMN, IncrementTypeEnum.COLUMN);
 			scriptlet.callAfterColumnInit();
 
 			columnIndex += 1;
@@ -2195,7 +2196,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 				
 				addPage(false);
@@ -2212,7 +2213,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 				scriptlet.callAfterPageInit();
 				
 				addPage(false);

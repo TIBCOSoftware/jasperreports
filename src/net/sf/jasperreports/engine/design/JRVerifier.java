@@ -113,6 +113,8 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.FormatFactory;
@@ -1081,8 +1083,8 @@ public class JRVerifier
 					addBrokenRule(e, variable);
 				}
 
-				byte resetType = variable.getResetType();
-				if (resetType == JRVariable.RESET_TYPE_GROUP)
+				ResetTypeEnum resetType = variable.getResetTypeValue();
+				if (resetType == ResetTypeEnum.GROUP)
 				{
 					if (variable.getResetGroup() == null)
 					{
@@ -1099,8 +1101,8 @@ public class JRVerifier
 					}
 				}
 
-				byte incrementType = variable.getIncrementType();
-				if (incrementType == JRVariable.RESET_TYPE_GROUP)
+				IncrementTypeEnum incrementType = variable.getIncrementTypeValue();
+				if (incrementType == IncrementTypeEnum.GROUP)
 				{
 					if (variable.getIncrementGroup() == null)
 					{
@@ -1119,12 +1121,12 @@ public class JRVerifier
 
 				if (!isMainDataset)
 				{
-					if (resetType == JRVariable.RESET_TYPE_COLUMN || resetType == JRVariable.RESET_TYPE_PAGE)
+					if (resetType == ResetTypeEnum.COLUMN || resetType == ResetTypeEnum.PAGE)
 					{
 						addBrokenRule("Variable " + variable.getName() + " of dataset " + dataset.getName() + " cannot have Column or Page reset type.", variable);
 					}
 
-					if (incrementType == JRVariable.RESET_TYPE_COLUMN || incrementType == JRVariable.RESET_TYPE_PAGE)
+					if (incrementType == IncrementTypeEnum.COLUMN || incrementType == IncrementTypeEnum.PAGE)
 					{
 						addBrokenRule("Variable " + variable.getName() + " of dataset " + dataset.getName() + " cannot have Column or Page increment type.", variable);
 					}
@@ -2643,18 +2645,18 @@ public class JRVerifier
 
 		if (datasetRun != null)
 		{
-			byte incrementType = dataset.getIncrementType();
-			if (incrementType == JRVariable.RESET_TYPE_PAGE || incrementType == JRVariable.RESET_TYPE_COLUMN)
+			IncrementTypeEnum incrementType = dataset.getIncrementTypeValue();
+			if (incrementType == IncrementTypeEnum.PAGE || incrementType == IncrementTypeEnum.COLUMN)
 			{
 				addBrokenRule("Chart datasets with dataset run cannont have Column or Page increment type.", dataset);
 			}
 
-			byte resetType = dataset.getResetType();
-			if (resetType == JRVariable.RESET_TYPE_PAGE || resetType == JRVariable.RESET_TYPE_COLUMN)
+			ResetTypeEnum resetType = dataset.getResetTypeValue();
+			if (resetType == ResetTypeEnum.PAGE || resetType == ResetTypeEnum.COLUMN)
 			{
 				addBrokenRule("Chart datasets with dataset run cannont have Column or Page reset type.", dataset);
 			}
-			else if (resetType != JRVariable.RESET_TYPE_REPORT)
+			else if (resetType != ResetTypeEnum.REPORT)
 			{
 				//doesn't make sense, but let it go
 			}

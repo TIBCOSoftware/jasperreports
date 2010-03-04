@@ -34,7 +34,8 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRScriptletException;
-import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -203,14 +204,14 @@ public class JRFillDatasetRun implements JRDatasetRun
 		dataset.calculator.estimateGroupRuptures();
 
 		dataset.delegateScriptlet.callBeforeGroupInit();
-		dataset.calculator.initializeVariables(JRVariable.RESET_TYPE_GROUP);
+		dataset.calculator.initializeVariables(ResetTypeEnum.GROUP, IncrementTypeEnum.GROUP);
 		dataset.delegateScriptlet.callAfterGroupInit();
 	}
 
 	protected void init() throws JRScriptletException, JRException
 	{
 		dataset.delegateScriptlet.callBeforeReportInit();
-		dataset.calculator.initializeVariables(JRVariable.RESET_TYPE_REPORT);
+		dataset.calculator.initializeVariables(ResetTypeEnum.REPORT, IncrementTypeEnum.REPORT);
 		dataset.delegateScriptlet.callAfterReportInit();
 	}
 

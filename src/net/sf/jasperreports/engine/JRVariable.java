@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 
@@ -210,20 +211,18 @@ public interface JRVariable extends JRCloneable
 	 * @deprecated Replaced by {@link getIncrementTypeValue()}.
 	 */
 	public byte getIncrementType();
-		
-	//TODO: uncomment these below
 	
-//	/**
-//	 * Gets the variable reset type.
-//	 * @return a value representing one of the reset type constants in {@link ResetTypeEnum}
-//	 */
-//	public ResetTypeEnum getResetTypeValue();
-//	
-//	/**
-//	 * Gets the variable increment type.
-//	 * @return a value representing one of the reset type constants in {@link ResetTypeEnum}
-//	 */
-//	public ResetTypeEnum getIncrementTypeValue();
+	/**
+	 * Gets the variable reset type.
+	 * @return a value representing one of the reset type constants in {@link ResetTypeEnum}
+	 */
+	public ResetTypeEnum getResetTypeValue();
+	
+	/**
+	 * Gets the variable increment type.
+	 * @return a value representing one of the reset type constants in {@link IncrementTypeEnum}
+	 */
+	public IncrementTypeEnum getIncrementTypeValue();
 	
 	/**
 	 * @deprecated Replaced by {@link getCalculationValue()}.

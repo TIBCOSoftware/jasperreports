@@ -148,8 +148,10 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
@@ -722,9 +724,9 @@ public class JRApiWriter
 			write( "JRDesignVariable " + variableName + " = new JRDesignVariable();\n");
 			write( variableName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(variable.getName()));
 			write( variableName + ".setValueClassName(\"{0}\");\n", variable.getValueClassName());
-			write( variableName + ".setResetType({0});\n", JRApiConstants.getResetType(new Byte (variable.getResetType())), "JRVariable.RESET_TYPE_REPORT");
+			write( variableName + ".setResetType({0});\n", variable.getResetTypeValue(), ResetTypeEnum.REPORT);
 			write( variableName + ".setResetGroup({0});\n", resetGroupName);
-			write( variableName + ".setIncrementType({0});\n", JRApiConstants.getResetType(new Byte (variable.getIncrementType())), "JRVariable.RESET_TYPE_NONE");
+			write( variableName + ".setIncrementType({0});\n", variable.getIncrementTypeValue(), IncrementTypeEnum.NONE);
 			write( variableName + ".setIncrementGroup({0});\n", incrementGroupName);
 			
 			write( variableName + ".setCalculation({0});\n", JRApiConstants.getCalculation(new Byte (variable.getCalculation())), "JRVariable.CALCULATION_NOTHING");
@@ -1378,17 +1380,17 @@ public class JRApiWriter
 	{
 		if(dataset != null)
 		{
-			write( datasetName + ".setResetType({0});\n", JRApiConstants.getResetType(new Byte(dataset.getResetType())), "JRVariable.RESET_TYPE_REPORT");
+			write( datasetName + ".setResetType({0});\n", dataset.getResetTypeValue(), ResetTypeEnum.REPORT);
 	
-			if (dataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
+			if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
 			{
 				String resetGroupName = getGroupName(  dataset.getResetGroup());
 				write( datasetName + ".setResetGroup(" + resetGroupName + ");\n");
 			}
 			
-			write( datasetName + ".setIncrementType({0});\n", JRApiConstants.getResetType(new Byte(dataset.getIncrementType())), "JRVariable.RESET_TYPE_NONE");
+			write( datasetName + ".setIncrementType({0});\n", dataset.getIncrementTypeValue(), IncrementTypeEnum.NONE);
 	
-			if (dataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+			if (dataset.getIncrementTypeValue() == IncrementTypeEnum.GROUP)
 			{
 				String incrementGroupName = getGroupName(  dataset.getIncrementGroup());
 				write( datasetName + ".setIncrementGroup(" + incrementGroupName + ");\n");

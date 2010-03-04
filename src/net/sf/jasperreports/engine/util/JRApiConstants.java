@@ -31,9 +31,6 @@ import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRVariable;
 
@@ -48,29 +45,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map resetTypeMap = null;
-
-	public static Map getResetTypeMap()
-	{
-		if (resetTypeMap == null)
-		{
-			Map map = new HashMap(10);
-			map.put(new Byte(JRVariable.RESET_TYPE_NONE),   "JRVariable.RESET_TYPE_NONE");
-			map.put(new Byte(JRVariable.RESET_TYPE_REPORT), "JRVariable.RESET_TYPE_REPORT");
-			map.put(new Byte(JRVariable.RESET_TYPE_PAGE),   "JRVariable.RESET_TYPE_PAGE");
-			map.put(new Byte(JRVariable.RESET_TYPE_COLUMN), "JRVariable.RESET_TYPE_COLUMN");
-			map.put(new Byte(JRVariable.RESET_TYPE_GROUP),  "JRVariable.RESET_TYPE_GROUP");
-			resetTypeMap = Collections.unmodifiableMap(map);
-		}
-
-		return resetTypeMap;
-	}
-
-	public static String getResetType(Byte key)
-	{
-		return (String)getResetTypeMap().get(key);
-	}
-	
 	private static Map calculationMap = null;
 
 	public static Map getCalculationMap()
