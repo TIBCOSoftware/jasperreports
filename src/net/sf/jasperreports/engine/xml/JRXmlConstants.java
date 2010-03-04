@@ -60,6 +60,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -982,18 +983,42 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#NOW#getName()}.
 	 */
-	private static final String EVALUATION_TIME_NOW = "Now";
-	private static final String EVALUATION_TIME_REPORT = "Report";
-	private static final String EVALUATION_TIME_PAGE = "Page";
-	private static final String EVALUATION_TIME_COLUMN = "Column";
-	private static final String EVALUATION_TIME_GROUP = "Group";
-	private static final String EVALUATION_TIME_BAND = "Band";
-	private static final String EVALUATION_TIME_AUTO = "Auto";
+	private static final String EVALUATION_TIME_NOW = EvaluationTimeEnum.NOW.getName();
+	/**
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#REPORT#getName()}.
+	 */
+	private static final String EVALUATION_TIME_REPORT = EvaluationTimeEnum.REPORT.getName();
+	/**
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#PAGE#getName()}.
+	 */
+	private static final String EVALUATION_TIME_PAGE = EvaluationTimeEnum.PAGE.getName();
+	/**
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#COLUMN#getName()}.
+	 */
+	private static final String EVALUATION_TIME_COLUMN = EvaluationTimeEnum.COLUMN.getName();
+	/**
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#GROUP#getName()}.
+	 */
+	private static final String EVALUATION_TIME_GROUP = EvaluationTimeEnum.GROUP.getName();
+	/**
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#BAND#getName()}.
+	 */
+	private static final String EVALUATION_TIME_BAND = EvaluationTimeEnum.BAND.getName();
+	/**
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#AUTO#getName()}.
+	 */
+	private static final String EVALUATION_TIME_AUTO = EvaluationTimeEnum.AUTO.getName();
 
+	/**
+	 * @deprecated Replaced by {@link EvaluationTimeEnum}.
+	 */
 	private static Map evaluationTimeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link EvaluationTimeEnum}.
+	 */
 	public static Map getEvaluationTimeMap()
 	{
 		if (evaluationTimeMap == null)

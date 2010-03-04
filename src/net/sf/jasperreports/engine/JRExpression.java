@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -35,36 +37,42 @@ public interface JRExpression extends JRCloneable
 	/**
 	 * A constant specifying that an expression should be evaluated at the exact moment in the filling process
 	 * when it is encountered.
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#NOW}.
 	 */
 	public static final byte EVALUATION_TIME_NOW = 1;
 
 
 	/**
 	 * A constant specifying that an expression should be evaluated at the end of the filling process.
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#REPORT}.
 	 */
 	public static final byte EVALUATION_TIME_REPORT = 2;
 
 
 	/**
 	 * A constant specifying that an expression should be evaluated after each page is filled.
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#PAGE}.
 	 */
 	public static final byte EVALUATION_TIME_PAGE = 3;
 
 
 	/**
 	 * A constant specifying that an expression should be evaluated after each column is filled.
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#COLUMN}.
 	 */
 	public static final byte EVALUATION_TIME_COLUMN = 4;
 
 
 	/**
 	 * A constant specifying that an expression should be evaluated after each group break.
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#GROUP}.
 	 */
 	public static final byte EVALUATION_TIME_GROUP = 5;
 
 
 	/**
 	 * The element will be evaluated at band end.
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#BAND}.
 	 */
 	public static final byte EVALUATION_TIME_BAND = 6;
 
@@ -81,6 +89,7 @@ public interface JRExpression extends JRCloneable
 	 * <p/>
 	 * NB: avoid using this evaluation type when other types suffice as it can lead
 	 * to performance loss.
+	 * @deprecated Replaced by {@link EvaluationTimeEnum#AUTO}.
 	 */
 	public static final byte EVALUATION_TIME_AUTO = 7;
 
