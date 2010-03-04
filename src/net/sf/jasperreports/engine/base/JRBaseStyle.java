@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -132,7 +133,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	protected Color backcolor = null;
 
 	protected JRPen linePen = null;
-	protected Byte fill = null;
+	protected FillEnum fillValue = null;
 
 	protected Integer radius = null;
 
@@ -209,7 +210,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		backcolor = style.getOwnBackcolor();
 
 		linePen = style.getLinePen().clone(this);
-		fill = style.getOwnFill();
+		fillValue = style.getOwnFillValue();
 
 		radius = style.getOwnRadius();
 
@@ -372,14 +373,30 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		JRPenUtil.setLinePenFromPen(pen, linePen);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getFillValue()}
+	 */
 	public Byte getFill()
 	{
-		return JRStyleResolver.getFill(this);
+		return getFillValue().getValueByte();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnFillValue()}
+	 */
 	public Byte getOwnFill()
 	{
-		return fill;
+		return getOwnFillValue().getValueByte();
+	}
+
+	public FillEnum getFillValue()
+	{
+		return JRStyleResolver.getFillValue(this);
+	}
+
+	public FillEnum getOwnFillValue()
+	{
+		return fillValue;
 	}
 
 	public Integer getRadius()
@@ -1032,21 +1049,29 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}.
 	 */
 	public void setFill(byte fill)
 	{
-		setFill(new Byte(fill));
+		setFill(FillEnum.getByValue(fill));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}.
+	 */
+	public void setFill(Byte fill)
+	{
+		setFill(FillEnum.getByValue(fill));
 	}
 
 	/**
 	 *
 	 */
-	public void setFill(Byte fill)
+	public void setFill(FillEnum fillValue)
 	{
-		Object old = this.fill;
-		this.fill = fill;
-		getEventSupport().firePropertyChange(PROPERTY_FILL, old, this.fill);
+		Object old = this.fillValue;
+		this.fillValue = fillValue;
+		getEventSupport().firePropertyChange(PROPERTY_FILL, old, this.fillValue);
 	}
 
 	/**
@@ -1643,6 +1668,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	private Integer rightPadding = null;
 	private Boolean isStyledText = null;
 	private Byte scaleImage = null;
+	private Byte fill = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1656,6 +1682,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 			rotationValue = RotationEnum.getByValue(rotation);
 			lineSpacingValue = LineSpacingEnum.getByValue(lineSpacing);
 			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
+			fillValue = FillEnum.getByValue(fill);
 			
 			mode = null;
 			horizontalAlignment = null;
@@ -1663,6 +1690,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 			rotation = null;
 			lineSpacing = null;
 			scaleImage = null;
+			fill = null;
 		}
 
 		if (linePen == null)

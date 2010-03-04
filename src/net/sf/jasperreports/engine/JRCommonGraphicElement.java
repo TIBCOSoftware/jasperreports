@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.FillEnum;
+
 
 /**
  * An abstract representation of a report graphic element. It provides basic functionality for images, lines, rectangles
@@ -59,24 +61,22 @@ public interface JRCommonGraphicElement extends JRCommonElement, JRPenContainer
 	 */
 	public void setFill(Byte fill);
 
-	//TODO: uncomment these below
+	/**
+	 * Indicates the fill type used for this element.
+	 * @return a value representing one of the fill type constants in {@link FillEnum}
+	 */
+	public FillEnum getFillValue();
 	
-//	/**
-//	 * Indicates the fill type used for this element.
-//	 * @return a value representing one of the fill type constants in {@link FillEnum}
-//	 */
-//	public FillEnum getFillValue();
-//	
-//	/**
-//	 * Indicates the own fill type used for this element.
-//	 * @return a value representing one of the fill type constants in {@link FillEnum}
-//	 */
-//	public FillEnum getOwnFillValue();
-//	
-//	/**
-//	 * Sets the fill type used for this element.
-//	 * @param fillEnum a value representing one of the line direction constants in {@link FillEnum}
-//	 */
-//	public void setDirection(FillEnum fillEnum);
+	/**
+	 * Indicates the own fill type used for this element.
+	 * @return a value representing one of the fill type constants in {@link FillEnum}
+	 */
+	public FillEnum getOwnFillValue();
+	
+	/**
+	 * Sets the fill type used for this element.
+	 * @param fillEnum a value representing one of the line direction constants in {@link FillEnum}
+	 */
+	public void setFill(FillEnum fillEnum);
 	
 }

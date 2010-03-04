@@ -28,6 +28,7 @@ import java.awt.Color;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
@@ -97,37 +98,63 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 		JRPenUtil.setLinePenFromPen(pen, getLinePen());
 	}
 		
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getFillValue()}
 	 */
 	public byte getFill()
 	{
-		return ((JRTemplateGraphicElement)this.template).getFill();
+		return getFillValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnFillValue()}
 	 */
 	public Byte getOwnFill()
 	{
-		return ((JRTemplateGraphicElement)this.template).getOwnFill();
+		return getOwnFillValue().getValueByte();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
 	 */
 	public void setFill(byte fill)
 	{
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
+	 */
+	public void setFill(Byte fill)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 
+	 */
+	public FillEnum getFillValue()
+	{
+		return ((JRTemplateGraphicElement)this.template).getFillValue();
+	}
+
+	/**
+	 * 
+	 */
+	public FillEnum getOwnFillValue()
+	{
+		return ((JRTemplateGraphicElement)this.template).getOwnFillValue();
 	}
 
 	/**
 	 *
 	 */
-	public void setFill(Byte fill)
+	public void setFill(FillEnum fill)
 	{
+		throw new UnsupportedOperationException();
 	}
-		
-
+	
 	/**
 	 * 
 	 */

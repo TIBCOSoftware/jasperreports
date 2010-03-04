@@ -969,7 +969,7 @@ public class JRApiWriter
 	{
 		if(element != null)
 		{
-			write( elementName + ".setFill((byte)" + element.getFill() + ");\n");
+			write( elementName + ".setFill({0});\n", element.getOwnFillValue());
 			writePen( element.getLinePen(), elementName+".getLinePen()");
 			flush();
 		}
@@ -1152,7 +1152,7 @@ public class JRApiWriter
 			write( styleName + ".setPdfEmbedded({0});\n", style.isOwnPdfEmbedded());
 			write( styleName + ".setForecolor({0});\n", getColorText(style.getOwnForecolor()));
 			write( styleName + ".setBackcolor({0});\n", getColorText(style.getOwnBackcolor()));
-			write( styleName + ".setFill({0});\n", JRApiConstants.getFill(style.getOwnFill()));
+			write( styleName + ".setFill({0});\n", style.getOwnFillValue());
 			write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
 			write( styleName + ".setScaleImage({0});\n", style.getOwnScaleImageValue());
 			write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
@@ -3554,7 +3554,7 @@ public class JRApiWriter
 			write( styleName + ".setPdfEmbedded({0});\n", style.isOwnPdfEmbedded());
 			write( styleName + ".setForecolor({0});\n", getColorText(style.getOwnForecolor()));
 			write( styleName + ".setBackcolor({0});\n", getColorText(style.getOwnBackcolor()));
-			write( styleName + ".setFill({0});\n", JRApiConstants.getFill(style.getOwnFill()));
+			write( styleName + ".setFill({0});\n", style.getOwnFillValue());
 			write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
 			write( styleName + ".setScaleImage({0});\n", style.getOwnScaleImageValue());
 			write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());

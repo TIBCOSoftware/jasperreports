@@ -61,7 +61,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 		backcolor = style.getOwnBackcolor();
 
 		linePen = style.getLinePen().clone(this);
-		fill = style.getOwnFill();
+		fillValue = style.getOwnFillValue();
 
 		radius = style.getOwnRadius();
 

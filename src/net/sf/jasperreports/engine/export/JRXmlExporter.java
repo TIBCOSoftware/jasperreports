@@ -547,7 +547,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_mode, style.getOwnModeValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_forecolor, style.getOwnForecolor());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_backcolor, style.getOwnBackcolor());
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_fill, style.getOwnFill(), JRXmlConstants.getFillMap());
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_fill, style.getOwnFillValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_radius, style.getOwnRadius());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImageValue());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());
@@ -710,7 +710,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportGraphicElement(JRPrintGraphicElement element) throws IOException
 	{
 		xmlWriter.startElement(XmlConstants.ELEMENT_graphicElement);
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_fill, element.getOwnFill(), JRXmlConstants.getFillMap());
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_fill, element.getOwnFillValue());
 		exportPen(element.getLinePen());
 		xmlWriter.closeElement(true);
 	}

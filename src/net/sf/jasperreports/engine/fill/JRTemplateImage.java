@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBasePen;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -153,7 +154,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		linePen = new JRBasePen(this);
 		
 		getLinePen().setLineWidth(0f);
-		setFill(JRGraphicElement.FILL_SOLID);
+		setFill(FillEnum.SOLID);
 		
 		copyLineBox(chart.getLineBox());
 

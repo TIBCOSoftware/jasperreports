@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -115,12 +116,22 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public Byte getOwnPen();
 
 	/**
-	 * Indicates the fill type used for this element.
-	 * @return one of the pen constants in this class
+	 * @deprecated Replaced by {@link #getFillValue()}.
 	 */
 	public Byte getFill();
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnFillValue()}.
+	 */
 	public Byte getOwnFill();
+
+	/**
+	 * Indicates the fill type used for this element.
+	 * @return one of the fill constants in {@link FillEnum}.
+	 */
+	public FillEnum getFillValue();
+
+	public FillEnum getOwnFillValue();
 
 	/**
 	 * Indicates the corner radius for rectangles with round corners. The default is 0.
@@ -547,14 +558,19 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setPen(Byte pen);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
 	 */
 	public void setFill(byte fill);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
 	 */
 	public void setFill(Byte fill);
+
+	/**
+	 * 
+	 */
+	public void setFill(FillEnum fill);
 
 	/**
 	 *

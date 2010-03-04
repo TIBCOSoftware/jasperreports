@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignGraphicElement;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.PenEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -63,7 +64,7 @@ public class JRGraphicElementFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(pen, graphicElement.getLinePen());
 		}
 
-		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(XmlConstants.ATTRIBUTE_fill));
+		FillEnum fill = FillEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_fill));
 		if (fill != null)
 		{
 			graphicElement.setFill(fill);
