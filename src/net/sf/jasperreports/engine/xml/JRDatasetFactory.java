@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignDataset;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 import org.xml.sax.Attributes;
 
@@ -43,11 +44,10 @@ public class JRDatasetFactory extends JRBaseFactory
 		
 		dataset.setResourceBundle(attributes.getValue(XmlConstants.ATTRIBUTE_resourceBundle));
 
-		String resMissingAttr = attributes.getValue(XmlConstants.ATTRIBUTE_whenResourceMissingType);
-		if (resMissingAttr != null && resMissingAttr.length() > 0)
+		WhenResourceMissingTypeEnum whenResourceMissingType = WhenResourceMissingTypeEnum.getByName(attributes.getValue(XmlConstants.ATTRIBUTE_whenResourceMissingType));
+		if (whenResourceMissingType != null)
 		{
-			Byte whenResourceMissingType = (Byte) JRXmlConstants.getWhenResourceMissingTypeMap().get(resMissingAttr);
-			dataset.setWhenResourceMissingType(whenResourceMissingType.byteValue());
+			dataset.setWhenResourceMissingType(whenResourceMissingType);
 		}
 
 		return dataset;

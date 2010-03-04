@@ -32,8 +32,8 @@ import java.util.ResourceBundle;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
  * Base class for the dynamically generated expression evaluator classes.
@@ -51,7 +51,7 @@ public abstract class JREvaluator
 	/**
 	 * The resource missing type.
 	 */
-	private byte whenResourceMissingType;
+	private WhenResourceMissingTypeEnum whenResourceMissingType;
 
 	/**
 	 * The report Locale used when parsing the bundle message.
@@ -75,7 +75,7 @@ public abstract class JREvaluator
 	 * @param resourceMissingType the resource missing type
 	 * @throws JRException
 	 */
-	public void init(Map parametersMap, Map fieldsMap, Map variablesMap, byte resourceMissingType) throws JRException
+	public void init(Map parametersMap, Map fieldsMap, Map variablesMap, WhenResourceMissingTypeEnum resourceMissingType) throws JRException
 	{
 		this.whenResourceMissingType = resourceMissingType;
 		this.resourceBundle = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
@@ -274,21 +274,21 @@ public abstract class JREvaluator
 		String str;
 		switch (whenResourceMissingType)
 		{
-			case JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY:
+			case EMPTY:
 			{
 				str = "";
 				break;
 			}
-			case JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY:
+			case KEY:
 			{
 				str = key;
 				break;
 			}
-			case JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR:
+			case ERROR:
 			{
 				throw new JRRuntimeException("Resource not found for key \"" + key + "\".", e);
 			}
-			case JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL:
+			case NULL:
 			default:
 			{
 				str = null;

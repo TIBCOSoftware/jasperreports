@@ -33,6 +33,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -93,7 +94,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 		pageNumber = (JRFillVariable)varsm.get(JRVariable.PAGE_NUMBER);
 		columnNumber = (JRFillVariable)varsm.get(JRVariable.COLUMN_NUMBER);
 		
-		byte whenResourceMissingType = dataset.getWhenResourceMissingType();
+		WhenResourceMissingTypeEnum whenResourceMissingType = dataset.getWhenResourceMissingTypeValue();
 		evaluator.init(parsm, fldsm,varsm, whenResourceMissingType);
 	}
 

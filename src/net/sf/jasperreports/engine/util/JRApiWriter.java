@@ -155,6 +155,8 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
@@ -371,7 +373,7 @@ public class JRApiWriter
 		write( "jasperDesign.setPageWidth({0, number, #});\n", report.getPageWidth());
 		write( "jasperDesign.setPageHeight({0, number, #});\n", report.getPageHeight());
 		write( "jasperDesign.setOrientation((byte){0});\n", report.getOrientation(), JRReport.ORIENTATION_PORTRAIT);
-		write( "jasperDesign.setWhenNoDataType((byte){0});\n", report.getWhenNoDataType(), JRReport.WHEN_NO_DATA_TYPE_NO_PAGES);
+		write( "jasperDesign.setWhenNoDataType((byte){0});\n", report.getWhenNoDataTypeValue(), WhenNoDataTypeEnum.NO_PAGES);
 		write( "jasperDesign.setColumnWidth({0, number, #});\n", report.getColumnWidth());
 		write( "jasperDesign.setColumnSpacing({0, number, #});\n", report.getColumnSpacing());
 		write( "jasperDesign.setLeftMargin({0, number, #});\n", report.getLeftMargin());
@@ -385,7 +387,7 @@ public class JRApiWriter
 		write( "jasperDesign.setScriptletClass(\"{0}\");\n", report.getScriptletClass());
 		write( "jasperDesign.setFormatFactoryClass(\"{0}\");\n", report.getFormatFactoryClass());
 		write( "jasperDesign.setgetResourceBundle(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getResourceBundle()));
-		write( "jasperDesign.setWhenResourceMissingType((byte){0});\n", report.getWhenResourceMissingType(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
+		write( "jasperDesign.setWhenResourceMissingType((byte){0});\n", report.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
 		write( "jasperDesign.setIgnorePagination({0});\n\n", report.isIgnorePagination(), false);
 
 		writeProperties( report, "jasperDesign");
@@ -3283,7 +3285,7 @@ public class JRApiWriter
 			write( datasetName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(dataset.getName()));
 			write( datasetName + ".setScriptletClass(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(dataset.getScriptletClass()));
 			write( datasetName + ".setResourceBundle(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(dataset.getResourceBundle()));
-			write( datasetName + ".setWhenResourceMissingType({0});\n", JRApiConstants.getWhenResourceMissingType(new Byte(dataset.getWhenResourceMissingType())), "JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL");
+			write( datasetName + ".setWhenResourceMissingType({0});\n", dataset.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
 	
 			writeProperties( dataset, datasetName);
 	

@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JRCommonRectangle;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRSubreport;

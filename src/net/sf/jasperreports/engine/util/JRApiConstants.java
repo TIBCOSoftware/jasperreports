@@ -114,28 +114,6 @@ public class JRApiConstants
 		return (String)getOrientationMap().get(key);
 	}
 	
-	private static Map whenNoDataTypeMap = null;
-
-	public static Map getWhenNoDataTypeMap()
-	{
-		if (whenNoDataTypeMap == null)
-		{
-			Map map = new HashMap(11);
-			map.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_PAGES),               "JRReport.WHEN_NO_DATA_TYPE_NO_PAGES");
-			map.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE),             "JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE");
-			map.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL), "JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL");
-			map.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION),        "JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION");
-			whenNoDataTypeMap = Collections.unmodifiableMap(map);
-		}
-
-		return whenNoDataTypeMap;
-	}
-
-	public static String getWhenNoDataType(Byte key)
-	{
-		return (String)getWhenNoDataTypeMap().get(key);
-	}
-	
 	private static Map chartEdgeMap = null;
 
 	public static Map getChartEdgeMap()
@@ -205,28 +183,6 @@ public class JRApiConstants
 		return (String)getScaleTypeMap().get(key);
 	}
 
-	
-	private static Map whenResourceMissingTypeMap = null;
-
-	public static Map getWhenResourceMissingTypeMap()
-	{
-		if (whenResourceMissingTypeMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL), 	"JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL");
-			map.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY), 	"JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY");
-			map.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY), 		"JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY");
-			map.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR), 	"JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR");
-			whenResourceMissingTypeMap = Collections.unmodifiableMap(map);
-		}
-
-		return whenResourceMissingTypeMap;
-	}
-	
-	public static String getWhenResourceMissingType(Byte key)
-	{
-		return (String)getWhenResourceMissingTypeMap().get(key);
-	}
 	
 	private static Map meterShapeMap = null;
 

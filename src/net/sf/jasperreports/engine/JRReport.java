@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
+import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 
 /**
@@ -71,49 +73,58 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 */
 	public static final byte ORIENTATION_LANDSCAPE = 2;
 
+	
 	/**
 	 * Specifies that in case of empty datasources, there will be an empty report.
+	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#NO_PAGES}.
 	 */
 	public static final byte WHEN_NO_DATA_TYPE_NO_PAGES = 1;
 
 
 	/**
 	 * Specifies that in case of empty datasources, there will be a report with just one blank page.
+	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#BLANK_PAGE}.
 	 */
 	public static final byte WHEN_NO_DATA_TYPE_BLANK_PAGE = 2;
 
 
 	/**
 	 * Specifies that in case of empty datasources, all sections except detail will displayed.
+	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#ALL_SECTIONS_NO_DETAIL}.
 	 */
 	public static final byte WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = 3;
 
 	/**
 	 * Specifies that in case of empty datasources, the NoData section will be displayed.
+	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#NO_DATA_SECTION}.
 	 */
 	public static final byte WHEN_NO_DATA_TYPE_NO_DATA_SECTION = 4;
 
 
 	/**
 	 * Return NULL when a resource is missing.
+	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#NULL}.
 	 */
 	public static final byte WHEN_RESOURCE_MISSING_TYPE_NULL = JRDataset.WHEN_RESOURCE_MISSING_TYPE_NULL;
 
 
 	/**
 	 * Return empty string when a resource is missing.
+	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#EMPTY}.
 	 */
 	public static final byte WHEN_RESOURCE_MISSING_TYPE_EMPTY = JRDataset.WHEN_RESOURCE_MISSING_TYPE_EMPTY;
 
 
 	/**
 	 * Return the key when a resource is missing.
+	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#KEY}.
 	 */
 	public static final byte WHEN_RESOURCE_MISSING_TYPE_KEY = JRDataset.WHEN_RESOURCE_MISSING_TYPE_KEY;
 
 
 	/**
 	 * Throw an exception when a resource is missing.
+	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#ERROR}.
 	 */
 	public static final byte WHEN_RESOURCE_MISSING_TYPE_ERROR = JRDataset.WHEN_RESOURCE_MISSING_TYPE_ERROR;
 
@@ -169,14 +180,24 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 //	public OrientationEnum getOrientationValue();
 
 	/**
-	 * Specifies the report behavior in case of empty datasources.
+	 * @deprecated Replaced by {@link #getWhenNoDataTypeValue()}.
 	 */
 	public byte getWhenNoDataType();
 
 	/**
-	 * Sets the report behavior in case of empty datasources.
+	 * Specifies the report behavior in case of empty datasources.
+	 */
+	public WhenNoDataTypeEnum getWhenNoDataTypeValue();
+
+	/**
+	 * @deprecated Replaced by {@link #setWhenNoDataType(WhenNoDataTypeEnum)}.
 	 */
 	public void setWhenNoDataType(byte whenNoDataType);
+
+	/**
+	 * Sets the report behavior in case of empty datasources.
+	 */
+	public void setWhenNoDataType(WhenNoDataTypeEnum whenNoDataType);
 
 	/**
 	 *
@@ -373,15 +394,25 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public JRBand getNoData();
 
 	/**
-	 * Returns the resource missing handling type.
+	 * @deprecated Replaced by {@link #getWhenResourceMissingTypeValue()}.
 	 */
 	public byte getWhenResourceMissingType();
+
+	/**
+	 * Returns the resource missing handling type.
+	 */
+	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue();
+
+	/**
+	 * @deprecated Replaced by {@link #setWhenResourceMissingType(WhenResourceMissingTypeEnum)}
+	 */
+	public void setWhenResourceMissingType(byte whenResourceMissingType);
 
 	/**
 	 * Sets the resource missing handling type.
 	 * @param whenResourceMissingType the resource missing handling type
 	 */
-	public void setWhenResourceMissingType(byte whenResourceMissingType);
+	public void setWhenResourceMissingType(WhenResourceMissingTypeEnum whenResourceMissingType);
 
 
 	/**

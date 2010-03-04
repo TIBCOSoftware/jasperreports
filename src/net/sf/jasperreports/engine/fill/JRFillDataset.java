@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
@@ -159,7 +160,7 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The resource missing handle type.
 	 */
-	protected byte whenResourceMissingType;
+	protected WhenResourceMissingTypeEnum whenResourceMissingType;
 	
 	/**
 	 * The scriptlet class name.
@@ -230,7 +231,7 @@ public class JRFillDataset implements JRDataset
 		
 		scriptletClassName = dataset.getScriptletClass();
 		resourceBundleBaseName = dataset.getResourceBundle();
-		whenResourceMissingType = dataset.getWhenResourceMissingType();
+		whenResourceMissingType = dataset.getWhenResourceMissingTypeValue();
 		
 		query = dataset.getQuery();
 		
@@ -1176,13 +1177,31 @@ public class JRFillDataset implements JRDataset
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link #getWhenResourceMissingType()}.
+	 */
 	public byte getWhenResourceMissingType()
+	{
+		return getWhenResourceMissingTypeValue().getValue();
+	}
+
+
+	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
 	{
 		return whenResourceMissingType;
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link #setWhenResourceMissingType(WhenResourceMissingTypeEnum)}.
+	 */
 	public void setWhenResourceMissingType(byte whenResourceMissingType)
+	{
+		setWhenResourceMissingType(WhenResourceMissingTypeEnum.getByValue(whenResourceMissingType));
+	}
+
+	
+	public void setWhenResourceMissingType(WhenResourceMissingTypeEnum whenResourceMissingType)
 	{
 		this.whenResourceMissingType = whenResourceMissingType;
 	}

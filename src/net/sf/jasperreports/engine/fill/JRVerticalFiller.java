@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
@@ -127,7 +126,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			switch (whenNoDataType)
 			{
-				case JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL :
+				case ALL_SECTIONS_NO_DETAIL :
 				{
 					if (log.isDebugEnabled())
 					{
@@ -159,7 +158,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 					break;
 				}
-				case JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE :
+				case BLANK_PAGE :
 				{
 					if (log.isDebugEnabled())
 					{
@@ -170,7 +169,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					addPage(printPage);
 					break;
 				}
-				case JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION:
+				case NO_DATA_SECTION:
 				{
 					if (log.isDebugEnabled())
 					{
@@ -193,7 +192,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					break;
 
 				}
-				case JRReport.WHEN_NO_DATA_TYPE_NO_PAGES :
+				case NO_PAGES :
 				default :
 				{
 					if (log.isDebugEnabled())
