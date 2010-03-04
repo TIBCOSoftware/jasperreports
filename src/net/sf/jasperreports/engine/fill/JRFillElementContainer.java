@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -154,7 +155,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 					bandBottomElemsList.add(element);
 				}
 
-				if (element.getStretchType() != JRElement.STRETCH_TYPE_NO_STRETCH)
+				if (element.getStretchTypeValue() != StretchTypeEnum.NO_STRETCH)
 				{
 					stretchElemsList.add(element);
 				}

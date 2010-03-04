@@ -132,20 +132,18 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	 * @deprecated Replaced by {@link #setStretchType(StretchTypeEnum)}.
 	 */
 	public void setStretchType(byte stretchType);
-		
-	//TODO: uncomment these below
 
-//	/**
-//	 * Indicates the stretch type for the element
-//	 * @return a value representing one of the stretch type constants in {@link StretchTypeEnum}
-//	 */
-//	public StretchTypeEnum getStretchTypeValue();
-//	
-//	/**
-//	 * Specifies how the engine should treat a missing image.
-//	 * @param stretchTypeEnum a value representing one of the stretch type constants in {@link StretchTypeEnum}
-//	 */
-//	public void setStretchType(StretchTypeEnum stretchTypeEnum);
+	/**
+	 * Indicates the stretch type for the element
+	 * @return a value representing one of the stretch type constants in {@link StretchTypeEnum}
+	 */
+	public StretchTypeEnum getStretchTypeValue();
+	
+	/**
+	 * Specifies how the engine should treat a missing image.
+	 * @param stretchTypeEnum a value representing one of the stretch type constants in {@link StretchTypeEnum}
+	 */
+	public void setStretchType(StretchTypeEnum stretchTypeEnum);
 	
 	/**
 	 * Specifies if the element value will be printed for every iteration, even if its value has not changed.
