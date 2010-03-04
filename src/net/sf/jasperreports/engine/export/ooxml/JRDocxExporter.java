@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -1055,7 +1054,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			writer.write("/>\n");
 		}
 
-		if (mainHyperlink.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
+		if (mainHyperlink.getHyperlinkTypeValue() != NONE)
 		{
 			writer.write("  <area shape=\"default\"");
 			writeImageAreaHyperlink(mainHyperlink);
@@ -1320,14 +1319,14 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected String getHyperlinkTarget(JRPrintHyperlink link)
 	{
 		String target = null;
-		switch(link.getHyperlinkTarget())
+		switch(link.getHyperlinkTargetValue())
 		{
-			case JRHyperlink.HYPERLINK_TARGET_SELF :
+			case SELF :
 			{
 				target = "_self";
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TARGET_BLANK :
+			case BLANK :
 			default :
 			{
 				target = "_blank";
@@ -1344,9 +1343,9 @@ public class JRDocxExporter extends JRAbstractExporter
 		JRHyperlinkProducer customHandler = getCustomHandler(link);
 		if (customHandler == null)
 		{
-			switch(link.getHyperlinkType())
+			switch(link.getHyperlinkTypeValue())
 			{
-				case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+				case REFERENCE :
 				{
 					if (link.getHyperlinkReference() != null)
 					{
@@ -1354,7 +1353,7 @@ public class JRDocxExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+				case LOCAL_ANCHOR :
 				{
 //					if (link.getHyperlinkAnchor() != null)
 //					{
@@ -1362,7 +1361,7 @@ public class JRDocxExporter extends JRAbstractExporter
 //					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+				case LOCAL_PAGE :
 				{
 //					if (link.getHyperlinkPage() != null)
 //					{
@@ -1370,7 +1369,7 @@ public class JRDocxExporter extends JRAbstractExporter
 //					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+				case REMOTE_ANCHOR :
 				{
 					if (
 						link.getHyperlinkReference() != null &&
@@ -1381,7 +1380,7 @@ public class JRDocxExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+				case REMOTE_PAGE :
 				{
 //					if (
 //						link.getHyperlinkReference() != null &&
@@ -1392,7 +1391,7 @@ public class JRDocxExporter extends JRAbstractExporter
 //					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_NONE :
+				case NONE :
 				default :
 				{
 					break;

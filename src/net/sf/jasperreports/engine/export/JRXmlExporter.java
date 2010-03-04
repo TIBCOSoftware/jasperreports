@@ -53,8 +53,6 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRHyperlinkHelper;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
@@ -79,6 +77,8 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
@@ -787,7 +787,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		
 		if (hyperlinkProducerFactory == null)
 		{
-			xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, image.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
+			xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, image.getLinkType(), HyperlinkTypeEnum.NONE.getName());
 			xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkReference, image.getHyperlinkReference());
 			xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkAnchor, image.getHyperlinkAnchor());
 			xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hyperlinkPage, image.getHyperlinkPage());
@@ -797,12 +797,12 @@ public class JRXmlExporter extends JRAbstractExporter
 			String reference = hyperlinkProducerFactory.produceHyperlink(image);
 			if (reference != null)
 			{
-				xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, JRHyperlinkHelper.HYPERLINK_TYPE_REFERENCE);
+				xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, HyperlinkTypeEnum.REFERENCE);
 				xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkReference, reference);
 			}
 		}
 		
-		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, image.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);//FIXMETARGET this exporter is used in the Flash viewer
+		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, image.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());//FIXMETARGET this exporter is used in the Flash viewer
 		xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTooltip, image.getHyperlinkTooltip());
 		xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_anchorName, image.getAnchorName());
 		xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_bookmarkLevel, image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
@@ -909,7 +909,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			String reference = hyperlinkProducerFactory.produceHyperlink(text);
 			if (reference != null)
 			{
-				xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, JRHyperlinkHelper.HYPERLINK_TYPE_REFERENCE);
+				xmlWriter.addAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, HyperlinkTypeEnum.REFERENCE);
 				xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkReference, reference);
 			}
 		}

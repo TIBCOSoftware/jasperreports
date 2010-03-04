@@ -98,6 +98,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -1062,11 +1063,19 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
 	 */
 	public byte getHyperlinkType()
 	{
-		return ((JRChart)parent).getHyperlinkType();
+		return getHyperlinkTypeValue().getValue();
+	}
+
+	/**
+	 *
+	 */
+	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	{
+		return ((JRChart)parent).getHyperlinkTypeValue();
 	}
 
 	/**

@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+
 
 /**
  * An interface providing hyperlink functionality. It must be implemented by elements that can contain hyperlinks.
@@ -43,6 +46,7 @@ public interface JRHyperlink extends JRCloneable
 	/**
 	 * Constant useful for specifying that the element does not contain a hyperlink. This is the default value
 	 * for a hyperlink type.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#NONE}.
 	 */
 	public static final byte HYPERLINK_TYPE_NONE = 1;
 
@@ -50,6 +54,7 @@ public interface JRHyperlink extends JRCloneable
 	 * Constant useful for specifying that the hyperlink points to an external resource specified by the
 	 * hyperlink reference expression.
 	 * @see JRHyperlink#getHyperlinkReferenceExpression()
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REFERENCE}.
 	 */
 	public static final byte HYPERLINK_TYPE_REFERENCE = 2;
 
@@ -57,11 +62,13 @@ public interface JRHyperlink extends JRCloneable
 	 * Constant useful for specifying that the hyperlink points to a local anchor, specified by the hyperlink
 	 * anchor expression.
 	 * @see JRHyperlink#getHyperlinkAnchorExpression()
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#LOCAL_ANCHOR}.
 	 */
 	public static final byte HYPERLINK_TYPE_LOCAL_ANCHOR = 3;
 
 	/**
 	 * Constant useful for specifying that the hyperlink points to a 1 based page index within the current document.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#LOCAL_PAGE}.
 	 */
 	public static final byte HYPERLINK_TYPE_LOCAL_PAGE = 4;
 
@@ -70,18 +77,21 @@ public interface JRHyperlink extends JRCloneable
 	 * anchor expression) within an external document (specified by the hyperlink reference expression).
 	 * @see JRHyperlink#getHyperlinkAnchorExpression()
 	 * @see JRHyperlink#getHyperlinkReferenceExpression()
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REMOTE_ANCHOR}.
 	 */
 	public static final byte HYPERLINK_TYPE_REMOTE_ANCHOR = 5;
 
 	/**
 	 * Constant useful for specifying that the hyperlink points to a 1 based page index within an external document
 	 * (specified by the hyperlink reference expression).
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REMOTE_PAGE}.
 	 */
 	public static final byte HYPERLINK_TYPE_REMOTE_PAGE = 6;
 
 	
 	/**
 	 * Not set hyperlink type.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#NULL}.
 	 */
 	public static final byte HYPERLINK_TYPE_NULL = 0;
 	
@@ -91,27 +101,32 @@ public interface JRHyperlink extends JRCloneable
 	 * <p>
 	 * The specific type is determined by {@link #getLinkType() getLinkType()}.
 	 * </p>
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#CUSTOM}.
 	 */
 	public static final byte HYPERLINK_TYPE_CUSTOM = 7;
 
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in the same window.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#SELF}.
 	 */
 	public static final byte HYPERLINK_TARGET_SELF = 1;
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in a new window.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#BLANK}.
 	 */
 	public static final byte HYPERLINK_TARGET_BLANK = 2;
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in the parent frame.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#PARENT}.
 	 */
 	public static final byte HYPERLINK_TARGET_PARENT = 3;
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in the top frame.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#TOP}.
 	 */
 	public static final byte HYPERLINK_TARGET_TOP = 4;
 
@@ -120,21 +135,28 @@ public interface JRHyperlink extends JRCloneable
 	 * <p>
 	 * The specific target name is determined by {@link #getLinkTarget() getLinkTarget()}.
 	 * </p>
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#CUSTOM}.
 	 */
 	public static final byte HYPERLINK_TARGET_CUSTOM = 5;
 	
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
+	 */
+	public byte getHyperlinkType();
+
+
 	/**
 	 * Retrieves the hyperlink type for the element.
 	 * <p>
 	 * The actual hyperlink type is determined by {@link #getLinkType() getLinkType()}.
 	 * This method can is used to determine whether the hyperlink type is one of the
 	 * built-in types or a custom type. 
-	 * When hyperlink is of custom type, {@link #HYPERLINK_TYPE_CUSTOM HYPERLINK_TYPE_CUSTOM} is returned.
+	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} is returned.
 	 * </p>
 	 * @return one of the hyperlink type constants
 	 * @see #getLinkType()
 	 */
-	public byte getHyperlinkType();
+	public HyperlinkTypeEnum getHyperlinkTypeValue();
 
 
 	/**

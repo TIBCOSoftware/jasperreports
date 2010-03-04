@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
@@ -41,6 +40,8 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -453,11 +454,19 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
 	 */
 	public byte getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkType(this);
+		return getHyperlinkTypeValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 		
 	/**
@@ -1006,24 +1015,6 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	}
 	
 	
-	protected void normalizeLinkType()
-	{
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
-		}
-		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	}
-
-	protected void normalizeLinkTarget()
-	{
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
-		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
-	}
-
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;
@@ -1098,8 +1089,8 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
-	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private byte hyperlinkType;
+	private byte hyperlinkTarget;
 	private Byte scaleImage;
 	private byte onErrorType;
 	
@@ -1157,7 +1148,14 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 			rightPadding = null;
 		}
 
-		normalizeLinkType();
-		normalizeLinkTarget();
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
+		}
+
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+		}
 	}
 }

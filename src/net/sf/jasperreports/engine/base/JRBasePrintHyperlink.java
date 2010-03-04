@@ -28,11 +28,12 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 
 
 /**
@@ -82,14 +83,30 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 		return hyperlinkReference;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
+	 */
 	public byte getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
+		return getHyperlinkTargetValue().getValue();
 	}
 
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
+	 */
 	public byte getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
+		return getHyperlinkTypeValue().getValue();
+	}
+
+	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
 	}
 
 	public String getLinkType()
@@ -122,7 +139,15 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 		this.hyperlinkReference = hyperlinkReference;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
+	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+	}
+
+	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
 		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
@@ -132,7 +157,15 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 		this.linkTarget = linkTarget;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkTypeValue(HyperlinkTypeEnum)}.
+	 */
 	public void setHyperlinkType(byte hyperlinkType)
+	{
+		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
+	}
+
+	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
 	{
 		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
 	}
@@ -175,7 +208,7 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private byte hyperlinkTarget;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -183,9 +216,8 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 
 		if (linkTarget == null)
 		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
 		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	}
 	
 }

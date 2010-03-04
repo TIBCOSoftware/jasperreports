@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRCommonImage;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -43,6 +42,8 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -437,21 +438,39 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 
 	
 	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
+	 */
+	public byte getHyperlinkType()
+	{
+		return getHyperlinkTypeValue().getValue();
+	}
+
+	
+	/**
 	 * Retrieves the hyperlink type for the element.
 	 * <p>
 	 * The actual hyperlink type is determined by {@link #getLinkType() getLinkType()}.
 	 * This method can is used to determine whether the hyperlink type is one of the
 	 * built-in types or a custom type. 
-	 * When hyperlink is of custom type, {@link JRHyperlink#HYPERLINK_TYPE_CUSTOM HYPERLINK_TYPE_CUSTOM} is returned.
+	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} is returned.
 	 * </p>
 	 * @return one of the hyperlink type constants
 	 * @see #getLinkType()
 	 */
-	public byte getHyperlinkType()
+	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
-		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
+		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
 	}
 
+	
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
+	 */
+	protected void setHyperlinkType(byte hyperlinkType)
+	{
+		setHyperlinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
+	}
+		
 	
 	/**
 	 * Sets the link type as a built-in hyperlink type.
@@ -459,23 +478,40 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	 * @param hyperlinkType the built-in hyperlink type
 	 * @see #getLinkType()
 	 */
-	protected void setHyperlinkType(byte hyperlinkType)
+	protected void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
 	{
 		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
 	}
 		
+	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
+		return getHyperlinkTargetValue().getValue();
 	}
 		
 	/**
 	 *
 	 */
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
+	 */
 	protected void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+	}
+	
+	/**
+	 *
+	 */
+	protected void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
 		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
@@ -539,25 +575,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	}
 	
 	
-	protected void normalizeLinkType()
-	{
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
-		}
-		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	}
-
-	protected void normalizeLinkTarget()
-	{
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
-		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
-	}
-
-
 	/**
 	 * 
 	 */
@@ -1029,8 +1046,8 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	private Integer leftPadding = null;
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
-	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private byte hyperlinkType;
+	private byte hyperlinkTarget;
 	private Byte scaleImage = null;
 	private byte onErrorType;
 
@@ -1089,7 +1106,14 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 			rightPadding = null;
 		}
 
-		normalizeLinkType();
-		normalizeLinkTarget();
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
+		}
+
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+		}
 	}
 }

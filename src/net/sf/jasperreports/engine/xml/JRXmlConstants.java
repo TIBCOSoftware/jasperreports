@@ -63,6 +63,8 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
@@ -1018,15 +1020,33 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#NONE#getName()}.
 	 */
-	private static final String HYPERLINK_TYPE_NONE = "None";
-	private static final String HYPERLINK_TYPE_REFERENCE = "Reference";
-	private static final String HYPERLINK_TYPE_LOCAL_ANCHOR = "LocalAnchor";
-	private static final String HYPERLINK_TYPE_LOCAL_PAGE = "LocalPage";
-	private static final String HYPERLINK_TYPE_REMOTE_ANCHOR = "RemoteAnchor";
-	private static final String HYPERLINK_TYPE_REMOTE_PAGE = "RemotePage";
+	private static final String HYPERLINK_TYPE_NONE = HyperlinkTypeEnum.NONE.getName();
+	/**
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#NONE#getName()}.
+	 */
+	private static final String HYPERLINK_TYPE_REFERENCE = HyperlinkTypeEnum.REFERENCE.getName();
+	/**
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#NONE#getName()}.
+	 */
+	private static final String HYPERLINK_TYPE_LOCAL_ANCHOR = HyperlinkTypeEnum.LOCAL_ANCHOR.getName();
+	/**
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#NONE#getName()}.
+	 */
+	private static final String HYPERLINK_TYPE_LOCAL_PAGE = HyperlinkTypeEnum.LOCAL_PAGE.getName();
+	/**
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#NONE#getName()}.
+	 */
+	private static final String HYPERLINK_TYPE_REMOTE_ANCHOR = HyperlinkTypeEnum.REMOTE_ANCHOR.getName();
+	/**
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#NONE#getName()}.
+	 */
+	private static final String HYPERLINK_TYPE_REMOTE_PAGE = HyperlinkTypeEnum.REMOTE_PAGE.getName();
 
+	/**
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum}.
+	 */
 	private static Map hyperlinkTypeMap = null;
 
 
@@ -1057,13 +1077,25 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#SELF#getName()}.
 	 */
-	private static final String HYPERLINK_TARGET_SELF = "Self";
-	private static final String HYPERLINK_TARGET_BLANK = "Blank";
-	private static final String HYPERLINK_TARGET_PARENT = "Parent";
-	private static final String HYPERLINK_TARGET_TOP = "Top";
+	private static final String HYPERLINK_TARGET_SELF = HyperlinkTargetEnum.SELF.getName();
+	/**
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#BLANK#getName()}.
+	 */
+	private static final String HYPERLINK_TARGET_BLANK = HyperlinkTargetEnum.BLANK.getName();
+	/**
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#PARENT#getName()}.
+	 */
+	private static final String HYPERLINK_TARGET_PARENT = HyperlinkTargetEnum.PARENT.getName();
+	/**
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#TOP#getName()}.
+	 */
+	private static final String HYPERLINK_TARGET_TOP = HyperlinkTargetEnum.TOP.getName();
 
+	/**
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum}.
+	 */
 	private static Map hyperlinkTargetMap = null;
 
 	/**

@@ -81,7 +81,6 @@ import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -502,18 +501,18 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			JRHyperlinkProducer customHandler = getCustomHandler(text);
 			if (customHandler == null)
 			{
-				switch (text.getHyperlinkType())
+				switch (text.getHyperlinkTypeValue())
 				{
-					case JRHyperlink.HYPERLINK_TYPE_REFERENCE:
+					case REFERENCE:
 					{
 						href = text.getHyperlinkReference();
 						break;
 					}
-					case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
-					case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
-					case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
-					case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
-					case JRHyperlink.HYPERLINK_TYPE_NONE:
+					case LOCAL_ANCHOR :
+					case LOCAL_PAGE :
+					case REMOTE_ANCHOR :
+					case REMOTE_PAGE :
+					case NONE:
 					default:
 					{
 					}

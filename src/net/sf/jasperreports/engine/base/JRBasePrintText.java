@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
@@ -42,6 +41,8 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -709,33 +710,65 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
 	 */
 	public byte getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
+		return getHyperlinkTypeValue().getValue();
 	}
 		
 	/**
 	 *
 	 */
+	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
+	 */
 	public void setHyperlinkType(byte hyperlinkType)
 	{
-		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
+		setHyperlinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
 	}
 
 	/**
 	 *
 	 */
+	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
+	{
+		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
+	 */
 	public byte getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
+		return getHyperlinkTargetValue().getValue();
 	}
 		
 	/**
 	 *
 	 */
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
+	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+	}
+
+	/**
+	 *
+	 */
+	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
 		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
@@ -1685,24 +1718,6 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 	
 	
-	protected void normalizeLinkType()
-	{
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
-		}
-		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	}
-
-	protected void normalizeLinkTarget()
-	{
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
-		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
-	}
-
 	public String getHyperlinkTooltip()
 	{
 		return hyperlinkTooltip;
@@ -1748,8 +1763,8 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
 	private Boolean isStyledText = null;
-	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private byte hyperlinkType;
+	private byte hyperlinkTarget;
 	private byte runDirection;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
@@ -1814,7 +1829,14 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 			isStyledText = null;
 		}
 
-		normalizeLinkType();
-		normalizeLinkTarget();
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
+		}
+
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+		}
 	}
 }

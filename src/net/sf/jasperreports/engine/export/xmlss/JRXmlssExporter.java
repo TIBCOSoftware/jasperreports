@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -997,9 +996,9 @@ public class JRXmlssExporter extends JRAbstractExporter
 		JRHyperlinkProducer customHandler = getCustomHandler(link);
 		if (customHandler == null)
 		{
-			switch(link.getHyperlinkType())
+			switch(link.getHyperlinkTypeValue())
 			{
-				case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+				case REFERENCE :
 				{
 					if (link.getHyperlinkReference() != null)
 					{
@@ -1007,7 +1006,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+				case LOCAL_ANCHOR :
 				{
 					if (link.getHyperlinkAnchor() != null)
 					{
@@ -1015,7 +1014,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+				case LOCAL_PAGE :
 				{
 					if (link.getHyperlinkPage() != null)
 					{
@@ -1023,7 +1022,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+				case REMOTE_ANCHOR :
 				{
 					if (
 						link.getHyperlinkReference() != null &&
@@ -1034,7 +1033,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+				case REMOTE_PAGE :
 				{
 					if (
 						link.getHyperlinkReference() != null &&
@@ -1045,7 +1044,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_NONE :
+				case NONE :
 				default :
 				{
 					break;

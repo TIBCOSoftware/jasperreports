@@ -437,35 +437,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated Replaced by {@link #getOnErrorRenderer(OnErrorTypeEnum, JRException)}.
-	 */
-	private static JRImageRenderer getOnErrorRenderer(byte onErrorType, JRException e) throws JRException
-	{
-		JRImageRenderer renderer = null;
-		
-		switch (onErrorType)
-		{
-			case JRImage.ON_ERROR_TYPE_ICON :
-			{
-				renderer = new JRImageRenderer(JRImageLoader.NO_IMAGE_RESOURCE);
-				//FIXME cache these renderers
-				break;
-			}
-			case JRImage.ON_ERROR_TYPE_BLANK :
-			{
-				break;
-			}
-			case JRImage.ON_ERROR_TYPE_ERROR :
-			default :
-			{
-				throw e;
-			}
-		}
-
-		return renderer;
-	}
-
-	/**
 	 * 
 	 */
 	private static JRImageRenderer getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRException e) throws JRException

@@ -38,6 +38,8 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -647,33 +649,67 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
 	 */
 	public byte getHyperlinkType()
 	{
-		return ((JRTemplateText)template).getHyperlinkType();
+		return getHyperlinkTypeValue().getValue();
 	}
 		
 	/**
 	 *
 	 */
+	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	{
+		return ((JRTemplateText)this.template).getHyperlinkTypeValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
+	 */
 	public void setHyperlinkType(byte hyperlinkType)
 	{
+		setHyperlinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
 	}
 
 	/**
 	 *
 	 */
+	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
+	 */
 	public byte getHyperlinkTarget()
 	{
-		return ((JRTemplateText)template).getHyperlinkTarget();
+		return getHyperlinkTargetValue().getValue();
 	}
 		
 	/**
 	 *
 	 */
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return ((JRTemplateText)this.template).getHyperlinkTargetValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
+	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
+		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+	}
+
+	/**
+	 *
+	 */
+	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**

@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -827,11 +828,19 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
 	 */
 	public byte getHyperlinkType()
 	{
-		return ((JRImage)this.parent).getHyperlinkType();
+		return getHyperlinkTypeValue().getValue();
+	}
+
+	/**
+	 *
+	 */
+	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	{
+		return ((JRImage)parent).getHyperlinkTypeValue();
 	}
 		
 	/**

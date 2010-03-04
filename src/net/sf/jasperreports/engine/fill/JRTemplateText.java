@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
@@ -44,6 +43,8 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -536,35 +537,51 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 
 	
 	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
+	 */
+	public byte getHyperlinkType()
+	{
+		return getHyperlinkTypeValue().getValue();
+	}
+
+	/**
 	 * Retrieves the hyperlink type for the element.
 	 * <p>
 	 * The actual hyperlink type is determined by {@link #getLinkType() getLinkType()}.
 	 * This method can is used to determine whether the hyperlink type is one of the
 	 * built-in types or a custom type. 
-	 * When hyperlink is of custom type, {@link JRHyperlink#HYPERLINK_TYPE_CUSTOM HYPERLINK_TYPE_CUSTOM} is returned.
+O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} is returned.
 	 * </p>
 	 * @return one of the hyperlink type constants
 	 * @see #getLinkType()
 	 */
-	public byte getHyperlinkType()
+	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
-		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
+		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
 	}
 
+	/**
+	 * @deprecated
+	 */
+	public byte getHyperlinkTarget()
+	{
+		return getHyperlinkTargetValue().getValue();
+	}
+	
 	/**
 	 * Retrieves the hyperlink target name for the element.
 	 * <p>
 	 * The actual hyperlink target name is determined by {@link #getLinkTarget() getLinkTarget()}.
 	 * This method is used to determine whether the hyperlink target name is one of the
 	 * built-in names or a custom one. 
-	 * When hyperlink target has a custom name, {@link JRHyperlink#HYPERLINK_TARGET_CUSTOM HYPERLINK_TARGET_CUSTOM} is returned.
+	 * When hyperlink target has a custom name, {@link HyperlinkTargetEnum#CUSTOM CUSTOM} is returned.
 	 * </p>
 	 * @return one of the hyperlink target name constants
 	 * @see #getLinkTarget()
 	 */
-	public byte getHyperlinkTarget()
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
 	{
-		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
+		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
 	}
 	
 	/**
@@ -1010,25 +1027,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		return linkTarget;
 	}
 
-
-	
-	protected void normalizeLinkType()
-	{
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
-		}
-		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	}
-
-	protected void normalizeLinkTarget()
-	{
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
-		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
-	}
 
 	/**
 	 * 
@@ -1504,8 +1502,8 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
 	private Boolean isStyledText = null;
-	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private byte hyperlinkType;
+	private byte hyperlinkTarget;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1568,7 +1566,14 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 			isStyledText = null;
 		}
 
-		normalizeLinkType();
-		normalizeLinkTarget();
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
+		}
+
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+		}
 	}
 }
