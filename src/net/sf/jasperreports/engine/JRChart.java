@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 
@@ -131,9 +132,14 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	public void setShowLegend(Boolean isShowLegend);
 
 	/**
-	 * Returns the evaluation time for this chart.
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
 	 */
 	public byte getEvaluationTime();
+
+	/**
+	 * Returns the evaluation time for this chart.
+	 */
+	public EvaluationTimeEnum getEvaluationTimeValue();
 		
 	/**
 	 * Gets the evaluation group for this chart (only applies when evaluation time is group).

@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * A {@link JRGenericElement} used during report fill.
@@ -175,7 +176,7 @@ public class JRFillGenericElement extends JRFillElement implements
 			else
 			{
 				filler.addBoundElement(this, printElement, 
-						getEvaluationTime(), getEvaluationGroupName(), band);
+						getEvaluationTimeValue(), getEvaluationGroupName(), band);
 			}
 		}
 		return printElement;
@@ -253,9 +254,17 @@ public class JRFillGenericElement extends JRFillElement implements
 		return new JRFillGenericElement(this, factory);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
+	 */
 	public byte getEvaluationTime()
 	{
-		return ((JRGenericElement) parent).getEvaluationTime();
+		return getEvaluationTimeValue().getValue();
+	}
+	
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return ((JRGenericElement) parent).getEvaluationTimeValue();
 	}
 	
 	public String getEvaluationGroupName()

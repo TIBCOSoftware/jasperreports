@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.FillComponent;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * A {@link JRComponentElement} which is used during report fill.
@@ -223,7 +224,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 	}
 
 	public void registerDelayedEvaluation(JRPrintElement printElement, 
-			byte evaluationTime, String evaluationGroup)
+			EvaluationTimeEnum evaluationTime, String evaluationGroup)
 	{
 		filler.addBoundElement(this, printElement, 
 				evaluationTime, evaluationGroup, band);

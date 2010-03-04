@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -61,7 +62,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 *
 	 */
 	protected boolean isStretchWithOverflow = false;
-	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
+	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	protected String pattern;
 	protected Boolean isBlankWhenNull = null;
 	protected String linkType;
@@ -93,7 +94,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		super(textField, factory);
 		
 		isStretchWithOverflow = textField.isStretchWithOverflow();
-		evaluationTime = textField.getEvaluationTime();
+		evaluationTimeValue = textField.getEvaluationTimeValue();
 		pattern = textField.getOwnPattern();
 		isBlankWhenNull = textField.isOwnBlankWhenNull();
 		linkType = textField.getLinkType();
@@ -130,11 +131,19 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
 	 */
 	public byte getEvaluationTime()
 	{
-		return this.evaluationTime;
+		return getEvaluationTimeValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return this.evaluationTimeValue;
 	}
 		
 	/**
@@ -358,8 +367,10 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private byte hyperlinkType;
 	private byte hyperlinkTarget;
+	private byte evaluationTime;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -373,6 +384,11 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		if (linkTarget == null)
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+		}
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
 		}
 	}
 }

@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.fill.JRBaseFiller;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * A fill context provides access to data and functionality related to a
@@ -113,7 +114,7 @@ public interface FillContext extends JRFillExpressionEvaluator
 	 * @see FillComponent#evaluateDelayedElement(JRPrintElement, byte)
 	 */
 	void registerDelayedEvaluation(JRPrintElement printElement, 
-			byte evaluationTime, String evaluationGroup);
+			EvaluationTimeEnum evaluationTime, String evaluationGroup);
 
 	/**
 	 * Returns the resource bundle used for the current report.

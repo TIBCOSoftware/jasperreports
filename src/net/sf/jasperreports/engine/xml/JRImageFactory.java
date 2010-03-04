@@ -25,10 +25,10 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Collection;
 
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -92,12 +92,12 @@ public class JRImageFactory extends JRBaseFactory
 			image.setOnErrorType(onErrorType);
 		}
 
-		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
+		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
-			image.setEvaluationTime(evaluationTime.byteValue());
+			image.setEvaluationTime(evaluationTime);
 		}
-		if (image.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+		if (image.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
 			groupEvaluatedImages.add(image);
 

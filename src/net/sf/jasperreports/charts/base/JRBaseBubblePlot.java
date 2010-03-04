@@ -410,7 +410,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private int scaleType = XYBubbleRenderer.SCALE_ON_RANGE_AXIS;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

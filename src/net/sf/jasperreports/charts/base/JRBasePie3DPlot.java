@@ -224,7 +224,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private double depthFactor = DEPTH_FACTOR_DEFAULT;
 	private boolean isCircular = false;
 	

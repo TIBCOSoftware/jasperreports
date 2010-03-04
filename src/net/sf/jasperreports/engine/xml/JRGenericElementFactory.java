@@ -23,9 +23,9 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignGenericElement;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 import org.xml.sax.Attributes;
 
@@ -43,16 +43,13 @@ public class JRGenericElementFactory extends JRBaseFactory
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 		JRDesignGenericElement element = new JRDesignGenericElement(jasperDesign);
 		
-		String evaluationTimeAttr = attrs.getValue(
-				XmlConstants.ATTRIBUTE_evaluationTime);
-		if (evaluationTimeAttr != null)
+		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(attrs.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
+		if (evaluationTime != null)
 		{
-			Byte evaluationTime = (Byte) JRXmlConstants.getEvaluationTimeMap().get(
-					evaluationTimeAttr);
-			element.setEvaluationTime(evaluationTime.byteValue());
+			element.setEvaluationTime(evaluationTime);
 		}
 		
-		if (element.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+		if (element.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
 			String groupName = attrs.getValue(XmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)

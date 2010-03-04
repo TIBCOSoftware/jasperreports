@@ -28,7 +28,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRStyle;
@@ -36,6 +35,7 @@ import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
@@ -75,8 +75,8 @@ public class BarcodeFillComponent extends BaseFillComponent
 	
 	protected boolean isEvaluateNow()
 	{
-		return barcodeComponent.getEvaluationTime() 
-				== JRExpression.EVALUATION_TIME_NOW;
+		return barcodeComponent.getEvaluationTimeValue() 
+				== EvaluationTimeEnum.NOW;
 	}
 
 	protected void evaluateBarcode(byte evaluation)
@@ -115,7 +115,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 		else
 		{
 			fillContext.registerDelayedEvaluation(image, 
-					barcodeComponent.getEvaluationTime(), 
+					barcodeComponent.getEvaluationTimeValue(), 
 					barcodeComponent.getEvaluationGroup());
 		}
 		

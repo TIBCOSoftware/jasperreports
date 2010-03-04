@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+
 /**
  * A "generic" report element that will produce a 
  * {@link JRGenericPrintElement generic print element} in the generated
@@ -65,6 +67,11 @@ public interface JRGenericElement extends JRElement
 	JRGenericElementParameter[] getParameters();
 	
 	/**
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
+	 */
+	byte getEvaluationTime();
+	
+	/**
 	 * Returns the evaluation time of this element.
 	 * 
 	 * <p>
@@ -74,7 +81,7 @@ public interface JRGenericElement extends JRElement
 	 * 
 	 * @return the evaluation time of this element
 	 */
-	byte getEvaluationTime();
+	EvaluationTimeEnum getEvaluationTimeValue();
 	
 	/**
 	 * Returns the name of the evaluation group for this element.

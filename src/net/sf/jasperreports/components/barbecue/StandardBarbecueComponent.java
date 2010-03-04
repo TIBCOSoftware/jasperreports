@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.barbecue;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -31,6 +33,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -61,7 +64,7 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	private Integer barWidth;
 	private Integer barHeight;
 	
-	private byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
+	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
 	
 	private transient JRPropertyChangeSupport eventSupport;
@@ -81,7 +84,7 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 		this.checksumRequired = barcode.isChecksumRequired();
 		this.barWidth = barcode.getBarWidth();
 		this.barHeight = barcode.getBarHeight();
-		this.evaluationTime = barcode.getEvaluationTime();
+		this.evaluationTimeValue= barcode.getEvaluationTimeValue();
 		this.evaluationGroup = barcode.getEvaluationGroup();
 	}
 	
@@ -177,17 +180,33 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 				old, this.drawText);
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
+	 */
 	public byte getEvaluationTime()
 	{
-		return evaluationTime;
+		return getEvaluationTimeValue().getValue();
 	}
 
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return evaluationTimeValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setEvaluationTime(EvaluationTimeEnum)}.
+	 */
 	public void setEvaluationTime(byte evaluationTime)
 	{
-		byte old = this.evaluationTime;
-		this.evaluationTime = evaluationTime;
+		setEvaluationTime(EvaluationTimeEnum.getByValue(evaluationTime));
+	}
+
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	{
+		Object old = this.evaluationTimeValue;
+		this.evaluationTimeValue = evaluationTimeValue;
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, 
-				old, this.evaluationTime);
+				old, this.evaluationTimeValue);
 	}
 
 	public String getEvaluationGroup()
@@ -231,6 +250,23 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 		{
 			// never
 			throw new JRRuntimeException(e);
+		}
+	}
+
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private byte evaluationTime;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
 		}
 	}
 }

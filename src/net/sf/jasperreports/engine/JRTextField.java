@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 
 //import java.text.Format;
@@ -96,10 +97,15 @@ public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
 	public void setStretchWithOverflow(boolean isStretchWithOverflow);
 		
 	/**
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
+	 */
+	public byte getEvaluationTime();
+	
+	/**
 	 * Gets the evaluation time for this text field.
 	 * @return one of the evaluation time constants in {@link JRExpression}
 	 */
-	public byte getEvaluationTime();
+	public EvaluationTimeEnum getEvaluationTimeValue();
 		
 	/**
 	 * Gets the pattern used for this text field. The pattern will be used in a <tt>SimpleDateFormat</tt> for dates

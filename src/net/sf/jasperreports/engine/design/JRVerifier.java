@@ -113,6 +113,7 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -2521,7 +2522,7 @@ public class JRVerifier
 	{
 		verifyReportElement(chart);
 		
-		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO)
+		if (chart.getEvaluationTimeValue() == EvaluationTimeEnum.AUTO)
 		{
 			addBrokenRule("Charts do not support Auto evaluation time.", chart);
 		}
@@ -2594,7 +2595,7 @@ public class JRVerifier
 					{
 						JRTextField textField = (JRTextField) element;
 
-						if (textField.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
+						if (textField.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
 						{
 							addBrokenRule("Elements with delayed evaluation time are not supported inside crosstab cells.", textField);
 						}
@@ -2605,7 +2606,7 @@ public class JRVerifier
 					{
 						JRImage image = (JRImage) element;
 
-						if (image.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
+						if (image.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
 						{
 							addBrokenRule("Elements with delayed evaluation time are not supported inside crosstab cells.", image);
 						}
@@ -3219,7 +3220,7 @@ public class JRVerifier
 	{
 		verifyReportElement(element);
 
-		if (element.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+		if (element.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
 			String groupName = element.getEvaluationGroupName();
 			if (groupName == null)

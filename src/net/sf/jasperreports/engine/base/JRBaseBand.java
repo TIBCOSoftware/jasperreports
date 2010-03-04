@@ -183,7 +183,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_5_2;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private boolean isSplitAllowed = true;
 	private Byte splitType = null;
 	

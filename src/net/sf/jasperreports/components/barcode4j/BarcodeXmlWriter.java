@@ -26,12 +26,11 @@ package net.sf.jasperreports.components.barcode4j;
 import java.io.IOException;
 
 import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.ComponentKey;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.XmlConstants;
 
@@ -77,11 +76,10 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 	
 	protected void writeBaseAttributes(BarcodeComponent barcode)
 	{
-		if (barcode.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
+		if (barcode.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
 		{
 			xmlWriteHelper.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, 
-					barcode.getEvaluationTime(),
-					JRXmlConstants.getEvaluationTimeMap());
+					barcode.getEvaluationTimeValue());
 		}
 		xmlWriteHelper.addAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, 
 				barcode.getEvaluationGroup());

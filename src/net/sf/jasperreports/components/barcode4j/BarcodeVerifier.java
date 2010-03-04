@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.barcode4j;
 
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
@@ -88,12 +89,12 @@ public class BarcodeVerifier implements BarcodeVisitor
 		verifyTextPosition(barcode);
 		verifyOrientation(barcode);
 		
-		byte evaluationTime = barcode.getEvaluationTime();
-		if (evaluationTime == JRExpression.EVALUATION_TIME_AUTO)
+		EvaluationTimeEnum evaluationTime = barcode.getEvaluationTimeValue();
+		if (evaluationTime == EvaluationTimeEnum.AUTO)
 		{
 			verifier.addBrokenRule("Auto evaluation time is not supported for barcodes", barcode);
 		}
-		else if (evaluationTime == JRExpression.EVALUATION_TIME_GROUP)
+		else if (evaluationTime == EvaluationTimeEnum.GROUP)
 		{
 			String evaluationGroup = barcode.getEvaluationGroup();
 			if (evaluationGroup == null || evaluationGroup.length() == 0)

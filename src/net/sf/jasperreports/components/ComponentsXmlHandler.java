@@ -52,6 +52,8 @@ import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
@@ -88,7 +90,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				new String[]{"printOrder"}, 
 				new String[0]);
 		digester.addRule(listPattern, new XmlConstantPropertyRule(
-				"printOrder", JRXmlConstants.getPrintOrderMap()));
+				"printOrder", PrintOrderEnum.values()));
 		
 		String listContentsPattern = listPattern + "/listContents";
 		digester.addObjectCreate(listContentsPattern, DesignListContents.class);
@@ -107,7 +109,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
 						XmlConstants.ATTRIBUTE_evaluationTime,
-						JRXmlConstants.getEvaluationTimeMap()));
+						EvaluationTimeEnum.values()));
 
 		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
 		digester.addFactoryCreate(barcodeExpressionPattern, 
@@ -176,7 +178,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
 						XmlConstants.ATTRIBUTE_evaluationTime,
-						JRXmlConstants.getEvaluationTimeMap()));
+						EvaluationTimeEnum.values()));
 		
 		String codeExpressionPattern = barcodePattern + "/codeExpression";
 		digester.addFactoryCreate(codeExpressionPattern, 
@@ -258,11 +260,10 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.addAttribute("checksumRequired", barcode.isChecksumRequired());
 		writer.addAttribute("barWidth", barcode.getBarWidth());
 		writer.addAttribute("barHeight", barcode.getBarHeight());
-		if (barcode.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
+		if (barcode.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
 		{
 			writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, 
-					barcode.getEvaluationTime(),
-					JRXmlConstants.getEvaluationTimeMap());
+					barcode.getEvaluationTimeValue());
 		}
 		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, 
 				barcode.getEvaluationGroup());

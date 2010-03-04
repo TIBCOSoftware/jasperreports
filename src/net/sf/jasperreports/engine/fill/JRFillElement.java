@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
@@ -971,9 +972,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 	
 	// default for elements not supporting evaluationTime
-	protected byte getEvaluationTime()
+	protected EvaluationTimeEnum getEvaluationTimeValue()
 	{
-		return JRExpression.EVALUATION_TIME_NOW;
+		return EvaluationTimeEnum.NOW;
 	}
 
 	/**
@@ -985,12 +986,12 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	protected void resolveElement (JRPrintElement element, byte evaluation, JREvaluationTime evaluationTime) throws JRException
 	{
-		byte evaluationTimeType = getEvaluationTime();
+		EvaluationTimeEnum evaluationTimeType = getEvaluationTimeValue();
 		switch (evaluationTimeType)
 		{
-			case JRExpression.EVALUATION_TIME_NOW:
+			case NOW:
 				break;
-			case JRExpression.EVALUATION_TIME_AUTO:
+			case AUTO:
 				delayedEvaluate((JRRecordedValuesPrintElement) element, evaluationTime, evaluation);
 				break;
 			default:
@@ -1015,7 +1016,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 	protected void initDelayedEvaluations()
 	{
-		if (getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO && delayedEvaluationsMap == null)
+		if (getEvaluationTimeValue() == EvaluationTimeEnum.AUTO && delayedEvaluationsMap == null)
 		{
 			delayedEvaluationsMap = new HashMap();
 			collectDelayedEvaluations();
@@ -1342,13 +1343,13 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected boolean isEvaluateNow()
 	{
 		boolean evaluateNow;
-		switch (getEvaluationTime())
+		switch (getEvaluationTimeValue())
 		{
-			case JRExpression.EVALUATION_TIME_NOW:
+			case NOW:
 				evaluateNow = true;
 				break;
 
-			case JRExpression.EVALUATION_TIME_AUTO:
+			case AUTO:
 				evaluateNow = isAutoEvaluateNow();
 				break;
 
@@ -1370,7 +1371,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	protected boolean isEvaluateAuto()
 	{
-		return getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO && !isAutoEvaluateNow();
+		return getEvaluationTimeValue() == EvaluationTimeEnum.AUTO && !isAutoEvaluateNow();
 	}
 
 	public String getStyleNameReference()

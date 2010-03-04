@@ -65,6 +65,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -118,7 +119,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 *
 	 */
 	protected Boolean showLegend = null;
-	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
+	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	protected String linkType;
 	protected String linkTarget;
 	private JRHyperlinkParameter[] hyperlinkParameters;
@@ -275,7 +276,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		}
 
 		showLegend = chart.getShowLegend();
-		evaluationTime = chart.getEvaluationTime();
+		evaluationTimeValue = chart.getEvaluationTimeValue();
 		linkType = chart.getLinkType();
 		linkTarget = chart.getLinkTarget();
 		titlePositionByte = chart.getTitlePositionByte();
@@ -343,11 +344,19 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
 	 */
 	public byte getEvaluationTime()
 	{
-		return evaluationTime;
+		return getEvaluationTimeValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return evaluationTimeValue;
 	}
 		
 	/**
@@ -1243,7 +1252,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1264,6 +1273,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	private byte titlePosition;
 	private byte hyperlinkType;
 	private byte hyperlinkTarget;
+	private byte evaluationTime;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1322,6 +1332,11 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 			showLegend = Boolean.valueOf(isShowLegend);
 			legendPositionByte = new Byte(legendPosition);
 			titlePositionByte = new Byte(titlePosition);
+		}
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
 		}
 	}
 	

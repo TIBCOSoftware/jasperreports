@@ -113,7 +113,7 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private byte order;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

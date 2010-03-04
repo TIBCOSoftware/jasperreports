@@ -72,6 +72,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FileResolver;
@@ -1899,13 +1900,13 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 
 	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, 
-			byte evaluationType, String groupName, JRFillBand band)
+			EvaluationTimeEnum evaluationType, String groupName, JRFillBand band)
 	{
 		JRFillGroup group = groupName == null ? null : getGroup(groupName);
 		addBoundElement(element, printElement, evaluationType, group, band);
 	}
 
-	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, byte evaluationType, JRGroup group, JRFillBand band)
+	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, EvaluationTimeEnum evaluationType, JRGroup group, JRFillBand band)
 	{
 		JREvaluationTime evaluationTime = JREvaluationTime.getEvaluationTime(evaluationType, group, band);
 		addBoundElement(element, printElement, evaluationTime);
