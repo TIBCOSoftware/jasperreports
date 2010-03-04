@@ -23,16 +23,18 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRGenericElementParameter;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * A read-only implementation of {@link JRGenericElement}
@@ -49,7 +51,7 @@ public class JRBaseGenericElement extends JRBaseElement implements
 	
 	private JRGenericElementType genericType;
 	private List parameters;
-	private byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
+	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	private String evaluationGroupName;
 	
 	/**
@@ -64,7 +66,7 @@ public class JRBaseGenericElement extends JRBaseElement implements
 		super(element, factory);
 
 		this.genericType = element.getGenericType();
-		this.evaluationTime = element.getEvaluationTime();
+		this.evaluationTimeValue = element.getEvaluationTimeValue();
 		this.evaluationGroupName = element.getEvaluationGroupName();
 		
 		JRGenericElementParameter[] elementParameters = element.getParameters();
@@ -104,9 +106,33 @@ public class JRBaseGenericElement extends JRBaseElement implements
 		return evaluationGroupName;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
+	 */
 	public byte getEvaluationTime()
 	{
-		return evaluationTime;
+		return getEvaluationTimeValue().getValue();
 	}
 
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return evaluationTimeValue;
+	}
+
+	
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private byte evaluationTime;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
+		}
+	}
 }

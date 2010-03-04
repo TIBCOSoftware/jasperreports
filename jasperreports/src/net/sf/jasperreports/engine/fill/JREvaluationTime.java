@@ -28,6 +28,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 
 /**
@@ -45,45 +46,45 @@ public class JREvaluationTime implements Serializable
 
 
 	/**
-	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_REPORT JRExpression.EVALUATION_TIME_REPORT}.
+	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_REPORT EvaluationTimeEnum.REPORT}.
 	 */
-	public static final JREvaluationTime EVALUATION_TIME_REPORT = new JREvaluationTime(JRExpression.EVALUATION_TIME_REPORT, null, null);
+	public static final JREvaluationTime EVALUATION_TIME_REPORT = new JREvaluationTime(EvaluationTimeEnum.REPORT, null, null);
 	/**
-	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_PAGE JRExpression.EVALUATION_TIME_PAGE}.
+	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_PAGE EvaluationTimeEnum.PAGE}.
 	 */
-	public static final JREvaluationTime EVALUATION_TIME_PAGE = new JREvaluationTime(JRExpression.EVALUATION_TIME_PAGE, null, null);
+	public static final JREvaluationTime EVALUATION_TIME_PAGE = new JREvaluationTime(EvaluationTimeEnum.PAGE, null, null);
 	/**
-	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_COLUMN JRExpression.EVALUATION_TIME_COLUMN}.
+	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_COLUMN EvaluationTimeEnum.COLUMN}.
 	 */
-	public static final JREvaluationTime EVALUATION_TIME_COLUMN = new JREvaluationTime(JRExpression.EVALUATION_TIME_COLUMN, null, null);
+	public static final JREvaluationTime EVALUATION_TIME_COLUMN = new JREvaluationTime(EvaluationTimeEnum.COLUMN, null, null);
 	/**
-	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_NOW JRExpression.EVALUATION_TIME_NOW}.
+	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_NOW EvaluationTimeEnum.NOW}.
 	 */
-	public static final JREvaluationTime EVALUATION_TIME_NOW = new JREvaluationTime(JRExpression.EVALUATION_TIME_NOW, null, null);
+	public static final JREvaluationTime EVALUATION_TIME_NOW = new JREvaluationTime(EvaluationTimeEnum.NOW, null, null);
 	
 	
 	/**
 	 * Returns the evaluation time corresponding to
-	 * {@link JRExpression#EVALUATION_TIME_GROUP JRExpression.EVALUATION_TIME_GROUP} for a specific group.
+	 * {@link JRExpression#EVALUATION_TIME_GROUP EvaluationTimeEnum.GROUP} for a specific group.
 	 * 
 	 * @param groupName the group name
 	 * @return corresponding group evaluation time
 	 */
 	public static JREvaluationTime getGroupEvaluationTime(String groupName)
 	{
-		return new JREvaluationTime(JRExpression.EVALUATION_TIME_GROUP, groupName, null);
+		return new JREvaluationTime(EvaluationTimeEnum.GROUP, groupName, null);
 	}
 	
 	/**
 	 * Returns the evaluation time corresponding to
-	 * {@link JRExpression#EVALUATION_TIME_BAND JRExpression.EVALUATION_TIME_BAND} for a specific band.
+	 * {@link JRExpression#EVALUATION_TIME_BAND EvaluationTimeEnum.BAND} for a specific band.
 	 * 
 	 * @param band the band
 	 * @return corresponding band evaluation time
 	 */
 	public static JREvaluationTime getBandEvaluationTime(JRFillBand band)
 	{
-		return new JREvaluationTime(JRExpression.EVALUATION_TIME_BAND, null, band);
+		return new JREvaluationTime(EvaluationTimeEnum.BAND, null, band);
 	}
 	
 	
@@ -91,31 +92,31 @@ public class JREvaluationTime implements Serializable
 	 * Returns the evaluation time corresponding to an evaluation time type.
 	 * 
 	 * @param type the evaluation time type
-	 * @param group the group used for {@link JRExpression#EVALUATION_TIME_GROUP JRExpression.EVALUATION_TIME_GROUP}
+	 * @param group the group used for {@link JRExpression#EVALUATION_TIME_GROUP EvaluationTimeEnum.GROUP}
 	 * 	evaluation time type
-	 * @param band the band used for {@link JRExpression#EVALUATION_TIME_BAND JRExpression.EVALUATION_TIME_BAND}
+	 * @param band the band used for {@link JRExpression#EVALUATION_TIME_BAND EvaluationTimeEnum.BAND}
 	 * 	evaluation time type
 	 * @return the evaluation time corresponding to an evaluation time type
 	 */
-	public static JREvaluationTime getEvaluationTime(byte type, JRGroup group, JRFillBand band)
+	public static JREvaluationTime getEvaluationTime(EvaluationTimeEnum type, JRGroup group, JRFillBand band)
 	{
 		JREvaluationTime evaluationTime;
 		
 		switch (type)
 		{
-			case JRExpression.EVALUATION_TIME_REPORT:
+			case REPORT:
 				evaluationTime = EVALUATION_TIME_REPORT;
 				break;
-			case JRExpression.EVALUATION_TIME_PAGE:
+			case PAGE:
 				evaluationTime = EVALUATION_TIME_PAGE;
 				break;
-			case JRExpression.EVALUATION_TIME_COLUMN:
+			case COLUMN:
 				evaluationTime = EVALUATION_TIME_COLUMN;
 				break;
-			case JRExpression.EVALUATION_TIME_GROUP:
+			case GROUP:
 				evaluationTime = getGroupEvaluationTime(group.getName());
 				break;
-			case JRExpression.EVALUATION_TIME_BAND:
+			case BAND:
 				evaluationTime = getBandEvaluationTime(band);
 				break;
 			default:
@@ -126,13 +127,13 @@ public class JREvaluationTime implements Serializable
 		return evaluationTime;
 	}
 	
-	private final byte type;
+	private final EvaluationTimeEnum type;
 	private final String groupName;
 	private final int bandId;
 	private final int hash;
 	
 	
-	private JREvaluationTime(byte type, String groupName, JRFillBand band)
+	private JREvaluationTime(EvaluationTimeEnum type, String groupName, JRFillBand band)
 	{
 		this.type = type;
 		this.groupName = groupName;
@@ -144,7 +145,7 @@ public class JREvaluationTime implements Serializable
 
 	private int computeHash()
 	{
-		int hashCode = type;
+		int hashCode = type.getValue();
 		hashCode = 31*hashCode + (groupName == null ? 0 : groupName.hashCode());
 		hashCode = 31*hashCode + bandId;
 		return hashCode;
@@ -166,10 +167,10 @@ public class JREvaluationTime implements Serializable
 		{
 			switch (type)
 			{
-				case JRExpression.EVALUATION_TIME_GROUP:
+				case GROUP:
 					eq = groupName.equals(e.groupName);
 					break;
-				case JRExpression.EVALUATION_TIME_BAND:
+				case BAND:
 					eq = bandId == e.bandId;
 					break;
 			}

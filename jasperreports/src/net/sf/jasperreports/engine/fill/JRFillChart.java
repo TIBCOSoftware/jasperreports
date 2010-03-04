@@ -98,6 +98,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -385,11 +386,19 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}. 
 	 */
 	public byte getEvaluationTime()
 	{
-		return ((JRChart)parent).getEvaluationTime();
+		return getEvaluationTimeValue().getValue();
+	}
+
+	/**
+	 *
+	 */
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return ((JRChart)parent).getEvaluationTimeValue();
 	}
 
 	/**
@@ -1248,7 +1257,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			isPrintWhenTrue()))
 			)
 		{
-			if (getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW)
+			if (getEvaluationTimeValue() == EvaluationTimeEnum.NOW)
 			{
 				evaluateRenderer(evaluation);
 			}
@@ -1346,7 +1355,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		boolean isToPrint = true;
 		boolean isReprinted = false;
 
-		if (getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW)
+		if (getEvaluationTimeValue() == EvaluationTimeEnum.NOW)
 		{
 			if (isOverflow && isAlreadyPrinted() && !isPrintWhenDetailOverflows())
 			{
@@ -1427,14 +1436,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 		printImage.setWidth(getWidth());
 		printImage.setHeight(getStretchHeight());
 
-		byte evaluationType = getEvaluationTime();
-		if (evaluationType == JRExpression.EVALUATION_TIME_NOW)
+		EvaluationTimeEnum evaluationTime = getEvaluationTimeValue();
+		if (evaluationTime == EvaluationTimeEnum.NOW)
 		{
 			copy(printImage);
 		}
 		else
 		{
-			filler.addBoundElement(this, printImage, evaluationType, getEvaluationGroup(), band);
+			filler.addBoundElement(this, printImage, evaluationTime, getEvaluationGroup(), band);
 		}
 
 		return printImage;

@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
@@ -153,20 +154,24 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	public void setOnErrorType(OnErrorTypeEnum onErrorTypeEnum);
 	
 	/**
-	 * Indicates the evaluation time for this image.
-	 * @return one of the evaluation time constants in {@link JRExpression}
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
 	 */
 	public byte getEvaluationTime();
 		
 	/**
 	 * Indicates the evaluation time for this image.
-	 * @return one of the evaluation time constants in {@link JRExpression}
+	 * @return one of the evaluation time constants in {@link EvaluationTimeEnum}
+	 */
+	public EvaluationTimeEnum getEvaluationTimeValue();
+		
+	/**
+	 * Gets the evaluation group for this text field. Used only when evaluation time is group.
+	 * @see EvaluationTimeEnum#GROUP
 	 */
 	public JRGroup getEvaluationGroup();
 		
 	/**
-	 * Gets the evaluation group for this text field. Used only when evaluation time is group.
-	 * @see JRExpression#EVALUATION_TIME_GROUP
+	 * 
 	 */
 	public JRExpression getExpression();
 

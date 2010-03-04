@@ -193,7 +193,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private boolean isSplitAllowed = true;
 	private Byte splitType = null;
 	

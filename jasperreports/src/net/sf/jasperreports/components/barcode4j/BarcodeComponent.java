@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRCloneable;
@@ -32,6 +34,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -67,7 +70,7 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
-	private byte evaluationTime;
+	private EvaluationTimeEnum evaluationTimeValue;
 	private String evaluationGroup;
 	
 	private int orientation;
@@ -82,17 +85,33 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	{
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
+	 */
 	public byte getEvaluationTime()
 	{
-		return evaluationTime;
+		return getEvaluationTimeValue().getValue();
 	}
 
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return evaluationTimeValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setEvaluationTime(EvaluationTimeEnum)}.
+	 */
 	public void setEvaluationTime(byte evaluationTime)
 	{
-		byte old = this.evaluationTime;
-		this.evaluationTime = evaluationTime;
+		setEvaluationTime(EvaluationTimeEnum.getByValue(evaluationTime));
+	}
+
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	{
+		Object old = this.evaluationTimeValue;
+		this.evaluationTimeValue = evaluationTimeValue;
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, 
-				old, this.evaluationTime);
+				old, this.evaluationTimeValue);
 	}
 
 	public String getEvaluationGroup()
@@ -248,5 +267,20 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_QUIET_ZONE, 
 				old, this.verticalQuietZone);
 	}
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private byte evaluationTime;
 	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
+		}
+	}
 }

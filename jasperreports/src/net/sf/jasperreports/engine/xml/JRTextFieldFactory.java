@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 import org.xml.sax.Attributes;
 
@@ -57,12 +58,12 @@ public class JRTextFieldFactory extends JRBaseFactory
 			textField.setStretchWithOverflow(Boolean.valueOf(isStretchWithOverflow).booleanValue());
 		}
 
-		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
+		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
-			textField.setEvaluationTime(evaluationTime.byteValue());
+			textField.setEvaluationTime(evaluationTime);
 		}
-		if (textField.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+		if (textField.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
 			groupEvaluatedTextFields.add(textField);
 			

@@ -23,7 +23,8 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.util.Map;
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.JREnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,24 +39,24 @@ public class XmlConstantPropertyRule extends TransformedPropertyRule
 
 	private static final Log log = LogFactory.getLog(XmlConstantPropertyRule.class);
 	
-	private final Map constantsMap;
+	private final JREnum[] values;
 
-	public XmlConstantPropertyRule(String attributeName, Map constantsMap)
+	public XmlConstantPropertyRule(String attributeName, JREnum[] values)
 	{
 		super(attributeName);
-		this.constantsMap = constantsMap;
+		this.values = values;
 	}
 
 	public XmlConstantPropertyRule(String attributeName, String propertyName, 
-			Map constantsMap)
+			JREnum[] values)
 	{
 		super(attributeName, propertyName);
-		this.constantsMap = constantsMap;
+		this.values = values;
 	}
 
 	protected Object toPropertyValue(String attributeValue)
 	{
-		Object value = constantsMap.get(attributeValue);
+		Object value = EnumUtil.getByName(values, attributeValue);
 		if (value == null)
 		{
 			log.warn("Unrecognized attribute value \"" 

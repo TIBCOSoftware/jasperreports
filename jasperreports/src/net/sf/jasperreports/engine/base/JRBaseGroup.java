@@ -384,7 +384,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private byte footerPosition;
 	private JRBand groupHeader = null;
 	private JRBand groupFooter = null;

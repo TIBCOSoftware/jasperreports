@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -356,11 +357,19 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
 	 */
 	public byte getEvaluationTime()
 	{
-		return ((JRImage)this.parent).getEvaluationTime();
+		return getEvaluationTimeValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return ((JRImage)this.parent).getEvaluationTimeValue();
 	}
 		
 	/**
@@ -1309,7 +1318,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	protected JRPrintElement fill() throws JRException
 	{
-		byte evaluationType = this.getEvaluationTime();
+		EvaluationTimeEnum evaluationTime = this.getEvaluationTimeValue();
 		JRTemplatePrintImage printImage;
 		JRRecordedValuesPrintImage recordedValuesImage;
 		if (isEvaluateAuto())
@@ -1337,7 +1346,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		}
 		else
 		{
-			filler.addBoundElement(this, printImage, evaluationType, getEvaluationGroup(), band);
+			filler.addBoundElement(this, printImage, evaluationTime, getEvaluationGroup(), band);
 		}
 		
 		return printImage;

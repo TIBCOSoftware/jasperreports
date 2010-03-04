@@ -144,6 +144,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -1021,7 +1022,7 @@ public class JRApiWriter
 			write( imageName + ".setUsingCache({0});\n", image.isOwnUsingCache());
 			write( imageName + ".setLazy({0});\n", image.isLazy(), false);
 			write( imageName + ".setOnErrorType({0});\n",image.getOnErrorTypeValue(),  OnErrorTypeEnum.ERROR);
-			write( imageName + ".setEvaluationTime({0});\n", JRApiConstants.getEvaluationTime(new Byte(image.getEvaluationTime())), "JRExpression.EVALUATION_TIME_NOW");
+			write( imageName + ".setEvaluationTime({0});\n", image.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 
 			if (image.getEvaluationGroup() != null)
 			{
@@ -1180,7 +1181,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignTextField " + textFieldName + " = new JRDesignTextField(jasperDesign);\n");
 			write( textFieldName + ".setBold({0});\n", textField.isStretchWithOverflow(), false);
-			write( textFieldName + ".setEvaluationTime({0});\n", JRApiConstants.getEvaluationTime(new Byte(textField.getEvaluationTime())), "JRExpression.EVALUATION_TIME_NOW");
+			write( textFieldName + ".setEvaluationTime({0});\n", textField.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 			String evaluationGroupName = getGroupName( textField.getEvaluationGroup());
 			write( textFieldName + ".setEvaluationGroup({0});\n", evaluationGroupName);
 
@@ -1295,9 +1296,9 @@ public class JRApiWriter
 		if(chart != null)
 		{
 			write( chartName + ".setShowLegend({0});\n", JRApiConstants.getBooleanText(chart.getShowLegend()));
-			write( chartName + ".setEvaluationTime({0});\n", JRApiConstants.getEvaluationTime(new Byte(chart.getEvaluationTime())), "JRExpression.EVALUATION_TIME_NOW");
+			write( chartName + ".setEvaluationTime({0});\n", chart.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 			
-			if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+			if (chart.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 			{
 				String evaluationGroupName = getGroupName( chart.getEvaluationGroup());
 				write( chartName + ".setEvaluationGroup(" + evaluationGroupName + ");\n");

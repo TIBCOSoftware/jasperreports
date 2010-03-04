@@ -23,12 +23,13 @@
  */
 package net.sf.jasperreports.components.barbecue;
 
-import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * 
@@ -101,12 +102,12 @@ public class BarbecueCompiler implements ComponentCompiler
 			}
 		}
 		
-		byte evaluationTime = barcode.getEvaluationTime();
-		if (evaluationTime == JRExpression.EVALUATION_TIME_AUTO)
+		EvaluationTimeEnum evaluationTime = barcode.getEvaluationTimeValue();
+		if (evaluationTime == EvaluationTimeEnum.AUTO)
 		{
 			verifier.addBrokenRule("Auto evaluation time is not supported for barcodes", barcode);
 		}
-		else if (evaluationTime == JRExpression.EVALUATION_TIME_GROUP)
+		else if (evaluationTime == EvaluationTimeEnum.GROUP)
 		{
 			String evaluationGroup = barcode.getEvaluationGroup();
 			if (evaluationGroup == null || evaluationGroup.length() == 0)

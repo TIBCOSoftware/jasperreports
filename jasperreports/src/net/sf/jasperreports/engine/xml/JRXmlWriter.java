@@ -157,6 +157,7 @@ import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -869,7 +870,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isUsingCache, image.isOwnUsingCache());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isLazy, image.isLazy(), false);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorTypeValue(), OnErrorTypeEnum.ERROR);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, image.getEvaluationTime(), JRXmlConstants.getEvaluationTimeMap(), JRExpression.EVALUATION_TIME_NOW);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, image.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 
 		if (image.getEvaluationGroup() != null)
 		{
@@ -982,7 +983,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(XmlConstants.ELEMENT_textField, getNamespace());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isStretchWithOverflow, textField.isStretchWithOverflow(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, textField.getEvaluationTime(), JRXmlConstants.getEvaluationTimeMap(), JRExpression.EVALUATION_TIME_NOW);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, textField.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 
 		if (textField.getEvaluationGroup() != null)
 		{
@@ -1086,9 +1087,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(XmlConstants.ELEMENT_chart);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowLegend, chart.getShowLegend());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, chart.getEvaluationTime(), JRXmlConstants.getEvaluationTimeMap(), JRExpression.EVALUATION_TIME_NOW);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, chart.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 
-		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+		if (chart.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
 			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, chart.getEvaluationGroup().getName());
 		}
@@ -2998,8 +2999,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(XmlConstants.ELEMENT_genericElement, getNamespace());
 		
 		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, 
-				element.getEvaluationTime(), JRXmlConstants.getEvaluationTimeMap(),
-				JRExpression.EVALUATION_TIME_NOW);
+				element.getEvaluationTimeValue(),
+				EvaluationTimeEnum.NOW);
 		if (element.getEvaluationGroupName() != null)
 		{
 			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, 

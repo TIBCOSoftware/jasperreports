@@ -29,9 +29,9 @@ import java.util.Collection;
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.util.JRAxisFormat;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.xml.sax.Attributes;
@@ -58,12 +58,12 @@ public class JRChartFactory extends JRBaseFactory
 		if (isShowLegend != null && isShowLegend.length() > 0)
 			chart.setShowLegend(Boolean.valueOf(isShowLegend));
 
-		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
+		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
-			chart.setEvaluationTime(evaluationTime.byteValue());
+			chart.setEvaluationTime(evaluationTime);
 		}
-		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+		if (chart.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
 			groupEvaluatedCharts.add(chart);
 

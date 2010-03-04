@@ -23,18 +23,20 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRGenericElementParameter;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * A implementation of {@link JRGenericElement} that is to be used at report
@@ -59,7 +61,7 @@ public class JRDesignGenericElement extends JRDesignElement implements
 	
 	private JRGenericElementType genericType;
 	private List parameters = new ArrayList();
-	private byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
+	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	private String evaluationGroupName;
 	
 	/**
@@ -172,35 +174,52 @@ public class JRDesignGenericElement extends JRDesignElement implements
 	{
 		visitor.visitGenericElement(this);
 	}
+
+	/**
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
+	 */
 	public byte getEvaluationTime()
 	{
-		return evaluationTime;
+		return getEvaluationTimeValue().getValue();
+	}
+
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return evaluationTimeValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setEvaluationTime(EvaluationTimeEnum)}.
+	 */
+	public void setEvaluationTime(byte evaluationTime)
+	{
+		setEvaluationTime(EvaluationTimeEnum.getByValue(evaluationTime));
 	}
 
 	/**
 	 * Sets the evaluation time for the element.
 	 * 
 	 * <p>
-	 * The default evaluation time is {@link JRExpression#EVALUATION_TIME_NOW}.
+	 * The default evaluation time is {@link EvaluationTimeEnum#NOW}.
 	 * 
 	 * @param evaluationTime the element's evaluation time, one of
 	 * <ol>
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_NOW}
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_BAND}
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_COLUMN}
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_PAGE}
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_GROUP}
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_REPORT}
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_AUTO}
+	 * 	<li>{@link EvaluationTimeEnum#NOW}
+	 * 	<li>{@link EvaluationTimeEnum#BAND}
+	 * 	<li>{@link EvaluationTimeEnum#COLUMN}
+	 * 	<li>{@link EvaluationTimeEnum#PAGE}
+	 * 	<li>{@link EvaluationTimeEnum#GROUP}
+	 * 	<li>{@link EvaluationTimeEnum#REPORT}
+	 * 	<li>{@link EvaluationTimeEnum#AUTO}
 	 * </ul>
-	 * @see #getEvaluationTime()
+	 * @see #getEvaluationTimeValue()
 	 */
-	public void setEvaluationTime(byte evaluationTime)
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
 	{
-		byte old = this.evaluationTime;
-		this.evaluationTime = evaluationTime;
+		Object old = this.evaluationTimeValue;
+		this.evaluationTimeValue = evaluationTimeValue;
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, 
-				old, this.evaluationTime);
+				old, this.evaluationTimeValue);
 	}
 
 	public String getEvaluationGroupName()
@@ -222,4 +241,19 @@ public class JRDesignGenericElement extends JRDesignElement implements
 				old, this.evaluationGroupName);
 	}
 
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private byte evaluationTime;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
+		}
+	}
 }

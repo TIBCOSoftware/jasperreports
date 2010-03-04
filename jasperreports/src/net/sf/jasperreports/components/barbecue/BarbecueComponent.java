@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.barbecue;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * 
@@ -51,7 +52,12 @@ public interface BarbecueComponent extends Component, JRCloneable
 	
 	Integer getBarHeight();
 	
+	/**
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
+	 */
 	byte getEvaluationTime();
+	
+	EvaluationTimeEnum getEvaluationTimeValue();
 	
 	String getEvaluationGroup();
 	

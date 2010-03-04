@@ -71,6 +71,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseChart;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -130,7 +131,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 *
 	 */
 	protected Boolean showLegend = null;
-	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
+	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	protected String linkType;
 	protected String linkTarget;
 	protected Color titleColor = null;
@@ -269,21 +270,37 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
 	 */
 	public byte getEvaluationTime()
 	{
-		return evaluationTime;
+		return getEvaluationTimeValue().getValue();
 	}
 		
 	/**
 	 *
 	 */
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return evaluationTimeValue;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setEvaluationTime(EvaluationTimeEnum)}.
+	 */
 	public void setEvaluationTime(byte evaluationTime)
 	{
-		byte old = this.evaluationTime;
-		this.evaluationTime = evaluationTime;
-		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
+		setEvaluationTime(EvaluationTimeEnum.getByValue(evaluationTime));
+	}
+		
+	/**
+	 *
+	 */
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	{
+		Object old = this.evaluationTimeValue;
+		this.evaluationTimeValue = evaluationTimeValue;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTimeValue);
 	}
 		
 	/**
@@ -1571,7 +1588,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
@@ -1592,6 +1609,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	private byte legendPosition = JRChart.EDGE_BOTTOM;
 	private byte hyperlinkType;
 	private byte hyperlinkTarget;
+	private byte evaluationTime;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1650,6 +1668,11 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 			showLegend = Boolean.valueOf(isShowLegend);
 			legendPositionByte = new Byte(legendPosition);
 			titlePositionByte = new Byte(titlePosition);
+		}
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
 		}
 	}
 }

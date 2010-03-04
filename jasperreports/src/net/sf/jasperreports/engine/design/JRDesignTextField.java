@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.base.JRBaseTextField;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -78,7 +79,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 *
 	 */
 	protected boolean isStretchWithOverflow = false;
-	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
+	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	protected String pattern = null;
 	protected Boolean isBlankWhenNull = null;
 	protected String linkType;
@@ -133,11 +134,19 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
 	 */
 	public byte getEvaluationTime()
 	{
-		return this.evaluationTime;
+		return getEvaluationTimeValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return this.evaluationTimeValue;
 	}
 		
 	/**
@@ -252,13 +261,21 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setEvaluationTime(EvaluationTimeEnum)}.
 	 */
 	public void setEvaluationTime(byte evaluationTime)
 	{
-		byte old = this.evaluationTime;
-		this.evaluationTime = evaluationTime;
-		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
+		setEvaluationTime(EvaluationTimeEnum.getByValue(evaluationTime));
+	}
+		
+	/**
+	 *
+	 */
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	{
+		Object old = this.evaluationTimeValue;
+		this.evaluationTimeValue = evaluationTimeValue;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTimeValue);
 	}
 		
 	/**
@@ -612,8 +629,10 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private byte hyperlinkType;
 	private byte hyperlinkTarget;
+	private byte evaluationTime;
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -627,6 +646,11 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		if (linkTarget == null)
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+		}
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
 		}
 	}
 

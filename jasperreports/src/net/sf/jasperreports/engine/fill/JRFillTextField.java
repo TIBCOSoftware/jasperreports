@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -106,11 +107,19 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
 	 */
 	public byte getEvaluationTime()
 	{
-		return ((JRTextField)parent).getEvaluationTime();
+		return getEvaluationTimeValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return ((JRTextField)parent).getEvaluationTimeValue();
 	}
 		
 	/**
@@ -620,7 +629,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	protected JRPrintElement fill() throws JRException
 	{
-		byte evaluationType = getEvaluationTime();
+		EvaluationTimeEnum evaluationTime = getEvaluationTimeValue();
 		
 		JRTemplatePrintText text;
 		JRRecordedValuesPrintText recordedValuesText;
@@ -657,7 +666,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		else
 		{
-			filler.addBoundElement(this, text, evaluationType, getEvaluationGroup(), band);
+			filler.addBoundElement(this, text, evaluationTime, getEvaluationGroup(), band);
 		}
 
 		return text;

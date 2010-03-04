@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -86,7 +87,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	protected Boolean isUsingCache = null;
 	protected boolean isLazy = false;
 	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
-	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
+	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	protected String linkType;
 	protected String linkTarget;
 	private JRHyperlinkParameter[] hyperlinkParameters;
@@ -140,7 +141,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		isUsingCache = image.isOwnUsingCache();
 		isLazy = image.isLazy();
 		onErrorTypeValue = image.getOnErrorTypeValue();
-		evaluationTime = image.getEvaluationTime();
+		evaluationTimeValue = image.getEvaluationTimeValue();
 		linkType = image.getLinkType();
 		linkTarget = image.getLinkTarget();
 		hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(image, factory);
@@ -430,11 +431,19 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
 	 */
 	public byte getEvaluationTime()
 	{
-		return evaluationTime;
+		return getEvaluationTimeValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return evaluationTimeValue;
 	}
 		
 	/**
@@ -1071,7 +1080,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private Byte horizontalAlignment;
 	private Byte verticalAlignment;
 	private Byte border = null;
@@ -1093,6 +1102,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	private byte hyperlinkTarget;
 	private Byte scaleImage;
 	private byte onErrorType;
+	private byte evaluationTime;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1104,6 +1114,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
 			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
 			onErrorTypeValue = OnErrorTypeEnum.getByValue(onErrorType);
+			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
 
 			horizontalAlignment = null;
 			verticalAlignment = null;

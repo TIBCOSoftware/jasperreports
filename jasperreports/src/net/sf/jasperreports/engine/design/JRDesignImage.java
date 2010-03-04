@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseImage;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -96,7 +97,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	protected Boolean isUsingCache = null;
 	protected boolean isLazy = false;
 	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
-	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
+	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	protected String linkType;
 	protected String linkTarget;
 	private List hyperlinkParameters;
@@ -336,11 +337,19 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
 	 */
 	public byte getEvaluationTime()
 	{
-		return evaluationTime;
+		return getEvaluationTimeValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public EvaluationTimeEnum getEvaluationTimeValue()
+	{
+		return evaluationTimeValue;
 	}
 		
 	/**
@@ -511,14 +520,23 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 
 	/**
-	 * Sets the evaluation time for this image.
+	 * @deprecated Replaced by {@link #setEvaluationTime(EvaluationTimeEnum)}.
 	 * 
 	 */
 	public void setEvaluationTime(byte evaluationTime)
 	{
-		byte old = this.evaluationTime;
-		this.evaluationTime = evaluationTime;
-		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
+		setEvaluationTime(EvaluationTimeEnum.getByValue(evaluationTime));
+	}
+		
+	/**
+	 * Sets the evaluation time for this image.
+	 * 
+	 */
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	{
+		Object old = this.evaluationTimeValue;
+		this.evaluationTimeValue = evaluationTimeValue;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTimeValue);
 	}
 		
 	/**
@@ -1294,7 +1312,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private Byte horizontalAlignment;
 	private Byte verticalAlignment;
 	private Byte border = null;
@@ -1316,6 +1334,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	private byte hyperlinkTarget;
 	private Byte scaleImage;
 	private byte onErrorType;
+	private byte evaluationTime;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1327,6 +1346,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
 			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
 			onErrorTypeValue = OnErrorTypeEnum.getByValue(onErrorType);
+			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
 
 			horizontalAlignment = null;
 			verticalAlignment = null;

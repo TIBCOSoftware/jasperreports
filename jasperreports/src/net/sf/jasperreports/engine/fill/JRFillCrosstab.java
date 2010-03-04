@@ -487,7 +487,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		{
 			try
 			{
-				bucketingService = createService(JRExpression.EVALUATION_TIME_NOW);
+				bucketingService = createService(JRExpression.EVALUATION_DEFAULT);
 			}
 			catch (JRException e)
 			{
