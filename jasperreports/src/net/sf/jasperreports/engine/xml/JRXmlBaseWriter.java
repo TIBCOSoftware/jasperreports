@@ -69,7 +69,7 @@ public abstract class JRXmlBaseWriter
 		writer.addAttribute(XmlConstants.ATTRIBUTE_mode, style.getOwnModeValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_forecolor, style.getOwnForecolor());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_backcolor, style.getOwnBackcolor());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_fill, style.getOwnFill(), JRXmlConstants.getFillMap());
+		writer.addAttribute(XmlConstants.ATTRIBUTE_fill, style.getOwnFillValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_radius, style.getOwnRadius());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImageValue());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());

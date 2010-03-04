@@ -28,6 +28,7 @@ import java.awt.Color;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -101,34 +102,61 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getFillValue()}
 	 */
 	public byte getFill()
 	{
-		return JRStyleResolver.getFill(this);
+		return getFillValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnFillValue()}
 	 */
 	public Byte getOwnFill()
 	{
-		return ((JRGraphicElement)this.parent).getOwnFill();
+		return getOwnFillValue().getValueByte();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
+	 */
+	public void setFill(byte fill)
+	{
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
+	 */
+	public void setFill(Byte fill)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 
+	 */
+	public FillEnum getFillValue()
+	{
+		return JRStyleResolver.getFillValue(this);
+	}
+
+	/**
+	 * 
+	 */
+	public FillEnum getOwnFillValue()
+	{
+		return ((JRGraphicElement)this.parent).getOwnFillValue();
 	}
 
 	/**
 	 *
 	 */
-	public void setFill(byte fill)
+	public void setFill(FillEnum fill)
 	{
+		throw new UnsupportedOperationException();
 	}
 	
-	/**
-	 *
-	 */
-	public void setFill(Byte fill)
-	{
-	}
 
 	/**
 	 * 

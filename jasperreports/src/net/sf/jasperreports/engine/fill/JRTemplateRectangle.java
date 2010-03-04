@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.base.JRBasePen;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -117,7 +118,7 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 		linePen = new JRBasePen(this);
 		
 		getLinePen().setLineWidth(0f);
-		setFill(JRGraphicElement.FILL_SOLID);
+		setFill(FillEnum.SOLID);
 	}
 
 

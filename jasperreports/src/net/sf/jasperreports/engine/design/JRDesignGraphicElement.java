@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -57,7 +58,7 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 *
 	 */
 	protected JRPen linePen;
-	protected Byte fill;
+	protected FillEnum fillValue;
 
 
 	/**
@@ -111,35 +112,60 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 		JRPenUtil.setLinePenFromPen(pen, linePen);
 	}
 
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getFillValue()}
 	 */
 	public byte getFill()
 	{
-		return JRStyleResolver.getFill(this);
-	}
-
-	public Byte getOwnFill()
-	{
-		return this.fill;
+		return getFillValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnFillValue()}
+	 */
+	public Byte getOwnFill()
+	{
+		return getOwnFillValue().getValueByte();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
 	 */
 	public void setFill(byte fill)
 	{
-		setFill(new Byte(fill));
+		setFill(FillEnum.getByValue(fill));
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
+	 */
+	public void setFill(Byte fill)
+	{
+		setFill(FillEnum.getByValue(fill));
 	}
 
 	/**
 	 *
 	 */
-	public void setFill(Byte fill)
+	public FillEnum getFillValue()
 	{
-		Object old = this.fill;
-		this.fill = fill;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FILL, old, this.fill);
+		return JRStyleResolver.getFillValue(this);
+	}
+
+	public FillEnum getOwnFillValue()
+	{
+		return this.fillValue;
+	}
+	
+	/**
+	 *
+	 */
+	public void setFill(FillEnum fillValue)
+	{
+		FillEnum old = this.fillValue;
+		this.fillValue = fillValue;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FILL, old, this.fillValue);
 	}
 
 	/**
@@ -173,14 +199,21 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 
 
 	/**
-	 * This field is only for serialization backward compatibility.
+	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
 	private Byte pen;
+	private Byte fill;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
 		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			fillValue = FillEnum.getByValue(fill);
+			fill = null;
+		}
 		if (linePen == null)
 		{
 			linePen = new JRBasePen(this);

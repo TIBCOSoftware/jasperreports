@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.base.JRBasePen;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -58,7 +59,7 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	 *
 	 */
 	protected JRPen linePen = null;
-	private Byte fill = null;
+	private FillEnum fillValue = null;
 
 
 	/**
@@ -89,7 +90,7 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 		
 		copyLinePen(graphicElement.getLinePen());
 		
-		setFill(graphicElement.getOwnFill());
+		setFill(graphicElement.getOwnFillValue());
 	}
 
 	/**
@@ -142,38 +143,59 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 		JRPenUtil.setLinePenFromPen(pen, linePen);
 	}
 		
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getFillValue()}
 	 */
 	public byte getFill()
 	{
-		return JRStyleResolver.getFill(this);
+		return getFillValue().getValue();
 	}
-		
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnFillValue()}
 	 */
 	public Byte getOwnFill()
 	{
-		return fill;
+		return getOwnFillValue().getValueByte();
 	}
-		
+	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
 	 */
 	public void setFill(byte fill)
 	{
-		this.fill = new Byte(fill);
+		setFill(FillEnum.getByValue(fill));
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
+	 */
+	public void setFill(Byte fill)
+	{
+		setFill(FillEnum.getByValue(fill));
+	}
+
+	/**
+	 *
+	 */
+	public FillEnum getFillValue()
+	{
+		return JRStyleResolver.getFillValue(this);
+	}
+
+	public FillEnum getOwnFillValue()
+	{
+		return this.fillValue;
 	}
 	
 	/**
 	 *
 	 */
-	public void setFill(Byte fill)
+	public void setFill(FillEnum fillValue)
 	{
-		this.fill = fill;
+		this.fillValue = fillValue;
 	}
-	
 
 	/**
 	 * 
@@ -195,12 +217,19 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
 	private Byte pen;
+	private Byte fill;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
 		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			fillValue = FillEnum.getByValue(fill);
+			fill = null;
+		}
 		if (linePen == null)
 		{
 			linePen = new JRBasePen(this);

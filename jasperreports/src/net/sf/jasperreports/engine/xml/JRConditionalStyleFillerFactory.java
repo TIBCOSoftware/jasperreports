@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.xml;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.design.JRDesignConditionalStyle;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -82,9 +83,11 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(pen, style.getLinePen());
 		}
 
-		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(XmlConstants.ATTRIBUTE_fill));
-		style.setFill(fill);
-
+		FillEnum fill = FillEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_fill));
+		if(fill != null)
+		{
+			style.setFill(fill);
+		}
 
 
 		// get rectangle attributes

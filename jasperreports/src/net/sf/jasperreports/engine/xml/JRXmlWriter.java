@@ -822,7 +822,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeGraphicElement(JRGraphicElement element) throws IOException
 	{
 		writer.startElement(XmlConstants.ELEMENT_graphicElement);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_fill, element.getOwnFill(), JRXmlConstants.getFillMap());
+		writer.addAttribute(XmlConstants.ATTRIBUTE_fill, element.getOwnFillValue());
 		writePen(element.getLinePen());
 		writer.closeElement(true);
 	}

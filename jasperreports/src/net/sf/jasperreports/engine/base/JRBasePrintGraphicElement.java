@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -52,7 +53,7 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	 *
 	 */
 	protected JRPen linePen = null;
-	protected Byte fill = null;
+	protected FillEnum fillValue = null;
 
 
 	/**
@@ -115,35 +116,60 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getFillValue()}
 	 */
 	public byte getFill()
 	{
-		return JRStyleResolver.getFill(this);
+		return getFillValue().getValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnFillValue()}
 	 */
 	public Byte getOwnFill()
 	{
-		return fill;
+		return getOwnFillValue().getValueByte();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
 	 */
 	public void setFill(byte fill)
 	{
-		this.fill = new Byte(fill);
+		setFill(FillEnum.getByValue(fill));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
+	 */
+	public void setFill(Byte fill)
+	{
+		setFill(FillEnum.getByValue(fill));
+	}
+		
+	/**
+	 *
+	 */
+	public FillEnum getFillValue()
+	{
+		return JRStyleResolver.getFillValue(this);
 	}
 
 	/**
 	 *
 	 */
-	public void setFill(Byte fill)
+	public FillEnum getOwnFillValue()
 	{
-		this.fill = fill;
+		return this.fillValue;
+	}
+
+
+	/**
+	 *
+	 */
+	public void setFill(FillEnum fillValue)
+	{
+		this.fillValue = fillValue;
 	}
 		
 
@@ -165,14 +191,21 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 
 	
 	/**
-	 * This field is only for serialization backward compatibility.
+	 * These fields are only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
 	private Byte pen;
+	private Byte fill = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
 		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			fillValue = FillEnum.getByValue(fill);
+			fill = null;
+		}
 		if (linePen == null)
 		{
 			linePen = new JRBasePen(this);

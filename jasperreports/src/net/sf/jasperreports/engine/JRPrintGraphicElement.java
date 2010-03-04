@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.FillEnum;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -56,12 +58,20 @@ public interface JRPrintGraphicElement extends JRPrintElement, JRCommonGraphicEl
 	public void setPen(Byte pen);
 		
 	/**
-	 * Sets the fill type used for this element.
-	 * @param fill one of the pen constants in this class
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
 	 */
 	public void setFill(byte fill);
 	
+	/**
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
+	 */
 	public void setFill(Byte fill);
 		
+	/**
+	 * Sets the fill type used for this element.
+	 * @param fill one of the pen constants in {@link FillEnum}.
+	 */
+	public void setFill(FillEnum fill);
+	
 	
 }

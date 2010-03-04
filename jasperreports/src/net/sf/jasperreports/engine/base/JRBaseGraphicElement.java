@@ -30,6 +30,7 @@ import java.io.ObjectInputStream;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -54,7 +55,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 *
 	 */
 	protected JRPen linePen;
-	protected Byte fill;
+	protected FillEnum fillValue;
 
 
 	/**
@@ -80,7 +81,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 		
 		linePen = graphicElement.getLinePen().clone(this);
 		
-		fill = graphicElement.getOwnFill();
+		fillValue = graphicElement.getOwnFillValue();
 	}
 		
 
@@ -125,34 +126,58 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getFillValue()}
 	 */
 	public byte getFill()
 	{
-		return JRStyleResolver.getFill(this);
+		return getFillValue().getValue();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getOwnFillValue()}
+	 */
 	public Byte getOwnFill()
 	{
-		return this.fill;
+		return getOwnFillValue().getValueByte();
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
 	 */
 	public void setFill(byte fill)
 	{
-		setFill(new Byte(fill));
+		setFill(FillEnum.getByValue(fill));
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}
+	 */
+	public void setFill(Byte fill)
+	{
+		setFill(FillEnum.getByValue(fill));
+	}
+
+	/**
+	 *
+	 */
+	public FillEnum getFillValue()
+	{
+		return JRStyleResolver.getFillValue(this);
+	}
+
+	public FillEnum getOwnFillValue()
+	{
+		return this.fillValue;
 	}
 	
 	/**
 	 *
 	 */
-	public void setFill(Byte fill)
+	public void setFill(FillEnum fillValue)
 	{
-		Object old = this.fill;
-		this.fill = fill;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FILL, old, this.fill);
+		FillEnum old = this.fillValue;
+		this.fillValue = fillValue;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FILL, old, this.fillValue);
 	}
 
 	/**
@@ -188,12 +213,19 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
 	private Byte pen;
+	private Byte fill;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
 		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			fillValue = FillEnum.getByValue(fill);
+			fill = null;
+		}
 		if (linePen == null)
 		{
 			linePen = new JRBasePen(this);

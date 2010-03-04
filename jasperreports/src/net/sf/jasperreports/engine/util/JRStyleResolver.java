@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.JRCommonRectangle;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -49,6 +48,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBoxPen;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
@@ -389,36 +389,52 @@ public class JRStyleResolver
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getFillValue(JRCommonGraphicElement)}.
 	 */
 	public static byte getFill(JRCommonGraphicElement element)
 	{
-		Byte ownFill = element.getOwnFill();
-		if (ownFill != null)
-			return ownFill.byteValue();
-		JRStyle baseStyle = getBaseStyle(element);
-		if (baseStyle != null)
-		{
-			Byte fill = baseStyle.getFill();
-			if (fill != null)
-			{
-				return fill.byteValue();
-			}
-		}
-		return JRGraphicElement.FILL_SOLID;
+		return getFillValue(element).getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getFillValue(JRStyle)}.
+	 */
+	public static Byte getFill(JRStyle style)
+	{
+		return getFillValue(style).getValueByte();
 	}
 
 	/**
 	 *
 	 */
-	public static Byte getFill(JRStyle style)
+	public static FillEnum getFillValue(JRCommonGraphicElement element)
 	{
-		Byte ownFill = style.getOwnFill();
+		FillEnum ownFill = element.getOwnFillValue();
+		if (ownFill != null)
+			return ownFill;
+		JRStyle baseStyle = getBaseStyle(element);
+		if (baseStyle != null)
+		{
+			FillEnum fill = baseStyle.getFillValue();
+			if (fill != null)
+			{
+				return fill;
+			}
+		}
+		return FillEnum.SOLID;
+	}
+
+	/**
+	 *
+	 */
+	public static FillEnum getFillValue(JRStyle style)
+	{
+		FillEnum ownFill = style.getOwnFillValue();
 		if (ownFill != null)
 			return ownFill;
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
-			return baseStyle.getFill();
+			return baseStyle.getFillValue();
 		return null;
 	}
 
@@ -1319,8 +1335,8 @@ public class JRStyleResolver
 
 		appendPen(destStyle.getLinePen(), srcStyle.getLinePen());
 		
-		if (srcStyle.getOwnFill() != null)
-			destStyle.setFill(srcStyle.getOwnFill());
+		if (srcStyle.getOwnFillValue() != null)
+			destStyle.setFill(srcStyle.getOwnFillValue());
 
 		if (srcStyle.getOwnRadius() != null)
 			destStyle.setRadius(srcStyle.getOwnRadius());

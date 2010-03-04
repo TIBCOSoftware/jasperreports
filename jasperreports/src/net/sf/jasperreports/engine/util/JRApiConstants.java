@@ -32,7 +32,6 @@ import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRReport;
@@ -49,25 +48,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map fillMap = null;
-
-	public static Map getFillMap()
-	{
-		if (fillMap == null)
-		{
-			Map map = new HashMap(3);
-			map.put(new Byte(JRGraphicElement.FILL_SOLID), "JRGraphicElement.FILL_SOLID");
-			fillMap = Collections.unmodifiableMap(map);
-		}
-
-		return fillMap;
-	}
-
-	public static String getFill(Byte key)
-	{
-		return (String)getFillMap().get(key);
-	}
-	
 	private static Map resetTypeMap = null;
 
 	public static Map getResetTypeMap()
