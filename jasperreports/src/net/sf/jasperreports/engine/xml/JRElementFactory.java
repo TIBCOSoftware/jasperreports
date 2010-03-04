@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.xml.sax.Attributes;
@@ -62,10 +63,10 @@ public class JRElementFactory extends JRBaseFactory
 			element.setPositionType(positionType);
 		}
 
-		Byte stretchType = (Byte)JRXmlConstants.getStretchTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_stretchType));
+		StretchTypeEnum stretchType = StretchTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_stretchType));
 		if (stretchType != null)
 		{
-			element.setStretchType(stretchType.byteValue());
+			element.setStretchType(stretchType);
 		}
 
 		String isPrintRepeatedValues = atts.getValue(XmlConstants.ATTRIBUTE_isPrintRepeatedValues);

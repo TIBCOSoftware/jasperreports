@@ -150,6 +150,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
+import net.sf.jasperreports.engine.type.StretchTypeEnum;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
@@ -899,7 +900,7 @@ public class JRApiWriter
 			write( elementName + ".setKey(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(element.getKey()));
 			writeStyleReferenceAttr( element, elementName);
 			write( elementName + ".setPositionType({0});\n", element.getPositionTypeValue());
-			write( elementName + ".setStretchType({0});\n", JRApiConstants.getStretchType(new Byte(element.getStretchType())), "JRElement.STRETCH_TYPE_NO_STRETCH");
+			write( elementName + ".setStretchType({0});\n", element.getStretchTypeValue(), StretchTypeEnum.NO_STRETCH);
 			write( elementName + ".setPrintRepeatedValues({0});\n", element.isPrintRepeatedValues(),true);
 			write( elementName + ".setMode({0});\n", element.getOwnModeValue());
 			write( elementName + ".setX({0, number, #});\n", element.getX());

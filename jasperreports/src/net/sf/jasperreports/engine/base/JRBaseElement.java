@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -83,7 +84,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 */
 	protected String key = null;
 	protected PositionTypeEnum positionTypeValue;
-	protected byte stretchType;
+	protected StretchTypeEnum stretchTypeValue;
 	protected boolean isPrintRepeatedValues = true;
 	protected ModeEnum modeValue;
 	protected int x = 0;
@@ -138,7 +139,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 
 		key = element.getKey();
 		positionTypeValue = element.getPositionTypeValue();
-		stretchType = element.getStretchType();
+		stretchTypeValue = element.getStretchTypeValue();
 		isPrintRepeatedValues = element.isPrintRepeatedValues();
 		modeValue = element.getOwnModeValue();
 		x = element.getX();
@@ -238,21 +239,37 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getStretchTypeValue()}.
 	 */
 	public byte getStretchType()
 	{
-		return stretchType;
+		return getStretchTypeValue().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setStretchType(StretchTypeEnum)}.
+	 */
+	public void setStretchType(byte stretchType)
+	{
+		setStretchType(StretchTypeEnum.getByValue(stretchType));
 	}
 
 	/**
 	 *
 	 */
-	public void setStretchType(byte stretchType)
+	public StretchTypeEnum getStretchTypeValue()
 	{
-		byte old = this.stretchType;
-		this.stretchType = stretchType;
-		getEventSupport().firePropertyChange(PROPERTY_STRETCH_TYPE, old, this.stretchType);
+		return stretchTypeValue;
+	}
+
+	/**
+	 *
+	 */
+	public void setStretchType(StretchTypeEnum stretchTypeValue)
+	{
+		StretchTypeEnum old = this.stretchTypeValue;
+		this.stretchTypeValue = stretchTypeValue;
+		getEventSupport().firePropertyChange(PROPERTY_STRETCH_TYPE, old, this.stretchTypeValue);
 	}
 
 	/**
@@ -607,6 +624,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
 	private Byte mode;
 	private byte positionType;
+	private byte stretchType;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -616,6 +634,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		{
 			modeValue = ModeEnum.getByValue(mode);
 			positionTypeValue = PositionTypeEnum.getByValue(positionType);
+			stretchTypeValue = StretchTypeEnum.getByValue(stretchType);
 			
 			mode = null;
 		}

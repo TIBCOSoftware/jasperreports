@@ -31,7 +31,6 @@ import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -50,27 +49,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map stretchTypeMap = null;
-
-	public static Map getStretchTypeMap()
-	{
-		if (stretchTypeMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(JRElement.STRETCH_TYPE_NO_STRETCH),                 "JRElement.STRETCH_TYPE_NO_STRETCH");
-			map.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT), "JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT");
-			map.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT),    "JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT");
-			stretchTypeMap = Collections.unmodifiableMap(map);
-		}
-
-		return stretchTypeMap;
-	}
-
-	public static String getStretchType(Byte key)
-	{
-		return (String)getStretchTypeMap().get(key);
-	}
-	
 	private static Map fillMap = null;
 
 	public static Map getFillMap()

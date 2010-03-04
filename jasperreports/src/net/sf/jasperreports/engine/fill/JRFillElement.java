@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -251,7 +252,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getStretchTypeValue()}.
 	 */
 	public byte getStretchType()
 	{
@@ -259,10 +260,27 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setStretchType(StretchTypeEnum)}.
 	 */
 	public void setStretchType(byte stretchType)
 	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 *
+	 */
+	public StretchTypeEnum getStretchTypeValue()
+	{
+		return parent.getStretchTypeValue();
+	}
+
+	/**
+	 *
+	 */
+	public void setStretchType(StretchTypeEnum stretchType)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -798,14 +816,14 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	protected void stretchElement(int bandStretch)
 	{
-		switch (getStretchType())
+		switch (getStretchTypeValue())
 		{
-			case JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT :
+			case RELATIVE_TO_BAND_HEIGHT :
 			{
 				setStretchHeight(getHeight() + bandStretch);
 				break;
 			}
-			case JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT :
+			case RELATIVE_TO_TALLEST_OBJECT :
 			{
 				if (elementGroup != null)
 				{
@@ -815,7 +833,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 				break;
 			}
-			case JRElement.STRETCH_TYPE_NO_STRETCH :
+			case NO_STRETCH :
 			default :
 			{
 				break;
