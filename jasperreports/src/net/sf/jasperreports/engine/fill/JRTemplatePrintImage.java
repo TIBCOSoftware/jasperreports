@@ -33,6 +33,8 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
@@ -372,33 +374,67 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
 	 */
 	public byte getHyperlinkType()
 	{
-		return ((JRTemplateImage)this.template).getHyperlinkType();
+		return getHyperlinkTypeValue().getValue();
 	}
 		
 	/**
 	 *
 	 */
+	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	{
+		return ((JRTemplateImage)this.template).getHyperlinkTypeValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
+	 */
 	public void setHyperlinkType(byte hyperlinkType)
 	{
+		setHyperlinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
 	}
 
 	/**
 	 *
 	 */
+	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
+	 */
 	public byte getHyperlinkTarget()
 	{
-		return ((JRTemplateImage)this.template).getHyperlinkTarget();
+		return getHyperlinkTargetValue().getValue();
 	}
 		
 	/**
 	 *
 	 */
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return ((JRTemplateImage)this.template).getHyperlinkTargetValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
+	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
+		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+	}
+
+	/**
+	 *
+	 */
+	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**

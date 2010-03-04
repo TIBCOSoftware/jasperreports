@@ -31,11 +31,12 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -194,11 +195,19 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
 	 */
 	public byte getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkType(this);
+		return getHyperlinkTypeValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 		
 	/**
@@ -297,24 +306,6 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	}
 	
 
-	protected void normalizeLinkType()
-	{
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
-		}
-		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	}
-
-	protected void normalizeLinkTarget()
-	{
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
-		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
-	}
-
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;
@@ -367,13 +358,21 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
-	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private byte hyperlinkType;
+	private byte hyperlinkTarget;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
-		normalizeLinkType();
-		normalizeLinkTarget();
+
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
+		}
+
+		if (linkTarget == null)
+		{
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+		}
 	}
 }

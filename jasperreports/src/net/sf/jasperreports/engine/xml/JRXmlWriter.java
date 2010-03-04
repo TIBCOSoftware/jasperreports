@@ -126,7 +126,6 @@ import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
@@ -159,6 +158,8 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
@@ -875,8 +876,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, image.getEvaluationGroup().getName());
 		}
 
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, image.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, image.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
+		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, image.getLinkType(), HyperlinkTypeEnum.NONE.getName());
+		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, image.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_bookmarkLevel, image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(image);
@@ -991,8 +992,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_pattern, textField.getOwnPattern());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isBlankWhenNull, textField.isOwnBlankWhenNull());
 
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, textField.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, textField.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
+		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, textField.getLinkType(), HyperlinkTypeEnum.NONE.getName());
+		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, textField.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_bookmarkLevel, textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(textField);
@@ -1092,8 +1093,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, chart.getEvaluationGroup().getName());
 		}
 
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, chart.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, chart.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
+		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, chart.getLinkType(), HyperlinkTypeEnum.NONE.getName());
+		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, chart.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_bookmarkLevel, chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_customizerClass, chart.getCustomizerClass());
 		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_renderType, chart.getRenderType());
@@ -2927,8 +2928,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			writer.startElement(tagName, namespace);
 
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, hyperlink.getLinkType(), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, hyperlink.getLinkTarget(), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
+			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, hyperlink.getLinkType(), HyperlinkTypeEnum.NONE.getName());
+			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, hyperlink.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
 
 			writer.writeExpression(XmlConstants.ELEMENT_hyperlinkReferenceExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkReferenceExpression(), false);

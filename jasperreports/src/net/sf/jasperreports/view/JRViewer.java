@@ -77,7 +77,6 @@ import javax.swing.filechooser.FileFilter;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRPrintAnchorIndex;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -93,6 +92,7 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -467,9 +467,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	public void gotoHyperlink(JRPrintHyperlink hyperlink)
 	{
-		switch(hyperlink.getHyperlinkType())
+		switch(hyperlink.getHyperlinkTypeValue())
 		{
-			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+			case REFERENCE :
 			{
 				if (isOnlyHyperlinkListener())
 				{
@@ -478,7 +478,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+			case LOCAL_ANCHOR :
 			{
 				if (hyperlink.getHyperlinkAnchor() != null)
 				{
@@ -523,7 +523,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+			case LOCAL_PAGE :
 			{
 				int page = pageIndex + 1;
 				if (hyperlink.getHyperlinkPage() != null)
@@ -545,7 +545,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+			case REMOTE_ANCHOR :
 			{
 				if (isOnlyHyperlinkListener())
 				{
@@ -555,7 +555,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+			case REMOTE_PAGE :
 			{
 				if (isOnlyHyperlinkListener())
 				{
@@ -565,7 +565,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_CUSTOM:
+			case CUSTOM:
 			{
 				if (isOnlyHyperlinkListener())
 				{
@@ -574,7 +574,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_NONE :
+			case NONE :
 			default :
 			{
 				break;
@@ -1639,7 +1639,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					hyperlink = (JRPrintHyperlink) element;
 				}
 				boolean hasHyperlink = !hasImageMap 
-					&& hyperlink != null && hyperlink.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE;
+					&& hyperlink != null && hyperlink.getHyperlinkTypeValue() != HyperlinkTypeEnum.NONE;
 				boolean hasTooltip = hyperlink != null && hyperlink.getHyperlinkTooltip() != null;
 
 				if (hasHyperlink || hasImageMap || hasTooltip)
@@ -1744,7 +1744,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			JRPrintImageAreaHyperlink imageArea = getImageMapArea(e);
 			if (imageArea != null
-					&& imageArea.getHyperlink().getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
+					&& imageArea.getHyperlink().getHyperlinkTypeValue() != HyperlinkTypeEnum.NONE)
 			{
 				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -1822,14 +1822,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected String getFallbackTooltip(JRPrintHyperlink hyperlink)
 	{
 		String toolTip = null;
-		switch(hyperlink.getHyperlinkType())
+		switch(hyperlink.getHyperlinkTypeValue())
 		{
-			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+			case REFERENCE :
 			{
 				toolTip = hyperlink.getHyperlinkReference();
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+			case LOCAL_ANCHOR :
 			{
 				if (hyperlink.getHyperlinkAnchor() != null)
 				{
@@ -1837,7 +1837,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+			case LOCAL_PAGE :
 			{
 				if (hyperlink.getHyperlinkPage() != null)
 				{
@@ -1845,7 +1845,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+			case REMOTE_ANCHOR :
 			{
 				toolTip = "";
 				if (hyperlink.getHyperlinkReference() != null)
@@ -1858,7 +1858,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+			case REMOTE_PAGE :
 			{
 				toolTip = "";
 				if (hyperlink.getHyperlinkReference() != null)

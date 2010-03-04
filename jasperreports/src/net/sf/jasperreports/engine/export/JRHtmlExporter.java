@@ -58,7 +58,6 @@ import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -83,6 +82,7 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -1418,24 +1418,24 @@ public class JRHtmlExporter extends JRAbstractExporter
 		JRHyperlinkTargetProducer producer = targetProducerFactory.getHyperlinkTargetProducer(link.getLinkTarget());		
 		if (producer == null)
 		{
-			switch(link.getHyperlinkTarget())
+			switch(link.getHyperlinkTargetValue())
 			{
-				case JRHyperlink.HYPERLINK_TARGET_BLANK :
+				case BLANK :
 				{
 					target = "_blank";
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TARGET_PARENT :
+				case PARENT :
 				{
 					target = "_parent";
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TARGET_TOP :
+				case TOP :
 				{
 					target = "_top";
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TARGET_CUSTOM :
+				case CUSTOM :
 				{
 					boolean paramFound = false;
 					List parameters = link.getHyperlinkParameters() == null ? null : link.getHyperlinkParameters().getParameters();
@@ -1458,7 +1458,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TARGET_SELF :
+				case SELF :
 				default :
 				{
 				}
@@ -1479,9 +1479,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 		JRHyperlinkProducer customHandler = getCustomHandler(link);		
 		if (customHandler == null)
 		{
-			switch(link.getHyperlinkType())
+			switch(link.getHyperlinkTypeValue())
 			{
-				case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+				case REFERENCE :
 				{
 					if (link.getHyperlinkReference() != null)
 					{
@@ -1489,7 +1489,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+				case LOCAL_ANCHOR :
 				{
 					if (link.getHyperlinkAnchor() != null)
 					{
@@ -1497,7 +1497,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+				case LOCAL_PAGE :
 				{
 					if (link.getHyperlinkPage() != null)
 					{
@@ -1505,7 +1505,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+				case REMOTE_ANCHOR :
 				{
 					if (
 						link.getHyperlinkReference() != null &&
@@ -1516,7 +1516,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+				case REMOTE_PAGE :
 				{
 					if (
 						link.getHyperlinkReference() != null &&
@@ -1527,7 +1527,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					}
 					break;
 				}
-				case JRHyperlink.HYPERLINK_TYPE_NONE :
+				case NONE :
 				default :
 				{
 					break;
@@ -1938,7 +1938,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("/>\n");
 		}
 		
-		if (image.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
+		if (image.getHyperlinkTypeValue() != HyperlinkTypeEnum.NONE)
 		{
 			writer.write("  <area shape=\"default\"");
 			writeImageAreaCoordinates(new int[]{0, 0, image.getWidth(), image.getHeight()});//for IE

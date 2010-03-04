@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -31,8 +34,10 @@ package net.sf.jasperreports.engine;
 public interface JRPrintHyperlink
 {
 
-
-
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
+	 */
+	public byte getHyperlinkType();
 
 	/**
 	 * Retrieves the hyperlink type for the element.
@@ -40,31 +45,45 @@ public interface JRPrintHyperlink
 	 * The actual hyperlink type is determined by {@link #getLinkType() getLinkType()}.
 	 * This method can is used to determine whether the hyperlink type is one of the
 	 * built-in types or a custom type. 
-	 * When hyperlink is of custom type, {@link JRHyperlink#HYPERLINK_TYPE_CUSTOM HYPERLINK_TYPE_CUSTOM} is returned.
+	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} is returned.
 	 * </p>
 	 * @return one of the hyperlink type constants
 	 * @see #getLinkType()
 	 */
-	public byte getHyperlinkType();
+	public HyperlinkTypeEnum getHyperlinkTypeValue();
 
-	
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
+	 */
+	public void setHyperlinkType(byte hyperlinkType);
+
 	/**
 	 * Sets the link type as a built-in hyperlink type.
 	 * 
 	 * @param hyperlinkType the built-in hyperlink type
 	 * @see #getLinkType()
 	 */
-	public void setHyperlinkType(byte hyperlinkType);
+	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType);
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
 	 */
 	public byte getHyperlinkTarget();
-		
+	
 	/**
 	 *
 	 */
+	public HyperlinkTargetEnum getHyperlinkTargetValue();
+		
+	/**
+	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
+	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget);
+	
+	/**
+	 *
+	 */
+	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget);
 		
 	/**
 	 *

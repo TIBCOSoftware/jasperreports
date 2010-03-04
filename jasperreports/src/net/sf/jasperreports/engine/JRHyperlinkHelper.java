@@ -23,8 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
-import java.util.HashMap;
-import java.util.Map;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 
 
 /**
@@ -37,86 +37,74 @@ public class JRHyperlinkHelper
 {
 	/**
 	 * "None" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_NONE JRHyperlink.HYPERLINK_TYPE_NONE}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#NONE#getName()}.
 	 */
-	public static final String HYPERLINK_TYPE_NONE = "None";
+	public static final String HYPERLINK_TYPE_NONE = HyperlinkTypeEnum.NONE.getName();
 	
 	/**
 	 * "Reference" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_REFERENCE JRHyperlink.HYPERLINK_TYPE_REFERENCE}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REFERENCE#getName()}.
 	 */
-	public static final String HYPERLINK_TYPE_REFERENCE = "Reference";
+	public static final String HYPERLINK_TYPE_REFERENCE = HyperlinkTypeEnum.REFERENCE.getName();
 	
 	/**
 	 * "LocalAnchor" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_LOCAL_ANCHOR JRHyperlink.HYPERLINK_LOCAL_ANCHOR}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#LOCAL_ANCHOR#getName()}.
 	 */
-	public static final String HYPERLINK_TYPE_LOCAL_ANCHOR = "LocalAnchor";
+	public static final String HYPERLINK_TYPE_LOCAL_ANCHOR = HyperlinkTypeEnum.LOCAL_ANCHOR.getName();
 	
 	/**
 	 * "LocalPage" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_LOCAL_PAGE JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#LOCAL_PAGE#getName()}.
 	 */
-	public static final String HYPERLINK_TYPE_LOCAL_PAGE = "LocalPage";
+	public static final String HYPERLINK_TYPE_LOCAL_PAGE = HyperlinkTypeEnum.LOCAL_PAGE.getName();
 	
 	/**
 	 * "RemoteAnchor" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_REMOTE_ANCHOR JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REMOTE_ANCHOR#getName()}.
 	 */
-	public static final String HYPERLINK_TYPE_REMOTE_ANCHOR = "RemoteAnchor";
+	public static final String HYPERLINK_TYPE_REMOTE_ANCHOR = HyperlinkTypeEnum.REMOTE_ANCHOR.getName();
 	
 	/**
 	 * "RemotePage" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_REMOTE_PAGE JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REMOTE_PAGE#getName()}.
 	 */
-	public static final String HYPERLINK_TYPE_REMOTE_PAGE = "RemotePage";
+	public static final String HYPERLINK_TYPE_REMOTE_PAGE = HyperlinkTypeEnum.REMOTE_PAGE.getName();
 	
 	/**
 	 * "Self" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_SELF JRHyperlink.HYPERLINK_TARGET_SELF}.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#SELF#getName()}.
 	 */
-	public static final String HYPERLINK_TARGET_SELF = "Self";
+	public static final String HYPERLINK_TARGET_SELF = HyperlinkTargetEnum.SELF.getName();
 
 	/**
 	 * "Blank" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_BLANK JRHyperlink.HYPERLINK_TARGET_BLANK}.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#BLANK#getName()}.
 	 */
-	public static final String HYPERLINK_TARGET_BLANK = "Blank";
+	public static final String HYPERLINK_TARGET_BLANK = HyperlinkTargetEnum.BLANK.getName();
 
 	/**
 	 * "Parent" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_PARENT JRHyperlink.HYPERLINK_TARGET_PARENT}.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#PARENT#getName()}.
 	 */
-	public static final String HYPERLINK_TARGET_PARENT = "Parent";
+	public static final String HYPERLINK_TARGET_PARENT = HyperlinkTargetEnum.PARENT.getName();
 
 	/**
 	 * "Top" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_TOP JRHyperlink.HYPERLINK_TARGET_TOP}.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#TOP#getName()}.
 	 */
-	public static final String HYPERLINK_TARGET_TOP = "Top";
+	public static final String HYPERLINK_TARGET_TOP = HyperlinkTargetEnum.TOP.getName();
 	
-	private static final Map builtinTypes;
-	private static final Map builtinTargets;
 	
-	static
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue(JRHyperlink)}.
+	 */
+	public static byte getHyperlinkType(JRHyperlink hyperlink)
 	{
-		builtinTypes = createBuiltinTypes();
-		builtinTargets = createBuiltinTargets();
+		return getHyperlinkTypeValue(hyperlink.getLinkType()).getValue();
 	}
+	
 
-	private static Map createBuiltinTypes()
-	{
-		Map types = new HashMap();
-		types.put(HYPERLINK_TYPE_NONE, new Byte(JRHyperlink.HYPERLINK_TYPE_NONE));
-		types.put(HYPERLINK_TYPE_REFERENCE, new Byte(JRHyperlink.HYPERLINK_TYPE_REFERENCE));
-		types.put(HYPERLINK_TYPE_LOCAL_ANCHOR, new Byte(JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR));
-		types.put(HYPERLINK_TYPE_LOCAL_PAGE, new Byte(JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE));
-		types.put(HYPERLINK_TYPE_REMOTE_ANCHOR, new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR));
-		types.put(HYPERLINK_TYPE_REMOTE_PAGE, new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE));
-		return types;
-	}
-	
-	private static Map createBuiltinTargets()
-	{
-		Map targets = new HashMap();
-		targets.put(HYPERLINK_TARGET_BLANK, new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK));
-		targets.put(HYPERLINK_TARGET_PARENT, new Byte(JRHyperlink.HYPERLINK_TARGET_PARENT));
-		targets.put(HYPERLINK_TARGET_SELF, new Byte(JRHyperlink.HYPERLINK_TARGET_SELF));
-		targets.put(HYPERLINK_TARGET_TOP, new Byte(JRHyperlink.HYPERLINK_TARGET_TOP));
-		return targets;
-	}
-	
-	
 	/**
 	 * Returns the built-in hyperlink type, or {@link JRHyperlink#HYPERLINK_TYPE_CUSTOM JRHyperlink.HYPERLINK_TYPE_CUSTOM}
 	 * if the type is not a built-in type.
@@ -124,12 +112,21 @@ public class JRHyperlinkHelper
 	 * @param hyperlink the hyperlink object
 	 * @return the hyperlink type
 	 */
-	public static byte getHyperlinkType(JRHyperlink hyperlink)
+	public static HyperlinkTypeEnum getHyperlinkTypeValue(JRHyperlink hyperlink)
 	{
-		return getHyperlinkType(hyperlink.getLinkType());
+		return getHyperlinkTypeValue(hyperlink.getLinkType());
 	}
 	
 
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue(String)}.
+	 */
+	public static byte getHyperlinkType(String linkType)
+	{
+		return getHyperlinkTypeValue(linkType).getValue();
+	}
+	
+	
 	/**
 	 * Returns the built-in hyperlink type, or {@link JRHyperlink#HYPERLINK_TYPE_CUSTOM JRHyperlink.HYPERLINK_TYPE_CUSTOM}
 	 * if the type is not a built-in type.
@@ -137,28 +134,29 @@ public class JRHyperlinkHelper
 	 * @param linkType the link type
 	 * @return the hyperlink type
 	 */
-	public static byte getHyperlinkType(String linkType)
+	public static HyperlinkTypeEnum getHyperlinkTypeValue(String linkType)
 	{
-		byte type;
+		HyperlinkTypeEnum type;
 		if (linkType == null)
 		{
-			type = JRHyperlink.HYPERLINK_TYPE_NONE;
+			type = HyperlinkTypeEnum.NONE;
 		}
 		else
 		{
-			Byte builtinType = (Byte) builtinTypes.get(linkType);
+			HyperlinkTypeEnum builtinType = HyperlinkTypeEnum.getByName(linkType);
 			if (builtinType == null)
 			{
-				type = JRHyperlink.HYPERLINK_TYPE_CUSTOM;
+				type = HyperlinkTypeEnum.CUSTOM;
 			}
 			else
 			{
-				type = builtinType.byteValue();
+				type = builtinType;
 			}
 		}
 		return type;
 	}
 	
+
 	/**
 	 * Returns the built-in hyperlink target, or {@link JRHyperlink#HYPERLINK_TARGET_CUSTOM JRHyperlink.HYPERLINK_TARGET_CUSTOM}
 	 * if the target name is not a built-in one.
@@ -173,29 +171,38 @@ public class JRHyperlinkHelper
 	
 
 	/**
-	 * Returns the built-in hyperlink target, or {@link JRHyperlink#HYPERLINK_TARGET_CUSTOM JRHyperlink.HYPERLINK_TARGET_CUSTOM}
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue(String)}.
+	 */
+	public static byte getHyperlinkTarget(String linkTarget)
+	{
+		return getHyperlinkTargetValue(linkTarget).getValue();
+	}
+	
+	
+	/**
+	 * Returns the built-in hyperlink target, or {@link HyperlinkTargetEnum#CUSTOM HyperlinkTargetEnum.CUSTOM}
 	 * if the target name is not a built-in one.
 	 * 
 	 * @param linkTarget the link target type
 	 * @return the hyperlink target
 	 */
-	public static byte getHyperlinkTarget(String linkTarget)
+	public static HyperlinkTargetEnum getHyperlinkTargetValue(String linkTarget)
 	{
-		byte target;
+		HyperlinkTargetEnum target;
 		if (linkTarget == null)
 		{
-			target = JRHyperlink.HYPERLINK_TARGET_SELF;
+			target = HyperlinkTargetEnum.SELF;
 		}
 		else
 		{
-			Byte builtinTarget = (Byte) builtinTargets.get(linkTarget);
+			HyperlinkTargetEnum builtinTarget = HyperlinkTargetEnum.getByName(linkTarget);
 			if (builtinTarget == null)
 			{
-				target = JRHyperlink.HYPERLINK_TARGET_CUSTOM;
+				target = HyperlinkTargetEnum.CUSTOM;
 			}
 			else
 			{
-				target = builtinTarget.byteValue();
+				target = builtinTarget;
 			}
 		}
 		return target;
@@ -203,36 +210,37 @@ public class JRHyperlinkHelper
 	
 	
 	/**
+	 * @deprecated Replaced by {@link #getLinkType(HyperlinkTypeEnum)}.
+	 */
+	public static String getLinkType(byte hyperlinkType)
+	{
+		return getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
+	}
+
+	
+	/**
 	 * Returns the link type associated with a built-in type.
 	 * 
 	 * @param hyperlinkType the built-in type
 	 * @return the String link type
 	 */
-	public static String getLinkType(byte hyperlinkType)
+	public static String getLinkType(HyperlinkTypeEnum hyperlinkType)
 	{
 		String type;
 		switch (hyperlinkType)
 		{
-			case JRHyperlink.HYPERLINK_TYPE_NULL:
-			case JRHyperlink.HYPERLINK_TYPE_NONE:
+			case NULL:
+			case NONE:
 				type = null;
 				break;
-			case JRHyperlink.HYPERLINK_TYPE_REFERENCE:
-				type = HYPERLINK_TYPE_REFERENCE;
+			case REFERENCE:
+			case LOCAL_ANCHOR:
+			case LOCAL_PAGE:
+			case REMOTE_ANCHOR:
+			case REMOTE_PAGE:
+				type = hyperlinkType.getName();
 				break;
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR:
-				type = HYPERLINK_TYPE_LOCAL_ANCHOR;
-				break;
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE:
-				type = HYPERLINK_TYPE_LOCAL_PAGE;
-				break;
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR:
-				type = HYPERLINK_TYPE_REMOTE_ANCHOR;
-				break;
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE:
-				type = HYPERLINK_TYPE_REMOTE_PAGE;
-				break;
-			case JRHyperlink.HYPERLINK_TYPE_CUSTOM:
+			case CUSTOM:
 				throw new JRRuntimeException("Custom hyperlink types cannot be specified using the byte constant");
 			default:
 				throw new JRRuntimeException("Unknown hyperlink type " + hyperlinkType);
@@ -240,30 +248,41 @@ public class JRHyperlinkHelper
 		return type;
 	}
 
+	
+	/**
+	 * @deprecated Replaced by {@link #getLinkTarget(HyperlinkTargetEnum)}.
+	 */
+	public static String getLinkTarget(byte hyperlinkTarget)
+	{
+		return getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+	}
+
+	
 	/**
 	 * Returns the link target associated with a built-in target.
 	 * 
 	 * @param hyperlinkTarget the built-in target type
 	 * @return the String link target
 	 */
-	public static String getLinkTarget(byte hyperlinkTarget)
+	public static String getLinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
 		String target;
 		switch (hyperlinkTarget)
 		{
-			case JRHyperlink.HYPERLINK_TARGET_SELF:
+			case NONE:
+			case SELF:
 				target = null;
 				break;
-			case JRHyperlink.HYPERLINK_TARGET_BLANK:
+			case BLANK:
 				target = HYPERLINK_TARGET_BLANK;
 				break;
-			case JRHyperlink.HYPERLINK_TARGET_PARENT:
+			case PARENT:
 				target = HYPERLINK_TARGET_PARENT;
 				break;
-			case JRHyperlink.HYPERLINK_TARGET_TOP:
+			case TOP:
 				target = HYPERLINK_TARGET_TOP;
 				break;
-			case JRHyperlink.HYPERLINK_TARGET_CUSTOM:
+			case CUSTOM:
 				throw new JRRuntimeException("Custom hyperlink targets cannot be specified using the byte constant");
 			default:
 				throw new JRRuntimeException("Unknown hyperlink target " + hyperlinkTarget);
@@ -276,7 +295,7 @@ public class JRHyperlinkHelper
 	 * Decides whether a hyperlink is empty or not.
 	 * <p>
 	 * The hyperlink is considered empty when it's <code>null</code> or when
-	 * its type is {@link JRHyperlink#HYPERLINK_TYPE_NONE HYPERLINK_TYPE_NONE}
+	 * its type is {@link HyperlinkTypeEnum.NONE NONE}
 	 * and it doesn't include a tooltip expression
 	 * </p>
 	 * @param hyperlink the hyperlink
@@ -285,7 +304,7 @@ public class JRHyperlinkHelper
 	public static boolean isEmpty(JRHyperlink hyperlink)
 	{
 		return hyperlink == null
-			|| (hyperlink.getHyperlinkType() == JRHyperlink.HYPERLINK_TYPE_NONE
+			|| (hyperlink.getHyperlinkTypeValue() == HyperlinkTypeEnum.NONE
 				&& hyperlink.getHyperlinkTooltipExpression() == null);
 	}
 }

@@ -33,6 +33,8 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 
 /**
  * Read-only implementation of {@link JRHyperlink JRHyperlink}.
@@ -116,9 +118,17 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
+	 */
 	public byte getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkType(this);
+		return getHyperlinkTypeValue().getValue();
+	}
+
+	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 
 	public String getLinkType()
@@ -184,7 +194,7 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private byte hyperlinkTarget;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -192,9 +202,8 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 
 		if (linkTarget == null)
 		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
 		}
-		hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	}
 	
 }

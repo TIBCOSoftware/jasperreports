@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.base.JRBaseHyperlink;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 
 
 /**
@@ -74,28 +76,46 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 
 	
 	/**
+	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
+	 */
+	public void setHyperlinkType(byte hyperlinkType)
+	{
+		setHyperlinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
+	}
+
+	
+	/**
 	 * Sets the link type as a built-in hyperlink type.
 	 * 
 	 * @param hyperlinkType the built-in hyperlink type
 	 * @see #getLinkType()
 	 */
-	public void setHyperlinkType(byte hyperlinkType)
+	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
 	{
 		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
 	}
 
 	
 	/**
+	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
+	 */
+	public void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+	}
+
+
+	/**
 	 * Sets the hyperlink target.
 	 * 
 	 * @param hyperlinkTarget the hyperlink target, one of
 	 * <ul>
-	 * <li>{@link JRHyperlink#HYPERLINK_TARGET_SELF JRHyperlink.HYPERLINK_TARGET_SELF}</li>
-	 * <li>{@link JRHyperlink#HYPERLINK_TARGET_BLANK JRHyperlink.HYPERLINK_TARGET_BLANK}</li>
+	 * <li>{@link HyperlinkTargetEnum#SELF HyperlinkTargetEnum.SELF}</li>
+	 * <li>{@link HyperlinkTargetEnum#BLANK HyperlinkTargetEnum.BLANK}</li>
 	 * </ul>
 	 * @see #getHyperlinkTarget()
 	 */
-	public void setHyperlinkTarget(byte hyperlinkTarget)
+	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
 		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}

@@ -58,7 +58,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -1531,15 +1530,15 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void setHyperlinkInfo(Chunk chunk, JRPrintHyperlink link)
 	{
-		switch(link.getHyperlinkType())
+		switch(link.getHyperlinkTypeValue())
 		{
-			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+			case REFERENCE :
 			{
 				if (link.getHyperlinkReference() != null)
 				{
-					switch(link.getHyperlinkTarget())
+					switch(link.getHyperlinkTargetValue())
 					{
-						case JRHyperlink.HYPERLINK_TARGET_BLANK :
+						case BLANK :
 						{
 							chunk.setAction(
 								PdfAction.javaScript(
@@ -1551,7 +1550,7 @@ public class JRPdfExporter extends JRAbstractExporter
 								);
 							break;
 						}
-						case JRHyperlink.HYPERLINK_TARGET_SELF :
+						case SELF :
 						default :
 						{
 							chunk.setAnchor(link.getHyperlinkReference());
@@ -1561,7 +1560,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+			case LOCAL_ANCHOR :
 			{
 				if (link.getHyperlinkAnchor() != null)
 				{
@@ -1569,7 +1568,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+			case LOCAL_PAGE :
 			{
 				if (link.getHyperlinkPage() != null)
 				{
@@ -1577,7 +1576,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+			case REMOTE_ANCHOR :
 			{
 				if (
 					link.getHyperlinkReference() != null &&
@@ -1591,7 +1590,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+			case REMOTE_PAGE :
 			{
 				if (
 					link.getHyperlinkReference() != null &&
@@ -1605,16 +1604,16 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_CUSTOM :
+			case CUSTOM :
 			{
 				if (hyperlinkProducerFactory != null)
 				{
 					String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
 					if (hyperlink != null)
 					{
-						switch(link.getHyperlinkTarget())
+						switch(link.getHyperlinkTargetValue())
 						{
-							case JRHyperlink.HYPERLINK_TARGET_BLANK :
+							case BLANK :
 							{
 								chunk.setAction(
 									PdfAction.javaScript(
@@ -1626,7 +1625,7 @@ public class JRPdfExporter extends JRAbstractExporter
 									);
 								break;
 							}
-							case JRHyperlink.HYPERLINK_TARGET_SELF :
+							case SELF :
 							default :
 							{
 								chunk.setAnchor(hyperlink);
@@ -1636,7 +1635,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					}
 				}
 			}
-			case JRHyperlink.HYPERLINK_TYPE_NONE :
+			case NONE :
 			default :
 			{
 				break;

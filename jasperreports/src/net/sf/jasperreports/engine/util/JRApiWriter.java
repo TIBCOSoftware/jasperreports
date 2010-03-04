@@ -114,7 +114,6 @@ import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
@@ -146,6 +145,8 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -1186,8 +1187,8 @@ public class JRApiWriter
 			write( textFieldName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getPattern()));
 			write( textFieldName + ".setBlankWhenNull({0});\n", textField.isOwnBlankWhenNull());
 
-			write( textFieldName + ".setLinkType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getLinkType()), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
-			write( textFieldName + ".setLinkTarget(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getLinkTarget()), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
+			write( textFieldName + ".setLinkType(\"{0}\");\n", textField.getLinkType(), HyperlinkTypeEnum.NONE.getName());
+			write( textFieldName + ".setLinkTarget(\"{0}\");\n", textField.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
 			write( textFieldName + ".setBookmarkLevel({0, number, #});\n", textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 			writeReportElement( textField, textFieldName);
@@ -1302,8 +1303,8 @@ public class JRApiWriter
 				write( chartName + ".setEvaluationGroup(" + evaluationGroupName + ");\n");
 			}
 	
-			write( chartName + ".setLinkType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chart.getLinkType()), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
-			write( chartName + ".setLinkTarget(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chart.getLinkTarget()), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
+			write( chartName + ".setLinkType(\"{0}\");\n", chart.getLinkType(), HyperlinkTypeEnum.NONE.getName());
+			write( chartName + ".setLinkTarget(\"{0}\");\n", chart.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
 			write( chartName + ".setBookmarkLevel({0, number, #});\n", chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 			if(chart.getCustomizerClass() != null)
@@ -3503,8 +3504,8 @@ public class JRApiWriter
 			String hyperlinkName = parentName + hyperlinkSuffix;
 			write( "JRDesignHyperlink " + hyperlinkName + " = new JRDesignHyperlink();\n");
 
-			write( hyperlinkName + ".setLinkType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(hyperlink.getLinkType()), JRHyperlinkHelper.HYPERLINK_TYPE_NONE);
-			write( hyperlinkName + ".setLinkTarget(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(hyperlink.getLinkTarget()), JRHyperlinkHelper.HYPERLINK_TARGET_SELF);
+			write( hyperlinkName + ".setLinkType(\"{0}\");\n", hyperlink.getLinkType(), HyperlinkTypeEnum.NONE.getName());
+			write( hyperlinkName + ".setLinkTarget(\"{0}\");\n", hyperlink.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
 
 			writeExpression( hyperlink.getHyperlinkReferenceExpression(), hyperlinkName, "HyperlinkReferenceExpression");
 			writeExpression( hyperlink.getHyperlinkAnchorExpression(), hyperlinkName, "HyperlinkAnchorExpression");
