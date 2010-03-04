@@ -50,6 +50,8 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 
 /**
@@ -77,7 +79,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected int pageWidth = 595;
 	protected int pageHeight = 842;
 	protected byte orientation = ORIENTATION_PORTRAIT;
-	protected byte whenNoDataType = WHEN_NO_DATA_TYPE_NO_PAGES;
+	protected WhenNoDataTypeEnum whenNoDataTypeValue = WhenNoDataTypeEnum.NO_PAGES;
 	protected int columnWidth = 555;
 	protected int columnSpacing = 0;
 	protected int leftMargin = 20;
@@ -155,7 +157,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		pageWidth = report.getPageWidth();
 		pageHeight = report.getPageHeight();
 		orientation = report.getOrientation();
-		whenNoDataType = report.getWhenNoDataType();
+		whenNoDataTypeValue = report.getWhenNoDataTypeValue();
 		columnWidth = report.getColumnWidth();
 		columnSpacing = report.getColumnSpacing();
 		leftMargin = report.getLeftMargin();
@@ -316,21 +318,37 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getWhenNoDataTypeValue()}.
 	 */
 	public byte getWhenNoDataType()
 	{
-		return whenNoDataType;
+		return getWhenNoDataTypeValue().getValue();
 	}
 
 	/**
 	 *
 	 */
+	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
+	{
+		return whenNoDataTypeValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setWhenNoDataType(WhenNoDataTypeEnum)}.
+	 */
 	public void setWhenNoDataType(byte whenNoDataType)
 	{
-		byte old = getWhenNoDataType();
-		this.whenNoDataType = whenNoDataType;
-		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, getWhenNoDataType());
+		setWhenNoDataType(WhenNoDataTypeEnum.getByValue(whenNoDataType));
+	}
+
+	/**
+	 *
+	 */
+	public void setWhenNoDataType(WhenNoDataTypeEnum whenNoDataTypeValue)
+	{
+		Object old = whenNoDataTypeValue;
+		this.whenNoDataTypeValue = whenNoDataTypeValue;
+		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, whenNoDataTypeValue);
 	}
 
 	/**
@@ -656,17 +674,33 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getWhenResourceMissingTypeValue()}.
 	 */
 	public byte getWhenResourceMissingType()
 	{
-		return mainDataset.getWhenResourceMissingType();
+		return getWhenResourceMissingTypeValue().getValue();
 	}
 
 	/**
 	 *
 	 */
+	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
+	{
+		return mainDataset.getWhenResourceMissingTypeValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setWhenResourceMissingType(WhenResourceMissingTypeEnum)}.
+	 */
 	public void setWhenResourceMissingType(byte whenResourceMissingType)
+	{
+		setWhenResourceMissingType(WhenResourceMissingTypeEnum.getByValue(whenResourceMissingType));
+	}
+
+	/**
+	 *
+	 */
+	public void setWhenResourceMissingType(WhenResourceMissingTypeEnum whenResourceMissingType)
 	{
 		mainDataset.setWhenResourceMissingType(whenResourceMissingType);
 	}
@@ -735,7 +769,9 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private JRBand detail = null;
+	private byte whenNoDataType;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -745,6 +781,11 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		{
 			detailSection = new JRBaseSection(detail);
 			detail = null;
+		}
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			whenNoDataTypeValue = WhenNoDataTypeEnum.getByValue(whenNoDataType);
 		}
 	}
 

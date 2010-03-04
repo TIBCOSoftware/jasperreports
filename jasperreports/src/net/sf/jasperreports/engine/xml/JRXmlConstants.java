@@ -83,6 +83,8 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -954,15 +956,30 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#NO_PAGES#getName()}.
 	 */
-	private static final String WHEN_NO_DATA_TYPE_NO_PAGES = "NoPages";
-	private static final String WHEN_NO_DATA_TYPE_BLANK_PAGE = "BlankPage";
-	private static final String WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = "AllSectionsNoDetail";
-	private static final String WHEN_NO_DATA_TYPE_NO_DATA_SECTION = "NoDataSection";
+	private static final String WHEN_NO_DATA_TYPE_NO_PAGES = WhenNoDataTypeEnum.NO_PAGES.getName();
+	/**
+	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#BLANK_PAGE#getName()}.
+	 */
+	private static final String WHEN_NO_DATA_TYPE_BLANK_PAGE = WhenNoDataTypeEnum.BLANK_PAGE.getName();
+	/**
+	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#ALL_SECTIONS_NO_DETAIL#getName()}.
+	 */
+	private static final String WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL.getName();
+	/**
+	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#NO_DATA_SECTION#getName()}.
+	 */
+	private static final String WHEN_NO_DATA_TYPE_NO_DATA_SECTION = WhenNoDataTypeEnum.NO_DATA_SECTION.getName();
 
+	/**
+	 * @deprecated Replaced by {@link WhenNoDataTypeEnum}.
+	 */
 	private static Map whenNoDataTypeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link WhenNoDataTypeEnum}.
+	 */
 	public static Map getWhenNoDataTypeMap()
 	{
 		if (whenNoDataTypeMap == null)
@@ -1339,15 +1356,30 @@ public class JRXmlConstants extends XmlConstants
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#NULL#getName()}.
 	 */
-	private static final String WHEN_RESOURCE_MISSING_TYPE_NULL = "Null";
-	private static final String WHEN_RESOURCE_MISSING_TYPE_EMPTY = "Empty";
-	private static final String WHEN_RESOURCE_MISSING_TYPE_KEY = "Key";
-	private static final String WHEN_RESOURCE_MISSING_TYPE_ERROR = "Error";
+	private static final String WHEN_RESOURCE_MISSING_TYPE_NULL = WhenResourceMissingTypeEnum.NULL.getName();
+	/**
+	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#EMPTY#getName()}.
+	 */
+	private static final String WHEN_RESOURCE_MISSING_TYPE_EMPTY = WhenResourceMissingTypeEnum.EMPTY.getName();
+	/**
+	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#KEY#getName()}.
+	 */
+	private static final String WHEN_RESOURCE_MISSING_TYPE_KEY = WhenResourceMissingTypeEnum.KEY.getName();
+	/**
+	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#ERROR#getName()}.
+	 */
+	private static final String WHEN_RESOURCE_MISSING_TYPE_ERROR = WhenResourceMissingTypeEnum.ERROR.getName();
 
+	/**
+	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum}.
+	 */
 	private static Map whenResourceMissingTypeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum}.
+	 */
 	public static Map getWhenResourceMissingTypeMap()
 	{
 		if (whenResourceMissingTypeMap == null)

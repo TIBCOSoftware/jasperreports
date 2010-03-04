@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Collection;
 
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;

@@ -74,6 +74,8 @@ import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
+import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
@@ -196,7 +198,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected byte orientation = JRReport.ORIENTATION_PORTRAIT;
 
-	protected byte whenNoDataType = JRReport.WHEN_NO_DATA_TYPE_NO_PAGES;
+	protected WhenNoDataTypeEnum whenNoDataType = WhenNoDataTypeEnum.NO_PAGES;
 
 	protected int columnWidth = 0;
 
@@ -221,7 +223,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 * the resource missing handling type
 	 */
-	protected byte whenResourceMissingType = JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL;
+	protected WhenResourceMissingTypeEnum whenResourceMissingType = WhenResourceMissingTypeEnum.NULL;
 
 	protected JRFillReportTemplate[] reportTemplates;
 
@@ -393,7 +395,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		pageWidth = jasperReport.getPageWidth();
 		pageHeight = jasperReport.getPageHeight();
 		orientation = jasperReport.getOrientation();
-		whenNoDataType = jasperReport.getWhenNoDataType();
+		whenNoDataType = jasperReport.getWhenNoDataTypeValue();
 		columnWidth = jasperReport.getColumnWidth();
 		columnSpacing = jasperReport.getColumnSpacing();
 		leftMargin = jasperReport.getLeftMargin();
@@ -404,7 +406,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		isSummaryNewPage = jasperReport.isSummaryNewPage();
 		isSummaryWithPageHeaderAndFooter = jasperReport.isSummaryWithPageHeaderAndFooter();
 		isFloatColumnFooter = jasperReport.isFloatColumnFooter();
-		whenResourceMissingType = jasperReport.getWhenResourceMissingType();
+		whenResourceMissingType = jasperReport.getWhenResourceMissingTypeValue();
 
 		jasperPrint = new JasperPrint();
 		
@@ -1836,7 +1838,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 
-	protected byte getWhenResourceMissingType()
+	protected WhenResourceMissingTypeEnum getWhenResourceMissingType()
 	{
 		return mainDataset.whenResourceMissingType;
 	}

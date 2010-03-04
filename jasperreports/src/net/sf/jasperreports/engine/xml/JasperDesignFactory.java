@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 import org.xml.sax.Attributes;
 
@@ -77,10 +79,10 @@ public class JasperDesignFactory extends JRBaseFactory
 			jasperDesign.setOrientation(orientation.byteValue());
 		}
 
-		Byte whenNoDataType = (Byte)JRXmlConstants.getWhenNoDataTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_whenNoDataType));
+		WhenNoDataTypeEnum whenNoDataType = WhenNoDataTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_whenNoDataType));
 		if (whenNoDataType != null)
 		{
-			jasperDesign.setWhenNoDataType(whenNoDataType.byteValue());
+			jasperDesign.setWhenNoDataType(whenNoDataType);
 		}
 
 		String columnWidth = atts.getValue(XmlConstants.ATTRIBUTE_columnWidth);
@@ -147,10 +149,10 @@ public class JasperDesignFactory extends JRBaseFactory
 		jasperDesign.setFormatFactoryClass(atts.getValue(XmlConstants.ATTRIBUTE_formatFactoryClass));
 		jasperDesign.setResourceBundle(atts.getValue(XmlConstants.ATTRIBUTE_resourceBundle));
 
-		Byte whenResourceMissingType = (Byte)JRXmlConstants.getWhenResourceMissingTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_whenResourceMissingType));
+		WhenResourceMissingTypeEnum whenResourceMissingType = WhenResourceMissingTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_whenResourceMissingType));
 		if (whenResourceMissingType != null)
 		{
-			jasperDesign.setWhenResourceMissingType(whenResourceMissingType.byteValue());
+			jasperDesign.setWhenResourceMissingType(whenResourceMissingType);
 		}
 
 		String isIgnorePagination = atts.getValue(XmlConstants.ATTRIBUTE_isIgnorePagination);

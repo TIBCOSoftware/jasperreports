@@ -169,6 +169,8 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 
@@ -310,7 +312,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(XmlConstants.ATTRIBUTE_pageWidth, report.getPageWidth());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_pageHeight, report.getPageHeight());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_orientation, report.getOrientation(), JRXmlConstants.getOrientationMap(), JRReport.ORIENTATION_PORTRAIT);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_whenNoDataType, report.getWhenNoDataType(), JRXmlConstants.getWhenNoDataTypeMap(), JRReport.WHEN_NO_DATA_TYPE_NO_PAGES);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_whenNoDataType, report.getWhenNoDataTypeValue(), WhenNoDataTypeEnum.NO_PAGES);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_columnWidth, report.getColumnWidth());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_columnSpacing, report.getColumnSpacing(), 0);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_leftMargin, report.getLeftMargin());
@@ -324,7 +326,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(XmlConstants.ATTRIBUTE_scriptletClass, report.getScriptletClass());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_formatFactoryClass, report.getFormatFactoryClass());
 		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_resourceBundle, report.getResourceBundle());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_whenResourceMissingType, report.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_whenResourceMissingType, report.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_isIgnorePagination, report.isIgnorePagination(), false);
 
 		writeProperties(report);
@@ -2762,7 +2764,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, dataset.getName());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_scriptletClass, dataset.getScriptletClass());
 		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_resourceBundle, dataset.getResourceBundle());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_whenResourceMissingType, dataset.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_whenResourceMissingType, dataset.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
 
 		writeProperties(dataset);
 

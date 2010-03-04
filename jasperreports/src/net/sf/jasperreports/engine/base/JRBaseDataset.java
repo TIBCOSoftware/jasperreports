@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -40,6 +42,7 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
  * The base implementation of {@link net.sf.jasperreports.engine.JRDataset JRDataset}.
@@ -64,7 +67,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	protected JRVariable[] variables = null;
 	protected JRGroup[] groups = null;
 	protected String resourceBundle = null;
-	protected byte whenResourceMissingType = WHEN_RESOURCE_MISSING_TYPE_NULL;
+	protected WhenResourceMissingTypeEnum whenResourceMissingTypeValue = WhenResourceMissingTypeEnum.NULL;
 	protected JRPropertiesMap propertiesMap;
 	protected JRExpression filterExpression;
 	
@@ -82,7 +85,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		name = dataset.getName();
 		scriptletClass = dataset.getScriptletClass();
 		resourceBundle = dataset.getResourceBundle();
-		whenResourceMissingType = dataset.getWhenResourceMissingType();
+		whenResourceMissingTypeValue = dataset.getWhenResourceMissingTypeValue();
 
 		/*   */
 		this.propertiesMap = dataset.getPropertiesMap().cloneProperties();
@@ -243,16 +246,32 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		return resourceBundle;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getWhenResourceMissingTypeValue()}.
+	 */
 	public byte getWhenResourceMissingType()
 	{
-		return whenResourceMissingType;
+		return getWhenResourceMissingTypeValue().getValue();
 	}
 
+	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
+	{
+		return whenResourceMissingTypeValue;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setWhenResourceMissingType(WhenResourceMissingTypeEnum)}.
+	 */
 	public void setWhenResourceMissingType(byte whenResourceMissingType)
 	{
-		byte old = this.whenResourceMissingType;
-		this.whenResourceMissingType = whenResourceMissingType;
-		getEventSupport().firePropertyChange(PROPERTY_WHEN_RESOURCE_MISSING_TYPE, old, this.whenResourceMissingType);
+		setWhenResourceMissingType(WhenResourceMissingTypeEnum.getByValue(whenResourceMissingType));
+	}
+
+	public void setWhenResourceMissingType(WhenResourceMissingTypeEnum whenResourceMissingTypeValue)
+	{
+		Object old = this.whenResourceMissingTypeValue;
+		this.whenResourceMissingTypeValue = whenResourceMissingTypeValue;
+		getEventSupport().firePropertyChange(PROPERTY_WHEN_RESOURCE_MISSING_TYPE, old, this.whenResourceMissingTypeValue);
 	}
 
 	public boolean hasProperties()
@@ -366,4 +385,22 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		
 		return eventSupport;
 	}
+
+	
+	/**
+	 * This field is only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private byte whenResourceMissingType;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			whenResourceMissingTypeValue = WhenResourceMissingTypeEnum.getByValue(whenResourceMissingType);
+		}
+	}
+
 }
