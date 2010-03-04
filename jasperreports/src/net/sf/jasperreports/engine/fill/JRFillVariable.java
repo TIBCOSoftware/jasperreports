@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 
 /**
@@ -142,19 +144,35 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getResetTypeValue()}
 	 */
 	public byte getResetType()
 	{
-		return parent.getResetType();
+		return getResetTypeValue().getValue();
 	}
 		
 	/**
 	 *
 	 */
+	public ResetTypeEnum getResetTypeValue()
+	{
+		return parent.getResetTypeValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getIncrementTypeValue()}
+	 */
 	public byte getIncrementType()
 	{
-		return parent.getIncrementType();
+		return getIncrementTypeValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public IncrementTypeEnum getIncrementTypeValue()
+	{
+		return parent.getIncrementTypeValue();
 	}
 		
 	/**

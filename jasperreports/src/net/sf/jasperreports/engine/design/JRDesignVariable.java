@@ -29,6 +29,8 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.base.JRBaseVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 
 /**
@@ -117,23 +119,39 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 	}
 		
 	/**
-	 *
+	 *  @deprecated Replaced by {@link #setResetType(ResetTypeEnum)}
 	 */
 	public void setResetType(byte resetType)
 	{
-		byte old = this.resetType;
-		this.resetType = resetType;
-		getEventSupport().firePropertyChange(PROPERTY_RESET_TYPE, old, this.resetType);
+		setResetType(ResetTypeEnum.getByValue(resetType));
 	}
 		
 	/**
 	 *
 	 */
+	public void setResetType(ResetTypeEnum resetTypeValue)
+	{
+		Object old = this.resetTypeValue;
+		this.resetTypeValue = resetTypeValue;
+		getEventSupport().firePropertyChange(PROPERTY_RESET_TYPE, old, this.resetTypeValue);
+	}
+		
+	/**
+	 *  @deprecated Replaced by {@link #setIncrementType(IncrementTypeEnum)}
+	 */
 	public void setIncrementType(byte incrementType)
 	{
-		byte old = this.incrementType;
-		this.incrementType = incrementType;
-		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_TYPE, old, this.incrementType);
+		setIncrementType(IncrementTypeEnum.getByValue(incrementType));
+	}
+		
+	/**
+	 *
+	 */
+	public void setIncrementType(IncrementTypeEnum incrementTypeValue)
+	{
+		Object old = this.incrementTypeValue;
+		this.incrementTypeValue = incrementTypeValue;
+		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_TYPE, old, this.incrementTypeValue);
 	}
 		
 	/**

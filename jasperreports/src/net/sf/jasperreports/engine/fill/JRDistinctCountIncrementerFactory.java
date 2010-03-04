@@ -26,7 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 
 /**
@@ -107,7 +107,7 @@ class JRDistinctCountIncrementer implements JRIncrementer
 			lastHolder = holder;
 		}
 		
-		if (variable.getResetType() == JRVariable.RESET_TYPE_REPORT || variable.isInitialized())
+		if (variable.getResetTypeValue() == ResetTypeEnum.REPORT || variable.isInitialized())
 		{
 			holder.addLastValue();
 		}

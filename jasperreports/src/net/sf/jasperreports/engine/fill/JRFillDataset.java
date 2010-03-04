@@ -59,6 +59,8 @@ import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
@@ -338,9 +340,9 @@ public class JRFillDataset implements JRDataset
 		helper.setName(variable.getName() + nameSuffix);
 		helper.setValueClassName(variable.getValueClassName());
 		helper.setIncrementerFactoryClassName(variable.getIncrementerFactoryClassName());
-		helper.setResetType(variable.getResetType());
+		helper.setResetType(variable.getResetTypeValue());
 		helper.setResetGroup(variable.getResetGroup());
-		helper.setIncrementType(variable.getIncrementType());
+		helper.setIncrementType(variable.getIncrementTypeValue());
 		helper.setIncrementGroup(variable.getIncrementGroup());
 		helper.setCalculation(calculation);
 		helper.setSystemDefined(true);
@@ -355,10 +357,10 @@ public class JRFillDataset implements JRDataset
 		helper.setName(variable.getName() + "_DISTINCT_COUNT");
 		helper.setValueClassName(variable.getValueClassName());
 		helper.setIncrementerFactoryClassName(JRDistinctCountIncrementerFactory.class.getName());
-		helper.setResetType(JRVariable.RESET_TYPE_REPORT);
+		helper.setResetType(ResetTypeEnum.REPORT);
 
-		if (variable.getIncrementType() != JRVariable.RESET_TYPE_NONE)
-			helper.setResetType(variable.getIncrementType());
+		if (variable.getIncrementTypeValue() != IncrementTypeEnum.NONE)
+			helper.setResetType(ResetTypeEnum.getByValue(variable.getIncrementTypeValue().getValue()));
 			
 		helper.setResetGroup(variable.getIncrementGroup());
 		helper.setCalculation(JRVariable.CALCULATION_NOTHING);

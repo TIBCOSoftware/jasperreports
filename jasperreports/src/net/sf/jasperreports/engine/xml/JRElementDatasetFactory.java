@@ -25,9 +25,10 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Set;
 
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 import org.xml.sax.Attributes;
 
@@ -54,12 +55,12 @@ public class JRElementDatasetFactory extends JRBaseFactory
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 		Set groupBoundDatasets = xmlLoader.getGroupBoundDatasets();
 		
-		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_resetType));
+		ResetTypeEnum resetType = ResetTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_resetType));
 		if (resetType != null)
 		{
-			dataset.setResetType(resetType.byteValue());
+			dataset.setResetType(resetType);
 		}
-		if (dataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
+		if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
 		{
 			groupBoundDatasets.add(dataset);
 
@@ -72,12 +73,12 @@ public class JRElementDatasetFactory extends JRBaseFactory
 			}
 		}
 
-		Byte incrementType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_incrementType));
+		IncrementTypeEnum incrementType = IncrementTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_incrementType));
 		if (incrementType != null)
 		{
-			dataset.setIncrementType(incrementType.byteValue());
+			dataset.setIncrementType(incrementType);
 		}
-		if (dataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+		if (dataset.getIncrementTypeValue() == IncrementTypeEnum.GROUP)
 		{
 			groupBoundDatasets.add(dataset);
 

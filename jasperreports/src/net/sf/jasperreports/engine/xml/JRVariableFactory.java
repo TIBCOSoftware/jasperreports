@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 import org.xml.sax.Attributes;
 
@@ -50,10 +52,10 @@ public class JRVariableFactory extends JRBaseFactory
 			variable.setValueClassName(atts.getValue(XmlConstants.ATTRIBUTE_class));
 		}
 
-		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_resetType));
+		ResetTypeEnum resetType = ResetTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_resetType));
 		if (resetType != null)
 		{
-			variable.setResetType(resetType.byteValue());
+			variable.setResetType(resetType);
 		}
 		
 		String groupName = atts.getValue(XmlConstants.ATTRIBUTE_resetGroup);
@@ -64,10 +66,10 @@ public class JRVariableFactory extends JRBaseFactory
 			variable.setResetGroup(group);
 		}
 
-		Byte incrementType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(XmlConstants.ATTRIBUTE_incrementType));
+		IncrementTypeEnum incrementType = IncrementTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_incrementType));
 		if (incrementType != null)
 		{
-			variable.setIncrementType(incrementType.byteValue());
+			variable.setIncrementType(incrementType);
 		}
 		
 		groupName = atts.getValue(XmlConstants.ATTRIBUTE_incrementGroup);

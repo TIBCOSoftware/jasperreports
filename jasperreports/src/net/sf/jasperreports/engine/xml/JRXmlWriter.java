@@ -161,9 +161,11 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
@@ -606,12 +608,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(XmlConstants.ELEMENT_variable);
 		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, variable.getName());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_class, variable.getValueClassName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_resetType, variable.getResetType(), JRXmlConstants.getResetTypeMap(), JRVariable.RESET_TYPE_REPORT);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_resetType, variable.getResetTypeValue(), ResetTypeEnum.REPORT);
 		if (variable.getResetGroup() != null)
 		{
 			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_resetGroup, variable.getResetGroup().getName());
 		}
-		writer.addAttribute(XmlConstants.ATTRIBUTE_incrementType, variable.getIncrementType(), JRXmlConstants.getResetTypeMap(), JRVariable.RESET_TYPE_NONE);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_incrementType, variable.getIncrementTypeValue(), IncrementTypeEnum.NONE);
 		if (variable.getIncrementGroup() != null)
 		{
 			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_incrementGroup, variable.getIncrementGroup().getName());
@@ -1175,15 +1177,15 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public void writeElementDataset(JRElementDataset dataset, boolean skipIfEmpty) throws IOException
 	{
 		writer.startElement(XmlConstants.ELEMENT_dataset, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_resetType, dataset.getResetType(), JRXmlConstants.getResetTypeMap(), JRVariable.RESET_TYPE_REPORT);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_resetType, dataset.getResetTypeValue(), ResetTypeEnum.REPORT);
 
-		if (dataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
+		if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
 		{
 			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_resetGroup, dataset.getResetGroup().getName());
 		}
-		writer.addAttribute(XmlConstants.ATTRIBUTE_incrementType, dataset.getIncrementType(), JRXmlConstants.getResetTypeMap(), JRVariable.RESET_TYPE_NONE);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_incrementType, dataset.getIncrementTypeValue(), IncrementTypeEnum.NONE);
 
-		if (dataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+		if (dataset.getIncrementTypeValue() == IncrementTypeEnum.GROUP)
 		{
 			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_incrementGroup, dataset.getIncrementGroup().getName());
 		}

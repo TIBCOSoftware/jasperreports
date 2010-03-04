@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
+
 /**
  * Element datasets are used to represent the report data needed to generate a chart or crosstab.
  * The dataset structure may vary with each chart type or crosstab.
@@ -35,10 +38,15 @@ public interface JRElementDataset extends JRCloneable
 {
 
 	/**
-	 * Gets the reset type. This specifies the range of report data used for filling the dataset.
-	 * @return one of the reset constants in {@link JRVariable}
+	 * @deprecated Replaced by {@link #getResetTypeValue()}.
 	 */
 	public byte getResetType();
+
+	/**
+	 * Gets the reset type. This specifies the range of report data used for filling the dataset.
+	 * @return one of the reset constants in {@link ResetTypeEnum}
+	 */
+	public ResetTypeEnum getResetTypeValue();
 
 	/**
 	 * Gets the selected reset group in case of reset type group.
@@ -46,11 +54,15 @@ public interface JRElementDataset extends JRCloneable
 	public JRGroup getResetGroup();
 
 	/**
-	 * Returns the increment type. This specifies dataset values increment step.
-	 * @return one of the reset constants in {@link JRVariable}, since the increment type uses the same
-	 * constants as the reset type.
+	 * @deprecated Replaced by {@link #getIncrementTypeValue()}.
 	 */
 	public byte getIncrementType();
+
+	/**
+	 * Returns the increment type. This specifies dataset values increment step.
+	 * @return one of the increment constants in {@link IncrementTypeEnum}.
+	 */
+	public IncrementTypeEnum getIncrementTypeValue();
 
 	/**
 	 * Gets the selected increment group in case of increment type group.

@@ -1115,18 +1115,18 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	{
 		JRFillVariable variable = getVariable(variableName);
 		JREvaluationTime evaluationTime;
-		switch (variable.getResetType())
+		switch (variable.getResetTypeValue())
 		{
-			case JRVariable.RESET_TYPE_REPORT:
+			case REPORT:
 				evaluationTime = JREvaluationTime.EVALUATION_TIME_REPORT;
 				break;
-			case JRVariable.RESET_TYPE_PAGE:
+			case PAGE:
 				evaluationTime = JREvaluationTime.EVALUATION_TIME_PAGE;
 				break;
-			case JRVariable.RESET_TYPE_COLUMN:
+			case COLUMN:
 				evaluationTime = JREvaluationTime.EVALUATION_TIME_COLUMN;
 				break;
-			case JRVariable.RESET_TYPE_GROUP:
+			case GROUP:
 				evaluationTime = JREvaluationTime.getGroupEvaluationTime(variable.getResetGroup().getName());
 				break;
 			default:
