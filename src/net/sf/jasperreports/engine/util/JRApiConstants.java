@@ -32,7 +32,6 @@ import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRVariable;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
