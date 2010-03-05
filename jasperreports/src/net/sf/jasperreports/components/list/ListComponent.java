@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 
 /**
  * List component interface.
@@ -61,6 +62,11 @@ public interface ListComponent extends Component, JRCloneable
 	ListContents getContents();
 
 	/**
+	 * @deprecated Replaced by {@link getPrintOrderValue()}.
+	 */
+	public Byte getPrintOrder();
+	
+	/**
 	 * Returns the print order of the list cells.
 	 * 
 	 * <p>
@@ -75,12 +81,12 @@ public interface ListComponent extends Component, JRCloneable
 	 * 
 	 * @return the list print order if set, one of
 	 * <ul>
-	 * <li>{@link JRReport#PRINT_ORDER_VERTICAL}</li>
-	 * <li>{@link JRReport#PRINT_ORDER_HORIZONTAL}</li>
+	 * <li>{@link PrintOrderEnum#VERTICAL}</li>
+	 * <li>{@link PrintOrderEnum#HORIZONTAL}</li>
 	 * </ul>
 	 * @see ListContents#getWidth()
 	 */
-	public Byte getPrintOrder();
+	public PrintOrderEnum getPrintOrderValue();
 	
 	/**
 	 * Returns the flag that determines whether the element width is to be ignored

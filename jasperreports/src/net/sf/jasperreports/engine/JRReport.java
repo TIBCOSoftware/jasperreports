@@ -148,14 +148,13 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 * @deprecated Replaced by {@link getPrintOrderValue()}.
 	 */
 	public byte getPrintOrder();
-
-	//TODO: uncomment these below
 	
-//	/**
-//	 * Specifies whether columns will be filled horizontally or vertically.
-//	 * @return a value representing one of the print order constants in {@link PrintOrderEnum}
-//	 */
-//	public PrintOrderEnum getPrintOrderValue();
+	/**
+	 * Specifies whether columns will be filled horizontally or vertically.
+	 * @return a value representing one of the print order constants in {@link PrintOrderEnum}
+	 */
+	public PrintOrderEnum getPrintOrderValue();
+	
 	/**
 	 *
 	 */

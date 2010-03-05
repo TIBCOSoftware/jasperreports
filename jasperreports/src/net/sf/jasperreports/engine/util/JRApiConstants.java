@@ -44,26 +44,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map printOrderMap = null;
-
-	public static Map getPrintOrderMap()
-	{
-		if (printOrderMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(JRReport.PRINT_ORDER_VERTICAL),   "JRReport.PRINT_ORDER_VERTICAL");
-			map.put(new Byte(JRReport.PRINT_ORDER_HORIZONTAL), "JRReport.PRINT_ORDER_HORIZONTAL");
-			printOrderMap = Collections.unmodifiableMap(map);
-		}
-
-		return printOrderMap;
-	}
-
-	public static String getPrintOrder(Byte key)
-	{
-		return (String)getPrintOrderMap().get(key);
-	}
-	
 	private static Map orientationMap = null;
 
 	public static Map getOrientationMap()

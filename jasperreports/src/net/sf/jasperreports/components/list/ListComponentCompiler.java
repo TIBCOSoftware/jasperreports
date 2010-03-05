@@ -26,11 +26,11 @@ package net.sf.jasperreports.components.list;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 
 /**
  * Compile-time handler of {@link ListComponent list component} instances.
@@ -91,9 +91,7 @@ public class ListComponentCompiler implements ComponentCompiler
 		}
 		else
 		{
-			Byte listPrintOrder = listComponent.getPrintOrder();
-			byte printOder = listPrintOrder == null ? JRReport.PRINT_ORDER_VERTICAL 
-					: listPrintOrder.byteValue();
+			PrintOrderEnum listPrintOrder = listComponent.getPrintOrderValue() == null ? PrintOrderEnum.VERTICAL : listComponent.getPrintOrderValue();
 			
 			Boolean listIgnoreWidth = listComponent.getIgnoreWidth();
 			boolean ignoreWidth = listIgnoreWidth != null 
@@ -111,7 +109,7 @@ public class ListComponentCompiler implements ComponentCompiler
 			{
 				contentsWidth = elementWidth;
 				
-				if (printOder == JRReport.PRINT_ORDER_HORIZONTAL)
+				if (listPrintOrder == PrintOrderEnum.HORIZONTAL)
 				{
 					verifier.addBrokenRule("List contents width must be set for horizontal lists", 
 							listContents);
@@ -126,7 +124,7 @@ public class ListComponentCompiler implements ComponentCompiler
 					verifier.addBrokenRule("List contents width must be positive.", listContents);
 				}
 				
-				if (!ignoreWidth && printOder == JRReport.PRINT_ORDER_HORIZONTAL 
+				if (!ignoreWidth && listPrintOrder == PrintOrderEnum.HORIZONTAL 
 						&& width.intValue() > elementWidth)
 				{
 					verifier.addBrokenRule(

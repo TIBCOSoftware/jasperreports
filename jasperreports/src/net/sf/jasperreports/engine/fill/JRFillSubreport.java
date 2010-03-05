@@ -381,21 +381,21 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			log.debug("Fill " + filler.fillerId + ": creating subreport filler");
 		}
 		
-		switch (jasperReport.getPrintOrder())
+		switch (jasperReport.getPrintOrderValue())
 		{
-			case JRReport.PRINT_ORDER_HORIZONTAL :
+			case HORIZONTAL :
 			{
 				subreportFiller = new JRHorizontalFiller(jasperReport, evaluator, this);
 				break;
 			}
-			case JRReport.PRINT_ORDER_VERTICAL :
+			case VERTICAL :
 			{
 				subreportFiller = new JRVerticalFiller(jasperReport, evaluator, this);
 				break;
 			}
 			default :
 			{
-				throw new JRRuntimeException("Unkown print order " + jasperReport.getPrintOrder() + ".");
+				throw new JRRuntimeException("Unkown print order " + jasperReport.getPrintOrderValue().getValue() + ".");
 			}
 		}
 		
