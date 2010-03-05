@@ -66,18 +66,6 @@ public class Barcode4JApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return 
-			"Barcode4JApp usage:" +
-			"\n\tjava Barcode4JApp task" +
-			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();

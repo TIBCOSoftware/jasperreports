@@ -66,18 +66,6 @@ public class ImagesApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return 
-			"ImagesApp usage:" +
-			"\n\tjava ImagesApp task file" +
-			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();

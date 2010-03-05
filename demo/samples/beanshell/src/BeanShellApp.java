@@ -49,18 +49,6 @@ public class BeanShellApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return
-			"BeanShellApp usage:" +
-			"\n\tjava BeanShellApp task" +
-			"\n\tTasks : fill | pdf";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();

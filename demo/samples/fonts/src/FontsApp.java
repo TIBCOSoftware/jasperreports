@@ -67,18 +67,6 @@ public class FontsApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return
-			"FontsApp usage:" +
-			"\n\tjava FontsApp task" +
-			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run";
-	}
-
-	
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();

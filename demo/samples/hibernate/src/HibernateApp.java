@@ -74,18 +74,6 @@ public class HibernateApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return 
-			"HibernateApp usage:" +
-			"\n\tjava HibernateApp task" +
-			"\n\tTasks : compile | fill | fillIgnorePagination | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run";
-	}
-
-	
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		pdf();

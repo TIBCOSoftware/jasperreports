@@ -56,18 +56,6 @@ public class GenericElementApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return
-			"GenericElementApp usage:" +
-			"\n\tjava GenericElementApp task" +
-			"\n\tTasks : fill | print | xml | xmlEmbed | html | xhtml | run";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();

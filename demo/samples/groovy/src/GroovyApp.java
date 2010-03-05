@@ -49,18 +49,6 @@ public class GroovyApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return
-			"GroovyApp usage:" +
-			"\n\tjava GroovyApp task" +
-			"\n\tTasks : fill | pdf";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();
