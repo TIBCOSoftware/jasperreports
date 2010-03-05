@@ -19,16 +19,9 @@
 		</fileset>
 	</path>
 
-	<condition property="using.jdk.1.5">
-		<or>
-		<equals arg1="${ant.java.version}" arg2="1.5"/>
-		<equals arg1="${ant.java.version}" arg2="1.6"/>
-		</or>
-	</condition>
-
-	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application.">
+	<target name="javac" description="Compiles the java source files of the test application.">
 		<mkdir dir="./build/classes"/> 
-		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false" target="1.4" source="1.4">
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false" target="1.5" source="1.5">
 			<classpath refid="classpath"/>
 		</javac>
 		<copy todir="./build/classes">
@@ -48,94 +41,94 @@
 		</copy>
 	</target>
 
-	<target name="compile" if="using.jdk.1.5" description="Compiles the XML report design and produces the .jasper file.">
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="themes" if="using.jdk.1.5" description="Creates the *.jrctx file containing the chart theme settings.">
+	<target name="themes" description="Creates the *.jrctx file containing the chart theme settings.">
 		<java classname="${class.name}" fork="true">
 			<arg value="themes"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="fill" if="using.jdk.1.5" description="Fills the compiled report design with data and produces the .jrprint file.">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
 		<ant dir="../" target="fill"/>
 	</target>
 
-	<target name="view" if="using.jdk.1.5" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<ant dir="../" target="view"/>
 	</target>
 
-	<target name="viewXML" if="using.jdk.1.5" description="Launches the report viewer to preview the generated report stored in an XML file.">
+	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
 		<ant dir="../" target="viewXML"/>
 	</target>
 
-	<target name="print" if="using.jdk.1.5" description="Sends the report in the .jrprint file to the printer.">
+	<target name="print" description="Sends the report in the .jrprint file to the printer.">
 		<ant dir="../" target="print"/>
 	</target>
 
-	<target name="pdf" if="using.jdk.1.5" description="Generates a PDF version of the report by converting the .jrprint file.">
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<ant dir="../" target="pdf"/>
 	</target>
 
-	<target name="xml" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file.">
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
 		<ant dir="../" target="xml"/>
 	</target>
 
-	<target name="xmlEmbed" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file.">
+	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
 		<ant dir="../" target="xmlEmbed"/>
 	</target>
 
-	<target name="html" if="using.jdk.1.5" description="Generates an HTML version of the report by converting the .jrprint file.">
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
 		<ant dir="../" target="html"/>
 	</target>
 
-	<target name="rtf" if="using.jdk.1.5" description="Generates an RTF version of the report by converting the .jrprint file.">
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
 		<ant dir="../" target="rtf"/>
 	</target>
 
-	<target name="xls" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
 		<ant dir="../" target="xls"/>
 	</target>
 
-	<target name="jxl" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
 		<ant dir="../" target="jxl"/>
 	</target>
 
-	<target name="csv" if="using.jdk.1.5" description="Generates a CSV version of the report by converting the .jrprint file.">
+	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
 		<ant dir="../" target="csv"/>
 	</target>
 
-	<target name="odt" if="using.jdk.1.5" description="Generates an ODT version of the report by converting the .jrprint file.">
+	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
 		<ant dir="../" target="odt"/>
 	</target>
 
-	<target name="ods" if="using.jdk.1.5" description="Generates an ODS version of the report by converting the .jrprint file.">
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
 		<ant dir="../" target="ods"/>
 	</target>
 
-	<target name="docx" if="using.jdk.1.5" description="Generates a DOCX version of the report by converting the .jrprint file.">
+	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
 		<ant dir="../" target="docx"/>
 	</target>
 
-	<target name="xlsx" if="using.jdk.1.5" description="Generates an XLSX version of the report by converting the .jrprint file.">
+	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
 		<ant dir="../" target="xlsx"/>
 	</target>
 
-	<target name="xhtml" if="using.jdk.1.5" description="Generates an XHTML version of the report by converting the .jrprint file.">
+	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
 		<ant dir="../" target="xhtml"/>
 	</target>
 
-	<target name="run" if="using.jdk.1.5" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
+	<target name="run" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
 		<ant dir="../" target="run"/>
 	</target>
 
-	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design.">
+	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<ant dir="../" target="viewDesignXML"/>
 	</target>
 
-	<target name="viewDesign" if="using.jdk.1.5" description="Launches the design viewer to preview the compiled report design.">
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
 		<ant dir="../" target="viewDesign"/>
 	</target>
 

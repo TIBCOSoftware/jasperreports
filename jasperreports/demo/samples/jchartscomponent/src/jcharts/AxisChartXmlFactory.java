@@ -23,8 +23,9 @@
  */
 package jcharts;
 
-import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.XmlConstants;
 
 import org.xml.sax.Attributes;
@@ -44,14 +45,13 @@ public class AxisChartXmlFactory extends JRBaseFactory
 		String areacolor = attrs.getValue("areaColor");
 		chart.setAreaColor(JRXmlConstants.getColor(areacolor, null));
 		
-		String evaluationAttr = attrs.getValue(XmlConstants.ATTRIBUTE_evaluationTime);
-		if (evaluationAttr != null)
+		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(attrs.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
+		if (evaluationTime != null)
 		{
-			Byte evaluationTime = (Byte) JRXmlConstants.getEvaluationTimeMap().get(evaluationAttr);
-			chart.setEvaluationTime(evaluationTime.byteValue());
+			chart.setEvaluationTime(evaluationTime);
 		}
 
-		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+		if (chart.getEvaluationTime() == EvaluationTimeEnum.GROUP)
 		{
 			String groupName = attrs.getValue(XmlConstants.ATTRIBUTE_evaluationGroup);
 			chart.setEvaluationGroup(groupName);
