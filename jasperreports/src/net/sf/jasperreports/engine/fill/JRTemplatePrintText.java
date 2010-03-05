@@ -560,17 +560,19 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}.
 	 */
 	public void setStyledText(boolean isStyledText)
 	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setMarkup(String)}.
 	 */
 	public void setStyledText(Boolean isStyledText)
 	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
@@ -591,6 +593,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public void setMarkup(String markup)
 	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**

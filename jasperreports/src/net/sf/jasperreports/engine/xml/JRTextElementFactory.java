@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
@@ -81,8 +82,7 @@ public class JRTextElementFactory extends JRBaseFactory
 			if (log.isWarnEnabled())
 				log.warn("The 'isStyledText' attribute is deprecated. Use the 'markup' attribute instead.");
 				
-			//OK to use deprecated method here, until it is removed
-			textElement.setStyledText(Boolean.valueOf(isStyledText));
+			textElement.setMarkup(Boolean.valueOf(isStyledText) ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE);
 		}
 
 		return textElement;

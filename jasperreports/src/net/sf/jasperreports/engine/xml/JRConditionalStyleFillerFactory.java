@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.design.JRDesignConditionalStyle;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -275,8 +276,7 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 			if (log.isWarnEnabled())
 				log.warn("The 'isStyledText' attribute is deprecated. Use the 'markup' attribute instead.");
 				
-			//OK to use deprecated method here, until it is removed
-			style.setStyledText(Boolean.valueOf(isStyledText));
+			style.setMarkup(Boolean.valueOf(isStyledText) ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE);
 		}
 
 		style.setPattern(atts.getValue(XmlConstants.ATTRIBUTE_pattern));

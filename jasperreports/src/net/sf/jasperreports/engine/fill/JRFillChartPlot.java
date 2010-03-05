@@ -201,10 +201,11 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRCategoryAxisFormat#setCategoryAxisTickLabelRotation(Double)}.
 	 */
 	public void setLabelRotation(Double labelRotation)
 	{
+		throw new UnsupportedOperationException();
 	}
 	
 	/**

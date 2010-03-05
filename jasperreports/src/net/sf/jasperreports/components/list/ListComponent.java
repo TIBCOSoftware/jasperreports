@@ -26,7 +26,6 @@ package net.sf.jasperreports.components.list;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 
