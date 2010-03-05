@@ -57,7 +57,6 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
 import net.sf.jasperreports.engine.xml.XmlConstants;
@@ -228,8 +227,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
 		
 		writer.startElement("list", namespace);
-		writer.addAttribute("printOrder", list.getPrintOrder(), 
-				JRXmlConstants.getPrintOrderMap());
+		writer.addAttribute("printOrder", list.getPrintOrderValue());
 		writer.addAttribute("ignoreWidth", list.getIgnoreWidth()); 
 		reportWriter.writeDatasetRun(list.getDatasetRun());
 		

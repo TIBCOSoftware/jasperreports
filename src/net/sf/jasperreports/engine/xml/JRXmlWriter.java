@@ -166,6 +166,7 @@ import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
@@ -309,7 +310,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, report.getName());
 		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_language, report.getLanguage(), JRReport.LANGUAGE_JAVA);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_columnCount, report.getColumnCount(), 1);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_printOrder, report.getPrintOrder(), JRXmlConstants.getPrintOrderMap(), JRReport.PRINT_ORDER_VERTICAL);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_printOrder, report.getPrintOrderValue(), PrintOrderEnum.VERTICAL);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_pageWidth, report.getPageWidth());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_pageHeight, report.getPageHeight());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_orientation, report.getOrientation(), JRXmlConstants.getOrientationMap(), JRReport.ORIENTATION_PORTRAIT);

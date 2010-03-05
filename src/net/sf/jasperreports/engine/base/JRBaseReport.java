@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
@@ -75,7 +76,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected String name = null;
 	protected String language = LANGUAGE_JAVA;
 	protected int columnCount = 1;
-	protected byte printOrder = PRINT_ORDER_VERTICAL;
+	protected PrintOrderEnum printOrderValue = PrintOrderEnum.VERTICAL;
 	protected int pageWidth = 595;
 	protected int pageHeight = 842;
 	protected byte orientation = ORIENTATION_PORTRAIT;
@@ -153,7 +154,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		name = report.getName();
 		language = report.getLanguage();
 		columnCount = report.getColumnCount();
-		printOrder = report.getPrintOrder();
+		printOrderValue = report.getPrintOrderValue();
 		pageWidth = report.getPageWidth();
 		pageHeight = report.getPageHeight();
 		orientation = report.getOrientation();
@@ -286,11 +287,19 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link getPrintOrderValue()}.
 	 */
 	public byte getPrintOrder()
 	{
-		return printOrder;
+		return getPrintOrderValue().getValue();
+	}
+
+	/**
+	 *
+	 */
+	public PrintOrderEnum getPrintOrderValue()
+	{
+		return printOrderValue;
 	}
 
 	/**
@@ -767,11 +776,12 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 
 	
 	/**
-	 * This field is only for serialization backward compatibility.
+	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private JRBand detail = null;
 	private byte whenNoDataType;
+	private byte printOrder;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -786,6 +796,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			whenNoDataTypeValue = WhenNoDataTypeEnum.getByValue(whenNoDataType);
+			printOrderValue = PrintOrderEnum.getByValue(printOrder);
 		}
 	}
 

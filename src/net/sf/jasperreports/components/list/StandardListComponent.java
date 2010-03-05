@@ -23,13 +23,17 @@
  */
 package net.sf.jasperreports.components.list;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -48,7 +52,7 @@ public class StandardListComponent implements Serializable, ListComponent
 	
 	private JRDatasetRun datasetRun;
 	private ListContents contents;
-	private Byte printOrder;
+	private PrintOrderEnum printOrderValue;
 	private Boolean ignoreWidth;
 
 	public StandardListComponent()
@@ -59,7 +63,7 @@ public class StandardListComponent implements Serializable, ListComponent
 	{
 		this.datasetRun = baseFactory.getDatasetRun(list.getDatasetRun());
 		this.contents = new BaseListContents(list.getContents(), baseFactory);
-		this.printOrder = list.getPrintOrder();
+		this.printOrderValue = list.getPrintOrderValue();
 		this.ignoreWidth = list.getIgnoreWidth();
 	}
 	
@@ -111,11 +115,21 @@ public class StandardListComponent implements Serializable, ListComponent
 		}
 	}
 
+	/**
+	 * @deprecated Replaced by {@link getPrintOrderValue()}.
+	 */
 	public Byte getPrintOrder()
 	{
-		return printOrder;
+		return getPrintOrderValue().getValueByte();
 	}
 
+	/**
+	 * 
+	 */
+	public PrintOrderEnum getPrintOrderValue()
+	{
+		return printOrderValue;
+	}
 	/**
 	 * Sets the list cell print order.
 	 * 
@@ -190,4 +204,21 @@ public class StandardListComponent implements Serializable, ListComponent
 	{
 		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
 	}
+	
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private Byte printOrder;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			printOrderValue = PrintOrderEnum.getByValue(printOrder);
+		}
+	}
+	
 }

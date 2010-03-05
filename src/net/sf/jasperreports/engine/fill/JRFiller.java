@@ -131,14 +131,14 @@ public abstract class JRFiller
 	{
 		JRBaseFiller filler = null;
 
-		switch (jasperReport.getPrintOrder())
+		switch (jasperReport.getPrintOrderValue())
 		{
-			case JRReport.PRINT_ORDER_HORIZONTAL :
+			case HORIZONTAL :
 			{
 				filler = new JRHorizontalFiller(jasperReport);
 				break;
 			}
-			case JRReport.PRINT_ORDER_VERTICAL :
+			case VERTICAL :
 			{
 				filler = new JRVerticalFiller(jasperReport);
 				break;

@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
@@ -55,10 +56,10 @@ public class JasperDesignFactory extends JRBaseFactory
 			jasperDesign.setColumnCount(Integer.parseInt(columnCount));
 		}
 
-		Byte printOrder = (Byte)JRXmlConstants.getPrintOrderMap().get(atts.getValue(XmlConstants.ATTRIBUTE_printOrder));
+		PrintOrderEnum printOrder = PrintOrderEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_printOrder));
 		if (printOrder != null)
 		{
-			jasperDesign.setPrintOrder(printOrder.byteValue());
+			jasperDesign.setPrintOrder(printOrder);
 		}
 
 		String pageWidth = atts.getValue(XmlConstants.ATTRIBUTE_pageWidth);

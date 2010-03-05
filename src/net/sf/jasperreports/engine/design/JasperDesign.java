@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseReport;
 import net.sf.jasperreports.engine.design.events.PropagationChangeListener;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.util.JRElementsVisitor;
 import net.sf.jasperreports.engine.util.JRVisitorSupport;
 
@@ -218,15 +219,23 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 * Sets the print order. In case of multiple column reports, the engine can perform vertical or horizontal fill.
-	 * @see net.sf.jasperreports.engine.JRReport PRINT_ORDER_VERTICAL,
-	 * @see net.sf.jasperreports.engine.JRReport PRINT_ORDER_HORIZONTAL
+	 * @deprecated Replaced by {@link #setPrintOrder(PrintOrderEnum)}.
 	 */
 	public void setPrintOrder(byte printOrder)
 	{
-		int old = this.printOrder;
-		this.printOrder = printOrder;
-		getEventSupport().firePropertyChange(PROPERTY_PRINT_ORDER, old, this.printOrder);
+		setPrintOrder(PrintOrderEnum.getByValue(printOrder));
+	}
+
+	/**
+	 * Sets the print order. In case of multiple column reports, the engine can perform vertical or horizontal fill.
+	 * @see net.sf.jasperreports.engine.type.PrintOrderEnum VERTICAL,
+	 * @see net.sf.jasperreports.engine.type.PrintOrderEnum HORIZONTAL
+	 */
+	public void setPrintOrder(PrintOrderEnum printOrderValue)
+	{
+		Object old = this.printOrderValue;
+		this.printOrderValue = printOrderValue;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_ORDER, old, this.printOrderValue);
 	}
 
 

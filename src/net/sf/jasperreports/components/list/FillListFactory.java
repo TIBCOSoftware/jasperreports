@@ -24,13 +24,13 @@
 package net.sf.jasperreports.components.list;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentFillFactory;
 import net.sf.jasperreports.engine.component.FillComponent;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 
 /**
  * Factory of {@link BaseFillList list fill component} instances.
@@ -55,9 +55,9 @@ public class FillListFactory implements ComponentFillFactory
 		{
 			ListComponent list = (ListComponent) component;
 			FillComponent fillList;
-			Byte printOrder = list.getPrintOrder();
+			PrintOrderEnum printOrder = list.getPrintOrderValue();
 			if (printOrder == null 
-					|| printOrder.byteValue() == JRReport.PRINT_ORDER_VERTICAL)
+					|| printOrder == PrintOrderEnum.VERTICAL)
 			{
 				fillList = new VerticalFillList(list, factory);
 			}

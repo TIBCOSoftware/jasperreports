@@ -75,6 +75,7 @@ import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
@@ -191,7 +192,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected int columnCount = 1;
 
-	protected byte printOrder = JRReport.PRINT_ORDER_VERTICAL;
+	protected PrintOrderEnum printOrder = PrintOrderEnum.VERTICAL;
 
 	protected int pageWidth = 0;
 
@@ -392,7 +393,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		/*   */
 		name = jasperReport.getName();
 		columnCount = jasperReport.getColumnCount();
-		printOrder = jasperReport.getPrintOrder();
+		printOrder = jasperReport.getPrintOrderValue();
 		pageWidth = jasperReport.getPageWidth();
 		pageHeight = jasperReport.getPageHeight();
 		orientation = jasperReport.getOrientation();
