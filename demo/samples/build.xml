@@ -26,6 +26,9 @@
 
 	<path id="classpath">
 		<pathelement location="${sample.dir}/build/classes"/>
+		<fileset dir="${sample.dir}/lib" erroronmissingdir="false">
+			<include name="**/*.jar"/>
+		</fileset>
 		<pathelement location="../../build/classes" />
 		<pathelement location="../fonts" />
 		<fileset dir="../../lib">
