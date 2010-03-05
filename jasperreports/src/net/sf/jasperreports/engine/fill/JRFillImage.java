@@ -1038,22 +1038,22 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				if (Image.class.getName().equals(expressionClass.getName()))
 				{
 					Image img = (Image) source;
-					newRenderer = JRImageRenderer.getInstance(img, getOnErrorType());
+					newRenderer = JRImageRenderer.getInstance(img, getOnErrorTypeValue());
 				}
 				else if (InputStream.class.getName().equals(expressionClass.getName()))
 				{
 					InputStream is = (InputStream) source;
-					newRenderer = JRImageRenderer.getInstance(is, getOnErrorType());
+					newRenderer = JRImageRenderer.getInstance(is, getOnErrorTypeValue());
 				}
 				else if (URL.class.getName().equals(expressionClass.getName()))
 				{
 					URL url = (URL) source;
-					newRenderer = JRImageRenderer.getInstance(url, getOnErrorType());
+					newRenderer = JRImageRenderer.getInstance(url, getOnErrorTypeValue());
 				}
 				else if (File.class.getName().equals(expressionClass.getName()))
 				{
 					File file = (File) source;
-					newRenderer = JRImageRenderer.getInstance(file, getOnErrorType());
+					newRenderer = JRImageRenderer.getInstance(file, getOnErrorTypeValue());
 				}
 				else if (String.class.getName().equals(expressionClass.getName()))
 				{
@@ -1061,7 +1061,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					newRenderer = 
 						JRImageRenderer.getInstance(
 							location, 
-							getOnErrorType(), 
+							getOnErrorTypeValue(), 
 							isLazy(), 
 							filler.reportClassLoader,
 							filler.urlHandlerFactory,
