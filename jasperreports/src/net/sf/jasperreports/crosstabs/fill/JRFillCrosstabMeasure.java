@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.fill.JRDefaultIncrementerFactory;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.fill.JRIncrementerFactoryCache;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
  * 
@@ -76,9 +77,17 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 		return parentMeasure.getValueExpression();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getCalculationValue()}.
+	 */
 	public byte getCalculation()
 	{
 		return parentMeasure.getCalculation();
+	}
+
+	public CalculationEnum getCalculationValue()
+	{
+		return parentMeasure.getCalculationValue();
 	}
 
 	public String getIncrementerFactoryClassName()

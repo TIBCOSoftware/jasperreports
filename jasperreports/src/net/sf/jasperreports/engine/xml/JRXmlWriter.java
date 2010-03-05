@@ -157,6 +157,7 @@ import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
@@ -620,7 +621,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_incrementGroup, variable.getIncrementGroup().getName());
 		}
-		writer.addAttribute(XmlConstants.ATTRIBUTE_calculation, variable.getCalculation(), JRXmlConstants.getCalculationMap(), JRVariable.CALCULATION_NOTHING);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_calculation, variable.getCalculationValue(), CalculationEnum.NOTHING);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_incrementerFactoryClass, variable.getIncrementerFactoryClassName());
 
 		writer.writeExpression(XmlConstants.ELEMENT_variableExpression, variable.getExpression(), false);
@@ -2524,7 +2525,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(XmlConstants.ELEMENT_returnValue);
 		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_subreportVariable, returnValue.getSubreportVariable());
 		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_toVariable, returnValue.getToVariable());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_calculation, returnValue.getCalculation(), JRXmlConstants.getCalculationMap(), JRVariable.CALCULATION_NOTHING);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_calculation, returnValue.getCalculationValue(), CalculationEnum.NOTHING);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_incrementerFactoryClass, returnValue.getIncrementerFactoryClassName());
 		writer.closeElement();
 	}
@@ -2708,7 +2709,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(JRCrosstabMeasureFactory.ELEMENT_measure);
 		writer.addEncodedAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_name, measure.getName());
 		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_class, measure.getValueClassName());
-		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_calculation, measure.getCalculation(), JRXmlConstants.getCalculationMap(), JRVariable.CALCULATION_NOTHING);
+		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_calculation, measure.getCalculationValue(), CalculationEnum.NOTHING);
 		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_percentageOf, measure.getPercentageType(), CrosstabPercentageEnum.NONE);
 		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_percentageCalculatorClass, measure.getPercentageCalculatorClassName());
 		writer.writeExpression(JRCrosstabMeasureFactory.ELEMENT_measureExpression, measure.getValueExpression(), false);

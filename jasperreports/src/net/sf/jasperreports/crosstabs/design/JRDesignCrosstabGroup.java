@@ -26,10 +26,10 @@ package net.sf.jasperreports.crosstabs.design;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabGroup;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
  * Base crosstab row/column group implementation to be used at design time.
@@ -63,7 +63,7 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 		super();
 		
 		variable = designVariable = new JRDesignVariable();
-		designVariable.setCalculation(JRVariable.CALCULATION_SYSTEM);
+		designVariable.setCalculation(CalculationEnum.SYSTEM);
 		designVariable.setSystemDefined(true);
 		
 		header = new JRDesignCellContents();

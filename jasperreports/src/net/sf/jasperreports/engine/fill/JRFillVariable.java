@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -176,11 +177,19 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getCalculationValue()}
 	 */
 	public byte getCalculation()
 	{
-		return parent.getCalculation();
+		return getCalculationValue().getValue();
+	}
+		
+	/**
+	 *
+	 */
+	public CalculationEnum getCalculationValue()
+	{
+		return parent.getCalculationValue();
 	}
 		
 	/**

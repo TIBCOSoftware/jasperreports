@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBaseDataset;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
@@ -221,7 +222,7 @@ public class JRDesignDataset extends JRBaseDataset
 		variable.setName(JRVariable.PAGE_COUNT);
 		variable.setValueClass(Integer.class);
 		variable.setResetType(ResetTypeEnum.PAGE);
-		variable.setCalculation(JRVariable.CALCULATION_COUNT);
+		variable.setCalculation(CalculationEnum.COUNT);
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
@@ -243,7 +244,7 @@ public class JRDesignDataset extends JRBaseDataset
 		variable.setValueClass(Integer.class);
 		//variable.setResetType(JRVariable.RESET_TYPE_COLUMN);
 		variable.setResetType(ResetTypeEnum.PAGE);
-		variable.setCalculation(JRVariable.CALCULATION_SYSTEM);
+		variable.setCalculation(CalculationEnum.SYSTEM);
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
@@ -260,7 +261,7 @@ public class JRDesignDataset extends JRBaseDataset
 		variable.setValueClass(Integer.class);
 		//variable.setResetType(JRVariable.RESET_TYPE_PAGE);
 		variable.setResetType(ResetTypeEnum.REPORT);
-		variable.setCalculation(JRVariable.CALCULATION_SYSTEM);
+		variable.setCalculation(CalculationEnum.SYSTEM);
 		variable.setSystemDefined(true);
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
@@ -278,7 +279,7 @@ public class JRDesignDataset extends JRBaseDataset
 		variable.setName(JRVariable.COLUMN_COUNT);
 		variable.setValueClass(Integer.class);
 		variable.setResetType(ResetTypeEnum.COLUMN);
-		variable.setCalculation(JRVariable.CALCULATION_COUNT);
+		variable.setCalculation(CalculationEnum.COUNT);
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
@@ -316,7 +317,7 @@ public class JRDesignDataset extends JRBaseDataset
 		variable.setName(JRVariable.REPORT_COUNT);
 		variable.setValueClass(Integer.class);
 		variable.setResetType(ResetTypeEnum.REPORT);
-		variable.setCalculation(JRVariable.CALCULATION_COUNT);
+		variable.setCalculation(CalculationEnum.COUNT);
 		variable.setSystemDefined(true);
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
@@ -916,7 +917,7 @@ public class JRDesignDataset extends JRBaseDataset
 		countVariable.setValueClass(Integer.class);
 		countVariable.setResetType(ResetTypeEnum.GROUP);
 		countVariable.setResetGroup(group);
-		countVariable.setCalculation(JRVariable.CALCULATION_COUNT);
+		countVariable.setCalculation(CalculationEnum.COUNT);
 		countVariable.setSystemDefined(true);
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);

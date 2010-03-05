@@ -30,10 +30,10 @@ import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
  * Crosstab measure implementation to be used for report designing.
@@ -70,22 +70,30 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 		super();
 		
 		variable = designVariable = new JRDesignVariable();
-		designVariable.setCalculation(JRVariable.CALCULATION_SYSTEM);
+		designVariable.setCalculation(CalculationEnum.SYSTEM);
 		designVariable.setSystemDefined(true);
 	}
 
 	
+	/**
+	 * @deprecated Replaced by {@link #setCalculation(CalculationEnum)}
+	 */
+	public void setCalculation(byte calculation)
+	{
+		setCalculation(CalculationEnum.getByValue(calculation));
+	}
+
 	/**
 	 * Sets the calculation type.
 	 * 
 	 * @param calculation the calculation type
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getCalculation()
 	 */
-	public void setCalculation(byte calculation)
+	public void setCalculation(CalculationEnum calculationValue)
 	{
-		byte old = this.calculation;
-		this.calculation = calculation;
-		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculation);
+		Object old = this.calculationValue;
+		this.calculationValue = calculationValue;
+		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculationValue);
 	}
 
 	

@@ -144,6 +144,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
@@ -731,7 +732,7 @@ public class JRApiWriter
 			write( variableName + ".setIncrementType({0});\n", variable.getIncrementTypeValue(), IncrementTypeEnum.NONE);
 			write( variableName + ".setIncrementGroup({0});\n", incrementGroupName);
 			
-			write( variableName + ".setCalculation({0});\n", JRApiConstants.getCalculation(new Byte (variable.getCalculation())), "JRVariable.CALCULATION_NOTHING");
+			write( variableName + ".setCalculation({0});\n", variable.getCalculationValue(), CalculationEnum.NOTHING);
 			write( variableName + ".setIncrementerFactoryClass(Class.forName(\"{0}\"));\n", JRStringUtil.escapeJavaStringLiteral(variable.getIncrementerFactoryClassName()));
 			writeExpression( variable.getExpression(), variableName, "Expression");
 			writeExpression( variable.getInitialValueExpression(), variableName, "InitialValueExpression");
@@ -2953,7 +2954,7 @@ public class JRApiWriter
 			write( "JRDesignReturnValue " + returnValueName + " = new JRDesignReturnValue();\n");
 			write( returnValueName + ".setSubreportVariable(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(returnValue.getSubreportVariable()));
 			write( returnValueName + ".setToVariable(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(returnValue.getToVariable()));
-			write( returnValueName + ".setCalculation({0});\n", JRApiConstants.getCalculation(new Byte(returnValue.getCalculation())), "JRVariable.CALCULATION_NOTHING");
+			write( returnValueName + ".setCalculation({0});\n", returnValue.getCalculationValue(), CalculationEnum.NOTHING);
 			write( returnValueName + ".setIncrementerFactoryClassName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(returnValue.getIncrementerFactoryClassName()));
 			flush();
 		}
@@ -3201,7 +3202,7 @@ public class JRApiWriter
 
 			write( measureName + ".setValueClassName(\"{0}\");\n", measure.getValueClassName());
 			
-			write( measureName + ".setCalculation({0});\n", JRApiConstants.getCalculation(new Byte (measure.getCalculation())), "JRVariable.CALCULATION_NOTHING");
+			write( measureName + ".setCalculation({0});\n", measure.getCalculationValue(), CalculationEnum.NOTHING);
 			write( measureName + ".setPercentageType({0});\n", measure.getPercentageType(), CrosstabPercentageEnum.NONE);
 			write( measureName + ".setPercentageCalculatorClassName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(measure.getPercentageCalculatorClassName()));
 

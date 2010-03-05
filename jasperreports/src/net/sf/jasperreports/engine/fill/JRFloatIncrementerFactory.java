@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 
 /**
@@ -61,56 +61,66 @@ public class JRFloatIncrementerFactory extends JRAbstractExtendedIncrementerFact
 	{
 		return mainInstance;
 	}
+	
+
+	/**
+	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}
+	 */
+	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
+	{
+		
+		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));
+	}
 
 
 	/**
 	 *
 	 */
-	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
+	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation)
 	{
 		JRExtendedIncrementer incrementer = null;
 
 		switch (calculation)
 		{
-			case JRVariable.CALCULATION_COUNT :
+			case COUNT :
 			{
 				incrementer = JRFloatCountIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_SUM :
+			case SUM :
 			{
 				incrementer = JRFloatSumIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_AVERAGE :
+			case AVERAGE :
 			{
 				incrementer = JRFloatAverageIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_LOWEST :
-			case JRVariable.CALCULATION_HIGHEST :
+			case LOWEST :
+			case HIGHEST :
 			{
 				incrementer = JRComparableIncrementerFactory.getInstance().getExtendedIncrementer(calculation);
 				break;
 			}
-			case JRVariable.CALCULATION_STANDARD_DEVIATION :
+			case STANDARD_DEVIATION :
 			{
 				incrementer = JRFloatStandardDeviationIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_VARIANCE :
+			case VARIANCE :
 			{
 				incrementer = JRFloatVarianceIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_DISTINCT_COUNT :
+			case DISTINCT_COUNT :
 			{
 				incrementer = JRFloatDistinctCountIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_SYSTEM :
-			case JRVariable.CALCULATION_NOTHING :
-			case JRVariable.CALCULATION_FIRST :
+			case SYSTEM :
+			case NOTHING :
+			case FIRST :
 			default :
 			{
 				incrementer = JRDefaultIncrementerFactory.getInstance().getExtendedIncrementer(calculation);

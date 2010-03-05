@@ -387,7 +387,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	{
 		return new MeasureDefinition(
 				measure.getValueClass(), 
-				measure.getCalculation(), 
+				measure.getCalculationValue(), 
 				measure.getIncrementerFactory()); 
 	}
 

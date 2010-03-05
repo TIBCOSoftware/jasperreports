@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -60,7 +61,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 	protected String incrementerFactoryClassRealName = null;
 	protected ResetTypeEnum resetTypeValue = ResetTypeEnum.REPORT;
 	protected IncrementTypeEnum incrementTypeValue = IncrementTypeEnum.NONE;
-	protected byte calculation = CALCULATION_NOTHING;
+	protected CalculationEnum calculationValue = CalculationEnum.NOTHING;
 	protected boolean isSystemDefined = false;
 
 	protected transient Class valueClass = null;
@@ -95,7 +96,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 		incrementerFactoryClassName = variable.getIncrementerFactoryClassName();
 		resetTypeValue = variable.getResetTypeValue();
 		incrementTypeValue = variable.getIncrementTypeValue();
-		calculation = variable.getCalculation();
+		calculationValue = variable.getCalculationValue();
 		isSystemDefined = variable.isSystemDefined();
 		
 		expression = factory.getExpression(variable.getExpression());
@@ -237,11 +238,19 @@ public class JRBaseVariable implements JRVariable, Serializable
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getCalculationValue()}
 	 */
 	public byte getCalculation()
 	{
-		return this.calculation;
+		return getCalculationValue().getValue();
+	}
+
+	/**
+	 * 
+	 */
+	public CalculationEnum getCalculationValue()
+	{
+		return this.calculationValue;
 	}
 
 	/**
@@ -317,6 +326,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
 	private byte resetType;
 	private byte incrementType;
+	private byte calculation;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -326,6 +336,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 		{
 			resetTypeValue = ResetTypeEnum.getByValue(resetType);
 			incrementTypeValue = IncrementTypeEnum.getByValue(incrementType);
+			calculationValue = CalculationEnum.getByValue(calculation);
 		}
 		
 	}

@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -80,10 +81,10 @@ public class JRVariableFactory extends JRBaseFactory
 			variable.setIncrementGroup(group);
 		}
 
-		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(XmlConstants.ATTRIBUTE_calculation));
+		CalculationEnum calculation = CalculationEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_calculation));
 		if (calculation != null)
 		{
-			variable.setCalculation(calculation.byteValue());
+			variable.setCalculation(calculation);
 		}
 
 		if (atts.getValue(XmlConstants.ATTRIBUTE_incrementerFactoryClass) != null)

@@ -61,6 +61,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.FileResolver;
@@ -211,7 +212,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			JRDesignVariable variable = new JRDesignVariable();
 			variable.setName((String) BUILT_IN_VARIABLES[i]);
 			variable.setValueClass((Class) BUILT_IN_VARIABLES[++i]);
-			variable.setCalculation(JRVariable.CALCULATION_SYSTEM);
+			variable.setCalculation(CalculationEnum.SYSTEM);
 			variable.setSystemDefined(true);
 			addVariable(variable);
 		}
@@ -448,7 +449,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected void addTotalVar(JRCrosstabMeasure measure, JRCrosstabRowGroup rowGroup, JRCrosstabColumnGroup colGroup)
 	{
 		JRDesignVariable var = new JRDesignVariable();
-		var.setCalculation(JRVariable.CALCULATION_SYSTEM);
+		var.setCalculation(CalculationEnum.SYSTEM);
 		var.setSystemDefined(true);
 		var.setName(getTotalVariableName(measure, rowGroup, colGroup));
 		var.setValueClassName(measure.getValueClassName());

@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.JRCalculable;
 import net.sf.jasperreports.engine.fill.JRFillCrosstab;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
@@ -257,24 +258,24 @@ public class BucketingService
 
 	protected void addMeasure(MeasureDefinition measure, int index, List measuresList, List measureIndexList)
 	{
-		switch (measure.getCalculation())
+		switch (measure.getCalculationValue())
 		{
-			case JRVariable.CALCULATION_AVERAGE:
-			case JRVariable.CALCULATION_VARIANCE:
+			case AVERAGE:
+			case VARIANCE:
 			{
-				MeasureDefinition sumMeasure = MeasureDefinition.createHelperMeasure(measure, JRVariable.CALCULATION_SUM);
+				MeasureDefinition sumMeasure = MeasureDefinition.createHelperMeasure(measure, CalculationEnum.SUM);
 				addMeasure(sumMeasure, index, measuresList, measureIndexList);
-				MeasureDefinition countMeasure = MeasureDefinition.createHelperMeasure(measure, JRVariable.CALCULATION_COUNT);
+				MeasureDefinition countMeasure = MeasureDefinition.createHelperMeasure(measure, CalculationEnum.COUNT);
 				addMeasure(countMeasure, index, measuresList, measureIndexList);
 				break;
 			}
-			case JRVariable.CALCULATION_STANDARD_DEVIATION:
+			case STANDARD_DEVIATION:
 			{
-				MeasureDefinition varianceMeasure = MeasureDefinition.createHelperMeasure(measure, JRVariable.CALCULATION_VARIANCE);
+				MeasureDefinition varianceMeasure = MeasureDefinition.createHelperMeasure(measure, CalculationEnum.VARIANCE);
 				addMeasure(varianceMeasure, index, measuresList, measureIndexList);
 				break;
 			}
-			case JRVariable.CALCULATION_DISTINCT_COUNT:
+			case DISTINCT_COUNT:
 			{
 				MeasureDefinition countMeasure = MeasureDefinition.createDistinctCountHelperMeasure(measure);
 				addMeasure(countMeasure, index, measuresList, measureIndexList);
@@ -345,20 +346,20 @@ public class BucketingService
 			MeasureDefinition measure = measures[i];
 			values[i] = measure.new MeasureValue();
 
-			switch (measure.getCalculation())
+			switch (measure.getCalculationValue())
 			{
-				case JRVariable.CALCULATION_AVERAGE:
-				case JRVariable.CALCULATION_VARIANCE:
+				case AVERAGE:
+				case VARIANCE:
 				{
 					values[i].setHelper(values[i - 2], JRCalculable.HELPER_SUM);
 					values[i].setHelper(values[i - 1], JRCalculable.HELPER_COUNT);
 					break;
 				}
-				case JRVariable.CALCULATION_STANDARD_DEVIATION:
+				case STANDARD_DEVIATION:
 				{
 					values[i].setHelper(values[i - 1], JRCalculable.HELPER_VARIANCE);
 				}
-				case JRVariable.CALCULATION_DISTINCT_COUNT:
+				case DISTINCT_COUNT:
 				{
 					values[i].setHelper(values[i - 1], JRCalculable.HELPER_COUNT);
 				}

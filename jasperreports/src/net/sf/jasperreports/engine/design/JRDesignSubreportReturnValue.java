@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseSubreportReturnValue;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRSubreportReturnValue JRSubreportReturnValue}
@@ -78,16 +79,24 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue imp
 	}
 
 	/**
+	 * @deprecated Replaced by {@link #setCalculation(CalculationEnum)}
+	 */
+	public void setCalculation(byte calculation)
+	{
+		setCalculation(CalculationEnum.getByValue(calculation));
+	}
+	
+	/**
 	 * Sets the calculation type.
 	 * 
 	 * @param calculation the calculation type
 	 * @see net.sf.jasperreports.engine.JRSubreportReturnValue#getCalculation()
 	 */
-	public void setCalculation(byte calculation)
+	public void setCalculation(CalculationEnum calculationValue)
 	{
-		byte old = this.calculation;
-		this.calculation = calculation;
-		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculation);
+		CalculationEnum old = this.calculationValue;
+		this.calculationValue = calculationValue;
+		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculationValue);
 	}
 	
 	/**

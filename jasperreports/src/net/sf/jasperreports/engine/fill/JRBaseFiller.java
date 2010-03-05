@@ -72,6 +72,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
@@ -1606,7 +1607,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 * @param calculation
 	 *            the calculation type
 	 */
-	protected void addVariableCalculationReq(String variableName, byte calculation)
+	protected void addVariableCalculationReq(String variableName, CalculationEnum calculation)
 	{
 		mainDataset.addVariableCalculationReq(variableName, calculation);
 	}

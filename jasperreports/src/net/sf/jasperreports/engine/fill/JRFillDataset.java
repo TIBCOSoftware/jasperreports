@@ -59,9 +59,10 @@ import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
-import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
@@ -297,31 +298,31 @@ public class JRFillDataset implements JRDataset
 	{
 		JRFillVariable variable = factory.getVariable(parentVariable);
 
-		byte calculation = variable.getCalculation();
+		CalculationEnum calculation = variable.getCalculationValue();
 		switch (calculation)
 		{
-			case JRVariable.CALCULATION_AVERAGE:
-			case JRVariable.CALCULATION_VARIANCE:
+			case AVERAGE:
+			case VARIANCE:
 			{
-				JRVariable countVar = createHelperVariable(parentVariable, "_COUNT", JRVariable.CALCULATION_COUNT);
+				JRVariable countVar = createHelperVariable(parentVariable, "_COUNT", CalculationEnum.COUNT);
 				JRFillVariable fillCountVar = addVariable(countVar, variableList, factory);
 				variable.setHelperVariable(fillCountVar, JRCalculable.HELPER_COUNT);
 
-				JRVariable sumVar = createHelperVariable(parentVariable, "_SUM", JRVariable.CALCULATION_SUM);
+				JRVariable sumVar = createHelperVariable(parentVariable, "_SUM", CalculationEnum.SUM);
 				JRFillVariable fillSumVar = addVariable(sumVar, variableList, factory);
 				variable.setHelperVariable(fillSumVar, JRCalculable.HELPER_SUM);
 
 				break;
 			}
-			case JRVariable.CALCULATION_STANDARD_DEVIATION:
+			case STANDARD_DEVIATION:
 			{
-				JRVariable varianceVar = createHelperVariable(parentVariable, "_VARIANCE", JRVariable.CALCULATION_VARIANCE);
+				JRVariable varianceVar = createHelperVariable(parentVariable, "_VARIANCE", CalculationEnum.VARIANCE);
 				JRFillVariable fillVarianceVar = addVariable(varianceVar, variableList, factory);
 				variable.setHelperVariable(fillVarianceVar, JRCalculable.HELPER_VARIANCE);
 
 				break;
 			}
-			case JRVariable.CALCULATION_DISTINCT_COUNT:
+			case DISTINCT_COUNT:
 			{
 				JRVariable countVar = createDistinctCountHelperVariable(parentVariable);
 				JRFillVariable fillCountVar = addVariable(countVar, variableList, factory);
@@ -335,7 +336,7 @@ public class JRFillDataset implements JRDataset
 		return variable;
 	}
 
-	private JRVariable createHelperVariable(JRVariable variable, String nameSuffix, byte calculation)
+	private JRVariable createHelperVariable(JRVariable variable, String nameSuffix, CalculationEnum calculation)
 	{
 		JRDesignVariable helper = new JRDesignVariable();
 		helper.setName(variable.getName() + nameSuffix);
@@ -364,7 +365,7 @@ public class JRFillDataset implements JRDataset
 			helper.setResetType(ResetTypeEnum.getByValue(variable.getIncrementTypeValue().getValue()));
 			
 		helper.setResetGroup(variable.getIncrementGroup());
-		helper.setCalculation(JRVariable.CALCULATION_NOTHING);
+		helper.setCalculation(CalculationEnum.NOTHING);
 		helper.setSystemDefined(true);
 		helper.setExpression(variable.getExpression());
 		
@@ -997,9 +998,9 @@ public class JRFillDataset implements JRDataset
 	{
 		String variableName;
 
-		byte calculation;
+		CalculationEnum calculation;
 
-		VariableCalculationReq(String variableName, byte calculation)
+		VariableCalculationReq(String variableName, CalculationEnum calculation)
 		{
 			this.variableName = variableName;
 			this.calculation = calculation;
@@ -1019,7 +1020,7 @@ public class JRFillDataset implements JRDataset
 
 		public int hashCode()
 		{
-			return 31 * calculation + variableName.hashCode();
+			return 31 * calculation.getValue() + variableName.hashCode();
 		}
 	}
 	
@@ -1030,7 +1031,7 @@ public class JRFillDataset implements JRDataset
 	 * @param variableName the variable name
 	 * @param calculation the required calculation
 	 */
-	protected void addVariableCalculationReq(String variableName, byte calculation)
+	protected void addVariableCalculationReq(String variableName, CalculationEnum calculation)
 	{
 		if (variableCalculationReqs == null)
 		{
@@ -1065,11 +1066,11 @@ public class JRFillDataset implements JRDataset
 	
 	private void checkVariableCalculationReq(JRFillVariable variable, List variableList, JRFillObjectFactory factory)
 	{
-		if (hasVariableCalculationReq(variable, JRVariable.CALCULATION_AVERAGE) || hasVariableCalculationReq(variable, JRVariable.CALCULATION_VARIANCE))
+		if (hasVariableCalculationReq(variable, CalculationEnum.AVERAGE) || hasVariableCalculationReq(variable, CalculationEnum.VARIANCE))
 		{
 			if (variable.getHelperVariable(JRCalculable.HELPER_COUNT) == null)
 			{
-				JRVariable countVar = createHelperVariable(variable, "_COUNT", JRVariable.CALCULATION_COUNT);
+				JRVariable countVar = createHelperVariable(variable, "_COUNT", CalculationEnum.COUNT);
 				JRFillVariable fillCountVar = factory.getVariable(countVar);
 				checkVariableCalculationReq(fillCountVar, variableList, factory);
 				variable.setHelperVariable(fillCountVar, JRCalculable.HELPER_COUNT);
@@ -1077,25 +1078,25 @@ public class JRFillDataset implements JRDataset
 
 			if (variable.getHelperVariable(JRCalculable.HELPER_SUM) == null)
 			{
-				JRVariable sumVar = createHelperVariable(variable, "_SUM", JRVariable.CALCULATION_SUM);
+				JRVariable sumVar = createHelperVariable(variable, "_SUM", CalculationEnum.SUM);
 				JRFillVariable fillSumVar = factory.getVariable(sumVar);
 				checkVariableCalculationReq(fillSumVar, variableList, factory);
 				variable.setHelperVariable(fillSumVar, JRCalculable.HELPER_SUM);
 			}
 		}
 
-		if (hasVariableCalculationReq(variable, JRVariable.CALCULATION_STANDARD_DEVIATION))
+		if (hasVariableCalculationReq(variable, CalculationEnum.STANDARD_DEVIATION))
 		{
 			if (variable.getHelperVariable(JRCalculable.HELPER_VARIANCE) == null)
 			{
-				JRVariable varianceVar = createHelperVariable(variable, "_VARIANCE", JRVariable.CALCULATION_VARIANCE);
+				JRVariable varianceVar = createHelperVariable(variable, "_VARIANCE", CalculationEnum.VARIANCE);
 				JRFillVariable fillVarianceVar = factory.getVariable(varianceVar);
 				checkVariableCalculationReq(fillVarianceVar, variableList, factory);
 				variable.setHelperVariable(fillVarianceVar, JRCalculable.HELPER_VARIANCE);
 			}
 		}
 
-		if (hasVariableCalculationReq(variable, JRVariable.CALCULATION_DISTINCT_COUNT))
+		if (hasVariableCalculationReq(variable, CalculationEnum.DISTINCT_COUNT))
 		{
 			if (variable.getHelperVariable(JRCalculable.HELPER_COUNT) == null)
 			{
@@ -1110,7 +1111,7 @@ public class JRFillDataset implements JRDataset
 	}
 
 	
-	private boolean hasVariableCalculationReq(JRVariable var, byte calculation)
+	private boolean hasVariableCalculationReq(JRVariable var, CalculationEnum calculation)
 	{
 		return variableCalculationReqs.contains(new VariableCalculationReq(var.getName(), calculation));
 	}
