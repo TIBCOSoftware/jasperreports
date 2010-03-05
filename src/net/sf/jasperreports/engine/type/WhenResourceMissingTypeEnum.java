@@ -35,22 +35,22 @@ public enum WhenResourceMissingTypeEnum implements JREnum
 	/**
 	 * Return NULL when a resource is missing.
 	 */
-	NULL((byte)1, ""),
+	NULL((byte)1, "Null"),
 
 	/**
 	 * Return empty string when a resource is missing.
 	 */
-	EMPTY((byte)2, ""),
+	EMPTY((byte)2, "Empty"),
 
 	/**
 	 * Return the key when a resource is missing.
 	 */
-	KEY((byte)3, ""),
+	KEY((byte)3, "Key"),
 
 	/**
 	 * Throw an exception when a resource is missing.
 	 */
-	ERROR((byte)4, "");
+	ERROR((byte)4, "Error");
 
 	/**
 	 *
