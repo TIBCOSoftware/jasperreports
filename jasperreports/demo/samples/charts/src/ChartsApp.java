@@ -56,18 +56,6 @@ public class ChartsApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return
-			"ChartsApp usage:" +
-			"\n\tjava ChartsApp task" +
-			"\n\tTasks : fill | pdf | html";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();

@@ -58,18 +58,6 @@ public class AlterDesignApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return
-			"AlterDesignApp usage:" +
-			"\n\tjava AlterDesignApp task" +
-			"\n\tTasks : fill | print | pdf";
-	}
-
-	
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();

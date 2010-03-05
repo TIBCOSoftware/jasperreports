@@ -70,18 +70,6 @@ public class CsvDataSourceApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return
-			"CsvDataSourceApp usage:" +
-			"\n\tjava CsvDataSourceApp task" +
-			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | docx | xlsx | xhtml | run";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();

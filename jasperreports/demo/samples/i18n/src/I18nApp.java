@@ -70,18 +70,6 @@ public class I18nApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return
-			"I18nApp usage:" +
-			"\n\tjava I18nApp task file" +
-			"\n\tTasks : fill | fillDefault | view | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		pdf();

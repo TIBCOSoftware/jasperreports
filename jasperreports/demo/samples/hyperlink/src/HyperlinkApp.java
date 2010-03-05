@@ -66,18 +66,6 @@ public class HyperlinkApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return
-			"HyperlinkApp usage:" +
-			"\n\tjava HyperlinkApp task" +
-			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run | writeXml";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		writeXml();

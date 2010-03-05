@@ -71,18 +71,6 @@ public class CrosstabApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return 
-			"CrosstabApp usage:" +
-			"\n\tjava CrosstabApp task" +
-			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xls | xhtml | run";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();

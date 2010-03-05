@@ -73,18 +73,6 @@ public class JasperApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return 
-			"JasperApp usage:" +
-			"\n\tjava JasperApp task file" +
-			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();

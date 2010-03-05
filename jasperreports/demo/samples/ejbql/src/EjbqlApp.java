@@ -73,18 +73,6 @@ public class EjbqlApp extends AbstractSampleApp
 	
 	
 	/**
-	 * 
-	 */
-	public String usage() 
-	{
-		return
-			"EjbqlApp usage:" +
-			"\n\tjava EjbqlApp task" +
-			"\n\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | odt | ods | docx | xlsx | xhtml | run";
-	}
-
-	
-	/**
 	 *
 	 */
 	public void test() throws JRException

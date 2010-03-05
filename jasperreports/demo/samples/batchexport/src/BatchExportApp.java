@@ -66,18 +66,6 @@ public class BatchExportApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return
-			"BatchExportApp usage:" +
-			"\n\tjava BatchExportApp task" +
-			"\n\tTasks : fill | pdf | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();

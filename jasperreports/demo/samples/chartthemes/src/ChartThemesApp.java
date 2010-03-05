@@ -74,18 +74,6 @@ public class ChartThemesApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public String usage()
-	{
-		return
-			"ChartThemesApp usage:" +
-			"\n\tjava ChartThemesApp task" +
-			"\n\tTasks : themes | fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | xhtml | run";
-	}
-
-
-	/**
-	 *
-	 */
 	public void test() throws JRException
 	{
 		fill();
