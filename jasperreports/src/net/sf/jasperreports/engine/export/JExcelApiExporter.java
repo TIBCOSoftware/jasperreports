@@ -91,7 +91,6 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
@@ -104,6 +103,7 @@ import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -1658,7 +1658,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		PageOrientation po;
 		PaperSize ps;
 
-		if (jasperPrint.getOrientation() == JRReport.ORIENTATION_PORTRAIT)
+		if (jasperPrint.getOrientationValue() == OrientationEnum.PORTRAIT)
 			po = PageOrientation.PORTRAIT;
 		else
 			po = PageOrientation.LANDSCAPE;

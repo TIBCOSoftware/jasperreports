@@ -30,6 +30,8 @@
 
 package net.sf.jasperreports.engine;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 
@@ -113,7 +116,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	private String name = null;
 	private int pageWidth = 0;
 	private int pageHeight = 0;
-	private byte orientation = JRReport.ORIENTATION_PORTRAIT;
+	private OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
 
 	private Map fontsMap = new HashMap();
 	private List fontsList = new ArrayList();
@@ -200,23 +203,39 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 
 
 	/**
-	 * Returns the page orientation.
-	 * @see JRReport ORIENTATION_PORTRAIT,
-	 * @see JRReport ORIENTATION_LANDSCAPE
+	 * @deprecated Replaced by {@link getOrientationValue()}.
 	 */
 	public byte getOrientation()
 	{
-		return orientation;
+		return getOrientationValue().getValue();
 	}
 		
 	/**
-	 * Sets the page orientation.
-	 * @see JRReport ORIENTATION_PORTRAIT,
-	 * @see JRReport ORIENTATION_LANDSCAPE
+	 * @deprecated Replaced by {@link setOrientation(OrientationEnum)}.
 	 */
 	public void setOrientation(byte orientation)
 	{
 		this.orientation = orientation;
+	}
+
+	/**
+	 * Returns the page orientation.
+	 * @see OrientationEnum PORTRAIT,
+	 * @see OrientationEnum LANDSCAPE
+	 */
+	public OrientationEnum getOrientationValue()
+	{
+		return orientationValue;
+	}
+		
+	/**
+	 * Sets the page orientation.
+	 * @see OrientationEnum PORTRAIT,
+	 * @see OrientationEnum LANDSCAPE
+	 */
+	public void setOrientation(OrientationEnum orientationValue)
+	{
+		this.orientationValue = orientationValue;
 	}
 
 	public boolean hasProperties()
@@ -723,5 +742,21 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		this.timeZoneId = timeZoneId;
 	}
 		
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private byte orientation;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			orientationValue = OrientationEnum.getByValue(orientation);
+		}
+	}
+
 
 }

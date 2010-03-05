@@ -73,6 +73,7 @@ import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -199,7 +200,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 
 	protected Map formatPatternsMap = null;
 
-	protected byte pageOrientation;
+	protected OrientationEnum pageOrientation;
 
 	public JRXmlssExporter()
 	{
@@ -240,7 +241,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 			setParameters();
 
 			nature = new JRXmlssExporterNature(filter, isIgnorePageMargins);
-			pageOrientation = jasperPrint.getOrientation();
+			pageOrientation = jasperPrint.getOrientationValue();
 
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 			if (sb != null)
@@ -1253,7 +1254,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 	{
 		tempBodyWriter.write("<x:WorksheetOptions>\n");
 		tempBodyWriter.write(" <x:PageSetup>\n");
-		tempBodyWriter.write("  <x:Layout x:Orientation=\"" +PAGE_LAYOUT[pageOrientation]+"\"/>\n");
+		tempBodyWriter.write("  <x:Layout x:Orientation=\"" +PAGE_LAYOUT[pageOrientation.getValue()]+"\"/>\n");
 		tempBodyWriter.write(" </x:PageSetup>\n");
 		tempBodyWriter.write("</x:WorksheetOptions>\n");
 		tempBodyWriter.write("</Worksheet>\n");

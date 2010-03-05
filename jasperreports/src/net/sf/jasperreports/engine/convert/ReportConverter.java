@@ -130,7 +130,7 @@ public class ReportConverter
 		//jasperPrint.setLocaleCode(report.getProperty(JRProperties.PROPERTY_PREFIX + "locale"));
 		//JRStyledTextAttributeSelector.setLocale(locale);
 		jasperPrint.setName(report.getName());
-		jasperPrint.setOrientation(report.getOrientation());
+		jasperPrint.setOrientation(report.getOrientationValue());
 		jasperPrint.setPageWidth(report.getPageWidth());
 		jasperPrint.setPageHeight(report.getPageHeight());
 		

@@ -27,7 +27,7 @@
  * 
  * Contributors:
  * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
+ * Frank Schï¿½nheit - Frank.Schoenheit@Sun.COM
  */
 package net.sf.jasperreports.engine.export.oasis;
 
@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperPrint;
 
 
@@ -163,9 +162,9 @@ public class StyleBuilder
 			writer.write(" fo:margin-left=\"0in\"");
 			writer.write(" fo:margin-right=\"0in\"");
 
-			switch (jasperPrint.getOrientation())
+			switch (jasperPrint.getOrientationValue())
 			{
-				case JRReport.ORIENTATION_LANDSCAPE:
+				case LANDSCAPE:
 					writer.write(" style:print-orientation=\"landscape\"");
 					break;
 				default:
