@@ -45,35 +45,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map calculationMap = null;
-
-	public static Map getCalculationMap()
-	{
-		if (calculationMap == null)
-		{
-			Map map = new HashMap(16);
-			map.put(new Byte(JRVariable.CALCULATION_NOTHING),            "JRVariable.CALCULATION_NOTHING");
-			map.put(new Byte(JRVariable.CALCULATION_COUNT),              "JRVariable.CALCULATION_COUNT");
-			map.put(new Byte(JRVariable.CALCULATION_SUM),                "JRVariable.CALCULATION_SUM");
-			map.put(new Byte(JRVariable.CALCULATION_AVERAGE),            "JRVariable.CALCULATION_AVERAGE");
-			map.put(new Byte(JRVariable.CALCULATION_LOWEST),             "JRVariable.CALCULATION_LOWEST");
-			map.put(new Byte(JRVariable.CALCULATION_HIGHEST),            "JRVariable.CALCULATION_HIGHEST");
-			map.put(new Byte(JRVariable.CALCULATION_STANDARD_DEVIATION), "JRVariable.CALCULATION_STANDARD_DEVIATION");
-			map.put(new Byte(JRVariable.CALCULATION_VARIANCE),           "JRVariable.CALCULATION_VARIANCE");
-			map.put(new Byte(JRVariable.CALCULATION_SYSTEM),             "JRVariable.CALCULATION_SYSTEM");
-			map.put(new Byte(JRVariable.CALCULATION_FIRST),              "JRVariable.CALCULATION_FIRST");
-			map.put(new Byte(JRVariable.CALCULATION_DISTINCT_COUNT),     "JRVariable.CALCULATION_DISTINCT_COUNT");
-			calculationMap = Collections.unmodifiableMap(map);
-		}
-
-		return calculationMap;
-	}
-
-	public static String getCalculation(Byte key)
-	{
-		return (String)getCalculationMap().get(key);
-	}
-	
 	private static Map printOrderMap = null;
 
 	public static Map getPrintOrderMap()

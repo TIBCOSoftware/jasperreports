@@ -113,6 +113,7 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -1049,8 +1050,8 @@ public class JRVerifier
 								}
 								else
 								{
-									if (variable.getCalculation() != JRVariable.CALCULATION_COUNT && variable.getCalculation() != JRVariable.CALCULATION_DISTINCT_COUNT
-											&& variable.getCalculation() != JRVariable.CALCULATION_SYSTEM && !valueClass.isAssignableFrom(expression.getValueClass()))
+									if (variable.getCalculationValue() != CalculationEnum.COUNT && variable.getCalculationValue() != CalculationEnum.DISTINCT_COUNT
+											&& variable.getCalculationValue() != CalculationEnum.SYSTEM && !valueClass.isAssignableFrom(expression.getValueClass()))
 									{
 										addBrokenRule("The variable expression class is not compatible with the variable's class : " + variable.getName(), expression);
 									}
@@ -2433,8 +2434,8 @@ public class JRVerifier
 			addBrokenRule("Measure name missing.", measure);
 		}
 
-		byte calculation = measure.getCalculation();
-		if (calculation == JRVariable.CALCULATION_SYSTEM)
+		CalculationEnum calculation = measure.getCalculationValue();
+		if (calculation == CalculationEnum.SYSTEM)
 		{
 			addBrokenRule("Crosstab mesures cannot have system calculation", measure);
 		}
@@ -2468,7 +2469,7 @@ public class JRVerifier
 			{
 				addBrokenRule("Measure value class missing.", measure);
 			}
-			else if (expressionClass != null && calculation != JRVariable.CALCULATION_COUNT && calculation != JRVariable.CALCULATION_DISTINCT_COUNT && !valueClass.isAssignableFrom(expressionClass))
+			else if (expressionClass != null && calculation != CalculationEnum.COUNT && calculation != CalculationEnum.DISTINCT_COUNT && !valueClass.isAssignableFrom(expressionClass))
 			{
 				addBrokenRule("The class of the expression is not compatible with the class of the measure " + measureName + ".", valueExpression);
 			}

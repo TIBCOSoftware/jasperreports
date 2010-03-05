@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 
 /**
@@ -58,33 +58,42 @@ public class JRComparableIncrementerFactory extends JRAbstractExtendedIncremente
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}
 	 */
 	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
+	{
+		
+		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));
+	}
+
+	/**
+	 *
+	 */
+	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation)
 	{
 		JRExtendedIncrementer incrementer = null;
 
 		switch (calculation)
 		{
-			case JRVariable.CALCULATION_LOWEST :
+			case LOWEST :
 			{
 				incrementer = JRComparableLowestIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_HIGHEST :
+			case HIGHEST :
 			{
 				incrementer = JRComparableHighestIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_SYSTEM :
-			case JRVariable.CALCULATION_NOTHING :
-			case JRVariable.CALCULATION_COUNT :
-			case JRVariable.CALCULATION_SUM :
-			case JRVariable.CALCULATION_AVERAGE :
-			case JRVariable.CALCULATION_STANDARD_DEVIATION :
-			case JRVariable.CALCULATION_VARIANCE :
-			case JRVariable.CALCULATION_FIRST :
-			case JRVariable.CALCULATION_DISTINCT_COUNT :
+			case SYSTEM :
+			case NOTHING :
+			case COUNT :
+			case SUM :
+			case AVERAGE :
+			case STANDARD_DEVIATION :
+			case VARIANCE :
+			case FIRST :
+			case DISTINCT_COUNT :
 			default :
 			{
 				incrementer = JRDefaultIncrementerFactory.getInstance().getExtendedIncrementer(calculation);

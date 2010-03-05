@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.base.JRBaseVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -155,13 +156,21 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setCalculation(CalculationEnum)}
 	 */
 	public void setCalculation(byte calculation)
 	{
-		byte old = this.calculation;
-		this.calculation = calculation;
-		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculation);
+		setCalculation(CalculationEnum.getByValue(calculation));
+	}
+
+	/**
+	 *
+	 */
+	public void setCalculation(CalculationEnum calculationValue)
+	{
+		CalculationEnum old = this.calculationValue;
+		this.calculationValue = calculationValue;
+		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculationValue);
 	}
 
 	/**

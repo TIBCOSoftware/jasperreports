@@ -23,12 +23,14 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
-import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
  * Base implementation of {@link net.sf.jasperreports.engine.JRSubreportReturnValue JRSubreportReturnValue}.
@@ -57,7 +59,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	/**
 	 * The calculation type.
 	 */
-	protected byte calculation = JRVariable.CALCULATION_NOTHING;
+	protected CalculationEnum calculationValue = CalculationEnum.NOTHING;
 	
 	/**
 	 * The incrementer factory class name.
@@ -76,7 +78,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 
 		subreportVariable = returnValue.getSubreportVariable();
 		toVariable = returnValue.getToVariable();
-		calculation = returnValue.getCalculation();
+		calculationValue = returnValue.getCalculationValue();
 		incrementerFactoryClassName = returnValue.getIncrementerFactoryClassName();
 	}
 
@@ -101,6 +103,14 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	}
 
 	/**
+	 * @deprecated Replaced by {@link #getCalculationValue()}
+	 */
+	public byte getCalculation()
+	{
+		return calculation;
+	}
+
+	/**
 	 * Returns the calculation type.
 	 * <p>
 	 * When copying the value from the subreport, a formula can be applied such that sum,
@@ -108,9 +118,9 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 * 
 	 * @return the calculation type.
 	 */
-	public byte getCalculation()
+	public CalculationEnum getCalculationValue()
 	{
-		return calculation;
+		return calculationValue;
 	}
 
 	/**
@@ -124,6 +134,23 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	public String getIncrementerFactoryClassName()
 	{
 		return incrementerFactoryClassName;
+	}
+
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte calculation;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			calculationValue = CalculationEnum.getByValue(calculation);
+		}
+		
 	}
 
 	/**

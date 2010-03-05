@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
@@ -52,7 +53,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 	protected String valueClassRealName = null;
 	protected Class valueClass;
 	protected JRExpression expression;
-	protected byte calculation = JRVariable.CALCULATION_COUNT;
+	protected CalculationEnum calculationValue = CalculationEnum.COUNT;
 	protected String incrementerFactoryClassName;
 	protected String incrementerFactoryClassRealName;
 	protected Class incrementerFactoryClass;
@@ -73,7 +74,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 		this.name = measure.getName();
 		this.valueClassName = measure.getValueClassName();
 		this.expression = factory.getExpression(measure.getValueExpression());
-		this.calculation = measure.getCalculation();
+		this.calculationValue = measure.getCalculationValue();
 		this.incrementerFactoryClassName = measure.getIncrementerFactoryClassName();
 		this.percentageType = measure.getPercentageType();		
 		this.percentageCalculatorClassName = measure.getPercentageCalculatorClassName();
@@ -95,9 +96,17 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 		return expression;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getCalculationValue()}.
+	 */
 	public byte getCalculation()
 	{
-		return calculation;
+		return getCalculationValue().getValue();
+	}
+
+	public CalculationEnum getCalculationValue()
+	{
+		return calculationValue;
 	}
 
 	public String getIncrementerFactoryClassName()
@@ -255,6 +264,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private byte percentageOfType;
+	private byte calculation;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -263,6 +273,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			percentageType = CrosstabPercentageEnum.getByValue(percentageOfType);
+			calculationValue = CalculationEnum.getByValue(calculation);
 		}
 	}
 

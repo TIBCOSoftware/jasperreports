@@ -23,9 +23,9 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 import org.xml.sax.Attributes;
 
@@ -47,8 +47,8 @@ public class JRVariableExpressionFactory extends JRBaseFactory
 
 		JRDesignExpression expression = new JRDesignExpression();
 		if (
-			variable.getCalculation() == JRVariable.CALCULATION_COUNT
-			|| variable.getCalculation() == JRVariable.CALCULATION_DISTINCT_COUNT
+			variable.getCalculationValue() == CalculationEnum.COUNT
+			|| variable.getCalculationValue() == CalculationEnum.DISTINCT_COUNT
 			)
 		{
 			expression.setValueClassName(java.lang.Object.class.getName());

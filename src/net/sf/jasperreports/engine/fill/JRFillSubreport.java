@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -786,31 +787,31 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	{
 		JRFillSubreportReturnValue returnValue = factory.getSubreportReturnValue(parentReturnValue);
 		
-		byte calculation = returnValue.getCalculation();
+		CalculationEnum calculation = returnValue.getCalculationValue();
 		switch (calculation)
 		{
-			case JRVariable.CALCULATION_AVERAGE:
-			case JRVariable.CALCULATION_VARIANCE:
+			case AVERAGE:
+			case VARIANCE:
 			{
-				JRSubreportReturnValue countVal = createHelperReturnValue(parentReturnValue, "_COUNT", JRVariable.CALCULATION_COUNT);
+				JRSubreportReturnValue countVal = createHelperReturnValue(parentReturnValue, "_COUNT", CalculationEnum.COUNT);
 				addReturnValue(countVal, returnValueList, factory);
 
-				JRSubreportReturnValue sumVal = createHelperReturnValue(parentReturnValue, "_SUM", JRVariable.CALCULATION_SUM);
+				JRSubreportReturnValue sumVal = createHelperReturnValue(parentReturnValue, "_SUM", CalculationEnum.SUM);
 				addReturnValue(sumVal, returnValueList, factory);
 
 				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
 
 				break;
 			}
-			case JRVariable.CALCULATION_STANDARD_DEVIATION:
+			case STANDARD_DEVIATION:
 			{
-				JRSubreportReturnValue varianceVal = createHelperReturnValue(parentReturnValue, "_VARIANCE", JRVariable.CALCULATION_VARIANCE);
+				JRSubreportReturnValue varianceVal = createHelperReturnValue(parentReturnValue, "_VARIANCE", CalculationEnum.VARIANCE);
 				addReturnValue(varianceVal, returnValueList, factory);
 				
 				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
 				break;
 			}
-			case JRVariable.CALCULATION_DISTINCT_COUNT:
+			case DISTINCT_COUNT:
 			{
 				JRSubreportReturnValue countVal = createDistinctCountHelperReturnValue(parentReturnValue);
 				addReturnValue(countVal, returnValueList, factory);
@@ -826,7 +827,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 	
-	protected JRSubreportReturnValue createHelperReturnValue(JRSubreportReturnValue returnValue, String nameSuffix, byte calculation)
+	protected JRSubreportReturnValue createHelperReturnValue(JRSubreportReturnValue returnValue, String nameSuffix, CalculationEnum calculation)
 	{
 		JRDesignSubreportReturnValue helper = new JRDesignSubreportReturnValue();
 		helper.setToVariable(returnValue.getToVariable() + nameSuffix);
@@ -843,7 +844,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		JRDesignSubreportReturnValue helper = new JRDesignSubreportReturnValue();
 		helper.setToVariable(returnValue.getToVariable() + "_DISTINCT_COUNT");
 		helper.setSubreportVariable(returnValue.getSubreportVariable());
-		helper.setCalculation(JRVariable.CALCULATION_NOTHING);
+		helper.setCalculation(CalculationEnum.NOTHING);
 		helper.setIncrementerFactoryClassName(helper.getIncrementerFactoryClassName());//FIXME shouldn't it be returnValue? tests required
 		
 		return helper;
@@ -986,8 +987,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				
 				JRVariable variable = filler.getVariable(returnValue.getToVariable());
 				if (
-					returnValue.getCalculation() == JRVariable.CALCULATION_COUNT
-					|| returnValue.getCalculation() == JRVariable.CALCULATION_DISTINCT_COUNT
+					returnValue.getCalculationValue() == CalculationEnum.COUNT
+					|| returnValue.getCalculationValue() == CalculationEnum.DISTINCT_COUNT
 					)
 				{
 					if (!Number.class.isAssignableFrom(variable.getValueClass()))

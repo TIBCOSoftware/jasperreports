@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 
 /**
@@ -64,53 +64,63 @@ public class JRShortIncrementerFactory extends JRAbstractExtendedIncrementerFact
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}
 	 */
 	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
+	{
+		
+		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));
+	}
+
+
+	/**
+	 *
+	 */
+	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation)
 	{
 		JRExtendedIncrementer incrementer = null;
 
 		switch (calculation)
 		{
-			case JRVariable.CALCULATION_COUNT :
+			case COUNT :
 			{
 				incrementer = JRShortCountIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_SUM :
+			case SUM :
 			{
 				incrementer = JRShortSumIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_AVERAGE :
+			case AVERAGE :
 			{
 				incrementer = JRShortAverageIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_LOWEST :
-			case JRVariable.CALCULATION_HIGHEST :
+			case LOWEST :
+			case HIGHEST :
 			{
 				incrementer = JRComparableIncrementerFactory.getInstance().getExtendedIncrementer(calculation);
 				break;
 			}
-			case JRVariable.CALCULATION_STANDARD_DEVIATION :
+			case STANDARD_DEVIATION :
 			{
 				incrementer = JRShortStandardDeviationIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_VARIANCE :
+			case VARIANCE :
 			{
 				incrementer = JRShortVarianceIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_DISTINCT_COUNT :
+			case DISTINCT_COUNT :
 			{
 				incrementer = JRShortDistinctCountIncrementer.getInstance();
 				break;
 			}
-			case JRVariable.CALCULATION_SYSTEM :
-			case JRVariable.CALCULATION_NOTHING :
-			case JRVariable.CALCULATION_FIRST :
+			case SYSTEM :
+			case NOTHING :
+			case FIRST :
 			default :
 			{
 				incrementer = JRDefaultIncrementerFactory.getInstance().getExtendedIncrementer(calculation);

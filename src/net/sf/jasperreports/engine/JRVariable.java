@@ -228,14 +228,12 @@ public interface JRVariable extends JRCloneable
 	 * @deprecated Replaced by {@link getCalculationValue()}.
 	 */
 	public byte getCalculation();
-
-	//TODO: uncomment these below
 	
-//	/**
-//	 * Gets the variable calculation type.
-//	 * @return a value representing one of the calculation type constants in {@link CalculationEnum}
-//	 */
-//	public CalculationEnum getCalculationValue();
+	/**
+	 * Gets the variable calculation type.
+	 * @return a value representing one of the calculation type constants in {@link CalculationEnum}
+	 */
+	public CalculationEnum getCalculationValue();
 
 	/**
 	 * Returns <code>true</code> if the variable calculation type is system defined.

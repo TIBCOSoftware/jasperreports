@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.CalculationEnum;
+
 /**
  * A value copied from a subreport into a variable of the master report.
  * 
@@ -47,6 +49,11 @@ public interface JRSubreportReturnValue extends JRCloneable
 	public String getToVariable();
 
 	/**
+	 * @deprecated Replaced by {@link #getCalculationValue()}
+	 */
+	public byte getCalculation();
+	
+	/**
 	 * Returns the calculation type.
 	 * <p>
 	 * When copying the value from the subreport, a formula can be applied such that sum,
@@ -54,7 +61,7 @@ public interface JRSubreportReturnValue extends JRCloneable
 	 * 
 	 * @return the calculation type.
 	 */
-	public byte getCalculation();
+	public CalculationEnum getCalculationValue();
 	
 	/**
 	 * Returns the incrementer factory class name.

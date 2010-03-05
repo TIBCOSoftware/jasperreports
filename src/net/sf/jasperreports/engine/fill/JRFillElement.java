@@ -49,8 +49,8 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
@@ -1140,7 +1140,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			evaluationTime = JREvaluationTime.EVALUATION_TIME_NOW;
 		}
 		
-		if (variable.getCalculation() == JRVariable.CALCULATION_SYSTEM &&
+		if (variable.getCalculationValue() == CalculationEnum.SYSTEM &&
 				evaluationTime.equals(JREvaluationTime.EVALUATION_TIME_NOW) &&
 				band.isVariableUsedInSubreportReturns(variableName))
 		{

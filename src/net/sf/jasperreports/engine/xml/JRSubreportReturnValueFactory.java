@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 import org.xml.sax.Attributes;
 
@@ -63,10 +64,10 @@ public class JRSubreportReturnValueFactory extends JRBaseFactory
 		returnValue.setSubreportVariable(atts.getValue(XmlConstants.ATTRIBUTE_subreportVariable));
 		returnValue.setToVariable(variableName);
 
-		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(XmlConstants.ATTRIBUTE_calculation));
+		CalculationEnum calculation = CalculationEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_calculation));
 		if (calculation != null)
 		{
-			returnValue.setCalculation(calculation.byteValue());
+			returnValue.setCalculation(calculation);
 		}
 		
 		String incrementerFactoryClass = atts.getValue(XmlConstants.ATTRIBUTE_incrementerFactoryClass);

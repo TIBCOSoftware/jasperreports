@@ -23,13 +23,17 @@
  */
 package net.sf.jasperreports.crosstabs.fill.calculation;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.AbstractValueProvider;
 import net.sf.jasperreports.engine.fill.JRCalculable;
 import net.sf.jasperreports.engine.fill.JRDistinctCountExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementer;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
  * Crosstab measure definition.
@@ -39,10 +43,34 @@ import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
  */
 public class MeasureDefinition
 {
-	protected final byte calculation;
+	protected CalculationEnum calculationValue;
 	protected final JRExtendedIncrementerFactory incrementerFactory;
 	protected final Class valueClass;
 	protected final boolean isSystemDefined;
+	
+	
+	/**
+	 * @deprecated Replaced by {@link #MeasureDefinition(Class, CalculationEnum, JRExtendedIncrementerFactory)}
+	 */
+	public MeasureDefinition(
+			Class valueClass, 
+			byte calculation, 
+			JRExtendedIncrementerFactory incrementerFactory) 
+	{
+		this(valueClass, CalculationEnum.getByValue(calculation), incrementerFactory);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #MeasureDefinition(Class, CalculationEnum, JRExtendedIncrementerFactory, boolean)}
+	 */
+	protected MeasureDefinition(
+			Class valueClass, 
+			byte calculation, 
+			JRExtendedIncrementerFactory incrementerFactory, 
+			boolean isSystemDefined)
+	{
+		this(valueClass, CalculationEnum.getByValue(calculation), incrementerFactory, isSystemDefined);
+	}
 	
 	
 	/**
@@ -54,7 +82,7 @@ public class MeasureDefinition
 	 */
 	public MeasureDefinition(
 			Class valueClass, 
-			byte calculation, 
+			CalculationEnum calculation, 
 			JRExtendedIncrementerFactory incrementerFactory) 
 	{
 		this(valueClass, calculation, incrementerFactory, false);
@@ -62,12 +90,12 @@ public class MeasureDefinition
 	
 	protected MeasureDefinition(
 			Class valueClass, 
-			byte calculation, 
+			CalculationEnum calculation, 
 			JRExtendedIncrementerFactory incrementerFactory, 
 			boolean isSystemDefined)
 	{
 		this.valueClass = valueClass;
-		this.calculation = calculation;
+		this.calculationValue = calculation;
 		this.incrementerFactory = incrementerFactory;
 		this.isSystemDefined = isSystemDefined;
 	}
@@ -80,7 +108,7 @@ public class MeasureDefinition
 	 * @param helperCalculation the calculation
 	 * @return the helper measure having the specified calculation
 	 */
-	public static MeasureDefinition createHelperMeasure(MeasureDefinition measure, byte helperCalculation)
+	public static MeasureDefinition createHelperMeasure(MeasureDefinition measure, CalculationEnum helperCalculation)
 	{
 		return new MeasureDefinition(measure.valueClass, helperCalculation, measure.incrementerFactory, true);
 	}
@@ -94,18 +122,26 @@ public class MeasureDefinition
 	 */
 	public static MeasureDefinition createDistinctCountHelperMeasure(MeasureDefinition measure)
 	{
-		return new MeasureDefinition(measure.valueClass, JRVariable.CALCULATION_NOTHING, JRDistinctCountExtendedIncrementerFactory.getInstance(), true);
+		return new MeasureDefinition(measure.valueClass, CalculationEnum.NOTHING, JRDistinctCountExtendedIncrementerFactory.getInstance(), true);
 	}
 
 	
+	/**
+	 * @deprecated Replaced by {@link #getCalculationValue()}
+	 */
+	public byte getCalculation()
+	{
+		return getCalculationValue().getValue();
+	}
+
 	/**
 	 * Returns the calculation type.
 	 * 
 	 * @return the calculation type
 	 */
-	public byte getCalculation()
+	public CalculationEnum getCalculationValue()
 	{
-		return calculation;
+		return calculationValue;
 	}
 
 	
@@ -269,4 +305,22 @@ public class MeasureDefinition
 			this.initialized = isInitialized;
 		}
 	}
+	
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private byte calculation;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			calculationValue = CalculationEnum.getByValue(calculation);
+		}
+		
+	}
+
 }

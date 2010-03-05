@@ -27,6 +27,7 @@ import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
  * Crosstab measure interface.
@@ -88,21 +89,27 @@ public interface JRCrosstabMeasure extends JRCloneable
 	
 	
 	/**
+	 * @deprecated Replaced by {@link #getCalculationValue()}.
+	 */
+	public byte getCalculation();
+	
+	
+	/**
 	 * Returns the calculation type which will be performed on the measure values.
 	 * <p>
 	 * The incrementer factory associated with this measure will create
 	 * an incrementer which will sum the measure values.
 	 * <p>
 	 * The possible calculation type are the same as the ones used for variables
-	 * (see {@link JRVariable#getCalculation() JRVariable.getCalculation()} with
-	 * the exception of {@link JRVariable#CALCULATION_SYSTEM JRVariable.CALCULATION_SYSTEM}.
+	 * (see {@link JRVariable#getCalculationValue() JRVariable.getCalculationValue()} with
+	 * the exception of {@link CalculationEnum#SYSTEM CalculationEnum.SYSTEM}.
 	 * 
 	 * @return the calculation type which will be performed on the measure values
 	 * @see #getIncrementerFactoryClassName()
 	 * @see net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory
 	 * @see net.sf.jasperreports.engine.fill.JRExtendedIncrementer
 	 */
-	public byte getCalculation();
+	public CalculationEnum getCalculationValue();
 	
 	
 	/**
