@@ -26,8 +26,10 @@ package net.sf.jasperreports.engine.util;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -39,17 +41,43 @@ import net.sf.jasperreports.engine.JRException;
 public abstract class AbstractSampleApp
 {
 
-
-	/**
-	 *
-	 */
-	public abstract String usage();
-
 	
 	/**
 	 *
 	 */
 	public abstract void test() throws JRException;
+
+
+	/**
+	 *
+	 */
+	public String usage()
+	{
+		StringBuffer sbuffer = new StringBuffer();
+		
+		String appName = this.getClass().getName(); 
+		
+		sbuffer.append(appName + " usage:" + "\n\tjava " + appName + " task" + "\n\tTasks : ");
+		
+		TreeSet<String> tasks = new TreeSet<String>();
+		Method[] methods = getClass().getMethods();
+		for (Method method:methods)
+		{
+			if (
+				method.getDeclaringClass().getName().equals(getClass().getName())
+				&& ((method.getModifiers() & Modifier.STATIC) == 0)
+				)
+			{
+				tasks.add(method.getName());
+			}
+		}
+		for (String task:tasks)
+		{
+			sbuffer.append(task + " | ");
+		}
+		
+		return sbuffer.toString().substring(0, sbuffer.length() - 3);
+	}
 
 	
 	/**
@@ -62,13 +90,17 @@ public abstract class AbstractSampleApp
 			Method method = getClass().getMethod(taskName, new Class[]{});
 			method.invoke(this, new Object[]{});
 		}
-		catch (InvocationTargetException e)
+		catch (NoSuchMethodException e)
+		{
+			System.out.println(usage());
+		}
+		catch (IllegalAccessException e)
 		{
 			e.getCause().printStackTrace();
 		}
-		catch (Exception e)
+		catch (InvocationTargetException e)
 		{
-			e.printStackTrace();
+			e.getCause().printStackTrace();
 		}
 	}
 	
@@ -80,12 +112,15 @@ public abstract class AbstractSampleApp
 	{
 		List fileList = new ArrayList();
 		String[] files = parentFile.list();
-		for(int i = 0; i < files.length; i++)
+		if (files != null)
 		{
-			String reportFile = files[i];
-			if (reportFile.endsWith("." + extension))
+			for(int i = 0; i < files.length; i++)
 			{
-				fileList.add(new File(parentFile, reportFile)); 
+				String reportFile = files[i];
+				if (reportFile.endsWith("." + extension))
+				{
+					fileList.add(new File(parentFile, reportFile)); 
+				}
 			}
 		}
 		return (File[])fileList.toArray(new File[fileList.size()]);
