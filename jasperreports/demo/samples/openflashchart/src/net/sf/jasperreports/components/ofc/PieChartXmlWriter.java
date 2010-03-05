@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
@@ -58,7 +59,7 @@ public class PieChartXmlWriter implements ComponentXmlWriter
 		
 		writer.addAttribute("evaluationTime", chart.getEvaluationTime(), 
 				JRXmlConstants.getEvaluationTimeMap(), JRExpression.EVALUATION_TIME_NOW);
-		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+		if (chart.getEvaluationTime() == EvaluationTimeEnum.GROUP)
 		{
 			writer.addEncodedAttribute("evaluationGroup", chart.getEvaluationGroup());
 		}

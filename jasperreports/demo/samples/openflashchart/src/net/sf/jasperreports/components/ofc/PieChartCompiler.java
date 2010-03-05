@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -76,12 +77,12 @@ public class PieChartCompiler implements ComponentCompiler
 	protected void verifyEvaluation(JRVerifier verifier,
 			PieChartComponent chart)
 	{
-		byte evaluationTime = chart.getEvaluationTime();
-		if (evaluationTime == JRExpression.EVALUATION_TIME_AUTO)
+		EvaluationTimeEnum evaluationTime = chart.getEvaluationTime();
+		if (evaluationTime == EvaluationTimeEnum.AUTO)
 		{
 			verifier.addBrokenRule("Pie chart evaluation time cannot be Auto", chart);
 		}
-		else if (evaluationTime == JRExpression.EVALUATION_TIME_GROUP)
+		else if (evaluationTime == EvaluationTimeEnum.GROUP)
 		{
 			String groupName = chart.getEvaluationGroup();
 			if (groupName == null)
