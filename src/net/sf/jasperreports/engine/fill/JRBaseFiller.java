@@ -58,7 +58,6 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;

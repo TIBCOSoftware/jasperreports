@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
