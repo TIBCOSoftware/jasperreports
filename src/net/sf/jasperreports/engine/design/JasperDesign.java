@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseReport;
 import net.sf.jasperreports.engine.design.events.PropagationChangeListener;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.util.JRElementsVisitor;
 import net.sf.jasperreports.engine.util.JRVisitorSupport;
@@ -262,15 +263,24 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
+	 * @deprecated Replaced by {@link #setOrientation(OrientationEnum)}.
+	 */
+	public void setOrientation(byte orientation)
+	{
+		setOrientation(OrientationEnum.getByValue(orientation));
+	}
+
+
+	/**
 	 * Sets the report orientation.
 	 * @see net.sf.jasperreports.engine.JRReport ORIENTATION_PORTRAIT,
 	 * @see net.sf.jasperreports.engine.JRReport ORIENTATION_LANDSCAPE
 	 */
-	public void setOrientation(byte orientation)
+	public void setOrientation(OrientationEnum orientationValue)
 	{
-		int old = this.orientation;
-		this.orientation = orientation;
-		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientation);
+		Object old = this.orientationValue;
+		this.orientationValue = orientationValue;
+		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientationValue);
 	}
 
 

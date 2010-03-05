@@ -47,7 +47,6 @@ import javax.print.attribute.standard.PrinterIsAcceptingJobs;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
 
@@ -245,9 +244,9 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 						PageFormat pageFormat = printerJob.defaultPage();
 						Paper paper = pageFormat.getPaper();
 						
-						switch (jasperPrint.getOrientation())
+						switch (jasperPrint.getOrientationValue())
 						{
-							case JRReport.ORIENTATION_LANDSCAPE :
+							case LANDSCAPE :
 							{
 								pageFormat.setOrientation(PageFormat.LANDSCAPE);
 								paper.setSize(jasperPrint.getPageHeight(), jasperPrint.getPageWidth());
@@ -259,7 +258,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 									);
 								break;
 							}
-							case JRReport.ORIENTATION_PORTRAIT :
+							case PORTRAIT :
 							default :
 							{
 								pageFormat.setOrientation(PageFormat.PORTRAIT);
@@ -331,9 +330,9 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		{
 			int printableWidth;
 			int printableHeight;
-			switch (jPrint.getOrientation())
+			switch (jPrint.getOrientationValue())
 			{
-				case JRReport.ORIENTATION_LANDSCAPE:
+				case LANDSCAPE:
 					printableWidth = jPrint.getPageHeight();
 					printableHeight = jPrint.getPageWidth();
 					break;
@@ -357,9 +356,9 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		if (!printRequestAttributeSet.containsKey(OrientationRequested.class))
 		{
 			OrientationRequested orientation;
-			switch (jPrint.getOrientation())
+			switch (jPrint.getOrientationValue())
 			{
-				case JRReport.ORIENTATION_LANDSCAPE:
+				case LANDSCAPE:
 					orientation = OrientationRequested.LANDSCAPE;
 					break;
 				default:

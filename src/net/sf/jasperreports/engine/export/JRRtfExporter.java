@@ -67,7 +67,6 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -75,6 +74,7 @@ import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -279,7 +279,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 				writer.write("\\marglsxn0\\margrsxn0\\margtsxn0\\margbsxn0");
 
-				if (jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE) {
+				if (jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE) {
 					writer.write("\\lndscpsxn");
 				}
 

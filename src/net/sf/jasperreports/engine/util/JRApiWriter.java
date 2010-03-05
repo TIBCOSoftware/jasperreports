@@ -152,6 +152,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -374,7 +375,7 @@ public class JRApiWriter
 		write( "jasperDesign.setPrintOrder((byte){0});\n", report.getPrintOrderValue(), PrintOrderEnum.VERTICAL);
 		write( "jasperDesign.setPageWidth({0, number, #});\n", report.getPageWidth());
 		write( "jasperDesign.setPageHeight({0, number, #});\n", report.getPageHeight());
-		write( "jasperDesign.setOrientation((byte){0});\n", report.getOrientation(), JRReport.ORIENTATION_PORTRAIT);
+		write( "jasperDesign.setOrientation((byte){0});\n", report.getOrientationValue(), OrientationEnum.PORTRAIT);
 		write( "jasperDesign.setWhenNoDataType((byte){0});\n", report.getWhenNoDataTypeValue(), WhenNoDataTypeEnum.NO_PAGES);
 		write( "jasperDesign.setColumnWidth({0, number, #});\n", report.getColumnWidth());
 		write( "jasperDesign.setColumnSpacing({0, number, #});\n", report.getColumnSpacing());

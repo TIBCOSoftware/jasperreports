@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
@@ -74,10 +75,10 @@ public class JasperDesignFactory extends JRBaseFactory
 			jasperDesign.setPageHeight(Integer.parseInt(pageHeight));
 		}
 
-		Byte orientation = (Byte)JRXmlConstants.getOrientationMap().get(atts.getValue(XmlConstants.ATTRIBUTE_orientation));
+		OrientationEnum orientation = OrientationEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_orientation));
 		if (orientation != null)
 		{
-			jasperDesign.setOrientation(orientation.byteValue());
+			jasperDesign.setOrientation(orientation);
 		}
 
 		WhenNoDataTypeEnum whenNoDataType = WhenNoDataTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_whenNoDataType));

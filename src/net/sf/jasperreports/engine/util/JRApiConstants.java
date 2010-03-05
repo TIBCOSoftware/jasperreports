@@ -31,7 +31,6 @@ import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRReport;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
@@ -44,26 +43,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map orientationMap = null;
-
-	public static Map getOrientationMap()
-	{
-		if (orientationMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(new Byte(JRReport.ORIENTATION_PORTRAIT),  "JRReport.ORIENTATION_PORTRAIT");
-			map.put(new Byte(JRReport.ORIENTATION_LANDSCAPE), "JRReport.ORIENTATION_LANDSCAPE");
-			orientationMap = Collections.unmodifiableMap(map);
-		}
-
-		return orientationMap;
-	}
-
-	public static String getOrientation(Byte key)
-	{
-		return (String)getOrientationMap().get(key);
-	}
-	
 	private static Map chartEdgeMap = null;
 
 	public static Map getChartEdgeMap()

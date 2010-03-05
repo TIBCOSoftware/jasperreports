@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
@@ -79,7 +80,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected PrintOrderEnum printOrderValue = PrintOrderEnum.VERTICAL;
 	protected int pageWidth = 595;
 	protected int pageHeight = 842;
-	protected byte orientation = ORIENTATION_PORTRAIT;
+	protected OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
 	protected WhenNoDataTypeEnum whenNoDataTypeValue = WhenNoDataTypeEnum.NO_PAGES;
 	protected int columnWidth = 555;
 	protected int columnSpacing = 0;
@@ -157,7 +158,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		printOrderValue = report.getPrintOrderValue();
 		pageWidth = report.getPageWidth();
 		pageHeight = report.getPageHeight();
-		orientation = report.getOrientation();
+		orientationValue = report.getOrientationValue();
 		whenNoDataTypeValue = report.getWhenNoDataTypeValue();
 		columnWidth = report.getColumnWidth();
 		columnSpacing = report.getColumnSpacing();
@@ -319,11 +320,19 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOrientationValue()}.
 	 */
 	public byte getOrientation()
 	{
-		return orientation;
+		return getOrientationValue().getValue();
+	}
+
+	/**
+	 *
+	 */
+	public OrientationEnum getOrientationValue()
+	{
+		return orientationValue;
 	}
 
 	/**
@@ -782,6 +791,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	private JRBand detail = null;
 	private byte whenNoDataType;
 	private byte printOrder;
+	private byte orientation;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -797,6 +807,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		{
 			whenNoDataTypeValue = WhenNoDataTypeEnum.getByValue(whenNoDataType);
 			printOrderValue = PrintOrderEnum.getByValue(printOrder);
+			orientationValue = OrientationEnum.getByValue(orientation);
 		}
 	}
 

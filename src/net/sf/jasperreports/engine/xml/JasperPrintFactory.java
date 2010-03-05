@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 
 import org.xml.sax.Attributes;
 
@@ -56,10 +57,10 @@ public class JasperPrintFactory extends JRBaseFactory
 			jasperPrint.setPageHeight(Integer.parseInt(pageHeight));
 		}
 
-		Byte orientation = (Byte)JRXmlConstants.getOrientationMap().get(atts.getValue(XmlConstants.ATTRIBUTE_orientation));
+		OrientationEnum orientation = OrientationEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_orientation));
 		if (orientation != null)
 		{
-			jasperPrint.setOrientation(orientation.byteValue());
+			jasperPrint.setOrientation(orientation);
 		}
 		
 		String formatFactoryClass = atts.getValue(XmlConstants.ATTRIBUTE_formatFactoryClass);

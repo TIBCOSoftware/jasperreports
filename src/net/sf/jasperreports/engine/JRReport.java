@@ -170,13 +170,11 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 */
 	public byte getOrientation();
 
-	//TODO: uncomment these below
-	
-//	/**
-//	 * Specifies whether document pages will be rendered in a portrait or landscape layout.
-//	 * @return a value representing one of the orientation constants in {@link OrientationEnum}
-//	 */
-//	public OrientationEnum getOrientationValue();
+	/**
+	 * Specifies whether document pages will be rendered in a portrait or landscape layout.
+	 * @return a value representing one of the orientation constants in {@link OrientationEnum}
+	 */
+	public OrientationEnum getOrientationValue();
 
 	/**
 	 * @deprecated Replaced by {@link #getWhenNoDataTypeValue()}.
