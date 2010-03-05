@@ -28,6 +28,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -38,7 +39,7 @@ public class PieChartComponent implements Component, Serializable
 
 	private static final long serialVersionUID = 1L;
 
-	private byte evaluationTime;
+	private EvaluationTimeEnum evaluationTime;
 	private String evaluationGroup;
 	
 	private JRExpression titleExpression;
@@ -67,12 +68,12 @@ public class PieChartComponent implements Component, Serializable
 		this.dataset = dataset;
 	}
 	
-	public byte getEvaluationTime()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
 		return evaluationTime;
 	}
 
-	public void setEvaluationTime(byte evaluationTime)
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTime)
 	{
 		this.evaluationTime = evaluationTime;
 	}

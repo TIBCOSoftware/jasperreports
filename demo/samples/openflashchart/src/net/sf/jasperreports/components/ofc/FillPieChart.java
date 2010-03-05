@@ -25,7 +25,6 @@ package net.sf.jasperreports.components.ofc;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -36,6 +35,7 @@ import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -61,7 +61,7 @@ public class FillPieChart extends BaseFillComponent implements JRFillCloneable
 
 	protected boolean isEvaluateNow()
 	{
-		return chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW;
+		return chart.getEvaluationTime() == EvaluationTimeEnum.NOW;
 	}
 	
 	public void evaluate(byte evaluation) throws JRException
