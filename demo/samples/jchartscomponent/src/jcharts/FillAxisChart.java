@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
 import org.jCharts.Chart;
@@ -80,7 +81,7 @@ public class FillAxisChart extends BaseFillComponent implements JRFillCloneable
 
 	protected boolean isEvaluateNow()
 	{
-		return chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW;
+		return chart.getEvaluationTime() == EvaluationTimeEnum.NOW;
 	}
 	
 	public void evaluate(byte evaluation) throws JRException

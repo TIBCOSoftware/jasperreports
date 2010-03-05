@@ -6,17 +6,7 @@
 
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
-		<condition property="using.jdk.1.5">
-			<or>
-			<equals arg1="${ant.java.version}" arg2="1.5"/>
-			<equals arg1="${ant.java.version}" arg2="1.6"/>
-			</or>
-		</condition>
 		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.5" source="1.5" encoding="ISO-8859-1">
-			<exclude name="**/net/sf/jasperreports/engine/util/Java15BigDecimalHandler.java" unless="using.jdk.1.5"/>
-			<exclude name="**/olap/**/*.java" unless="using.jdk.1.5"/>
-			<exclude name="**/JRJpa*.java" unless="using.jdk.1.5"/>
-			<exclude name="**/Java15BigDecimalHandler.java" unless="using.jdk.1.5"/>
 			<classpath>
 				<pathelement location="./build/classes"/>
 				<fileset dir="./lib">

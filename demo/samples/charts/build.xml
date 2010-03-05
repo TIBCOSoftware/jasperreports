@@ -7,38 +7,31 @@
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="AreaChartReport" />
 	
-	<condition property="using.jdk.1.5">
-		<or>
-		<equals arg1="${ant.java.version}" arg2="1.5"/>
-		<equals arg1="${ant.java.version}" arg2="1.6"/>
-		</or>
-	</condition>
-
-	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application.">
+	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
 
-	<target name="compile" if="using.jdk.1.5" description="Compiles the XML report design and produces the .jasper file.">
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="fill" if="using.jdk.1.5" description="Fills the compiled report design with data and produces the .jrprint file.">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
 		<ant dir="../" target="fill"/>
 	</target>
 
-	<target name="view" if="using.jdk.1.5" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<ant dir="../" target="view"/>
 	</target>
 	
-	<target name="pdf" if="using.jdk.1.5" description="Generates a PDF version of the report by converting the .jrprint file.">
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<ant dir="../" target="pdf"/>
 	</target>
 	
-	<target name="html" if="using.jdk.1.5" description="Generates a HTML version of the report by converting the .jrprint file.">
+	<target name="html" description="Generates a HTML version of the report by converting the .jrprint file.">
 		<ant dir="../" target="html"/>
 	</target>
 
-	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design.">
+	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<ant dir="../" target="viewDesignXML"/>
 	</target>
 

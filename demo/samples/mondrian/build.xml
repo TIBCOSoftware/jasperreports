@@ -25,14 +25,7 @@
 		</fileset>
 	</path>
 
-	<condition property="using.jdk.1.5">
-		<or>
-		<equals arg1="${ant.java.version}" arg2="1.5"/>
-		<equals arg1="${ant.java.version}" arg2="1.6"/>
-		</or>
-	</condition>
-
-	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application.">
+	<target name="javac" description="Compiles the java source files of the test application.">
 		<mkdir dir="build"/>
 		<javac srcdir="src" destdir="build" debug="true" optimize="false" deprecation="false">
 			<classpath refid="classpath"/>
@@ -51,7 +44,7 @@
 
 	</target>
 
-	<target name="compile" if="using.jdk.1.5" description="Compiles the XML report design and produces the .jasper file.">
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
 		</taskdef>
@@ -65,7 +58,7 @@
 		</jrc>
 	</target>
 
-	<target name="fill" if="using.jdk.1.5" description="Fills the compiled report design with data and produces the .jrprint file.">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
 	    <echo message="File is ${file.name}"/>
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="fill"/>
@@ -75,7 +68,7 @@
 		</java>
 	</target>
 
-	<target name="view" if="using.jdk.1.5" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 	    <echo message="File is ${file.name}"/>
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="build">
 			<arg value="${file.name}.jrprint"/>
@@ -83,14 +76,14 @@
 		</java>
 	</target>
 
-	<target name="viewXML" if="using.jdk.1.5" description="Launches the report viewer to preview the generated report stored in an XML file.">
+	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="build">
 			<arg value="${file.name}.jrpxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="print" if="using.jdk.1.5" description="Sends the report in the .jrprint file to the printer.">
+	<target name="print" description="Sends the report in the .jrprint file to the printer.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="print"/>
 			<arg value="${file.name}.jrprint"/>
@@ -98,7 +91,7 @@
 		</java>
 	</target>
 
-	<target name="pdf" if="using.jdk.1.5" description="Generates a PDF version of the report by converting the .jrprint file.">
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="pdf"/>
 			<arg value="${file.name}.jrprint"/>
@@ -106,7 +99,7 @@
 		</java>
 	</target>
 
-	<target name="xml" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file.">
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="xml"/>
 			<arg value="${file.name}.jrprint"/>
@@ -114,7 +107,7 @@
 		</java>
 	</target>
 
-	<target name="xmlEmbed" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file.">
+	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="xmlEmbed"/>
 			<arg value="${file.name}.jrprint"/>
@@ -122,7 +115,7 @@
 		</java>
 	</target>
 
-	<target name="html" if="using.jdk.1.5" description="Generates an HTML version of the report by converting the .jrprint file.">
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="html"/>
 			<arg value="${file.name}.jrprint"/>
@@ -130,7 +123,7 @@
 		</java>
 	</target>
 
-	<target name="rtf" if="using.jdk.1.5" description="Generates an RTF version of the report by converting the .jrprint file.">
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="rtf"/>
 			<arg value="${file.name}.jrprint"/>
@@ -138,7 +131,7 @@
 		</java>
 	</target>
 
-	<target name="xls" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file.">
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="xls"/>
 			<arg value="${file.name}.jrprint"/>
@@ -146,7 +139,7 @@
 		</java>
 	</target>
 
-	<target name="jxl" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="jxl"/>
 			<arg value="${file.name}.jrprint"/>
@@ -154,7 +147,7 @@
 		</java>
 	</target>
 
-	<target name="csv" if="using.jdk.1.5" description="Generates a CSV version of the report by converting the .jrprint file.">
+	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="csv"/>
 			<arg value="${file.name}.jrprint"/>
@@ -162,7 +155,7 @@
 		</java>
 	</target>
 
-	<target name="odt" if="using.jdk.1.5" description="Generates an ODT version of the report by converting the .jrprint file.">
+	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="odt"/>
 			<arg value="${file.name}.jrprint"/>
@@ -170,7 +163,7 @@
 		</java>
 	</target>
 
-	<target name="ods" if="using.jdk.1.5" description="Generates an ODS version of the report by converting the .jrprint file.">
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="ods"/>
 			<arg value="${file.name}.jrprint"/>
@@ -178,7 +171,7 @@
 		</java>
 	</target>
 
-	<target name="docx" if="using.jdk.1.5" description="Generates a DOCX version of the report by converting the .jrprint file.">
+	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="docx"/>
 			<arg value="${file.name}.jrprint"/>
@@ -186,7 +179,7 @@
 		</java>
 	</target>
 
-	<target name="xlsx" if="using.jdk.1.5" description="Generates an XLSX version of the report by converting the .jrprint file.">
+	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="xlsx"/>
 			<arg value="${file.name}.jrprint"/>
@@ -194,7 +187,7 @@
 		</java>
 	</target>
 
-	<target name="xhtml" if="using.jdk.1.5" description="Generates an XHTML version of the report by converting the .jrprint file.">
+	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="xhtml"/>
 			<arg value="${file.name}.jrprint"/>
@@ -202,7 +195,7 @@
 		</java>
 	</target>
 
-	<target name="run" if="using.jdk.1.5" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
+	<target name="run" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
 		<java classname="${class.name}" fork="true" dir="build">
 			<arg value="run"/>
 			<arg value="${file.name}.jasper"/>
@@ -211,14 +204,14 @@
 		</java>
 	</target>
 
-	<target name="viewDesignXML" if="using.jdk.1.5" description="Launches the design viewer to preview the XML report design.">
+	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true" dir="reports">
 			<arg value="${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign" if="using.jdk.1.5" description="Launches the design viewer to preview the compiled report design.">
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true" dir="build">
 			<arg value="${file.name}.jasper"/>
 			<classpath refid="classpath"/>
