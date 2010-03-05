@@ -35,12 +35,12 @@ public enum OrientationEnum implements JREnum
 	/**
 	 * Specifies a portrait orientation. This is used mostly to inform printers of page layouts.
 	 */
-	PORTRAIT((byte)1, "Vertical"),
+	PORTRAIT((byte)1, "Portrait"),
 
 	/**
 	 * Specifies a landscape orientation. This is used mostly to inform printers of page layouts.
 	 */
-	LANDSCAPE((byte)2, "Horizontal");
+	LANDSCAPE((byte)2, "Landscape");
 	
 	/**
 	 *
