@@ -60,6 +60,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
@@ -180,24 +181,66 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link ColorEnum#BLACK#getName()}.
 	 */
-	private static final String COLOR_BLACK = "black";
-	private static final String COLOR_BLUE = "blue";
-	private static final String COLOR_CYAN = "cyan";
-	private static final String COLOR_DARK_GRAY = "darkGray";
-	private static final String COLOR_GRAY = "gray";
-	private static final String COLOR_GREEN = "green";
-	private static final String COLOR_LIGHT_GRAY = "lightGray";
-	private static final String COLOR_MAGENTA = "magenta";
-	private static final String COLOR_ORANGE = "orange";
-	private static final String COLOR_PINK = "pink";
-	private static final String COLOR_RED = "red";
-	private static final String COLOR_YELLOW = "yellow";
-	private static final String COLOR_WHITE = "white";
+	private static final String COLOR_BLACK = ColorEnum.BLACK.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#BLUE#getName()}.
+	 */
+	private static final String COLOR_BLUE = ColorEnum.BLUE.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#CYAN#getName()}.
+	 */
+	private static final String COLOR_CYAN = ColorEnum.CYAN.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#DARK_GRAY#getName()}.
+	 */
+	private static final String COLOR_DARK_GRAY = ColorEnum.DARK_GRAY.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#GRAY#getName()}.
+	 */
+	private static final String COLOR_GRAY = ColorEnum.GRAY.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#GREEN#getName()}.
+	 */
+	private static final String COLOR_GREEN = ColorEnum.GREEN.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#LIGHT_GRAY#getName()}.
+	 */
+	private static final String COLOR_LIGHT_GRAY = ColorEnum.LIGHT_GRAY.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#MAGENTA#getName()}.
+	 */
+	private static final String COLOR_MAGENTA = ColorEnum.MAGENTA.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#ORANGE#getName()}.
+	 */
+	private static final String COLOR_ORANGE = ColorEnum.ORANGE.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#PINK#getName()}.
+	 */
+	private static final String COLOR_PINK = ColorEnum.PINK.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#RED#getName()}.
+	 */
+	private static final String COLOR_RED = ColorEnum.RED.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#YELLOW#getName()}.
+	 */
+	private static final String COLOR_YELLOW = ColorEnum.YELLOW.getName();
+	/**
+	 * @deprecated Replaced by {@link ColorEnum#WHITE#getName()}.
+	 */
+	private static final String COLOR_WHITE = ColorEnum.WHITE.getName();
 
+	/**
+	 * @deprecated Replaced by {@link ColorEnum}.
+	 */
 	private static Map colorMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link ColorEnum}.
+	 */
 	public static Map getColorMap()
 	{
 		if (colorMap == null)
@@ -1873,33 +1916,7 @@ public class JRXmlConstants extends XmlConstants
 	 */
 	public static Color getColor(String strColor, Color defaultColor)
 	{
-		Color color = null;
-
-		if (strColor != null && strColor.length() > 0)
-		{
-			char firstChar = strColor.charAt(0);
-			if (firstChar == '#')
-			{
-				color = new Color(Integer.parseInt(strColor.substring(1), 16));
-			}
-			else if ('0' <= firstChar && firstChar <= '9')
-			{
-				color = new Color(Integer.parseInt(strColor));
-			}
-			else
-			{
-				if (JRXmlConstants.getColorMap().containsKey(strColor))
-				{
-					color = (Color)JRXmlConstants.getColorMap().get(strColor);
-				}
-				else
-				{
-					color = defaultColor;
-				}
-			}
-		}
-
-		return color;
+		return JRColorUtil.getColor(strColor, defaultColor);
 	}
 
 }
