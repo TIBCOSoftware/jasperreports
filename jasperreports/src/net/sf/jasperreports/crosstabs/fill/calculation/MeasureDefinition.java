@@ -23,10 +23,6 @@
  */
 package net.sf.jasperreports.crosstabs.fill.calculation;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.fill.AbstractValueProvider;
 import net.sf.jasperreports.engine.fill.JRCalculable;
@@ -43,34 +39,10 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  */
 public class MeasureDefinition
 {
-	protected CalculationEnum calculationValue;
+	protected CalculationEnum calculation;
 	protected final JRExtendedIncrementerFactory incrementerFactory;
 	protected final Class valueClass;
 	protected final boolean isSystemDefined;
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #MeasureDefinition(Class, CalculationEnum, JRExtendedIncrementerFactory)}
-	 */
-	public MeasureDefinition(
-			Class valueClass, 
-			byte calculation, 
-			JRExtendedIncrementerFactory incrementerFactory) 
-	{
-		this(valueClass, CalculationEnum.getByValue(calculation), incrementerFactory);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #MeasureDefinition(Class, CalculationEnum, JRExtendedIncrementerFactory, boolean)}
-	 */
-	protected MeasureDefinition(
-			Class valueClass, 
-			byte calculation, 
-			JRExtendedIncrementerFactory incrementerFactory, 
-			boolean isSystemDefined)
-	{
-		this(valueClass, CalculationEnum.getByValue(calculation), incrementerFactory, isSystemDefined);
-	}
 	
 	
 	/**
@@ -95,7 +67,7 @@ public class MeasureDefinition
 			boolean isSystemDefined)
 	{
 		this.valueClass = valueClass;
-		this.calculationValue = calculation;
+		this.calculation = calculation;
 		this.incrementerFactory = incrementerFactory;
 		this.isSystemDefined = isSystemDefined;
 	}
@@ -127,21 +99,13 @@ public class MeasureDefinition
 
 	
 	/**
-	 * @deprecated Replaced by {@link #getCalculationValue()}
-	 */
-	public byte getCalculation()
-	{
-		return getCalculationValue().getValue();
-	}
-
-	/**
 	 * Returns the calculation type.
 	 * 
 	 * @return the calculation type
 	 */
-	public CalculationEnum getCalculationValue()
+	public CalculationEnum getCalculation()
 	{
-		return calculationValue;
+		return calculation;
 	}
 
 	
@@ -163,7 +127,7 @@ public class MeasureDefinition
 	 */
 	public JRExtendedIncrementer getIncrementer()
 	{
-		return incrementerFactory.getExtendedIncrementer(calculation);
+		return incrementerFactory.getExtendedIncrementer(calculation.getValue());//FIXMEENUM should we create new method in interface?
 	}
 	
 	protected boolean isSystemDefined()
@@ -304,23 +268,6 @@ public class MeasureDefinition
 		{
 			this.initialized = isInitialized;
 		}
-	}
-	
-	/**
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
-	private byte calculation;
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			calculationValue = CalculationEnum.getByValue(calculation);
-		}
-		
 	}
 
 }

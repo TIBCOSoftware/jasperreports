@@ -257,7 +257,7 @@ public class BucketingService
 
 	protected void addMeasure(MeasureDefinition measure, int index, List measuresList, List measureIndexList)
 	{
-		switch (measure.getCalculationValue())
+		switch (measure.getCalculation())
 		{
 			case AVERAGE:
 			case VARIANCE:
@@ -345,7 +345,7 @@ public class BucketingService
 			MeasureDefinition measure = measures[i];
 			values[i] = measure.new MeasureValue();
 
-			switch (measure.getCalculationValue())
+			switch (measure.getCalculation())
 			{
 				case AVERAGE:
 				case VARIANCE:
