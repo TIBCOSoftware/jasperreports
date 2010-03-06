@@ -35,11 +35,11 @@ public enum StretchTypeEnum implements JREnum
 	/**
 	 * A constant indicating that the element preserves its original specified height.
 	 */
-	NO_STRETCH((byte)0, "NoStretch"),
+	NO_STRETCH((byte)0, "NoStretch"),//FIXMEENUM check all 0 constants for initialization
 
 	/**
 	 * A constant indicating that users have the possibility to group the elements of a report section 
-	 * in multiple imbricate groups. The only reason one might have for grouping your report elements 
+	 * in multiple nested groups. The only reason one might have for grouping your report elements 
 	 * is to be able to stretch them to fit the tallest object.
 	 */
 	RELATIVE_TO_TALLEST_OBJECT((byte)1, "RelativeToTallestObject"),
