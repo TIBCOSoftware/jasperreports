@@ -84,7 +84,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 */
 	protected String key = null;
 	protected PositionTypeEnum positionTypeValue;
-	protected StretchTypeEnum stretchTypeValue;
+	protected StretchTypeEnum stretchTypeValue = StretchTypeEnum.NO_STRETCH;
 	protected boolean isPrintRepeatedValues = true;
 	protected ModeEnum modeValue;
 	protected int x = 0;
