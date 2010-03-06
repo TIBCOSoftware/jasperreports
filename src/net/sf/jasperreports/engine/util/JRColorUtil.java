@@ -25,7 +25,7 @@ package net.sf.jasperreports.engine.util;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.type.ColorEnum;
 
 
 /**
@@ -69,13 +69,14 @@ public class JRColorUtil
 			}
 			else
 			{
-				if (JRXmlConstants.getColorMap().containsKey(strColor))
+				ColorEnum colorEnum = ColorEnum.getByName(strColor);
+				if (colorEnum == null)
 				{
-					color = (Color)JRXmlConstants.getColorMap().get(strColor);
+					color = defaultColor;
 				}
 				else
 				{
-					color = defaultColor;
+					color = colorEnum.getColor();
 				}
 			}
 		}
