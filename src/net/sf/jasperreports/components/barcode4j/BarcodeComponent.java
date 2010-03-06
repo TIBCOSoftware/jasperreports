@@ -99,14 +99,14 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setEvaluationTime(EvaluationTimeEnum)}.
+	 * @deprecated Replaced by {@link #setEvaluationTimeValue(EvaluationTimeEnum)}.
 	 */
 	public void setEvaluationTime(byte evaluationTime)
 	{
-		setEvaluationTime(EvaluationTimeEnum.getByValue(evaluationTime));
+		setEvaluationTimeValue(EvaluationTimeEnum.getByValue(evaluationTime));
 	}
 
-	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	public void setEvaluationTimeValue(EvaluationTimeEnum evaluationTimeValue)
 	{
 		Object old = this.evaluationTimeValue;
 		this.evaluationTimeValue = evaluationTimeValue;

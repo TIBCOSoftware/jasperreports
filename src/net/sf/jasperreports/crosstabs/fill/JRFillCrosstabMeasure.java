@@ -82,7 +82,7 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 	 */
 	public byte getCalculation()
 	{
-		return parentMeasure.getCalculation();
+		return getCalculationValue().getValue();
 	}
 
 	public CalculationEnum getCalculationValue()

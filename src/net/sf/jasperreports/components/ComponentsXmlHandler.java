@@ -89,7 +89,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				new String[]{"printOrder"}, 
 				new String[0]);
 		digester.addRule(listPattern, new XmlConstantPropertyRule(
-				"printOrder", PrintOrderEnum.values()));
+				"printOrder", "printOrderValue", PrintOrderEnum.values()));
 		
 		String listContentsPattern = listPattern + "/listContents";
 		digester.addObjectCreate(listContentsPattern, DesignListContents.class);
@@ -107,7 +107,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				new String[0]);
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
-						XmlConstants.ATTRIBUTE_evaluationTime,
+						XmlConstants.ATTRIBUTE_evaluationTime, "evaluationTimeValue",
 						EvaluationTimeEnum.values()));
 
 		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
@@ -176,7 +176,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		//rule to set evaluation time
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
-						XmlConstants.ATTRIBUTE_evaluationTime,
+						XmlConstants.ATTRIBUTE_evaluationTime, "evaluationTimeValue",
 						EvaluationTimeEnum.values()));
 		
 		String codeExpressionPattern = barcodePattern + "/codeExpression";

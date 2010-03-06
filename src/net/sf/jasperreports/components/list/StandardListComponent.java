@@ -29,7 +29,6 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -130,38 +129,40 @@ public class StandardListComponent implements Serializable, ListComponent
 	{
 		return printOrderValue;
 	}
+
+	/**
+	 * @deprecated Replaced by {@link #setPrintOrderValue(PrintOrderEnum)}.
+	 */
+	public void setPrintOrder(Byte printOrder)
+	{
+		setPrintOrderValue(PrintOrderEnum.getByValue(printOrder));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setPrintOrderValue(PrintOrderEnum)}.
+	 */
+	public void setPrintOrder(byte printOrder)
+	{
+		setPrintOrderValue(PrintOrderEnum.getByValue(printOrder));
+	}
+	
 	/**
 	 * Sets the list cell print order.
 	 * 
 	 * @param printOrder the cell print oder, null or one of
 	 * <ul>
-	 * <li>{@link JRReport#PRINT_ORDER_VERTICAL}</li>
-	 * <li>{@link JRReport#PRINT_ORDER_HORIZONTAL}</li>
+	 * <li>{@link PrintOrderEnum#VERTICAL}</li>
+	 * <li>{@link PrintOrderEnum#HORIZONTAL}</li>
 	 * </ul>
-	 * @see #getPrintOrder()
+	 * @see #getPrintOrderValue()
 	 */
-	public void setPrintOrder(Byte printOrder)
+	public void setPrintOrderValue(PrintOrderEnum printOrderValue)
 	{
-		Object old = this.printOrder;
-		this.printOrder = printOrder;
-		getEventSupport().firePropertyChange(PROPERTY_PRINT_ORDER, old, this.printOrder);
+		Object old = this.printOrderValue;
+		this.printOrderValue = printOrderValue;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_ORDER, old, this.printOrderValue);
 	}
 
-	/**
-	 * Sets the list cell print order.
-	 * 
-	 * @param printOrder the cell print oder, one of
-	 * <ul>
-	 * <li>{@link JRReport#PRINT_ORDER_VERTICAL}</li>
-	 * <li>{@link JRReport#PRINT_ORDER_HORIZONTAL}</li>
-	 * </ul>
-	 * @see #getPrintOrder()
-	 */
-	public void setPrintOrder(byte printOrder)
-	{
-		setPrintOrder(new Byte(printOrder));
-	}
-	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

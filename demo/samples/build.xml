@@ -53,7 +53,10 @@
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
 		</taskdef>
-		<jrc destdir="${sample.dir}/build/reports">
+		<jrc 
+			destdir="${sample.dir}/build/reports"
+			tempdir="${sample.dir}/build/reports"
+			keepjava="false">
 			<src>
 				<fileset dir="${sample.dir}/reports">
 					<include name="**/*.jrxml"/>
