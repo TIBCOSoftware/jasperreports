@@ -118,7 +118,7 @@
 		<antcall target="clean" />
 		<antcall target="javac" />
 		<antcall target="compile" />
-		<ant dir="../" target="fill"/>
+		<ant dir="../" target="test"/>
 	</target>
 	
 </project>
