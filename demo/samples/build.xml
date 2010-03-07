@@ -74,15 +74,15 @@
 	</target>
 
 	<target name="view">
-		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrprint"/>
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="${sample.dir}">
+			<arg value="build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewXML">
-		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="${sample.dir}/build/reports/${sample.report.name}.jrpxml"/>
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="${sample.dir}">
+			<arg value="build/reports/${sample.report.name}.jrpxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
