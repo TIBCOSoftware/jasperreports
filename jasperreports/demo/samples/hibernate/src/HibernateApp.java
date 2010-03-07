@@ -102,7 +102,11 @@ public class HibernateApp extends AbstractSampleApp
 
 		Map params = getParameters(session);
 		
-		File[] files = getFiles(new File("build/reports"), "jasper");
+		File[] files = 
+			new File[]{
+				new File("build/reports/AddressesReport.jasper"),
+				new File("build/reports/HibernateQueryReport.jasper")
+			};
 		for(int i = 0; i < files.length; i++)
 		{
 			File reportFile = files[i];
@@ -453,7 +457,11 @@ public class HibernateApp extends AbstractSampleApp
 		
 		Map params = getParameters(session);
 
-		File[] files = getFiles(new File("build/reports"), "jasper");
+		File[] files = 
+			new File[]{
+				new File("build/reports/AddressesReport.jasper"),
+				new File("build/reports/HibernateQueryReport.jasper")
+			};
 		for(int i = 0; i< files.length; i++)
 		{
 			File reportFile = files[i];
