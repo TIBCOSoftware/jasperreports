@@ -1,214 +1,114 @@
-<project name="list" default="javac" basedir=".">
+<project name="list" default="test" basedir=".">
 
 	<description>Illustrates the usage of the list component element.</description>
 
-	<property name="class.name" value="ListApp" />
-	<property name="file.name.1" value="${basedir}/ListReport" />
-	<property name="file.name.2" value="${basedir}/HorizontalListReport" />
-	<property name="classes.dir" value="../../../build/classes" />
-	<property name="lib.dir" value="../../../lib" />
-	<property name="fonts.dir" value="../../fonts" />
+	<property name="sample.dir" value="list"/>
+	<property name="sample.base.name" value="List" />
+	<property name="sample.app.name" value="${sample.base.name}App" />
+	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
-	<path id="classpath">
-		<pathelement location="./" />
-		<pathelement location="${classes.dir}" />
-		<pathelement location="${fonts.dir}" />
-		<fileset dir="${lib.dir}">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
-
 	<target name="javac" description="Compiles the java source files of the test application.">
-		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
-			<classpath refid="classpath"/>
-		</javac>
+		<ant dir="../" target="javac"/>
 	</target>
 
-	<target name="compile" description="Compiles all the XML report designs and produces the .jasper files.">
-		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
-			<classpath refid="classpath"/>
-		</taskdef>
-		<jrc destdir="./">
-			<src>
-				<fileset dir="./">
-					<include name="**/*.jrxml"/>
-				</fileset>
-			</src>
-			<classpath refid="classpath"/>
-		</jrc> 
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+		<ant dir="../" target="compile"/>
 	</target>
 
-	<macrodef name="fill">
-		<attribute name="fileName"/>
-		<sequential>
-			<java classname="${class.name}" fork="true">
-				<arg value="fill"/>
-				<arg value="@{fileName}.jasper"/>
-				<classpath refid="classpath"/>
-			</java>
-		</sequential>
-	</macrodef>
-	
-	<target name="fill" description="Fills the compiled report designs with data and produces the .jrprint files.">
-		<fill filename="${file.name.1}"/>
-		<fill filename="${file.name.2}"/>
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<ant dir="../" target="fill"/>
 	</target>
 
-	<macrodef name="view">
-		<attribute name="fileName"/>
-		<sequential>
-			<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-				<arg value="@{fileName}"/>
-				<classpath refid="classpath"/>
-			</java>
-		</sequential>
-	</macrodef>
-
-	<target name="view" description="Launches the report viewer to preview the reports stored in the .jrprint files.">
-		<view filename="${file.name.1}.jrprint"/>
-		<view filename="${file.name.2}.jrprint"/>
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+		<ant dir="../" target="view"/>
 	</target>
 
-	<target name="viewXML" description="Launches the report viewer to preview the generated reports stored in XML files.">
-		<view filename="${file.name.1}.jrpxml"/>
-		<view filename="${file.name.2}.jrpxml"/>
+	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
+		<ant dir="../" target="viewXML"/>
 	</target>
 
-	<macrodef name="classTask">
-		<attribute name="task"/>
-		<attribute name="fileName"/>
-		<sequential>
-			<java classname="${class.name}" fork="true">
-				<arg value="@{task}"/>
-				<arg value="@{fileName}.jrprint"/>
-				<classpath refid="classpath"/>
-			</java>
-		</sequential>
-	</macrodef>
-	
-	<target name="print" description="Sends the reports in the .jrprint file to the printer.">
-		<classTask task="print" filename="${file.name.1}"/>
-		<classTask task="print" filename="${file.name.2}"/>
+	<target name="print" description="Sends the report in the .jrprint file to the printer.">
+		<ant dir="../" target="print"/>
 	</target>
 
-	<target name="pdf" description="Generates a PDF version of the reports by converting the .jrprint files.">
-		<classTask task="pdf" filename="${file.name.1}"/>
-		<classTask task="pdf" filename="${file.name.2}"/>
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pdf"/>
 	</target>
 
-	<target name="xml" description="Generates an XML version of the reports by converting the .jrprint files.">
-		<classTask task="xml" filename="${file.name.1}"/>
-		<classTask task="xml" filename="${file.name.2}"/>
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xml"/>
 	</target>
 
-	<target name="xmlEmbed" description="Generates an XML version of the reports by converting the .jrprint files.">
-		<classTask task="xmlEmbed" filename="${file.name.1}"/>
-		<classTask task="xmlEmbed" filename="${file.name.2}"/>
+	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xmlEmbed"/>
 	</target>
 
-	<target name="html" description="Generates an HTML version of the reports by converting the .jrprint files.">
-		<classTask task="html" filename="${file.name.1}"/>
-		<classTask task="html" filename="${file.name.2}"/>
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="html"/>
+	</target>
+
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+		<ant dir="../" target="rtf"/>
 	</target>
 	
-	<target name="rtf" description="Generates an RTF version of the reports by converting the .jrprint files.">
-		<classTask task="rtf" filename="${file.name.1}"/>
-		<classTask task="rtf" filename="${file.name.2}"/>
-	</target>
-	
-	<target name="xls" description="Generates an XLS version of the reports by converting the .jrprint files using the POI library.">
-		<classTask task="xls" filename="${file.name.1}"/>
-		<classTask task="xls" filename="${file.name.2}"/>
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
+		<ant dir="../" target="xls"/>
 	</target>
 
-	<target name="jxl" description="Generates an XLS version of the reports by converting the .jrprint files using the JExcelApi library.">
-		<classTask task="jxl" filename="${file.name.1}"/>
-		<classTask task="jxl" filename="${file.name.2}"/>
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<ant dir="../" target="jxl"/>
 	</target>
 
-	<target name="csv" description="Generates a CSV version of the reports by converting the .jrprint files.">
-		<classTask task="csv" filename="${file.name.1}"/>
-		<classTask task="csv" filename="${file.name.2}"/>
+	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
+		<ant dir="../" target="csv"/>
 	</target>
 
-	<target name="odt" description="Generates an ODT version of the reports by converting the .jrprint files.">
-		<classTask task="odt" filename="${file.name.1}"/>
-		<classTask task="odt" filename="${file.name.2}"/>
+	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
+		<ant dir="../" target="odt"/>
 	</target>
 
-	<target name="ods" description="Generates an ODS version of the reports by converting the .jrprint files.">
-		<classTask task="ods" filename="${file.name.1}"/>
-		<classTask task="ods" filename="${file.name.2}"/>
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
+		<ant dir="../" target="ods"/>
 	</target>
 
-	<target name="docx" description="Generates a DOCX version of the reports by converting the .jrprint files.">
-		<classTask task="docx" filename="${file.name.1}"/>
-		<classTask task="docx" filename="${file.name.2}"/>
+	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="docx"/>
 	</target>
 
-	<target name="xlsx" description="Generates an XLSX version of the reports by converting the .jrprint files.">
-		<classTask task="xlsx" filename="${file.name.1}"/>
-		<classTask task="xlsx" filename="${file.name.2}"/>
+	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xlsx"/>
 	</target>
 
-	<target name="xhtml" description="Generates an XHTML version of the reports by converting the .jrprint files.">
-		<classTask task="xhtml" filename="${file.name.1}"/>
-		<classTask task="xhtml" filename="${file.name.2}"/>
+	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xhtml"/>
 	</target>
 
-	<target name="run" description="Generates a PDF file by filling the .jasper report designs. No intermediate .jrprint files are produced.">
-		<classTask task="run" filename="${file.name.1}"/>
-		<classTask task="run" filename="${file.name.2}"/>
+	<target name="run" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
+		<ant dir="../" target="run"/>
 	</target>
 
-	<macrodef name="viewDesign">
-		<attribute name="fileName"/>
-		<sequential>
-			<echo message="Viewing the @{fileName} file"/>
-			<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-				<arg value="@{fileName}"/>
-				<classpath refid="classpath"/>
-			</java>
-		</sequential>
-	</macrodef>
-	
-	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report designs.">
-		<viewDesign filename="${file.name.1}.jrxml"/>
-		<viewDesign filename="${file.name.2}.jrxml"/>
+	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
+		<ant dir="../" target="viewDesignXML"/>
 	</target>
 
-	<target name="viewDesign" description="Launches the design viewer to preview the compiled report designs.">
-		<viewDesign filename="${file.name.1}.jasper"/>
-		<viewDesign filename="${file.name.2}.jasper"/>
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+		<ant dir="../" target="viewDesign"/>
 	</target>
 
-	<macrodef name="cleanReport">
-		<attribute name="fileName"/>
-		<sequential>
-			<delete dir="@{fileName}.jrpxml_files" />
-			<delete dir="@{fileName}.html_files" />
-			<delete dir="@{fileName}.x.html_files" />
-		</sequential>
-	</macrodef>
-	
+	<target name="decompile" description="Decompiles a .jasper file into a .jrxml file.">
+		<ant dir="../" target="decompile"/>
+	</target>
+
+	<target name="writeApi" description="Generates a .java version of the report by converting the .jrxml file.">
+		<ant dir="../" target="writeApi"/>
+	</target>
+
+	<target name="writeApiXml" description="Generates a .jrxml version of the report by executing the API version of the report design.">
+		<ant dir="../" target="writeApiXml"/>
+	</target>
+
 	<target name="clean" description="Deletes all the generated files.">
-		<delete>
-			<fileset dir="." includes="**/*.class" />
-			<fileset dir="." includes="**/*.jasper" />
-			<fileset dir="." includes="**/*.jrprint" />
-			<fileset dir="." includes="**/*.jrpxml" />
-			<fileset dir="." includes="**/*.html" />
-			<fileset dir="." includes="**/*.rtf" />
-			<fileset dir="." includes="**/*.xls" />
-			<fileset dir="." includes="**/*.csv" />
-			<fileset dir="." includes="**/*.odt" />
-			<fileset dir="." includes="**/*.ods" />
-			<fileset dir="." includes="**/*.pdf" />
-			<fileset dir="." includes="**/*.docx" />
-			<fileset dir="." includes="**/*.xlsx" />
-		</delete>
-		<cleanReport filename="${file.name.1}"/>
-		<cleanReport filename="${file.name.2}"/>
+		<ant dir="../" target="clean-sample"/>
 	</target>
 	
 	<target name="test" description="Runs the sample.">
@@ -218,20 +118,7 @@
 		<antcall target="clean" />
 		<antcall target="javac" />
 		<antcall target="compile" />
-		<antcall target="fill" />
-		<antcall target="pdf" />
-		<antcall target="xmlEmbed" />
-		<antcall target="xml" />
-		<antcall target="html" />
-		<antcall target="rtf" />
-		<antcall target="xls" />
-		<antcall target="jxl" />
-		<antcall target="csv" />
-		<antcall target="odt" />
-		<antcall target="ods" />
-		<antcall target="docx" />
-		<antcall target="xlsx" />
-		<antcall target="xhtml" />
+		<ant dir="../" target="fill"/>
 	</target>
 
 </project>
