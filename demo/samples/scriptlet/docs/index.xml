@@ -17,7 +17,9 @@
     <since>0.2.5</since>
     <content>
     There are situations when a calculation is required during the report filling stage that is not included in JasperReports provided
-    calculations. Examples of this may be complex String manipulations, building of Maps or Lists of objects in memory or manipulations 
+    calculations.
+    <br/>
+    Examples of this may be complex String manipulations, building of Maps or Lists of objects in memory or manipulations 
     of dates using 3rd party Java APIs.
     <br/>
     Luckily JasperReports provides us with a simple and powerful means of doing this with Scriptlets.
@@ -28,16 +30,17 @@
     A Script is a Java Class that extends one of the two following classes:
     <br/>
     <ul>
-    <li>JRDefaultScriptlet http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDefaultScriptlet.html</li>
-    <li>JRAbstractScriptlet http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractScriptlet.html.</li>
+    <li><api href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDefaultScriptlet.html">JRDefaultScriptlet</api></li>
+    <li><api href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractScriptlet.html">JRAbstractScriptlet</api></li>
     </ul>
     <br/>
     The sample extends the JRDefaultScriptlet. The difference between the two is with JRAbstractScriptlet a developer must implement
-    all the abstract methods. By extending JRDefaultScriptlet a developer is only required to implement that methods he/she needs for 
+    all the abstract methods.
+    <br/>
+    By extending JRDefaultScriptlet a developer is only required to implement that methods he/she needs for 
     their project.
     <br/>
-    Once the Scriptlet has been referenced in the report (we will cover this shortly), during the Filling stage of the Report Life Cycle (the report template is compiled, filled with data and finally exported to a useful format),
-     the JasperReports API will ensure to call the appropriate methods within the Scriptlet.
+    Once the Scriptlet has been referenced in the report, during the Filling stage of the Report Life Cycle, the JasperReports API will ensure to call the appropriate methods within the Scriptlet.
     <br/>
     It is within these methods you will place your own logic to manipulate data in the report.
     <br/>
@@ -69,7 +72,9 @@
     <br/>
     Open up a separate command prompt/terminal window and browse to the root directory of the sample.
     <br/>
-    By running 'ant -p' you will be presented with a list of options available. Of interest in this list is all the exporters available for testing. Each export type will generate a output type in the build/report folder.
+    By running 'ant -p' you will be presented with a list of options available. Of interest in this list is all the exporters available for testing.
+    <br/>
+    Each export type will generate a output type in the build/report folder.
     <br/>
     By running the command 'ant' the following actions will be performed:
     <br/>
@@ -104,12 +109,17 @@
     <b>What does a Scriptlet do?</b>
     <br/>
     A Scriptlet allows the developer to obtain the values of Fields, Variables and Parameters from the report during specific events in the Filling
-    stage of the Report Life Cycle. It also allows you to set data in the report as it executes its Fill Cycle. We will discuss this more in the sections 
+    stage of the Report Life Cycle.
+    <br/>
+    It also allows you to set data in the report as it executes its Fill Cycle. We will discuss this more in the sections 
     below.
     <br/>
-    If you look at Scriptlet.java within this sample you will see all possible methods have been implemented. Most contain output statements. By running the sample
-    from the command line or in iReport you will see the outputs of these statements along with the generated report itself. The method afterGroupInit contains all the 
-    most interesting logic and will be the main focus of our discussion.<br/>
+    If you look at Scriptlet.java within this sample you will see all possible methods have been implemented. Most contain output statements.
+    <br/>
+    By running the sample from the command line or in iReport you will see the outputs of these statements along with the generated report itself.
+    <br/>
+    The method afterGroupInit contains all the most interesting logic and will be the main focus of our discussion.
+    <br/>
     <br/>
     <i>Working with Report Data</i>
     <br/>
@@ -122,9 +132,11 @@
 		String city = (String)this.getFieldValue("City");
     ]]>
 	</pre>
-	In the first line of code we get the value of the AllCities variable, the second we get the value of the Field "City". It is important to note
-	we get these values at the time of the event this method in the Scriptlet corresponds with. In this case, after a JasperReports group has been initalized, the logic
-	in this report will be executed (provided the check on the group name performed at the start of the method is successful).
+	In the first line of code we get the value of the AllCities variable, the second we get the value of the Field "City".
+	<br/>
+	It is important to note we get these values at the time of the event this method in the Scriptlet corresponds with.
+	<br/>
+	In this case, after a JasperReports group has been initalized, the logic in this report will be executed (provided the check on the group name performed at the start of the method is successful).
 	<br/>
 	In the same method we see an example of how to write to a variable in the report:
 	 <pre>
@@ -140,7 +152,9 @@
 		<variable name="AllCities" class="java.lang.String" calculation="System"/>
 	]]>
 	</pre>
-	Also notice that there is *no* Variable Expression. Make sure you remember these two points when creating Variables in your own report with values supplied by Scriptlets.
+	Also notice that there is *no* Variable Expression.
+	<br/>
+	Make sure you remember these two points when creating Variables in your own report with values supplied by Scriptlets.
 	<br/>
 	<br/>
 	<i>Creating Helper Methods</i>
@@ -154,21 +168,38 @@
 	}
 	]]>
 	</pre>
-	This is an example of a method that can added to the Scriptlet that actually returns a value, rather than setting a Variable. The ScripletReport.jrxml has a method
-	in the Summary band that illustrates how to use such a method. The expression is:
+	This is an example of a method that can added to the Scriptlet that actually returns a value, rather than setting a Variable.<br/>
+	The ScripletReport.jrxml has a method in the Summary band that illustrates how to use such a method. The expression is:
 	<pre>
 		<![CDATA[
 		$P{REPORT_SCRIPTLET}.hello()
 		]]>
 	</pre>
-	The Parameter referenced is a built-in Parameter managed by the JasperReports API and contains a reference to the Scriptlet. As can be seen the hello() method is called. The
-	 Type of the TextField containing this expression is String. This corresponds to the type returned by the method in the Scriptlet.
+	The Parameter referenced is a built-in Parameter managed by the JasperReports API and contains a reference to the Scriptlet.
+	<br/>
+	As can be seen the hello() method is called. The Type of the TextField containing this expression is String.
+	<br/>
+	This corresponds to the type returned by the method in the Scriptlet.
 	<br/> 
     <em>How do you use a Scriptlet in a report?</em>
     A Scriptlet can be associated with a Report by adding a scriptletClass property to the JasperReports tag:
     <pre>
     <![CDATA[
-    <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ListReport" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="250" columnSpacing="15" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" scriptletClass="com.myproject.reporting.MyScriptlet">
+    <jasperReport 
+    xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+    name="ListReport" 
+    columnCount="2" 
+    pageWidth="595" 
+    pageHeight="842" 
+    columnWidth="250" 
+    columnSpacing="15" 
+    leftMargin="40" 
+    rightMargin="40" 
+    topMargin="50" 
+    bottomMargin="50" 
+    scriptletClass="com.myproject.reporting.MyScriptlet">
     ]]>
 	</pre>
     <b>Note:</b> The fully qualified reference is used for the Scriptlet class.
