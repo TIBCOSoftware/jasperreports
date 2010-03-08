@@ -28,13 +28,11 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
@@ -50,17 +48,27 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net), lshannon - modified to conform to new sample format
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id:ScriptletApp.java 1908 2007-10-19 11:17:08Z teodord $
  */
-public class ScriptletApp extends AbstractSampleApp {
-
+public class ScriptletApp extends AbstractSampleApp 
+{
 	
-	public static void main(String[] args) {
+	
+	/**
+	 *
+	 */
+	public static void main(String[] args) 
+	{
 		main(new ScriptletApp(), args);
 	}
 	
-	public void test() throws JRException {
+	
+	/**
+	 *
+	 */
+	public void test() throws JRException 
+	{
 		fill();
 		pdf();
 		xmlEmbed();
@@ -71,12 +79,16 @@ public class ScriptletApp extends AbstractSampleApp {
 		jxl();
 		csv();
 		odt();
-		odt();
+		ods();
 		docx();
-		xls();
-		xml();
+		xlsx();
+		xhtml();
 	}
 	
+	
+	/**
+	 *
+	 */
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
@@ -84,13 +96,7 @@ public class ScriptletApp extends AbstractSampleApp {
 		Map parameters = new HashMap();
 		parameters.put("ReportTitle", "Scriptlet Report");
 		
-		try {
-			JasperFillManager.fillReportToFile("build/reports/ScriptletReport.jasper", parameters, getConnection());
-		} catch (ClassNotFoundException e) {
-			throw new JRException(e);
-		} catch (SQLException e) {
-			throw new JRException(e);
-		}
+		JasperFillManager.fillReportToFile("build/reports/ScriptletReport.jasper", parameters, getConnection());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -349,29 +355,36 @@ public class ScriptletApp extends AbstractSampleApp {
 		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
-	/**
-	 * 
-	 */
-	public void run() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		JasperRunManager.runReportToPdfFile("build/reports/ScriptletReport.jasper", null, new JREmptyDataSource());
-		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-	}
+
 	/**
 	 *
 	 */
-	private static Connection getConnection() throws ClassNotFoundException, SQLException
+	private static Connection getConnection() throws JRException
 	{
-		//Change these settings according to your local configuration
-		String driver = "org.hsqldb.jdbcDriver";
-		String connectString = "jdbc:hsqldb:hsql://localhost";
-		String user = "sa";
-		String password = "";
+		Connection conn;
+
+		try
+		{
+			//Change these settings according to your local configuration
+			String driver = "org.hsqldb.jdbcDriver";
+			String connectString = "jdbc:hsqldb:hsql://localhost";
+			String user = "sa";
+			String password = "";
 
 
-		Class.forName(driver);
-		Connection conn = DriverManager.getConnection(connectString, user, password);
+			Class.forName(driver);
+			conn = DriverManager.getConnection(connectString, user, password);
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new JRException(e);
+		}
+		catch (SQLException e)
+		{
+			throw new JRException(e);
+			
+		}
+
 		return conn;
 	}
 
