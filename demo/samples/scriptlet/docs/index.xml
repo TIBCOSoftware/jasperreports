@@ -22,54 +22,86 @@
     <br/>
     Luckily JasperReports provides us with a simple and powerful means of doing this with Scriptlets.
     <br/>
-    <em>What is a Scriptlet?</em>
+    <br/>
+    <b>What is a Scriptlet?</b>
     <br/>
     A Script is a Java Class that extends one of the two following classes:
     <br/>
-    JRDefaultScriptlet http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDefaultScriptlet.html
-    <br/>
-    JRAbstractScriptlet http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractScriptlet.html.
+    <ul>
+    <li>JRDefaultScriptlet http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDefaultScriptlet.html</li>
+    <li>JRAbstractScriptlet http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractScriptlet.html.</li>
+    </ul>
     <br/>
     The sample extends the JRDefaultScriptlet. The difference between the two is with JRAbstractScriptlet a developer must implement
     all the abstract methods. By extending JRDefaultScriptlet a developer is only required to implement that methods he/she needs for 
     their project.
     <br/>
     Once the Scriptlet has been referenced in the report (we will cover this shortly), during the Filling stage of the Report Life Cycle (the report template is compiled, filled with data and finally exported to a useful format),
-     the JasperReports API will ensure to call the appropriate methods within the Scriptlet. It is within these methods you will place your own logic to manipulate data is the report.<br/>
+     the JasperReports API will ensure to call the appropriate methods within the Scriptlet.
+    <br/>
+    It is within these methods you will place your own logic to manipulate data in the report.
+    <br/>
     Before we discuss more what these methods do lets discuss how to run this sample.
     <br/>
-    <em>Running the Report in iReport</em>
     <br/>
-    There is a readme.txt that clearly explains how to run the report from a command prompt/terminal using ant. This document will not duplicate this information.<br/>
-    We will instead review setting this example up in iReport 3.7.0
+    <b>Running the Sample</b>
     <br/>
-    Creating the DataSource in iReport<br/>
-    In a command prompt browse to the demo/hsqldb folder of the JasperReports source and run the command 'ant runServer'. Leave window/terminal running and start iReport.
+    <i>Prerequisites</i><br/>
+    Ant is required. By running 'ant --version' you will be able to check if ant is set up on your system (at least version 1.5 is required):<br />
+    <pre>
+    <![CDATA[
+    C:\>ant -version
+	Apache Ant version 1.8.0 compiled on February 1 2010
+	]]>
+	</pre>
+	You can obtain ant from http://ant.apache.org/, instructions for installation can be found there as well.
+	<br/>
+	<br/>
+    <i>Starting the Data Source</i>
+    <br/>
+    In a command prompt/terminal window browse to the demo/hsqldb folder of the JasperReports source and run the command 'ant runServer'.
+    <br/>
+    Leave window/terminal running.
     <br/>
     <img src="runServer.png"/>
     <br/>
-    In iReport create a new JDBC Data Source with the following settings:
+    <i>Generating the Report</i>
     <br/>
-    <img src="jr-ireport-ds.png"/>
+    Open up a separate command prompt/terminal window and browse to the root directory of the sample.
     <br/>
-    Open ScriptletReport.jrxml in iReport. When the report loads you will get an error similar to the following:
-    <pre> 
-    java.lang.ClassNotFoundException: Will not load classes from default package (Scriptlet)
-    </pre>
+    By running 'ant -p' you will be presented with a list of options available. Of interest in this list is all the exporters available for testing. Each export type will generate a output type in the build/report folder.
     <br/>
-    To fix this error we will need to add Scriptlet.java to iReport's classpath. Before doing this run the 'ant javac' task in the demo/samples/Scriptlet folder of
-     the JasperReports source to ensure Scriptlet.java is compiled. This should generate a Scriptlet.class file (refer to the readme.txt file in the Scriplet sample folder for instructions on how
-     to do this). Now in iReport click the menu Tools > Options > Classpath (tab). Click the 'Add Folder Button' and add the folder demo\samples\scriptlet\build\classes 
-     of the JasperReport source directory.
+    By running the command 'ant' the following actions will be performed:
     <br/>
-     <img src="ireport-classpath.png"/>
-     <br/>
-    You can now click the 'Preview Button' to run the report (make sure the data source create above is selected). You will be prompted for a Title, any String value will be fine. The Filled report should display in iReport
-     showing the title you entered and data returned from the hsqldb database by running the report's query.
+    <ul>
+    <li>All java code will be compiled to produce class files.</li>
+    <li>JRXML fills will be compiled by JasperReports to produce a .jasperfile (this is a serialized version of a JasperReports object).</li>
+    <li>The report will be filled with data and the resulting object, JasperPrint, will be serialized to the file system as a .jrprint.</li>
+    <li>All the exporters the sample is configured to test will run.</li>
+    </ul>
+    <br/>
+    <img src="defaultAnt.png"/>
+    <br/>
+    You can now run 'ant view' to see a version of the report in the JasperViewer (an applet contained in the JasperReports package which can be used to view a .jrprint object).
+    <br/>
+    <img src="jasperViewer.png"/>
+    <br/>
+    Each of the these task can be ran separately as well:
+    <br/>
+    <ul>
+    	<li>ant clean - removes all generated files.</li>
+    	<li>ant javac - compiles all java code, this should be done before running further tasks.</li>
+    	<li>ant compile - compiles the JRXML generating a .jasper file.</li>
+    	<li>ant fill - fills the report with data, some reports use the empty data source, others use the HSQL DB and other an inline data source. A .jrprint object is generated in this step.</li>
+    	<li>ant view - opens the report in the JasperViewer</li>
+    	<li>ant pdf - generates a PDF (other exporters are available run 'ant -p' for a full list)</li>
+    </ul>
+    <b>Note:</b> All generated files can be found in build/reports.
     <br/>
     You know have a working version of the report you can review and tweak to learn more about Scriptlets.
-    <br/> 
-    <em>What does a Scriptlet do?</em>
+    <br/>
+    <br/>
+    <b>What does a Scriptlet do?</b>
     <br/>
     A Scriptlet allows the developer to obtain the values of Fields, Variables and Parameters from the report during specific events in the Filling
     stage of the Report Life Cycle. It also allows you to set data in the report as it executes its Fill Cycle. We will discuss this more in the sections 
@@ -110,7 +142,9 @@
 	</pre>
 	Also notice that there is *no* Variable Expression. Make sure you remember these two points when creating Variables in your own report with values supplied by Scriptlets.
 	<br/>
+	<br/>
 	<i>Creating Helper Methods</i>
+	<br/>
 	At the end of the class a extra method called hello has been defined:
 	<pre>
 	<![CDATA[
@@ -137,13 +171,11 @@
     <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ListReport" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="250" columnSpacing="15" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" scriptletClass="com.myproject.reporting.MyScriptlet">
     ]]>
 	</pre>
-    Note how the fully qualified reference is used for the Scriptlet class. In iReport this property can be set by selecting the root element of the report in the Report Inspector panel and
-     then in the Property panel setting the fully qualified reference of the Scriptlet in the Scriptlet property.
+    <b>Note:</b> The fully qualified reference is used for the Scriptlet class.
     <br/>
-    <img src="setting-scriptlet-ireport.png"/>
-    This concludes the summary of the Scriptlet example.
     <br/>
-    <em>Further Resources</em>
+    <b>Further Resources:</b>
+    <br/>
     JasperReports Ultimate Guide (available from the JasperSoft eShop)<br/>
     iReport Ultimate Guide (available from the JasperSoft eShop)<br/>
     </content>
