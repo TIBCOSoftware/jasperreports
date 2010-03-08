@@ -393,35 +393,6 @@ public class HorizontalApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void run() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		//Preparing parameters
-		Image image = Toolkit.getDefaultToolkit().createImage("dukesign.jpg");
-		MediaTracker traker = new MediaTracker(new Panel());
-		traker.addImage(image, 0);
-		try
-		{
-			traker.waitForID(0);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		
-		Map parameters = new HashMap();
-		parameters.put("ReportTitle", "The First Jasper Report Ever");
-		parameters.put("MaxOrderID", new Integer(10500));
-		parameters.put("SummaryImage", image);
-		
-		JasperRunManager.runReportToPdfFile("build/reports/HorizontalReport.jasper", parameters, getConnection());
-		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
 	private static Connection getConnection() throws JRException
 	{
 		Connection conn;

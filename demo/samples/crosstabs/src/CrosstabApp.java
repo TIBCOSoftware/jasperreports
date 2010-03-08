@@ -452,26 +452,6 @@ public class CrosstabApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void run() throws JRException
-	{
-		File[] files = getFiles(new File("build/reports"), "jasper");
-		for(int i = 0; i < files.length; i++)
-		{
-			File reportFile = files[i];
-			long start = System.currentTimeMillis();
-			JasperRunManager.runReportToPdfFile(
-				reportFile.getAbsolutePath(), 
-				null, 
-				getConnection()
-				);
-			System.err.println("Report : " + reportFile + ". PDF running time : " + (System.currentTimeMillis() - start));
-		}
-	}
-
-
-	/**
-	 *
-	 */
 	private static Connection getConnection() throws JRException
 	{
 		Connection conn;

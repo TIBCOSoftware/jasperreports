@@ -89,10 +89,6 @@
 		<ant dir="../" target="xhtml"/>
 	</target>
 
-	<target name="run" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
-		<ant dir="../" target="run"/>
-	</target>
-
 	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<ant dir="../" target="viewDesignXML"/>
 	</target>

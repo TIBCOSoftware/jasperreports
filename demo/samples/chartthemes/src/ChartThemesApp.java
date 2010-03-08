@@ -403,17 +403,6 @@ public class ChartThemesApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void run() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		JasperRunManager.runReportToPdfFile("build/reports/AllChartsReport.jasper", new HashMap(), new JREmptyDataSource());
-		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
 	public static final void putDataSources(Map parameters) throws JRException
 	{
 		try

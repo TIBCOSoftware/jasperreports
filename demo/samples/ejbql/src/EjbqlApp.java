@@ -390,37 +390,6 @@ public class EjbqlApp extends AbstractSampleApp
 	
 	
 	/**
-	 *
-	 */
-	public void run() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		// create entity manager factory for connection with database
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1", new HashMap());
-		EntityManager em = emf.createEntityManager();
-		
-		try
-		{
-			Map parameters = getParameters(em);
-			
-			JasperRunManager.runReportToPdfFile("build/reports/JRMDbReport.jasper", parameters);
-			
-			em.close();
-			
-			System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-		}
-		finally
-		{
-			if (em.isOpen())
-				em.close();
-			if (emf.isOpen())
-				emf.close();
-		}
-
-	}
-
-	
-	/**
 	 * 
 	 */
 	private static Map getParameters(EntityManager em) {
