@@ -30,8 +30,8 @@
     A Script is a Java Class that extends one of the two following classes:
     <br/>
     <ul>
-    <li><api href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDefaultScriptlet.html">JRDefaultScriptlet</api></li>
-    <li><api href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractScriptlet.html">JRAbstractScriptlet</api></li>
+    <li><api href="net/sf/jasperreports/engine/JRDefaultScriptlet.html">JRDefaultScriptlet</api></li>
+    <li><api href="net/sf/jasperreports/engine/JRAbstractScriptlet.html">JRAbstractScriptlet</api></li>
     </ul>
     <br/>
     The sample extends the JRDefaultScriptlet. The difference between the two is with JRAbstractScriptlet a developer must implement
