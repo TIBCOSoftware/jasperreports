@@ -378,25 +378,6 @@ public class CsvDataSourceApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void run() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		//Preparing parameters
-		Map parameters = new HashMap();
-		parameters.put("ReportTitle", "Address Report");
-		Set states = new HashSet();
-		states.add("Active");
-		states.add("Trial");
-		parameters.put("IncludedStates", states);
-		
-		JasperRunManager.runReportToPdfFile("build/reports/CsvDataSourceReport.jasper", parameters, getDataSource());
-		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
 	private static JRCsvDataSource getDataSource() throws JRException
 	{
 		String[] columnNames = new String[]{"city", "id", "name", "address", "state"};

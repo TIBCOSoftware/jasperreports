@@ -361,15 +361,4 @@ public class LandscapeApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
-	public void run() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		JasperRunManager.runReportToPdfFile("build/reports/LandscapeReport.jasper", null, new JREmptyDataSource());
-		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-	}
-
-
 }

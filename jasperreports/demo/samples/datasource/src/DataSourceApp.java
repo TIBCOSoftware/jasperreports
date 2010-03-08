@@ -418,19 +418,4 @@ public class DataSourceApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
-	public void run() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		//Preparing parameters
-		Map parameters = new HashMap();
-		parameters.put("ReportTitle", "Address Report");
-		
-		JasperRunManager.runReportToPdfFile("build/reports/DataSourceReport.jasper", parameters, new CustomDataSource());
-		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-	}
-
-
 }

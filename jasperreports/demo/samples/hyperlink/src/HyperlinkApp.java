@@ -366,17 +366,6 @@ public class HyperlinkApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void run() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		JasperRunManager.runReportToPdfFile("build/reports/HyperlinkReport.jasper", null, new JREmptyDataSource());
-		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
 	public void writeXml() throws JRException
 	{
 		long start = System.currentTimeMillis();

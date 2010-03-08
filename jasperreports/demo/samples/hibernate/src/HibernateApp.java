@@ -447,33 +447,6 @@ public class HibernateApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
-	public void run() throws JRException
-	{
-		Session session = createSession();
-		Transaction transaction = session.beginTransaction();
-		
-		Map params = getParameters(session);
-
-		File[] files = 
-			new File[]{
-				new File("build/reports/AddressesReport.jasper"),
-				new File("build/reports/HibernateQueryReport.jasper")
-			};
-		for(int i = 0; i< files.length; i++)
-		{
-			File reportFile = files[i];
-			long start = System.currentTimeMillis();
-			JasperRunManager.runReportToPdfFile(reportFile.getAbsolutePath(), params);
-			System.err.println("Report : " + reportFile + ". PDF running time : " + (System.currentTimeMillis() - start));
-		}
-
-		transaction.rollback();
-		session.close();
-	}
-
 	private static Map getParameters(Session session)
 	{
 		Map parameters = new HashMap();

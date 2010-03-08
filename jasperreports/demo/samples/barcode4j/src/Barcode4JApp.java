@@ -362,15 +362,4 @@ public class Barcode4JApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
-	public void run() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		JasperRunManager.runReportToPdfFile("build/reports/Barcode4JReport.jasper", null, new JREmptyDataSource());
-		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-	}
-
-
 }

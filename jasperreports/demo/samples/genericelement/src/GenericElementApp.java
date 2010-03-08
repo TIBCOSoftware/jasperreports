@@ -133,15 +133,4 @@ public class GenericElementApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
-	public void run() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		JasperRunManager.runReportToHtmlFile("build/reports/GenericElementReport.jasper", null, new JREmptyDataSource());
-		System.err.println("HTML running time : " + (System.currentTimeMillis() - start));
-	}
-
-
 }
