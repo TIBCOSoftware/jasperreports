@@ -1260,13 +1260,22 @@ public class JRXmlConstants extends XmlConstants
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link PlotOrientationEnum#HORIZONTAL#getName()}.
 	 */
 	private static final String ORIENTATION_HORIZONTAL = "Horizontal";
+	/**
+	 * @deprecated Replaced by {@link PlotOrientationEnum#HORIZONTAL#getName()}.
+	 */
 	private static final String ORIENTATION_VERTICAL = "Vertical";
 
+	/**
+	 * @deprecated Replaced by {@link PlotOrientationEnum}.
+	 */
 	private static Map plotOrientationMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link PlotOrientationEnum}.
+	 */
 	public static Map getPlotOrientationMap()
 	{
 		if (plotOrientationMap == null)

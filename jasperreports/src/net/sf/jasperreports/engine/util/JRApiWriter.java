@@ -73,6 +73,7 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -161,7 +162,6 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
 
 /**
@@ -1920,8 +1920,8 @@ public class JRApiWriter
 		if(plot != null)
 		{
 			write( plotName + ".setBackcolor({0});\n", getColorText(plot.getBackcolor()));
-			String orientation = PlotOrientation.HORIZONTAL.equals(plot.getOrientation()) ? "PlotOrientation.HORIZONTAL" : "PlotOrientation.VERTICAL" ; 
-			write( plotName + ".setOrientation(" + orientation + ");\n");
+			write( plotName + ".setOrientation({0});\n",plot.getOrientationValue(),PlotOrientationEnum.VERTICAL);
+
 			write( plotName + ".setBackgroundAlpha(new Float({0, number, #}f));\n", plot.getBackgroundAlphaFloat());
 			write( plotName + ".setForegroundAlpha(new Float({0, number, #}f));\n", plot.getForegroundAlphaFloat());
 			writeSeriesColors( plot.getSeriesColors(), plotName);

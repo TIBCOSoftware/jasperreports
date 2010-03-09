@@ -25,11 +25,11 @@ package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
-import org.jfree.chart.plot.PlotOrientation;
 import org.xml.sax.Attributes;
 
 
@@ -53,9 +53,9 @@ public class JRChartPlotFactory extends JRBaseFactory
 			plot.setBackcolor(color);
 		}
 
-		String orientation = atts.getValue(XmlConstants.ATTRIBUTE_orientation);
-		if (orientation != null && orientation.length() > 0)
-			plot.setOrientation((PlotOrientation)JRXmlConstants.getPlotOrientationMap().get(orientation));
+		PlotOrientationEnum orientation = PlotOrientationEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_orientation));
+		if (orientation != null)
+			plot.setOrientation(orientation);
 
 		String foregroundAlpha = atts.getValue(XmlConstants.ATTRIBUTE_foregroundAlpha);
 		if (foregroundAlpha != null && foregroundAlpha.length() > 0)
