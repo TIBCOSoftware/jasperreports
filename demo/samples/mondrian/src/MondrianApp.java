@@ -143,9 +143,17 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void print() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/MondrianReport.jrprint", true);
-		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			File reportFile = files[i];
+			long start = System.currentTimeMillis();
+			JasperPrintManager.printReport(
+				reportFile.getAbsolutePath(), 
+				true
+				);
+			System.err.println("Report : " + reportFile + ". Printing time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -154,9 +162,16 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void pdf() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/MondrianReport.jrprint");
-		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			File reportFile = files[i];
+			long start = System.currentTimeMillis();
+			JasperExportManager.exportReportToPdfFile(
+				reportFile.getAbsolutePath()
+				);
+			System.err.println("Report : " + reportFile + ". PDF creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -165,9 +180,17 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void xml() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/MondrianReport.jrprint", false);
-		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			File reportFile = files[i];
+			long start = System.currentTimeMillis();
+			JasperExportManager.exportReportToXmlFile(
+				reportFile.getAbsolutePath(),
+				false
+				);
+			System.err.println("Report : " + reportFile + ". XML creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -176,9 +199,17 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void xmlEmbed() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/MondrianReport.jrprint", true);
-		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			File reportFile = files[i];
+			long start = System.currentTimeMillis();
+			JasperExportManager.exportReportToXmlFile(
+				reportFile.getAbsolutePath(), 
+				true
+				);
+			System.err.println("Report : " + reportFile + ". XML creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -187,9 +218,16 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void html() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/MondrianReport.jrprint");
-		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			File reportFile = files[i];
+			long start = System.currentTimeMillis();
+			JasperExportManager.exportReportToHtmlFile(
+				reportFile.getAbsolutePath()
+				);
+			System.err.println("Report : " + reportFile + ". HTML creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -198,21 +236,25 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void rtf() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MondrianReport.jrprint");
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
 
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
 		
-		JRRtfExporter exporter = new JRRtfExporter();
+			JRRtfExporter exporter = new JRRtfExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 		
-		exporter.exportReport();
+			exporter.exportReport();
 
-		System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". RTF creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -221,22 +263,26 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void xls() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MondrianReport.jrprint");
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
 
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
 		
-		JRXlsExporter exporter = new JRXlsExporter();
+			JRXlsExporter exporter = new JRXlsExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
 		
-		exporter.exportReport();
+			exporter.exportReport();
 
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". XLS creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -245,22 +291,26 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void jxl() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MondrianReport.jrprint");
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
 
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
+		
+			JExcelApiExporter exporter = new JExcelApiExporter();
+		
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		
+			exporter.exportReport();
 
-		JExcelApiExporter exporter = new JExcelApiExporter();
-
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
-
-		exporter.exportReport();
-
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". XLS creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -269,21 +319,25 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void csv() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MondrianReport.jrprint");
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
 
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".csv");
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".csv");
 		
-		JRCsvExporter exporter = new JRCsvExporter();
+			JRCsvExporter exporter = new JRCsvExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 		
-		exporter.exportReport();
+			exporter.exportReport();
 
-		System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". CSV creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -292,21 +346,25 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void odt() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MondrianReport.jrprint");
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
 
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
 		
-		JROdtExporter exporter = new JROdtExporter();
+			JROdtExporter exporter = new JROdtExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 		
-		exporter.exportReport();
+			exporter.exportReport();
 
-		System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". ODT creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -315,22 +373,26 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void ods() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MondrianReport.jrprint");
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
 
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".ods");
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".ods");
 		
-		JROdsExporter exporter = new JROdsExporter();
+			JROdsExporter exporter = new JROdsExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
 		
-		exporter.exportReport();
+			exporter.exportReport();
 
-		System.err.println("ODS creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". ODT creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -339,21 +401,25 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void docx() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MondrianReport.jrprint");
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
 
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
 		
-		JRDocxExporter exporter = new JRDocxExporter();
+			JRDocxExporter exporter = new JRDocxExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 		
-		exporter.exportReport();
+			exporter.exportReport();
 
-		System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". DOCX creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -362,22 +428,26 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void xlsx() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MondrianReport.jrprint");
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
 
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xlsx");
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xlsx");
 		
-		JRXlsxExporter exporter = new JRXlsxExporter();
+			JRXlsxExporter exporter = new JRXlsxExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
 		
-		exporter.exportReport();
+			exporter.exportReport();
 
-		System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". XLSX creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -386,21 +456,25 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void xhtml() throws JRException
 	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MondrianReport.jrprint");
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
 
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
 		
-		JRXhtmlExporter exporter = new JRXhtmlExporter();
+			JRXhtmlExporter exporter = new JRXhtmlExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 		
-		exporter.exportReport();
+			exporter.exportReport();
 
-		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". XHTML creation time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
