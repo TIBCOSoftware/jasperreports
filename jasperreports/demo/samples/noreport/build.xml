@@ -1,180 +1,87 @@
-<project name="noreport" default="javac" basedir=".">
+<project name="noreport" default="test" basedir=".">
 
 	<description>Shows how final documents can be created without using the reporting engine, but only the API directly.</description>
 
-	<property name="class.name" value="NoReportApp" />
-	<property name="file.name" value="${basedir}/NoReport" />
-	<property name="classes.dir" value="../../../build/classes" />
-	<property name="lib.dir" value="../../../lib" />
-	<property name="fonts.dir" value="../../fonts" />
+	<property name="sample.dir" value="noreport"/>
+	<property name="sample.base.name" value="NoReport" />
+	<property name="sample.app.name" value="${sample.base.name}App" />
+	<property name="sample.report.name" value="${sample.base.name}" />
 	
-	<path id="classpath">
-		<pathelement location="./"/>
-		<pathelement location="${classes.dir}" />
-		<pathelement location="${fonts.dir}" />
-		<fileset dir="${lib.dir}">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
-
 	<target name="javac" description="Compiles the java source files of the test application.">
-		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="true">
-			<classpath refid="classpath"/>
-		</javac>
+		<ant dir="../" target="javac"/>
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="fill"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+	<target name="fill" description="Creates the .jrprint file using the JR API.">
+		<mkdir dir="build/reports"/> 
+		<ant dir="../" target="fill"/>
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
-		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="view"/>
 	</target>
 
 	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
-		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="${file.name}.jrpxml"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="viewXML"/>
 	</target>
 
 	<target name="print" description="Sends the report in the .jrprint file to the printer.">
-		<java classname="${class.name}" fork="true">
-			<arg value="print"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="print"/>
 	</target>
 
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="pdf"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="pdf"/>
 	</target>
 
 	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="xml"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="xml"/>
 	</target>
 
 	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="xmlEmbed"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="xmlEmbed"/>
 	</target>
 
 	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="html"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="html"/>
 	</target>
 
 	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="rtf"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="rtf"/>
 	</target>
-	
+
 	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
-		<java classname="${class.name}" fork="true">
-			<arg value="xls"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="xls"/>
 	</target>
 
 	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
-		<java classname="${class.name}" fork="true">
-			<arg value="jxl"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="jxl"/>
 	</target>
 
 	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="csv"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="csv"/>
 	</target>
 
 	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="odt"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="odt"/>
 	</target>
 
 	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="ods"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="ods"/>
 	</target>
 
 	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="docx"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="docx"/>
 	</target>
 
 	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="xlsx"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="xlsx"/>
 	</target>
 
 	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="xhtml"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
+		<ant dir="../" target="xhtml"/>
 	</target>
 
 	<target name="clean" description="Deletes all the generated files.">
-		<delete>
-			<fileset dir="." includes="**/*.class" />
-			<fileset dir="." includes="**/*.jrprint" />
-			<fileset dir="." includes="**/*.jrpxml" />
-			<fileset dir="." includes="**/*.html" />
-			<fileset dir="." includes="**/*.rtf" />
-			<fileset dir="." includes="**/*.xls" />
-			<fileset dir="." includes="**/*.csv" />
-			<fileset dir="." includes="**/*.odt" />
-			<fileset dir="." includes="**/*.ods" />
-			<fileset dir="." includes="**/*.pdf" />
-			<fileset dir="." includes="**/*.docx" />
-			<fileset dir="." includes="**/*.xlsx" />
-		</delete>
-		<delete dir="${file.name}.jrpxml_files" />
-		<delete dir="${file.name}.html_files" />
-		<delete dir="${file.name}.x.html_files" />
+		<ant dir="../" target="clean-sample"/>
 	</target>
 	
 	<target name="test" description="Runs the sample.">
@@ -184,19 +91,7 @@
 		<antcall target="clean" />
 		<antcall target="javac" />
 		<antcall target="fill" />
-		<antcall target="pdf" />
-		<antcall target="xmlEmbed" />
-		<antcall target="xml" />
-		<antcall target="html" />
-		<antcall target="rtf" />
-		<antcall target="xls" />
-		<antcall target="jxl" />
-		<antcall target="csv" />
-		<antcall target="odt" />
-		<antcall target="ods" />
-		<antcall target="docx" />
-		<antcall target="xlsx" />
-		<antcall target="xhtml" />
+		<ant dir="../" target="test"/>
 	</target>
 
 </project>
