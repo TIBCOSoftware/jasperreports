@@ -52,6 +52,7 @@ import net.sf.jasperreports.charts.design.JRDesignTimeSeriesPlot;
 import net.sf.jasperreports.charts.design.JRDesignValueDataset;
 import net.sf.jasperreports.charts.design.JRDesignXyDataset;
 import net.sf.jasperreports.charts.design.JRDesignXyzDataset;
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
@@ -147,8 +148,8 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected JRFont titleFont = null;
 	protected JRFont subtitleFont = null;
 	protected JRFont legendFont = null;
-	protected Byte legendPositionByte = null;
-	protected Byte titlePositionByte = null;
+	protected EdgeEnum legendPositionValue = null;
+	protected EdgeEnum titlePositionValue = null;
 
 	protected String customizerClass;
 
@@ -364,37 +365,53 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getLegendPositionByte()}
+	 * @deprecated Replaced by {@link #getTitlePositionValue()}
 	 */
 	public byte getTitlePosition()
 	{
-		return titlePositionByte == null ? JRChart.EDGE_TOP : titlePositionByte.byteValue();
+		return titlePositionValue == null ? EdgeEnum.TOP.getValue() : getTitlePositionValue().getValue();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setTitlePosition(Byte)}.
+	 * @deprecated Replaced by {@link #setTitlePosition(EdgeEnum)}
 	 */
 	public void setTitlePosition(byte titlePosition)
 	{
-		setTitlePosition(new Byte(titlePosition));
+		setTitlePosition(EdgeEnum.getByValue(titlePosition));
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getTitlePositionValue()}
 	 */
 	public Byte getTitlePositionByte()
 	{
-		return titlePositionByte;
+		return getTitlePositionValue().getValueByte();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setTitlePosition(EdgeEnum)}
+	 */
+	public void setTitlePosition(Byte titlePosition)
+	{
+		setTitlePosition(EdgeEnum.getByValue(titlePosition));
 	}
 
 	/**
 	 *
 	 */
-	public void setTitlePosition(Byte titlePosition)
+	public EdgeEnum getTitlePositionValue()
 	{
-		Byte old = this.titlePositionByte;
-		this.titlePositionByte = titlePosition;
-		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_TITLE_POSITION, old, this.titlePositionByte);
+		return titlePositionValue;
+	}
+
+	/**
+	 *
+	 */
+	public void setTitlePosition(EdgeEnum titlePositionValue)
+	{
+		EdgeEnum old = this.titlePositionValue;
+		this.titlePositionValue = titlePositionValue;
+		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_TITLE_POSITION, old, this.titlePositionValue);
 	}
 
 	/**
@@ -538,37 +555,53 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getLegendPositionByte()}
+	 * @deprecated Replaced by {@link #getLegendPositionValue()}
 	 */
 	public byte getLegendPosition()
 	{
-		return legendPositionByte == null ? JRChart.EDGE_BOTTOM : legendPositionByte.byteValue();
+		return legendPositionByte == null? EdgeEnum.BOTTOM.getValue() : getLegendPositionValue().getValue();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setLegendPosition(Byte)}
+	 * @deprecated Replaced by {@link #setLegendPosition(EdgeEnum)}
 	 */
 	public void setLegendPosition(byte legendPosition)
 	{
-		setLegendPosition(new Byte(legendPosition));
+		setLegendPosition(EdgeEnum.getByValue(legendPosition));
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLegendPositionValue()}
 	 */
 	public Byte getLegendPositionByte()
 	{
-		return legendPositionByte;
+		return getLegendPositionValue().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setLegendPosition(EdgeEnum)}
+	 */
+	public void setLegendPosition(Byte legendPosition)
+	{
+		setLegendPosition(EdgeEnum.getByValue(legendPosition));
 	}
 
 	/**
 	 *
 	 */
-	public void setLegendPosition(Byte legendPosition)
+	public EdgeEnum getLegendPositionValue()
 	{
-		Byte old = this.legendPositionByte;
-		this.legendPositionByte = legendPosition;
-		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_LEGEND_POSITION, old, this.legendPositionByte);
+		return legendPositionValue;
+	}
+
+	/**
+	 *
+	 */
+	public void setLegendPosition(EdgeEnum legendPositionValue)
+	{
+		EdgeEnum old = this.legendPositionValue;
+		this.legendPositionValue = legendPositionValue;
+		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_LEGEND_POSITION, old, this.legendPositionValue);
 	}
 
 	/**
@@ -1605,11 +1638,13 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	private Integer bottomPadding = null;
 	private Integer rightPadding = null;
 	private boolean isShowLegend = false;
-	private byte titlePosition = JRChart.EDGE_TOP;
-	private byte legendPosition = JRChart.EDGE_BOTTOM;
+	private byte titlePosition;
+	private byte legendPosition;
 	private byte hyperlinkType;
 	private byte hyperlinkTarget;
 	private byte evaluationTime;
+	private Byte legendPositionByte = null;
+	private Byte titlePositionByte = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1666,13 +1701,25 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			showLegend = Boolean.valueOf(isShowLegend);
-			legendPositionByte = new Byte(legendPosition);
-			titlePositionByte = new Byte(titlePosition);
 		}
 
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
+			if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
+			{
+				legendPositionValue = EdgeEnum.getByValue(legendPosition);
+				titlePositionValue = EdgeEnum.getByValue(titlePosition);
+			}
+			else
+			{
+				legendPositionValue = EdgeEnum.getByValue(legendPositionByte);
+				titlePositionValue = EdgeEnum.getByValue(titlePositionByte);
+				
+				legendPositionByte = null;
+				titlePositionByte = null;
+			}
+			
 		}
 	}
 }

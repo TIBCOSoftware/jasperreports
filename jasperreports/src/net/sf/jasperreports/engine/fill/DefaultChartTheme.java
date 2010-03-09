@@ -57,6 +57,7 @@ import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -327,7 +328,7 @@ public class DefaultChartTheme implements ChartTheme
 			jfreeChart.setBackgroundPaint(TRANSPARENT_PAINT);
 		}
 		
-		RectangleEdge titleEdge = getEdge(getChart().getTitlePositionByte(), RectangleEdge.TOP);
+		RectangleEdge titleEdge = getEdge(getChart().getTitlePositionValue(), RectangleEdge.TOP);
 		
 		if (jfreeChart.getTitle() != null)
 		{
@@ -366,7 +367,7 @@ public class DefaultChartTheme implements ChartTheme
 			}
 
 			legend.setItemFont(JRFontUtil.getAwtFont(getChart().getLegendFont(), getLocale()));
-			legend.setPosition(getEdge(getChart().getLegendPositionByte(), RectangleEdge.BOTTOM));
+			legend.setPosition(getEdge(getChart().getLegendPositionValue(), RectangleEdge.BOTTOM));
 		}
 		
 		configurePlot(jfreeChart.getPlot());
@@ -2081,29 +2082,29 @@ public class DefaultChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	private static RectangleEdge getEdge(Byte position, RectangleEdge defaultPosition)
+	private static RectangleEdge getEdge(EdgeEnum position, RectangleEdge defaultPosition)
 	{
 		RectangleEdge edge = defaultPosition;
 		if(position != null)
 		{
-			switch (position.byteValue())
+			switch (position)
 			{
-				case JRChart.EDGE_TOP :
+				case TOP :
 				{
 					edge = RectangleEdge.TOP;
 					break;
 				}
-				case JRChart.EDGE_BOTTOM :
+				case BOTTOM :
 				{
 					edge = RectangleEdge.BOTTOM;
 					break;
 				}
-				case JRChart.EDGE_LEFT :
+				case LEFT :
 				{
 					edge = RectangleEdge.LEFT;
 					break;
 				}
-				case JRChart.EDGE_RIGHT :
+				case RIGHT :
 				{
 					edge = RectangleEdge.RIGHT;
 					break;

@@ -23,8 +23,11 @@
  */
 package net.sf.jasperreports.chartthemes.simple;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -62,7 +65,7 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	 *
 	 */
 	private Boolean showLegend = null;
-	private Byte position = null;
+	private EdgeEnum positionValue = null;
 	private PaintProvider foregroundPaint = null;
 	private PaintProvider backgroundPaint = null;
 	private JRFont font = new JRBaseFont();
@@ -161,19 +164,33 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	}
 
 	/**
-	 * @return the position
+	 * @deprecated Replaced by {@link #getPositionValue()}
 	 */
 	public Byte getPosition() {
-		return position;
+		return getPositionValue().getValueByte();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setPosition(EdgeEnum)}
+	 */
+	public void setPosition(Byte position) {
+		setPosition(EdgeEnum.getByValue(position));
+	}
+
+	/**
+	 * @return the position
+	 */
+	public EdgeEnum getPositionValue() {
+		return positionValue;
 	}
 
 	/**
 	 * @param position the position to set
 	 */
-	public void setPosition(Byte position) {
-		Byte old = getPosition();
-		this.position = position;
-		getEventSupport().firePropertyChange(PROPERTY_position, old, getPosition());
+	public void setPosition(EdgeEnum positionValue) {
+		EdgeEnum old = this.positionValue ;
+		this.positionValue = positionValue;
+		getEventSupport().firePropertyChange(PROPERTY_position, old, this.positionValue);
 	}
 
 
@@ -240,4 +257,23 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 		getEventSupport().firePropertyChange(PROPERTY_verticalAlignment, old, getVerticalAlignment());
 	}
 
+	/**
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private Byte position = null;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			positionValue = EdgeEnum.getByValue(position);
+			
+			position = null;
+			
+		}
+	}
+	
 }

@@ -97,7 +97,7 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 		chart.setShowLegend(parentChart.getShowLegend());
 		chart.setTitleExpression(parentChart.getTitleExpression());
 		chart.setTitleFont(parentChart.getTitleFont());
-		chart.setTitlePosition(parentChart.getTitlePositionByte());
+		chart.setTitlePosition(parentChart.getTitlePositionValue());
 		chart.setTitleColor(parentChart.getTitleColor());
 		chart.setSubtitleExpression(parentChart.getSubtitleExpression());
 		chart.setSubtitleFont(parentChart.getSubtitleFont());
@@ -105,7 +105,7 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 		chart.setLegendColor(parentChart.getLegendColor());
 		chart.setLegendBackgroundColor(parentChart.getLegendBackgroundColor());
 		chart.setLegendFont(parentChart.getLegendFont());
-		chart.setLegendPosition(parentChart.getLegendPositionByte());
+		chart.setLegendPosition(parentChart.getLegendPositionValue());
 		chart.setRenderType(parentChart.getRenderType());
 		chart.setTheme(parentChart.getTheme());
 		

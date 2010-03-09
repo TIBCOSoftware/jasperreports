@@ -28,7 +28,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.charts.type.EdgeEnum;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.plot.PlotOrientation;
@@ -132,7 +132,7 @@ public class SimpleSettingsFactory
 
 		TitleSettings titleSettings = settings.getTitleSettings();
 		titleSettings.setShowTitle(Boolean.TRUE);
-		titleSettings.setPosition(new Byte(JRChart.EDGE_TOP));
+		titleSettings.setPosition(EdgeEnum.TOP);
 		titleSettings.setForegroundPaint(new ColorProvider(Color.black));
 		titleSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 		titleSettings.getFont().setBold(Boolean.TRUE);
@@ -143,7 +143,7 @@ public class SimpleSettingsFactory
 		
 		TitleSettings subtitleSettings = settings.getSubtitleSettings();
 		subtitleSettings.setShowTitle(Boolean.TRUE);
-		subtitleSettings.setPosition(new Byte(JRChart.EDGE_TOP));
+		subtitleSettings.setPosition(EdgeEnum.TOP);
 		subtitleSettings.setForegroundPaint(new ColorProvider(Color.red));
 		subtitleSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 		subtitleSettings.getFont().setBold(Boolean.TRUE);
@@ -153,7 +153,7 @@ public class SimpleSettingsFactory
 
 		LegendSettings legendSettings = settings.getLegendSettings();
 		legendSettings.setShowLegend(Boolean.TRUE);
-		legendSettings.setPosition(new Byte(JRChart.EDGE_BOTTOM));
+		legendSettings.setPosition(EdgeEnum.BOTTOM);
 		legendSettings.setForegroundPaint(new ColorProvider(Color.black));
 		legendSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 		legendSettings.getFont().setBold(Boolean.TRUE);

@@ -43,36 +43,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map chartEdgeMap = null;
-
-	public static Map getChartEdgeMap()
-	{
-		if (chartEdgeMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(JRChart.EDGE_TOP),    "JRChart.EDGE_TOP");
-			map.put(new Byte(JRChart.EDGE_BOTTOM), "JRChart.EDGE_BOTTOM");
-			map.put(new Byte(JRChart.EDGE_LEFT),   "JRChart.EDGE_LEFT");
-			map.put(new Byte(JRChart.EDGE_RIGHT),  "JRChart.EDGE_RIGHT");
-			chartEdgeMap = Collections.unmodifiableMap(map);
-		}
-
-		return chartEdgeMap;
-	}
-
-	public static String getChartEdge(Byte key)
-	{
-		return (String)getChartEdgeMap().get(key);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getChartEdgeMap()}.
-	 */
-	public static Map getChartTitlePositionMap()
-	{
-		return getChartEdgeMap();
-	}
-	
 	private static Map plotOrientationMap = null;
 
 	public static Map getPlotOrientationMap()

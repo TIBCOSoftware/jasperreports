@@ -61,11 +61,11 @@ import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -1894,33 +1894,33 @@ public class GenericChartTheme implements ChartTheme
 			return (AxisLocation)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.AXIS_LOCATION);
 		}
 	}
-	
+
 	/**
 	 *
 	 */
-	private static RectangleEdge getEdge(Byte position, RectangleEdge defaultPosition)
+	private static RectangleEdge getEdge(EdgeEnum position, RectangleEdge defaultPosition)
 	{
 		RectangleEdge edge = defaultPosition;
 		if(position != null)
 		{
-			switch (position.byteValue())
+			switch (position)
 			{
-				case JRChart.EDGE_TOP :
+				case TOP :
 				{
 					edge = RectangleEdge.TOP;
 					break;
 				}
-				case JRChart.EDGE_BOTTOM :
+				case BOTTOM :
 				{
 					edge = RectangleEdge.BOTTOM;
 					break;
 				}
-				case JRChart.EDGE_LEFT :
+				case LEFT :
 				{
 					edge = RectangleEdge.LEFT;
 					break;
 				}
-				case JRChart.EDGE_RIGHT :
+				case RIGHT :
 				{
 					edge = RectangleEdge.RIGHT;
 					break;
@@ -2049,7 +2049,7 @@ public class GenericChartTheme implements ChartTheme
 					title.setBackgroundPaint(titleBackcolor);
 				
 				RectangleEdge defaultTitlePosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_POSITION);
-				titleEdge = getEdge(getChart().getTitlePositionByte(), defaultTitlePosition);
+				titleEdge = getEdge(getChart().getTitlePositionValue(), defaultTitlePosition);
 				if(titleEdge != null)
 					title.setPosition(titleEdge);
 			}
@@ -2111,7 +2111,7 @@ public class GenericChartTheme implements ChartTheme
 				}
 				else
 				{
-					subtitleEdge = getEdge(null, defaultSubtitlePosition);
+					subtitleEdge = defaultSubtitlePosition;
 				}
 				if(subtitleEdge != null)
 					subtitle.setPosition(subtitleEdge);
@@ -2166,8 +2166,8 @@ public class GenericChartTheme implements ChartTheme
 				legend.setPadding(legendPadding);
 
 			RectangleEdge defaultLegendPosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_POSITION);
-			if(getEdge(getChart().getLegendPositionByte(), defaultLegendPosition) != null)
-				legend.setPosition(getEdge(getChart().getLegendPositionByte(), defaultLegendPosition));
+			if(getEdge(getChart().getLegendPositionValue(), defaultLegendPosition) != null)
+				legend.setPosition(getEdge(getChart().getLegendPositionValue(), defaultLegendPosition));
 			
 		}
 	}
