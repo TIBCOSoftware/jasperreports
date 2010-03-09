@@ -87,6 +87,10 @@
 		<ant dir="../" target="viewDesignXML"/>
 	</target>
 
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+		<ant dir="../" target="viewDesign"/>
+	</target>
+
 	<target name="decompile" description="Decompiles a .jasper file into a .jrxml file.">
 		<ant dir="../" target="decompile"/>
 	</target>
