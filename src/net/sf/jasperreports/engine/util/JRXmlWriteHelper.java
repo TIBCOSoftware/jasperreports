@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.type.JREnum;
 
@@ -506,6 +507,14 @@ public class JRXmlWriteHelper
 	}
 	
 	public void addAttribute(String name, JREnum value, JREnum defaultValue)
+	{
+		if (value != null && !value.equals(defaultValue))
+		{
+			writeAttribute(name, value.getName());
+		}
+	}
+	
+	public void addAttribute(String name, PlotOrientationEnum value, PlotOrientationEnum defaultValue)
 	{
 		if (value != null && !value.equals(defaultValue))
 		{

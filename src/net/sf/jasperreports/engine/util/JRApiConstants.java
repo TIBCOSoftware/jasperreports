@@ -30,9 +30,7 @@ import java.util.Map;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
-import net.sf.jasperreports.engine.JRChart;
 
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 
@@ -43,26 +41,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map plotOrientationMap = null;
-
-	public static Map getPlotOrientationMap()
-	{
-		if (plotOrientationMap == null)
-		{
-			Map map = new HashMap(6);
-			map.put(PlotOrientation.HORIZONTAL, "PlotOrientation.HORIZONTAL");
-			map.put(PlotOrientation.VERTICAL,   "PlotOrientation.VERTICAL");
-			plotOrientationMap = Collections.unmodifiableMap(map);
-		}
-
-		return plotOrientationMap;
-	}
-
-	public static String getPlotOrientation(Byte key)
-	{
-		return (String)getPlotOrientationMap().get(key);
-	}
-	
 	private static Map scaleTypeMap = null;
 
 	public static Map  getScaleTypeMap(){

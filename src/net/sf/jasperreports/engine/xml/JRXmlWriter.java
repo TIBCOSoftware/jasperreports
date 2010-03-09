@@ -72,6 +72,7 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.charts.xml.JRChartAxisFactory;
 import net.sf.jasperreports.charts.xml.JRMeterPlotFactory;
@@ -177,7 +178,6 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
 
 
@@ -1627,7 +1627,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(XmlConstants.ELEMENT_plot);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_backcolor, plot.getOwnBackcolor());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_orientation, plot.getOrientation(), JRXmlConstants.getPlotOrientationMap(), PlotOrientation.VERTICAL);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_orientation, plot.getOrientationValue(), PlotOrientationEnum.VERTICAL);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_backgroundAlpha, plot.getBackgroundAlphaFloat());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_foregroundAlpha, plot.getForegroundAlphaFloat());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_labelRotation, plot.getLabelRotationDouble());
