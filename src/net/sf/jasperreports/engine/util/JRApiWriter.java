@@ -1325,7 +1325,7 @@ public class JRApiWriter
 			writeReportElement( chart, chartName);
 			writeBox( chart.getLineBox(), chartName + ".getLineBox()");
 	
-			write( chartName + ".setTitlePosition(new Byte({0}));\n", JRApiConstants.getChartEdge(chart.getTitlePositionByte()));
+			write( chartName + ".setTitlePosition({0});\n", chart.getTitlePositionValue());
 			write( chartName + ".setTitleColor({0});\n", getColorText(chart.getOwnTitleColor()));
 			
 			writeFont( chart.getTitleFont(), chartName + ".getTitleFont()");
@@ -1339,7 +1339,7 @@ public class JRApiWriter
 			writeExpression( chart.getSubtitleExpression(), chartName, "SubtitleExpression");
 			write( chartName + ".setLegendColor({0});\n", getColorText(chart.getOwnLegendColor()));
 			write( chartName + ".setLegendBackgroundColor({0});\n", getColorText(chart.getOwnLegendBackgroundColor()));
-			write( chartName + ".setLegendPosition(new Byte({0}));\n", JRApiConstants.getChartEdge(chart.getLegendPositionByte()));
+			write( chartName + ".setLegendPosition({0});\n", chart.getLegendPositionValue());
 
 			writeFont( chart.getLegendFont(), chartName + ".getLegendFont()");
 	

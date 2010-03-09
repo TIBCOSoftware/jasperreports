@@ -31,6 +31,7 @@ import java.util.Map;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
@@ -1207,15 +1208,30 @@ public class JRXmlConstants extends XmlConstants
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link EdgeEnum#TOP#getName()}.
 	 */
 	private static final String EDGE_TOP = "Top";
+	/**
+	 * @deprecated Replaced by {@link EdgeEnum#BOTTOM#getName()}.
+	 */
 	private static final String EDGE_BOTTOM = "Bottom";
+	/**
+	 * @deprecated Replaced by {@link EdgeEnum#LEFT#getName()}.
+	 */
 	private static final String EDGE_LEFT = "Left";
+	/**
+	 * @deprecated Replaced by {@link EdgeEnum#RIGHT#getName()}.
+	 */
 	private static final String EDGE_RIGHT = "Right";
 
+	/**
+	 * @deprecated Replaced by {@link EdgeEnum}.
+	 */
 	private static Map chartEdgeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link EdgeEnum}.
+	 */
 	public static Map getChartEdgeMap()
 	{
 		if (chartEdgeMap == null)

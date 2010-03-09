@@ -60,12 +60,12 @@ import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.chartthemes.spring.ChartThemesConstants;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -2054,29 +2054,29 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	private static RectangleEdge getEdge(Byte position, RectangleEdge defaultPosition)
+	private static RectangleEdge getEdge(EdgeEnum position, RectangleEdge defaultPosition)
 	{
 		RectangleEdge edge = defaultPosition;
 		if(position != null)
 		{
-			switch (position.byteValue())
+			switch (position)
 			{
-				case JRChart.EDGE_TOP :
+				case TOP :
 				{
 					edge = RectangleEdge.TOP;
 					break;
 				}
-				case JRChart.EDGE_BOTTOM :
+				case BOTTOM :
 				{
 					edge = RectangleEdge.BOTTOM;
 					break;
 				}
-				case JRChart.EDGE_LEFT :
+				case LEFT :
 				{
 					edge = RectangleEdge.LEFT;
 					break;
 				}
-				case JRChart.EDGE_RIGHT :
+				case RIGHT :
 				{
 					edge = RectangleEdge.RIGHT;
 					break;
@@ -2179,9 +2179,9 @@ public class SimpleChartTheme implements ChartTheme
 					forePaint = getChart().getTitleColor();
 				}
 				RectangleEdge titleEdge = getEdge(
-						getChart().getTitlePositionByte(), 
+						getChart().getTitlePositionValue(), 
 						getEdge(
-							titleSettings.getPosition(), 
+							titleSettings.getPositionValue(), 
 							RectangleEdge.TOP
 							)
 						);
@@ -2213,7 +2213,7 @@ public class SimpleChartTheme implements ChartTheme
 					? subtitleSettings.getForegroundPaint().getPaint()
 					: getChart().getSubtitleColor();
 				//Subtitle has not its own position set, and by default this will be set the same as title position
-				RectangleEdge subtitleEdge = getEdge(subtitleSettings.getPosition(), jfreeChart.getTitle() == null ? null : jfreeChart.getTitle().getPosition());
+				RectangleEdge subtitleEdge = getEdge(subtitleSettings.getPositionValue(), jfreeChart.getTitle() == null ? null : jfreeChart.getTitle().getPosition());
 				handleTitleSettings(subtitle, subtitleSettings, getChart().getSubtitleFont(), subtitleForecolor, subtitleEdge);
 	
 				jfreeChart.addSubtitle(subtitle);
@@ -2276,9 +2276,9 @@ public class SimpleChartTheme implements ChartTheme
 
 			legend.setPosition(
 				getEdge(
-					getChart().getLegendPositionByte(), 
+					getChart().getLegendPositionValue(), 
 					getEdge(
-						legendSettings.getPosition(), 
+						legendSettings.getPositionValue() , 
 						RectangleEdge.BOTTOM
 						)
 					)
@@ -2970,11 +2970,11 @@ public class SimpleChartTheme implements ChartTheme
 		font = new JRBaseFont(getChart(), font);
 		title.setFont(JRFontUtil.getAwtFont(font, getLocale()));
 		
-		HorizontalAlignment hAlign = (HorizontalAlignment)titleSettings.getHorizontalAlignment();
+		HorizontalAlignment hAlign = titleSettings.getHorizontalAlignment();
 		if(hAlign != null)
 			title.setHorizontalAlignment(hAlign);
 		
-		VerticalAlignment vAlign = (VerticalAlignment)titleSettings.getVerticalAlignment();
+		VerticalAlignment vAlign = titleSettings.getVerticalAlignment();
 		if(vAlign != null)
 			title.setVerticalAlignment(vAlign);
 		

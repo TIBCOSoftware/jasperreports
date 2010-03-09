@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.chartthemes.simple.handlers;
 
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
@@ -51,7 +52,8 @@ public class EdgeFieldHandler extends GeneralizedFieldHandler
 		{
 			return null;
 		}
-		return JRXmlConstants.getChartEdgeMap().get(value);
+//		return JRXmlConstants.getChartEdgeMap().get(value);
+		return EdgeEnum.getByValue((Byte)value);
 	}
 
 	/**
@@ -63,7 +65,8 @@ public class EdgeFieldHandler extends GeneralizedFieldHandler
 		{
 			return null;
 		}
-		return JRXmlConstants.getChartEdgeMap().get(value);
+//		return JRXmlConstants.getChartEdgeMap().get(value);
+		return EdgeEnum.getByName((String)value);
 	}
 	
 	/**

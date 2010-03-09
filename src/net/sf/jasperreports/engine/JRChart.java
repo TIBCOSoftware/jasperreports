@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -54,27 +55,36 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	public static final String PROPERTY_CHART_THEME = JRProperties.PROPERTY_PREFIX + "chart.theme";
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link EdgeEnum#TOP}.
 	 */
 	public static final byte EDGE_TOP = 1;
+	/**
+	 * @deprecated Replaced by {@link EdgeEnum#BOTTOM}.
+	 */
 	public static final byte EDGE_BOTTOM = 2;
+	/**
+	 * @deprecated Replaced by {@link EdgeEnum#LEFT}.
+	 */
 	public static final byte EDGE_LEFT = 3;
+	/**
+	 * @deprecated Replaced by {@link EdgeEnum#RIGHT}.
+	 */
 	public static final byte EDGE_RIGHT = 4;
 
 	/**
-	 * @deprecated Replaced by {@link #EDGE_TOP}.
+	 * @deprecated Replaced by {@link EdgeEnum#TOP}.
 	 */
 	public static final byte TITLE_POSITION_TOP = EDGE_TOP;
 	/**
-	 * @deprecated Replaced by {@link #EDGE_BOTTOM}.
+	 * @deprecated Replaced by {@link EdgeEnum#BOTTOM}.
 	 */
 	public static final byte TITLE_POSITION_BOTTOM = EDGE_BOTTOM;
 	/**
-	 * @deprecated Replaced by {@link #EDGE_LEFT}.
+	 * @deprecated Replaced by {@link EdgeEnum#LEFT}.
 	 */
 	public static final byte TITLE_POSITION_LEFT = EDGE_LEFT;
 	/**
-	 * @deprecated Replaced by {@link #EDGE_RIGHT}.
+	 * @deprecated Replaced by {@link EdgeEnum#RIGHT}.
 	 */
 	public static final byte TITLE_POSITION_RIGHT = EDGE_RIGHT;
 
@@ -165,26 +175,38 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 
 
 	/**
-	 * @deprecated Replaced by {@link #getTitlePositionByte()}
+	 * @deprecated Replaced by {@link #getTitlePositionValue()}
 	 */
 	public byte getTitlePosition();
 
 
 	/**
-	 * @deprecated Replaced by {@link #setTitlePosition(Byte)}
+	 * @deprecated Replaced by {@link #setTitlePosition(EdgeEnum)}
 	 */
 	public void setTitlePosition(byte titlePosition);
 	
 	/**
-	 * Gets the title position relative to the chart.
+	 * @deprecated Replaced by {@link #getTitlePositionValue()}
 	 */
 	public Byte getTitlePositionByte();
 
 
 	/**
-	 * Sets the title position relative to the chart.
+	 * @deprecated Replaced by {@link #setTitlePosition(EdgeEnum)}
 	 */
 	public void setTitlePosition(Byte titlePosition);
+	
+
+	/**
+	 * Gets the title position relative to the chart.
+	 */
+	public EdgeEnum getTitlePositionValue();
+
+
+	/**
+	 * Sets the title position relative to the chart.
+	 */
+	public void setTitlePosition(EdgeEnum titlePosition);
 	
 
 	/**
@@ -269,26 +291,38 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	public JRFont getLegendFont();
 	
 	/**
-	 * @deprecated Replaced by {@link #getLegendPositionByte()}
+	 * @deprecated Replaced by {@link #getLegendPositionValue()}
 	 */
 	public byte getLegendPosition();
 
 
 	/**
-	 * @deprecated Replaced by {@link #setLegendPosition(Byte)}
+	 * @deprecated Replaced by {@link #setLegendPosition(EdgeEnum)}
 	 */
 	public void setLegendPosition(byte legendPosition);
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLegendPositionValue()}
 	 */
 	public Byte getLegendPositionByte();
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setLegendPosition(EdgeEnum)}
 	 */
 	public void setLegendPosition(Byte legendPosition);
+	
+
+	/**
+	 *
+	 */
+	public EdgeEnum getLegendPositionValue();
+
+
+	/**
+	 *
+	 */
+	public void setLegendPosition(EdgeEnum legendPosition);
 	
 
 	/**

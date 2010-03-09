@@ -67,6 +67,7 @@ import net.sf.jasperreports.charts.fill.JRFillTimePeriodDataset;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyzDataset;
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.CategoryChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartUtil;
@@ -874,33 +875,51 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getTitlePositionByte()}
+	 * @deprecated Replaced by {@link #getTitlePositionValue()}
 	 */
 	public byte getTitlePosition()
 	{
-		return ((JRChart)parent).getTitlePosition();
+		return getTitlePositionValue().getValue();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setTitlePosition(Byte)}
+	 * @deprecated Replaced by {@link #setTitlePosition(EdgeEnum)}
 	 */
 	public void setTitlePosition(byte titlePosition)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getTitlePositionValue()}
 	 */
 	public Byte getTitlePositionByte()
 	{
-		return ((JRChart)parent).getTitlePositionByte();
+		return getTitlePositionValue().getValueByte();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setTitlePosition(EdgeEnum)}
+	 */
+	public void setTitlePosition(Byte titlePosition)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 *
 	 */
-	public void setTitlePosition(Byte titlePosition)
+	public EdgeEnum getTitlePositionValue()
 	{
+		return ((JRChart)parent).getTitlePositionValue();
+	}
+
+	/**
+	 *
+	 */
+	public void setTitlePosition(EdgeEnum titlePosition)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1026,33 +1045,50 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLegendPositionByte()}
+	 * @deprecated Replaced by {@link #getLegendPositionValue()}
 	 */
 	public byte getLegendPosition()
 	{
-		return ((JRChart)parent).getLegendPosition();
+		return getLegendPositionValue().getValue();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setLegendPosition(Byte)}
+	 * @deprecated Replaced by {@link #setLegendPosition(EdgeEnum)}
 	 */
 	public void setLegendPosition(byte legendPosition)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getLegendPositionValue()}
 	 */
 	public Byte getLegendPositionByte()
 	{
-		return ((JRChart)parent).getLegendPositionByte();
+		return getLegendPositionValue().getValueByte();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setLegendPosition(EdgeEnum)}
+	 */
+	public void setLegendPosition(Byte legendPosition)
+	{
+		throw new UnsupportedOperationException();
+	}
+	/**
+	 *
+	 */
+	public EdgeEnum getLegendPositionValue()
+	{
+		return ((JRChart)parent).getLegendPositionValue();
 	}
 
 	/**
 	 *
 	 */
-	public void setLegendPosition(Byte legendPosition)
+	public void setLegendPosition(EdgeEnum legendPosition)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**

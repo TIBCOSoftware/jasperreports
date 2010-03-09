@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.util.Collection;
 
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.JRAxisFormat;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JRDesignChart;
@@ -106,9 +107,9 @@ public class JRChartFactory extends JRBaseFactory
 		{
 			JRDesignChart chart = (JRDesignChart) digester.peek();
 
-			String position = atts.getValue(XmlConstants.ATTRIBUTE_position);
-			if (position != null && position.length() > 0)
-				chart.setTitlePosition(((Byte)JRXmlConstants.getChartEdgeMap().get(position)));
+			EdgeEnum position = EdgeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_position));
+			if (position != null)
+				chart.setTitlePosition(position);
 
 
 			Color color = JRColorUtil.getColor(atts.getValue(XmlConstants.ATTRIBUTE_color), Color.black);
@@ -173,10 +174,11 @@ public class JRChartFactory extends JRBaseFactory
 				chart.setLegendBackgroundColor(color);
 			}
 
-			String position = atts.getValue(XmlConstants.ATTRIBUTE_position);
-			if (position != null && position.length() > 0)
-				chart.setLegendPosition(((Byte)JRXmlConstants.getChartEdgeMap().get(position)));
-
+			EdgeEnum position = EdgeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_position));
+			if (position != null)
+			{
+				chart.setLegendPosition(position);
+			}
 			// Any font set will be put in the chart directly by the digester
 
 			return chart;
