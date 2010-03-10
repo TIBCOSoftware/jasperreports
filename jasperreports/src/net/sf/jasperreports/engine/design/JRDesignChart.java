@@ -1698,11 +1698,6 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
 		}
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
-		{
-			showLegend = Boolean.valueOf(isShowLegend);
-		}
-
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
@@ -1710,6 +1705,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 			{
 				legendPositionValue = EdgeEnum.getByValue(legendPosition);
 				titlePositionValue = EdgeEnum.getByValue(titlePosition);
+				showLegend = Boolean.valueOf(isShowLegend);
 			}
 			else
 			{
