@@ -32,6 +32,7 @@ import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.crosstabs.JRCellContents;
@@ -1486,15 +1487,30 @@ public class JRXmlConstants extends XmlConstants
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link MeterShapeEnum#CHORD#getName()}
 	 */
 	private static final String METER_SHAPE_CHORD = "chord";
+	/**
+	 * @deprecated Replaced by {@link MeterShapeEnum#CIRCLE#getName()}
+	 */
 	private static final String METER_SHAPE_CIRCLE = "circle";
+	/**
+	 * @deprecated Replaced by {@link MeterShapeEnum#PIE#getName()}
+	 */
 	private static final String METER_SHAPE_PIE = "pie";
+	/**
+	 * @deprecated Replaced by {@link MeterShapeEnum#DIAL#getName()}
+	 */
 	private static final String METER_SHAPE_DIAL = "dial";
 
+	/**
+	 * @deprecated Replaced by {@link MeterShapeEnum}
+	 */
 	private static Map meterShapeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link MeterShapeEnum}
+	 */
 	public static Map getMeterShapeMap()
 	{
 		if (meterShapeMap == null)

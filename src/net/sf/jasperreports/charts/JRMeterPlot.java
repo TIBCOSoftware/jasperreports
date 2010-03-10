@@ -23,13 +23,12 @@
  */
 package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.charts.JRDataRange;
-import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRFont;
-
 import java.awt.Color;
 import java.util.List;
+
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
+import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRFont;
 
 
 /**
@@ -43,26 +42,22 @@ import java.util.List;
 public interface JRMeterPlot extends JRChartPlot
 {
 	/**
-	 * The portion of the circle described by the Meter that is not occupied by the
-	 * Meter is drawn as a chord.  (A straight line connects the ends.)
+	 * @deprecated Replaced by {@link MeterShapeEnum#CHORD}
 	 */
 	public static final byte SHAPE_CHORD = 0;
 
 	/**
-	 * The portion of the circle described by the Meter that is not occupied by the
-	 * Meter is drawn as a circle.
+	 * @deprecated Replaced by {@link MeterShapeEnum#CIRCLE}
 	 */
 	public static final byte SHAPE_CIRCLE = 1;
 
 	/**
-	 * The portion of the circle described by the Meter that is not occupied by the
-	 * Meter is not drawn.
+	 * @deprecated Replaced by {@link MeterShapeEnum#PIE}
 	 */
 	public static final byte SHAPE_PIE = 2;
 
 	/**
-	 * The portion of the circle described by the Meter that is not occupied by the
-	 * Meter is drawn as a circle, and handled with specific dial objects.
+	 * @deprecated Replaced by {@link MeterShapeEnum#DIAL}
 	 */
 	public static final byte SHAPE_DIAL = 3;
 
@@ -83,9 +78,14 @@ public interface JRMeterPlot extends JRChartPlot
 	public JRValueDisplay getValueDisplay();
 
 	/**
-	 * @deprecated Replaced by {@link #getShapeByte()}
+	 * @deprecated Replaced by {@link #getShapeValue()}
 	 */
 	public byte getShape();
+
+	/**
+	 * @deprecated Replaced by {@link #getShapeValue()}
+	 */
+	public Byte getShapeByte();
 
 	/**
 	 * Returns the shape of the Meter.  The shape is only relevant if the Meter face is
@@ -93,11 +93,11 @@ public interface JRMeterPlot extends JRChartPlot
 	 * Meter but outside of the Meter is drawn.  (If the meter is 240 degrees wide the shape
 	 * setting controls how the remaining 120 degrees is displayed.)
 	 * <br><br>
-	 * The value returned is one of the <code>SHAPE_</code> constants defined in this class.
+	 * The value returned is one of the shape constants defined in {@link MeterShapeEnum}.
 	 *
 	 * @return a description of how the value of the Meter is displayed.
 	 */
-	public Byte getShapeByte();
+	public MeterShapeEnum getShapeValue();
 
 	/**
 	 * Returns a list of all the intervals contained in this Meter.  The return value is never

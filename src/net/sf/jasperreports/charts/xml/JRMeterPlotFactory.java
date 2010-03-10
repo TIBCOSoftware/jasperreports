@@ -24,11 +24,11 @@
 package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.design.JRDesignMeterPlot;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -57,14 +57,9 @@ public class JRMeterPlotFactory extends JRBaseFactory
 		JRChart chart = (JRChart)digester.peek();
 		JRDesignMeterPlot meterPlot = (JRDesignMeterPlot)chart.getPlot();
 
-		String shapeAttr = atts.getValue(ATTRIBUTE_shape);
-		Byte shape = (Byte)JRXmlConstants.getMeterShapeMap().get(shapeAttr);
+		MeterShapeEnum shape = MeterShapeEnum.getByName(atts.getValue(ATTRIBUTE_shape));
 		if (shape != null)
 		{
-//			throw new JRException("Invalid meter shape: " + shapeAttr);
-//		}
-//		else
-//		{
 			meterPlot.setShape(shape);
 		}
 

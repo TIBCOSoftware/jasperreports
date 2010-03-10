@@ -33,6 +33,7 @@ import java.util.List;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
@@ -72,7 +73,8 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 * The shape to use when drawing the Meter. Only applied if the meter is
 	 * over 180 degrees wide and less than a full circle.
 	 */
-	protected Byte shapeByte = null;
+	protected MeterShapeEnum shapeValue = null;
+
 
 	/**
 	 * The defined intervals for the Meter.  Each interval indicates a
@@ -155,7 +157,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 
 		dataRange = new JRBaseDataRange(meterPlot.getDataRange(), factory);
 		valueDisplay = new JRBaseValueDisplay(meterPlot.getValueDisplay(), factory);
-		shapeByte = meterPlot.getShapeByte();
+		shapeValue = meterPlot.getShapeValue();
 		List origIntervals = meterPlot.getIntervals();
 		intervals.clear();
 		if (origIntervals != null)
@@ -195,19 +197,27 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShapeByte()}
+	 * @deprecated Replaced by {@link #getShapeValue()}
 	 */
 	public byte getShape()
 	{
-		return shapeByte == null ? JRMeterPlot.SHAPE_PIE : shapeByte.byteValue();
+		return shapeValue == null ? MeterShapeEnum.PIE.getValue() : getShapeValue().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getShapeValue()}
+	 */
+	public Byte getShapeByte()
+	{
+		return getShapeValue().getValueByte();
 	}
 
 	/**
 	 *
 	 */
-	public Byte getShapeByte()
+	public MeterShapeEnum getShapeValue()
 	{
-		return shapeByte;
+		return shapeValue;
 	}
 
 	/**
@@ -333,19 +343,28 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 * This field is only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
-	private byte shape = JRMeterPlot.SHAPE_PIE;
+	private byte shape = MeterShapeEnum.PIE.getValue();
 	private int meterAngle = 180;
 	private double tickInterval = 10.0;
+	private Byte shapeByte = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
-			shapeByte = new Byte(shape);
-			meterAngleInteger = new Integer(meterAngle);
-			tickIntervalDouble = new Double(tickInterval);
+			if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
+			{
+				shapeValue = MeterShapeEnum.getByValue(shape);
+				meterAngleInteger = new Integer(meterAngle);
+				tickIntervalDouble = new Double(tickInterval);
+			}
+			else
+			{
+				shapeValue = MeterShapeEnum.getByValue(shapeByte);
+				shapeByte = null;
+			}
 		}
 	}
 }

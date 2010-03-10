@@ -36,6 +36,7 @@ import java.util.List;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRException;
@@ -367,20 +368,20 @@ public class AegeanChartTheme extends GenericChartTheme
 		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
 
 		// Set the shape
-		byte shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_DIAL : jrPlot.getShapeByte().byteValue();
+		MeterShapeEnum shape = jrPlot.getShapeValue() == null ? MeterShapeEnum.DIAL : jrPlot.getShapeValue();
 		
 		switch(shape)
 		{
-			case JRMeterPlot.SHAPE_CHORD:
+			case CHORD:
 				chartPlot.setDialShape(DialShape.CHORD);
 				break;
-			case JRMeterPlot.SHAPE_PIE:
+			case PIE:
 				chartPlot.setDialShape(DialShape.PIE);
 				break;
-			case JRMeterPlot.SHAPE_CIRCLE:
+			case CIRCLE:
 				chartPlot.setDialShape(DialShape.CIRCLE);
 				break;
-			case JRMeterPlot.SHAPE_DIAL:
+			case DIAL:
 			default:
 				return createDialChart();
 		}

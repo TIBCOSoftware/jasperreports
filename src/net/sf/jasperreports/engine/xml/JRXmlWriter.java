@@ -2313,7 +2313,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		// write plot
 		JRMeterPlot plot = (JRMeterPlot) chart.getPlot();
 		writer.startElement(JRMeterPlotFactory.ELEMENT_meterPlot);
-		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_shape, plot.getShapeByte(), JRXmlConstants.getMeterShapeMap());
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_shape, plot.getShapeValue());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_angle, plot.getMeterAngleInteger());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_units, plot.getUnits());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickInterval, plot.getTickIntervalDouble());
