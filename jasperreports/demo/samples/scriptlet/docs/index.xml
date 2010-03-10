@@ -53,8 +53,7 @@
     Ant is required. By running 'ant --version' you will be able to check if ant is set up on your system (at least version 1.5 is required):<br />
     <pre>
     <![CDATA[
-    C:\>ant -version
-	Apache Ant version 1.8.0 compiled on February 1 2010
+    C:\>ant -version Apache Ant version 1.8.0 compiled on February 1 2010
 	]]>
 	</pre>
 	You can obtain ant from http://ant.apache.org/, instructions for installation can be found there as well.
@@ -64,10 +63,27 @@
     <br/>
     In a command prompt/terminal window browse to the demo/hsqldb folder of the JasperReports source and run the command 'ant runServer'.
     <br/>
-    Leave window/terminal running.
+    Leave window/terminal running (see below for sample output).
     <br/>
-    <img src="runServer.png"/>
-    <br/>
+    <pre>
+    <![CDATA[
+    C:\js-workspace\jasperreports\demo\hsqldb>ant runServer
+	Buildfile: C:\js-workspace\jasperreports\demo\hsqldb\build.xml
+
+	runServer:
+     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) entered
+     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) exited
+     [java] [Server@83cc67]: Startup sequence initiated from main() method
+     [java] [Server@83cc67]: Loaded properties from [C:\js-workspace\jasperreports\demo\hsqldb\server.properties]
+     [java] [Server@83cc67]: Initiating startup sequence...
+     [java] [Server@83cc67]: Server socket opened successfully in 19 ms.
+     [java] [Server@83cc67]: Database [index=0, id=0, db=file:test, alias=] opened sucessfully in 1104 ms.
+     [java] [Server@83cc67]: Startup sequence completed in 1125 ms.
+     [java] [Server@83cc67]: 2010-03-10 11:32:30.423 HSQLDB server 1.8.0 is online
+     [java] [Server@83cc67]: To close normally, connect and execute SHUTDOWN SQL
+     [java] [Server@83cc67]: From command line, use [Ctrl]+[C] to abort abruptly
+    ]]>
+	</pre>
     <i>Generating the Report</i>
     <br/>
     Open up a separate command prompt/terminal window and browse to the root directory of the sample.
@@ -85,11 +101,7 @@
     <li>All the exporters the sample is configured to test will run.</li>
     </ul>
     <br/>
-    <img src="defaultAnt.png"/>
-    <br/>
     You can now run 'ant view' to see a version of the report in the JasperViewer (an applet contained in the JasperReports package which can be used to view a .jrprint object).
-    <br/>
-    <img src="jasperViewer.png"/>
     <br/>
     Each of the these task can be ran separately as well:
     <br/>
@@ -128,8 +140,8 @@
     Examples of this can be seen in afterGroupInit method. In this method we obtain the value of a variable and a field from the report as it is filling:
    	 <pre>
     <![CDATA[
-    	String allCities = (String)this.getVariableValue("AllCities");
-		String city = (String)this.getFieldValue("City");
+    String allCities = (String)this.getVariableValue("AllCities");
+	String city = (String)this.getFieldValue("City");
     ]]>
 	</pre>
 	In the first line of code we get the value of the AllCities variable, the second we get the value of the Field "City".
@@ -141,7 +153,7 @@
 	In the same method we see an example of how to write to a variable in the report:
 	 <pre>
     <![CDATA[
-		this.setVariableValue("AllCities", sbuffer.toString());
+	this.setVariableValue("AllCities", sbuffer.toString());
 	]]>
 	</pre>
 	<br />
@@ -149,7 +161,7 @@
 	the report design:<br/>
 	<pre>
 	<![CDATA[
-		<variable name="AllCities" class="java.lang.String" calculation="System"/>
+	<variable name="AllCities" class="java.lang.String" calculation="System"/>
 	]]>
 	</pre>
 	Also notice that there is *no* Variable Expression.
@@ -171,9 +183,9 @@
 	This is an example of a method that can added to the Scriptlet that actually returns a value, rather than setting a Variable.<br/>
 	The ScripletReport.jrxml has a method in the Summary band that illustrates how to use such a method. The expression is:
 	<pre>
-		<![CDATA[
-		$P{REPORT_SCRIPTLET}.hello()
-		]]>
+	<![CDATA[
+	$P{REPORT_SCRIPTLET}.hello()
+	]]>
 	</pre>
 	The Parameter referenced is a built-in Parameter managed by the JasperReports API and contains a reference to the Scriptlet.
 	<br/>
