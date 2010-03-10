@@ -1143,7 +1143,7 @@ public class JRApiWriter
 
 			if (style.getStyle() != null)//FIXME double check which one to use; style or styleNameReference?
 			{
-				write( styleName + ".setParentStyle(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getStyle().getName()));
+				write( styleName + ".setParentStyle({0});\n", JRStringUtil.escapeJavaStringLiteral(style.getStyle().getName()));
 			}
 			write( styleName + ".setParentStyleNameReference(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getStyleNameReference()));
 			
@@ -3544,7 +3544,7 @@ public class JRApiWriter
 	{
 		if(style != null)
 		{
-			write( "JRDesignConditionalStyle " + styleName + " = new JRDesignConditionalStyle(jasperDesign);\n");
+			write( "JRDesignConditionalStyle " + styleName + " = new JRDesignConditionalStyle();\n");
 			writeExpression( style.getConditionExpression(), styleName, "ConditionExpression");
 
 			write( styleName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getName()));
@@ -3821,6 +3821,21 @@ public class JRApiWriter
 	/**
 	 *
 	 */
+	protected void write(String pattern, Object value, Object defaultValue)
+	{
+		if (
+			(defaultValue == null && value != null)
+			|| (defaultValue != null && !defaultValue.equals(value))
+			)
+		{
+			write(MessageFormat.format(pattern, new Object[]{value}));
+		}
+	}
+
+	
+	/**
+	 *
+	 */
 	protected void write(String pattern, Enum value)
 	{
 		if (value != null)
@@ -3833,14 +3848,14 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Object value, Object defaultValue)
+	protected void write(String pattern, Enum value, Enum defaultValue)
 	{
 		if (
 			(defaultValue == null && value != null)
 			|| (defaultValue != null && !defaultValue.equals(value))
 			)
 		{
-			write(MessageFormat.format(pattern, new Object[]{value}));
+			write(MessageFormat.format(pattern, new Object[]{value.getClass().getName() + "." + value.name()}));
 		}
 	}
 
