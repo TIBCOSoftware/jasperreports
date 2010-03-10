@@ -32,6 +32,7 @@ import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
@@ -1210,19 +1211,19 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link EdgeEnum#TOP#getName()}.
 	 */
-	private static final String EDGE_TOP = "Top";
+	private static final String EDGE_TOP = EdgeEnum.TOP.getName();
 	/**
 	 * @deprecated Replaced by {@link EdgeEnum#BOTTOM#getName()}.
 	 */
-	private static final String EDGE_BOTTOM = "Bottom";
+	private static final String EDGE_BOTTOM = EdgeEnum.BOTTOM.getName();
 	/**
 	 * @deprecated Replaced by {@link EdgeEnum#LEFT#getName()}.
 	 */
-	private static final String EDGE_LEFT = "Left";
+	private static final String EDGE_LEFT = EdgeEnum.LEFT.getName();
 	/**
 	 * @deprecated Replaced by {@link EdgeEnum#RIGHT#getName()}.
 	 */
-	private static final String EDGE_RIGHT = "Right";
+	private static final String EDGE_RIGHT = EdgeEnum.RIGHT.getName();
 
 	/**
 	 * @deprecated Replaced by {@link EdgeEnum}.
@@ -1262,11 +1263,11 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link PlotOrientationEnum#HORIZONTAL#getName()}.
 	 */
-	private static final String ORIENTATION_HORIZONTAL = "Horizontal";
+	private static final String ORIENTATION_HORIZONTAL = PlotOrientationEnum.HORIZONTAL.getName();
 	/**
 	 * @deprecated Replaced by {@link PlotOrientationEnum#HORIZONTAL#getName()}.
 	 */
-	private static final String ORIENTATION_VERTICAL = "Vertical";
+	private static final String ORIENTATION_VERTICAL = PlotOrientationEnum.VERTICAL.getName();
 
 	/**
 	 * @deprecated Replaced by {@link PlotOrientationEnum}.
