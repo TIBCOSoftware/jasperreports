@@ -27,6 +27,9 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -127,6 +130,39 @@ public abstract class AbstractSampleApp
 	}
 	
 	
+	/**
+	 *
+	 */
+	protected Connection getDemoHsqldbConnection() throws JRException
+	{
+		Connection conn;
+
+		try
+		{
+			//Change these settings according to your local configuration
+			String driver = "org.hsqldb.jdbcDriver";
+			String connectString = "jdbc:hsqldb:hsql://localhost";
+			String user = "sa";
+			String password = "";
+
+
+			Class.forName(driver);
+			conn = DriverManager.getConnection(connectString, user, password);
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new JRException(e);
+		}
+		catch (SQLException e)
+		{
+			throw new JRException(e);
+			
+		}
+
+		return conn;
+	}
+
+
 	/**
 	 *
 	 */

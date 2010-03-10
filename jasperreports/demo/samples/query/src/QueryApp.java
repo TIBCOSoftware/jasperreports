@@ -22,22 +22,21 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -52,9 +51,9 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: NoPageBreakApp.java 3148 2009-10-23 14:57:10Z shertage $
+ * @version $Id: QueryApp.java 3148 2009-10-23 14:57:10Z shertage $
  */
-public class NoPageBreakApp extends AbstractSampleApp
+public class QueryApp extends AbstractSampleApp
 {
 
 
@@ -63,7 +62,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	 */
 	public static void main(String[] args) 
 	{
-		main(new NoPageBreakApp(), args);
+		main(new QueryApp(), args);
 	}
 	
 	
@@ -72,6 +71,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	 */
 	public void test() throws JRException
 	{
+		fillIgnorePagination();
 		fill();
 		pdf();
 		xmlEmbed();
@@ -92,14 +92,56 @@ public class NoPageBreakApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	public void compile() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperCompileManager.compileReportToFile("reports/QueryReport.jrxml", "build/reports/QueryReport.jasper");
+		System.err.println("Compile time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
 	public void fill() throws JRException
+	{
+		fill(false);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void fillIgnorePagination() throws JRException
+	{
+		fill(true);
+	}
+	
+	
+	/**
+	 *
+	 */
+	private void fill(boolean ignorePagination) throws JRException
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
 		Map parameters = new HashMap();
-		parameters.put("ReportTitle", "Orders Report");
+		parameters.put("ReportTitle", "Address Report");
+		
+		List excludedCities = new ArrayList();
+		excludedCities.add("Boston");
+		excludedCities.add("Chicago");
+		excludedCities.add("Oslo");
+		parameters.put("ExcludedCities", excludedCities);
+		
+		parameters.put("OrderClause", "City");
+		
+		if (ignorePagination)
+		{
+			parameters.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.TRUE);
+		}
 
-		JasperFillManager.fillReportToFile("build/reports/NoPageBreakReport.jasper", parameters, getDemoHsqldbConnection());
+		JasperFillManager.fillReportToFile("build/reports/QueryReport.jasper", parameters, getDemoHsqldbConnection());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -110,7 +152,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/NoPageBreakReport.jrprint", true);
+		JasperPrintManager.printReport("build/reports/QueryReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -121,7 +163,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/NoPageBreakReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("build/reports/QueryReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -132,7 +174,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void rtf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoPageBreakReport.jrprint");
+		File sourceFile = new File("build/reports/QueryReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -155,7 +197,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/NoPageBreakReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("build/reports/QueryReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -166,7 +208,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/NoPageBreakReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("build/reports/QueryReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -177,21 +219,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoPageBreakReport.jrprint");
-
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
-		
-		JRHtmlExporter exporter = new JRHtmlExporter();
-		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, "");
-		exporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-		
-		exporter.exportReport();
-
+		JasperExportManager.exportReportToHtmlFile("build/reports/QueryReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -202,7 +230,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoPageBreakReport.jrprint");
+		File sourceFile = new File("build/reports/QueryReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -213,7 +241,6 @@ public class NoPageBreakApp extends AbstractSampleApp
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-		exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
 		
 		exporter.exportReport();
 
@@ -227,7 +254,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void jxl() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoPageBreakReport.jrprint");
+		File sourceFile = new File("build/reports/QueryReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -238,7 +265,6 @@ public class NoPageBreakApp extends AbstractSampleApp
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
-		exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
 
 		exporter.exportReport();
 
@@ -252,7 +278,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoPageBreakReport.jrprint");
+		File sourceFile = new File("build/reports/QueryReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -275,7 +301,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void odt() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoPageBreakReport.jrprint");
+		File sourceFile = new File("build/reports/QueryReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -298,7 +324,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoPageBreakReport.jrprint");
+		File sourceFile = new File("build/reports/QueryReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -312,7 +338,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 		
 		exporter.exportReport();
 
-		System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("ODS creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	
@@ -322,7 +348,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void docx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoPageBreakReport.jrprint");
+		File sourceFile = new File("build/reports/QueryReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -345,7 +371,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoPageBreakReport.jrprint");
+		File sourceFile = new File("build/reports/QueryReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -356,7 +382,6 @@ public class NoPageBreakApp extends AbstractSampleApp
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-		exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
 		
 		exporter.exportReport();
 
@@ -370,7 +395,7 @@ public class NoPageBreakApp extends AbstractSampleApp
 	public void xhtml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoPageBreakReport.jrprint");
+		File sourceFile = new File("build/reports/QueryReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 

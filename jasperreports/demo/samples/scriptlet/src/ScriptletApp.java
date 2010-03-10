@@ -96,7 +96,7 @@ public class ScriptletApp extends AbstractSampleApp
 		Map parameters = new HashMap();
 		parameters.put("ReportTitle", "Scriptlet Report");
 		
-		JasperFillManager.fillReportToFile("build/reports/ScriptletReport.jasper", parameters, getConnection());
+		JasperFillManager.fillReportToFile("build/reports/ScriptletReport.jasper", parameters, getDemoHsqldbConnection());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -355,37 +355,5 @@ public class ScriptletApp extends AbstractSampleApp
 		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
-
-	/**
-	 *
-	 */
-	private static Connection getConnection() throws JRException
-	{
-		Connection conn;
-
-		try
-		{
-			//Change these settings according to your local configuration
-			String driver = "org.hsqldb.jdbcDriver";
-			String connectString = "jdbc:hsqldb:hsql://localhost";
-			String user = "sa";
-			String password = "";
-
-
-			Class.forName(driver);
-			conn = DriverManager.getConnection(connectString, user, password);
-		}
-		catch (ClassNotFoundException e)
-		{
-			throw new JRException(e);
-		}
-		catch (SQLException e)
-		{
-			throw new JRException(e);
-			
-		}
-
-		return conn;
-	}
 
 }
