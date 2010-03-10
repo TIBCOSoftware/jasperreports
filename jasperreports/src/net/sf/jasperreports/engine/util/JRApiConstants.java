@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.charts.JRChartAxis;
-import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 
 
@@ -39,28 +38,6 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
  */
 public class JRApiConstants
 {
-	private static Map meterShapeMap = null;
-
-	public static Map getMeterShapeMap()
-	{
-		if (meterShapeMap == null)
-		{
-			Map map = new HashMap(8);
-			map.put(new Byte(JRMeterPlot.SHAPE_CHORD), 	"JRMeterPlot.SHAPE_CHORD");
-			map.put(new Byte(JRMeterPlot.SHAPE_CIRCLE), "JRMeterPlot.SHAPE_CIRCLE");
-			map.put(new Byte(JRMeterPlot.SHAPE_PIE), 	"JRMeterPlot.SHAPE_PIE");
-			map.put(new Byte(JRMeterPlot.SHAPE_DIAL), 	"JRMeterPlot.SHAPE_DIAL");
-			meterShapeMap = Collections.unmodifiableMap(map);
-		}
-
-		return meterShapeMap;
-	}
-
-	public static String getMeterShape(Byte key)
-	{
-		return (String)getMeterShapeMap().get(key);
-	}
-	
 	private static Map thermometerValueLocationMap = null;
 
 	public static Map getThermometerValueLocationMap()

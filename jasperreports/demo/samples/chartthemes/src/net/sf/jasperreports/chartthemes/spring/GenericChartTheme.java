@@ -62,6 +62,7 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
@@ -1534,19 +1535,19 @@ public class GenericChartTheme implements ChartTheme
 		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
 
 		// Set the shape
-		byte shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_PIE : jrPlot.getShapeByte().byteValue();
+		MeterShapeEnum shape = jrPlot.getShapeValue() == null ? MeterShapeEnum.PIE : jrPlot.getShapeValue();
 		
 		switch(shape)
 		{
-			case JRMeterPlot.SHAPE_CHORD:
+			case CHORD:
 				chartPlot.setDialShape(DialShape.CHORD);
 				break;
-			case JRMeterPlot.SHAPE_CIRCLE:
+			case CIRCLE:
 				chartPlot.setDialShape(DialShape.CIRCLE);
 				break;
-			case JRMeterPlot.SHAPE_DIAL:
+			case DIAL:
 				return createDialChart();
-			case JRMeterPlot.SHAPE_PIE:
+			case PIE:
 			default:
 				chartPlot.setDialShape(DialShape.PIE);
 		}

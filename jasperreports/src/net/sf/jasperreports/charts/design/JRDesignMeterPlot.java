@@ -28,10 +28,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import net.sf.jasperreports.charts.JRDataRange;
-import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseMeterPlot;
 import net.sf.jasperreports.charts.base.JRBaseValueDisplay;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
@@ -117,31 +117,39 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setShape(Byte)}
+	 * @deprecated Replaced by {@link #setShape(MeterShapeEnum)}
 	 */
 	public void setShape(byte shape) throws JRException
 	{
-		setShape(new Byte(shape));
+		setShape(MeterShapeEnum.getByValue(shape));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setShape(MeterShapeEnum)}
+	 */
+	public void setShape(Byte shape) throws JRException
+	{
+		setShape(MeterShapeEnum.getByValue(shape));
 	}
 
 	/**
 	 * Sets the shape of the meter.  Must be one of
-	 * <code>JRMeterPlot.SHAPE_CHORD</code>, <code>JRMeterPlot.SHAPE_CIRCLE</code>
-	 * or <code>JRMeterPlot.SHAPE_PIE</code>.
+	 * <code>MeterShapeEnum.CHORD</code>, <code>MeterShapeEnum.CIRCLE</code>,
+	 * <code>MeterShapeEnum.PIE</code> or <code>MeterShapeEnum.DIAL</code>.
 	 *
 	 * @param shape the shape of the meter
 	 * @throws JRException invalid shape was specified
 	 */
-	public void setShape(Byte shape) throws JRException
+	public void setShape(MeterShapeEnum shape) throws JRException
 	{
-		if (shape != null && (shape.byteValue() < 0 || shape.byteValue() > JRMeterPlot.SHAPE_DIAL))
+		if (shape != null && (shape.getValue() < 0 || shape.getValue() > MeterShapeEnum.DIAL.getValue()))
 		{
 			throw new JRException("Unknown shape for MeterPlot");
 		}
 
-		Byte old = this.shapeByte;
-		this.shapeByte = shape;
-		getEventSupport().firePropertyChange(PROPERTY_SHAPE, old, this.shapeByte);
+		MeterShapeEnum old = this.shapeValue;
+		this.shapeValue = shape;
+		getEventSupport().firePropertyChange(PROPERTY_SHAPE, old, this.shapeValue);
 	}
 
 	/**

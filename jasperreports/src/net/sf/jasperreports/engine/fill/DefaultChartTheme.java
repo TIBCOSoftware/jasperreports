@@ -58,6 +58,7 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
@@ -259,7 +260,7 @@ public class DefaultChartTheme implements ChartTheme
 				jfreeChart = createLineChart();
 				break;
 			case JRChart.CHART_TYPE_METER:
-				if (new Byte(JRMeterPlot.SHAPE_DIAL).equals(((JRMeterPlot)getPlot()).getShapeByte()))
+				if (MeterShapeEnum.DIAL ==((JRMeterPlot)getPlot()).getShapeValue())
 				{
 					jfreeChart = createDialChart();
 				}
@@ -1620,16 +1621,16 @@ public class DefaultChartTheme implements ChartTheme
 		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset());
 
 		// Set the shape
-		int shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_PIE : jrPlot.getShapeByte().intValue();
+		MeterShapeEnum shape = jrPlot.getShapeValue() == null ? MeterShapeEnum.PIE : jrPlot.getShapeValue();
 		switch (shape)
 		{
-			case JRMeterPlot.SHAPE_CHORD :
+			case CHORD :
 				chartPlot.setDialShape(DialShape.CHORD);
 				break;
-			case JRMeterPlot.SHAPE_CIRCLE :
+			case CIRCLE :
 				chartPlot.setDialShape(DialShape.CIRCLE);
 				break;
-			case JRMeterPlot.SHAPE_PIE :
+			case PIE :
 			default :
 				chartPlot.setDialShape(DialShape.PIE);
 		}

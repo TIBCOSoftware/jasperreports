@@ -26,6 +26,7 @@ package net.sf.jasperreports.charts.fill;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -65,19 +66,27 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShapeByte()}
+	 * @deprecated Replaced by {@link #getShapeValue()}
 	 */
 	public byte getShape()
 	{
-		return ((JRMeterPlot)parent).getShape();
+		return getShapeValue().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getShapeValue()}
+	 */
+	public Byte getShapeByte()
+	{
+		return getShapeValue().getValueByte();
 	}
 
 	/**
 	 * 
 	 */
-	public Byte getShapeByte()
+	public MeterShapeEnum getShapeValue()
 	{
-		return ((JRMeterPlot)parent).getShapeByte();
+		return ((JRMeterPlot)parent).getShapeValue();
 	}
 
 	/**

@@ -61,6 +61,7 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.chartthemes.spring.ChartThemesConstants;
@@ -1691,12 +1692,12 @@ public class SimpleChartTheme implements ChartTheme
 		MeterPlot chartPlot = new MeterPlot((ValueDataset)getDataset());
 
 		// Set the shape
-		int shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_PIE : jrPlot.getShapeByte().intValue();
-		if (shape == JRMeterPlot.SHAPE_CHORD)
+		MeterShapeEnum shape = jrPlot.getShapeValue() == null ? MeterShapeEnum.PIE : jrPlot.getShapeValue();
+		if (shape == MeterShapeEnum.CHORD)
 			chartPlot.setDialShape(DialShape.CHORD);
-		else if (shape == JRMeterPlot.SHAPE_CIRCLE)
+		else if (shape == MeterShapeEnum.CIRCLE)
 			chartPlot.setDialShape(DialShape.CIRCLE);
-		else if (shape == JRMeterPlot.SHAPE_DIAL)
+		else if (shape == MeterShapeEnum.DIAL)
 			return createDialChart();
 		else
 			chartPlot.setDialShape(DialShape.PIE);

@@ -2746,7 +2746,7 @@ public class JRApiWriter
 				String plotName = chartName + "MeterPlot";
 				
 				write( "JRDesignMeterPlot " + plotName + " = (JRDesignMeterPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setShape({0});\n", JRApiConstants.getMeterShape(plot.getShapeByte()));
+				write( plotName + ".setShape({0});\n", plot.getShapeValue());
 				write( plotName + ".setMeterAngle(new Integer({0, number, #}));\n", plot.getMeterAngleInteger());
 				
 				write( plotName + ".setUnits(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getUnits()));

@@ -42,6 +42,7 @@ import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -477,7 +478,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
 		lineRenderer.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		Stroke stroke = new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+//		Stroke stroke = new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
 		for(int i = 0; i < lineRenderer.getRowCount(); i++)
 		{
@@ -563,20 +564,20 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
 
 		// Set the shape
-		byte shape = jrPlot.getShapeByte() == null ? JRMeterPlot.SHAPE_DIAL : jrPlot.getShapeByte().byteValue();
+		MeterShapeEnum shape = jrPlot.getShapeValue() == null ? MeterShapeEnum.DIAL : jrPlot.getShapeValue();
 		
 		switch(shape)
 		{
-			case JRMeterPlot.SHAPE_CHORD:
+			case CHORD:
 				chartPlot.setDialShape(DialShape.CHORD);
 				break;
-			case JRMeterPlot.SHAPE_PIE:
+			case PIE:
 				chartPlot.setDialShape(DialShape.PIE);
 				break;
-			case JRMeterPlot.SHAPE_CIRCLE:
+			case CIRCLE:
 				chartPlot.setDialShape(DialShape.CIRCLE);
 				break;
-			case JRMeterPlot.SHAPE_DIAL:
+			case DIAL:
 			default:
 				return createDialChart();
 		}
