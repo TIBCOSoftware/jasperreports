@@ -2153,7 +2153,7 @@ public class JRApiWriter
 		{
 			String plotName = chartName + "BubblePlot";
 			write( "JRDesignBubblePlot " + plotName + " = (JRDesignBubblePlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setScaleType({0, number, #});\n", plot.getScaleTypeInteger());
+			write( plotName + ".setScaleType({0});\n", plot.getScaleTypeValue());
 			writePlot( plot, plotName);
 			
 			writeExpression( plot.getXAxisLabelExpression(), plotName, "XAxisLabelExpression");

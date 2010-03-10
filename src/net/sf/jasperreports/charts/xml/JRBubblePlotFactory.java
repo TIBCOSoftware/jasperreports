@@ -24,9 +24,9 @@
 package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.design.JRDesignBubblePlot;
+import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -43,10 +43,9 @@ public class JRBubblePlotFactory extends JRBaseFactory {
 		JRDesignBubblePlot plot = (JRDesignBubblePlot)chart.getPlot();
 		
 		
-		String scaleType = attributes.getValue( ATTRIBUTE_scaleType );
-		Integer intScaleType = (Integer)JRXmlConstants.getScaleTypeMap().get( scaleType );
-		if( intScaleType != null ){
-			plot.setScaleType( intScaleType  );
+		ScaleTypeEnum scaleType = ScaleTypeEnum.getByName(attributes.getValue(ATTRIBUTE_scaleType));
+		if( scaleType != null ){
+			plot.setScaleType( scaleType  );
 		}
 
 		return plot;

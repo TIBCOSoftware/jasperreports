@@ -31,8 +31,6 @@ import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 
-import org.jfree.chart.renderer.xy.XYBubbleRenderer;
-
 
 
 /**
@@ -41,26 +39,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRApiConstants
 {
-	private static Map scaleTypeMap = null;
-
-	public static Map  getScaleTypeMap(){
-		if( scaleTypeMap == null ){
-			Map map = new HashMap( 8 );
-			map.put( new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ), 	"XYBubbleRenderer.SCALE_ON_BOTH_AXES" );
-			map.put( new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ), 	"XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS" );
-			map.put( new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ), 	"XYBubbleRenderer.SCALE_ON_RANGE_AXI" );
-			scaleTypeMap = Collections.unmodifiableMap(map);
-		}
-
-		return scaleTypeMap;
-	}
-
-	public static String getScaleType(Byte key)
-	{
-		return (String)getScaleTypeMap().get(key);
-	}
-
-	
 	private static Map meterShapeMap = null;
 
 	public static Map getMeterShapeMap()

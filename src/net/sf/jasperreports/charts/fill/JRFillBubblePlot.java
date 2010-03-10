@@ -26,6 +26,7 @@ package net.sf.jasperreports.charts.fill;
 import java.awt.Color;
 
 import net.sf.jasperreports.charts.JRBubblePlot;
+import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -252,29 +253,51 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getScaleTypeInteger()}
+	 * @deprecated Replaced by {@link #getScaleTypeValue()}
 	 */
-	public int getScaleType(){
-		return ((JRBubblePlot)parent).getScaleType();
+	public int getScaleType()
+	{
+		return getScaleTypeValue().getValue();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getScaleTypeValue()}
+	 */
+	public Integer getScaleTypeInteger()
+	{
+		return getScaleTypeValue().getValueInteger();
 	}
 	
 	/**
 	 * 
 	 */
-	public Integer getScaleTypeInteger(){
-		return ((JRBubblePlot)parent).getScaleTypeInteger();
+	public ScaleTypeEnum getScaleTypeValue()
+	{
+		return ((JRBubblePlot)parent).getScaleTypeValue();
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #setScaleType(Integer)}.
+	 * @deprecated Replaced by {@link #setScaleType(ScaleTypeEnum)}.
 	 */
-	public void setScaleType( int scaleType ){
+	public void setScaleType( int scaleType )
+	{
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setScaleType(ScaleTypeEnum)}.
+	 */
+	public void setScaleType( Integer scaleType )
+	{
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
 	 *
 	 */
-	public void setScaleType( Integer scaleType ){
+	public void setScaleType( ScaleTypeEnum scaleType )
+	{
+		throw new UnsupportedOperationException();
 	}
 	
 	/**

@@ -1857,7 +1857,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeBubblePlot(JRBubblePlot plot) throws IOException
 	{
 		writer.startElement(XmlConstants.ELEMENT_bubblePlot);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_scaleType, plot.getScaleTypeInteger(), JRXmlConstants.getScaleTypeMap());
+		writer.addAttribute(XmlConstants.ATTRIBUTE_scaleType, plot.getScaleTypeValue());
 		writePlot(plot);
 
 		writer.writeExpression(XmlConstants.ELEMENT_xAxisLabelExpression, plot.getXAxisLabelExpression(), false);
