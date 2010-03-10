@@ -33,6 +33,7 @@ import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
+import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
@@ -1325,12 +1326,27 @@ public class JRXmlConstants extends XmlConstants
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link ScaleTypeEnum#ON_BOTH_AXES#getName()}.
+	 */
 	private static final String SCALE_ON_BOTH_AXES = "BothAxes";
+	/**
+	 * @deprecated Replaced by {@link ScaleTypeEnum#ON_DOMAIN_AXIS#getName()}.
+	 */
 	private static final String SCALE_ON_DOMAIN_AXIS = "DomainAxis";
+	/**
+	 * @deprecated Replaced by {@link ScaleTypeEnum#ON_RANGE_AXIS#getName()}.
+	 */
 	private static final String SCALE_ON_RANGE_AXIS = "RangeAxis";
 
+	/**
+	 * @deprecated Replaced by {@link ScaleTypeEnum}.
+	 */
 	private static Map scaleTypeMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link ScaleTypeEnum}.
+	 */
 	public static Map  getScaleTypeMap(){
 		if( scaleTypeMap == null ){
 			Map map = new HashMap( 8 );

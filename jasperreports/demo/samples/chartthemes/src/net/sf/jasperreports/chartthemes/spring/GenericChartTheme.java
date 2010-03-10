@@ -62,6 +62,7 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -692,7 +693,7 @@ public class GenericChartTheme implements ChartTheme
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		JRBubblePlot bubblePlot = (JRBubblePlot)getPlot();
-		int scaleType = bubblePlot.getScaleTypeInteger() == null ? XYBubbleRenderer.SCALE_ON_RANGE_AXIS : bubblePlot.getScaleTypeInteger().intValue();
+		int scaleType = bubblePlot.getScaleTypeValue() == null ? ScaleTypeEnum.ON_RANGE_AXIS.getValue() : bubblePlot.getScaleTypeValue().getValue();
 		XYBubbleRenderer bubbleRenderer = new XYBubbleRenderer( scaleType );
 		xyPlot.setRenderer( bubbleRenderer );
 

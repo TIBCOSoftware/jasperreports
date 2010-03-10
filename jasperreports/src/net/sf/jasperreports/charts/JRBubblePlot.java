@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.charts;
 
+import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
 
@@ -44,24 +45,34 @@ public interface JRBubblePlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat
 	public JRExpression getYAxisLabelExpression();
 
 	/**
-	 * @deprecated Replaced by {@link #getScaleTypeInteger()}
+	 * @deprecated Replaced by {@link #getScaleTypeValue()}
 	 */
 	public int getScaleType();
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getScaleTypeValue()}
 	 */
 	public Integer getScaleTypeInteger();
 
 	/**
-	 * @deprecated Replaced by {@link #setScaleType(Integer)}
+	 * 
+	 */
+	public ScaleTypeEnum getScaleTypeValue();
+
+	/**
+	 * @deprecated Replaced by {@link #setScaleType(ScaleTypeEnum)}
 	 */
 	public void setScaleType(int scaleType);
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #setScaleType(ScaleTypeEnum)}
 	 */
 	public void setScaleType(Integer scaleType);
+
+	/**
+	 * 
+	 */
+	public void setScaleType(ScaleTypeEnum scaleType);
 
 	/**
 	 * 

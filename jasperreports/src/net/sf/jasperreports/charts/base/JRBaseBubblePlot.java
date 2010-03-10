@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRBubblePlot;
+import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -73,7 +74,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	protected JRExpression domainAxisMaxValueExpression = null;
 	protected JRExpression rangeAxisMinValueExpression = null;
 	protected JRExpression rangeAxisMaxValueExpression = null;
-	protected Integer scaleTypeInteger = null;
+	protected ScaleTypeEnum scaleTypeValue = null;
 	
 	
 	/**
@@ -108,7 +109,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	{
 		super( bubblePlot, factory );
 		
-		scaleTypeInteger = bubblePlot.getScaleTypeInteger();
+		scaleTypeValue = bubblePlot.getScaleTypeValue();
 		
 		xAxisLabelExpression = factory.getExpression( bubblePlot.getXAxisLabelExpression() );
 		xAxisLabelFont = new JRBaseFont(bubblePlot.getChart(), bubblePlot.getXAxisLabelFont());
@@ -309,17 +310,24 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getScaleTypeInteger()}
+	 * @deprecated Replaced by {@link #getScaleTypeValue()}
 	 */
 	public int getScaleType(){
-		return scaleTypeInteger == null ? XYBubbleRenderer.SCALE_ON_RANGE_AXIS : scaleTypeInteger.intValue();
+		return getScaleTypeValue() == null ? ScaleTypeEnum.ON_RANGE_AXIS.getValue() : getScaleTypeValue().getValue();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getScaleTypeValue()}
+	 */
+	public Integer getScaleTypeInteger(){
+		return getScaleTypeValue().getValueInteger();
 	}
 	
 	/**
 	 * 
 	 */
-	public Integer getScaleTypeInteger(){
-		return scaleTypeInteger;
+	public ScaleTypeEnum getScaleTypeValue(){
+		return scaleTypeValue;
 	}
 	
 	/**
@@ -351,19 +359,26 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setScaleType(Integer)}
+	 * @deprecated Replaced by {@link #setScaleType(ScaleTypeEnum)}
 	 */
 	public void setScaleType( int scaleType ){
-		setScaleType(new Integer(scaleType));
+		setScaleType(ScaleTypeEnum.getByValue(scaleType));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setScaleType(ScaleTypeEnum)}
+	 */
+	public void setScaleType( Integer scaleType ){
+		setScaleType(ScaleTypeEnum.getByValue(scaleType));
 	}
 
 	/**
 	 * 
 	 */
-	public void setScaleType( Integer scaleType ){
-		Integer old = this.scaleTypeInteger;
-		this.scaleTypeInteger = scaleType;
-		getEventSupport().firePropertyChange(PROPERTY_SCALE_TYPE, old, this.scaleTypeInteger);
+	public void setScaleType( ScaleTypeEnum scaleTypeValue ){
+		ScaleTypeEnum old = this.scaleTypeValue;
+		this.scaleTypeValue = scaleTypeValue;
+		getEventSupport().firePropertyChange(PROPERTY_SCALE_TYPE, old, this.scaleTypeValue);
 	}
 
 	/**
@@ -412,6 +427,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	private int scaleType = XYBubbleRenderer.SCALE_ON_RANGE_AXIS;
+	private Integer scaleTypeInteger = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -419,7 +435,12 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
 		{
-			scaleTypeInteger = new Integer(scaleType);
+			scaleTypeValue = ScaleTypeEnum.getByValue(scaleType);
+		}
+		else if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			scaleTypeValue = ScaleTypeEnum.getByValue(scaleTypeInteger);
+			scaleTypeInteger = null;
 		}
 	}
 	
