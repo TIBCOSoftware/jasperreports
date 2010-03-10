@@ -64,6 +64,11 @@
 			</src>
 			<classpath refid="classpath"/>
 		</jrc> 
+		<copy todir="${sample.dir}/build/reports">
+			<fileset dir="${sample.dir}/reports">
+				<exclude name="**/*.jrxml"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="fill">
