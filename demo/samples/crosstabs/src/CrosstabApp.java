@@ -102,7 +102,7 @@ public class CrosstabApp extends AbstractSampleApp
 			JasperFillManager.fillReportToFile(
 				reportFile.getAbsolutePath(), 
 				null, 
-				getConnection()
+				getDemoHsqldbConnection()
 				);
 			System.err.println("Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start));
 		}
@@ -448,39 +448,6 @@ public class CrosstabApp extends AbstractSampleApp
 		}
 	}
 	
-	
-	/**
-	 *
-	 */
-	private static Connection getConnection() throws JRException
-	{
-		Connection conn;
-
-		try
-		{
-			//Change these settings according to your local configuration
-			String driver = "org.hsqldb.jdbcDriver";
-			String connectString = "jdbc:hsqldb:hsql://localhost";
-			String user = "sa";
-			String password = "";
-
-
-			Class.forName(driver);
-			conn = DriverManager.getConnection(connectString, user, password);
-		}
-		catch (ClassNotFoundException e)
-		{
-			throw new JRException(e);
-		}
-		catch (SQLException e)
-		{
-			throw new JRException(e);
-			
-		}
-
-		return conn;
-	}
-
 	
 	/**
 	 *
