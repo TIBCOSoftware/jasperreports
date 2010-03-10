@@ -97,14 +97,14 @@ public enum PlotOrientationEnum
 	/**
 	 *
 	 */
-	public static PlotOrientationEnum getByValue(PlotOrientation color)
+	public static PlotOrientationEnum getByValue(PlotOrientation orientation)
 	{
 		PlotOrientationEnum[] values = values();
-		if (values != null && color != null)
+		if (values != null && orientation != null)
 		{
 			for(PlotOrientationEnum e:values)
 			{
-				if (color.equals(e.getValue()))
+				if (orientation.equals(e.getValue()))
 				{
 					return e;
 				}
