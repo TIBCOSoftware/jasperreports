@@ -29,17 +29,13 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.design.JRDesignBand;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignField;
@@ -48,6 +44,7 @@ import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignLine;
 import net.sf.jasperreports.engine.design.JRDesignParameter;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JRDesignSection;
 import net.sf.jasperreports.engine.design.JRDesignStaticText;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
@@ -59,316 +56,393 @@ import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: NoXmlDesignApp.java 3420 2010-02-18 09:17:47Z teodord $
  */
-public class NoXmlDesignApp
+public class NoXmlDesignApp extends AbstractSampleApp
 {
 
 
 	/**
 	 *
 	 */
-	private static final String TASK_COMPILE = "compile";
-	private static final String TASK_FILL = "fill";
-	private static final String TASK_PRINT = "print";
-	private static final String TASK_PDF = "pdf";
-	private static final String TASK_XML = "xml";
-	private static final String TASK_XML_EMBED = "xmlEmbed";
-	private static final String TASK_HTML = "html";
-	private static final String TASK_RTF = "rtf";
-	private static final String TASK_XLS = "xls";
-	private static final String TASK_JXL = "jxl";
-	private static final String TASK_CSV = "csv";
-	private static final String TASK_ODT = "odt";
-	private static final String TASK_ODS = "ods";
-	private static final String TASK_DOCX = "docx";
-	private static final String TASK_XLSX = "xlsx";
-	private static final String TASK_XHTML = "xhtml";
-	private static final String TASK_RUN = "run";
-	private static final String TASK_WRITE_XML = "writeXml";
+	public static void main(String[] args) 
+	{
+		main(new NoXmlDesignApp(), args);
+	}
 	
 	
 	/**
 	 *
 	 */
-	public static void main(String[] args)
+	public void test() throws JRException
 	{
-		if(args.length == 0)
-		{
-			usage();
-			return;
-		}
-				
-		String taskName = args[0];
-		String fileName = args[1];
+		writeXml();
+		fill();
+		pdf();
+		xmlEmbed();
+		xml();
+		html();
+		rtf();
+		xls();
+		jxl();
+		csv();
+		odt();
+		ods();
+		docx();
+		xlsx();
+		xhtml();
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void compile() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperDesign jasperDesign = getJasperDesign();
+		JasperCompileManager.compileReportToFile(jasperDesign, "build/reports/NoXmlDesignReport.jasper");
+		System.err.println("Compile time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void fill() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		//Preparing parameters
+		Map parameters = new HashMap();
+		parameters.put("ReportTitle", "Address Report");
+		parameters.put("OrderByClause", "ORDER BY City");
+
+		JasperFillManager.fillReportToFile("build/reports/NoXmlDesignReport.jasper", parameters, getConnection());
+		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void print() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperPrintManager.printReport("build/reports/NoXmlDesignReport.jrprint", true);
+		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void pdf() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperExportManager.exportReportToPdfFile("build/reports/NoXmlDesignReport.jrprint");
+		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void rtf() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
+		
+		JRRtfExporter exporter = new JRRtfExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		
+		exporter.exportReport();
+
+		System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xml() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperExportManager.exportReportToXmlFile("build/reports/NoXmlDesignReport.jrprint", false);
+		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xmlEmbed() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperExportManager.exportReportToXmlFile("build/reports/NoXmlDesignReport.jrprint", true);
+		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void html() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperExportManager.exportReportToHtmlFile("build/reports/NoXmlDesignReport.jrprint");
+		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xls() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
+		
+		JRXlsExporter exporter = new JRXlsExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+		
+		exporter.exportReport();
+
+		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void jxl() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
+
+		JExcelApiExporter exporter = new JExcelApiExporter();
+
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+
+		exporter.exportReport();
+
+		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void csv() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".csv");
+		
+		JRCsvExporter exporter = new JRCsvExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		
+		exporter.exportReport();
+
+		System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void odt() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
+		
+		JROdtExporter exporter = new JROdtExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		
+		exporter.exportReport();
+
+		System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void ods() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".ods");
+		
+		JROdsExporter exporter = new JROdsExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		
+		exporter.exportReport();
+
+		System.err.println("ODS creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void docx() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
+		
+		JRDocxExporter exporter = new JRDocxExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		
+		exporter.exportReport();
+
+		System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xlsx() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xlsx");
+		
+		JRXlsxExporter exporter = new JRXlsxExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+		
+		exporter.exportReport();
+
+		System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xhtml() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
+		
+		JRXhtmlExporter exporter = new JRXhtmlExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		
+		exporter.exportReport();
+
+		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void writeXml() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperCompileManager.writeReportToXmlFile("build/reports/NoXmlDesignReport.jasper");
+		System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
+	}
+
+
+	/**
+	 *
+	 */
+	private static Connection getConnection() throws JRException
+	{
+		Connection conn;
 
 		try
 		{
-			long start = System.currentTimeMillis();
-			if (TASK_COMPILE.equals(taskName))
-			{
-				JasperDesign jasperDesign = getJasperDesign();
-				JasperCompileManager.compileReportToFile(jasperDesign, fileName);
-				System.err.println("Compile time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_FILL.equals(taskName))
-			{
-				//Preparing parameters
-				Map parameters = new HashMap();
-				parameters.put("ReportTitle", "Address Report");
-				parameters.put("OrderByClause", "ORDER BY City");
+			//Change these settings according to your local configuration
+			String driver = "org.hsqldb.jdbcDriver";
+			String connectString = "jdbc:hsqldb:hsql://localhost";
+			String user = "sa";
+			String password = "";
 
-				JasperFillManager.fillReportToFile(fileName, parameters, getConnection());
-				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_PRINT.equals(taskName))
-			{
-				JasperPrintManager.printReport(fileName, true);
-				System.err.println("Printing time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_PDF.equals(taskName))
-			{
-				JasperExportManager.exportReportToPdfFile(fileName);
-				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_RTF.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
-				
-				JRRtfExporter exporter = new JRRtfExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				
-				exporter.exportReport();
 
-				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_XML.equals(taskName))
-			{
-				JasperExportManager.exportReportToXmlFile(fileName, false);
-				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_XML_EMBED.equals(taskName))
-			{
-				JasperExportManager.exportReportToXmlFile(fileName, true);
-				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_HTML.equals(taskName))
-			{
-				JasperExportManager.exportReportToHtmlFile(fileName);
-				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_XLS.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
-				
-				JRXlsExporter exporter = new JRXlsExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-				
-				exporter.exportReport();
-
-				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_JXL.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
-
-				JExcelApiExporter exporter = new JExcelApiExporter();
-
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
-
-				exporter.exportReport();
-
-				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_CSV.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".csv");
-				
-				JRCsvExporter exporter = new JRCsvExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				
-				exporter.exportReport();
-
-				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_ODT.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
-				
-				JROdtExporter exporter = new JROdtExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				
-				exporter.exportReport();
-
-				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_ODS.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".ods");
-				
-				JROdsExporter exporter = new JROdsExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
-				
-				exporter.exportReport();
-
-				System.err.println("ODS creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_DOCX.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
-				
-				JRDocxExporter exporter = new JRDocxExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				
-				exporter.exportReport();
-
-				System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_XLSX.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xlsx");
-				
-				JRXlsxExporter exporter = new JRXlsxExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-				
-				exporter.exportReport();
-
-				System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_XHTML.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
-				
-				JRXhtmlExporter exporter = new JRXhtmlExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				
-				exporter.exportReport();
-
-				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_RUN.equals(taskName))
-			{
-				//Preparing parameters
-				Map parameters = new HashMap();
-				parameters.put("ReportTitle", "Address Report");
-				parameters.put("OrderByClause", "ORDER BY City");
-				
-				JasperRunManager.runReportToPdfFile(fileName, parameters, getConnection());
-				System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_WRITE_XML.equals(taskName))
-			{
-				JasperCompileManager.writeReportToXmlFile(fileName);
-				System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
-			}
-			else
-			{
-				usage();
-			}
+			Class.forName(driver);
+			conn = DriverManager.getConnection(connectString, user, password);
 		}
-		catch (JRException e)
+		catch (ClassNotFoundException e)
 		{
-			e.printStackTrace();
+			throw new JRException(e);
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			e.printStackTrace();
+			throw new JRException(e);
+			
 		}
-	}
 
-
-	/**
-	 *
-	 */
-	private static void usage()
-	{
-		System.out.println( "NoXmlDesignApp usage:" );
-		System.out.println( "\tjava NoXmlDesignApp task file" );
-		System.out.println( "\tTasks : compile | fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | odt | docx | xlsx | xhtml | run | writeXml" );
-	}
-
-
-	/**
-	 *
-	 */
-	private static Connection getConnection() throws ClassNotFoundException, SQLException
-	{
-		//Change these settings according to your local configuration
-		String driver = "org.hsqldb.jdbcDriver";
-		String connectString = "jdbc:hsqldb:hsql://localhost";
-		String user = "sa";
-		String password = "";
-
-
-		Class.forName(driver);
-		Connection conn = DriverManager.getConnection(connectString, user, password);
 		return conn;
 	}
 
@@ -467,11 +541,11 @@ public class NoXmlDesignApp
 		JRDesignVariable variable = new JRDesignVariable();
 		variable.setName("CityNumber");
 		variable.setValueClass(java.lang.Integer.class);
-		variable.setResetType(JRVariable.RESET_TYPE_GROUP);
+		variable.setResetType(ResetTypeEnum.GROUP);
 		JRDesignGroup group = new JRDesignGroup();
 		group.setName("CityGroup");
 		variable.setResetGroup(group);
-		variable.setCalculation(JRVariable.CALCULATION_SYSTEM);
+		variable.setCalculation(CalculationEnum.SYSTEM);
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClass(java.lang.Integer.class);
 		expression.setText("($V{CityNumber} != null)?(new Integer($V{CityNumber}.intValue() + 1)):(new Integer(1))");
@@ -481,8 +555,8 @@ public class NoXmlDesignApp
 		variable = new JRDesignVariable();
 		variable.setName("AllCities");
 		variable.setValueClass(java.lang.String.class);
-		variable.setResetType(JRVariable.RESET_TYPE_REPORT);
-		variable.setCalculation(JRVariable.CALCULATION_SYSTEM);
+		variable.setResetType(ResetTypeEnum.REPORT);
+		variable.setCalculation(CalculationEnum.SYSTEM);
 		jasperDesign.addVariable(variable);
 
 		//Groups
@@ -501,7 +575,7 @@ public class NoXmlDesignApp
 		textField.setHeight(15);
 		textField.setBackcolor(new Color(0xC0, 0xC0, 0xC0));
 		textField.setMode(ModeEnum.OPAQUE);
-		textField.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_LEFT);
+		textField.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
 		textField.setStyle(boldStyle);
 		expression = new JRDesignExpression();
 		expression.setValueClass(java.lang.String.class);
@@ -514,7 +588,7 @@ public class NoXmlDesignApp
 		line.setWidth(515);
 		line.setHeight(0);
 		band.addElement(line);
-		group.setGroupHeader(band);
+		((JRDesignSection)group.getGroupHeaderSection()).addBand(band);
 
 		band = new JRDesignBand();
 		band.setHeight(20);
@@ -529,7 +603,7 @@ public class NoXmlDesignApp
 		staticText.setY(0);
 		staticText.setWidth(60);
 		staticText.setHeight(15);
-		staticText.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_RIGHT);
+		staticText.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
 		staticText.setStyle(boldStyle);
 		staticText.setText("Count : ");
 		band.addElement(staticText);
@@ -538,14 +612,14 @@ public class NoXmlDesignApp
 		textField.setY(0);
 		textField.setWidth(30);
 		textField.setHeight(15);
-		textField.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_RIGHT);
+		textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
 		textField.setStyle(boldStyle);
 		expression = new JRDesignExpression();
 		expression.setValueClass(java.lang.Integer.class);
 		expression.setText("$V{CityGroup_COUNT}");
 		textField.setExpression(expression);
 		band.addElement(textField);
-		group.setGroupFooter(band);
+		((JRDesignSection)group.getGroupFooterSection()).addBand(band);
 
 		jasperDesign.addGroup(group);
 
@@ -564,7 +638,7 @@ public class NoXmlDesignApp
 		textField.setY(10);
 		textField.setWidth(515);
 		textField.setHeight(30);
-		textField.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_CENTER);
+		textField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
 		textField.setStyle(normalStyle);
 		textField.setFontSize(22);
 		expression = new JRDesignExpression();
@@ -594,7 +668,7 @@ public class NoXmlDesignApp
 		staticText.setForecolor(Color.white);
 		staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
 		staticText.setMode(ModeEnum.OPAQUE);
-		staticText.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_CENTER);
+		staticText.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
 		staticText.setStyle(boldStyle);
 		staticText.setText("ID");
 		frame.addElement(staticText);
@@ -634,7 +708,7 @@ public class NoXmlDesignApp
 		textField.setY(4);
 		textField.setWidth(50);
 		textField.setHeight(15);
-		textField.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_RIGHT);
+		textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
 		textField.setStyle(normalStyle);
 		expression = new JRDesignExpression();
 		expression.setValueClass(java.lang.Integer.class);
@@ -647,7 +721,7 @@ public class NoXmlDesignApp
 		textField.setY(4);
 		textField.setWidth(200);
 		textField.setHeight(15);
-		textField.setPositionType(JRElement.POSITION_TYPE_FLOAT);
+		textField.setPositionType(PositionTypeEnum.FLOAT);
 		textField.setStyle(normalStyle);
 		expression = new JRDesignExpression();
 		expression.setValueClass(java.lang.String.class);
@@ -660,7 +734,7 @@ public class NoXmlDesignApp
 		textField.setY(4);
 		textField.setWidth(255);
 		textField.setHeight(15);
-		textField.setPositionType(JRElement.POSITION_TYPE_FLOAT);
+		textField.setPositionType(PositionTypeEnum.FLOAT);
 		textField.setStyle(normalStyle);
 		expression = new JRDesignExpression();
 		expression.setValueClass(java.lang.String.class);
@@ -673,9 +747,9 @@ public class NoXmlDesignApp
 		line.setWidth(515);
 		line.setHeight(0);
 		line.setForecolor(new Color(0x80, 0x80, 0x80));
-		line.setPositionType(JRElement.POSITION_TYPE_FLOAT);
+		line.setPositionType(PositionTypeEnum.FLOAT);
 		band.addElement(line);
-		jasperDesign.setDetail(band);
+		((JRDesignSection)jasperDesign.getDetailSection()).addBand(band);
 
 		//Column footer
 		band = new JRDesignBand();
