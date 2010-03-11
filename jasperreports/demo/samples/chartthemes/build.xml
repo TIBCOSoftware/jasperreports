@@ -46,7 +46,7 @@
 	</target>
 
 	<target name="themes" description="Creates the *.jrctx file containing the chart theme settings.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${sample.base.name}" fork="true">
 			<arg value="themes"/>
 			<classpath refid="classpath"/>
 		</java>
