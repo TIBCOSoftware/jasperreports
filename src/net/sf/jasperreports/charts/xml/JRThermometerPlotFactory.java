@@ -24,11 +24,11 @@
 package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.design.JRDesignThermometerPlot;
+import net.sf.jasperreports.charts.type.ValueLocationEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -66,7 +66,7 @@ public class JRThermometerPlotFactory extends JRBaseFactory
 		}
 
 		String location = atts.getValue(ATTRIBUTE_valueLocation);
-		Byte loc = (Byte)JRXmlConstants.getThermometerValueLocationMap().get(location);
+		ValueLocationEnum loc = ValueLocationEnum.getByName(atts.getValue(ATTRIBUTE_valueLocation));
 		if (loc == null)
 		{
 			throw new JRException("Invalid thermometer value location: " + location);

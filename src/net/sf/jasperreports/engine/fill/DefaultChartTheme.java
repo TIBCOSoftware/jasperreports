@@ -1767,19 +1767,18 @@ public class DefaultChartTheme implements ChartTheme
 		}
 
 		// Set the location of where the value is displayed
-		byte valueLocation = jrPlot.getValueLocationByte() == null ? ThermometerPlot.BULB : jrPlot.getValueLocationByte().byteValue();
-		switch (valueLocation)
+		switch (jrPlot.getValueLocationObject())
 		{
-		  case JRThermometerPlot.LOCATION_NONE:
+		  case NONE:
 			 chartPlot.setValueLocation(ThermometerPlot.NONE);
 			 break;
-		  case JRThermometerPlot.LOCATION_LEFT:
+		  case LEFT:
 			 chartPlot.setValueLocation(ThermometerPlot.LEFT);
 			 break;
-		  case JRThermometerPlot.LOCATION_RIGHT:
+		  case RIGHT:
 			 chartPlot.setValueLocation(ThermometerPlot.RIGHT);
 			 break;
-		  case JRThermometerPlot.LOCATION_BULB:
+		  case BULB:
 		  default:
 			 chartPlot.setValueLocation(ThermometerPlot.BULB);
 			 break;

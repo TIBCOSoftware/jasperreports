@@ -1532,15 +1532,30 @@ public class JRXmlConstants extends XmlConstants
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link ValueLocationEnum#NONE#getName()}
 	 */
 	private static final String THERMOMETER_VALUE_LOCATION_NONE = "none";
+	/**
+	 * @deprecated Replaced by {@link ValueLocationEnum#LEFT#getName()}
+	 */
 	private static final String THERMOMETER_VALUE_LOCATION_LEFT = "left";
+	/**
+	 * @deprecated Replaced by {@link ValueLocationEnum#RIGHT#getName()}
+	 */
 	private static final String THERMOMETER_VALUE_LOCATION_RIGHT = "right";
+	/**
+	 * @deprecated Replaced by {@link ValueLocationEnum#BULB#getName()}
+	 */
 	private static final String THERMOMETER_VALUE_LOCATION_BULB = "bulb";
 
+	/**
+	 * @deprecated Replaced by {@link ValueLocationEnum}
+	 */
 	private static Map thermometerValueLocationMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link ValueLocationEnum}
+	 */
 	public static Map getThermometerValueLocationMap()
 	{
 		if (thermometerValueLocationMap == null)

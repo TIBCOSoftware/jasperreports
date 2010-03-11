@@ -1302,7 +1302,7 @@ public class JRApiWriter
 	{
 		if(chart != null)
 		{
-			write( chartName + ".setShowLegend({0});\n", JRApiConstants.getBooleanText(chart.getShowLegend()));
+			write( chartName + ".setShowLegend({0});\n", getBooleanText(chart.getShowLegend()));
 			write( chartName + ".setEvaluationTime({0});\n", chart.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 			
 			if (chart.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
@@ -1946,7 +1946,7 @@ public class JRApiWriter
 			{
 				String plotName = chartName + "PiePlot";
 				write( "JRDesignPiePlot " + plotName + " = (JRDesignPiePlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setCircular({0});\n", JRApiConstants.getBooleanText(plot.getCircular()));
+				write( plotName + ".setCircular({0});\n", getBooleanText(plot.getCircular()));
 				write( plotName + ".setLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLabelFormat()));
 				write( plotName + ".setLegendLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLegendLabelFormat()));
 				
@@ -1975,7 +1975,7 @@ public class JRApiWriter
 			{
 				String plotName = chartName + "Pie3DPlot";
 				write( "JRDesignPie3DPlot " + plotName + " = (JRDesignPie3DPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setCircular({0});\n", JRApiConstants.getBooleanText(plot.getCircular()));
+				write( plotName + ".setCircular({0});\n", getBooleanText(plot.getCircular()));
 				write( plotName + ".setLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLabelFormat()));
 				write( plotName + ".setLegendLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLegendLabelFormat()));
 				write( plotName + ".setDepthFactor(new Double({0, number, #}));\n", plot.getDepthFactorDouble());
@@ -2081,7 +2081,7 @@ public class JRApiWriter
 		write( axisName + ".setTickLabelColor({0});\n", getColorText(axisTickLabelColor));
 		write( axisName + ".setLineColor({0});\n", getColorText(axisLineColor));
 		write( axisName + ".setTickLabelMask(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(axisTickLabelMask));
-		write( axisName + ".setVerticalTickLabel({0});\n", JRApiConstants.getBooleanText(axisVerticalTickLabels));
+		write( axisName + ".setVerticalTickLabel({0});\n", getBooleanText(axisVerticalTickLabels));
 		
 		if (axisLabelFont != null)
 		{
@@ -2107,9 +2107,9 @@ public class JRApiWriter
 		{
 			String plotName = chartName + "BarPlot";
 			write( "JRDesignBarPlot " + plotName + " = (JRDesignBarPlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setShowLabels({0});\n", JRApiConstants.getBooleanText(plot.getShowLabels()));
-			write( plotName + ".setShowTickLabels({0});\n", JRApiConstants.getBooleanText(plot.getShowTickLabels()));
-			write( plotName + ".setShowTickMarks({0});\n", JRApiConstants.getBooleanText(plot.getShowTickMarks()));
+			write( plotName + ".setShowLabels({0});\n", getBooleanText(plot.getShowLabels()));
+			write( plotName + ".setShowTickLabels({0});\n", getBooleanText(plot.getShowTickLabels()));
+			write( plotName + ".setShowTickMarks({0});\n", getBooleanText(plot.getShowTickMarks()));
 			writePlot( plot, plotName);
 			
 			writeItemLabel( plot.getItemLabel(), plotName, "ItemLabel");
@@ -2190,8 +2190,8 @@ public class JRApiWriter
 		{
 			String plotName = chartName + "LinePlot";
 			write( "JRDesignLinePlot " + plotName + " = (JRDesignLinePlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setShowLines({0});\n", JRApiConstants.getBooleanText(plot.getShowLines()));
-			write( plotName + ".setShowShapes({0});\n", JRApiConstants.getBooleanText(plot.getShowShapes()));
+			write( plotName + ".setShowLines({0});\n", getBooleanText(plot.getShowLines()));
+			write( plotName + ".setShowShapes({0});\n", getBooleanText(plot.getShowShapes()));
 			writePlot( plot, plotName);
 			
 			writeExpression( plot.getCategoryAxisLabelExpression(), plotName, "CategoryAxisLabelExpression");
@@ -2232,8 +2232,8 @@ public class JRApiWriter
 		{
 			String plotName = chartName + "TimeSeriesPlot";
 			write( "JRDesignTimeSeriesPlot " + plotName + " = (JRDesignTimeSeriesPlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setShowLines({0});\n", JRApiConstants.getBooleanText(plot.getShowLines()));
-			write( plotName + ".setShowShapes({0});\n", JRApiConstants.getBooleanText(plot.getShowShapes()));
+			write( plotName + ".setShowLines({0});\n", getBooleanText(plot.getShowLines()));
+			write( plotName + ".setShowShapes({0});\n", getBooleanText(plot.getShowShapes()));
 			writePlot( plot, plotName);
 			
 			writeExpression( plot.getTimeAxisLabelExpression(), plotName, "TimeAxisLabelExpression");
@@ -2272,7 +2272,7 @@ public class JRApiWriter
 		{
 			String plotName = chartName + "Bar3DPlot";
 			write( "JRDesignBar3DPlot " + plotName + " = (JRDesignBar3DPlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setShowLabels({0});\n", JRApiConstants.getBooleanText(plot.getShowLabels()));
+			write( plotName + ".setShowLabels({0});\n", getBooleanText(plot.getShowLabels()));
 			write( plotName + ".setXOffset(new Double({0, number, #}));\n", plot.getXOffsetDouble());
 			write( plotName + ".setYOffset(new Double({0, number, #}));\n", plot.getYOffsetDouble());
 			writePlot( plot, plotName);
@@ -2462,8 +2462,8 @@ public class JRApiWriter
 			{
 				String plotName = chartName + "HighLowPlot";
 				write( "JRDesignHighLowPlot " + plotName + " = (JRDesignHighLowPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setShowOpenTicks({0});\n", JRApiConstants.getBooleanText(plot.getShowOpenTicks()));
-				write( plotName + ".setShowCloseTicks({0});\n", JRApiConstants.getBooleanText(plot.getShowCloseTicks()));
+				write( plotName + ".setShowOpenTicks({0});\n", getBooleanText(plot.getShowOpenTicks()));
+				write( plotName + ".setShowCloseTicks({0});\n", getBooleanText(plot.getShowCloseTicks()));
 
 				writePlot( plot, plotName);
 				writeExpression( plot.getTimeAxisLabelExpression(), plotName, "TimeAxisLabelExpression");
@@ -2526,7 +2526,7 @@ public class JRApiWriter
 				String plotName = chartName + "CandlestickPlot";
 				
 				write( "JRDesignCandlestickPlot " + plotName + " = (JRDesignCandlestickPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setShowVolume({0});\n", JRApiConstants.getBooleanText(plot.getShowVolume()));
+				write( plotName + ".setShowVolume({0});\n", getBooleanText(plot.getShowVolume()));
 				writePlot( plot, plotName);
 				writeExpression( plot.getTimeAxisLabelExpression(), plotName, "TimeAxisLabelExpression");
 				writeAxisFormat(
@@ -2620,8 +2620,8 @@ public class JRApiWriter
 		{
 			String plotName = chartName + "ScatterPlot";
 			write( "JRDesignScatterPlot " + plotName + " = (JRDesignScatterPlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setShowLines({0});\n", JRApiConstants.getBooleanText(plot.getShowLines()));
-			write( plotName + ".setShowShapes({0});\n", JRApiConstants.getBooleanText(plot.getShowShapes()));
+			write( plotName + ".setShowLines({0});\n", getBooleanText(plot.getShowLines()));
+			write( plotName + ".setShowShapes({0});\n", getBooleanText(plot.getShowShapes()));
 			writePlot( plot, plotName);
 			
 			writeExpression( plot.getXAxisLabelExpression(), plotName, "XAxisLabelExpression");
@@ -2798,7 +2798,7 @@ public class JRApiWriter
 			{
 				String plotName = chartName + "ThermometerPlot";
 				write( "JRDesignThermometerPlot " + plotName + " = (JRDesignThermometerPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setValueLocation(new Byte({0}));\n", JRApiConstants.getThermometerValueLocation(plot.getValueLocationByte()));
+				write( plotName + ".setValueLocation(new Byte({0}));\n", plot.getValueLocationObject());
 				write( plotName + ".setMercuryColor({0});\n", getColorText(plot.getMercuryColor()));
 				writePlot( plot, plotName);
 				writeValueDisplay( plot.getValueDisplay(), plotName);
@@ -2974,7 +2974,7 @@ public class JRApiWriter
 			write( crosstabName + ".setRepeatRowHeaders({0});\n", crosstab.isRepeatRowHeaders(), true);
 			write( crosstabName + ".setColumnBreakOffset({0, number, #});\n", crosstab.getColumnBreakOffset(), JRCrosstab.DEFAULT_COLUMN_BREAK_OFFSET);
 			write( crosstabName + ".setRunDirection({0});\n", crosstab.getRunDirectionValue(), RunDirectionEnum.LTR);
-			write( crosstabName + ".setIgnoreWidth({0});\n", JRApiConstants.getBooleanText(crosstab.getIgnoreWidth()));
+			write( crosstabName + ".setIgnoreWidth({0});\n", getBooleanText(crosstab.getIgnoreWidth()));
 	
 			writeReportElement( crosstab, crosstabName);
 	
@@ -3904,6 +3904,13 @@ public class JRApiWriter
 		}
 	}
 
+	
+	private String getBooleanText(Boolean key)
+	{
+		return key == null 
+			? null 
+			: (key.booleanValue() ? "Boolean.TRUE" : "Boolean.FALSE");
+	}
 	
 	/**
 	 *

@@ -29,6 +29,7 @@ import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseThermometerPlot;
 import net.sf.jasperreports.charts.base.JRBaseValueDisplay;
+import net.sf.jasperreports.charts.type.ValueLocationEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -116,11 +117,19 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setValueLocation(Byte)}
+	 * @deprecated Replaced by {@link #setValueLocation(ValueLocationEnum)}
 	 */
 	public void setValueLocation(byte valueLocation)
 	{
-		setValueLocation(new Byte(valueLocation));
+		setValueLocation(ValueLocationEnum.getByValue(valueLocation));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setValueLocation(ValueLocationEnum)}
+	 */
+	public void setValueLocation(Byte valueLocation)
+	{
+		setValueLocation(ValueLocationEnum.getByValue(valueLocation));
 	}
 
 	/**
@@ -128,11 +137,11 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 *
 	 * @param valueLocation where to show the textual display of the value
 	 */
-	public void setValueLocation(Byte valueLocation)
+	public void setValueLocation(ValueLocationEnum valueLocationObject)
 	{
-		Byte old = this.valueLocationByte;
-		this.valueLocationByte = valueLocation;
-		getEventSupport().firePropertyChange(PROPERTY_VALUE_LOCATION, old, this.valueLocationByte);
+		ValueLocationEnum old = this.valueLocationObject;
+		this.valueLocationObject = valueLocationObject;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_LOCATION, old, this.valueLocationObject);
 	}
 
 	/**

@@ -25,6 +25,7 @@ package net.sf.jasperreports.charts;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.type.ValueLocationEnum;
 import net.sf.jasperreports.engine.JRChartPlot;
 
 /**
@@ -39,24 +40,22 @@ import net.sf.jasperreports.engine.JRChartPlot;
 public interface JRThermometerPlot extends JRChartPlot
 {
 	/**
-	 * The value should not be displayed.
+	 * @deprecated Replaced by {@link ValueLocationEnum#NONE}
 	 */
 	public static final byte LOCATION_NONE = 0;
 
 	/**
-	 * The value should be displayed to the left of the thermometer.
+	 * @deprecated Replaced by {@link ValueLocationEnum#LEFT}
 	 */
 	public static final byte LOCATION_LEFT = 1;
 
 	/**
-	 * The value should be displayed to the right of the thermometer.
+	 * @deprecated Replaced by {@link ValueLocationEnum#RIGHT}
 	 */
 	public static final byte LOCATION_RIGHT = 2;
 
 	/**
-	 * The value should be displayed in the bulb of the thermometer.  When
-	 * using this option make sure the font is small enough or the value short
-	 * enough so the value fits in the bulb.
+	 * @deprecated Replaced by {@link ValueLocationEnum#BULB}
 	 */
 	public static final byte LOCATION_BULB = 3;
 
@@ -81,19 +80,24 @@ public interface JRThermometerPlot extends JRChartPlot
 	public boolean isShowValueLines();
 
 	/**
-	 * @deprecated Replaced by {@link #getValueLocationByte()}
+	 * @deprecated Replaced by {@link #getValueLocationObject()}
 	 */
 	public byte getValueLocation();
 
 	/**
+	 * @deprecated Replaced by {@link #getValueLocationObject()}
+	 */
+	public Byte getValueLocationByte();
+
+	/**
 	 * Returns the location where the value of the thermometer will be shown.  The
-	 * return value will be one of <code>LOCATION_NONE</code>,
-	 * <code>LOCATION_LEFT</code>, <code>LOCATION_RIGHT</code> or
-	 * <code>LOCATION_BULB</code>.
+	 * return value will be one of <code>net.sf.jasperreports.charts.type.ValueLocationEnum.NONE</code>,
+	 * <code>net.sf.jasperreports.charts.type.ValueLocationEnum.LEFT</code>, <code>net.sf.jasperreports.charts.type.ValueLocationEnum.RIGHT</code> or
+	 * <code>net.sf.jasperreports.charts.type.ValueLocationEnum.BULB</code>.
 	 *
 	 * @return the location where the value of the thermometer will be shown
 	 */
-	public Byte getValueLocationByte();
+	public ValueLocationEnum getValueLocationObject();
 
 	/**
 	 * Returns the color of the "mercury" in the thermometer when the value is

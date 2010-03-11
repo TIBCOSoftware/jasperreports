@@ -30,6 +30,7 @@ import java.io.ObjectInputStream;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.ValueLocationEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -71,7 +72,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	/**
 	 * Specifies where the textual display of the value should be shown.
 	 */
-	protected Byte valueLocationByte = null;
+	protected ValueLocationEnum valueLocationObject = null;
 
 	/**
 	 * The default color to use for the mercury in the thermometer.
@@ -131,7 +132,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 
 		showValueLines = thermoPlot.isShowValueLines();
 
-		valueLocationByte = thermoPlot.getValueLocationByte();
+		valueLocationObject = thermoPlot.getValueLocationObject();
 
 		mercuryColor = thermoPlot.getMercuryColor();
 
@@ -168,19 +169,27 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getValueLocationByte()}
+	 * @deprecated Replaced by {@link #getValueLocationObject()}
 	 */
 	public byte getValueLocation()
 	{
-		return valueLocationByte == null ? JRThermometerPlot.LOCATION_BULB : valueLocationByte.byteValue();
+		return getValueLocationObject() == null ? ValueLocationEnum.BULB.getValue() : getValueLocationObject().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getValueLocationObject()}
+	 */
+	public Byte getValueLocationByte()
+	{
+		return getValueLocationObject().getValueByte();
 	}
 
 	/**
 	 *
 	 */
-	public Byte getValueLocationByte()
+	public ValueLocationEnum getValueLocationObject()
 	{
-		return valueLocationByte;
+		return valueLocationObject;
 	}
 
 	/**
@@ -262,7 +271,9 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	 * This field is only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
-	private byte valueLocation = JRThermometerPlot.LOCATION_BULB;
+	private byte valueLocation = ValueLocationEnum.BULB.getValue();
+	private Byte valueLocationByte = null;
+
 
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
@@ -271,7 +282,12 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
-			valueLocationByte = new Byte(valueLocation);
+			valueLocationObject = ValueLocationEnum.getByValue(valueLocation);
+		}
+		else if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
+		{
+			valueLocationObject = ValueLocationEnum.getByValue(valueLocationByte);
+			valueLocationByte = null;
 		}
 	}
 	
