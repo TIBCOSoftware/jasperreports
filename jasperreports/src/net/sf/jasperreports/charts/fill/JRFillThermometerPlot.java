@@ -23,13 +23,14 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.ValueLocationEnum;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-
-import java.awt.Color;
 
 /**
  * @author Barry Klawans (bklawans@users.sourceforge.net)
@@ -74,19 +75,27 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getValueLocationByte()}
+	 * @deprecated Replaced by {@link #getValueLocationObject()}
 	 */
 	public byte getValueLocation()
 	{
-		return ((JRThermometerPlot)parent).getValueLocation();
+		return getValueLocationObject().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getValueLocationObject()}
+	 */
+	public Byte getValueLocationByte()
+	{
+		return getValueLocationObject().getValueByte();
 	}
 
 	/**
 	 *
 	 */
-	public Byte getValueLocationByte()
+	public ValueLocationEnum getValueLocationObject()
 	{
-		return ((JRThermometerPlot)parent).getValueLocationByte();
+		return ((JRThermometerPlot)parent).getValueLocationObject();
 	}
 
 	/**

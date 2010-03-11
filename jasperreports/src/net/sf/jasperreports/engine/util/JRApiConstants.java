@@ -38,28 +38,6 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
  */
 public class JRApiConstants
 {
-	private static Map thermometerValueLocationMap = null;
-
-	public static Map getThermometerValueLocationMap()
-	{
-		if (thermometerValueLocationMap == null)
-		{
-			Map map = new HashMap(11);
-			map.put(new Byte(JRThermometerPlot.LOCATION_NONE), 	"JRThermometerPlot.LOCATION_NONE");
-			map.put(new Byte(JRThermometerPlot.LOCATION_LEFT), 	"JRThermometerPlot.LOCATION_LEFT");
-			map.put(new Byte(JRThermometerPlot.LOCATION_RIGHT), "JRThermometerPlot.LOCATION_RIGHT");
-			map.put(new Byte(JRThermometerPlot.LOCATION_BULB), 	"JRThermometerPlot.LOCATION_BULB");
-			thermometerValueLocationMap = Collections.unmodifiableMap(map);
-		}
-
-		return thermometerValueLocationMap;
-	}
-
-	public static String getThermometerValueLocation(Byte key)
-	{
-		return (String)getThermometerValueLocationMap().get(key);
-	}
-	
 	private static Map axisPositionMap = null;
 
 	public static Map getAxisPositionMap()
@@ -78,13 +56,6 @@ public class JRApiConstants
 	public static String getAxisPosition(Byte key)
 	{
 		return (String)getAxisPositionMap().get(key);
-	}
-	
-	public static String getBooleanText(Boolean key)
-	{
-		return key == null 
-			? null 
-			: (key.booleanValue() ? "Boolean.TRUE" : "Boolean.FALSE");
 	}
 	
 	
