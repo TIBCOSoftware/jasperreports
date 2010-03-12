@@ -89,7 +89,7 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue imp
 	/**
 	 * Sets the calculation type.
 	 * 
-	 * @param calculation the calculation type
+	 * @param calculationValue the calculation type
 	 * @see net.sf.jasperreports.engine.JRSubreportReturnValue#getCalculation()
 	 */
 	public void setCalculation(CalculationEnum calculationValue)

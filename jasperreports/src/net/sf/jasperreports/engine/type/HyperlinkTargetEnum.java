@@ -60,7 +60,7 @@ public enum HyperlinkTargetEnum implements JREnum
 	/**
 	 * Custom hyperlink target name.
 	 * <p>
-	 * The specific target name is determined by {@link #getLinkTarget() getLinkTarget()}.
+	 * The specific target name is determined by {@link JRHyperlink#getLinkTarget() getLinkTarget()}.
 	 * </p>
 	 */
 	CUSTOM((byte)5, "Custom");

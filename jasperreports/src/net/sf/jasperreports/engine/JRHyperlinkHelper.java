@@ -295,7 +295,7 @@ public class JRHyperlinkHelper
 	 * Decides whether a hyperlink is empty or not.
 	 * <p>
 	 * The hyperlink is considered empty when it's <code>null</code> or when
-	 * its type is {@link HyperlinkTypeEnum.NONE NONE}
+	 * its type is {@link HyperlinkTypeEnum#NONE NONE}
 	 * and it doesn't include a tooltip expression
 	 * </p>
 	 * @param hyperlink the hyperlink

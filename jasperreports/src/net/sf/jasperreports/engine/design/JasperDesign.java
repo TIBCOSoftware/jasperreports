@@ -1322,7 +1322,7 @@ public class JasperDesign extends JRBaseReport
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #setSectionOrigin(JRBand, BandTypeEnum)}.
+	 * @deprecated Replaced by {@link #setSectionOrigin(JRSection, BandTypeEnum)}.
 	 */
 	protected void setSectionOrigin(JRSection section, byte type)
 	{
