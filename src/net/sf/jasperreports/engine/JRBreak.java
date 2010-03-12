@@ -47,12 +47,12 @@ public interface JRBreak extends JRElement
 
 
 	/**
-	 * @deprecated Replaced by {@link getTypeValue()}.
+	 * @deprecated Replaced by {@link #getTypeValue()}.
 	 */
 	public byte getType();
 
 	/**
-	 * @deprecated Replaced by {@link setType(BreakTypeEnum)}.
+	 * @deprecated Replaced by {@link #setType(BreakTypeEnum)}.
 	 */
 	public void setType(byte type);
 

@@ -34,22 +34,22 @@ public interface JRCommonImage extends JRCommonGraphicElement, JRBoxContainer
 {
 
 	/**
-	 * @deprecated Replaced by {@link getScaleImageValue()}.
+	 * @deprecated Replaced by {@link #getScaleImageValue()}.
 	 */
 	public byte getScaleImage();
 	
 	/**
-	 * @deprecated Replaced by {@link getOwnScaleImageValue()}.
+	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
 	 */
 	public Byte getOwnScaleImage();
 	
 	/**
-	 * @deprecated Replaced by {@link setScaleImage(ScaleImageEnum)}.
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
 	 */
 	public void setScaleImage(byte scaleImage);
 		
 	/**
-	 * @deprecated Replaced by {@link setScaleImage(ScaleImageEnum)}.
+	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
 	 */
 	public void setScaleImage(Byte scaleImage);
 

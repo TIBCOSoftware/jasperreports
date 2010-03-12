@@ -285,13 +285,13 @@ public interface JRCrosstab extends JRElement
 	
 	
 	/**
-	 * @deprecated Replaced by {@link getRunDirectionValue()}.
+	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
 	 */
 	public byte getRunDirection();
 	
 	
 	/**
-	 * @deprecated Replaced by {@link setRunDirection(RunDirectionEnum)}.
+	 * @deprecated Replaced by {@link #setRunDirection(RunDirectionEnum)}.
 	 */
 	public void setRunDirection(byte direction);
 

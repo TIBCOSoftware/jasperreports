@@ -35,12 +35,12 @@ public interface JRPrintLine extends JRPrintGraphicElement
 
 
 	/**
-	 * @deprecated Replaced by {@link getDirectionValue()}.
+	 * @deprecated Replaced by {@link #getDirectionValue()}.
 	 */
 	public byte getDirection();
 
 	/**
-	 * @deprecated Replaced by {@link setDirection(LineDirectionEnum)}.
+	 * @deprecated Replaced by {@link #setDirection(LineDirectionEnum)}.
 	 */
 	public void setDirection(byte direction);
 

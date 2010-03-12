@@ -42,22 +42,22 @@ public interface JRCommonGraphicElement extends JRCommonElement, JRPenContainer
 	public JRPen getLinePen();
 
 	/**
-	 * @deprecated Replaced by {@link getFillValue()}.
+	 * @deprecated Replaced by {@link #getFillValue()}.
 	 */
 	public byte getFill();
 
 	/**
-	 * @deprecated Replaced by {@link getOwnFillValue()}.
+	 * @deprecated Replaced by {@link #getOwnFillValue()}.
 	 */
 	public Byte getOwnFill();
 	
 	/**
-	 * @deprecated Replaced by {@link setFill(FillEnum)}.
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}.
 	 */
 	public void setFill(byte fill);
 	
 	/**
-	 * @deprecated Replaced by {@link setFill(FillEnum)}.
+	 * @deprecated Replaced by {@link #setFill(FillEnum)}.
 	 */
 	public void setFill(Byte fill);
 

@@ -174,17 +174,17 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setTextAlignment(byte horizontalAlignment);
 		
 	/**
-	 * @deprecated Replaced by {@link getOwnRotationValue()}.
+	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
 	 */
 	public Byte getOwnRotation();
 	
 	/**
-	 * @deprecated Replaced by {@link setRotation(RotationEnum)}.
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
 	 */
 	public void setRotation(byte rotation);
 		
 	/**
-	 * @deprecated Replaced by {@link setRotation(RotationEnum)}.
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
 	 */
 	public void setRotation(Byte rotation);
 	
@@ -201,12 +201,12 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setRotation(RotationEnum rotationEnum);
 	
 	/**
-	 * @deprecated Replaced by {@link getRunDirectionValue()}.
+	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
 	 */
 	public byte getRunDirection();
 		
 	/**
-	 * @deprecated Replaced by {@link setRunDirection(RunDirectionEnum)}.
+	 * @deprecated Replaced by {@link #setRunDirection(RunDirectionEnum)}.
 	 */
 	public void setRunDirection(byte rotation);
 		
@@ -233,17 +233,17 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setTextHeight(float textHeight);
 		
 	/**
-	 * @deprecated Replaced by {@link getOwnLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
 	 */
 	public Byte getOwnLineSpacing();
 		
 	/**
-	 * @deprecated Replaced by {@link setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing);
 		
 	/**
-	 * @deprecated Replaced by {@link setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing);
 		

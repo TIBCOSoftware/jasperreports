@@ -98,7 +98,7 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 	/**
 	 * Sets the position of the total row/column.
 	 * 
-	 * @param totalPosition the position of the total row/column
+	 * @param totalPositionValue the position of the total row/column
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabGroup#getTotalPositionValue()
 	 */
 	public void setTotalPosition(CrosstabTotalPositionEnum totalPositionValue)

@@ -203,12 +203,12 @@ public interface JRVariable extends JRCloneable
 	public String getIncrementerFactoryClassName();
 		
 	/**
-	 * @deprecated Replaced by {@link getResetTypeValue()}.
+	 * @deprecated Replaced by {@link #getResetTypeValue()}.
 	 */
 	public byte getResetType();
 		
 	/**
-	 * @deprecated Replaced by {@link getIncrementTypeValue()}.
+	 * @deprecated Replaced by {@link #getIncrementTypeValue()}.
 	 */
 	public byte getIncrementType();
 	
@@ -225,7 +225,7 @@ public interface JRVariable extends JRCloneable
 	public IncrementTypeEnum getIncrementTypeValue();
 	
 	/**
-	 * @deprecated Replaced by {@link getCalculationValue()}.
+	 * @deprecated Replaced by {@link #getCalculationValue()}.
 	 */
 	public byte getCalculation();
 	
