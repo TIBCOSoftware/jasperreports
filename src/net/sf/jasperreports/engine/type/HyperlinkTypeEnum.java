@@ -80,7 +80,7 @@ public enum HyperlinkTypeEnum implements JREnum
 	/**
 	 * Custom hyperlink type.
 	 * <p>
-	 * The specific type is determined by {@link #getLinkType() getLinkType()}.
+	 * The specific type is determined by {@link JRHyperlink#getLinkType() getLinkType()}.
 	 */
 	CUSTOM((byte)7, "Custom");
 

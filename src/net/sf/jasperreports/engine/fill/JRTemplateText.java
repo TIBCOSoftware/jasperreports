@@ -388,7 +388,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * Sets the text rotation.
 	 * 
-	 * @param rotation one of
+	 * @param rotationValue one of
 	 * 	<ul>
 	 * 		<li>{@link RotationEnum#NONE}</li>
 	 * 		<li>{@link RotationEnum#LEFT}</li>
@@ -458,7 +458,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 * to be set.  In this case, the line spacing is inherited from the report
 	 * style associated with the template. 
 	 * 
-	 * @param lineSpacing a <code>null</code> value or one of 
+	 * @param lineSpacingValue a <code>null</code> value or one of 
 	 * 	<ul>
 	 * 		<li>{@link LineSpacingEnum#SINGLE}</li>
 	 * 		<li>{@link LineSpacingEnum#ONE_AND_HALF}</li>

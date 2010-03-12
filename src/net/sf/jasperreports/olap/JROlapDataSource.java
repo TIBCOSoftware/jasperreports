@@ -223,7 +223,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
     /**
      * Convert the value of the data type of the Field
-     * @param JRField the Field whose type has to be converted
+     * @param jrField the Field whose type has to be converted
      * @return value of field in the requested type
      *
      */

@@ -158,7 +158,7 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setHyperlinkTypeValue(HyperlinkTypeEnum)}.
+	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
 	 */
 	public void setHyperlinkType(byte hyperlinkType)
 	{

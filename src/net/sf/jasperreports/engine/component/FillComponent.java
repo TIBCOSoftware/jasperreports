@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.component;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * A component handler used while filling the report.
@@ -60,7 +61,7 @@ public interface FillComponent
 	 * <p>
 	 * If the component needs to delay the evaluation of some of its
 	 * expressions, it would call
-	 * {@link FillContext#registerDelayedEvaluation(JRPrintElement, byte, String)}
+	 * {@link FillContext#registerDelayedEvaluation(JRPrintElement, EvaluationTimeEnum, String)}
 	 * to register a delayed evaluation print element, and perform the delayed
 	 * evaluations on {@link #evaluateDelayedElement(JRPrintElement, byte)}.
 	 * 

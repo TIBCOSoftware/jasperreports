@@ -202,7 +202,7 @@ public class JRDesignGenericElement extends JRDesignElement implements
 	 * <p>
 	 * The default evaluation time is {@link EvaluationTimeEnum#NOW}.
 	 * 
-	 * @param evaluationTime the element's evaluation time, one of
+	 * @param evaluationTimeValue the element's evaluation time, one of
 	 * <ol>
 	 * 	<li>{@link EvaluationTimeEnum#NOW}
 	 * 	<li>{@link EvaluationTimeEnum#BAND}
