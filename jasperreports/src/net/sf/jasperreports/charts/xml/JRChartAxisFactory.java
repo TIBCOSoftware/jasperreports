@@ -24,10 +24,10 @@
 package	net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.design.JRDesignChartAxis;
+import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -49,16 +49,12 @@ public class JRChartAxisFactory	extends	JRBaseFactory
 		JRDesignChart parentChart =	(JRDesignChart)digester.peek(1);
 		JRDesignChartAxis axis = new JRDesignChartAxis(parentChart);
 
-		String posAttr = atts.getValue(ATTRIBUTE_position);
-		Byte position =	(Byte)JRXmlConstants.getAxisPositionMap().get(posAttr);
-//		if (position ==	null)
-//		{
-//			throw new JRException("Invalid axis	position: "	+ posAttr);
-//		}
-//		else
-//		{
+		AxisPositionEnum position = AxisPositionEnum.getByName(atts.getValue(ATTRIBUTE_position));
+		
+		if (position !=	null)
+		{
 			axis.setPosition(position);
-//		}
+		}
 
 		return axis;
 	}

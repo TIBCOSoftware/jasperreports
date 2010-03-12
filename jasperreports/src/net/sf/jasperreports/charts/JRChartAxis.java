@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.charts;
 
+import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRCloneable;
 
@@ -40,28 +41,31 @@ import net.sf.jasperreports.engine.JRCloneable;
 public interface JRChartAxis extends JRCloneable
 {
 	/**
-	 * Position the axis to the left of a VERTICAL chart or on the top
-	 * of a HORIZONTAL chart.
+	 * @deprecated Replaced by {@link AxisPositionEnum#LEFT_OR_TOP}
 	 */
 	public static final byte POSITION_LEFT_OR_TOP = 1;
 
 	/**
-	 * Position the axis to the right of a VERTICAL chart or on the bottom
-	 * of a HORIZONTAL chart.
+	 * @deprecated Replaced by {@link AxisPositionEnum#LEFT_OR_TOP}
 	 */
 	public static final byte POSITION_RIGHT_OR_BOTTOM = 2;
 
 	/**
-	 * @deprecated Replaced by {@link #getPositionByte()}
+	 * @deprecated Replaced by {@link #getPositionValue()}
 	 */
 	public byte getPosition();
 
 	/**
-	 * Returns the position of this axis.
+	 * @deprecated Replaced by {@link #getPositionValue()}
+	 */
+	public Byte getPositionByte();
+
+	/**
+	 * Gets the position of this axis.
 	 *
 	 * @return the position of this axis
 	 */
-	public Byte getPositionByte();
+	public AxisPositionEnum getPositionValue();
 
 
 	/**

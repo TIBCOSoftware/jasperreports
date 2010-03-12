@@ -23,12 +23,6 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import net.sf.jasperreports.charts.JRChartAxis;
-import net.sf.jasperreports.charts.JRThermometerPlot;
 
 
 
@@ -38,25 +32,4 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
  */
 public class JRApiConstants
 {
-	private static Map axisPositionMap = null;
-
-	public static Map getAxisPositionMap()
-	{
-		 if (axisPositionMap == null)
-		 {
-			Map map = new HashMap(6);
-			map.put(new Byte(JRChartAxis.POSITION_LEFT_OR_TOP), 	"JRChartAxis.POSITION_LEFT_OR_TOP");
-			map.put(new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM), "JRChartAxis.POSITION_RIGHT_OR_BOTTOM");
-			axisPositionMap = Collections.unmodifiableMap(map);
-		 }
-
-		 return axisPositionMap;
-	}
-
-	public static String getAxisPosition(Byte key)
-	{
-		return (String)getAxisPositionMap().get(key);
-	}
-	
-	
 }

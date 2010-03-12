@@ -25,6 +25,7 @@ package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.base.JRBaseChartAxis;
+import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.design.JRDesignChart;
@@ -62,11 +63,19 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setPosition(Byte)}
+	 * @deprecated Replaced by {@link #setPosition(AxisPositionEnum)}
 	 */
 	public void setPosition(byte position)
 	{
-		setPosition(new Byte(position));
+		setPosition(AxisPositionEnum.getByValue(position));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setPosition(AxisPositionEnum)}
+	 */
+	public void setPosition(Byte position)
+	{
+		setPosition(AxisPositionEnum.getByValue(position));
 	}
 
 	/**
@@ -75,11 +84,11 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	 *
 	 * @param position the position of this axis
 	 */
-	public void setPosition(Byte position)
+	public void setPosition(AxisPositionEnum positionValue)
 	{
-		Byte old = this.positionByte;
-		this.positionByte = position;
-		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.positionByte);
+		AxisPositionEnum old = this.positionValue;
+		this.positionValue = positionValue;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.positionValue);
 	}
 
 	/**
