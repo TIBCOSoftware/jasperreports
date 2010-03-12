@@ -40,22 +40,22 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer
 	public static final String MARKUP_RTF = "rtf";
 
 	/**
-	 * @deprecated Replaced by {@link getRotationValue()}.
+	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
 	byte getRotation();
 	
 	/**
-	 * @deprecated Replaced by {@link getOwnRotationValue()}.
+	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
 	 */
 	public Byte getOwnRotation();
 	
 	/**
-	 * @deprecated Replaced by {@link setRotation(RotationEnum)}.
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
 	 */
 	public void setRotation(byte rotation);
 		
 	/**
-	 * @deprecated Replaced by {@link setRotation(RotationEnum)}.
+	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
 	 */
 	public void setRotation(Byte rotation);
 
@@ -78,22 +78,22 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer
 	public void setRotation(RotationEnum rotationEnum);
 	
 	/**
-	 * @deprecated Replaced by {@link getLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
 	 */
 	byte getLineSpacing();
 
 	/**
-	 * @deprecated Replaced by {@link getOwnLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
 	 */
 	public Byte getOwnLineSpacing();
 
 	/**
-	 * @deprecated Replaced by {@link setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing);
 		
 	/**
-	 * @deprecated Replaced by {@link setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing);
 	

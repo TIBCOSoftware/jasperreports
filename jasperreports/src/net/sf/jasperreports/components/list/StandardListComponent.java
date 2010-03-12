@@ -115,7 +115,7 @@ public class StandardListComponent implements Serializable, ListComponent
 	}
 
 	/**
-	 * @deprecated Replaced by {@link getPrintOrderValue()}.
+	 * @deprecated Replaced by {@link #getPrintOrderValue()}.
 	 */
 	public Byte getPrintOrder()
 	{
@@ -149,7 +149,7 @@ public class StandardListComponent implements Serializable, ListComponent
 	/**
 	 * Sets the list cell print order.
 	 * 
-	 * @param printOrder the cell print oder, null or one of
+	 * @param printOrderValue the cell print oder, null or one of
 	 * <ul>
 	 * <li>{@link PrintOrderEnum#VERTICAL}</li>
 	 * <li>{@link PrintOrderEnum#HORIZONTAL}</li>

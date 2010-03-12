@@ -132,12 +132,12 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	public void setLazy(boolean isLazy);
 
 	/**
-	 * @deprecated Replaced by {@link getOnErrorTypeValue()}.
+	 * @deprecated Replaced by {@link #getOnErrorTypeValue()}.
 	 */
 	public byte getOnErrorType();
 
 	/**
-	 * @deprecated Replaced by {@link setOnErrorType(OnErrorTypeEnum)}.
+	 * @deprecated Replaced by {@link #setOnErrorType(OnErrorTypeEnum)}.
 	 */
 	public void setOnErrorType(byte onErrorType);
 

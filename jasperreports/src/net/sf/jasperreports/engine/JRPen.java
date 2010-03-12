@@ -87,22 +87,22 @@ public interface JRPen
 	public void setLineWidth(Float lineWidth);
 
 	/**
-	 * @deprecated Replaced by {@link getLineStyleValue()}.
+	 * @deprecated Replaced by {@link #getLineStyleValue()}.
 	 */
 	public Byte getLineStyle();
 
 	/**
-	 * @deprecated Replaced by {@link getOwnLineStyleValue()}.
+	 * @deprecated Replaced by {@link #getOwnLineStyleValue()}.
 	 */
 	public Byte getOwnLineStyle();
 
 	/**
-	 * @deprecated Replaced by {@link setLineStyle(LineStyleEnum)}.
+	 * @deprecated Replaced by {@link #setLineStyle(LineStyleEnum)}.
 	 */
 	public void setLineStyle(byte lineStyle);
 
 	/**
-	 * @deprecated Replaced by {@link setLineStyle(LineStyleEnum)}.
+	 * @deprecated Replaced by {@link #setLineStyle(LineStyleEnum)}.
 	 */
 	public void setLineStyle(Byte lineStyle);
 

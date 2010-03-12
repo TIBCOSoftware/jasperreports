@@ -82,7 +82,7 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	 * Sets the position of this axis' value line relative to the multiple
 	 * axis chart.
 	 *
-	 * @param position the position of this axis
+	 * @param positionValue the position of this axis
 	 */
 	public void setPosition(AxisPositionEnum positionValue)
 	{

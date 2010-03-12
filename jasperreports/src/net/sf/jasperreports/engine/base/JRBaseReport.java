@@ -288,7 +288,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	/**
-	 * @deprecated Replaced by {@link getPrintOrderValue()}.
+	 * @deprecated Replaced by {@link #getPrintOrderValue()}.
 	 */
 	public byte getPrintOrder()
 	{

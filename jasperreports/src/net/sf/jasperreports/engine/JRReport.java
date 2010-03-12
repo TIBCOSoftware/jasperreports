@@ -145,7 +145,7 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public int getColumnCount();
 
 	/**
-	 * @deprecated Replaced by {@link getPrintOrderValue()}.
+	 * @deprecated Replaced by {@link #getPrintOrderValue()}.
 	 */
 	public byte getPrintOrder();
 	
@@ -166,7 +166,7 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public int getPageHeight();
 
 	/**
-	 * @deprecated Replaced by {@link getOrientationValue()}.
+	 * @deprecated Replaced by {@link #getOrientationValue()}.
 	 */
 	public byte getOrientation();
 

@@ -135,7 +135,7 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	/**
 	 * Sets where to show the textual display of the value.
 	 *
-	 * @param valueLocation where to show the textual display of the value
+	 * @param valueLocationObject where to show the textual display of the value
 	 */
 	public void setValueLocation(ValueLocationEnum valueLocationObject)
 	{

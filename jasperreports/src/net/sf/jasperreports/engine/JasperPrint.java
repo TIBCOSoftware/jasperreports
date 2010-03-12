@@ -203,7 +203,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 
 
 	/**
-	 * @deprecated Replaced by {@link getOrientationValue()}.
+	 * @deprecated Replaced by {@link #getOrientationValue()}.
 	 */
 	public byte getOrientation()
 	{
@@ -211,7 +211,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link setOrientation(OrientationEnum)}.
+	 * @deprecated Replaced by {@link #setOrientation(OrientationEnum)}.
 	 */
 	public void setOrientation(byte orientation)
 	{
