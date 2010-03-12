@@ -228,11 +228,12 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			String setNextMethod)
 	{
 		digester.addObjectCreate(pattern, DesignCell.class);
-		digester.addSetProperties(pattern);
 		digester.addSetNext(pattern, setNextMethod);
 		
+		digester.addSetProperties(pattern,
+				new String[]{XmlConstants.ATTRIBUTE_style}, 
+				new String[0]);
 		digester.addRule(pattern, new StyleContainerRule());
-		digester.addSetProperties(pattern);
 	}
 
 	protected void addExpressionRules(Digester digester, String expressionPattern,
