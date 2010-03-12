@@ -26,22 +26,22 @@ package net.sf.jasperreports.components.list;
 import java.sql.Connection;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.JRFillDataset;
 import net.sf.jasperreports.engine.fill.JRFillDatasetRun;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillSubreport;
+import net.sf.jasperreports.engine.util.JRReportUtils;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Used to iterate on the list subdataset at fill time.
@@ -74,39 +74,12 @@ public class FillDatasetRun extends JRFillDatasetRun
 			JRFillObjectFactory factory) throws JRException
 	{
 		JasperReport jasperReport = factory.getFiller().getJasperReport();
-		JRDataset reportDataset = findSubdataset(datasetRun, jasperReport);
+		JRDataset reportDataset = JRReportUtils.findSubdataset(datasetRun, jasperReport);
 		JRFillDataset fillDataset = new JRFillDataset(factory.getFiller(), reportDataset, factory);
 		fillDataset.createCalculator(jasperReport);
 		return fillDataset;
 	}
 	
-	private static JRDataset findSubdataset(JRDatasetRun datasetRun, 
-			JasperReport report)
-	{
-		JRDataset[] datasets = report.getDatasets();
-		JRDataset reportDataset = null;
-		if (datasets != null)
-		{
-			for (int i = 0; i < datasets.length; i++)
-			{
-				if (datasetRun.getDatasetName().equals(
-						datasets[i].getName()))
-				{
-					reportDataset = datasets[i];
-					break;
-				}
-			}
-		}
-		
-		if (reportDataset == null)
-		{
-			throw new JRRuntimeException("Could not find subdataset named \"" 
-					+ datasetRun.getDatasetName() + "\" in report \"" 
-					+ report.getName() + "\"");
-		}
-		return reportDataset;
-	}
-
 	public void evaluate(byte evaluation) throws JRException
 	{
 		if (log.isDebugEnabled())

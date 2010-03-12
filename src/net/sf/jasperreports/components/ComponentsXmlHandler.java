@@ -47,6 +47,11 @@ import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
+import net.sf.jasperreports.components.table.DesignCell;
+import net.sf.jasperreports.components.table.StandardColumn;
+import net.sf.jasperreports.components.table.StandardColumnGroup;
+import net.sf.jasperreports.components.table.StandardTable;
+import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
@@ -58,6 +63,7 @@ import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.xml.StyleContainerRule;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
 import net.sf.jasperreports.engine.xml.XmlConstants;
 
@@ -78,6 +84,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		addListRules(digester);
 		addBarbecueRules(digester);
 		addBarcode4jRules(digester);
+		addTableRules(digester);
 	}
 
 	protected void addListRules(Digester digester)
@@ -193,6 +200,49 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addSetNext(patternExpressionPattern, "setPatternExpression", 
 				JRExpression.class.getName());
 	}
+
+	protected void addTableRules(Digester digester)
+	{
+		String tablePattern = "*/componentElement/table";
+		digester.addObjectCreate(tablePattern, StandardTable.class);
+		
+		String columnPattern = "*/column";
+		digester.addObjectCreate(columnPattern, StandardColumn.class);
+		digester.addSetNext(columnPattern, "addColumn");
+		digester.addSetProperties(columnPattern);
+		addExpressionRules(digester, columnPattern + "/printWhenExpression", 
+				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression");
+		addTableCellRules(digester, columnPattern + "/header", "setHeader");
+		addTableCellRules(digester, columnPattern + "/detailCell", "setDetailCell");
+		
+		String columnGroupPattern = "*/columnGroup";
+		digester.addObjectCreate(columnGroupPattern, StandardColumnGroup.class);
+		digester.addSetNext(columnGroupPattern, "addColumn");
+		digester.addSetProperties(columnGroupPattern);
+		addExpressionRules(digester, columnGroupPattern + "/printWhenExpression", 
+				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression");
+		addTableCellRules(digester, columnGroupPattern + "/header", "setHeader");
+	}
+	
+	protected void addTableCellRules(Digester digester, String pattern, 
+			String setNextMethod)
+	{
+		digester.addObjectCreate(pattern, DesignCell.class);
+		digester.addSetProperties(pattern);
+		digester.addSetNext(pattern, setNextMethod);
+		
+		digester.addRule(pattern, new StyleContainerRule());
+		digester.addSetProperties(pattern);
+	}
+
+	protected void addExpressionRules(Digester digester, String expressionPattern,
+			Class factoryClass, String setterMethod)
+	{
+		digester.addFactoryCreate(expressionPattern, factoryClass);
+		digester.addCallMethod(expressionPattern, "setText", 0);
+		digester.addSetNext(expressionPattern, setterMethod,
+				JRExpression.class.getName());
+	}
 	
 	public void writeToXml(ComponentKey componentKey, Component component,
 			JRXmlWriter reportWriter) throws IOException
@@ -201,6 +251,11 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		{
 			ListComponent list = (ListComponent) component;
 			writeList(list, componentKey, reportWriter);
+		}
+		else if (component instanceof TableComponent)
+		{
+			TableComponent table = (TableComponent) component;
+			writeTable(table, componentKey, reportWriter);
 		}
 		else if (component instanceof BarbecueComponent)
 		{
@@ -272,6 +327,13 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				barcode.getApplicationIdentifierExpression(), false);
 		
 		writer.closeElement();
+	}
+
+	protected void writeTable(TableComponent table, ComponentKey componentKey,
+			JRXmlWriter reportWriter)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -143,13 +143,18 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	{
 	}
 
+	public JRBaseReport(JRReport report, JRExpressionCollector expressionCollector)
+	{
+		this(report, new JRBaseObjectFactory(expressionCollector));
+	}
+	
 	/**
 	 * Constructs a copy of a report.
 	 *
 	 * @param report the original report
 	 * @param expressionCollector expression collector used to provide new expression IDs
 	 */
-	public JRBaseReport(JRReport report, JRExpressionCollector expressionCollector)
+	public JRBaseReport(JRReport report, JRBaseObjectFactory factory)
 	{
 		/*   */
 		name = report.getName();
@@ -183,7 +188,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		}
 
 		/*   */
-		JRBaseObjectFactory factory = new JRBaseObjectFactory(this, expressionCollector);
+		factory.setDefaultStyleProvider(this);
 
 		copyTemplates(report, factory);
 
@@ -259,7 +264,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 
 	public JRBaseReport(JRReport report)
 	{
-		this(report, null);
+		this(report, (JRExpressionCollector) null);
 	}
 
 

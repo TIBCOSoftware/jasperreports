@@ -1120,7 +1120,7 @@ public class JRVerifier
 					}
 				}
 
-				if (!isMainDataset)
+				if (!isMainDataset && !variable.isSystemDefined())
 				{
 					if (resetType == ResetTypeEnum.COLUMN || resetType == ResetTypeEnum.PAGE)
 					{
