@@ -31,10 +31,12 @@ import java.util.Map;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
+import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
+import net.sf.jasperreports.charts.type.ValueLocationEnum;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
@@ -1577,13 +1579,22 @@ public class JRXmlConstants extends XmlConstants
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link AxisPositionEnum#LEFT_OR_TOP#getName()}
 	 */
 	private static final String AXIS_POSITION_LEFT_OR_TOP = "leftOrTop";
+	/**
+	 * @deprecated Replaced by {@link AxisPositionEnum#RIGHT_OR_BOTTOM#getName()}
+	 */
 	private static final String AXIS_POSITION_RIGHT_OR_BOTTOM = "rightOrBottom";
 
+	/**
+	 * @deprecated Replaced by {@link AxisPositionEnum}
+	 */
 	private static Map axisPositionMap = null;
 
+	/**
+	 * @deprecated Replaced by {@link AxisPositionEnum}
+	 */
 	public static Map getAxisPositionMap()
 	{
 		 if (axisPositionMap == null)

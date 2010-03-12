@@ -1902,7 +1902,7 @@ public class JRApiWriter
 		{
 			//TODO:instantiate
 			write( "JRChartAxis " + axisName + " = new JRChartAxis();\n");
-			write( axisName + ".setPosition(new Byte({0}));\n", JRApiConstants.getAxisPosition(chartAxis.getPositionByte()));
+			write( axisName + ".setPosition(new Byte({0}));\n", chartAxis.getPositionValue());
 			// Let the nested chart describe itself
 			writeChartTag( chartAxis.getChart(), axisName +"Chart");
 			write( parentName + ".addAxis(" + axisName + ");\n");

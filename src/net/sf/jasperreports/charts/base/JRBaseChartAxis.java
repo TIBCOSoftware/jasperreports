@@ -28,6 +28,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.charts.JRChartAxis;
+import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -45,7 +46,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	/**
 	 * Where to position the axis.
 	 */
-	protected Byte positionByte = null;
+	protected AxisPositionEnum positionValue = null;
 
 	/**
 	 * The Chart object containing the dataset and plot to use with this axis.
@@ -65,16 +66,24 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	{
 		factory.put(axis, this);
 
-		this.positionByte = axis.getPositionByte();
+		this.positionValue = axis.getPositionValue();
 		this.chart = (JRChart)factory.getVisitResult(axis.getChart());
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getPositionByte()}
+	 * @deprecated Replaced by {@link #getPositionValue()}
 	 */
 	public byte getPosition()
 	{
-		return positionByte == null ? POSITION_LEFT_OR_TOP : positionByte.byteValue();
+		return getPositionValue() == null ?AxisPositionEnum.LEFT_OR_TOP.getValue() : getPositionValue().getValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getPositionValue()}
+	 */
+	public Byte getPositionByte()
+	{
+		return getPositionValue().getValueByte();
 	}
 
 	/**
@@ -82,9 +91,9 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	 *
 	 * @return the position of this axis
 	 */
-	public Byte getPositionByte()
+	public AxisPositionEnum getPositionValue()
 	{
-		return positionByte;
+		return positionValue;
 	}
 
 	/**
@@ -122,14 +131,23 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
-	private byte position = POSITION_LEFT_OR_TOP;
+	private byte position = AxisPositionEnum.LEFT_OR_TOP.getValue();
+	private Byte positionByte = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
-			positionByte = new Byte(position);
+			if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
+			{
+				positionValue = AxisPositionEnum.getByValue(position);
+			}
+			else
+			{
+				positionValue = AxisPositionEnum.getByValue(positionByte);
+				positionByte = null;
+			}
 		}
 	}
 	

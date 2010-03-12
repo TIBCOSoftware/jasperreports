@@ -24,6 +24,7 @@
 package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.JRChartAxis;
+import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.fill.JRFillChart;
@@ -78,16 +79,24 @@ public class JRFillChartAxis implements JRChartAxis
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getPositionByte()}
+	 * @deprecated Replaced by {@link #getPositionValue()}
 	 */
 	public byte getPosition()
 	{
-		return parent.getPosition();
+		return getPositionValue().getValue();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getPositionValue()}
+	 */
 	public Byte getPositionByte()
 	{
-		return parent.getPositionByte();
+		return getPositionValue().getValueByte();
+	}
+
+	public AxisPositionEnum getPositionValue()
+	{
+		return parent.getPositionValue();
 	}
 
 	/**

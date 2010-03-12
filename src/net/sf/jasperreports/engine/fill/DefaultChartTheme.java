@@ -57,6 +57,7 @@ import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
@@ -1953,7 +1954,7 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected AxisLocation getChartAxisLocation(JRChartAxis chartAxis)
 	{
-		return chartAxis.getPositionByte() != null && chartAxis.getPositionByte().byteValue() == JRChartAxis.POSITION_RIGHT_OR_BOTTOM
+		return chartAxis.getPositionValue() != null && chartAxis.getPositionValue() == AxisPositionEnum.RIGHT_OR_BOTTOM
 				? AxisLocation.BOTTOM_OR_RIGHT 
 				: AxisLocation.TOP_OR_LEFT;
 	}

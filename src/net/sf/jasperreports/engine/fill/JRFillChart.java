@@ -38,7 +38,6 @@ import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
-import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRGanttDataset;
 import net.sf.jasperreports.charts.JRHighLowDataset;
@@ -67,6 +66,7 @@ import net.sf.jasperreports.charts.fill.JRFillTimePeriodDataset;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyzDataset;
+import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.CategoryChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
@@ -1853,7 +1853,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 	protected AxisLocation getChartAxisLocation(JRFillChartAxis chartAxis)
 	{
-		return chartAxis.getPositionByte() != null && chartAxis.getPositionByte().byteValue() == JRChartAxis.POSITION_RIGHT_OR_BOTTOM
+		return chartAxis.getPositionValue() != null && chartAxis.getPositionValue() == AxisPositionEnum.RIGHT_OR_BOTTOM
 				? AxisLocation.BOTTOM_OR_RIGHT 
 				: AxisLocation.TOP_OR_LEFT;
 	}

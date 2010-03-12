@@ -1612,7 +1612,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeChartAxis(JRChartAxis chartAxis) throws IOException
 	{
 		writer.startElement(JRChartAxisFactory.ELEMENT_axis);
-		writer.addAttribute(JRChartAxisFactory.ATTRIBUTE_position, chartAxis.getPositionByte(), JRXmlConstants.getAxisPositionMap());
+		writer.addAttribute(JRChartAxisFactory.ATTRIBUTE_position, chartAxis.getPositionValue());
 
 		// Let the nested chart describe itself
 		writeChartTag(chartAxis.getChart());
