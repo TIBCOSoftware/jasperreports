@@ -144,10 +144,13 @@ public class FillTable extends BaseFillComponent
 		printFrame.setHeight(fillSubreport.getStretchHeight());//TODO?
 		
 		Collection elements = fillSubreport.getPrintElements();
-		for (Iterator it = elements.iterator(); it.hasNext();)
+		if (elements != null)
 		{
-			JRPrintElement element = (JRPrintElement) it.next();
-			printFrame.addElement(element);
+			for (Iterator it = elements.iterator(); it.hasNext();)
+			{
+				JRPrintElement element = (JRPrintElement) it.next();
+				printFrame.addElement(element);
+			}
 		}
 		
 		return printFrame;
