@@ -29,6 +29,7 @@ import java.util.List;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
+import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.ColumnVisitor;
 import net.sf.jasperreports.components.table.DeepColumnVisitor;
 import net.sf.jasperreports.components.table.TableComponent;
@@ -62,6 +63,7 @@ import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
+import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
@@ -79,6 +81,7 @@ public class TableReport implements JRReport
 	private final TableComponent table;
 	private final JRDataset mainDataset;
 	private final JRSection detail;
+	private final JRBand title;
 	
 	public TableReport(TableComponent table, FillContext fillContext, JRDataset mainDataset)
 	{
@@ -88,6 +91,7 @@ public class TableReport implements JRReport
 		this.mainDataset = mainDataset;
 		
 		this.detail = wrapBand(createDetailBand(), new JROrigin(BandTypeEnum.DETAIL));
+		this.title = createTitleBand();
 	}
 
 	protected JRBand createDetailBand()
@@ -131,6 +135,62 @@ public class TableReport implements JRReport
 		return detailBand;
 	}
 
+	protected JRBand createTitleBand()
+	{
+		final JRDesignBand titleBand = new JRDesignBand();
+		titleBand.setSplitType(SplitTypeEnum.PREVENT);
+		
+		//TODO element groups
+		ColumnVisitor<Void> visitor = new DeepColumnVisitor<Void>()
+		{
+			int xOffset = 0;
+			int yOffset = 0;
+			
+			public Void visitColumn(Column column)
+			{
+				Cell header = column.getHeader();
+				
+				if (titleBand.getHeight() < header.getHeight() + yOffset)
+				{
+					titleBand.setHeight(header.getHeight() + yOffset);
+				}
+
+				JRDesignFrame cellFrame = createCellFrame(header, xOffset, yOffset);
+				titleBand.addElement(cellFrame);
+				
+				xOffset += header.getWidth();
+				
+				return null;
+			}
+
+			@Override
+			public Void visitColumnGroup(ColumnGroup columnGroup)
+			{
+				Cell header = columnGroup.getHeader();
+				JRDesignFrame cellFrame = createCellFrame(header, xOffset, yOffset);
+				titleBand.addElement(cellFrame);
+				
+				yOffset += header.getHeight();
+				super.visitColumnGroup(columnGroup);
+				yOffset -= header.getHeight();
+				return null;
+			}
+
+			@Override
+			protected Void combineSubResults(List<Void> results)
+			{
+				return null;
+			}
+		};
+		
+		for (BaseColumn column : table.getColumns())
+		{
+			column.visitColumn(visitor);
+		}
+		
+		return titleBand;
+	}
+
 	protected JRDesignFrame createCellFrame(Cell cell, int x, int y)
 	{
 		JRDesignFrame frame = new JRDesignFrame(this);
@@ -138,6 +198,7 @@ public class TableReport implements JRReport
 		frame.setY(y);
 		frame.setWidth(cell.getWidth());
 		frame.setHeight(cell.getHeight());
+		frame.setStretchType(StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT);
 		
 		frame.setStyle(cell.getStyle());
 		frame.setStyleNameReference(cell.getStyleNameReference());
@@ -383,7 +444,7 @@ public class TableReport implements JRReport
 
 	public JRBand getTitle()
 	{
-		return null;
+		return title;
 	}
 
 	public int getTopMargin()
