@@ -440,9 +440,11 @@ public class JRExpressionCollector
 	}
 
 	/**
-	 *
+	 * Collects expressions used in a style definition.
+	 * 
+	 * @param style the style to collect expressions from
 	 */
-	private void collect(JRStyle style)
+	public void collect(JRStyle style)
 	{
 		if (style != null && collectedStyles.add(style))
 		{

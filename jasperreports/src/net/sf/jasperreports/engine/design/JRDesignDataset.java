@@ -196,17 +196,11 @@ public class JRDesignDataset extends JRBaseDataset
 
 		try 
 		{
-			if (isMain)
-			{
-				addVariable(createPageNumberVariable());
-				addVariable(createColumnNumberVariable());
-			}
+			addVariable(createPageNumberVariable());
+			addVariable(createColumnNumberVariable());
 			addVariable(createReportCountVariable());
-			if (isMain)
-			{
-				addVariable(createPageCountVariable());
-				addVariable(createColumnCountVariable());
-			}
+			addVariable(createPageCountVariable());
+			addVariable(createColumnCountVariable());
 		}
 		catch (JRException e)
 		{

@@ -37,6 +37,8 @@ import net.sf.jasperreports.components.list.FillListFactory;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListComponentCompiler;
 import net.sf.jasperreports.components.list.ListDesignConverter;
+import net.sf.jasperreports.components.table.FillTableFactory;
+import net.sf.jasperreports.components.table.TableCompiler;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentManager;
@@ -68,6 +70,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		"net/sf/jasperreports/components/components.xsd";
 	
 	protected static final String LIST_COMPONENT_NAME = "list";
+	protected static final String TABLE_COMPONENT_NAME = "table";
 	protected static final String BARBECUE_COMPONENT_NAME = "barbecue";
 	protected static final String[] BARCODE4J_COMPONENT_NAMES = 
 		new String[]{"Codabar", "Code128", "EAN128", "DataMatrix", "Code39", "Interleaved2Of5",
@@ -97,6 +100,13 @@ public class ComponentsExtensionsRegistryFactory implements
 		listManager.setComponentXmlWriter(xmlHandler);
 		listManager.setComponentFillFactory(new FillListFactory());
 		componentManagers.put(LIST_COMPONENT_NAME, listManager);
+		
+		DefaultComponentManager tableManager = new DefaultComponentManager();
+		tableManager.setDesignConverter(new ListDesignConverter());//TODO
+		tableManager.setComponentCompiler(new TableCompiler());
+		tableManager.setComponentXmlWriter(xmlHandler);
+		tableManager.setComponentFillFactory(new FillTableFactory());
+		componentManagers.put(TABLE_COMPONENT_NAME, tableManager);
 		
 		DefaultComponentManager barbecueManager = new DefaultComponentManager();
 		barbecueManager.setDesignConverter(new BarbecueDesignConverter());

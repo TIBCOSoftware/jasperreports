@@ -191,6 +191,15 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		this.expressionCollector = expressionCollector;
 	}
 
+	protected JRBaseObjectFactory(JRExpressionCollector expressionCollector)
+	{
+		this.expressionCollector = expressionCollector;
+	}
+	
+	public void setDefaultStyleProvider(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		this.defaultStyleProvider = defaultStyleProvider;
+	}
 
 	/**
 	 *

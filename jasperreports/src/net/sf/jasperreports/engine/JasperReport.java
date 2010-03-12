@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.base.JRBaseReport;
 
 
@@ -86,6 +87,21 @@ public class JasperReport extends JRBaseReport
 		this.compileNameSuffix = compileNameSuffix;
 	}
 
+	public JasperReport(
+			JRReport report,
+			String compilerClass, 
+			Serializable compileData,
+			JRBaseObjectFactory factory,
+			String compileNameSuffix
+			)
+	{
+		super(report, factory);
+			
+		this.compilerClass = compilerClass;
+		this.compileData = compileData;
+		this.compileNameSuffix = compileNameSuffix;
+	}
+	
 	/**
 	 * Returns the name of the compiler class used to compile this report.
 	 * <p>
