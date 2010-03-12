@@ -29,6 +29,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -44,6 +47,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.util.JRReportUtils;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * 
@@ -54,6 +58,8 @@ import net.sf.jasperreports.engine.util.JRReportUtils;
 public class FillTable extends BaseFillComponent
 {
 
+	private static final Log log = LogFactory.getLog(FillTable.class);
+	
 	private final TableComponent table;
 	private final JRFillObjectFactory factory;
 	private FillTableSubreport fillSubreport;
@@ -107,6 +113,13 @@ public class FillTable extends BaseFillComponent
 		String tableReportName = JRAbstractCompiler.getUnitName(parentReport, reportSubdataset);
 		TableReportDataset reportDataset = new TableReportDataset(reportSubdataset, tableReportName);
 		TableReport tableReport = new TableReport(table, fillContext, reportDataset);
+		
+		if (log.isDebugEnabled())
+		{
+			String tableReportXml = JRXmlWriter.writeReport(tableReport, "UTF-8");
+			log.debug("Generated table report:\n" + tableReportXml);
+		}
+		
 		return tableReport;
 	}
 
