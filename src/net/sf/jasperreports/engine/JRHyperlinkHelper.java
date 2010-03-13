@@ -37,61 +37,61 @@ public class JRHyperlinkHelper
 {
 	/**
 	 * "None" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_NONE JRHyperlink.HYPERLINK_TYPE_NONE}.
-	 * @deprecated Replaced by {@link HyperlinkTypeEnum#NONE#getName()}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#NONE}.
 	 */
 	public static final String HYPERLINK_TYPE_NONE = HyperlinkTypeEnum.NONE.getName();
 	
 	/**
 	 * "Reference" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_REFERENCE JRHyperlink.HYPERLINK_TYPE_REFERENCE}.
-	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REFERENCE#getName()}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REFERENCE}.
 	 */
 	public static final String HYPERLINK_TYPE_REFERENCE = HyperlinkTypeEnum.REFERENCE.getName();
 	
 	/**
 	 * "LocalAnchor" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_LOCAL_ANCHOR JRHyperlink.HYPERLINK_LOCAL_ANCHOR}.
-	 * @deprecated Replaced by {@link HyperlinkTypeEnum#LOCAL_ANCHOR#getName()}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#LOCAL_ANCHOR}.
 	 */
 	public static final String HYPERLINK_TYPE_LOCAL_ANCHOR = HyperlinkTypeEnum.LOCAL_ANCHOR.getName();
 	
 	/**
 	 * "LocalPage" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_LOCAL_PAGE JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE}.
-	 * @deprecated Replaced by {@link HyperlinkTypeEnum#LOCAL_PAGE#getName()}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#LOCAL_PAGE}.
 	 */
 	public static final String HYPERLINK_TYPE_LOCAL_PAGE = HyperlinkTypeEnum.LOCAL_PAGE.getName();
 	
 	/**
 	 * "RemoteAnchor" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_REMOTE_ANCHOR JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR}.
-	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REMOTE_ANCHOR#getName()}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REMOTE_ANCHOR}.
 	 */
 	public static final String HYPERLINK_TYPE_REMOTE_ANCHOR = HyperlinkTypeEnum.REMOTE_ANCHOR.getName();
 	
 	/**
 	 * "RemotePage" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_REMOTE_PAGE JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE}.
-	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REMOTE_PAGE#getName()}.
+	 * @deprecated Replaced by {@link HyperlinkTypeEnum#REMOTE_PAGE}.
 	 */
 	public static final String HYPERLINK_TYPE_REMOTE_PAGE = HyperlinkTypeEnum.REMOTE_PAGE.getName();
 	
 	/**
 	 * "Self" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_SELF JRHyperlink.HYPERLINK_TARGET_SELF}.
-	 * @deprecated Replaced by {@link HyperlinkTargetEnum#SELF#getName()}.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#SELF}.
 	 */
 	public static final String HYPERLINK_TARGET_SELF = HyperlinkTargetEnum.SELF.getName();
 
 	/**
 	 * "Blank" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_BLANK JRHyperlink.HYPERLINK_TARGET_BLANK}.
-	 * @deprecated Replaced by {@link HyperlinkTargetEnum#BLANK#getName()}.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#BLANK}.
 	 */
 	public static final String HYPERLINK_TARGET_BLANK = HyperlinkTargetEnum.BLANK.getName();
 
 	/**
 	 * "Parent" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_PARENT JRHyperlink.HYPERLINK_TARGET_PARENT}.
-	 * @deprecated Replaced by {@link HyperlinkTargetEnum#PARENT#getName()}.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#PARENT}.
 	 */
 	public static final String HYPERLINK_TARGET_PARENT = HyperlinkTargetEnum.PARENT.getName();
 
 	/**
 	 * "Top" link target name, equivalent to {@link JRHyperlink#HYPERLINK_TARGET_TOP JRHyperlink.HYPERLINK_TARGET_TOP}.
-	 * @deprecated Replaced by {@link HyperlinkTargetEnum#TOP#getName()}.
+	 * @deprecated Replaced by {@link HyperlinkTargetEnum#TOP}.
 	 */
 	public static final String HYPERLINK_TARGET_TOP = HyperlinkTargetEnum.TOP.getName();
 	
