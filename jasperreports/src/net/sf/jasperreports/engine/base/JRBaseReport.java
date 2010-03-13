@@ -150,9 +150,6 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	
 	/**
 	 * Constructs a copy of a report.
-	 *
-	 * @param report the original report
-	 * @param expressionCollector expression collector used to provide new expression IDs
 	 */
 	public JRBaseReport(JRReport report, JRBaseObjectFactory factory)
 	{
