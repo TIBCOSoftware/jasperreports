@@ -108,7 +108,7 @@ public abstract class JRXmlBaseWriter
 		writer.closeElement();
 	}
 
-	protected void writeStyleReferenceAttr(JRStyleContainer styleContainer)
+	public void writeStyleReferenceAttr(JRStyleContainer styleContainer)
 	{
 		if (styleContainer.getStyle() != null)
 		{
@@ -164,7 +164,7 @@ public abstract class JRXmlBaseWriter
 	/**
 	 *
 	 */
-	protected void writeBox(JRLineBox box) throws IOException
+	public void writeBox(JRLineBox box) throws IOException
 	{
 		if (box != null)
 		{

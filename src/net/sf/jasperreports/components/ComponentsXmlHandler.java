@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components;
 
 import java.io.IOException;
+import java.util.List;
 
 import net.sf.jasperreports.components.barbecue.BarbecueComponent;
 import net.sf.jasperreports.components.barbecue.StandardBarbecueComponent;
@@ -47,12 +48,18 @@ import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
+import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.components.table.Cell;
+import net.sf.jasperreports.components.table.Column;
+import net.sf.jasperreports.components.table.ColumnGroup;
+import net.sf.jasperreports.components.table.DeepColumnVisitor;
 import net.sf.jasperreports.components.table.DesignCell;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardColumnGroup;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
@@ -62,6 +69,7 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.StyleContainerRule;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
@@ -331,10 +339,95 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 	}
 
 	protected void writeTable(TableComponent table, ComponentKey componentKey,
-			JRXmlWriter reportWriter)
+			final JRXmlWriter reportWriter) throws IOException
 	{
-		// TODO Auto-generated method stub
+		final JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
 		
+		XmlNamespace namespace = new XmlNamespace(
+				ComponentsExtensionsRegistryFactory.NAMESPACE, 
+				componentKey.getNamespacePrefix(),
+				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
+		
+		writer.startElement("table", namespace);
+		reportWriter.writeDatasetRun(table.getDatasetRun());
+		
+		DeepColumnVisitor<Void> columnWriter = new DeepColumnVisitor<Void>()
+		{
+			public Void visitColumn(Column column)
+			{
+				try
+				{
+					writer.startElement("column");
+					//TODO rowspan?
+					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
+							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
+							column.getPrintWhenExpression(), false);
+					writeTableCell(column.getHeader(), "header", reportWriter);
+					writeTableCell(column.getDetailCell(), "detailCell", reportWriter);
+					writer.closeElement();
+				}
+				catch (IOException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				
+				return null;
+			}
+
+			@Override
+			public Void visitColumnGroup(ColumnGroup columnGroup)
+			{
+				try
+				{
+					writer.startElement("columnGroup");
+					//TODO rowspan?
+					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
+							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
+							columnGroup.getPrintWhenExpression(), false);
+					writeTableCell(columnGroup.getHeader(), "header", reportWriter);
+					
+					// deep
+					super.visitColumnGroup(columnGroup);
+					
+					writer.closeElement();
+				}
+				catch (IOException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				
+				return null;
+			}
+			
+			@Override
+			protected Void combineSubResults(List<Void> results)
+			{
+				return null;
+			}
+		};
+		
+		for (BaseColumn column : table.getColumns())
+		{
+			column.visitColumn(columnWriter);
+		}
+		
+		writer.closeElement();
 	}
 	
+	protected void writeTableCell(Cell cell, String name, JRXmlWriter reportWriter) throws IOException
+	{
+		if (cell != null)
+		{
+			JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+			writer.startElement(name);
+			reportWriter.writeStyleReferenceAttr(cell);
+			writer.addAttribute("width", cell.getWidth());
+			writer.addAttribute("height", cell.getHeight());
+			
+			reportWriter.writeBox(cell.getLineBox());
+			reportWriter.writeChildElements(cell);
+			
+			writer.closeElement();//cell
+		}
+	}
 }
