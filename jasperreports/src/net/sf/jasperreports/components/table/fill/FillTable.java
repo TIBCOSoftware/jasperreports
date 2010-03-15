@@ -24,17 +24,24 @@
 package net.sf.jasperreports.components.table.fill;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.components.table.Column;
+import net.sf.jasperreports.components.table.ColumnGroup;
+import net.sf.jasperreports.components.table.ColumnVisitor;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -64,6 +71,9 @@ public class FillTable extends BaseFillComponent
 	private final JRFillObjectFactory factory;
 	private FillTableSubreport fillSubreport;
 	
+	private boolean filling;
+	private List<FillColumn> fillColumns;
+	private int fillWidth;
 	private Map printFrameTemplates = new HashMap();
 
 	public FillTable(TableComponent table, JRFillObjectFactory factory)
@@ -74,6 +84,139 @@ public class FillTable extends BaseFillComponent
 
 	public void evaluate(byte evaluation) throws JRException
 	{
+		if (filling)
+		{
+			log.warn("Table fill did not complete, closing previous table subreport");
+			//TODO
+		}
+		
+		filling = false;
+		
+		evaluateColumns(evaluation);
+		if (!fillColumns.isEmpty())
+		{
+			createFillSubreport();
+			fillSubreport.evaluateSubreport(evaluation);
+		}
+	}
+
+	protected boolean toPrintColumn(BaseColumn column, byte evaluation) throws JRException
+	{
+		boolean toPrint;
+		JRExpression printWhenExpression = column.getPrintWhenExpression();
+		if (printWhenExpression == null)
+		{
+			toPrint = true;
+		}
+		else
+		{
+			Boolean printWhenVal = (Boolean) evaluateExpression(
+					printWhenExpression, evaluation);
+			if (printWhenVal)
+			{
+				toPrint = false;
+			}
+			else
+			{
+				toPrint = printWhenVal.booleanValue();
+			}
+		}
+		return toPrint;
+	}
+	
+	protected class FillColumnEvaluator implements ColumnVisitor<FillColumn>
+	{
+		final byte evaluation;
+		
+		public FillColumnEvaluator(byte evaluation)
+		{
+			this.evaluation = evaluation;
+		}
+
+		public FillColumn visitColumn(Column column)
+		{
+			try
+			{
+				boolean toPrint = toPrintColumn(column, evaluation);
+				return toPrint ? new FillColumn(column) : null;
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		public FillColumn visitColumnGroup(ColumnGroup columnGroup)
+		{
+			try
+			{
+				boolean toPrint = toPrintColumn(columnGroup, evaluation);
+				FillColumn fillColumn;
+				if (toPrint)
+				{
+					List<BaseColumn> columns = columnGroup.getColumns();
+					List<FillColumn> subColumns = new ArrayList<FillColumn>(columns.size());
+					int printWidth = 0;
+					for (BaseColumn column : columns)
+					{
+						FillColumn fillSubColumn = column.visitColumn(this);
+						if (fillSubColumn != null)
+						{
+							printWidth += fillSubColumn.getWidth();
+							subColumns.add(fillSubColumn);
+						}
+					}
+					
+					if (subColumns.isEmpty())
+					{
+						// no sub columns prints
+						// the column group won't print either
+						fillColumn = null;
+					}
+					else
+					{
+						fillColumn = new FillColumn(columnGroup, printWidth, subColumns);
+					}
+				}
+				else
+				{
+					fillColumn = null;
+				}
+				return fillColumn;
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+	}
+	
+	protected void evaluateColumns(byte evaluation)
+	{
+		FillColumnEvaluator columnEvaluator = new FillColumnEvaluator(evaluation);
+		List<BaseColumn> columns = table.getColumns();
+		fillColumns = new ArrayList<FillColumn>(columns.size());
+		fillWidth = 0;
+		for (BaseColumn column : columns)
+		{
+			FillColumn fillColumn = column.visitColumn(columnEvaluator);
+			if (fillColumn != null)
+			{
+				fillColumns.add(fillColumn);
+				fillWidth += fillColumn.getWidth();
+			}
+		}
+	}
+
+	protected void createFillSubreport() throws JRException
+	{
+		if (fillSubreport != null)
+		{
+			return;
+		}
+
+		//TODO cache per fillColumns
+		
 		JasperReport parentReport = fillContext.getFiller().getJasperReport();
 		JRDataset reportSubdataset = JRReportUtils.findSubdataset(table.getDatasetRun(), 
 				parentReport);
@@ -97,22 +240,19 @@ public class FillTable extends BaseFillComponent
 				parentReport.getCompilerClass(), 
 				tableReportCompileData, 
 				new TableReportBaseObjectFactory(),
-				// no suffix as already included in the report name
-				"");
+				"");// no suffix as already included in the report name
 		
 		TableSubreport subreport = new TableSubreport(table.getDatasetRun(), fillContext);
-		//TODO new factory, run in a container
+		//TODO new factory, run in a container?
 		fillSubreport = new FillTableSubreport(
 				fillContext.getFiller(), subreport, factory, compiledTableReport);
-		
-		fillSubreport.evaluateSubreport(evaluation);
 	}
 
 	protected TableReport createTableReport(JRDataset reportSubdataset, JasperReport parentReport)
 	{
 		String tableReportName = JRAbstractCompiler.getUnitName(parentReport, reportSubdataset);
 		TableReportDataset reportDataset = new TableReportDataset(reportSubdataset, tableReportName);
-		TableReport tableReport = new TableReport(table, fillContext, reportDataset);
+		TableReport tableReport = new TableReport(fillContext, reportDataset, fillColumns);
 		
 		if (log.isDebugEnabled())
 		{
@@ -127,7 +267,16 @@ public class FillTable extends BaseFillComponent
 	{
 		try
 		{
-			return fillSubreport.prepareSubreport(availableHeight, false);//TODO overflow
+			if (fillColumns.isEmpty())
+			{
+				//no columns to print
+				return FillPrepareResult.NO_PRINT_NO_OVERFLOW;
+			}
+			
+			FillPrepareResult result = fillSubreport.prepareSubreport(
+					availableHeight, filling);
+			filling = result.willOverflow();
+			return result;
 		}
 		catch (JRException e)
 		{
@@ -140,8 +289,8 @@ public class FillTable extends BaseFillComponent
 		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate());
 		printFrame.setX(fillContext.getComponentElement().getX());
 		printFrame.setY(fillContext.getElementPrintY());
-		printFrame.setWidth(fillContext.getComponentElement().getWidth());
-		printFrame.setHeight(fillSubreport.getStretchHeight());//TODO?
+		printFrame.setWidth(fillWidth);
+		printFrame.setHeight(fillSubreport.getContentsStretchHeight());
 		
 		Collection elements = fillSubreport.getPrintElements();
 		if (elements != null)
@@ -171,6 +320,27 @@ public class FillTable extends BaseFillComponent
 		}
 
 		return frameTemplate;
+	}
+
+	@Override
+	public void rewind()
+	{
+		if (filling)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Rewinding table subreport");
+			}
+			
+			try
+			{
+				fillSubreport.rewind();
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
 	}
 
 }
