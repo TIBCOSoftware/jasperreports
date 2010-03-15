@@ -102,7 +102,6 @@ public class ComponentsExtensionsRegistryFactory implements
 		componentManagers.put(LIST_COMPONENT_NAME, listManager);
 		
 		DefaultComponentManager tableManager = new DefaultComponentManager();
-		tableManager.setDesignConverter(new ListDesignConverter());//TODO
 		tableManager.setComponentCompiler(new TableCompiler());
 		tableManager.setComponentXmlWriter(xmlHandler);
 		tableManager.setComponentFillFactory(new FillTableFactory());
