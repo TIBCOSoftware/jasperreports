@@ -24,7 +24,6 @@
 package net.sf.jasperreports.components;
 
 import java.io.IOException;
-import java.util.List;
 
 import net.sf.jasperreports.components.barbecue.BarbecueComponent;
 import net.sf.jasperreports.components.barbecue.StandardBarbecueComponent;
@@ -52,7 +51,7 @@ import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
-import net.sf.jasperreports.components.table.DeepColumnVisitor;
+import net.sf.jasperreports.components.table.ColumnVisitor;
 import net.sf.jasperreports.components.table.DesignCell;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardColumnGroup;
@@ -219,7 +218,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addSetNext(columnPattern, "addColumn");
 		digester.addSetProperties(columnPattern);
 		addExpressionRules(digester, columnPattern + "/printWhenExpression", 
-				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression");
+				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
+				true);
 		addTableCellRules(digester, columnPattern + "/header", "setHeader");
 		addTableCellRules(digester, columnPattern + "/detailCell", "setDetailCell");
 		
@@ -228,7 +228,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addSetNext(columnGroupPattern, "addColumn");
 		digester.addSetProperties(columnGroupPattern);
 		addExpressionRules(digester, columnGroupPattern + "/printWhenExpression", 
-				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression");
+				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
+				true);
 		addTableCellRules(digester, columnGroupPattern + "/header", "setHeader");
 	}
 	
@@ -245,12 +246,23 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 	}
 
 	protected void addExpressionRules(Digester digester, String expressionPattern,
-			Class factoryClass, String setterMethod)
+			Class factoryClass, String setterMethod, boolean jrNamespace)
 	{
+		String originalNamespace = digester.getRuleNamespaceURI();
+		if (jrNamespace)
+		{
+			digester.setRuleNamespaceURI(JRXmlWriter.JASPERREPORTS_NAMESPACE.getNamespaceURI());
+		}
+		
 		digester.addFactoryCreate(expressionPattern, factoryClass);
 		digester.addCallMethod(expressionPattern, "setText", 0);
 		digester.addSetNext(expressionPattern, setterMethod,
 				JRExpression.class.getName());
+		
+		if (jrNamespace)
+		{
+			digester.setRuleNamespaceURI(originalNamespace);
+		}
 	}
 	
 	public void writeToXml(ComponentKey componentKey, Component component,
@@ -351,7 +363,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.startElement("table", namespace);
 		reportWriter.writeDatasetRun(table.getDatasetRun());
 		
-		DeepColumnVisitor<Void> columnWriter = new DeepColumnVisitor<Void>()
+		ColumnVisitor<Void> columnWriter = new ColumnVisitor<Void>()
 		{
 			public Void visitColumn(Column column)
 			{
@@ -374,7 +386,6 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				return null;
 			}
 
-			@Override
 			public Void visitColumnGroup(ColumnGroup columnGroup)
 			{
 				try
@@ -387,7 +398,10 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 					writeTableCell(columnGroup.getHeader(), "header", reportWriter);
 					
 					// deep
-					super.visitColumnGroup(columnGroup);
+					for (BaseColumn column : columnGroup.getColumns())
+					{
+						column.visitColumn(this);
+					}
 					
 					writer.closeElement();
 				}
@@ -396,12 +410,6 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 					throw new JRRuntimeException(e);
 				}
 				
-				return null;
-			}
-			
-			@Override
-			protected Void combineSubResults(List<Void> results)
-			{
 				return null;
 			}
 		};

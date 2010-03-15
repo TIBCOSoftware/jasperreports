@@ -21,10 +21,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.table;
+package net.sf.jasperreports.components.table.fill;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import net.sf.jasperreports.components.table.BaseColumn;
 
 /**
  * 
@@ -32,21 +33,43 @@ import java.util.List;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class DeepColumnVisitor<R> implements ColumnVisitor<R>
+public class FillColumn
 {
 
-	public R visitColumnGroup(ColumnGroup columnGroup)
+	private BaseColumn tableColumn;
+	private int width;
+	private List<FillColumn> subcolumns;
+	
+	public FillColumn(BaseColumn tableColumn)
 	{
-		List<BaseColumn> columns = columnGroup.getColumns();
-		List<R> subResults = new ArrayList<R>(columns.size());
-		for (BaseColumn column : columns)
-		{
-			column.visitColumn(this);
-		}
-		
-		return combineSubResults(subResults);
+		this(tableColumn,  
+				tableColumn.getHeader().getWidth(),//TODO set width at col level? 
+				null);
 	}
 	
-	protected abstract R combineSubResults(List<R> results);
+	public FillColumn(BaseColumn tableColumn, int width,
+			List<FillColumn> subcolumns)
+	{
+		super();
+		
+		this.tableColumn = tableColumn;
+		this.width = width;
+		this.subcolumns = subcolumns;
+	}
+
+	public BaseColumn getTableColumn()
+	{
+		return tableColumn;
+	}
+
+	public int getWidth()
+	{
+		return width;
+	}
+
+	public List<FillColumn> getSubcolumns()
+	{
+		return subcolumns;
+	}
 	
 }

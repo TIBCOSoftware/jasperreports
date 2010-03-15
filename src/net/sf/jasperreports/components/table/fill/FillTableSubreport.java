@@ -69,7 +69,6 @@ public class FillTableSubreport extends JRFillSubreport
 	protected FillPrepareResult prepareSubreport(int availableHeight, boolean isOverflow) 
 		throws JRException
 	{
-		//TODO overflow
 		boolean willOverflow = prepare(availableHeight, isOverflow);
 		return FillPrepareResult.printStretch(getStretchHeight(), willOverflow);
 	}
@@ -81,9 +80,9 @@ public class FillTableSubreport extends JRFillSubreport
 	}
 
 	@Override
-	protected int getStretchHeight()
+	protected int getContentsStretchHeight()
 	{
-		return super.getStretchHeight();
+		return super.getContentsStretchHeight();
 	}
 	
 }

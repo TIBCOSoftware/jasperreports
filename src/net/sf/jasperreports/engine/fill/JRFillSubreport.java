@@ -1053,4 +1053,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 		return (JRSubreportRunnerFactory) runnerFactoryCache.getCachedInstance(factoryClassName);
 	}
+
+	protected int getContentsStretchHeight()
+	{
+		return subreportFiller.getCurrentPageStretchHeight();
+	}
 }
