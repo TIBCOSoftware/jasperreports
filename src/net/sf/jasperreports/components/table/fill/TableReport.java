@@ -91,7 +91,8 @@ public class TableReport implements JRReport
 		
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
 		this.title = createTitle(fillColumns);
-		this.summary = createSummary(fillColumns);
+		//TODO make table footers appear after column footers
+		this.summary = createSummary(fillColumns); 
 		this.columnHeader = createColumnHeader(fillColumns);
 		this.columnFooter = createColumnFooter(fillColumns);
 	}
@@ -127,6 +128,8 @@ public class TableReport implements JRReport
 						column.getWidth(), fillColumn.getWidth(), 
 						xOffset, yOffset);
 				band.addElement(cellFrame);
+				
+				yOffset += cell.getHeight();
 			}
 			
 			xOffset += column.getWidth();
@@ -168,6 +171,46 @@ public class TableReport implements JRReport
 		public void visit()
 		{
 			fillColumn.getTableColumn().visitColumn(this);
+		}
+	}
+	
+	protected abstract class ReverseReportBandContents extends ReportBandContents
+	{
+		public ReverseReportBandContents(JRDesignBand band,
+				FillColumn fillColumn, int xOffset, int yOffset)
+		{
+			super(band, fillColumn, xOffset, yOffset);
+		}
+
+		@Override
+		public Void visitColumnGroup(ColumnGroup columnGroup)
+		{
+			int origXOffset = xOffset;
+			int origYOffset = yOffset;
+			
+			for (FillColumn subcolumn : fillColumn.getSubcolumns())
+			{
+				ReportBandContents subVisitor = createSubVisitor(subcolumn, 
+						xOffset, origYOffset);
+				subVisitor.visit();
+				xOffset = subVisitor.xOffset;
+				if (subVisitor.yOffset > yOffset)
+				{
+					yOffset = subVisitor.yOffset;
+				}
+			}
+			
+			Cell cell = columnGroupCell(columnGroup);
+			if (cell != null)
+			{
+				JRDesignFrame cellFrame = createCellFrame(cell, 
+						columnGroup.getWidth(), fillColumn.getWidth(), 
+						origXOffset, yOffset);
+				band.addElement(cellFrame);
+				yOffset += cell.getHeight();
+			}
+			
+			return null;
 		}
 	}
 	
@@ -267,7 +310,7 @@ public class TableReport implements JRReport
 		return columnHeader;
 	}
 	
-	protected class ColumnFooterContents extends ReportBandContents
+	protected class ColumnFooterContents extends ReverseReportBandContents
 	{
 		public ColumnFooterContents(JRDesignBand band, FillColumn fillColumn,
 				int xOffset, int yOffset)
@@ -367,7 +410,7 @@ public class TableReport implements JRReport
 		return title;
 	}
 	
-	protected class SummaryContents extends ReportBandContents
+	protected class SummaryContents extends ReverseReportBandContents
 	{
 		public SummaryContents(JRDesignBand band, FillColumn fillColumn,
 				int xOffset, int yOffset)
@@ -416,7 +459,7 @@ public class TableReport implements JRReport
 		}
 		return summary;
 	}
-
+	
 	protected JRDesignFrame createCellFrame(Cell cell, 
 			int originalWidth, int width, 
 			int x, int y)
