@@ -39,7 +39,9 @@ public interface BaseColumn extends JRCloneable
 	
 	Integer getRowSpan();
 	
-	Cell getHeader();
+	Cell getColumnHeader();
+	
+	Cell getColumnFooter();
 
 	<R> R visitColumn(ColumnVisitor<R> visitor);
 

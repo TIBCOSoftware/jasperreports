@@ -77,7 +77,8 @@ public class TableReport implements JRReport
 	private final JasperReport parentReport;
 	private final JRDataset mainDataset;
 	private final JRSection detail;
-	private final JRBand title;
+	private final JRBand columnHeader;
+	private final JRBand columnFooter;
 	
 	public TableReport(FillContext fillContext, JRDataset mainDataset, 
 			List<FillColumn> fillColumns)
@@ -87,55 +88,104 @@ public class TableReport implements JRReport
 		this.mainDataset = mainDataset;
 		
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
-		this.title = createTitleBand(fillColumns);
+		this.columnHeader = createColumnHeader(fillColumns);
+		this.columnFooter = createColumnFooter(fillColumns);
 	}
-
-	protected class DetailBandVisitor implements ColumnVisitor<Void>
+	
+	protected abstract class ReportBandContents implements ColumnVisitor<Void>
 	{
-		final JRDesignBand detailBand;
+		final JRDesignBand band;
 		final FillColumn fillColumn;
 		int xOffset = 0;
+		int yOffset = 0;
 		
-		public DetailBandVisitor(JRDesignBand detailBand,
-				FillColumn fillColumn, int xOffset)
+		public ReportBandContents(JRDesignBand band, FillColumn fillColumn,
+				int xOffset, int yOffset)
 		{
-			this.detailBand = detailBand;
+			this.band = band;
 			this.fillColumn = fillColumn;
 			this.xOffset = xOffset;
+			this.yOffset = yOffset;
 		}
 
 		public Void visitColumn(Column column)
 		{
-			Cell detailCell = column.getDetailCell();
+			Cell cell = columnCell(column);
 			
-			if (detailBand.getHeight() < detailCell.getHeight())
+			if (band.getHeight() < cell.getHeight() + yOffset)
 			{
-				detailBand.setHeight(detailCell.getHeight());
+				band.setHeight(cell.getHeight() + yOffset);
 			}
 
-			JRDesignFrame cellFrame = createCellFrame(detailCell, xOffset, 0);
-			detailBand.addElement(cellFrame);
+			JRDesignFrame cellFrame = createCellFrame(cell, xOffset, yOffset);
+			band.addElement(cellFrame);
 			
-			xOffset += detailCell.getWidth();
+			xOffset += cell.getWidth();
 			
 			return null;
 		}
 
+		protected abstract Cell columnCell(Column column);
+		
 		public Void visitColumnGroup(ColumnGroup columnGroup)
 		{
+			Cell cell = columnGroupCell(columnGroup);
+			int cellHeight = 0;
+			if (cell != null)
+			{
+				JRDesignFrame cellFrame = createCellFrame(cell, xOffset, yOffset);
+				band.addElement(cellFrame);
+				cellHeight = cell.getHeight();
+			}
+			
 			for (FillColumn subcolumn : fillColumn.getSubcolumns())
 			{
-				DetailBandVisitor subVisitor = new DetailBandVisitor(
-						detailBand, subcolumn, xOffset);
+				ReportBandContents subVisitor = createSubVisitor(subcolumn, 
+						xOffset, yOffset + cellHeight);
 				subVisitor.visit();
 				xOffset = subVisitor.xOffset;
 			}
+			
 			return null;
 		}
+
+		protected abstract Cell columnGroupCell(ColumnGroup group);
+		
+		protected abstract ReportBandContents createSubVisitor(FillColumn subcolumn, 
+				int xOffset, int yOffset);
 		
 		public void visit()
 		{
 			fillColumn.getTableColumn().visitColumn(this);
+		}
+	}
+	
+	protected class DetailBandContents extends ReportBandContents
+	{
+
+		public DetailBandContents(JRDesignBand band, FillColumn fillColumn,
+				int xOffset, int yOffset)
+		{
+			super(band, fillColumn, xOffset, yOffset);
+		}
+		
+		@Override
+		protected Cell columnCell(Column column)
+		{
+			return column.getDetailCell();
+		}
+
+		@Override
+		protected Cell columnGroupCell(ColumnGroup group)
+		{
+			return null;
+		}
+
+		@Override
+		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset)
+		{
+			return new DetailBandContents(band, subcolumn, xOffset, yOffset);
 		}
 	}
 	
@@ -147,8 +197,8 @@ public class TableReport implements JRReport
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
-			DetailBandVisitor subVisitor = new DetailBandVisitor(
-					detailBand, subcolumn, xOffset);
+			DetailBandContents subVisitor = new DetailBandContents(
+					detailBand, subcolumn, xOffset, 0);
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
@@ -156,78 +206,96 @@ public class TableReport implements JRReport
 		return detailBand;
 	}
 	
-	protected class TitleBandVisitor implements ColumnVisitor<Void>
+	protected class ColumnHeaderContents extends ReportBandContents
 	{
-		final JRDesignBand titleBand;
-		final FillColumn fillColumn;
-		int xOffset = 0;
-		int yOffset = 0;
-		
-		public TitleBandVisitor(JRDesignBand titleBand, FillColumn fillColumn,
+		public ColumnHeaderContents(JRDesignBand band, FillColumn fillColumn,
 				int xOffset, int yOffset)
 		{
-			this.titleBand = titleBand;
-			this.fillColumn = fillColumn;
-			this.xOffset = xOffset;
-			this.yOffset = yOffset;
+			super(band, fillColumn, xOffset, yOffset);
 		}
 
-		public Void visitColumn(Column column)
+		@Override
+		protected Cell columnCell(Column column)
 		{
-			Cell header = column.getHeader();
-			
-			if (titleBand.getHeight() < header.getHeight() + yOffset)
-			{
-				titleBand.setHeight(header.getHeight() + yOffset);
-			}
-
-			JRDesignFrame cellFrame = createCellFrame(header, xOffset, yOffset);
-			titleBand.addElement(cellFrame);
-			
-			xOffset += header.getWidth();
-			
-			return null;
+			return column.getColumnHeader();
 		}
 
-		public Void visitColumnGroup(ColumnGroup columnGroup)
+		@Override
+		protected Cell columnGroupCell(ColumnGroup group)
 		{
-			Cell header = columnGroup.getHeader();
-			JRDesignFrame cellFrame = createCellFrame(header, xOffset, yOffset);
-			titleBand.addElement(cellFrame);
-			
-			for (FillColumn subcolumn : fillColumn.getSubcolumns())
-			{
-				TitleBandVisitor subVisitor = new TitleBandVisitor(titleBand, 
-						subcolumn, xOffset, yOffset + header.getHeight());
-				subVisitor.visit();
-				xOffset = subVisitor.xOffset;
-			}
-			
-			return null;
+			return group.getColumnHeader();
 		}
-		
-		public void visit()
+
+		@Override
+		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset)
 		{
-			fillColumn.getTableColumn().visitColumn(this);
+			return new ColumnHeaderContents(band, subcolumn, xOffset, yOffset);
 		}
 	}
 
-	protected JRBand createTitleBand(List<FillColumn> fillColumns)
+	protected JRBand createColumnHeader(List<FillColumn> fillColumns)
 	{
-		final JRDesignBand titleBand = new JRDesignBand();
-		titleBand.setSplitType(SplitTypeEnum.PREVENT);
+		final JRDesignBand columnHeader = new JRDesignBand();
+		columnHeader.setSplitType(SplitTypeEnum.PREVENT);
 		
 		//TODO element groups
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
-			TitleBandVisitor subVisitor = new TitleBandVisitor(
-					titleBand, subcolumn, xOffset, 0);
+			ColumnHeaderContents subVisitor = new ColumnHeaderContents(
+					columnHeader, subcolumn, xOffset, 0);
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
 		
-		return titleBand;
+		return columnHeader;
+	}
+	
+	protected class ColumnFooterContents extends ReportBandContents
+	{
+		public ColumnFooterContents(JRDesignBand band, FillColumn fillColumn,
+				int xOffset, int yOffset)
+		{
+			super(band, fillColumn, xOffset, yOffset);
+		}
+
+		@Override
+		protected Cell columnCell(Column column)
+		{
+			return column.getColumnFooter();
+		}
+
+		@Override
+		protected Cell columnGroupCell(ColumnGroup group)
+		{
+			return group.getColumnFooter();
+		}
+
+		@Override
+		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset)
+		{
+			return new ColumnFooterContents(band, subcolumn, xOffset, yOffset);
+		}
+	}
+
+	protected JRBand createColumnFooter(List<FillColumn> fillColumns)
+	{
+		final JRDesignBand columnFooter = new JRDesignBand();
+		columnFooter.setSplitType(SplitTypeEnum.PREVENT);
+		
+		//TODO element groups
+		int xOffset = 0;
+		for (FillColumn subcolumn : fillColumns)
+		{
+			ColumnFooterContents subVisitor = new ColumnFooterContents(
+					columnFooter, subcolumn, xOffset, 0);
+			subVisitor.visit();
+			xOffset = subVisitor.xOffset;
+		}
+		
+		return columnFooter;
 	}
 
 	protected JRDesignFrame createCellFrame(Cell cell, int x, int y)
@@ -287,12 +355,12 @@ public class TableReport implements JRReport
 
 	public JRBand getColumnFooter()
 	{
-		return null;
+		return columnFooter;
 	}
 
 	public JRBand getColumnHeader()
 	{
-		return null;
+		return columnHeader;
 	}
 
 	public int getColumnSpacing()
@@ -483,7 +551,7 @@ public class TableReport implements JRReport
 
 	public JRBand getTitle()
 	{
-		return title;
+		return null;
 	}
 
 	public int getTopMargin()
