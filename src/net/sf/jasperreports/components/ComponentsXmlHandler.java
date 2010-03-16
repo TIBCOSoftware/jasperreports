@@ -220,7 +220,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		addExpressionRules(digester, columnPattern + "/printWhenExpression", 
 				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
 				true);
-		addTableCellRules(digester, columnPattern + "/header", "setHeader");
+		addTableCellRules(digester, columnPattern + "/columnHeader", "setColumnHeader");
+		addTableCellRules(digester, columnPattern + "/columnFooter", "setColumnFooter");
 		addTableCellRules(digester, columnPattern + "/detailCell", "setDetailCell");
 		
 		String columnGroupPattern = "*/columnGroup";
@@ -230,7 +231,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		addExpressionRules(digester, columnGroupPattern + "/printWhenExpression", 
 				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
 				true);
-		addTableCellRules(digester, columnGroupPattern + "/header", "setHeader");
+		addTableCellRules(digester, columnGroupPattern + "/columnHeader", "setColumnHeader");
+		addTableCellRules(digester, columnGroupPattern + "/columnFooter", "setColumnFooter");
 	}
 	
 	protected void addTableCellRules(Digester digester, String pattern, 
@@ -374,7 +376,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							column.getPrintWhenExpression(), false);
-					writeTableCell(column.getHeader(), "header", reportWriter);
+					writeTableCell(column.getColumnHeader(), "columnHeader", reportWriter);
+					writeTableCell(column.getColumnFooter(), "columnFooter", reportWriter);
 					writeTableCell(column.getDetailCell(), "detailCell", reportWriter);
 					writer.closeElement();
 				}
@@ -395,7 +398,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							columnGroup.getPrintWhenExpression(), false);
-					writeTableCell(columnGroup.getHeader(), "header", reportWriter);
+					writeTableCell(columnGroup.getColumnHeader(), "columnHeader", reportWriter);
+					writeTableCell(columnGroup.getColumnFooter(), "columnFooter", reportWriter);
 					
 					// deep
 					for (BaseColumn column : columnGroup.getColumns())

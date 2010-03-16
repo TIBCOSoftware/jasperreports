@@ -404,7 +404,8 @@
 		<complexType>
 			<sequence>
 				<element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
-				<element name="header" type="c:TableCell"/>
+				<element name="columnHeader" type="c:TableCell"/>
+				<element name="columnFooter" type="c:TableCell"/>
 				<choice minOccurs="1" maxOccurs="unbounded">
 					<element ref="c:columnGroup"/>
 					<element ref="c:column"/>
@@ -418,7 +419,8 @@
 		<complexType>
 			<sequence>
 				<element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
-				<element name="header" type="c:TableCell"/>
+				<element name="columnHeader" type="c:TableCell"/>
+				<element name="columnFooter" type="c:TableCell"/>
 				<element name="detailCell" type="c:TableCell"/>
 			</sequence>
 			<attribute name="rowSpan" use="optional" type="unsignedInt"/>

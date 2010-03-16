@@ -42,7 +42,8 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private JRExpression printWhenExpression;
-	private Cell header;
+	private Cell columnHeader;
+	private Cell columnFooter;
 	private Integer rowSpan;
 
 	public StandardBaseColumn()
@@ -53,17 +54,30 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 	{
 		this.printWhenExpression = factory.getBaseObjectFactory().getExpression(
 				column.getPrintWhenExpression());
-		Cell columnHeader = column.getHeader();
+		
+		Cell columnHeader = column.getColumnHeader();
 		if (columnHeader != null)
 		{
-			this.header = new CompiledCell(columnHeader, factory.getBaseObjectFactory());
+			this.columnHeader = new CompiledCell(columnHeader, factory.getBaseObjectFactory());
 		}
+		
+		Cell columnFooter = column.getColumnFooter();
+		if (columnFooter != null)
+		{
+			this.columnFooter = new CompiledCell(columnFooter, factory.getBaseObjectFactory());
+		}
+		
 		this.rowSpan = column.getRowSpan();
 	}
 	
-	public Cell getHeader()
+	public Cell getColumnHeader()
 	{
-		return header;
+		return columnHeader;
+	}
+	
+	public Cell getColumnFooter()
+	{
+		return columnFooter;
 	}
 
 	public JRExpression getPrintWhenExpression()
@@ -81,9 +95,14 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 		this.printWhenExpression = printWhenExpression;
 	}
 
-	public void setHeader(Cell header)
+	public void setColumnHeader(Cell header)
 	{
-		this.header = header;
+		this.columnHeader = header;
+	}
+
+	public void setColumnFooter(Cell header)
+	{
+		this.columnFooter = header;
 	}
 
 	public void setRowSpan(Integer rowSpan)
@@ -96,7 +115,8 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 		try
 		{
 			StandardBaseColumn clone = (StandardBaseColumn) super.clone();
-			clone.header = (Cell) JRCloneUtils.nullSafeClone(header);
+			clone.columnHeader = (Cell) JRCloneUtils.nullSafeClone(columnHeader);
+			clone.columnFooter = (Cell) JRCloneUtils.nullSafeClone(columnFooter);
 			clone.printWhenExpression = (JRExpression) JRCloneUtils.nullSafeClone(
 					printWhenExpression);
 			return clone;
