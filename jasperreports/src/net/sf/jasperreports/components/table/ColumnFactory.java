@@ -55,6 +55,20 @@ public class ColumnFactory implements ColumnVisitor<BaseColumn>
 		return createdCols;
 	}
 	
+	public Cell createCell(Cell cell)
+	{
+		Cell newCell;
+		if (cell == null)
+		{
+			newCell = null;
+		}
+		else
+		{
+			newCell = new CompiledCell(cell, factory);
+		}
+		return newCell;
+	}
+	
 	public BaseColumn visitColumn(Column column)
 	{
 		return new StandardColumn(column, this);

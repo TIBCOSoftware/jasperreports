@@ -220,6 +220,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		addExpressionRules(digester, columnPattern + "/printWhenExpression", 
 				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
 				true);
+		addTableCellRules(digester, columnPattern + "/tableHeader", "setTableHeader");
+		addTableCellRules(digester, columnPattern + "/tableFooter", "setTableFooter");
 		addTableCellRules(digester, columnPattern + "/columnHeader", "setColumnHeader");
 		addTableCellRules(digester, columnPattern + "/columnFooter", "setColumnFooter");
 		addTableCellRules(digester, columnPattern + "/detailCell", "setDetailCell");
@@ -231,6 +233,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		addExpressionRules(digester, columnGroupPattern + "/printWhenExpression", 
 				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
 				true);
+		addTableCellRules(digester, columnGroupPattern + "/tableHeader", "setTableHeader");
+		addTableCellRules(digester, columnGroupPattern + "/tableFooter", "setTableFooter");
 		addTableCellRules(digester, columnGroupPattern + "/columnHeader", "setColumnHeader");
 		addTableCellRules(digester, columnGroupPattern + "/columnFooter", "setColumnFooter");
 	}
@@ -372,10 +376,13 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				try
 				{
 					writer.startElement("column");
+					writer.addAttribute("width", column.getWidth());
 					//TODO rowspan?
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							column.getPrintWhenExpression(), false);
+					writeTableCell(column.getTableHeader(), "tableHeader", reportWriter);
+					writeTableCell(column.getTableFooter(), "tableFooter", reportWriter);
 					writeTableCell(column.getColumnHeader(), "columnHeader", reportWriter);
 					writeTableCell(column.getColumnFooter(), "columnFooter", reportWriter);
 					writeTableCell(column.getDetailCell(), "detailCell", reportWriter);
@@ -394,10 +401,13 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				try
 				{
 					writer.startElement("columnGroup");
+					writer.addAttribute("width", columnGroup.getWidth());
 					//TODO rowspan?
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							columnGroup.getPrintWhenExpression(), false);
+					writeTableCell(columnGroup.getTableHeader(), "tableHeader", reportWriter);
+					writeTableCell(columnGroup.getTableFooter(), "tableFooter", reportWriter);
 					writeTableCell(columnGroup.getColumnHeader(), "columnHeader", reportWriter);
 					writeTableCell(columnGroup.getColumnFooter(), "columnFooter", reportWriter);
 					
@@ -433,7 +443,6 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
 			writer.startElement(name);
 			reportWriter.writeStyleReferenceAttr(cell);
-			writer.addAttribute("width", cell.getWidth());
 			writer.addAttribute("height", cell.getHeight());
 			
 			reportWriter.writeBox(cell.getLineBox());
