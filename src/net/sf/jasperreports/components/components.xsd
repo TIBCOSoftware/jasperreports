@@ -399,31 +399,43 @@
 			</complexContent>
 		</complexType>
 	</element>
+
+	<complexType name="BaseColumn">
+		<sequence>
+			<element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
+			<element name="tableHeader" type="c:TableCell" minOccurs="0"/>
+			<element name="tableFooter" type="c:TableCell" minOccurs="0"/>
+			<element name="columnHeader" type="c:TableCell" minOccurs="0"/>
+			<element name="columnFooter" type="c:TableCell" minOccurs="0"/>
+		</sequence>
+		<attribute name="rowSpan" use="optional" type="unsignedInt"/>
+		<attribute name="width" use="required" type="unsignedInt"/>
+	</complexType>
 	
 	<element name="columnGroup">
 		<complexType>
-			<sequence>
-				<element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
-				<element name="columnHeader" type="c:TableCell"/>
-				<element name="columnFooter" type="c:TableCell"/>
-				<choice minOccurs="1" maxOccurs="unbounded">
-					<element ref="c:columnGroup"/>
-					<element ref="c:column"/>
-				</choice>
-			</sequence>
-			<attribute name="rowSpan" use="optional" type="unsignedInt"/>
+			<complexContent>
+				<extension base="c:BaseColumn">
+					<sequence>
+						<choice minOccurs="1" maxOccurs="unbounded">
+							<element ref="c:columnGroup"/>
+							<element ref="c:column"/>
+						</choice>
+					</sequence>
+				</extension>
+			</complexContent>
 		</complexType>
 	</element>
 	
 	<element name="column">
 		<complexType>
-			<sequence>
-				<element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
-				<element name="columnHeader" type="c:TableCell"/>
-				<element name="columnFooter" type="c:TableCell"/>
-				<element name="detailCell" type="c:TableCell"/>
-			</sequence>
-			<attribute name="rowSpan" use="optional" type="unsignedInt"/>
+			<complexContent>
+				<extension base="c:BaseColumn">
+					<sequence>
+						<element name="detailCell" type="c:TableCell"/>
+					</sequence>
+				</extension>
+			</complexContent>
 		</complexType>
 	</element>
 	
@@ -468,7 +480,6 @@
 			</choice>
 		</sequence>
 		<attribute name="style" type="string" use="optional"/>
-		<attribute name="width" use="required" type="unsignedInt"/>
 		<attribute name="height" use="required" type="unsignedInt"/>
 	</complexType>
 

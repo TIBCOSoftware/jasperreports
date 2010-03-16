@@ -58,6 +58,8 @@ public class ColumnExpressionCollector implements ColumnVisitor<Void>
 	public Void visitColumn(Column column)
 	{
 		mainCollector.addExpression(column.getPrintWhenExpression());
+		collectCell(column.getTableHeader());
+		collectCell(column.getTableFooter());
 		collectCell(column.getColumnHeader());
 		collectCell(column.getColumnFooter());
 		collectCell(column.getDetailCell());
@@ -69,6 +71,8 @@ public class ColumnExpressionCollector implements ColumnVisitor<Void>
 	public Void visitColumnGroup(ColumnGroup columnGroup)
 	{
 		mainCollector.addExpression(columnGroup.getPrintWhenExpression());
+		collectCell(columnGroup.getTableHeader());
+		collectCell(columnGroup.getTableFooter());
 		collectCell(columnGroup.getColumnHeader());
 		collectCell(columnGroup.getColumnFooter());
 		collectColumns(columnGroup.getColumns());
@@ -79,6 +83,11 @@ public class ColumnExpressionCollector implements ColumnVisitor<Void>
 
 	protected void collectCell(Cell cell)
 	{
+		if (cell == null)
+		{
+			return;
+		}
+
 		datasetCollector.collect(cell.getStyle());
 		
 		JRElement[] elements = cell.getElements();

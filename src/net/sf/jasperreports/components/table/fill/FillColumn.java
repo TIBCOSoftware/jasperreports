@@ -43,7 +43,7 @@ public class FillColumn
 	public FillColumn(BaseColumn tableColumn)
 	{
 		this(tableColumn,  
-				tableColumn.getColumnHeader().getWidth(),//TODO set width at col level? 
+				tableColumn.getWidth(), 
 				null);
 	}
 	

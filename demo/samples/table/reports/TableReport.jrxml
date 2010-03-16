@@ -61,8 +61,8 @@
 					<datasetRun subDataset="TableData">
 						<dataSourceExpression>$P{TableDataSource}</dataSourceExpression>
 					</datasetRun>
-					<c:column rowSpan="2">
-						<c:columnHeader width="100" height="30" style="TableHeader">
+					<c:column width="100">
+						<c:columnHeader height="30" style="TableHeader">
 							<box leftPadding="10">
 								<pen lineColor="black" />
 								<bottomPen lineWidth="0.5" />
@@ -76,7 +76,7 @@
 								<text><![CDATA[Header 1]]></text>
 							</staticText>
 						</c:columnHeader>
-						<c:columnFooter width="100" height="15" style="TableFooter">
+						<c:columnFooter height="15" style="TableFooter">
 							<box leftPadding="10">
 								<pen lineColor="black" />
 							</box>
@@ -89,7 +89,7 @@
 								<text><![CDATA[Total 1]]></text>
 							</staticText>
 						</c:columnFooter>
-						<c:detailCell width="100" height="15">
+						<c:detailCell height="15">
 							<box leftPadding="10">
 								<bottomPen lineWidth="0.5" />
 							</box>
@@ -100,8 +100,8 @@
 							</textField>
 						</c:detailCell>
 					</c:column>
-					<c:column rowSpan="2">
-						<c:columnHeader width="100" height="30" style="TableHeader">
+					<c:column width="100" rowSpan="2">
+						<c:columnHeader height="30" style="TableHeader">
 							<box leftPadding="10">
 								<pen lineColor="black" />
 								<leftPen lineWidth="0.5" />
@@ -116,7 +116,7 @@
 								<text><![CDATA[Header 2]]></text>
 							</staticText>
 						</c:columnHeader>
-						<c:columnFooter width="100" height="15" style="TableFooter">
+						<c:columnFooter height="15" style="TableFooter">
 							<box leftPadding="10">
 								<pen lineColor="black" />
 								<leftPen lineWidth="0.5" />
@@ -130,7 +130,7 @@
 								<text><![CDATA[Total 2]]></text>
 							</staticText>
 						</c:columnFooter>
-						<c:detailCell width="100" height="15">
+						<c:detailCell height="15">
 							<box leftPadding="10">
 								<leftPen lineWidth="0.5" />
 								<bottomPen lineWidth="0.5" />
@@ -142,8 +142,8 @@
 							</textField>
 						</c:detailCell>
 					</c:column>
-					<c:column rowSpan="2">
-						<c:columnHeader width="100" height="30" style="TableHeader">
+					<c:column width="100" rowSpan="2">
+						<c:columnHeader height="30" style="TableHeader">
 							<box leftPadding="10">
 								<pen lineColor="black" />
 								<leftPen lineWidth="0.5" />
@@ -158,7 +158,7 @@
 								<text><![CDATA[Header 3]]></text>
 							</staticText>
 						</c:columnHeader>
-						<c:columnFooter width="100" height="15" style="TableFooter">
+						<c:columnFooter height="15" style="TableFooter">
 							<box leftPadding="10">
 								<pen lineColor="black" />
 								<leftPen lineWidth="0.5" />
@@ -172,7 +172,7 @@
 								<text><![CDATA[Total 3]]></text>
 							</staticText>
 						</c:columnFooter>
-						<c:detailCell width="100" height="15">
+						<c:detailCell height="15">
 							<box leftPadding="10">
 								<leftPen lineWidth="0.5" />
 								<bottomPen lineWidth="0.5" />
@@ -184,8 +184,8 @@
 							</textField>
 						</c:detailCell>
 					</c:column>
-					<c:columnGroup>
-						<c:columnHeader width="255" height="15" style="TableHeader">
+					<c:columnGroup width="255">
+						<c:columnHeader height="15" style="TableHeader">
 							<box>
 								<pen lineWidth="0.5" lineColor="black" />
 							</box>
@@ -198,10 +198,8 @@
 								<text><![CDATA[Header 4]]></text>
 							</staticText>
 						</c:columnHeader>
-						<c:columnFooter width="100" height="0">
-						</c:columnFooter>
-						<c:column>
-							<c:columnHeader width="155" height="15" style="TableHeader">
+						<c:column width="155">
+							<c:columnHeader height="15" style="TableHeader">
 								<box leftPadding="10">
 									<pen lineColor="black" />
 									<topPen lineWidth="0.5" />
@@ -217,7 +215,7 @@
 									<text><![CDATA[Header 4.1]]></text>
 								</staticText>
 							</c:columnHeader>
-							<c:columnFooter width="155" height="15" style="TableFooter">
+							<c:columnFooter height="15" style="TableFooter">
 								<box leftPadding="10">
 									<pen lineColor="black" />
 									<leftPen lineWidth="0.5" />
@@ -231,7 +229,7 @@
 									<text><![CDATA[Total 4.1]]></text>
 								</staticText>
 							</c:columnFooter>
-							<c:detailCell width="155" height="15">
+							<c:detailCell height="15">
 								<box leftPadding="10">
 									<leftPen lineWidth="0.5" />
 									<bottomPen lineWidth="0.5" />
@@ -243,8 +241,8 @@
 								</textField>
 							</c:detailCell>
 						</c:column>
-						<c:column>
-							<c:columnHeader width="100" height="15" style="TableHeader">
+						<c:column width="100">
+							<c:columnHeader height="15" style="TableHeader">
 								<box rightPadding="10">
 									<pen lineColor="black" />
 									<topPen lineWidth="0.5" />
@@ -260,7 +258,7 @@
 									<text><![CDATA[Header 4.2]]></text>
 								</staticText>
 							</c:columnHeader>
-							<c:columnFooter width="100" height="15" style="TableFooter">
+							<c:columnFooter height="15" style="TableFooter">
 								<box rightPadding="10">
 									<pen lineColor="black" />
 									<leftPen lineWidth="0.5" />
@@ -274,7 +272,7 @@
 									<text><![CDATA[Total 4.2]]></text>
 								</staticText>
 							</c:columnFooter>
-							<c:detailCell width="100" height="15">
+							<c:detailCell height="15">
 								<box>
 									<leftPen lineWidth="0.5" />
 									<bottomPen lineWidth="0.5" />

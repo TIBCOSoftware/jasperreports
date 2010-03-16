@@ -42,8 +42,11 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private JRExpression printWhenExpression;
+	private Cell tableHeader;
+	private Cell tableFooter;
 	private Cell columnHeader;
 	private Cell columnFooter;
+	private Integer width;
 	private Integer rowSpan;
 
 	public StandardBaseColumn()
@@ -55,18 +58,12 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 		this.printWhenExpression = factory.getBaseObjectFactory().getExpression(
 				column.getPrintWhenExpression());
 		
-		Cell columnHeader = column.getColumnHeader();
-		if (columnHeader != null)
-		{
-			this.columnHeader = new CompiledCell(columnHeader, factory.getBaseObjectFactory());
-		}
-		
-		Cell columnFooter = column.getColumnFooter();
-		if (columnFooter != null)
-		{
-			this.columnFooter = new CompiledCell(columnFooter, factory.getBaseObjectFactory());
-		}
-		
+		this.tableHeader = factory.createCell(column.getTableHeader());
+		this.tableFooter = factory.createCell(column.getTableFooter());
+		this.columnHeader = factory.createCell(column.getColumnHeader());
+		this.columnFooter = factory.createCell(column.getColumnFooter());
+
+		this.width = column.getWidth();
 		this.rowSpan = column.getRowSpan();
 	}
 	
@@ -126,6 +123,36 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 			// never
 			throw new JRRuntimeException(e);
 		}
+	}
+
+	public Cell getTableHeader()
+	{
+		return tableHeader;
+	}
+
+	public void setTableHeader(Cell tableHeader)
+	{
+		this.tableHeader = tableHeader;
+	}
+
+	public Cell getTableFooter()
+	{
+		return tableFooter;
+	}
+
+	public void setTableFooter(Cell tableFooter)
+	{
+		this.tableFooter = tableFooter;
+	}
+
+	public Integer getWidth()
+	{
+		return width;
+	}
+
+	public void setWidth(Integer width)
+	{
+		this.width = width;
 	}
 
 }

@@ -77,6 +77,8 @@ public class TableReport implements JRReport
 	private final JasperReport parentReport;
 	private final JRDataset mainDataset;
 	private final JRSection detail;
+	private final JRBand title;
+	private final JRBand summary;
 	private final JRBand columnHeader;
 	private final JRBand columnFooter;
 	
@@ -88,6 +90,8 @@ public class TableReport implements JRReport
 		this.mainDataset = mainDataset;
 		
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
+		this.title = createTitle(fillColumns);
+		this.summary = createSummary(fillColumns);
 		this.columnHeader = createColumnHeader(fillColumns);
 		this.columnFooter = createColumnFooter(fillColumns);
 	}
@@ -112,16 +116,20 @@ public class TableReport implements JRReport
 		{
 			Cell cell = columnCell(column);
 			
-			if (band.getHeight() < cell.getHeight() + yOffset)
+			if (cell != null)
 			{
-				band.setHeight(cell.getHeight() + yOffset);
-			}
+				if (band.getHeight() < cell.getHeight() + yOffset)
+				{
+					band.setHeight(cell.getHeight() + yOffset);
+				}
 
-			JRDesignFrame cellFrame = createCellFrame(cell, fillColumn.getWidth(), 
-					xOffset, yOffset);
-			band.addElement(cellFrame);
+				JRDesignFrame cellFrame = createCellFrame(cell, 
+						column.getWidth(), fillColumn.getWidth(), 
+						xOffset, yOffset);
+				band.addElement(cellFrame);
+			}
 			
-			xOffset += cell.getWidth();
+			xOffset += column.getWidth();
 			
 			return null;
 		}
@@ -134,7 +142,8 @@ public class TableReport implements JRReport
 			int cellHeight = 0;
 			if (cell != null)
 			{
-				JRDesignFrame cellFrame = createCellFrame(cell, fillColumn.getWidth(), 
+				JRDesignFrame cellFrame = createCellFrame(cell, 
+						columnGroup.getWidth(), fillColumn.getWidth(), 
 						xOffset, yOffset);
 				band.addElement(cellFrame);
 				cellHeight = cell.getHeight();
@@ -238,7 +247,7 @@ public class TableReport implements JRReport
 
 	protected JRBand createColumnHeader(List<FillColumn> fillColumns)
 	{
-		final JRDesignBand columnHeader = new JRDesignBand();
+		JRDesignBand columnHeader = new JRDesignBand();
 		columnHeader.setSplitType(SplitTypeEnum.PREVENT);
 		
 		//TODO element groups
@@ -251,6 +260,10 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 		
+		if (columnHeader.getHeight() == 0)
+		{
+			columnHeader = null;
+		}
 		return columnHeader;
 	}
 	
@@ -284,7 +297,7 @@ public class TableReport implements JRReport
 
 	protected JRBand createColumnFooter(List<FillColumn> fillColumns)
 	{
-		final JRDesignBand columnFooter = new JRDesignBand();
+		JRDesignBand columnFooter = new JRDesignBand();
 		columnFooter.setSplitType(SplitTypeEnum.PREVENT);
 		
 		//TODO element groups
@@ -297,10 +310,115 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 		
+		if (columnFooter.getHeight() == 0)
+		{
+			columnFooter = null;
+		}
 		return columnFooter;
 	}
+	
+	protected class TitleContents extends ReportBandContents
+	{
+		public TitleContents(JRDesignBand band, FillColumn fillColumn,
+				int xOffset, int yOffset)
+		{
+			super(band, fillColumn, xOffset, yOffset);
+		}
 
-	protected JRDesignFrame createCellFrame(Cell cell, int width, 
+		@Override
+		protected Cell columnCell(Column column)
+		{
+			return column.getTableHeader();
+		}
+
+		@Override
+		protected Cell columnGroupCell(ColumnGroup group)
+		{
+			return group.getTableHeader();
+		}
+
+		@Override
+		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset)
+		{
+			return new TitleContents(band, subcolumn, xOffset, yOffset);
+		}
+	}
+
+	protected JRBand createTitle(List<FillColumn> fillColumns)
+	{
+		JRDesignBand title = new JRDesignBand();
+		title.setSplitType(SplitTypeEnum.PREVENT);
+		
+		//TODO element groups
+		int xOffset = 0;
+		for (FillColumn subcolumn : fillColumns)
+		{
+			TitleContents subVisitor = new TitleContents(
+					title, subcolumn, xOffset, 0);
+			subVisitor.visit();
+			xOffset = subVisitor.xOffset;
+		}
+		
+		if (title.getHeight() == 0)
+		{
+			title = null;
+		}
+		return title;
+	}
+	
+	protected class SummaryContents extends ReportBandContents
+	{
+		public SummaryContents(JRDesignBand band, FillColumn fillColumn,
+				int xOffset, int yOffset)
+		{
+			super(band, fillColumn, xOffset, yOffset);
+		}
+
+		@Override
+		protected Cell columnCell(Column column)
+		{
+			return column.getTableFooter();
+		}
+
+		@Override
+		protected Cell columnGroupCell(ColumnGroup group)
+		{
+			return group.getTableFooter();
+		}
+
+		@Override
+		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset)
+		{
+			return new SummaryContents(band, subcolumn, xOffset, yOffset);
+		}
+	}
+
+	protected JRBand createSummary(List<FillColumn> fillColumns)
+	{
+		JRDesignBand summary = new JRDesignBand();
+		summary.setSplitType(SplitTypeEnum.PREVENT);
+		
+		//TODO element groups
+		int xOffset = 0;
+		for (FillColumn subcolumn : fillColumns)
+		{
+			SummaryContents subVisitor = new SummaryContents(
+					summary, subcolumn, xOffset, 0);
+			subVisitor.visit();
+			xOffset = subVisitor.xOffset;
+		}
+		
+		if (summary.getHeight() == 0)
+		{
+			summary = null;
+		}
+		return summary;
+	}
+
+	protected JRDesignFrame createCellFrame(Cell cell, 
+			int originalWidth, int width, 
 			int x, int y)
 	{
 		JRDesignFrame frame = new JRDesignFrame(this);
@@ -314,7 +432,6 @@ public class TableReport implements JRReport
 		frame.setStyleNameReference(cell.getStyleNameReference());
 		frame.copyBox(cell.getLineBox());
 		
-		Integer cellWidth = cell.getWidth();
 		for (Iterator it = cell.getChildren().iterator(); it.hasNext();)
 		{
 			JRChild child = (JRChild) it.next();
@@ -323,16 +440,16 @@ public class TableReport implements JRReport
 				JRElement element = (JRElement) child;
 				// clone the element in order to set the frame as group
 				element = (JRElement) element.clone(frame);
-				if (width != cellWidth)
+				if (width != originalWidth)
 				{
-					scaleCellElement(element, cellWidth, width);
+					scaleCellElement(element, originalWidth, width);
 					
 					if (element instanceof JRElementGroup)//i.e. frame
 					{
 						JRElementGroup elementGroup = (JRElementGroup) element;
 						for (JRElement subelement : elementGroup.getElements())
 						{
-							scaleCellElement(subelement, cellWidth, width);
+							scaleCellElement(subelement, originalWidth, width);
 						}
 					}
 				}
@@ -345,11 +462,11 @@ public class TableReport implements JRReport
 				elementGroup = (JRElementGroup) elementGroup.clone(frame);
 				frame.addElementGroup(elementGroup);
 				
-				if (width != cellWidth)
+				if (width != originalWidth)
 				{
 					for (JRElement element : elementGroup.getElements())
 					{
-						scaleCellElement(element, cellWidth, width);
+						scaleCellElement(element, originalWidth, width);
 					}
 				}
 			}
@@ -578,7 +695,7 @@ public class TableReport implements JRReport
 
 	public JRBand getSummary()
 	{
-		return null;
+		return summary;
 	}
 
 	public JRReportTemplate[] getTemplates()
@@ -589,7 +706,7 @@ public class TableReport implements JRReport
 
 	public JRBand getTitle()
 	{
-		return null;
+		return title;
 	}
 
 	public int getTopMargin()

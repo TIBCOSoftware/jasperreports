@@ -48,7 +48,6 @@ public class CompiledCell extends JRBaseElementGroup implements Cell
 	protected JRStyle style;
 	protected String styleNameReference;
 	private JRLineBox box;
-	private Integer width;
 	private Integer height;
 	
 	public CompiledCell()
@@ -66,18 +65,12 @@ public class CompiledCell extends JRBaseElementGroup implements Cell
 		this.style = factory.getStyle(cell.getStyle());
 		this.styleNameReference = cell.getStyleNameReference();
 		this.box = cell.getLineBox().clone(this);
-		this.width = cell.getWidth();
 		this.height = cell.getHeight();
 	}
 
 	public Integer getHeight()
 	{
 		return height;
-	}
-
-	public Integer getWidth()
-	{
-		return width;
 	}
 
 	public Color getDefaultLineColor()
