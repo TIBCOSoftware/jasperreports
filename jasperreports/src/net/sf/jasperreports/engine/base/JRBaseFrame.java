@@ -50,7 +50,7 @@ import net.sf.jasperreports.engine.util.LineBoxWrapper;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseFrame extends JRBaseElement implements JRFrame //FIXMECLONE why doesn't it implement the clone method?
+public class JRBaseFrame extends JRBaseElement implements JRFrame
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -636,5 +636,22 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame //FIXMECLONE w
 			bottomPadding = null;
 			rightPadding = null;
 		}
+	}
+
+	@Override
+	public Object clone()
+	{
+		JRBaseFrame clone = (JRBaseFrame) super.clone();
+		
+		if (children != null)
+		{
+			clone.children = new ArrayList(children.size());
+			for(int i = 0; i < children.size(); i++)
+			{
+				clone.children.add(((JRChild)children.get(i)).clone(clone));
+			}
+		}
+		
+		return clone;
 	}
 }
