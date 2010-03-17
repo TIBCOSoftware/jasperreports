@@ -37,4 +37,6 @@ public interface Cell extends JRElementGroup, JRBoxContainer
 
 	Integer getHeight();
 	
+	Integer getRowSpan();
+	
 }

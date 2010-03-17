@@ -47,7 +47,6 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 	private Cell columnHeader;
 	private Cell columnFooter;
 	private Integer width;
-	private Integer rowSpan;
 
 	public StandardBaseColumn()
 	{
@@ -64,7 +63,6 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 		this.columnFooter = factory.createCell(column.getColumnFooter());
 
 		this.width = column.getWidth();
-		this.rowSpan = column.getRowSpan();
 	}
 	
 	public Cell getColumnHeader()
@@ -82,11 +80,6 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 		return printWhenExpression;
 	}
 
-	public Integer getRowSpan()
-	{
-		return rowSpan;
-	}
-
 	public void setPrintWhenExpression(JRExpression printWhenExpression)
 	{
 		this.printWhenExpression = printWhenExpression;
@@ -100,11 +93,6 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 	public void setColumnFooter(Cell header)
 	{
 		this.columnFooter = header;
-	}
-
-	public void setRowSpan(Integer rowSpan)
-	{
-		this.rowSpan = rowSpan;
 	}
 	
 	public Object clone()

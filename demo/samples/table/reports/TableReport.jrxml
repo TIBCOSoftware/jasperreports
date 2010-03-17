@@ -100,8 +100,8 @@
 							</textField>
 						</c:detailCell>
 					</c:column>
-					<c:column width="100" rowSpan="2">
-						<c:columnHeader height="30" style="TableHeader">
+					<c:column width="100">
+						<c:columnHeader rowSpan="2" height="30" style="TableHeader">
 							<box leftPadding="10">
 								<pen lineColor="black" />
 								<leftPen lineWidth="0.5" />
@@ -142,8 +142,8 @@
 							</textField>
 						</c:detailCell>
 					</c:column>
-					<c:column width="100" rowSpan="2">
-						<c:columnHeader height="30" style="TableHeader">
+					<c:column width="100">
+						<c:columnHeader rowSpan="2" height="30" style="TableHeader">
 							<box leftPadding="10">
 								<pen lineColor="black" />
 								<leftPen lineWidth="0.5" />
