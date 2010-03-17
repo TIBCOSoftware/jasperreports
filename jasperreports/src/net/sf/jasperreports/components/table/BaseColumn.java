@@ -37,8 +37,6 @@ public interface BaseColumn extends JRCloneable
 
 	JRExpression getPrintWhenExpression();
 	
-	Integer getRowSpan();
-	
 	Cell getTableHeader();
 	
 	Cell getTableFooter();

@@ -408,7 +408,6 @@
 			<element name="columnHeader" type="c:TableCell" minOccurs="0"/>
 			<element name="columnFooter" type="c:TableCell" minOccurs="0"/>
 		</sequence>
-		<attribute name="rowSpan" use="optional" type="unsignedInt"/>
 		<attribute name="width" use="required" type="unsignedInt"/>
 	</complexType>
 	
@@ -479,8 +478,9 @@
 				<element ref="jr:genericElement" />
 			</choice>
 		</sequence>
-		<attribute name="style" type="string" use="optional"/>
+		<attribute name="style" use="optional" type="string"/>
 		<attribute name="height" use="required" type="unsignedInt"/>
+		<attribute name="rowSpan" use="optional" type="unsignedInt"/>
 	</complexType>
 
 </schema>

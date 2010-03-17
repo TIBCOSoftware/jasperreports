@@ -377,7 +377,6 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				{
 					writer.startElement("column");
 					writer.addAttribute("width", column.getWidth());
-					//TODO rowspan?
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							column.getPrintWhenExpression(), false);
@@ -402,7 +401,6 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				{
 					writer.startElement("columnGroup");
 					writer.addAttribute("width", columnGroup.getWidth());
-					//TODO rowspan?
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							columnGroup.getPrintWhenExpression(), false);
@@ -444,6 +442,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			writer.startElement(name);
 			reportWriter.writeStyleReferenceAttr(cell);
 			writer.addAttribute("height", cell.getHeight());
+			writer.addAttribute("rowSpan", cell.getRowSpan());
 			
 			reportWriter.writeBox(cell.getLineBox());
 			reportWriter.writeChildElements(cell);

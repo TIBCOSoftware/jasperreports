@@ -48,6 +48,7 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 	private JRStyle style;
 	private String styleNameReference;
 	private JRLineBox box;
+	private Integer rowSpan;
 	private Integer height;
 
 	public DesignCell()
@@ -104,6 +105,16 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 	public void setHeight(Integer height)
 	{
 		this.height = height;
+	}
+
+	public Integer getRowSpan()
+	{
+		return rowSpan;
+	}
+
+	public void setRowSpan(Integer rowSpan)
+	{
+		this.rowSpan = rowSpan;
 	}
 
 }
