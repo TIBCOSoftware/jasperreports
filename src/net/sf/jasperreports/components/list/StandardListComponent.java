@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -41,7 +42,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardListComponent implements Serializable, ListComponent
+public class StandardListComponent implements Serializable, ListComponent, JRChangeEventsSupport
 {
 
 	private static final long serialVersionUID = 1L;

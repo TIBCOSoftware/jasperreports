@@ -405,6 +405,8 @@
 			<element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
 			<element name="tableHeader" type="c:TableCell" minOccurs="0"/>
 			<element name="tableFooter" type="c:TableCell" minOccurs="0"/>
+			<element name="groupHeader" type="c:TableGroupCell" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="groupFooter" type="c:TableGroupCell" minOccurs="0" maxOccurs="unbounded"/>
 			<element name="columnHeader" type="c:TableCell" minOccurs="0"/>
 			<element name="columnFooter" type="c:TableCell" minOccurs="0"/>
 		</sequence>
@@ -437,6 +439,13 @@
 			</complexContent>
 		</complexType>
 	</element>
+	
+	<complexType name="TableGroupCell">
+		<sequence>
+			<element name="cell" type="c:TableCell"/>
+		</sequence>
+		<attribute name="groupName" use="required" type="string"/>
+	</complexType>
 	
 	<complexType name="TableCell">
 		<sequence>

@@ -44,6 +44,12 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_DEFAULT_STYLE_PROVIDER = "defaultStyleProvider";
+	public static final String PROPERTY_STYLE = "style";
+	public static final String PROPERTY_STYLE_NAME_REFERENCE = "styleNameReference";
+	public static final String PROPERTY_ROW_SPAN = "rowSpan";
+	public static final String PROPERTY_HEIGHT = "height";
+	
 	private JRDefaultStyleProvider defaultStyleProvider;
 	private JRStyle style;
 	private String styleNameReference;
@@ -89,22 +95,34 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 	public void setDefaultStyleProvider(
 			JRDefaultStyleProvider defaultStyleProvider)
 	{
+		Object old = this.defaultStyleProvider;
 		this.defaultStyleProvider = defaultStyleProvider;
+		getEventSupport().firePropertyChange(PROPERTY_DEFAULT_STYLE_PROVIDER, 
+				old, this.defaultStyleProvider);
 	}
 
 	public void setStyle(JRStyle style)
 	{
+		Object old = this.style;
 		this.style = style;
+		getEventSupport().firePropertyChange(PROPERTY_STYLE, 
+				old, this.style);
 	}
 
 	public void setStyleNameReference(String styleName)
 	{
+		Object old = this.styleNameReference;
 		this.styleNameReference = styleName;
+		getEventSupport().firePropertyChange(PROPERTY_STYLE_NAME_REFERENCE, 
+				old, this.styleNameReference);
 	}
 
 	public void setHeight(Integer height)
 	{
+		Object old = this.height;
 		this.height = height;
+		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, 
+				old, this.height);
 	}
 
 	public Integer getRowSpan()
@@ -114,7 +132,10 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 
 	public void setRowSpan(Integer rowSpan)
 	{
+		Object old = this.rowSpan;
 		this.rowSpan = rowSpan;
+		getEventSupport().firePropertyChange(PROPERTY_ROW_SPAN, 
+				old, this.rowSpan);
 	}
 
 }

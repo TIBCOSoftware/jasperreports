@@ -24,13 +24,9 @@
 package net.sf.jasperreports.components.table;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -41,87 +37,69 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardTable implements TableComponent, Serializable, JRChangeEventsSupport
+public class StandardGroupCell implements GroupCell, Serializable,
+		JRChangeEventsSupport
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_DATASET_RUN = "datasetRun";
-	public static final String PROPERTY_COLUMNS = "columns";
-
-	private JRDatasetRun datasetRun;
-	private List<BaseColumn> columns;
-
-	public StandardTable()
+	public static final String PROPERTY_GROUP_NAME = "groupName";
+	public static final String PROPERTY_CELL = "cell";
+	
+	private String groupName;
+	private Cell cell;
+	
+	public StandardGroupCell()
 	{
-		columns = new ArrayList<BaseColumn>();
-	}
-
-	public StandardTable(TableComponent table, JRBaseObjectFactory factory)
-	{
-		datasetRun = factory.getDatasetRun(table.getDatasetRun());
-		
-		ColumnFactory columnFactory = new ColumnFactory(factory);
-		columns = columnFactory.createColumns(table.getColumns());
 	}
 	
-	public List<BaseColumn> getColumns()
+	public StandardGroupCell(String groupName, Cell cell)
 	{
-		return columns;
+		this.groupName = groupName;
+		this.cell = cell;
 	}
 
-	public void setColumns(List<BaseColumn> columns)
+	public StandardGroupCell(GroupCell groupCell, ColumnFactory columnFactory)
 	{
-		Object old = this.columns;
-		this.columns = columns;
-		getEventSupport().firePropertyChange(PROPERTY_COLUMNS, 
-				old, this.columns);
+		this.groupName = groupCell.getGroupName();
+		this.cell = columnFactory.createCell(groupCell.getCell());
 	}
 
-	public void addColumn(BaseColumn column)
+	public Cell getCell()
 	{
-		columns.add(column);
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_COLUMNS, 
-				column, columns.size() - 1);
+		return cell;
 	}
 
-	public boolean removeColumn(BaseColumn column)
+	public String getGroupName()
 	{
-		int idx = columns.indexOf(column);
-		if (idx >= 0)
-		{
-			columns.remove(idx);
-			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_COLUMNS, 
-					column, idx);
-		}
-		return idx >= 0;
+		return groupName;
 	}
 
-	public JRDatasetRun getDatasetRun()
+	public void setGroupName(String groupName)
 	{
-		return datasetRun;
+		Object old = this.groupName;
+		this.groupName = groupName;
+		getEventSupport().firePropertyChange(PROPERTY_GROUP_NAME, 
+				old, this.groupName);
 	}
 
-	public void setDatasetRun(JRDatasetRun datasetRun)
+	public void setCell(Cell cell)
 	{
-		Object old = this.datasetRun;
-		this.datasetRun = datasetRun;
-		getEventSupport().firePropertyChange(PROPERTY_DATASET_RUN, 
-				old, this.datasetRun);
+		Object old = this.cell;
+		this.cell = cell;
+		getEventSupport().firePropertyChange(PROPERTY_CELL, old, this.cell);
 	}
-	
+
 	public Object clone()
 	{
 		try
 		{
-			StandardTable clone = (StandardTable) super.clone();
-			clone.datasetRun = (JRDatasetRun) JRCloneUtils.nullSafeClone(datasetRun);
-			clone.columns = JRCloneUtils.cloneList(columns);
+			StandardGroupCell clone = (StandardGroupCell) super.clone();
+			clone.cell = (Cell) JRCloneUtils.nullSafeClone(cell);
 			return clone;
-		} 
+		}
 		catch (CloneNotSupportedException e)
 		{
-			// never
 			throw new JRRuntimeException(e);
 		}
 	}
@@ -140,5 +118,5 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		
 		return eventSupport;
 	}
-	
+
 }

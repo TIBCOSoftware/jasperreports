@@ -40,6 +40,8 @@ public class StandardColumnGroup extends StandardBaseColumn implements
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_COLUMNS = "columns";
 
 	private List<BaseColumn> children;
 	
@@ -60,9 +62,31 @@ public class StandardColumnGroup extends StandardBaseColumn implements
 		return children;
 	}
 
+	public void setColumns(List<BaseColumn> columns)
+	{
+		Object old = this.children;
+		this.children = columns;
+		getEventSupport().firePropertyChange(PROPERTY_COLUMNS, 
+				old, this.children);
+	}
+
 	public void addColumn(BaseColumn column)
 	{
 		children.add(column);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_COLUMNS, 
+				column, children.size() - 1);
+	}
+
+	public boolean removeColumn(BaseColumn column)
+	{
+		int idx = children.indexOf(column);
+		if (idx >= 0)
+		{
+			children.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_COLUMNS, 
+					column, idx);
+		}
+		return idx >= 0;
 	}
 
 	public <R> R visitColumn(ColumnVisitor<R> visitor)

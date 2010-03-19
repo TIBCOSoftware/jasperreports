@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.table;
 
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 
@@ -40,6 +42,14 @@ public interface BaseColumn extends JRCloneable
 	Cell getTableHeader();
 	
 	Cell getTableFooter();
+	
+	List<GroupCell> getGroupHeaders();
+	
+	Cell getGroupHeader(String groupName);
+	
+	List<GroupCell> getGroupFooters();
+	
+	Cell getGroupFooter(String groupName);
 	
 	Cell getColumnHeader();
 	
