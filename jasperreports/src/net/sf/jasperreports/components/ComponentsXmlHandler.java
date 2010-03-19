@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components;
 
 import java.io.IOException;
+import java.util.List;
 
 import net.sf.jasperreports.components.barbecue.BarbecueComponent;
 import net.sf.jasperreports.components.barbecue.StandardBarbecueComponent;
@@ -53,8 +54,10 @@ import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.ColumnVisitor;
 import net.sf.jasperreports.components.table.DesignCell;
+import net.sf.jasperreports.components.table.GroupCell;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardColumnGroup;
+import net.sf.jasperreports.components.table.StandardGroupCell;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRExpression;
@@ -222,6 +225,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				true);
 		addTableCellRules(digester, columnPattern + "/tableHeader", "setTableHeader");
 		addTableCellRules(digester, columnPattern + "/tableFooter", "setTableFooter");
+		addTableGroupCellRules(digester, columnPattern + "/groupHeader", "addGroupHeader");
+		addTableGroupCellRules(digester, columnPattern + "/groupFooter", "addGroupFooter");
 		addTableCellRules(digester, columnPattern + "/columnHeader", "setColumnHeader");
 		addTableCellRules(digester, columnPattern + "/columnFooter", "setColumnFooter");
 		addTableCellRules(digester, columnPattern + "/detailCell", "setDetailCell");
@@ -235,6 +240,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				true);
 		addTableCellRules(digester, columnGroupPattern + "/tableHeader", "setTableHeader");
 		addTableCellRules(digester, columnGroupPattern + "/tableFooter", "setTableFooter");
+		addTableGroupCellRules(digester, columnGroupPattern + "/groupHeader", "addGroupHeader");
+		addTableGroupCellRules(digester, columnGroupPattern + "/groupFooter", "addGroupFooter");
 		addTableCellRules(digester, columnGroupPattern + "/columnHeader", "setColumnHeader");
 		addTableCellRules(digester, columnGroupPattern + "/columnFooter", "setColumnFooter");
 	}
@@ -249,6 +256,15 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				new String[]{XmlConstants.ATTRIBUTE_style}, 
 				new String[0]);
 		digester.addRule(pattern, new StyleContainerRule());
+	}
+	
+	protected void addTableGroupCellRules(Digester digester, String pattern, 
+			String setNextMethod)
+	{
+		digester.addObjectCreate(pattern, StandardGroupCell.class);
+		digester.addSetProperties(pattern);
+		addTableCellRules(digester, pattern + "/cell", "setCell");
+		digester.addSetNext(pattern, setNextMethod);
 	}
 
 	protected void addExpressionRules(Digester digester, String expressionPattern,
@@ -382,6 +398,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 							column.getPrintWhenExpression(), false);
 					writeTableCell(column.getTableHeader(), "tableHeader", reportWriter);
 					writeTableCell(column.getTableFooter(), "tableFooter", reportWriter);
+					writeGroupCells(column.getGroupHeaders(), "groupHeader", reportWriter);
+					writeGroupCells(column.getGroupFooters(), "groupFooter", reportWriter);
 					writeTableCell(column.getColumnHeader(), "columnHeader", reportWriter);
 					writeTableCell(column.getColumnFooter(), "columnFooter", reportWriter);
 					writeTableCell(column.getDetailCell(), "detailCell", reportWriter);
@@ -406,6 +424,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 							columnGroup.getPrintWhenExpression(), false);
 					writeTableCell(columnGroup.getTableHeader(), "tableHeader", reportWriter);
 					writeTableCell(columnGroup.getTableFooter(), "tableFooter", reportWriter);
+					writeGroupCells(columnGroup.getGroupHeaders(), "groupHeader", reportWriter);
+					writeGroupCells(columnGroup.getGroupFooters(), "groupFooter", reportWriter);
 					writeTableCell(columnGroup.getColumnHeader(), "columnHeader", reportWriter);
 					writeTableCell(columnGroup.getColumnFooter(), "columnFooter", reportWriter);
 					
@@ -434,7 +454,34 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.closeElement();
 	}
 	
-	protected void writeTableCell(Cell cell, String name, JRXmlWriter reportWriter) throws IOException
+	protected void writeTableGroupCell(GroupCell groupCell, String name, 
+			JRXmlWriter reportWriter) throws IOException
+	{
+		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+		writer.startElement(name);
+		writer.addAttribute("groupName", groupCell.getGroupName());
+		writeTableCell(groupCell.getCell(), "cell", reportWriter);
+		writer.closeElement();//name
+	}
+	
+	protected void writeGroupCells(List<GroupCell> cells, String name, 
+			JRXmlWriter reportWriter) throws IOException
+	{
+		if (cells != null)
+		{
+			JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+			for (GroupCell groupCell : cells)
+			{
+				writer.startElement(name);
+				writer.addAttribute("groupName", groupCell.getGroupName());
+				writeTableCell(groupCell.getCell(), "cell", reportWriter);
+				writer.closeElement();
+			}
+		}
+	}
+	
+	protected void writeTableCell(Cell cell, String name, 
+			JRXmlWriter reportWriter) throws IOException
 	{
 		if (cell != null)
 		{

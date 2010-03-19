@@ -24,10 +24,15 @@
 package net.sf.jasperreports.components.table;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -36,20 +41,33 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class StandardBaseColumn implements BaseColumn, Serializable
+public abstract class StandardBaseColumn implements BaseColumn, Serializable, JRChangeEventsSupport
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	public static final String PROPERTY_PRINT_WHEN_EXPRESSION = "printWhenExpression";
+	public static final String PROPERTY_TABLE_HEADER = "tableHeader";
+	public static final String PROPERTY_TABLE_FOOTER = "tableFooter";
+	public static final String PROPERTY_COLUMN_HEADER = "columnHeader";
+	public static final String PROPERTY_COLUMN_FOOTER = "columnFooter";
+	public static final String PROPERTY_GROUP_HEADERS = "groupHeaders";
+	public static final String PROPERTY_GROUP_FOOTERS = "groupFooters";
+	public static final String PROPERTY_WIDTH = "width";
 	
 	private JRExpression printWhenExpression;
 	private Cell tableHeader;
 	private Cell tableFooter;
+	private List<GroupCell> groupHeaders; 
+	private List<GroupCell> groupFooters; 
 	private Cell columnHeader;
 	private Cell columnFooter;
 	private Integer width;
 
 	public StandardBaseColumn()
 	{
+		groupHeaders = new ArrayList<GroupCell>();
+		groupFooters = new ArrayList<GroupCell>();
 	}
 
 	public StandardBaseColumn(BaseColumn column, ColumnFactory factory)
@@ -59,6 +77,8 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 		
 		this.tableHeader = factory.createCell(column.getTableHeader());
 		this.tableFooter = factory.createCell(column.getTableFooter());
+		this.groupHeaders = factory.createGroupCells(column.getGroupHeaders());
+		this.groupFooters = factory.createGroupCells(column.getGroupFooters());
 		this.columnHeader = factory.createCell(column.getColumnHeader());
 		this.columnFooter = factory.createCell(column.getColumnFooter());
 
@@ -82,17 +102,26 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 
 	public void setPrintWhenExpression(JRExpression printWhenExpression)
 	{
+		Object old = this.printWhenExpression;
 		this.printWhenExpression = printWhenExpression;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_WHEN_EXPRESSION, 
+				old, this.printWhenExpression);
 	}
 
 	public void setColumnHeader(Cell header)
 	{
+		Object old = this.columnHeader;
 		this.columnHeader = header;
+		getEventSupport().firePropertyChange(PROPERTY_COLUMN_HEADER, 
+				old, this.columnHeader);
 	}
 
 	public void setColumnFooter(Cell header)
 	{
+		Object old = this.columnFooter;
 		this.columnFooter = header;
+		getEventSupport().firePropertyChange(PROPERTY_COLUMN_FOOTER, 
+				old, this.columnFooter);
 	}
 	
 	public Object clone()
@@ -100,6 +129,10 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 		try
 		{
 			StandardBaseColumn clone = (StandardBaseColumn) super.clone();
+			clone.tableHeader = (Cell) JRCloneUtils.nullSafeClone(tableHeader);
+			clone.tableFooter = (Cell) JRCloneUtils.nullSafeClone(tableFooter);
+			clone.groupHeaders = JRCloneUtils.cloneList(groupHeaders);
+			clone.groupFooters = JRCloneUtils.cloneList(groupFooters);
 			clone.columnHeader = (Cell) JRCloneUtils.nullSafeClone(columnHeader);
 			clone.columnFooter = (Cell) JRCloneUtils.nullSafeClone(columnFooter);
 			clone.printWhenExpression = (JRExpression) JRCloneUtils.nullSafeClone(
@@ -120,7 +153,10 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 
 	public void setTableHeader(Cell tableHeader)
 	{
+		Object old = this.tableHeader;
 		this.tableHeader = tableHeader;
+		getEventSupport().firePropertyChange(PROPERTY_TABLE_HEADER, 
+				old, this.tableHeader);
 	}
 
 	public Cell getTableFooter()
@@ -130,7 +166,10 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 
 	public void setTableFooter(Cell tableFooter)
 	{
+		Object old = this.tableFooter;
 		this.tableFooter = tableFooter;
+		getEventSupport().firePropertyChange(PROPERTY_TABLE_FOOTER, 
+				old, this.tableFooter);
 	}
 
 	public Integer getWidth()
@@ -143,4 +182,142 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable
 		this.width = width;
 	}
 
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
+
+	public List<GroupCell> getGroupHeaders()
+	{
+		return groupHeaders;
+	}
+
+	public List<GroupCell> getGroupFooters()
+	{
+		return groupFooters;
+	}
+
+	protected int findGroupCellIndex(List<GroupCell> groupCells, String groupName)
+	{
+		int idx = -1;
+		for (ListIterator it = groupCells.listIterator(); it.hasNext();)
+		{
+			GroupCell groupCell = (GroupCell) it.next();
+			if (groupName.equals(groupCell.getGroupName()))
+			{
+				idx = it.previousIndex();
+			}
+		}
+		return idx;
+	}
+	
+	public Cell getGroupFooter(String groupName)
+	{
+		int idx = findGroupCellIndex(groupFooters, groupName);
+		return idx < 0 ? null : groupFooters.get(idx).getCell();
+	}
+
+	public Cell getGroupHeader(String groupName)
+	{
+		int idx = findGroupCellIndex(groupHeaders, groupName);
+		return idx < 0 ? null : groupHeaders.get(idx).getCell();
+	}
+
+	public void setGroupHeaders(List<GroupCell> groupHeaders)
+	{
+		Object old = this.groupHeaders;
+		this.groupHeaders = groupHeaders;
+		getEventSupport().firePropertyChange(PROPERTY_GROUP_HEADERS, 
+				old, this.groupHeaders);
+	}
+
+	public void setGroupFooters(List<GroupCell> groupFooters)
+	{
+		Object old = this.groupFooters;
+		this.groupFooters = groupFooters;
+		getEventSupport().firePropertyChange(PROPERTY_GROUP_FOOTERS, 
+				old, this.groupFooters);
+	}
+
+	public void addGroupHeader(GroupCell groupCell)
+	{
+		groupHeaders.add(groupCell);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_GROUP_HEADERS, 
+				groupCell, groupHeaders.size() - 1);
+	}
+
+	public void addGroupFooter(GroupCell groupCell)
+	{
+		groupFooters.add(groupCell);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_GROUP_FOOTERS, 
+				groupCell, groupFooters.size() - 1);
+	}
+
+	public boolean removeGroupFooter(GroupCell groupCell)
+	{
+		int idx = groupFooters.indexOf(groupCell);
+		if (idx >= 0)
+		{
+			groupFooters.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_GROUP_FOOTERS, 
+					groupCell, idx);
+		}
+		return idx >= 0;
+	}
+
+	public boolean removeGroupHeader(GroupCell groupCell)
+	{
+		int idx = groupHeaders.indexOf(groupCell);
+		if (idx >= 0)
+		{
+			groupHeaders.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_GROUP_HEADERS, 
+					groupCell, idx);
+		}
+		return idx >= 0;
+	}
+	
+	public void setGroupFooter(String groupName, Cell cell)
+	{
+		StandardGroupCell groupCell = new StandardGroupCell(groupName, cell);
+		int idx = findGroupCellIndex(groupFooters, groupName);
+		if (idx < 0)
+		{
+			addGroupFooter(groupCell);
+		}
+		else
+		{
+			GroupCell old = groupFooters.get(idx);
+			groupFooters.set(idx, groupCell);
+			getEventSupport().fireIndexedPropertyChange(PROPERTY_GROUP_FOOTERS, idx, 
+					old, groupCell);
+		}
+	}
+	
+	public void setGroupHeader(String groupName, Cell cell)
+	{
+		StandardGroupCell groupCell = new StandardGroupCell(groupName, cell);
+		int idx = findGroupCellIndex(groupHeaders, groupName);
+		if (idx < 0)
+		{
+			addGroupFooter(groupCell);
+		}
+		else
+		{
+			GroupCell old = groupHeaders.get(idx);
+			groupHeaders.set(idx, groupCell);
+			getEventSupport().fireIndexedPropertyChange(PROPERTY_GROUP_HEADERS, idx, 
+					old, groupCell);
+		}
+	}
 }

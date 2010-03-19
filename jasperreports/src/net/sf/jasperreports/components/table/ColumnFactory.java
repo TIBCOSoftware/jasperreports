@@ -69,6 +69,25 @@ public class ColumnFactory implements ColumnVisitor<BaseColumn>
 		return newCell;
 	}
 	
+	public List<GroupCell> createGroupCells(List<GroupCell> cells)
+	{
+		List<GroupCell> newCells;
+		if (cells == null)
+		{
+			newCells = null;
+		}
+		else
+		{
+			newCells = new ArrayList<GroupCell>(cells.size());
+			for (GroupCell groupCell : cells)
+			{
+				GroupCell newCell = new StandardGroupCell(groupCell, this);
+				newCells.add(newCell);
+			}
+		}
+		return newCells;
+	}
+	
 	public BaseColumn visitColumn(Column column)
 	{
 		return new StandardColumn(column, this);

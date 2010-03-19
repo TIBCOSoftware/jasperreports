@@ -23,8 +23,7 @@
  */
 package net.sf.jasperreports.components.table;
 
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.JRCloneable;
 
 /**
  * 
@@ -32,54 +31,11 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardColumn extends StandardBaseColumn implements Column
+public interface GroupCell extends JRCloneable
 {
 
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	String getGroupName();
 	
-	public static final String PROPERTY_DETAIL = "detail";
-
-	private Cell detail;
+	Cell getCell();
 	
-	public StandardColumn()
-	{
-	}
-	
-	public StandardColumn(Column column, ColumnFactory factory)
-	{
-		super(column, factory);
-		
-		Cell columnCell = column.getDetailCell();
-		if (columnCell != null)
-		{
-			this.detail = new CompiledCell(columnCell, factory.getBaseObjectFactory());
-		}
-	}
-
-	public Cell getDetailCell()
-	{
-		return detail;
-	}
-
-	public void setDetailCell(Cell detail)
-	{
-		Object old = this.detail;
-		this.detail = detail;
-		getEventSupport().firePropertyChange(PROPERTY_DETAIL, 
-				old, this.detail);
-	}
-
-	public <R> R visitColumn(ColumnVisitor<R> visitor)
-	{
-		return visitor.visitColumn(this);
-	}
-
-	@Override
-	public Object clone()
-	{
-		StandardColumn clone = (StandardColumn) super.clone();
-		clone.detail = (Cell) JRCloneUtils.nullSafeClone(detail);
-		return clone;
-	}
-
 }

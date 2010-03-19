@@ -47,11 +47,26 @@ public class TableReportDataset implements JRDataset
 
 	private final JRDataset tableSubdataset;
 	private final String name;
+	private final TableReportGroup[] groups;
 	
 	public TableReportDataset(JRDataset tableSubdataset, String name)
 	{
 		this.tableSubdataset = tableSubdataset;
 		this.name = name;
+		
+		JRGroup[] datasetGroups = tableSubdataset.getGroups();
+		if (datasetGroups == null)
+		{
+			groups = null;
+		}
+		else
+		{
+			groups = new TableReportGroup[datasetGroups.length];
+			for (int i = 0; i < datasetGroups.length; i++)
+			{
+				groups[i] = new TableReportGroup(datasetGroups[i]);
+			}
+		}
 	}
 
 	public JRField[] getFields()
@@ -64,9 +79,14 @@ public class TableReportDataset implements JRDataset
 		return tableSubdataset.getFilterExpression();
 	}
 
+	public TableReportGroup[] getTableGroups()
+	{
+		return groups;
+	}
+
 	public JRGroup[] getGroups()
 	{
-		return tableSubdataset.getGroups();
+		return groups;
 	}
 
 	public String getName()

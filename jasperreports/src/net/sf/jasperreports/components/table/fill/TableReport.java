@@ -75,14 +75,14 @@ public class TableReport implements JRReport
 
 	private final FillContext fillContext;
 	private final JasperReport parentReport;
-	private final JRDataset mainDataset;
+	private final TableReportDataset mainDataset;
 	private final JRSection detail;
 	private final JRBand title;
 	private final JRBand summary;
 	private final JRBand columnHeader;
 	private final JRBand columnFooter;
 	
-	public TableReport(FillContext fillContext, JRDataset mainDataset, 
+	public TableReport(FillContext fillContext, TableReportDataset mainDataset, 
 			List<FillColumn> fillColumns)
 	{
 		this.fillContext = fillContext;
@@ -95,8 +95,9 @@ public class TableReport implements JRReport
 		this.summary = createSummary(fillColumns); 
 		this.columnHeader = createColumnHeader(fillColumns);
 		this.columnFooter = createColumnFooter(fillColumns);
+		setGroupBands(fillColumns);
 	}
-	
+
 	protected abstract class ReportBandContents implements ColumnVisitor<Void>
 	{
 		final JRDesignBand band;
@@ -460,6 +461,139 @@ public class TableReport implements JRReport
 		return summary;
 	}
 	
+	protected class GroupHeaderContents extends ReportBandContents
+	{
+		private final String groupName;
+		
+		public GroupHeaderContents(String groupName,
+				JRDesignBand band, FillColumn fillColumn,
+				int xOffset, int yOffset)
+		{
+			super(band, fillColumn, xOffset, yOffset);
+			
+			this.groupName = groupName;
+		}
+
+		@Override
+		protected Cell columnCell(Column column)
+		{
+			return column.getGroupHeader(groupName);
+		}
+
+		@Override
+		protected Cell columnGroupCell(ColumnGroup group)
+		{
+			return group.getGroupHeader(groupName);
+		}
+
+		@Override
+		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset)
+		{
+			return new GroupHeaderContents(groupName, 
+					band, subcolumn, xOffset, yOffset);
+		}
+	}
+
+	protected JRBand createGroupHeader(String groupName, List<FillColumn> fillColumns)
+	{
+		JRDesignBand header = new JRDesignBand();
+		header.setSplitType(SplitTypeEnum.PREVENT);
+		
+		//TODO element groups
+		int xOffset = 0;
+		for (FillColumn subcolumn : fillColumns)
+		{
+			GroupHeaderContents subVisitor = new GroupHeaderContents(groupName,
+					header, subcolumn, xOffset, 0);
+			subVisitor.visit();
+			xOffset = subVisitor.xOffset;
+		}
+		
+		if (header.getHeight() == 0)
+		{
+			header = null;
+		}
+		return header;
+	}
+	
+	protected class GroupFooterContents extends ReverseReportBandContents
+	{
+		private final String groupName;
+		
+		public GroupFooterContents(String groupName,
+				JRDesignBand band, FillColumn fillColumn,
+				int xOffset, int yOffset)
+		{
+			super(band, fillColumn, xOffset, yOffset);
+			
+			this.groupName = groupName;
+		}
+
+		@Override
+		protected Cell columnCell(Column column)
+		{
+			return column.getGroupFooter(groupName);
+		}
+
+		@Override
+		protected Cell columnGroupCell(ColumnGroup group)
+		{
+			return group.getGroupFooter(groupName);
+		}
+
+		@Override
+		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset)
+		{
+			return new GroupFooterContents(groupName, 
+					band, subcolumn, xOffset, yOffset);
+		}
+	}
+
+	protected JRBand createGroupFooter(String groupName, List<FillColumn> fillColumns)
+	{
+		JRDesignBand footer = new JRDesignBand();
+		footer.setSplitType(SplitTypeEnum.PREVENT);
+		
+		//TODO element groups
+		int xOffset = 0;
+		for (FillColumn subcolumn : fillColumns)
+		{
+			GroupFooterContents subVisitor = new GroupFooterContents(groupName,
+					footer, subcolumn, xOffset, 0);
+			subVisitor.visit();
+			xOffset = subVisitor.xOffset;
+		}
+		
+		if (footer.getHeight() == 0)
+		{
+			footer = null;
+		}
+		return footer;
+	}
+	
+	private void setGroupBands(List<FillColumn> fillColumns)
+	{
+		TableReportGroup[] groups = mainDataset.getTableGroups();
+		if (groups != null)
+		{
+			for (TableReportGroup group : groups)
+			{
+				JRBand header = createGroupHeader(group.getName(), fillColumns);
+				if (header != null)
+				{
+					group.setGroupHeader(header);
+				}
+				JRBand footer = createGroupFooter(group.getName(), fillColumns);
+				if (footer != null)
+				{
+					group.setGroupFooter(footer);
+				}
+			}
+		}
+	}
+	
 	protected JRDesignFrame createCellFrame(Cell cell, 
 			int originalWidth, int width, 
 			int x, int y)
@@ -647,7 +781,7 @@ public class TableReport implements JRReport
 	@Deprecated
 	public byte getOrientation()
 	{
-		return JRReport.ORIENTATION_PORTRAIT;
+		return OrientationEnum.PORTRAIT.getValue();
 	}
 
 	public OrientationEnum getOrientationValue()
@@ -683,7 +817,7 @@ public class TableReport implements JRReport
 	@Deprecated
 	public byte getPrintOrder()
 	{
-		return JRReport.PRINT_ORDER_VERTICAL;
+		return PrintOrderEnum.VERTICAL.getValue();
 	}
 
 	public PrintOrderEnum getPrintOrderValue()
@@ -765,7 +899,7 @@ public class TableReport implements JRReport
 	@Deprecated
 	public byte getWhenNoDataType()
 	{
-		return JRReport.WHEN_NO_DATA_TYPE_NO_PAGES;
+		return WhenNoDataTypeEnum.NO_PAGES.getValue();
 	}
 
 	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
