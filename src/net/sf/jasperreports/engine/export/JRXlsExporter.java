@@ -93,8 +93,8 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 
 /**
@@ -641,6 +641,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 		return richTextStr;
 	}
+
 	protected void createMergeRegion(JRExporterGridCell gridCell, int colIndex, int rowIndex, HSSFCellStyle cellStyle)
 	{
 		int rowSpan = isCollapseRowSpan ? 1 : gridCell.getRowSpan();

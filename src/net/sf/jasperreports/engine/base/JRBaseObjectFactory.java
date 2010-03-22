@@ -213,6 +213,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	public JRReportFont getReportFont(JRReportFont font)
 	{
 		JRBaseReportFont baseFont = null;

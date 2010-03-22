@@ -272,6 +272,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	public JRReportFont getReportFont(JRReportFont font)
 	{
 		JRBaseReportFont fillFont = null;
