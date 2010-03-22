@@ -454,16 +454,6 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.closeElement();
 	}
 	
-	protected void writeTableGroupCell(GroupCell groupCell, String name, 
-			JRXmlWriter reportWriter) throws IOException
-	{
-		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
-		writer.startElement(name);
-		writer.addAttribute("groupName", groupCell.getGroupName());
-		writeTableCell(groupCell.getCell(), "cell", reportWriter);
-		writer.closeElement();//name
-	}
-	
 	protected void writeGroupCells(List<GroupCell> cells, String name, 
 			JRXmlWriter reportWriter) throws IOException
 	{
@@ -491,7 +481,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			writer.addAttribute("height", cell.getHeight());
 			writer.addAttribute("rowSpan", cell.getRowSpan());
 			
-			reportWriter.writeBox(cell.getLineBox());
+			reportWriter.writeBox(cell.getLineBox(), JRXmlWriter.JASPERREPORTS_NAMESPACE);
 			reportWriter.writeChildElements(cell);
 			
 			writer.closeElement();//cell
