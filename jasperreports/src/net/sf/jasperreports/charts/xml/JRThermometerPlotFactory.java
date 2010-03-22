@@ -59,12 +59,6 @@ public class JRThermometerPlotFactory extends JRBaseFactory
 		JRChart chart = (JRChart)digester.peek();
 		JRDesignThermometerPlot thermometerPlot = (JRDesignThermometerPlot)chart.getPlot();
 
-		String showValueLines = atts.getValue(ATTRIBUTE_showValueLines);
-		if (showValueLines != null && showValueLines.length() > 0)
-		{
-			thermometerPlot.setShowValueLines(Boolean.valueOf(showValueLines).booleanValue());
-		}
-
 		String location = atts.getValue(ATTRIBUTE_valueLocation);
 		ValueLocationEnum loc = ValueLocationEnum.getByName(atts.getValue(ATTRIBUTE_valueLocation));
 		if (loc == null)

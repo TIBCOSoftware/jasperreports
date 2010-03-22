@@ -403,7 +403,7 @@ public class DefaultChartTheme implements ChartTheme
 			// Handle rotation of the category labels.
 			CategoryAxis axis = ((CategoryPlot)plot).getDomainAxis();
 			// it's OK to use deprecated method here; avoiding it means attempting cast operations  
-			double labelRotation = getPlot().getLabelRotationDouble() == null ? 0d : getPlot().getLabelRotationDouble().doubleValue();
+			double labelRotation = getLabelRotation();
 			if (labelRotation == 90)
 			{
 				axis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -2081,6 +2081,17 @@ public class DefaultChartTheme implements ChartTheme
 //		}
 	}
 	
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	private double getLabelRotation()
+	{
+		return getPlot().getLabelRotationDouble() == null ? 0d : getPlot().getLabelRotationDouble().doubleValue();
+	}
+
+	
 	/**
 	 *
 	 */
@@ -2145,4 +2156,5 @@ public class DefaultChartTheme implements ChartTheme
 	{
 		return getChart().getShowLegend() == null ? true : getChart().getShowLegend().booleanValue();
 	}
+
 }
