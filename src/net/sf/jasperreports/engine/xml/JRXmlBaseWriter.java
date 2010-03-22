@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.util.XmlNamespace;
 
 
 /**
@@ -161,14 +162,19 @@ public abstract class JRXmlBaseWriter
 		writer.closeElement(true);
 	}
 
+	public void writeBox(JRLineBox box) throws IOException
+	{
+		writeBox(box, null);
+	}
+	
 	/**
 	 *
 	 */
-	public void writeBox(JRLineBox box) throws IOException
+	public void writeBox(JRLineBox box, XmlNamespace namespace) throws IOException
 	{
 		if (box != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_box);
+			writer.startElement(XmlConstants.ELEMENT_box, namespace);
 			
 			writer.addAttribute(XmlConstants.ATTRIBUTE_padding, box.getOwnPadding());
 			writer.addAttribute(XmlConstants.ATTRIBUTE_topPadding, box.getOwnTopPadding());
