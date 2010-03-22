@@ -161,6 +161,7 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.jfree.data.time.Day;
 
@@ -3964,8 +3965,7 @@ public class JRApiWriter
 			Class reportCreatorClass = Class.forName(reportCreatorClassName);
 			ReportCreator reportCreator = (ReportCreator)reportCreatorClass.newInstance();
 			JasperDesign jasperDesign = reportCreator.create();
-			JRApiWriter.writeReport(jasperDesign, destFileName);
-			
+			JRXmlWriter.writeReport(jasperDesign, destFileName, "UTF-8");
 		}
 		catch (Exception e)
 		{
