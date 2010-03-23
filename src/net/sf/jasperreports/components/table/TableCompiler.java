@@ -29,10 +29,12 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
+import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRVerifier;
 
 /**
@@ -82,9 +84,16 @@ public class TableCompiler implements ComponentCompiler
 		}
 		
 		List<BaseColumn> columns = table.getColumns();
-		if (!detectLoops(verifier, columns))
+		if (columns == null || columns.isEmpty())
 		{
-			verifyColumns(verifier, columns);
+			verifier.addBrokenRule("No columns defined in the table", table);
+		}
+		else
+		{
+			if (!detectLoops(verifier, columns))
+			{
+				verifyColumns(verifier, table);
+			}
 		}
 	}
 
@@ -134,10 +143,182 @@ public class TableCompiler implements ComponentCompiler
 		return false;
 	}
 
-	private void verifyColumns(JRVerifier verifier, List<BaseColumn> columns)
+	protected void verifyColumns(final JRVerifier verifier, final TableComponent table)
 	{
-		// TODO Auto-generated method stub
+		ColumnVisitor<Void> columnVerifier = new ColumnVisitor<Void>()
+		{
+			public Void visitColumn(Column column)
+			{
+				verifyColumn(table, column, verifier);
+				return null;
+			}
+
+			public Void visitColumnGroup(ColumnGroup columnGroup)
+			{
+				verifyBaseColumn(table, columnGroup, verifier);
+				
+				List<BaseColumn> subcolumns = columnGroup.getColumns();
+				if (subcolumns == null || subcolumns.isEmpty())
+				{
+					verifier.addBrokenRule("No columns defined in column group", columnGroup);
+				}
+				else
+				{
+					for (BaseColumn column : subcolumns)
+					{
+						column.visitColumn(this);
+					}
+				}
+				return null;
+			}
+		};
 		
+		for (BaseColumn column : table.getColumns())
+		{
+			column.visitColumn(columnVerifier);
+		}
+	}
+	
+	protected void verifyBaseColumn(TableComponent table, BaseColumn column, JRVerifier verifier)
+	{
+		Integer width = column.getWidth();
+		if (width == null)
+		{
+			verifier.addBrokenRule("Column width not set", column);
+		}
+		else if (width < 0)
+		{
+			verifier.addBrokenRule("Negative column width", column);
+		}
+		else
+		{
+			verifyCell(column.getTableHeader(), width, "table header", verifier);
+			verifyCell(column.getTableFooter(), width, "table footer", verifier);
+			verifyGroupCells(table, column.getGroupHeaders(), width, "group header", verifier);
+			verifyGroupCells(table, column.getGroupFooters(), width, "group footer", verifier);
+			verifyCell(column.getColumnHeader(), width, "column header", verifier);
+			verifyCell(column.getColumnFooter(), width, "column footer", verifier);
+		}
+		
+		verifier.verifyExpression(column.getPrintWhenExpression(), column, null, 
+				"No type set for the column print when expression", 
+				Boolean.class, 
+				"Class {0} not supported for column print when expression. Use java.lang.Boolean instead.");
+		
+	}
+	
+	protected void verifyGroupCells(TableComponent table, List<GroupCell> cells, int width, 
+			String cellName, JRVerifier verifier)
+	{
+		if (cells != null)
+		{
+			Set<String> groupNames = new HashSet<String>();
+			for (GroupCell groupCell : cells)
+			{
+				String groupName = groupCell.getGroupName();
+				if (groupName == null)
+				{
+					verifier.addBrokenRule("No group name set for table column group cell", groupCell);
+				}
+				else
+				{
+					if (!groupNames.add(groupName))
+					{
+						verifier.addBrokenRule("Duplicate " + cellName + " for group \"" + groupName + "\"", 
+								groupCell);
+					}
+					
+					JRDatasetRun datasetRun = table.getDatasetRun();
+					if (datasetRun != null)
+					{
+						JRDesignDataset dataset = (JRDesignDataset) verifier.getReportDesign().getDatasetMap().get(
+								datasetRun.getDatasetName());
+						if (dataset != null && dataset.getGroupsMap().get(groupName) == null)
+						{
+							verifier.addBrokenRule("No group named " + groupName 
+									+ "\" found in subdataset " + datasetRun.getDatasetName(), 
+									groupCell);
+						}
+					}
+				}
+				
+				verifyCell(groupCell.getCell(), width, cellName, verifier);
+			}
+		}
+	}
+	
+	protected void verifyCell(Cell cell, int width, String cellName, JRVerifier verifier)
+	{
+		if (cell == null)
+		{
+			return;
+		}
+		
+		if (cell.getRowSpan() != null && cell.getRowSpan() < 1)
+		{
+			verifier.addBrokenRule("Negative or zero cell row span", cell);
+		}
+		
+		Integer height = cell.getHeight();
+		if (height == null)
+		{
+			verifier.addBrokenRule("Cell height not set", cell);
+		}
+		else if (height < 0)
+		{
+			verifier.addBrokenRule("Negative cell height", cell);
+		}
+		else
+		{
+			JRElement[] elements = cell.getElements();
+			if (elements != null && elements.length > 0)
+			{
+				int topPadding = cell.getLineBox().getTopPadding().intValue();
+				int leftPadding = cell.getLineBox().getLeftPadding().intValue();
+				int bottomPadding = cell.getLineBox().getBottomPadding().intValue();
+				int rightPadding = cell.getLineBox().getRightPadding().intValue();
+
+				int avlblWidth = width - leftPadding - rightPadding;
+				int avlblHeight = height - topPadding - bottomPadding;
+				
+				for (JRElement element : elements)
+				{
+					verifier.verifyElement(element);
+					
+					if (element.getX() < 0 || element.getY() < 0)
+					{
+						verifier.addBrokenRule("Element must be placed at positive coordinates.", 
+								element);
+					}
+					
+					if (element.getY() + element.getHeight() > avlblHeight)
+					{
+						verifier.addBrokenRule("Element reaches outside table " + cellName + " contents height: y = " 
+								+ element.getY() + ", height = " + element.getHeight() 
+								+ ", cell available height = " + avlblHeight + ".", element);
+					}
+					
+					if (element.getX() + element.getWidth() > avlblWidth)
+					{
+						verifier.addBrokenRule("Element reaches outside table " + cellName + " contents width: x = " 
+								+ element.getX() + ", width = " + element.getWidth() 
+								+ ", cell available width = " + avlblWidth + ".", element);
+					}
+					
+				}
+			}
+		}
+	}
+	
+	protected void verifyColumn(TableComponent table, Column column, JRVerifier verifier)
+	{
+		verifyBaseColumn(table, column, verifier);
+		
+		if (column.getWidth() != null)
+		{
+			Cell detailCell = column.getDetailCell();
+			verifyCell(detailCell, column.getWidth(), "detail", verifier);
+		}
 	}
 	
 	protected HeadersPart verifyColumnsLayout(List<BaseColumn> columns)
