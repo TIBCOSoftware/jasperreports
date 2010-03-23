@@ -24,6 +24,8 @@
 package net.sf.jasperreports.charts.type;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.JREnum;
 
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
@@ -32,33 +34,32 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id: PlotOrientationEnum.java 3551 2010-03-09 16:24:05Z shertage $
  */
-public enum ScaleTypeEnum
+public enum ScaleTypeEnum implements JREnum
 {
 	/**
 	 *
 	 */
-	ON_BOTH_AXES(XYBubbleRenderer.SCALE_ON_BOTH_AXES, "BothAxes"),
+	ON_BOTH_AXES((byte)XYBubbleRenderer.SCALE_ON_BOTH_AXES, "BothAxes"),
 
 	/**
 	 *
 	 */
-	ON_DOMAIN_AXIS(XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS, "DomainAxis"),
+	ON_DOMAIN_AXIS((byte)XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS, "DomainAxis"),
 
 	/**
 	 *
 	 */
-	ON_RANGE_AXIS(XYBubbleRenderer.SCALE_ON_RANGE_AXIS, "RangeAxis");
-
+	ON_RANGE_AXIS((byte)XYBubbleRenderer.SCALE_ON_RANGE_AXIS, "RangeAxis");
 
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient int value;
+	private final transient byte value;
 	private final transient String name;
 
-	private ScaleTypeEnum(int value, String name)
+	private ScaleTypeEnum(byte value, String name)
 	{
 		this.value = value;
 		this.name = name;
@@ -67,17 +68,17 @@ public enum ScaleTypeEnum
 	/**
 	 *
 	 */
-	public final int getValue()
+	public Byte getValueByte()
 	{
-		return this.value;
+		return new Byte(value);
 	}
 	
 	/**
 	 *
 	 */
-	public final Integer getValueInteger()
+	public final byte getValue()
 	{
-		return this.value;
+		return value;
 	}
 	
 	/**
@@ -93,44 +94,31 @@ public enum ScaleTypeEnum
 	 */
 	public static ScaleTypeEnum getByName(String name)
 	{
-		ScaleTypeEnum[] values = values();
-		if (values != null && name != null)
-		{
-			for(ScaleTypeEnum e:values)
-			{
-				if (name.equals(e.getName()))
-				{
-					return e;
-				}
-			}
-		}
-		return null;
+		return (ScaleTypeEnum)EnumUtil.getByName(values(), name);
 	}
 	
 	/**
 	 *
 	 */
-	public static ScaleTypeEnum getByValue(Integer scaleType)
+	public static ScaleTypeEnum getByValue(Integer value)
 	{
-		ScaleTypeEnum[] values = values();
-		if (values != null && scaleType != null)
-		{
-			for(ScaleTypeEnum e:values)
-			{
-				if (scaleType.equals(e.getValue()))
-				{
-					return e;
-				}
-			}
-		}
-		return null;
+		return (ScaleTypeEnum)EnumUtil.getByValue(values(), value);
+	}
+
+	/**
+	 *
+	 */
+	public static ScaleTypeEnum getByValue(Byte value)
+	{
+		return (ScaleTypeEnum)EnumUtil.getByValue(values(), value);
 	}
 	
 	/**
 	 *
 	 */
-	public static ScaleTypeEnum getByValue(int value)
+	public static ScaleTypeEnum getByValue(byte value)
 	{
-		return getByValue(new Integer(value));
+		return getByValue(new Byte(value));
 	}
+
 }

@@ -2799,7 +2799,7 @@ public class JRApiWriter
 			{
 				String plotName = chartName + "ThermometerPlot";
 				write( "JRDesignThermometerPlot " + plotName + " = (JRDesignThermometerPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setValueLocation(new Byte({0}));\n", plot.getValueLocationObject());
+				write( plotName + ".setValueLocation(new Byte({0}));\n", plot.getValueLocationValue());
 				write( plotName + ".setMercuryColor({0});\n", getColorText(plot.getMercuryColor()));
 				writePlot( plot, plotName);
 				writeValueDisplay( plot.getValueDisplay(), plotName);

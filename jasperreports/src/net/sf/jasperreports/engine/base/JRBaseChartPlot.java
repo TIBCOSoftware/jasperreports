@@ -159,7 +159,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 */
 	public PlotOrientation getOrientation()
 	{
-		return getOrientationValue().getValue();
+		return getOrientationValue().getOrientation();
 	}
 
 	/**

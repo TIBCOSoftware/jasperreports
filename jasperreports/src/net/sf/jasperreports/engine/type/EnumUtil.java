@@ -36,6 +36,18 @@ public class EnumUtil
 	/**
 	 *
 	 */
+	public static JREnum getByValue(JREnum[] values, Integer value)
+	{
+		if (values != null && value != null)
+		{
+			return getByValue(values, new Byte(value.byteValue()));
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 */
 	public static JREnum getByValue(JREnum[] values, Byte value)
 	{
 		if (values != null && value != null)

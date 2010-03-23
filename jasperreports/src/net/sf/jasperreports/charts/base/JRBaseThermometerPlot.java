@@ -132,7 +132,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 
 		showValueLines = thermoPlot.isShowValueLines();
 
-		valueLocationObject = thermoPlot.getValueLocationObject();
+		valueLocationObject = thermoPlot.getValueLocationValue();
 
 		mercuryColor = thermoPlot.getMercuryColor();
 
@@ -169,25 +169,25 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getValueLocationObject()}
+	 * @deprecated Replaced by {@link #getValueLocationValue()}
 	 */
 	public byte getValueLocation()
 	{
-		return getValueLocationObject() == null ? ValueLocationEnum.BULB.getValue() : getValueLocationObject().getValue();
+		return getValueLocationValue() == null ? ValueLocationEnum.BULB.getValue() : getValueLocationValue().getValue();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getValueLocationObject()}
+	 * @deprecated Replaced by {@link #getValueLocationValue()}
 	 */
 	public Byte getValueLocationByte()
 	{
-		return getValueLocationObject().getValueByte();
+		return getValueLocationValue().getValueByte();
 	}
 
 	/**
 	 *
 	 */
-	public ValueLocationEnum getValueLocationObject()
+	public ValueLocationEnum getValueLocationValue()
 	{
 		return valueLocationObject;
 	}

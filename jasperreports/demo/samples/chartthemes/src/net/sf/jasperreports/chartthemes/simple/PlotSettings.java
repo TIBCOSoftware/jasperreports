@@ -309,7 +309,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	 * @deprecated Replaced by {@link #getOrientationValue()}
 	 */
 	public PlotOrientation getOrientation() {
-		return getOrientationValue().getValue();
+		return getOrientationValue().getOrientation();
 	}
 
 	/**
