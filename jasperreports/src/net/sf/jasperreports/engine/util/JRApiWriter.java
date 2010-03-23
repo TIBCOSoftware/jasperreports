@@ -152,6 +152,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
@@ -980,7 +981,7 @@ public class JRApiWriter
 		if(element != null)
 		{
 			write( elementName + ".setFill({0});\n", element.getOwnFillValue());
-			writePen( element.getLinePen(), elementName+".getLinePen()");
+			writePen( element.getLinePen(), elementName+".getLinePen()", JRPen.LINE_WIDTH_1);
 			flush();
 		}
 	}
@@ -1038,8 +1039,14 @@ public class JRApiWriter
 				String groupName = getGroupName( image.getEvaluationGroup());
 				write( imageName + ".setEvaluationGroup(" + groupName + ");\n");
 			}
-			write( imageName + ".setLinkType({0});\n", JRStringUtil.escapeJavaStringLiteral(image.getLinkType()), "JRHyperlinkHelper.HYPERLINK_TYPE_NONE");
-			write( imageName + ".setLinkTarget({0});\n", JRStringUtil.escapeJavaStringLiteral(image.getLinkTarget()), "JRHyperlinkHelper.HYPERLINK_TARGET_SELF");
+			if(image.getLinkType() != null)
+			{
+				write( imageName + ".setLinkType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(image.getLinkType()), HyperlinkTypeEnum.NONE.getName());
+			}
+			if(image.getLinkTarget() != null)
+			{
+				write( imageName + ".setLinkTarget(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(image.getLinkTarget()), HyperlinkTargetEnum.SELF.getName());
+			}
 			write( imageName + ".setBookmarkLevel({0, number, #});\n", image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 			
 			writeReportElement( image, imageName);
@@ -1087,7 +1094,7 @@ public class JRApiWriter
 			write( textElementName + ".setVerticalAlignment({0});\n", textElement.getOwnVerticalAlignmentValue());
 			write( textElementName + ".setRotation({0});\n", textElement.getOwnRotationValue());
 			write( textElementName + ".setLineSpacing({0});\n", textElement.getOwnLineSpacingValue());
-			write( textElementName + ".setMarkup(\"{0}\");\n", textElement.getMarkup());
+			write( textElementName + ".setMarkup(\"{0}\");\n", textElement.getMarkup(), "none");
 			writeFont( textElement, textElementName);
 			flush();
 		}
@@ -1197,8 +1204,14 @@ public class JRApiWriter
 			write( textFieldName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getPattern()));
 			write( textFieldName + ".setBlankWhenNull({0});\n", textField.isOwnBlankWhenNull());
 
-			write( textFieldName + ".setLinkType(\"{0}\");\n", textField.getLinkType(), HyperlinkTypeEnum.NONE.getName());
-			write( textFieldName + ".setLinkTarget(\"{0}\");\n", textField.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
+			if(textField.getLinkType() != null)
+			{
+				write( textFieldName + ".setLinkType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getLinkType()), HyperlinkTypeEnum.NONE.getName());
+			}
+			if(textField.getLinkTarget() != null)
+			{
+				write( textFieldName + ".setLinkTarget(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getLinkTarget()), HyperlinkTargetEnum.SELF.getName());
+			}
 			write( textFieldName + ".setBookmarkLevel({0, number, #});\n", textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 			writeReportElement( textField, textFieldName);
@@ -1313,8 +1326,14 @@ public class JRApiWriter
 				write( chartName + ".setEvaluationGroup(" + evaluationGroupName + ");\n");
 			}
 	
-			write( chartName + ".setLinkType(\"{0}\");\n", chart.getLinkType(), HyperlinkTypeEnum.NONE.getName());
-			write( chartName + ".setLinkTarget(\"{0}\");\n", chart.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
+			if(chart.getLinkType() != null)
+			{
+				write( chartName + ".setLinkType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chart.getLinkType()), HyperlinkTypeEnum.NONE.getName());
+			}
+			if(chart.getLinkTarget() != null)
+			{
+				write( chartName + ".setLinkTarget(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chart.getLinkTarget()), HyperlinkTargetEnum.SELF.getName());
+			}
 			write( chartName + ".setBookmarkLevel({0, number, #});\n", chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 			if(chart.getCustomizerClass() != null)
@@ -3518,8 +3537,14 @@ public class JRApiWriter
 			String hyperlinkName = parentName + hyperlinkSuffix;
 			write( "JRDesignHyperlink " + hyperlinkName + " = new JRDesignHyperlink();\n");
 
-			write( hyperlinkName + ".setLinkType(\"{0}\");\n", hyperlink.getLinkType(), HyperlinkTypeEnum.NONE.getName());
-			write( hyperlinkName + ".setLinkTarget(\"{0}\");\n", hyperlink.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
+			if(hyperlink.getLinkType() != null)
+			{
+				write( hyperlinkName + ".setLinkType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(hyperlink.getLinkType()), HyperlinkTypeEnum.NONE.getName());
+			}
+			if(hyperlink.getLinkTarget() != null)
+			{
+				write( hyperlinkName + ".setLinkTarget(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(hyperlink.getLinkTarget()), HyperlinkTargetEnum.SELF.getName());
+			}
 
 			writeExpression( hyperlink.getHyperlinkReferenceExpression(), hyperlinkName, "HyperlinkReferenceExpression");
 			writeExpression( hyperlink.getHyperlinkAnchorExpression(), hyperlinkName, "HyperlinkAnchorExpression");
@@ -3724,13 +3749,13 @@ public class JRApiWriter
 	 * @param pen
 	 * @throws IOException
 	 */
-	private void writePen( JRPen pen, String penHolder)
+	private void writePen( JRPen pen, String penHolder, Float defaultLineWidth)
 	{
-		if(pen != null)
+		if(pen != null && pen.getLineWidth().floatValue() > 0)
 		{
-			write( penHolder + ".setLineWidth(new Float({0, number, #}f));\n", pen.getLineWidth());
-			write( penHolder + ".setLineStyle({0});\n", pen.getLineStyleValue());
-			write( penHolder + ".setLineColor({0});\n", getColorText(pen.getLineColor()));
+			write( penHolder + ".setLineWidth(new Float({0, number, #}f));\n", pen.getLineWidth(), defaultLineWidth);
+			write( penHolder + ".setLineStyle({0});\n", pen.getLineStyleValue(), LineStyleEnum.SOLID);
+			write( penHolder + ".setLineColor({0});\n", getColorText(pen.getLineColor()), "new Color(0, 0, 0, 255)");
 			flush();
 		}
 	}
@@ -3742,23 +3767,23 @@ public class JRApiWriter
 	{
 		if (box != null)
 		{
-			write( boxHolder + ".setPadding(new Integer({0, number, #}));\n", box.getPadding());
-			write( boxHolder + ".setTopPadding(new Integer({0, number, #}));\n", box.getTopPadding());
-			write( boxHolder + ".setLeftPadding(new Integer({0, number, #}));\n", box.getLeftPadding());
-			write( boxHolder + ".setBottomPadding(new Integer({0, number, #}));\n", box.getBottomPadding());
-			write( boxHolder + ".setRightPadding(new Integer({0, number, #}));\n", box.getRightPadding());
+			write( boxHolder + ".setPadding(new Integer({0, number, #}));\n", box.getPadding(), Integer.valueOf(0));
+			write( boxHolder + ".setTopPadding(new Integer({0, number, #}));\n", box.getTopPadding(), Integer.valueOf(0));
+			write( boxHolder + ".setLeftPadding(new Integer({0, number, #}));\n", box.getLeftPadding(), Integer.valueOf(0));
+			write( boxHolder + ".setBottomPadding(new Integer({0, number, #}));\n", box.getBottomPadding(), Integer.valueOf(0));
+			write( boxHolder + ".setRightPadding(new Integer({0, number, #}));\n", box.getRightPadding(), Integer.valueOf(0));
 			
 
-			writePen( box.getPen(), boxHolder + ".getPen()");
-			writePen( box.getTopPen(), boxHolder + ".getTopPen()");
-			writePen( box.getLeftPen(), boxHolder + ".getLeftPen()");
-			writePen( box.getBottomPen(), boxHolder + ".getBottomPen()");
-			writePen( box.getRightPen(), boxHolder + ".getRightPen()");
+			writePen( box.getPen(), boxHolder + ".getPen()", JRPen.LINE_WIDTH_0);
+			writePen( box.getTopPen(), boxHolder + ".getTopPen()", JRPen.LINE_WIDTH_0);
+			writePen( box.getLeftPen(), boxHolder + ".getLeftPen()", JRPen.LINE_WIDTH_0);
+			writePen( box.getBottomPen(), boxHolder + ".getBottomPen()", JRPen.LINE_WIDTH_0);
+			writePen( box.getRightPen(), boxHolder + ".getRightPen()", JRPen.LINE_WIDTH_0);
 
 			flush();
 		}
 	}
-	
+
 	public void writeExpression( JRExpression expression, String parentName, String expressionSuffix)
 	{
 		writeExpression( expression, parentName, expressionSuffix, null);
