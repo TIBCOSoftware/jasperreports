@@ -50,8 +50,8 @@
 		<ant dir="../" target="view"/>
 	</target>
 
-	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
-		<ant dir="../" target="viewXML"/>
+	<target name="viewXml" description="Launches the report viewer to preview the generated report stored in an XML file.">
+		<ant dir="../" target="viewXml"/>
 	</target>
 
 	<target name="print" description="Sends the report in the .jrprint file to the printer.">
@@ -110,21 +110,21 @@
 		<ant dir="../" target="xhtml"/>
 	</target>
 
-	<target name="viewDesignXML1" description="Launches the design viewer to preview the master XML report design.">
+	<target name="viewDesignXml1" description="Launches the design viewer to preview the master XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/MasterReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesignXML2" description="Launches the design viewer to preview the first subreport XML report design.">
+	<target name="viewDesignXml2" description="Launches the design viewer to preview the first subreport XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/AddressReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesignXML3" description="Launches the design viewer to preview the second subreport XML report design.">
+	<target name="viewDesignXml3" description="Launches the design viewer to preview the second subreport XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/ProductReport.jrxml"/>
 			<classpath refid="classpath"/>

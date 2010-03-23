@@ -59,7 +59,7 @@
 		</javac>
 	</target>
 
-	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
+	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/WebappReport.jrxml"/>
 			<classpath refid="classpath"/>

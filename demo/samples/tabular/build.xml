@@ -23,8 +23,8 @@
 		<ant dir="../" target="view"/>
 	</target>
 
-	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
-		<ant dir="../" target="viewXML"/>
+	<target name="viewXml" description="Launches the report viewer to preview the generated report stored in an XML file.">
+		<ant dir="../" target="viewXml"/>
 	</target>
 
 	<target name="print" description="Sends the report in the .jrprint file to the printer.">
@@ -83,8 +83,8 @@
 		<ant dir="../" target="xhtml"/>
 	</target>
 
-	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
-		<ant dir="../" target="viewDesignXML"/>
+	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design.">
+		<ant dir="../" target="viewDesignXml"/>
 	</target>
 
 	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">

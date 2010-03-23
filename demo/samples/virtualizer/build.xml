@@ -62,8 +62,8 @@
 		</java>
 	</target>
 	
-	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
-		<ant dir="../" target="viewDesignXML"/>
+	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design.">
+		<ant dir="../" target="viewDesignXml"/>
 	</target>
 
 	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
