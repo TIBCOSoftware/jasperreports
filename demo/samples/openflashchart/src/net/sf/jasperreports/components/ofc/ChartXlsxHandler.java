@@ -23,14 +23,10 @@
  */
 package net.sf.jasperreports.components.ofc;
 
-import java.io.IOException;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.export.ooxml.GenericElementDocxHandler;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementXlsxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporterContext;
