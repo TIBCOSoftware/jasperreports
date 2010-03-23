@@ -33,7 +33,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
-import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -72,7 +71,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	
 	protected JRChart chart = null;
 	protected Color backcolor = null;
-	protected PlotOrientationEnum orientationValue = PlotOrientationEnum.VERTICAL;
+	protected PlotOrientation orientation = PlotOrientation.VERTICAL;
 	protected Float backgroundAlphaFloat = null;
 	protected Float foregroundAlphaFloat = null;
 	protected Double labelRotationDouble = null;
@@ -89,7 +88,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		if (plot != null) 
 		{
 			backcolor = plot.getOwnBackcolor();
-			orientationValue = plot.getOrientationValue();
+			orientation = plot.getOrientation();
 			backgroundAlphaFloat = plot.getBackgroundAlphaFloat();
 			foregroundAlphaFloat = plot.getForegroundAlphaFloat();
 			labelRotationDouble = plot.getLabelRotationDouble();
@@ -112,7 +111,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		chart = (JRChart)factory.getVisitResult(plot.getChart());
 
 		backcolor = plot.getOwnBackcolor();
-		orientationValue = plot.getOrientationValue();
+		orientation = plot.getOrientation();
 		backgroundAlphaFloat = plot.getBackgroundAlphaFloat();
 		foregroundAlphaFloat = plot.getForegroundAlphaFloat();
 		labelRotationDouble = plot.getLabelRotationDouble();
@@ -155,37 +154,21 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getOrientationValue()}
+	 *
 	 */
 	public PlotOrientation getOrientation()
 	{
-		return getOrientationValue().getOrientation();
+		return orientation;
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setOrientation(PlotOrientationEnum)}
+	 *
 	 */
 	public void setOrientation(PlotOrientation orientation)
 	{
-		setOrientation(PlotOrientationEnum.getByValue(orientation));
-	}
-
-	/**
-	 *
-	 */
-	public PlotOrientationEnum getOrientationValue()
-	{
-		return orientationValue;
-	}
-
-	/**
-	 *
-	 */
-	public void setOrientation(PlotOrientationEnum orientationValue)
-	{
-		Object old = this.orientationValue;
-		this.orientationValue = orientationValue;
-		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientationValue);
+		Object old = this.orientation;
+		this.orientation = orientation;
+		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientation);
 	}
 
 	/**
@@ -454,7 +437,6 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	private float backgroundAlpha = 1;
 	private float foregroundAlpha = 1;
 	private double labelRotation = 0.0;
-	private PlotOrientation orientation = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -464,11 +446,6 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 			backgroundAlphaFloat = new Float(backgroundAlpha);
 			foregroundAlphaFloat = new Float(foregroundAlpha);
 			labelRotationDouble = new Double(labelRotation);
-		}
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			orientationValue = PlotOrientationEnum.getByValue(orientation);
-			orientation = null;
 		}
 	}
 	

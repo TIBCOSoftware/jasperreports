@@ -163,6 +163,7 @@ import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
 
 /**
@@ -1921,7 +1922,11 @@ public class JRApiWriter
 		if(plot != null)
 		{
 			write( plotName + ".setBackcolor({0});\n", getColorText(plot.getBackcolor()));
-			write( plotName + ".setOrientation({0});\n",plot.getOrientationValue(),PlotOrientationEnum.VERTICAL);
+
+			if (plot.getOrientation() != null && plot.getOrientation() != PlotOrientation.VERTICAL)
+			{
+				write( plotName + ".setOrientation(PlotOrientation.{0});\n", PlotOrientationEnum.getByValue(plot.getOrientation()).name());
+			}
 
 			write( plotName + ".setBackgroundAlpha(new Float({0, number, #}f));\n", plot.getBackgroundAlphaFloat());
 			write( plotName + ".setForegroundAlpha(new Float({0, number, #}f));\n", plot.getForegroundAlphaFloat());

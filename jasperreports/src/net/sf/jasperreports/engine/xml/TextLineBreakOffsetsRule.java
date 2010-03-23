@@ -45,7 +45,7 @@ public class TextLineBreakOffsetsRule extends Rule
 		if (text != null)
 		{
 			StringTokenizer tokenizer = new StringTokenizer(text, 
-					JRXmlConstants.LINE_BREAK_OFFSET_SEPARATOR);
+					XmlConstants.LINE_BREAK_OFFSET_SEPARATOR);
 			int tokenCount = tokenizer.countTokens();
 			short[] offsets;
 			if (tokenCount == 0)

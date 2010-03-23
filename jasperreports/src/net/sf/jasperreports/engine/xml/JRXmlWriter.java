@@ -73,6 +73,7 @@ import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
+import net.sf.jasperreports.charts.type.TimePeriodEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.charts.xml.JRChartAxisFactory;
 import net.sf.jasperreports.charts.xml.JRMeterPlotFactory;
@@ -178,8 +179,6 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 
-import org.jfree.data.time.Day;
-
 
 /**
  * A writer that produces the JRXML representation of an in-memory report.
@@ -192,7 +191,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 {
 
 	public static final XmlNamespace JASPERREPORTS_NAMESPACE = 
-		new XmlNamespace(JRXmlConstants.JASPERREPORTS_NAMESPACE, null, JRXmlConstants.JASPERREPORT_XSD_SYSTEM_ID);
+		new XmlNamespace(XmlConstants.JASPERREPORTS_NAMESPACE, null, XmlConstants.JASPERREPORT_XSD_SYSTEM_ID);
 
 	/**
 	 *
@@ -1233,10 +1232,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeTimeSeriesDataset(JRTimeSeriesDataset dataset) throws IOException
 	{
 		writer.startElement(XmlConstants.ELEMENT_timeSeriesDataset);
-		if (dataset.getTimePeriod() != null && !Day.class.getName().equals(dataset.getTimePeriod().getName()))
-		{
-			writer.addAttribute(XmlConstants.ATTRIBUTE_timePeriod, JRXmlConstants.getTimePeriodName(dataset.getTimePeriod()));
-		}
+		writer.addAttribute(XmlConstants.ATTRIBUTE_timePeriod, TimePeriodEnum.getByValue(dataset.getTimePeriod()), TimePeriodEnum.DAY);
 
 		writeElementDataset( dataset );
 
@@ -1627,7 +1623,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(XmlConstants.ELEMENT_plot);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_backcolor, plot.getOwnBackcolor());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_orientation, plot.getOrientationValue(), PlotOrientationEnum.VERTICAL);
+		writer.addAttribute(XmlConstants.ATTRIBUTE_orientation, PlotOrientationEnum.getByValue(plot.getOrientation()), PlotOrientationEnum.VERTICAL);
 		writer.addAttribute(XmlConstants.ATTRIBUTE_backgroundAlpha, plot.getBackgroundAlphaFloat());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_foregroundAlpha, plot.getForegroundAlphaFloat());
 		writer.addAttribute(XmlConstants.ATTRIBUTE_labelRotation, plot.getLabelRotationDouble());

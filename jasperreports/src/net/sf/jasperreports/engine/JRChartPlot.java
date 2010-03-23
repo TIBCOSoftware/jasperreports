@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
-import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 
 import org.jfree.chart.plot.PlotOrientation;
 
@@ -69,24 +68,14 @@ public interface JRChartPlot extends JRCloneable
 
 
 	/**
-	 * @deprecated Replaced by {@link #getOrientationValue()}
+	 * Gets the plot orientation (horizontal or vertical).
 	 */
 	public PlotOrientation getOrientation();
 	
 	/**
-	 * @deprecated Replaced by {@link #setOrientation(PlotOrientationEnum)}
-	 */
-	public void setOrientation(PlotOrientation orientation);
-
-	/**
-	 * Gets the plot orientation (horizontal or vertical).
-	 */
-	public PlotOrientationEnum getOrientationValue();
-	
-	/**
 	 * Sets the plot orientation (horizontal or vertical).
 	 */
-	public void setOrientation(PlotOrientationEnum orientation);
+	public void setOrientation(PlotOrientation orientation);
 
 	/**
 	 * @deprecated Replaced by {@link #getBackgroundAlphaFloat()}

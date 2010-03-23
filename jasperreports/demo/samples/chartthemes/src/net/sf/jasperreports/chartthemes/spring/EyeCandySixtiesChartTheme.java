@@ -43,6 +43,7 @@ import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.type.MeterShapeEnum;
+import net.sf.jasperreports.charts.type.ValueLocationEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -789,20 +790,19 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		}
 
 		// Set the location of where the value is displayed
-		// Set the location of where the value is displayed
-		byte valueLocation = jrPlot.getValueLocationByte() == null ? ThermometerPlot.BULB : jrPlot.getValueLocationByte().byteValue();
+		ValueLocationEnum valueLocation = jrPlot.getValueLocationValue();
 		switch (valueLocation)
 		{
-		  case JRThermometerPlot.LOCATION_NONE:
+		  case NONE:
 			 chartPlot.setValueLocation(ThermometerPlot.NONE);
 			 break;
-		  case JRThermometerPlot.LOCATION_LEFT:
+		  case LEFT:
 			 chartPlot.setValueLocation(ThermometerPlot.LEFT);
 			 break;
-		  case JRThermometerPlot.LOCATION_RIGHT:
+		  case RIGHT:
 			 chartPlot.setValueLocation(ThermometerPlot.RIGHT);
 			 break;
-		  case JRThermometerPlot.LOCATION_BULB:
+		  case BULB:
 		  default:
 			 chartPlot.setValueLocation(ThermometerPlot.BULB);
 			 break;

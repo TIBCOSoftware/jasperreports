@@ -206,7 +206,7 @@ public class JRXmlDigesterFactory
 		
 		digester.setNamespaceAware(true);
 		
-		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
+		digester.setRuleNamespaceURI(XmlConstants.JASPERREPORTS_NAMESPACE);
 
 		/*   */
 		digester.addFactoryCreate("jasperReport", JasperDesignFactory.class.getName());
@@ -513,7 +513,7 @@ public class JRXmlDigesterFactory
 			}
 		}
 		
-		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
+		digester.setRuleNamespaceURI(XmlConstants.JASPERREPORTS_NAMESPACE);
 	}
 
 

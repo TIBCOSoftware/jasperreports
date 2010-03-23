@@ -220,10 +220,10 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	public void write() throws IOException
 	{
 		writer.writeProlog(encoding);
-		writer.writePublicDoctype(JRXmlConstants.TEMPLATE_ELEMENT_ROOT, 
-				JRXmlConstants.JASPERTEMPLATE_PUBLIC_ID, JRXmlConstants.JASPERTEMPLATE_SYSTEM_ID);
+		writer.writePublicDoctype(XmlConstants.TEMPLATE_ELEMENT_ROOT, 
+				XmlConstants.JASPERTEMPLATE_PUBLIC_ID, XmlConstants.JASPERTEMPLATE_SYSTEM_ID);
 		
-		writer.startElement(JRXmlConstants.TEMPLATE_ELEMENT_ROOT);
+		writer.startElement(XmlConstants.TEMPLATE_ELEMENT_ROOT);
 		writeIncludedTemplates();
 		writeStyles();
 		writer.closeElement();
@@ -244,7 +244,7 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 
 	protected void writeIncludedTemplate(JRTemplateReference reference) throws IOException
 	{
-		writer.writeCDATAElement(JRXmlConstants.TEMPLATE_ELEMENT_INCLUDED_TEMPLATE, reference.getLocation());
+		writer.writeCDATAElement(XmlConstants.TEMPLATE_ELEMENT_INCLUDED_TEMPLATE, reference.getLocation());
 		
 	}
 
