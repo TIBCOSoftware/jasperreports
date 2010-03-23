@@ -108,7 +108,7 @@ public class JRFillChartPlot implements JRChartPlot
 	 */
 	public PlotOrientation getOrientation()
 	{
-		return getOrientationValue().getValue();
+		return getOrientationValue().getOrientation();
 	}
 	
 	/**

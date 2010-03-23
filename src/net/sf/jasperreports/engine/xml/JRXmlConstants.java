@@ -1332,15 +1332,15 @@ public class JRXmlConstants extends XmlConstants
 	/**
 	 * @deprecated Replaced by {@link ScaleTypeEnum#ON_BOTH_AXES#getName()}.
 	 */
-	private static final String SCALE_ON_BOTH_AXES = "BothAxes";
+	private static final String SCALE_ON_BOTH_AXES = ScaleTypeEnum.ON_BOTH_AXES.getName();
 	/**
 	 * @deprecated Replaced by {@link ScaleTypeEnum#ON_DOMAIN_AXIS#getName()}.
 	 */
-	private static final String SCALE_ON_DOMAIN_AXIS = "DomainAxis";
+	private static final String SCALE_ON_DOMAIN_AXIS = ScaleTypeEnum.ON_DOMAIN_AXIS.getName();
 	/**
 	 * @deprecated Replaced by {@link ScaleTypeEnum#ON_RANGE_AXIS#getName()}.
 	 */
-	private static final String SCALE_ON_RANGE_AXIS = "RangeAxis";
+	private static final String SCALE_ON_RANGE_AXIS = ScaleTypeEnum.ON_RANGE_AXIS.getName();
 
 	/**
 	 * @deprecated Replaced by {@link ScaleTypeEnum}.

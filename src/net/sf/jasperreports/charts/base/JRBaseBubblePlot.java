@@ -320,7 +320,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 * @deprecated Replaced by {@link #getScaleTypeValue()}
 	 */
 	public Integer getScaleTypeInteger(){
-		return getScaleTypeValue().getValueInteger();
+		return new Integer(getScaleTypeValue().getValue());
 	}
 	
 	/**
@@ -362,7 +362,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 * @deprecated Replaced by {@link #setScaleType(ScaleTypeEnum)}
 	 */
 	public void setScaleType( int scaleType ){
-		setScaleType(ScaleTypeEnum.getByValue(scaleType));
+		setScaleType(ScaleTypeEnum.getByValue((byte)scaleType));
 	}
 
 	/**

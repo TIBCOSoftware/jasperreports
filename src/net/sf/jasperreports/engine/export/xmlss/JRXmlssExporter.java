@@ -932,13 +932,13 @@ public class JRXmlssExporter extends JRAbstractExporter
 		}
 		try
 		{
-			JRGridLayout layout = gridCell.getLayout();
-			JRPrintElementIndex frameIndex =
-				new JRPrintElementIndex(
-						reportIndex,
-						pageIndex,
-						gridCell.getWrapper().getAddress()
-						);
+//			JRGridLayout layout = gridCell.getLayout();
+//			JRPrintElementIndex frameIndex =
+//				new JRPrintElementIndex(
+//						reportIndex,
+//						pageIndex,
+//						gridCell.getWrapper().getAddress()
+//						);
 			//FIXME: make it functional
 //			exportPage(layout, frameIndex);
 		}

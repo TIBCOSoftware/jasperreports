@@ -24,6 +24,8 @@
 package net.sf.jasperreports.charts.type;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.JREnum;
 
 import org.jfree.chart.plot.PlotOrientation;
 
@@ -32,7 +34,7 @@ import org.jfree.chart.plot.PlotOrientation;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public enum PlotOrientationEnum
+public enum PlotOrientationEnum implements JREnum
 {
 	/**
 	 *
@@ -43,7 +45,6 @@ public enum PlotOrientationEnum
 	 *
 	 */
 	VERTICAL(PlotOrientation.VERTICAL, "Vertical");
-
 
 
 	/**
@@ -62,9 +63,17 @@ public enum PlotOrientationEnum
 	/**
 	 *
 	 */
-	public final PlotOrientation getValue()
+	public Byte getValueByte()
 	{
-		return this.value;
+		return new Byte(getValue());
+	}
+	
+	/**
+	 *
+	 */
+	public final byte getValue()
+	{
+		return (byte)-1;
 	}
 	
 	/**
@@ -78,20 +87,17 @@ public enum PlotOrientationEnum
 	/**
 	 *
 	 */
+	public final PlotOrientation getOrientation()
+	{
+		return this.value;
+	}
+	
+	/**
+	 *
+	 */
 	public static PlotOrientationEnum getByName(String name)
 	{
-		PlotOrientationEnum[] values = values();
-		if (values != null && name != null)
-		{
-			for(PlotOrientationEnum e:values)
-			{
-				if (name.equals(e.getName()))
-				{
-					return e;
-				}
-			}
-		}
-		return null;
+		return (PlotOrientationEnum)EnumUtil.getByName(values(), name);
 	}
 	
 	/**

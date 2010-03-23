@@ -24,7 +24,6 @@
 package net.sf.jasperreports.chartthemes.simple.handlers;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
 

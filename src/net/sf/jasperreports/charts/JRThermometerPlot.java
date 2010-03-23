@@ -80,12 +80,12 @@ public interface JRThermometerPlot extends JRChartPlot
 	public boolean isShowValueLines();
 
 	/**
-	 * @deprecated Replaced by {@link #getValueLocationObject()}
+	 * @deprecated Replaced by {@link #getValueLocationValue()}
 	 */
 	public byte getValueLocation();
 
 	/**
-	 * @deprecated Replaced by {@link #getValueLocationObject()}
+	 * @deprecated Replaced by {@link #getValueLocationValue()}
 	 */
 	public Byte getValueLocationByte();
 
@@ -97,7 +97,7 @@ public interface JRThermometerPlot extends JRChartPlot
 	 *
 	 * @return the location where the value of the thermometer will be shown
 	 */
-	public ValueLocationEnum getValueLocationObject();
+	public ValueLocationEnum getValueLocationValue();
 
 	/**
 	 * Returns the color of the "mercury" in the thermometer when the value is
