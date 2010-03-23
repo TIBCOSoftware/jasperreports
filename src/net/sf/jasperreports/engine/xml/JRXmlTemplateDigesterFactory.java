@@ -49,8 +49,8 @@ import org.xml.sax.SAXParseException;
 public class JRXmlTemplateDigesterFactory implements ErrorHandler
 {
 
-	protected static final String PATTERN_ROOT = JRXmlConstants.TEMPLATE_ELEMENT_ROOT;
-	protected static final String PATTERN_INCLUDED_TEMPLATE = PATTERN_ROOT + "/" + JRXmlConstants.TEMPLATE_ELEMENT_INCLUDED_TEMPLATE;
+	protected static final String PATTERN_ROOT = XmlConstants.TEMPLATE_ELEMENT_ROOT;
+	protected static final String PATTERN_INCLUDED_TEMPLATE = PATTERN_ROOT + "/" + XmlConstants.TEMPLATE_ELEMENT_INCLUDED_TEMPLATE;
 	protected static final String PATTERN_STYLE = PATTERN_ROOT + "/" + XmlConstants.ELEMENT_style;
 	protected static final String PATTERN_STYLE_PEN = PATTERN_STYLE + "/" + XmlConstants.ELEMENT_pen;
 	protected static final String PATTERN_BOX = PATTERN_STYLE + "/" + XmlConstants.ELEMENT_box;

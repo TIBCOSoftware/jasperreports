@@ -130,8 +130,6 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 
 		valueDisplay = new JRBaseValueDisplay(thermoPlot.getValueDisplay(), factory);
 
-		showValueLines = thermoPlot.isShowValueLines();
-
 		valueLocationObject = thermoPlot.getValueLocationValue();
 
 		mercuryColor = thermoPlot.getMercuryColor();

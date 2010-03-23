@@ -71,7 +71,6 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.StyleContainerRule;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
@@ -393,7 +392,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				{
 					writer.startElement("column");
 					writer.addAttribute("width", column.getWidth());
-					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
+					writer.writeExpression(XmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							column.getPrintWhenExpression(), false);
 					writeTableCell(column.getTableHeader(), "tableHeader", reportWriter);
@@ -419,7 +418,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				{
 					writer.startElement("columnGroup");
 					writer.addAttribute("width", columnGroup.getWidth());
-					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
+					writer.writeExpression(XmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							columnGroup.getPrintWhenExpression(), false);
 					writeTableCell(columnGroup.getTableHeader(), "tableHeader", reportWriter);

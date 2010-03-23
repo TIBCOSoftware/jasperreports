@@ -24,12 +24,9 @@
 package net.sf.jasperreports.chartthemes.simple;
 
 import java.awt.Stroke;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.List;
 
-import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -80,7 +77,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
-	private PlotOrientationEnum orientationValue = null;
+	private PlotOrientation orientation = null;
 	private Float foregroundAlpha = null;
 	private PaintProvider backgroundPaint = null;
 	private Float backgroundAlpha = null;
@@ -306,33 +303,19 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getOrientationValue()}
-	 */
-	public PlotOrientation getOrientation() {
-		return getOrientationValue().getOrientation();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setOrientation(PlotOrientationEnum)}
-	 */
-	public void setOrientation(PlotOrientation orientation) {
-		setOrientation(PlotOrientationEnum.getByValue(orientation));
-	}
-
-	/**
 	 * @return the orientation
 	 */
-	public PlotOrientationEnum getOrientationValue() {
-		return orientationValue;
+	public PlotOrientation getOrientation() {
+		return orientation;
 	}
 
 	/**
 	 * @param orientation the orientation to set
 	 */
-	public void setOrientation(PlotOrientationEnum orientationValue) {
-		PlotOrientationEnum old = this.orientationValue;
-		this.orientationValue = orientationValue;
-		getEventSupport().firePropertyChange(PROPERTY_orientation, old, this.orientationValue);
+	public void setOrientation(PlotOrientation orientation) {
+		PlotOrientation old = getOrientation();
+		this.orientation = orientation;
+		getEventSupport().firePropertyChange(PROPERTY_orientation, old, getOrientation());
 	}
 
 	/**
@@ -568,25 +551,5 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 		this.displayFont = displayFont;
 		getEventSupport().firePropertyChange(PROPERTY_displayFont, old, getDisplayFont());
 	}
-
-	/**
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
-	private PlotOrientation orientation = null;
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			orientationValue = PlotOrientationEnum.getByValue(orientation);
-			
-			orientation = null;
-			
-		}
-	}
-	
 	
 }

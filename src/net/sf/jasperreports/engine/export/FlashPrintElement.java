@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseGenericPrintElement;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.xml.XmlConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -67,7 +67,7 @@ public class FlashPrintElement
 	 * The qualified type of Flash generic elements. 
 	 */
 	public static final JRGenericElementType FLASH_ELEMENT_TYPE = 
-		new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, FLASH_ELEMENT_NAME);
+		new JRGenericElementType(XmlConstants.JASPERREPORTS_NAMESPACE, FLASH_ELEMENT_NAME);
 	
 	/**
 	 * The name of the parameter that provides the URL of the SWF movie.
@@ -83,7 +83,7 @@ public class FlashPrintElement
 	{
 		public String getNamespace()
 		{
-			return JRXmlConstants.JASPERREPORTS_NAMESPACE;
+			return XmlConstants.JASPERREPORTS_NAMESPACE;
 		}
 		
 		public GenericElementHandler getHandler(String elementName,

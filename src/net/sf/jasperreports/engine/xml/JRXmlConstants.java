@@ -36,6 +36,7 @@ import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
+import net.sf.jasperreports.charts.type.TimePeriodEnum;
 import net.sf.jasperreports.charts.type.ValueLocationEnum;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
@@ -111,6 +112,7 @@ import org.jfree.data.time.Year;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @deprecated To be removed.
  */
 public class JRXmlConstants extends XmlConstants
 {
@@ -1367,18 +1369,46 @@ public class JRXmlConstants extends XmlConstants
 
 
 
-	private static final String TIME_PERIOD_YEAR = "Year";
-	private static final String TIME_PERIOD_QUARTER = "Quarter";
-	private static final String TIME_PERIOD_MONTH = "Month";
-	private static final String TIME_PERIOD_WEEK = "Week";
-	private static final String TIME_PERIOD_DAY = "Day";
-	private static final String TIME_PERIOD_HOUR = "Hour";
-	private static final String TIME_PERIOD_MINUTE = "Minute";
-	private static final String TIME_PERIOD_SECOND = "Second";
-	private static final String TIME_PERIOD_MILISECOND = "Milisecond";
+	/**
+	 * @deprecated Replaced by {@link TimePeriodEnum#YEAR#getName()}.
+	 */
+	private static final String TIME_PERIOD_YEAR = TimePeriodEnum.YEAR.getName();
+	/**
+	 * @deprecated Replaced by {@link TimePeriodEnum#QUARTER#getName()}.
+	 */
+	private static final String TIME_PERIOD_QUARTER = TimePeriodEnum.QUARTER.getName();
+	/**
+	 * @deprecated Replaced by {@link TimePeriodEnum#MONTH#getName()}.
+	 */
+	private static final String TIME_PERIOD_MONTH = TimePeriodEnum.MONTH.getName();
+	/**
+	 * @deprecated Replaced by {@link TimePeriodEnum#WEEK#getName()}.
+	 */
+	private static final String TIME_PERIOD_WEEK = TimePeriodEnum.WEEK.getName();
+	/**
+	 * @deprecated Replaced by {@link TimePeriodEnum#DAY#getName()}.
+	 */
+	private static final String TIME_PERIOD_DAY = TimePeriodEnum.DAY.getName();
+	/**
+	 * @deprecated Replaced by {@link TimePeriodEnum#HOUR#getName()}.
+	 */
+	private static final String TIME_PERIOD_HOUR = TimePeriodEnum.HOUR.getName();
+	/**
+	 * @deprecated Replaced by {@link TimePeriodEnum#MINUTE#getName()}.
+	 */
+	private static final String TIME_PERIOD_MINUTE = TimePeriodEnum.MINUTE.getName();
+	/**
+	 * @deprecated Replaced by {@link TimePeriodEnum#SECOND#getName()}.
+	 */
+	private static final String TIME_PERIOD_SECOND = TimePeriodEnum.SECOND.getName();
+	/**
+	 * @deprecated Replaced by {@link TimePeriodEnum#MILLISECOND#getName()}.
+	 */
+	private static final String TIME_PERIOD_MILISECOND = TimePeriodEnum.MILLISECOND.getName();
 
-
-
+	/**
+	 * @deprecated Replaced by {@link TimePeriodEnum}.
+	 */
 	public static Class getTimePeriod( String timePeriod ) {
 		if( timePeriod.equals( TIME_PERIOD_YEAR ) ){
 			return Year.class;
@@ -1410,7 +1440,9 @@ public class JRXmlConstants extends XmlConstants
 
 	}
 
-
+	/**
+	 * @deprecated Replaced by {@link TimePeriodEnum}.
+	 */
 	public static String getTimePeriodName( Class clazz  ){
 		if( clazz.equals( Year.class )){
 			return TIME_PERIOD_YEAR;
@@ -1440,7 +1472,6 @@ public class JRXmlConstants extends XmlConstants
 			return TIME_PERIOD_MILISECOND;
 		}
 	}
-
 
 
 	/**

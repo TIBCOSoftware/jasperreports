@@ -29,9 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
-import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 
 import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.ui.Align;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleInsets;
@@ -163,7 +163,7 @@ public class SimpleSettingsFactory
 		legendSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 		
 		PlotSettings plotSettings = settings.getPlotSettings();
-		plotSettings.setOrientation(PlotOrientationEnum.VERTICAL);
+		plotSettings.setOrientation(PlotOrientation.VERTICAL);
 //		plotSettings.setForegroundAlpha(new Float(0.5f));
 		plotSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 //		plotSettings.setBackgroundAlpha(new Float(0.5f));

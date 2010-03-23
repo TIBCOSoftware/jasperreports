@@ -86,7 +86,6 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.XmlConstants;
 
 import org.w3c.tools.codec.Base64Encoder;
@@ -189,7 +188,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			dtdLocation = (String)parameters.get(JRXmlExporterParameter.DTD_LOCATION);
 			if (dtdLocation == null)
 			{
-				dtdLocation = JRXmlConstants.JASPERPRINT_SYSTEM_ID;
+				dtdLocation = XmlConstants.JASPERPRINT_SYSTEM_ID;
 			}
 			
 			encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
@@ -385,7 +384,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter = new JRXmlWriteHelper(writer);
 		
 		xmlWriter.writeProlog(encoding);
-		xmlWriter.writePublicDoctype(XmlConstants.ELEMENT_jasperPrint, JRXmlConstants.JASPERPRINT_PUBLIC_ID, dtdLocation);
+		xmlWriter.writePublicDoctype(XmlConstants.ELEMENT_jasperPrint, XmlConstants.JASPERPRINT_PUBLIC_ID, dtdLocation);
 
 		xmlWriter.startElement(XmlConstants.ELEMENT_jasperPrint);
 		xmlWriter.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, jasperPrint.getName());
@@ -962,7 +961,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		{
 			if (i > 0)
 			{
-				offsetsString.append(JRXmlConstants.LINE_BREAK_OFFSET_SEPARATOR);
+				offsetsString.append(XmlConstants.LINE_BREAK_OFFSET_SEPARATOR);
 			}
 			offsetsString.append(lineBreakOffsets[i]);
 		}

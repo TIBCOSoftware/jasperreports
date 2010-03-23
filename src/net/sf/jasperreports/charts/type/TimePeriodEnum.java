@@ -27,36 +27,79 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.JREnum;
 
-import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.Hour;
+import org.jfree.data.time.Millisecond;
+import org.jfree.data.time.Minute;
+import org.jfree.data.time.Month;
+import org.jfree.data.time.Quarter;
+import org.jfree.data.time.Second;
+import org.jfree.data.time.Week;
+import org.jfree.data.time.Year;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: PlotOrientationEnum.java 3609 2010-03-23 09:01:15Z teodord $
  */
-public enum PlotOrientationEnum implements JREnum
+public enum TimePeriodEnum implements JREnum
 {
 	/**
 	 *
 	 */
-	HORIZONTAL(PlotOrientation.HORIZONTAL, "Horizontal"),
+	YEAR(Year.class, "Year"),
 
 	/**
 	 *
 	 */
-	VERTICAL(PlotOrientation.VERTICAL, "Vertical");
+	QUARTER(Quarter.class, "Quarter"),
+	
+	/**
+	 *
+	 */
+	MONTH(Month.class, "Month"),
+	
+	/**
+	 *
+	 */
+	WEEK(Week.class, "Week"),
+	
+	/**
+	 *
+	 */
+	DAY(Day.class, "Day"),
+	
+	/**
+	 *
+	 */
+	HOUR(Hour.class, "Hour"),
+	
+	/**
+	 *
+	 */
+	MINUTE(Minute.class, "Minute"),
+	
+	/**
+	 *
+	 */
+	SECOND(Second.class, "Second"),
+	
+	/**
+	 *
+	 */
+	MILLISECOND(Millisecond.class, "Milisecond");//FIXMENOW should we fix this spelling error?
 
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient PlotOrientation value;
+	private final transient Class value;
 	private final transient String name;
 
-	private PlotOrientationEnum(PlotOrientation orientation, String name)
+	private TimePeriodEnum(Class clazz, String name)
 	{
-		this.value = orientation;
+		this.value = clazz;
 		this.name = name;
 	}
 
@@ -87,7 +130,7 @@ public enum PlotOrientationEnum implements JREnum
 	/**
 	 *
 	 */
-	public final PlotOrientation getOrientation()
+	public final Class getTimePeriod()
 	{
 		return this.value;
 	}
@@ -95,22 +138,22 @@ public enum PlotOrientationEnum implements JREnum
 	/**
 	 *
 	 */
-	public static PlotOrientationEnum getByName(String name)
+	public static TimePeriodEnum getByName(String name)
 	{
-		return (PlotOrientationEnum)EnumUtil.getByName(values(), name);
+		return (TimePeriodEnum)EnumUtil.getByName(values(), name);
 	}
 	
 	/**
 	 *
 	 */
-	public static PlotOrientationEnum getByValue(PlotOrientation orientation)
+	public static TimePeriodEnum getByValue(Class clazz)
 	{
-		PlotOrientationEnum[] values = values();
-		if (values != null && orientation != null)
+		TimePeriodEnum[] values = values();
+		if (values != null && clazz != null)
 		{
-			for(PlotOrientationEnum e:values)
+			for(TimePeriodEnum e:values)
 			{
-				if (orientation.equals(e.getOrientation()))
+				if (clazz.getName().equals(e.getTimePeriod().getName()))
 				{
 					return e;
 				}
