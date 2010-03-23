@@ -25,10 +25,7 @@ package net.sf.jasperreports.components.ofc;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.convert.TextElementConverter;
@@ -37,7 +34,10 @@ import net.sf.jasperreports.engine.export.ElementWrapper;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.JRExporterContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -63,11 +63,11 @@ public class BaseChartHandler implements GenericElementHandler
 		text.setText("[Open Flash Chart Component]");
 		text.setMode(ModeEnum.OPAQUE);
 		text.setBackcolor(Color.lightGray);
-		text.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_CENTER);
-		text.setVerticalAlignment(JRAlignment.VERTICAL_ALIGN_MIDDLE);
+		text.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
+		text.setVerticalAlignment(VerticalAlignEnum.MIDDLE);
 		text.getLineBox().getPen().setLineWidth(1f);
 		text.getLineBox().getPen().setLineColor(Color.black);
-		text.getLineBox().getPen().setLineStyle(JRPen.LINE_STYLE_DASHED);
+		text.getLineBox().getPen().setLineStyle(LineStyleEnum.DASHED);
 		
 		TextElementConverter.measureTextElement(text);
 		

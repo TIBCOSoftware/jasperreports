@@ -30,8 +30,6 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -45,7 +43,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 
 import org.jCharts.Chart;
 import org.jCharts.axisChart.AxisChart;
@@ -177,7 +175,7 @@ public class FillAxisChart extends BaseFillComponent implements JRFillCloneable
 			//creating an chart image because AxisChart objects fail on serialization
 			BufferedImage img = getChartImage(axisChart);
 			JRRenderable renderer = JRImageRenderer.getInstance(img, JRRenderable.IMAGE_TYPE_PNG, 
-					JRImage.ON_ERROR_TYPE_ERROR);
+					OnErrorTypeEnum.ERROR);
 			image.setRenderer(renderer);
 		}
 		catch (ChartDataException e)
@@ -195,7 +193,7 @@ public class FillAxisChart extends BaseFillComponent implements JRFillCloneable
 		BufferedImage bufferedImage = new BufferedImage(
 				chart.getImageWidth(), chart.getImageHeight(), 
 				BufferedImage.TYPE_INT_RGB);
-		Graphics2D graphics = (Graphics2D) bufferedImage.createGraphics();
+		Graphics2D graphics = bufferedImage.createGraphics();
 		chart.setGraphics2D(graphics);
 		try
 		{
