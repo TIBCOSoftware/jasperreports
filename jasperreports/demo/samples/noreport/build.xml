@@ -20,8 +20,8 @@
 		<ant dir="../" target="view"/>
 	</target>
 
-	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
-		<ant dir="../" target="viewXML"/>
+	<target name="viewXml" description="Launches the report viewer to preview the generated report stored in an XML file.">
+		<ant dir="../" target="viewXml"/>
 	</target>
 
 	<target name="print" description="Sends the report in the .jrprint file to the printer.">

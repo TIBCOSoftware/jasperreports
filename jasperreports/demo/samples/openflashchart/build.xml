@@ -81,7 +81,7 @@
 		</java>
 	</target>
 
-	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
+	<target name="viewXml" description="Launches the report viewer to preview the generated report stored in an XML file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<classpath refid="classpath"/>
 		</java>
@@ -222,7 +222,7 @@
 		</java>
 	</target>
 
-	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
+	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="./${base.file.name}.jrxml"/>
 			<classpath refid="classpath"/>

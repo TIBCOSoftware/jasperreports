@@ -85,7 +85,7 @@
 		</java>
 	</target>
 
-	<target name="viewXML">
+	<target name="viewXml">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="${sample.dir}">
 			<arg value="build/reports/${sample.report.name}.jrpxml"/>
 			<classpath refid="classpath"/>
@@ -204,7 +204,7 @@
 		</java>
 	</target>
 
-	<target name="viewDesignXML">
+	<target name="viewDesignXml">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${sample.dir}/reports/${sample.report.name}.jrxml"/>
 			<classpath refid="classpath"/>
