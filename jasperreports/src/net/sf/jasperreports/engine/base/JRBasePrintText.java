@@ -82,7 +82,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected HorizontalAlignEnum horizontalAlignmentValue = null;
 	protected VerticalAlignEnum verticalAlignmentValue = null;
 	protected RotationEnum rotationValue;
-	protected RunDirectionEnum runDirectionValue;
+	protected RunDirectionEnum runDirectionValue = RunDirectionEnum.LTR;
 	protected float textHeight = 0;
 	protected LineSpacingEnum lineSpacingValue = null;
 	protected String markup = null;
