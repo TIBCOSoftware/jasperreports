@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.components.table;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -164,9 +163,28 @@ public class TableCompiler implements ComponentCompiler
 				}
 				else
 				{
-					for (BaseColumn column : subcolumns)
+					int subwidth = 0;
+					boolean subwidthValid = true;
+					for (BaseColumn column : columnGroup.getColumns())
 					{
 						column.visitColumn(this);
+						
+						Integer width = column.getWidth();
+						if (width == null)
+						{
+							subwidthValid = false;
+						}
+						else
+						{
+							subwidth += width;
+						}
+					}
+					
+					if (subwidthValid && columnGroup.getWidth() != null
+							&& columnGroup.getWidth() != subwidth)
+					{
+						verifier.addBrokenRule("Column group width " + columnGroup.getWidth() 
+								+ " does not match sum of subcolumn widths " + subwidth, columnGroup);
 					}
 				}
 				return null;
@@ -318,61 +336,6 @@ public class TableCompiler implements ComponentCompiler
 		{
 			Cell detailCell = column.getDetailCell();
 			verifyCell(detailCell, column.getWidth(), "detail", verifier);
-		}
-	}
-	
-	protected HeadersPart verifyColumnsLayout(List<BaseColumn> columns)
-	{
-		List<HeadersPart> subparts = new ArrayList<HeadersPart>(columns.size());
-		for (BaseColumn column : columns)
-		{
-			HeadersPart columnHeadersPart = makeColumnHeadersPart(column);
-			subparts.add(columnHeadersPart);
-		}
-		
-		//TODO
-		return null;
-	}
-
-	protected HeadersPart makeColumnHeadersPart(BaseColumn column)
-	{
-		column.visitColumn(new ColumnVisitor<HeadersPart>()
-		{
-			public HeadersPart visitColumn(Column column)
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			public HeadersPart visitColumnGroup(ColumnGroup columnGroup)
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
-		});
-		
-		return null;
-	}
-
-	protected static class HeadersPart
-	{
-		boolean valid;
-		int width;
-		List<Integer> rowHeights;
-		
-		public int getRowsCount()
-		{
-			return rowHeights.size();
-		}
-
-		public int getWidth()
-		{
-			return width;
-		}
-		
-		public boolean isValid()
-		{
-			return valid;
 		}
 	}
 	
