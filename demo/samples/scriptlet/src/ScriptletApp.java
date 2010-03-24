@@ -94,7 +94,7 @@ public class ScriptletApp extends AbstractSampleApp
 		long start = System.currentTimeMillis();
 		//Preparing parameters
 		Map parameters = new HashMap();
-		parameters.put("ReportTitle", "Scriptlet Report");
+		parameters.put("ReportTitle", "Address Report");
 		
 		JasperFillManager.fillReportToFile("build/reports/ScriptletReport.jasper", parameters, getDemoHsqldbConnection());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
