@@ -46,7 +46,7 @@ public class JRBreakFactory extends JRBaseFactory
 
 		JRDesignBreak breakElement = new JRDesignBreak(jasperDesign);
 
-		BreakTypeEnum type = BreakTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_type));
+		BreakTypeEnum type = BreakTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_type));
 		if (type != null)
 		{
 			breakElement.setType(type);

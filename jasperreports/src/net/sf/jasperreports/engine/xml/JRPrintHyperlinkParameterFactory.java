@@ -43,9 +43,9 @@ public class JRPrintHyperlinkParameterFactory extends JRBaseFactory
 	public Object createObject(Attributes attrs)
 	{
 		JRPrintHyperlinkParameter parameter = new JRPrintHyperlinkParameter();
-		parameter.setName(attrs.getValue(XmlConstants.ATTRIBUTE_name));
+		parameter.setName(attrs.getValue(JRXmlConstants.ATTRIBUTE_name));
 		
-		String valueClass = attrs.getValue(XmlConstants.ATTRIBUTE_class);
+		String valueClass = attrs.getValue(JRXmlConstants.ATTRIBUTE_class);
 		if (valueClass != null)
 		{
 			parameter.setValueClass(valueClass);

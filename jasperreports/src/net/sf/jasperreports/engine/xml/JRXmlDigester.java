@@ -90,14 +90,14 @@ public class JRXmlDigester extends Digester
 	{
 		internalEntityResources = new HashMap();
 		
-		internalEntityResources.put(XmlConstants.JASPERREPORT_SYSTEM_ID, 
-				XmlConstants.JASPERREPORT_DTD);
-		internalEntityResources.put(XmlConstants.JASPERPRINT_SYSTEM_ID, 
-				XmlConstants.JASPERPRINT_DTD);
-		internalEntityResources.put(XmlConstants.JASPERTEMPLATE_SYSTEM_ID, 
-				XmlConstants.JASPERTEMPLATE_DTD);
-		internalEntityResources.put(XmlConstants.JASPERREPORT_XSD_SYSTEM_ID, 
-				XmlConstants.JASPERREPORT_XSD_RESOURCE);
+		internalEntityResources.put(JRXmlConstants.JASPERREPORT_SYSTEM_ID, 
+				JRXmlConstants.JASPERREPORT_DTD);
+		internalEntityResources.put(JRXmlConstants.JASPERPRINT_SYSTEM_ID, 
+				JRXmlConstants.JASPERPRINT_DTD);
+		internalEntityResources.put(JRXmlConstants.JASPERTEMPLATE_SYSTEM_ID, 
+				JRXmlConstants.JASPERTEMPLATE_DTD);
+		internalEntityResources.put(JRXmlConstants.JASPERREPORT_XSD_SYSTEM_ID, 
+				JRXmlConstants.JASPERREPORT_XSD_RESOURCE);
 	}
 
 

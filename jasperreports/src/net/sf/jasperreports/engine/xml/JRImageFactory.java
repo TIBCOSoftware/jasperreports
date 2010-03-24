@@ -56,43 +56,43 @@ public class JRImageFactory extends JRBaseFactory
 		JRDesignImage image = new JRDesignImage(jasperDesign);
 
 		// get image attributes
-		ScaleImageEnum scaleImage = ScaleImageEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_scaleImage));
+		ScaleImageEnum scaleImage = ScaleImageEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_scaleImage));
 		if (scaleImage != null)
 		{
 			image.setScaleImage(scaleImage);
 		}
 
-		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_hAlign));
+		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
 			image.setHorizontalAlignment(horizontalAlignment);
 		}
 
-		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_vAlign));
+		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
 			image.setVerticalAlignment(verticalAlignment);
 		}
 
-		String isUsingCache = atts.getValue(XmlConstants.ATTRIBUTE_isUsingCache);
+		String isUsingCache = atts.getValue(JRXmlConstants.ATTRIBUTE_isUsingCache);
 		if (isUsingCache != null && isUsingCache.length() > 0)
 		{
 			image.setUsingCache(Boolean.valueOf(isUsingCache));
 		}
 
-		String isLazy = atts.getValue(XmlConstants.ATTRIBUTE_isLazy);
+		String isLazy = atts.getValue(JRXmlConstants.ATTRIBUTE_isLazy);
 		if (isLazy != null && isLazy.length() > 0)
 		{
 			image.setLazy(Boolean.valueOf(isLazy).booleanValue());
 		}
 
-		OnErrorTypeEnum onErrorType = OnErrorTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_onErrorType));
+		OnErrorTypeEnum onErrorType = OnErrorTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_onErrorType));
 		if (onErrorType != null)
 		{
 			image.setOnErrorType(onErrorType);
 		}
 
-		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
+		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
 			image.setEvaluationTime(evaluationTime);
@@ -101,7 +101,7 @@ public class JRImageFactory extends JRBaseFactory
 		{
 			groupEvaluatedImages.add(image);
 
-			String groupName = atts.getValue(XmlConstants.ATTRIBUTE_evaluationGroup);
+			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)
 			{
 				JRDesignGroup group = new JRDesignGroup();
@@ -110,10 +110,10 @@ public class JRImageFactory extends JRBaseFactory
 			}
 		}
 
-		image.setLinkType(atts.getValue(XmlConstants.ATTRIBUTE_hyperlinkType));
-		image.setLinkTarget(atts.getValue(XmlConstants.ATTRIBUTE_hyperlinkTarget));
+		image.setLinkType(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType));
+		image.setLinkTarget(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
 		
-		String bookmarkLevelAttr = atts.getValue(XmlConstants.ATTRIBUTE_bookmarkLevel);
+		String bookmarkLevelAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_bookmarkLevel);
 		if (bookmarkLevelAttr != null)
 		{
 			image.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));

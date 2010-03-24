@@ -151,8 +151,8 @@ public class JRReportSaxParserFactory implements JRSaxParserFactory
 	protected List getSchemaLocations()
 	{
 		List schemas = new ArrayList();
-		schemas.add(getResourceURI(XmlConstants.JASPERREPORT_XSD_RESOURCE));
-		schemas.add(getResourceURI(XmlConstants.JASPERREPORT_XSD_DTD_COMPAT_RESOURCE));
+		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_RESOURCE));
+		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_DTD_COMPAT_RESOURCE));
 		
 		Collection components = ComponentsEnvironment.getComponentBundles();
 		for (Iterator it = components.iterator(); it.hasNext();)

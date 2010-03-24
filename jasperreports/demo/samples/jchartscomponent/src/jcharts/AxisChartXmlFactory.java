@@ -26,7 +26,7 @@ package jcharts;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.XmlConstants;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -44,7 +44,7 @@ public class AxisChartXmlFactory extends JRBaseFactory
 		
 		chart.setAreaColor(JRColorUtil.getColor(attrs.getValue("areaColor"), null));
 		
-		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(attrs.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
+		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
 			chart.setEvaluationTime(evaluationTime);
@@ -52,7 +52,7 @@ public class AxisChartXmlFactory extends JRBaseFactory
 
 		if (chart.getEvaluationTime() == EvaluationTimeEnum.GROUP)
 		{
-			String groupName = attrs.getValue(XmlConstants.ATTRIBUTE_evaluationGroup);
+			String groupName = attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
 			chart.setEvaluationGroup(groupName);
 		}
 		

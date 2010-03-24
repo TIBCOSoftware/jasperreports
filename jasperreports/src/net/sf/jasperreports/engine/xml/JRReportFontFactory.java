@@ -42,50 +42,50 @@ public class JRReportFontFactory extends JRBaseFactory
 	{
 		JRDesignReportFont reportFont = new JRDesignReportFont();
 
-		reportFont.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
+		reportFont.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 		
-		String isDefault = atts.getValue(XmlConstants.ATTRIBUTE_isDefault);
+		String isDefault = atts.getValue(JRXmlConstants.ATTRIBUTE_isDefault);
 		if (isDefault != null && isDefault.length() > 0)
 		{
 			reportFont.setDefault(Boolean.valueOf(isDefault).booleanValue());
 		}
 
-		reportFont.setFontName(atts.getValue(XmlConstants.ATTRIBUTE_fontName));
+		reportFont.setFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_fontName));
 
-		String isBold = atts.getValue(XmlConstants.ATTRIBUTE_isBold);
+		String isBold = atts.getValue(JRXmlConstants.ATTRIBUTE_isBold);
 		if (isBold != null && isBold.length() > 0)
 		{
 			reportFont.setBold(Boolean.valueOf(isBold));
 		}
 
-		String isItalic = atts.getValue(XmlConstants.ATTRIBUTE_isItalic);
+		String isItalic = atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic);
 		if (isItalic != null && isItalic.length() > 0)
 		{
 			reportFont.setItalic(Boolean.valueOf(isItalic));
 		}
 
-		String isUnderline = atts.getValue(XmlConstants.ATTRIBUTE_isUnderline);
+		String isUnderline = atts.getValue(JRXmlConstants.ATTRIBUTE_isUnderline);
 		if (isUnderline != null && isUnderline.length() > 0)
 		{
 			reportFont.setUnderline(Boolean.valueOf(isUnderline));
 		}
 
-		String isStrikeThrough = atts.getValue(XmlConstants.ATTRIBUTE_isStrikeThrough);
+		String isStrikeThrough = atts.getValue(JRXmlConstants.ATTRIBUTE_isStrikeThrough);
 		if (isStrikeThrough != null && isStrikeThrough.length() > 0)
 		{
 			reportFont.setStrikeThrough(Boolean.valueOf(isStrikeThrough));
 		}
 
-		String size = atts.getValue(XmlConstants.ATTRIBUTE_size);
+		String size = atts.getValue(JRXmlConstants.ATTRIBUTE_size);
 		if (size != null && size.length() > 0)
 		{
 			reportFont.setFontSize(Integer.parseInt(size));
 		}
 
-		reportFont.setPdfFontName(atts.getValue(XmlConstants.ATTRIBUTE_pdfFontName));
-		reportFont.setPdfEncoding(atts.getValue(XmlConstants.ATTRIBUTE_pdfEncoding));
+		reportFont.setPdfFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName));
+		reportFont.setPdfEncoding(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfEncoding));
 
-		String isPdfEmbedded = atts.getValue(XmlConstants.ATTRIBUTE_isPdfEmbedded);
+		String isPdfEmbedded = atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded);
 		if (isPdfEmbedded != null && isPdfEmbedded.length() > 0)
 		{
 			reportFont.setPdfEmbedded(Boolean.valueOf(isPdfEmbedded));

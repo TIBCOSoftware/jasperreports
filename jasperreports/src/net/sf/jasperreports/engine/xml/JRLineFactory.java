@@ -46,7 +46,7 @@ public class JRLineFactory extends JRBaseFactory
 
 		JRDesignLine line = new JRDesignLine(jasperDesign);
 
-		LineDirectionEnum direction = LineDirectionEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_direction));
+		LineDirectionEnum direction = LineDirectionEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_direction));
 		if (direction != null)
 		{
 			line.setDirection(direction);

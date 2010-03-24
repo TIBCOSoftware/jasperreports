@@ -39,7 +39,7 @@ public class JRStringExpressionFactory extends JRBaseFactory
 	{
 		JRDesignExpression expression = new JRDesignExpression();
 
-		String className = atts.getValue(XmlConstants.ATTRIBUTE_class);
+		String className = atts.getValue(JRXmlConstants.ATTRIBUTE_class);
 		if (className == null)
 		{
 			expression.setValueClass(java.lang.String.class);

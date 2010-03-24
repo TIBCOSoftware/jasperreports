@@ -49,11 +49,11 @@ public class JRScriptletFactory extends JRBaseFactory
 
 	protected void setScriptletAttributes(JRDesignScriptlet scriptlet, Attributes atts)
 	{
-		scriptlet.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
+		scriptlet.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 		
-		if (atts.getValue(XmlConstants.ATTRIBUTE_class) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
 		{
-			scriptlet.setValueClassName(atts.getValue(XmlConstants.ATTRIBUTE_class));
+			scriptlet.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
 		}
 	}
 	

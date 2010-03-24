@@ -38,7 +38,7 @@ public class JRDatasetRunFactory extends JRBaseFactory
 	{
 		JRDesignDatasetRun datasetRun = new JRDesignDatasetRun();
 		
-		datasetRun.setDatasetName(atts.getValue(XmlConstants.ATTRIBUTE_subDataset));
+		datasetRun.setDatasetName(atts.getValue(JRXmlConstants.ATTRIBUTE_subDataset));
 		
 		return datasetRun;
 	}

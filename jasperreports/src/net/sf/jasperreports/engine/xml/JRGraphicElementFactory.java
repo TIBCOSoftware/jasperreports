@@ -49,13 +49,13 @@ public class JRGraphicElementFactory extends JRBaseFactory
 	{
 		JRDesignGraphicElement graphicElement = (JRDesignGraphicElement)digester.peek();
 		
-		StretchTypeEnum stretchType = StretchTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_stretchType));
+		StretchTypeEnum stretchType = StretchTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_stretchType));
 		if (stretchType != null)
 		{
 			graphicElement.setStretchType(stretchType);
 		}
 
-		PenEnum pen = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_pen));
+		PenEnum pen = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_pen));
 		if (pen != null)
 		{
 			if (log.isWarnEnabled())
@@ -64,7 +64,7 @@ public class JRGraphicElementFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(pen, graphicElement.getLinePen());
 		}
 
-		FillEnum fill = FillEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_fill));
+		FillEnum fill = FillEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_fill));
 		if (fill != null)
 		{
 			graphicElement.setFill(fill);
