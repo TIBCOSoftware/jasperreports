@@ -39,12 +39,12 @@ public class JRDatasetFactory extends JRBaseFactory
 	{
 		JRDesignDataset dataset = new JRDesignDataset(false);
 		
-		dataset.setName(attributes.getValue(XmlConstants.ATTRIBUTE_name));
-		dataset.setScriptletClass(attributes.getValue(XmlConstants.ATTRIBUTE_scriptletClass));
+		dataset.setName(attributes.getValue(JRXmlConstants.ATTRIBUTE_name));
+		dataset.setScriptletClass(attributes.getValue(JRXmlConstants.ATTRIBUTE_scriptletClass));
 		
-		dataset.setResourceBundle(attributes.getValue(XmlConstants.ATTRIBUTE_resourceBundle));
+		dataset.setResourceBundle(attributes.getValue(JRXmlConstants.ATTRIBUTE_resourceBundle));
 
-		WhenResourceMissingTypeEnum whenResourceMissingType = WhenResourceMissingTypeEnum.getByName(attributes.getValue(XmlConstants.ATTRIBUTE_whenResourceMissingType));
+		WhenResourceMissingTypeEnum whenResourceMissingType = WhenResourceMissingTypeEnum.getByName(attributes.getValue(JRXmlConstants.ATTRIBUTE_whenResourceMissingType));
 		if (whenResourceMissingType != null)
 		{
 			dataset.setWhenResourceMissingType(whenResourceMissingType);

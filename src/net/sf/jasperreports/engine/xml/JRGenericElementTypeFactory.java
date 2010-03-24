@@ -38,8 +38,8 @@ public class JRGenericElementTypeFactory extends JRBaseFactory
 
 	public Object createObject(Attributes attrs) throws Exception
 	{
-		String namespace = attrs.getValue(XmlConstants.ATTRIBUTE_namespace);
-		String name = attrs.getValue(XmlConstants.ATTRIBUTE_name);
+		String namespace = attrs.getValue(JRXmlConstants.ATTRIBUTE_namespace);
+		String name = attrs.getValue(JRXmlConstants.ATTRIBUTE_name);
 		JRGenericElementType type = new JRGenericElementType(namespace, name);
 		return type;
 	}

@@ -41,7 +41,7 @@ public class JRGenericPrintElementParameterFactory extends JRBaseFactory
 	public Object createObject(Attributes attributes) throws Exception
 	{
 		JRGenericPrintElement element = (JRGenericPrintElement) digester.peek();
-		String name = attributes.getValue(XmlConstants.ATTRIBUTE_name);
+		String name = attributes.getValue(JRXmlConstants.ATTRIBUTE_name);
 		return new Parameter(element, name);
 	}
 	
@@ -92,7 +92,7 @@ public class JRGenericPrintElementParameterFactory extends JRBaseFactory
 
 		public Object createObject(Attributes attributes) throws Exception
 		{
-			String valueClass = attributes.getValue(XmlConstants.ATTRIBUTE_class);
+			String valueClass = attributes.getValue(JRXmlConstants.ATTRIBUTE_class);
 			return new ParameterValue(valueClass);
 		}
 		

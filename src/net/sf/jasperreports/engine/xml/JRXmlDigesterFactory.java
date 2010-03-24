@@ -206,7 +206,7 @@ public class JRXmlDigesterFactory
 		
 		digester.setNamespaceAware(true);
 		
-		digester.setRuleNamespaceURI(XmlConstants.JASPERREPORTS_NAMESPACE);
+		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
 
 		/*   */
 		digester.addFactoryCreate("jasperReport", JasperDesignFactory.class.getName());
@@ -215,7 +215,7 @@ public class JRXmlDigesterFactory
 		/*   */
 		digester.addRule("*/property", new JRPropertyDigesterRule());
 		
-		String propertyExpressionPattern = "*/" + XmlConstants.ELEMENT_propertyExpression;
+		String propertyExpressionPattern = "*/" + JRXmlConstants.ELEMENT_propertyExpression;
 		digester.addFactoryCreate(propertyExpressionPattern, JRPropertyExpressionFactory.class.getName());
 		digester.addSetNext(propertyExpressionPattern, "addPropertyExpression", JRPropertyExpression.class.getName());
 		digester.addFactoryCreate(propertyExpressionPattern, JRExpressionFactory.StringExpressionFactory.class.getName());
@@ -286,7 +286,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/variable/initialValueExpression", "setInitialValueExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/variable/initialValueExpression", "setText", 0);
 
-		String filterExpressionPath = "*/" + XmlConstants.ELEMENT_filterExpression;
+		String filterExpressionPath = "*/" + JRXmlConstants.ELEMENT_filterExpression;
 		digester.addFactoryCreate(filterExpressionPath, JRExpressionFactory.BooleanExpressionFactory.class.getName());
 		digester.addSetNext(filterExpressionPath, "setFilterExpression", JRExpression.class.getName());
 		digester.addCallMethod(filterExpressionPath, "setText", 0);
@@ -424,7 +424,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/hyperlinkPageExpression", "setHyperlinkPageExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkPageExpression", "setText", 0);
 
-		String hyperlinkTooltipExpressionPattern = "*/" + XmlConstants.ELEMENT_hyperlinkTooltipExpression;
+		String hyperlinkTooltipExpressionPattern = "*/" + JRXmlConstants.ELEMENT_hyperlinkTooltipExpression;
 		digester.addFactoryCreate(hyperlinkTooltipExpressionPattern, JRExpressionFactory.StringExpressionFactory.class.getName());
 		digester.addSetNext(hyperlinkTooltipExpressionPattern, "setHyperlinkTooltipExpression", JRExpression.class.getName());
 		digester.addCallMethod(hyperlinkTooltipExpressionPattern, "setText", 0);
@@ -513,13 +513,13 @@ public class JRXmlDigesterFactory
 			}
 		}
 		
-		digester.setRuleNamespaceURI(XmlConstants.JASPERREPORTS_NAMESPACE);
+		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
 	}
 
 
 	protected static void addTemplateRules(Digester digester)
 	{
-		String templatePattern = XmlConstants.ELEMENT_jasperReport + "/" + XmlConstants.ELEMENT_template;
+		String templatePattern = JRXmlConstants.ELEMENT_jasperReport + "/" + JRXmlConstants.ELEMENT_template;
 		//do not change the order
 		digester.addObjectCreate(templatePattern, JRDesignReportTemplate.class);
 		digester.addSetNext(templatePattern, "addTemplate", JRReportTemplate.class.getName());
@@ -536,7 +536,7 @@ public class JRXmlDigesterFactory
 	{
 		digester.addFactoryCreate("*/dataset", JRElementDatasetFactory.class.getName());
 
-		String datasetIncrementWhenExpressionPath = "*/dataset/" + XmlConstants.ELEMENT_incrementWhenExpression;
+		String datasetIncrementWhenExpressionPath = "*/dataset/" + JRXmlConstants.ELEMENT_incrementWhenExpression;
 		digester.addFactoryCreate(datasetIncrementWhenExpressionPath, JRExpressionFactory.BooleanExpressionFactory.class.getName());
 		digester.addSetNext(datasetIncrementWhenExpressionPath, "setIncrementWhenExpression", JRExpression.class.getName());
 		digester.addCallMethod(datasetIncrementWhenExpressionPath, "setText", 0);
@@ -764,7 +764,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/categorySeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categorySeries/valueExpression", "setText", 0);
 
-		String itemHyperlinkPattern = "*/" + XmlConstants.ELEMENT_itemHyperlink;
+		String itemHyperlinkPattern = "*/" + JRXmlConstants.ELEMENT_itemHyperlink;
 		digester.addFactoryCreate(itemHyperlinkPattern, JRHyperlinkFactory.class);
 		digester.addSetNext(itemHyperlinkPattern, "setItemHyperlink", JRHyperlink.class.getName());
 
@@ -1156,19 +1156,19 @@ public class JRXmlDigesterFactory
 
 	private static void addDatasetRules(Digester digester)
 	{
-		String subDatasetPattern = "jasperReport/" + XmlConstants.ELEMENT_subDataset;
+		String subDatasetPattern = "jasperReport/" + JRXmlConstants.ELEMENT_subDataset;
 		digester.addFactoryCreate(subDatasetPattern, JRDatasetFactory.class.getName());
 		digester.addSetNext(subDatasetPattern, "addDataset", JRDesignDataset.class.getName());
 
-		String datasetRunPattern = "*/" + XmlConstants.ELEMENT_datasetRun;
+		String datasetRunPattern = "*/" + JRXmlConstants.ELEMENT_datasetRun;
 		digester.addFactoryCreate(datasetRunPattern, JRDatasetRunFactory.class.getName());
 		digester.addSetNext(datasetRunPattern, "setDatasetRun", JRDatasetRun.class.getName());
 
-		String datasetParamPattern = datasetRunPattern + "/" + XmlConstants.ELEMENT_datasetParameter;
+		String datasetParamPattern = datasetRunPattern + "/" + JRXmlConstants.ELEMENT_datasetParameter;
 		digester.addFactoryCreate(datasetParamPattern, JRDatasetRunParameterFactory.class.getName());
 		digester.addSetNext(datasetParamPattern, "addParameter", JRDatasetParameter.class.getName());
 
-		String datasetParamExprPattern = datasetParamPattern + "/" + XmlConstants.ELEMENT_datasetParameterExpression;
+		String datasetParamExprPattern = datasetParamPattern + "/" + JRXmlConstants.ELEMENT_datasetParameterExpression;
 		digester.addFactoryCreate(datasetParamExprPattern, JRDatasetRunParameterExpressionFactory.class.getName());
 		digester.addSetNext(datasetParamExprPattern, "setExpression", JRExpression.class.getName());
 		digester.addCallMethod(datasetParamExprPattern, "setText", 0);
@@ -1248,7 +1248,7 @@ public class JRXmlDigesterFactory
 
 	private static void addFrameRules(Digester digester)
 	{
-		String framePattern = "*/" + XmlConstants.ELEMENT_frame;
+		String framePattern = "*/" + JRXmlConstants.ELEMENT_frame;
 		digester.addFactoryCreate(framePattern, JRFrameFactory.class.getName());
 		digester.addSetNext(framePattern, "addElement", JRDesignElement.class.getName());
 	}
@@ -1256,11 +1256,11 @@ public class JRXmlDigesterFactory
 
 	private static void addHyperlinkParameterRules(Digester digester)
 	{
-		String hyperlinkParameterPattern = "*/" + XmlConstants.ELEMENT_hyperlinkParameter;
+		String hyperlinkParameterPattern = "*/" + JRXmlConstants.ELEMENT_hyperlinkParameter;
 		digester.addFactoryCreate(hyperlinkParameterPattern, JRHyperlinkParameterFactory.class.getName());
 		digester.addSetNext(hyperlinkParameterPattern, "addHyperlinkParameter", JRHyperlinkParameter.class.getName());
 
-		String hyperlinkParameterExpressionPattern = hyperlinkParameterPattern + '/' + XmlConstants.ELEMENT_hyperlinkParameterExpression;
+		String hyperlinkParameterExpressionPattern = hyperlinkParameterPattern + '/' + JRXmlConstants.ELEMENT_hyperlinkParameterExpression;
 		digester.addFactoryCreate(hyperlinkParameterExpressionPattern, JRStringExpressionFactory.class.getName());
 		digester.addSetNext(hyperlinkParameterExpressionPattern, "setValueExpression", JRExpression.class.getName());
 		digester.addCallMethod(hyperlinkParameterExpressionPattern, "setText", 0);
@@ -1269,28 +1269,28 @@ public class JRXmlDigesterFactory
 
 	protected static void addGenericElementRules(Digester digester)
 	{
-		String genericElementPattern = "*/" + XmlConstants.ELEMENT_genericElement;
+		String genericElementPattern = "*/" + JRXmlConstants.ELEMENT_genericElement;
 		digester.addFactoryCreate(genericElementPattern, 
 				JRGenericElementFactory.class);
 		digester.addSetNext(genericElementPattern, "addElement", 
 				JRDesignElement.class.getName());
 		
 		String genericElementTypePattern = genericElementPattern + "/" 
-			+ XmlConstants.ELEMENT_genericElementType;
+			+ JRXmlConstants.ELEMENT_genericElementType;
 		digester.addFactoryCreate(genericElementTypePattern, 
 				JRGenericElementTypeFactory.class);
 		digester.addSetNext(genericElementTypePattern, "setGenericType", 
 				JRGenericElementType.class.getName());
 		
 		String genericElementParameterPattern = genericElementPattern + "/"
-			+ XmlConstants.ELEMENT_genericElementParameter;
+			+ JRXmlConstants.ELEMENT_genericElementParameter;
 		digester.addFactoryCreate(genericElementParameterPattern, 
 				JRGenericElementParameterFactory.class);
 		digester.addSetNext(genericElementParameterPattern, "addParameter", 
 				JRGenericElementParameter.class.getName());
 		
 		String genericElementParameterExpressionPattern = genericElementParameterPattern + "/"
-			+ XmlConstants.ELEMENT_genericElementParameter_valueExpression;
+			+ JRXmlConstants.ELEMENT_genericElementParameter_valueExpression;
 		digester.addFactoryCreate(genericElementParameterExpressionPattern, 
 				JRExpressionFactory.ArbitraryExpressionFactory.class);
 		digester.addSetNext(genericElementParameterExpressionPattern, 

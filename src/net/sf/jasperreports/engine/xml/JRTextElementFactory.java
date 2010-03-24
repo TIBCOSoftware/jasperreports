@@ -50,33 +50,33 @@ public class JRTextElementFactory extends JRBaseFactory
 	{
 		JRDesignTextElement textElement = (JRDesignTextElement)digester.peek();
 
-		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_textAlignment));
+		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
 		{
 			textElement.setHorizontalAlignment(horizontalAlignment);
 		}
 
-		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_verticalAlignment));
+		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_verticalAlignment));
 		if (verticalAlignment != null)
 		{
 			textElement.setVerticalAlignment(verticalAlignment);
 		}
 
-		RotationEnum rotation = RotationEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_rotation));
+		RotationEnum rotation = RotationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_rotation));
 		if (rotation != null)
 		{
 			textElement.setRotation(rotation);
 		}
 
-		LineSpacingEnum lineSpacing = LineSpacingEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_lineSpacing));
+		LineSpacingEnum lineSpacing = LineSpacingEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
 			textElement.setLineSpacing(lineSpacing);
 		}
 
-		textElement.setMarkup(atts.getValue(XmlConstants.ATTRIBUTE_markup));
+		textElement.setMarkup(atts.getValue(JRXmlConstants.ATTRIBUTE_markup));
 
-		String isStyledText = atts.getValue(XmlConstants.ATTRIBUTE_isStyledText);
+		String isStyledText = atts.getValue(JRXmlConstants.ATTRIBUTE_isStyledText);
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
 			if (log.isWarnEnabled())

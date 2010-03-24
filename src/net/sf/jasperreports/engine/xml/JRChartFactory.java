@@ -55,11 +55,11 @@ public class JRChartFactory extends JRBaseFactory
 
 		JRDesignChart chart = (JRDesignChart) digester.peek();
 
-		String isShowLegend = atts.getValue(XmlConstants.ATTRIBUTE_isShowLegend);
+		String isShowLegend = atts.getValue(JRXmlConstants.ATTRIBUTE_isShowLegend);
 		if (isShowLegend != null && isShowLegend.length() > 0)
 			chart.setShowLegend(Boolean.valueOf(isShowLegend));
 
-		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
+		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
 			chart.setEvaluationTime(evaluationTime);
@@ -68,7 +68,7 @@ public class JRChartFactory extends JRBaseFactory
 		{
 			groupEvaluatedCharts.add(chart);
 
-			String groupName = atts.getValue(XmlConstants.ATTRIBUTE_evaluationGroup);
+			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)
 			{
 				JRDesignGroup group = new JRDesignGroup();
@@ -77,22 +77,22 @@ public class JRChartFactory extends JRBaseFactory
 			}
 		}
 
-		chart.setLinkType(atts.getValue(XmlConstants.ATTRIBUTE_hyperlinkType));
-		chart.setLinkTarget(atts.getValue(XmlConstants.ATTRIBUTE_hyperlinkTarget));
+		chart.setLinkType(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType));
+		chart.setLinkTarget(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
 
-		String bookmarkLevelAttr = atts.getValue(XmlConstants.ATTRIBUTE_bookmarkLevel);
+		String bookmarkLevelAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_bookmarkLevel);
 		if (bookmarkLevelAttr != null)
 		{
 			chart.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));
 		}
 
-		String chartCustomizerClass = atts.getValue( XmlConstants.ATTRIBUTE_customizerClass );
+		String chartCustomizerClass = atts.getValue( JRXmlConstants.ATTRIBUTE_customizerClass );
 		if( chartCustomizerClass != null && chartCustomizerClass.length() > 0 ){
 			chart.setCustomizerClass(chartCustomizerClass);
 		}
 		
-		chart.setRenderType(atts.getValue(XmlConstants.ATTRIBUTE_renderType));
-		chart.setTheme(atts.getValue(XmlConstants.ATTRIBUTE_theme));
+		chart.setRenderType(atts.getValue(JRXmlConstants.ATTRIBUTE_renderType));
+		chart.setTheme(atts.getValue(JRXmlConstants.ATTRIBUTE_theme));
 		
 		return chart;
 	}
@@ -107,12 +107,12 @@ public class JRChartFactory extends JRBaseFactory
 		{
 			JRDesignChart chart = (JRDesignChart) digester.peek();
 
-			EdgeEnum position = EdgeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_position));
+			EdgeEnum position = EdgeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_position));
 			if (position != null)
 				chart.setTitlePosition(position);
 
 
-			Color color = JRColorUtil.getColor(atts.getValue(XmlConstants.ATTRIBUTE_color), Color.black);
+			Color color = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_color), Color.black);
 			if (color != null)
 			{
 				chart.setTitleColor(color);
@@ -132,7 +132,7 @@ public class JRChartFactory extends JRBaseFactory
 		{
 			JRDesignChart chart = (JRDesignChart) digester.peek();
 
-			Color color = JRColorUtil.getColor(atts.getValue(XmlConstants.ATTRIBUTE_color), Color.black);
+			Color color = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_color), Color.black);
 			if (color != null)
 			{
 				chart.setSubtitleColor(color);
@@ -159,7 +159,7 @@ public class JRChartFactory extends JRBaseFactory
 			JRDesignChart chart = (JRDesignChart)digester.peek();
 
 			// Set the text color
-			String attrValue = atts.getValue(XmlConstants.ATTRIBUTE_textColor);
+			String attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_textColor);
 			if (attrValue != null && attrValue.length() > 0)
 			{
 				Color color = JRColorUtil.getColor(attrValue, null);
@@ -167,14 +167,14 @@ public class JRChartFactory extends JRBaseFactory
 			}
 
 			// Set the background color
-			attrValue = atts.getValue(XmlConstants.ATTRIBUTE_backgroundColor);
+			attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_backgroundColor);
 			if (attrValue != null && attrValue.length() > 0)
 			{
 				Color color = JRColorUtil.getColor(attrValue, null);
 				chart.setLegendBackgroundColor(color);
 			}
 
-			EdgeEnum position = EdgeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_position));
+			EdgeEnum position = EdgeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_position));
 			if (position != null)
 			{
 				chart.setLegendPosition(position);
@@ -202,7 +202,7 @@ public class JRChartFactory extends JRBaseFactory
 			JRAxisFormat axisLabel = new JRAxisFormat();
 
 			// Set the label color
-			String attrValue = atts.getValue(XmlConstants.ATTRIBUTE_labelColor);
+			String attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_labelColor);
 			if (attrValue != null && attrValue.length() > 0)
 			{
 				Color color = JRColorUtil.getColor(attrValue, null);
@@ -210,7 +210,7 @@ public class JRChartFactory extends JRBaseFactory
 			}
 
 			// Set the tick label color
-			attrValue = atts.getValue(XmlConstants.ATTRIBUTE_tickLabelColor);
+			attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_tickLabelColor);
 			if (attrValue != null && attrValue.length() > 0)
 			{
 				Color color = JRColorUtil.getColor(attrValue, null);
@@ -218,21 +218,21 @@ public class JRChartFactory extends JRBaseFactory
 			}
 
 			// Set the tick mask
-			attrValue = atts.getValue(XmlConstants.ATTRIBUTE_tickLabelMask);
+			attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_tickLabelMask);
 			if (attrValue != null && attrValue.length() > 0)
 			{
 				axisLabel.setTickLabelMask(attrValue);
 			}
 
 			// Set the vertical tick labels flag
-			attrValue = atts.getValue(XmlConstants.ATTRIBUTE_verticalTickLabels);
+			attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_verticalTickLabels);
 			if (attrValue != null && attrValue.length() > 0)
 			{
 				axisLabel.setVerticalTickLabel(Boolean.valueOf(attrValue));
 			}
 
 			// And finally set the axis line color
-			attrValue = atts.getValue(XmlConstants.ATTRIBUTE_axisLineColor);
+			attrValue = atts.getValue(JRXmlConstants.ATTRIBUTE_axisLineColor);
 			if (attrValue != null && attrValue.length() > 0)
 			{
 				Color color = JRColorUtil.getColor(attrValue, null);
@@ -258,7 +258,7 @@ public class JRChartFactory extends JRBaseFactory
 		{
 			JRCategoryAxisFormat categoryAxisFormat = (JRCategoryAxisFormat)digester.peek();
 			
-			String labelRotation = atts.getValue(XmlConstants.ATTRIBUTE_labelRotation);
+			String labelRotation = atts.getValue(JRXmlConstants.ATTRIBUTE_labelRotation);
 			if (labelRotation != null && labelRotation.length() > 0)
 				categoryAxisFormat.setCategoryAxisTickLabelRotation(Double.valueOf(labelRotation));
 			

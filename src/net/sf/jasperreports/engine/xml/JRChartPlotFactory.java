@@ -47,25 +47,25 @@ public class JRChartPlotFactory extends JRBaseFactory
 	{
 		JRChartPlot plot = (JRChartPlot) digester.peek();
 
-		Color color = JRColorUtil.getColor(atts.getValue(XmlConstants.ATTRIBUTE_backcolor), Color.black);
+		Color color = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor), Color.black);
 		if (color != null)
 		{
 			plot.setBackcolor(color);
 		}
 
-		PlotOrientationEnum orientation = PlotOrientationEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_orientation));
+		PlotOrientationEnum orientation = PlotOrientationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_orientation));
 		if (orientation != null)
 			plot.setOrientation(orientation.getOrientation());
 
-		String foregroundAlpha = atts.getValue(XmlConstants.ATTRIBUTE_foregroundAlpha);
+		String foregroundAlpha = atts.getValue(JRXmlConstants.ATTRIBUTE_foregroundAlpha);
 		if (foregroundAlpha != null && foregroundAlpha.length() > 0)
 			plot.setForegroundAlpha(Float.valueOf(foregroundAlpha));
 
-		String backgroundAlpha = atts.getValue(XmlConstants.ATTRIBUTE_backgroundAlpha);
+		String backgroundAlpha = atts.getValue(JRXmlConstants.ATTRIBUTE_backgroundAlpha);
 		if (backgroundAlpha != null && backgroundAlpha.length() > 0)
 			plot.setBackgroundAlpha(Float.valueOf(backgroundAlpha));
 
-		String labelRotation = atts.getValue(XmlConstants.ATTRIBUTE_labelRotation);
+		String labelRotation = atts.getValue(JRXmlConstants.ATTRIBUTE_labelRotation);
 		if (labelRotation != null && labelRotation.length() > 0)
 			plot.setLabelRotation(Double.valueOf(labelRotation));
 
@@ -79,11 +79,11 @@ public class JRChartPlotFactory extends JRBaseFactory
 			int seriesIndex = -1;
 			Color color = null;
 			
-			String seriesNumber = atts.getValue(XmlConstants.ATTRIBUTE_seriesOrder);
+			String seriesNumber = atts.getValue(JRXmlConstants.ATTRIBUTE_seriesOrder);
 			if (seriesNumber != null && seriesNumber.length() > 0)
 				seriesIndex = Integer.valueOf(seriesNumber).intValue();
 
-			String colorName = atts.getValue(XmlConstants.ATTRIBUTE_color);
+			String colorName = atts.getValue(JRXmlConstants.ATTRIBUTE_color);
 			if (colorName != null && colorName.length() > 0)
 				color = JRColorUtil.getColor(colorName, null);
 			

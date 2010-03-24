@@ -40,7 +40,7 @@ public class JRPropertyExpressionFactory extends JRBaseFactory
 	{
 		JRDesignPropertyExpression propertyExpression = new JRDesignPropertyExpression();
 		
-		String name = attrs.getValue(XmlConstants.ATTRIBUTE_name);
+		String name = attrs.getValue(JRXmlConstants.ATTRIBUTE_name);
 		propertyExpression.setName(name);
 		
 		return propertyExpression;

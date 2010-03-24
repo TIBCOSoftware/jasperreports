@@ -191,7 +191,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 {
 
 	public static final XmlNamespace JASPERREPORTS_NAMESPACE = 
-		new XmlNamespace(XmlConstants.JASPERREPORTS_NAMESPACE, null, XmlConstants.JASPERREPORT_XSD_SYSTEM_ID);
+		new XmlNamespace(JRXmlConstants.JASPERREPORTS_NAMESPACE, null, JRXmlConstants.JASPERREPORT_XSD_SYSTEM_ID);
 
 	/**
 	 *
@@ -306,30 +306,30 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writer.writeProlog(encoding);
 
-		writer.startElement(XmlConstants.ELEMENT_jasperReport, getNamespace());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, report.getName());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_language, report.getLanguage(), JRReport.LANGUAGE_JAVA);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_columnCount, report.getColumnCount(), 1);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_printOrder, report.getPrintOrderValue(), PrintOrderEnum.VERTICAL);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_pageWidth, report.getPageWidth());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_pageHeight, report.getPageHeight());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_orientation, report.getOrientationValue(), OrientationEnum.PORTRAIT);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_whenNoDataType, report.getWhenNoDataTypeValue(), WhenNoDataTypeEnum.NO_PAGES);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_columnWidth, report.getColumnWidth());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_columnSpacing, report.getColumnSpacing(), 0);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_leftMargin, report.getLeftMargin());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_rightMargin, report.getRightMargin());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_topMargin, report.getTopMargin());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_bottomMargin, report.getBottomMargin());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isTitleNewPage, report.isTitleNewPage(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isSummaryNewPage, report.isSummaryNewPage(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isSummaryWithPageHeaderAndFooter, report.isSummaryWithPageHeaderAndFooter(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isFloatColumnFooter, report.isFloatColumnFooter(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_scriptletClass, report.getScriptletClass());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_formatFactoryClass, report.getFormatFactoryClass());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_resourceBundle, report.getResourceBundle());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_whenResourceMissingType, report.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isIgnorePagination, report.isIgnorePagination(), false);
+		writer.startElement(JRXmlConstants.ELEMENT_jasperReport, getNamespace());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, report.getName());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_language, report.getLanguage(), JRReport.LANGUAGE_JAVA);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_columnCount, report.getColumnCount(), 1);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_printOrder, report.getPrintOrderValue(), PrintOrderEnum.VERTICAL);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_pageWidth, report.getPageWidth());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_pageHeight, report.getPageHeight());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, report.getOrientationValue(), OrientationEnum.PORTRAIT);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenNoDataType, report.getWhenNoDataTypeValue(), WhenNoDataTypeEnum.NO_PAGES);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_columnWidth, report.getColumnWidth());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_columnSpacing, report.getColumnSpacing(), 0);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftMargin, report.getLeftMargin());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightMargin, report.getRightMargin());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_topMargin, report.getTopMargin());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bottomMargin, report.getBottomMargin());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isTitleNewPage, report.isTitleNewPage(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isSummaryNewPage, report.isSummaryNewPage(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isSummaryWithPageHeaderAndFooter, report.isSummaryWithPageHeaderAndFooter(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isFloatColumnFooter, report.isFloatColumnFooter(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scriptletClass, report.getScriptletClass());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_formatFactoryClass, report.getFormatFactoryClass());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resourceBundle, report.getResourceBundle());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenResourceMissingType, report.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isIgnorePagination, report.isIgnorePagination(), false);
 
 		writeProperties(report);
 
@@ -342,8 +342,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				String value = imports[i];
 				if (value != null)
 				{
-					writer.startElement(XmlConstants.ELEMENT_import);
-					writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_value, value);
+					writer.startElement(JRXmlConstants.ELEMENT_import);
+					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, value);
 					writer.closeElement();
 				}
 			}
@@ -385,28 +385,28 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		if (report.getBackground() != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_background);
+			writer.startElement(JRXmlConstants.ELEMENT_background);
 			writeBand(report.getBackground());
 			writer.closeElement();
 		}
 
 		if (report.getTitle() != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_title);
+			writer.startElement(JRXmlConstants.ELEMENT_title);
 			writeBand(report.getTitle());
 			writer.closeElement();
 		}
 
 		if (report.getPageHeader() != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_pageHeader);
+			writer.startElement(JRXmlConstants.ELEMENT_pageHeader);
 			writeBand(report.getPageHeader());
 			writer.closeElement();
 		}
 
 		if (report.getColumnHeader() != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_columnHeader);
+			writer.startElement(JRXmlConstants.ELEMENT_columnHeader);
 			writeBand(report.getColumnHeader());
 			writer.closeElement();
 		}
@@ -414,42 +414,42 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		JRSection detail = report.getDetailSection();
 		if (detail != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_detail);
+			writer.startElement(JRXmlConstants.ELEMENT_detail);
 			writeSection(detail);
 			writer.closeElement(true);
 		}
 
 		if (report.getColumnFooter() != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_columnFooter);
+			writer.startElement(JRXmlConstants.ELEMENT_columnFooter);
 			writeBand(report.getColumnFooter());
 			writer.closeElement();
 		}
 
 		if (report.getPageFooter() != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_pageFooter);
+			writer.startElement(JRXmlConstants.ELEMENT_pageFooter);
 			writeBand(report.getPageFooter());
 			writer.closeElement();
 		}
 
 		if (report.getLastPageFooter() != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_lastPageFooter);
+			writer.startElement(JRXmlConstants.ELEMENT_lastPageFooter);
 			writeBand(report.getLastPageFooter());
 			writer.closeElement();
 		}
 
 		if (report.getSummary() != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_summary);
+			writer.startElement(JRXmlConstants.ELEMENT_summary);
 			writeBand(report.getSummary());
 			writer.closeElement();
 		}
 
 		if (report.getNoData() != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_noData);
+			writer.startElement(JRXmlConstants.ELEMENT_noData);
 			writeBand(report.getNoData());
 			writer.closeElement();
 		}
@@ -470,12 +470,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			{
 				for(int i = 0; i < propertyNames.length; i++)
 				{
-					writer.startElement(XmlConstants.ELEMENT_property);
-					writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, propertyNames[i]);
+					writer.startElement(JRXmlConstants.ELEMENT_property);
+					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, propertyNames[i]);
 					String value = propertiesMap.getProperty(propertyNames[i]);
 					if (value != null)
 					{
-						writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_value, value);
+						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, value);
 					}
 					writer.closeElement();
 				}
@@ -500,7 +500,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	protected void writeTemplate(JRReportTemplate template) throws IOException
 	{
-		writer.writeExpression(XmlConstants.ELEMENT_template, template.getSourceExpression(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_template, template.getSourceExpression(),
 				true, String.class.getName());
 	}
 
@@ -510,18 +510,18 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeReportFont(JRReportFont font) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_reportFont);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, font.getName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isDefault, font.isDefault());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_size, font.getOwnFontSize());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isBold, font.isOwnBold());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isItalic, font.isOwnItalic());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isUnderline, font.isOwnUnderline());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isStrikeThrough, font.isOwnStrikeThrough());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_pdfFontName, font.getOwnPdfFontName());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_pdfEncoding, font.getOwnPdfEncoding());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isPdfEmbedded, font.isOwnPdfEmbedded());
+		writer.startElement(JRXmlConstants.ELEMENT_reportFont);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, font.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, font.isDefault());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontSize());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isOwnBold());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, font.isOwnItalic());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, font.isOwnUnderline());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStrikeThrough, font.isOwnStrikeThrough());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfFontName, font.getOwnPdfFontName());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfEncoding, font.getOwnPdfEncoding());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPdfEmbedded, font.isOwnPdfEmbedded());
 		writer.closeElement();
 	}
 
@@ -531,13 +531,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeScriptlet(JRScriptlet scriptlet) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_scriptlet);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, scriptlet.getName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_class, scriptlet.getValueClassName());
+		writer.startElement(JRXmlConstants.ELEMENT_scriptlet);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, scriptlet.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, scriptlet.getValueClassName());
 
 		writeProperties(scriptlet);
 
-		writer.writeCDATAElement(XmlConstants.ELEMENT_scriptletDescription, scriptlet.getDescription());
+		writer.writeCDATAElement(JRXmlConstants.ELEMENT_scriptletDescription, scriptlet.getDescription());
 
 		writer.closeElement();
 	}
@@ -548,16 +548,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeParameter(JRParameter parameter) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_parameter);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, parameter.getName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_class, parameter.getValueClassName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_nestedType, parameter.getNestedTypeName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isForPrompting, parameter.isForPrompting(), true);
+		writer.startElement(JRXmlConstants.ELEMENT_parameter);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, parameter.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, parameter.getValueClassName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_nestedType, parameter.getNestedTypeName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isForPrompting, parameter.isForPrompting(), true);
 
 		writeProperties(parameter);
 
-		writer.writeCDATAElement(XmlConstants.ELEMENT_parameterDescription, parameter.getDescription());
-		writer.writeExpression(XmlConstants.ELEMENT_defaultValueExpression, parameter.getDefaultValueExpression(), false);
+		writer.writeCDATAElement(JRXmlConstants.ELEMENT_parameterDescription, parameter.getDescription());
+		writer.writeExpression(JRXmlConstants.ELEMENT_defaultValueExpression, parameter.getDefaultValueExpression(), false);
 
 		writer.closeElement();
 	}
@@ -568,8 +568,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeQuery(JRQuery query) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_queryString);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_language, query.getLanguage(), JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL);
+		writer.startElement(JRXmlConstants.ELEMENT_queryString);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_language, query.getLanguage(), JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL);
 		writer.writeCDATA(query.getText());
 		writer.closeElement();
 	}
@@ -580,13 +580,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeField(JRField field) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_field);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, field.getName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_class, field.getValueClassName());
+		writer.startElement(JRXmlConstants.ELEMENT_field);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, field.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, field.getValueClassName());
 
 		writeProperties(field);
 
-		writer.writeCDATAElement(XmlConstants.ELEMENT_fieldDescription, field.getDescription());
+		writer.writeCDATAElement(JRXmlConstants.ELEMENT_fieldDescription, field.getDescription());
 
 		writer.closeElement();
 	}
@@ -597,9 +597,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeSortField(JRSortField sortField) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_sortField);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, sortField.getName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_order, sortField.getOrderValue(), SortOrderEnum.ASCENDING);
+		writer.startElement(JRXmlConstants.ELEMENT_sortField);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, sortField.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_order, sortField.getOrderValue(), SortOrderEnum.ASCENDING);
 		writer.closeElement();
 	}
 
@@ -609,24 +609,24 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeVariable(JRVariable variable) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_variable);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, variable.getName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_class, variable.getValueClassName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_resetType, variable.getResetTypeValue(), ResetTypeEnum.REPORT);
+		writer.startElement(JRXmlConstants.ELEMENT_variable);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, variable.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, variable.getValueClassName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_resetType, variable.getResetTypeValue(), ResetTypeEnum.REPORT);
 		if (variable.getResetGroup() != null)
 		{
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_resetGroup, variable.getResetGroup().getName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resetGroup, variable.getResetGroup().getName());
 		}
-		writer.addAttribute(XmlConstants.ATTRIBUTE_incrementType, variable.getIncrementTypeValue(), IncrementTypeEnum.NONE);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementType, variable.getIncrementTypeValue(), IncrementTypeEnum.NONE);
 		if (variable.getIncrementGroup() != null)
 		{
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_incrementGroup, variable.getIncrementGroup().getName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_incrementGroup, variable.getIncrementGroup().getName());
 		}
-		writer.addAttribute(XmlConstants.ATTRIBUTE_calculation, variable.getCalculationValue(), CalculationEnum.NOTHING);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_incrementerFactoryClass, variable.getIncrementerFactoryClassName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, variable.getCalculationValue(), CalculationEnum.NOTHING);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, variable.getIncrementerFactoryClassName());
 
-		writer.writeExpression(XmlConstants.ELEMENT_variableExpression, variable.getExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_initialValueExpression, variable.getInitialValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_variableExpression, variable.getExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_initialValueExpression, variable.getInitialValueExpression(), false);
 
 		writer.closeElement();
 	}
@@ -637,22 +637,22 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeGroup(JRGroup group) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_group);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, group.getName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isStartNewColumn, group.isStartNewColumn(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isStartNewPage, group.isStartNewPage(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isResetPageNumber, group.isResetPageNumber(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isReprintHeaderOnEachPage, group.isReprintHeaderOnEachPage(), false);
-		writer.addAttributePositive(XmlConstants.ATTRIBUTE_minHeightToStartNewPage, group.getMinHeightToStartNewPage());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_footerPosition, group.getFooterPositionValue(), FooterPositionEnum.NORMAL);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_keepTogether, group.isKeepTogether(), false);
+		writer.startElement(JRXmlConstants.ELEMENT_group);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, group.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStartNewColumn, group.isStartNewColumn(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStartNewPage, group.isStartNewPage(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isResetPageNumber, group.isResetPageNumber(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isReprintHeaderOnEachPage, group.isReprintHeaderOnEachPage(), false);
+		writer.addAttributePositive(JRXmlConstants.ATTRIBUTE_minHeightToStartNewPage, group.getMinHeightToStartNewPage());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_footerPosition, group.getFooterPositionValue(), FooterPositionEnum.NORMAL);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_keepTogether, group.isKeepTogether(), false);
 
-		writer.writeExpression(XmlConstants.ELEMENT_groupExpression, group.getExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_groupExpression, group.getExpression(), false);
 
 		JRSection groupHeader = group.getGroupHeaderSection();
 		if (groupHeader != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_groupHeader);
+			writer.startElement(JRXmlConstants.ELEMENT_groupHeader);
 			writeSection(groupHeader);
 			writer.closeElement(true);
 		}
@@ -660,7 +660,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		JRSection groupFooter = group.getGroupFooterSection();
 		if (groupFooter != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_groupFooter);
+			writer.startElement(JRXmlConstants.ELEMENT_groupFooter);
 			writeSection(groupFooter);
 			writer.closeElement(true);
 		}
@@ -693,11 +693,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeBand(JRBand band) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_band);
-		writer.addAttributePositive(XmlConstants.ATTRIBUTE_height, band.getHeight());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_splitType, band.getSplitTypeValue());
+		writer.startElement(JRXmlConstants.ELEMENT_band);
+		writer.addAttributePositive(JRXmlConstants.ATTRIBUTE_height, band.getHeight());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_splitType, band.getSplitTypeValue());
 
-		writer.writeExpression(XmlConstants.ELEMENT_printWhenExpression, band.getPrintWhenExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, band.getPrintWhenExpression(), false);
 
 		/*   */
 		writeChildElements(band);
@@ -728,7 +728,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeElementGroup(JRElementGroup elementGroup) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_elementGroup, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_elementGroup, getNamespace());
 
 		/*   */
 		writeChildElements(elementGroup);
@@ -742,8 +742,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeBreak(JRBreak breakElement) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_break, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_type, breakElement.getTypeValue(), BreakTypeEnum.PAGE);
+		writer.startElement(JRXmlConstants.ELEMENT_break, getNamespace());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_type, breakElement.getTypeValue(), BreakTypeEnum.PAGE);
 
 		writeReportElement(breakElement);
 
@@ -756,8 +756,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeLine(JRLine line) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_line, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_direction, line.getDirectionValue(), LineDirectionEnum.TOP_DOWN);
+		writer.startElement(JRXmlConstants.ELEMENT_line, getNamespace());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_direction, line.getDirectionValue(), LineDirectionEnum.TOP_DOWN);
 
 		writeReportElement(line);
 		writeGraphicElement(line);
@@ -771,33 +771,33 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeReportElement(JRElement element) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_reportElement);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_key, element.getKey());
+		writer.startElement(JRXmlConstants.ELEMENT_reportElement);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_key, element.getKey());
 		writeStyleReferenceAttr(element);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_positionType, element.getPositionTypeValue(), PositionTypeEnum.FIX_RELATIVE_TO_TOP);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_stretchType, element.getStretchTypeValue(), StretchTypeEnum.NO_STRETCH);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isPrintRepeatedValues, element.isPrintRepeatedValues(), true);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_mode, element.getOwnModeValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_positionType, element.getPositionTypeValue(), PositionTypeEnum.FIX_RELATIVE_TO_TOP);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_stretchType, element.getStretchTypeValue(), StretchTypeEnum.NO_STRETCH);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPrintRepeatedValues, element.isPrintRepeatedValues(), true);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mode, element.getOwnModeValue());
 
-		writer.addAttribute(XmlConstants.ATTRIBUTE_x, element.getX());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_y, element.getY());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_width, element.getWidth());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_height, element.getHeight());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isRemoveLineWhenBlank, element.isRemoveLineWhenBlank(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isPrintInFirstWholeBand, element.isPrintInFirstWholeBand(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isPrintWhenDetailOverflows, element.isPrintWhenDetailOverflows(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_x, element.getX());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_y, element.getY());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_width, element.getWidth());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_height, element.getHeight());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isRemoveLineWhenBlank, element.isRemoveLineWhenBlank(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPrintInFirstWholeBand, element.isPrintInFirstWholeBand(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPrintWhenDetailOverflows, element.isPrintWhenDetailOverflows(), false);
 
 		if (element.getPrintWhenGroupChanges() != null)
 		{
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_printWhenGroupChanges, element.getPrintWhenGroupChanges().getName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_printWhenGroupChanges, element.getPrintWhenGroupChanges().getName());
 		}
 
-		writer.addAttribute(XmlConstants.ATTRIBUTE_forecolor, element.getOwnForecolor());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_backcolor, element.getOwnBackcolor());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, element.getOwnForecolor());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, element.getOwnBackcolor());
 
 		writeProperties(element);
 		writePropertyExpressions(element.getPropertyExpressions());
-		writer.writeExpression(XmlConstants.ELEMENT_printWhenExpression, element.getPrintWhenExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, element.getPrintWhenExpression(), false);
 		writer.closeElement();
 	}
 
@@ -818,8 +818,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	protected void writePropertyExpression(JRPropertyExpression propertyExpression) throws IOException
 	{
 		String expressionText = propertyExpression.getValueExpression().getText();
-		writer.writeCDATAElement(XmlConstants.ELEMENT_propertyExpression, expressionText, 
-				XmlConstants.ATTRIBUTE_name, propertyExpression.getName());
+		writer.writeCDATAElement(JRXmlConstants.ELEMENT_propertyExpression, expressionText, 
+				JRXmlConstants.ATTRIBUTE_name, propertyExpression.getName());
 	}
 
 
@@ -828,8 +828,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeGraphicElement(JRGraphicElement element) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_graphicElement);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_fill, element.getOwnFillValue());
+		writer.startElement(JRXmlConstants.ELEMENT_graphicElement);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_fill, element.getOwnFillValue());
 		writePen(element.getLinePen());
 		writer.closeElement(true);
 	}
@@ -840,8 +840,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeRectangle(JRRectangle rectangle) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_rectangle, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_radius, rectangle.getOwnRadius());
+		writer.startElement(JRXmlConstants.ELEMENT_rectangle, getNamespace());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_radius, rectangle.getOwnRadius());
 
 		writeReportElement(rectangle);
 		writeGraphicElement(rectangle);
@@ -855,7 +855,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeEllipse(JREllipse ellipse) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_ellipse, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_ellipse, getNamespace());
 
 		writeReportElement(ellipse);
 		writeGraphicElement(ellipse);
@@ -869,23 +869,23 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeImage(JRImage image) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_image, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImageValue());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalAlignmentValue());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalAlignmentValue());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isUsingCache, image.isOwnUsingCache());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isLazy, image.isLazy(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorTypeValue(), OnErrorTypeEnum.ERROR);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, image.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
+		writer.startElement(JRXmlConstants.ELEMENT_image, getNamespace());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImageValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalAlignmentValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalAlignmentValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUsingCache, image.isOwnUsingCache());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isLazy, image.isLazy(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorTypeValue(), OnErrorTypeEnum.ERROR);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, image.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 
 		if (image.getEvaluationGroup() != null)
 		{
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, image.getEvaluationGroup().getName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, image.getEvaluationGroup().getName());
 		}
 
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, image.getLinkType(), HyperlinkTypeEnum.NONE.getName());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, image.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_bookmarkLevel, image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, image.getLinkType(), HyperlinkTypeEnum.NONE.getName());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, image.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(image);
 		writeBox(image.getLineBox());
@@ -893,12 +893,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		//FIXME class is mandatory in verifier
 
-		writer.writeExpression(XmlConstants.ELEMENT_imageExpression, image.getExpression(), true);
-		writer.writeExpression(XmlConstants.ELEMENT_anchorNameExpression, image.getAnchorNameExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkReferenceExpression, image.getHyperlinkReferenceExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkAnchorExpression, image.getHyperlinkAnchorExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkPageExpression, image.getHyperlinkPageExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkTooltipExpression, image.getHyperlinkTooltipExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_imageExpression, image.getExpression(), true);
+		writer.writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, image.getAnchorNameExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, image.getHyperlinkReferenceExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, image.getHyperlinkAnchorExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, image.getHyperlinkPageExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, image.getHyperlinkTooltipExpression(), false);
 		writeHyperlinkParameters(image.getHyperlinkParameters());
 
 		writer.closeElement();
@@ -910,13 +910,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeStaticText(JRStaticText staticText) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_staticText, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_staticText, getNamespace());
 
 		writeReportElement(staticText);
 		writeBox(staticText.getLineBox());
 		writeTextElement(staticText);
 
-		writer.writeCDATAElement(XmlConstants.ELEMENT_text, staticText.getText());
+		writer.writeCDATAElement(JRXmlConstants.ELEMENT_text, staticText.getText());
 
 		writer.closeElement();
 	}
@@ -927,12 +927,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeTextElement(JRTextElement textElement) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_textElement);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_textAlignment, textElement.getOwnHorizontalAlignmentValue());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_verticalAlignment, textElement.getOwnVerticalAlignmentValue());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_rotation, textElement.getOwnRotationValue());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_lineSpacing, textElement.getOwnLineSpacingValue());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_markup, textElement.getOwnMarkup());
+		writer.startElement(JRXmlConstants.ELEMENT_textElement);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, textElement.getOwnHorizontalAlignmentValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, textElement.getOwnVerticalAlignmentValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, textElement.getOwnRotationValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, textElement.getOwnLineSpacingValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_markup, textElement.getOwnMarkup());
 
 		writeFont(textElement);
 
@@ -947,7 +947,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		if (font != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_font);
+			writer.startElement(JRXmlConstants.ELEMENT_font);
 			if (font.getReportFont() != null)
 			{
 				JRFont baseFont =
@@ -956,7 +956,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 						);
 				if(baseFont != null)
 				{
-					writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_reportFont, font.getReportFont().getName());
+					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_reportFont, font.getReportFont().getName());
 				}
 				else
 				{
@@ -968,15 +968,15 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				}
 			}
 
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
-			writer.addAttribute(XmlConstants.ATTRIBUTE_size, font.getOwnFontSize());
-			writer.addAttribute(XmlConstants.ATTRIBUTE_isBold, font.isOwnBold());
-			writer.addAttribute(XmlConstants.ATTRIBUTE_isItalic, font.isOwnItalic());
-			writer.addAttribute(XmlConstants.ATTRIBUTE_isUnderline, font.isOwnUnderline());
-			writer.addAttribute(XmlConstants.ATTRIBUTE_isStrikeThrough, font.isOwnStrikeThrough());
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_pdfFontName, font.getOwnPdfFontName());
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_pdfEncoding, font.getOwnPdfEncoding());
-			writer.addAttribute(XmlConstants.ATTRIBUTE_isPdfEmbedded, font.isOwnPdfEmbedded());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontSize());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isOwnBold());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, font.isOwnItalic());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, font.isOwnUnderline());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStrikeThrough, font.isOwnStrikeThrough());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfFontName, font.getOwnPdfFontName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfEncoding, font.getOwnPdfEncoding());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPdfEmbedded, font.isOwnPdfEmbedded());
 			writer.closeElement(true);
 		}
 	}
@@ -987,33 +987,33 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeTextField(JRTextField textField) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_textField, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isStretchWithOverflow, textField.isStretchWithOverflow(), false);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, textField.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
+		writer.startElement(JRXmlConstants.ELEMENT_textField, getNamespace());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStretchWithOverflow, textField.isStretchWithOverflow(), false);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, textField.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 
 		if (textField.getEvaluationGroup() != null)
 		{
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, textField.getEvaluationGroup().getName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, textField.getEvaluationGroup().getName());
 		}
 
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_pattern, textField.getOwnPattern());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isBlankWhenNull, textField.isOwnBlankWhenNull());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pattern, textField.getOwnPattern());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBlankWhenNull, textField.isOwnBlankWhenNull());
 
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, textField.getLinkType(), HyperlinkTypeEnum.NONE.getName());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, textField.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_bookmarkLevel, textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, textField.getLinkType(), HyperlinkTypeEnum.NONE.getName());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, textField.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(textField);
 		writeBox(textField.getLineBox());
 		writeTextElement(textField);
 
-		writer.writeExpression(XmlConstants.ELEMENT_textFieldExpression, textField.getExpression(), true);
+		writer.writeExpression(JRXmlConstants.ELEMENT_textFieldExpression, textField.getExpression(), true);
 
-		writer.writeExpression(XmlConstants.ELEMENT_anchorNameExpression, textField.getAnchorNameExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkReferenceExpression, textField.getHyperlinkReferenceExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkAnchorExpression, textField.getHyperlinkAnchorExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkPageExpression, textField.getHyperlinkPageExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkTooltipExpression, textField.getHyperlinkTooltipExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, textField.getAnchorNameExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, textField.getHyperlinkReferenceExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, textField.getHyperlinkAnchorExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, textField.getHyperlinkPageExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, textField.getHyperlinkTooltipExpression(), false);
 		writeHyperlinkParameters(textField.getHyperlinkParameters());
 
 		writer.closeElement();
@@ -1025,13 +1025,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeSubreport(JRSubreport subreport) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_subreport, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isUsingCache, subreport.isOwnUsingCache());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_runToBottom, subreport.isRunToBottom());
+		writer.startElement(JRXmlConstants.ELEMENT_subreport, getNamespace());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUsingCache, subreport.isOwnUsingCache());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_runToBottom, subreport.isRunToBottom());
 
 		writeReportElement(subreport);
 
-		writer.writeExpression(XmlConstants.ELEMENT_parametersMapExpression, subreport.getParametersMapExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_parametersMapExpression, subreport.getParametersMapExpression(), false);
 
 		/*   */
 		JRSubreportParameter[] parameters = subreport.getParameters();
@@ -1043,8 +1043,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			}
 		}
 
-		writer.writeExpression(XmlConstants.ELEMENT_connectionExpression, subreport.getConnectionExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_dataSourceExpression, subreport.getDataSourceExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_connectionExpression, subreport.getConnectionExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_dataSourceExpression, subreport.getDataSourceExpression(), false);
 
 		JRSubreportReturnValue[] returnValues = subreport.getReturnValues();
 		if (returnValues != null && returnValues.length > 0)
@@ -1055,7 +1055,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			}
 		}
 
-		writer.writeExpression(XmlConstants.ELEMENT_subreportExpression, subreport.getExpression(), true);
+		writer.writeExpression(JRXmlConstants.ELEMENT_subreportExpression, subreport.getExpression(), true);
 
 		writer.closeElement();
 	}
@@ -1066,10 +1066,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeSubreportParameter(JRSubreportParameter subreportParameter) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_subreportParameter);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, subreportParameter.getName());
+		writer.startElement(JRXmlConstants.ELEMENT_subreportParameter);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, subreportParameter.getName());
 
-		writer.writeExpression(XmlConstants.ELEMENT_subreportParameterExpression, subreportParameter.getExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_subreportParameterExpression, subreportParameter.getExpression(), false);
 
 		writer.closeElement();
 	}
@@ -1077,10 +1077,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	private void writeDatasetParameter(JRDatasetParameter datasetParameter) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_datasetParameter);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, datasetParameter.getName());
+		writer.startElement(JRXmlConstants.ELEMENT_datasetParameter);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, datasetParameter.getName());
 
-		writer.writeExpression(XmlConstants.ELEMENT_datasetParameterExpression, datasetParameter.getExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_datasetParameterExpression, datasetParameter.getExpression(), false);
 
 		writer.closeElement();
 	}
@@ -1091,61 +1091,61 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_chart);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowLegend, chart.getShowLegend());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, chart.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
+		writer.startElement(JRXmlConstants.ELEMENT_chart);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLegend, chart.getShowLegend());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, chart.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 
 		if (chart.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, chart.getEvaluationGroup().getName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, chart.getEvaluationGroup().getName());
 		}
 
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, chart.getLinkType(), HyperlinkTypeEnum.NONE.getName());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, chart.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_bookmarkLevel, chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_customizerClass, chart.getCustomizerClass());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_renderType, chart.getRenderType());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_theme, chart.getTheme());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, chart.getLinkType(), HyperlinkTypeEnum.NONE.getName());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, chart.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_customizerClass, chart.getCustomizerClass());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_renderType, chart.getRenderType());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_theme, chart.getTheme());
 
 		writeReportElement(chart);
 		writeBox(chart.getLineBox());
 
 		// write title
-		writer.startElement(XmlConstants.ELEMENT_chartTitle);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_position, chart.getTitlePositionValue());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_color, chart.getOwnTitleColor());
+		writer.startElement(JRXmlConstants.ELEMENT_chartTitle);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getTitlePositionValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, chart.getOwnTitleColor());
 		writeFont(chart.getTitleFont());
 		if (chart.getTitleExpression() != null)
 		{
-			writer.writeExpression(XmlConstants.ELEMENT_titleExpression, chart.getTitleExpression(), false);
+			writer.writeExpression(JRXmlConstants.ELEMENT_titleExpression, chart.getTitleExpression(), false);
 		}
 		writer.closeElement();
 
 		// write subtitle
-		writer.startElement(XmlConstants.ELEMENT_chartSubtitle);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_color, chart.getOwnSubtitleColor());
+		writer.startElement(JRXmlConstants.ELEMENT_chartSubtitle);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, chart.getOwnSubtitleColor());
 		writeFont(chart.getSubtitleFont());
 		if (chart.getSubtitleExpression() != null)
 		{
-			writer.writeExpression(XmlConstants.ELEMENT_subtitleExpression, chart.getSubtitleExpression(), false);
+			writer.writeExpression(JRXmlConstants.ELEMENT_subtitleExpression, chart.getSubtitleExpression(), false);
 		}
 		writer.closeElement();
 
 		// write chartLegend
-		writer.startElement(XmlConstants.ELEMENT_chartLegend);
+		writer.startElement(JRXmlConstants.ELEMENT_chartLegend);
 		if (chart.getOwnLegendColor() != null)
-			writer.addAttribute(XmlConstants.ATTRIBUTE_textColor, chart.getOwnLegendColor());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_textColor, chart.getOwnLegendColor());
 		if (chart.getOwnLegendBackgroundColor() != null)
-			writer.addAttribute(XmlConstants.ATTRIBUTE_backgroundColor, chart.getOwnLegendBackgroundColor());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_position, chart.getLegendPositionValue());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundColor, chart.getOwnLegendBackgroundColor());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getLegendPositionValue());
 		writeFont(chart.getLegendFont());
 		writer.closeElement();
 
-		writer.writeExpression(XmlConstants.ELEMENT_anchorNameExpression, chart.getAnchorNameExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkReferenceExpression, chart.getHyperlinkReferenceExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkAnchorExpression, chart.getHyperlinkAnchorExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkPageExpression, chart.getHyperlinkPageExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_hyperlinkTooltipExpression, chart.getHyperlinkTooltipExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, chart.getAnchorNameExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, chart.getHyperlinkReferenceExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, chart.getHyperlinkAnchorExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, chart.getHyperlinkPageExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, chart.getHyperlinkTooltipExpression(), false);
 		writeHyperlinkParameters(chart.getHyperlinkParameters());
 
 		writer.closeElement();
@@ -1180,21 +1180,21 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeElementDataset(JRElementDataset dataset, boolean skipIfEmpty) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_dataset, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_resetType, dataset.getResetTypeValue(), ResetTypeEnum.REPORT);
+		writer.startElement(JRXmlConstants.ELEMENT_dataset, getNamespace());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_resetType, dataset.getResetTypeValue(), ResetTypeEnum.REPORT);
 
 		if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
 		{
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_resetGroup, dataset.getResetGroup().getName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resetGroup, dataset.getResetGroup().getName());
 		}
-		writer.addAttribute(XmlConstants.ATTRIBUTE_incrementType, dataset.getIncrementTypeValue(), IncrementTypeEnum.NONE);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementType, dataset.getIncrementTypeValue(), IncrementTypeEnum.NONE);
 
 		if (dataset.getIncrementTypeValue() == IncrementTypeEnum.GROUP)
 		{
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_incrementGroup, dataset.getIncrementGroup().getName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_incrementGroup, dataset.getIncrementGroup().getName());
 		}
 
-		writer.writeExpression(XmlConstants.ELEMENT_incrementWhenExpression, dataset.getIncrementWhenExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_incrementWhenExpression, dataset.getIncrementWhenExpression(), false);
 
 		JRDatasetRun datasetRun = dataset.getDatasetRun();
 		if (datasetRun != null)
@@ -1211,7 +1211,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeCategoryDataSet(JRCategoryDataset dataset) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_categoryDataset);
+		writer.startElement(JRXmlConstants.ELEMENT_categoryDataset);
 
 		writeElementDataset(dataset);
 
@@ -1231,8 +1231,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	private void writeTimeSeriesDataset(JRTimeSeriesDataset dataset) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_timeSeriesDataset);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_timePeriod, TimePeriodEnum.getByValue(dataset.getTimePeriod()), TimePeriodEnum.DAY);
+		writer.startElement(JRXmlConstants.ELEMENT_timeSeriesDataset);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_timePeriod, TimePeriodEnum.getByValue(dataset.getTimePeriod()), TimePeriodEnum.DAY);
 
 		writeElementDataset( dataset );
 
@@ -1254,7 +1254,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeGanttDataset(JRGanttDataset dataset) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_ganttDataset);
+		writer.startElement(JRXmlConstants.ELEMENT_ganttDataset);
 		
 		writeElementDataset(dataset);
 		
@@ -1274,7 +1274,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	private void writeTimePeriodDataset(JRTimePeriodDataset dataset) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_timePeriodDataset);
+		writer.startElement(JRXmlConstants.ELEMENT_timePeriodDataset);
 		writeElementDataset(dataset);
 
 		JRTimePeriodSeries[] timePeriodSeries = dataset.getSeries();
@@ -1294,12 +1294,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writePieSeries(JRPieSeries pieSeries) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_pieSeries);
+		writer.startElement(JRXmlConstants.ELEMENT_pieSeries);
 
-		writer.writeExpression(XmlConstants.ELEMENT_keyExpression, pieSeries.getKeyExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_valueExpression, pieSeries.getValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_labelExpression, pieSeries.getLabelExpression(), false);
-		writeHyperlink(XmlConstants.ELEMENT_sectionHyperlink, pieSeries.getSectionHyperlink());
+		writer.writeExpression(JRXmlConstants.ELEMENT_keyExpression, pieSeries.getKeyExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, pieSeries.getValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, pieSeries.getLabelExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_sectionHyperlink, pieSeries.getSectionHyperlink());
 
 		writer.closeElement();
 	}
@@ -1309,13 +1309,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeCategorySeries(JRCategorySeries categorySeries) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_categorySeries);
+		writer.startElement(JRXmlConstants.ELEMENT_categorySeries);
 
-		writer.writeExpression(XmlConstants.ELEMENT_seriesExpression, categorySeries.getSeriesExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_categoryExpression, categorySeries.getCategoryExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_valueExpression, categorySeries.getValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_labelExpression, categorySeries.getLabelExpression(), false);
-		writeHyperlink(XmlConstants.ELEMENT_itemHyperlink, categorySeries.getItemHyperlink());
+		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, categorySeries.getSeriesExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_categoryExpression, categorySeries.getCategoryExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, categorySeries.getValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, categorySeries.getLabelExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, categorySeries.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -1325,7 +1325,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeXyzDataset(JRXyzDataset dataset) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_xyzDataset);
+		writer.startElement(JRXmlConstants.ELEMENT_xyzDataset);
 		writeElementDataset(dataset);
 
 		JRXyzSeries[] series = dataset.getSeries();
@@ -1346,13 +1346,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeXyzSeries(JRXyzSeries series) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_xyzSeries);
+		writer.startElement(JRXmlConstants.ELEMENT_xyzSeries);
 
-		writer.writeExpression(XmlConstants.ELEMENT_seriesExpression, series.getSeriesExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_xValueExpression, series.getXValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_yValueExpression, series.getYValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_zValueExpression, series.getZValueExpression(), false);
-		writeHyperlink(XmlConstants.ELEMENT_itemHyperlink, series.getItemHyperlink());
+		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, series.getSeriesExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_xValueExpression, series.getXValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_yValueExpression, series.getYValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_zValueExpression, series.getZValueExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, series.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -1362,13 +1362,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeXySeries(JRXySeries xySeries) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_xySeries);
+		writer.startElement(JRXmlConstants.ELEMENT_xySeries);
 
-		writer.writeExpression(XmlConstants.ELEMENT_seriesExpression, xySeries.getSeriesExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_xValueExpression, xySeries.getXValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_yValueExpression, xySeries.getYValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_labelExpression, xySeries.getLabelExpression(), false);
-		writeHyperlink(XmlConstants.ELEMENT_itemHyperlink, xySeries.getItemHyperlink());
+		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, xySeries.getSeriesExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_xValueExpression, xySeries.getXValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_yValueExpression, xySeries.getYValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, xySeries.getLabelExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, xySeries.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -1379,7 +1379,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeXyDataset(JRXyDataset dataset) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_xyDataset);
+		writer.startElement(JRXmlConstants.ELEMENT_xyDataset);
 
 		writeElementDataset(dataset);
 
@@ -1402,13 +1402,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeTimeSeries(JRTimeSeries timeSeries) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_timeSeries);
+		writer.startElement(JRXmlConstants.ELEMENT_timeSeries);
 
-		writer.writeExpression(XmlConstants.ELEMENT_seriesExpression, timeSeries.getSeriesExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_timePeriodExpression, timeSeries.getTimePeriodExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_valueExpression, timeSeries.getValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_labelExpression, timeSeries.getLabelExpression(), false);
-		writeHyperlink(XmlConstants.ELEMENT_itemHyperlink, timeSeries.getItemHyperlink());
+		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, timeSeries.getSeriesExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_timePeriodExpression, timeSeries.getTimePeriodExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, timeSeries.getValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, timeSeries.getLabelExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, timeSeries.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -1419,16 +1419,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeGanttSeries(JRGanttSeries ganttSeries) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_ganttSeries);
+		writer.startElement(JRXmlConstants.ELEMENT_ganttSeries);
 		
-		writer.writeExpression(XmlConstants.ELEMENT_seriesExpression, ganttSeries.getSeriesExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_taskExpression, ganttSeries.getTaskExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_subtaskExpression, ganttSeries.getSubtaskExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_startDateExpression, ganttSeries.getStartDateExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_endDateExpression, ganttSeries.getEndDateExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_percentExpression, ganttSeries.getPercentExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_labelExpression, ganttSeries.getLabelExpression(), false);
-		writeHyperlink(XmlConstants.ELEMENT_itemHyperlink, ganttSeries.getItemHyperlink());
+		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, ganttSeries.getSeriesExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_taskExpression, ganttSeries.getTaskExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_subtaskExpression, ganttSeries.getSubtaskExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_startDateExpression, ganttSeries.getStartDateExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_endDateExpression, ganttSeries.getEndDateExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_percentExpression, ganttSeries.getPercentExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, ganttSeries.getLabelExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, ganttSeries.getItemHyperlink());
 		
 		writer.closeElement();
 	}
@@ -1436,14 +1436,14 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	private void writeTimePeriodSeries(JRTimePeriodSeries timePeriodSeries) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_timePeriodSeries);
+		writer.startElement(JRXmlConstants.ELEMENT_timePeriodSeries);
 
-		writer.writeExpression(XmlConstants.ELEMENT_seriesExpression, timePeriodSeries.getSeriesExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_startDateExpression, timePeriodSeries.getStartDateExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_endDateExpression, timePeriodSeries.getEndDateExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_valueExpression, timePeriodSeries.getValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_labelExpression, timePeriodSeries.getLabelExpression(), false);
-		writeHyperlink(XmlConstants.ELEMENT_itemHyperlink, timePeriodSeries.getItemHyperlink());
+		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, timePeriodSeries.getSeriesExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_startDateExpression, timePeriodSeries.getStartDateExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_endDateExpression, timePeriodSeries.getEndDateExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, timePeriodSeries.getValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, timePeriodSeries.getLabelExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, timePeriodSeries.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -1454,10 +1454,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writePieDataset(JRPieDataset dataset) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_pieDataset, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_pieDataset, getNamespace());
 
-		writer.addAttribute(XmlConstants.ATTRIBUTE_maxCount, dataset.getMaxCount());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_minPercentage, dataset.getMinPercentage());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_maxCount, dataset.getMaxCount());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_minPercentage, dataset.getMinPercentage());
 
 		writeElementDataset(dataset);
 
@@ -1476,16 +1476,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			{
 				//preserve old syntax of single series pie datasets
 				JRPieSeries ps = pieSeries[0];
-				writer.writeExpression(XmlConstants.ELEMENT_keyExpression, ps.getKeyExpression(), false);
-				writer.writeExpression(XmlConstants.ELEMENT_valueExpression, ps.getValueExpression(), false);
-				writer.writeExpression(XmlConstants.ELEMENT_labelExpression, ps.getLabelExpression(), false);
-				writeHyperlink(XmlConstants.ELEMENT_sectionHyperlink, ps.getSectionHyperlink());
+				writer.writeExpression(JRXmlConstants.ELEMENT_keyExpression, ps.getKeyExpression(), false);
+				writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, ps.getValueExpression(), false);
+				writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, ps.getLabelExpression(), false);
+				writeHyperlink(JRXmlConstants.ELEMENT_sectionHyperlink, ps.getSectionHyperlink());
 			}
 		}
 
-		writer.writeExpression(XmlConstants.ELEMENT_otherKeyExpression, dataset.getOtherKeyExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_otherLabelExpression, dataset.getOtherLabelExpression(), false);
-		writeHyperlink(XmlConstants.ELEMENT_otherSectionHyperlink, dataset.getOtherSectionHyperlink());
+		writer.writeExpression(JRXmlConstants.ELEMENT_otherKeyExpression, dataset.getOtherKeyExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_otherLabelExpression, dataset.getOtherLabelExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_otherSectionHyperlink, dataset.getOtherSectionHyperlink());
 
 		writer.closeElement();
 	}
@@ -1496,11 +1496,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeValueDataset(JRValueDataset dataset) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_valueDataset, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_valueDataset, getNamespace());
 
 		writeElementDataset(dataset);
 
-		writer.writeExpression(XmlConstants.ELEMENT_valueExpression, dataset.getValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, dataset.getValueExpression(), false);
 
 		writer.closeElement();
 	}
@@ -1513,10 +1513,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeValueDisplay(JRValueDisplay valueDisplay) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_valueDisplay, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_valueDisplay, getNamespace());
 
-		writer.addAttribute(XmlConstants.ATTRIBUTE_color, valueDisplay.getColor());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_mask, valueDisplay.getMask());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, valueDisplay.getColor());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mask, valueDisplay.getMask());
 
 		writeFont(valueDisplay.getFont());
 
@@ -1532,11 +1532,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		if(itemLabel != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_itemLabel, getNamespace());
+			writer.startElement(JRXmlConstants.ELEMENT_itemLabel, getNamespace());
 	
-			writer.addAttribute(XmlConstants.ATTRIBUTE_color, itemLabel.getColor());
-			writer.addAttribute(XmlConstants.ATTRIBUTE_backgroundColor, itemLabel.getBackgroundColor());
-	//		writer.addAttribute(XmlConstants.ATTRIBUTE_mask, itemLabel.getMask());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, itemLabel.getColor());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundColor, itemLabel.getBackgroundColor());
+	//		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mask, itemLabel.getMask());
 	
 			writeFont(itemLabel.getFont());
 	
@@ -1551,10 +1551,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeDataRange(JRDataRange dataRange) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_dataRange, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_dataRange, getNamespace());
 
-		writer.writeExpression(XmlConstants.ELEMENT_lowExpression, dataRange.getLowExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_highExpression, dataRange.getHighExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_lowExpression, dataRange.getLowExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_highExpression, dataRange.getHighExpression(), false);
 
 		writer.closeElement();
 	}
@@ -1567,11 +1567,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeMeterInterval(JRMeterInterval interval) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_meterInterval);
+		writer.startElement(JRXmlConstants.ELEMENT_meterInterval);
 
-		writer.addAttribute(XmlConstants.ATTRIBUTE_label, interval.getLabel());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_color, interval.getBackgroundColor());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_alpha, interval.getAlphaDouble());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_label, interval.getLabel());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, interval.getBackgroundColor());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_alpha, interval.getAlphaDouble());
 
 		writeDataRange(interval.getDataRange());
 
@@ -1592,9 +1592,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		JRSeriesColor[] colors = (JRSeriesColor[])seriesColors.toArray(new JRSeriesColor[0]);
 		for (int i = 0; i < colors.length; i++)
 		{
-			writer.startElement(XmlConstants.ELEMENT_seriesColor);
-			writer.addAttribute(XmlConstants.ATTRIBUTE_seriesOrder, colors[i].getSeriesOrder());
-			writer.addAttribute(XmlConstants.ATTRIBUTE_color, colors[i].getColor());
+			writer.startElement(JRXmlConstants.ELEMENT_seriesColor);
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_seriesOrder, colors[i].getSeriesOrder());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, colors[i].getColor());
 			writer.closeElement();
 		}
 	}
@@ -1621,12 +1621,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writePlot(JRChartPlot plot) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_plot);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_backcolor, plot.getOwnBackcolor());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_orientation, PlotOrientationEnum.getByValue(plot.getOrientation()), PlotOrientationEnum.VERTICAL);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_backgroundAlpha, plot.getBackgroundAlphaFloat());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_foregroundAlpha, plot.getForegroundAlphaFloat());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_labelRotation, plot.getLabelRotationDouble());
+		writer.startElement(JRXmlConstants.ELEMENT_plot);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, plot.getOwnBackcolor());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, PlotOrientationEnum.getByValue(plot.getOrientation()), PlotOrientationEnum.VERTICAL);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundAlpha, plot.getBackgroundAlphaFloat());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_foregroundAlpha, plot.getForegroundAlphaFloat());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelRotation, plot.getLabelRotationDouble());
 		writeSeriesColors(plot.getSeriesColors());
 
 		writer.closeElement();
@@ -1638,16 +1638,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writePieChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_pieChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_pieChart, getNamespace());
 		writeChart(chart);
 		writePieDataset((JRPieDataset) chart.getDataset());
 
 		// write plot
 		JRPiePlot plot = (JRPiePlot) chart.getPlot();
-		writer.startElement(XmlConstants.ELEMENT_piePlot);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isCircular, plot.getCircular());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_labelFormat, plot.getLabelFormat());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_legendLabelFormat, plot.getLegendLabelFormat());
+		writer.startElement(JRXmlConstants.ELEMENT_piePlot);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isCircular, plot.getCircular());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelFormat, plot.getLabelFormat());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_legendLabelFormat, plot.getLegendLabelFormat());
 		writePlot(chart.getPlot());
 		writeItemLabel(plot.getItemLabel());
 		writer.closeElement();
@@ -1661,17 +1661,17 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writePie3DChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_pie3DChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_pie3DChart, getNamespace());
 		writeChart(chart);
 		writePieDataset((JRPieDataset) chart.getDataset());
 
 		// write plot
 		JRPie3DPlot plot = (JRPie3DPlot) chart.getPlot();
-		writer.startElement(XmlConstants.ELEMENT_pie3DPlot);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_depthFactor, plot.getDepthFactorDouble());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isCircular, plot.getCircular());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_labelFormat, plot.getLabelFormat());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_legendLabelFormat, plot.getLegendLabelFormat());
+		writer.startElement(JRXmlConstants.ELEMENT_pie3DPlot);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_depthFactor, plot.getDepthFactorDouble());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isCircular, plot.getCircular());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelFormat, plot.getLabelFormat());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_legendLabelFormat, plot.getLegendLabelFormat());
 		writePlot(chart.getPlot());
 		writeItemLabel(plot.getItemLabel());
 		writer.closeElement();
@@ -1708,9 +1708,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
 			return;
 
-		writer.startElement(XmlConstants.ELEMENT_categoryAxisFormat, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_categoryAxisFormat, getNamespace());
 		
-		writer.addAttribute(XmlConstants.ATTRIBUTE_labelRotation, labelRotation);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelRotation, labelRotation);
 
 		writeAxisFormat(
 			axisLabelFont, 
@@ -1792,23 +1792,23 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		Color axisLineColor
 		)  throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_axisFormat);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_labelColor, axisLabelColor);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_tickLabelColor, axisTickLabelColor);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_tickLabelMask, axisTickLabelMask);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_verticalTickLabels, axisVerticalTickLabels);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_axisLineColor, axisLineColor);
+		writer.startElement(JRXmlConstants.ELEMENT_axisFormat);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelColor, axisLabelColor);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_tickLabelColor, axisTickLabelColor);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_tickLabelMask, axisTickLabelMask);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_verticalTickLabels, axisVerticalTickLabels);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_axisLineColor, axisLineColor);
 
 		if (axisLabelFont != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_labelFont);
+			writer.startElement(JRXmlConstants.ELEMENT_labelFont);
 			writeFont(axisLabelFont);
 			writer.closeElement();
 		}
 
 		if (axisTickLabelFont != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_tickLabelFont);
+			writer.startElement(JRXmlConstants.ELEMENT_tickLabelFont);
 			writeFont(axisTickLabelFont);
 			writer.closeElement();
 		}
@@ -1820,27 +1820,27 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeBarPlot(JRBarPlot plot) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_barPlot);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowLabels, plot.getShowLabels());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowTickLabels, plot.getShowTickLabels());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowTickMarks, plot.getShowTickMarks());
+		writer.startElement(JRXmlConstants.ELEMENT_barPlot);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLabels, plot.getShowLabels());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowTickLabels, plot.getShowTickLabels());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowTickMarks, plot.getShowTickMarks());
 
 		writePlot(plot);
 		writeItemLabel(plot.getItemLabel());
 		
-		writer.writeExpression(XmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
 		writeCategoryAxisFormat(plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
 						plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
 						plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
 						plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), plot.getOwnValueAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();
@@ -1852,22 +1852,22 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeBubblePlot(JRBubblePlot plot) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_bubblePlot);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_scaleType, plot.getScaleTypeValue());
+		writer.startElement(JRXmlConstants.ELEMENT_bubblePlot);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleType, plot.getScaleTypeValue());
 		writePlot(plot);
 
-		writer.writeExpression(XmlConstants.ELEMENT_xAxisLabelExpression, plot.getXAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_xAxisFormat, plot.getXAxisLabelFont(), plot.getOwnXAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_xAxisLabelExpression, plot.getXAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_xAxisFormat, plot.getXAxisLabelFont(), plot.getOwnXAxisLabelColor(),
 				plot.getXAxisTickLabelFont(), plot.getOwnXAxisTickLabelColor(),
 				plot.getXAxisTickLabelMask(), plot.getXAxisVerticalTickLabels(), plot.getOwnXAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_yAxisLabelExpression, plot.getYAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_yAxisFormat, plot.getYAxisLabelFont(), plot.getOwnYAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_yAxisLabelExpression, plot.getYAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_yAxisFormat, plot.getYAxisLabelFont(), plot.getOwnYAxisLabelColor(),
 				plot.getYAxisTickLabelFont(), plot.getOwnYAxisTickLabelColor(),
 				plot.getYAxisTickLabelMask(), plot.getYAxisVerticalTickLabels(), plot.getOwnYAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 		writer.closeElement();
 	}
@@ -1878,25 +1878,25 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeLinePlot(JRLinePlot plot) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_linePlot);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowLines, plot.getShowLines());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowShapes, plot.getShowShapes());
+		writer.startElement(JRXmlConstants.ELEMENT_linePlot);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLines, plot.getShowLines());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowShapes, plot.getShowShapes());
 
 		writePlot(plot);
 
-		writer.writeExpression(XmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
 		writeCategoryAxisFormat(plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
 				plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
 				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
 				plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), plot.getOwnValueAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 		writer.closeElement();
 	}
@@ -1904,24 +1904,24 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	private void writeTimeSeriesPlot(JRTimeSeriesPlot plot) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_timeSeriesPlot);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowLines, plot.getShowLines());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowShapes, plot.getShowShapes());
+		writer.startElement(JRXmlConstants.ELEMENT_timeSeriesPlot);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLines, plot.getShowLines());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowShapes, plot.getShowShapes());
 
 		writePlot( plot );
 
-		writer.writeExpression(XmlConstants.ELEMENT_timeAxisLabelExpression, plot.getTimeAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_timeAxisLabelExpression, plot.getTimeAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
 				plot.getTimeAxisTickLabelFont(), plot.getOwnTimeAxisTickLabelColor(),
 				plot.getTimeAxisTickLabelMask(), plot.getTimeAxisVerticalTickLabels(), plot.getOwnTimeAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), plot.getOwnValueAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();
@@ -1933,27 +1933,27 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeBar3DPlot(JRBar3DPlot plot) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_bar3DPlot, getNamespace());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowLabels, plot.getShowLabels());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_xOffset, plot.getXOffsetDouble());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_yOffset, plot.getYOffsetDouble());
+		writer.startElement(JRXmlConstants.ELEMENT_bar3DPlot, getNamespace());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLabels, plot.getShowLabels());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_xOffset, plot.getXOffsetDouble());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_yOffset, plot.getYOffsetDouble());
 
 		writePlot(plot);
 		writeItemLabel(plot.getItemLabel());
 		
-		writer.writeExpression(XmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
 		writeCategoryAxisFormat(plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
 				plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
 				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
 				plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), plot.getOwnValueAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();
@@ -1965,7 +1965,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeBarChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_barChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_barChart, getNamespace());
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
@@ -1980,7 +1980,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeBar3DChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_bar3DChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_bar3DChart, getNamespace());
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
@@ -1995,7 +1995,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeBubbleChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_bubbleChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_bubbleChart, getNamespace());
 		writeChart(chart);
 		writeXyzDataset((JRXyzDataset) chart.getDataset());
 		writeBubblePlot((JRBubblePlot) chart.getPlot());
@@ -2008,7 +2008,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeStackedBarChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_stackedBarChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_stackedBarChart, getNamespace());
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
@@ -2023,7 +2023,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeStackedBar3DChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_stackedBar3DChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_stackedBar3DChart, getNamespace());
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
@@ -2037,7 +2037,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeLineChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_lineChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_lineChart, getNamespace());
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
@@ -2048,7 +2048,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	public void writeTimeSeriesChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_timeSeriesChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_timeSeriesChart, getNamespace());
 		writeChart(chart);
 		writeTimeSeriesDataset((JRTimeSeriesDataset)chart.getDataset());
 		writeTimeSeriesPlot((JRTimeSeriesPlot)chart.getPlot());
@@ -2057,18 +2057,18 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	public void writeHighLowDataset(JRHighLowDataset dataset) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_highLowDataset, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_highLowDataset, getNamespace());
 
 		writeElementDataset(dataset);
 
-		writer.writeExpression(XmlConstants.ELEMENT_seriesExpression, dataset.getSeriesExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_dateExpression, dataset.getDateExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_highExpression, dataset.getHighExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_lowExpression, dataset.getLowExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_openExpression, dataset.getOpenExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_closeExpression, dataset.getCloseExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_volumeExpression, dataset.getVolumeExpression(), false);
-		writeHyperlink(XmlConstants.ELEMENT_itemHyperlink, dataset.getItemHyperlink());
+		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, dataset.getSeriesExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_dateExpression, dataset.getDateExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_highExpression, dataset.getHighExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_lowExpression, dataset.getLowExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_openExpression, dataset.getOpenExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_closeExpression, dataset.getCloseExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_volumeExpression, dataset.getVolumeExpression(), false);
+		writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, dataset.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -2076,30 +2076,30 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	public void writeHighLowChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_highLowChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_highLowChart, getNamespace());
 
 		writeChart(chart);
 		writeHighLowDataset((JRHighLowDataset) chart.getDataset());
 
 		JRHighLowPlot plot = (JRHighLowPlot) chart.getPlot();
-		writer.startElement(XmlConstants.ELEMENT_highLowPlot);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowOpenTicks, plot.getShowOpenTicks());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowCloseTicks, plot.getShowCloseTicks());
+		writer.startElement(JRXmlConstants.ELEMENT_highLowPlot);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowOpenTicks, plot.getShowOpenTicks());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowCloseTicks, plot.getShowCloseTicks());
 
 		writePlot(plot);
 
-		writer.writeExpression(XmlConstants.ELEMENT_timeAxisLabelExpression, plot.getTimeAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_timeAxisLabelExpression, plot.getTimeAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
 				plot.getTimeAxisTickLabelFont(), plot.getOwnTimeAxisTickLabelColor(),
 				plot.getTimeAxisTickLabelMask(), plot.getTimeAxisVerticalTickLabels(), plot.getOwnTimeAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), plot.getOwnValueAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();
@@ -2112,7 +2112,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeGanttChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_ganttChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_ganttChart, getNamespace());
 		
 		writeChart(chart);
 		writeGanttDataset((JRGanttDataset) chart.getDataset());
@@ -2124,29 +2124,29 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	public void writeCandlestickChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_candlestickChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_candlestickChart, getNamespace());
 
 		writeChart(chart);
 		writeHighLowDataset((JRHighLowDataset) chart.getDataset());
 
 		JRCandlestickPlot plot = (JRCandlestickPlot) chart.getPlot();
-		writer.startElement(XmlConstants.ELEMENT_candlestickPlot);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowVolume, plot.getShowVolume());
+		writer.startElement(JRXmlConstants.ELEMENT_candlestickPlot);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowVolume, plot.getShowVolume());
 
 		writePlot(plot);
 
-		writer.writeExpression(XmlConstants.ELEMENT_timeAxisLabelExpression, plot.getTimeAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_timeAxisLabelExpression, plot.getTimeAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
 				plot.getTimeAxisTickLabelFont(), plot.getOwnTimeAxisTickLabelColor(),
 				plot.getTimeAxisTickLabelMask(), plot.getTimeAxisVerticalTickLabels(), plot.getOwnTimeAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), plot.getOwnValueAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();
@@ -2158,22 +2158,22 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeAreaPlot(JRAreaPlot plot) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_areaPlot);
+		writer.startElement(JRXmlConstants.ELEMENT_areaPlot);
 		writePlot(plot);
 
-		writer.writeExpression(XmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
 		writeCategoryAxisFormat(plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
 				plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
 				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
 				plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
 				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
 				plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), plot.getOwnValueAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 
 		writer.closeElement();
@@ -2185,7 +2185,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeAreaChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_areaChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_areaChart, getNamespace());
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
@@ -2200,24 +2200,24 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeScatterPlot(JRScatterPlot plot) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_scatterPlot);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowLines, plot.getShowLines());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_isShowShapes, plot.getShowShapes());
+		writer.startElement(JRXmlConstants.ELEMENT_scatterPlot);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLines, plot.getShowLines());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowShapes, plot.getShowShapes());
 
 		writePlot(plot);
 
-		writer.writeExpression(XmlConstants.ELEMENT_xAxisLabelExpression, plot.getXAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_xAxisFormat, plot.getXAxisLabelFont(), plot.getOwnXAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_xAxisLabelExpression, plot.getXAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_xAxisFormat, plot.getXAxisLabelFont(), plot.getOwnXAxisLabelColor(),
 				plot.getXAxisTickLabelFont(), plot.getOwnXAxisTickLabelColor(),
 				plot.getXAxisTickLabelMask(), plot.getXAxisVerticalTickLabels(), plot.getOwnXAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_yAxisLabelExpression, plot.getYAxisLabelExpression(), false);
-		writeAxisFormat(XmlConstants.ELEMENT_yAxisFormat, plot.getYAxisLabelFont(), plot.getOwnYAxisLabelColor(),
+		writer.writeExpression(JRXmlConstants.ELEMENT_yAxisLabelExpression, plot.getYAxisLabelExpression(), false);
+		writeAxisFormat(JRXmlConstants.ELEMENT_yAxisFormat, plot.getYAxisLabelFont(), plot.getOwnYAxisLabelColor(),
 				plot.getYAxisTickLabelFont(), plot.getOwnYAxisTickLabelColor(),
 				plot.getYAxisTickLabelMask(), plot.getYAxisVerticalTickLabels(), plot.getOwnYAxisLineColor());
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMinValueExpression, plot.getDomainAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_domainAxisMaxValueExpression, plot.getDomainAxisMaxValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMinValueExpression, plot.getRangeAxisMinValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_rangeAxisMaxValueExpression, plot.getRangeAxisMaxValueExpression(), false);
 
 		writer.closeElement();
 	}
@@ -2228,7 +2228,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeScatterChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_scatterChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_scatterChart, getNamespace());
 
 		writeChart(chart);
 		writeXyDataset((JRXyDataset) chart.getDataset());
@@ -2243,7 +2243,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeXyAreaChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_xyAreaChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_xyAreaChart, getNamespace());
 
 		writeChart(chart);
 		writeXyDataset((JRXyDataset) chart.getDataset());
@@ -2258,7 +2258,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeXyBarChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_xyBarChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_xyBarChart, getNamespace());
 
 		writeChart(chart);
 		JRChartDataset dataset = chart.getDataset();
@@ -2284,7 +2284,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeXyLineChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_xyLineChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_xyLineChart, getNamespace());
 
 		writeChart(chart);
 		writeXyDataset((JRXyDataset) chart.getDataset());
@@ -2301,7 +2301,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeMeterChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_meterChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_meterChart, getNamespace());
 
 		writeChart(chart);
 		writeValueDataset((JRValueDataset) chart.getDataset());
@@ -2320,7 +2320,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writePlot(chart.getPlot());
 		if (plot.getTickLabelFont() != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_tickLabelFont);
+			writer.startElement(JRXmlConstants.ELEMENT_tickLabelFont);
 			writeFont(plot.getTickLabelFont());
 			writer.closeElement();
 		}
@@ -2351,7 +2351,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeThermometerChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_thermometerChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_thermometerChart, getNamespace());
 
 		writeChart(chart);
 		writeValueDataset((JRValueDataset) chart.getDataset());
@@ -2404,13 +2404,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeMultiAxisChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_multiAxisChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_multiAxisChart, getNamespace());
 
 		writeChart(chart);
 
 		// write plot
 		JRMultiAxisPlot plot = (JRMultiAxisPlot) chart.getPlot();
-		writer.startElement(XmlConstants.ELEMENT_multiAxisPlot);
+		writer.startElement(JRXmlConstants.ELEMENT_multiAxisPlot);
 
 		writePlot(chart.getPlot());
 
@@ -2435,7 +2435,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeStackedAreaChart(JRChart chart) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_stackedAreaChart, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_stackedAreaChart, getNamespace());
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
@@ -2519,11 +2519,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	private void writeSubreportReturnValue(JRSubreportReturnValue returnValue) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_returnValue);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_subreportVariable, returnValue.getSubreportVariable());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_toVariable, returnValue.getToVariable());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_calculation, returnValue.getCalculationValue(), CalculationEnum.NOTHING);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_incrementerFactoryClass, returnValue.getIncrementerFactoryClassName());
+		writer.startElement(JRXmlConstants.ELEMENT_returnValue);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_subreportVariable, returnValue.getSubreportVariable());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_toVariable, returnValue.getToVariable());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, returnValue.getCalculationValue(), CalculationEnum.NOTHING);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, returnValue.getIncrementerFactoryClassName());
 		writer.closeElement();
 	}
 
@@ -2534,7 +2534,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_isRepeatColumnHeaders, crosstab.isRepeatColumnHeaders(), true);
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_isRepeatRowHeaders, crosstab.isRepeatRowHeaders(), true);
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_columnBreakOffset, crosstab.getColumnBreakOffset(), JRCrosstab.DEFAULT_COLUMN_BREAK_OFFSET);
-		writer.addAttribute(XmlConstants.ATTRIBUTE_runDirection, crosstab.getRunDirectionValue(), RunDirectionEnum.LTR);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_runDirection, crosstab.getRunDirectionValue(), RunDirectionEnum.LTR);
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_ignoreWidth, crosstab.getIgnoreWidth());
 
 		writeReportElement(crosstab);
@@ -2758,11 +2758,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	public void writeDataset(JRDataset dataset) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_subDataset, getNamespace());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, dataset.getName());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_scriptletClass, dataset.getScriptletClass());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_resourceBundle, dataset.getResourceBundle());
-		writer.addAttribute(XmlConstants.ATTRIBUTE_whenResourceMissingType, dataset.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
+		writer.startElement(JRXmlConstants.ELEMENT_subDataset, getNamespace());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, dataset.getName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scriptletClass, dataset.getScriptletClass());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resourceBundle, dataset.getResourceBundle());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenResourceMissingType, dataset.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
 
 		writeProperties(dataset);
 
@@ -2835,7 +2835,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			}
 		}
 
-		writer.writeExpression(XmlConstants.ELEMENT_filterExpression, dataset.getFilterExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_filterExpression, dataset.getFilterExpression(), false);
 
 		/*   */
 		JRGroup[] groups = dataset.getGroups();
@@ -2857,10 +2857,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeDatasetRun(JRDatasetRun datasetRun) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_datasetRun, getNamespace());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_subDataset, datasetRun.getDatasetName());
+		writer.startElement(JRXmlConstants.ELEMENT_datasetRun, getNamespace());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_subDataset, datasetRun.getDatasetName());
 
-		writer.writeExpression(XmlConstants.ELEMENT_parametersMapExpression, datasetRun.getParametersMapExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_parametersMapExpression, datasetRun.getParametersMapExpression(), false);
 
 		/*   */
 		JRDatasetParameter[] parameters = datasetRun.getParameters();
@@ -2872,8 +2872,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			}
 		}
 
-		writer.writeExpression(XmlConstants.ELEMENT_connectionExpression, datasetRun.getConnectionExpression(), false);
-		writer.writeExpression(XmlConstants.ELEMENT_dataSourceExpression, datasetRun.getDataSourceExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_connectionExpression, datasetRun.getConnectionExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_dataSourceExpression, datasetRun.getDataSourceExpression(), false);
 
 		writer.closeElement();
 	}
@@ -2881,7 +2881,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	public void writeFrame(JRFrame frame) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_frame, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_frame, getNamespace());
 
 		writeReportElement(frame);
 		writeBox(frame.getLineBox());
@@ -2909,10 +2909,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		if (parameter != null)
 		{
-			writer.startElement(XmlConstants.ELEMENT_hyperlinkParameter, JASPERREPORTS_NAMESPACE);
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, parameter.getName());
+			writer.startElement(JRXmlConstants.ELEMENT_hyperlinkParameter, JASPERREPORTS_NAMESPACE);
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, parameter.getName());
 
-			writer.writeExpression(XmlConstants.ELEMENT_hyperlinkParameterExpression,
+			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkParameterExpression,
 					parameter.getValueExpression(), true, String.class.getName());
 
 			writer.closeElement();
@@ -2931,16 +2931,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			writer.startElement(tagName, namespace);
 
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkType, hyperlink.getLinkType(), HyperlinkTypeEnum.NONE.getName());
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_hyperlinkTarget, hyperlink.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, hyperlink.getLinkType(), HyperlinkTypeEnum.NONE.getName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, hyperlink.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
 
-			writer.writeExpression(XmlConstants.ELEMENT_hyperlinkReferenceExpression, JASPERREPORTS_NAMESPACE,
+			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkReferenceExpression(), false);
-			writer.writeExpression(XmlConstants.ELEMENT_hyperlinkAnchorExpression, JASPERREPORTS_NAMESPACE,
+			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkAnchorExpression(), false);
-			writer.writeExpression(XmlConstants.ELEMENT_hyperlinkPageExpression, JASPERREPORTS_NAMESPACE,
+			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkPageExpression(), false);
-			writer.writeExpression(XmlConstants.ELEMENT_hyperlinkTooltipExpression, JASPERREPORTS_NAMESPACE,
+			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkTooltipExpression(), false);
 			writeHyperlinkParameters(hyperlink.getHyperlinkParameters());
 
@@ -2978,7 +2978,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	public void writeComponentElement(JRComponentElement componentElement) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_componentElement, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_componentElement, getNamespace());
 		writeReportElement(componentElement);
 		
 		ComponentKey componentKey = componentElement.getComponentKey();
@@ -2998,24 +2998,24 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	public void writeGenericElement(JRGenericElement element) throws IOException
 	{
-		writer.startElement(XmlConstants.ELEMENT_genericElement, getNamespace());
+		writer.startElement(JRXmlConstants.ELEMENT_genericElement, getNamespace());
 		
-		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, 
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
 				element.getEvaluationTimeValue(),
 				EvaluationTimeEnum.NOW);
 		if (element.getEvaluationGroupName() != null)
 		{
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, 
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
 					element.getEvaluationGroupName());
 		}
 
 		writeReportElement(element);
 		
 		JRGenericElementType printKey = element.getGenericType();
-		writer.startElement(XmlConstants.ELEMENT_genericElementType);
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_namespace, 
+		writer.startElement(JRXmlConstants.ELEMENT_genericElementType);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_namespace, 
 				printKey.getNamespace());
-		writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, 
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, 
 				printKey.getName());
 		writer.closeElement();//genericElementType
 
@@ -3023,16 +3023,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		for (int i = 0; i < params.length; i++)
 		{
 			JRGenericElementParameter param = params[i];
-			writer.startElement(XmlConstants.ELEMENT_genericElementParameter);
-			writer.addEncodedAttribute(XmlConstants.ATTRIBUTE_name, 
+			writer.startElement(JRXmlConstants.ELEMENT_genericElementParameter);
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, 
 					param.getName());
-			writer.addAttribute(XmlConstants.ATTRIBUTE_skipWhenNull, 
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_skipWhenNull, 
 					param.isSkipWhenEmpty(), false);
 			
 			JRExpression valueExpression = param.getValueExpression();
 			if (valueExpression != null)
 			{
-				writer.writeExpression(XmlConstants.ELEMENT_genericElementParameter_valueExpression, 
+				writer.writeExpression(JRXmlConstants.ELEMENT_genericElementParameter_valueExpression, 
 						valueExpression, true, Object.class.getName());
 			}
 			

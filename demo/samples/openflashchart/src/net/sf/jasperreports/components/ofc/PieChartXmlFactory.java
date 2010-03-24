@@ -25,7 +25,7 @@ package net.sf.jasperreports.components.ofc;
 
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.XmlConstants;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -40,7 +40,7 @@ public class PieChartXmlFactory extends JRBaseFactory
 	{
 		PieChartComponent chart = new PieChartComponent();
 		
-		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(attrs.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
+		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
 			chart.setEvaluationTime(evaluationTime);
@@ -48,7 +48,7 @@ public class PieChartXmlFactory extends JRBaseFactory
 
 		if (chart.getEvaluationTime() == EvaluationTimeEnum.GROUP)
 		{
-			String groupName = attrs.getValue(XmlConstants.ATTRIBUTE_evaluationGroup);
+			String groupName = attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
 			chart.setEvaluationGroup(groupName);
 		}
 		

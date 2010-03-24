@@ -55,7 +55,7 @@ public class JRElementDatasetFactory extends JRBaseFactory
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 		Set groupBoundDatasets = xmlLoader.getGroupBoundDatasets();
 		
-		ResetTypeEnum resetType = ResetTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_resetType));
+		ResetTypeEnum resetType = ResetTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_resetType));
 		if (resetType != null)
 		{
 			dataset.setResetType(resetType);
@@ -64,7 +64,7 @@ public class JRElementDatasetFactory extends JRBaseFactory
 		{
 			groupBoundDatasets.add(dataset);
 
-			String groupName = atts.getValue(XmlConstants.ATTRIBUTE_resetGroup);
+			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_resetGroup);
 			if (groupName != null)
 			{
 				JRDesignGroup group = new JRDesignGroup();
@@ -73,7 +73,7 @@ public class JRElementDatasetFactory extends JRBaseFactory
 			}
 		}
 
-		IncrementTypeEnum incrementType = IncrementTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_incrementType));
+		IncrementTypeEnum incrementType = IncrementTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_incrementType));
 		if (incrementType != null)
 		{
 			dataset.setIncrementType(incrementType);
@@ -82,7 +82,7 @@ public class JRElementDatasetFactory extends JRBaseFactory
 		{
 			groupBoundDatasets.add(dataset);
 
-			String groupName = atts.getValue(XmlConstants.ATTRIBUTE_incrementGroup);
+			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_incrementGroup);
 			if (groupName != null)
 			{
 				JRDesignGroup group = new JRDesignGroup();

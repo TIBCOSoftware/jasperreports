@@ -46,20 +46,20 @@ public class JRVariableFactory extends JRBaseFactory
 	{
 		JRDesignVariable variable = new JRDesignVariable();
 		
-		variable.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
+		variable.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 
-		if (atts.getValue(XmlConstants.ATTRIBUTE_class) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
 		{
-			variable.setValueClassName(atts.getValue(XmlConstants.ATTRIBUTE_class));
+			variable.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
 		}
 
-		ResetTypeEnum resetType = ResetTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_resetType));
+		ResetTypeEnum resetType = ResetTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_resetType));
 		if (resetType != null)
 		{
 			variable.setResetType(resetType);
 		}
 		
-		String groupName = atts.getValue(XmlConstants.ATTRIBUTE_resetGroup);
+		String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_resetGroup);
 		if (groupName != null)
 		{
 			JRDesignGroup group = new JRDesignGroup();
@@ -67,13 +67,13 @@ public class JRVariableFactory extends JRBaseFactory
 			variable.setResetGroup(group);
 		}
 
-		IncrementTypeEnum incrementType = IncrementTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_incrementType));
+		IncrementTypeEnum incrementType = IncrementTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_incrementType));
 		if (incrementType != null)
 		{
 			variable.setIncrementType(incrementType);
 		}
 		
-		groupName = atts.getValue(XmlConstants.ATTRIBUTE_incrementGroup);
+		groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_incrementGroup);
 		if (groupName != null)
 		{
 			JRDesignGroup group = new JRDesignGroup();
@@ -81,15 +81,15 @@ public class JRVariableFactory extends JRBaseFactory
 			variable.setIncrementGroup(group);
 		}
 
-		CalculationEnum calculation = CalculationEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_calculation));
+		CalculationEnum calculation = CalculationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_calculation));
 		if (calculation != null)
 		{
 			variable.setCalculation(calculation);
 		}
 
-		if (atts.getValue(XmlConstants.ATTRIBUTE_incrementerFactoryClass) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass) != null)
 		{
-			variable.setIncrementerFactoryClassName(atts.getValue(XmlConstants.ATTRIBUTE_incrementerFactoryClass));
+			variable.setIncrementerFactoryClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass));
 		}
 
 		return variable;

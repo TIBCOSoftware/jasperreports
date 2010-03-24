@@ -43,7 +43,7 @@ public class JRGenericElementFactory extends JRBaseFactory
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 		JRDesignGenericElement element = new JRDesignGenericElement(jasperDesign);
 		
-		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(attrs.getValue(XmlConstants.ATTRIBUTE_evaluationTime));
+		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
 			element.setEvaluationTime(evaluationTime);
@@ -51,7 +51,7 @@ public class JRGenericElementFactory extends JRBaseFactory
 		
 		if (element.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
-			String groupName = attrs.getValue(XmlConstants.ATTRIBUTE_evaluationGroup);
+			String groupName = attrs.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)
 			{
 				element.setEvaluationGroupName(groupName);

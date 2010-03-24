@@ -48,7 +48,7 @@ public class JRPrintGraphicElementFactory extends JRBaseFactory
 	{
 		JRBasePrintGraphicElement graphicElement = (JRBasePrintGraphicElement)digester.peek();
 		
-		PenEnum pen = PenEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_pen));
+		PenEnum pen = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_pen));
 		if (pen != null)
 		{
 			if (log.isWarnEnabled())
@@ -57,7 +57,7 @@ public class JRPrintGraphicElementFactory extends JRBaseFactory
 			JRPenUtil.setLinePenFromPen(pen, graphicElement.getLinePen());
 		}
 
-		FillEnum fill = FillEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_fill));
+		FillEnum fill = FillEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_fill));
 		if (fill != null)
 		{
 			graphicElement.setFill(fill);

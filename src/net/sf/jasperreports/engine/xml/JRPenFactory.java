@@ -53,19 +53,19 @@ public class JRPenFactory extends JRBaseFactory
 
 	protected static void setPenAttributes(Attributes atts, JRPen pen)
 	{
-		String lineWidth = atts.getValue(XmlConstants.ATTRIBUTE_lineWidth);
+		String lineWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_lineWidth);
 		if (lineWidth != null && lineWidth.length() > 0)
 		{
 			pen.setLineWidth(Float.parseFloat(lineWidth));
 		}
 
-		LineStyleEnum lineStyle = LineStyleEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_lineStyle));
+		LineStyleEnum lineStyle = LineStyleEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_lineStyle));
 		if (lineStyle != null)
 		{
 			pen.setLineStyle(lineStyle);
 		}
 
-		String lineColor = atts.getValue(XmlConstants.ATTRIBUTE_lineColor);
+		String lineColor = atts.getValue(JRXmlConstants.ATTRIBUTE_lineColor);
 		if (lineColor != null && lineColor.length() > 0)
 		{
 			pen.setLineColor(JRColorUtil.getColor(lineColor, null));

@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
-import net.sf.jasperreports.engine.xml.XmlConstants;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * 
@@ -78,10 +78,10 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 	{
 		if (barcode.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
 		{
-			xmlWriteHelper.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, 
+			xmlWriteHelper.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
 					barcode.getEvaluationTimeValue());
 		}
-		xmlWriteHelper.addAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, 
+		xmlWriteHelper.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
 				barcode.getEvaluationGroup());
 		
 		xmlWriteHelper.addAttribute("orientation", barcode.getOrientation(), 0);

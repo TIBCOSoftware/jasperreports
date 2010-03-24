@@ -200,7 +200,7 @@ public class JRExpressionFactory
 		public Object createObject(Attributes attrs)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
-			String className = attrs.getValue(XmlConstants.ATTRIBUTE_class);
+			String className = attrs.getValue(JRXmlConstants.ATTRIBUTE_class);
 			if (className != null)
 			{
 				expression.setValueClassName(className);

@@ -26,7 +26,7 @@ package net.sf.jasperreports.charts.xml;
 import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.XmlConstants;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -56,13 +56,13 @@ public class JRPie3DPlotFactory extends JRBaseFactory
 			pie3DPlot.setDepthFactor(Double.valueOf(depthFactor));
 		}
 		
-		String isCircular = atts.getValue(XmlConstants.ATTRIBUTE_isCircular);
+		String isCircular = atts.getValue(JRXmlConstants.ATTRIBUTE_isCircular);
 		if (isCircular != null && isCircular.length() > 0) {
 			pie3DPlot.setCircular(Boolean.valueOf(isCircular));
 		}
 
-		pie3DPlot.setLabelFormat(atts.getValue(XmlConstants.ATTRIBUTE_labelFormat));
-		pie3DPlot.setLegendLabelFormat(atts.getValue(XmlConstants.ATTRIBUTE_legendLabelFormat));
+		pie3DPlot.setLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_labelFormat));
+		pie3DPlot.setLegendLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_legendLabelFormat));
 
 		return pie3DPlot;
 	}

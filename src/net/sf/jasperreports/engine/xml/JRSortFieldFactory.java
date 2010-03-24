@@ -43,9 +43,9 @@ public class JRSortFieldFactory extends JRBaseFactory
 	{
 		JRDesignSortField sortField = new JRDesignSortField();
 		
-		sortField.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
+		sortField.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 
-		SortOrderEnum order = SortOrderEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_order));
+		SortOrderEnum order = SortOrderEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_order));
 		if (order != null)
 		{
 			sortField.setOrder(order);

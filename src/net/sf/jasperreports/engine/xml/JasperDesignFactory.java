@@ -47,117 +47,117 @@ public class JasperDesignFactory extends JRBaseFactory
 	{
 		JasperDesign jasperDesign = new JasperDesign();
 		
-		jasperDesign.setName(atts.getValue(XmlConstants.ATTRIBUTE_name));
+		jasperDesign.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 
-		jasperDesign.setLanguage(atts.getValue(XmlConstants.ATTRIBUTE_language));
+		jasperDesign.setLanguage(atts.getValue(JRXmlConstants.ATTRIBUTE_language));
 		
-		String columnCount = atts.getValue(XmlConstants.ATTRIBUTE_columnCount);
+		String columnCount = atts.getValue(JRXmlConstants.ATTRIBUTE_columnCount);
 		if (columnCount != null && columnCount.length() > 0)
 		{
 			jasperDesign.setColumnCount(Integer.parseInt(columnCount));
 		}
 
-		PrintOrderEnum printOrder = PrintOrderEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_printOrder));
+		PrintOrderEnum printOrder = PrintOrderEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_printOrder));
 		if (printOrder != null)
 		{
 			jasperDesign.setPrintOrder(printOrder);
 		}
 
-		String pageWidth = atts.getValue(XmlConstants.ATTRIBUTE_pageWidth);
+		String pageWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_pageWidth);
 		if (pageWidth != null && pageWidth.length() > 0)
 		{
 			jasperDesign.setPageWidth(Integer.parseInt(pageWidth));
 		}
 		
-		String pageHeight = atts.getValue(XmlConstants.ATTRIBUTE_pageHeight);
+		String pageHeight = atts.getValue(JRXmlConstants.ATTRIBUTE_pageHeight);
 		if (pageHeight != null && pageHeight.length() > 0)
 		{
 			jasperDesign.setPageHeight(Integer.parseInt(pageHeight));
 		}
 
-		OrientationEnum orientation = OrientationEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_orientation));
+		OrientationEnum orientation = OrientationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_orientation));
 		if (orientation != null)
 		{
 			jasperDesign.setOrientation(orientation);
 		}
 
-		WhenNoDataTypeEnum whenNoDataType = WhenNoDataTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_whenNoDataType));
+		WhenNoDataTypeEnum whenNoDataType = WhenNoDataTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_whenNoDataType));
 		if (whenNoDataType != null)
 		{
 			jasperDesign.setWhenNoDataType(whenNoDataType);
 		}
 
-		String columnWidth = atts.getValue(XmlConstants.ATTRIBUTE_columnWidth);
+		String columnWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_columnWidth);
 		if (columnWidth != null && columnWidth.length() > 0)
 		{
 			jasperDesign.setColumnWidth(Integer.parseInt(columnWidth));
 		}
 
-		String columnSpacing = atts.getValue(XmlConstants.ATTRIBUTE_columnSpacing);
+		String columnSpacing = atts.getValue(JRXmlConstants.ATTRIBUTE_columnSpacing);
 		if (columnSpacing != null && columnSpacing.length() > 0)
 		{
 			jasperDesign.setColumnSpacing(Integer.parseInt(columnSpacing));
 		}
 
-		String leftMargin = atts.getValue(XmlConstants.ATTRIBUTE_leftMargin);
+		String leftMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_leftMargin);
 		if (leftMargin != null && leftMargin.length() > 0)
 		{
 			jasperDesign.setLeftMargin(Integer.parseInt(leftMargin));
 		}
 
-		String rightMargin = atts.getValue(XmlConstants.ATTRIBUTE_rightMargin);
+		String rightMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_rightMargin);
 		if (rightMargin != null && rightMargin.length() > 0)
 		{
 			jasperDesign.setRightMargin(Integer.parseInt(rightMargin));
 		}
 
-		String topMargin = atts.getValue(XmlConstants.ATTRIBUTE_topMargin);
+		String topMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_topMargin);
 		if (topMargin != null && topMargin.length() > 0)
 		{
 			jasperDesign.setTopMargin(Integer.parseInt(topMargin));
 		}
 
-		String bottomMargin = atts.getValue(XmlConstants.ATTRIBUTE_bottomMargin);
+		String bottomMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_bottomMargin);
 		if (bottomMargin != null && bottomMargin.length() > 0)
 		{
 			jasperDesign.setBottomMargin(Integer.parseInt(bottomMargin));
 		}
 
-		String isTitleNewPage = atts.getValue(XmlConstants.ATTRIBUTE_isTitleNewPage);
+		String isTitleNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isTitleNewPage);
 		if (isTitleNewPage != null && isTitleNewPage.length() > 0)
 		{
 			jasperDesign.setTitleNewPage(Boolean.valueOf(isTitleNewPage).booleanValue());
 		}
 
-		String isSummaryNewPage = atts.getValue(XmlConstants.ATTRIBUTE_isSummaryNewPage);
+		String isSummaryNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isSummaryNewPage);
 		if (isSummaryNewPage != null && isSummaryNewPage.length() > 0)
 		{
 			jasperDesign.setSummaryNewPage(Boolean.valueOf(isSummaryNewPage).booleanValue());
 		}
 
-		String isSummaryWithPageHeaderAndFooter = atts.getValue(XmlConstants.ATTRIBUTE_isSummaryWithPageHeaderAndFooter);
+		String isSummaryWithPageHeaderAndFooter = atts.getValue(JRXmlConstants.ATTRIBUTE_isSummaryWithPageHeaderAndFooter);
 		if (isSummaryWithPageHeaderAndFooter != null && isSummaryWithPageHeaderAndFooter.length() > 0)
 		{
 			jasperDesign.setSummaryWithPageHeaderAndFooter(Boolean.valueOf(isSummaryWithPageHeaderAndFooter).booleanValue());
 		}
 
-		String isFloatColumnFooter = atts.getValue(XmlConstants.ATTRIBUTE_isFloatColumnFooter);
+		String isFloatColumnFooter = atts.getValue(JRXmlConstants.ATTRIBUTE_isFloatColumnFooter);
 		if (isFloatColumnFooter != null && isFloatColumnFooter.length() > 0)
 		{
 			jasperDesign.setFloatColumnFooter(Boolean.valueOf(isFloatColumnFooter).booleanValue());
 		}
 
-		jasperDesign.setScriptletClass(atts.getValue(XmlConstants.ATTRIBUTE_scriptletClass));
-		jasperDesign.setFormatFactoryClass(atts.getValue(XmlConstants.ATTRIBUTE_formatFactoryClass));
-		jasperDesign.setResourceBundle(atts.getValue(XmlConstants.ATTRIBUTE_resourceBundle));
+		jasperDesign.setScriptletClass(atts.getValue(JRXmlConstants.ATTRIBUTE_scriptletClass));
+		jasperDesign.setFormatFactoryClass(atts.getValue(JRXmlConstants.ATTRIBUTE_formatFactoryClass));
+		jasperDesign.setResourceBundle(atts.getValue(JRXmlConstants.ATTRIBUTE_resourceBundle));
 
-		WhenResourceMissingTypeEnum whenResourceMissingType = WhenResourceMissingTypeEnum.getByName(atts.getValue(XmlConstants.ATTRIBUTE_whenResourceMissingType));
+		WhenResourceMissingTypeEnum whenResourceMissingType = WhenResourceMissingTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_whenResourceMissingType));
 		if (whenResourceMissingType != null)
 		{
 			jasperDesign.setWhenResourceMissingType(whenResourceMissingType);
 		}
 
-		String isIgnorePagination = atts.getValue(XmlConstants.ATTRIBUTE_isIgnorePagination);
+		String isIgnorePagination = atts.getValue(JRXmlConstants.ATTRIBUTE_isIgnorePagination);
 		if (isIgnorePagination != null && isIgnorePagination.length() > 0)
 		{
 			jasperDesign.setIgnorePagination(Boolean.valueOf(isIgnorePagination).booleanValue());

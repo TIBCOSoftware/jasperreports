@@ -74,7 +74,7 @@ import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.StyleContainerRule;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
-import net.sf.jasperreports.engine.xml.XmlConstants;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.apache.commons.digester.Digester;
 
@@ -119,11 +119,11 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addObjectCreate(barcodePattern, StandardBarbecueComponent.class);
 		digester.addSetProperties(barcodePattern,
 				//properties to be ignored by this rule
-				new String[]{XmlConstants.ATTRIBUTE_evaluationTime}, 
+				new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime}, 
 				new String[0]);
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
-						XmlConstants.ATTRIBUTE_evaluationTime, "evaluationTimeValue",
+						JRXmlConstants.ATTRIBUTE_evaluationTime, "evaluationTimeValue",
 						EvaluationTimeEnum.values()));
 
 		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
@@ -187,12 +187,12 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addObjectCreate(barcodePattern, barcodeComponentClass);
 		digester.addSetProperties(barcodePattern,
 				//properties to be ignored by this rule
-				new String[]{XmlConstants.ATTRIBUTE_evaluationTime}, 
+				new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime}, 
 				new String[0]);
 		//rule to set evaluation time
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
-						XmlConstants.ATTRIBUTE_evaluationTime, "evaluationTimeValue",
+						JRXmlConstants.ATTRIBUTE_evaluationTime, "evaluationTimeValue",
 						EvaluationTimeEnum.values()));
 		
 		String codeExpressionPattern = barcodePattern + "/codeExpression";
@@ -252,7 +252,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addSetNext(pattern, setNextMethod);
 		
 		digester.addSetProperties(pattern,
-				new String[]{XmlConstants.ATTRIBUTE_style}, 
+				new String[]{JRXmlConstants.ATTRIBUTE_style}, 
 				new String[0]);
 		digester.addRule(pattern, new StyleContainerRule());
 	}
@@ -357,10 +357,10 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.addAttribute("barHeight", barcode.getBarHeight());
 		if (barcode.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
 		{
-			writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationTime, 
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
 					barcode.getEvaluationTimeValue());
 		}
-		writer.addAttribute(XmlConstants.ATTRIBUTE_evaluationGroup, 
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
 				barcode.getEvaluationGroup());
 
 		writer.writeExpression("codeExpression", 
@@ -392,7 +392,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				{
 					writer.startElement("column");
 					writer.addAttribute("width", column.getWidth());
-					writer.writeExpression(XmlConstants.ELEMENT_printWhenExpression, 
+					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							column.getPrintWhenExpression(), false);
 					writeTableCell(column.getTableHeader(), "tableHeader", reportWriter);
@@ -418,7 +418,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				{
 					writer.startElement("columnGroup");
 					writer.addAttribute("width", columnGroup.getWidth());
-					writer.writeExpression(XmlConstants.ELEMENT_printWhenExpression, 
+					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							columnGroup.getPrintWhenExpression(), false);
 					writeTableCell(columnGroup.getTableHeader(), "tableHeader", reportWriter);
