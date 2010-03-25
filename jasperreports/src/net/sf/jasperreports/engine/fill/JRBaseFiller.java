@@ -596,7 +596,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 * 
 	 * @return the map of parameter values
 	 */
-	protected Map getParameterValuesMap()
+	public Map getParameterValuesMap()
 	{
 		return mainDataset.getParameterValuesMap();
 	}
