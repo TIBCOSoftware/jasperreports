@@ -97,6 +97,7 @@
 			<fileset dir="." includes="**/*.gif" />
 			<fileset dir="." includes="**/*.GIF" />
 			<fileset dir="." includes="**/*.png" />
+			<fileset dir="." includes="**/*.swf" />
 			<fileset dir="." includes="**/*.jrxml" />
 			<classes dir="./WEB-INF/classes/">
 				<include name="**/*.class" />
