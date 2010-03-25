@@ -69,6 +69,8 @@ public class FillTable extends BaseFillComponent
 	
 	private final TableComponent table;
 	private final JRFillObjectFactory factory;
+	private final Map<List<FillColumn>, FillTableSubreport> fillSubreports = 
+		new HashMap<List<FillColumn>, FillTableSubreport>();
 	private FillTableSubreport fillSubreport;
 	
 	private boolean filling;
@@ -112,7 +114,7 @@ public class FillTable extends BaseFillComponent
 		{
 			Boolean printWhenVal = (Boolean) evaluateExpression(
 					printWhenExpression, evaluation);
-			if (printWhenVal)
+			if (printWhenVal == null)
 			{
 				toPrint = false;
 			}
@@ -210,13 +212,16 @@ public class FillTable extends BaseFillComponent
 
 	protected void createFillSubreport() throws JRException
 	{
-		if (fillSubreport != null)
+		fillSubreport = fillSubreports.get(fillColumns);
+		if (fillSubreport == null)
 		{
-			return;
+			fillSubreport = createFillTableSubreport();
+			fillSubreports.put(fillColumns, fillSubreport);
 		}
+	}
 
-		//TODO cache per fillColumns
-		
+	protected FillTableSubreport createFillTableSubreport() throws JRException
+	{
 		JasperReport parentReport = fillContext.getFiller().getJasperReport();
 		JRDataset reportSubdataset = JRReportUtils.findSubdataset(table.getDatasetRun(), 
 				parentReport);
@@ -243,10 +248,10 @@ public class FillTable extends BaseFillComponent
 				"");// no suffix as already included in the report name
 		
 		TableSubreport subreport = new TableSubreport(table.getDatasetRun(), fillContext);
-		fillSubreport = new FillTableSubreport(
+		return new FillTableSubreport(
 				fillContext.getFiller(), subreport, factory, compiledTableReport);
 	}
-
+	
 	protected TableReport createTableReport(JRDataset reportSubdataset, JasperReport parentReport)
 	{
 		String tableReportName = JRAbstractCompiler.getUnitName(parentReport, reportSubdataset);
