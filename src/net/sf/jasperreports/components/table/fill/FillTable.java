@@ -39,6 +39,7 @@ import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -309,8 +310,13 @@ public class FillTable extends BaseFillComponent
 				throw new JRRuntimeException(e);
 			}
 		}
-
-		// TODO element origins?
+		
+		List origins = fillSubreport.getSubreportOrigins();
+		for (Iterator it = origins.iterator(); it.hasNext();)
+		{
+			JROrigin origin = (JROrigin) it.next();
+			fillContext.getFiller().getJasperPrint().addOrigin(origin);
+		}
 		
 		Collection elements = fillSubreport.getPrintElements();
 		if (elements != null)
