@@ -106,7 +106,6 @@ public class TableReportDataset implements JRDataset
 
 	public String getResourceBundle()
 	{
-		// TODO default to report?
 		return tableSubdataset.getResourceBundle();
 	}
 

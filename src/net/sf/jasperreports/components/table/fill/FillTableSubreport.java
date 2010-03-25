@@ -27,6 +27,7 @@ import java.sql.Connection;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -75,6 +76,8 @@ public class FillTableSubreport extends JRFillSubreport
 	{
 		Map values = super.evaluateParameterValues(evaluation);
 		copyConnectionParameter(values);
+		copyResourceBundleParameter(values);
+		// TODO other built-in parameters?
 		return values;
 	}
 
@@ -98,6 +101,22 @@ public class FillTableSubreport extends JRFillSubreport
 						parameterValues.put(JRParameter.REPORT_CONNECTION, connection);
 					}
 				}
+			}
+		}
+	}
+
+	protected void copyResourceBundleParameter(Map parameterValues)
+	{
+		// copy the main report's resource bundle if the subdataset has no
+		// resource bundle of its own
+		if (!parameterValues.containsKey(JRParameter.REPORT_RESOURCE_BUNDLE)
+				&& tableReport.getResourceBundle() == null)
+		{
+			ResourceBundle resourceBundle = (ResourceBundle) filler.getParameterValuesMap().get(
+					JRParameter.REPORT_RESOURCE_BUNDLE);
+			if (resourceBundle != null)
+			{
+				parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
 			}
 		}
 	}
