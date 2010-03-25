@@ -23,13 +23,16 @@
  */
 package net.sf.jasperreports.components.table;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
@@ -91,7 +94,8 @@ public class TableCompiler implements ComponentCompiler
 		{
 			if (!detectLoops(verifier, columns))
 			{
-				verifyColumns(verifier, table);
+				verifyColumns(table, verifier);
+				verifyColumnHeights(table, verifier);
 			}
 		}
 	}
@@ -142,7 +146,7 @@ public class TableCompiler implements ComponentCompiler
 		return false;
 	}
 
-	protected void verifyColumns(final JRVerifier verifier, final TableComponent table)
+	protected void verifyColumns(final TableComponent table, final JRVerifier verifier)
 	{
 		ColumnVisitor<Void> columnVerifier = new ColumnVisitor<Void>()
 		{
@@ -339,4 +343,281 @@ public class TableCompiler implements ComponentCompiler
 		}
 	}
 	
+	protected interface ColumnCellSelector
+	{
+		Cell getCell(Column column);
+		
+		Cell getCell(ColumnGroup group);
+		
+		String getCellName();
+	}
+	
+	protected void verifyColumnHeights(TableComponent table, 
+			JRVerifier verifier)
+	{
+		verifyColumnHeights(table, verifier, new BaseColumnCellSelector()
+		{
+			@Override
+			protected Cell getCell(BaseColumn column)
+			{
+				return column.getTableHeader();
+			}
+
+			public String getCellName()
+			{
+				return "table header";
+			}
+		});
+		
+		verifyColumnHeights(table, verifier, new BaseColumnCellSelector()
+		{
+			@Override
+			protected Cell getCell(BaseColumn column)
+			{
+				return column.getTableFooter();
+			}
+
+			public String getCellName()
+			{
+				return "table footer";
+			}
+		});
+		
+		JRDatasetRun datasetRun = table.getDatasetRun();
+		if (datasetRun != null)
+		{
+			JRDesignDataset dataset = (JRDesignDataset) verifier.getReportDesign().getDatasetMap().get(
+					datasetRun.getDatasetName());
+			if (dataset != null)
+			{
+				JRGroup[] groups = dataset.getGroups();
+				if (groups != null)
+				{
+					for (int i = 0; i < groups.length; i++)
+					{
+						final String groupName = groups[i].getName();
+						
+						verifyColumnHeights(table, verifier, new BaseColumnCellSelector()
+						{
+							@Override
+							protected Cell getCell(BaseColumn column)
+							{
+								return column.getGroupHeader(groupName);
+							}
+
+							public String getCellName()
+							{
+								return "group " + groupName + " header";
+							}
+						});
+						
+						verifyColumnHeights(table, verifier, new BaseColumnCellSelector()
+						{
+							@Override
+							protected Cell getCell(BaseColumn column)
+							{
+								return column.getGroupFooter(groupName);
+							}
+
+							public String getCellName()
+							{
+								return "group " + groupName + " footer";
+							}
+						});
+					}
+				}
+			}
+		}
+		
+		verifyColumnHeights(table, verifier, new BaseColumnCellSelector()
+		{
+			@Override
+			protected Cell getCell(BaseColumn column)
+			{
+				return column.getColumnHeader();
+			}
+
+			public String getCellName()
+			{
+				return "column header";
+			}
+		});
+		
+		verifyColumnHeights(table, verifier, new BaseColumnCellSelector()
+		{
+			@Override
+			protected Cell getCell(BaseColumn column)
+			{
+				return column.getColumnFooter();
+			}
+
+			public String getCellName()
+			{
+				return "column footer";
+			}
+		});
+		
+		verifyColumnHeights(table, verifier, new ColumnCellSelector()
+		{
+			public Cell getCell(Column column)
+			{
+				return column.getDetailCell();
+			}
+
+			public Cell getCell(ColumnGroup group)
+			{
+				return null;
+			}
+			
+			public String getCellName()
+			{
+				return "detail";
+			}
+		});		
+	}
+	
+	protected abstract class BaseColumnCellSelector implements ColumnCellSelector
+	{
+
+		public Cell getCell(Column column)
+		{
+			return getCell((BaseColumn) column);
+		}
+
+		public Cell getCell(ColumnGroup group)
+		{
+			return getCell((BaseColumn) group);
+		}
+		
+		protected abstract Cell getCell(BaseColumn column);
+	}
+	
+	protected void verifyColumnHeights(TableComponent table, 
+			JRVerifier verifier, 
+			final ColumnCellSelector cellSelector)
+	{
+		final List<List<Cell>> tableCellRows = new ArrayList<List<Cell>>();
+		
+		ColumnVisitor<Void> cellCollector = new ColumnVisitor<Void>()
+		{
+			int rowIdx = 0;
+			
+			protected List<Cell> getRow()
+			{
+				int currentRowCount = tableCellRows.size();
+				if (rowIdx >= currentRowCount)
+				{
+					for (int i = currentRowCount; i <= rowIdx; i++)
+					{
+						tableCellRows.add(new ArrayList<Cell>());
+					}
+				}
+				return tableCellRows.get(rowIdx);
+			}
+			
+			public Void visitColumn(Column column)
+			{
+				getRow().add(cellSelector.getCell(column));
+				return null;
+			}
+
+			public Void visitColumnGroup(ColumnGroup columnGroup)
+			{
+				Cell cell = cellSelector.getCell(columnGroup);
+				getRow().add(cell);
+				
+				int span = cell == null ? 0 : 1;
+				if (cell != null && cell.getRowSpan() != null && cell.getRowSpan() > 1)
+				{
+					span = cell.getRowSpan();
+				}
+				
+				rowIdx += span;
+				for (BaseColumn subcolumn : columnGroup.getColumns())
+				{
+					subcolumn.visitColumn(this);
+				}
+				rowIdx -= span;
+				
+				return null;
+			}
+		};
+		
+		for (BaseColumn column : table.getColumns())
+		{
+			column.visitColumn(cellCollector);
+		}
+		
+		List<Integer> rowHeights = new ArrayList<Integer>(tableCellRows.size());
+		for (ListIterator<List<Cell>> rowIt = tableCellRows.listIterator(); rowIt.hasNext();)
+		{
+			List<Cell> row = rowIt.next();
+			
+			Integer rowHeight = null;
+			boolean hasCell = false;
+			for (Cell cell : row)
+			{
+				if (cell != null)
+				{
+					hasCell = true;
+					if ((cell.getRowSpan() == null || cell.getRowSpan() == 1)
+							&& cell.getHeight() != null)
+					{
+						rowHeight = cell.getHeight();
+						break;
+					}
+				}
+			}
+			
+			if (hasCell && rowHeight == null)
+			{
+				verifier.addBrokenRule("Unable to determine " + cellSelector.getCellName() 
+						+ " row #" + rowIt.previousIndex() + " height. " 
+						+ "Make sure there is at least one cell with no row span.", 
+						table);
+			}
+			
+			rowHeights.add(hasCell ? rowHeight : 0);
+		}
+		
+		for (ListIterator<List<Cell>> rowIt = tableCellRows.listIterator(); rowIt.hasNext();)
+		{
+			List<Cell> row = rowIt.next();
+			int rowIdx = rowIt.previousIndex();
+			int rowHeight = rowHeights.get(rowIdx);
+			
+			for (Cell cell : row)
+			{
+				if (cell != null)
+				{
+					Integer rowSpan = cell.getRowSpan();
+					Integer height = cell.getHeight();
+					if ((rowSpan == null || rowSpan >= 1) 
+							&& height != null)
+					{
+						int span = rowSpan == null ? 1 : rowSpan;
+						if (rowIdx + span > tableCellRows.size())
+						{
+							verifier.addBrokenRule("Row span of " + cellSelector.getCellName() 
+									+ " exceeds number of rows", cell);
+						}
+						else
+						{
+							int spanHeight = rowHeight;
+							for (int idx = 1; idx < span; ++idx)
+							{
+								spanHeight += rowHeights.get(rowIdx + idx);
+							}
+							
+							if (cell.getHeight() != spanHeight)
+							{
+								verifier.addBrokenRule("Height " + cell.getHeight() + " of " + cellSelector.getCellName() 
+										+ " does not match computed row height of " + spanHeight, cell);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
