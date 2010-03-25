@@ -960,7 +960,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	}
 
-	protected void addPrintStyle(JRStyle style) throws JRException
+	public void addPrintStyle(JRStyle style) throws JRException
 	{
 		jasperPrint.addStyle(style, true);
 	}
