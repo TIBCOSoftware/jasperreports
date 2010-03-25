@@ -127,4 +127,9 @@ public class FillTableSubreport extends JRFillSubreport
 	{
 		return subreportFiller.getJasperPrint().getStylesList();
 	}
+
+	protected List getSubreportOrigins()
+	{
+		return subreportFiller.getJasperPrint().getOriginsList();
+	}
 }
