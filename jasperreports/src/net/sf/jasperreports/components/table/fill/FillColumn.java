@@ -71,5 +71,36 @@ public class FillColumn
 	{
 		return subcolumns;
 	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == this)
+		{
+			//quick exit
+			return true;
+		}
+		
+		if (!(obj instanceof FillColumn))
+		{
+			return false;
+		}
+		
+		FillColumn col = (FillColumn) obj;
+		
+		return tableColumn == col.tableColumn // instance comparison
+			&& width == col.width
+			&& (subcolumns == null ? col.subcolumns == null : 
+				col.subcolumns != null && subcolumns.equals(col.subcolumns));
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hash = tableColumn.hashCode();
+		hash = hash * 37 + width;
+		hash = hash * 37 + (subcolumns == null ? 0 : subcolumns.hashCode());
+		return hash;
+	}
 	
 }
