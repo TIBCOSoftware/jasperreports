@@ -31,9 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
@@ -55,6 +52,9 @@ import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.util.JRReportUtils;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * 
@@ -243,7 +243,6 @@ public class FillTable extends BaseFillComponent
 				"");// no suffix as already included in the report name
 		
 		TableSubreport subreport = new TableSubreport(table.getDatasetRun(), fillContext);
-		//TODO new factory, run in a container?
 		fillSubreport = new FillTableSubreport(
 				fillContext.getFiller(), subreport, factory, compiledTableReport);
 	}
@@ -291,6 +290,22 @@ public class FillTable extends BaseFillComponent
 		printFrame.setY(fillContext.getElementPrintY());
 		printFrame.setWidth(fillWidth);
 		printFrame.setHeight(fillSubreport.getContentsStretchHeight());
+		
+		List styles = fillSubreport.getSubreportStyles();
+		for (Iterator it = styles.iterator(); it.hasNext();)
+		{
+			JRStyle style = (JRStyle) it.next();
+			try
+			{
+				fillContext.getFiller().addPrintStyle(style);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		// TODO element origins?
 		
 		Collection elements = fillSubreport.getPrintElements();
 		if (elements != null)

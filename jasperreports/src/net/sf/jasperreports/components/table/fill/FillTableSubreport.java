@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.table.fill;
 
 import java.sql.Connection;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
@@ -121,5 +122,9 @@ public class FillTableSubreport extends JRFillSubreport
 		// overriding this for package access
 		return super.getContentsStretchHeight();
 	}
-	
+
+	protected List getSubreportStyles()
+	{
+		return subreportFiller.getJasperPrint().getStylesList();
+	}
 }
