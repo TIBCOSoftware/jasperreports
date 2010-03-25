@@ -89,8 +89,8 @@ public class FillTable extends BaseFillComponent
 	{
 		if (filling)
 		{
-			log.warn("Table fill did not complete, closing previous table subreport");
-			//TODO
+			log.warn("Table fill did not complete, canceling previous table subreport");
+			fillSubreport.cancelSubreportFill();
 		}
 		
 		filling = false;
@@ -366,6 +366,8 @@ public class FillTable extends BaseFillComponent
 			{
 				throw new JRRuntimeException(e);
 			}
+			
+			filling = false;
 		}
 	}
 

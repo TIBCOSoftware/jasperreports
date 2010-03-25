@@ -132,4 +132,11 @@ public class FillTableSubreport extends JRFillSubreport
 	{
 		return subreportFiller.getJasperPrint().getOriginsList();
 	}
+
+	@Override
+	protected void cancelSubreportFill() throws JRException
+	{
+		// overriding this for package access
+		super.cancelSubreportFill();
+	}
 }

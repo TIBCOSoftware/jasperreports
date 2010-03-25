@@ -731,22 +731,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			return;
 		}
 		
-		if (log.isDebugEnabled())
-		{
-			log.debug("Fill " + filler.fillerId + ": cancelling " + subreportFiller.fillerId);
-		}
-		
-		// marking the subreport filler for interruption
-		subreportFiller.setInterrupted(true);
-		
-		synchronized (subreportFiller)
-		{
-			// forcing the creation of a new thread and a new subreport filler
-			runner.cancel();
-			runner.reset();
-		}
-
-		filler.unregisterSubfiller(subreportFiller);
+		cancelSubreportFill();
 		
 		initSubreportFiller(null);//FIXME used cached evaluator
 
@@ -763,6 +748,27 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				throw new JRException("The subreport is placed on a non-splitting band, but it does not have a rewindable data source.");
 			}
 		}
+	}
+
+
+	protected void cancelSubreportFill() throws JRException
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + filler.fillerId + ": cancelling " + subreportFiller.fillerId);
+		}
+		
+		// marking the subreport filler for interruption
+		subreportFiller.setInterrupted(true);
+		
+		synchronized (subreportFiller)
+		{
+			// forcing the creation of a new thread and a new subreport filler
+			runner.cancel();
+			runner.reset();
+		}
+
+		filler.unregisterSubfiller(subreportFiller);
 	}
 
 
