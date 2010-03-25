@@ -341,15 +341,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 					getDataSourceExpression(), evaluation);
 			
 			parameterValues = 
-				getParameterValues(
-					filler, 
-					getParametersMapExpression(), 
-					getParameters(), 
-					evaluation, 
-					false, 
-					jasperReport.getResourceBundle() != null,//hasResourceBundle 
-					jasperReport.getFormatFactoryClass() != null//hasFormatFactory
-					);
+				evaluateParameterValues(evaluation);
 
 			if (subreportFiller != null)
 			{
@@ -366,6 +358,18 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 	}
 
+	protected Map evaluateParameterValues(byte evaluation) throws JRException
+	{
+		return getParameterValues(
+			filler, 
+			getParametersMapExpression(), 
+			getParameters(), 
+			evaluation, 
+			false, 
+			jasperReport.getResourceBundle() != null,//hasResourceBundle 
+			jasperReport.getFormatFactoryClass() != null//hasFormatFactory
+			);
+	}
 
 	protected JREvaluator loadReportEvaluator() throws JRException
 	{

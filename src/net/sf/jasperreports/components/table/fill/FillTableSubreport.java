@@ -23,9 +23,13 @@
  */
 package net.sf.jasperreports.components.table.fill;
 
+import java.sql.Connection;
 import java.util.Collection;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
@@ -61,9 +65,40 @@ public class FillTableSubreport extends JRFillSubreport
 	@Override
 	protected void evaluateSubreport(byte evaluation) throws JRException
 	{
+		// overriding this for package access
 		super.evaluateSubreport(evaluation);
-		
-		//TODO copy connection
+	}
+
+	@Override
+	protected Map evaluateParameterValues(byte evaluation) throws JRException
+	{
+		Map values = super.evaluateParameterValues(evaluation);
+		copyConnectionParameter(values);
+		return values;
+	}
+
+	protected void copyConnectionParameter(Map parameterValues)
+	{
+		// copy the main report's connection parameter to the table subreport
+		// this is done for consistency with subdataset runs
+		if (!parameterValues.containsKey(JRParameter.REPORT_CONNECTION)
+				&& getConnectionExpression() == null)
+		{
+			JRQuery query = tableReport.getQuery();
+			if (query != null)
+			{
+				String language = query.getLanguage();
+				if (language.equals("sql") || language.equals("SQL"))
+				{
+					Connection connection = (Connection) filler.getParameterValuesMap().get(
+							JRParameter.REPORT_CONNECTION);
+					if (connection != null)
+					{
+						parameterValues.put(JRParameter.REPORT_CONNECTION, connection);
+					}
+				}
+			}
+		}
 	}
 	
 	protected FillPrepareResult prepareSubreport(int availableHeight, boolean isOverflow) 
@@ -76,12 +111,14 @@ public class FillTableSubreport extends JRFillSubreport
 	@Override
 	protected Collection getPrintElements()
 	{
+		// overriding this for package access
 		return super.getPrintElements();
 	}
 
 	@Override
 	protected int getContentsStretchHeight()
 	{
+		// overriding this for package access
 		return super.getContentsStretchHeight();
 	}
 	
