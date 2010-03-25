@@ -49,7 +49,6 @@ public class HtmlExporterHyperlinkProducerAdapter implements JRHyperlinkProducer
 
 	public String getHyperlink(JRPrintHyperlink hyperlink)
 	{
-		// TODO Auto-generated method stub
 		return exporterContext.getHyperlinkURL(hyperlink);
 	}
 
