@@ -681,7 +681,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignQuery " + queryName + " = new JRDesignQuery();\n");
 			write( queryName + ".setLanguage(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getLanguage()), JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL);
-			write( queryName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getText()));
+			write( queryName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaNewLine(JRStringUtil.escapeJavaStringLiteral(query.getText())));
 			flush();
 		}
 	}
@@ -1085,7 +1085,7 @@ public class JRApiWriter
 			writeReportElement( staticText, staticTextName);
 			writeBox( staticText.getLineBox(), staticTextName + ".getLineBox()");
 			writeTextElement( staticText, staticTextName);
-			write( staticTextName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(staticText.getText()));
+			write( staticTextName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaNewLine(JRStringUtil.escapeJavaStringLiteral(staticText.getText())));
 			flush();
 		}
 	}
@@ -1148,6 +1148,49 @@ public class JRApiWriter
 		}
 	}
 
+	
+	/**
+	 *
+	 */
+	private void writeCommonStyle(JRStyle style, String styleName)
+	{
+		write( styleName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getName()));
+
+		if (style.getStyle() != null)//FIXME double check which one to use; style or styleNameReference?
+		{
+			write( styleName + ".setParentStyle({0});\n", JRStringUtil.escapeJavaStringLiteral(style.getStyle().getName()));
+		}
+		write( styleName + ".setParentStyleNameReference(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getStyleNameReference()));
+		
+		write( styleName + ".setDefault({0});\n", style.isDefault(), false);
+		write( styleName + ".setMode({0});\n", style.getOwnModeValue());
+		write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnFontName()));
+		write( styleName + ".setFontSize({0, number, #});\n", style.getOwnFontSize());
+		write( styleName + ".setBold({0});\n", style.isOwnBold());
+		write( styleName + ".setItalic({0});\n", style.isOwnItalic());
+		write( styleName + ".setUnderline({0});\n", style.isOwnUnderline());
+		write( styleName + ".setStrikeThrough({0});\n", style.isOwnStrikeThrough());
+		write( styleName + ".setPdfFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPdfFontName()));
+		write( styleName + ".setPdfEncoding(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPdfEncoding()));
+		write( styleName + ".setPdfEmbedded({0});\n", style.isOwnPdfEmbedded());
+		write( styleName + ".setForecolor({0});\n", getColorText(style.getOwnForecolor()));
+		write( styleName + ".setBackcolor({0});\n", getColorText(style.getOwnBackcolor()));
+		write( styleName + ".setFill({0});\n", style.getOwnFillValue());
+		write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
+		write( styleName + ".setScaleImage({0});\n", style.getOwnScaleImageValue());
+		write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
+		write( styleName + ".setVerticalAlignment({0});\n", style.getOwnVerticalAlignmentValue());
+		write( styleName + ".setRotation({0});\n", style.getOwnRotationValue());
+		write( styleName + ".setLineSpacing({0});\n", style.getOwnLineSpacingValue());
+
+		write( styleName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnMarkup()));
+		write( styleName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPattern()));
+		write( styleName + ".setBlankWhenNull({0});\n", style.isOwnBlankWhenNull());
+//		writePen( style.getLinePen(), styleName + ".getLinePen()");
+//		writeBox( style.getLineBox(),styleName + ".getLineBox()");
+	}
+
+	
 	/**
 	 *
 	 */
@@ -1156,40 +1199,9 @@ public class JRApiWriter
 		if (style != null && stylesMap.get(style.getName()) == null)
 		{
 			write( "JRDesignStyle " + styleName + " = new JRDesignStyle();\n");
-			write( styleName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getName()));
 
-			if (style.getStyle() != null)//FIXME double check which one to use; style or styleNameReference?
-			{
-				write( styleName + ".setParentStyle({0});\n", JRStringUtil.escapeJavaStringLiteral(style.getStyle().getName()));
-			}
-			write( styleName + ".setParentStyleNameReference(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getStyleNameReference()));
-			
-			write( styleName + ".setDefault({0});\n", style.isDefault(), false);
-			write( styleName + ".setMode({0});\n", style.getOwnModeValue());
-			write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnFontName()));
-			write( styleName + ".setFontSize({0, number, #});\n", style.getOwnFontSize());
-			write( styleName + ".setBold({0});\n", style.isOwnBold());
-			write( styleName + ".setItalic({0});\n", style.isOwnItalic());
-			write( styleName + ".setUnderline({0});\n", style.isOwnUnderline());
-			write( styleName + ".setStrikeThrough({0});\n", style.isOwnStrikeThrough());
-			write( styleName + ".setPdfFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPdfFontName()));
-			write( styleName + ".setPdfEncoding(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPdfEncoding()));
-			write( styleName + ".setPdfEmbedded({0});\n", style.isOwnPdfEmbedded());
-			write( styleName + ".setForecolor({0});\n", getColorText(style.getOwnForecolor()));
-			write( styleName + ".setBackcolor({0});\n", getColorText(style.getOwnBackcolor()));
-			write( styleName + ".setFill({0});\n", style.getOwnFillValue());
-			write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
-			write( styleName + ".setScaleImage({0});\n", style.getOwnScaleImageValue());
-			write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
-			write( styleName + ".setVerticalAlignment({0});\n", style.getOwnVerticalAlignmentValue());
-			write( styleName + ".setRotation({0});\n", style.getOwnRotationValue());
-			write( styleName + ".setLineSpacing({0});\n", style.getOwnLineSpacingValue());
+			writeCommonStyle(style, styleName);
 
-			write( styleName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnMarkup()));
-			write( styleName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPattern()));
-			write( styleName + ".setBlankWhenNull({0});\n", style.isOwnBlankWhenNull());
-//			writePen( style.getLinePen(), styleName + ".getLinePen()");
-//			writeBox( style.getLineBox(),styleName + ".getLineBox()");
 			stylesMap.put(style.getName(), styleName);
 			flush();
 		}
@@ -3082,7 +3094,7 @@ public class JRApiWriter
 			}
 	
 			writeCrosstabWhenNoDataCell( crosstab, crosstabName + "NoDataCell");
-			write( crosstabName + ".setWhenNoDataCell(" + crosstabName + "NoDataCell);\n");
+
 			flush();
 		}
 	}
@@ -3177,7 +3189,7 @@ public class JRApiWriter
 	{
 		if(group != null)
 		{
-			write( "JRDesignColumnRowGroup " + groupName + " = new JRDesignCrosstabColumnGroup();\n");
+			write( "JRDesignCrosstabColumnGroup " + groupName + " = new JRDesignCrosstabColumnGroup();\n");
 
 			write( groupName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(group.getName()));
 			write( groupName + ".setHeight({0, number, #});\n", group.getHeight());
@@ -3587,32 +3599,7 @@ public class JRApiWriter
 			write( "JRDesignConditionalStyle " + styleName + " = new JRDesignConditionalStyle();\n");
 			writeExpression( style.getConditionExpression(), styleName, "ConditionExpression");
 
-			write( styleName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getName()));
-			writeStyleReferenceAttr( style, styleName);
-			write( styleName + ".setDefault({0});\n", style.isDefault(), false);
-			write( styleName + ".setMode({0});\n", style.getOwnModeValue());
-			write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnFontName()));
-			write( styleName + ".setFontSize({0, number, #});\n", style.getOwnFontSize());
-			write( styleName + ".setBold({0});\n", style.isOwnBold());
-			write( styleName + ".setItalic({0});\n", style.isOwnItalic());
-			write( styleName + ".setUnderline({0});\n", style.isOwnUnderline());
-			write( styleName + ".setStrikeThrough({0});\n", style.isOwnStrikeThrough());
-			write( styleName + ".setPdfFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPdfFontName()));
-			write( styleName + ".setPdfEncoding(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPdfEncoding()));
-			write( styleName + ".setPdfEmbedded({0});\n", style.isOwnPdfEmbedded());
-			write( styleName + ".setForecolor({0});\n", getColorText(style.getOwnForecolor()));
-			write( styleName + ".setBackcolor({0});\n", getColorText(style.getOwnBackcolor()));
-			write( styleName + ".setFill({0});\n", style.getOwnFillValue());
-			write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
-			write( styleName + ".setScaleImage({0});\n", style.getOwnScaleImageValue());
-			write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
-			write( styleName + ".setVerticalAlignment({0});\n", style.getOwnVerticalAlignmentValue());
-			write( styleName + ".setRotation({0});\n", style.getOwnRotationValue());
-			write( styleName + ".setLineSpacing({0});\n", style.getOwnLineSpacingValue());
-
-			write( styleName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnMarkup()));
-			write( styleName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPattern()));
-			write( styleName + ".setBlankWhenNull({0});\n", style.isOwnBlankWhenNull());
+			writeCommonStyle(style, styleName);
 			
 			flush();
 		}
@@ -3817,7 +3804,7 @@ public class JRApiWriter
 			String expressionName = parentName +  expressionSuffix;
 			write( "JRDesignExpression " + expressionName + " = new JRDesignExpression();\n");
 			write( expressionName + ".setId({0, number, #});\n", expression.getId());
-			write( expressionName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(expression.getText()));
+			write( expressionName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaNewLine(JRStringUtil.escapeJavaStringLiteral(expression.getText())));
 			write( expressionName + ".setValueClassName(\"{0}\");\n", expression.getValueClassName(), defaultClassName);
 
 			write( parentName + ".set" + expressionSuffix + "(" + expressionName + ");\n");

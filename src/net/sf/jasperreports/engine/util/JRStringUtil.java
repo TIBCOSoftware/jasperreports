@@ -28,6 +28,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 
@@ -276,14 +277,23 @@ public class JRStringUtil
 
 
 	/**
+	 * @deprecated Replaced by {@link #getJavaIdentifier(String)}.
+	 */
+	public static String getLiteral(String name)
+	{
+		return getJavaIdentifier(name);
+	}
+	
+	
+	/**
 	 * Takes a name and returns the same if it is a Java identifier;
 	 * else it substitutes the illegal characters so that it can be an identifier
 	 *
 	 * @param name
 	 */
-	public static String getLiteral(String name)
+	public static String getJavaIdentifier(String name)
 	{
-		if (isValidLiteral(name))
+		if (isValidJavaIdentifier(name))
 		{
 			return name;
 		}
@@ -315,11 +325,11 @@ public class JRStringUtil
 	
 	
 	/**
-	 * Checks if the input is a valid Java literal
+	 * Checks if the input is a valid Java identifier
 	 * @param literal
 	 * @author Gaganis Giorgos (gaganis@users.sourceforge.net) 
 	 */
-	private static boolean isValidLiteral(String literal)
+	private static boolean isValidJavaIdentifier(String literal)
 	{
 		boolean result = true;
 		
@@ -365,6 +375,34 @@ public class JRStringUtil
 		
 		// FIXME new lines?
 		return text;
+	}
+	
+	/**
+	 *
+	 */
+	public static String escapeJavaNewLine(String text)
+	{
+		if (text == null)
+		{
+			return text;
+		}
+		
+		StringBuffer sbuffer = new StringBuffer();
+		StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
+		while(tkzer.hasMoreTokens())
+		{
+			String token = tkzer.nextToken();
+			if ("\n".equals(token))
+			{
+				sbuffer.append("\\n");
+			}
+			else
+			{
+				sbuffer.append(token);
+			}
+		}
+		
+		return sbuffer.toString();
 	}
 	
 }

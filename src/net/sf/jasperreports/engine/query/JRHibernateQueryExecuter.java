@@ -331,7 +331,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 
 	protected String getHqlParameterName(String parameterName)
 	{
-		return '_' + JRStringUtil.getLiteral(parameterName);
+		return '_' + JRStringUtil.getJavaIdentifier(parameterName);
 	}
 	
 	
