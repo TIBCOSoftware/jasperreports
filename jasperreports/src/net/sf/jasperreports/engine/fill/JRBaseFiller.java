@@ -228,6 +228,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected WhenResourceMissingTypeEnum whenResourceMissingType = WhenResourceMissingTypeEnum.NULL;
 
 	protected JRFillReportTemplate[] reportTemplates;
+	
+	protected List<JRTemplate> templates;
 
 	protected JRReportFont defaultFont = null;
 
@@ -1042,34 +1044,45 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return styleList;
 	}
 
-	protected List collectTemplateStyles() throws JRException
+	protected void collectTemplates() throws JRException
 	{
-		List externalStyles = new ArrayList();
-		HashSet loadedLocations = new HashSet();
+		templates = new ArrayList<JRTemplate>();
 
 		if (reportTemplates != null)
 		{
-			for (int i = 0; i < reportTemplates.length; i++)
+			for (JRFillReportTemplate reportTemplate : reportTemplates)
 			{
-				JRFillReportTemplate reportTemplate = reportTemplates[i];
 				JRTemplate template = reportTemplate.evaluate();
 				if (template != null)
 				{
-					collectStyles(template, externalStyles, loadedLocations);
+					templates.add(template);
 				}
 			}
 		}
 
-		Collection paramTemplates = (Collection) mainDataset.getParameterValue(JRParameter.REPORT_TEMPLATES, true);
+		Collection paramTemplates = (Collection) mainDataset.getParameterValue(
+				JRParameter.REPORT_TEMPLATES, true);
 		if (paramTemplates != null)
 		{
-			for (Iterator it = paramTemplates.iterator(); it.hasNext();)
-			{
-				JRTemplate template = (JRTemplate) it.next();
-				collectStyles(template, externalStyles, loadedLocations);
-			}
+			templates.addAll(paramTemplates);
 		}
+	}
 
+	public List<JRTemplate> getTemplates()
+	{
+		return templates;
+	}
+	
+	protected List collectTemplateStyles() throws JRException
+	{
+		collectTemplates();
+		
+		List externalStyles = new ArrayList();
+		HashSet loadedLocations = new HashSet();
+		for (JRTemplate template : templates)
+		{
+			collectStyles(template, externalStyles, loadedLocations);
+		}
 		return externalStyles;
 	}
 
@@ -2247,6 +2260,5 @@ class SavePoint
 	{
 		this.endElementIndex = page.getElements().size();
 	}
-	
 }
 

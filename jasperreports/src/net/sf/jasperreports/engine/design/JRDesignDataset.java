@@ -164,7 +164,8 @@ public class JRDesignDataset extends JRBaseDataset
 		JRParameter.REPORT_FORMAT_FACTORY, FormatFactory.class, 
 		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class,
 		JRParameter.REPORT_URL_HANDLER_FACTORY, URLStreamHandlerFactory.class,
-		JRParameter.REPORT_FILE_RESOLVER, FileResolver.class};
+		JRParameter.REPORT_FILE_RESOLVER, FileResolver.class,
+		JRParameter.REPORT_TEMPLATES, Collection.class};
 
 
 	
@@ -173,8 +174,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	private static final Object[] BUILT_IN_PARAMETERS_MAIN = new Object[] { 
 		JRParameter.REPORT_VIRTUALIZER, JRVirtualizer.class, 
-		JRParameter.IS_IGNORE_PAGINATION, Boolean.class,
-		JRParameter.REPORT_TEMPLATES, Collection.class };
+		JRParameter.IS_IGNORE_PAGINATION, Boolean.class };
 
 	
 	/**
