@@ -215,7 +215,7 @@ public class JRReportSaxParserFactory implements JRSaxParserFactory
 	{
 		try
 		{
-			Object cacheKey = getGrammerPoolCacheKey();
+			Object cacheKey = getGrammarPoolCacheKey();
 			
 			// we're using thread local caches to avoid thread safety problems
 			ReferenceMap cacheMap = (ReferenceMap) GRAMMAR_POOL_CACHE.get();
@@ -249,8 +249,7 @@ public class JRReportSaxParserFactory implements JRSaxParserFactory
 		}
 	}
 
-	//TODO fix typo
-	protected Object getGrammerPoolCacheKey()
+	protected Object getGrammarPoolCacheKey()
 	{
 		Object key = Thread.currentThread().getContextClassLoader();
 		if (key == null)
