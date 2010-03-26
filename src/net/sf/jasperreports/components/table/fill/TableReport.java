@@ -877,7 +877,7 @@ public class TableReport implements JRReport
 
 	public JRReportTemplate[] getTemplates()
 	{
-		// TODO Auto-generated method stub
+		// the parent report's templates are always used for the subreport
 		return null;
 	}
 

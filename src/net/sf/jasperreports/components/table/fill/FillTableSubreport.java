@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRBaseFiller;
@@ -77,6 +78,7 @@ public class FillTableSubreport extends JRFillSubreport
 		Map values = super.evaluateParameterValues(evaluation);
 		copyConnectionParameter(values);
 		copyResourceBundleParameter(values);
+		copyTemplatesParameter(values);
 		// TODO other built-in parameters?
 		return values;
 	}
@@ -119,6 +121,13 @@ public class FillTableSubreport extends JRFillSubreport
 				parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
 			}
 		}
+	}
+
+	protected void copyTemplatesParameter(Map parameterValues)
+	{
+		// copy the main report's templates
+		List<JRTemplate> templates = filler.getTemplates();
+		parameterValues.put(JRParameter.REPORT_TEMPLATES, templates);
 	}
 	
 	protected FillPrepareResult prepareSubreport(int availableHeight, boolean isOverflow) 
