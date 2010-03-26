@@ -681,7 +681,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignQuery " + queryName + " = new JRDesignQuery();\n");
 			write( queryName + ".setLanguage(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getLanguage()), JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL);
-			write( queryName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaNewLine(JRStringUtil.escapeJavaStringLiteral(query.getText())));
+			write( queryName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(query.getText()));
 			flush();
 		}
 	}
@@ -1085,7 +1085,7 @@ public class JRApiWriter
 			writeReportElement( staticText, staticTextName);
 			writeBox( staticText.getLineBox(), staticTextName + ".getLineBox()");
 			writeTextElement( staticText, staticTextName);
-			write( staticTextName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaNewLine(JRStringUtil.escapeJavaStringLiteral(staticText.getText())));
+			write( staticTextName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(staticText.getText()));
 			flush();
 		}
 	}
@@ -3811,7 +3811,7 @@ public class JRApiWriter
 			String expressionName = parentName +  expressionSuffix;
 			write( "JRDesignExpression " + expressionName + " = new JRDesignExpression();\n");
 			write( expressionName + ".setId({0, number, #});\n", expression.getId());
-			write( expressionName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaNewLine(JRStringUtil.escapeJavaStringLiteral(expression.getText())));
+			write( expressionName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(expression.getText()));
 			write( expressionName + ".setValueClassName(\"{0}\");\n", expression.getValueClassName(), defaultClassName);
 
 			write( parentName + ".set" + expressionSuffix + "(" + expressionName + ");\n");

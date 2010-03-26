@@ -29,7 +29,6 @@
 package net.sf.jasperreports.engine.util;
 
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
 
 
@@ -353,9 +352,6 @@ public class JRStringUtil
 		
 		return result;
 	}
-
-	private static final Pattern PATTERN_LITERAL_ESCAPE = Pattern.compile("[\\\\\"]");
-	private static final String REPLACEMENT_LITERAL_ESCAPE = "\\\\$0";
 	
 	/**
 	 * Escapes a text so that it can be used as a Java String literal.
@@ -370,31 +366,31 @@ public class JRStringUtil
 			return text;
 		}
 		
-		text = PATTERN_LITERAL_ESCAPE.matcher(text).replaceAll(
-				REPLACEMENT_LITERAL_ESCAPE);
-		
-		// FIXME new lines?
-		return text;
-	}
-	
-	/**
-	 *
-	 */
-	public static String escapeJavaNewLine(String text)
-	{
-		if (text == null)
-		{
-			return text;
-		}
-		
 		StringBuffer sbuffer = new StringBuffer();
-		StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
+		StringTokenizer tkzer = new StringTokenizer(text, "\\\"\n\r\t", true);
 		while(tkzer.hasMoreTokens())
 		{
 			String token = tkzer.nextToken();
-			if ("\n".equals(token))
+			//TODO optimize ifs?
+			if ("\\".equals(token))
+			{
+				sbuffer.append("\\\\");
+			}
+			else if ("\"".equals(token))
+			{
+				sbuffer.append("\\\"");
+			}
+			else if ("\n".equals(token))
 			{
 				sbuffer.append("\\n");
+			}
+			else if ("\r".equals(token))
+			{
+				sbuffer.append("\\r");
+			}
+			else if ("\t".equals(token))
+			{
+				sbuffer.append("\\t");
 			}
 			else
 			{
