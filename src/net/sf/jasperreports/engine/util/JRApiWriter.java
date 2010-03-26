@@ -375,11 +375,11 @@ public class JRApiWriter
 		write( "jasperDesign.setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getName()));
 		write( "jasperDesign.setLanguage(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getLanguage()));
 		write( "jasperDesign.setColumnCount({0, number, #});\n", report.getColumnCount(), 1);
-		write( "jasperDesign.setPrintOrder((byte){0});\n", report.getPrintOrderValue(), PrintOrderEnum.VERTICAL);
+		write( "jasperDesign.setPrintOrder({0});\n", report.getPrintOrderValue(), PrintOrderEnum.VERTICAL);
 		write( "jasperDesign.setPageWidth({0, number, #});\n", report.getPageWidth());
 		write( "jasperDesign.setPageHeight({0, number, #});\n", report.getPageHeight());
-		write( "jasperDesign.setOrientation((byte){0});\n", report.getOrientationValue(), OrientationEnum.PORTRAIT);
-		write( "jasperDesign.setWhenNoDataType((byte){0});\n", report.getWhenNoDataTypeValue(), WhenNoDataTypeEnum.NO_PAGES);
+		write( "jasperDesign.setOrientation({0});\n", report.getOrientationValue(), OrientationEnum.PORTRAIT);
+		write( "jasperDesign.setWhenNoDataType({0});\n", report.getWhenNoDataTypeValue(), WhenNoDataTypeEnum.NO_PAGES);
 		write( "jasperDesign.setColumnWidth({0, number, #});\n", report.getColumnWidth());
 		write( "jasperDesign.setColumnSpacing({0, number, #});\n", report.getColumnSpacing());
 		write( "jasperDesign.setLeftMargin({0, number, #});\n", report.getLeftMargin());
@@ -393,7 +393,7 @@ public class JRApiWriter
 		write( "jasperDesign.setScriptletClass(\"{0}\");\n", report.getScriptletClass());
 		write( "jasperDesign.setFormatFactoryClass(\"{0}\");\n", report.getFormatFactoryClass());
 		write( "jasperDesign.setgetResourceBundle(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getResourceBundle()));
-		write( "jasperDesign.setWhenResourceMissingType((byte){0});\n", report.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
+		write( "jasperDesign.setWhenResourceMissingType({0});\n", report.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
 		write( "jasperDesign.setIgnorePagination({0});\n\n", report.isIgnorePagination(), false);
 
 		writeProperties( report, "jasperDesign");
@@ -421,8 +421,8 @@ public class JRApiWriter
 
 			for(int i = 0; i < styles.length; i++)
 			{
-				writeStyle( styles[i], "reportStyle" + i);
-				write( "jasperDesign.addStyle(reportStyle" + i + ");\n\n");
+				writeStyle( styles[i], styles[i].getName());
+				write( "jasperDesign.addStyle(" + styles[i].getName() + ");\n\n");
 
 				if (toWriteConditionalStyles())
 				{
@@ -431,9 +431,9 @@ public class JRApiWriter
 					{
 						for (int j = 0; j < conditionalStyles.length; j++)
 						{
-							String conditionalStyleName = "reportStyle" + i + "Conditional" + j;
+							String conditionalStyleName = styles[i].getName() + "Conditional" + j;
 							writeConditionalStyle( conditionalStyles[j],conditionalStyleName);
-							write( "reportStyle" + i + ".addConditionalStyle(" + conditionalStyleName + ");\n\n");
+							write( styles[i].getName() + ".addConditionalStyle(" + conditionalStyleName + ");\n\n");
 						}
 						flush();
 					}
@@ -851,7 +851,15 @@ public class JRApiWriter
 				{
 					apiWriterVisitor.setName(parentName + i);
 					((JRChild) children.get(i)).visit(apiWriterVisitor);
-					write( parentName +".addElement(" + parentName + i + ");\n\n");
+					if(children.get(i) instanceof JRElementGroup && !(children.get(i) instanceof JRElement))
+					{
+						write( parentName +".addElementGroup(" + parentName + i + ");\n\n");
+						
+					}
+					else
+					{
+						write( parentName +".addElement(" + parentName + i + ");\n\n");
+					}
 				}
 			}
 		}
@@ -1196,7 +1204,8 @@ public class JRApiWriter
 		if(textField != null)
 		{
 			write( "JRDesignTextField " + textFieldName + " = new JRDesignTextField(jasperDesign);\n");
-			write( textFieldName + ".setBold({0});\n", textField.isStretchWithOverflow(), false);
+			write( textFieldName + ".setBold({0});\n", textField.isOwnBold());
+			write( textFieldName + ".setStretchWithOverflow({0});\n", textField.isStretchWithOverflow(), false);
 			write( textFieldName + ".setEvaluationTime({0});\n", textField.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 			String evaluationGroupName = getGroupName( textField.getEvaluationGroup());
 			write( textFieldName + ".setEvaluationGroup({0});\n", evaluationGroupName);
@@ -3734,7 +3743,7 @@ public class JRApiWriter
 	{
 		if (styleContainer.getStyle() != null)//FIXME use only styleNameReference?
 		{
-			//write( styleName + ".setStyle(\"" + JRStringUtil.escapeJavaStringLiteral(styleContainer.getStyle().getName()) + "\");\n");
+			write( styleName + ".setStyle(" + JRStringUtil.escapeJavaStringLiteral(styleContainer.getStyle().getName()) + ");\n");
 		}
 		else if (styleContainer.getStyleNameReference() != null)
 		{
@@ -3751,11 +3760,11 @@ public class JRApiWriter
 	 */
 	private void writePen( JRPen pen, String penHolder, Float defaultLineWidth)
 	{
-		if(pen != null && pen.getLineWidth().floatValue() > 0)
+		if(pen != null && pen.getOwnLineWidth() != null && pen.getOwnLineWidth().floatValue() > 0)
 		{
-			write( penHolder + ".setLineWidth(new Float({0, number, #}f));\n", pen.getLineWidth(), defaultLineWidth);
-			write( penHolder + ".setLineStyle({0});\n", pen.getLineStyleValue(), LineStyleEnum.SOLID);
-			write( penHolder + ".setLineColor({0});\n", getColorText(pen.getLineColor()), "new Color(0, 0, 0, 255)");
+			write( penHolder + ".setLineWidth(new Float({0, number, #}f));\n", pen.getOwnLineWidth(), defaultLineWidth);
+			write( penHolder + ".setLineStyle({0});\n", pen.getOwnLineStyleValue(), LineStyleEnum.SOLID);
+			write( penHolder + ".setLineColor({0});\n", getColorText(pen.getOwnLineColor()), "new Color(0, 0, 0, 255)");
 			flush();
 		}
 	}
@@ -3767,19 +3776,29 @@ public class JRApiWriter
 	{
 		if (box != null)
 		{
-			write( boxHolder + ".setPadding(new Integer({0, number, #}));\n", box.getPadding(), Integer.valueOf(0));
-			write( boxHolder + ".setTopPadding(new Integer({0, number, #}));\n", box.getTopPadding(), Integer.valueOf(0));
-			write( boxHolder + ".setLeftPadding(new Integer({0, number, #}));\n", box.getLeftPadding(), Integer.valueOf(0));
-			write( boxHolder + ".setBottomPadding(new Integer({0, number, #}));\n", box.getBottomPadding(), Integer.valueOf(0));
-			write( boxHolder + ".setRightPadding(new Integer({0, number, #}));\n", box.getRightPadding(), Integer.valueOf(0));
-			
+			if(box.getOwnPadding() != null && box.getOwnPadding().intValue() > 0)
+			{
+				write( boxHolder + ".setPadding(new Integer({0, number, #}));\n", box.getOwnPadding(), Integer.valueOf(0));
+			}
+			else
+			{
+				write( boxHolder + ".setTopPadding(new Integer({0, number, #}));\n", box.getOwnTopPadding(), Integer.valueOf(0));
+				write( boxHolder + ".setLeftPadding(new Integer({0, number, #}));\n", box.getOwnLeftPadding(), Integer.valueOf(0));
+				write( boxHolder + ".setBottomPadding(new Integer({0, number, #}));\n", box.getOwnBottomPadding(), Integer.valueOf(0));
+				write( boxHolder + ".setRightPadding(new Integer({0, number, #}));\n", box.getOwnRightPadding(), Integer.valueOf(0));
+			}
 
-			writePen( box.getPen(), boxHolder + ".getPen()", JRPen.LINE_WIDTH_0);
-			writePen( box.getTopPen(), boxHolder + ".getTopPen()", JRPen.LINE_WIDTH_0);
-			writePen( box.getLeftPen(), boxHolder + ".getLeftPen()", JRPen.LINE_WIDTH_0);
-			writePen( box.getBottomPen(), boxHolder + ".getBottomPen()", JRPen.LINE_WIDTH_0);
-			writePen( box.getRightPen(), boxHolder + ".getRightPen()", JRPen.LINE_WIDTH_0);
-
+			if(box.getPen() != null && box.getPen().getOwnLineWidth() != null  && box.getPen().getOwnLineWidth().floatValue() > 0)
+			{
+				writePen( box.getPen(), boxHolder + ".getPen()", JRPen.LINE_WIDTH_0);
+			}
+			else
+			{
+				writePen( box.getTopPen(), boxHolder + ".getTopPen()", JRPen.LINE_WIDTH_0);
+				writePen( box.getLeftPen(), boxHolder + ".getLeftPen()", JRPen.LINE_WIDTH_0);
+				writePen( box.getBottomPen(), boxHolder + ".getBottomPen()", JRPen.LINE_WIDTH_0);
+				writePen( box.getRightPen(), boxHolder + ".getRightPen()", JRPen.LINE_WIDTH_0);
+			}
 			flush();
 		}
 	}
@@ -3854,10 +3873,7 @@ public class JRApiWriter
 	 */
 	protected void write(String pattern, Object value, Object defaultValue)
 	{
-		if (
-			(defaultValue == null && value != null)
-			|| (defaultValue != null && !defaultValue.equals(value))
-			)
+		if (value != null && value != defaultValue)
 		{
 			write(MessageFormat.format(pattern, new Object[]{value}));
 		}
@@ -3881,10 +3897,7 @@ public class JRApiWriter
 	 */
 	protected void write(String pattern, Enum value, Enum defaultValue)
 	{
-		if (
-			(defaultValue == null && value != null)
-			|| (defaultValue != null && !defaultValue.equals(value))
-			)
+		if (value != null && value != defaultValue)
 		{
 			write(MessageFormat.format(pattern, new Object[]{value.getClass().getName() + "." + value.name()}));
 		}
