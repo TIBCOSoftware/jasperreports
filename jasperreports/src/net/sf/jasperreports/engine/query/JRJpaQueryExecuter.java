@@ -238,7 +238,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 	}
 	
 	protected String getEjbqlParameterName(String parameterName) {
-		return JRStringUtil.getLiteral(parameterName);
+		return JRStringUtil.getJavaIdentifier(parameterName);
 	}
 	
 	/**

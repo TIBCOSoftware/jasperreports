@@ -94,7 +94,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			className = report.getName() + "_" + dataset.getName();
 		}
 		
-		className = JRStringUtil.getLiteral(className) + nameSuffix;
+		className = JRStringUtil.getJavaIdentifier(className) + nameSuffix;
 		
 		return className;
 	}
@@ -125,7 +125,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 
 	protected static String getUnitName(JRReport report, int crosstabId, String nameSuffix)
 	{
-		return JRStringUtil.getLiteral(report.getName()) + "_CROSSTAB" + crosstabId + nameSuffix;
+		return JRStringUtil.getJavaIdentifier(report.getName()) + "_CROSSTAB" + crosstabId + nameSuffix;
 	}
 	
 	public final JasperReport compileReport(JasperDesign jasperDesign) throws JRException

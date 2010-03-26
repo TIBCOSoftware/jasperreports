@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 
-import net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterNature;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZip;
 
@@ -46,15 +45,10 @@ public class DocxZip extends FileBufferedZip
 	private ExportZipEntry stylesEntry = null;
 	private ExportZipEntry relsEntry = null;
 	
-	public DocxZip() throws IOException
-	{
-		this(JROpenDocumentExporterNature.ODT_NATURE);
-	}
-
 	/**
 	 * 
 	 */
-	public DocxZip(byte openDocumentNature) throws IOException
+	public DocxZip() throws IOException
 	{
 		exportZipEntries = new ArrayList();
 

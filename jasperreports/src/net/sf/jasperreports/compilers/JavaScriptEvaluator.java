@@ -196,17 +196,17 @@ public class JavaScriptEvaluator extends JREvaluator
 
 	protected static String getParameterVar(String name)
 	{
-		return "param_" + JRStringUtil.getLiteral(name);
+		return "param_" + JRStringUtil.getJavaIdentifier(name);
 	}
 
 	protected static String getVariableVar(String name)
 	{
-		return "var_" + JRStringUtil.getLiteral(name);
+		return "var_" + JRStringUtil.getJavaIdentifier(name);
 	}
 
 	protected static String getFieldVar(String name)
 	{
-		return "field_" + JRStringUtil.getLiteral(name);
+		return "field_" + JRStringUtil.getJavaIdentifier(name);
 	}
 	
 	private final JavaScriptCompileData compileData;

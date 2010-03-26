@@ -190,7 +190,7 @@ public class JRBshGenerator
 			for (Iterator it = parameterNames.iterator(); it.hasNext();)
 			{
 				sb.append("    JRFillParameter parameter_");
-				sb.append(JRStringUtil.getLiteral((String)it.next()));
+				sb.append(JRStringUtil.getJavaIdentifier((String)it.next()));
 				sb.append(" = null;\n");
 			}
 		}
@@ -205,7 +205,7 @@ public class JRBshGenerator
 			for (Iterator it = fieldNames.iterator(); it.hasNext();)
 			{
 				sb.append("    JRFillField field_");
-				sb.append(JRStringUtil.getLiteral((String)it.next()));
+				sb.append(JRStringUtil.getJavaIdentifier((String)it.next()));
 				sb.append(" = null;\n");
 			}
 		}
@@ -219,7 +219,7 @@ public class JRBshGenerator
 			for (int i = 0; i < variables.length; i++)
 			{
 				sb.append("    JRFillVariable variable_");
-				sb.append(JRStringUtil.getLiteral(variables[i].getName()));
+				sb.append(JRStringUtil.getJavaIdentifier(variables[i].getName()));
 				sb.append(" = null;\n");
 			}
 		}
@@ -250,7 +250,7 @@ public class JRBshGenerator
 			{
 				parameterName = (String)it.next();
 				sb.append("        super.parameter_");
-				sb.append(JRStringUtil.getLiteral(parameterName));
+				sb.append(JRStringUtil.getJavaIdentifier(parameterName));
 				sb.append(" = (JRFillParameter)parsm.get(\"");
 				sb.append(JRStringUtil.escapeJavaStringLiteral(parameterName));
 				sb.append("\");\n");
@@ -269,7 +269,7 @@ public class JRBshGenerator
 			{
 				fieldName = (String)it.next();
 				sb.append("        super.field_");
-				sb.append(JRStringUtil.getLiteral(fieldName));
+				sb.append(JRStringUtil.getJavaIdentifier(fieldName));
 				sb.append(" = (JRFillField)fldsm.get(\"");
 				sb.append(JRStringUtil.escapeJavaStringLiteral(fieldName));
 				sb.append("\");\n");
@@ -287,7 +287,7 @@ public class JRBshGenerator
 			{
 				variableName = variables[i].getName();
 				sb.append("        super.variable_");
-				sb.append(JRStringUtil.getLiteral(variableName));
+				sb.append(JRStringUtil.getJavaIdentifier(variableName));
 				sb.append(" = (JRFillVariable)varsm.get(\"");
 				sb.append(JRStringUtil.escapeJavaStringLiteral(variableName));
 				sb.append("\");\n");
@@ -428,7 +428,7 @@ public class JRBshGenerator
 						sbuffer.append("((");
 						sbuffer.append(jrParameter.getValueClassName());
 						sbuffer.append(")super.parameter_");
-						sbuffer.append(JRStringUtil.getLiteral(chunkText));
+						sbuffer.append(JRStringUtil.getJavaIdentifier(chunkText));
 						sbuffer.append(".getValue())");
 	
 						break;
@@ -440,7 +440,7 @@ public class JRBshGenerator
 						sbuffer.append("((");
 						sbuffer.append(jrField.getValueClassName());
 						sbuffer.append(")super.field_");
-						sbuffer.append(JRStringUtil.getLiteral(chunkText));
+						sbuffer.append(JRStringUtil.getJavaIdentifier(chunkText));
 						sbuffer.append(".get");
 						sbuffer.append((String)fieldPrefixMap.get(new Byte(evaluationType)));
 						sbuffer.append("Value())");
@@ -454,7 +454,7 @@ public class JRBshGenerator
 						sbuffer.append("((");
 						sbuffer.append(jrVariable.getValueClassName());
 						sbuffer.append(")super.variable_");
-						sbuffer.append(JRStringUtil.getLiteral(chunkText));
+						sbuffer.append(JRStringUtil.getJavaIdentifier(chunkText));
 						sbuffer.append(".get");
 						sbuffer.append((String)variablePrefixMap.get(new Byte(evaluationType)));
 						sbuffer.append("Value())");
