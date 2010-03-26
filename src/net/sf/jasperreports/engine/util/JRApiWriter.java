@@ -1320,13 +1320,16 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	private void writeDatasetParameter( JRDatasetParameter datasetParameter, String datasetParameterName)
+	private void writeDatasetParameter( JRDatasetParameter datasetParameter, String runName, String datasetParameterName)
 	{
 		if(datasetParameter != null)
 		{
 			write( "JRDesignDatasetParameter " + datasetParameterName + " = new JRDesignSubreportParameter();\n");
 			write( datasetParameterName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(datasetParameter.getName()));
 			writeExpression( datasetParameter.getExpression(), datasetParameterName, "Expression");
+			
+			write( runName + ".addParameter(" + datasetParameterName + ");\n");
+			
 			flush();
 		}
 	}
@@ -3093,7 +3096,7 @@ public class JRApiWriter
 				}
 			}
 	
-			writeCrosstabWhenNoDataCell( crosstab, crosstabName + "NoDataCell");
+			writeCrosstabWhenNoDataCell( crosstab, crosstabName);
 
 			flush();
 		}
@@ -3122,12 +3125,13 @@ public class JRApiWriter
 	/**
 	 * 
 	 */
-	private void writeCrosstabWhenNoDataCell( JRCrosstab crosstab, String cellName)
+	private void writeCrosstabWhenNoDataCell( JRCrosstab crosstab, String parentName)
 	{
 		JRCellContents whenNoDataCell = crosstab.getWhenNoDataCell();
 		if (whenNoDataCell != null)
 		{
-			writeCellContents( whenNoDataCell, cellName);
+			writeCellContents( whenNoDataCell, parentName + "NoDataCell");
+			write( parentName + ".setWhenNoDataCell(" + parentName + "NoDataCell);\n");
 			flush();
 		}
 	}
@@ -3141,7 +3145,7 @@ public class JRApiWriter
 		JRCellContents headerCell = crosstab.getHeaderCell();
 		if (headerCell != null)
 		{
-			writeCellContents( headerCell, parentName+"HeaderCellContents");
+			writeCellContents( headerCell, parentName + "HeaderCellContents");
 			write( parentName + ".setHeaderCell(" + parentName + "HeaderCellContents);\n");
 			flush();
 		}
@@ -3233,6 +3237,9 @@ public class JRApiWriter
 			writeExpression( bucket.getComparatorExpression(), bucketName, "ComparatorExpression");
 
 			writeExpression( bucket.getOrderByExpression(), bucketName, "OrderByExpression", Object.class.getName());
+
+			write( parentName + ".setBucket(" + bucketName + ");\n");
+
 			flush();
 		}
 	}
@@ -3449,7 +3456,7 @@ public class JRApiWriter
 			{
 				for(int i = 0; i < parameters.length; i++)
 				{
-					writeDatasetParameter( parameters[i], runName + "Parameter" + i);
+					writeDatasetParameter( parameters[i], runName, runName + "Parameter" + i);
 				}
 			}
 	

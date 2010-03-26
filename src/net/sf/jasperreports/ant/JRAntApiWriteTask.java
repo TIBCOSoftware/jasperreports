@@ -31,10 +31,14 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRApiWriter;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.ReportCreator;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
@@ -78,6 +82,7 @@ public class JRAntApiWriteTask extends MatchingTask
 	private Path src = null;
 	private File destdir = null;
 	private Path classpath = null;
+	private boolean runApi = false;
 
 	private Map reportFilesMap = null;
 
@@ -144,6 +149,15 @@ public class JRAntApiWriteTask extends MatchingTask
 	
 	
 	/**
+	 * If set to true, the task will run the API writer generated classes and produce JRXML source files. 
+	 */
+	public void setRunApi(boolean runApi)
+	{
+		this.runApi = runApi;
+	}
+
+	
+	/**
 	 * Executes the task.
 	 */
 	public void execute() throws BuildException
@@ -170,8 +184,17 @@ public class JRAntApiWriteTask extends MatchingTask
 			{
 				/*   */
 				scanSrc();
-				/*   */
-				update();
+				
+				if (runApi)
+				{
+					/*   */
+					runApi();
+				}
+				else
+				{
+					/*   */
+					writeApi();
+				}
 			}
 			finally
 			{
@@ -261,8 +284,16 @@ public class JRAntApiWriteTask extends MatchingTask
 	protected void scanDir(File srcdir, File destdir, String[] files) 
 	{
 		RegexpPatternMapper mapper = new RegexpPatternMapper();
-		mapper.setFrom("^(.*)\\.(.*)$");
-		mapper.setTo("\\1.java");
+		if (runApi)
+		{
+			mapper.setFrom("^(.*)\\.(.*)$");
+			mapper.setTo("\\1.api.jrxml");
+		}
+		else
+		{
+			mapper.setFrom("^(.*)\\.(.*)$");
+			mapper.setTo("\\1.java");
+		}
 
 		SourceFileScanner scanner = new SourceFileScanner(this);
 		String[] newFiles = scanner.restrict(files, srcdir, destdir, mapper);
@@ -283,7 +314,7 @@ public class JRAntApiWriteTask extends MatchingTask
 	/**
 	 * Performs the API code generation for the selected report design files.
 	 */
-	protected void update() throws BuildException
+	protected void writeApi() throws BuildException
 	{
 		Collection files = reportFilesMap.keySet();
 
@@ -352,6 +383,57 @@ public class JRAntApiWriteTask extends MatchingTask
 			if(isError)
 			{
 				throw new BuildException("Errors were encountered when generating API report designs.");
+			}
+		}
+	}
+	
+	
+	/**
+	 * Runs the generated code and produces the JRXML image of the report.
+	 */
+	protected void runApi() throws BuildException
+	{
+		Collection files = reportFilesMap.keySet();
+
+		if (files != null && files.size() > 0)
+		{
+			boolean isError = false;
+		
+			System.out.println("Running " + files.size() + " API report design files.");
+
+			for (Iterator it = files.iterator(); it.hasNext();)
+			{
+				String srcFileName = (String)it.next();
+				String destFileName = (String)reportFilesMap.get(srcFileName);
+				File destFileParent = new File(destFileName).getParentFile();
+				if(!destFileParent.exists())
+				{
+					destFileParent.mkdirs();
+				}
+
+				try
+				{
+					System.out.print("File : " + srcFileName + " ... ");
+
+					Class reportCreatorClass = JRClassLoader.loadClassFromFile(null, new File(srcFileName));
+					ReportCreator reportCreator = (ReportCreator)reportCreatorClass.newInstance();
+					JasperDesign jasperDesign = reportCreator.create();
+					JRXmlWriter.writeReport(jasperDesign, destFileName, "UTF-8");
+
+					System.out.println("OK.");
+				}
+				catch (Exception e)
+				{
+					System.out.println("FAILED.");
+					System.out.println("Error running API report design class : " + srcFileName);
+					e.printStackTrace(System.out);
+					isError = true;
+				}
+			}
+		
+			if(isError)
+			{
+				throw new BuildException("Errors were encountered when running API report designs classes.");
 			}
 		}
 	}
