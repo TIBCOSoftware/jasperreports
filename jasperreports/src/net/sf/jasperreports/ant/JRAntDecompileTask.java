@@ -169,7 +169,7 @@ public class JRAntDecompileTask extends MatchingTask
 				/*   */
 				scanSrc();
 				/*   */
-				update();
+				decompile();
 			}
 			finally
 			{
@@ -281,7 +281,7 @@ public class JRAntDecompileTask extends MatchingTask
 	/**
 	 * Performs the decompilation of the selected report design files.
 	 */
-	protected void update() throws BuildException
+	protected void decompile() throws BuildException
 	{
 		Collection files = reportFilesMap.keySet();
 
