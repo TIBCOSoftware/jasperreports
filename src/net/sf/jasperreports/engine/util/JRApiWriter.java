@@ -114,6 +114,8 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGenericElement;
+import net.sf.jasperreports.engine.JRGenericElementParameter;
+import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -388,8 +390,9 @@ public class JRApiWriter
 
 			for(int i = 0; i < styles.length; i++)
 			{
-				writeStyle( styles[i], styles[i].getName());
-				write( "jasperDesign.addStyle(" + styles[i].getName() + ");\n\n");
+				String styleName = JRStringUtil.getJavaIdentifier(styles[i].getName());
+				writeStyle( styles[i], styleName);
+				write( "jasperDesign.addStyle(" + styleName + ");\n\n");
 
 				if (toWriteConditionalStyles())
 				{
@@ -398,7 +401,7 @@ public class JRApiWriter
 					{
 						for (int j = 0; j < conditionalStyles.length; j++)
 						{
-							String conditionalStyleName = styles[i].getName() + "Conditional" + j;
+							String conditionalStyleName = styleName + "Conditional" + j;
 							writeConditionalStyle( conditionalStyles[j],conditionalStyleName);
 							write( styles[i].getName() + ".addConditionalStyle(" + conditionalStyleName + ");\n\n");
 						}
@@ -813,20 +816,17 @@ public class JRApiWriter
 		{
 			for(int i = 0; i < children.size(); i++)
 			{
-				//FIXME: find a way to write component and generic element
-				if(children.get(i) != null && !(children.get(i) instanceof JRComponentElement || children.get(i) instanceof JRGenericElement))
+				String childName = parentName + "_" + i;
+				apiWriterVisitor.setName(childName);
+				((JRChild) children.get(i)).visit(apiWriterVisitor);
+				if(children.get(i) instanceof JRElementGroup && !(children.get(i) instanceof JRElement))
 				{
-					apiWriterVisitor.setName(parentName + i);
-					((JRChild) children.get(i)).visit(apiWriterVisitor);
-					if(children.get(i) instanceof JRElementGroup && !(children.get(i) instanceof JRElement))
-					{
-						write( parentName +".addElementGroup(" + parentName + i + ");\n\n");
-						
-					}
-					else
-					{
-						write( parentName +".addElement(" + parentName + i + ");\n\n");
-					}
+					write( parentName +".addElementGroup(" + childName + ");\n\n");
+					
+				}
+				else
+				{
+					write( parentName +".addElement(" + childName + ");\n\n");
 				}
 			}
 		}
@@ -956,7 +956,7 @@ public class JRApiWriter
 		if(element != null)
 		{
 			write( elementName + ".setFill({0});\n", element.getOwnFillValue());
-			writePen( element.getLinePen(), elementName+".getLinePen()", JRPen.LINE_WIDTH_1);
+			writePen( element.getLinePen(), elementName+".getLinePen()");
 			flush();
 		}
 	}
@@ -1008,12 +1008,8 @@ public class JRApiWriter
 			write( imageName + ".setLazy({0});\n", image.isLazy(), false);
 			write( imageName + ".setOnErrorType({0});\n",image.getOnErrorTypeValue(),  OnErrorTypeEnum.ERROR);
 			write( imageName + ".setEvaluationTime({0});\n", image.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
+			write( imageName + ".setEvaluationGroup({0});\n", getGroupName(image.getEvaluationGroup()));
 
-			if (image.getEvaluationGroup() != null)
-			{
-				String groupName = getGroupName( image.getEvaluationGroup());
-				write( imageName + ".setEvaluationGroup(" + groupName + ");\n");
-			}
 			if(image.getLinkType() != null)
 			{
 				write( imageName + ".setLinkType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(image.getLinkType()), HyperlinkTypeEnum.NONE.getName());
@@ -1127,7 +1123,10 @@ public class JRApiWriter
 		{
 			write( styleName + ".setParentStyle({0});\n", JRStringUtil.escapeJavaStringLiteral(style.getStyle().getName()));
 		}
-		write( styleName + ".setParentStyleNameReference(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getStyleNameReference()));
+		else if (style.getStyleNameReference() != null)
+		{
+			write( styleName + ".setParentStyleNameReference(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getStyleNameReference()));
+		}
 		
 		write( styleName + ".setDefault({0});\n", style.isDefault(), false);
 		write( styleName + ".setMode({0});\n", style.getOwnModeValue());
@@ -1154,7 +1153,7 @@ public class JRApiWriter
 		write( styleName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPattern()));
 		write( styleName + ".setBlankWhenNull({0});\n", style.isOwnBlankWhenNull());
 
-		writePen( style.getLinePen(), styleName + ".getLinePen()", null);
+		writePen( style.getLinePen(), styleName + ".getLinePen()");
 		writeBox( style.getLineBox(),styleName + ".getLineBox()");
 	}
 
@@ -1187,8 +1186,7 @@ public class JRApiWriter
 			write( textFieldName + ".setBold({0});\n", textField.isOwnBold());
 			write( textFieldName + ".setStretchWithOverflow({0});\n", textField.isStretchWithOverflow(), false);
 			write( textFieldName + ".setEvaluationTime({0});\n", textField.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
-			String evaluationGroupName = getGroupName( textField.getEvaluationGroup());
-			write( textFieldName + ".setEvaluationGroup({0});\n", evaluationGroupName);
+			write( textFieldName + ".setEvaluationGroup({0});\n", getGroupName(textField.getEvaluationGroup()));
 
 			write( textFieldName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getPattern()));
 			write( textFieldName + ".setBlankWhenNull({0});\n", textField.isOwnBlankWhenNull());
@@ -1311,12 +1309,7 @@ public class JRApiWriter
 		{
 			write( chartName + ".setShowLegend({0});\n", getBooleanText(chart.getShowLegend()));
 			write( chartName + ".setEvaluationTime({0});\n", chart.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
-			
-			if (chart.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
-			{
-				String evaluationGroupName = getGroupName( chart.getEvaluationGroup());
-				write( chartName + ".setEvaluationGroup(" + evaluationGroupName + ");\n");
-			}
+			write( chartName + ".setEvaluationGroup({0});\n", getGroupName(chart.getEvaluationGroup()));
 	
 			if(chart.getLinkType() != null)
 			{
@@ -2964,7 +2957,7 @@ public class JRApiWriter
 	{
 		if(returnValue != null)
 		{
-			write( "JRDesignReturnValue " + returnValueName + " = new JRDesignReturnValue();\n");
+			write( "JRDesignSubreportReturnValue " + returnValueName + " = new JRDesignSubreportReturnValue();\n");
 			write( returnValueName + ".setSubreportVariable(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(returnValue.getSubreportVariable()));
 			write( returnValueName + ".setToVariable(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(returnValue.getToVariable()));
 			write( returnValueName + ".setCalculation({0});\n", returnValue.getCalculationValue(), CalculationEnum.NOTHING);
@@ -3631,59 +3624,48 @@ public class JRApiWriter
 	 */
 	public void writeGenericElement( JRGenericElement element, String elementName)
 	{
-//		write( "JRDesignGenericElement " + elementName + " = new JRDesignGenericElement(jasperDesign);\n");
-//		
-//		write( elementName + ".setEvaluationTime((byte)" + (element.getEvaluationTime() >0 ? element.getEvaluationTime() : JRExpression.EVALUATION_TIME_NOW) + ");\n");
-//
-//		if (element.getEvaluationGroupName() != null)
-//		{
-//			write( elementName + ".setEvaluationGroupName(\"" + JRStringUtil.escapeJavaStringLiteral(element.getEvaluationGroupName()) + "\");\n");
-//		}
-//
-//		writeReportElement( element, elementName);
-//		
-//		JRGenericElementType printKey = element.getGenericType();
-//		JRGenericElementType t = new JRGenericElementType(printKey.getNamespace(), printKey.getName());
-//
-//		write( "JRGenericElementType " + elementName + "Type = new JRGenericElementType(\"" 
-//				+ JRStringUtil.escapeJavaStringLiteral(printKey.getNamespace()) 
-//				+ "\", \"" 
-//				+ JRStringUtil.escapeJavaStringLiteral(printKey.getName()) 
-//				+ "\");\n");
-//		write( elementName + ".setGenericType(" + elementName + "Type);\n");
-//		flush();//genericElementType
-//
-//		JRGenericElementParameter[] params = element.getParameters();
-//		for (int i = 0; i < params.length; i++)
-//		{
-//			JRGenericElementParameter param = params[i];
-			//TODO: constructor protected
-//			JRBaseGenericElementParameter p = new JRBaseGenericElementParameter();
-
-//			String paramName =  elementName + "Parameter" + i;
-//			write( "JRBaseGenericElementParameter " + paramName + " = new JRBaseGenericElementParameter();\n");
-//			write( paramName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(params[i].getName()) + "\");\n");
-//			writer.addAttribute(JRApiConstants.ATTRIBUTE_skipWhenNull, 
-//					param.isSkipWhenEmpty(), false);
-//			
-//			JRExpression valueExpression = param.getValueExpression();
-//			if (valueExpression != null)
-//			{
-//				writer.writeExpression(JRApiConstants.ELEMENT_genericElementParameter_valueExpression, 
-//						valueExpression, true, Object.class.getName());
-//			}
-//			
-//			flush();//genericElementParameter
-//		}
+		write( "JRDesignGenericElement " + elementName + " = new JRDesignGenericElement(jasperDesign);\n");
 		
-//		flush();//genericElement
+		write( elementName + ".setEvaluationTime({0});\n", element.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
+		write( elementName + ".setEvaluationGroup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(element.getEvaluationGroupName()));
+
+		writeReportElement( element, elementName);
+		
+		JRGenericElementType printKey = element.getGenericType();
+//		JRGenericElementType t = new JRGenericElementType(printKey.getNamespace(), printKey.getName());
+
+		write( "JRGenericElementType " + elementName + "Type = new JRGenericElementType(\"" 
+				+ JRStringUtil.escapeJavaStringLiteral(printKey.getNamespace()) 
+				+ "\", \"" 
+				+ JRStringUtil.escapeJavaStringLiteral(printKey.getName()) 
+				+ "\");\n");
+		write( elementName + ".setGenericType(" + elementName + "Type);\n");
+		flush();//genericElementType
+
+		JRGenericElementParameter[] params = element.getParameters();
+		for (int i = 0; i < params.length; i++)
+		{
+			JRGenericElementParameter param = params[i];
+
+			String paramName =  elementName + "Parameter" + i;
+			write( "JRDesignGenericElementParameter " + paramName + " = new JRDesignGenericElementParameter();\n");
+			write( paramName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(param.getName()));
+			write( paramName + ".setSkipWhenEmpty({0});\n", param.isSkipWhenEmpty(), false);
+			writeExpression(param.getValueExpression(), paramName, "ValueExpression");
+
+			write( elementName + ".addParameter({0});\n", paramName);
+			
+			flush();//genericElementParameter
+		}
+		
+		flush();//genericElement
 	}
 
 	protected void writeStyleReferenceAttr( JRStyleContainer styleContainer, String styleName)
 	{
-		if (styleContainer.getStyle() != null)//FIXME use only styleNameReference?
+		if (styleContainer.getStyle() != null)
 		{
-			write( styleName + ".setStyle(" + JRStringUtil.escapeJavaStringLiteral(styleContainer.getStyle().getName()) + ");\n");
+			write( styleName + ".setStyle(" + JRStringUtil.getJavaIdentifier(styleContainer.getStyle().getName()) + ");\n");
 		}
 		else if (styleContainer.getStyleNameReference() != null)
 		{
@@ -3698,9 +3680,9 @@ public class JRApiWriter
 	 * @param pen
 	 * @throws IOException
 	 */
-	private void writePen( JRPen pen, String penHolder, Float defaultLineWidth)
+	private void writePen( JRPen pen, String penHolder)
 	{
-		if(pen != null && pen.getOwnLineWidth() != null && pen.getOwnLineWidth().floatValue() > 0)
+		if(pen != null)
 		{
 			write( penHolder + ".setLineWidth({0});\n", pen.getOwnLineWidth());
 			write( penHolder + ".setLineStyle({0});\n", pen.getOwnLineStyleValue());
@@ -3716,29 +3698,18 @@ public class JRApiWriter
 	{
 		if (box != null)
 		{
-			if(box.getOwnPadding() != null && box.getOwnPadding().intValue() > 0)
-			{
-				write( boxHolder + ".setPadding(new Integer({0, number, #}));\n", box.getOwnPadding(), Integer.valueOf(0));
-			}
-			else
-			{
-				write( boxHolder + ".setTopPadding(new Integer({0, number, #}));\n", box.getOwnTopPadding(), Integer.valueOf(0));
-				write( boxHolder + ".setLeftPadding(new Integer({0, number, #}));\n", box.getOwnLeftPadding(), Integer.valueOf(0));
-				write( boxHolder + ".setBottomPadding(new Integer({0, number, #}));\n", box.getOwnBottomPadding(), Integer.valueOf(0));
-				write( boxHolder + ".setRightPadding(new Integer({0, number, #}));\n", box.getOwnRightPadding(), Integer.valueOf(0));
-			}
+			write( boxHolder + ".setPadding(new Integer({0, number, #}));\n", box.getOwnPadding());
+			write( boxHolder + ".setTopPadding(new Integer({0, number, #}));\n", box.getOwnTopPadding());
+			write( boxHolder + ".setLeftPadding(new Integer({0, number, #}));\n", box.getOwnLeftPadding());
+			write( boxHolder + ".setBottomPadding(new Integer({0, number, #}));\n", box.getOwnBottomPadding());
+			write( boxHolder + ".setRightPadding(new Integer({0, number, #}));\n", box.getOwnRightPadding());
 
-			if(box.getPen() != null && box.getPen().getOwnLineWidth() != null  && box.getPen().getOwnLineWidth().floatValue() > 0)
-			{
-				writePen( box.getPen(), boxHolder + ".getPen()", JRPen.LINE_WIDTH_0);
-			}
-			else
-			{
-				writePen( box.getTopPen(), boxHolder + ".getTopPen()", JRPen.LINE_WIDTH_0);
-				writePen( box.getLeftPen(), boxHolder + ".getLeftPen()", JRPen.LINE_WIDTH_0);
-				writePen( box.getBottomPen(), boxHolder + ".getBottomPen()", JRPen.LINE_WIDTH_0);
-				writePen( box.getRightPen(), boxHolder + ".getRightPen()", JRPen.LINE_WIDTH_0);
-			}
+			writePen( box.getPen(), boxHolder + ".getPen()");
+			writePen( box.getTopPen(), boxHolder + ".getTopPen()");
+			writePen( box.getLeftPen(), boxHolder + ".getLeftPen()");
+			writePen( box.getBottomPen(), boxHolder + ".getBottomPen()");
+			writePen( box.getRightPen(), boxHolder + ".getRightPen()");
+
 			flush();
 		}
 	}
@@ -3766,7 +3737,7 @@ public class JRApiWriter
 		}
 	}
 
-	private String getGroupName( JRGroup group)
+	private String getGroupName(JRGroup group)
 	{
 		if(group != null)
 		{
