@@ -824,7 +824,7 @@ public class JRApiWriter
 					write( parentName +".addElementGroup(" + childName + ");\n\n");
 					
 				}
-				else
+				else if (!(children.get(i) instanceof JRComponentElement))//FIXME component
 				{
 					write( parentName +".addElement(" + childName + ");\n\n");
 				}
@@ -3594,20 +3594,17 @@ public class JRApiWriter
 	 */
 	public void writeComponentElement( JRComponentElement componentElement, String componentName)
 	{
-//		if(componentElement != null)
-//		{
-//			write( "JRDesignComponentElement " + componentName + " = new JRDesignComponentElement(jasperDesign);\n");
-//			writeReportElement( componentElement, componentName);
-//			
-//			ComponentKey componentKey = componentElement.getComponentKey();
-//			Component component = componentElement.getComponent();
-			//TODO: component specific API writer
-//			ComponentXmlWriter componentXmlWriter = ComponentsEnvironment.
-//				getComponentManager(componentKey).getComponentXmlWriter();
-//			componentXmlWriter.writeToXml(componentKey, component, this);
-			
-//			flush();
-//		}
+		write( "JRDesignComponentElement " + componentName + " = new JRDesignComponentElement(jasperDesign);\n");
+		writeReportElement( componentElement, componentName);
+		
+//		ComponentKey componentKey = componentElement.getComponentKey();
+//		Component component = componentElement.getComponent();
+		//TODO: component specific API writer
+//		ComponentXmlWriter componentXmlWriter = ComponentsEnvironment.
+//			getComponentManager(componentKey).getComponentXmlWriter();
+//		componentXmlWriter.writeToXml(componentKey, component, this);
+		
+		flush();
 	}
 	
 	/**
