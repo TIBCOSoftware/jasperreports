@@ -310,7 +310,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		int idx = findGroupCellIndex(groupHeaders, groupName);
 		if (idx < 0)
 		{
-			addGroupFooter(groupCell);
+			addGroupHeader(groupCell);
 		}
 		else
 		{
