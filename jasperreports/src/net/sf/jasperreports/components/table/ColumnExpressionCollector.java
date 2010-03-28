@@ -60,6 +60,8 @@ public class ColumnExpressionCollector implements ColumnVisitor<Void>
 		mainCollector.addExpression(column.getPrintWhenExpression());
 		collectCell(column.getTableHeader());
 		collectCell(column.getTableFooter());
+		collectGroupCells(column.getGroupHeaders());
+		collectGroupCells(column.getGroupFooters());
 		collectCell(column.getColumnHeader());
 		collectCell(column.getColumnFooter());
 		collectCell(column.getDetailCell());
@@ -73,6 +75,8 @@ public class ColumnExpressionCollector implements ColumnVisitor<Void>
 		mainCollector.addExpression(columnGroup.getPrintWhenExpression());
 		collectCell(columnGroup.getTableHeader());
 		collectCell(columnGroup.getTableFooter());
+		collectGroupCells(columnGroup.getGroupHeaders());
+		collectGroupCells(columnGroup.getGroupFooters());
 		collectCell(columnGroup.getColumnHeader());
 		collectCell(columnGroup.getColumnFooter());
 		collectColumns(columnGroup.getColumns());
@@ -81,6 +85,17 @@ public class ColumnExpressionCollector implements ColumnVisitor<Void>
 		return null;
 	}
 
+	protected void collectGroupCells(List<GroupCell> groupCells)
+	{
+		if (groupCells != null)
+		{
+			for (GroupCell groupCell : groupCells)
+			{
+				collectCell(groupCell.getCell());
+			}
+		}
+	}
+	
 	protected void collectCell(Cell cell)
 	{
 		if (cell == null)
