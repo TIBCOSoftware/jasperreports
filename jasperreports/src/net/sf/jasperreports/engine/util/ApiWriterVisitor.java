@@ -161,12 +161,18 @@ public class ApiWriterVisitor implements JRVisitor
 	{
 		apiWriter.writeTextField(textField, name);
 	}
-	
+
+	/**
+	 *
+	 */
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
 		apiWriter.writeComponentElement(componentElement, name);
 	}
 
+	/**
+	 *
+	 */
 	public void visitGenericElement(JRGenericElement element)
 	{
 		apiWriter.writeGenericElement(element, name);
