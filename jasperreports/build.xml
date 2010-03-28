@@ -317,6 +317,7 @@
 	<target name="clean" description="Deletes all build files.">
 		<delete dir="./build"/>
 		<delete dir="./dist"/>
+		<delete dir="./target"/>
 	</target>
 
 	<target name="javadoc" depends="compile" description="Compiles the library API documentation.">
