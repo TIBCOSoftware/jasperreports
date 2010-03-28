@@ -31,10 +31,12 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.text.MessageFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -152,7 +154,6 @@ import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
-import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
@@ -301,71 +302,22 @@ public class JRApiWriter
 		write("\n");
 		write(" */\n");
 		write("import java.awt.Color;\n");
-		write("import java.io.IOException;\n");
-		write("import java.util.HashMap;\n");
-		write("import java.util.HashSet;\n");
-		write("import java.util.Iterator;\n");
-		write("import java.util.List;\n");
-		write("import java.util.Map;\n");
-		write("import java.util.Set;\n");
-		write("import java.util.SortedSet;\n");
-		write("import java.util.TreeSet;\n");
 		write("\n");
 		write("import org.jfree.chart.plot.PlotOrientation;\n");
 		write("import org.jfree.chart.renderer.xy.XYBubbleRenderer;\n");
 		write("\n");
-		write("import net.sf.jasperreports.charts.JRCategoryAxisFormat;\n");
-		write("import net.sf.jasperreports.charts.JRChartAxis;\n");
-		write("import net.sf.jasperreports.charts.JRMeterPlot;\n");
-		write("import net.sf.jasperreports.charts.JRThermometerPlot;\n");
+		write("import net.sf.jasperreports.charts.*;\n");
 		write("import net.sf.jasperreports.charts.design.*;\n");
-		write("import net.sf.jasperreports.charts.util.JRAxisFormat;\n");
-		write("import net.sf.jasperreports.crosstabs.JRCellContents;\n");
-		write("import net.sf.jasperreports.crosstabs.JRCrosstab;\n");
-		write("import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;\n");
+		write("import net.sf.jasperreports.charts.util.*;\n");
+		write("import net.sf.jasperreports.crosstabs.*;\n");
 		write("import net.sf.jasperreports.crosstabs.design.*;\n");
 		write("import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;\n");
-		write("import net.sf.jasperreports.engine.JRAlignment;\n");
-		write("import net.sf.jasperreports.engine.JRBand;\n");
-		write("import net.sf.jasperreports.engine.JRBreak;\n");
-		write("import net.sf.jasperreports.engine.JRChart;\n");
-		write("import net.sf.jasperreports.engine.JRElement;\n");
-		write("import net.sf.jasperreports.engine.JRException;\n");
-		write("import net.sf.jasperreports.engine.JRExpression;\n");
-		write("import net.sf.jasperreports.engine.JRExpressionChunk;\n");
-		write("import net.sf.jasperreports.engine.JRGraphicElement;\n");
-		write("import net.sf.jasperreports.engine.JRGroup;\n");
-		write("import net.sf.jasperreports.engine.JRHyperlink;\n");
-		write("import net.sf.jasperreports.engine.JRHyperlinkHelper;\n");
-		write("import net.sf.jasperreports.engine.JRImage;\n");
-		write("import net.sf.jasperreports.engine.JRLine;\n");
-		write("import net.sf.jasperreports.engine.JROrigin;\n");
-		write("import net.sf.jasperreports.engine.JRPen;\n");
-		write("import net.sf.jasperreports.engine.JRPrintText;\n");
-		write("import net.sf.jasperreports.engine.JRReport;\n");
-		write("import net.sf.jasperreports.engine.JRSortField;\n");
-		write("import net.sf.jasperreports.engine.JRTextElement;\n");
-		write("import net.sf.jasperreports.engine.JRVariable;\n");
+		write("import net.sf.jasperreports.engine.*;\n");
 		write("import net.sf.jasperreports.engine.design.*;\n");
 		write("import net.sf.jasperreports.engine.type.*;\n");
 		write("import net.sf.jasperreports.engine.util.ReportCreator;\n");
-		write("\n");
-		
-		/*   */
-		String[] imports = report.getImports();
-		if (imports != null && imports.length > 0)
-		{
-			for(int i = 0; i < imports.length; i++)
-			{
-				String value = imports[i];
-				if (value != null)
-				{
-					write("import {0};\n", value);
-				}
-			}
-		}
 		write("\n\n");
-		write("public class {0} implements ReportCreator", JRStringUtil.escapeJavaStringLiteral(report.getName()));
+		write("public class {0} implements ReportCreator\n", JRStringUtil.escapeJavaStringLiteral(report.getName()));
 		write("{\n\n");
 		indent += "  ";
 		write( "public JasperDesign create() throws JRException\n");
@@ -392,12 +344,27 @@ public class JRApiWriter
 		write( "jasperDesign.setFloatColumnFooter({0});\n", report.isFloatColumnFooter(), false);
 		write( "jasperDesign.setScriptletClass(\"{0}\");\n", report.getScriptletClass());
 		write( "jasperDesign.setFormatFactoryClass(\"{0}\");\n", report.getFormatFactoryClass());
-		write( "jasperDesign.setgetResourceBundle(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getResourceBundle()));
+		write( "jasperDesign.setResourceBundle(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getResourceBundle()));
 		write( "jasperDesign.setWhenResourceMissingType({0});\n", report.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
 		write( "jasperDesign.setIgnorePagination({0});\n\n", report.isIgnorePagination(), false);
 
 		writeProperties( report, "jasperDesign");
 		write("\n");
+		
+		/*   */
+		String[] imports = report.getImports();
+		if (imports != null && imports.length > 0)
+		{
+			for(int i = 0; i < imports.length; i++)
+			{
+				String value = imports[i];
+				if (value != null)
+				{
+					write("jasperDesign.addImport(\"{0}\");\n", value);
+				}
+			}
+		}
+		
 		writeTemplates(indent);
 
 		write("\n");
@@ -738,7 +705,7 @@ public class JRApiWriter
 			write( variableName + ".setIncrementGroup({0});\n", incrementGroupName);
 			
 			write( variableName + ".setCalculation({0});\n", variable.getCalculationValue(), CalculationEnum.NOTHING);
-			write( variableName + ".setIncrementerFactoryClass(Class.forName(\"{0}\"));\n", JRStringUtil.escapeJavaStringLiteral(variable.getIncrementerFactoryClassName()));
+			write( variableName + ".setIncrementerFactoryClass({0}.class);\n", JRStringUtil.escapeJavaStringLiteral(variable.getIncrementerFactoryClassName()));
 			writeExpression( variable.getExpression(), variableName, "Expression");
 			writeExpression( variable.getInitialValueExpression(), variableName, "InitialValueExpression");
 			flush();
@@ -937,8 +904,8 @@ public class JRApiWriter
 				write( elementName + ".setPrintWhenGroupChanges(" + groupName + ");\n");
 			}
 			
-			write( elementName + ".setForecolor({0});\n", getColorText(element.getOwnForecolor()));
-			write( elementName + ".setBackcolor({0});\n", getColorText(element.getOwnBackcolor()));
+			write( elementName + ".setForecolor({0});\n", element.getOwnForecolor());
+			write( elementName + ".setBackcolor({0});\n", element.getOwnBackcolor());
 	
 			writeProperties( element, elementName + ".getPropertiesMap()");
 			writePropertyExpressions( element.getPropertyExpressions(), elementName);
@@ -1003,7 +970,7 @@ public class JRApiWriter
 		if(rectangle != null)
 		{
 			write( "JRDesignRectangle " + rectangleName + " = new JRDesignRectangle(jasperDesign);\n");
-			write( rectangleName + ".setRadius({0, number, #});\n", rectangle.getRadius());
+			write( rectangleName + ".setRadius({0});\n", rectangle.getOwnRadius());
 			writeReportElement( rectangle, rectangleName);
 			writeGraphicElement( rectangle, rectangleName);
 			flush();
@@ -1173,10 +1140,10 @@ public class JRApiWriter
 		write( styleName + ".setPdfFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPdfFontName()));
 		write( styleName + ".setPdfEncoding(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPdfEncoding()));
 		write( styleName + ".setPdfEmbedded({0});\n", style.isOwnPdfEmbedded());
-		write( styleName + ".setForecolor({0});\n", getColorText(style.getOwnForecolor()));
-		write( styleName + ".setBackcolor({0});\n", getColorText(style.getOwnBackcolor()));
+		write( styleName + ".setForecolor({0});\n", style.getOwnForecolor());
+		write( styleName + ".setBackcolor({0});\n", style.getOwnBackcolor());
 		write( styleName + ".setFill({0});\n", style.getOwnFillValue());
-		write( styleName + ".setRadius({0, number, #});\n", style.getOwnRadius());
+		write( styleName + ".setRadius({0});\n", style.getOwnRadius());
 		write( styleName + ".setScaleImage({0});\n", style.getOwnScaleImageValue());
 		write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
 		write( styleName + ".setVerticalAlignment({0});\n", style.getOwnVerticalAlignmentValue());
@@ -1186,8 +1153,9 @@ public class JRApiWriter
 		write( styleName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnMarkup()));
 		write( styleName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPattern()));
 		write( styleName + ".setBlankWhenNull({0});\n", style.isOwnBlankWhenNull());
-//		writePen( style.getLinePen(), styleName + ".getLinePen()");
-//		writeBox( style.getLineBox(),styleName + ".getLineBox()");
+
+		writePen( style.getLinePen(), styleName + ".getLinePen()", null);
+		writeBox( style.getLineBox(),styleName + ".getLineBox()");
 	}
 
 	
@@ -1371,19 +1339,19 @@ public class JRApiWriter
 			writeBox( chart.getLineBox(), chartName + ".getLineBox()");
 	
 			write( chartName + ".setTitlePosition({0});\n", chart.getTitlePositionValue());
-			write( chartName + ".setTitleColor({0});\n", getColorText(chart.getOwnTitleColor()));
+			write( chartName + ".setTitleColor({0});\n", chart.getOwnTitleColor());
 			
 			writeFont( chart.getTitleFont(), chartName + ".getTitleFont()");
 
 			writeExpression( chart.getTitleExpression(), chartName, "TitleExpression");
 	
-			write( chartName + ".setSubtitleColor({0});\n", getColorText(chart.getOwnSubtitleColor()));
+			write( chartName + ".setSubtitleColor({0});\n", chart.getOwnSubtitleColor());
 			
 			writeFont( chart.getSubtitleFont(), chartName + ".getSubtitleFont()");
 
 			writeExpression( chart.getSubtitleExpression(), chartName, "SubtitleExpression");
-			write( chartName + ".setLegendColor({0});\n", getColorText(chart.getOwnLegendColor()));
-			write( chartName + ".setLegendBackgroundColor({0});\n", getColorText(chart.getOwnLegendBackgroundColor()));
+			write( chartName + ".setLegendColor({0});\n", chart.getOwnLegendColor());
+			write( chartName + ".setLegendBackgroundColor({0});\n", chart.getOwnLegendBackgroundColor());
 			write( chartName + ".setLegendPosition({0});\n", chart.getLegendPositionValue());
 
 			writeFont( chart.getLegendFont(), chartName + ".getLegendFont()");
@@ -1496,7 +1464,7 @@ public class JRApiWriter
 			write( "JRDesignTimeSeriesDataset " + datasetName + " = (JRDesignTimeSeriesDataset)" + parentName + ".getDataset();\n");
 			if (dataset.getTimePeriod() != null && !Day.class.getName().equals(dataset.getTimePeriod().getName()))
 			{
-				write( datasetName + ".setTimePeriod(Class.forName(\"{0}\"));\n", dataset.getTimePeriod().getName());
+				write( datasetName + ".setTimePeriod({0}.class);\n", dataset.getTimePeriod().getName());
 			}
 	
 			writeElementDataset( dataset, datasetName);
@@ -1574,7 +1542,7 @@ public class JRApiWriter
 		if(pieSeries != null)
 		{
 			String pieSeriesName = parentName + "PieSeries" + index;
-			write( "JRDesignPieSeries " + pieSeriesName + " = " + parentName + ".getSeries()[" + index + "];\n");
+			write( "JRDesignPieSeries " + pieSeriesName + " = (JRDesignPieSeries)" + parentName + ".getSeries()[" + index + "];\n");
 	
 			writeExpression( pieSeries.getKeyExpression(), pieSeriesName, "KeyExpression");
 			writeExpression( pieSeries.getValueExpression(), pieSeriesName, "ValueExpression");
@@ -1594,8 +1562,8 @@ public class JRApiWriter
 		if(categorySeries != null)
 		{
 			String categorySeriesName = parentName + "CategorySeries" + index;
-			//TODO: instantiate categorySeries
-			write( "JRDesignCategorySeries " + categorySeriesName + " = " + parentName + ".getSeries()[" + index + "];\n");
+
+			write( "JRDesignCategorySeries " + categorySeriesName + " = (JRDesignCategorySeries)" + parentName + ".getSeries()[" + index + "];\n");
 
 			writeExpression( categorySeries.getSeriesExpression(), categorySeriesName, "SeriesExpression");
 			writeExpression( categorySeries.getCategoryExpression(), categorySeriesName, "CategoryExpression");
@@ -1641,9 +1609,9 @@ public class JRApiWriter
 		if(series != null)
 		{
 			String xyzSeriesName = parentName + "XyzSeries" + index;
-			//TODO: instantiate xyzSeries
+
 //			writer.startElement(JRApiConstants.ELEMENT_categorySeries);
-			write( "JRDesignXyzSeries " + xyzSeriesName + " = " + parentName + ".getSeries()[" + index + "];\n");
+			write( "JRDesignXyzSeries " + xyzSeriesName + " = (JRDesignXyzSeries)" + parentName + ".getSeries()[" + index + "];\n");
 	
 			writeExpression( series.getSeriesExpression(), xyzSeriesName, "SeriesExpression");
 			writeExpression( series.getXValueExpression(), xyzSeriesName, "XValueExpression");
@@ -1663,9 +1631,8 @@ public class JRApiWriter
 	{
 		if(xySeries != null)
 		{
-			//TODO: instantiate xySeries
 			String xySeriesName = parentName + "XySeries" + index;
-			write( "JRDesignXySeries " + xySeriesName + " = " + parentName + ".getSeries()[" + index + "];\n");
+			write( "JRDesignXySeries " + xySeriesName + " = (JRDesignXySeries)" + parentName + ".getSeries()[" + index + "];\n");
 	
 			writeExpression( xySeries.getSeriesExpression(), xySeriesName, "SeriesExpression");
 			writeExpression( xySeries.getXValueExpression(), xySeriesName, "XValueExpression");
@@ -1710,9 +1677,8 @@ public class JRApiWriter
 	{
 		if(timeSeries != null)
 		{
-			//TODO: instantiate categorySeries
 			String timeSeriesName = parentName + "TimeSeries" + index;
-			write( "JRDesignTimeSeries " + timeSeriesName + " = " + parentName + ".getSeries()[" + index + "];\n");
+			write( "JRDesignTimeSeries " + timeSeriesName + " = (JRDesignTimeSeries)" + parentName + ".getSeries()[" + index + "];\n");
 			writeExpression( timeSeries.getSeriesExpression(), timeSeriesName, "SeriesExpression");
 			writeExpression( timeSeries.getTimePeriodExpression(), timeSeriesName, "TimePeriodExpression");
 			writeExpression( timeSeries.getValueExpression(), timeSeriesName, "ValueExpression");
@@ -1731,9 +1697,8 @@ public class JRApiWriter
 	{
 		if(ganttSeries != null)
 		{
-			//TODO: instantiate ganttSeries
 			String ganttSeriesName = parentName + "GanttSeries" + index;
-			write( "JRDesignGanttSeries " + ganttSeriesName + " = " + parentName + ".getSeries()[" + index + "];\n");
+			write( "JRDesignGanttSeries " + ganttSeriesName + " = (JRDesignGanttSeries)" + parentName + ".getSeries()[" + index + "];\n");
 			
 			writeExpression( ganttSeries.getSeriesExpression(), ganttSeriesName, "SeriesExpression");
 			writeExpression( ganttSeries.getTaskExpression(), ganttSeriesName, "TaskExpression");
@@ -1755,9 +1720,8 @@ public class JRApiWriter
 	{
 		if(timePeriodSeries != null)
 		{
-			//TODO: instantiate timePeriodSeries
 			String timePeriodSeriesName = parentName + "TimePeriodSeries" + index;
-			write( "JRDesignTimePeriodSeries " + timePeriodSeriesName + " = " + parentName + ".getSeries()[" + index + "];\n");
+			write( "JRDesignTimePeriodSeries " + timePeriodSeriesName + " = (JRDesignTimePeriodSeries)" + parentName + ".getSeries()[" + index + "];\n");
 			
 			writeExpression( timePeriodSeries.getSeriesExpression(), timePeriodSeriesName, "SeriesExpression");
 			writeExpression( timePeriodSeries.getStartDateExpression(), timePeriodSeriesName, "StartDateExpression");
@@ -1781,7 +1745,7 @@ public class JRApiWriter
 			String datasetName = parentName + datasetNameSuffix;
 			write( "JRDesignPieDataset " + datasetName + " = (JRDesignPieDataset)" + parentName + ".getDataset();\n");
 			write( datasetName + ".setMaxCount(new Integer({0, number, #}));\n", dataset.getMaxCount());
-			write( datasetName + ".setMinPercentage(new Float({0, number, #}f));\n", dataset.getMinPercentage());
+			write( datasetName + ".setMinPercentage({0});\n", dataset.getMinPercentage());
 	
 			writeElementDataset( dataset, datasetName);
 	
@@ -1838,14 +1802,14 @@ public class JRApiWriter
 		if(valueDisplay != null)
 		{
 			String valueDisplayName = parentName + "ValueDisplay";
-			//TODO: instantiate value display
-			write( "JRDesignValueDataset " + valueDisplayName + " = " +parentName + ".getValueDisplay();\n");
+
+			write( "JRDesignValueDisplay " + valueDisplayName + " = (JRDesignValueDisplay)" +parentName + ".getValueDisplay();\n");
 			
-			write( valueDisplayName + ".setColor({0});\n", getColorText(valueDisplay.getColor()));
+			write( valueDisplayName + ".setColor({0});\n", valueDisplay.getColor());
 			write( valueDisplayName + ".setMask(\"{0}\");\n", valueDisplay.getMask());
 	
 			writeFont( valueDisplay.getFont(), valueDisplayName + ".getFont()");
-			write( parentName + ".setValueDisplay(" + valueDisplayName + ");\n");
+			//write( parentName + ".setValueDisplay(" + valueDisplayName + ");\n");
 			
 			flush();
 		}
@@ -1861,10 +1825,9 @@ public class JRApiWriter
 		if(itemLabel != null)
 		{
 			String itemLabelName = parentName + itemLabelSuffix;
-			//TODO: instantiate itemLabel
-			write( "JRDesignItemLabel " + itemLabelName + " = " + parentName + ".getItemLabel();\n");
-			write( itemLabelName + ".setColor({0});\n", getColorText(itemLabel.getColor()));
-			write( itemLabelName + ".setBackgroundColor({0});\n", getColorText(itemLabel.getBackgroundColor()));
+			write( "JRDesignItemLabel " + itemLabelName + " = (JRDesignItemLabel)" + parentName + ".getItemLabel();\n");
+			write( itemLabelName + ".setColor({0});\n", itemLabel.getColor());
+			write( itemLabelName + ".setBackgroundColor({0});\n", itemLabel.getBackgroundColor());
 			writeFont( itemLabel.getFont(), itemLabelName + ".getFont()");
 			write( parentName + ".set" + itemLabelSuffix + "(" + itemLabelName + ");\n");
 	
@@ -1882,8 +1845,7 @@ public class JRApiWriter
 		if(dataRange != null)
 		{
 			String dataRangeName = parentName + dataRangeSuffix;
-			//TODO: instantiate dataRange
-			write( "JRDesignDataRange " + dataRangeName + " = " + parentName + ".get" + dataRangeSuffix+ "();\n");
+			write( "JRDesignDataRange " + dataRangeName + " = (JRDesignDataRange)" + parentName + ".get" + dataRangeSuffix+ "();\n");
 			writeExpression( dataRange.getLowExpression(), dataRangeName, "LowExpression");
 			writeExpression( dataRange.getHighExpression(), dataRangeName, "HighExpression");
 			write( parentName + ".set" + dataRangeSuffix + "(" + dataRangeName + ");\n");
@@ -1903,7 +1865,7 @@ public class JRApiWriter
 		{
 			write( "JRMeterInterval " + meterIntervalName + " = new JRMeterInterval();\n");
 			write( meterIntervalName + ".setLabel(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(interval.getLabel()));
-			write( meterIntervalName + ".setBackgroundColor({0});\n", getColorText(interval.getBackgroundColor()));
+			write( meterIntervalName + ".setBackgroundColor({0});\n", interval.getBackgroundColor());
 			write( meterIntervalName + ".setAlpha(new Double({0, number, #}));\n", interval.getAlphaDouble());
 			writeDataRange( interval.getDataRange(), meterIntervalName, "DataRange");
 			write( parentName + ".addInterval(" + meterIntervalName + ");\n");
@@ -1945,11 +1907,11 @@ public class JRApiWriter
 	{
 		if(chartAxis != null)
 		{
-			//TODO:instantiate
-			write( "JRChartAxis " + axisName + " = new JRChartAxis();\n");
-			write( axisName + ".setPosition(new Byte({0}));\n", chartAxis.getPositionValue());
 			// Let the nested chart describe itself
 			writeChartTag( chartAxis.getChart(), axisName +"Chart");
+			
+			write( "JRDesignChartAxis " + axisName + " = new JRDesignChartAxis(" + axisName +"Chart);\n");
+			write( axisName + ".setPosition({0});\n", chartAxis.getPositionValue());
 			write( parentName + ".addAxis(" + axisName + ");\n");
 			
 			flush();
@@ -1964,15 +1926,15 @@ public class JRApiWriter
 	{
 		if(plot != null)
 		{
-			write( plotName + ".setBackcolor({0});\n", getColorText(plot.getBackcolor()));
+			write( plotName + ".setBackcolor({0});\n", plot.getBackcolor());
 
 			if (plot.getOrientation() != null && plot.getOrientation() != PlotOrientation.VERTICAL)
 			{
 				write( plotName + ".setOrientation(PlotOrientation.{0});\n", PlotOrientationEnum.getByValue(plot.getOrientation()).name());
 			}
 
-			write( plotName + ".setBackgroundAlpha(new Float({0, number, #}f));\n", plot.getBackgroundAlphaFloat());
-			write( plotName + ".setForegroundAlpha(new Float({0, number, #}f));\n", plot.getForegroundAlphaFloat());
+			write( plotName + ".setBackgroundAlpha({0});\n", plot.getBackgroundAlphaFloat());
+			write( plotName + ".setForegroundAlpha({0});\n", plot.getForegroundAlphaFloat());
 			writeSeriesColors( plot.getSeriesColors(), plotName);
 			flush();
 		}
@@ -2069,8 +2031,8 @@ public class JRApiWriter
 			axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
 			return;
 		String axisName = parentName + axisNameSuffix;
-		//TODO: instantiate categoryAxis
-//		write( "JRCategoryAxisFormat " + axisName + " = new JRCategoryAxisFormat();\n");
+
+		write( "JRCategoryAxisFormat " + axisName + " = " + parentName + ";\n");
 		write( axisName + ".setCategoryAxisTickLabelRotation(new Double({0, number, #}));\n", labelRotation);
 
 		writeAxisFormat(
@@ -2086,7 +2048,7 @@ public class JRApiWriter
 			axisNameSuffix,
 			false
 			);
-		write( parentName + ".set" + axisNameSuffix + "(" + axisName + ");\n");
+		//write( parentName + ".set" + axisNameSuffix + "(" + axisName + ");\n");
 		
 		flush();
 	}
@@ -2126,9 +2088,9 @@ public class JRApiWriter
 		if(isToSet)
 			write( "JRAxisFormat " + axisName + " = new JRAxisFormat();\n");
 		
-		write( axisName + ".setLabelColor({0});\n", getColorText(axisLabelColor));
-		write( axisName + ".setTickLabelColor({0});\n", getColorText(axisTickLabelColor));
-		write( axisName + ".setLineColor({0});\n", getColorText(axisLineColor));
+		write( axisName + ".setLabelColor({0});\n", axisLabelColor);
+		write( axisName + ".setTickLabelColor({0});\n", axisTickLabelColor);
+		write( axisName + ".setLineColor({0});\n", axisLineColor);
 		write( axisName + ".setTickLabelMask(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(axisTickLabelMask));
 		write( axisName + ".setVerticalTickLabel({0});\n", getBooleanText(axisVerticalTickLabels));
 		
@@ -2141,7 +2103,7 @@ public class JRApiWriter
 		{
 			writeFont( axisTickLabelFont, axisName + ".getTickLabelFont()");
 		}
-		if(isToSet)
+		if(isToSet)//FIXMEAPIWRITER check this
 			write( parentName + ".set" + axisNameSuffix + "(" + axisName + ");\n");
 
 		flush();
@@ -2800,9 +2762,9 @@ public class JRApiWriter
 				
 				write( plotName + ".setUnits(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getUnits()));
 				write( plotName + ".setTickInterval(new Double({0, number, #}));\n", plot.getTickIntervalDouble());
-				write( plotName + ".setMeterBackgroundColor({0});\n", getColorText(plot.getMeterBackgroundColor()));
-				write( plotName + ".setNeedleColor({0});\n", getColorText(plot.getNeedleColor()));
-				write( plotName + ".setTickColor({0});\n", getColorText(plot.getTickColor()));
+				write( plotName + ".setMeterBackgroundColor({0});\n", plot.getMeterBackgroundColor());
+				write( plotName + ".setNeedleColor({0});\n", plot.getNeedleColor());
+				write( plotName + ".setTickColor({0});\n", plot.getTickColor());
 				
 				writePlot( plot, plotName);
 				if (plot.getTickLabelFont() != null)
@@ -2847,8 +2809,8 @@ public class JRApiWriter
 			{
 				String plotName = chartName + "ThermometerPlot";
 				write( "JRDesignThermometerPlot " + plotName + " = (JRDesignThermometerPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setValueLocation(new Byte({0}));\n", plot.getValueLocationValue());
-				write( plotName + ".setMercuryColor({0});\n", getColorText(plot.getMercuryColor()));
+				write( plotName + ".setValueLocation({0});\n", plot.getValueLocationValue());
+				write( plotName + ".setMercuryColor({0});\n", plot.getMercuryColor());
 				writePlot( plot, plotName);
 				writeValueDisplay( plot.getValueDisplay(), plotName);
 				writeDataRange( plot.getDataRange(), plotName, "DataRange");
@@ -3297,7 +3259,7 @@ public class JRApiWriter
 		if (contents != null)
 		{
 			write( "JRDesignCellContents " + cellName + " = new JRDesignCellContents();\n");
-			write( cellName + ".setBackcolor({0});\n", getColorText(contents.getBackcolor()));
+			write( cellName + ".setBackcolor({0});\n", contents.getBackcolor());
 			write( cellName + ".setMode({0});\n", contents.getModeValue());
 			writeStyleReferenceAttr( contents, cellName);
 
@@ -3717,22 +3679,6 @@ public class JRApiWriter
 //		flush();//genericElement
 	}
 
-	public String getColorText(Color color)
-	{
-		if (color == null)
-			return null;
-		
-		return "new Color(" 
-			+ color.getRed() 
-			+ ", "
-			+ color.getGreen() 
-			+ ", "
-			+ color.getBlue() 
-			+ ", "
-			+ color.getAlpha() 
-			+ ")";
-	}
-	
 	protected void writeStyleReferenceAttr( JRStyleContainer styleContainer, String styleName)
 	{
 		if (styleContainer.getStyle() != null)//FIXME use only styleNameReference?
@@ -3756,9 +3702,9 @@ public class JRApiWriter
 	{
 		if(pen != null && pen.getOwnLineWidth() != null && pen.getOwnLineWidth().floatValue() > 0)
 		{
-			write( penHolder + ".setLineWidth(new Float({0, number, #}f));\n", pen.getOwnLineWidth(), defaultLineWidth);
-			write( penHolder + ".setLineStyle({0});\n", pen.getOwnLineStyleValue(), LineStyleEnum.SOLID);
-			write( penHolder + ".setLineColor({0});\n", getColorText(pen.getOwnLineColor()), "new Color(0, 0, 0, 255)");
+			write( penHolder + ".setLineWidth({0});\n", pen.getOwnLineWidth());
+			write( penHolder + ".setLineStyle({0});\n", pen.getOwnLineStyleValue());
+			write( penHolder + ".setLineColor({0});\n", pen.getOwnLineColor());
 			flush();
 		}
 	}
@@ -3855,10 +3801,7 @@ public class JRApiWriter
 	 */
 	protected void write(String pattern, Object value)
 	{
-		if (value != null)
-		{
-			write(MessageFormat.format(pattern, new Object[]{value}));
-		}
+		write(pattern, value, null);
 	}
 
 	
@@ -3879,10 +3822,7 @@ public class JRApiWriter
 	 */
 	protected void write(String pattern, Enum value)
 	{
-		if (value != null)
-		{
-			write(MessageFormat.format(pattern, new Object[]{value.getClass().getName() + "." + value.name()}));
-		}
+		write(pattern, value, null);
 	}
 
 	
@@ -3922,6 +3862,32 @@ public class JRApiWriter
 	/**
 	 *
 	 */
+	protected void write(String pattern, Float value)
+	{
+		write(pattern, value, null);
+	}
+
+	
+	/**
+	 *
+	 */
+	protected void write(String pattern, Float value, Float defaultValue)
+	{
+		if (value != null && value != defaultValue)
+		{
+			String strFloat = 
+				MessageFormat.format(
+					"new Float({0})", 
+					new Object[]{NumberFormat.getInstance(Locale.ENGLISH).format(value)}
+					);
+			write(MessageFormat.format(pattern, new Object[]{strFloat}));
+		}
+	}
+
+	
+	/**
+	 *
+	 */
 	protected void write(String pattern, boolean value, boolean defaultValue)
 	{
 		if (value != defaultValue)
@@ -3939,6 +3905,32 @@ public class JRApiWriter
 		if (value != defaultValue)
 		{
 			write(MessageFormat.format(pattern, new Object[]{new Byte(value)}));
+		}
+	}
+
+	
+	/**
+	 *
+	 */
+	protected void write(String pattern, Color value)
+	{
+		write(pattern, value, null);
+	}
+
+	
+	/**
+	 *
+	 */
+	protected void write(String pattern, Color value, Color defaultValue)
+	{
+		if (value != null && value != defaultValue)
+		{
+			String strColor = 
+				MessageFormat.format(
+					"new Color({0}, {1}, {2})", 
+					new Object[]{value.getRed(), value.getGreen(), value.getBlue()}
+					);
+			write(MessageFormat.format(pattern, new Object[]{strColor}));
 		}
 	}
 
