@@ -179,7 +179,10 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 
 	public void setWidth(Integer width)
 	{
+		Object old = this.width;
 		this.width = width;
+		getEventSupport().firePropertyChange(PROPERTY_WIDTH, 
+				old, this.width);
 	}
 
 	private transient JRPropertyChangeSupport eventSupport;
