@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine.export.zip;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRLoader;
+
 
 
 /**
@@ -46,6 +50,23 @@ public class FileBufferedZip extends AbstractZip
 	public ExportZipEntry createEntry(String name)
 	{
 		return new FileBufferedZipEntry(name);
+	}
+	
+	/**
+	 *
+	 */
+	public void addEntry(String name, String resource)
+	{
+		try
+		{
+			addEntry(
+				new FileBufferedZipEntry(name, JRLoader.loadBytesFromLocation(resource))
+				);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 	
 }
