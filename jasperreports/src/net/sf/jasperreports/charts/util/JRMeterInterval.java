@@ -90,7 +90,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 		dataRange = new JRBaseDataRange(meterInterval.getDataRange(), factory);
 		label = meterInterval.getLabel();
 		backgroundColor = meterInterval.getBackgroundColor();
-		alpha = meterInterval.getAlpha();
+		alphaDouble = meterInterval.getAlphaDouble();
 	}
 
 	/**
