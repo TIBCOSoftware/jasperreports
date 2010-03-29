@@ -24,8 +24,6 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
 
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZip;
@@ -50,20 +48,17 @@ public class DocxZip extends FileBufferedZip
 	 */
 	public DocxZip() throws IOException
 	{
-		exportZipEntries = new ArrayList();
-
 		documentEntry = createEntry("word/document.xml");
-		exportZipEntries.add(documentEntry);
+		addEntry(documentEntry);
 		
 		stylesEntry = createEntry("word/styles.xml");
-		exportZipEntries.add(stylesEntry);
+		addEntry(stylesEntry);
 		
 		relsEntry = createEntry("word/_rels/document.xml.rels");
-		exportZipEntries.add(relsEntry);
+		addEntry(relsEntry);
 		
-		createRelsEntry();
-
-		createContentTypesEntry();
+		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/docx/_rels/xml.rels");
+		addEntry("[Content_Types].xml", "net/sf/jasperreports/engine/export/ooxml/docx/[Content_Types].xml");
 	}
 	
 	/**
@@ -88,77 +83,6 @@ public class DocxZip extends FileBufferedZip
 	public ExportZipEntry getRelsEntry()
 	{
 		return relsEntry;
-	}
-	
-	/**
-	 * 
-	 */
-	private void createRelsEntry() throws IOException
-	{
-		ExportZipEntry relsEntry = createEntry("_rels/.rels");
-		Writer relsWriter = null;
-		try
-		{
-			relsWriter = relsEntry.getWriter();
-			relsWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-			relsWriter.write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">\n");
-			relsWriter.write(" <Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/>\n"); 
-			relsWriter.write("</Relationships>\n"); 
-			relsWriter.flush();
-			exportZipEntries.add(relsEntry);
-		}
-		finally
-		{
-			if (relsWriter != null)
-			{
-				try
-				{
-					relsWriter.close();
-				}
-				catch (IOException e)
-				{
-				}
-			}
-		}
-	}
-	
-	/**
-	 * 
-	 */
-	private void createContentTypesEntry() throws IOException
-	{
-		ExportZipEntry contentTypesEntry = createEntry("[Content_Types].xml");
-		Writer ctWriter = null;
-		try
-		{
-			ctWriter = contentTypesEntry.getWriter();
-			ctWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-			ctWriter.write("<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\">\n");
-			ctWriter.write("  <Default Extension=\"gif\" ContentType=\"image/gif\"/>\n");
-			ctWriter.write("  <Default Extension=\"jpeg\" ContentType=\"image/jpeg\"/>\n");
-			ctWriter.write("  <Default Extension=\"png\" ContentType=\"image/png\"/>\n");
-			ctWriter.write("  <Default Extension=\"tiff\" ContentType=\"image/tiff\"/>\n");
-			ctWriter.write("  <Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/>\n");
-			ctWriter.write("  <Default Extension=\"xml\" ContentType=\"application/xml\"/>\n");
-			ctWriter.write("  <Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/>\n");
-			ctWriter.write("  <Override PartName=\"/word/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml\"/>\n");
-			ctWriter.write("</Types>\n");
-			ctWriter.flush();
-			exportZipEntries.add(contentTypesEntry);
-		}
-		finally
-		{
-			if (ctWriter != null)
-			{
-				try
-				{
-					ctWriter.close();
-				}
-				catch (IOException e)
-				{
-				}
-			}
-		}
 	}
 	
 }

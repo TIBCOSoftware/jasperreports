@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export.zip;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -40,7 +41,7 @@ public abstract class AbstractZip
 	/**
 	 * 
 	 */
-	protected List exportZipEntries = null;
+	protected List exportZipEntries = new ArrayList();
 
 	/**
 	 *

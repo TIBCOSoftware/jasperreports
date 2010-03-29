@@ -24,8 +24,6 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
 
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZip;
@@ -51,21 +49,19 @@ public class XlsxZip extends FileBufferedZip
 	 */
 	public XlsxZip() throws IOException
 	{
-		exportZipEntries = new ArrayList();
-
 		workbookEntry = createEntry("xl/workbook.xml");
-		exportZipEntries.add(workbookEntry);
+		addEntry(workbookEntry);
 		
 		stylesEntry = createEntry("xl/styles.xml");
-		exportZipEntries.add(stylesEntry);
+		addEntry(stylesEntry);
 		
 		relsEntry = createEntry("xl/_rels/workbook.xml.rels");
-		exportZipEntries.add(relsEntry);
+		addEntry(relsEntry);
 
 		contentTypesEntry = createEntry("[Content_Types].xml");
-		exportZipEntries.add(contentTypesEntry);
+		addEntry(contentTypesEntry);
 		
-		createRelsEntry();
+		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/xlsx/_rels/xml.rels");
 	}
 	
 	/**
@@ -98,38 +94,6 @@ public class XlsxZip extends FileBufferedZip
 	public ExportZipEntry getContentTypesEntry()
 	{
 		return contentTypesEntry;
-	}
-	
-	/**
-	 * 
-	 */
-	private void createRelsEntry() throws IOException
-	{
-		ExportZipEntry relsEntry = createEntry("_rels/.rels");
-		Writer relsWriter = null;
-		try
-		{
-			relsWriter = relsEntry.getWriter();
-			relsWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-			relsWriter.write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">\n");
-			relsWriter.write(" <Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"xl/workbook.xml\"/>\n"); 
-			relsWriter.write("</Relationships>\n"); 
-			relsWriter.flush();
-			exportZipEntries.add(relsEntry);
-		}
-		finally
-		{
-			if (relsWriter != null)
-			{
-				try
-				{
-					relsWriter.close();
-				}
-				catch (IOException e)
-				{
-				}
-			}
-		}
 	}
 	
 	/**
