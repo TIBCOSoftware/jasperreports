@@ -146,6 +146,7 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
@@ -315,6 +316,7 @@ public class JRApiWriter
 		write("import net.sf.jasperreports.crosstabs.design.*;\n");
 		write("import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;\n");
 		write("import net.sf.jasperreports.engine.*;\n");
+		write("import net.sf.jasperreports.engine.base.JRBaseChartPlot.JRBaseSeriesColor;\n");
 		write("import net.sf.jasperreports.engine.design.*;\n");
 		write("import net.sf.jasperreports.engine.type.*;\n");
 		write("import net.sf.jasperreports.engine.util.ReportCreator;\n");
@@ -1874,20 +1876,16 @@ public class JRApiWriter
 	 */
 	private void writeSeriesColors( SortedSet seriesColors, String parentName)
 	{
-//		if (seriesColors == null || seriesColors.size() == 0)
-//			return;
-//		//TODO: instantiate series colors
-//		JRSeriesColor[] colors = (JRSeriesColor[])seriesColors.toArray(new JRSeriesColor[0]);
-//		for (int i = 0; i < colors.length; i++)
-//		{
-//			String seriesColorName = parentName + "SeriesColor" +i;
-//			write( parentName + ".setSeriesColors(new TreeSet());\n");
-//
-//			writer.addAttribute(JRApiConstants.ATTRIBUTE_seriesOrder, colors[i].getSeriesOrder());
-//			writer.addAttribute(JRApiConstants.ATTRIBUTE_color, colors[i].getColor());
-//			write( parentName + ".addSeriesColor(" + seriesColorName + ");\n");
-//			flush();
-//		}
+		if (seriesColors == null || seriesColors.size() == 0)
+			return;
+		JRSeriesColor[] colors = (JRSeriesColor[])seriesColors.toArray(new JRSeriesColor[0]);
+		for (int i = 0; i < colors.length; i++)
+		{
+			String seriesColorName = parentName + "SeriesColor" +i;
+			write( "JRBaseSeriesColor " + seriesColorName + " = new JRBaseSeriesColor(" + colors[i].getSeriesOrder() +", {0});\n", colors[i].getColor());
+			write( parentName + ".addSeriesColor(" + seriesColorName + ");\n");
+			flush();
+		}
 	}
 
 	/**
