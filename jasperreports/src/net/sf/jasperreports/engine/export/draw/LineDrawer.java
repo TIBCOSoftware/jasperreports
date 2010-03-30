@@ -68,11 +68,7 @@ public class LineDrawer extends ElementDrawer
 			
 			if (line.getWidth() == 1)
 			{
-				if (line.getHeight() == 1)
-				{
-					//Nothing to draw
-				}
-				else
+				if (line.getHeight() != 1)
 				{
 					//Vertical line
 					if (line.getLinePen().getLineStyleValue() ==LineStyleEnum.DOUBLE)

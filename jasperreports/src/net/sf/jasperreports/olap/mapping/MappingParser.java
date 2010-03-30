@@ -529,7 +529,7 @@ public MappingParser(ParserSharedInputState state) {
 	}
 	
 	public final List  memberFilter() throws RecognitionException, TokenStreamException {
-		List filter = new ArrayList();;
+		List filter = new ArrayList();
 		
 		Member member;
 		
@@ -561,7 +561,7 @@ public MappingParser(ParserSharedInputState state) {
 	}
 	
 	public final List  axisPositions() throws RecognitionException, TokenStreamException {
-		List positions = new ArrayList();;
+		List positions = new ArrayList();
 		
 		AxisPosition pos; int axis = 0;
 		

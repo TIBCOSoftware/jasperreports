@@ -575,10 +575,10 @@ public class JRDocxExporter extends JRAbstractExporter
 				}
 			}
 
-			if (emptyCellColSpan > 0)
-			{
-				//writeEmptyCell(tableHelper, null, emptyCellColSpan, emptyCellWidth, rowHeight);
-			}
+//			if (emptyCellColSpan > 0)
+//			{
+//				//writeEmptyCell(tableHelper, null, emptyCellColSpan, emptyCellWidth, rowHeight);
+//			}
 
 			tableHelper.exportRowFooter();
 		}

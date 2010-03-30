@@ -266,10 +266,10 @@ public class JRPdfExporterTagHelper
 						crosstabFrameDepth++;
 						isDataCellPrinted = false;
 					}
-					else
-					{
-						//normal frame outside crosstab
-					}
+//					else
+//					{
+//						//normal frame outside crosstab
+//					}
 				}
 			}
 			else

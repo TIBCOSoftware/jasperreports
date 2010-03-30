@@ -147,14 +147,14 @@ public class TextDrawer extends ElementDrawer
 			grx.setColor(text.getBackcolor());
 			grx.fillRect(x, y, width, height); 
 		}
-		else
-		{
-			/*
-			grx.setColor(text.getForecolor());
-			grx.setStroke(new BasicStroke(1));
-			grx.drawRect(x, y, width, height);
-			*/
-		}
+//		else
+//		{
+//			/*
+//			grx.setColor(text.getForecolor());
+//			grx.setStroke(new BasicStroke(1));
+//			grx.drawRect(x, y, width, height);
+//			*/
+//		}
 
 		if (allText.length() > 0)
 		{

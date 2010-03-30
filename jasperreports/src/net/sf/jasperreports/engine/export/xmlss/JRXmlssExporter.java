@@ -47,13 +47,9 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
-import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -458,11 +454,11 @@ public class JRXmlssExporter extends JRAbstractExporter
 						startRow = exportPage(page, xCuts, startRow, null, pageIndex == startPageIndex);
 					}
 
-					if (isRemoveEmptySpaceBetweenColumns)
-					{
-						//FIXME: to remove empty columns when isRemoveEmptySpaceBetweenColumns
-						//removeEmptyColumns(xCuts);
-					}
+//					if (isRemoveEmptySpaceBetweenColumns)
+//					{
+//						//FIXME: to remove empty columns when isRemoveEmptySpaceBetweenColumns
+//						//removeEmptyColumns(xCuts);
+//					}
 					tempBodyWriter.write("</Table>\n");
 					closeWorksheet();
 				}
@@ -579,30 +575,30 @@ public class JRXmlssExporter extends JRAbstractExporter
 
 							JRPrintElement element = gridCell.getWrapper().getElement();
 
-							if (element instanceof JRPrintLine)
-							{
-								//exportLine((JRPrintLine)element, gridCell, colIndex, rowIndex);
-							}
-							else if (element instanceof JRPrintRectangle)
-							{
-								//exportRectangle((JRPrintRectangle)element, gridCell, colIndex, rowIndex);
-							}
-							else if (element instanceof JRPrintEllipse)
-							{
-								//exportRectangle((JRPrintEllipse)element, gridCell, colIndex, rowIndex);
-							}
-							else if (element instanceof JRPrintImage)
-							{
-								//exportImage((JRPrintImage) element, gridCell, colIndex, rowIndex, emptyCols);
-							}
-							else if (element instanceof JRPrintText)
+//							if (element instanceof JRPrintLine)
+//							{
+//								//exportLine((JRPrintLine)element, gridCell, colIndex, rowIndex);
+//							}
+//							else if (element instanceof JRPrintRectangle)
+//							{
+//								//exportRectangle((JRPrintRectangle)element, gridCell, colIndex, rowIndex);
+//							}
+//							else if (element instanceof JRPrintEllipse)
+//							{
+//								//exportRectangle((JRPrintEllipse)element, gridCell, colIndex, rowIndex);
+//							}
+//							else if (element instanceof JRPrintImage)
+//							{
+//								//exportImage((JRPrintImage) element, gridCell, colIndex, rowIndex, emptyCols);
+//							}
+							if (element instanceof JRPrintText)
 							{
 								exportText(tableBuilder, (JRPrintText)element, gridCell);
 							}
-							else if (element instanceof JRPrintFrame)
-							{
-								//exportFrame(tableBuilder, (JRPrintFrame)element, gridCell);
-							}
+//							else if (element instanceof JRPrintFrame)
+//							{
+//								//exportFrame(tableBuilder, (JRPrintFrame)element, gridCell);
+//							}
 
 							colIndex += gridCell.getColSpan() - 1;
 						}
@@ -630,11 +626,11 @@ public class JRXmlssExporter extends JRAbstractExporter
 				}
 			}
 
-			if (createXCuts && isRemoveEmptySpaceBetweenColumns)
-			{
-				//FIXME: to remove empty columns when isRemoveEmptySpaceBetweenColumns
-//				removeEmptyColumns(xCuts);
-			}
+//			if (createXCuts && isRemoveEmptySpaceBetweenColumns)
+//			{
+//				//FIXME: to remove empty columns when isRemoveEmptySpaceBetweenColumns
+////				removeEmptyColumns(xCuts);
+//			}
 
 			if (progressMonitor != null)
 			{

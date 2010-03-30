@@ -514,10 +514,10 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 				}
 			}
 
-			if (emptyCellColSpan > 0)
-			{
-				//writeEmptyCell(null, emptyCellColSpan, emptyCellWidth, rowHeight);
-			}
+//			if (emptyCellColSpan > 0)
+//			{
+//				//writeEmptyCell(null, emptyCellColSpan, emptyCellWidth, rowHeight);
+//			}
 
 			tableBuilder.buildRowFooter();
 		}
