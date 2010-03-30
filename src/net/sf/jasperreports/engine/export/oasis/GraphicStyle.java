@@ -63,10 +63,10 @@ public class GraphicStyle extends Style
 			//fill = "solid";
 			backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
 		}
-		else
-		{
-			//fill = "none";
-		}
+//		else
+//		{
+//			//fill = "none";
+//		}
 
 		forecolor = JRColorUtil.getColorHexa(element.getLinePen().getLineColor());
 

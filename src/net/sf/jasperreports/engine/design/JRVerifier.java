@@ -2657,10 +2657,10 @@ public class JRVerifier
 			{
 				addBrokenRule("Chart datasets with dataset run cannont have Column or Page reset type.", dataset);
 			}
-			else if (resetType != ResetTypeEnum.REPORT)
-			{
-				//doesn't make sense, but let it go
-			}
+//			else if (resetType != ResetTypeEnum.REPORT)
+//			{
+//				//doesn't make sense, but let it go
+//			}
 
 			verifyDatasetRun(datasetRun);
 		}

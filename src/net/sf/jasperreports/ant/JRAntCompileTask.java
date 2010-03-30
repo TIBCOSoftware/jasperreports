@@ -327,11 +327,7 @@ public class JRAntCompileTask extends MatchingTask
 		{
 			Resource resource = (Resource)it.next();
 			FileResource fileResource = resource instanceof FileResource ? (FileResource)resource : null;
-			if (fileResource == null)
-			{
-				//FIXME what to do?
-			}
-			else
+			if (fileResource != null)
 			{
 				File file = fileResource.getFile();
 				if (file.isDirectory())
@@ -348,6 +344,10 @@ public class JRAntCompileTask extends MatchingTask
 					scanDir(fileResource.getBaseDir(), destdir != null ? destdir : fileResource.getBaseDir(), files);
 				}
 			}
+//			else
+//			{
+//				//FIXME what to do?
+//			}
 		}
 	}
 	

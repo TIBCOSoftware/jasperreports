@@ -147,11 +147,11 @@ public class XlsxRunHelper extends BaseHelper
 		value = attrs.get(TextAttribute.BACKGROUND);
 		oldValue = parentAttrs.get(TextAttribute.BACKGROUND);
 		
-		if (value != null && !value.equals(oldValue))
-		{
-			//FIXME: the highlight does not accept the color hexadecimal expression, but only few color names
-//			writer.write("        <w:highlight w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
-		}
+//		if (value != null && !value.equals(oldValue))
+//		{
+//			//FIXME: the highlight does not accept the color hexadecimal expression, but only few color names
+////			writer.write("        <w:highlight w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
+//		}
 
 		value = attrs.get(TextAttribute.SIZE);
 		oldValue = parentAttrs.get(TextAttribute.SIZE);

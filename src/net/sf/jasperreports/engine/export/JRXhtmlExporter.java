@@ -1079,10 +1079,10 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			String textTooltip = hyperlinkStarted ? null : text.getHyperlinkTooltip();
 			exportStyledText(styledText, textTooltip, getTextLocale(text));
 		}
-		else
-		{
-			//writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
-		}
+//		else
+//		{
+//			//writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
+//		}
 
 		endHyperlink();
 

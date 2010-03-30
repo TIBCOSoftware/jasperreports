@@ -479,17 +479,17 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 							isToPrint = false;
 						}
 					}
-					else
-					{
-						// the text field did not print on the previous page.
-						// we let it go since it is its first time anyway
-					}
+//					else
+//					{
+//						// the text field did not print on the previous page.
+//						// we let it go since it is its first time anyway
+//					}
 				}
-				else
-				{
-					// there is text left inside the stretchable text field.
-					// we simply let it go
-				}
+//				else
+//				{
+//					// there is text left inside the stretchable text field.
+//					// we simply let it go
+//				}
 
 				if (
 					isToPrint &&
