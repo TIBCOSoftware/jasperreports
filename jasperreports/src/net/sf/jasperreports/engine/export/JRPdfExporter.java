@@ -624,7 +624,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				{
 					document.close();
 				}
-				catch (Throwable e)
+				catch (Exception e)
 				{
 					// ignore, let the original exception propagate
 				}
@@ -633,7 +633,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				{
 					imageTesterDocument.close();
 				}
-				catch (Throwable e)
+				catch (Exception e)
 				{
 					// ignore, let the original exception propagate
 				}

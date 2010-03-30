@@ -36,7 +36,4 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
  */
 public interface JRXlsxExporterContext extends JRExporterContext
 {
-	
-	public XlsxSheetHelper getSheetHelper();
-	
 }
