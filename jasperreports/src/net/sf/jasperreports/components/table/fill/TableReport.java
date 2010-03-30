@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.table.fill;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -54,6 +55,8 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.design.JRDesignBand;
+import net.sf.jasperreports.engine.design.JRDesignElement;
+import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JRDesignSection;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
@@ -97,21 +100,56 @@ public class TableReport implements JRReport
 		this.columnFooter = createColumnFooter(fillColumns);
 		setGroupBands(fillColumns);
 	}
-
-	protected abstract class ReportBandContents implements ColumnVisitor<Void>
+	
+	protected class ReportBandInfo
 	{
 		final JRDesignBand band;
-		final FillColumn fillColumn;
-		int xOffset = 0;
-		int yOffset = 0;
+		final List<JRDesignElementGroup> rowGroups = new ArrayList<JRDesignElementGroup>();
 		
-		public ReportBandContents(JRDesignBand band, FillColumn fillColumn,
-				int xOffset, int yOffset)
+		ReportBandInfo(JRDesignBand band)
 		{
 			this.band = band;
+		}
+		
+		void addElement(int rowLevel, JRDesignElement element)
+		{
+			JRDesignElementGroup rowGroup = getRowElementGroup(rowLevel);
+			rowGroup.addElement(element);
+		}
+		
+		JRDesignElementGroup getRowElementGroup(int rowLevel)
+		{
+			int rowCount = rowGroups.size();
+			if (rowLevel >= rowCount)
+			{
+				for (int level = rowCount; level <= rowLevel; ++level)
+				{
+					JRDesignElementGroup group = new JRDesignElementGroup();
+					band.addElementGroup(group);
+					rowGroups.add(group);
+				}
+			}
+			
+			return rowGroups.get(rowLevel);
+		}
+	}
+
+	protected abstract class ReportBandCreator implements ColumnVisitor<Void>
+	{
+		final ReportBandInfo bandInfo;
+		final FillColumn fillColumn;
+		int xOffset;
+		int yOffset;
+		int level;
+		
+		public ReportBandCreator(ReportBandInfo bandInfo, FillColumn fillColumn,
+				int xOffset, int yOffset, int level)
+		{
+			this.bandInfo = bandInfo;
 			this.fillColumn = fillColumn;
 			this.xOffset = xOffset;
 			this.yOffset = yOffset;
+			this.level = level;
 		}
 
 		public Void visitColumn(Column column)
@@ -120,15 +158,16 @@ public class TableReport implements JRReport
 			
 			if (cell != null)
 			{
-				if (band.getHeight() < cell.getHeight() + yOffset)
+				if (bandInfo.band.getHeight() < cell.getHeight() + yOffset)
 				{
-					band.setHeight(cell.getHeight() + yOffset);
+					bandInfo.band.setHeight(cell.getHeight() + yOffset);
 				}
 
 				JRDesignFrame cellFrame = createCellFrame(cell, 
 						column.getWidth(), fillColumn.getWidth(), 
 						xOffset, yOffset);
-				band.addElement(cellFrame);
+				int rowSpan = cell.getRowSpan() == null ? 1 : cell.getRowSpan();
+				bandInfo.addElement(level + rowSpan - 1, cellFrame);
 				
 				yOffset += cell.getHeight();
 			}
@@ -144,19 +183,22 @@ public class TableReport implements JRReport
 		{
 			Cell cell = columnGroupCell(columnGroup);
 			int cellHeight = 0;
+			int sublevel = level;
 			if (cell != null)
 			{
+				int rowSpan = cell.getRowSpan() == null ? 1 : cell.getRowSpan();
 				JRDesignFrame cellFrame = createCellFrame(cell, 
 						columnGroup.getWidth(), fillColumn.getWidth(), 
 						xOffset, yOffset);
-				band.addElement(cellFrame);
+				bandInfo.addElement(level + rowSpan - 1, cellFrame);
 				cellHeight = cell.getHeight();
+				sublevel += rowSpan;
 			}
 			
 			for (FillColumn subcolumn : fillColumn.getSubcolumns())
 			{
-				ReportBandContents subVisitor = createSubVisitor(subcolumn, 
-						xOffset, yOffset + cellHeight);
+				ReportBandCreator subVisitor = createSubVisitor(subcolumn, 
+						xOffset, yOffset + cellHeight, sublevel);
 				subVisitor.visit();
 				xOffset = subVisitor.xOffset;
 			}
@@ -166,8 +208,8 @@ public class TableReport implements JRReport
 
 		protected abstract Cell columnGroupCell(ColumnGroup group);
 		
-		protected abstract ReportBandContents createSubVisitor(FillColumn subcolumn, 
-				int xOffset, int yOffset);
+		protected abstract ReportBandCreator createSubVisitor(FillColumn subcolumn, 
+				int xOffset, int yOffset, int subLevel);
 		
 		public void visit()
 		{
@@ -175,24 +217,39 @@ public class TableReport implements JRReport
 		}
 	}
 	
-	protected abstract class ReverseReportBandContents extends ReportBandContents
+	protected abstract class ReverseReportBandCreator extends ReportBandCreator
 	{
-		public ReverseReportBandContents(JRDesignBand band,
-				FillColumn fillColumn, int xOffset, int yOffset)
+		public ReverseReportBandCreator(ReportBandInfo bandInfo,
+				FillColumn fillColumn, int xOffset, int yOffset, int level)
 		{
-			super(band, fillColumn, xOffset, yOffset);
+			super(bandInfo, fillColumn, xOffset, yOffset, level);
 		}
 
 		@Override
 		public Void visitColumnGroup(ColumnGroup columnGroup)
 		{
+			Cell cell = columnGroupCell(columnGroup);
+			int rowSpan;
+			if (cell == null)
+			{
+				rowSpan = 0;
+			}
+			else if (cell.getRowSpan() == null)
+			{
+				rowSpan = 1;
+			}
+			else
+			{
+				rowSpan = cell.getRowSpan();
+			}
+			
 			int origXOffset = xOffset;
 			int origYOffset = yOffset;
 			
 			for (FillColumn subcolumn : fillColumn.getSubcolumns())
 			{
-				ReportBandContents subVisitor = createSubVisitor(subcolumn, 
-						xOffset, origYOffset);
+				ReportBandCreator subVisitor = createSubVisitor(subcolumn, 
+						xOffset, origYOffset, level + rowSpan);
 				subVisitor.visit();
 				xOffset = subVisitor.xOffset;
 				if (subVisitor.yOffset > yOffset)
@@ -201,13 +258,12 @@ public class TableReport implements JRReport
 				}
 			}
 			
-			Cell cell = columnGroupCell(columnGroup);
 			if (cell != null)
 			{
 				JRDesignFrame cellFrame = createCellFrame(cell, 
 						columnGroup.getWidth(), fillColumn.getWidth(), 
 						origXOffset, yOffset);
-				band.addElement(cellFrame);
+				bandInfo.addElement(level + rowSpan - 1, cellFrame);
 				yOffset += cell.getHeight();
 			}
 			
@@ -215,13 +271,13 @@ public class TableReport implements JRReport
 		}
 	}
 	
-	protected class DetailBandContents extends ReportBandContents
+	protected class DetailBandCreator extends ReportBandCreator
 	{
 
-		public DetailBandContents(JRDesignBand band, FillColumn fillColumn,
-				int xOffset, int yOffset)
+		public DetailBandCreator(ReportBandInfo bandInfo, FillColumn fillColumn,
+				int xOffset, int yOffset, int level)
 		{
-			super(band, fillColumn, xOffset, yOffset);
+			super(bandInfo, fillColumn, xOffset, yOffset, level);
 		}
 		
 		@Override
@@ -237,10 +293,10 @@ public class TableReport implements JRReport
 		}
 
 		@Override
-		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
-				int xOffset, int yOffset)
+		protected ReportBandCreator createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset, int sublevel)
 		{
-			return new DetailBandContents(band, subcolumn, xOffset, yOffset);
+			return new DetailBandCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel);
 		}
 	}
 	
@@ -249,11 +305,12 @@ public class TableReport implements JRReport
 		final JRDesignBand detailBand = new JRDesignBand();
 		detailBand.setSplitType(SplitTypeEnum.PREVENT);
 		
+		ReportBandInfo bandInfo = new ReportBandInfo(detailBand);
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
-			DetailBandContents subVisitor = new DetailBandContents(
-					detailBand, subcolumn, xOffset, 0);
+			DetailBandCreator subVisitor = new DetailBandCreator(
+					bandInfo, subcolumn, xOffset, 0, 0);
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
@@ -261,12 +318,12 @@ public class TableReport implements JRReport
 		return detailBand;
 	}
 	
-	protected class ColumnHeaderContents extends ReportBandContents
+	protected class ColumnHeaderCreator extends ReportBandCreator
 	{
-		public ColumnHeaderContents(JRDesignBand band, FillColumn fillColumn,
-				int xOffset, int yOffset)
+		public ColumnHeaderCreator(ReportBandInfo bandInfo, FillColumn fillColumn,
+				int xOffset, int yOffset, int level)
 		{
-			super(band, fillColumn, xOffset, yOffset);
+			super(bandInfo, fillColumn, xOffset, yOffset, level);
 		}
 
 		@Override
@@ -282,10 +339,10 @@ public class TableReport implements JRReport
 		}
 
 		@Override
-		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
-				int xOffset, int yOffset)
+		protected ReportBandCreator createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset, int sublevel)
 		{
-			return new ColumnHeaderContents(band, subcolumn, xOffset, yOffset);
+			return new ColumnHeaderCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel);
 		}
 	}
 
@@ -294,12 +351,12 @@ public class TableReport implements JRReport
 		JRDesignBand columnHeader = new JRDesignBand();
 		columnHeader.setSplitType(SplitTypeEnum.PREVENT);
 		
-		//TODO element groups
+		ReportBandInfo bandInfo = new ReportBandInfo(columnHeader);
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
-			ColumnHeaderContents subVisitor = new ColumnHeaderContents(
-					columnHeader, subcolumn, xOffset, 0);
+			ColumnHeaderCreator subVisitor = new ColumnHeaderCreator(
+					bandInfo, subcolumn, xOffset, 0, 0);
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
@@ -311,12 +368,12 @@ public class TableReport implements JRReport
 		return columnHeader;
 	}
 	
-	protected class ColumnFooterContents extends ReverseReportBandContents
+	protected class ColumnFooterCreator extends ReverseReportBandCreator
 	{
-		public ColumnFooterContents(JRDesignBand band, FillColumn fillColumn,
-				int xOffset, int yOffset)
+		public ColumnFooterCreator(ReportBandInfo bandInfo, FillColumn fillColumn,
+				int xOffset, int yOffset, int level)
 		{
-			super(band, fillColumn, xOffset, yOffset);
+			super(bandInfo, fillColumn, xOffset, yOffset, level);
 		}
 
 		@Override
@@ -332,10 +389,10 @@ public class TableReport implements JRReport
 		}
 
 		@Override
-		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
-				int xOffset, int yOffset)
+		protected ReportBandCreator createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset, int sublevel)
 		{
-			return new ColumnFooterContents(band, subcolumn, xOffset, yOffset);
+			return new ColumnFooterCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel);
 		}
 	}
 
@@ -344,12 +401,12 @@ public class TableReport implements JRReport
 		JRDesignBand columnFooter = new JRDesignBand();
 		columnFooter.setSplitType(SplitTypeEnum.PREVENT);
 		
-		//TODO element groups
+		ReportBandInfo bandInfo = new ReportBandInfo(columnFooter);
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
-			ColumnFooterContents subVisitor = new ColumnFooterContents(
-					columnFooter, subcolumn, xOffset, 0);
+			ColumnFooterCreator subVisitor = new ColumnFooterCreator(
+					bandInfo, subcolumn, xOffset, 0, 0);
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
@@ -361,12 +418,12 @@ public class TableReport implements JRReport
 		return columnFooter;
 	}
 	
-	protected class TitleContents extends ReportBandContents
+	protected class TitleCreator extends ReportBandCreator
 	{
-		public TitleContents(JRDesignBand band, FillColumn fillColumn,
-				int xOffset, int yOffset)
+		public TitleCreator(ReportBandInfo bandInfo, FillColumn fillColumn,
+				int xOffset, int yOffset, int level)
 		{
-			super(band, fillColumn, xOffset, yOffset);
+			super(bandInfo, fillColumn, xOffset, yOffset, level);
 		}
 
 		@Override
@@ -382,10 +439,10 @@ public class TableReport implements JRReport
 		}
 
 		@Override
-		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
-				int xOffset, int yOffset)
+		protected ReportBandCreator createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset, int sublevel)
 		{
-			return new TitleContents(band, subcolumn, xOffset, yOffset);
+			return new TitleCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel);
 		}
 	}
 
@@ -394,12 +451,12 @@ public class TableReport implements JRReport
 		JRDesignBand title = new JRDesignBand();
 		title.setSplitType(SplitTypeEnum.PREVENT);
 		
-		//TODO element groups
+		ReportBandInfo bandInfo = new ReportBandInfo(title);
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
-			TitleContents subVisitor = new TitleContents(
-					title, subcolumn, xOffset, 0);
+			TitleCreator subVisitor = new TitleCreator(
+					bandInfo, subcolumn, xOffset, 0, 0);
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
@@ -411,12 +468,12 @@ public class TableReport implements JRReport
 		return title;
 	}
 	
-	protected class SummaryContents extends ReverseReportBandContents
+	protected class SummaryCreator extends ReverseReportBandCreator
 	{
-		public SummaryContents(JRDesignBand band, FillColumn fillColumn,
-				int xOffset, int yOffset)
+		public SummaryCreator(ReportBandInfo bandInfo, FillColumn fillColumn,
+				int xOffset, int yOffset, int level)
 		{
-			super(band, fillColumn, xOffset, yOffset);
+			super(bandInfo, fillColumn, xOffset, yOffset, level);
 		}
 
 		@Override
@@ -432,10 +489,10 @@ public class TableReport implements JRReport
 		}
 
 		@Override
-		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
-				int xOffset, int yOffset)
+		protected ReportBandCreator createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset, int sublevel)
 		{
-			return new SummaryContents(band, subcolumn, xOffset, yOffset);
+			return new SummaryCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel);
 		}
 	}
 
@@ -444,12 +501,12 @@ public class TableReport implements JRReport
 		JRDesignBand summary = new JRDesignBand();
 		summary.setSplitType(SplitTypeEnum.PREVENT);
 		
-		//TODO element groups
+		ReportBandInfo bandInfo = new ReportBandInfo(summary);
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
-			SummaryContents subVisitor = new SummaryContents(
-					summary, subcolumn, xOffset, 0);
+			SummaryCreator subVisitor = new SummaryCreator(
+					bandInfo, subcolumn, xOffset, 0, 0);
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
@@ -461,15 +518,15 @@ public class TableReport implements JRReport
 		return summary;
 	}
 	
-	protected class GroupHeaderContents extends ReportBandContents
+	protected class GroupHeaderCreator extends ReportBandCreator
 	{
 		private final String groupName;
 		
-		public GroupHeaderContents(String groupName,
-				JRDesignBand band, FillColumn fillColumn,
-				int xOffset, int yOffset)
+		public GroupHeaderCreator(String groupName,
+				ReportBandInfo bandInfo, FillColumn fillColumn,
+				int xOffset, int yOffset, int level)
 		{
-			super(band, fillColumn, xOffset, yOffset);
+			super(bandInfo, fillColumn, xOffset, yOffset, level);
 			
 			this.groupName = groupName;
 		}
@@ -487,11 +544,11 @@ public class TableReport implements JRReport
 		}
 
 		@Override
-		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
-				int xOffset, int yOffset)
+		protected ReportBandCreator createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset, int sublevel)
 		{
-			return new GroupHeaderContents(groupName, 
-					band, subcolumn, xOffset, yOffset);
+			return new GroupHeaderCreator(groupName, 
+					bandInfo, subcolumn, xOffset, yOffset, sublevel);
 		}
 	}
 
@@ -500,12 +557,12 @@ public class TableReport implements JRReport
 		JRDesignBand header = new JRDesignBand();
 		header.setSplitType(SplitTypeEnum.PREVENT);
 		
-		//TODO element groups
+		ReportBandInfo bandInfo = new ReportBandInfo(header);
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
-			GroupHeaderContents subVisitor = new GroupHeaderContents(groupName,
-					header, subcolumn, xOffset, 0);
+			GroupHeaderCreator subVisitor = new GroupHeaderCreator(groupName,
+					bandInfo, subcolumn, xOffset, 0, 0);
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
@@ -517,15 +574,15 @@ public class TableReport implements JRReport
 		return header;
 	}
 	
-	protected class GroupFooterContents extends ReverseReportBandContents
+	protected class GroupFooterCreator extends ReverseReportBandCreator
 	{
 		private final String groupName;
 		
-		public GroupFooterContents(String groupName,
-				JRDesignBand band, FillColumn fillColumn,
-				int xOffset, int yOffset)
+		public GroupFooterCreator(String groupName,
+				ReportBandInfo bandInfo, FillColumn fillColumn,
+				int xOffset, int yOffset, int level)
 		{
-			super(band, fillColumn, xOffset, yOffset);
+			super(bandInfo, fillColumn, xOffset, yOffset, level);
 			
 			this.groupName = groupName;
 		}
@@ -543,11 +600,11 @@ public class TableReport implements JRReport
 		}
 
 		@Override
-		protected ReportBandContents createSubVisitor(FillColumn subcolumn,
-				int xOffset, int yOffset)
+		protected ReportBandCreator createSubVisitor(FillColumn subcolumn,
+				int xOffset, int yOffset, int sublevel)
 		{
-			return new GroupFooterContents(groupName, 
-					band, subcolumn, xOffset, yOffset);
+			return new GroupFooterCreator(groupName, 
+					bandInfo, subcolumn, xOffset, yOffset, sublevel);
 		}
 	}
 
@@ -556,12 +613,12 @@ public class TableReport implements JRReport
 		JRDesignBand footer = new JRDesignBand();
 		footer.setSplitType(SplitTypeEnum.PREVENT);
 		
-		//TODO element groups
+		ReportBandInfo bandInfo = new ReportBandInfo(footer);
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
-			GroupFooterContents subVisitor = new GroupFooterContents(groupName,
-					footer, subcolumn, xOffset, 0);
+			GroupFooterCreator subVisitor = new GroupFooterCreator(groupName,
+					bandInfo, subcolumn, xOffset, 0, 0);
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
