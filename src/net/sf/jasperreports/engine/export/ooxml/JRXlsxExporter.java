@@ -142,18 +142,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
-		XlsxSheetHelper sheetHelper = null;
-		
-		public ExporterContext(XlsxSheetHelper sheetHelper)
-		{
-			this.sheetHelper = sheetHelper;
-		}
-		
-		public XlsxSheetHelper getSheetHelper()
-		{
-			return sheetHelper;
-		}
-
 		public String getExportPropertiesPrefix()
 		{
 			return XLSX_EXPORTER_PROPERTIES_PREFIX;
@@ -1179,7 +1167,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		if (handler != null)
 		{
-			JRXlsxExporterContext exporterContext = new ExporterContext(sheetHelper);
+			JRXlsxExporterContext exporterContext = new ExporterContext();
 
 			handler.exportElement(exporterContext, element, gridCell, colIndex, rowIndex);
 		}

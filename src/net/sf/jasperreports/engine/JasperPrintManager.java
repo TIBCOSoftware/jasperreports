@@ -409,7 +409,7 @@ public class JasperPrintManager
 			Class.forName("sun.print.UnixPrintServiceLookup");
 			found = true;
 		}
-		catch (Throwable e)
+		catch (ClassNotFoundException e)
 		{
 			found = false;
 		}
