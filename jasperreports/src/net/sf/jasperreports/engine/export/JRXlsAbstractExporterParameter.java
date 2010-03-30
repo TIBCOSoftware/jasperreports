@@ -176,7 +176,7 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * 
 	 * @see JRProperties
 	 */
-	public static final String PROPERTY_SHEET_NAMES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.names.";;
+	public static final String PROPERTY_SHEET_NAMES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.names.";
 
 
 	/**

@@ -122,7 +122,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected List imagesToProcess = null;
 //	protected Map hyperlinksMap = null;
 
-	protected int reportIndex = 0;
 	protected int pageIndex = 0;
 	protected int tableIndex = 0;
 	protected boolean startPage;
@@ -132,8 +131,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	 *
 	 */
 	protected boolean isWrapBreakWord = false;
-
-	protected Map fontMap = null;
 
 	protected LinkedList backcolorStack;
 	protected Color backcolor;

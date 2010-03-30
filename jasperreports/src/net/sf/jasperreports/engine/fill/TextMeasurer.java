@@ -676,7 +676,7 @@ public class TextMeasurer implements JRTextMeasurer
 							attributes.getIndex() + stringOffset,
 							attributes.getRunLimit(attribute) + stringOffset);
 				}
-			};
+			}
 		}
 	}
 	
