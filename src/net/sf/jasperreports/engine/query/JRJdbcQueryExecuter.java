@@ -545,7 +545,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		}
 		
 		return ResultSet.CONCUR_READ_ONLY;
-	};
+	}
 	
 	protected static int getHoldability(String holdability, Connection connection) throws SQLException
 	{
@@ -559,6 +559,6 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		}
 		
 		return connection.getHoldability();
-	};
+	}
 	
 }
