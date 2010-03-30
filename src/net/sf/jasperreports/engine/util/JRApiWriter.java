@@ -146,6 +146,7 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
@@ -198,7 +199,7 @@ public class JRApiWriter
 	
 	private Writer writer;
 	
-	private ApiWriterVisitor apiWriterVisitor = new ApiWriterVisitor(this);
+	private JRApiWriterVisitor apiWriterVisitor = new JRApiWriterVisitor(this);
 
 	//TODO: remove this one below
 	JasperDesign jasperDesign = null;
@@ -3995,4 +3996,149 @@ public class JRApiWriter
 	}
 
 	
+}
+
+
+class JRApiWriterVisitor implements JRVisitor
+{
+	
+	private JRApiWriter apiWriter;
+	private String name;
+	
+	/**
+	 *
+	 */
+	public JRApiWriterVisitor(JRApiWriter apiWriter)
+	{
+		this.apiWriter = apiWriter;
+	}
+
+	/**
+	 *
+	 */
+	public void visitBreak(JRBreak breakElement)
+	{
+		apiWriter.writeBreak(breakElement, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitChart(JRChart chart)
+	{
+		apiWriter.writeChartTag(chart, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitCrosstab(JRCrosstab crosstab)
+	{
+		apiWriter.writeCrosstab(crosstab, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitElementGroup(JRElementGroup elementGroup)
+	{
+		apiWriter.writeElementGroup(elementGroup, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitEllipse(JREllipse ellipse)
+	{
+		apiWriter.writeEllipse(ellipse, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitFrame(JRFrame frame)
+	{
+		apiWriter.writeFrame(frame, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitImage(JRImage image)
+	{
+		apiWriter.writeImage(image, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitLine(JRLine line)
+	{
+		apiWriter.writeLine(line, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitRectangle(JRRectangle rectangle)
+	{
+		apiWriter.writeRectangle(rectangle, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitStaticText(JRStaticText staticText)
+	{
+		apiWriter.writeStaticText(staticText, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitSubreport(JRSubreport subreport)
+	{
+		apiWriter.writeSubreport(subreport, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitTextField(JRTextField textField)
+	{
+		apiWriter.writeTextField(textField, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitComponentElement(JRComponentElement componentElement)
+	{
+		apiWriter.writeComponentElement(componentElement, name);
+	}
+
+	/**
+	 *
+	 */
+	public void visitGenericElement(JRGenericElement element)
+	{
+		apiWriter.writeGenericElement(element, name);
+	}
+
+	/**
+     * @return the name
+     */
+    public String getName()
+    {
+    	return name;
+    }
+
+	/**
+     * @param name the name to set
+     */
+    public void setName(String name)
+    {
+    	this.name = name;
+    }
+
 }
