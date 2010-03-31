@@ -37,7 +37,7 @@ public class JRIntegerIncrementerFactory extends JRAbstractExtendedIncrementerFa
 	/**
 	 *
 	 */
-	protected static final Integer ZERO = new Integer(0);
+	protected static final Integer ZERO = Integer.valueOf(0);
 
 
 	/**
@@ -181,7 +181,7 @@ class JRIntegerCountIncrementer extends JRAbstractExtendedIncrementer
 			return value;
 		}
 
-		return new Integer(value.intValue() + 1);
+		return Integer.valueOf(value.intValue() + 1);
 	}
 
 	
@@ -200,7 +200,7 @@ class JRIntegerCountIncrementer extends JRAbstractExtendedIncrementer
 			return value;
 		}
 
-		return new Integer(value.intValue() + combineValue.intValue());
+		return Integer.valueOf(value.intValue() + combineValue.intValue());
 	}
 
 	
@@ -253,7 +253,7 @@ class JRIntegerDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 			holder.init();
 		}
 
-		return new Integer((int)holder.getCount());
+		return Integer.valueOf((int)holder.getCount());
 	}
 
 	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
@@ -261,7 +261,7 @@ class JRIntegerDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 		DistinctCountHolder holder = 
 			(DistinctCountHolder)valueProvider.getValue(calculable.getHelperVariable(JRCalculable.HELPER_COUNT));
 		
-		return new Integer((int)holder.getCount());
+		return Integer.valueOf((int)holder.getCount());
 	}
 	
 	public Object initialValue()
@@ -323,7 +323,7 @@ class JRIntegerSumIncrementer extends JRAbstractExtendedIncrementer
 			value = JRIntegerIncrementerFactory.ZERO;
 		}
 
-		return new Integer(value.intValue() + newValue.intValue());
+		return Integer.valueOf(value.intValue() + newValue.intValue());
 	}
 
 	
@@ -378,7 +378,7 @@ class JRIntegerAverageIncrementer extends JRAbstractExtendedIncrementer
 		}
 		Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
 		Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
-		return new Integer(sumValue.intValue() / countValue.intValue());
+		return Integer.valueOf(sumValue.intValue() / countValue.intValue());
 	}
 
 	
@@ -432,7 +432,7 @@ class JRIntegerStandardDeviationIncrementer extends JRAbstractExtendedIncremente
 			return variable.getValue(); 
 		}
 		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_VARIANCE));
-		return new Integer( (int)Math.sqrt(varianceValue.doubleValue()) );
+		return Integer.valueOf( (int)Math.sqrt(varianceValue.doubleValue()) );
 	}
 
 	
@@ -497,7 +497,7 @@ class JRIntegerVarianceIncrementer extends JRAbstractExtendedIncrementer
 			Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
 			Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
 			return
-				new Integer(
+				Integer.valueOf(
 					(countValue.intValue() - 1) * value.intValue() / countValue.intValue() +
 					( sumValue.intValue() / countValue.intValue() - newValue.intValue() ) *
 					( sumValue.intValue() / countValue.intValue() - newValue.intValue() ) /
@@ -521,7 +521,7 @@ class JRIntegerVarianceIncrementer extends JRAbstractExtendedIncrementer
 		}
 		else if (value == null || calculable.isInitialized())
 		{
-			return new Integer(((Number) calculableValue.getIncrementedValue()).intValue());
+			return Integer.valueOf(((Number) calculableValue.getIncrementedValue()).intValue());
 		}
 
 		double v1 = value.doubleValue();
@@ -537,7 +537,7 @@ class JRIntegerVarianceIncrementer extends JRAbstractExtendedIncrementer
 		
 		double c = c1 + c2;
 
-		return new Integer(
+		return Integer.valueOf(
 				(int) (
 				c1 / c * v1 +
 				c2 / c * v2 +

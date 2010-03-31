@@ -506,9 +506,9 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				statement.cancel();
 				return true;
 			}
-			catch (Throwable t)
+			catch (Exception e)
 			{
-				throw new JRException("Error cancelling SQL statement", t);
+				throw new JRException("Error cancelling SQL statement", e);
 			}
 		}
 		
