@@ -169,6 +169,8 @@ import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
 
@@ -180,6 +182,7 @@ import org.jfree.data.time.Day;
  */
 public class JRApiWriter
 {
+	private static final Log log = LogFactory.getLog(JRApiWriter.class);
 
 	/**
 	 *
@@ -3991,7 +3994,10 @@ public class JRApiWriter
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			if (log.isErrorEnabled())
+			{
+				log.error("Error running report creator class : " + reportCreatorClassName, e);
+			}
 		}
 	}
 
