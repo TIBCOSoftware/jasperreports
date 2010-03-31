@@ -57,7 +57,7 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
- * @author Michael Günther (m.guenther at users.sourceforge.net)
+ * @author Michael Gï¿½nther (m.guenther at users.sourceforge.net)
  * @version $Id$
  */
 public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
@@ -261,8 +261,9 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		nPara = envelope.createName(listName, "", XMLA_URI);
 		SOAPElement eList = eType.addChildElement(nPara);
 		if (params == null)
+		{
 			return;
-
+		}
 		Iterator it = params.keySet().iterator();
 		while (it.hasNext())
 		{
@@ -603,13 +604,21 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 				SOAPElement valueElement = (SOAPElement) valueElements.next();
 				String valueType = valueElement.getAttribute("xsi:type");
 				if (valueType.equals("xsd:int"))
+				{
 					value = new Long(valueElement.getValue());
+				}
 				else if (valueType.equals("xsd:double"))
+				{
 					value = new Double(valueElement.getValue());
+				}
 				else if (valueType.equals("xsd:decimal"))
+				{
 					value = new Double(valueElement.getValue());
+				}
 				else
+				{
 					value = valueElement.getValue();
+				}
 			}
 
 			String fmtValue = "";
@@ -698,13 +707,15 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			String uName = "";
 			Iterator uNameElements = memElement.getChildElements(sf.createName("UName", "", MDD_URI));
 			if (uNameElements.hasNext())
+			{
 				uName = ((SOAPElement) uNameElements.next()).getValue();
-			
+			}
 			String caption = "";
 			Iterator captionElements = memElement.getChildElements(sf.createName("Caption", "", MDD_URI));
 			if (captionElements.hasNext())
+			{
 				caption = ((SOAPElement) captionElements.next()).getValue();
-			
+			}
 			String lName = "";
 			Iterator lNameElements = memElement.getChildElements(sf.createName("LName", "", MDD_URI));
 			if (lNameElements.hasNext())
@@ -720,8 +731,9 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			int lNum = 0;
 			Iterator lNumElements = memElement.getChildElements(sf.createName("LNum", "", MDD_URI));
 			if (lNumElements.hasNext())
+			{
 				lNum = Integer.parseInt(((SOAPElement) lNumElements.next()).getValue());
-
+			}
 			JRXmlaMember member = new JRXmlaMember(caption, uName, hierName, lName, lNum);
 			tuple.setMember(memNum++, member);
 		}

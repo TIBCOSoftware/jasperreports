@@ -1220,8 +1220,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 				int fontSize = font.getFontSize();
 				if (isFontSizeFixEnabled)
+				{
 					fontSize -= 1;
-
+				}
 				String fontName = font.getFontName();
 				if (fontMap != null && fontMap.containsKey(fontName))
 				{
@@ -1262,8 +1263,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			{
 				int fontSize = font.getFontSize();
 				if (isFontSizeFixEnabled)
+				{
 					fontSize -= 1;
-
+				}
 				String fontName = font.getFontName();
 				if (fontMap != null && fontMap.containsKey(fontName))
 				{
@@ -1317,11 +1319,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			JRLineBox lineBox = gridCell.getBox();
 			if (lineBox != null)
+			{
 				setBox(lineBox);
+			}
 			JRPrintElement element = gridCell.getElement();
 			if (element instanceof JRCommonGraphicElement)
+			{
 				setPen(((JRCommonGraphicElement)element).getLinePen());
-
+			}
 			hash = computeHash();
 		}
 
@@ -1659,15 +1664,21 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		PaperSize ps;
 
 		if (jasperPrint.getOrientationValue() == OrientationEnum.PORTRAIT)
+		{
 			po = PageOrientation.PORTRAIT;
+		}
 		else
+		{
 			po = PageOrientation.LANDSCAPE;
-
+		}
 		if ((ps = getSuitablePaperSize(jasperPrint)) != null)
+		{
 			sheet.setPageSetup(po, ps, 0, 0);
+		}
 		else
+		{
 			sheet.setPageSetup(po);
-
+		}
 		SheetSettings sheets = sheet.getSettings();
 
 		sheets.setTopMargin(0.0);
@@ -1689,8 +1700,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 
 		if (jasP == null)
+		{
 			return null;
-
+		}
 		long width = 0;
 		long height = 0;
 		PaperSize ps = null;
@@ -1714,11 +1726,17 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				if (((w == width) && (h == height)) || ((h == width) && (w == height)))
 				{
 					if (i == 3)
+					{
 						ps = PaperSize.A3;
+					}
 					else if (i == 4)
+					{
 						ps = PaperSize.A4;
+					}
 					else if (i == 5)
+					{
 						ps = PaperSize.A5;
+					}
 					break;
 				}
 			}

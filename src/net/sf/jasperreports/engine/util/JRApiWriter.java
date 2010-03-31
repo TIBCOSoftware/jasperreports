@@ -426,7 +426,9 @@ public class JRApiWriter
 			{
 				writeDataset( datasets[i], "reportDataset" + i);
 				if(datasets[i] != null)
+				{
 					write( "jasperDesign.addDataset(reportDataset" + i + ");\n");
+				}
 			}
 			write("\n");
 			flush();
@@ -1881,7 +1883,9 @@ public class JRApiWriter
 	private void writeSeriesColors( SortedSet seriesColors, String parentName)
 	{
 		if (seriesColors == null || seriesColors.size() == 0)
+		{
 			return;
+		}
 		JRSeriesColor[] colors = (JRSeriesColor[])seriesColors.toArray(new JRSeriesColor[0]);
 		for (int i = 0; i < colors.length; i++)
 		{
@@ -2026,7 +2030,9 @@ public class JRApiWriter
 	{
 		if (axisLabelFont == null && axisLabelColor == null &&
 			axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
+		{
 			return;
+		}
 		String axisName = parentName + axisNameSuffix;
 
 		write( "JRCategoryAxisFormat " + axisName + " = " + parentName + ";\n");
@@ -2080,11 +2086,14 @@ public class JRApiWriter
 	{
 		if (axisLabelFont == null && axisLabelColor == null &&
 				axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
-				return;
+		{
+			return;
+		}
 		String axisName = parentName + axisNameSuffix;
 		if(isToSet)
+		{
 			write( "JRAxisFormat " + axisName + " = new JRAxisFormat();\n");
-		
+		}
 		write( axisName + ".setLabelColor({0});\n", axisLabelColor);
 		write( axisName + ".setTickLabelColor({0});\n", axisTickLabelColor);
 		write( axisName + ".setLineColor({0});\n", axisLineColor);
@@ -2101,7 +2110,9 @@ public class JRApiWriter
 			writeFont( axisTickLabelFont, axisName + ".getTickLabelFont()");
 		}
 		if(isToSet)//FIXMEAPIWRITER check this
+		{
 			write( parentName + ".set" + axisNameSuffix + "(" + axisName + ");\n");
+		}
 
 		flush();
 	}

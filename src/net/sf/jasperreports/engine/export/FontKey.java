@@ -61,14 +61,29 @@ public class FontKey
 
 	public boolean equals(Object o)
 	{
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) 
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) 
+		{	
+			return false;
+		}
 
 		final FontKey key = (FontKey) o;
 
-		if (isBold != key.isBold) return false;
-		if (isItalic != key.isItalic) return false;
-		if (fontName != null ? !fontName.equals(key.fontName) : key.fontName != null) return false;
+		if (isBold != key.isBold) 
+		{
+			return false;
+		}
+		if (isItalic != key.isItalic) 
+		{	
+			return false;
+		}
+		if (fontName != null ? !fontName.equals(key.fontName) : key.fontName != null) 
+		{
+			return false;
+		}
 
 		return true;
 	}
