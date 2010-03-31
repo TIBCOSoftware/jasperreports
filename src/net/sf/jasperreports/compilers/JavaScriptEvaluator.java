@@ -170,21 +170,30 @@ public class JavaScriptEvaluator extends JREvaluator
 					break;
 				case JRExpressionChunk.TYPE_PARAMETER:
 					String paramName = getParameterVar(chunk.getText());
-					defaultExpr.append(paramName + ".getValue()");
-					oldExpr.append(paramName + ".getValue()");
-					estimatedExpr.append(paramName + ".getValue()");
+					defaultExpr.append(paramName);
+					defaultExpr.append(".getValue()");
+					oldExpr.append(paramName);
+					oldExpr.append(".getValue()");
+					estimatedExpr.append(paramName);
+					estimatedExpr.append(".getValue()");
 					break;
 				case JRExpressionChunk.TYPE_VARIABLE:
 					String varName = getVariableVar(chunk.getText());
-					defaultExpr.append(varName + ".getValue()");
-					oldExpr.append(varName + ".getOldValue()");
-					estimatedExpr.append(varName + ".getEstimatedValue()");
+					defaultExpr.append(varName);
+					defaultExpr.append(".getValue()");
+					oldExpr.append(varName);
+					oldExpr.append(".getOldValue()");
+					estimatedExpr.append(varName);
+					estimatedExpr.append(".getEstimatedValue()");
 					break;
 				case JRExpressionChunk.TYPE_FIELD:
 					String fieldName = getFieldVar(chunk.getText());
-					defaultExpr.append(fieldName + ".getValue()");
-					oldExpr.append(fieldName + ".getOldValue()");
-					estimatedExpr.append(fieldName + ".getValue()");
+					defaultExpr.append(fieldName);
+					defaultExpr.append(".getValue()");
+					oldExpr.append(fieldName);
+					oldExpr.append(".getOldValue()");
+					estimatedExpr.append(fieldName);
+					estimatedExpr.append(".getValue()");
 					break;
 				}
 			}
