@@ -2094,14 +2094,8 @@ public class SimpleChartTheme implements ChartTheme
 		if(colors != null)
 		{
 			int size = colorSequence != null ? colorSequence.length : 0;
-			for (int i = 0; i < size; i++)
-			{
-				colors[i] = colorSequence[i];
-			}
-			for (int i = size; i < colors.length; i++)
-			{
-				colors[i] = DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE[i - size];
-			}
+			System.arraycopy(colorSequence, 0, colors, 0, colorSequence.length);
+			System.arraycopy(DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE, 0, colors, size, DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length);
 		}
 	}
 
