@@ -188,7 +188,9 @@ public abstract class JREvaluator
 			{
 				throw e;
 			}
-			catch (Throwable e)
+			// we have to catch Throwable because there is no way we could modify the signature
+			// of the evaluate method, without breaking backward compatibility of compiled report templates 
+			catch (Throwable e) //NOPMD
 			{
 				throw new JRExpressionEvalException(expression, e);
 			}
@@ -218,7 +220,9 @@ public abstract class JREvaluator
 			{
 				throw e;
 			}
-			catch (Throwable e)
+			// we have to catch Throwable because there is no way we could modify the signature
+			// of the evaluate method, without breaking backward compatibility of compiled report templates 
+			catch (Throwable e) //NOPMD
 			{
 				throw new JRExpressionEvalException(expression, e);
 			}
@@ -248,7 +252,9 @@ public abstract class JREvaluator
 			{
 				throw e;
 			}
-			catch (Throwable e)
+			// we have to catch Throwable because there is no way we could modify the signature
+			// of the evaluate method, without breaking backward compatibility of compiled report templates 
+			catch (Throwable e) //NOPMD
 			{
 				throw new JRExpressionEvalException(expression, e);
 			}
