@@ -434,11 +434,7 @@ public class DefaultChartTheme implements ChartTheme
 				// colors.  To replace the defaults you have to specify at least two colors.
 				Paint[] colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + 1];
 				colors[0] = ((JRSeriesColor)seriesColors.first()).getColor();
-				for (int i = 0; i < DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length; i++)
-				{
-					colors[i + 1] = DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE[i];
-				}
-
+				System.arraycopy(DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE, 0, colors, 1, DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length);
 				plot.setDrawingSupplier(new DefaultDrawingSupplier(colors,
 						DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
 						DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
@@ -452,10 +448,7 @@ public class DefaultChartTheme implements ChartTheme
 				Color[] colors = new Color[seriesColors.size()];
 				JRSeriesColor[] colorSequence = new JRSeriesColor[seriesColors.size()];
 				seriesColors.toArray(colorSequence);
-				for (int i = 0; i < colorSequence.length; i++)
-				{
-					colors[i] = colorSequence[i].getColor();
-				}
+				System.arraycopy(colorSequence, 0, colors, 0, colorSequence.length);
 
 				plot.setDrawingSupplier(new DefaultDrawingSupplier(colors,
 											DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
