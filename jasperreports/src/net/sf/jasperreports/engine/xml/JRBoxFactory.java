@@ -62,8 +62,9 @@ public class JRBoxFactory extends JRBaseFactory
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'border' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			JRPenUtil.setLinePenFromPen(border, box.getPen());
 		}
 
@@ -71,8 +72,9 @@ public class JRBoxFactory extends JRBaseFactory
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'borderColor' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			box.getPen().setLineColor(borderColor);
 		}
 
@@ -86,8 +88,9 @@ public class JRBoxFactory extends JRBaseFactory
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'topBorder' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			JRPenUtil.setLinePenFromPen(border, box.getTopPen());
 		}
 
@@ -95,8 +98,9 @@ public class JRBoxFactory extends JRBaseFactory
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'topBorderColor' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			box.getTopPen().setLineColor(borderColor);
 		}
 
@@ -110,8 +114,9 @@ public class JRBoxFactory extends JRBaseFactory
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'leftBorder' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			JRPenUtil.setLinePenFromPen(border, box.getLeftPen());
 		}
 
@@ -119,8 +124,9 @@ public class JRBoxFactory extends JRBaseFactory
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'leftBorderColor' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			box.getLeftPen().setLineColor(borderColor);
 		}
 
@@ -134,8 +140,9 @@ public class JRBoxFactory extends JRBaseFactory
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'bottomBorder' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			JRPenUtil.setLinePenFromPen(border, box.getBottomPen());
 		}
 
@@ -143,8 +150,9 @@ public class JRBoxFactory extends JRBaseFactory
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'bottomBorderColor' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			box.getBottomPen().setLineColor(borderColor);
 		}
 
@@ -158,8 +166,9 @@ public class JRBoxFactory extends JRBaseFactory
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'rightBorder' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			JRPenUtil.setLinePenFromPen(border, box.getRightPen());
 		}
 
@@ -167,8 +176,9 @@ public class JRBoxFactory extends JRBaseFactory
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'rightBorderColor' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			box.getRightPen().setLineColor(borderColor);
 		}
 

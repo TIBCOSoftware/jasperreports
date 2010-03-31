@@ -249,9 +249,13 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public void moveFirst() throws JRException {
 		if (document == null)
+		{
 			throw new JRException("document cannot be null");
+		}
 		if (selectExpression == null)
+		{
 			throw new JRException("selectExpression cannot be null");
+		}
 
 		currentNode = null;
 		currentNodeIndex = -1;
@@ -266,10 +270,12 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * 
 	 * @see net.sf.jasperreports.engine.JRDataSource#next()
 	 */
-	public boolean next() {
+	public boolean next() 
+	{
 		if(currentNodeIndex == nodeListLength - 1)
+		{
 			return false;
-
+		}
 		currentNode = nodeList.item(++ currentNodeIndex);
 		return true;
 	}
@@ -279,31 +285,44 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * 
 	 * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
 	 */
-	public Object getFieldValue(JRField jrField) throws JRException {
+	public Object getFieldValue(JRField jrField) throws JRException 
+	{
 		if(currentNode == null)
+		{
 			return null;
-		
+		}
 		String expression = jrField.getDescription();
 		if (expression == null || expression.length() == 0)
+		{
 			return null;
-
+		}
 		Object value = null;
 		
 		Class valueClass = jrField.getValueClass();
 		Object selectedObject = xPathExecuter.selectObject(currentNode, expression);
 
-		if(Object.class != valueClass) {
-			if (selectedObject != null) {
-				if (selectedObject instanceof Node) {
+		if(Object.class != valueClass) 
+		{
+			if (selectedObject != null) 
+			{
+				if (selectedObject instanceof Node) 
+				{
 					String text = getText((Node) selectedObject);
-					if (text != null) {
+					if (text != null) 
+					{
 						value = convertStringValue(text, valueClass);
 					}
-				} else if (selectedObject instanceof Boolean && valueClass.equals(Boolean.class)) {
+				} 
+				else if (selectedObject instanceof Boolean && valueClass.equals(Boolean.class)) 
+				{
 					value = selectedObject;
-				} else if (selectedObject instanceof Number && Number.class.isAssignableFrom(valueClass)) {
+				}
+				else if (selectedObject instanceof Number && Number.class.isAssignableFrom(valueClass)) 
+				{
 					value = convertNumber((Number) selectedObject, valueClass);
-				} else {
+				} 
+				else 
+				{
 					String text = selectedObject.toString();
 					value = convertStringValue(text, valueClass);
 				}
@@ -414,27 +433,37 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public String getText(Node node) {
 		if (!node.hasChildNodes())
+		{
 			return node.getNodeValue();
-
+		}
 		StringBuffer result = new StringBuffer();
 
 		NodeList list = node.getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {
 			Node subnode = list.item(i);
-			if (subnode.getNodeType() == Node.TEXT_NODE) {
+			if (subnode.getNodeType() == Node.TEXT_NODE) 
+			{
 				String value = subnode.getNodeValue();
 				if(value != null)
+				{
 					result.append(value);
-			} else if (subnode.getNodeType() == Node.CDATA_SECTION_NODE) {
+				}
+			} 
+			else if (subnode.getNodeType() == Node.CDATA_SECTION_NODE) 
+			{
 				String value = subnode.getNodeValue();
 				if(value != null)
+				{
 					result.append(value);
+				}
 			} else if (subnode.getNodeType() == Node.ENTITY_REFERENCE_NODE) {
 				// Recurse into the subtree for text
 				// (and ignore comments)
 				String value = getText(subnode);
 				if(value != null)
+				{
 					result.append(value);
+				}
 			}
 		}
 

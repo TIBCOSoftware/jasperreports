@@ -69,32 +69,42 @@ public abstract class JRFontFactory extends JRBaseFactory
 		}
 
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_fontName) != null)
+		{
 			font.setFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_fontName));
+		}
 
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isBold) != null)
+		{
 			font.setBold(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isBold)));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic) != null)
+		{
 			font.setItalic(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic)));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isUnderline) != null)
+		{
 			font.setUnderline(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isUnderline)));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isStrikeThrough) != null)
+		{
 			font.setStrikeThrough(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isStrikeThrough)));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_size) != null)
+		{
 			font.setFontSize(Integer.parseInt(atts.getValue(JRXmlConstants.ATTRIBUTE_size)));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName) != null)
+		{
 			font.setPdfFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfEncoding) != null)
+		{
 			font.setPdfEncoding(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfEncoding));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded) != null)
+		{
 			font.setPdfEmbedded(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded)));
-
+		}
 		return font;
 	}
 	

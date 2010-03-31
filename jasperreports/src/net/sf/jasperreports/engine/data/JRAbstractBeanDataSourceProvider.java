@@ -57,7 +57,9 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 	 */
 	public JRAbstractBeanDataSourceProvider(Class beanClass) {
 		if (beanClass == null)
+		{
 			throw new NullPointerException("beanClass must not be null");
+		}
 
 		this.beanClass = beanClass;
 	}
@@ -82,13 +84,15 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 		}
 
 		PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
-		if(descriptors != null) {
+		if(descriptors != null) 
+		{
 			ArrayList fields = new ArrayList(descriptors.length);
 			
 			for (int i = 0; i < descriptors.length; i++) {
 				PropertyDescriptor descriptor = descriptors[i];
 				
-				if (!(descriptor instanceof IndexedPropertyDescriptor) && descriptor.getReadMethod() != null) {
+				if (!(descriptor instanceof IndexedPropertyDescriptor) && descriptor.getReadMethod() != null) 
+				{
 					JRDesignField field = new JRDesignField();
 					field.setValueClassName(normalizeClass(descriptor.getPropertyType()).getName());
 					field.setName(descriptor.getName());
@@ -107,23 +111,40 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 	 * Converts a primitive class to its object counterpart
 	 */
 	private static Class normalizeClass(Class clazz) {
-		if(clazz.isPrimitive()) {
+		if(clazz.isPrimitive()) 
+		{
 			if(clazz == boolean.class)
+			{
 				return Boolean.class;
+			}
 			if(clazz == byte.class)
+			{
 				return Byte.class;
+			}
 			if(clazz == char.class)
+			{
 				return Character.class;
+			}
 			if(clazz == short.class)
+			{
 				return Short.class;
+			}
 			if(clazz == int.class)
+			{
 				return Integer.class;
+			}
 			if(clazz == long.class)
+			{
 				return Long.class;
+			}
 			if(clazz == float.class)
+			{
 				return Float.class;
+			}
 			if(clazz == double.class)
+			{
 				return Double.class;
+			}
 		}
 		
 		return clazz;
