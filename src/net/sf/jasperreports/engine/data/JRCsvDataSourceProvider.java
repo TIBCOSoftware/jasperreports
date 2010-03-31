@@ -132,9 +132,17 @@ public class JRCsvDataSourceProvider implements JRDataSourceProvider
 		return columnNames;
 	}
 
-	public void setColumnNames(String[] columnNames)
+	public void setColumnNames(String[] colNames)
 	{
-		this.columnNames = columnNames;
+		if (colNames == null)
+		{
+			this.columnNames = null;
+		}
+		else
+		{
+			this.columnNames = new String[colNames.length];
+			System.arraycopy(colNames, 0, this.columnNames, 0, colNames.length);
+		}
 	}
 
 	public DateFormat getDateFormat()
