@@ -975,6 +975,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public Byte getMode()
 	{
+                //FIXME GT: getModeValue() returns null if there is not parent style.
 		return getModeValue().getValueByte();
 	}
 
