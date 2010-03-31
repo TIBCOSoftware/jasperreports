@@ -113,7 +113,9 @@ public class XmlssCellStyle extends XmlssBorderStyle
 		else
 		{
 			if(cellBackground != null)
+			{
 				backcolor = "#" + JRColorUtil.getColorHexa(cellBackground);
+			}
 		}
 		
 		if(element.getForecolor() != null)
@@ -130,8 +132,10 @@ public class XmlssCellStyle extends XmlssBorderStyle
 		
 		
 		if(element instanceof JRPrintText && ((JRPrintText)element).getRunDirectionValue() == RunDirectionEnum.RTL)
+		{
 			readingOrder = XmlssCellStyle.READING_ORDER_RTL;
-			
+		}
+		
 		JRAlignment alignment = element instanceof JRAlignment ? (JRAlignment)element : null;
 		if (alignment != null)
 		{
@@ -227,15 +231,25 @@ public class XmlssCellStyle extends XmlssBorderStyle
 		if(style != null)
 		{
 			if(style.getFontSize() != null)
+			{
 				styleWriter.write(" ss:Size=\"" + style.getFontSize() + "\"");
+			}
 			if(style.isBold() != null)
+			{
 				styleWriter.write(" ss:Bold=\"" + getBitValue(style.isBold().booleanValue()) + "\"");
+			}
 			if(style.isItalic() != null)
+			{
 				styleWriter.write(" ss:Italic=\"" + getBitValue(style.isItalic().booleanValue()) + "\"");
+			}
 			if(style.isStrikeThrough() != null)
+			{
 				styleWriter.write(" ss:StrikeThrough=\"" + getBitValue(style.isStrikeThrough().booleanValue()) + "\"");
+			}
 			if(style.isUnderline() != null)
+			{
 				styleWriter.write(" ss:Underline=\"" + getUnderlineStyle(style.isUnderline().booleanValue()) + "\"");
+			}
 		}
 		else if(defaultFont != null)
 		{
@@ -399,7 +413,9 @@ public class XmlssCellStyle extends XmlssBorderStyle
 	private String getUnderlineStyle(boolean isUnderline)
 	{
 		if(isUnderline)
+		{
 			return XmlssCellStyle.UNDERLINE_STYLE_SINGLE;
+		}
 		return XmlssCellStyle.STYLE_NONE;
 	}
 	

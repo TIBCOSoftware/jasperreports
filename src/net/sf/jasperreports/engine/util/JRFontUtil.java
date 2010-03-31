@@ -60,23 +60,41 @@ public class JRFontUtil
 		if(srcFont != null && destFont != null)
 		{
 			if (srcFont.getOwnFontName() != null)
+			{
 				destFont.setFontName(srcFont.getOwnFontName());
+			}
 			if (srcFont.isOwnBold() != null)
+			{
 				destFont.setBold(srcFont.isOwnBold());
+			}
 			if (srcFont.isOwnItalic() != null)
+			{
 				destFont.setItalic(srcFont.isOwnItalic());
+			}
 			if (srcFont.isOwnUnderline() != null)
+			{
 				destFont.setUnderline(srcFont.isOwnUnderline());
+			}
 			if (srcFont.isOwnStrikeThrough() != null)
+			{
 				destFont.setStrikeThrough(srcFont.isOwnStrikeThrough());
+			}
 			if (srcFont.getOwnFontSize() != null)
+			{
 				destFont.setFontSize(srcFont.getOwnFontSize());
+			}
 			if (srcFont.getOwnPdfFontName() != null)
+			{
 				destFont.setPdfFontName(srcFont.getOwnPdfFontName());
+			}
 			if (srcFont.getOwnPdfEncoding() != null)
+			{
 				destFont.setPdfEncoding(srcFont.getOwnPdfEncoding());
+			}
 			if (srcFont.isOwnPdfEmbedded() != null)
+			{
 				destFont.setPdfEmbedded(srcFont.isOwnPdfEmbedded());
+			}
 		}
 	}
 	
