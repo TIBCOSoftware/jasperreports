@@ -58,11 +58,13 @@ public abstract class JRSubreportRunnable implements Runnable
 		{
 			fillSubreport.fillSubreport();
 		}
-		catch(JRFillInterruptedException e)
+		catch (JRFillInterruptedException e)
 		{
 			//If the subreport filler was interrupted, we should remain silent
 		}
-		catch(Throwable t)
+		// we have to catch Throwable, because it is difficult to say what would happen with the master
+		// filler thread in case we don't
+		catch (Throwable t) //NOPMD
 		{
 			error = t;
 		}
