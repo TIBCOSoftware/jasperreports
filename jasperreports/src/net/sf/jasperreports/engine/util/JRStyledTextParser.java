@@ -676,7 +676,9 @@ public class JRStyledTextParser implements ErrorHandler
 		{
 			JRStyledText.Run run = (JRStyledText.Run) runs.get(j);
 			if (run.startIndex <= startIndex && run.endIndex > startIndex - count)
+			{
 				run.endIndex += count;
+			}
 		}
 	}
 
@@ -840,13 +842,17 @@ public class JRStyledTextParser implements ErrorHandler
 		if(node != null)
 		{
 			if(node.getNodeValue() != null)
+			{
 				return node.getNodeValue();
+			}
 			NodeList nodeList = node.getChildNodes();
 			for (int i=0; i< nodeList.getLength(); i++)
 			{
 				String firstOccurence = getFirstTextOccurence(nodeList.item(i));
 				if(firstOccurence != null)
+				{
 					return firstOccurence;
+				}
 			}
 		}
 		return null;
@@ -854,17 +860,23 @@ public class JRStyledTextParser implements ErrorHandler
 
 	public void error(SAXParseException e) {
 		if(log.isErrorEnabled())
+		{
 			log.error("Error parsing styled text.", e);
+		}
 	}
 
 	public void fatalError(SAXParseException e) {
 		if(log.isFatalEnabled())
+		{
 			log.fatal("Error parsing styled text.", e);
+		}
 	}
 
 	public void warning(SAXParseException e) {
 		if(log.isWarnEnabled())
+		{
 			log.warn("Error parsing styled text.", e);
+		}
 	}
 
 }

@@ -810,8 +810,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 			short fontSize = (short)font.getFontSize();
 			if (isFontSizeFixEnabled)
+			{
 				fontSize -= 1;
-
+			}
 			if (
 				cf.getFontName().equals(fontName) &&
 				(cf.getColor() == forecolor) &&
@@ -837,8 +838,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 			short fontSize = (short)font.getFontSize();
 			if (isFontSizeFixEnabled)
+			{
 				fontSize -= 1;
-
+			}
 			cellFont.setFontHeightInPoints(fontSize);
 
 			if (font.isUnderline())
@@ -1183,7 +1185,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 				short forecolor = getNearestColor(element.getLineBox().getPen().getLineColor()).getIndex();
 
-				if(element.getModeValue() == ModeEnum.OPAQUE ){
+				if(element.getModeValue() == ModeEnum.OPAQUE )
+				{
 					backcolor = getNearestColor(element.getBackcolor()).getIndex();
 				}
 
@@ -1301,8 +1304,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 
 		if (jasP == null)
+		{
 			return -1;
-
+		}
 		long width = 0;
 		long height = 0;
 		short ps = -1;
@@ -1327,9 +1331,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				if (((w == width) && (h == height)) || ((h == width) && (w == height)))
 				{
 					if (i == 4)
+					{
 						ps = HSSFPrintSetup.A4_PAPERSIZE;
+					}
 					else if (i == 5)
+					{
 						ps = HSSFPrintSetup.A5_PAPERSIZE;
+					}
 					break;
 				}
 			}
@@ -1393,10 +1401,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		{
 			JRLineBox lineBox = gridCell.getBox();
 			if (lineBox != null)
+			{
 				setBox(lineBox);
+			}
 			JRPrintElement element = gridCell.getElement();
 			if (element instanceof JRCommonGraphicElement)
+			{
 				setPen(((JRCommonGraphicElement)element).getLinePen());
+			}
 
 			hash = computeHash();
 		}

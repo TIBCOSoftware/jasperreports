@@ -1134,9 +1134,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		// write chartLegend
 		writer.startElement(JRXmlConstants.ELEMENT_chartLegend);
 		if (chart.getOwnLegendColor() != null)
+		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_textColor, chart.getOwnLegendColor());
+		}
 		if (chart.getOwnLegendBackgroundColor() != null)
+		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundColor, chart.getOwnLegendBackgroundColor());
+		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getLegendPositionValue());
 		writeFont(chart.getLegendFont());
 		writer.closeElement();
@@ -1240,7 +1244,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		if( timeSeries != null && timeSeries.length > 0 )
 		{
 			for( int i = 0; i < timeSeries.length; i++ )
-		{
+			{
 				writeTimeSeries( timeSeries[i] );
 			}
 		}
@@ -1587,8 +1591,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeSeriesColors(SortedSet seriesColors) throws IOException
 	{
 		if (seriesColors == null || seriesColors.size() == 0)
+		{
 			return;
-
+		}
 		JRSeriesColor[] colors = (JRSeriesColor[])seriesColors.toArray(new JRSeriesColor[0]);
 		for (int i = 0; i < colors.length; i++)
 		{
@@ -1706,8 +1711,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		if (axisLabelFont == null && axisLabelColor == null &&
 			axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
+		{
 			return;
-
+		}
 		writer.startElement(JRXmlConstants.ELEMENT_categoryAxisFormat, getNamespace());
 		
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelRotation, labelRotation);
@@ -1752,8 +1758,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		if (axisLabelFont == null && axisLabelColor == null &&
 			axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
+		{
 			return;
-
+		}
 		writer.startElement(axisFormatElementName, getNamespace());
 
 		writeAxisFormat(

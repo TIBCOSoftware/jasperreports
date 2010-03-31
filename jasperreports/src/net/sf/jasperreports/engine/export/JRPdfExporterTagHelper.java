@@ -107,7 +107,9 @@ public class JRPdfExporterTagHelper
 		this.pdfWriter = pdfWriter;
 		
 		if (isTagged)
+		{
 			pdfWriter.setTagged();
+		}
 	}
 	
 	/**
@@ -128,8 +130,10 @@ public class JRPdfExporterTagHelper
 						JRPdfExporterParameter.TAG_LANGUAGE,
 						JRPdfExporterParameter.PROPERTY_TAG_LANGUAGE
 						);
-			if (language != null)	
+			if (language != null)
+			{
 				allTag.put(PdfName.LANG, new PdfString(language));
+			}
 			tagStack = new Stack();
 			tagStack.push(allTag);
 		}
@@ -322,7 +326,9 @@ public class JRPdfExporterTagHelper
 			PdfStructureElement imageTag = new PdfStructureElement(allTag, PdfName.IMAGE);
 			pdfContentByte.beginMarkedContentSequence(imageTag);
 			if (printImage.getHyperlinkTooltip() != null)
+			{
 				imageTag.put(PdfName.ALT, new PdfString(printImage.getHyperlinkTooltip()));
+			}
 		}
 	}
 
@@ -494,9 +500,13 @@ public class JRPdfExporterTagHelper
 			PdfArray a = new PdfArray();
 			PdfDictionary dict = new PdfDictionary();
 			if (colSpan > 1)
+			{
 				dict.put(new PdfName("ColSpan"), new PdfNumber(colSpan));
+			}
 			if (rowSpan > 1)
+			{
 				dict.put(new PdfName("RowSpan"), new PdfNumber(rowSpan));
+			}
 			dict.put(PdfName.O, new PdfName("Table"));
 			a.add(dict);
 			parentTag.put(PdfName.A, a);

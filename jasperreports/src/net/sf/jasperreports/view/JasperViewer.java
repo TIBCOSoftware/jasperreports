@@ -134,8 +134,9 @@ public class JasperViewer extends javax.swing.JFrame
 		)  throws JRException
 	{
 		if (locale != null)
+		{
 			setLocale(locale);
-
+		}
 		this.isExitOnClose = isExitOnClose;
 
 		initComponents();
@@ -154,8 +155,9 @@ public class JasperViewer extends javax.swing.JFrame
 		) throws JRException
 	{
 		if (locale != null)
+		{
 			setLocale(locale);
-
+		}
 		this.isExitOnClose = isExitOnClose;
 
 		initComponents();
@@ -173,8 +175,9 @@ public class JasperViewer extends javax.swing.JFrame
 		)
 	{
 		if (locale != null)
+		{
 			setLocale(locale);
-
+		}
 		this.isExitOnClose = isExitOnClose;
 
 		initComponents();
@@ -315,8 +318,9 @@ public class JasperViewer extends javax.swing.JFrame
 		catch (JRException e)
 		{
 			if (log.isErrorEnabled())
+			{
 				log.error("Error viewing report.", e);
-
+			}
 			System.exit(1);
 		}
 	}
