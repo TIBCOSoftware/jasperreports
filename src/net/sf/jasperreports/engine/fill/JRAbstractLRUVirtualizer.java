@@ -273,7 +273,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 				Integer idx = (Integer) classLoadersIndexes.get(classLoader);
 				if (idx == null)
 				{
-					idx = new Integer(classLoadersList.size());
+					idx = Integer.valueOf(classLoadersList.size());
 					classLoadersIndexes.put(classLoader, idx);
 					classLoadersList.add(classLoader);
 				}

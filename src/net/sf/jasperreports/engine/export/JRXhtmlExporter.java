@@ -2014,7 +2014,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		writer.write(">\n");
 		
-		frameIndexStack.add(new Integer(elementIndex));
+		frameIndexStack.add(Integer.valueOf(elementIndex));
 
 		exportElements(frame.getElements());
 

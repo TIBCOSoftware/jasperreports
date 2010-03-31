@@ -23,12 +23,12 @@
  */
 package net.sf.jasperreports.extensions;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.ClassUtils;
 import net.sf.jasperreports.engine.util.JRProperties;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A class that provides means of setting and accessing

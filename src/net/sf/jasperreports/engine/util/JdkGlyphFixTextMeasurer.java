@@ -23,15 +23,13 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRMeasuredText;
 import net.sf.jasperreports.engine.fill.TextMeasurer;
-import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRStyledText;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A text measurer implementation that extends

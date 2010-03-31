@@ -31,12 +31,12 @@ package net.sf.jasperreports.engine.design;
 import java.io.Serializable;
 import java.util.Map;
 
-import org.apache.commons.collections.ReferenceMap;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
+
+import org.apache.commons.collections.ReferenceMap;
 
 
 /**

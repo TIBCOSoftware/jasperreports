@@ -87,7 +87,7 @@ import org.apache.commons.logging.LogFactory;
  * <code>
  * <pre>
  * Map hints = new HashMap();
- * hints.put("fetchSize", new Integer(100));
+ * hints.put("fetchSize", Integer.valueOf(100));
  * hints.put("anyName", anyObject());
  * Map parameters = new HashMap();
  * EntityManager em = emf.createEntityManager();

@@ -64,7 +64,7 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 		{
 			for(int i = 0; i < tableModel.getColumnCount(); i++)
 			{
-				this.columnNames.put(tableModel.getColumnName(i), new Integer(i));
+				this.columnNames.put(tableModel.getColumnName(i), Integer.valueOf(i));
 			}
 		}
 	}

@@ -17,7 +17,7 @@
 	<field name="city" class="java.lang.String"/>
 	<field name="documents" class="java.util.Set"/>
 	<variable name="CityNumber" class="java.lang.Integer" resetType="Group" resetGroup="CityGroup" calculation="System">
-		<initialValueExpression><![CDATA[($V{CityNumber} != null)?(new Integer($V{CityNumber}.intValue() + 1)):(new Integer(1))]]></initialValueExpression>
+		<initialValueExpression><![CDATA[($V{CityNumber} != null)?(Integer.valueOf($V{CityNumber}.intValue() + 1)):(Integer.valueOf(1))]]></initialValueExpression>
 	</variable>
 	<group name="CityGroup" minHeightToStartNewPage="100">
 		<groupExpression><![CDATA[$F{city}]]></groupExpression>

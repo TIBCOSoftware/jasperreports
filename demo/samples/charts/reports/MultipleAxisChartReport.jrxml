@@ -10,7 +10,7 @@
 	<style name="Serif_Bold" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="ReportTitle" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="MaxOrderID" class="java.lang.Integer" isForPrompting="false">
-		<defaultValueExpression><![CDATA[new Integer(15000)]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[Integer.valueOf(15000)]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT * FROM Orders
@@ -50,7 +50,7 @@ ORDER BY ShipCountry, ShipCity]]>
 	</variable>
 	<variable name="FirstLetterGroupRowNumber" class="java.lang.Integer" resetType="Group" resetGroup="FirstLetterGroup" calculation="Count">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
-		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
+		<initialValueExpression><![CDATA[Integer.valueOf(0)]]></initialValueExpression>
 	</variable>
 	<variable name="FreightSumCityGroup" class="java.lang.Double" resetType="Group" resetGroup="CityGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>

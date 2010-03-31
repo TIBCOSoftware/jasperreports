@@ -58,7 +58,7 @@
 		<variableExpression><![CDATA[$F{ShipRegion}]]></variableExpression>
 	</variable>
 	<group name="ChartGroup" isStartNewColumn="true" minHeightToStartNewPage="200">
-		<groupExpression><![CDATA[new Integer(($V{FirstLetterCount}.intValue() - 1) / 3)]]></groupExpression>
+		<groupExpression><![CDATA[Integer.valueOf(($V{FirstLetterCount}.intValue() - 1) / 3)]]></groupExpression>
 		<groupHeader>
 			<band height="250">
 				<rectangle>

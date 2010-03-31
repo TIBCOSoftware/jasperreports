@@ -309,7 +309,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		}
 		
 		exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, graphics);
-		exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
+		exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
 		
 		try
 		{

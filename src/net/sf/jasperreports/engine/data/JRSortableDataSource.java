@@ -85,7 +85,7 @@ public class JRSortableDataSource implements JRRewindableDataSource
 
 		for(int i = 0; i < fields.length; i++)
 		{
-			fieldIndexMap.put(fields[i].getName(), new Integer(i));
+			fieldIndexMap.put(fields[i].getName(), Integer.valueOf(i));
 		}
 
 		int[] sortIndexes = new int[sortFields.length];

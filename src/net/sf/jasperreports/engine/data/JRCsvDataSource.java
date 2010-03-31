@@ -141,7 +141,7 @@ public class JRCsvDataSource implements JRDataSource
 					parseRow();
 					for (int i = 0; i < fields.size(); i++) {
 						String name = (String) fields.get(i);
-						this.columnNames.put(name, new Integer(i));
+						this.columnNames.put(name, Integer.valueOf(i));
 					}
 				}
 				processingStarted = true;
@@ -196,7 +196,7 @@ public class JRCsvDataSource implements JRDataSource
 					return new Byte((numberFormat.parse(fieldValue)).byteValue());
 				}
 				else if (valueClass.equals(Integer.class)) {
-					return new Integer((numberFormat.parse(fieldValue)).intValue());
+					return Integer.valueOf((numberFormat.parse(fieldValue)).intValue());
 				}
 				else if (valueClass.equals(Long.class)) {
 					return new Long((numberFormat.parse(fieldValue)).longValue());
@@ -501,7 +501,7 @@ public class JRCsvDataSource implements JRDataSource
 		}
 		for (int i = 0; i < columnNames.length; i++)
 		{
-			this.columnNames.put(columnNames[i], new Integer(i));
+			this.columnNames.put(columnNames[i], Integer.valueOf(i));
 		}
 	}
 

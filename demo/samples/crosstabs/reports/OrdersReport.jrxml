@@ -70,7 +70,7 @@ Countries are ordered by number of orders.]]></text>
 				</rowGroup>
 				<columnGroup name="FreightColumn" height="20" totalPosition="End">
 					<bucket>
-						<bucketExpression class="java.lang.Integer"><![CDATA[new Integer($F{Freight}.intValue()/100)]]></bucketExpression>
+						<bucketExpression class="java.lang.Integer"><![CDATA[Integer.valueOf($F{Freight}.intValue()/100)]]></bucketExpression>
 					</bucket>
 					<crosstabColumnHeader>
 						<cellContents>

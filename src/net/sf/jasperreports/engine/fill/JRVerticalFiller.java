@@ -1841,12 +1841,12 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		if (isResetPageNumber)
 		{
-			calculator.getPageNumber().setValue(new Integer(1));
+			calculator.getPageNumber().setValue(Integer.valueOf(1));
 		}
 		else
 		{
 			calculator.getPageNumber().setValue(
-				new Integer(((Number)calculator.getPageNumber().getValue()).intValue() + 1)
+				Integer.valueOf(((Number)calculator.getPageNumber().getValue()).intValue() + 1)
 				);
 		}
 
@@ -1872,7 +1872,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	private void setColumnNumberVar()
 	{
 		JRFillVariable columnNumber = calculator.getColumnNumber();
-		columnNumber.setValue(new Integer(columnIndex + 1));
+		columnNumber.setValue(Integer.valueOf(columnIndex + 1));
 		columnNumber.setOldValue(columnNumber.getValue());
 	}
 

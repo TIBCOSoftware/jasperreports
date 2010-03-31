@@ -177,7 +177,7 @@ public class TextMeasurer implements JRTextMeasurer
 				}
 
 				int breakOffset = textOffset - lastOffset;
-				lineBreakOffsets.add(new Integer(breakOffset));
+				lineBreakOffsets.add(Integer.valueOf(breakOffset));
 				lastOffset = textOffset;
 			}
 		}

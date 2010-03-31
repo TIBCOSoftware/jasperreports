@@ -265,7 +265,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
             } else if (valueClass.equals(Byte.class)) {
                 return new Byte(fieldValue);
             } else if (valueClass.equals(Integer.class)) {
-                return new Integer(fieldValue);
+                return Integer.valueOf(fieldValue);
             } else if (valueClass.equals(Long.class)) {
                 return new Long(fieldValue);
             } else if (valueClass.equals(Short.class)) {

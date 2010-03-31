@@ -270,8 +270,8 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 			lblStatus.setText(
 				MessageFormat.format(
 					getBundleString("page"),
-					new Object[]{new Integer(viewerContext.getPageIndex() + 1), 
-						new Integer(viewerContext.getPageCount())}
+					new Object[]{Integer.valueOf(viewerContext.getPageIndex() + 1), 
+						Integer.valueOf(viewerContext.getPageCount())}
 					)
 				);
 		}

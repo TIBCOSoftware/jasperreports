@@ -116,11 +116,11 @@ public class XmlServlet extends BaseHttpServlet
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			if (startPageIndex >= 0)
 			{
-				exporter.setParameter(JRExporterParameter.START_PAGE_INDEX, new Integer(startPageIndex));
+				exporter.setParameter(JRExporterParameter.START_PAGE_INDEX, Integer.valueOf(startPageIndex));
 			}
 			if (endPageIndex >= 0)
 			{
-				exporter.setParameter(JRExporterParameter.END_PAGE_INDEX, new Integer(endPageIndex));
+				exporter.setParameter(JRExporterParameter.END_PAGE_INDEX, Integer.valueOf(endPageIndex));
 			}
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fbos);
 
@@ -186,11 +186,11 @@ public class XmlServlet extends BaseHttpServlet
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			if (startPageIndex >= 0)
 			{
-				exporter.setParameter(JRExporterParameter.START_PAGE_INDEX, new Integer(startPageIndex));
+				exporter.setParameter(JRExporterParameter.START_PAGE_INDEX, Integer.valueOf(startPageIndex));
 			}
 			if (endPageIndex >= 0)
 			{
-				exporter.setParameter(JRExporterParameter.END_PAGE_INDEX, new Integer(endPageIndex));
+				exporter.setParameter(JRExporterParameter.END_PAGE_INDEX, Integer.valueOf(endPageIndex));
 			}
 			
 			OutputStream ouputStream = response.getOutputStream();

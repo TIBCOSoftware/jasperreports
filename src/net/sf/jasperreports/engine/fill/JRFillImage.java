@@ -1273,10 +1273,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 		if (reducedHeight <= availableHeight)
 		{
-			imageHeight = new Integer(reducedHeight);
+			imageHeight = Integer.valueOf(reducedHeight);
 			if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
 			{
-				imageWidth = new Integer(reducedWidth);
+				imageWidth = Integer.valueOf(reducedWidth);
 			}
 			fitted = true;
 		}
@@ -1286,11 +1286,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		}
 		else
 		{
-			imageHeight = new Integer(availableHeight);
+			imageHeight = Integer.valueOf(availableHeight);
 			if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
 			{
 				double hRatio = ((double) availableHeight) / realHeight;
-				imageWidth = new Integer((int) (hRatio * realWidth));
+				imageWidth = Integer.valueOf((int) (hRatio * realWidth));
 			}
 			fitted = true;
 		}
@@ -1300,10 +1300,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			switch (hAlign)
 			{
 			case RIGHT:
-				imageX = new Integer(getX() + getWidth() - imageWidth.intValue());
+				imageX = Integer.valueOf(getX() + getWidth() - imageWidth.intValue());
 				break;
 			case CENTER:
-				imageX = new Integer(getX() + (getWidth() - imageWidth.intValue()) / 2);
+				imageX = Integer.valueOf(getX() + (getWidth() - imageWidth.intValue()) / 2);
 				break;
 			default:
 				break;

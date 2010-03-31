@@ -345,7 +345,7 @@ public class AsynchronousFillHandle
 	{
 		synchronized (lock)
 		{
-			this.priority = new Integer(priority);
+			this.priority = Integer.valueOf(priority);
 			if (fillThread != null)
 			{
 				fillThread.setPriority(priority);

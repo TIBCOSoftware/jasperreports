@@ -1125,7 +1125,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setFontSize(int fontSize)
 	{
-		setFontSize(new Integer(fontSize));
+		setFontSize(Integer.valueOf(fontSize));
 	}
 
 	/**

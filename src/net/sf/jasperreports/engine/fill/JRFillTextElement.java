@@ -1563,7 +1563,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			
 			if (endIndex < fullText.length())
 			{
-				printText.setTextTruncateIndex(new Integer(endIndex));
+				printText.setTextTruncateIndex(Integer.valueOf(endIndex));
 			}
 		}
 		else

@@ -85,7 +85,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 		{
 			for (int i = 0; i < aliases.length; i++)
 			{
-				aliasesMap.put(aliases[i], new Integer(i));
+				aliasesMap.put(aliases[i], Integer.valueOf(i));
 			}
 		}
 		

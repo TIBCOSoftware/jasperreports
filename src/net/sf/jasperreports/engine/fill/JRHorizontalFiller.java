@@ -1912,12 +1912,12 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		if (isResetPageNumber)
 		{
-			calculator.getPageNumber().setValue(new Integer(1));
+			calculator.getPageNumber().setValue(Integer.valueOf(1));
 		}
 		else
 		{
 			calculator.getPageNumber().setValue(
-				new Integer(((Number)calculator.getPageNumber().getValue()).intValue() + 1)
+				Integer.valueOf(((Number)calculator.getPageNumber().getValue()).intValue() + 1)
 				);
 		}
 
@@ -1942,7 +1942,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	private void setColumnNumberVariable()
 	{
 		JRFillVariable columnNumberVar = calculator.getColumnNumber();
-		columnNumberVar.setValue(new Integer(columnIndex + 1));
+		columnNumberVar.setValue(Integer.valueOf(columnIndex + 1));
 		columnNumberVar.setOldValue(columnNumberVar.getValue());
 	}
 
@@ -2032,7 +2032,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			offsetY = columnHeaderOffsetY;
 
 			calculator.getColumnNumber().setValue(
-				new Integer(((Number)calculator.getColumnNumber().getValue()).intValue() + 1)
+				Integer.valueOf(((Number)calculator.getColumnNumber().getValue()).intValue() + 1)
 				);
 			calculator.getColumnNumber().setOldValue(
 				calculator.getColumnNumber().getValue()

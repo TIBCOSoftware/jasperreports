@@ -29,7 +29,7 @@
 	<field name="City" class="java.lang.String">
 	</field>
 	<variable name="CityNumber" class="java.lang.Integer" resetType="Group" resetGroup="CityGroup" calculation="System">
-		<initialValueExpression><![CDATA[($V{CityNumber} != null)?(new Integer($V{CityNumber}.intValue() + 1)):(new Integer(1))]]></initialValueExpression>
+		<initialValueExpression><![CDATA[($V{CityNumber} != null)?(Integer.valueOf($V{CityNumber}.intValue() + 1)):(Integer.valueOf(1))]]></initialValueExpression>
 	</variable>
 	<variable name="AllCities" class="java.lang.String" calculation="System">
 	</variable>

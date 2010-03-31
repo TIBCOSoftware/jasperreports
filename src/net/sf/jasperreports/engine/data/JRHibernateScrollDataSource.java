@@ -23,11 +23,11 @@
  */
 package net.sf.jasperreports.engine.data;
 
-import org.hibernate.ScrollableResults;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.query.JRHibernateQueryExecuter;
+
+import org.hibernate.ScrollableResults;
 
 /**
  * Hibernate data source that uses <code>org.hibernate.Query.scroll()</code>.

@@ -27,13 +27,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.olap.result.JROlapCell;
 import net.sf.jasperreports.olap.result.JROlapResult;
 import net.sf.jasperreports.olap.result.JROlapResultAxis;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**

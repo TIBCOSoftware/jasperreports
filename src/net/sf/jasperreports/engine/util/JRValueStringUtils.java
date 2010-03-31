@@ -32,11 +32,11 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
+
 import org.w3c.tools.codec.Base64Decoder;
 import org.w3c.tools.codec.Base64Encoder;
 import org.w3c.tools.codec.Base64FormatException;
-
-import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**

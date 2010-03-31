@@ -364,7 +364,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		openWorkbook(os);
 		sheetNamesMap = new HashMap();
-		sheetNamesMap.put("Page", new Integer(0)); // in order to skip first sheet name that would have no index
+		sheetNamesMap.put("Page", Integer.valueOf(0)); // in order to skip first sheet name that would have no index
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
@@ -838,12 +838,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		if(!sheetNamesMap.containsKey(sheetName))
 		{
 			// first time this sheet name is found;
-			sheetNamesMap.put(sheetName, new Integer(1));
+			sheetNamesMap.put(sheetName, Integer.valueOf(1));
 			return sheetName;
 		}
 
 		int currentIndex = ((Integer)sheetNamesMap.get(sheetName)).intValue() + 1;
-		sheetNamesMap.put(sheetName, new Integer(currentIndex));
+		sheetNamesMap.put(sheetName, Integer.valueOf(currentIndex));
 
 		return sheetName + " " + currentIndex;
 	}

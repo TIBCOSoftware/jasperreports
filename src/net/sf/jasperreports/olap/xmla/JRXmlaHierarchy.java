@@ -26,11 +26,11 @@ package net.sf.jasperreports.olap.xmla;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.olap.result.JROlapHierarchy;
 import net.sf.jasperreports.olap.result.JROlapHierarchyLevel;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**

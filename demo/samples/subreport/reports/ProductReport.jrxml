@@ -40,7 +40,7 @@
 		<variableExpression><![CDATA[$F{Price}]]></variableExpression>
 	</variable>
 	<variable name="ProductCount" class="java.lang.Integer" resetType="Group" resetGroup="ProductGroup" calculation="System">
-		<initialValueExpression><![CDATA[($V{ProductCount} != null)?(new Integer($V{ProductCount}.intValue() + 1)):(new Integer(1))]]></initialValueExpression>
+		<initialValueExpression><![CDATA[($V{ProductCount} != null)?(Integer.valueOf($V{ProductCount}.intValue() + 1)):(Integer.valueOf(1))]]></initialValueExpression>
 	</variable>
 	<group name="ProductGroup">
 		<groupExpression><![CDATA[$F{Id}]]></groupExpression>

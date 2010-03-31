@@ -779,7 +779,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 */
 	public void setFontSize(int fontSize)
 	{
-		setFontSize(new Integer(fontSize));
+		setFontSize(Integer.valueOf(fontSize));
 	}
 
 	/**

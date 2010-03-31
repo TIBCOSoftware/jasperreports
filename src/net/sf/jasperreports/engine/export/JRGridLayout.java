@@ -266,7 +266,7 @@ public class JRGridLayout
 
 				if(hasLeftMargin)
 				{
-					xCutsList.remove(new Integer(0));
+					xCutsList.remove(Integer.valueOf(0));
 				}
 			}
 
@@ -274,11 +274,11 @@ public class JRGridLayout
 
 			if(hasTopMargin)
 			{
-				yCutsList.remove(new Integer(0));
+				yCutsList.remove(Integer.valueOf(0));
 			}
 			if(hasBottomMargin)
 			{
-				yCutsList.remove(new Integer(height));
+				yCutsList.remove(Integer.valueOf(height));
 			}
 		}
 

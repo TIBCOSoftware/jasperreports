@@ -34,7 +34,7 @@
 					<reportElement x="5" y="65" width="300" height="15" forecolor="#008000"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the second page."]]></textFieldExpression>
-					<hyperlinkPageExpression><![CDATA[new Integer(2)]]></hyperlinkPageExpression>
+					<hyperlinkPageExpression><![CDATA[Integer.valueOf(2)]]></hyperlinkPageExpression>
 				</textField>
 				<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
 					<reportElement x="5" y="95" width="200" height="15"/>
@@ -158,7 +158,7 @@
 					<reportElement x="5" y="65" width="300" height="15" forecolor="#008000"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the second page."]]></textFieldExpression>
-					<hyperlinkPageExpression><![CDATA[new Integer(2)]]></hyperlinkPageExpression>
+					<hyperlinkPageExpression><![CDATA[Integer.valueOf(2)]]></hyperlinkPageExpression>
 				</textField>
 				<textField hyperlinkType="Reference">
 					<reportElement x="5" y="95" width="300" height="15"/>

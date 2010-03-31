@@ -1757,13 +1757,13 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				Map idMap = new HashMap();
 				for (int i = 0; i < identityData.length; i++)
 				{
-					idMap.put(new Integer(identityData[i].getIdentity()), identityData[i].getObject());
+					idMap.put(Integer.valueOf(identityData[i].getIdentity()), identityData[i].getObject());
 				}
 
 				for (ListIterator i = printPage.getElements().listIterator(); i.hasNext();)
 				{
 					Object element = i.next();
-					Integer id = new Integer(System.identityHashCode(element));
+					Integer id = Integer.valueOf(System.identityHashCode(element));
 
 					Object idObject = idMap.get(id);
 					if (idObject != null)
@@ -1990,7 +1990,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 						JRVirtualPrintPage.ObjectIDPair idPair = new JRVirtualPrintPage.ObjectIDPair(key);
 						identityList.add(idPair);
 
-						id = new Integer(idPair.getIdentity());
+						id = Integer.valueOf(idPair.getIdentity());
 						allElements.put(key, id);
 					}
 					idMap.put(id, entry.getValue());
@@ -2040,7 +2040,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				for (int i = 0; i < identityData.length; i++)
 				{
 					JRVirtualPrintPage.ObjectIDPair idPair = identityData[i];
-					Integer id = new Integer(idPair.getIdentity());
+					Integer id = Integer.valueOf(idPair.getIdentity());
 
 					Object value = idMap.get(id);
 					if (value != null)
