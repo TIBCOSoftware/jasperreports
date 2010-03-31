@@ -112,12 +112,14 @@ public class JRTextExporter extends JRAbstractExporter
 				);
 
 		betweenPagesText = (String) parameters.get(JRTextExporterParameter.BETWEEN_PAGES_TEXT);
-		if (betweenPagesText == null) {
+		if (betweenPagesText == null) 
+		{
 			betweenPagesText = systemLineSeparator + systemLineSeparator;
 		}
 
 		lineSeparator = (String) parameters.get(JRTextExporterParameter.LINE_SEPARATOR);
-		if (lineSeparator == null) {
+		if (lineSeparator == null) 
+		{
 			lineSeparator = systemLineSeparator;
 		}
 
@@ -416,10 +418,14 @@ public class JRTextExporter extends JRAbstractExporter
 
 		// if the space is too small, the element will not be rendered
 		if (rowSpan <= 0 || colSpan <= 0)
+		{
 			return;
+		}
 
 		if (allText != null && allText.length() == 0)
+		{
 			return;
+		}
 
 		// uses an array of string buffers, since the maximum number of rows is already calculated
 		StringBuffer[] rows = new StringBuffer[rowSpan];
@@ -438,7 +444,9 @@ public class JRTextExporter extends JRAbstractExporter
 				rows[rowIndex].append("");
 				rowIndex++;
 				if(rowIndex == rowSpan || !lfTokenizer.hasMoreTokens())
+				{
 					break label;
+				}
 				rowPosition = 0;
 				rows[rowIndex] = new StringBuffer();
 				line = lfTokenizer.nextToken();
@@ -461,7 +469,9 @@ public class JRTextExporter extends JRAbstractExporter
 					rows[rowIndex].append("");
 					rowIndex++;
 					if(rowIndex == rowSpan)
+					{
 						break label;
+					}
 					rowPosition = 0;
 					rows[rowIndex] = new StringBuffer();
 					//if this is the last empty line:
@@ -488,17 +498,22 @@ public class JRTextExporter extends JRAbstractExporter
 						word = word.substring(colSpan - rowPosition, word.length());
 						rowIndex++;
 						if(rowIndex == rowSpan)
+						{
 							break label;
+						}
 						rowPosition = 0;
 						rows[rowIndex] = new StringBuffer();
 					}
 	
 					// situation: word is larger than remaining space on the current line
 					// in this case, go to the next line
-					if (rowPosition + word.length() > colSpan) {
+					if (rowPosition + word.length() > colSpan) 
+					{
 						rowIndex++;
 						if (rowIndex == rowSpan)
+						{
 							break label;
+						}
 						rowPosition = 0;
 						rows[rowIndex] = new StringBuffer();
 					}
@@ -506,8 +521,9 @@ public class JRTextExporter extends JRAbstractExporter
 					// situation: the word is actually a space and it situated at the beginning of a new line
 					// in this case, it is removed
 					if (rowIndex > 0 && rowPosition == 0 && word.equals(" "))
+					{
 						continue;
-	
+					}
 					// situation: the word is small enough to fit in the current line
 					// in this case just add the word and increment the cursor position
 					rows[rowIndex].append(word);
@@ -517,7 +533,9 @@ public class JRTextExporter extends JRAbstractExporter
 	
 				rowIndex++;
 				if(rowIndex == rowSpan)
+				{
 					break;
+				}
 				rowPosition = 0;
 				rows[rowIndex] = new StringBuffer();
 			}
@@ -564,7 +582,9 @@ public class JRTextExporter extends JRAbstractExporter
 				case JUSTIFIED :
 				{
 					if (i < rowIndex -1)
+					{
 						line = justifyText(line, colSpan);
+					}
 					break;
 				}
 			}
@@ -585,7 +605,9 @@ public class JRTextExporter extends JRAbstractExporter
 		StringTokenizer t = new StringTokenizer(s, " ");
 		int tokenCount = t.countTokens();
 		if (tokenCount <= 1)
+		{
 			return s;
+		}
 
 		String[] words = new String[tokenCount];
 		int i = 0;

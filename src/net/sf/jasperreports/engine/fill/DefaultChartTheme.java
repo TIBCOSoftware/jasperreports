@@ -521,22 +521,34 @@ public class DefaultChartTheme implements ChartTheme
 			{
 				NumberFormat fmt = NumberFormat.getInstance();
 				if (fmt instanceof DecimalFormat)
+				{
 					((DecimalFormat) fmt).applyPattern(tickLabelMask);
+				}
 				((NumberAxis)axis).setNumberFormatOverride(fmt);
 			}
 			else if (axis instanceof DateAxis)
 			{
 				DateFormat fmt;
 				if (tickLabelMask.equals("SHORT") || tickLabelMask.equals("DateFormat.SHORT"))
+				{
 					fmt = DateFormat.getDateInstance(DateFormat.SHORT);
+				}
 				else if (tickLabelMask.equals("MEDIUM") || tickLabelMask.equals("DateFormat.MEDIUM"))
+				{
 					fmt = DateFormat.getDateInstance(DateFormat.MEDIUM);
+				}
 				else if (tickLabelMask.equals("LONG") || tickLabelMask.equals("DateFormat.LONG"))
+				{
 					fmt = DateFormat.getDateInstance(DateFormat.LONG);
+				}
 				else if (tickLabelMask.equals("FULL") || tickLabelMask.equals("DateFormat.FULL"))
+				{
 					fmt = DateFormat.getDateInstance(DateFormat.FULL);
+				}
 				else
+				{
 					fmt = new SimpleDateFormat(tickLabelMask);
+				}
 
 				if (timeZone != null)
 				{
@@ -1348,7 +1360,8 @@ public class DefaultChartTheme implements ChartTheme
 		IntervalXYDataset tmpDataset = (IntervalXYDataset)getDataset();
 
 		boolean isDate = true;
-		if( getChart().getDataset().getDatasetType() == JRChartDataset.XY_DATASET ){
+		if( getChart().getDataset().getDatasetType() == JRChartDataset.XY_DATASET )
+		{
 			isDate = false;
 		}
 
@@ -1572,7 +1585,9 @@ public class DefaultChartTheme implements ChartTheme
 	protected Range convertRange(JRDataRange dataRange) throws JRException
 	{
 		if (dataRange == null)
+		{
 			return null;
+		}
 
 		Number low = (Number)evaluateExpression(dataRange.getLowExpression());
 		Number high = (Number)evaluateExpression(dataRange.getHighExpression());
@@ -1591,7 +1606,9 @@ public class DefaultChartTheme implements ChartTheme
 	{
 		String label = interval.getLabel();
 		if (label == null)
+		{
 			label = "";
+		}
 
 		Range range = convertRange(interval.getDataRange());
 
@@ -1640,7 +1657,9 @@ public class DefaultChartTheme implements ChartTheme
 		// value
 		String units = jrPlot.getUnits();
 		if (units != null && units.length() > 0)
+		{
 			chartPlot.setUnits(units);
+		}
 
 		// Set the font used for tick labels
 		if(jrPlot.getTickLabelFont() != null)
@@ -1656,11 +1675,15 @@ public class DefaultChartTheme implements ChartTheme
 		// Set all the colors we support
 		Color color = jrPlot.getMeterBackgroundColor();
 		if (color != null)
+		{
 			chartPlot.setDialBackgroundPaint(color);
+		}
 
 		color = jrPlot.getNeedleColor();
 		if (color != null)
+		{
 			chartPlot.setNeedlePaint(color);
+		}
 
 		// Set how the value is displayed.
 		JRValueDisplay display = jrPlot.getValueDisplay();
@@ -1684,7 +1707,9 @@ public class DefaultChartTheme implements ChartTheme
 
 		color = jrPlot.getTickColor();
 		if (color != null)
+		{
 			chartPlot.setTickPaint(color);
+		}
 
 		// Now define all of the intervals, setting their range and color
 		List intervals = jrPlot.getIntervals();
@@ -1835,7 +1860,9 @@ public class DefaultChartTheme implements ChartTheme
 		scale.setTickRadius(0.9);
 		scale.setTickLabelOffset(0.16);
 		if(jrPlot.getTickLabelFont() != null)
+		{
 			scale.setTickLabelFont(JRFontUtil.getAwtFont(jrPlot.getTickLabelFont(), getLocale()));
+		}
 		scale.setMajorTickStroke(new BasicStroke(1f));
 		scale.setMinorTickStroke(new BasicStroke(0.3f));
 		scale.setMajorTickPaint(jrPlot.getTickColor());
@@ -1851,8 +1878,9 @@ public class DefaultChartTheme implements ChartTheme
 			int size = Math.min(3, intervals.size());
 			int colorStep = 0;
 			if(size > 0)
+			{
 				colorStep = 255 / size;
-			
+			}
 			for(int i = 0; i < size; i++)
 			{
 				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
@@ -1887,7 +1915,9 @@ public class DefaultChartTheme implements ChartTheme
 
 			String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
 			if(pattern != null)
+			{
 				dvi.setNumberFormat( new DecimalFormat(pattern));
+			}
 			dvi.setRadius(0.15);
 			dvi.setValueAnchor(RectangleAnchor.CENTER);
 			dvi.setTextAnchor(TextAnchor.CENTER);
@@ -1906,7 +1936,9 @@ public class DefaultChartTheme implements ChartTheme
 			{
 				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
 				if(displayFont != null)
+				{
 					dialAnnotation.setFont(JRFontUtil.getAwtFont(displayFont, getLocale()));
+				}
 				dialAnnotation.setPaint(jrPlot.getValueDisplay().getColor());
 				dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
 				dialAnnotation.setAnchor(TextAnchor.CENTER);

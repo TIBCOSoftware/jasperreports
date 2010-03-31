@@ -79,7 +79,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (pen != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'pen' attribute is deprecated. Use the <pen> tag instead.");
+			}
 				
 			JRPenUtil.setLinePenFromPen(pen, style.getLinePen());
 		}
@@ -123,8 +125,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'border' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getPen());
 		}
 
@@ -132,8 +135,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'borderColor' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			style.getLineBox().getPen().setLineColor(borderColor);
 		}
 
@@ -141,8 +145,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (padding != null && padding.length() > 0)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'padding' attribute is deprecated. Use the <box> tag instead.");
-				
+			}
 			style.getLineBox().setPadding(Integer.parseInt(padding));
 		}
 
@@ -150,8 +155,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'topBorder' attribute is deprecated. Use the <pen> tag instead.");
-
+			}
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getTopPen());
 		}
 				
@@ -159,8 +165,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'topBorderColor' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			style.getLineBox().getTopPen().setLineColor(borderColor);
 		}
 
@@ -168,8 +175,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (padding != null && padding.length() > 0)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'topPadding' attribute is deprecated. Use the <box> tag instead.");
-				
+			}
 			style.getLineBox().setTopPadding(Integer.parseInt(padding));
 		}
 
@@ -177,8 +185,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'leftBorder' attribute is deprecated. Use the <pen> tag instead.");
-
+			}
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getLeftPen());
 		}
 
@@ -186,8 +195,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'leftBorderColor' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			style.getLineBox().getLeftPen().setLineColor(borderColor);
 		}
 
@@ -195,8 +205,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (padding != null && padding.length() > 0)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'leftPadding' attribute is deprecated. Use the <box> tag instead.");
-				
+			}
 			style.getLineBox().setLeftPadding(Integer.parseInt(padding));
 		}
 
@@ -204,8 +215,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'bottomBorder' attribute is deprecated. Use the <pen> tag instead.");
-
+			}
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getBottomPen());
 		}
 
@@ -213,8 +225,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'bottomBorderColor' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			style.getLineBox().getBottomPen().setLineColor(borderColor);
 		}
 
@@ -222,8 +235,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (padding != null && padding.length() > 0)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'bottomPadding' attribute is deprecated. Use the <box> tag instead.");
-				
+			}
 			style.getLineBox().setBottomPadding(Integer.parseInt(padding));
 		}
 
@@ -231,8 +245,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (border != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'rightBorder' attribute is deprecated. Use the <pen> tag instead.");
-
+			}
 			JRPenUtil.setLinePenFromPen(border, style.getLineBox().getRightPen());
 		}
 
@@ -240,8 +255,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (borderColor != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'rightBorderColor' attribute is deprecated. Use the <pen> tag instead.");
-				
+			}
 			style.getLineBox().getRightPen().setLineColor(borderColor);
 		}
 
@@ -249,8 +265,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (padding != null && padding.length() > 0)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'rightPadding' attribute is deprecated. Use the <box> tag instead.");
-				
+			}
 			style.getLineBox().setRightPadding(Integer.parseInt(padding));
 		}
 
@@ -274,8 +291,9 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'isStyledText' attribute is deprecated. Use the 'markup' attribute instead.");
-				
+			}
 			style.setMarkup(Boolean.valueOf(isStyledText) ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE);
 		}
 
@@ -288,32 +306,41 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		}
 
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_fontName) != null)
+		{
 			style.setFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_fontName));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isBold) != null)
+		{
 			style.setBold(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isBold)));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic) != null)
+		{
 			style.setItalic(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic)));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isUnderline) != null)
+		{
 			style.setUnderline(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isUnderline)));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isStrikeThrough) != null)
+		{
 			style.setStrikeThrough(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isStrikeThrough)));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_fontSize) != null)
+		{
 			style.setFontSize(Integer.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_fontSize)));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName) != null)
+		{
 			style.setPdfFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfEncoding) != null)
+		{
 			style.setPdfEncoding(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfEncoding));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded) != null)
+		{
 			style.setPdfEmbedded(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded)));
-
+		}
 		return style;
 	}
 }
