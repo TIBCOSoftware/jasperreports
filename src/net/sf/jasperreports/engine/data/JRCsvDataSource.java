@@ -38,8 +38,9 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -69,7 +70,7 @@ public class JRCsvDataSource implements JRDataSource
 	private HashMap columnNames = new HashMap();
 	private boolean useFirstRowAsHeader;
 
-	private Vector fields;
+	private List fields;
 	private Reader reader;
 	private char buffer[] = new char[1024];
 	private int position;
@@ -161,23 +162,31 @@ public class JRCsvDataSource implements JRDataSource
 		String fieldName = jrField.getName();
 
 		Integer columnIndex = (Integer) columnNames.get(fieldName);
-		if (columnIndex == null && fieldName.startsWith("COLUMN_")) {
+		if (columnIndex == null && fieldName.startsWith("COLUMN_"))
+		{
 			columnIndex = Integer.valueOf(fieldName.substring(7));
 		}
 		if (columnIndex == null)
+		{
 			throw new JRException("Unknown column name : " + fieldName);
+		}
 
-		if (fields.size() > columnIndex.intValue()) {
+		if (fields.size() > columnIndex.intValue()) 
+		{
 			String fieldValue = (String) fields.get(columnIndex.intValue());
 			Class valueClass = jrField.getValueClass();
 			
-			if (valueClass.equals(String.class)) 
+			if (valueClass.equals(String.class))
+			{
 				return fieldValue;
+			}
 
 			fieldValue = fieldValue.trim();
 			
 			if (fieldValue.length() == 0)
+			{
 				return null;
+			}
 			
 			try {
 				if (valueClass.equals(Boolean.class)) {
@@ -242,11 +251,13 @@ public class JRCsvDataSource implements JRDataSource
 		boolean hadQuotes = false;
 		boolean misplacedQuote = false;
 		char c;
-		fields = new Vector();
+		fields = new ArrayList();
 
 		String row = getRow();
 		if (row == null)// || row.length() == 0)
+		{
 			return false;
+		}
 
 		while (pos < row.length()) {
 			c = row.charAt(pos);
@@ -271,23 +282,29 @@ public class JRCsvDataSource implements JRDataSource
 				}
 			}
 			// field delimiter found, copy the field contents to the field array
-			if (c == fieldDelimiter && !insideQuotes) {
+			if (c == fieldDelimiter && !insideQuotes) 
+			{
 				String field = row.substring(startFieldPos, pos);
 				// if an illegal quote was found, the entire field is considered illegal
-				if (misplacedQuote) {
+				if (misplacedQuote) 
+				{
 					misplacedQuote = false;
 					hadQuotes = false;
 					field = "";
 				}
 				// if the field was between quotes, remove them and turn any escaped quotes inside the text into normal quotes
-				else if (hadQuotes) {
+				else if (hadQuotes) 
+				{
 					field = field.trim();
-					if (field.startsWith("\"") && field.endsWith("\"")) {
+					if (field.startsWith("\"") && field.endsWith("\"")) 
+					{
 						field = field.substring(1, field.length() - 1);
 						field = replaceAll(field, "\"\"", "\"");
 					}
 					else
+					{
 						field = "";
+					}
 					hadQuotes = false;
 				}
 
@@ -298,7 +315,8 @@ public class JRCsvDataSource implements JRDataSource
 			pos++;
 			// if the record delimiter was found inside a quoted field, it is not an actual record delimiter,
 			// so another line should be read
-			if ((pos == row.length()) && insideQuotes) {
+			if ((pos == row.length()) && insideQuotes) 
+			{
 				row = row + recordDelimiter + getRow();
 			}
 		}
@@ -306,18 +324,26 @@ public class JRCsvDataSource implements JRDataSource
 		// end of row was reached, so the final characters form the last field in the record
 		String field = row.substring(startFieldPos, pos);
 		if (field == null)
+		{
 			return true;
+		}
 
 		if (misplacedQuote)
+		{
 			field = "";
-		else if (hadQuotes) {
+		}
+		else if (hadQuotes) 
+		{
 			field = field.trim();
-			if (field.startsWith("\"") && field.endsWith("\"")) {
+			if (field.startsWith("\"") && field.endsWith("\"")) 
+			{
 				field = field.substring(1, field.length() - 1);
 				field = replaceAll(field, "\"\"", "\"");
 			}
 			else
+			{
 				field = "";
+			}
 		}
 		fields.add(field);
 
@@ -410,7 +436,9 @@ public class JRCsvDataSource implements JRDataSource
 	public void setDateFormat(DateFormat dateFormat)
 	{
 		if (processingStarted)
+		{
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+		}
 		this.dateFormat = dateFormat;
 	}
 
@@ -432,7 +460,9 @@ public class JRCsvDataSource implements JRDataSource
 	public void setFieldDelimiter(char fieldDelimiter)
 	{
 		if (processingStarted)
+		{
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+		}
 		this.fieldDelimiter = fieldDelimiter;
 	}
 
@@ -453,7 +483,9 @@ public class JRCsvDataSource implements JRDataSource
 	public void setRecordDelimiter(String recordDelimiter)
 	{
 		if (processingStarted)
+		{
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+		}
 		this.recordDelimiter = recordDelimiter;
 	}
 
@@ -464,9 +496,13 @@ public class JRCsvDataSource implements JRDataSource
 	public void setColumnNames(String[] columnNames)
 	{
 		if (processingStarted)
+		{
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+		}
 		for (int i = 0; i < columnNames.length; i++)
+		{
 			this.columnNames.put(columnNames[i], new Integer(i));
+		}
 	}
 
 
@@ -477,7 +513,9 @@ public class JRCsvDataSource implements JRDataSource
 	public void setUseFirstRowAsHeader(boolean useFirstRowAsHeader)
 	{
 		if (processingStarted)
+		{
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+		}
 		this.useFirstRowAsHeader = useFirstRowAsHeader;
 	}
 
@@ -513,7 +551,9 @@ public class JRCsvDataSource implements JRDataSource
 		}
 
 		if (oldIndex <  string.length())
+		{
 			result.append(string.substring(oldIndex, string.length()));
+		}
 
 		return result.toString();
 	}

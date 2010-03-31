@@ -68,7 +68,6 @@ import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
-import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -918,33 +917,33 @@ public class JRXmlssExporter extends JRAbstractExporter
 	{
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(frame, gridCell.getBackcolor(), null, isFontSizeFixEnabled, defaultFont, fontMap), gridCell.getColSpan(), gridCell.getRowSpan(), null, null, null);
 
-		boolean appendBackcolor =
-			frame.getModeValue() == ModeEnum.OPAQUE
-			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
-
-		if (appendBackcolor)
-		{
-			setBackcolor(frame.getBackcolor());
-		}
-		try
-		{
-//			JRGridLayout layout = gridCell.getLayout();
-//			JRPrintElementIndex frameIndex =
-//				new JRPrintElementIndex(
-//						reportIndex,
-//						pageIndex,
-//						gridCell.getWrapper().getAddress()
-//						);
-			//FIXME: make it functional
-//			exportPage(layout, frameIndex);
-		}
-		finally
-		{
-			if (appendBackcolor)
-			{
-				restoreBackcolor();
-			}
-		}
+//		boolean appendBackcolor =
+//			frame.getModeValue() == ModeEnum.OPAQUE
+//			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
+//
+//		if (appendBackcolor)
+//		{
+//			setBackcolor(frame.getBackcolor());
+//		}
+//		try
+//		{
+////			JRGridLayout layout = gridCell.getLayout();
+////			JRPrintElementIndex frameIndex =
+////				new JRPrintElementIndex(
+////						reportIndex,
+////						pageIndex,
+////						gridCell.getWrapper().getAddress()
+////						);
+//			//FIXME: make it functional
+////			exportPage(layout, frameIndex);
+//		}
+//		finally
+//		{
+//			if (appendBackcolor)
+//			{
+//				restoreBackcolor();
+//			}
+//		}
 
 		tableBuilder.buildCellFooter();
 	}
