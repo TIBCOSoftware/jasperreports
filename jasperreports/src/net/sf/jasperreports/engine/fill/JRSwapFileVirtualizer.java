@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRVirtualizable;
-import net.sf.jasperreports.engine.fill.JRAbstractLRUVirtualizer;
 import net.sf.jasperreports.engine.util.JRSwapFile;
 
 

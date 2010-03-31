@@ -190,7 +190,7 @@
 		</groupFooter>
 	</group>
 	<group name="MonthGroup">
-		<groupExpression><![CDATA[new Integer($F{OrderDate}.getMonth())]]></groupExpression>
+		<groupExpression><![CDATA[Integer.valueOf($F{OrderDate}.getMonth())]]></groupExpression>
 	</group>
 	<title>
 		<band height="50">

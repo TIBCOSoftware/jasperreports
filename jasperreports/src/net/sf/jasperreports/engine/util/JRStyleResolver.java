@@ -65,7 +65,7 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 public class JRStyleResolver
 {
 
-	private static final Integer INTEGER_ZERO = new Integer(0);
+	private static final Integer INTEGER_ZERO = Integer.valueOf(0);
 
 	/**
 	 *

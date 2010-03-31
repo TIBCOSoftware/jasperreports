@@ -89,7 +89,7 @@ public class JRPrintImageFactory extends JRBaseFactory
 		String hyperlinkPage = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkPage);
 		if (hyperlinkPage != null)
 		{
-			image.setHyperlinkPage(new Integer(hyperlinkPage));
+			image.setHyperlinkPage(Integer.valueOf(hyperlinkPage));
 		}
 		
 		image.setHyperlinkTooltip(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTooltip));

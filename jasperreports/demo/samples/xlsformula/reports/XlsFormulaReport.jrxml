@@ -21,7 +21,7 @@
 					<rightPen lineWidth="1.0" lineColor="#C0C0C0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[new Integer(7)]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf(7)]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="280" y="150" width="315" height="23"/>
@@ -44,7 +44,7 @@
 					<rightPen lineWidth="1.0" lineColor="#C0C0C0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[new Integer(4)]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf(4)]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="280" y="173" width="315" height="23"/>
@@ -66,7 +66,7 @@
 					<rightPen lineWidth="1.0" lineColor="#C0C0C0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[new Integer(0)]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf(0)]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="280" y="196" width="315" height="23"/>
@@ -80,7 +80,7 @@
 			</staticText>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-4" x="0" y="219" width="280" height="23">
-					<propertyExpression name="net.sf.jasperreports.export.xls.formula"><![CDATA["A" + new Integer(2).intValue() + "-A" + 3]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.export.xls.formula"><![CDATA["A" + Integer.valueOf(2).intValue() + "-A" + 3]]></propertyExpression>
 				</reportElement>
 				<box rightPadding="5">
 					<leftPen lineWidth="4.0" lineColor="#C0C0C0"/>
@@ -88,7 +88,7 @@
 					<rightPen lineWidth="1.0" lineColor="#C0C0C0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[new Integer(0)]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf(0)]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="280" y="219" width="315" height="23"/>

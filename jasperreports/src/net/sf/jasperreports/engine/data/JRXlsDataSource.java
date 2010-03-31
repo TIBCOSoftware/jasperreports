@@ -187,7 +187,7 @@ public class JRXlsDataSource implements JRRewindableDataSource
 				return new Byte((numberFormat.parse(fieldValue)).byteValue());
 			}
 			else if (valueClass.equals(Integer.class)) {
-				return new Integer((numberFormat.parse(fieldValue)).intValue());
+				return Integer.valueOf((numberFormat.parse(fieldValue)).intValue());
 			}
 			else if (valueClass.equals(Long.class)) {
 				return new Long((numberFormat.parse(fieldValue)).longValue());
@@ -243,7 +243,7 @@ public class JRXlsDataSource implements JRRewindableDataSource
 				String columnName = cell.getContents();
 				if (columnName != null && columnName.trim().length() > 0)
 				{
-					columnNames.put(columnName, new Integer(columnIndex));
+					columnNames.put(columnName, Integer.valueOf(columnIndex));
 				}
 			}
 		}
@@ -312,7 +312,7 @@ public class JRXlsDataSource implements JRRewindableDataSource
 		
 		for (int i = 0; i < columnNames.length; i++)
 		{
-			this.columnNames.put(columnNames[i], new Integer(i));
+			this.columnNames.put(columnNames[i], Integer.valueOf(i));
 		}
 	}
 
@@ -333,7 +333,7 @@ public class JRXlsDataSource implements JRRewindableDataSource
 		
 		for (int i = 0; i < columnNames.length; i++)
 		{
-			this.columnNames.put(columnNames[i], new Integer(columnIndexes[i]));
+			this.columnNames.put(columnNames[i], Integer.valueOf(columnIndexes[i]));
 		}
 	}
 

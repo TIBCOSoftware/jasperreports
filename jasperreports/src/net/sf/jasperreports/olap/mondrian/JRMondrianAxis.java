@@ -26,12 +26,12 @@ package net.sf.jasperreports.olap.mondrian;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.jasperreports.olap.result.JROlapHierarchy;
-import net.sf.jasperreports.olap.result.JROlapMemberTuple;
-import net.sf.jasperreports.olap.result.JROlapResultAxis;
 import mondrian.olap.Axis;
 import mondrian.olap.Hierarchy;
 import mondrian.olap.Position;
+import net.sf.jasperreports.olap.result.JROlapHierarchy;
+import net.sf.jasperreports.olap.result.JROlapMemberTuple;
+import net.sf.jasperreports.olap.result.JROlapResultAxis;
 
 
 /**

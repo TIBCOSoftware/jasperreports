@@ -28,7 +28,7 @@
 		<variableExpression><![CDATA[$F{ShipCountry}.substring(0, 1).toUpperCase()]]></variableExpression>
 	</variable>
 	<variable name="OrderIDBucket" class="java.lang.Integer" resetType="None">
-		<variableExpression><![CDATA[new Integer(1 * ($F{OrderID}.intValue() / 100))]]></variableExpression>
+		<variableExpression><![CDATA[Integer.valueOf(1 * ($F{OrderID}.intValue() / 100))]]></variableExpression>
 	</variable>
 	<variable name="FreightSumFirstLetterGroup" class="java.lang.Double" resetType="Group" resetGroup="FirstLetterGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>

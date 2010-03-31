@@ -603,7 +603,7 @@ public class JRXmlWriteHelper
 	 */
 	public void addAttribute(String name, int value, Map xmlValues)
 	{
-		String xmlValue = (String) xmlValues.get(new Integer(value));
+		String xmlValue = (String) xmlValues.get(Integer.valueOf(value));
 		writeAttribute(name, xmlValue);
 	}
 	

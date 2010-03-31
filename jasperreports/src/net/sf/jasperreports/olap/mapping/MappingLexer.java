@@ -65,14 +65,14 @@ public MappingLexer(LexerSharedInputState state) {
 	caseSensitiveLiterals = true;
 	setCaseSensitive(false);
 	literals = new Hashtable();
-	literals.put(new ANTLRHashString("Columns", this), new Integer(7));
-	literals.put(new ANTLRHashString("Data", this), new Integer(12));
-	literals.put(new ANTLRHashString("Chapters", this), new Integer(10));
-	literals.put(new ANTLRHashString("Rows", this), new Integer(8));
-	literals.put(new ANTLRHashString("Sections", this), new Integer(11));
-	literals.put(new ANTLRHashString("FormattedData", this), new Integer(13));
-	literals.put(new ANTLRHashString("Axis", this), new Integer(4));
-	literals.put(new ANTLRHashString("Pages", this), new Integer(9));
+	literals.put(new ANTLRHashString("Columns", this), Integer.valueOf(7));
+	literals.put(new ANTLRHashString("Data", this), Integer.valueOf(12));
+	literals.put(new ANTLRHashString("Chapters", this), Integer.valueOf(10));
+	literals.put(new ANTLRHashString("Rows", this), Integer.valueOf(8));
+	literals.put(new ANTLRHashString("Sections", this), Integer.valueOf(11));
+	literals.put(new ANTLRHashString("FormattedData", this), Integer.valueOf(13));
+	literals.put(new ANTLRHashString("Axis", this), Integer.valueOf(4));
+	literals.put(new ANTLRHashString("Pages", this), Integer.valueOf(9));
 }
 
 public Token nextToken() throws TokenStreamException {

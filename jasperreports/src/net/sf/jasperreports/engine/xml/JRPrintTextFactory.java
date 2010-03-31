@@ -122,7 +122,7 @@ public class JRPrintTextFactory extends JRBaseFactory
 		String hyperlinkPage = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkPage);
 		if (hyperlinkPage != null)
 		{
-			text.setHyperlinkPage(new Integer(hyperlinkPage));
+			text.setHyperlinkPage(Integer.valueOf(hyperlinkPage));
 		}
 		
 		text.setHyperlinkTooltip(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTooltip));

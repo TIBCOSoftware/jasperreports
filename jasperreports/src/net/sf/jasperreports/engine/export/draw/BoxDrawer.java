@@ -33,8 +33,8 @@ package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
 
-import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 
 

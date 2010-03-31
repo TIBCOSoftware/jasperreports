@@ -29,12 +29,12 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
-
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRDateLocaleConverter;
 import net.sf.jasperreports.engine.util.JRFloatLocaleConverter;
+
+import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
 
 /**
  * Abstract text data source, containing methods used to parse text
@@ -88,7 +88,7 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		}
 		else if (valueClass.equals(Integer.class))
 		{
-			value = new Integer(number.intValue());
+			value = Integer.valueOf(number.intValue());
 		}
 		else if (valueClass.equals(Long.class))
 		{

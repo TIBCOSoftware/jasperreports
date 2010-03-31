@@ -1405,7 +1405,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				lblStatus.setText(
 					MessageFormat.format(
 						getBundleString("page"),
-						new Object[]{new Integer(pageIndex + 1), new Integer(jasperPrint.getPages().size())}
+						new Object[]{Integer.valueOf(pageIndex + 1), Integer.valueOf(jasperPrint.getPages().size())}
 						)
 					);
 			}
@@ -2010,10 +2010,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, grx.create());
-			exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
+			exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
 			exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, new Float(realZoom));
-			exporter.setParameter(JRExporterParameter.OFFSET_X, new Integer(1)); //lblPage border
-			exporter.setParameter(JRExporterParameter.OFFSET_Y, new Integer(1));
+			exporter.setParameter(JRExporterParameter.OFFSET_X, Integer.valueOf(1)); //lblPage border
+			exporter.setParameter(JRExporterParameter.OFFSET_Y, Integer.valueOf(1));
 			if (type == TYPE_FILE_NAME)
 			{
 				exporter.setParameter(JRExporterParameter.FILE_RESOLVER, fileResolver);

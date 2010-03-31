@@ -73,7 +73,7 @@
 			<groupExpression><![CDATA[$F{sales_stage}]]></groupExpression>
 		</group>
 		<group name="month">
-			<groupExpression><![CDATA[new Integer($F{date_closed}.getMonth())]]></groupExpression>
+			<groupExpression><![CDATA[Integer.valueOf($F{date_closed}.getMonth())]]></groupExpression>
 		</group>
 	</subDataset>
 	<subDataset name="timePeriodDataset">

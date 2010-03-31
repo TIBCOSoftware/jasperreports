@@ -1743,7 +1743,7 @@ public class JRApiWriter
 		{
 			String datasetName = parentName + datasetNameSuffix;
 			write( "JRDesignPieDataset " + datasetName + " = new JRDesignPieDataset(" + parentName + ".getDataset());\n");
-			write( datasetName + ".setMaxCount(new Integer({0, number, #}));\n", dataset.getMaxCount());
+			write( datasetName + ".setMaxCount(Integer.valueOf({0, number, #}));\n", dataset.getMaxCount());
 			write( datasetName + ".setMinPercentage({0});\n", dataset.getMinPercentage());
 	
 			writeElementDataset( dataset, datasetName);
@@ -1898,7 +1898,7 @@ public class JRApiWriter
 	 *
 	 * @param chartAxis the axis being written
 	 */
-	private void writeChartAxis( JRChartAxis chartAxis, String parentName, String axisName)
+	private void writeChartAxis( JRChartAxis chartAxis, String parentName, String axisName, String chartName)
 	{
 		if(chartAxis != null)
 		{
@@ -1907,6 +1907,8 @@ public class JRApiWriter
 			
 			write( "JRDesignChartAxis " + axisName + " = new JRDesignChartAxis(" + axisName +"Chart);\n");
 			write( axisName + ".setPosition({0});\n", chartAxis.getPositionValue());
+			write( axisName + ".setChart(" + axisName +"Chart);\n");
+//			write( parentName + ".setChart(" + axisName +"Chart);\n");
 			write( parentName + ".addAxis(" + axisName + ");\n");
 			
 			flush();
@@ -2753,7 +2755,7 @@ public class JRApiWriter
 				
 				write( "JRDesignMeterPlot " + plotName + " = (JRDesignMeterPlot)" + chartName + ".getPlot();\n");
 				write( plotName + ".setShape({0});\n", plot.getShapeValue());
-				write( plotName + ".setMeterAngle(new Integer({0, number, #}));\n", plot.getMeterAngleInteger());
+				write( plotName + ".setMeterAngle(Integer.valueOf({0, number, #}));\n", plot.getMeterAngleInteger());
 				
 				write( plotName + ".setUnits(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getUnits()));
 				write( plotName + ".setTickInterval({0});\n", plot.getTickIntervalDouble());
@@ -2854,7 +2856,7 @@ public class JRApiWriter
 				for (int i = 0; i < axes.size(); i++)
 				{
 					JRChartAxis chartAxis = (JRChartAxis) axes.get(i);
-					writeChartAxis( chartAxis, plotName, plotName + "Axis" + i);
+					writeChartAxis( chartAxis, plotName, plotName + "Axis" + i, chartName);
 				}
 			}
 			flush();
@@ -3697,11 +3699,11 @@ public class JRApiWriter
 	{
 		if (box != null)
 		{
-			write( boxHolder + ".setPadding(new Integer({0, number, #}));\n", box.getOwnPadding());
-			write( boxHolder + ".setTopPadding(new Integer({0, number, #}));\n", box.getOwnTopPadding());
-			write( boxHolder + ".setLeftPadding(new Integer({0, number, #}));\n", box.getOwnLeftPadding());
-			write( boxHolder + ".setBottomPadding(new Integer({0, number, #}));\n", box.getOwnBottomPadding());
-			write( boxHolder + ".setRightPadding(new Integer({0, number, #}));\n", box.getOwnRightPadding());
+			write( boxHolder + ".setPadding(Integer.valueOf({0, number, #}));\n", box.getOwnPadding());
+			write( boxHolder + ".setTopPadding(Integer.valueOf({0, number, #}));\n", box.getOwnTopPadding());
+			write( boxHolder + ".setLeftPadding(Integer.valueOf({0, number, #}));\n", box.getOwnLeftPadding());
+			write( boxHolder + ".setBottomPadding(Integer.valueOf({0, number, #}));\n", box.getOwnBottomPadding());
+			write( boxHolder + ".setRightPadding(Integer.valueOf({0, number, #}));\n", box.getOwnRightPadding());
 
 			writePen( box.getPen(), boxHolder + ".getPen()");
 			writePen( box.getTopPen(), boxHolder + ".getTopPen()");
@@ -3813,7 +3815,7 @@ public class JRApiWriter
 	 */
 	protected void write(String pattern, int value)
 	{
-		write(MessageFormat.format(pattern, new Object[]{new Integer(value)}));
+		write(MessageFormat.format(pattern, new Object[]{Integer.valueOf(value)}));
 	}
 
 	
@@ -3824,7 +3826,7 @@ public class JRApiWriter
 	{
 		if (value != defaultValue)
 		{
-			write(MessageFormat.format(pattern, new Object[]{new Integer(value)}));
+			write(MessageFormat.format(pattern, new Object[]{Integer.valueOf(value)}));
 		}
 	}
 

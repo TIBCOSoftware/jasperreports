@@ -242,7 +242,7 @@ public class JRDesignDataset extends JRBaseDataset
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		//expression.setText("($V{COLUMN_NUMBER} != null)?(new Integer($V{COLUMN_NUMBER}.intValue() + 1)):(new Integer(1))");
+		//expression.setText("($V{COLUMN_NUMBER} != null)?(Integer.valueOf($V{COLUMN_NUMBER}.intValue() + 1)):(Integer.valueOf(1))");
 		expression.setText("new java.lang.Integer(1)");
 		variable.setInitialValueExpression(expression);
 		return variable;
@@ -259,7 +259,7 @@ public class JRDesignDataset extends JRBaseDataset
 		variable.setSystemDefined(true);
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		//expression.setText("($V{PAGE_NUMBER} != null)?(new Integer($V{PAGE_NUMBER}.intValue() + 1)):(new Integer(1))");
+		//expression.setText("($V{PAGE_NUMBER} != null)?(Integer.valueOf($V{PAGE_NUMBER}.intValue() + 1)):(Integer.valueOf(1))");
 		expression.setText("new java.lang.Integer(1)");
 		variable.setInitialValueExpression(expression);
 		return variable;

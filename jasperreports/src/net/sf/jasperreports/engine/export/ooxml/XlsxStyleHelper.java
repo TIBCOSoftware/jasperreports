@@ -90,7 +90,7 @@ public class XlsxStyleHelper extends BaseHelper
 		Integer styleIndex = (Integer)styleCache.get(styleInfo.getId());
 		if (styleIndex == null)
 		{
-			styleIndex = new Integer(styleCache.size() + 1);
+			styleIndex = Integer.valueOf(styleCache.size() + 1);
 			exportCellStyle(gridCell, styleInfo, styleIndex);
 			styleCache.put(styleInfo.getId(), styleIndex);
 		}

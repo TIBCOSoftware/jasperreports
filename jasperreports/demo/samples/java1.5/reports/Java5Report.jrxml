@@ -69,7 +69,7 @@
 				<textElement>
 					<font size="24"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[new Integer($P{A}.intValue() + $P{B}.intValue())]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf($P{A}.intValue() + $P{B}.intValue())]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="0" y="270" width="259" height="35"/>

@@ -91,7 +91,7 @@
 	exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 	exporter.setParameter(JRExporterParameter.OUTPUT_STRING_BUFFER, sbuffer);
 	exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "../servlets/image?image=");
-	exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
+	exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
 	exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, "");
 	exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, "");
 	exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, "");

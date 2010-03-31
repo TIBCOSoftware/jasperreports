@@ -52,13 +52,13 @@ public class CutsInfo
 	
 	public CutsInfo()
 	{
-		addCut(new Integer(0));
+		addCut(Integer.valueOf(0));
 	}
 	
 	public CutsInfo(int lastCut)
 	{
 		this();
-		addCut(new Integer(lastCut));
+		addCut(Integer.valueOf(lastCut));
 	}
 	
 	public List getCuts()
@@ -98,7 +98,7 @@ public class CutsInfo
 	
 	protected boolean addCut(int cut)
 	{
-		return addCut(new Integer(cut));
+		return addCut(Integer.valueOf(cut));
 	}
 	
 	public void addUsage(int index, int usage)
@@ -121,7 +121,7 @@ public class CutsInfo
 	
 	public int indexOfCut(int cut)
 	{
-		return indexOfCut(new Integer(cut));
+		return indexOfCut(Integer.valueOf(cut));
 	}
 	
 	private int indexOfCut(Integer cut)

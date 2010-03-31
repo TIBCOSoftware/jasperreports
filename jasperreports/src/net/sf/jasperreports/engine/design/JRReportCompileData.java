@@ -111,7 +111,7 @@ public class JRReportCompileData implements Serializable
 	 */
 	public void setCrosstabCompileData(int crosstabId, Serializable compileData)
 	{
-		crosstabCompileData.put(new Integer(crosstabId), compileData);
+		crosstabCompileData.put(Integer.valueOf(crosstabId), compileData);
 	}
 	
 	
@@ -162,7 +162,7 @@ public class JRReportCompileData implements Serializable
 	 */
 	public Serializable getCrosstabCompileData(JRCrosstab crosstab) throws JRException
 	{
-		Serializable compileData = (Serializable) crosstabCompileData.get(new Integer(crosstab.getId()));
+		Serializable compileData = (Serializable) crosstabCompileData.get(Integer.valueOf(crosstab.getId()));
 		if (compileData == null)
 		{
 			throw new JRException("Compile data for crosstab not found in the report.");
