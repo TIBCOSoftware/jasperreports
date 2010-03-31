@@ -55,20 +55,24 @@ public class JRChartPlotFactory extends JRBaseFactory
 
 		PlotOrientationEnum orientation = PlotOrientationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_orientation));
 		if (orientation != null)
+		{
 			plot.setOrientation(orientation.getOrientation());
-
+		}
 		String foregroundAlpha = atts.getValue(JRXmlConstants.ATTRIBUTE_foregroundAlpha);
 		if (foregroundAlpha != null && foregroundAlpha.length() > 0)
+		{
 			plot.setForegroundAlpha(Float.valueOf(foregroundAlpha));
-
+		}
 		String backgroundAlpha = atts.getValue(JRXmlConstants.ATTRIBUTE_backgroundAlpha);
 		if (backgroundAlpha != null && backgroundAlpha.length() > 0)
+		{
 			plot.setBackgroundAlpha(Float.valueOf(backgroundAlpha));
-
+		}
 		String labelRotation = atts.getValue(JRXmlConstants.ATTRIBUTE_labelRotation);
 		if (labelRotation != null && labelRotation.length() > 0)
+		{
 			plot.setLabelRotation(Double.valueOf(labelRotation));
-
+		}
 		return plot;
 	}
 	
@@ -81,11 +85,14 @@ public class JRChartPlotFactory extends JRBaseFactory
 			
 			String seriesNumber = atts.getValue(JRXmlConstants.ATTRIBUTE_seriesOrder);
 			if (seriesNumber != null && seriesNumber.length() > 0)
+			{
 				seriesIndex = Integer.valueOf(seriesNumber).intValue();
-
+			}
 			String colorName = atts.getValue(JRXmlConstants.ATTRIBUTE_color);
 			if (colorName != null && colorName.length() > 0)
+			{
 				color = JRColorUtil.getColor(colorName, null);
+			}
 			
 			return new JRBaseChartPlot.JRBaseSeriesColor(seriesIndex, color);
 		}

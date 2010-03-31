@@ -490,7 +490,9 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		catch(Exception e)
 		{
 			if (log.isErrorEnabled())
+			{
 				log.error("Page paint error.", e);
+			}
 
 			pageError = true;
 			
@@ -733,7 +735,9 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			catch (Exception e)
 			{
 				if (log.isErrorEnabled())
+				{
 					log.error("Print page to image error.", e);
+				}
 
 				pageError = true;
 
@@ -1065,7 +1069,9 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		catch(JRException e)
 		{
 			if (log.isErrorEnabled())
+			{
 				log.error("Hyperlink click error.", e);
+			}
 
 			JOptionPane.showMessageDialog(this, viewerContext.getBundleString("error.hyperlink"));
 		}
@@ -1129,7 +1135,9 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		{
 			viewerContext.setPageIndex(viewerContext.getPageIndex() + 1);
 			if(scrollPane.isEnabled())
+			{
 				scrollPane.getVerticalScrollBar().setValue(0);
+			}
 		}
 	}
 
@@ -1141,7 +1149,9 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		{
 			viewerContext.setPageIndex(viewerContext.getPageIndex() - 1);
 			if(scrollPane.isEnabled())
+			{
 				scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+			}
 		}
 		else
 		{
@@ -1153,7 +1163,9 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	{
 		viewerContext.setPageIndex(pageNumber);
 		if(scrollPane.isEnabled())
+		{
 			scrollPane.getVerticalScrollBar().setValue(0);
+		}
 	}
 
 	public void viewerEvent(JRViewerEvent event)
