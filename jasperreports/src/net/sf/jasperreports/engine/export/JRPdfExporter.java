@@ -461,11 +461,13 @@ public class JRPdfExporter extends JRAbstractExporter
 			tagHelper.setPdfWriter(pdfWriter);
 			
 			if (pdfVersion != null)
+			{
 				pdfWriter.setPdfVersion(pdfVersion.charValue());
-
+			}
 			if (isCompressed)
+			{
 				pdfWriter.setFullCompression();
-
+			}
 			if (isEncrypted)
 			{
 				pdfWriter.setEncryption(
@@ -494,30 +496,40 @@ public class JRPdfExporter extends JRAbstractExporter
 			// mtclough@users.sourceforge.net 2005-12-05
 			String title = (String)parameters.get(JRPdfExporterParameter.METADATA_TITLE);
 			if( title != null )
+			{
 				document.addTitle(title);
-
+			}
 			String author = (String)parameters.get(JRPdfExporterParameter.METADATA_AUTHOR);
 			if( author != null )
+			{
 				document.addAuthor(author);
-
+			}
 			String subject = (String)parameters.get(JRPdfExporterParameter.METADATA_SUBJECT);
 			if( subject != null )
+			{
 				document.addSubject(subject);
-
+			}
 			String keywords = (String)parameters.get(JRPdfExporterParameter.METADATA_KEYWORDS);
 			if( keywords != null )
+			{
 				document.addKeywords(keywords);
-
+			}
 			String creator = (String)parameters.get(JRPdfExporterParameter.METADATA_CREATOR);
 			if( creator != null )
+			{
 				document.addCreator(creator);
+			}
 			else
+			{
 				document.addCreator("JasperReports (" + jasperPrint.getName() + ")");
+			}
 
 			document.open();
 			
 			if(pdfJavaScript != null)
+			{
 				pdfWriter.addJavaScript(pdfJavaScript);
+			}
 
 			pdfContentByte = pdfWriter.getDirectContent();
 
@@ -566,7 +578,8 @@ public class JRPdfExporter extends JRAbstractExporter
 					{
 						document.newPage();
 
-						if( isCreatingBatchModeBookmarks ){
+						if( isCreatingBatchModeBookmarks )
+						{
 							//add a new level to our outline for this report
 							addBookmark(0, jasperPrint.getName(), 0, 0);
 						}
@@ -647,9 +660,12 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected void writePageAnchor(int pageIndex) throws DocumentException {
 		Map pdfFontAttrs = getDefaultPdfFontAttributes();
 		Chunk chunk;
-		if (pdfFontAttrs == null) {
+		if (pdfFontAttrs == null) 
+		{
 			chunk = new Chunk(" ");
-		} else {
+		} 
+		else 
+		{
 			Font pdfFont = getFont(pdfFontAttrs, getLocale());
 			chunk = new Chunk(" ", pdfFont);
 		}
@@ -677,19 +693,25 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected Map getDefaultPdfFontAttributes() {
 		Map attrs;
 		JRStyle style = jasperPrint.getDefaultStyle();
-		if (style != null) {
+		if (style != null) 
+		{
 			attrs = new HashMap();
 			attrs.put(JRTextAttribute.PDF_FONT_NAME, style.getPdfFontName());
 			attrs.put(JRTextAttribute.PDF_ENCODING, style.getPdfEncoding());
 			attrs.put(JRTextAttribute.IS_PDF_EMBEDDED, style.isPdfEmbedded());
-		} else {
+		} 
+		else 
+		{
 			JRReportFont font = jasperPrint.getDefaultFont();
-			if (font != null) {
+			if (font != null) 
+			{
 				attrs = new HashMap();
 				attrs.put(JRTextAttribute.PDF_FONT_NAME, font.getPdfFontName());
 				attrs.put(JRTextAttribute.PDF_ENCODING, font.getPdfEncoding());
 				attrs.put(JRTextAttribute.IS_PDF_EMBEDDED, font.isPdfEmbedded() ? Boolean.TRUE : Boolean.FALSE);
-			} else {
+			} 
+			else 
+			{
 				attrs = null;
 			}
 		}
