@@ -74,10 +74,14 @@ public class JRStyleResolver
 	{
 		JRReportFont reportFont = font.getReportFont();
 		if (reportFont != null)
+		{
 			return reportFont;
+		}
 		JRDefaultStyleProvider defaultStyleProvider = font.getDefaultStyleProvider();
 		if (defaultStyleProvider != null)
+		{
 			return defaultStyleProvider.getDefaultFont();
+		}
 		return null;
 	}
 	
@@ -90,10 +94,14 @@ public class JRStyleResolver
 		{
 			JRStyle style = styleContainer.getStyle();
 			if (style != null)
+			{
 				return style;
+			}
 			JRDefaultStyleProvider defaultStyleProvider = styleContainer.getDefaultStyleProvider();
 			if (defaultStyleProvider != null)
+			{
 				return defaultStyleProvider.getDefaultStyle();
+			}
 		}
 		return null;
 	}
@@ -123,7 +131,9 @@ public class JRStyleResolver
 	{
 		ModeEnum ownMode = element.getOwnModeValue();
 		if (ownMode != null) 
+		{
 			return ownMode;
+		}
 		JRStyle style = getBaseStyle(element);
 		if (style != null)
 		{
@@ -143,10 +153,14 @@ public class JRStyleResolver
 	{
 		ModeEnum ownMode = style.getOwnModeValue();
 		if (ownMode != null)
+		{
 			return ownMode;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getModeValue();
+		}
 		return null;
 	}
 
@@ -157,7 +171,9 @@ public class JRStyleResolver
 	{
 		Color ownForecolor = element.getOwnForecolor();
 		if (ownForecolor != null) 
+		{
 			return ownForecolor;
+		}
 		JRStyle style = getBaseStyle(element);
 		if (style != null)
 		{
@@ -177,7 +193,9 @@ public class JRStyleResolver
 	{
 		JRChart chart = plot.getChart();
 		if (chart != null)
+		{
 			return getForecolor(chart);
+		}
 		return Color.black;
 	}
 
@@ -188,10 +206,14 @@ public class JRStyleResolver
 	{
 		Color ownForecolor = style.getOwnForecolor();
 		if (ownForecolor != null)
+		{
 			return ownForecolor;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getForecolor();
+		}
 		return null;
 	}
 
@@ -202,7 +224,9 @@ public class JRStyleResolver
 	{
 		Color ownBackcolor = element.getOwnBackcolor();
 		if (ownBackcolor != null) 
+		{
 			return ownBackcolor;
+		}
 		JRStyle style = getBaseStyle(element);
 		if (style != null)
 		{
@@ -221,11 +245,15 @@ public class JRStyleResolver
 	public static Color getBackcolor(JRChartPlot plot)
 	{
 		Color ownBackcolor = plot.getOwnBackcolor();
-		if (ownBackcolor != null) 
+		if (ownBackcolor != null)
+		{
 			return ownBackcolor;
+		}
 		JRChart chart = plot.getChart();
 		if (chart != null)
+		{
 			return getBackcolor(chart);
+		}
 		return Color.white;
 	}
 
@@ -236,10 +264,14 @@ public class JRStyleResolver
 	{
 		Color ownBackcolor = style.getOwnBackcolor();
 		if (ownBackcolor != null)
+		{
 			return ownBackcolor;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getBackcolor();
+		}
 		return null;
 	}
 
@@ -250,7 +282,9 @@ public class JRStyleResolver
 	{
 		Float ownLineWidth = pen.getOwnLineWidth();
 		if (ownLineWidth != null)
+		{
 			return ownLineWidth;
+		}
 		JRStyle baseStyle = getBaseStyle(pen.getStyleContainer());
 		if (baseStyle != null)
 		{
@@ -270,10 +304,14 @@ public class JRStyleResolver
 	{
 		Float ownLineWidth = boxPen.getOwnLineWidth();
 		if (ownLineWidth != null)
+		{
 			return ownLineWidth;
+		}
 		Float penLineWidth = boxPen.getBox().getPen().getOwnLineWidth();
 		if (penLineWidth != null) 
+		{
 			return penLineWidth;
+		}
 		JRStyle baseStyle = getBaseStyle(boxPen.getStyleContainer());
 		if (baseStyle != null)
 		{
@@ -301,7 +339,9 @@ public class JRStyleResolver
 	{
 		LineStyleEnum ownLineStyle = pen.getOwnLineStyleValue();
 		if (ownLineStyle != null)
+		{
 			return ownLineStyle;
+		}
 		JRStyle baseStyle = getBaseStyle(pen.getStyleContainer());
 		if (baseStyle != null)
 		{
@@ -329,10 +369,14 @@ public class JRStyleResolver
 	{
 		LineStyleEnum ownLineStyle = boxPen.getOwnLineStyleValue();
 		if (ownLineStyle != null)
+		{
 			return ownLineStyle;
+		}
 		LineStyleEnum penLineStyle = boxPen.getBox().getPen().getOwnLineStyleValue();
 		if (penLineStyle != null)
+		{
 			return penLineStyle;
+		}
 		JRStyle baseStyle = getBaseStyle(boxPen.getStyleContainer());
 		if (baseStyle != null)
 		{
@@ -352,7 +396,9 @@ public class JRStyleResolver
 	{
 		Color ownLineColor = pen.getOwnLineColor();
 		if (ownLineColor != null)
+		{
 			return ownLineColor;
+		}
 		JRStyle baseStyle = getBaseStyle(pen.getStyleContainer());
 		if (baseStyle != null)
 		{
@@ -372,10 +418,14 @@ public class JRStyleResolver
 	{
 		Color ownLineColor = boxPen.getOwnLineColor();
 		if (ownLineColor != null)
+		{
 			return ownLineColor;
+		}
 		Color penLineColor = boxPen.getBox().getPen().getOwnLineColor();
 		if (penLineColor != null)
+		{
 			return penLineColor;
+		}
 		JRStyle baseStyle = getBaseStyle(boxPen.getStyleContainer());
 		if (baseStyle != null)
 		{
@@ -411,7 +461,9 @@ public class JRStyleResolver
 	{
 		FillEnum ownFill = element.getOwnFillValue();
 		if (ownFill != null)
+		{
 			return ownFill;
+		}
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null)
 		{
@@ -431,10 +483,14 @@ public class JRStyleResolver
 	{
 		FillEnum ownFill = style.getOwnFillValue();
 		if (ownFill != null)
+		{
 			return ownFill;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getFillValue();
+		}
 		return null;
 	}
 
@@ -445,7 +501,9 @@ public class JRStyleResolver
 	{
 		Integer ownRadius = rectangle.getOwnRadius();
 		if (ownRadius != null)
+		{
 			return ownRadius.intValue();
+		}
 		JRStyle baseStyle = getBaseStyle(rectangle);
 		if (baseStyle != null)
 		{
@@ -465,10 +523,14 @@ public class JRStyleResolver
 	{
 		Integer ownRadius = style.getOwnRadius();
 		if (ownRadius != null)
+		{
 			return ownRadius;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getRadius();
+		}
 		return null;
 	}
 
@@ -479,7 +541,9 @@ public class JRStyleResolver
 	{
 		Byte ownScaleImage = image.getOwnScaleImage();
 		if (ownScaleImage != null)
+		{
 			return ownScaleImage.byteValue();
+		}
 		JRStyle baseStyle = getBaseStyle(image);
 		if (baseStyle != null)
 		{
@@ -499,10 +563,14 @@ public class JRStyleResolver
 	{
 		Byte ownScaleImage = style.getOwnScaleImage();
 		if (ownScaleImage != null)
+		{
 			return ownScaleImage;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null )
+		{
 			return baseStyle.getScaleImage();
+		}
 		return null;
 	}
 
@@ -513,7 +581,9 @@ public class JRStyleResolver
 	{
 		ScaleImageEnum ownScaleImage = image.getOwnScaleImageValue();
 		if (ownScaleImage != null)
+		{
 			return ownScaleImage;
+		}
 		JRStyle baseStyle = getBaseStyle(image);
 		if (baseStyle != null)
 		{
@@ -533,10 +603,14 @@ public class JRStyleResolver
 	{
 		ScaleImageEnum ownScaleImage = style.getOwnScaleImageValue();
 		if (ownScaleImage != null)
+		{
 			return ownScaleImage;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null )
+		{
 			return baseStyle.getScaleImageValue();
+		}
 		return null;
 	}
 
@@ -555,7 +629,9 @@ public class JRStyleResolver
 	{
 		HorizontalAlignEnum ownHorizontalAlignment = alignment.getOwnHorizontalAlignmentValue();
 		if (ownHorizontalAlignment != null)
+		{
 			return ownHorizontalAlignment;
+		}
 		JRStyle baseStyle = getBaseStyle(alignment);
 		if (baseStyle != null)
 		{
@@ -584,10 +660,14 @@ public class JRStyleResolver
 	{
 		HorizontalAlignEnum ownHorizontalAlignment = style.getOwnHorizontalAlignmentValue();
 		if (ownHorizontalAlignment != null)
+		{
 			return ownHorizontalAlignment;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getHorizontalAlignmentValue();
+		}
 		return null;
 	}
 
@@ -606,7 +686,9 @@ public class JRStyleResolver
 	{
 		VerticalAlignEnum ownVerticalAlignment = alignment.getOwnVerticalAlignmentValue();
 		if (ownVerticalAlignment != null)
+		{
 			return ownVerticalAlignment;
+		}
 		JRStyle baseStyle = getBaseStyle(alignment);
 		if (baseStyle != null)
 		{
@@ -635,10 +717,14 @@ public class JRStyleResolver
 	{
 		VerticalAlignEnum ownVerticalAlignment = style.getOwnVerticalAlignmentValue();
 		if (ownVerticalAlignment != null)
+		{
 			return ownVerticalAlignment;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getVerticalAlignmentValue();
+		}
 		return null;
 	}
 
@@ -665,8 +751,10 @@ public class JRStyleResolver
 	public static RotationEnum getRotationValue(JRCommonText element)
 	{
 		RotationEnum ownRotation = element.getOwnRotationValue();
-		if (ownRotation != null) 
+		if (ownRotation != null)
+		{
 			return ownRotation;
+		}
 		JRStyle style = getBaseStyle(element);
 		if (style != null)
 		{
@@ -686,10 +774,14 @@ public class JRStyleResolver
 	{
 		RotationEnum ownRotation = style.getOwnRotationValue();
 		if (ownRotation != null)
+		{
 			return ownRotation;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getRotationValue();
+		}
 		return null;
 	}
 
@@ -717,7 +809,9 @@ public class JRStyleResolver
 	{
 		LineSpacingEnum ownLineSpacing = element.getOwnLineSpacingValue();
 		if (ownLineSpacing != null)
+		{
 			return ownLineSpacing;
+		}
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null)
 		{
@@ -737,10 +831,14 @@ public class JRStyleResolver
 	{
 		LineSpacingEnum ownLineSpacing = style.getOwnLineSpacingValue();
 		if (ownLineSpacing != null)
+		{
 			return ownLineSpacing;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getLineSpacingValue();
+		}
 		return null;
 	}
 
@@ -751,7 +849,9 @@ public class JRStyleResolver
 	{
 		String ownMarkup = element.getOwnMarkup();
 		if (ownMarkup != null)
+		{
 			return ownMarkup;
+		}
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null)
 		{
@@ -771,10 +871,14 @@ public class JRStyleResolver
 	{
 		String ownMarkup = style.getOwnMarkup();
 		if (ownMarkup != null)
+		{
 			return ownMarkup;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getMarkup();
+		}
 		return JRCommonText.MARKUP_NONE;
 	}
 
@@ -785,10 +889,14 @@ public class JRStyleResolver
 	{
 		String ownPattern = element.getOwnPattern();
 		if (ownPattern != null)
+		{
 			return ownPattern;
+		}
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null)
+		{
 			return baseStyle.getPattern();
+		}
 		return null;
 	}
 
@@ -799,10 +907,14 @@ public class JRStyleResolver
 	{
 		String ownPattern = style.getOwnPattern();
 		if (ownPattern != null)
+		{
 			return ownPattern;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getPattern();
+		}
 		return null;
 	}
 
@@ -813,7 +925,9 @@ public class JRStyleResolver
 	{
 		Boolean ownBlankWhenNull = element.isOwnBlankWhenNull();
 		if (ownBlankWhenNull != null)
+		{
 			return ownBlankWhenNull.booleanValue();
+		}
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null)
 		{
@@ -833,10 +947,14 @@ public class JRStyleResolver
 	{
 		Boolean ownBlankWhenNull = style.isOwnBlankWhenNull();
 		if (ownBlankWhenNull != null)
+		{
 			return ownBlankWhenNull;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.isBlankWhenNull();
+		}
 		return null;
 	}
 
@@ -847,7 +965,9 @@ public class JRStyleResolver
 	{
 		String ownFontName = font.getOwnFontName();
 		if (ownFontName != null)
+		{
 			return ownFontName;
+		}
 		JRFont baseFont = getBaseFont(font);
 		if (baseFont != null)
 		{
@@ -876,7 +996,9 @@ public class JRStyleResolver
 	{
 		String ownFontName = style.getOwnFontName();
 		if (ownFontName != null)
+		{
 			return ownFontName;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
 		{
@@ -896,10 +1018,14 @@ public class JRStyleResolver
 	{
 		Boolean ownBold = font.isOwnBold();
 		if (ownBold != null)
+		{
 			return ownBold.booleanValue();
+		}
 		JRFont baseFont = getBaseFont(font);
 		if (baseFont != null)
+		{
 			return baseFont.isBold();
+		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
@@ -919,10 +1045,14 @@ public class JRStyleResolver
 	{
 		Boolean ownBold = style.isOwnBold();
 		if (ownBold != null)
+		{
 			return ownBold;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.isBold();
+		}
 		return null;
 	}
 
@@ -933,10 +1063,14 @@ public class JRStyleResolver
 	{
 		Boolean ownItalic = font.isOwnItalic();
 		if (ownItalic != null)
+		{
 			return ownItalic.booleanValue();
+		}
 		JRFont baseFont = getBaseFont(font);
 		if (baseFont != null)
+		{
 			return baseFont.isItalic();
+		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
@@ -956,10 +1090,14 @@ public class JRStyleResolver
 	{
 		Boolean ownItalic = style.isOwnItalic();
 		if (ownItalic != null)
+		{
 			return ownItalic;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.isItalic();
+		}
 		return null;
 	}
 
@@ -970,10 +1108,14 @@ public class JRStyleResolver
 	{
 		Boolean ownUnderline = font.isOwnUnderline();
 		if (ownUnderline != null)
+		{
 			return ownUnderline.booleanValue();
+		}
 		JRFont baseFont = getBaseFont(font);
 		if (baseFont != null)
+		{
 			return baseFont.isUnderline();
+		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
@@ -993,10 +1135,14 @@ public class JRStyleResolver
 	{
 		Boolean ownUnderline = style.isOwnUnderline();
 		if (ownUnderline != null)
+		{
 			return ownUnderline;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.isUnderline();
+		}
 		return null;
 	}
 
@@ -1007,10 +1153,14 @@ public class JRStyleResolver
 	{
 		Boolean ownStrikeThrough = font.isOwnStrikeThrough();
 		if (ownStrikeThrough != null)
+		{
 			return ownStrikeThrough.booleanValue();
+		}
 		JRFont baseFont = getBaseFont(font);
 		if (baseFont != null)
+		{
 			return baseFont.isStrikeThrough();
+		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
@@ -1029,10 +1179,14 @@ public class JRStyleResolver
 	public static Boolean isStrikeThrough(JRStyle style)
 	{
 		if (style.isOwnStrikeThrough() != null)
+		{
 			return style.isOwnStrikeThrough();
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.isStrikeThrough();
+		}
 		return null;
 	}
 
@@ -1043,10 +1197,14 @@ public class JRStyleResolver
 	{
 		Integer ownFontSize = font.getOwnFontSize();
 		if (ownFontSize != null)
+		{
 			return ownFontSize.intValue();
+		}
 		JRFont baseFont = getBaseFont(font);
 		if (baseFont != null)
+		{
 			return baseFont.getFontSize();
+		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
@@ -1066,10 +1224,14 @@ public class JRStyleResolver
 	{
 		Integer ownFontSize = style.getOwnFontSize();
 		if (ownFontSize != null)
+		{
 			return ownFontSize;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.getFontSize();
+		}
 		return null;
 	}
 
@@ -1080,7 +1242,9 @@ public class JRStyleResolver
 	{
 		String ownPdfFontName = font.getOwnPdfFontName();
 		if (ownPdfFontName != null)
+		{
 			return ownPdfFontName;
+		}
 		JRFont baseFont = getBaseFont(font);
 		if (baseFont != null)
 		{
@@ -1109,7 +1273,9 @@ public class JRStyleResolver
 	{
 		String ownPdfFontName = style.getOwnPdfFontName();
 		if (ownPdfFontName != null)
+		{
 			return ownPdfFontName;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
 		{
@@ -1129,7 +1295,9 @@ public class JRStyleResolver
 	{
 		String ownPdfEncoding = font.getOwnPdfEncoding();
 		if (ownPdfEncoding != null)
+		{
 			return ownPdfEncoding;
+		}
 		JRFont baseFont = getBaseFont(font);
 		if (baseFont != null)
 		{
@@ -1158,7 +1326,9 @@ public class JRStyleResolver
 	{
 		String ownPdfEncoding = style.getOwnPdfEncoding();
 		if (ownPdfEncoding != null)
+		{
 			return ownPdfEncoding;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
 		{
@@ -1178,10 +1348,14 @@ public class JRStyleResolver
 	{
 		Boolean ownPdfEmbedded = font.isOwnPdfEmbedded();
 		if (ownPdfEmbedded != null)
+		{
 			return ownPdfEmbedded.booleanValue();
+		}
 		JRFont baseFont = getBaseFont(font);
 		if (baseFont != null)
+		{
 			return baseFont.isPdfEmbedded();
+		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
@@ -1201,10 +1375,14 @@ public class JRStyleResolver
 	{
 		Boolean ownPdfEmbedded = style.isOwnPdfEmbedded();
 		if (ownPdfEmbedded != null)
+		{
 			return ownPdfEmbedded;
+		}
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
+		{
 			return baseStyle.isPdfEmbedded();
+		}
 		return null;
 	}
 
@@ -1215,7 +1393,9 @@ public class JRStyleResolver
 	{
 		Integer ownPadding = box.getOwnPadding();
 		if (ownPadding != null)
+		{
 			return ownPadding;
+		}
 		JRStyle baseStyle = getBaseStyle(box);
 		if (baseStyle != null)
 		{
@@ -1235,10 +1415,14 @@ public class JRStyleResolver
 	{
 		Integer ownTopPadding = box.getOwnTopPadding();
 		if (ownTopPadding != null)
+		{
 			return ownTopPadding;
+		}
 		Integer ownPadding = box.getOwnPadding();
 		if (ownPadding != null)
+		{
 			return ownPadding;
+		}
 		JRStyle style = getBaseStyle(box);
 		if (style != null)
 		{
@@ -1258,10 +1442,14 @@ public class JRStyleResolver
 	{
 		Integer ownLeftPadding = box.getOwnLeftPadding();
 		if (ownLeftPadding != null)
+		{
 			return ownLeftPadding;
+		}
 		Integer ownPadding = box.getOwnPadding();
 		if (ownPadding != null)
+		{
 			return ownPadding;
+		}
 		JRStyle style = getBaseStyle(box);
 		if (style != null)
 		{
@@ -1281,10 +1469,14 @@ public class JRStyleResolver
 	{
 		Integer ownBottomPadding = box.getOwnBottomPadding();
 		if (ownBottomPadding != null)
+		{
 			return ownBottomPadding;
+		}
 		Integer ownPadding = box.getOwnPadding();
 		if (ownPadding != null)
+		{
 			return ownPadding;
+		}
 		JRStyle style = getBaseStyle(box);
 		if (style != null)
 		{
@@ -1304,10 +1496,14 @@ public class JRStyleResolver
 	{
 		Integer ownRightPadding = box.getOwnRightPadding();
 		if (ownRightPadding != null)
+		{
 			return ownRightPadding;
+		}
 		Integer ownPadding = box.getOwnPadding();
 		if (ownPadding != null)
+		{
 			return ownPadding;
+		}
 		JRStyle style = getBaseStyle(box);
 		if (style != null)
 		{
@@ -1327,57 +1523,93 @@ public class JRStyleResolver
 	public static void appendStyle(JRStyle destStyle, JRStyle srcStyle)
 	{
 		if (srcStyle.getOwnModeValue() != null)
+		{
 			destStyle.setMode(srcStyle.getOwnModeValue());
+		}
 		if (srcStyle.getOwnForecolor() != null)
+		{
 			destStyle.setForecolor(srcStyle.getOwnForecolor());
+		}
 		if (srcStyle.getOwnBackcolor() != null)
+		{
 			destStyle.setBackcolor(srcStyle.getOwnBackcolor());
-
+		}
 		appendPen(destStyle.getLinePen(), srcStyle.getLinePen());
 		
 		if (srcStyle.getOwnFillValue() != null)
+		{
 			destStyle.setFill(srcStyle.getOwnFillValue());
-
+		}
 		if (srcStyle.getOwnRadius() != null)
+		{
 			destStyle.setRadius(srcStyle.getOwnRadius());
-
+		}
 		if (srcStyle.getOwnScaleImageValue() != null)
+		{
 			destStyle.setScaleImage(srcStyle.getOwnScaleImageValue());
+		}
 		if (srcStyle.getOwnHorizontalAlignmentValue() != null)
+		{
 			destStyle.setHorizontalAlignment(srcStyle.getOwnHorizontalAlignmentValue());
+		}
 		if (srcStyle.getOwnVerticalAlignmentValue() != null)
+		{
 			destStyle.setVerticalAlignment(srcStyle.getOwnVerticalAlignmentValue());
-
+		}
 		appendBox(destStyle.getLineBox(), srcStyle.getLineBox());
 
 		if (srcStyle.getOwnRotationValue() != null)
+		{
 			destStyle.setRotation(srcStyle.getOwnRotationValue());
+		}
 		if (srcStyle.getOwnLineSpacingValue() != null)
+		{
 			destStyle.setLineSpacing(srcStyle.getOwnLineSpacingValue());
+		}
 		if (srcStyle.getOwnMarkup() != null)
+		{
 			destStyle.setMarkup(srcStyle.getOwnMarkup());
-
+		}
 		if (srcStyle.getOwnPattern() != null)
+		{
 			destStyle.setPattern(srcStyle.getOwnPattern());
-
+		}
 		if (srcStyle.getOwnFontName() != null)
+		{
 			destStyle.setFontName(srcStyle.getOwnFontName());
+		}
 		if (srcStyle.isOwnBold() != null)
+		{
 			destStyle.setBold(srcStyle.isOwnBold());
+		}
 		if (srcStyle.isOwnItalic() != null)
+		{
 			destStyle.setItalic(srcStyle.isOwnItalic());
+		}
 		if (srcStyle.isOwnUnderline() != null)
+		{
 			destStyle.setUnderline(srcStyle.isOwnUnderline());
+		}
 		if (srcStyle.isOwnStrikeThrough() != null)
+		{
 			destStyle.setStrikeThrough(srcStyle.isOwnStrikeThrough());
+		}
 		if (srcStyle.getOwnFontSize() != null)
+		{
 			destStyle.setFontSize(srcStyle.getOwnFontSize());
+		}
 		if (srcStyle.getOwnPdfFontName() != null)
+		{
 			destStyle.setPdfFontName(srcStyle.getOwnPdfFontName());
+		}
 		if (srcStyle.getOwnPdfEncoding() != null)
+		{
 			destStyle.setPdfEncoding(srcStyle.getOwnPdfEncoding());
+		}
 		if (srcStyle.isOwnPdfEmbedded() != null)
+		{
 			destStyle.setPdfEmbedded(srcStyle.isOwnPdfEmbedded());
+		}
 	}
 
 	/**
@@ -1386,11 +1618,17 @@ public class JRStyleResolver
 	private static void appendPen(JRPen destPen, JRPen srcPen)
 	{
 		if (srcPen.getOwnLineWidth() != null)
+		{
 			destPen.setLineWidth(srcPen.getOwnLineWidth());
+		}
 		if (srcPen.getOwnLineStyleValue() != null)
+		{
 			destPen.setLineStyle(srcPen.getOwnLineStyleValue());
+		}
 		if (srcPen.getOwnLineColor() != null)
+		{
 			destPen.setLineColor(srcPen.getOwnLineColor());
+		}
 	}
 
 	/**
@@ -1405,15 +1643,25 @@ public class JRStyleResolver
 		appendPen(destBox.getRightPen(), srcBox.getRightPen());
 
 		if (srcBox.getOwnPadding() != null)
+		{
 			destBox.setPadding(srcBox.getOwnPadding());
+		}
 		if (srcBox.getOwnTopPadding() != null)
+		{
 			destBox.setTopPadding(srcBox.getOwnTopPadding());
+		}
 		if (srcBox.getOwnLeftPadding() != null)
+		{
 			destBox.setLeftPadding(srcBox.getOwnLeftPadding());
+		}
 		if (srcBox.getOwnBottomPadding() != null)
+		{
 			destBox.setBottomPadding(srcBox.getOwnBottomPadding());
+		}
 		if (srcBox.getOwnRightPadding() != null)
+		{
 			destBox.setRightPadding(srcBox.getOwnRightPadding());
+		}
 	}
 
 	/**
@@ -1422,8 +1670,10 @@ public class JRStyleResolver
 	public static Color getTitleColor(JRChart chart)
 	{
 		Color ownTitleColor = chart.getOwnTitleColor();
-		if (ownTitleColor != null) 
+		if (ownTitleColor != null)
+		{
 			return ownTitleColor;
+		}
 		return getForecolor(chart);
 	}
 
@@ -1433,8 +1683,10 @@ public class JRStyleResolver
 	public static Color getSubtitleColor(JRChart chart)
 	{
 		Color ownSubtitleColor = chart.getOwnSubtitleColor();
-		if (ownSubtitleColor != null) 
+		if (ownSubtitleColor != null)
+		{
 			return ownSubtitleColor;
+		}
 		return getForecolor(chart);
 	}
 
@@ -1444,8 +1696,10 @@ public class JRStyleResolver
 	public static Color getLegendColor(JRChart chart)
 	{
 		Color ownLegendColor = chart.getOwnLegendColor();
-		if (ownLegendColor != null) 
+		if (ownLegendColor != null)
+		{
 			return ownLegendColor;
+		}
 		return getForecolor(chart);
 	}
 
@@ -1455,8 +1709,10 @@ public class JRStyleResolver
 	public static Color getLegendBackgroundColor(JRChart chart)
 	{
 		Color ownLegendBackgroundColor = chart.getOwnLegendBackgroundColor();
-		if (ownLegendBackgroundColor != null) 
+		if (ownLegendBackgroundColor != null)
+		{
 			return ownLegendBackgroundColor;
+		}
 		return getBackcolor(chart);
 	}
 
@@ -1467,7 +1723,9 @@ public class JRStyleResolver
 	{
 		Color ownCategoryAxisLabelColor = axisFormat.getOwnCategoryAxisLabelColor();
 		if (ownCategoryAxisLabelColor != null) 
+		{
 			return ownCategoryAxisLabelColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1477,8 +1735,10 @@ public class JRStyleResolver
 	public static Color getCategoryAxisTickLabelColor(JRCategoryAxisFormat axisFormat, JRChartPlot plot)
 	{
 		Color ownCategoryAxisTickLabelColor = axisFormat.getOwnCategoryAxisTickLabelColor();
-		if (ownCategoryAxisTickLabelColor != null) 
+		if (ownCategoryAxisTickLabelColor != null)
+		{
 			return ownCategoryAxisTickLabelColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1488,8 +1748,10 @@ public class JRStyleResolver
 	public static Color getCategoryAxisLineColor(JRCategoryAxisFormat axisFormat, JRChartPlot plot)
 	{
 		Color ownCategoryAxisLineColor = axisFormat.getOwnCategoryAxisLineColor();
-		if (ownCategoryAxisLineColor != null) 
+		if (ownCategoryAxisLineColor != null)
+		{
 			return ownCategoryAxisLineColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1499,8 +1761,10 @@ public class JRStyleResolver
 	public static Color getValueAxisLabelColor(JRValueAxisFormat axisFormat, JRChartPlot plot)
 	{
 		Color ownValueAxisLabelColor = axisFormat.getOwnValueAxisLabelColor();
-		if (ownValueAxisLabelColor != null) 
+		if (ownValueAxisLabelColor != null)
+		{
 			return ownValueAxisLabelColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1511,7 +1775,9 @@ public class JRStyleResolver
 	{
 		Color ownValueAxisTickLabelColor = axisFormat.getOwnValueAxisTickLabelColor();
 		if (ownValueAxisTickLabelColor != null) 
+		{
 			return ownValueAxisTickLabelColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1522,7 +1788,9 @@ public class JRStyleResolver
 	{
 		Color ownValueAxisLineColor = axisFormat.getOwnValueAxisLineColor();
 		if (ownValueAxisLineColor != null) 
+		{
 			return ownValueAxisLineColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1533,7 +1801,9 @@ public class JRStyleResolver
 	{
 		Color ownXAxisLabelColor = axisFormat.getOwnXAxisLabelColor();
 		if (ownXAxisLabelColor != null) 
+		{
 			return ownXAxisLabelColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1544,7 +1814,9 @@ public class JRStyleResolver
 	{
 		Color ownXAxisTickLabelColor = axisFormat.getOwnXAxisTickLabelColor();
 		if (ownXAxisTickLabelColor != null) 
+		{
 			return ownXAxisTickLabelColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1555,7 +1827,9 @@ public class JRStyleResolver
 	{
 		Color ownXAxisLineColor = axisFormat.getOwnXAxisLineColor();
 		if (ownXAxisLineColor != null) 
+		{
 			return ownXAxisLineColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1565,8 +1839,10 @@ public class JRStyleResolver
 	public static Color getYAxisLabelColor(JRYAxisFormat axisFormat, JRChartPlot plot)
 	{
 		Color ownYAxisLabelColor = axisFormat.getOwnYAxisLabelColor();
-		if (ownYAxisLabelColor != null) 
+		if (ownYAxisLabelColor != null)
+		{
 			return ownYAxisLabelColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1577,7 +1853,9 @@ public class JRStyleResolver
 	{
 		Color ownYAxisTickLabelColor = axisFormat.getOwnYAxisTickLabelColor();
 		if (ownYAxisTickLabelColor != null) 
+		{
 			return ownYAxisTickLabelColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1588,7 +1866,9 @@ public class JRStyleResolver
 	{
 		Color ownYAxisLineColor = axisFormat.getOwnYAxisLineColor();
 		if (ownYAxisLineColor != null) 
+		{
 			return ownYAxisLineColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1599,7 +1879,9 @@ public class JRStyleResolver
 	{
 		Color ownTimeAxisLabelColor = axisFormat.getOwnTimeAxisLabelColor();
 		if (ownTimeAxisLabelColor != null) 
+		{
 			return ownTimeAxisLabelColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1610,7 +1892,9 @@ public class JRStyleResolver
 	{
 		Color ownTimeAxisTickLabelColor = axisFormat.getOwnTimeAxisTickLabelColor();
 		if (ownTimeAxisTickLabelColor != null) 
+		{
 			return ownTimeAxisTickLabelColor;
+		}
 		return getForecolor(plot);
 	}
 
@@ -1621,7 +1905,9 @@ public class JRStyleResolver
 	{
 		Color ownTimeAxisLineColor = axisFormat.getOwnTimeAxisLineColor();
 		if (ownTimeAxisLineColor != null) 
+		{
 			return ownTimeAxisLineColor;
+		}
 		return getForecolor(plot);
 	}
 
