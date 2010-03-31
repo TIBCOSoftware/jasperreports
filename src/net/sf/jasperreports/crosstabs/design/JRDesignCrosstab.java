@@ -319,7 +319,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			throw new JRException("A group or measure having the same name already exists in the crosstab.");
 		}
 		
-		rowGroupsMap.put(groupName, new Integer(rowGroups.size()));
+		rowGroupsMap.put(groupName, Integer.valueOf(rowGroups.size()));
 		rowGroups.add(group);
 		
 		addRowGroupVars(group);
@@ -367,7 +367,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			throw new JRException("A group or measure having the same name already exists in the crosstab.");
 		}
 		
-		columnGroupsMap.put(groupName, new Integer(columnGroups.size()));
+		columnGroupsMap.put(groupName, Integer.valueOf(columnGroups.size()));
 		columnGroups.add(group);
 		
 		addColGroupVars(group);
@@ -414,7 +414,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		measure.addPropertyChangeListener(JRDesignCrosstabMeasure.PROPERTY_VALUE_CLASS, measureClassChangeListener);
 		
-		measuresMap.put(measureName, new Integer(measures.size()));
+		measuresMap.put(measureName, Integer.valueOf(measures.size()));
 		measures.add(measure);
 		
 		addMeasureVars(measure);
@@ -501,7 +501,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			for (ListIterator it = rowGroups.listIterator(idx.intValue()); it.hasNext();)
 			{
 				JRCrosstabRowGroup group = (JRCrosstabRowGroup) it.next();
-				rowGroupsMap.put(group.getName(), new Integer(it.previousIndex()));
+				rowGroupsMap.put(group.getName(), Integer.valueOf(it.previousIndex()));
 			}
 			
 			for (Iterator it = cellsList.iterator(); it.hasNext();)
@@ -572,7 +572,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			for (ListIterator it = columnGroups.listIterator(idx.intValue()); it.hasNext();)
 			{
 				JRCrosstabColumnGroup group = (JRCrosstabColumnGroup) it.next();
-				columnGroupsMap.put(group.getName(), new Integer(it.previousIndex()));
+				columnGroupsMap.put(group.getName(), Integer.valueOf(it.previousIndex()));
 			}
 			
 			for (Iterator it = cellsList.iterator(); it.hasNext();)
@@ -644,7 +644,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			for (ListIterator it = measures.listIterator(idx.intValue()); it.hasNext();)
 			{
 				JRCrosstabMeasure group = (JRCrosstabMeasure) it.next();
-				measuresMap.put(group.getName(), new Integer(it.previousIndex()));
+				measuresMap.put(group.getName(), Integer.valueOf(it.previousIndex()));
 			}
 			
 			removeMeasureVars(removed);
@@ -1505,7 +1505,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRDesignCrosstabRowGroup groupClone = 
 					(JRDesignCrosstabRowGroup) group.clone(clone);
 				clone.rowGroups.add(groupClone);
-				clone.rowGroupsMap.put(groupClone.getName(), new Integer(i));
+				clone.rowGroupsMap.put(groupClone.getName(), Integer.valueOf(i));
 
 				adjustCrosstabReference(clone, (JRDesignCellContents) groupClone.getTotalHeader());
 				adjustCrosstabReference(clone, (JRDesignCellContents) groupClone.getHeader());
@@ -1528,7 +1528,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRDesignCrosstabColumnGroup groupClone = 
 					(JRDesignCrosstabColumnGroup) group.clone(clone);
 				clone.columnGroups.add(groupClone);
-				clone.columnGroupsMap.put(groupClone.getName(), new Integer(i));
+				clone.columnGroupsMap.put(groupClone.getName(), Integer.valueOf(i));
 				
 				adjustCrosstabReference(clone,(JRDesignCellContents) groupClone.getTotalHeader());
 				adjustCrosstabReference(clone,(JRDesignCellContents) groupClone.getHeader());
@@ -1551,7 +1551,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRDesignCrosstabMeasure clonedMeasure = 
 					(JRDesignCrosstabMeasure) measure.clone();
 				clone.measures.add(clonedMeasure);
-				clone.measuresMap.put(clonedMeasure.getName(), new Integer(i));
+				clone.measuresMap.put(clonedMeasure.getName(), Integer.valueOf(i));
 				
 				if (clonedMeasure.designVariable != null)
 				{

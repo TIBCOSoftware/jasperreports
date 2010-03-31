@@ -91,7 +91,7 @@ public class JRReportSaxParserFactory implements JRSaxParserFactory
 	protected static final String XERCES_PARSER_PROPERTY_GRAMMAR_POOL = 
 		"http://apache.org/xml/properties/internal/grammar-pool";
 	
-	private final static Object GRAMMAR_POOL_CACHE_NULL_KEY = new String("Null context classloader");
+	private final static Object GRAMMAR_POOL_CACHE_NULL_KEY = "Null context classloader";
 	private final static ThreadLocal GRAMMAR_POOL_CACHE = new ThreadLocal();
 	
 	public SAXParser createParser()

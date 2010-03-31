@@ -2037,12 +2037,12 @@ public abstract class JRXmlConstants
 	public static Map  getScaleTypeMap(){
 		if( scaleTypeMap == null ){
 			Map map = new HashMap( 8 );
-			map.put( SCALE_ON_BOTH_AXES, new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ));
-			map.put( SCALE_ON_DOMAIN_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ));
-			map.put( SCALE_ON_RANGE_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ));
-			map.put( new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ), SCALE_ON_BOTH_AXES );
-			map.put( new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ), SCALE_ON_DOMAIN_AXIS );
-			map.put( new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ), SCALE_ON_RANGE_AXIS );
+			map.put( SCALE_ON_BOTH_AXES, Integer.valueOf( XYBubbleRenderer.SCALE_ON_BOTH_AXES ));
+			map.put( SCALE_ON_DOMAIN_AXIS, Integer.valueOf( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ));
+			map.put( SCALE_ON_RANGE_AXIS, Integer.valueOf( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ));
+			map.put( Integer.valueOf( XYBubbleRenderer.SCALE_ON_BOTH_AXES ), SCALE_ON_BOTH_AXES );
+			map.put( Integer.valueOf( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ), SCALE_ON_DOMAIN_AXIS );
+			map.put( Integer.valueOf( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ), SCALE_ON_RANGE_AXIS );
 			scaleTypeMap = Collections.unmodifiableMap(map);
 		}
 
