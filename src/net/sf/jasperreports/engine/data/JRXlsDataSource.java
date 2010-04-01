@@ -164,21 +164,24 @@ public class JRXlsDataSource implements JRRewindableDataSource
 			columnIndex = Integer.valueOf(fieldName.substring(7));
 		}
 		if (columnIndex == null)
+		{
 			throw new JRException("Unknown column name : " + fieldName);
-
+		}
 		Sheet sheet = workbook.getSheet(0);
 		Cell cell = sheet.getCell(columnIndex.intValue(), recordIndex);
 		String fieldValue = cell.getContents();
 		Class valueClass = jrField.getValueClass();
 		
 		if (valueClass.equals(String.class)) 
+		{
 			return fieldValue;
-
+		}
 		fieldValue = fieldValue.trim();
 		
 		if (fieldValue.length() == 0)
+		{
 			return null;
-		
+		}		
 		try {
 			if (valueClass.equals(Boolean.class)) {
 				return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;

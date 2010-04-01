@@ -27,7 +27,7 @@
  * 
  * Contributors:
  * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
+ * Frank Schï¿½nheit - Frank.Schoenheit@Sun.COM
  */
 package net.sf.jasperreports.engine.export.oasis;
 
@@ -94,16 +94,26 @@ public class TableBuilder
 		styleWriter.write("   <style:table-properties");		
 		styleWriter.write(" table:align=\"left\" style:width=\"" + Utility.translatePixelsToInches(width) + "in\"");
 		if (isPageBreak)
+		{
 			styleWriter.write(" fo:break-before=\"page\"");
+		}
 //		FIXMEODT
 //		if (tableWidth != null)
+//		{
 //			styleWriter.write(" style:width=\""+ tableWidth +"in\"");
+//		}
 //		if (align != null)
+//		{
 //			styleWriter.write(" table:align=\""+ align +"\"");
+//		}
 //		if (margin != null)
+//		{
 //			styleWriter.write(" fo:margin=\""+ margin +"\"");
+//		}
 //		if (backGroundColor != null)
+//		{
 //			styleWriter.write(" fo:background-color=\""+ backGroundColor +"\"");
+//		}
 		styleWriter.write("/>\n");
 		styleWriter.write(" </style:style>\n");
 	}
@@ -184,11 +194,17 @@ public class TableBuilder
 		//FIXMEODT officevalue bodyWriter.write("<table:table-cell office:value-type=\"string\"");
 		bodyWriter.write("<table:table-cell");
 		if (cellStyleName != null)
+		{
 			bodyWriter.write(" table:style-name=\"" + cellStyleName + "\"");
+		}
 		if (colSpan > 1)
+		{
 			bodyWriter.write(" table:number-columns-spanned=\"" + colSpan + "\"");
+		}
 		if (rowSpan > 1)
+		{
 			bodyWriter.write(" table:number-rows-spanned=\"" + rowSpan + "\"");
+		}
 		
 		bodyWriter.write(">\n");
 	}

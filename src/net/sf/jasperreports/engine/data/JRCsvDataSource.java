@@ -137,7 +137,8 @@ public class JRCsvDataSource implements JRDataSource
 	{
 		try {
 			if (!processingStarted) {
-				if (useFirstRowAsHeader) {
+				if (useFirstRowAsHeader) 
+				{
 					parseRow();
 					for (int i = 0; i < fields.size(); i++) {
 						String name = (String) fields.get(i);
@@ -264,7 +265,8 @@ public class JRCsvDataSource implements JRDataSource
 
 			if (c == '"') {
 				// already inside a text containing quotes
-				if (!insideQuotes) {
+				if (!insideQuotes) 
+				{
 					if (!hadQuotes) {
 						insideQuotes = true;
 						hadQuotes = true;
@@ -276,9 +278,13 @@ public class JRCsvDataSource implements JRDataSource
 				// it's a closing quote
 				else {
 					if (pos+1 < row.length() && row.charAt(pos+1) == '"')
+					{
 						pos++;
+					}
 					else
+					{
 						insideQuotes = false;
+					}
 				}
 			}
 			// field delimiter found, copy the field contents to the field array
@@ -375,12 +381,15 @@ public class JRCsvDataSource implements JRDataSource
 					for (i = 1; i < recordDelimiter.length() && isDelimiter; i++) {
 						temp[i] = getChar();
 						if (temp[i] != recordDelimiter.charAt(i))
+						{
 							isDelimiter = false;
+						}
 					}
 
 					if (isDelimiter)
+					{
 						return row.toString();
-
+					}
 					row.append(temp, 0, i);
 				}
 
@@ -414,7 +423,9 @@ public class JRCsvDataSource implements JRDataSource
 			bufSize = reader.read(buffer);
 			position = 0;
 			if (bufSize == -1)
+			{
 				throw new JRException("No more chars");
+			}
 		}
 
 		return buffer[position++];

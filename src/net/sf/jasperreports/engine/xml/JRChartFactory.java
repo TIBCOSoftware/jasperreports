@@ -57,8 +57,9 @@ public class JRChartFactory extends JRBaseFactory
 
 		String isShowLegend = atts.getValue(JRXmlConstants.ATTRIBUTE_isShowLegend);
 		if (isShowLegend != null && isShowLegend.length() > 0)
+		{
 			chart.setShowLegend(Boolean.valueOf(isShowLegend));
-
+		}
 		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
@@ -87,7 +88,8 @@ public class JRChartFactory extends JRBaseFactory
 		}
 
 		String chartCustomizerClass = atts.getValue( JRXmlConstants.ATTRIBUTE_customizerClass );
-		if( chartCustomizerClass != null && chartCustomizerClass.length() > 0 ){
+		if( chartCustomizerClass != null && chartCustomizerClass.length() > 0 )
+		{
 			chart.setCustomizerClass(chartCustomizerClass);
 		}
 		
@@ -109,9 +111,10 @@ public class JRChartFactory extends JRBaseFactory
 
 			EdgeEnum position = EdgeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_position));
 			if (position != null)
+			{
 				chart.setTitlePosition(position);
-
-
+			}
+			
 			Color color = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_color), Color.black);
 			if (color != null)
 			{
@@ -260,8 +263,9 @@ public class JRChartFactory extends JRBaseFactory
 			
 			String labelRotation = atts.getValue(JRXmlConstants.ATTRIBUTE_labelRotation);
 			if (labelRotation != null && labelRotation.length() > 0)
+			{
 				categoryAxisFormat.setCategoryAxisTickLabelRotation(Double.valueOf(labelRotation));
-			
+			}
 			return categoryAxisFormat;
 		}
 	}

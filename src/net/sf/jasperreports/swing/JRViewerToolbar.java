@@ -409,8 +409,9 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 			catch (JRException e)
 			{
 				if (log.isErrorEnabled())
+				{
 					log.error("Save error.", e);
-
+				}
 				JOptionPane.showMessageDialog(this, viewerContext.getBundleString("error.saving"));
 			}
 		}
@@ -434,8 +435,9 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 						catch (Exception ex)
 						{
 							if (log.isErrorEnabled())
+							{
 								log.error("Print error.", ex);
-
+							}
 							JOptionPane.showMessageDialog(JRViewerToolbar.this, 
 									viewerContext.getBundleString("error.printing"));
 						}

@@ -109,9 +109,13 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	protected JRFont getBaseFont()
 	{
 		if (reportFont != null)
+		{
 			return reportFont;
+		}
 		if (defaultStyleProvider != null)
+		{
 			return defaultStyleProvider.getDefaultFont();
+		}
 		return null;
 	}
 

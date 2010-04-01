@@ -1818,8 +1818,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 	protected Range convertRange(JRDataRange dataRange, byte evaluation) throws JRException
 	{
 		if (dataRange == null)
+		{
 			return null;
-
+		}
 		Number low = (Number)evaluateExpression(dataRange.getLowExpression(), evaluation);
 		Number high = (Number)evaluateExpression(dataRange.getHighExpression(), evaluation);
 		return new Range( low != null ? low.doubleValue() : 0.0,
@@ -1838,7 +1839,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		String label = interval.getLabel();
 		if (label == null)
+		{
 			label = "";
+		}
 
 		Range range = convertRange(interval.getDataRange(), evaluation);
 

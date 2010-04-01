@@ -402,10 +402,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected void initResources(Locale locale, ResourceBundle resBundle)
 	{
 		if (locale != null)
+		{
 			setLocale(locale);
+		}
 		else
+		{
 			setLocale(Locale.getDefault());
-
+		}
 		if (resBundle == null)
 		{
 			this.resourceBundle = ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale());
@@ -1134,8 +1137,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			catch (JRException e)
 			{
 				if (log.isErrorEnabled())
+				{
 					log.error("Save error.", e);
-
+				}
 				JOptionPane.showMessageDialog(this, getBundleString("error.saving"));
 			}
 		}
@@ -1209,8 +1213,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						catch (Exception ex)
 						{
 							if (log.isErrorEnabled())
+							{
 								log.error("Print error.", ex);
-
+							}
 							JOptionPane.showMessageDialog(JRViewer.this, getBundleString("error.printing"));
 						}
 						finally
@@ -1266,8 +1271,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			catch (JRException e)
 			{
 				if (log.isErrorEnabled())
+				{
 					log.error("Reload error.", e);
-
+				}
 				jasperPrint = null;
 				setPageIndex(0);
 				refreshPage();
@@ -1367,8 +1373,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		catch(JRException e)
 		{
 			if (log.isErrorEnabled())
+			{
 				log.error("Hyperlink click error.", e);
-
+			}
 			JOptionPane.showMessageDialog(this, getBundleString("error.hyperlink"));
 		}
 	}
@@ -1573,8 +1580,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			catch (Exception e)
 			{
 				if (log.isErrorEnabled())
+				{
 					log.error("Print page to image error.", e);
-
+				}
 				pageError = true;
 
 				image = getPageErrorImage();
@@ -2023,8 +2031,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		catch(Exception e)
 		{
 			if (log.isErrorEnabled())
+			{
 				log.error("Page paint error.", e);
-
+			}
 			pageError = true;
 			
 			paintPageError(grx);
@@ -2103,7 +2112,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			setPageIndex(pageIndex + 1);
 			if(scrollPane.isEnabled())
+			{
 				scrollPane.getVerticalScrollBar().setValue(0);
+			}
 		}
 	}
 
@@ -2115,7 +2126,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			setPageIndex(pageIndex - 1);
 			if(scrollPane.isEnabled())
+			{
 				scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+			}
 		}
 		else
 		{
@@ -2127,7 +2140,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{
 		setPageIndex(pageNumber);
 		if(scrollPane.isEnabled())
+		{
 			scrollPane.getVerticalScrollBar().setValue(0);
+		}
 	}
 
 	/**

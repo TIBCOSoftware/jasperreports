@@ -130,7 +130,9 @@ public class ImageConverter extends ElementConverter
 			catch (JRException e)
 			{
 				if (log.isDebugEnabled())
+				{
 					log.debug("Creating location renderer for converted image failed.", e);
+				}
 			}
 		}
 		
@@ -146,7 +148,9 @@ public class ImageConverter extends ElementConverter
 		catch (JRException e)
 		{
 			if (log.isDebugEnabled())
+			{
 				log.debug("Creating icon renderer for converted image failed.", e);
+			}
 		}
 		
 		return null;

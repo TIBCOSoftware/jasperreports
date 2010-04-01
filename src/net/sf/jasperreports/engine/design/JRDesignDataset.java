@@ -1083,10 +1083,13 @@ public class JRDesignDataset extends JRBaseDataset
 		in.defaultReadObject();
 		
 		if (sortFieldsMap == null)
+		{
 			sortFieldsMap = new HashMap();
-			
+		}
 		if (sortFieldsList == null)
+		{
 			sortFieldsList = new ArrayList();
+		}
 	}
 
 	/**

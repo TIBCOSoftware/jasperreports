@@ -154,9 +154,13 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	protected JRStyle getBaseStyle()
 	{
 		if (parentStyle != null)
+		{
 			return parentStyle;
+		}
 		if (defaultStyleProvider != null)
+		{
 			return defaultStyleProvider.getDefaultStyle();
+		}
 		return null;
 	}
 
