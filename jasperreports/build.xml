@@ -20,6 +20,8 @@
 			<fileset dir="./src">
 				<include name="**/*.dtd"/>
 				<include name="**/*.xsd"/>
+				<include name="**/*.rels"/>
+				<include name="**/*.xml"/>
 				<include name="**/*.properties"/>
 				<include name="**/*.png"/>
 				<include name="**/*.GIF"/>
