@@ -128,9 +128,13 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	protected JRFont getBaseFont()
 	{
 		if (reportFont != null)
+		{
 			return reportFont;
+		}
 		if (defaultStyleProvider != null)
+		{
 			return defaultStyleProvider.getDefaultFont();
+		}
 		return null;
 	}
 

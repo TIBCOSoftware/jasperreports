@@ -1,5 +1,5 @@
 /*
- * Copyright © World Wide Web Consortium, (Massachusetts Institute of Technology, 
+ * Copyright ï¿½ World Wide Web Consortium, (Massachusetts Institute of Technology, 
  * Institut National de Recherche en Informatique et en Automatique, Keio University).
  * All Rights Reserved. http://www.w3.org/Consortium/Legal/
  */
@@ -134,10 +134,14 @@ public class Base64Decoder
 				while (ready < 4)
 				{
 					if (skiped >= got)
+					{
 						continue fill;
+					}
 					int ch = check(buffer[skiped++]);
 					if (ch >= 0)
+					{
 						chunk[ready++] = (byte) ch;
+					}
 				}
 				if (chunk[2] == 65)
 				{
@@ -160,7 +164,9 @@ public class Base64Decoder
 			}
 		}
 		if (ready != 0)
+		{
 			throw new Base64FormatException("Invalid length.");
+		}
 		out.flush();
 	}
 
@@ -177,10 +183,12 @@ public class Base64Decoder
 	public String processString() throws Base64FormatException
 	{
 		if (!stringp)
+		{
 			throw new RuntimeException(
 				this.getClass().getName()
 					+ "[processString]"
 					+ "invalid call (not a String)");
+		}
 		try
 		{
 			process();

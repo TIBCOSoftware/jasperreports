@@ -160,9 +160,13 @@ public class XmlssStyleCache
 		XmlssCellStyle xmlssCellStyle  = new XmlssCellStyle(styleWriter, element, cellBackground, pattern, isShrinkToFit, defaultFont, fontMap);
 
 		if (element instanceof JRBoxContainer)
+		{
 			xmlssCellStyle.setBox(((JRBoxContainer)element).getLineBox());
+		}
 		if (element instanceof JRCommonGraphicElement)
+		{
 			xmlssCellStyle.setPen(((JRCommonGraphicElement)element).getLinePen());
+		}
 		
 		String cellStyleId = xmlssCellStyle.getId();
 		String cellStyleName = (String)cellStyles.get(cellStyleId);

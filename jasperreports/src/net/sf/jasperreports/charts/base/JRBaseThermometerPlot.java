@@ -135,11 +135,17 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 		mercuryColor = thermoPlot.getMercuryColor();
 
 		if (thermoPlot.getLowRange() != null)
+		{
 			lowRange = new JRBaseDataRange(thermoPlot.getLowRange(), factory);
+		}
 		if (thermoPlot.getMediumRange() != null)
+		{
 			mediumRange = new JRBaseDataRange(thermoPlot.getMediumRange(), factory);
+		}
 		if (thermoPlot.getHighRange() != null)
+		{
 			highRange = new JRBaseDataRange(thermoPlot.getHighRange(), factory);
+		}
 	}
 
 	/**

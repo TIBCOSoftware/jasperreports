@@ -190,9 +190,13 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	protected JRStyle getBaseStyle()
 	{
 		if (parentStyle != null)
+		{
 			return parentStyle;
+		}
 		if (defaultStyleProvider != null)
+		{
 			return defaultStyleProvider.getDefaultStyle();
+		}
 		return null;
 	}
 

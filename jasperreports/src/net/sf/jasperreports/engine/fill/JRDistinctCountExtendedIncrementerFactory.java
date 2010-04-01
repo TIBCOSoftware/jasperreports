@@ -129,7 +129,9 @@ class JRDistinctCountExtendedIncrementer extends JRAbstractExtendedIncrementer
 		{
 			distinctValues.addAll(holder1.getDistinctValues());
 			if (holder1.getLastValue() != null)
+			{
 				distinctValues.add(holder1.getLastValue());
+			}
 		}
 		
 		DistinctCountHolder holder2  = (DistinctCountHolder)calculable2.getValue();
@@ -137,7 +139,9 @@ class JRDistinctCountExtendedIncrementer extends JRAbstractExtendedIncrementer
 		{
 			distinctValues.addAll(holder2.getDistinctValues());
 			if (holder2.getLastValue() != null)
+			{
 				distinctValues.add(holder2.getLastValue());
+			}
 		}
 		
 		return new DistinctCountHolder(distinctValues);

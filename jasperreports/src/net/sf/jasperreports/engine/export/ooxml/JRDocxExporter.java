@@ -956,13 +956,21 @@ public class JRDocxExporter extends JRAbstractExporter
 			docHelper.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
 			docHelper.write("<a:srcRect");
 			if (cropLeft > 0)
+			{
 				docHelper.write(" l=\"" + (int)cropLeft + "\"");
+			}
 			if (cropTop > 0)
+			{
 				docHelper.write(" t=\"" + (int)cropTop + "\"");
+			}
 			if (cropRight > 0)
+			{
 				docHelper.write(" r=\"" + (int)cropRight + "\"");
+			}
 			if (cropBottom > 0)
+			{
 				docHelper.write(" b=\"" + (int)cropBottom + "\"");
+			}
 			docHelper.write("/>");
 			docHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
 			docHelper.write("</pic:blipFill>\n");

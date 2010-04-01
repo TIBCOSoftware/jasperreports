@@ -106,13 +106,21 @@ public class XmlssTableBuilder
 	{
 		bodyWriter.write("<Cell");
 		if (cellStyleID != null)
+		{
 			bodyWriter.write(" ss:StyleID=\"" + cellStyleID + "\"");
+		}
 		if (colSpan > 1)
+		{
 			bodyWriter.write(" ss:MergeAcross=\"" + colSpan + "\"");
+		}
 		if (rowSpan > 1)
+		{
 			bodyWriter.write(" ss:MergeDown=\"" + rowSpan + "\"");
+		}
 		if (formula != null)
+		{
 			bodyWriter.write(" ss:Formula=\"" + formula + "\"");
+		}
 		if(hyperlinkURL != null)
 		{
 			bodyWriter.write(" ss:HRef=\"" + hyperlinkURL + "\"");

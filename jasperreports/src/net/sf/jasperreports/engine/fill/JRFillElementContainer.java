@@ -776,15 +776,18 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 				anyTrue = anyTrue | condition;
 
 				if (condition)
+				{
 					condStylesToApply.add(conditionalStyle);
+				}
 			}
 		}
 
 		condStylesToApply.add(style);
 		
 		if (style.getStyle() != null)
+		{
 			anyTrue = anyTrue | buildConsolidatedStyle(style.getStyle(), evaluation, code, condStylesToApply);
-		
+		}
 		return anyTrue;
 	}
 
