@@ -251,10 +251,10 @@ public class XlsxCellHelper extends BaseHelper
 		int intSecondLetter = ((colIndex % 676) / 26) + 64;
 		int intThirdLetter = (colIndex % 26) + 65;
 		
-		char FirstLetter = (intFirstLetter > 64) ? (char)intFirstLetter : ' ';
-		char SecondLetter = (intSecondLetter > 64) ? (char)intSecondLetter : ' ';
-		char ThirdLetter = (char)intThirdLetter;
+		char firstLetter = (intFirstLetter > 64) ? (char)intFirstLetter : ' ';
+		char secondLetter = (intSecondLetter > 64) ? (char)intSecondLetter : ' ';
+		char thirdLetter = (char)intThirdLetter;
 		
-		return ("" + FirstLetter + SecondLetter + ThirdLetter).trim();
+		return ("" + firstLetter + secondLetter + thirdLetter).trim();
 	}
 }
