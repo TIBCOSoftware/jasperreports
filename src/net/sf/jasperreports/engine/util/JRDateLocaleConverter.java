@@ -96,7 +96,9 @@ public class JRDateLocaleConverter extends DateLocaleConverter
 		}
 		SimpleDateFormat format = new SimpleDateFormat(pattern, locale);
 		if(timeZone != null)
+		{
 			format.setTimeZone(timeZone);
+		}
 		format.setLenient(isLenient());
 		return format;
 	}

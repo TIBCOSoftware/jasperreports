@@ -422,8 +422,9 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		query.setFirstResult(firstIndex);
 		query.setMaxResults(resultCount);
 		if (isClearCache)
+		{
 			clearCache();
-		
+		}
 		return query.list();
 	}
 	

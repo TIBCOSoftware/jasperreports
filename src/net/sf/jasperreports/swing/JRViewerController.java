@@ -174,8 +174,9 @@ public class JRViewerController
 			catch (JRException e)
 			{
 				if (log.isDebugEnabled())
+				{
 					log.debug("Reload failed.", e);
-
+				}
 				jasperPrint = null;
 				setPageIndex(0);
 				refreshPage();

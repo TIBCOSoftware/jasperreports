@@ -90,7 +90,9 @@ public class JRJdk13Compiler extends JRAbstractMultiClassCompiler
 				else 
 				{
 					if (log.isInfoEnabled() && baos.size() > 0)
+					{
 						log.info(baos.toString());
+					}
 				}
 			} 
 			catch (NoSuchMethodException ex)
