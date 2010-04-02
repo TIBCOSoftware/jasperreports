@@ -104,7 +104,9 @@ public class JEditorPaneRtfMarkupProcessor extends JEditorPaneMarkupProcessor
 			catch(BadLocationException e)
 			{
 				if (log.isDebugEnabled())
+				{
 					log.debug("Error converting markup.", e);
+				}
 			}
 
 		}

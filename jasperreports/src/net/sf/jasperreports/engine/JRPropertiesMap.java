@@ -395,7 +395,9 @@ public class JRPropertiesMap implements Serializable, Cloneable
 				catch (IOException e)
 				{
 					if (log.isWarnEnabled())
+					{
 						log.warn("Error closing stream for " + location, e);
+					}
 				}
 			}
 		}

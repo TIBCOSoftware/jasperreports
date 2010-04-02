@@ -1,5 +1,5 @@
 /*
- * Copyright © World Wide Web Consortium, (Massachusetts Institute of Technology, 
+ * Copyright ï¿½ World Wide Web Consortium, (Massachusetts Institute of Technology, 
  * Institut National de Recherche en Informatique et en Automatique, Keio University).
  * All Rights Reserved. http://www.w3.org/Consortium/Legal/
  */
@@ -167,10 +167,12 @@ public class Base64Encoder
 	public String processString()
 	{
 		if (!stringp)
+		{
 			throw new RuntimeException(
 				this.getClass().getName()
 					+ "[processString]"
 					+ "invalid call (not a String)");
+		}
 		try
 		{
 			process();

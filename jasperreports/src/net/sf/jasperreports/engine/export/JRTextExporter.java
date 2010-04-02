@@ -626,7 +626,9 @@ public class JRTextExporter extends JRAbstractExporter
 			justified.append(words[i]);
 			justified.append(spaces);
 			if (i < remainingSpace)
+			{
 				justified.append(' ');
+			}
 		}
 		justified.append(words[words.length-1]);
 

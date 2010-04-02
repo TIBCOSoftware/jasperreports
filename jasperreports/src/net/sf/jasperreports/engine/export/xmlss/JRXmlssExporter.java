@@ -438,8 +438,9 @@ public class JRXmlssExporter extends JRAbstractExporter
 							);
 					//clear the filter's internal cache that might have built up
 					if (filter instanceof ResetableExporterFilter)
+					{
 						((ResetableExporterFilter)filter).reset();
-
+					}
 					int startRow = 0;
 
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)

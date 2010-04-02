@@ -161,8 +161,9 @@ public class JasperDesignViewer extends javax.swing.JFrame
 		catch (JRException e)
 		{
 			if (log.isErrorEnabled())
+			{
 				log.error("Error viewing report design.", e);
-
+			}
 			System.exit(1);
 		}
 	}

@@ -229,7 +229,9 @@ public class JRPrinterAWT implements Printable
 		catch (JRException e)
 		{
 			if (log.isDebugEnabled())
+			{
 				log.debug("Print failed.", e);
+			}
 
 			throw new PrinterException(e.getMessage());
 		}
