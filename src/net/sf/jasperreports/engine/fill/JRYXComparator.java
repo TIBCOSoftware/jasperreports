@@ -45,9 +45,13 @@ public class JRYXComparator implements Comparator
 		JRPrintElement elem2 = (JRPrintElement)obj2;
 		
 		if (elem1.getY() == elem2.getY())
+		{
 			return elem1.getX() - elem2.getX();
+		}
 		else
+		{
 			return elem1.getY() - elem2.getY();
+		}
 	}
 
 

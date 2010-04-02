@@ -433,7 +433,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
             }
         }
         // MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
-        if (dimensionIndex == -1 && dimension.indexOf(".")!= -1 ) {
+        if (dimensionIndex == -1 && dimension.indexOf('.')!= -1 ) {
             String hierName = "[" + dimension + "]";
             for (int i = 0; i < hierarchies.length; i++)
             {

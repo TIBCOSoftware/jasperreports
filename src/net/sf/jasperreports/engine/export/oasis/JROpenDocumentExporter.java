@@ -1143,9 +1143,13 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	protected void endHyperlink(boolean isText) throws IOException
 	{
 		if(isText)
+		{
 			tempBodyWriter.write("</text:a>");
+		}
 		else
+		{
 			tempBodyWriter.write("</draw:a>");
+		}
 	}
 
 	protected void insertPageAnchor() throws IOException

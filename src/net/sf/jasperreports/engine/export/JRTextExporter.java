@@ -562,7 +562,9 @@ public class JRTextExporter extends JRAbstractExporter
 			String line = rows[i].toString();
 			int pos = line.length() - 1;
 			while (pos >= 0 && line.charAt(pos) == ' ')
+			{
 				pos--;
+			}
 			line = line.substring(0, pos + 1);
 			switch (element.getHorizontalAlignmentValue())
 			{
@@ -612,7 +614,9 @@ public class JRTextExporter extends JRAbstractExporter
 		String[] words = new String[tokenCount];
 		int i = 0;
 		while (t.hasMoreTokens())
+		{
 			words[i++] = t.nextToken();
+		}
 
 		int emptySpace = width - s.length() + (words.length - 1);
 		int spaceCount = emptySpace / (words.length - 1);

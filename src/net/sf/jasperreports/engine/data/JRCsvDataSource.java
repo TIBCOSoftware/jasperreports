@@ -230,7 +230,9 @@ public class JRCsvDataSource implements JRDataSource
 					return new java.sql.Time(dateFormat.parse(fieldValue).getTime());
 				}
 				else
+				{
 					throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and can not be converted");
+				}
 			} catch (Exception e) {
 				throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
 			}
@@ -272,7 +274,9 @@ public class JRCsvDataSource implements JRDataSource
 						hadQuotes = true;
 					}
 					else // the field contains a bad string, like "fo"o", instead of "fo""o"
+					{
 						misplacedQuote = true;
+					}
 				}
 				// found a quote when already inside quotes, expecting two consecutive quotes, otherwise it means
 				// it's a closing quote
