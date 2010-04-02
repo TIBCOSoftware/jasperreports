@@ -385,7 +385,8 @@ public class JRDesignDataset extends JRBaseDataset
 		}
 
 		JRDesignParameter scriptletParameter = new JRDesignParameter();
-		scriptletParameter.setName(scriptlet.getName() + "_SCRIPTLET");
+		scriptletParameter.setName(scriptlet.getName() 
+				+ JRScriptlet.SCRIPTLET_PARAMETER_NAME_SUFFIX);
 		scriptletParameter.setValueClassName(scriptlet.getValueClassName());
 		scriptletParameter.setSystemDefined(true);
 		scriptletParameter.setForPrompting(false);
@@ -421,7 +422,8 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		if (scriptlet != null)
 		{
-			removeParameter(scriptlet.getName() + "_SCRIPTLET");
+			removeParameter(scriptlet.getName() 
+					+ JRScriptlet.SCRIPTLET_PARAMETER_NAME_SUFFIX);
 			int idx = scriptletsList.indexOf(scriptlet);
 			if (idx >= 0)
 			{

@@ -23,6 +23,12 @@
  */
 package net.sf.jasperreports.components.table.fill;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.mozilla.javascript.edu.emory.mathcs.backport.java.util.Collections;
+
+import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
@@ -34,6 +40,8 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.JRDesignParameter;
+import net.sf.jasperreports.engine.design.JRDesignScriptlet;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
@@ -47,7 +55,12 @@ public class TableReportDataset implements JRDataset
 
 	private final JRDataset tableSubdataset;
 	private final String name;
-	private final TableReportGroup[] groups;
+	private final TableReportGroup[] tableGroups;
+	private final List<JRGroup> groups;
+	private final JRPropertiesMap properties;
+	
+	private final List<JRScriptlet> scriptlets;
+	private final List<JRParameter> parameters;
 	
 	public TableReportDataset(JRDataset tableSubdataset, String name)
 	{
@@ -55,17 +68,35 @@ public class TableReportDataset implements JRDataset
 		this.name = name;
 		
 		JRGroup[] datasetGroups = tableSubdataset.getGroups();
+		groups = new ArrayList<JRGroup>();
 		if (datasetGroups == null)
 		{
-			groups = null;
+			tableGroups = null;
 		}
 		else
 		{
-			groups = new TableReportGroup[datasetGroups.length];
+			tableGroups = new TableReportGroup[datasetGroups.length];
 			for (int i = 0; i < datasetGroups.length; i++)
 			{
-				groups[i] = new TableReportGroup(datasetGroups[i]);
+				tableGroups[i] = new TableReportGroup(datasetGroups[i]);
+				groups.add(tableGroups[i]);
 			}
+		}
+		
+		properties = tableSubdataset.getPropertiesMap().cloneProperties();
+		
+		scriptlets = new ArrayList<JRScriptlet>();
+		JRScriptlet[] datasetScriptlets = tableSubdataset.getScriptlets();
+		if (datasetScriptlets != null)
+		{
+			Collections.addAll(scriptlets, datasetScriptlets);
+		}
+		
+		JRParameter[] datasetParameters = tableSubdataset.getParameters();
+		parameters = new ArrayList<JRParameter>();
+		if (datasetParameters != null)
+		{
+			Collections.addAll(parameters, datasetParameters);
 		}
 	}
 
@@ -81,12 +112,17 @@ public class TableReportDataset implements JRDataset
 
 	public TableReportGroup[] getTableGroups()
 	{
-		return groups;
+		return tableGroups;
 	}
 
 	public JRGroup[] getGroups()
 	{
-		return groups;
+		return groups.toArray(new JRGroup[groups.size()]);
+	}
+	
+	public void addFirstGroup(JRGroup group)
+	{
+		groups.add(0, group);
 	}
 
 	public String getName()
@@ -96,7 +132,7 @@ public class TableReportDataset implements JRDataset
 
 	public JRParameter[] getParameters()
 	{
-		return tableSubdataset.getParameters();
+		return parameters.toArray(new JRParameter[parameters.size()]);
 	}
 
 	public JRQuery getQuery()
@@ -116,7 +152,7 @@ public class TableReportDataset implements JRDataset
 
 	public JRScriptlet[] getScriptlets()
 	{
-		return tableSubdataset.getScriptlets();
+		return scriptlets.toArray(new JRScriptlet[scriptlets.size()]);
 	}
 
 	public JRSortField[] getSortFields()
@@ -165,17 +201,33 @@ public class TableReportDataset implements JRDataset
 
 	public JRPropertiesMap getPropertiesMap()
 	{
-		return tableSubdataset.getPropertiesMap();
+		return properties;
 	}
 
 	public boolean hasProperties()
 	{
-		return tableSubdataset.hasProperties();
+		return properties.hasProperties();
 	}
 
 	public Object clone()
 	{
 		throw new UnsupportedOperationException();
+	}
+	
+	public void addScriptlet(String name, Class<? extends JRAbstractScriptlet> type)
+	{
+		JRDesignScriptlet scriptlet = new JRDesignScriptlet();
+		scriptlet.setName(name);
+		scriptlet.setValueClass(type);
+		
+		JRDesignParameter parameter = new JRDesignParameter();
+		parameter.setName(name + JRScriptlet.SCRIPTLET_PARAMETER_NAME_SUFFIX);
+		parameter.setValueClass(scriptlet.getValueClass());
+		parameter.setSystemDefined(true);
+		parameter.setForPrompting(false);
+		
+		scriptlets.add(scriptlet);
+		parameters.add(parameter);
 	}
 	
 }

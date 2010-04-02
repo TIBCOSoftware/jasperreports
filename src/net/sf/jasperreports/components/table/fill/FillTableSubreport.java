@@ -30,12 +30,14 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
+import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRBaseFiller;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillSubreport;
@@ -50,19 +52,37 @@ public class FillTableSubreport extends JRFillSubreport
 {
 
 	private final JasperReport tableReport;
+	private final Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators;
 
 	protected FillTableSubreport(JRBaseFiller filler, JRSubreport subreport,
-			JRFillObjectFactory factory, JasperReport tableReport)
+			JRFillObjectFactory factory, JasperReport tableReport, 
+			Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators)
 	{
 		super(filler, subreport, factory);
 		
 		this.tableReport = tableReport;
+		this.builtinEvaluators = builtinEvaluators;
 	}
 
 	@Override
 	protected JasperReport evaluateReport(byte evaluation) throws JRException
 	{
 		return tableReport;
+	}
+
+	@Override
+	protected DatasetExpressionEvaluator createEvaluator() throws JRException
+	{
+		DatasetExpressionEvaluator evaluator = super.createEvaluator();
+		
+		if (!builtinEvaluators.isEmpty())
+		{
+			// use the builtin expression evaluators
+			evaluator = new BuiltinExpressionEvaluatorDecorator(evaluator, 
+					builtinEvaluators);
+		}
+		
+		return evaluator;
 	}
 	
 	@Override

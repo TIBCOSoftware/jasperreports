@@ -21,42 +21,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.engine.fill;
 
+import java.util.Map;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * 
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRScriptlet extends JRPropertiesHolder, JRCloneable
+public interface DatasetExpressionEvaluator
 {
 
-	String SCRIPTLET_PARAMETER_NAME_SUFFIX = "_SCRIPTLET";
+	void init(Map parametersMap, Map fieldsMap, Map variablesMap, 
+			WhenResourceMissingTypeEnum resourceMissingType) throws JRException;
 	
-	/**
-	 *
-	 */
-	public String getName();
-		
-	/**
-	 *
-	 */
-	public String getDescription();
-		
-	/**
-	 *
-	 */
-	public void setDescription(String description);
-		
-	/**
-	 *
-	 */
-	public Class getValueClass();
-
-	/**
-	 *
-	 */
-	public String getValueClassName();
-
+	Object evaluate(JRExpression expression) throws JRExpressionEvalException;
+	
+	Object evaluateOld(JRExpression expression) throws JRExpressionEvalException;
+	
+	Object evaluateEstimated(JRExpression expression) throws JRExpressionEvalException;
+	
 }
