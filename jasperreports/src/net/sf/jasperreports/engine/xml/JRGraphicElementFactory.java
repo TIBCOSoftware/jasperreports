@@ -59,7 +59,9 @@ public class JRGraphicElementFactory extends JRBaseFactory
 		if (pen != null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'pen' attribute is deprecated. Use the <pen> tag instead.");
+			}
 				
 			JRPenUtil.setLinePenFromPen(pen, graphicElement.getLinePen());
 		}

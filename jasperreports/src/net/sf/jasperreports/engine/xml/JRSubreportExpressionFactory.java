@@ -49,8 +49,9 @@ public class JRSubreportExpressionFactory extends JRBaseFactory
 		{
 			// being backward compatible
 			if(value.equals("dori.jasper.engine.JasperReport"))
+			{
 				value = JasperReport.class.getName();
-			
+			}
 			expression.setValueClassName(value);
 		}
 		else

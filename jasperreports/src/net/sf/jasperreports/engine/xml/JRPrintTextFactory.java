@@ -96,7 +96,9 @@ public class JRPrintTextFactory extends JRBaseFactory
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The 'isStyledText' attribute is deprecated. Use the 'markup' attribute instead.");
+			}
 				
 			text.setMarkup(Boolean.valueOf(isStyledText) ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE);
 		}

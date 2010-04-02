@@ -538,7 +538,9 @@ public class JRXmlLoader
 	public void addError(Exception e)
 	{
 		if(!ignoreConsistencyProblems)
+		{
 			this.errors.add(e);
+		}
 	}
 	
 	/**

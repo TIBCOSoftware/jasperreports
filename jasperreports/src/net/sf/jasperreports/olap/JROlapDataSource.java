@@ -250,7 +250,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
              */
             String fieldValue = (String) value;
 
-            if (fieldValue == null) return null;
+            if (fieldValue == null) 
+            {	
+            	return null;
+            }
             if (Number.class.isAssignableFrom(valueClass)){
                 fieldValue = fieldValue.trim();
             }

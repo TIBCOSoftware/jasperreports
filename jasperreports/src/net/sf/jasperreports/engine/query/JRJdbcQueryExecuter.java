@@ -92,7 +92,9 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		if (connection == null)
 		{
 			if (log.isWarnEnabled())
+			{
 				log.warn("The supplied java.sql.Connection object is null.");
+			}
 		}
 		
 		registerFunctions();
