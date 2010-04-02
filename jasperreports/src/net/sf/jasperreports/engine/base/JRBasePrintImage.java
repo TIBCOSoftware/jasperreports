@@ -531,7 +531,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public void setHyperlinkPage(String hyperlinkPage)
 	{
-		this.hyperlinkPage = new Integer(hyperlinkPage);
+		this.hyperlinkPage = Integer.valueOf(hyperlinkPage);
 	}
 
 

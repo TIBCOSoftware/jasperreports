@@ -171,7 +171,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Integer.class))
 				{
-					objValue = new Integer(resultSet.getInt(columnIndex.intValue()));
+					objValue = Integer.valueOf(resultSet.getInt(columnIndex.intValue()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -340,7 +340,7 @@ public class JRResultSetDataSource implements JRDataSource
 				
 				if (columnIndex == null && fieldName.startsWith(INDEXED_COLUMN_PREFIX))
 				{
-					columnIndex = new Integer(fieldName.substring(INDEXED_COLUMN_PREFIX_LENGTH));
+					columnIndex = Integer.valueOf(fieldName.substring(INDEXED_COLUMN_PREFIX_LENGTH));
 					if (
 						columnIndex.intValue() <= 0
 						|| columnIndex.intValue() > resultSet.getMetaData().getColumnCount()
@@ -376,7 +376,7 @@ public class JRResultSetDataSource implements JRDataSource
 			String columnName = metadata.getColumnName(i);
 			if (fieldName.equalsIgnoreCase(columnName))
 			{
-				columnIndex = new Integer(i);
+				columnIndex = Integer.valueOf(i);
 				break;
 			}
 		}
@@ -393,7 +393,7 @@ public class JRResultSetDataSource implements JRDataSource
 			String columnLabel = metadata.getColumnLabel(i);
 			if (columnLabel != null && fieldName.equalsIgnoreCase(columnLabel))
 			{
-				columnIndex = new Integer(i);
+				columnIndex = Integer.valueOf(i);
 				break;
 			}
 		}

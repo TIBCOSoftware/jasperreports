@@ -553,7 +553,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		if (!originsMap.containsKey(origin))
 		{
 			originsList.add(origin);
-			originsMap.put(origin, new Integer(originsList.size() - 1));
+			originsMap.put(origin, Integer.valueOf(originsList.size() - 1));
 		}
 	}
 
@@ -568,7 +568,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 			originsMap = new HashMap();
 			for(int i = 0; i < originsList.size(); i++)
 			{
-				originsMap.put(originsList.get(i), new Integer(i));
+				originsMap.put(originsList.get(i), Integer.valueOf(i));
 			}
 		}
 		

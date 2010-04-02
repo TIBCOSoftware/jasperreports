@@ -50,13 +50,13 @@ public class JRPieDatasetFactory extends JRBaseFactory
 		String minPercentage = attrs.getValue(ATTRIBUTE_minPercentage);
 		if(minPercentage != null && minPercentage.length() > 0)
 		{
-			dataset.setMinPercentage(new Float(minPercentage));
+			dataset.setMinPercentage(Float.valueOf(minPercentage));
 		}
 		
 		String maxCount = attrs.getValue(ATTRIBUTE_maxCount);
 		if(maxCount != null && maxCount.length() > 0)
 		{
-			dataset.setMaxCount(new Integer(maxCount));
+			dataset.setMaxCount(Integer.valueOf(maxCount));
 		}
 		
 		return dataset;

@@ -174,7 +174,7 @@ public class JRPercentageCalculatorFactory
 				percentage = 100 * val.intValue() / totalVal.intValue();
 			}
 
-			return new Integer(percentage);
+			return Integer.valueOf(percentage);
 		}
 	}
 

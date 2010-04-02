@@ -283,7 +283,7 @@ public class BucketingService
 		}
 
 		measuresList.add(measure);
-		measureIndexList.add(new Integer(index));
+		measureIndexList.add(Integer.valueOf(index));
 	}
 
 	

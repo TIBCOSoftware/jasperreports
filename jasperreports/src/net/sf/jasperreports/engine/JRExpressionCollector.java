@@ -137,10 +137,10 @@ public class JRExpressionCollector
 
 		public Integer nextId()
 		{
-			Integer id = new Integer(nextId);
+			Integer id = Integer.valueOf(nextId);
 			while(ids.containsKey(id))
 			{
-				id = new Integer(++nextId);
+				id = Integer.valueOf(++nextId);
 			}
 			return id;
 		}
@@ -156,7 +156,7 @@ public class JRExpressionCollector
 
 		public JRExpression expression(int id)
 		{
-			return (JRExpression) ids.get(new Integer(id));
+			return (JRExpression) ids.get(Integer.valueOf(id));
 		}
 	}
 	private GeneratedIds generatedIds = new GeneratedIds();
@@ -1193,7 +1193,7 @@ public class JRExpressionCollector
 
 	private void createCrosstabId(JRCrosstab crosstab)
 	{
-		crosstabIds.put(crosstab, new Integer(crosstabIds.size()));
+		crosstabIds.put(crosstab, Integer.valueOf(crosstabIds.size()));
 	}
 
 

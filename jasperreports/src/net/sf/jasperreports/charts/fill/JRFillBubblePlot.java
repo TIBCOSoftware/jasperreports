@@ -265,7 +265,7 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	 */
 	public Integer getScaleTypeInteger()
 	{
-		return new Integer(getScaleTypeValue().getValue());
+		return Integer.valueOf(getScaleTypeValue().getValue());
 	}
 	
 	/**

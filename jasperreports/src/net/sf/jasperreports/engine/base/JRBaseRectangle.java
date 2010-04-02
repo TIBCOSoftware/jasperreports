@@ -85,7 +85,7 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	 */
 	public void setRadius(int radius)
 	{
-		setRadius(new Integer(radius));
+		setRadius(Integer.valueOf(radius));
 	}
 
 	/**

@@ -260,7 +260,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, C
 	 */
 	public void setPadding(int padding)
 	{
-		setPadding(new Integer(padding));
+		setPadding(Integer.valueOf(padding));
 	}
 
 	/**
@@ -294,7 +294,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, C
 	 */
 	public void setTopPadding(int topPadding)
 	{
-		setTopPadding(new Integer(topPadding));
+		setTopPadding(Integer.valueOf(topPadding));
 	}
 
 	/**
@@ -328,7 +328,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, C
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
-		setLeftPadding(new Integer(leftPadding));
+		setLeftPadding(Integer.valueOf(leftPadding));
 	}
 
 	/**
@@ -362,7 +362,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, C
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
-		setBottomPadding(new Integer(bottomPadding));
+		setBottomPadding(Integer.valueOf(bottomPadding));
 	}
 
 	/**
@@ -396,7 +396,7 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, C
 	 */
 	public void setRightPadding(int rightPadding)
 	{
-		setRightPadding(new Integer(rightPadding));
+		setRightPadding(Integer.valueOf(rightPadding));
 	}
 
 	/**
