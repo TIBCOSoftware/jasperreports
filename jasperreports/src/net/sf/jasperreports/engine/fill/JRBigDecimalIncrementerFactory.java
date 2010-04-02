@@ -40,8 +40,8 @@ public class JRBigDecimalIncrementerFactory extends JRAbstractExtendedIncremente
 	/**
 	 *
 	 */
-	protected static final BigDecimal ZERO = new BigDecimal("0");
-	protected static final BigDecimal ONE = new BigDecimal("1");
+	protected static final BigDecimal ZERO = BigDecimal.ZERO;
+	protected static final BigDecimal ONE = BigDecimal.ONE;
 
 
 	/**

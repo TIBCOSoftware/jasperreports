@@ -131,7 +131,9 @@ public class Base64Encoder
 				}
 				// Copy remaining bytes to beginning of buffer:
 				for (int i = 0; i < 3; i++)
+				{
 					buffer[i] = (i < got - off) ? buffer[off + i] : ((byte) 0);
+				}
 				off = got - off;
 			}
 			else

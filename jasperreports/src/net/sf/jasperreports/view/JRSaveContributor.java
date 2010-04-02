@@ -55,9 +55,13 @@ public abstract class JRSaveContributor extends FileFilter
 	public JRSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
 		if (locale != null)
+		{
 			this.locale = locale;
+		}
 		else
+		{
 			this.locale = Locale.getDefault();
+		}
 
 		if (resBundle == null)
 		{

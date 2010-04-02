@@ -105,8 +105,11 @@ public class JRCsvDataSourceProvider implements JRDataSourceProvider
 	{
 		JRCsvDataSource ds;
 		if (reader != null)
+		{
 			 ds = new JRCsvDataSource(reader);
-		else {
+		}
+		else 
+		{
 			throw new JRException("Cannot find a source to read the data from");
 		}
 
