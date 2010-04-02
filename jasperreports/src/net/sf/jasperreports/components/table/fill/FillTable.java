@@ -226,7 +226,20 @@ public class FillTable extends BaseFillComponent
 		JasperReport parentReport = fillContext.getFiller().getJasperReport();
 		JRDataset reportSubdataset = JRReportUtils.findSubdataset(table.getDatasetRun(), 
 				parentReport);
-		TableReport tableReport = createTableReport(reportSubdataset, parentReport);
+		
+		Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators = 
+			new HashMap<JRExpression, BuiltinExpressionEvaluator>();
+		
+		String tableReportName = JRAbstractCompiler.getUnitName(parentReport, reportSubdataset);
+		TableReportDataset reportDataset = new TableReportDataset(reportSubdataset, tableReportName);
+		TableReport tableReport1 = new TableReport(fillContext, reportDataset, fillColumns, builtinEvaluators);
+		
+		if (log.isDebugEnabled())
+		{
+			String tableReportXml = JRXmlWriter.writeReport(tableReport1, "UTF-8");
+			log.debug("Generated table report:\n" + tableReportXml);
+		}
+		TableReport tableReport = tableReport1;
 		
 		Serializable compileData = parentReport.getCompileData();
 		if (!(compileData instanceof JRReportCompileData))
@@ -250,24 +263,10 @@ public class FillTable extends BaseFillComponent
 		
 		TableSubreport subreport = new TableSubreport(table.getDatasetRun(), fillContext);
 		return new FillTableSubreport(
-				fillContext.getFiller(), subreport, factory, compiledTableReport);
+				fillContext.getFiller(), subreport, factory, compiledTableReport,
+				builtinEvaluators);
 	}
 	
-	protected TableReport createTableReport(JRDataset reportSubdataset, JasperReport parentReport)
-	{
-		String tableReportName = JRAbstractCompiler.getUnitName(parentReport, reportSubdataset);
-		TableReportDataset reportDataset = new TableReportDataset(reportSubdataset, tableReportName);
-		TableReport tableReport = new TableReport(fillContext, reportDataset, fillColumns);
-		
-		if (log.isDebugEnabled())
-		{
-			String tableReportXml = JRXmlWriter.writeReport(tableReport, "UTF-8");
-			log.debug("Generated table report:\n" + tableReportXml);
-		}
-		
-		return tableReport;
-	}
-
 	public FillPrepareResult prepare(int availableHeight)
 	{
 		try

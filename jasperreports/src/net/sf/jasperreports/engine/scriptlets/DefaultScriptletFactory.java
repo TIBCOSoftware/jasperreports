@@ -81,7 +81,8 @@ public class DefaultScriptletFactory implements ScriptletFactory
 		{
 			for (int i = 0; i < scriptletsArray.length; i++)
 			{
-				String paramName = scriptletsArray[i].getName() + "_SCRIPTLET";
+				String paramName = scriptletsArray[i].getName() 
+						+ JRScriptlet.SCRIPTLET_PARAMETER_NAME_SUFFIX;
 				scriptlet = (JRAbstractScriptlet)context.getParameterValues().get(paramName);
 				if (scriptlet == null)
 				{

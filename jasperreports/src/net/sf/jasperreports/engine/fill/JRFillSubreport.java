@@ -349,7 +349,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 
 			/*   */
-			JREvaluator evaluator = loadReportEvaluator();
+			DatasetExpressionEvaluator evaluator = loadReportEvaluator();
 			initSubreportFiller(evaluator);
 			
 			validateReport();
@@ -371,16 +371,16 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			);
 	}
 
-	protected JREvaluator loadReportEvaluator() throws JRException
+	protected DatasetExpressionEvaluator loadReportEvaluator() throws JRException
 	{
-		JREvaluator evaluator = null;
+		DatasetExpressionEvaluator evaluator = null;
 		if (isUsingCache())
 		{
 			evaluator = (JREvaluator) loadedEvaluators.get(jasperReport);
 		}
 		if (evaluator == null)
 		{
-			evaluator = JasperCompileManager.loadEvaluator(jasperReport);
+			evaluator = createEvaluator();
 			if (isUsingCache())
 			{
 				loadedEvaluators.put(jasperReport, evaluator);
@@ -390,7 +390,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 
-	protected void initSubreportFiller(JREvaluator evaluator) throws JRException
+	protected DatasetExpressionEvaluator createEvaluator() throws JRException
+	{
+		return JasperCompileManager.loadEvaluator(jasperReport);
+	}
+
+
+	protected void initSubreportFiller(DatasetExpressionEvaluator evaluator) throws JRException
 	{
 		if (log.isDebugEnabled())
 		{
@@ -493,7 +499,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			{
 				for(int i = 0; i < scriptlets.length; i++)
 				{
-					parameterValues.remove(scriptlets[i].getName() + "_SCRIPTLET");
+					parameterValues.remove(scriptlets[i].getName() 
+							+ JRScriptlet.SCRIPTLET_PARAMETER_NAME_SUFFIX);
 				}
 			}
 			parameterValues.remove(JRParameter.REPORT_VIRTUALIZER);

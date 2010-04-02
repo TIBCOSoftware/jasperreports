@@ -76,11 +76,23 @@ public class JRHorizontalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected JRHorizontalFiller(JasperReport jasperReport, JREvaluator evaluator, JRFillSubreport parentElement) throws JRException
+	protected JRHorizontalFiller(JasperReport jasperReport, 
+			DatasetExpressionEvaluator evaluator, 
+			JRFillSubreport parentElement) throws JRException
 	{
 		super(jasperReport, evaluator, parentElement);
 
 		setPageHeight(pageHeight);
+	}
+
+	/**
+	 *
+	 */
+	protected JRHorizontalFiller(JasperReport jasperReport, 
+			JREvaluator evaluator, 
+			JRFillSubreport parentElement) throws JRException
+	{
+		this(jasperReport, (DatasetExpressionEvaluator) evaluator, parentElement);
 	}
 
 

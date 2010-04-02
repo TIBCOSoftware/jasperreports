@@ -62,7 +62,18 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 * The expression evaluator
 	 */
-	private final JREvaluator evaluator;
+	private final DatasetExpressionEvaluator evaluator;
+
+
+	/**
+	 * Creates a calculator using an expression evaluator.
+	 * 
+	 * @param evaluator the expression evaluator
+	 */
+	protected JRCalculator(DatasetExpressionEvaluator evaluator)
+	{
+		this.evaluator = evaluator;
+	}
 
 
 	/**
@@ -72,7 +83,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	 */
 	protected JRCalculator(JREvaluator evaluator)
 	{
-		this.evaluator = evaluator;
+		this((DatasetExpressionEvaluator) evaluator);
 	}
 
 

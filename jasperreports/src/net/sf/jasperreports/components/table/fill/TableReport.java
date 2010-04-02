@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.table.fill;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
@@ -36,6 +37,8 @@ import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
@@ -51,14 +54,18 @@ import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.design.JRDesignBand;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
+import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
+import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignSection;
+import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
@@ -76,17 +83,21 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 public class TableReport implements JRReport
 {
 
+	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
+	
 	private final FillContext fillContext;
 	private final JasperReport parentReport;
 	private final TableReportDataset mainDataset;
 	private final JRSection detail;
-	private final JRBand title;
-	private final JRBand summary;
-	private final JRBand columnHeader;
-	private final JRBand columnFooter;
+	private final JRDesignBand title;
+	private final JRDesignBand summary;
+	private final JRDesignBand columnHeader;
+	private final JRDesignBand pageFooter;
+	private final JRDesignBand lastPageFooter;
 	
 	public TableReport(FillContext fillContext, TableReportDataset mainDataset, 
-			List<FillColumn> fillColumns)
+			List<FillColumn> fillColumns, 
+			Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators)
 	{
 		this.fillContext = fillContext;
 		this.parentReport = fillContext.getFiller().getJasperReport();
@@ -94,11 +105,29 @@ public class TableReport implements JRReport
 		
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
 		this.title = createTitle(fillColumns);
-		//TODO make table footers appear after column footers
 		this.summary = createSummary(fillColumns); 
 		this.columnHeader = createColumnHeader(fillColumns);
-		this.columnFooter = createColumnFooter(fillColumns);
+		this.pageFooter = createPageFooter(fillColumns);
+		
 		setGroupBands(fillColumns);
+		
+		if (pageFooter != null && summary != null)
+		{
+			// if the table has both column footers and table footers, we need to use
+			// a dummy group's footer to print the last column footers so that they
+			// appear before the table footers
+			addSummaryGroup(fillColumns, builtinEvaluators);
+			
+			// use an empty last page footer so that the regular page footer doesn't
+			// show on the last page
+			this.lastPageFooter = new JRDesignBand();
+			this.lastPageFooter.setHeight(0);
+		}
+		else
+		{
+			// use the regular page footer
+			this.lastPageFooter = null;
+		}
 	}
 	
 	protected class ReportBandInfo
@@ -346,7 +375,7 @@ public class TableReport implements JRReport
 		}
 	}
 
-	protected JRBand createColumnHeader(List<FillColumn> fillColumns)
+	protected JRDesignBand createColumnHeader(List<FillColumn> fillColumns)
 	{
 		JRDesignBand columnHeader = new JRDesignBand();
 		columnHeader.setSplitType(SplitTypeEnum.PREVENT);
@@ -368,9 +397,9 @@ public class TableReport implements JRReport
 		return columnHeader;
 	}
 	
-	protected class ColumnFooterCreator extends ReverseReportBandCreator
+	protected class PageFooterCreator extends ReverseReportBandCreator
 	{
-		public ColumnFooterCreator(ReportBandInfo bandInfo, FillColumn fillColumn,
+		public PageFooterCreator(ReportBandInfo bandInfo, FillColumn fillColumn,
 				int xOffset, int yOffset, int level)
 		{
 			super(bandInfo, fillColumn, xOffset, yOffset, level);
@@ -392,30 +421,30 @@ public class TableReport implements JRReport
 		protected ReportBandCreator createSubVisitor(FillColumn subcolumn,
 				int xOffset, int yOffset, int sublevel)
 		{
-			return new ColumnFooterCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel);
+			return new PageFooterCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel);
 		}
 	}
 
-	protected JRBand createColumnFooter(List<FillColumn> fillColumns)
+	protected JRDesignBand createPageFooter(List<FillColumn> fillColumns)
 	{
-		JRDesignBand columnFooter = new JRDesignBand();
-		columnFooter.setSplitType(SplitTypeEnum.PREVENT);
+		JRDesignBand pageFooter = new JRDesignBand();
+		pageFooter.setSplitType(SplitTypeEnum.PREVENT);
 		
-		ReportBandInfo bandInfo = new ReportBandInfo(columnFooter);
+		ReportBandInfo bandInfo = new ReportBandInfo(pageFooter);
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
-			ColumnFooterCreator subVisitor = new ColumnFooterCreator(
+			PageFooterCreator subVisitor = new PageFooterCreator(
 					bandInfo, subcolumn, xOffset, 0, 0);
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
 		
-		if (columnFooter.getHeight() == 0)
+		if (pageFooter.getHeight() == 0)
 		{
-			columnFooter = null;
+			pageFooter = null;
 		}
-		return columnFooter;
+		return pageFooter;
 	}
 	
 	protected class TitleCreator extends ReportBandCreator
@@ -446,7 +475,7 @@ public class TableReport implements JRReport
 		}
 	}
 
-	protected JRBand createTitle(List<FillColumn> fillColumns)
+	protected JRDesignBand createTitle(List<FillColumn> fillColumns)
 	{
 		JRDesignBand title = new JRDesignBand();
 		title.setSplitType(SplitTypeEnum.PREVENT);
@@ -496,7 +525,7 @@ public class TableReport implements JRReport
 		}
 	}
 
-	protected JRBand createSummary(List<FillColumn> fillColumns)
+	protected JRDesignBand createSummary(List<FillColumn> fillColumns)
 	{
 		JRDesignBand summary = new JRDesignBand();
 		summary.setSplitType(SplitTypeEnum.PREVENT);
@@ -649,6 +678,119 @@ public class TableReport implements JRReport
 				}
 			}
 		}
+		
+		
+	}
+
+	protected static final String TABLE_SCRIPTLET_NAME = "__Table";
+	
+	protected class SummaryGroupFooterPrintWhenEvaluator implements BuiltinExpressionEvaluator
+	{
+
+		private JRValueParameter tableScriptletParam;
+		private TableReportScriptlet tableScriptlet;
+		
+		public void init(Map parametersMap, Map fieldsMap, Map variablesMap,
+				WhenResourceMissingTypeEnum resourceMissingType)
+				throws JRException
+		{
+			tableScriptletParam = (JRValueParameter) parametersMap.get(TABLE_SCRIPTLET_NAME 
+					+ JRScriptlet.SCRIPTLET_PARAMETER_NAME_SUFFIX);
+		}
+
+		protected void ensureValue()
+		{
+			if (tableScriptlet == null)
+			{
+				tableScriptlet = (TableReportScriptlet) tableScriptletParam.getValue();
+			}
+		}
+		
+		public Object evaluate() throws JRExpressionEvalException
+		{
+			ensureValue();
+			return tableScriptlet.hasDetailOnPage();
+		}
+
+		public Object evaluateEstimated() throws JRExpressionEvalException
+		{
+			ensureValue();
+			return tableScriptlet.hasDetailOnPage();
+		}
+
+		public Object evaluateOld() throws JRExpressionEvalException
+		{
+			ensureValue();
+			return tableScriptlet.hasDetailOnPage();
+		}
+	}
+	
+	protected int computeTableWidth(List<FillColumn> fillColumns)
+	{
+		int width = 0;
+		for (FillColumn column : fillColumns)
+		{
+			width += column.getWidth();
+		}
+		return width;
+	}
+	
+	protected void addSummaryGroup(List<FillColumn> fillColumns, Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators)
+	{
+		JRDesignGroup summaryGroup = new JRDesignGroup();
+		summaryGroup.setName(SUMMARY_GROUP_NAME);//TODO check for uniqueness
+		
+		JRDesignBand groupFooter = new JRDesignBand();
+		groupFooter.setSplitType(SplitTypeEnum.PREVENT);
+		groupFooter.setHeight(pageFooter.getHeight());
+		
+		// we need to put everything in a frame so that we can tell the frame
+		// not to print when there are no detail bands on the current page
+		// 
+		// we can't do that directly to the band since its print when expression
+		// is evaluated too soon
+		JRDesignFrame footerFrame = new JRDesignFrame();
+		footerFrame.setX(0);
+		footerFrame.setY(0);
+		footerFrame.setWidth(computeTableWidth(fillColumns));
+		footerFrame.setHeight(pageFooter.getHeight());
+		footerFrame.getLineBox().setPadding(0);
+		footerFrame.getLineBox().getPen().setLineWidth(0f);
+		footerFrame.setRemoveLineWhenBlank(true);
+		
+		// we only need an empty expression object here
+		// the evaluation logic is separate
+		JRDesignExpression footerPrintWhen = new JRDesignExpression();
+		builtinEvaluators.put(footerPrintWhen, new SummaryGroupFooterPrintWhenEvaluator());
+		footerFrame.setPrintWhenExpression(footerPrintWhen);
+		
+		// clone the contents of the page footer in the frame
+		List footerElements = pageFooter.getChildren();
+		for (Iterator iterator = footerElements.iterator(); iterator
+				.hasNext();)
+		{
+			JRChild child = (JRChild) iterator.next();
+			JRChild childClone = (JRChild) child.clone(footerFrame);
+			if (childClone instanceof JRElement)
+			{
+				footerFrame.addElement((JRElement) childClone);
+			}
+			else if (childClone instanceof JRElementGroup)
+			{
+				footerFrame.addElementGroup((JRElementGroup) childClone);
+			}
+			else
+			{
+				throw new JRRuntimeException("Uknown child type " 
+						+ childClone.getClass().getName());
+			}
+		}
+		
+		groupFooter.addElement(footerFrame);
+		((JRDesignSection) summaryGroup.getGroupFooterSection()).addBand(groupFooter);
+		
+		mainDataset.addScriptlet(TABLE_SCRIPTLET_NAME, TableReportScriptlet.class);
+		mainDataset.addFirstGroup(summaryGroup);
 	}
 	
 	protected JRDesignFrame createCellFrame(Cell cell, 
@@ -744,7 +886,7 @@ public class TableReport implements JRReport
 
 	public JRBand getColumnFooter()
 	{
-		return columnFooter;
+		return null;
 	}
 
 	public JRBand getColumnHeader()
@@ -812,7 +954,7 @@ public class TableReport implements JRReport
 
 	public JRBand getLastPageFooter()
 	{
-		return null;
+		return lastPageFooter;
 	}
 
 	public int getLeftMargin()
@@ -848,7 +990,7 @@ public class TableReport implements JRReport
 
 	public JRBand getPageFooter()
 	{
-		return null;
+		return pageFooter;
 	}
 
 	public JRBand getPageHeader()

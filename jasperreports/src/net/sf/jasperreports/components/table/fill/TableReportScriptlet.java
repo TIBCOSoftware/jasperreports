@@ -21,42 +21,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.components.table.fill;
 
-
+import net.sf.jasperreports.engine.JRDefaultScriptlet;
+import net.sf.jasperreports.engine.JRScriptletException;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * 
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRScriptlet extends JRPropertiesHolder, JRCloneable
+public class TableReportScriptlet extends JRDefaultScriptlet
 {
 
-	String SCRIPTLET_PARAMETER_NAME_SUFFIX = "_SCRIPTLET";
+	private boolean detailOnPage;
 	
-	/**
-	 *
-	 */
-	public String getName();
-		
-	/**
-	 *
-	 */
-	public String getDescription();
-		
-	/**
-	 *
-	 */
-	public void setDescription(String description);
-		
-	/**
-	 *
-	 */
-	public Class getValueClass();
+	@Override
+	public void afterDetailEval() throws JRScriptletException
+	{
+		detailOnPage = true;
+	}
 
-	/**
-	 *
-	 */
-	public String getValueClassName();
+	@Override
+	public void afterPageInit() throws JRScriptletException
+	{
+		detailOnPage = false;
+	}
 
+	public boolean hasDetailOnPage()
+	{
+		return detailOnPage;
+	}
+	
 }

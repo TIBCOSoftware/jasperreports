@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JREvaluator
+public abstract class JREvaluator implements DatasetExpressionEvaluator
 {
 	/**
 	 * The resource bundle parameter.

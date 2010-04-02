@@ -359,11 +359,17 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected boolean isLastPageFooter = false;
 
+	protected JRBaseFiller(JasperReport jasperReport, JREvaluator initEvaluator, JRFillSubreport parentElement) throws JRException
+	{
+		this(jasperReport, (DatasetExpressionEvaluator) initEvaluator, parentElement);
+	}
 
 	/**
 	 *
 	 */
-	protected JRBaseFiller(JasperReport jasperReport, JREvaluator initEvaluator, JRFillSubreport parentElement) throws JRException
+	protected JRBaseFiller(JasperReport jasperReport, 
+			DatasetExpressionEvaluator initEvaluator, 
+			JRFillSubreport parentElement) throws JRException
 	{
 		this.fillerId = Integer.toString(System.identityHashCode(this));
 
