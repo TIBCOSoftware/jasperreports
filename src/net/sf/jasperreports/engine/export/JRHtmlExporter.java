@@ -1810,7 +1810,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 	
 			writer.write(" src=\"");
 			if (imagePath != null)
+			{
 				writer.write(imagePath);
+			}
 			writer.write("\"");
 		
 			int imageWidth = image.getWidth() - image.getLineBox().getLeftPadding().intValue() - image.getLineBox().getRightPadding().intValue();

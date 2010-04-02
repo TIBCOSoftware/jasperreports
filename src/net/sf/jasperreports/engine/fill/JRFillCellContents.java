@@ -674,8 +674,9 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		JRStyle evalStyle = getEvaluatedConditionalStyle(crtStyle);
 		
 		if (isUsingDefaultStyle && evalStyle == crtStyle)
+		{
 			evalStyle = null;
-		
+		}
 		return evalStyle;
 	}
 

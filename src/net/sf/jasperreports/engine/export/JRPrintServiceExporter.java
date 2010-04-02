@@ -140,7 +140,9 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			if (printService == null) {
 				PrintService[] services = PrintServiceLookup.lookupPrintServices(null, printServiceAttributeSet);
 				if (services.length > 0)
+				{
 					printService = services[0];
+				}
 			}
 			
 			if (printService == null)
@@ -166,9 +168,13 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 				if(displayPageDialogOnlyOnce)
 				{
 					if(printerJob.pageDialog(printRequestAttributeSet) == null)
+					{
 						return;
+					}
 					else
+					{
 						displayPageDialog = false;
+					}
 				}
 				if(displayPrintDialogOnlyOnce)
 				{

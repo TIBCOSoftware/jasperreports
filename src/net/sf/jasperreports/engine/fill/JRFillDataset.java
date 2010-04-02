@@ -362,8 +362,9 @@ public class JRFillDataset implements JRDataset
 		helper.setResetType(ResetTypeEnum.REPORT);
 
 		if (variable.getIncrementTypeValue() != IncrementTypeEnum.NONE)
+		{
 			helper.setResetType(ResetTypeEnum.getByValue(variable.getIncrementTypeValue().getValue()));
-			
+		}
 		helper.setResetGroup(variable.getIncrementGroup());
 		helper.setCalculation(CalculationEnum.NOTHING);
 		helper.setSystemDefined(true);

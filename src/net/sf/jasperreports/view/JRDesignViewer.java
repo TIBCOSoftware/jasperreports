@@ -98,8 +98,9 @@ public class JRDesignViewer extends JRViewer
 			catch (JRException e)
 			{
 				if (log.isErrorEnabled())
+				{
 					log.error("Reload error.", e);
-
+				}
 				JOptionPane.showMessageDialog(this, "Error loading report design. See the log for more details.");
 			}
 		}

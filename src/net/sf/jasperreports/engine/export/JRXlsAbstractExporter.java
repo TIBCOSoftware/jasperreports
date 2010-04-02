@@ -432,8 +432,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							);
 					//clear the filter's internal cache that might have built up
 					if (filter instanceof ResetableExporterFilter)
+					{
 						((ResetableExporterFilter)filter).reset();
-					
+					}
 					int startRow = 0;
 
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
