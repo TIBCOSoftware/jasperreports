@@ -51,13 +51,13 @@ public class JRCrosstabCellFactory extends JRBaseFactory
 		String widthAttr = attributes.getValue(ATTRIBUTE_width);
 		if (widthAttr != null)
 		{
-			cell.setWidth(new Integer(widthAttr));
+			cell.setWidth(Integer.valueOf(widthAttr));
 		}
 		
 		String heightAttr = attributes.getValue(ATTRIBUTE_height);
 		if (heightAttr != null)
 		{
-			cell.setHeight(new Integer(heightAttr));
+			cell.setHeight(Integer.valueOf(heightAttr));
 		}
 
 		return cell;

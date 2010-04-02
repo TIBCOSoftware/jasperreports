@@ -87,7 +87,7 @@ public class DesignListContents extends JRDesignElementGroup implements
 	 */
 	public void setWidth(int width)
 	{
-		setWidth(new Integer(width));
+		setWidth(Integer.valueOf(width));
 	}
 
 }

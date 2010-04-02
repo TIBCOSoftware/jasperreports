@@ -826,7 +826,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public void setHyperlinkPage(String hyperlinkPage)
 	{
-		this.hyperlinkPage = new Integer(hyperlinkPage);
+		this.hyperlinkPage = Integer.valueOf(hyperlinkPage);
 	}
 
 
@@ -1476,7 +1476,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public void setFontSize(int fontSize)
 	{
-		setFontSize(new Integer(fontSize));
+		setFontSize(Integer.valueOf(fontSize));
 	}
 
 	/**

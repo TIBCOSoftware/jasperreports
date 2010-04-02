@@ -357,8 +357,8 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 			if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 			{
 				shapeValue = MeterShapeEnum.getByValue(shape);
-				meterAngleInteger = new Integer(meterAngle);
-				tickIntervalDouble = new Double(tickInterval);
+				meterAngleInteger = Integer.valueOf(meterAngle);
+				tickIntervalDouble = Double.valueOf(tickInterval);
 			}
 			else
 			{

@@ -474,7 +474,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	 */
 	public void setFontSize(int fontSize)
 	{
-		setFontSize(new Integer(fontSize));
+		setFontSize(Integer.valueOf(fontSize));
 	}
 
 	/**

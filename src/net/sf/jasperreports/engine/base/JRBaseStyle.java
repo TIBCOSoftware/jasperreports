@@ -1080,7 +1080,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public void setRadius(int radius)
 	{
-		setRadius(new Integer(radius));
+		setRadius(Integer.valueOf(radius));
 	}
 
 	/**
@@ -1583,7 +1583,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public void setFontSize(int fontSize)
 	{
-		setFontSize(new Integer(fontSize));
+		setFontSize(Integer.valueOf(fontSize));
 	}
 
 	/**

@@ -194,7 +194,7 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setMeterAngle(int meterAngle)
 	{
-		setMeterAngle(new Integer(meterAngle));
+		setMeterAngle(Integer.valueOf(meterAngle));
 	}
 
 	/**

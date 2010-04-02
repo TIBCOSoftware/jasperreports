@@ -77,7 +77,7 @@ public class JRBasePrintRectangle extends JRBasePrintGraphicElement implements J
 	 */
 	public void setRadius(int radius)
 	{
-		this.radius = new Integer(radius);
+		this.radius = Integer.valueOf(radius);
 	}
 
 	/**
