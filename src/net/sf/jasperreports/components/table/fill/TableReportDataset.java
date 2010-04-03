@@ -24,9 +24,8 @@
 package net.sf.jasperreports.components.table.fill;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import org.mozilla.javascript.edu.emory.mathcs.backport.java.util.Collections;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataset;
