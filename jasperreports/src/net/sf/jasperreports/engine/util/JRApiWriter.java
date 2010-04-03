@@ -1936,6 +1936,7 @@ public class JRApiWriter
 
 			write( plotName + ".setBackgroundAlpha({0});\n", plot.getBackgroundAlphaFloat());
 			write( plotName + ".setForegroundAlpha({0});\n", plot.getForegroundAlphaFloat());
+			write( plotName + ".setLabelRotation({0});\n", plot.getLabelRotationDouble());//FIXMECHART check the deprecation of this method; looks incomplete
 			writeSeriesColors( plot.getSeriesColors(), plotName);
 			flush();
 		}
@@ -2859,7 +2860,8 @@ public class JRApiWriter
 			JRMultiAxisPlot plot = (JRMultiAxisPlot) chart.getPlot();
 			String plotName = chartName + "MultiAxisPlot";
 			
-			write( "JRDesignMultiAxisPlot " + plotName + " = new JRDesignMultiAxisPlot(" + chartName + ".getPlot(), " + chartName + ");\n");
+			write( "JRDesignMultiAxisPlot " + plotName + " = (JRDesignMultiAxisPlot)" + chartName + ".getPlot();\n");
+			write( plotName + ".setChart(" + chartName + ");\n");//FIXMECHART why is this needed since we get the plot from chart?
 			writePlot( chart.getPlot(), plotName);
 			List axes = plot.getAxes();
 			if (axes != null && axes.size() > 0)
