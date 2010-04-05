@@ -117,7 +117,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected PptxRelsHelper relsHelper = null;
 	protected PptxContentTypesHelper ctHelper = null;
 	protected PptxSlideHelper slideHelper = null;
-	protected DocxDocumentHelper docHelper = null;
+//	protected DocxDocumentHelper docHelper = null;
 	protected Writer presentationWriter = null;
 
 	protected JRExportProgressMonitor progressMonitor = null;
@@ -317,7 +317,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	protected void exportReportToStream(OutputStream os) throws JRException, IOException
 	{
-		PptxZip pptxZip = new PptxZip();
+		pptxZip = new PptxZip();
 
 		presentationWriter = pptxZip.getPresentationEntry().getWriter();
 		
@@ -327,14 +327,14 @@ public class JRPptxExporter extends JRAbstractExporter
 		PptxRelsHelper relsHelper = new PptxRelsHelper(pptxZip.getRelsEntry().getWriter());
 		relsHelper.exportHeader();
 		
-		DocxStyleHelper styleHelper = 
-			new DocxStyleHelper(
-				null,//pptxZip.getStylesEntry().getWriter(), 
-				fontMap, 
-				getExporterKey()
-				);
-		styleHelper.export(jasperPrintList);
-		styleHelper.close();
+//		DocxStyleHelper styleHelper = 
+//			new DocxStyleHelper(
+//				null,//pptxZip.getStylesEntry().getWriter(), 
+//				fontMap, 
+//				getExporterKey()
+//				);
+//		styleHelper.export(jasperPrintList);
+//		styleHelper.close();
 
 		runHelper = new DocxRunHelper(presentationWriter, fontMap, getExporterKey());
 
@@ -747,7 +747,7 @@ public class JRPptxExporter extends JRAbstractExporter
 //		}
 //
 //		writer.write(">");
-		docHelper.write("     <w:p>\n");
+//		docHelper.write("     <w:p>\n");
 
 		tableHelper.getParagraphHelper().exportProps(text);
 		
@@ -771,8 +771,8 @@ public class JRPptxExporter extends JRAbstractExporter
 			endHyperlink(true);
 		}
 
-		docHelper.write("     </w:p>\n");
-		docHelper.flush();
+//		docHelper.write("     </w:p>\n");
+//		docHelper.flush();
 
 		tableHelper.getCellHelper().exportFooter();
 	}
@@ -821,7 +821,7 @@ public class JRPptxExporter extends JRAbstractExporter
 
 		tableHelper.getCellHelper().exportHeader(image, gridCell);
 
-		docHelper.write("<w:p>");
+//		docHelper.write("<w:p>");
 
 		JRRenderable renderer = image.getRenderer();
 
@@ -978,51 +978,51 @@ public class JRPptxExporter extends JRAbstractExporter
 
 			boolean startedHyperlink = startHyperlink(image,false);
 
-			docHelper.write("<w:r>\n"); 
-			docHelper.write("<w:drawing>\n");
-			docHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
-			docHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>");
-			docHelper.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + DocxParagraphHelper.getHorizontalAlignment(image.getHorizontalAlignmentValue()) + "</wp:align></wp:positionH>");
-			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
-//			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
-			
-			docHelper.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
-			docHelper.write("<wp:wrapNone/>");
-			docHelper.write("<wp:docPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
-			docHelper.write("<a:graphic>\n");
-			docHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
-			docHelper.write("<pic:pic>\n");
-			docHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
-			docHelper.write("<pic:blipFill>\n");
-			docHelper.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
-			docHelper.write("<a:srcRect");
-			if (cropLeft > 0)
-			{
-				docHelper.write(" l=\"" + (int)cropLeft + "\"");
-			}
-			if (cropTop > 0)
-			{
-				docHelper.write(" t=\"" + (int)cropTop + "\"");
-			}
-			if (cropRight > 0)
-			{
-				docHelper.write(" r=\"" + (int)cropRight + "\"");
-			}
-			if (cropBottom > 0)
-			{
-				docHelper.write(" b=\"" + (int)cropBottom + "\"");
-			}
-			docHelper.write("/>");
-			docHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
-			docHelper.write("</pic:blipFill>\n");
-			docHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>");
-			docHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
-			docHelper.write("</pic:pic>\n");
-			docHelper.write("</a:graphicData>\n");
-			docHelper.write("</a:graphic>\n");
-			docHelper.write("</wp:anchor>\n");
-			docHelper.write("</w:drawing>\n");
-			docHelper.write("</w:r>"); 
+//			docHelper.write("<w:r>\n"); 
+//			docHelper.write("<w:drawing>\n");
+//			docHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
+//			docHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>");
+//			docHelper.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + DocxParagraphHelper.getHorizontalAlignment(image.getHorizontalAlignmentValue()) + "</wp:align></wp:positionH>");
+//			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
+////			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
+//			
+//			docHelper.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
+//			docHelper.write("<wp:wrapNone/>");
+//			docHelper.write("<wp:docPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
+//			docHelper.write("<a:graphic>\n");
+//			docHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
+//			docHelper.write("<pic:pic>\n");
+//			docHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
+//			docHelper.write("<pic:blipFill>\n");
+//			docHelper.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
+//			docHelper.write("<a:srcRect");
+//			if (cropLeft > 0)
+//			{
+//				docHelper.write(" l=\"" + (int)cropLeft + "\"");
+//			}
+//			if (cropTop > 0)
+//			{
+//				docHelper.write(" t=\"" + (int)cropTop + "\"");
+//			}
+//			if (cropRight > 0)
+//			{
+//				docHelper.write(" r=\"" + (int)cropRight + "\"");
+//			}
+//			if (cropBottom > 0)
+//			{
+//				docHelper.write(" b=\"" + (int)cropBottom + "\"");
+//			}
+//			docHelper.write("/>");
+//			docHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
+//			docHelper.write("</pic:blipFill>\n");
+//			docHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>");
+//			docHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
+//			docHelper.write("</pic:pic>\n");
+//			docHelper.write("</a:graphicData>\n");
+//			docHelper.write("</a:graphic>\n");
+//			docHelper.write("</wp:anchor>\n");
+//			docHelper.write("</w:drawing>\n");
+//			docHelper.write("</w:r>"); 
 
 			if(startedHyperlink)
 			{
@@ -1030,7 +1030,7 @@ public class JRPptxExporter extends JRAbstractExporter
 			}
 		}
 
-		docHelper.write("</w:p>");
+//		docHelper.write("</w:p>");
 
 		tableHelper.getCellHelper().exportFooter();
 	}
@@ -1342,23 +1342,23 @@ public class JRPptxExporter extends JRAbstractExporter
 //
 //			docHelper.write(">\n");
 
-			docHelper.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
-			docHelper.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + JRStringUtil.xmlEncode(href) + "\"");
-
-			String target = getHyperlinkTarget(link);//FIXMETARGET
-			if (target != null)
-			{
-				docHelper.write(" \\t \"" + target + "\"");
-			}
-
-			String tooltip = link.getHyperlinkTooltip(); 
-			if (tooltip != null)
-			{
-				docHelper.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip) + "\"");
-			}
-
-			docHelper.write(" </w:instrText></w:r>\n");
-			docHelper.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
+//			docHelper.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
+//			docHelper.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + JRStringUtil.xmlEncode(href) + "\"");
+//
+//			String target = getHyperlinkTarget(link);//FIXMETARGET
+//			if (target != null)
+//			{
+//				docHelper.write(" \\t \"" + target + "\"");
+//			}
+//
+//			String tooltip = link.getHyperlinkTooltip(); 
+//			if (tooltip != null)
+//			{
+//				docHelper.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip) + "\"");
+//			}
+//
+//			docHelper.write(" </w:instrText></w:r>\n");
+//			docHelper.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
 		}
 
 		return href != null;
@@ -1459,7 +1459,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected void endHyperlink(boolean isText)
 	{
 //		docHelper.write("</w:hyperlink>\n");
-		docHelper.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
+//		docHelper.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
 	}
 
 //	protected void insertPageAnchor()
