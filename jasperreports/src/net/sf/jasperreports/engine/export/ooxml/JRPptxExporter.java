@@ -113,7 +113,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	 *
 	 */
 	protected PptxZip pptxZip = null;
-	protected PptxPresentationHelper presHelper = null;
+	protected PptxPresentationHelper presentationHelper = null;
 	protected PptxRelsHelper relsHelper = null;
 	protected PptxContentTypesHelper ctHelper = null;
 	protected PptxSlideHelper slideHelper = null;
@@ -321,8 +321,8 @@ public class JRPptxExporter extends JRAbstractExporter
 
 		presentationWriter = pptxZip.getPresentationEntry().getWriter();
 		
-		presHelper = new PptxPresentationHelper(presentationWriter);
-		presHelper.exportHeader();
+		presentationHelper = new PptxPresentationHelper(presentationWriter);
+		presentationHelper.exportHeader();
 		
 		PptxRelsHelper relsHelper = new PptxRelsHelper(pptxZip.getRelsEntry().getWriter());
 		relsHelper.exportHeader();
@@ -370,8 +370,8 @@ public class JRPptxExporter extends JRAbstractExporter
 			}
 		}
 		
-		docHelper.exportFooter(jasperPrint);
-		docHelper.close();
+		presentationHelper.exportFooter();
+		presentationHelper.close();
 
 //		if ((imagesToProcess != null && imagesToProcess.size() > 0))
 //		{
@@ -462,7 +462,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	{
 		closeSlide();
 		
-		presHelper.exportSlide(slideIndex + 1);
+		presentationHelper.exportSlide(slideIndex + 1);
 //		ctHelper.exportSlide(slideIndex + 1);
 //		relsHelper.exportSlide(slideIndex + 1);
 
