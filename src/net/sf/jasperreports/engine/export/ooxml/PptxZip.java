@@ -61,12 +61,12 @@ public class PptxZip extends FileBufferedZip
 		contentTypesEntry = createEntry("[Content_Types].xml");
 		addEntry(contentTypesEntry);
 		
-		addEntry("_rels/.rels", "/net/sf/jasperreports/engine/export/ooxml/pptx/_rels/.rels");
-		addEntry("ppt/slideLayouts/_rels/slideLayout1.xml.rels", "/net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideLayouts/_rels/slideLayout1.xml.rels");
-		addEntry("ppt/slideLayouts/slideLayout1.xml", "/net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideLayouts/slideLayout1.xml");
-		addEntry("ppt/slideMasters/_rels/slideMaster1.xml.rels", "/net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideMasters/_rels/slideMaster1.xml.rels");
-		addEntry("ppt/slideMasters/slideMaster1.xml", "/net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideMasters/slideMaster1.xml");
-		addEntry("ppt/theme/theme1.xml", "/net/sf/jasperreports/engine/export/ooxml/pptx/ppt/theme/theme1.xml");
+		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/_rels/xml.rels");
+		addEntry("ppt/slideLayouts/_rels/slideLayout1.xml.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideLayouts/_rels/slideLayout1.xml.rels");
+		addEntry("ppt/slideLayouts/slideLayout1.xml", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideLayouts/slideLayout1.xml");
+		addEntry("ppt/slideMasters/_rels/slideMaster1.xml.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideMasters/_rels/slideMaster1.xml.rels");
+		addEntry("ppt/slideMasters/slideMaster1.xml", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideMasters/slideMaster1.xml");
+		addEntry("ppt/theme/theme1.xml", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/theme/theme1.xml");
 	}
 	
 	/**
