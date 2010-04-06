@@ -45,12 +45,13 @@ public class PptxPresentationHelper extends BaseHelper
 	 */
 	public void exportHeader()
 	{
-		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		write("<workbook\n");
-		write(" xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"\n");
-		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
-		write("<workbookPr filterPrivacy=\"1\"/>\n");
-		write("<sheets>\n");
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n");
+		write("<p:presentation\n");
+		write(" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"\n"); 
+		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"\n"); 
+		write(" xmlns:p=\"http://schemas.openxmlformats.org/presentationml/2006/main\" saveSubsetFonts=\"1\">\n");
+		write("<p:sldMasterIdLst><p:sldMasterId id=\"2147483648\" r:id=\"rIdSm\"/></p:sldMasterIdLst>\n");
+		write("<p:sldIdLst>\n");
 	}
 	
 
@@ -59,7 +60,7 @@ public class PptxPresentationHelper extends BaseHelper
 	 */
 	public void exportSlide(int index)
 	{
-		write("  <sheet name=\"Sheet" + index + "\" sheetId=\"" + index + "\" r:id=\"rId" + index + "\"/>\n");
+		write("<p:sldId id=\"256" + index + "\" r:id=\"rId" + index + "\"/>\n");
 	}
 	
 
@@ -68,7 +69,9 @@ public class PptxPresentationHelper extends BaseHelper
 	 */
 	public void exportFooter()
 	{
-		write("</sheets>\n");
-		write("</workbook>\n");
+		write("</p:sldIdLst>\n");
+		write("<p:sldSz cx=\"9144000\" cy=\"6858000\" type=\"screen4x3\"/>\n");
+		write("<p:notesSz cx=\"6858000\" cy=\"9144000\"/>\n");
+		write("</p:presentation>\n");
 	}
 }
