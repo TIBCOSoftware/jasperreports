@@ -547,7 +547,8 @@ public class TableCompiler implements ComponentCompiler
 		{
 			column.visitColumn(cellCollector);
 		}
-		
+
+		boolean validRowHeights = true;
 		List<Integer> rowHeights = new ArrayList<Integer>(tableCellRows.size());
 		for (ListIterator<List<Cell>> rowIt = tableCellRows.listIterator(); rowIt.hasNext();)
 		{
@@ -575,9 +576,18 @@ public class TableCompiler implements ComponentCompiler
 						+ " row #" + rowIt.previousIndex() + " height. " 
 						+ "Make sure there is at least one cell with no row span.", 
 						table);
+				validRowHeights = false;
 			}
-			
-			rowHeights.add(hasCell ? rowHeight : 0);
+			else
+			{
+				rowHeights.add(hasCell ? rowHeight : 0);
+			}
+		}
+		
+		if (!validRowHeights)
+		{
+			// don't do any more verifications if row heights could not be determined
+			return;
 		}
 		
 		for (ListIterator<List<Cell>> rowIt = tableCellRows.listIterator(); rowIt.hasNext();)
