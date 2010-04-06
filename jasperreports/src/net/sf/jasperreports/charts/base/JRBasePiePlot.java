@@ -198,7 +198,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	@SuppressWarnings("unused")
 	private boolean isCircular;//we need this field for fields.get("isCircular")
 	

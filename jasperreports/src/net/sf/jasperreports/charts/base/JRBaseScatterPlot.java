@@ -442,7 +442,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	private boolean isShowShapes = true;
 	private boolean isShowLines = true;
 	

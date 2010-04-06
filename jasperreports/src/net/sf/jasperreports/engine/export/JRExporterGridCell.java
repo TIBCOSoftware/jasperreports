@@ -39,9 +39,9 @@ public abstract class JRExporterGridCell
 	/**
 	 *
 	 */
-	public static byte TYPE_EMPTY_CELL = 1; 
-	public static byte TYPE_OCCUPIED_CELL = 2; 
-	public static byte TYPE_ELEMENT_CELL = 3; 
+	public static final byte TYPE_EMPTY_CELL = 1; 
+	public static final byte TYPE_OCCUPIED_CELL = 2; 
+	public static final byte TYPE_ELEMENT_CELL = 3; 
 
 
 	/**

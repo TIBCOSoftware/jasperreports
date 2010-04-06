@@ -516,7 +516,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	private double xOffset = BarRenderer3D.DEFAULT_X_OFFSET;
 	private double yOffset = BarRenderer3D.DEFAULT_Y_OFFSET;
 	private boolean isShowLabels = false;

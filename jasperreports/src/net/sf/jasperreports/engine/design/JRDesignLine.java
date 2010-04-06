@@ -151,7 +151,7 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	private byte direction;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

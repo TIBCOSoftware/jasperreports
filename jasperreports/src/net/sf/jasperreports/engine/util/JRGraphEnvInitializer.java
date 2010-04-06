@@ -41,7 +41,7 @@ public class JRGraphEnvInitializer
 	/**
 	 *
 	 */
-	private static Set AVAILABLE_FONT_FACE_NAMES = null;
+	private static Set AVAILABLE_FONT_FACE_NAMES = null; //NOPMD
 
 	/**
 	 *

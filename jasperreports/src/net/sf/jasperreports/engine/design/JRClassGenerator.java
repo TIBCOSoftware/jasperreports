@@ -685,7 +685,7 @@ public class JRClassGenerator
 		if (exprIdStart >= 0)
 		{
 			exprIdStart += SOURCE_EXPRESSION_ID_START_LENGTH;
-			int exprIdEnd = line.indexOf("$", exprIdStart);
+			int exprIdEnd = line.indexOf('$', exprIdStart);
 			if (exprIdEnd >= 0)
 			{
 				try

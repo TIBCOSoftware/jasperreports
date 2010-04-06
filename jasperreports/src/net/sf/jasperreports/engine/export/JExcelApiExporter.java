@@ -138,7 +138,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	private static Map colorsCache = new ReferenceMap();
 
-	private static Colour[] FIXED_COLOURS = new Colour[] {WHITE, BLACK, Colour.PALETTE_BLACK,
+	private static final Colour[] FIXED_COLOURS = new Colour[] {WHITE, BLACK, Colour.PALETTE_BLACK,
 		Colour.DEFAULT_BACKGROUND, Colour.DEFAULT_BACKGROUND1, Colour.AUTOMATIC, Colour.UNKNOWN};
 
 	private Map loadedCellStyles = new HashMap();

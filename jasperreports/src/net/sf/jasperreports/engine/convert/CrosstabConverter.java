@@ -311,6 +311,7 @@ public class CrosstabConverter extends FrameConverter
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
 				if (totalHeader.getWidth() != 0 && totalHeader.getHeight() != 0)
+				{
 					crosstabElements.add(
 						getCrosstabCellFrame(
 							reportConverter,
@@ -321,6 +322,7 @@ public class CrosstabConverter extends FrameConverter
 							false, 
 							false
 							));
+				}
 				
 			}
 			
@@ -375,6 +377,7 @@ public class CrosstabConverter extends FrameConverter
 			
 			JRCellContents header = group.getHeader();
 			if (header.getWidth() != 0 && header.getHeight() != 0)
+			{
 				crosstabElements.add(
 					getCrosstabCellFrame(
 						reportConverter,
@@ -385,6 +388,7 @@ public class CrosstabConverter extends FrameConverter
 						false, 
 						y == 0 && crosstab.getHeaderCell() == null
 						));
+			}
 			
 			if (i == groups.length - 1)
 			{
@@ -482,6 +486,7 @@ public class CrosstabConverter extends FrameConverter
 					{
 						JRCellContents contents = cell.getContents();
 						if (contents.getWidth() != 0 && contents.getHeight() != 0)
+						{
 							crosstabElements.add(
 								getCrosstabCellFrame(
 									reportConverter,
@@ -492,6 +497,7 @@ public class CrosstabConverter extends FrameConverter
 									false, 
 									false
 									));
+						}
 					}
 				}
 				
@@ -502,6 +508,7 @@ public class CrosstabConverter extends FrameConverter
 					{
 						JRCellContents contents = cell.getContents();
 						if (contents.getWidth() != 0 && contents.getHeight() != 0)
+						{
 							crosstabElements.add(
 								getCrosstabCellFrame(
 									reportConverter,
@@ -512,6 +519,7 @@ public class CrosstabConverter extends FrameConverter
 									false, 
 									false
 									));
+						}
 					}
 				}
 			}

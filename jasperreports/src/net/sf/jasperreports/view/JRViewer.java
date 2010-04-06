@@ -139,8 +139,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	public static final int REPORT_RESOLUTION = 72;
 
-	protected float MIN_ZOOM = 0.5f;
-	protected float MAX_ZOOM = 10f;
+	protected final float MIN_ZOOM = 0.5f;
+	protected final float MAX_ZOOM = 10f;
 	protected int zooms[] = {50, 75, 100, 125, 150, 175, 200, 250, 400, 800};
 	protected int defaultZoomIndex = 2;
 

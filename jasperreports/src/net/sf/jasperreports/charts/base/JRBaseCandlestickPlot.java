@@ -416,7 +416,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	private boolean isShowVolume = true;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

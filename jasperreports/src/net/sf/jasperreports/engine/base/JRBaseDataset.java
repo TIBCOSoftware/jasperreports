@@ -390,7 +390,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	private byte whenResourceMissingType;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

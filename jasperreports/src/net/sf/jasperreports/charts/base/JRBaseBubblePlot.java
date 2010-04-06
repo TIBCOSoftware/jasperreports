@@ -425,7 +425,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	private int scaleType = XYBubbleRenderer.SCALE_ON_RANGE_AXIS;
 	private Integer scaleTypeInteger = null;
 	

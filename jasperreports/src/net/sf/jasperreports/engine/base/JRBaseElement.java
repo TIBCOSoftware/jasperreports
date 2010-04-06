@@ -625,7 +625,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	private Byte mode;
 	private byte positionType;
 	private byte stretchType;

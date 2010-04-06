@@ -1285,7 +1285,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	private Byte border = null;
 	private Byte topBorder = null;
 	private Byte leftBorder = null;
