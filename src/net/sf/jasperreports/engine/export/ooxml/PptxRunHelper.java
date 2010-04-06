@@ -75,7 +75,7 @@ public class PptxRunHelper extends BaseHelper
 		{
 			write("      <a:r>\n");
 			
-			exportProps(getAttributes(style), attributes, locale);
+			exportProps("a:rPr", getAttributes(style), attributes, locale);
 			
 			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
 			while(tkzer.hasMoreTokens())
@@ -104,7 +104,7 @@ public class PptxRunHelper extends BaseHelper
 	{
 		JRPrintText text = new JRBasePrintText(null);
 		text.setStyle(style);
-		Map styledTextAttributes = new HashMap(); 
+		Map styledTextAttributes = new HashMap(); //FIXMEPPTX is this map useless; check all run helpers
 		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
 		if (style.getModeValue() == null || style.getModeValue() == ModeEnum.OPAQUE)
@@ -112,15 +112,31 @@ public class PptxRunHelper extends BaseHelper
 			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getBackcolor());
 		}
 
-		exportProps(getAttributes(style.getStyle()), getAttributes(style), locale);
+		exportProps("a:rPr", getAttributes(style.getStyle()), getAttributes(style), locale);
 	}
 
 	/**
 	 *
 	 */
-	public void exportProps(Map parentAttrs,  Map attrs, Locale locale)
+	public void exportProps(JRPrintText text, Locale locale)
 	{
-		write("       <a:rPr\n");
+		Map textAttributes = new HashMap(); 
+		JRFontUtil.getAttributesWithoutAwtFont(textAttributes, text);
+		textAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
+		if (text.getModeValue() == null || text.getModeValue() == ModeEnum.OPAQUE)
+		{
+			textAttributes.put(TextAttribute.BACKGROUND, text.getBackcolor());
+		}
+
+		exportProps("a:defRPr", new HashMap(), textAttributes, locale);
+	}
+
+	/**
+	 *
+	 */
+	private void exportProps(String tag, Map parentAttrs,  Map attrs, Locale locale)
+	{
+		write("       <" + tag + "\n");
 
 		Object value = attrs.get(TextAttribute.FAMILY);
 		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
@@ -233,7 +249,7 @@ public class PptxRunHelper extends BaseHelper
 //			write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa((Color)value) + "\"/></a:solidFill>\n");
 //		}
 
-		write("</a:rPr>\n");
+		write("</" + tag + ">\n");
 	}
 
 
