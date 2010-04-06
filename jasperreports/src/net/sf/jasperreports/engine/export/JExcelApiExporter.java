@@ -737,8 +737,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected CellValue getLabelCell(int x, int y, String textStr, StyleInfo baseStyle) throws JRException
 	{
 		WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
-		CellValue cellValue = new Label(x, y, textStr, cellStyle);
-		return cellValue;
+		return new Label(x, y, textStr, cellStyle);
 	}
 
 	protected void addMergeRegion(JRExporterGridCell gridCell, int x, int y) throws JRException
@@ -1174,10 +1173,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected static int rgbDistance(Color awtColor, RGB rgb)
 	{
-		int diff = Math.abs(rgb.getRed() - awtColor.getRed())
+		return Math.abs(rgb.getRed() - awtColor.getRed())
 			+ Math.abs(rgb.getGreen() - awtColor.getGreen())
 			+ Math.abs(rgb.getBlue() - awtColor.getBlue());
-		return diff;
 	}
 
 

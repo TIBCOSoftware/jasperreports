@@ -40,8 +40,7 @@ public class JRComponentElementFactory extends JRBaseFactory
 	public Object createObject(Attributes attrs) throws Exception
 	{
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-		JRDesignComponentElement componentElement = new JRDesignComponentElement(jasperDesign);
-		return componentElement;
+		return new JRDesignComponentElement(jasperDesign);
 	}
 
 }

@@ -50,8 +50,7 @@ public class BarbecueCompiler implements ComponentCompiler
 			JRBaseObjectFactory baseFactory)
 	{
 		BarbecueComponent barcode = (BarbecueComponent) component;
-		StandardBarbecueComponent compiledBarcode = new StandardBarbecueComponent(barcode, baseFactory);
-		return compiledBarcode;
+		return new StandardBarbecueComponent(barcode, baseFactory);
 	}
 
 	public void verify(Component component, JRVerifier verifier)

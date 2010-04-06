@@ -67,8 +67,7 @@ public class TableCompiler implements ComponentCompiler
 			JRBaseObjectFactory baseFactory)
 	{
 		TableComponent table = (TableComponent) component;
-		StandardTable compiledTable = new StandardTable(table, baseFactory);
-		return compiledTable;
+		return new StandardTable(table, baseFactory);
 	}
 
 	public void verify(Component component, JRVerifier verifier)

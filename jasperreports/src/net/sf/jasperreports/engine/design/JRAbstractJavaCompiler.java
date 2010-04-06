@@ -109,8 +109,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	protected static Object classCacheKey()
 	{
 		ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-		Object key = contextClassLoader == null ? CLASS_CACHE_NULL_KEY : contextClassLoader;
-		return key;
+		return contextClassLoader == null ? CLASS_CACHE_NULL_KEY : contextClassLoader;
 	}
 
 	

@@ -1793,8 +1793,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		public static JRVirtualPrintPage.IdentityDataProvider removeIdentityDataProvider(JRPrintPage printPage)
 		{
-			JRVirtualPrintPage.IdentityDataProvider provider = (JRVirtualPrintPage.IdentityDataProvider) providers.remove(printPage);
-			return provider;
+			return (JRVirtualPrintPage.IdentityDataProvider) providers.remove(printPage);
 		}
 	}
 

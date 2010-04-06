@@ -39,7 +39,6 @@ public class JRFrameFactory extends JRBaseFactory
 	{
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 		
-		JRDesignFrame frame = new JRDesignFrame(jasperDesign);
-		return frame;
+		return new JRDesignFrame(jasperDesign);
 	}
 }

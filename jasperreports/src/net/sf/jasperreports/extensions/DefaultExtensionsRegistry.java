@@ -197,8 +197,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 		
 		ExtensionsRegistryFactory factory = (ExtensionsRegistryFactory) 
 				ClassUtils.instantiateClass(factoryClass, ExtensionsRegistryFactory.class);
-		ExtensionsRegistry registry = factory.createRegistry(registryId, props);
-		return registry;
+		return factory.createRegistry(registryId, props);
 	}
 
 }
