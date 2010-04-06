@@ -51,7 +51,6 @@ import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -60,19 +59,13 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
-import net.sf.jasperreports.engine.export.CutsInfo;
-import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
-import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
-import net.sf.jasperreports.engine.type.LineDirectionEnum;
-import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -129,6 +122,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected int pageIndex = 0;
 	protected int tableIndex = 0;
 	protected boolean startPage;
+	protected int elementIndex = 0;
 
 	/**
 	 * used for counting the total number of sheets
@@ -148,7 +142,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected LinkedList backcolorStack;
 	protected Color backcolor;
 
-//	private DocxRunHelper runHelper = null;
+	private PptxRunHelper runHelper = null;
 
 	protected ExporterNature nature = null;
 
@@ -338,8 +332,6 @@ public class JRPptxExporter extends JRAbstractExporter
 //		styleHelper.export(jasperPrintList);
 //		styleHelper.close();
 
-//		runHelper = new DocxRunHelper(presentationWriter, fontMap, getExporterKey());
-
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
@@ -374,7 +366,7 @@ public class JRPptxExporter extends JRAbstractExporter
 		
 		closeSlide();
 
-		presentationHelper.exportFooter();
+		presentationHelper.exportFooter(jasperPrint);
 		presentationHelper.close();
 
 //		if ((imagesToProcess != null && imagesToProcess.size() > 0))
@@ -445,19 +437,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException
 	{
-		startPage = true;
-		JRGridLayout layout =
-			new JRGridLayout(
-				nature,
-				page.getElements(),
-				jasperPrint.getPageWidth(),
-				jasperPrint.getPageHeight(),
-				globalOffsetX,
-				globalOffsetY,
-				null //address
-				);
-
-		exportGrid(layout, null);
+		exportElements(page.getElements());
 		
 		if (progressMonitor != null)
 		{
@@ -482,7 +462,7 @@ public class JRPptxExporter extends JRAbstractExporter
 		
 //		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 //		
-//		runHelper = new XlsxRunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
+		runHelper = new PptxRunHelper(slideWriter, fontMap, null);//FIXMEXLSX check this null
 		
 		slideHelper.exportHeader();
 		
@@ -503,149 +483,59 @@ public class JRPptxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws JRException
+	protected void exportElements(List elements) throws JRException
 	{
-		CutsInfo xCuts = gridLayout.getXCuts();
-		JRExporterGridCell[][] grid = gridLayout.getGrid();
-
-		if (grid.length > 0 && grid[0].length > 63)
+		if (elements != null && elements.size() > 0)
 		{
-			throw new JRException("The DOCX format does not support more than 63 columns in a table.");
-		}
-		
-//		DocxTableHelper tableHelper = 
-//			new DocxTableHelper(
-//				presentationWriter, 
-//				xCuts,
-//				frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex)
-//				);
-//
-//		tableHelper.exportHeader();
-
-		JRPrintElement element = null;
-		for(int row = 0; row < grid.length; row++)
-		{
-			int emptyCellColSpan = 0;
-			int emptyCellWidth = 0;
-
-			boolean allowRowResize = false;
-			int maxBottomPadding = 0; //for some strange reason, the bottom margin affects the row height; subtracting it here
-			for(int col = 0; col < grid[0].length; col++)
+			JRPrintElement element;
+			for(int i = 0; i < elements.size(); i++)
 			{
-				JRExporterGridCell gridCell = grid[row][col];
-				JRLineBox box = gridCell.getBox();
-				if (
-					box != null 
-					&& box.getBottomPadding() != null 
-					&& maxBottomPadding < box.getBottomPadding().intValue()
-					)
-				{
-					maxBottomPadding = box.getBottomPadding().intValue();
-				}
+				elementIndex = i;
 				
-				allowRowResize = 
-					flexibleRowHeight 
-					&& (allowRowResize 
-						|| (gridCell.getElement() instanceof JRPrintText 
-							|| (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL
-								&& ((OccupiedGridCell)gridCell).getOccupier().getElement() instanceof JRPrintText)
-							)
-						);
-			}
-			int rowHeight = gridLayout.getRowHeight(row) - maxBottomPadding;
-			
-//			tableHelper.exportRowHeader(
-//				rowHeight,
-//				allowRowResize
-//				);
-
-			for(int col = 0; col < grid[0].length; col++)
-			{
-				JRExporterGridCell gridCell = grid[row][col];
-				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
+				element = (JRPrintElement)elements.get(i);
+				
+				if (filter == null || filter.isToExport(element))
 				{
-					if (emptyCellColSpan > 0)
-					{
-						//tableHelper.exportEmptyCell(gridCell, emptyCellColSpan);
-						emptyCellColSpan = 0;
-						emptyCellWidth = 0;
-					}
-
-					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
-					ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-//					tableHelper.exportOccupiedCells(elementGridCell);
-					col += elementGridCell.getColSpan() - 1;
-				}
-				else if(gridCell.getWrapper() != null)
-				{
-					if (emptyCellColSpan > 0)
-					{
-						//writeEmptyCell(tableHelper, gridCell, emptyCellColSpan, emptyCellWidth, rowHeight);
-						emptyCellColSpan = 0;
-						emptyCellWidth = 0;
-					}
-
-					element = gridCell.getWrapper().getElement();
-
 //					if (element instanceof JRPrintLine)
 //					{
-//						exportLine(tableHelper, (JRPrintLine)element, gridCell);
+//						exportLine((JRPrintLine)element);
 //					}
 //					else if (element instanceof JRPrintRectangle)
 //					{
-//						exportRectangle(tableHelper, (JRPrintRectangle)element, gridCell);
+//						exportRectangle((JRPrintRectangle)element);
 //					}
 //					else if (element instanceof JRPrintEllipse)
 //					{
-//						exportEllipse(tableHelper, (JRPrintEllipse)element, gridCell);
+//						//exportEllipse((JRPrintEllipse)element);
+//						exportRectangle((JRPrintEllipse)element);
 //					}
 //					else if (element instanceof JRPrintImage)
 //					{
-//						exportImage(tableHelper, (JRPrintImage)element, gridCell);
+//						exportImage((JRPrintImage)element);
 //					}
 //					else if (element instanceof JRPrintText)
-//					{
-//						exportText(tableHelper, (JRPrintText)element, gridCell);
-//					}
+					if (element instanceof JRPrintText)
+					{
+						exportText((JRPrintText)element);
+					}
 //					else if (element instanceof JRPrintFrame)
 //					{
-//						exportFrame(tableHelper, (JRPrintFrame)element, gridCell);
+//						exportFrame((JRPrintFrame) element);
 //					}
 //					else if (element instanceof JRGenericPrintElement)
 //					{
-//						exportGenericElement(tableHelper, (JRGenericPrintElement)element, gridCell);
+//						exportGenericElement((JRGenericPrintElement) element);
 //					}
-
-					col += gridCell.getColSpan() - 1;
-				}
-				else
-				{
-					emptyCellColSpan++;
-					emptyCellWidth += gridCell.getWidth();
-//					tableHelper.exportEmptyCell(gridCell, 1);
 				}
 			}
-
-//			if (emptyCellColSpan > 0)
-//			{
-//				//writeEmptyCell(tableHelper, null, emptyCellColSpan, emptyCellWidth, rowHeight);
-//			}
-
-//			tableHelper.exportRowFooter();
 		}
-
-//		tableHelper.exportFooter(
-//			frameIndex == null && reportIndex != jasperPrintList.size() - 1 && pageIndex == endPageIndex , 
-//			jasperPrint.getPageWidth(), 
-//			jasperPrint.getPageHeight()
-//			);
 	}
 
 
 	/**
 	 *
-	 */
-	protected void exportLine(DocxTableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell)
+	 *
+	protected void exportLine(JRPrintLine line)
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = null;
@@ -725,9 +615,27 @@ public class JRPptxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public void exportText(DocxTableHelper tableHelper, JRPrintText text, JRExporterGridCell gridCell)
+	public void exportText(JRPrintText text)
 	{
-		tableHelper.getCellHelper().exportHeader(text, gridCell);
+		slideHelper.write("<p:sp>\n");
+		slideHelper.write("  <p:nvSpPr>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + (elementIndex + 4) + "\" name=\"Title 1\"/>\n");
+		slideHelper.write("    <p:cNvSpPr>\n");
+		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
+		slideHelper.write("    </p:cNvSpPr>\n");
+		slideHelper.write("    <p:nvPr>\n");
+		slideHelper.write("      <p:ph type=\"ctrTitle\"/>\n");
+		slideHelper.write("    </p:nvPr>\n");
+		slideHelper.write("  </p:nvSpPr>\n");
+		slideHelper.write("  <p:spPr>\n");
+		slideHelper.write("    <a:xfrm>\n");
+		slideHelper.write("      <a:off x=\"" + Utility.emu(text.getX()) + "\" y=\"" + Utility.emu(text.getY()) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + Utility.emu(text.getWidth()) + "\" cy=\"" + Utility.emu(text.getHeight()) + "\"/>\n");
+		slideHelper.write("    </a:xfrm>\n");
+		slideHelper.write("  </p:spPr>\n");
+		slideHelper.write("  <p:txBody>\n");
+		slideHelper.write("    <a:bodyPr/>\n");
+		slideHelper.write("    <a:lstStyle/>\n");
 
 		JRStyledText styledText = getStyledText(text);
 
@@ -757,9 +665,10 @@ public class JRPptxExporter extends JRAbstractExporter
 //		}
 //
 //		writer.write(">");
+		slideHelper.write("    <a:p>\n");
 //		docHelper.write("     <w:p>\n");
 
-		tableHelper.getParagraphHelper().exportProps(text);
+//		tableHelper.getParagraphHelper().exportProps(text);
 		
 //		insertPageAnchor();
 //		if (text.getAnchorName() != null)
@@ -781,10 +690,12 @@ public class JRPptxExporter extends JRAbstractExporter
 			endHyperlink(true);
 		}
 
+		slideHelper.write("    </a:p>\n");
 //		docHelper.write("     </w:p>\n");
 //		docHelper.flush();
 
-		tableHelper.getCellHelper().exportFooter();
+		slideHelper.write("  </p:txBody>\n");
+		slideHelper.write("</p:sp>\n");
 	}
 
 
@@ -801,12 +712,12 @@ public class JRPptxExporter extends JRAbstractExporter
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-//			runHelper.export(
-//				style, 
-//				iterator.getAttributes(), 
-//				text.substring(iterator.getIndex(), runLimit),
-//				locale
-//				);
+			runHelper.export(
+				style, 
+				iterator.getAttributes(), 
+				text.substring(iterator.getIndex(), runLimit),
+				locale
+				);
 
 			iterator.setIndex(runLimit);
 		}
@@ -1196,7 +1107,7 @@ public class JRPptxExporter extends JRAbstractExporter
 
 	/**
 	 * In deep grids, this is called only for empty frames.
-	 */
+	 *
 	protected void exportFrame(DocxTableHelper tableHelper, JRPrintFrame frame, JRExporterGridCell gridCell) throws JRException
 	{
 		tableHelper.getCellHelper().exportHeader(frame, gridCell);
