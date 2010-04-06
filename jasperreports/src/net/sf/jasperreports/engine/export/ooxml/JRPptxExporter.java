@@ -640,7 +640,7 @@ public class JRPptxExporter extends JRAbstractExporter
 		}
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
-		slideHelper.write("    <a:bodyPr/>\n");
+		slideHelper.write("    <a:bodyPr wrap=\"square\" lIns=\"0\" tIns=\"0\" rIns=\"0\" bIns=\"0\" rtlCol=\"0\"/>\n");
 		slideHelper.write("    <a:lstStyle/>\n");
 
 		JRStyledText styledText = getStyledText(text);
@@ -672,9 +672,10 @@ public class JRPptxExporter extends JRAbstractExporter
 //
 //		writer.write(">");
 		slideHelper.write("    <a:p>\n");
-//		docHelper.write("     <w:p>\n");
 
-//		tableHelper.getParagraphHelper().exportProps(text);
+		slideHelper.write("<a:pPr>\n");
+		runHelper.exportProps(text, getTextLocale(text));
+		slideHelper.write("</a:pPr>\n");
 		
 //		insertPageAnchor();
 //		if (text.getAnchorName() != null)
