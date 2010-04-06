@@ -138,7 +138,7 @@ public final class JRShortIncrementerFactory extends JRAbstractExtendedIncrement
 /**
  *
  */
-class JRShortCountIncrementer extends JRAbstractExtendedIncrementer
+final class JRShortCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -214,7 +214,7 @@ class JRShortCountIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRShortDistinctCountIncrementer extends JRAbstractExtendedIncrementer
+final class JRShortDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -274,7 +274,7 @@ class JRShortDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRShortSumIncrementer extends JRAbstractExtendedIncrementer
+final class JRShortSumIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -337,7 +337,7 @@ class JRShortSumIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRShortAverageIncrementer extends JRAbstractExtendedIncrementer
+final class JRShortAverageIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -392,7 +392,7 @@ class JRShortAverageIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRShortStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
+final class JRShortStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -446,7 +446,7 @@ class JRShortStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRShortVarianceIncrementer extends JRAbstractExtendedIncrementer
+final class JRShortVarianceIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *

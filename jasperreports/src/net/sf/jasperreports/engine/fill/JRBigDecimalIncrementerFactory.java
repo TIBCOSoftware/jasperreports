@@ -141,7 +141,7 @@ public final class JRBigDecimalIncrementerFactory extends JRAbstractExtendedIncr
 /**
  *
  */
-class JRBigDecimalCountIncrementer extends JRAbstractExtendedIncrementer
+final class JRBigDecimalCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -217,7 +217,7 @@ class JRBigDecimalCountIncrementer extends JRAbstractExtendedIncrementer
 /**
 *
 */
-class JRBigDecimalDistinctCountIncrementer extends JRAbstractExtendedIncrementer
+final class JRBigDecimalDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -277,7 +277,7 @@ class JRBigDecimalDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRBigDecimalSumIncrementer extends JRAbstractExtendedIncrementer
+final class JRBigDecimalSumIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -340,7 +340,7 @@ class JRBigDecimalSumIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRBigDecimalAverageIncrementer extends JRAbstractExtendedIncrementer
+final class JRBigDecimalAverageIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -395,7 +395,7 @@ class JRBigDecimalAverageIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRBigDecimalStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
+final class JRBigDecimalStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -449,7 +449,7 @@ class JRBigDecimalStandardDeviationIncrementer extends JRAbstractExtendedIncreme
 /**
  *
  */
-class JRBigDecimalVarianceIncrementer extends JRAbstractExtendedIncrementer
+final class JRBigDecimalVarianceIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
