@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class GenericElementConverter extends ElementIconConverter
+public final class GenericElementConverter extends ElementIconConverter
 {
 	
 	private final static GenericElementConverter INSTANCE = new GenericElementConverter();

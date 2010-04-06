@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JREvaluationTime implements Serializable
+public final class JREvaluationTime implements Serializable
 {
 	/**
 	 *

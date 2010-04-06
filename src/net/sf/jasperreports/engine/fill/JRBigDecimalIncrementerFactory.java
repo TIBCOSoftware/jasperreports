@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.util.BigDecimalUtils;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBigDecimalIncrementerFactory extends JRAbstractExtendedIncrementerFactory
+public final class JRBigDecimalIncrementerFactory extends JRAbstractExtendedIncrementerFactory
 {
 
 

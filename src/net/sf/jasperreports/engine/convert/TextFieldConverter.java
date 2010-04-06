@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.util.JRExpressionUtil;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class TextFieldConverter extends TextElementConverter
+public final class TextFieldConverter extends TextElementConverter
 {
 
 	/**

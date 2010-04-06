@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class GovernorFactory implements ScriptletFactory
+public final class GovernorFactory implements ScriptletFactory
 {
 
 	private static final GovernorFactory INSTANCE = new GovernorFactory();

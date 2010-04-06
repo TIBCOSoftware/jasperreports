@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintLine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class LineConverter extends ElementConverter
+public final class LineConverter extends ElementConverter
 {
 
 	/**

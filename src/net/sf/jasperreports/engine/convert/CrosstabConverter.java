@@ -55,7 +55,7 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class CrosstabConverter extends FrameConverter
+public final class CrosstabConverter extends FrameConverter
 {
 
 	/**
