@@ -1288,7 +1288,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	private Byte horizontalAlignment;
 	private Byte verticalAlignment;
 	private Byte rotation;

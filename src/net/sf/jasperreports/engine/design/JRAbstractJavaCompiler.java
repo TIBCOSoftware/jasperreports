@@ -66,7 +66,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	private static ThreadLocal classFromBytesRef = new ThreadLocal();
 
 
-	private static Object CLASS_CACHE_NULL_KEY = new Object();
+	private static final Object CLASS_CACHE_NULL_KEY = new Object();
 	private static Map classCache = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
 
 	

@@ -62,8 +62,8 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 
 	protected final JRViewerController viewerContext;
 	
-	protected float MIN_ZOOM = 0.5f;
-	protected float MAX_ZOOM = 10f;
+	protected final float MIN_ZOOM = 0.5f;
+	protected final float MAX_ZOOM = 10f;
 	protected int zooms[] = {50, 75, 100, 125, 150, 175, 200, 250, 400, 800};
 	protected int defaultZoomIndex = 2;
 	protected List saveContributors = new ArrayList();

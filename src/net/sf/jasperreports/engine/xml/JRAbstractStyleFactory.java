@@ -325,8 +325,9 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.setFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_fontName));
 		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isBold) != null)
+		{
 			style.setBold(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isBold)));
-
+		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic) != null)
 		{
 			style.setItalic(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic)));

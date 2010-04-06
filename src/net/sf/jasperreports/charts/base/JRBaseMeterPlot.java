@@ -342,7 +342,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	/**
 	 * This field is only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	private byte shape = MeterShapeEnum.PIE.getValue();
 	private int meterAngle = 180;
 	private double tickInterval = 10.0;

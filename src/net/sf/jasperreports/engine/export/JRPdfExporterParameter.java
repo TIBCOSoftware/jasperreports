@@ -41,15 +41,15 @@ public class JRPdfExporterParameter extends JRExporterParameter
 {
 
 
-	public static Character PDF_VERSION_1_2 = new Character('2');  // Not using iText constants in order not to depend on the library version
-	public static Character PDF_VERSION_1_3 = new Character('3');
-	public static Character PDF_VERSION_1_4 = new Character('4');
-	public static Character PDF_VERSION_1_5 = new Character('5');
-	public static Character PDF_VERSION_1_6 = new Character('6');
-	public static Character PDF_VERSION_1_7 = new Character('7');
+	public static final Character PDF_VERSION_1_2 = new Character('2');  // Not using iText constants in order not to depend on the library version
+	public static final Character PDF_VERSION_1_3 = new Character('3');
+	public static final Character PDF_VERSION_1_4 = new Character('4');
+	public static final Character PDF_VERSION_1_5 = new Character('5');
+	public static final Character PDF_VERSION_1_6 = new Character('6');
+	public static final Character PDF_VERSION_1_7 = new Character('7');
 
-	public static String PRINT_SCALING_DEFAULT = "default";
-	public static String PRINT_SCALING_NONE = "none";
+	public static final String PRINT_SCALING_DEFAULT = "default";
+	public static final String PRINT_SCALING_NONE = "none";
 
 	/**
 	 *

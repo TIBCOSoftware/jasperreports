@@ -223,7 +223,9 @@ public class JRXlsDataSource implements JRRewindableDataSource
 				return new java.sql.Time(dateFormat.parse(fieldValue).getTime());
 			}
 			else
+			{
 				throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and can not be converted");
+			}
 		} catch (Exception e) {
 			throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
 		}
