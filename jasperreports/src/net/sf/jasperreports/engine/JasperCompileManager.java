@@ -462,7 +462,7 @@ public class JasperCompileManager
 			}
 			catch(ClassNotFoundException e)
 			{
-				throw new JRException("Report compiler class not found : " + compilerClassName);
+				throw new JRException("Report compiler class not found : " + compilerClassName, e);
 			}
 		}
 

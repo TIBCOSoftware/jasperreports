@@ -59,7 +59,7 @@ public abstract class JRFiller
 		}
 		catch(JRFillInterruptedException e)
 		{
-			throw new JRException("The report filling thread was interrupted.");
+			throw new JRException("The report filling thread was interrupted.", e);
 		}
 		
 		return jasperPrint;
@@ -85,7 +85,7 @@ public abstract class JRFiller
 		}
 		catch(JRFillInterruptedException e)
 		{
-			throw new JRException("The report filling thread was interrupted.");
+			throw new JRException("The report filling thread was interrupted.", e);
 		}
 		
 		return jasperPrint;
@@ -121,7 +121,7 @@ public abstract class JRFiller
 		}
 		catch (JRFillInterruptedException e)
 		{
-			throw new JRException("The report filling thread was interrupted.");
+			throw new JRException("The report filling thread was interrupted.", e);
 		}
 	}
 

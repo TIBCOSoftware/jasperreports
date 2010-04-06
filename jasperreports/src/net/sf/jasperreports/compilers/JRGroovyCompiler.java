@@ -87,7 +87,8 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 		{
 			throw new JRException(
 				"Errors were encountered when compiling report expressions class file:\n" 
-				+ e.toString()
+				+ e.toString(), 
+				e
 				);
 		}
 

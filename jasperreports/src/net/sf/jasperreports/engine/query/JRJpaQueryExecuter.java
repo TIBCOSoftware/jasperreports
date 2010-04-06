@@ -219,7 +219,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 		}
 		catch (NumberFormatException e) {
 			throw new JRRuntimeException("The " + JRJpaQueryExecuterFactory.PROPERTY_JPA_QUERY_PAGE_SIZE +
-					" property must be numerical.");
+					" property must be numerical.",e);
 		}
 		
 		return resDatasource;
