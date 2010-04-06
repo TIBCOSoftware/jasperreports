@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
+import java.awt.Color;
 import java.awt.font.TextAttribute;
 import java.io.Writer;
 import java.util.HashMap;
@@ -33,7 +34,10 @@ import java.util.StringTokenizer;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
@@ -116,101 +120,89 @@ public class PptxRunHelper extends BaseHelper
 	 */
 	public void exportProps(Map parentAttrs,  Map attrs, Locale locale)
 	{
-		write("       <a:rPr>\n");
+		write("       <a:rPr\n");
 
 		Object value = attrs.get(TextAttribute.FAMILY);
 		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
 		
-//		if (value != null && !value.equals(oldValue))//FIXMEDOCX the text locale might be different from the report locale, resulting in different export font
-//		{
-//			String fontFamilyAttr = (String)value;
-//			String fontFamily = fontFamilyAttr;
-//			if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
-//			{
-//				fontFamily = (String) fontMap.get(fontFamilyAttr);
-//			}
-//			else
-//			{
-//				FontInfo fontInfo = JRFontUtil.getFontInfo(fontFamilyAttr, locale);
-//				if (fontInfo != null)
-//				{
-//					//fontName found in font extensions
-//					FontFamily family = fontInfo.getFontFamily();
-//					String exportFont = family.getExportFont(exporterKey);
-//					if (exportFont != null)
-//					{
-//						fontFamily = exportFont;
-//					}
-//				}
-//			}
+		if (value != null && !value.equals(oldValue))//FIXMEDOCX the text locale might be different from the report locale, resulting in different export font
+		{
+			String fontFamilyAttr = (String)value;
+			String fontFamily = fontFamilyAttr;
+			if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
+			{
+				fontFamily = (String) fontMap.get(fontFamilyAttr);
+			}
+			else
+			{
+				FontInfo fontInfo = JRFontUtil.getFontInfo(fontFamilyAttr, locale);
+				if (fontInfo != null)
+				{
+					//fontName found in font extensions
+					FontFamily family = fontInfo.getFontFamily();
+					String exportFont = family.getExportFont(exporterKey);
+					if (exportFont != null)
+					{
+						fontFamily = exportFont;
+					}
+				}
+			}
 //			write("        <a:rFonts a:ascii=\"" + fontFamily + "\" a:hAnsi=\"" + fontFamily + "\" a:eastAsia=\"" + fontFamily + "\" a:cs=\"" + fontFamily + "\" />\n");
-//		}
+		}
 		
-		value = attrs.get(TextAttribute.FOREGROUND);
-		oldValue = parentAttrs.get(TextAttribute.FOREGROUND);
-		
-//		if (value != null && !value.equals(oldValue))
-//		{
-//			write("        <a:color a:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
-//		}
-
-		value = attrs.get(TextAttribute.BACKGROUND);
-		oldValue = parentAttrs.get(TextAttribute.BACKGROUND);
-		
-//		if (value != null && !value.equals(oldValue))
-//		{
-//			//FIXME: the highlight does not accept the color hexadecimal expression, but only few color names
-////			writer.write("        <a:highlight a:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
-//		}
-
 		value = attrs.get(TextAttribute.SIZE);
 		oldValue = parentAttrs.get(TextAttribute.SIZE);
 
-//		if (value != null && !value.equals(oldValue))
-//		{
-//			float fontSize = ((Float)value).floatValue();
-//			fontSize = fontSize == 0 ? 0.5f : fontSize;// only the special EMPTY_CELL_STYLE would have font size zero
-//			write("        <a:sz a:val=\"" + (2 * (fontSize)) + "\" />\n");
-//		}
+		if (value != null && !value.equals(oldValue))
+		{
+			float fontSize = ((Float)value).floatValue();
+			fontSize = fontSize == 0 ? 0.5f : fontSize;// only the special EMPTY_CELL_STYLE would have font size zero
+			write(" sz=\"" + (int)(100 * fontSize) + "\"");
+		}
+		else //FIXMEPPTX deal with default values from a style, a theme or something
+		{
+			float fontSize = ((Float)oldValue).floatValue();
+			write(" sz=\"" + (int)(100 * fontSize) + "\"");
+		}
 		
 		value = attrs.get(TextAttribute.WEIGHT);
 		oldValue = parentAttrs.get(TextAttribute.WEIGHT);
 
-//		if (value != null && !value.equals(oldValue))
-//		{
-//			write("        <a:b a:val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
-//		}
+		if (value != null && !value.equals(oldValue))
+		{
+			write(" b=\"" + (value.equals(TextAttribute.WEIGHT_BOLD) ? 1 : 0) + "\"");
+		}
 
 		value = attrs.get(TextAttribute.POSTURE);
 		oldValue = parentAttrs.get(TextAttribute.POSTURE);
 
-//		if (value != null && !value.equals(oldValue))
-//		{
-//			write("        <a:i a:val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
-//		}
+		if (value != null && !value.equals(oldValue))
+		{
+			write(" i=\"" + (value.equals(TextAttribute.POSTURE_OBLIQUE) ? 1 : 0) + "\"");
+		}
 
 
 		value = attrs.get(TextAttribute.UNDERLINE);
 		oldValue = parentAttrs.get(TextAttribute.UNDERLINE);
 
-//		if (
-//			(value == null && oldValue != null)
-//			|| (value != null && !value.equals(oldValue))
-//			)
-//		{
-//			write("        <a:u a:val=\"" + (value == null ? "none" : "single") + "\"/>\n");
-//		}
+		if (
+			(value == null && oldValue != null)
+			|| (value != null && !value.equals(oldValue))
+			)
+		{
+			write(" u=\"" + (value == null ? "none" : "sng") + "\"");
+		}
 		
 		value = attrs.get(TextAttribute.STRIKETHROUGH);
 		oldValue = parentAttrs.get(TextAttribute.STRIKETHROUGH);
 
-//		if (
-//			(value == null && oldValue != null)
-//			|| (value != null && !value.equals(oldValue))
-//			)
-//		{
-//			write("        <a:strike a:val=\"" + (value != null) + "\"/>\n");
-//		}
+		if (
+			(value == null && oldValue != null)
+			|| (value != null && !value.equals(oldValue))
+			)
+		{
+			write(" strike=\"" + (value == null ? "noStrike" : "sngStrike") + "\"");
+		}
 
 		value = attrs.get(TextAttribute.SUPERSCRIPT);
 
@@ -223,7 +215,25 @@ public class PptxRunHelper extends BaseHelper
 //			write("        <a:vertAlign a:val=\"subscript\" />\n");
 //		}
 
-		write("       </a:rPr>\n");
+		write(">\n");
+
+		value = attrs.get(TextAttribute.FOREGROUND);
+		oldValue = parentAttrs.get(TextAttribute.FOREGROUND);
+		
+		if (value != null && !value.equals(oldValue))
+		{
+			write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa((Color)value) + "\"/></a:solidFill>\n");
+		}
+
+		value = attrs.get(TextAttribute.BACKGROUND);
+		oldValue = parentAttrs.get(TextAttribute.BACKGROUND);
+		
+//		if (value != null && !value.equals(oldValue))
+//		{
+//			write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa((Color)value) + "\"/></a:solidFill>\n");
+//		}
+
+		write("</a:rPr>\n");
 	}
 
 

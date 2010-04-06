@@ -66,6 +66,8 @@ import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
+import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -631,7 +633,11 @@ public class JRPptxExporter extends JRAbstractExporter
 		slideHelper.write("    <a:xfrm>\n");
 		slideHelper.write("      <a:off x=\"" + Utility.emu(text.getX()) + "\" y=\"" + Utility.emu(text.getY()) + "\"/>\n");
 		slideHelper.write("      <a:ext cx=\"" + Utility.emu(text.getWidth()) + "\" cy=\"" + Utility.emu(text.getHeight()) + "\"/>\n");
-		slideHelper.write("    </a:xfrm>\n");
+		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
+		if (text.getModeValue() == ModeEnum.OPAQUE && text.getBackcolor() != null)
+		{
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getBackcolor()) + "\"/></a:solidFill>\n");
+		}
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr/>\n");
