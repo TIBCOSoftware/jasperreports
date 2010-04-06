@@ -137,7 +137,7 @@ public final class JRByteIncrementerFactory extends JRAbstractExtendedIncremente
 /**
  *
  */
-class JRByteCountIncrementer extends JRAbstractExtendedIncrementer
+final class JRByteCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -213,7 +213,7 @@ class JRByteCountIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRByteDistinctCountIncrementer extends JRAbstractExtendedIncrementer
+final class JRByteDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -273,7 +273,7 @@ class JRByteDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRByteSumIncrementer extends JRAbstractExtendedIncrementer
+final class JRByteSumIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -336,7 +336,7 @@ class JRByteSumIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRByteAverageIncrementer extends JRAbstractExtendedIncrementer
+final class JRByteAverageIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -391,7 +391,7 @@ class JRByteAverageIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRByteStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
+final class JRByteStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -445,7 +445,7 @@ class JRByteStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRByteVarianceIncrementer extends JRAbstractExtendedIncrementer
+final class JRByteVarianceIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *

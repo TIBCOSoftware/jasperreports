@@ -138,7 +138,7 @@ public final class JRIntegerIncrementerFactory extends JRAbstractExtendedIncreme
 /**
  *
  */
-class JRIntegerCountIncrementer extends JRAbstractExtendedIncrementer
+final class JRIntegerCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -214,7 +214,7 @@ class JRIntegerCountIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRIntegerDistinctCountIncrementer extends JRAbstractExtendedIncrementer
+final class JRIntegerDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -274,7 +274,7 @@ class JRIntegerDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRIntegerSumIncrementer extends JRAbstractExtendedIncrementer
+final class JRIntegerSumIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -337,7 +337,7 @@ class JRIntegerSumIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRIntegerAverageIncrementer extends JRAbstractExtendedIncrementer
+final class JRIntegerAverageIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -392,7 +392,7 @@ class JRIntegerAverageIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRIntegerStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
+final class JRIntegerStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -446,7 +446,7 @@ class JRIntegerStandardDeviationIncrementer extends JRAbstractExtendedIncremente
 /**
  *
  */
-class JRIntegerVarianceIncrementer extends JRAbstractExtendedIncrementer
+final class JRIntegerVarianceIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *

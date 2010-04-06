@@ -137,7 +137,7 @@ public final class JRDoubleIncrementerFactory extends JRAbstractExtendedIncremen
 /**
  *
  */
-class JRDoubleCountIncrementer extends JRAbstractExtendedIncrementer
+final class JRDoubleCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -213,7 +213,7 @@ class JRDoubleCountIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRDoubleDistinctCountIncrementer extends JRAbstractExtendedIncrementer
+final class JRDoubleDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -273,7 +273,7 @@ class JRDoubleDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRDoubleSumIncrementer extends JRAbstractExtendedIncrementer
+final class JRDoubleSumIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -336,7 +336,7 @@ class JRDoubleSumIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRDoubleAverageIncrementer extends JRAbstractExtendedIncrementer
+final class JRDoubleAverageIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -391,7 +391,7 @@ class JRDoubleAverageIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRDoubleStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
+final class JRDoubleStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -445,7 +445,7 @@ class JRDoubleStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRDoubleVarianceIncrementer extends JRAbstractExtendedIncrementer
+final class JRDoubleVarianceIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *

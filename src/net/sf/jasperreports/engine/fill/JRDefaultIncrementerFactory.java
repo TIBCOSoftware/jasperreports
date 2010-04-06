@@ -157,7 +157,7 @@ public final class JRDefaultIncrementerFactory extends JRAbstractExtendedIncreme
 /**
  *
  */
-class JRDefaultNothingIncrementer extends JRAbstractExtendedIncrementer
+final class JRDefaultNothingIncrementer extends JRAbstractExtendedIncrementer
 {
 
 
@@ -228,7 +228,7 @@ class JRDefaultNothingIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRDefaultSystemIncrementer extends JRAbstractExtendedIncrementer
+final class JRDefaultSystemIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -273,7 +273,7 @@ class JRDefaultSystemIncrementer extends JRAbstractExtendedIncrementer
 	}
 }
 
-class JRDefaultFirstIncrementer extends JRAbstractExtendedIncrementer
+final class JRDefaultFirstIncrementer extends JRAbstractExtendedIncrementer
 {
 	private static final JRDefaultFirstIncrementer instance = new JRDefaultFirstIncrementer();
 

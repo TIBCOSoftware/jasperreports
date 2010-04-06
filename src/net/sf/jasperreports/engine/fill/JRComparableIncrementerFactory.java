@@ -109,7 +109,7 @@ public final class JRComparableIncrementerFactory extends JRAbstractExtendedIncr
 /**
  *
  */
-class JRComparableLowestIncrementer extends JRAbstractExtendedIncrementer
+final class JRComparableLowestIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -165,7 +165,7 @@ class JRComparableLowestIncrementer extends JRAbstractExtendedIncrementer
 /**
  *
  */
-class JRComparableHighestIncrementer extends JRAbstractExtendedIncrementer
+final class JRComparableHighestIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
