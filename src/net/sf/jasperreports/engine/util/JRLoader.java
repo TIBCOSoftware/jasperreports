@@ -523,7 +523,7 @@ public class JRLoader
 			}
 			catch (FileNotFoundException e)
 			{
-				throw new JRException("Error opening file " + filename);
+				throw new JRException("Error opening file " + filename, e);
 			}
 		}
 		
@@ -663,7 +663,7 @@ public class JRLoader
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error opening URL " + spec);
+			throw new JRException("Error opening URL " + spec, e);
 		}
 		
 		return is;

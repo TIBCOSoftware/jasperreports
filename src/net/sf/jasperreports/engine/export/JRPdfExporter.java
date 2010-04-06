@@ -1892,7 +1892,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			catch(JRException e)
 			{
-				throw
+				throw //NOPMD
 					new JRRuntimeException(
 						"Could not load the following font : "
 						+ "\npdfFontName   : " + pdfFont.getPdfFontName()

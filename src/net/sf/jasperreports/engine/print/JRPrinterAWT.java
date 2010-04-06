@@ -233,7 +233,7 @@ public class JRPrinterAWT implements Printable
 				log.debug("Print failed.", e);
 			}
 
-			throw new PrinterException(e.getMessage());
+			throw new PrinterException(e.getMessage()); //NOPMD
 		}
 
 		return Printable.PAGE_EXISTS;

@@ -323,7 +323,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		}
 		catch (JRException e)
 		{
-			throw new PrinterException(e.getMessage());
+			throw new PrinterException(e.getMessage()); //NOPMD
 		}
 
 		return Printable.PAGE_EXISTS;

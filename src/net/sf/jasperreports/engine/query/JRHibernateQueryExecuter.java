@@ -159,7 +159,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 			catch (NumberFormatException e)
 			{
 				throw new JRRuntimeException("The " + JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE +
-						" property must be numerical.");
+						" property must be numerical.", e);
 			}
 		}
 		else if (runType.equals(JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_ITERATE))

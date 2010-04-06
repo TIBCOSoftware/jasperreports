@@ -238,7 +238,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			exportReportToStream();
 		}
 		catch (IOException ex) {
-			throw new JRException("Error while exporting report to the buffer");
+			throw new JRException("Error while exporting report to the buffer", ex);
 		}
 
 		return buffer.getBuffer();
