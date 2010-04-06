@@ -438,7 +438,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 	}
 
-
 	/**
 	 * Utility method used for constructing a parameter values map for subreports, sub datasets and crosstabs.
 	 * 
@@ -462,10 +461,41 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			boolean removeFormatFactory
 			) throws JRException
 	{
+		return getParameterValues(filler, filler.getExpressionEvaluator(), 
+				parametersMapExpression, subreportParameters, evaluation, 
+				ignoreNullExpressions, removeResourceBundle, removeFormatFactory);
+	}
+
+	/**
+	 * Utility method used for constructing a parameter values map for subreports, sub datasets and crosstabs.
+	 * 
+	 * @param filler report filler
+	 * @param expressionEvaluator expression evaluator
+	 * @param parametersMapExpression expression that yields bulk parameter values map
+	 * @param subreportParameters list of individual parameter values
+	 * @param evaluation evaluation type
+	 * @param ignoreNullExpressions whether to ignore individual parameter value expressions
+	 * @param removeResourceBundle whether to remove the {@link JRParameter#REPORT_RESOURCE_BUNDLE REPORT_RESOURCE_BUNDLE}
+	 * 	value from the bulk values map
+	 * @return the parameter values map
+	 * @throws JRException
+	 */
+	public static Map getParameterValues(
+			//TODO using the filler or current dataset?
+			JRBaseFiller filler, 
+			JRFillExpressionEvaluator expressionEvaluator,
+			JRExpression parametersMapExpression, 
+			JRDatasetParameter[] subreportParameters, 
+			byte evaluation, 
+			boolean ignoreNullExpressions, 
+			boolean removeResourceBundle,
+			boolean removeFormatFactory
+			) throws JRException
+	{
 		Map parameterValues = null;
 		if (parametersMapExpression != null)
 		{
-			parameterValues = (Map) filler.evaluateExpression(parametersMapExpression, evaluation);
+			parameterValues = (Map) expressionEvaluator.evaluate(parametersMapExpression, evaluation);
 		}		
 		
 		if (parameterValues != null)
@@ -523,7 +553,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				JRExpression expression = subreportParameters[i].getExpression();
 				if (expression != null || !ignoreNullExpressions)
 				{
-					parameterValue = filler.evaluateExpression(expression, evaluation);
+					parameterValue = expressionEvaluator.evaluate(expression, evaluation);
 					if (parameterValue == null)
 					{
 						parameterValues.remove(subreportParameters[i].getName());
