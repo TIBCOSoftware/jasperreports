@@ -1329,8 +1329,7 @@ public final class JRXmlDigesterFactory
 			
 			JRSaxParserFactory factory = (JRSaxParserFactory) reportParserFactories
 					.getCachedInstance(parserFactoryClass);
-			SAXParser parser = factory.createParser();
-			return parser;
+			return factory.createParser();
 		}
 		catch (JRException e)
 		{

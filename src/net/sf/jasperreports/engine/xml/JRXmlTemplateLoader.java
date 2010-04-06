@@ -164,8 +164,7 @@ public class JRXmlTemplateLoader
 		JRXmlDigester digester = JRXmlTemplateDigesterFactory.instance().createDigester();
 		try
 		{
-			JRTemplate template = (JRTemplate) digester.parse(data);
-			return template;
+			return (JRTemplate) digester.parse(data);
 		}
 		catch (IOException e)
 		{

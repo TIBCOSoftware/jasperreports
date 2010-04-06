@@ -115,8 +115,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			throw new JRRuntimeException(e);
 		}
 		
-		JROlapDataSource olapDS = new JROlapDataSource(dataset, xmlaResult);
-		return olapDS;
+		return new JROlapDataSource(dataset, xmlaResult);
 	}
 
 	protected String getSoapUrl() throws MalformedURLException
@@ -171,8 +170,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		try
 		{
 			SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
-			SOAPConnection soapConnection = scf.createConnection();
-			return soapConnection;
+			return scf.createConnection();
 		}
 		catch (UnsupportedOperationException e)
 		{
@@ -285,8 +283,8 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	{
 		try
 		{
-			SOAPMessage soapResult = connection.call(message, url);
-			return soapResult;
+			
+			return connection.call(message, url);
 		}
 		catch (SOAPException e)
 		{

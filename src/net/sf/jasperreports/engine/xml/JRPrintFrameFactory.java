@@ -39,8 +39,7 @@ public class JRPrintFrameFactory extends JRBaseFactory
 	{
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
 
-		JRBasePrintFrame frame = new JRBasePrintFrame(jasperPrint.getDefaultStyleProvider());		
-		return frame;
+		return new JRBasePrintFrame(jasperPrint.getDefaultStyleProvider());		
 	}
 
 }

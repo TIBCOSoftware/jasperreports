@@ -209,8 +209,7 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 		{
 			try
 			{
-				StringCharacterIterator other = (StringCharacterIterator) super.clone();
-				return other;
+				return super.clone();
 			}
 			catch (CloneNotSupportedException e)
 			{

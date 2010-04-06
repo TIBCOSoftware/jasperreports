@@ -71,8 +71,7 @@ public class SpringExtensionsRegistryFactory implements
 			JRPropertiesMap properties)
 	{
 		ListableBeanFactory beanFactory = getBeanFactory(registryId, properties);
-		SpringExtensionsRegistry registry = new SpringExtensionsRegistry(beanFactory);
-		return registry;
+		return new SpringExtensionsRegistry(beanFactory);
 	}
 
 	protected ListableBeanFactory getBeanFactory(String registryId,
@@ -99,9 +98,7 @@ public class SpringExtensionsRegistryFactory implements
 					+ registryId + " using "+ resourceLocation);
 		}
 		
-		XmlBeanFactory beanFactory = new XmlBeanFactory(
-				new UrlResource(resourceLocation));
-		return beanFactory;
+		return new XmlBeanFactory(new UrlResource(resourceLocation));
 	}
 
 }

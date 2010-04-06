@@ -383,8 +383,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 		}
 		
 		// create a new document from the current node
-		Document doc = JRXmlUtils.createDocument(currentNode);
-		return doc;
+		return JRXmlUtils.createDocument(currentNode);
 	}
 	
 	

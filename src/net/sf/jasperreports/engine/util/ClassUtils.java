@@ -56,8 +56,7 @@ public class ClassUtils
 				throw new JRRuntimeException("Class " + className 
 						+ " does not implement/extend " + expectedType.getName());
 			}
-			Object instance = clazz.newInstance();
-			return instance;
+			return clazz.newInstance();
 		}
 		catch (ClassNotFoundException e)
 		{

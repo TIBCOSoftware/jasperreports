@@ -139,8 +139,7 @@ public final class ComponentsEnvironment
 		ComponentsBundle componentsBundle = getComponentsBundle(namespace);
 		
 		String name = componentKey.getName();
-		ComponentManager manager = componentsBundle.getComponentManager(name);
-		return manager;
+		return componentsBundle.getComponentManager(name);
 	}
 	
 }

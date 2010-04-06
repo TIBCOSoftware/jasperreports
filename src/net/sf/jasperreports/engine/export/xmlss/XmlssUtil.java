@@ -53,8 +53,7 @@ public class XmlssUtil {
 	}
 
 	public static double translatePixelsToInchesWithNoRoundOff(double pixels){
-		double inches = pixels/72.0;
-		return inches;
+		return pixels/72.0;
 	}
 	
 	protected static String replaceNewLineWithLineBreak(String source)

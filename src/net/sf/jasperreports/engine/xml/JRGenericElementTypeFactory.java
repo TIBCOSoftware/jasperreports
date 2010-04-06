@@ -40,8 +40,7 @@ public class JRGenericElementTypeFactory extends JRBaseFactory
 	{
 		String namespace = attrs.getValue(JRXmlConstants.ATTRIBUTE_namespace);
 		String name = attrs.getValue(JRXmlConstants.ATTRIBUTE_name);
-		JRGenericElementType type = new JRGenericElementType(namespace, name);
-		return type;
+		return new JRGenericElementType(namespace, name);
 	}
 
 }

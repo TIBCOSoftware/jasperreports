@@ -67,8 +67,7 @@ public class JRMondrianResult implements JROlapResult
 	public JROlapCell getCell(int[] axisPositions)
 	{
 		Cell dataCell = result.getCell(axisPositions);
-		JRMondrianCell cell = new JRMondrianCell(dataCell);
-		return cell;
+		return new JRMondrianCell(dataCell);
 	}
 
 }
