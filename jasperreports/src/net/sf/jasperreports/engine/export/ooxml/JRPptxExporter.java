@@ -74,7 +74,6 @@ import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.logging.Log;
@@ -149,7 +148,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected LinkedList backcolorStack;
 	protected Color backcolor;
 
-	private DocxRunHelper runHelper = null;
+//	private DocxRunHelper runHelper = null;
 
 	protected ExporterNature nature = null;
 
@@ -324,9 +323,12 @@ public class JRPptxExporter extends JRAbstractExporter
 		presentationHelper = new PptxPresentationHelper(presentationWriter);
 		presentationHelper.exportHeader();
 		
-		PptxRelsHelper relsHelper = new PptxRelsHelper(pptxZip.getRelsEntry().getWriter());
+		relsHelper = new PptxRelsHelper(pptxZip.getRelsEntry().getWriter());
 		relsHelper.exportHeader();
 		
+		ctHelper = new PptxContentTypesHelper(pptxZip.getContentTypesEntry().getWriter());
+		ctHelper.exportHeader();
+
 //		DocxStyleHelper styleHelper = 
 //			new DocxStyleHelper(
 //				null,//pptxZip.getStylesEntry().getWriter(), 
@@ -336,7 +338,7 @@ public class JRPptxExporter extends JRAbstractExporter
 //		styleHelper.export(jasperPrintList);
 //		styleHelper.close();
 
-		runHelper = new DocxRunHelper(presentationWriter, fontMap, getExporterKey());
+//		runHelper = new DocxRunHelper(presentationWriter, fontMap, getExporterKey());
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
@@ -370,6 +372,8 @@ public class JRPptxExporter extends JRAbstractExporter
 			}
 		}
 		
+		closeSlide();
+
 		presentationHelper.exportFooter();
 		presentationHelper.close();
 
@@ -426,6 +430,10 @@ public class JRPptxExporter extends JRAbstractExporter
 
 		relsHelper.close();
 
+		ctHelper.exportFooter();
+		
+		ctHelper.close();
+
 		pptxZip.zipEntries(os);
 
 		pptxZip.dispose();
@@ -463,12 +471,14 @@ public class JRPptxExporter extends JRAbstractExporter
 		closeSlide();
 		
 		presentationHelper.exportSlide(slideIndex + 1);
-//		ctHelper.exportSlide(slideIndex + 1);
-//		relsHelper.exportSlide(slideIndex + 1);
+		ctHelper.exportSlide(slideIndex + 1);
+		relsHelper.exportSlide(slideIndex + 1);
 
-		ExportZipEntry sheetEntry = pptxZip.addSlide(slideIndex + 1);
-		Writer sheetWriter = sheetEntry.getWriter();
-		slideHelper = new PptxSlideHelper(sheetWriter);
+		pptxZip.addEntry("ppt/slides/_rels/slide" + (slideIndex + 1) + ".xml.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slides/_rels/slide1.xml.rels");
+		
+		ExportZipEntry slideEntry = pptxZip.addSlide(slideIndex + 1);
+		Writer slideWriter = slideEntry.getWriter();
+		slideHelper = new PptxSlideHelper(slideWriter);
 		
 //		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 //		
@@ -503,14 +513,14 @@ public class JRPptxExporter extends JRAbstractExporter
 			throw new JRException("The DOCX format does not support more than 63 columns in a table.");
 		}
 		
-		DocxTableHelper tableHelper = 
-			new DocxTableHelper(
-				presentationWriter, 
-				xCuts,
-				frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex)
-				);
-
-		tableHelper.exportHeader();
+//		DocxTableHelper tableHelper = 
+//			new DocxTableHelper(
+//				presentationWriter, 
+//				xCuts,
+//				frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex)
+//				);
+//
+//		tableHelper.exportHeader();
 
 		JRPrintElement element = null;
 		for(int row = 0; row < grid.length; row++)
@@ -544,10 +554,10 @@ public class JRPptxExporter extends JRAbstractExporter
 			}
 			int rowHeight = gridLayout.getRowHeight(row) - maxBottomPadding;
 			
-			tableHelper.exportRowHeader(
-				rowHeight,
-				allowRowResize
-				);
+//			tableHelper.exportRowHeader(
+//				rowHeight,
+//				allowRowResize
+//				);
 
 			for(int col = 0; col < grid[0].length; col++)
 			{
@@ -563,7 +573,7 @@ public class JRPptxExporter extends JRAbstractExporter
 
 					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
 					ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-					tableHelper.exportOccupiedCells(elementGridCell);
+//					tableHelper.exportOccupiedCells(elementGridCell);
 					col += elementGridCell.getColSpan() - 1;
 				}
 				else if(gridCell.getWrapper() != null)
@@ -577,34 +587,34 @@ public class JRPptxExporter extends JRAbstractExporter
 
 					element = gridCell.getWrapper().getElement();
 
-					if (element instanceof JRPrintLine)
-					{
-						exportLine(tableHelper, (JRPrintLine)element, gridCell);
-					}
-					else if (element instanceof JRPrintRectangle)
-					{
-						exportRectangle(tableHelper, (JRPrintRectangle)element, gridCell);
-					}
-					else if (element instanceof JRPrintEllipse)
-					{
-						exportEllipse(tableHelper, (JRPrintEllipse)element, gridCell);
-					}
-					else if (element instanceof JRPrintImage)
-					{
-						exportImage(tableHelper, (JRPrintImage)element, gridCell);
-					}
-					else if (element instanceof JRPrintText)
-					{
-						exportText(tableHelper, (JRPrintText)element, gridCell);
-					}
-					else if (element instanceof JRPrintFrame)
-					{
-						exportFrame(tableHelper, (JRPrintFrame)element, gridCell);
-					}
-					else if (element instanceof JRGenericPrintElement)
-					{
-						exportGenericElement(tableHelper, (JRGenericPrintElement)element, gridCell);
-					}
+//					if (element instanceof JRPrintLine)
+//					{
+//						exportLine(tableHelper, (JRPrintLine)element, gridCell);
+//					}
+//					else if (element instanceof JRPrintRectangle)
+//					{
+//						exportRectangle(tableHelper, (JRPrintRectangle)element, gridCell);
+//					}
+//					else if (element instanceof JRPrintEllipse)
+//					{
+//						exportEllipse(tableHelper, (JRPrintEllipse)element, gridCell);
+//					}
+//					else if (element instanceof JRPrintImage)
+//					{
+//						exportImage(tableHelper, (JRPrintImage)element, gridCell);
+//					}
+//					else if (element instanceof JRPrintText)
+//					{
+//						exportText(tableHelper, (JRPrintText)element, gridCell);
+//					}
+//					else if (element instanceof JRPrintFrame)
+//					{
+//						exportFrame(tableHelper, (JRPrintFrame)element, gridCell);
+//					}
+//					else if (element instanceof JRGenericPrintElement)
+//					{
+//						exportGenericElement(tableHelper, (JRGenericPrintElement)element, gridCell);
+//					}
 
 					col += gridCell.getColSpan() - 1;
 				}
@@ -612,7 +622,7 @@ public class JRPptxExporter extends JRAbstractExporter
 				{
 					emptyCellColSpan++;
 					emptyCellWidth += gridCell.getWidth();
-					tableHelper.exportEmptyCell(gridCell, 1);
+//					tableHelper.exportEmptyCell(gridCell, 1);
 				}
 			}
 
@@ -621,14 +631,14 @@ public class JRPptxExporter extends JRAbstractExporter
 //				//writeEmptyCell(tableHelper, null, emptyCellColSpan, emptyCellWidth, rowHeight);
 //			}
 
-			tableHelper.exportRowFooter();
+//			tableHelper.exportRowFooter();
 		}
 
-		tableHelper.exportFooter(
-			frameIndex == null && reportIndex != jasperPrintList.size() - 1 && pageIndex == endPageIndex , 
-			jasperPrint.getPageWidth(), 
-			jasperPrint.getPageHeight()
-			);
+//		tableHelper.exportFooter(
+//			frameIndex == null && reportIndex != jasperPrintList.size() - 1 && pageIndex == endPageIndex , 
+//			jasperPrint.getPageWidth(), 
+//			jasperPrint.getPageHeight()
+//			);
 	}
 
 
@@ -791,12 +801,12 @@ public class JRPptxExporter extends JRAbstractExporter
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			runHelper.export(
-				style, 
-				iterator.getAttributes(), 
-				text.substring(iterator.getIndex(), runLimit),
-				locale
-				);
+//			runHelper.export(
+//				style, 
+//				iterator.getAttributes(), 
+//				text.substring(iterator.getIndex(), runLimit),
+//				locale
+//				);
 
 			iterator.setIndex(runLimit);
 		}

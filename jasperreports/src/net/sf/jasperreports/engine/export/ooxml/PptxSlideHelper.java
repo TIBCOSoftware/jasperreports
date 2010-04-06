@@ -23,11 +23,7 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.io.IOException;
 import java.io.Writer;
-
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.FileBufferedWriter;
 
 
 /**
@@ -36,10 +32,7 @@ import net.sf.jasperreports.engine.util.FileBufferedWriter;
  */
 public class PptxSlideHelper extends BaseHelper
 {
-	private int rowIndex = 0;
-	
-	private FileBufferedWriter colsWriter = new FileBufferedWriter();
-	private FileBufferedWriter mergedCellsWriter = new FileBufferedWriter();
+
 	
 	/**
 	 * 
@@ -49,18 +42,25 @@ public class PptxSlideHelper extends BaseHelper
 		super(writer);
 	}
 
+	
 	/**
 	 *
 	 */
 	public void exportHeader()
 	{
-		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		write("<worksheet\n");
-		write(" xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"\n");
-		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
-
-		write("<dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"/></sheetViews>\n");
-		write("<sheetFormatPr defaultRowHeight=\"15\"/>\n");
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n");
+		write("<p:sld\n");
+		write("xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"\n"); 
+		write("xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"\n"); 
+		write("xmlns:p=\"http://schemas.openxmlformats.org/presentationml/2006/main\">\n");
+		write("<p:cSld>\n");
+		write("<p:spTree>\n");
+		write("<p:nvGrpSpPr><p:cNvPr id=\"1\" name=\"\"/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr>\n");
+		write("<p:grpSpPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/><a:chOff x=\"0\" y=\"0\"/><a:chExt cx=\"0\" cy=\"0\"/></a:xfrm></p:grpSpPr>\n");
+		write("<p:sp><p:nvSpPr><p:cNvPr id=\"2\" name=\"Title 1\"/><p:cNvSpPr><a:spLocks noGrp=\"1\"/></p:cNvSpPr><p:nvPr><p:ph type=\"ctrTitle\"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"2209800\" cy=\"1219199\"/></a:xfrm></p:spPr><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:r><a:rPr lang=\"en-US\" dirty=\"0\" err=\"1\" smtClean=\"0\"/><a:t>Dede</a:t></a:r><a:endParaRPr lang=\"en-US\" dirty=\"0\"/></a:p></p:txBody></p:sp>\n");
+		write("<p:sp><p:nvSpPr><p:cNvPr id=\"3\" name=\"Subtitle 2\"/><p:cNvSpPr><a:spLocks noGrp=\"1\"/></p:cNvSpPr><p:nvPr><p:ph type=\"subTitle\" idx=\"1\"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x=\"2209800\" y=\"1219199\"/><a:ext cx=\"2209800\" cy=\"1219199\"/></a:xfrm></p:spPr><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:r><a:rPr lang=\"en-US\" smtClean=\"0\"/><a:t>coco</a:t></a:r><a:endParaRPr lang=\"en-US\" dirty=\"0\"/></a:p></p:txBody></p:sp>\n");
+		write("</p:spTree>\n");
+		write("</p:cSld>\n");
 	}
 	
 
@@ -69,91 +69,9 @@ public class PptxSlideHelper extends BaseHelper
 	 */
 	public void exportFooter()
 	{
-		if (rowIndex > 0)
-		{
-			write("</row>\n");
-		}
-		else
-		{
-			if (!colsWriter.isEmpty())
-			{
-				write("<cols>\n");//FIXMEXLSX check count attribute
-				colsWriter.writeData(writer);
-				write("</cols>\n");
-			}
-			write("<sheetData>\n");
-		}
-		write("</sheetData>\n");
-		if (!mergedCellsWriter.isEmpty())
-		{
-			write("<mergeCells>\n");//FIXMEXLSX check count attribute
-			mergedCellsWriter.writeData(writer);
-			write("</mergeCells>\n");
-		}
-		write("<pageMargins left=\"0.7\" right=\"0.7\" top=\"0.75\" bottom=\"0.75\" header=\"0.3\" footer=\"0.3\"/>\n");
-		//write("<pageSetup orientation=\"portrait\" r:id=\"rId1\"/>\n");		
-		write("</worksheet>");		
+		write("<p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr>\n");
+		write("</p:sld>\n");
 	}
 
-
-	/**
-	 *
-	 */
-	public void exportColumn(int colIndex, int colWidth) 
-	{
-		try
-		{
-			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\" width=\"" + (3f * colWidth / 18f) + "\"/>\n");
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-	}
-	
-	/**
-	 *
-	 */
-	public void exportRow(int rowHeight) 
-	{
-		if (rowIndex > 0)
-		{
-			write("</row>\n");
-		}
-		else
-		{
-			if (!colsWriter.isEmpty())
-			{
-				write("<cols>\n");//FIXMEXLSX check count attribute
-				colsWriter.writeData(writer);
-				write("</cols>\n");
-			}
-			write("<sheetData>\n");
-		}
-		rowIndex++;
-		write("<row r=\"" + rowIndex + "\" customHeight=\"1\" ht=\"" + rowHeight + "\">\n");
-	}
-	
-	/**
-	 *
-	 */
-	public void exportMergedCells(int row, int col, int rowSpan, int colSpan) 
-	{
-		if (rowSpan > 1 || colSpan > 1)
-		{
-			String ref = 
-				XlsxCellHelper.getColumIndexLetter(col) + (row + 1)
-				+ ":" + XlsxCellHelper.getColumIndexLetter(col + colSpan - 1) + (row + rowSpan); //FIXMEXLSX reuse this utility method
-			
-			try
-			{
-				mergedCellsWriter.write("<mergeCell ref=\"" + ref + "\"/>\n");
-			}
-			catch (IOException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-		}
-	}
 
 }
