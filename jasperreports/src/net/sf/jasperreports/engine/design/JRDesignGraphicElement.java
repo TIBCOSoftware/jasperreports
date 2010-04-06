@@ -201,7 +201,7 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2; //NOPMD
 	private Byte pen;
 	private Byte fill;
 	

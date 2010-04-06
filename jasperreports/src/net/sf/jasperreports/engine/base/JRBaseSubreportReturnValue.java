@@ -139,7 +139,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	/**
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2;
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2; //NOPMD
 	private byte calculation;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
