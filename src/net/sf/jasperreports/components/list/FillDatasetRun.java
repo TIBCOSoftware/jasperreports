@@ -89,6 +89,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 		
 		parameterValues = JRFillSubreport.getParameterValues(
 			filler, 
+			expressionEvaluator,
 			parametersMapExpression, 
 			parameters, 
 			evaluation, 

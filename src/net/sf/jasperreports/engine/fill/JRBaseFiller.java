@@ -1828,6 +1828,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return mainDataset.evaluateExpression(expression, evaluation);
 	}
 
+	protected JRFillExpressionEvaluator getExpressionEvaluator()
+	{
+		return calculator;
+	}
 
 	private void createDatasets() throws JRException
 	{

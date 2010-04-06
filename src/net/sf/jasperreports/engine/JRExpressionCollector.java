@@ -281,11 +281,19 @@ public class JRExpressionCollector
 	 */
 	public JRExpressionCollector getDatasetCollector(String datasetName)
 	{
-		JRExpressionCollector collector = (JRExpressionCollector) datasetCollectors.get(datasetName);
-		if (collector == null)
+		JRExpressionCollector collector;
+		if (parent == null)
 		{
-			collector = new JRExpressionCollector(this, report);
-			datasetCollectors.put(datasetName, collector);
+			collector = (JRExpressionCollector) datasetCollectors.get(datasetName);
+			if (collector == null)
+			{
+				collector = new JRExpressionCollector(this, report);
+				datasetCollectors.put(datasetName, collector);
+			}
+		}
+		else
+		{
+			collector = parent.getDatasetCollector(datasetName);
 		}
 		return collector;
 	}
@@ -300,16 +308,21 @@ public class JRExpressionCollector
 	public JRExpressionCollector getCollector(JRDataset dataset)
 	{
 		JRExpressionCollector collector;
-
-		if (dataset.isMainDataset() || datasetCollectors == null)
+		if (parent == null)
 		{
-			collector = this;
+			if (dataset.isMainDataset() || datasetCollectors == null)
+			{
+				collector = this;
+			}
+			else
+			{
+				collector = getDatasetCollector(dataset.getName());
+			}
 		}
 		else
 		{
-			collector = getDatasetCollector(dataset.getName());
+			collector = parent.getCollector(dataset);
 		}
-
 		return collector;
 	}
 
@@ -322,11 +335,19 @@ public class JRExpressionCollector
 	 */
 	public JRExpressionCollector getCollector(JRCrosstab crosstab)
 	{
-		JRExpressionCollector collector = (JRExpressionCollector) crosstabCollectors.get(crosstab);
-		if (collector == null)
+		JRExpressionCollector collector;
+		if (parent == null)
 		{
-			collector = new JRExpressionCollector(this, report);
-			crosstabCollectors.put(crosstab, collector);
+			collector = (JRExpressionCollector) crosstabCollectors.get(crosstab);
+			if (collector == null)
+			{
+				collector = new JRExpressionCollector(this, report);
+				crosstabCollectors.put(crosstab, collector);
+			}
+		}
+		else
+		{
+			collector = parent.getCollector(crosstab);	
 		}
 		return collector;
 	}
